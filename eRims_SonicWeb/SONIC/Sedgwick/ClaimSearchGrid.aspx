@@ -11,7 +11,7 @@
             var FKLUSedgwickFieldOffice = document.getElementById('<%= hdnFKLUSedgwickFieldOffice.ClientID %>').value;
             var SortBy = document.getElementById('<%= hdnSortBy.ClientID %>').value;
             var SortOrder = document.getElementById('<%= hdnSortOrder.ClientID %>').value;
-            var oWnd = window.open('<%=AppConfig.SiteURL%>SONIC/Sedgwick/SendEmail.aspx?Year='+Year+'&Quarter='+Quarter+'&SedgwickFieldOffice='+FKLUSedgwickFieldOffice+'&SortBy='+SortBy+'&SortOrder='+SortOrder, "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=600,height=300");
+            var oWnd = window.open('<%=AppConfig.SiteURL%>SONIC/Sedgwick/SendEmail.aspx?Year=' + Year + '&Quarter=' + Quarter + '&SedgwickFieldOffice=' + FKLUSedgwickFieldOffice + '&SortBy=' + SortBy + '&SortOrder=' + SortOrder, "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=600,height=300");
             //var oWnd = window.open('<%=AppConfig.SiteURL%>SONIC/Sedgwick/SendEmail.aspx', "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=600,height=300");
             oWnd.moveTo(260, 180);
             return false;
@@ -43,7 +43,7 @@
                             </table>
                         </td>
                         <td valign="top" align="right">
-                            <uc:ctrlPaging ID="ctrlPageClaimInfo" runat="server" OnGetPage="GetPage" />
+                            <uc:ctrlPaging ID="ctrlPageClaimInfo" runat="server" OnGetPage="GetPage" DefaultPageSize="50" />
                         </td>
                     </tr>
                 </table>
@@ -53,7 +53,10 @@
             <td class="Spacer" style="height: 10px;"></td>
         </tr>
         <tr>
-            <td class="groupHeaderBar">&nbsp; </td>
+            <td class="groupHeaderBar" align="right" style="padding-right:10px;">
+                <asp:LinkButton ID="lnkClaimReviewExportToExcel" runat="server" OnClick="lnkClaimReviewExportToExcel_Click" Font-Size="10px"
+                     Text="Export To Excel"></asp:LinkButton>
+            </td>
         </tr>
         <tr>
             <td class="Spacer" style="height: 10px;"></td>
@@ -156,6 +159,25 @@
                                 AutoGenerateColumns="false" Width="100%" AllowSorting="True" OnRowCreated="gvClaimReviewGroupSearchGrid_RowCreated"
                                 OnSorting="gvClaimReviewGroupSearchGrid_Sorting" OnRowCommand="gvClaimReviewGroupSearchGrid_RowCommand">
                                 <Columns>
+                                    <asp:TemplateField HeaderText="Sedgwick Field Office">
+                                        <ItemStyle HorizontalAlign="Left" Width="15%" />
+                                        <ItemTemplate>
+                                            <%= lblSedgwickOffice.Text%>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Year" >
+                                        <ItemStyle HorizontalAlign="Left" Width="15%" />
+                                        <ItemTemplate>
+                                            <%#Eval("RLCM")%>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Quarter">
+                                        <ItemStyle HorizontalAlign="Left" Width="15%" />
+                                        <ItemTemplate>
+                                            <%#Eval("RLCM")%>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+
                                     <asp:TemplateField HeaderText="RLCM" SortExpression="RLCM">
                                         <ItemStyle HorizontalAlign="Left" Width="15%" />
                                         <ItemTemplate>
@@ -233,8 +255,11 @@
         <tr>
             <td class="Spacer" style="height: 20px;"></td>
         </tr>
-        <tr style="background-color: #606060; font-family: Tahoma; color: white; font-size: 10pt; font-weight: bold; padding: 5px;">
-            <td style="padding:5px;">Previous Claim Review Worksheets with Open Action Plan Items</td>
+        <tr style="background-color: #606060; font-family: Tahoma; color: white; font-size: 10pt; font-weight: bold; ">
+            <td style="padding: 5px;">Previous Claim Review Worksheets with Open Action Plan Items
+                <span style="color: white;font-family:Verdana; padding-left:48%;" ><asp:LinkButton ID="lnkOpenActionItems" ForeColor="White"  runat="server" OnClick="lnkOpenActionItems_Click" Font-Size="10px"
+                     Text="Export To Excel"></asp:LinkButton></span> 
+            </td>
         </tr>
         <tr>
             <td>
@@ -249,6 +274,12 @@
                                         <ItemStyle HorizontalAlign="Left" Width="15%" />
                                         <ItemTemplate>
                                             <%#Eval("RLCM")%>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Sedgwick Field Office" Visible="false">
+                                        <ItemStyle HorizontalAlign="Left" Width="10%" />
+                                        <ItemTemplate>
+                                            <%= lblSedgwickOffice.Text %>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Year" SortExpression="Year">
@@ -267,7 +298,8 @@
                                         <ItemStyle HorizontalAlign="Left" Width="15%" />
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lnkEdit" runat="server" Text='<%#Eval("Origin_Claim_Number")%>'
-                                                CommandName="ClaimSummary" CommandArgument='<%#Eval("PK_Workers_Comp_Claims_ID") + ":" + Eval("PK_Sedgwick_Claim_Review") + ":" + clsGeneral.GetNullBooleanValue(Eval("IsEnable"))%>'  />   <%--Enabled='# clsGeneral.GetNullBooleanValue(Eval("IsEnable"))'--%>
+                                                CommandName="ClaimSummary" CommandArgument='<%#Eval("PK_Workers_Comp_Claims_ID") + ":" + Eval("PK_Sedgwick_Claim_Review") + ":" + clsGeneral.GetNullBooleanValue(Eval("IsEnable"))%>' />
+                                            <%--Enabled='# clsGeneral.GetNullBooleanValue(Eval("IsEnable"))'--%>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Associate Name" SortExpression="Employee_Name">
@@ -378,9 +410,9 @@
             </td>
         </tr>
         <tr>
-            <td >
+            <td>
                 <asp:Panel ID="pnlAttachmentDetails" runat="server" Width="100%">
-                    <table cellpadding="0" cellspacing="0" width="100%" style="min-height:50px;">
+                    <table cellpadding="0" cellspacing="0" width="100%" style="min-height: 50px;">
                         <tr>
                             <td width="100%" valign="top">
                                 <uc:ctrlAttachmentDetail ID="AttachDetails" runat="Server" />

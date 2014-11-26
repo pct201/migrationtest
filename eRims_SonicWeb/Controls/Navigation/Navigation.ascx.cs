@@ -34,7 +34,7 @@ public partial class Controls_Navigation_Navigation : System.Web.UI.UserControl
         }
         set
         {
-            this.ViewState["CurrPage"] = value;            
+            this.ViewState["CurrPage"] = value;
         }
     }
 
@@ -53,7 +53,7 @@ public partial class Controls_Navigation_Navigation : System.Web.UI.UserControl
     //public int PageSize
     //{
     //    get { return drpRecords.SelectedItem != null ? Convert.ToInt32(drpRecords.SelectedItem.Text) : 10; }
-        
+
     //}
 
     public int PageSize
@@ -71,6 +71,11 @@ public partial class Controls_Navigation_Navigation : System.Web.UI.UserControl
         }
     }
 
+    public int DefaultPageSize
+    {
+        get { return ViewState["DefaultPageSize"] != null ? Convert.ToInt32(ViewState["DefaultPageSize"]) : 10; }
+        set { ViewState["DefaultPageSize"] = value; }
+    }
     /// <summary>
     /// Total number of pages available
     /// </summary>
@@ -106,7 +111,7 @@ public partial class Controls_Navigation_Navigation : System.Web.UI.UserControl
         if (!string.IsNullOrEmpty(drpRecords.SelectedValue))
             clsSession.NumberOfSearchRows = Convert.ToInt32(drpRecords.SelectedValue);
 
-        
+
         if (RecordsToBeDisplayed > 0)
         {
             if (CurrentPage == 0)
@@ -174,7 +179,13 @@ public partial class Controls_Navigation_Navigation : System.Web.UI.UserControl
             drpRecords.Items.Add(increment.ToString());
         }
         drpRecords.Items.Insert(0, "1");
-        drpRecords.SelectedIndex = 1;
+        //drpRecords.SelectedIndex = 1;
+        ListItem lst = drpRecords.Items.FindByText(DefaultPageSize.ToString());
+        if (lst != null)
+        {
+            drpRecords.ClearSelection();
+            lst.Selected = true;
+        }
     }
 
     #endregion
@@ -183,7 +194,7 @@ public partial class Controls_Navigation_Navigation : System.Web.UI.UserControl
     protected void drpRecords_SelectedIndexChanged(object sender, EventArgs e)
     {
         // current page will be if the number typed in the textbox, otherwise 1
-        CurrentPage = (txtPageNumber.Text != string.Empty)? Convert.ToInt32(txtPageNumber.Text):1;
+        CurrentPage = (txtPageNumber.Text != string.Empty) ? Convert.ToInt32(txtPageNumber.Text) : 1;
 
         // call the GetPage event. to bind the grid
         GetPage();
@@ -218,7 +229,7 @@ public partial class Controls_Navigation_Navigation : System.Web.UI.UserControl
 
     protected void btnGo_Click(object sender, EventArgs e)
     {
-        
+
         //current page will be the number typed in the textbox
         CurrentPage = Convert.ToInt32(txtPageNumber.Text);
 

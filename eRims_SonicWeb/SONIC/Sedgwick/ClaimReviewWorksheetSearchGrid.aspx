@@ -75,7 +75,7 @@
 							</table>
 						</td>
 						<td valign="top" align="right">
-							<uc:ctrlPaging ID="ctrlPageClaimInfo" runat="server" OnGetPage="GetPage" />
+							<uc:ctrlPaging ID="ctrlPageClaimInfo" runat="server" OnGetPage="GetPage" DefaultPageSize="50" />
 						</td>
 					</tr>
 				</table>

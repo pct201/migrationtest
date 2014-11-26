@@ -131,9 +131,9 @@ public partial class SONIC_Sedgwick_ClaimSearchGrid : clsBasePage
             hdnFKLUSedgwickFieldOffice.Value = FK_LU_Sedgwick_Field_Office.ToString();
             hdnSortBy.Value = SortBy;
             hdnSortOrder.Value = SortOrder;
-
+            
             // Bind Grid
-            BindGrid(1, 10);
+            BindGrid(1, 50);
             BindPreviousGrid();
             if (App_Access == AccessType.View_Only)
             {
@@ -143,9 +143,7 @@ public partial class SONIC_Sedgwick_ClaimSearchGrid : clsBasePage
             }
         }
     }
-
-   
-
+    
     #region Methods
 
     /// <summary>
@@ -187,8 +185,9 @@ public partial class SONIC_Sedgwick_ClaimSearchGrid : clsBasePage
             ctrlPageClaimInfo.TotalRecords = (dsClaimInfo.Tables.Count >= 2) ? Convert.ToInt32(dsClaimInfo.Tables[1].Rows[0][0]) : 0;
             ctrlPageClaimInfo.CurrentPage = (dsClaimInfo.Tables.Count >= 2) ? Convert.ToInt32(dsClaimInfo.Tables[1].Rows[0][2]) : 0;
             ctrlPageClaimInfo.RecordsToBeDisplayed = dtFRData.Rows.Count;
+            
             ctrlPageClaimInfo.SetPageNumbers();
-
+            
             if (Session["dtClaimReviewGroupSearch"] != null)
             {
                 //get the data table from session
@@ -553,4 +552,70 @@ public partial class SONIC_Sedgwick_ClaimSearchGrid : clsBasePage
     }
     #endregion
     #endregion
+    
+    protected void lnkClaimReviewExportToExcel_Click(object sender, EventArgs e)
+    {
+        DataSet dsClaimInfo = Sedgwick_Claim_Group.ClaimReviewWorkSheetGroup_Search_New(FK_LU_Sedgwick_Field_Office, Year, Quarter, SortBy, SortOrder, 1, Convert.ToInt32(lblNumber.Text), clsSession.CurrentLoginEmployeeId);
+        if (dsClaimInfo != null && dsClaimInfo.Tables.Count > 0)
+        {
+            DataTable dtTemp = dsClaimInfo.Tables[0];
+            DataColumn dcSedgwickOffice = new System.Data.DataColumn("Sedgwick Field Office");
+            dcSedgwickOffice.DefaultValue = lblSedgwickOffice.Text;
+            //dcSedgwickOffice.SetOrdinal(0);
+            dtTemp.Columns.Add(dcSedgwickOffice);
+
+            DataColumn dcYear = new System.Data.DataColumn("Year");
+            dcYear.DefaultValue = lblYear.Text;
+            //dcYear.SetOrdinal(1);
+            dtTemp.Columns.Add(dcYear);
+
+            DataColumn dcQuarter = new System.Data.DataColumn("Quarter");
+            dcQuarter.DefaultValue = lblQuarter.Text;
+            //dcQuarter.SetOrdinal(2);
+            dtTemp.Columns.Add(dcQuarter);
+
+            dtTemp.Columns["Sedgwick Field Office"].SetOrdinal(0);
+            dtTemp.Columns["Year"].SetOrdinal(1);
+            dtTemp.Columns["Quarter"].SetOrdinal(1);
+            dtTemp.Columns["RLCM"].SetOrdinal(3);
+
+            dtTemp.Columns["Origin_Claim_Number"].SetOrdinal(4);
+            dtTemp.Columns["Origin_Claim_Number"].ColumnName = "Claim Number";
+
+            dtTemp.Columns["Employee_Name"].SetOrdinal(5);
+            dtTemp.Columns["Employee_Name"].ColumnName = "Associate Name";
+
+            dtTemp.Columns["dba"].SetOrdinal(6);
+            dtTemp.Columns["dba"].ColumnName = "d/b/a";
+
+            dtTemp.Columns["Sonic_Location_Code"].SetOrdinal(7);
+            dtTemp.Columns["Sonic_Location_Code"].ColumnName = "Location Number";
+
+            dtTemp.Columns["Date_of_Accident"].SetOrdinal(8);
+            dtTemp.Columns["Date_of_Accident"].ColumnName = "Date Of Loss";
+
+            dtTemp.Columns["ClaimIndicator"].SetOrdinal(9);
+            dtTemp.Columns["ClaimIndicator"].ColumnName = "Claim Indicator";
+
+            dtTemp.Columns["Review_Complete"].SetOrdinal(10);
+            dtTemp.Columns["Review_Complete"].ColumnName = "Review Complete?";
+
+            dtTemp.Columns.Remove("ID");
+            dtTemp.Columns.Remove("PK_Workers_Comp_Claims_ID");
+            dtTemp.Columns.Remove("Associated_First_Report");
+            dtTemp.Columns.Remove("State_PK_Id");
+            dtTemp.Columns.Remove("PK_Sedgwick_Claim_Review");
+            dtTemp.Columns.Remove("IsEnable");
+
+            clsGeneral.ExportData(dsClaimInfo.Tables[0], "Claim_Review_Worksheet_Group");
+        }
+    }
+    protected void lnkOpenActionItems_Click(object sender, EventArgs e)
+    {
+        grdPreviousClaimReview.Columns[1].Visible = true;
+        grdPreviousClaimReview.GridLines = GridLines.Both;
+        GridViewExportUtil.Export("Open_Action_Plan_Items.xls", grdPreviousClaimReview);
+        grdPreviousClaimReview.Columns[1].Visible = false;
+        grdPreviousClaimReview.GridLines = GridLines.None;
+    }
 }

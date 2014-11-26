@@ -73,7 +73,7 @@ public partial class SONIC_Sedgwick_ClaimReviewWorksheetSearchGrid : clsBasePage
             }
 
             // Bind Grid
-            BindGrid(1, 10);
+            BindGrid(1, 50);
         }
     }
 
