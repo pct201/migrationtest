@@ -1,0 +1,658 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>First Report :: Property Damage</title>
+    <style type="text/css">
+    body{margin: 0px auto;background-color: #FFFFFF;FONT-SIZE: 11px; FONT-FAMILY: Tahoma;margin-left:1px;margin-right:1px;}
+    .bandHeaderRow
+    {
+	    border: #7f7f7f solid 1px;
+	    vertical-align: middle;
+	    background-color: #9a9a9a;
+	    padding-left: 0px;
+	    height: 18px;
+	    font-size: 12px;
+	    font-weight: bold;
+	    color: #f5f5f5;
+	    text-decoration: none;
+    }
+    .PropertyInfoBG{background-color:#95B3D7;color:White;font-weight:bold;font-size:13px;}
+    </style>
+</head>
+<body>
+<table cellpadding="3" cellspacing="1" border="0" width="100%">
+<tr>
+    <td align="left" width="18%">
+	First Report Number
+    </td>
+    <td align="center" width="4%">
+	:
+    </td>
+    <td align="left" width="28%">
+	[lblFirstReportNumber]
+    </td>
+    <td align="left" width="18%">
+	&nbsp;
+    </td>
+    <td align="center" width="4%">
+	&nbsp;
+    </td>
+    <td align="left" width="28%">
+	&nbsp;
+    </td>
+</tr>
+</table>
+<div class="bandHeaderRow">&nbsp;
+Location Information</div>
+<table cellpadding="3" cellspacing="1" border="0" width="100%">
+<tr>
+    <td align="left" width="18%">
+	Location Number
+    </td>
+    <td align="center" width="4%">
+	:
+    </td>
+    <td align="left" width="28%">
+	[lblLocationNumber]
+    </td>
+    <td align="left" width="18%">
+	Location d/b/a
+    </td>
+    <td align="center" width="4%">
+	:
+    </td>
+    <td align="left" width="28%">
+	[lblLocationdba]
+    </td>
+</tr>
+<tr>
+    <td align="left" valign="top">
+	Legal Entity
+    </td>
+    <td align="center" valign="top">
+	:
+    </td>
+    <td align="left">
+	[lblLegalEntity]
+    </td>
+    <td align="left">
+	Location f/k/a
+    </td>
+    <td align="center">
+	:
+    </td>
+    <td align="left">
+	[lblLocationfka]
+    </td>
+</tr>
+<tr>
+    <td align="left">
+	Address 1
+    </td>
+    <td align="center">
+	:
+    </td>
+    <td align="left" colspan="4">
+	[lblLocationAddress1]
+    </td>
+</tr>
+<tr>
+    <td align="left">
+	Address 2
+    </td>
+    <td align="center">
+	:
+    </td>
+    <td align="left" colspan="4">
+	[lblLocationAddress2]
+    </td>
+</tr>
+<tr>
+    <td align="left">
+	City
+    </td>
+    <td align="center">
+	:
+    </td>
+    <td align="left" colspan="4">
+	[lblLocationCity]
+    </td>
+
+</tr>
+<tr>
+    <td align="left">
+	State
+    </td>
+    <td align="center">
+	:
+    </td>
+    <td align="left" colspan="4">
+	[lblLocationState]
+    </td>
+</tr>
+<tr>
+    <td align="left">
+	Zip Code
+    </td>
+    <td align="center">
+	:
+    </td>
+    <td align="left" colspan="4">
+	[lblLocationZipCode]
+    </td>
+</tr>
+</table>
+<div class="bandHeaderRow">&nbsp;
+Contact Information</div>
+<table cellpadding="3" cellspacing="1" border="0" width="100%">
+<tr>
+    <td align="left" width="18%">Dealership/Collision Center</td>
+    <td align="center" width="4%">
+	:
+    </td>
+    <td width="28%" align="left">
+	[lblCostCenterdba]
+    </td>
+    <td align="left" width="18%">&nbsp;</td>
+    <td align="left" width="4%">&nbsp;</td>
+    <td align="left" width="28%">&nbsp;</td>
+</tr>
+<tr>
+    <td align="left">
+	Contact Name
+    </td>
+    <td align="center">
+	:
+    </td>
+    <td align="left">
+	[lblContactName]
+    </td>
+    <td align="left">
+	Address 1
+    </td>
+    <td align="center">
+	:
+    </td>
+    <td align="left">
+	[lblCostCenterAddress1]
+    </td>
+</tr>
+<tr>
+    <td align="left">
+	When to Contact
+    </td>
+    <td align="center">
+	:
+    </td>
+    <td align="left">
+	[lblContact_Best_Time]
+    </td>
+    <td align="left">
+	Address 2
+    </td>
+    <td align="center">
+	:
+    </td>
+    <td align="left">
+	[lblCostCenterAddress2]
+    </td>
+</tr>
+<tr>
+    <td align="left">
+	Telephone Number 1<br />(xxx-xxx-xxxx)
+    </td>
+    <td align="center">
+	:
+    </td>
+    <td align="left">
+	[lblContactTelephoneNumber1]
+    </td>
+    <td align="left">
+	City
+    </td>
+    <td align="center">
+	:
+    </td>
+    <td align="left">
+	[lblCostCenterCity]
+    </td>
+</tr>
+<tr>
+    <td align="left">
+	Telephone Number 2<br />(xxx-xxx-xxxx)
+    </td>
+    <td align="center">
+	:
+    </td>
+    <td align="left">
+	[lblContactTelephoneNumber2]
+    </td>
+    <td align="left">
+	State
+    </td>
+    <td align="center">
+	:
+    </td>
+    <td align="left">
+	[lblCostCenterState]
+    </td>
+</tr>
+<tr>
+    <td align="left">
+	Fax Number<br />(xxx-xxx-xxxx)
+    </td>
+    <td align="center">
+	:
+    </td>
+    <td align="left">
+	[lblContactFaxNumber]
+    </td>
+    <td align="left">
+	Zip
+    </td>
+    <td align="center">
+	:
+    </td>
+    <td align="left">
+	[lblCostCenterZipCode]
+    </td>
+</tr>
+<tr>
+    <td align="left">
+	Email Address
+    </td>
+    <td align="center">
+	:
+    </td>
+    <td align="left" colspan="4">
+	[lblContactEmailAddress]
+    </td>
+</tr>
+<tr>
+    <td align="left">
+	Date Reported to Sonic
+    </td>
+    <td align="center">:</td>
+    <td align="left" colspan="4">
+	[lblDate_Reported_To_Sonic]
+    </td>
+</tr>
+</table>
+<div class="bandHeaderRow">&nbsp;
+	Loss Information</div>
+<table cellpadding="3" cellspacing="1" border="0" width="100%">
+    <tr>
+	<td align="left" style="width:18%">
+	    Date of Loss
+	</td>
+	<td align="center" style="width:4%">
+	    :
+	</td>
+	<td align="left" style="width:28%">
+	    [lblDate_Of_Loss]
+	</td>
+	<td align="left" style="width:18%">
+	   Time of Loss
+	</td>
+	<td align="center" style="width:4%">
+	    :
+	</td>
+	<td align="left" style="width:28%">
+	   [lblTime_Of_Loss]
+	</td>
+    </tr>
+    <tr>
+	<td align="left">
+	    Building Affected
+	</td>
+	<td align="center">
+	    :
+	</td>
+	<td align="left" colspan="4">
+	    &nbsp;
+	</td>
+    </tr>
+    <tr>
+	<td colspan="6">
+	    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+	    <tr>
+		<td colspan="6">
+		    [BuildingGrid]
+		</td>
+	    </tr>
+	    </table>
+	</td>
+    </tr>
+    <tr>
+	<td align="left" colspan="6">
+	    &nbsp;
+	</td>
+    </tr>
+    <tr>
+	<td align="left">
+	    Witnesses   
+	</td>
+	<td align="center">
+	    :
+	</td>
+	<td align="left" colspan="4">
+	    &nbsp;
+	</td>
+    </tr>
+    <tr>
+	<td colspan="6">
+	    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+	    <tr>
+	    <td colspan="6">
+		[WitnessGrid]
+	    </td>
+	    </tr>
+	    </table>
+	</td>
+    </tr>
+    <tr>
+	<td align="left">
+	   Type of Loss
+	</td>
+	<td align="center">
+	    :
+	</td>
+	<td align="left" colspan="4">
+	    &nbsp;
+	</td>
+    </tr>
+    <tr>
+	<td align="left">
+	    &nbsp;
+	</td>
+	<td align="center">
+	    &nbsp;
+	</td>
+	<td align="left" colspan="4">
+	    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+	    <tr>
+		<td style="width:5%">&nbsp;</td>
+		<td style="width:48%">
+		    Fire : [Fire]
+		</td>
+		<td style="width:47%">
+		    Property Damage by Sonic Associate : [Property_Damage_by_Sonic_Associate] 
+		</td>
+	    </tr>
+	    <tr>
+		<td style="width:5%">&nbsp;</td>
+		<td style="width:48%">
+		    Wind Damage : [Wind_Damage]
+		</td>
+		<td style="width:47%">
+		    Environmental Loss : [Environmental_Loss]
+		</td>
+	    </tr>
+	    <tr>
+		<td>&nbsp;</td>
+		<td>
+		    Hail Damage : [Hail_Damage]
+		</td>
+		<td>
+		    Vandalism to the Property : [Vandalism_To_The_Property]
+		</td>
+	    </tr>
+	    <tr>
+		<td>&nbsp;</td>
+		<td>
+		    Earth Movement : [Earth_Movement]
+		</td>
+		<td>
+		    Theft - Associate Tools : [Theft_Associate_Tools]
+		</td>
+	    </tr>
+	    <tr>
+		<td>&nbsp;</td>
+		<td>
+		    Flood : [Flood]
+		</td>
+		<td>
+		    Theft - All Other : [Theft_All_Other]
+		</td>
+	    </tr>
+	    <tr>
+		<td>&nbsp;</td>
+		<td>
+		    Third Party Property Damage : [Third_Party_Property_Damage]
+		</td>
+		<td>
+		    Other : [Other]
+		</td>
+	    </tr>
+	    </table>
+	</td>
+    </tr>
+    <tr>
+	<td align="left" valign="top">
+	    Description of Loss
+	</td>
+	<td align="center" valign="top">
+	    :
+	</td>
+	<td align="left" colspan="4">
+	     [lblDescription_of_Loss]
+	</td>
+    </tr>
+    <tr>
+	<td align="left" valign="top">
+	    Is There a Security Video Surveillance System?
+	</td>
+	<td align="center" valign="top">
+	    :
+	</td>
+	<td align="left" colspan="4">
+	     [lblSecurity_Video_Surveillance]
+	</td>
+    </tr>
+    <tr>
+	<td align="left">
+	    Damages
+	</td>
+	<td align="center">
+	    :
+	</td>
+	<td align="left" colspan="4">
+	    &nbsp;
+	</td>
+    </tr>
+    <tr>
+	<td align="left">
+	    &nbsp;
+	</td>
+	<td align="center">
+	    &nbsp;
+	</td>
+	<td align="left" colspan="4">
+	    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+	    <tr>
+		<td style="width:30%">&nbsp;</td>
+		<td style="width:35%"><b>Estimated Cost</b></td>
+		<td style="width:35%"><b>Actual Cost</b></td>
+	    </tr>
+	    <tr>
+		<td>Building and Facilities</td>
+		<td>
+		    [lblDamage_Building_Facilities_Est_Cost]
+		</td>
+		<td>
+		    [lblDamage_Building_Facilities_Actual_Cost]
+		</td>
+	    </tr>
+	    <tr>
+		<td>Equipment</td>
+		<td>
+		    [lblDamage_Equipment_Est_Cost]
+		</td>
+		<td>
+		    [lblDamage_Equipment_Actual_Cost]
+		</td>
+	    </tr>
+	    <tr>
+		<td>Product Damage</td>
+		<td>
+		    [lblDamage_Product_Damage_Est_Cost]
+		</td>
+		<td>
+		    [lblDamage_Product_Damage_Actual_Cost]
+		</td>
+	    </tr>
+	    <tr>
+		<td>Parts</td>
+		<td>
+		    [lblDamage_Parts_Est_Cost]
+		</td>
+		<td>
+		    [lblDamage_Parts_Actual_Cost]
+		</td>
+	    </tr>
+	    <tr>
+		<td>Salvage and Cleanup Expenses (including labor)</td>
+		<td>
+		    [lblDamage_Salvage_Cleanup_Est_Cost]
+		</td>
+		<td>
+		    [lblDamage_Salvage_Cleanup_Actual_Cost]
+		</td>
+	    </tr>
+	    <tr>
+		<td>Decontamination Expenses</td>
+		<td>
+		    [lblDamage_Decontamination_Est_Cost]
+		</td>
+		<td>
+		    [lblDamage_Decontamination_Actual_Cost]
+		</td>
+	    </tr>
+	    <tr>
+		<td>Electronic Data/Processing Media</td>
+		<td>
+		    [lblDamage_Electronic_Data_Est_Cost]
+		</td>
+		<td>
+		    [lblDamage_Electronic_Data_Actual_Cost]
+		</td>
+	    </tr>
+	    <tr>
+		<td>Service Interruption</td>
+		<td>
+		    [lblDamage_Service_Interruption_Est_Cost]
+		</td>
+		<td>
+		    [lblDamage_Service_Interruption_Actual_Cost]
+		</td>
+	    </tr>
+	    <tr>
+		<td>Ordinary Payroll</td>
+		<td>
+		    [lblDamage_Payroll_Est_Cost]
+		</td>
+		<td>
+		    [lblDamage_Payroll_Actual_Cost]
+		</td>
+	    </tr>
+	    <tr>
+		<td>Loss of Sales</td>
+		<td>
+		    [lblDamage_Loss_of_Sales_Est_Cost]
+		</td>
+		<td>
+		    [lblDamage_Loss_of_Sales_Actual_Cost]
+		</td>
+	    </tr>
+	    <tr>
+		<td><b>TOTAL</b></td>
+		<td>[lblEstCalculated]</td>
+		<td>[lblActualCalculated]</td>
+	    </tr>
+	    </table>
+	</td>
+    </tr>
+    <tr>
+	<td align="left">
+	    Date Clean-up or Salvage Operations Completed
+	</td>
+	<td align="center">
+	    :
+	</td>
+	<td align="left" colspan="4">
+	    [lblDate_Cleanup_Complete]
+	</td>
+    </tr>
+    <tr>
+	<td align="left">
+	    Date Equipment/Biuilding Repairs Completed
+	</td>
+	<td align="center">
+	    :
+	</td>
+	<td align="left" colspan="4">
+	    [lblDate_Repairs_Complete]
+	</td>
+    </tr>
+    <tr>
+	<td align="left">
+	    Date Full Services Resumed
+	</td>
+	<td align="center">
+	    :
+	</td>
+	<td align="left" colspan="4">
+	    [lblDate_Full_Service_Resumed]
+	</td>
+    </tr>
+    <tr>
+	<td align="left">
+	    Date Fire Protection Services Resumed
+	</td>
+	<td align="center">
+	    :
+	</td>
+	<td align="left" colspan="4">
+	    [lblDate_Fire_Protection_Services_Resumed]
+	</td>
+    </tr>
+</table>
+<div class="bandHeaderRow">&nbsp;
+    Comments and Attachments</div>
+<table cellpadding="3" cellspacing="1" border="0" width="100%">
+<tr>
+    <td align="left" style="width:18%" valign="top">
+       Comments/Instructions
+    </td>
+    <td align="center" style="width:4%" valign="top">
+	:
+    </td>
+    <td align="left" colspan="4" >
+	[lblComments]
+    </td>
+</tr>
+<tr>
+    <td align="left" style="width:18%" valign="top">
+       Date Report Completed
+    </td>
+    <td align="center" style="width:4%" valign="top">
+	:
+    </td>
+    <td align="left" colspan="4" >
+	[lblDateReportComplate]
+    </td>
+</tr>
+<tr>
+    <td align="left" style="width:18%" valign="top">
+       Date Claim Closed
+    </td>
+    <td align="center" style="width:4%" valign="top">
+	:
+    </td>
+    <td align="left" colspan="4" >
+	[lblClaimClosed]
+    </td>
+</tr>
+</table>
+</body>
+</html>

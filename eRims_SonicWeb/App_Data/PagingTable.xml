@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<PageTable>
+	<Page Value="1" Text="1"></Page>
+	<Page Value="5" Text="5"></Page>
+	<Page Value="10" Text="10"></Page>
+	<Page Value="15" Text="15"></Page>
+	<Page Value="20" Text="20"></Page>
+	<Page Value="25" Text="25"></Page>
+	<Page Value="30" Text="30"></Page>
+	<Page Value="35" Text="35"></Page>
+	<Page Value="40" Text="40"></Page>
+	<Page Value="45" Text="45"></Page>
+	<Page Value="50" Text="50"></Page>
+
+</PageTable>

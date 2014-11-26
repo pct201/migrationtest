@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+  <siteMapNode url="" title=""  description="">
+    <siteMapNode url="javascript:void(1);" title="Location/Contact"  description="" />
+    <siteMapNode url="javascript:void(2);" title="Loss Information"  description="" />
+    <siteMapNode url="javascript:void(3);" title="Insured Vehicle"  description="" />
+    <siteMapNode url="javascript:void(4);" title="Insured Vehicle Driver"  description="" />
+    <siteMapNode url="javascript:void(5);" title="Insured Vehicle Passenger"  description="" />
+    <siteMapNode url="javascript:void(6);" title="Other Vehicle"  description="" />
+    <siteMapNode url="javascript:void(7);" title="Other Vehicle Driver"  description="" />
+    <siteMapNode url="javascript:void(8);" title="Other Vehicle Passenger"  description="" />
+    <siteMapNode url="javascript:void(9);" title="Pedestrian"  description="" />
+    <siteMapNode url="javascript:void(10);" title="Witness"  description="" />
+    <siteMapNode url="javascript:void(11);" title="Comments &lt;br&gt; &lt;br&gt; Attachments"  description="" />
+    </siteMapNode>
+</siteMap>

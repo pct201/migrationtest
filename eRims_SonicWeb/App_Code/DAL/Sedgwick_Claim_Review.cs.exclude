@@ -1,0 +1,490 @@
+using System;
+using System.Data;
+using Microsoft.Practices.EnterpriseLibrary.Data;
+using System.Data.Common;
+
+namespace ERIMS.DAL
+{
+	/// <summary>
+	/// Data access class for table Sedgwick_Claim_Review
+	/// </summary>
+	public sealed class Sedgwick_Claim_Review
+	{
+
+		#region Private variables used to hold the property values
+
+		private decimal? _PK_Sedgwick_Claim_Review;
+		private decimal? _FK_Sedgwick_Claim_Group;
+		private DateTime? _Date_Of_Last_Review;
+		private string _Adjuster;
+		private string _Sedgwick_Team_Leader;
+		private DateTime? _Date_Of_File_Review;
+		private string _Claim_Review_Complete;
+		private int? _Medical_Score;
+		private int? _Diability_Score;
+		private int? _Litigation_Score;
+		private int? _Settlemente_Closure_Score;
+		private int? _Subrogation_Score;
+		private int? _Reserves_Score;
+		private int? _Leadership_Score;
+		private decimal? _Numeric_Score;
+		private string _Overall_Comments;
+		private string _Updated_By;
+		private DateTime? _Update_Date;
+
+		#endregion
+
+		#region Public Property
+
+		/// <summary>
+		/// Gets or sets the PK_Sedgwick_Claim_Review value.
+		/// </summary>
+		public decimal? PK_Sedgwick_Claim_Review
+		{
+			get { return _PK_Sedgwick_Claim_Review; }
+			set { _PK_Sedgwick_Claim_Review = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the FK_Sedgwick_Claim_Group value.
+		/// </summary>
+		public decimal? FK_Sedgwick_Claim_Group
+		{
+			get { return _FK_Sedgwick_Claim_Group; }
+			set { _FK_Sedgwick_Claim_Group = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the Date_Of_Last_Review value.
+		/// </summary>
+		public DateTime? Date_Of_Last_Review
+		{
+			get { return _Date_Of_Last_Review; }
+			set { _Date_Of_Last_Review = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the Adjuster value.
+		/// </summary>
+		public string Adjuster
+		{
+			get { return _Adjuster; }
+			set { _Adjuster = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the Sedgwick_Team_Leader value.
+		/// </summary>
+		public string Sedgwick_Team_Leader
+		{
+			get { return _Sedgwick_Team_Leader; }
+			set { _Sedgwick_Team_Leader = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the Date_Of_File_Review value.
+		/// </summary>
+		public DateTime? Date_Of_File_Review
+		{
+			get { return _Date_Of_File_Review; }
+			set { _Date_Of_File_Review = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the Claim_Review_Complete value.
+		/// </summary>
+		public string Claim_Review_Complete
+		{
+			get { return _Claim_Review_Complete; }
+			set { _Claim_Review_Complete = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the Medical_Score value.
+		/// </summary>
+		public int? Medical_Score
+		{
+			get { return _Medical_Score; }
+			set { _Medical_Score = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the Diability_Score value.
+		/// </summary>
+		public int? Diability_Score
+		{
+			get { return _Diability_Score; }
+			set { _Diability_Score = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the Litigation_Score value.
+		/// </summary>
+		public int? Litigation_Score
+		{
+			get { return _Litigation_Score; }
+			set { _Litigation_Score = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the Settlemente_Closure_Score value.
+		/// </summary>
+		public int? Settlemente_Closure_Score
+		{
+			get { return _Settlemente_Closure_Score; }
+			set { _Settlemente_Closure_Score = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the Subrogation_Score value.
+		/// </summary>
+		public int? Subrogation_Score
+		{
+			get { return _Subrogation_Score; }
+			set { _Subrogation_Score = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the Reserves_Score value.
+		/// </summary>
+		public int? Reserves_Score
+		{
+			get { return _Reserves_Score; }
+			set { _Reserves_Score = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the Leadership_Score value.
+		/// </summary>
+		public int? Leadership_Score
+		{
+			get { return _Leadership_Score; }
+			set { _Leadership_Score = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the Numeric_Score value.
+		/// </summary>
+		public decimal? Numeric_Score
+		{
+			get { return _Numeric_Score; }
+			set { _Numeric_Score = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the Overall_Comments value.
+		/// </summary>
+		public string Overall_Comments
+		{
+			get { return _Overall_Comments; }
+			set { _Overall_Comments = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the Updated_By value.
+		/// </summary>
+		public string Updated_By
+		{
+			get { return _Updated_By; }
+			set { _Updated_By = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the Update_Date value.
+		/// </summary>
+		public DateTime? Update_Date
+		{
+			get { return _Update_Date; }
+			set { _Update_Date = value; }
+		}
+
+
+		#endregion
+
+		#region Default Constructors
+
+		/// <summary>
+		/// Initializes a new instance of the Sedgwick_Claim_Review class with default value.
+		/// </summary>
+		public Sedgwick_Claim_Review() 
+		{
+
+
+		}
+
+		#endregion
+
+		#region Primary Constructors
+
+		/// <summary>
+		/// Initializes a new instance of the Sedgwick_Claim_Review class based on Primary Key.
+		/// </summary>
+		public Sedgwick_Claim_Review(decimal pK_Sedgwick_Claim_Review) 
+		{
+			DataTable dtSedgwick_Claim_Review = Select(pK_Sedgwick_Claim_Review).Tables[0];
+
+			if (dtSedgwick_Claim_Review.Rows.Count == 1)
+			{
+				 SetValue(dtSedgwick_Claim_Review.Rows[0]);
+
+			}
+
+		}
+
+
+		/// <summary>
+		/// Initializes a new instance of the Sedgwick_Claim_Review class based on Datarow passed.
+		/// </summary>
+		private void SetValue (DataRow drSedgwick_Claim_Review) 
+		{
+				if (drSedgwick_Claim_Review["PK_Sedgwick_Claim_Review"] == DBNull.Value)
+					this._PK_Sedgwick_Claim_Review = null;
+				else
+					this._PK_Sedgwick_Claim_Review = (decimal?)drSedgwick_Claim_Review["PK_Sedgwick_Claim_Review"];
+
+				if (drSedgwick_Claim_Review["FK_Sedgwick_Claim_Group"] == DBNull.Value)
+					this._FK_Sedgwick_Claim_Group = null;
+				else
+					this._FK_Sedgwick_Claim_Group = (decimal?)drSedgwick_Claim_Review["FK_Sedgwick_Claim_Group"];
+
+				if (drSedgwick_Claim_Review["Date_Of_Last_Review"] == DBNull.Value)
+					this._Date_Of_Last_Review = null;
+				else
+					this._Date_Of_Last_Review = (DateTime?)drSedgwick_Claim_Review["Date_Of_Last_Review"];
+
+				if (drSedgwick_Claim_Review["Adjuster"] == DBNull.Value)
+					this._Adjuster = null;
+				else
+					this._Adjuster = (string)drSedgwick_Claim_Review["Adjuster"];
+
+				if (drSedgwick_Claim_Review["Sedgwick_Team_Leader"] == DBNull.Value)
+					this._Sedgwick_Team_Leader = null;
+				else
+					this._Sedgwick_Team_Leader = (string)drSedgwick_Claim_Review["Sedgwick_Team_Leader"];
+
+				if (drSedgwick_Claim_Review["Date_Of_File_Review"] == DBNull.Value)
+					this._Date_Of_File_Review = null;
+				else
+					this._Date_Of_File_Review = (DateTime?)drSedgwick_Claim_Review["Date_Of_File_Review"];
+
+				if (drSedgwick_Claim_Review["Claim_Review_Complete"] == DBNull.Value)
+					this._Claim_Review_Complete = null;
+				else
+					this._Claim_Review_Complete = (string)drSedgwick_Claim_Review["Claim_Review_Complete"];
+
+				if (drSedgwick_Claim_Review["Medical_Score"] == DBNull.Value)
+					this._Medical_Score = null;
+				else
+					this._Medical_Score = (int?)drSedgwick_Claim_Review["Medical_Score"];
+
+				if (drSedgwick_Claim_Review["Diability_Score"] == DBNull.Value)
+					this._Diability_Score = null;
+				else
+					this._Diability_Score = (int?)drSedgwick_Claim_Review["Diability_Score"];
+
+				if (drSedgwick_Claim_Review["Litigation_Score"] == DBNull.Value)
+					this._Litigation_Score = null;
+				else
+					this._Litigation_Score = (int?)drSedgwick_Claim_Review["Litigation_Score"];
+
+				if (drSedgwick_Claim_Review["Settlemente_Closure_Score"] == DBNull.Value)
+					this._Settlemente_Closure_Score = null;
+				else
+					this._Settlemente_Closure_Score = (int?)drSedgwick_Claim_Review["Settlemente_Closure_Score"];
+
+				if (drSedgwick_Claim_Review["Subrogation_Score"] == DBNull.Value)
+					this._Subrogation_Score = null;
+				else
+					this._Subrogation_Score = (int?)drSedgwick_Claim_Review["Subrogation_Score"];
+
+				if (drSedgwick_Claim_Review["Reserves_Score"] == DBNull.Value)
+					this._Reserves_Score = null;
+				else
+					this._Reserves_Score = (int?)drSedgwick_Claim_Review["Reserves_Score"];
+
+				if (drSedgwick_Claim_Review["Leadership_Score"] == DBNull.Value)
+					this._Leadership_Score = null;
+				else
+					this._Leadership_Score = (int?)drSedgwick_Claim_Review["Leadership_Score"];
+
+				if (drSedgwick_Claim_Review["Numeric_Score"] == DBNull.Value)
+					this._Numeric_Score = null;
+				else
+					this._Numeric_Score = (decimal?)drSedgwick_Claim_Review["Numeric_Score"];
+
+				if (drSedgwick_Claim_Review["Overall_Comments"] == DBNull.Value)
+					this._Overall_Comments = null;
+				else
+					this._Overall_Comments = (string)drSedgwick_Claim_Review["Overall_Comments"];
+
+				if (drSedgwick_Claim_Review["Updated_By"] == DBNull.Value)
+					this._Updated_By = null;
+				else
+					this._Updated_By = (string)drSedgwick_Claim_Review["Updated_By"];
+
+				if (drSedgwick_Claim_Review["Update_Date"] == DBNull.Value)
+					this._Update_Date = null;
+				else
+					this._Update_Date = (DateTime?)drSedgwick_Claim_Review["Update_Date"];
+
+
+		}
+
+		#endregion
+
+		/// <summary>
+		/// Inserts a record into the Sedgwick_Claim_Review table.
+		/// </summary>
+		/// <returns></returns>
+		public int Insert()
+		{
+			Database db = DatabaseFactory.CreateDatabase();
+			DbCommand dbCommand = db.GetStoredProcCommand("Sedgwick_Claim_ReviewInsert");
+
+			
+			db.AddInParameter(dbCommand, "FK_Sedgwick_Claim_Group", DbType.Decimal, this._FK_Sedgwick_Claim_Group);
+			
+			db.AddInParameter(dbCommand, "Date_Of_Last_Review", DbType.DateTime, this._Date_Of_Last_Review);
+			
+			if (string.IsNullOrEmpty(this._Adjuster))
+				db.AddInParameter(dbCommand, "Adjuster", DbType.String, DBNull.Value);
+			else
+				db.AddInParameter(dbCommand, "Adjuster", DbType.String, this._Adjuster);
+			
+			if (string.IsNullOrEmpty(this._Sedgwick_Team_Leader))
+				db.AddInParameter(dbCommand, "Sedgwick_Team_Leader", DbType.String, DBNull.Value);
+			else
+				db.AddInParameter(dbCommand, "Sedgwick_Team_Leader", DbType.String, this._Sedgwick_Team_Leader);
+			
+			db.AddInParameter(dbCommand, "Date_Of_File_Review", DbType.DateTime, this._Date_Of_File_Review);
+			
+			if (string.IsNullOrEmpty(this._Claim_Review_Complete))
+				db.AddInParameter(dbCommand, "Claim_Review_Complete", DbType.String, DBNull.Value);
+			else
+				db.AddInParameter(dbCommand, "Claim_Review_Complete", DbType.String, this._Claim_Review_Complete);
+			
+			db.AddInParameter(dbCommand, "Medical_Score", DbType.Int32, this._Medical_Score);
+			
+			db.AddInParameter(dbCommand, "Diability_Score", DbType.Int32, this._Diability_Score);
+			
+			db.AddInParameter(dbCommand, "Litigation_Score", DbType.Int32, this._Litigation_Score);
+			
+			db.AddInParameter(dbCommand, "Settlemente_Closure_Score", DbType.Int32, this._Settlemente_Closure_Score);
+			
+			db.AddInParameter(dbCommand, "Subrogation_Score", DbType.Int32, this._Subrogation_Score);
+			
+			db.AddInParameter(dbCommand, "Reserves_Score", DbType.Int32, this._Reserves_Score);
+			
+			db.AddInParameter(dbCommand, "Leadership_Score", DbType.Int32, this._Leadership_Score);
+			
+			db.AddInParameter(dbCommand, "Numeric_Score", DbType.Decimal, this._Numeric_Score);
+			
+			if (string.IsNullOrEmpty(this._Overall_Comments))
+				db.AddInParameter(dbCommand, "Overall_Comments", DbType.String, DBNull.Value);
+			else
+				db.AddInParameter(dbCommand, "Overall_Comments", DbType.String, this._Overall_Comments);
+			
+			if (string.IsNullOrEmpty(this._Updated_By))
+				db.AddInParameter(dbCommand, "Updated_By", DbType.String, DBNull.Value);
+			else
+				db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
+			
+			db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
+
+			// Execute the query and return the new identity value
+			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
+
+			return returnValue;
+		}
+
+		/// <summary>
+		/// Selects a single record from the Sedgwick_Claim_Review table.
+		/// </summary>
+		/// <returns>DataSet</returns>
+		private DataSet Select(decimal pK_Sedgwick_Claim_Review)
+		{
+			Database db = DatabaseFactory.CreateDatabase();
+			DbCommand dbCommand = db.GetStoredProcCommand("Sedgwick_Claim_ReviewSelect");
+
+			db.AddInParameter(dbCommand, "PK_Sedgwick_Claim_Review", DbType.Decimal, pK_Sedgwick_Claim_Review);
+
+			return db.ExecuteDataSet(dbCommand);
+		}
+
+		/// <summary>
+		/// Updates a record in the Sedgwick_Claim_Review table.
+		/// </summary>
+		public void Update()
+		{
+			Database db = DatabaseFactory.CreateDatabase();
+			DbCommand dbCommand = db.GetStoredProcCommand("Sedgwick_Claim_ReviewUpdate");
+
+			
+			db.AddInParameter(dbCommand, "PK_Sedgwick_Claim_Review", DbType.Decimal, this._PK_Sedgwick_Claim_Review);
+			
+			db.AddInParameter(dbCommand, "FK_Sedgwick_Claim_Group", DbType.Decimal, this._FK_Sedgwick_Claim_Group);
+			
+			db.AddInParameter(dbCommand, "Date_Of_Last_Review", DbType.DateTime, this._Date_Of_Last_Review);
+			
+			if (string.IsNullOrEmpty(this._Adjuster))
+				db.AddInParameter(dbCommand, "Adjuster", DbType.String, DBNull.Value);
+			else
+				db.AddInParameter(dbCommand, "Adjuster", DbType.String, this._Adjuster);
+			
+			if (string.IsNullOrEmpty(this._Sedgwick_Team_Leader))
+				db.AddInParameter(dbCommand, "Sedgwick_Team_Leader", DbType.String, DBNull.Value);
+			else
+				db.AddInParameter(dbCommand, "Sedgwick_Team_Leader", DbType.String, this._Sedgwick_Team_Leader);
+			
+			db.AddInParameter(dbCommand, "Date_Of_File_Review", DbType.DateTime, this._Date_Of_File_Review);
+			
+			if (string.IsNullOrEmpty(this._Claim_Review_Complete))
+				db.AddInParameter(dbCommand, "Claim_Review_Complete", DbType.String, DBNull.Value);
+			else
+				db.AddInParameter(dbCommand, "Claim_Review_Complete", DbType.String, this._Claim_Review_Complete);
+			
+			db.AddInParameter(dbCommand, "Medical_Score", DbType.Int32, this._Medical_Score);
+			
+			db.AddInParameter(dbCommand, "Diability_Score", DbType.Int32, this._Diability_Score);
+			
+			db.AddInParameter(dbCommand, "Litigation_Score", DbType.Int32, this._Litigation_Score);
+			
+			db.AddInParameter(dbCommand, "Settlemente_Closure_Score", DbType.Int32, this._Settlemente_Closure_Score);
+			
+			db.AddInParameter(dbCommand, "Subrogation_Score", DbType.Int32, this._Subrogation_Score);
+			
+			db.AddInParameter(dbCommand, "Reserves_Score", DbType.Int32, this._Reserves_Score);
+			
+			db.AddInParameter(dbCommand, "Leadership_Score", DbType.Int32, this._Leadership_Score);
+			
+			db.AddInParameter(dbCommand, "Numeric_Score", DbType.Decimal, this._Numeric_Score);
+			
+			if (string.IsNullOrEmpty(this._Overall_Comments))
+				db.AddInParameter(dbCommand, "Overall_Comments", DbType.String, DBNull.Value);
+			else
+				db.AddInParameter(dbCommand, "Overall_Comments", DbType.String, this._Overall_Comments);
+			
+			if (string.IsNullOrEmpty(this._Updated_By))
+				db.AddInParameter(dbCommand, "Updated_By", DbType.String, DBNull.Value);
+			else
+				db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
+			
+			db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
+
+			db.ExecuteNonQuery(dbCommand);
+		}
+
+		/// <summary>
+		/// Deletes a record from the Sedgwick_Claim_Review table by a composite primary key.
+		/// </summary>
+		public static void Delete(decimal pK_Sedgwick_Claim_Review)
+		{
+			Database db = DatabaseFactory.CreateDatabase();
+			DbCommand dbCommand = db.GetStoredProcCommand("Sedgwick_Claim_ReviewDelete");
+
+			db.AddInParameter(dbCommand, "PK_Sedgwick_Claim_Review", DbType.Decimal, pK_Sedgwick_Claim_Review);
+
+			db.ExecuteNonQuery(dbCommand);
+		}
+	}
+}

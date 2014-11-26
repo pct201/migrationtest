@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+	<siteMapNode >
+		<siteMapNode url="" title="Insurance"  description="">
+			<siteMapNode url="" title="Certificates of Insurance"  description="">
+				<siteMapNode url="COI/RiskProfileList.aspx" title="Risk Profiles" description="" />
+				<siteMapNode url="COI/COISearch.aspx" title="Certificates of Insurance"  description=""/>
+				<siteMapNode url="COI/LocationsAddEdit.aspx" title="Add Location" description="" />
+				<siteMapNode url="COI/LetterHistorySearch.aspx" title="Letter History" description="" />
+				<siteMapNode url="COI/GenerateLetters.aspx" title="Generate Letters" description="" />
+			</siteMapNode>
+		</siteMapNode>
+
+
+		<siteMapNode url="" title="Property"  description=""> 
+			<siteMapNode url="" title="Property"  description="">
+				<siteMapNode url="Property/PropertyList.aspx?mnu=Identification" title="Identification" description="" />
+        <siteMapNode url="Property/PropertyList.aspx?mnu=Contacts" title="Contacts" description="" />
+        <siteMapNode url="Property/PropertyList.aspx?mnu=Values" title="Values" description="" />
+        <siteMapNode url="Property/PropertyList.aspx?mnu=Environmental" title="Environmental" description="" />
+			</siteMapNode>
+      <siteMapNode url="" title="Fleet Management" description="">
+        <siteMapNode url="Property/VehicleList.aspx" title="Vehicles" description="" />
+        <siteMapNode url="Property/DriverList.aspx" title="Drivers" description="" />
+      </siteMapNode>
+		</siteMapNode>
+		<siteMapNode url="javascript:void(1);" title="Reports"  description="">
+			<siteMapNode url="COIReports/Default.aspx" title="Certificate of Insurance" />	
+			<!--<siteMapNode url="Reports/Default.aspx" title="Other Reports"  />-->		
+			<siteMapNode url="COI/COISearch.aspx?a=1" title="Generate COI" />
+		</siteMapNode>
+		<siteMapNode url="" title="Administration"  description="">
+			<siteMapNode url="Administration/Security.aspx" title="Security" description=""></siteMapNode>
+			<siteMapNode url="" title="Maintenance" description="">
+				<siteMapNode url="Administration/ComplianceText.aspx" title="Compliance Text" description=""></siteMapNode>
+				<siteMapNode url="Administration/OtherLiabilityPolicies.aspx" title="Other Policy Types" description=""></siteMapNode>
+			</siteMapNode>
+      <siteMapNode url="Administration/UserHelp.aspx" title="User Help" description=""></siteMapNode>
+		</siteMapNode>
+		<siteMapNode url="ChangePassword.aspx" title="Change Password"  description=""/>
+		<!--<siteMapNode url="TestErrorLog.aspx?c=1" title="Help"  description=""/>-->
+    <siteMapNode url="Help.aspx" title="Help" description=""></siteMapNode>
+		<siteMapNode url="~/Logout.aspx" title="Logoff"  description=""/>
+	</siteMapNode>
+</siteMap>

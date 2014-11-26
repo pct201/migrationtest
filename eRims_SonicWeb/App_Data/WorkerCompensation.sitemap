@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+	<siteMapNode>
+		<siteMapNode  url="~/WorkerCompensation/WorkersCompensation.aspx" title="Worker Compensation"  description="" roles="" >
+		</siteMapNode>
+		<siteMapNode url="~/WorkerCompensation/WorkerCompensationReserve.aspx" title="Reserve Worksheet"  description="" roles="" >
+		</siteMapNode>
+		<siteMapNode url="~/Liability/CareearData.aspx" title="Carrier Data"  description="" roles="" >
+		</siteMapNode>
+		<siteMapNode url="~/WorkerCompensation/subrogation.aspx" title="Subrogation"  description="" roles="" >
+		</siteMapNode>
+		<siteMapNode url="~/WorkerCompensation/SubrogationDetail.aspx" title="Subrogation Detail"  description="" roles="" >
+		</siteMapNode>
+		<siteMapNode url="~/WorkerCompensation/CheckRegister.aspx" title="Check Register"  description="" roles="" >
+		</siteMapNode>
+		<siteMapNode url="~/WorkerCompensation/MainDiary.aspx" title="Diary"  description="" roles="" >
+		</siteMapNode>
+		<siteMapNode url="~/WorkerCompensation/MainAdjuster.aspx" title="Adjustor Notes"  description="" roles="" >
+		</siteMapNode>
+		<siteMapNode url="~/WorkerCompensation/Settlement.aspx" title="Settlement"  description="" roles="" >
+		</siteMapNode>
+	</siteMapNode>
+</siteMap>

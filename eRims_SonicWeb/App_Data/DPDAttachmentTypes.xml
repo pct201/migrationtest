@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Types>
+  <Type ID="1" CauseID="8" CauseOfLoss="Fire" TypeDesc="Fire - Invoice" />
+  <Type ID="2" CauseID="8" CauseOfLoss="Fire" TypeDesc="Fire - Photo" />
+  <Type ID="3" CauseID="8" CauseOfLoss="Fire" TypeDesc="Fire - Repair Order/Estimate" />
+  <Type ID="4" CauseID="8" CauseOfLoss="Fire" TypeDesc="Fire - Title" />
+  <Type ID="5" CauseID="7" CauseOfLoss="Flood" TypeDesc="Flood - Invoice" />
+  <Type ID="6" CauseID="7" CauseOfLoss="Flood" TypeDesc="Flood - Photo" />
+  <Type ID="7" CauseID="7" CauseOfLoss="Flood" TypeDesc="Flood - Repair Order/Estimate" />
+  <Type ID="8" CauseID="7" CauseOfLoss="Flood" TypeDesc="Flood - Title" />
+  <Type ID="9" CauseID="10" CauseOfLoss="Fraud" TypeDesc="Fraud - Invoice" />
+  <Type ID="10" CauseID="10" CauseOfLoss="Fraud" TypeDesc="Fraud - Police Report" />
+  <Type ID="11" CauseID="10" CauseOfLoss="Fraud" TypeDesc="Fraud - Title" />
+  <Type ID="12" CauseID="6" CauseOfLoss="Hail" TypeDesc="Hail - Invoice" />
+  <Type ID="13" CauseID="6" CauseOfLoss="Hail" TypeDesc="Hail - Photo" />
+  <Type ID="14" CauseID="6" CauseOfLoss="Hail" TypeDesc="Hail - Repair Order/Estimate" />
+  <Type ID="15" CauseID="6" CauseOfLoss="Hail" TypeDesc="Hail - Title" />
+  <Type ID="16" CauseID="4" CauseOfLoss="MVA" TypeDesc="MVA - Invoice" />
+  <Type ID="17" CauseID="4" CauseOfLoss="MVA" TypeDesc="MVA - Photo" />
+  <Type ID="18" CauseID="4" CauseOfLoss="MVA" TypeDesc="MVA - Police Report" />
+  <Type ID="19" CauseID="4" CauseOfLoss="MVA" TypeDesc="MVA - Title" />
+  <Type ID="20" CauseID="2" CauseOfLoss="Partial Theft" TypeDesc="Partial Theft - Invoice" />
+  <Type ID="21" CauseID="2" CauseOfLoss="Partial Theft" TypeDesc="Partial Theft - Photo" />
+  <Type ID="22" CauseID="2" CauseOfLoss="Partial Theft" TypeDesc="Partial Theft - Police Report" />
+  <Type ID="23" CauseID="2" CauseOfLoss="Partial Theft" TypeDesc="Partial Theft - Title" />
+  <Type ID="24" CauseID="1" CauseOfLoss="Theft" TypeDesc="Theft - Invoice" />
+  <Type ID="25" CauseID="1" CauseOfLoss="Theft" TypeDesc="Theft - Police Report" />
+  <Type ID="26" CauseID="1" CauseOfLoss="Theft" TypeDesc="Theft - Title" />
+  <Type ID="27" CauseID="3" CauseOfLoss="Vandalism" TypeDesc="Vandalism - Invoice" />
+  <Type ID="28" CauseID="3" CauseOfLoss="Vandalism" TypeDesc="Vandalism - Photo" />
+  <Type ID="29" CauseID="3" CauseOfLoss="Vandalism" TypeDesc="Vandalism - Police Report" />
+  <Type ID="30" CauseID="3" CauseOfLoss="Vandalism" TypeDesc="Vandalism - Repair Order/Estimate" />
+  <Type ID="31" CauseID="3" CauseOfLoss="Vandalism" TypeDesc="Vandalism - Title" />
+  <Type ID="32" CauseID="9" CauseOfLoss="Wind" TypeDesc="Wind - Invoice" />
+  <Type ID="33" CauseID="9" CauseOfLoss="Wind" TypeDesc="Wind - Photo" />
+  <Type ID="34" CauseID="9" CauseOfLoss="Wind" TypeDesc="Wind - Repair Order/Estimate" />
+  <Type ID="35" CauseID="9" CauseOfLoss="Wind" TypeDesc="Wind - Title" />  
+  <Type ID="36" CauseID="8" CauseOfLoss="Fire"	TypeDesc="Fire – E-Mail" />
+  <Type ID="37" CauseID="8" CauseOfLoss="Fire" TypeDesc="Fire – Note" />
+  <Type ID="38" CauseID="8" CauseOfLoss="Fire" TypeDesc="Fire – Statement" />
+  <Type ID="39" CauseID="8" CauseOfLoss="Fire" TypeDesc="Fire – Other Document" />
+  <Type ID="40" CauseID="7" CauseOfLoss="Flood" TypeDesc="Flood – E-Mail" />
+  <Type ID="41" CauseID="7" CauseOfLoss="Flood" TypeDesc="Flood – Note" />
+  <Type ID="42" CauseID="7" CauseOfLoss="Flood" TypeDesc="Flood – Statement" />
+  <Type ID="43" CauseID="7" CauseOfLoss="Flood" TypeDesc="Flood – Other Document" />
+  <Type ID="44" CauseID="10" CauseOfLoss="Fraud" TypeDesc="Fraud – E-Mail" />
+  <Type ID="45" CauseID="10" CauseOfLoss="Fraud" TypeDesc="Fraud – Note" />
+  <Type ID="46" CauseID="10" CauseOfLoss="Fraud" TypeDesc="Fraud – Statement" />
+  <Type ID="47" CauseID="10" CauseOfLoss="Fraud" TypeDesc="Fraud – Other Document" />
+  <Type ID="48" CauseID="6" CauseOfLoss="Hail" TypeDesc="Hail – E-Mail" />
+  <Type ID="49" CauseID="6" CauseOfLoss="Hail" TypeDesc="Hail – Note" />
+  <Type ID="50" CauseID="6" CauseOfLoss="Hail" TypeDesc="Hail – Statement" />
+  <Type ID="51" CauseID="6" CauseOfLoss="Hail" TypeDesc="Hail – Other Document" />
+  <Type ID="52" CauseID="4" CauseOfLoss="MVA" TypeDesc="MVA – E-Mail" />
+  <Type ID="53" CauseID="4" CauseOfLoss="MVA" TypeDesc="MVA – Note" />
+  <Type ID="54" CauseID="4" CauseOfLoss="MVA" TypeDesc="MVA – Statement" />
+  <Type ID="55" CauseID="4" CauseOfLoss="MVA" TypeDesc="MVA – Other Document" />
+  <Type ID="56" CauseID="2" CauseOfLoss="Partial Theft" TypeDesc="Partial Theft – E-Mail" />
+  <Type ID="57" CauseID="2" CauseOfLoss="Partial Theft" TypeDesc="Partial Theft – Note" />
+  <Type ID="58" CauseID="2" CauseOfLoss="Partial Theft" TypeDesc="Partial Theft – Statement" />
+  <Type ID="59" CauseID="2" CauseOfLoss="Partial Theft" TypeDesc="Partial Theft – Other Document" />
+  <Type ID="60" CauseID="1" CauseOfLoss="Theft" TypeDesc="Theft – E-Mail" />
+  <Type ID="61" CauseID="1" CauseOfLoss="Theft" TypeDesc="Theft – Note" />
+  <Type ID="62" CauseID="1" CauseOfLoss="Theft" TypeDesc="Theft – Statement" />
+  <Type ID="63" CauseID="1" CauseOfLoss="Theft" TypeDesc="Theft – Other Document" />
+  <Type ID="64" CauseID="3" CauseOfLoss="Vandalism" TypeDesc="Vandalism – E-Mail" />
+  <Type ID="65" CauseID="3" CauseOfLoss="Vandalism" TypeDesc="Vandalism – Note" />
+  <Type ID="66" CauseID="3" CauseOfLoss="Vandalism" TypeDesc="Vandalism – Statement" />
+  <Type ID="67" CauseID="3" CauseOfLoss="Vandalism" TypeDesc="Vandalism – Other Document" />
+  <Type ID="68" CauseID="9" CauseOfLoss="Wind" TypeDesc="Wind – E-Mail" />
+  <Type ID="69" CauseID="9" CauseOfLoss="Wind" TypeDesc="Wind – Note" />
+  <Type ID="70" CauseID="9" CauseOfLoss="Wind" TypeDesc="Wind – Statement" />
+  <Type ID="71" CauseID="9" CauseOfLoss="Wind" TypeDesc="Wind – Other Document" />
+</Types>

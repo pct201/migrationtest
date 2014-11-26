@@ -1,0 +1,3011 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="GeneralLiability.aspx.cs"
+    Title="Risk Insurance Management System" MasterPageFile="~/Default.master" Theme="default"
+      Inherits="Claim_GeneralLiability" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+
+    <script type="text/javascript" src="../JavaScript/JFunctions.js"></script>
+
+    <script type="text/javascript" language="javascript" src="../JavaScript/Calendar_new.js"></script>
+
+    <script type="text/javascript" language="javascript" src="../JavaScript/calendar-en.js"></script>
+
+    <script type="text/javascript" language="javascript" src="../JavaScript/Calendar.js"></script>
+
+    <script type="text/javascript">  
+    
+    function ZipValidate(x)
+    {
+     
+     var y=document.getElementById(x).value;
+     if(y.length < 5 && y.length > 0)
+         {
+             alert("Invalid Zip Code");
+             document.getElementById(x).select();           
+         }
+        
+    }
+    
+    
+    function MinMax(name)
+    {
+        alert('hi');
+        if(name == "comment")
+        {
+            if(document.getElementById("ctl00_ContentPlaceHolder1_txtComment").style.height == "")
+            {
+                document.getElementById("ctl00_ContentPlaceHolder1_ibtnComment").src = "../Images/minus.jpg";
+                document.getElementById("ctl00_ContentPlaceHolder1_txtComment").style.height = "70px";
+                document.getElementById("pnlComment").style.display = "block";
+            }
+            else if(document.getElementById("ctl00_ContentPlaceHolder1_txtComment").style.height == "70px")
+            {
+                document.getElementById("ctl00_ContentPlaceHolder1_ibtnComment").src = "../Images/plus.jpg";
+                document.getElementById("ctl00_ContentPlaceHolder1_txtComment").style.height="";
+                document.getElementById("pnlComment").style.display = "none";
+            }
+        }
+        return false;
+        }
+	
+		var pattern =/[0-9]/;
+  
+		function isValid(id) {
+		    var keyCode = event.keyCode? event.keyCode : event.which;
+			var key = String.fromCharCode(keyCode);
+			if(!pattern.test(key))
+			{
+				event.keyCode="";
+				return false;
+			}
+		}
+    
+     
+    
+      
+     
+         function ValAttach()
+        {      
+            document.getElementById("ctl00_ContentPlaceHolder1_rfvattach").enabled =true;
+            document.getElementById("ctl00_ContentPlaceHolder1_rvfselect").enabled =true;
+            return true;
+        }
+        function ValSave()
+        {            
+            document.getElementById("ctl00_ContentPlaceHolder1_rfvattach").enabled =false;
+            document.getElementById("ctl00_ContentPlaceHolder1_rvfselect").enabled =false;
+            return true;
+        }
+
+         
+          function getfirst()
+     { 
+    
+        clearfocus();
+        document.getElementById("first").className="left_menu_active";
+        document.getElementById("ctl00_ContentPlaceHolder1_divfirst").style.display ="block";
+        document.getElementById("ctl00_ContentPlaceHolder1_dvAttachDetails").style.display ="none";
+    }
+    function getsecond()
+    {     
+        clearfocus();
+        document.getElementById("second").className="left_menu_active";
+        document.getElementById("ctl00_ContentPlaceHolder1_divsecond").style.display ="block";
+        document.getElementById("ctl00_ContentPlaceHolder1_dvAttachDetails").style.display ="none";
+    }
+    function getthird()
+    {
+        clearfocus();
+        document.getElementById("third").className="left_menu_active"; 
+        document.getElementById("ctl00_ContentPlaceHolder1_divthird").style.display ="block";
+       document.getElementById("ctl00_ContentPlaceHolder1_dvAttachDetails").style.display ="none";
+    }
+    
+      function getfour()
+    {
+        clearfocus();
+        document.getElementById("four").className="left_menu_active"; 
+        document.getElementById("ctl00_ContentPlaceHolder1_divfour").style.display ="block";
+        document.getElementById("ctl00_ContentPlaceHolder1_dvAttachDetails").style.display ="none";
+    }
+      function getfive()
+    {
+        clearfocus();
+        document.getElementById("five").className="left_menu_active"; 
+        document.getElementById("ctl00_ContentPlaceHolder1_divfive").style.display ="block";
+       document.getElementById("ctl00_ContentPlaceHolder1_dvAttachDetails").style.display ="none";
+    }
+         
+     function getsix()
+    {
+        clearfocus();
+        document.getElementById("six").className="left_menu_active"; 
+        document.getElementById("ctl00_ContentPlaceHolder1_divsix").style.display ="block";
+        document.getElementById("ctl00_ContentPlaceHolder1_dvAttachDetails").style.display ="none";
+    }
+    
+       function getseven()
+    {
+        clearfocus();
+        document.getElementById("seven").className="left_menu_active"; 
+        document.getElementById("ctl00_ContentPlaceHolder1_divseven").style.display ="block";
+        document.getElementById("ctl00_ContentPlaceHolder1_dvAttachDetails").style.display ="none";
+    }
+    
+       function geteight()
+    {
+        clearfocus();
+        document.getElementById("eight").className="left_menu_active"; 
+        document.getElementById("ctl00_ContentPlaceHolder1_diveight").style.display ="block";
+        document.getElementById("ctl00_ContentPlaceHolder1_dvAttachDetails").style.display ="none";
+    }
+    
+       function getnine()
+    {
+        clearfocus();
+        document.getElementById("nine").className="left_menu_active"; 
+        document.getElementById("ctl00_ContentPlaceHolder1_divnine").style.display ="block";
+        document.getElementById("ctl00_ContentPlaceHolder1_dvAttachDetails").style.display ="none";
+    }
+    
+         function getten()
+    {
+        clearfocus();
+        document.getElementById("ten").className="left_menu_active"; 
+        document.getElementById("ctl00_ContentPlaceHolder1_divten").style.display ="block";
+        document.getElementById("ctl00_ContentPlaceHolder1_dvAttachDetails").style.display ="none";
+    }  
+  
+   function getfourteen()
+    {
+        clearfocus();
+        document.getElementById("fourteen").className="left_menu_active"; 
+        document.getElementById("ctl00_ContentPlaceHolder1_divfourteen").style.display ="block";
+        document.getElementById("ctl00_ContentPlaceHolder1_dvAttachDetails").style.display ="block";
+    }
+    function clearfocus()
+    {
+    
+
+        document.getElementById("first").className="left_menu";   
+        document.getElementById("second").className="left_menu"; 
+        document.getElementById("third").className="left_menu";  
+        document.getElementById("four").className="left_menu";     
+        document.getElementById("five").className="left_menu";     
+        document.getElementById("six").className="left_menu";  
+        document.getElementById("seven").className="left_menu";     
+        document.getElementById("eight").className="left_menu";     
+        document.getElementById("nine").className="left_menu";   
+        document.getElementById("ten").className="left_menu";
+        document.getElementById("fourteen").className="left_menu";   
+           
+                
+        document.getElementById("ctl00_ContentPlaceHolder1_divfirst").style.display ="none";  
+        document.getElementById("ctl00_ContentPlaceHolder1_divsecond").style.display ="none";  
+        document.getElementById("ctl00_ContentPlaceHolder1_divthird").style.display ="none";   
+        document.getElementById("ctl00_ContentPlaceHolder1_divfour").style.display ="none";   
+        document.getElementById("ctl00_ContentPlaceHolder1_divfive").style.display ="none";   
+        document.getElementById("ctl00_ContentPlaceHolder1_divsix").style.display ="none";   
+        document.getElementById("ctl00_ContentPlaceHolder1_divseven").style.display ="none";   
+        document.getElementById("ctl00_ContentPlaceHolder1_diveight").style.display ="none";   
+        document.getElementById("ctl00_ContentPlaceHolder1_divnine").style.display ="none"; 
+        document.getElementById("ctl00_ContentPlaceHolder1_divten").style.display ="none"; 
+        document.getElementById("ctl00_ContentPlaceHolder1_divfourteen").style.display ="none";  
+      }
+       
+      
+       function openPolicyPopup()
+        {
+          
+            oWnd=window.open("../Claim/Policy_search_popup.aspx","Erims","location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=500,height=300");
+            oWnd.moveTo(300,200);
+            return false;
+         
+        }  
+      
+        
+      function openWindow(strURL)
+    {
+        oWnd=window.open(strURL,"Erims","location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=500,height=300");
+        oWnd.moveTo(260,180);
+        return false;
+        
+    }
+    function openMailWindow(strURL)
+    {
+        
+        oWnd=window.open(strURL,"Erims","location=0,status=0,scrollbars=1,menubar=0,resizable=0,toolbar=0,width=500,height=280");
+        oWnd.moveTo(260,180);
+        return false; 
+     }   
+     function clear()
+     {
+      alert("xxx");
+      document.getElementById('ctl00_ContentPlaceHolder1_txtFirstName').value ="";
+      document.getElementById('ctl00_ContentPlaceHolder1_txtLastName').value ="";
+      document.getElementById('ctl00_ContentPlaceHolder1_txtempid').value ="";
+     
+     }
+     
+     
+       function ClaimantType()
+    {       
+  
+        if(document.getElementById("ctl00_ContentPlaceHolder1_dwClaimant").value== "1")
+        {
+      
+            oWnd=window.open("../Claim/EmployeePopup.aspx","Erims1","location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=500,height=300");
+            oWnd.moveTo(300,200);
+            return false;
+        }
+        if(document.getElementById("ctl00_ContentPlaceHolder1_dwClaimant").value== "2")
+        {
+            oWnd=window.open("../Claim/Claimant_search.aspx","Erims","location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=500,height=300");
+            oWnd.moveTo(300,200);
+            return false;
+        }
+         if(document.getElementById("ctl00_ContentPlaceHolder1_dwClaimant").value== "3")
+        {
+            oWnd=window.open("../Claim/Driver_Search.aspx","Erims","location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=500,height=300");
+            oWnd.moveTo(300,200);
+            return false;
+        }
+     }
+      
+    </script>
+
+    <asp:ScriptManager runat="server" ID="ScriptManager1">
+    </asp:ScriptManager>
+    <div>
+        <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
+            HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
+            ValidationGroup="vsErrorGroup" CssClass="errormessage"></asp:ValidationSummary>
+        <asp:CustomValidator ID="cvErrorMsg" runat="server" ErrorMessage="" EnableClientScript="false"
+            ValidationGroup="vsErrorGroup" Display="None"></asp:CustomValidator>
+    </div>
+    <div style="width: 100%" id="contmain">
+        <br />
+        <div id="Div1" runat="server" style="width: 100%; text-align: center">
+            <table border="0" align="left" cellpadding="1" cellspacing="0" width="78%">
+                <tr>
+                    <td align="center" style="background-image: url('../images/active_btn.jpg')" class="active_tab"
+                        valign="middle">
+                        General Liability
+                    </td>
+                    <td align="center" class="normal_tab" style="background-image: url('../images/normal_btn.jpg')"
+                        valign="middle">
+                        <a class="main_menu" href="#">General Reserve Worksheet</a></td>
+                    <%--<td align="center" class="normal_tab" style="background-image: url('../images/normal_btn.jpg')"
+                        valign="middle">
+                       <a class="main_menu" href="Subrogation.aspx"> Carrier Data</a></td>--%>
+                    <td align="center" class="normal_tab" style="background-image: url('../images/normal_btn.jpg')"
+                        valign="middle">
+                        <a class="main_menu" href="subrogation.aspx">Subrogation</a>
+                    </td>
+                    <td align="center" class="normal_tab" style="background-image: url('../images/normal_btn.jpg')"
+                        valign="middle">
+                        <a class="main_menu" href="#">Subrogation Detail</a>
+                    </td>
+                    <td align="center" class="normal_tab" style="background-image: url('../images/normal_btn.jpg')"
+                        valign="middle">
+                        <a class="main_menu" href="#">Check Register</a></td>
+                    <td align="center" class="normal_tab" style="background-image: url('../images/normal_btn.jpg')"
+                        valign="middle">
+                        <a class="main_menu" href="#">Diary</a></td>
+                    <td align="center" class="normal_tab" style="background-image: url('../images/normal_btn.jpg')"
+                        valign="middle">
+                        <a class="main_menu" href="#">Adjustor Notes</a></td>                   
+                </tr>
+            </table>
+        </div>
+        <div id="LeftDiv" runat="server" style="width: 20%; height: 350px; border: solid 1px;
+            float: left;">
+            <table border="0" cellpadding="0" cellspacing="4" width="90%">
+                <tr>
+                    <td style="width: 15%; height: 19px">
+                        &nbsp;</td>
+                    <td style="width: 85%; height: 19px">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;</td>
+                    <td>
+                        <a class="left_menu_active" id="first" onclick="javascript:getfirst();" href="#">Claim
+                            Identification</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;</td>
+                    <td>
+                        <a class="left_menu" id="second" onclick="javascript:getsecond();" href="#">Liability
+                            Coverage</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;</td>
+                    <td>
+                        <a class="left_menu" id="third" onclick="javascript:getthird();" href="#">Loss Location</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;</td>
+                    <td>
+                        <a class="left_menu" id="four" onclick="javascript:getfour();" href="#">Loss Information</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;</td>
+                    <td>
+                        <a class="left_menu" id="five" onclick="javascript:getfive();" href="#">Claimant Information</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;</td>
+                    <td>
+                        <a class="left_menu" id="six" onclick="javascript:getsix();" href="#">Bodily Injury</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;</td>
+                    <td>
+                        <a class="left_menu" id="seven" onclick="javascript:getseven();" href="#">Property Damage</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;</td>
+                    <td>
+                        <a class="left_menu" id="eight" onclick="javascript:geteight();" href="#">Settlement</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;</td>
+                    <td>
+                        <a class="left_menu" id="nine" onclick="javascript:getnine();" href="#">Financial Summary</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;</td>
+                    <td>
+                        <a class="left_menu" id="ten" onclick="javascript:getten();" href="#">Claim Representative</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;</td>
+                    <td>
+                        <a class="left_menu" id="fourteen" onclick="javascript:getfourteen();" href="#">Attachment</a></td>
+                </tr>
+            </table>
+        </div>
+        <div id="mainContent" runat="server" style="width: 79%; border: solid 1px; float: right;">
+            <div id="divfirst" style="width: 100%; display: block;" runat="server">
+                <table id="Table1" runat="server" cellpadding="2" cellspacing="2" class="stylesheet"
+                    width="100%">
+                    <tr>
+                        <td class="ghc" colspan="6">
+                            <asp:Label ID="lblClaimId" runat="server">Claim Identification 
+                            </asp:Label>
+                        </td>
+                    </tr>
+                    <tr id="claimno" runat="server">
+                        <td align="left" class="lc" style="width: 20%">
+                            <asp:Label ID="lblClaimNumber" runat="server">Claim Number</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:Label ID="lblclaimnoedit" runat="server"></asp:Label>
+                        </td>
+                        <%-- <td align="left" class="lc">
+                             &nbsp
+                        </td>
+                        <td align="Center" class="lc">
+                           &nbsp
+                        </td>
+                           <td align="left" class="ic">
+                     <asp:TextBox ID="txtclaimantid" runat="server" style="display:none;" ></asp:TextBox>
+                        </td>--%>
+                        <td align="left" class="lc" style="width: 22%">
+                            <asp:Label ID="lblReptoCarrier" runat="server">  Reported to Carrier</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="lc" style="width: 25%">
+                            <asp:RadioButtonList ID="rbtReptoCarrier" runat="server" RepeatDirection="Horizontal">
+                                <asp:ListItem Selected="True">Yes</asp:ListItem>
+                                <asp:ListItem>No</asp:ListItem>
+                            </asp:RadioButtonList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 20%">
+                            <asp:Label ID="lblClaimType" runat="server">Claim Type</asp:Label>
+                            <span class="mf">*</span>
+                        </td>
+                        <td align="Center" class="lc">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:DropDownList ID="dwClaimType" runat="server" Width="153px">
+                            </asp:DropDownList>
+                            <asp:RequiredFieldValidator ID="ReqClaType" runat="server" ControlToValidate="dwClaimType"
+                                Display="none" Text="*" InitialValue="0" ErrorMessage="Please Select Claim Type(Claim Identification)"
+                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                        </td>
+                        <td align="left" class="lc" style="width: 22%">
+                            <asp:Label ID="lblDateReportedtoFair" runat="server">Date Reported to FairPoint </asp:Label>
+                            <span class="mf">*</span>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="lc" style="width: 25%">
+                            <asp:TextBox ID="txtDateReportedtoFair" runat="server"></asp:TextBox>
+                            <img onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtDateReportedtoFair', 'mm/dd/y');"
+                                onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
+                                align="absmiddle" />
+                            <cc1:MaskedEditExtender ID="Mask" runat="server" AcceptNegative="Left" DisplayMoney="Left"
+                                Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                OnInvalidCssClass="MaskedEditError" TargetControlID="txtDateReportedtoFair" CultureName="en-US"
+                                AutoComplete="true" AutoCompleteValue="05/23/1964">
+                            </cc1:MaskedEditExtender>
+                            <cc1:MaskedEditValidator ID="MaskedEditValidator1" runat="server" ControlExtender="Mask"
+                                ControlToValidate="txtDateReportedtoFair" Display="dynamic" IsValidEmpty="true"
+                                MaximumValue="" InvalidValueMessage="Date Reported to FairPoint is invalid(Claim Identification)"
+                                MaximumValueMessage="" MinimumValueMessage="" TooltipMessage="" MinimumValue=""
+                                ValidationGroup="vsErrorGroup">
+                            </cc1:MaskedEditValidator>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtDateReportedtoFair"
+                                ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
+                                ErrorMessage="Date Claim is to be sent to FROI is Not Valid(Claim Detail)" Display="none"
+                                ValidationGroup="vsErrorGroup">
+                            </asp:RegularExpressionValidator>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtDateReportedtoFair"
+                                Display="none" Text="*" ErrorMessage="Please Enter Date Reported to FairPoint(Claim Identification)"
+                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc">
+                            <asp:Label ID="lblClaimant" runat="server"> Claimant </asp:Label>
+                            <span class="mf">*</span>
+                        </td>
+                        <td align="Center" class="lc">
+                            :
+                        </td>
+                        <td align="left" class="ic">
+                            <asp:DropDownList ID="dwClaimant" runat="server" Width="153px">
+                            </asp:DropDownList>
+                            <asp:RequiredFieldValidator ID="ReqClaimant" runat="server" ControlToValidate="dwClaimType"
+                                Display="none" Text="*" InitialValue="0" ErrorMessage="Please Select Claimant (Claim Identification)"
+                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                        </td>
+                        <td align="left" class="lc">
+                            <asp:Label ID="lblDateClaimOpened" runat="server"> Date Claim Opened </asp:Label>
+                            <span class="mf">*</span>
+                        </td>
+                        <td align="Center" class="lc">
+                            :
+                        </td>
+                        <td align="left" class="ic">
+                            <asp:TextBox ID="txtDateClaimOpened" runat="server"></asp:TextBox>
+                            <img onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtDateClaimOpened', 'mm/dd/y');"
+                                onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
+                                align="absmiddle" />
+                            <cc1:MaskedEditExtender ID="Mask1" runat="server" AcceptNegative="Left" DisplayMoney="Left"
+                                Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                OnInvalidCssClass="MaskedEditError" TargetControlID="txtDateClaimOpened" CultureName="en-US"
+                                AutoComplete="true" AutoCompleteValue="05/23/1964">
+                            </cc1:MaskedEditExtender>
+                            <cc1:MaskedEditValidator ID="MaskedEditValidator2" runat="server" ControlExtender="Mask1"
+                                ControlToValidate="txtDateClaimOpened" Display="dynamic" IsValidEmpty="true"
+                                MaximumValue="" InvalidValueMessage="Date Claim Opened is invalid(Claim Identification)"
+                                MaximumValueMessage="" MinimumValueMessage="" TooltipMessage="" MinimumValue=""
+                                ValidationGroup="vsErrorGroup">
+                            </cc1:MaskedEditValidator>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="txtDateClaimOpened"
+                                ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
+                                ErrorMessage="Date Claim Opened is Not Valid(Claim Identification)" Display="none"
+                                ValidationGroup="vsErrorGroup">
+                            </asp:RegularExpressionValidator>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtDateReportedtoFair"
+                                Display="none" Text="*" ErrorMessage="Please Enter Date Claim Opened(Claim Identification)"
+                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc">
+                            <asp:Label ID="lblLastName" runat="server">Last Name</asp:Label>
+                            <span class="mf">*</span>
+                        </td>
+                        <td align="Center" class="lc" style="height: 25px">
+                            :
+                        </td>
+                        <td align="left" class="ic">
+                            <asp:TextBox ID="txtLastName" runat="server" onKeyDown="javascript:return disableDeleteBackSpace();"></asp:TextBox>
+                            <asp:Button ID="btnlastname" OnClientClick="javascript:return ClaimantType();" runat="server"
+                                Text=">>" />
+                            <asp:RequiredFieldValidator ID="Req2" runat="server" ControlToValidate="txtLastName"
+                                Display="none" Text="*" ErrorMessage="Please Enter Last Name(Claim Identification)"
+                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                        </td>
+                        <td align="left" class="lc">
+                            <asp:Label ID="lblDateClaimClosed" runat="server">Date Claim Closed</asp:Label>
+                        </td>
+                        <td align="Center" class="lc">
+                            :
+                        </td>
+                        <td align="left" class="ic">
+                            <asp:TextBox ID="txtDateClaimClosed" runat="server"></asp:TextBox>
+                            <img onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtDateClaimClosed', 'mm/dd/y');"
+                                onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
+                                align="absmiddle" />
+                            <cc1:MaskedEditExtender ID="MaskedEditExtender2" runat="server" AcceptNegative="Left"
+                                DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true"
+                                OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtDateClaimClosed"
+                                CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
+                            </cc1:MaskedEditExtender>
+                            <cc1:MaskedEditValidator ID="MaskedEditValidator3" runat="server" ControlExtender="Mask1"
+                                ControlToValidate="txtDateClaimClosed" Display="dynamic" IsValidEmpty="true"
+                                MaximumValue="" InvalidValueMessage="Date Claim Closed is invalid(Claim Identification)"
+                                MaximumValueMessage="" MinimumValueMessage="" TooltipMessage="" MinimumValue=""
+                                ValidationGroup="vsErrorGroup">
+                            </cc1:MaskedEditValidator>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server" ControlToValidate="txtDateClaimClosed"
+                                ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
+                                ErrorMessage="Date Claim Closed is Not Valid(Claim Identification)" Display="none"
+                                ValidationGroup="vsErrorGroup">
+                            </asp:RegularExpressionValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc">
+                            <asp:Label ID="lblFirstName" runat="server">First Name</asp:Label>
+                            <span class="mf">*</span>
+                        </td>
+                        <td align="Center" class="lc" style="height: 25px">
+                            :
+                        </td>
+                        <td align="left" class="ic">
+                            <asp:TextBox ID="txtFirstName" runat="server" onKeyDown="javascript:return disableDeleteBackSpace();"></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtFirstName"
+                                Display="none" Text="*" ErrorMessage="Please Enter First Name(Claim Identification)"
+                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                        </td>
+                        <td align="left" class="lc">
+                            <asp:Label ID="lblDateClaimReopened" runat="server">Date Claim Reopened</asp:Label>
+                        </td>
+                        <td align="Center" class="lc">
+                            :
+                        </td>
+                        <td align="left" class="ic">
+                            <asp:TextBox ID="txtDateClaimReopened" runat="server"></asp:TextBox>
+                            <img onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtDateClaimReopened', 'mm/dd/y');"
+                                onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
+                                align="absmiddle" />
+                            <cc1:MaskedEditExtender ID="Mask3" runat="server" AcceptNegative="Left" DisplayMoney="Left"
+                                Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                OnInvalidCssClass="MaskedEditError" TargetControlID="txtDateClaimReopened" CultureName="en-US"
+                                AutoComplete="true" AutoCompleteValue="05/23/1964">
+                            </cc1:MaskedEditExtender>
+                            <cc1:MaskedEditValidator ID="MaskedEditValidator4" runat="server" ControlExtender="Mask3"
+                                ControlToValidate="txtDateClaimReopened" Display="dynamic" IsValidEmpty="true"
+                                MaximumValue="" InvalidValueMessage="Date Claim Reopened is invalid(Claim Identification)"
+                                MaximumValueMessage="" MinimumValueMessage="" TooltipMessage="" MinimumValue=""
+                                ValidationGroup="vsErrorGroup">
+                            </cc1:MaskedEditValidator>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server" ControlToValidate="txtDateClaimReopened"
+                                ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
+                                ErrorMessage="Date Claim Reopened is Not Valid(Claim Identification)" Display="none"
+                                ValidationGroup="vsErrorGroup">
+                            </asp:RegularExpressionValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc">
+                            <asp:Label ID="lblEntity" runat="server"> Entity  </asp:Label>
+                            <span class="mf">*</span>
+                        </td>
+                        <td align="Center" class="lc">
+                            :
+                        </td>
+                        <td align="left" class="ic">
+                            <asp:DropDownList ID="dwEntity" runat="server" Width="153px">
+                            </asp:DropDownList>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="dwEntity"
+                                Display="none" Text="*" InitialValue="0" ErrorMessage="Please Select Entity (Claim Identification)"
+                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                        </td>
+                        <td align="left" class="lc">
+                            <asp:Label ID="lblDateReportedtoCarrier" runat="server"> Date Reported to Carrier </asp:Label>
+                            <%-- <span class="mf">*</span>--%>
+                        </td>
+                        <td align="Center" class="lc">
+                            :
+                        </td>
+                        <td align="left" class="ic">
+                            <asp:TextBox ID="txtlblDateReportedtoCarrier" runat="server"></asp:TextBox>
+                            <img onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtlblDateReportedtoCarrier', 'mm/dd/y');"
+                                onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
+                                align="absmiddle" />
+                            <cc1:MaskedEditExtender ID="Mask4" runat="server" AcceptNegative="Left" DisplayMoney="Left"
+                                Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                OnInvalidCssClass="MaskedEditError" TargetControlID="txtlblDateReportedtoCarrier"
+                                CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
+                            </cc1:MaskedEditExtender>
+                            <cc1:MaskedEditValidator ID="MaskedEditValidator5" runat="server" ControlExtender="Mask4"
+                                ControlToValidate="txtlblDateReportedtoCarrier" Display="dynamic" IsValidEmpty="true"
+                                MaximumValue="" InvalidValueMessage="Date Reported to Carrier is invalid(Claim Identification)"
+                                MaximumValueMessage="" MinimumValueMessage="" TooltipMessage="" MinimumValue=""
+                                ValidationGroup="vsErrorGroup">
+                            </cc1:MaskedEditValidator>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator5" runat="server" ControlToValidate="txtlblDateReportedtoCarrier"
+                                ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
+                                ErrorMessage="Date Reported to Carrier is Not Valid(Claim Identification)" Display="none"
+                                ValidationGroup="vsErrorGroup">
+                            </asp:RegularExpressionValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc">
+                            <asp:Label ID="lblCarrierName" runat="server">Carrier Name</asp:Label>
+                            <span class="mf">*</span>
+                        </td>
+                        <td align="Center" class="lc" style="height: 25px">
+                            :
+                        </td>
+                        <td align="left" class="ic">
+                            <asp:TextBox ID="txtCarrierName" runat="server" onKeyDown="javascript:return disableDeleteBackSpace();"></asp:TextBox>
+                            <asp:Button ID="Button1" runat="server" Text=">>" OnClientClick="javascript:return openPolicyPopup();" />
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" ControlToValidate="txtCarrierName"
+                                Display="none" Text="*" ErrorMessage="Please Enter Carrier Name(Claim Identification)"
+                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                        </td>
+                        <td align="left" class="lc">
+                            <asp:Label ID="lblDateofLoss" runat="server">Date of Loss </asp:Label>
+                        </td>
+                        <td align="Center" class="lc">
+                            :
+                        </td>
+                        <td align="left" class="ic">
+                            <asp:TextBox ID="txtDateofLoss" runat="server"></asp:TextBox>
+                            <img onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtDateofLoss', 'mm/dd/y');"
+                                onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
+                                align="absmiddle" />
+                            <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" AcceptNegative="Left"
+                                DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true"
+                                OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtDateofLoss"
+                                CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
+                            </cc1:MaskedEditExtender>
+                            <cc1:MaskedEditValidator ID="MaskedEditValidator6" runat="server" ControlExtender="Mask1"
+                                ControlToValidate="txtDateofLoss" Display="dynamic" IsValidEmpty="true" MaximumValue=""
+                                InvalidValueMessage="Date of Loss is invalid(Claim Identification)" MaximumValueMessage=""
+                                MinimumValueMessage="" TooltipMessage="" MinimumValue="" ValidationGroup="vsErrorGroup">
+                            </cc1:MaskedEditValidator>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator6" runat="server" ControlToValidate="txtDateofLoss"
+                                ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
+                                ErrorMessage="Date of Lossd is Not Valid(Claim Identification)" Display="none"
+                                ValidationGroup="vsErrorGroup">
+                            </asp:RegularExpressionValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="lc">
+                            <asp:Label ID="lblTimeofLoss" runat="server">Time of Loss (HH:MM)</asp:Label>
+                        </td>
+                        <td align="center">
+                            :
+                        </td>
+                        <td class="ic">
+                            <asp:TextBox ID="txtTimeofLoss" runat="server" MaxLength="5"></asp:TextBox>
+                            <cc1:MaskedEditExtender ID="Masketime1" runat="server" AcceptNegative="Left" DisplayMoney="Left"
+                                MaskType="Time" Mask="99:99" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                OnInvalidCssClass="MaskedEditError" TargetControlID="txtTimeofLoss" CultureName="en-US"
+                                AutoComplete="true">
+                            </cc1:MaskedEditExtender>
+                            <cc1:MaskedEditValidator ID="MaskedEditValidator30" runat="server" ControlExtender="Masketime1"
+                                ControlToValidate="txtTimeofLoss" Display="None" IsValidEmpty="true" MaximumValue=""
+                                InvalidValueMessage="Time of Loss is invalid(Claim Identification)" MaximumValueMessage=""
+                                MinimumValueMessage="" TooltipMessage="" MinimumValue="" ValidationGroup="vsErrorGroup">
+                            </cc1:MaskedEditValidator>
+                        </td>
+                        <td class="lc">
+                            <asp:Label ID="lblTPAName" runat="server">TPA Name</asp:Label>
+                        </td>
+                        <td align="center">
+                            :
+                        </td>
+                        <td class="ic">
+                            <asp:TextBox ID="txtTPAName" runat="server"></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr style="display: none">
+                        <td align="left" class="lc">
+                            <asp:Label ID="lblIsClaimantanEmp" runat="server">Is Claimant an Employee?</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="lc">
+                            <asp:RadioButtonList ID="rbtnIsClaimantanEmp" runat="server" RepeatDirection="Horizontal">
+                                <asp:ListItem Selected="True">Yes</asp:ListItem>
+                                <asp:ListItem>No</asp:ListItem>
+                            </asp:RadioButtonList>
+                        </td>
+                        <td class="lc">
+                            <asp:Label ID="lblPolicyNo" runat="server">Policy Number</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic">
+                            <asp:TextBox ID="txtPolicyNo" runat="server" onKeyDown="javascript:return disableDeleteBackSpace();"></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc">
+                            <asp:Label ID="lblDoesClimant" runat="server">Does Claimant have legal representation?</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="lc">
+                            <asp:RadioButtonList ID="rbtnDoesClimant" runat="server" RepeatDirection="Horizontal">
+                                <asp:ListItem Selected="True">Yes</asp:ListItem>
+                                <asp:ListItem>No</asp:ListItem>
+                            </asp:RadioButtonList>
+                        </td>
+                        <td class="lc">
+                            <asp:Label ID="lblPolicyEffecDate" runat="server">Policy Effective Date</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic">
+                            <asp:TextBox ID="txtPolicyEffecDate" runat="server" onKeyDown="javascript:return disableDeleteBackSpace();"></asp:TextBox>
+                            <img onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtPolicyEffecDate', 'mm/dd/y');"
+                                onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
+                                align="absmiddle" />
+                            <cc1:MaskedEditExtender ID="Mask8" runat="server" AcceptNegative="Left" DisplayMoney="Left"
+                                Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                OnInvalidCssClass="MaskedEditError" TargetControlID="txtPolicyEffecDate" CultureName="en-US"
+                                AutoComplete="true" AutoCompleteValue="05/23/1964">
+                            </cc1:MaskedEditExtender>
+                            <cc1:MaskedEditValidator ID="MaskedEditValidator8" runat="server" ControlExtender="Mask8"
+                                ControlToValidate="txtPolicyEffecDate" Display="dynamic" IsValidEmpty="true"
+                                MaximumValue="" InvalidValueMessage="Policy Effective Date is invalid(Claim Identification)"
+                                MaximumValueMessage="" MinimumValueMessage="" TooltipMessage="" MinimumValue=""
+                                ValidationGroup="vsErrorGroup">
+                            </cc1:MaskedEditValidator>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator8" runat="server" ControlToValidate="txtPolicyEffecDate"
+                                ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
+                                ErrorMessage="Policy Effective Date is Not Valid(Claim Identification)" Display="none"
+                                ValidationGroup="vsErrorGroup">
+                            </asp:RegularExpressionValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp</td>
+                        <td>
+                            &nbsp
+                        </td>
+                        <%--<asp:TextBox ID="txtempid" runat="server"></asp:TextBox>--%>
+                        <td>
+                            &nbsp</td>
+                        <td class="lc">
+                            <asp:Label ID="lblPolicyExpDate" runat="server">Policy Expiration Date</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic">
+                            <asp:TextBox ID="txtPolicyExpDate" runat="server" onKeyDown="javascript:return disableDeleteBackSpace();"></asp:TextBox>
+                            <img onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtPolicyExpDate', 'mm/dd/y');"
+                                onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
+                                align="absmiddle" />
+                            <cc1:MaskedEditExtender ID="Mask7" runat="server" AcceptNegative="Left" DisplayMoney="Left"
+                                Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                OnInvalidCssClass="MaskedEditError" TargetControlID="txtPolicyExpDate" CultureName="en-US"
+                                AutoComplete="true" AutoCompleteValue="05/23/1964">
+                            </cc1:MaskedEditExtender>
+                            <cc1:MaskedEditValidator ID="MaskedEditValidator7" runat="server" ControlExtender="Mask7"
+                                ControlToValidate="txtPolicyExpDate" Display="dynamic" IsValidEmpty="true" MaximumValue=""
+                                InvalidValueMessage="Policy Expiration Date is invalid(Claim Identification)"
+                                MaximumValueMessage="" MinimumValueMessage="" TooltipMessage="" MinimumValue=""
+                                ValidationGroup="vsErrorGroup">
+                            </cc1:MaskedEditValidator>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator7" runat="server" ControlToValidate="txtPolicyExpDate"
+                                ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
+                                ErrorMessage="Policy Expiration Date is Not Valid(Claim Identification)" Display="none"
+                                ValidationGroup="vsErrorGroup">
+                            </asp:RegularExpressionValidator>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="tempid" runat="server" style="display: none">
+                <table id="Table14" runat="server" cellpadding="2" cellspacing="2" class="stylesheet"
+                    width="100%">
+                    <tr>
+                        <td class="ic">
+                            <asp:TextBox ID="txtempid" runat="server">
+                            </asp:TextBox>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <asp:TextBox ID="txtpolicyid" runat="server">
+                            </asp:TextBox></td>
+                    </tr>
+                </table>
+            </div>
+            <div id="divsecond" style="width: 100%; display: none;" runat="server">
+                <table id="Table2" runat="server" cellpadding="2" cellspacing="2" class="stylesheet"
+                    width="100%">
+                    <tr>
+                        <td class="ghc" colspan="6">
+                            <asp:Label ID="lblLiabilityCoverage" runat="server">Liability Coverage 
+                            </asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc">
+                            <asp:Label ID="lblPremises" runat="server">Premises and /or Operations</asp:Label>
+                        </td>
+                        <td align="center">
+                            :
+                        </td>
+                        <td align="left" class="ic">
+                            <asp:RadioButton ID="rbtnPremises" GroupName="Coverage" runat="server" />
+                        </td>
+                        <td align="left" class="lc">
+                            • Bodily Injury or Property Damage on the company premises, location or job site
+                            (but not due to completed work or specific product) • Loss happened on company owned,
+                            rented or controlled property • Loss occurred while the company was conducting their
+                            business
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc">
+                            <asp:Label ID="lblProducts" runat="server">Products</asp:Label>
+                        </td>
+                        <td align="center">
+                            :
+                        </td>
+                        <td align="left" class="ic">
+                            <asp:RadioButton ID="rbtnProducts" GroupName="Coverage" runat="server" />
+                        </td>
+                        <td align="left" class="lc">
+                            • The company’s product (made, manufactured, distributed, handled or sold by the
+                            company) caused the Bodily Injury or Property Damage
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc">
+                            <asp:Label ID="lblCompOp" runat="server">Completed Operations</asp:Label>
+                        </td>
+                        <td align="center">
+                            :
+                        </td>
+                        <td align="left" class="ic">
+                            <asp:RadioButton ID="rbtnCompOp" GroupName="Coverage" runat="server" />
+                        </td>
+                        <td align="left" class="lc">
+                            • The company’s finished work caused Bodily Injury or Property Damage of someone
+                            not employed by the company • The company’s work was finished and/or put to its
+                            intended use before the accident happened
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="divthird" style="width: 100%; display: none;" runat="server">
+                <table id="Table6" runat="server" cellpadding="2" cellspacing="2" class="stylesheet"
+                    width="100%">
+                    <tr>
+                        <td class="ghc" colspan="6">
+                            <asp:Label ID="lblLossLoc" runat="server">Loss Location 
+                            </asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 21%">
+                            <asp:Label ID="lblAdd1" runat="server">Address 1</asp:Label>
+                            <span class="mf">*</span>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtAdd1" runat="server"></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator9" runat="server" ControlToValidate="txtAdd1"
+                                Display="none" Text="*" ErrorMessage="Please Enter Address 1 (Loss Location)"
+                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                        </td>
+                        <td align="left" class="lc" style="width: 21%">
+                            <asp:Label ID="lblAdd2" runat="server">Address 2</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtAdd2" runat="server"></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 21%">
+                            <asp:Label ID="lblCity" runat="server">City </asp:Label>
+                            <span class="mf">*</span>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtCity" runat="server"></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator10" runat="server" ControlToValidate="txtCity"
+                                Display="none" Text="*" ErrorMessage="Please Enter City (Loss Location)" ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                        </td>
+                        <td class="lc">
+                            <asp:Label ID="lblState" runat="server"> State </asp:Label>
+                            <span class="mf">*</span>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic">
+                            <asp:DropDownList ID="dwState" runat="server">
+                            </asp:DropDownList>
+                             <asp:RequiredFieldValidator ID="RequiredFieldValidator11" runat="server" ControlToValidate="dwState"
+                                Display="none" Text="*" InitialValue="0" ErrorMessage="Please Select State (Loss Location)"
+                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 20%">
+                            <asp:Label ID="lblZip" runat="server">Zip Code (XXXXX-XXXX) </asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtZip" runat="server"></asp:TextBox>
+                            <cc1:MaskedEditExtender ID="MaskedEditExtender5" runat="server" TargetControlID="txtZip"
+                                Mask="99999-9999" MaskType="Number" AutoComplete="False" ClearMaskOnLostFocus="false">
+                            </cc1:MaskedEditExtender>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator11" ControlToValidate="txtZip"
+                                runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter zipcode in xxxxx-xxxx format(Loss Location)."
+                                Display="none" ValidationExpression="^\d{5}-\d{4}"></asp:RegularExpressionValidator>
+                        </td>
+                        <td class="lc">
+                            <asp:Label ID="lblCounty" runat="server"> County </asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic">
+                            <asp:DropDownList ID="dwCounty" runat="server">
+                            </asp:DropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc">
+                            <asp:Label ID="lblDidAccOccur" runat="server">Did Accident Occur on Company Property?</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="lc">
+                            <asp:RadioButtonList ID="rbtnDidAccOccur" runat="server" RepeatDirection="Horizontal">
+                                <asp:ListItem Selected="True">Yes</asp:ListItem>
+                                <asp:ListItem>No</asp:ListItem>
+                            </asp:RadioButtonList>
+                        </td>
+                        <td>
+                            &nbsp</td>
+                        <td>
+                            &nbsp</td>
+                        <td>
+                            &nbsp</td>
+                    </tr>
+                </table>
+            </div>
+            <div id="divfour" style="width: 100%; display: none;" runat="server">
+                <table id="Table3" runat="server" cellpadding="2" cellspacing="2" class="stylesheet"
+                    width="100%">
+                    <tr>
+                        <td class="ghc" colspan="6">
+                            <asp:Label ID="lblLossInfo" runat="server">Loss Information
+                            </asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 20%">
+                            <asp:Label ID="lblfullDescOfLOss" runat="server">Full Description of Loss 
+                            </asp:Label>
+                            <span class="mf">*</span>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" colspan="4">
+                            <asp:TextBox ID="txtfullDescOfLOss" runat="server" TextMode="MultiLine" Width="93%"></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator12" runat="server" ControlToValidate="txtfullDescOfLOss"
+                                Display="none" Text="*" ErrorMessage="Please Enter Full Description of Loss  (Loss Information)"
+                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="divfive" style="width: 100%; display: none;" runat="server">
+                <table id="Table4" runat="server" cellpadding="2" cellspacing="2" class="stylesheet"
+                    width="100%">
+                    <tr>
+                        <td class="ghc" colspan="6">
+                            <asp:Label ID="lblClaimantInfo" runat="server">Claimant Information
+                            </asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 21%">
+                            <asp:Label ID="lblClaimantAdd1" runat="server">Address 1</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtClaimantAdd1" runat="server"></asp:TextBox>
+                        </td>
+                        <td align="left" class="lc" style="width: 21%">
+                            <asp:Label ID="lblClaimantAdd2" runat="server">Address 2</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtClaimantAdd2" runat="server"></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 21%">
+                            <asp:Label ID="lblClaimantCity" runat="server">City </asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtClaimantCity" runat="server"></asp:TextBox>
+                        </td>
+                        <td class="lc">
+                            <asp:Label ID="lblClaimantState" runat="server"> State </asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic">
+                            <asp:TextBox ID="txtClaimantState" runat="server"></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 20%">
+                            <asp:Label ID="lblClaimantZip" runat="server">Zip Code (XXXXX-XXXX) </asp:Label>                           
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtClaimantZip" runat="server"></asp:TextBox>
+                            <%--<cc1:MaskedEditExtender ID="MaskedEditExtender3" runat="server" TargetControlID="txtClaimantZip"
+                                Mask="99999-9999" MaskType="Number" AutoComplete="False" ClearMaskOnLostFocus="false">
+                            </cc1:MaskedEditExtender>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator9" ControlToValidate="txtClaimantZip"
+                                runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter zipcode in xxxxx-xxxx format(Claimant)."
+                                Display="none" ValidationExpression="^\d{5}-\d{4}"></asp:RegularExpressionValidator>--%>
+                        </td>
+                        <td class="lc">
+                        </td>
+                        <td align="center" class="ic">
+                        </td>
+                        <td class="ic">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="lc" style="width: 21%">
+                            <asp:Label ID="lblHomeTeleNo" runat="server">Home Telephone (XXX-XXX-XXXX)</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtHomeTeleNo" runat="server"></asp:TextBox>
+                            <cc1:MaskedEditExtender ID="mskHomeTeleNo" runat="server" TargetControlID="txtHomeTeleNo"
+                                Mask="999-999-9999" MaskType="Number" AutoComplete="False" ClearMaskOnLostFocus="false">
+                            </cc1:MaskedEditExtender>
+                            <asp:RegularExpressionValidator ID="revHomeTeleNo" ControlToValidate="txtHomeTeleNo"
+                                runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Home Telephone Number in xxx-xxx-xxxx format(Claimant Information)."
+                                Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
+                        </td>
+                        <td class="lc" style="width: 21%">
+                            <asp:Label ID="lblWorkTeleNo" runat="server">Work Telephone (XXX-XXX-XXXX)</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtWorkTeleNo" runat="server"></asp:TextBox>
+                            <cc1:MaskedEditExtender ID="mskWorkTeleNo" runat="server" TargetControlID="txtWorkTeleNo"
+                                Mask="999-999-9999" MaskType="Number" AutoComplete="False" ClearMaskOnLostFocus="false">
+                            </cc1:MaskedEditExtender>
+                            <asp:RegularExpressionValidator ID="revWorkTeleNo" ControlToValidate="txtWorkTeleNo"
+                                runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Work Telephone Number in xxx-xxx-xxxx format(Claimant Information)."
+                                Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="lc" style="width: 21%">
+                            <asp:Label ID="lblCellTeleNo" runat="server">Cell Telephone (XXX-XXX-XXXX)</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtCellTeleNo" runat="server"></asp:TextBox>
+                            <cc1:MaskedEditExtender ID="mskCellTeleNo" runat="server" TargetControlID="txtCellTeleNo"
+                                Mask="999-999-9999" MaskType="Number" AutoComplete="False" ClearMaskOnLostFocus="false">
+                            </cc1:MaskedEditExtender>
+                            <asp:RegularExpressionValidator ID="revCellTeleNo" ControlToValidate="txtCellTeleNo"
+                                runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Cell Telephone Number in xxx-xxx-xxxx format(Claimant Information)."
+                                Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
+                        </td>
+                        <td class="lc" style="width: 21%">
+                            <asp:Label ID="lblClaimantEmail" runat="server">E-mail</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtClaimantEmail" runat="server"></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="lc" style="width: 21%">
+                            <asp:Label ID="lblGender" runat="server">Gender</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" style="width: 25%">
+                            <asp:DropDownList ID="dwGender" runat="server">
+                            </asp:DropDownList>
+                        </td>
+                        <td class="lc" style="width: 21%">
+                            <asp:Label ID="lblClaimantCust" runat="server">Is Claimant a Customer?</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" style="width: 25%">
+                            <asp:RadioButtonList ID="rbtnlClaimantCust" runat="server" RepeatDirection="Horizontal">
+                                <asp:ListItem>Yes</asp:ListItem>
+                                <asp:ListItem Selected="True">No</asp:ListItem>
+                                <asp:ListItem>Unknown</asp:ListItem>
+                            </asp:RadioButtonList>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="divsix" style="width: 100%; display: none;" runat="server">
+                <table id="Table5" runat="server" cellpadding="2" cellspacing="2" class="stylesheet"
+                    width="100%">
+                    <tr>
+                        <td class="ghc" colspan="6">
+                            <asp:Label ID="lblBodilyInjury" runat="server">Bodily Injury
+                            </asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="lc" style="width: 20%">
+                            <asp:Label ID="lblDescInjury" runat="server">Description of Injury
+                            </asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" colspan="4">
+                            <asp:TextBox ID="txtDescInjury" runat="server"></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="lc" colspan="3">
+                            <asp:Label ID="lblMediTreInfo" runat="server"><strong>Medical Treatment Facility Information</strong></asp:Label>
+                        </td>
+                        <td>
+                            &nbsp</td>
+                        <td>
+                            &nbsp</td>
+                        <td>
+                            &nbsp</td>
+                    </tr>
+                    <tr>
+                        <td class="lc">
+                            <asp:Label ID="lblFacilityName" runat="server"> Name of Facility
+                            </asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic">
+                            <asp:TextBox ID="txtFacilityName" runat="server"></asp:TextBox>
+                        </td>
+                        <td class="lc">
+                        </td>
+                        <td align="center" class="ic">
+                        </td>
+                        <td class="ic">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="lc" style="width: 21%">
+                            <asp:Label ID="lblBodyAdd1" runat="server">Address 1</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtBodyAdd1" runat="server"></asp:TextBox>
+                        </td>
+                        <td class="lc" style="width: 21%">
+                            <asp:Label ID="lblBodyAdd2" runat="server">Address 2</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtBodyAdd2" runat="server"></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 21%">
+                            <asp:Label ID="lblBodyCity" runat="server">City </asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtBodyCity" runat="server"></asp:TextBox>
+                        </td>
+                        <td class="lc">
+                            <asp:Label ID="lblBodyState" runat="server"> State </asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic">
+                            <asp:DropDownList ID="dwBodyState" runat="server">
+                            </asp:DropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 21%">
+                            <asp:Label ID="lblBodyZip" runat="server">Zip Code(XXXXX-XXXX )</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtBodyZip" runat="server"></asp:TextBox>
+                             <cc1:MaskedEditExtender ID="MaskedEditExtender4" runat="server" TargetControlID="txtBodyZip"
+                                Mask="99999-9999" MaskType="Number" AutoComplete="False" ClearMaskOnLostFocus="false">
+                            </cc1:MaskedEditExtender>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator10" ControlToValidate="txtBodyZip"
+                                runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter zipcode in xxxxx-xxxx format(Body)."
+                                Display="none" ValidationExpression="^\d{5}-\d{4}"></asp:RegularExpressionValidator>
+                            
+                        </td>
+                        <td class="lc">
+                        </td>
+                        <td align="center" class="ic">
+                        </td>
+                        <td class="ic">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="lc" style="width: 21%">
+                            <asp:Label ID="lblBodyTeleNo" runat="server">Telephone (XXX-XXX-XXXX)</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtBodyTeleNo" runat="server"></asp:TextBox>
+                            <cc1:MaskedEditExtender ID="mskBodyTeleNo" runat="server" TargetControlID="txtBodyTeleNo"
+                                Mask="999-999-9999" MaskType="Number" AutoComplete="False" ClearMaskOnLostFocus="false">
+                            </cc1:MaskedEditExtender>
+                            <asp:RegularExpressionValidator ID="revBodyTeleNo" ControlToValidate="txtBodyTeleNo"
+                                runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Telephone Number in xxx-xxx-xxxx format(Claimant Information)."
+                                Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
+                        </td>
+                        <td class="lc" style="width: 21%">
+                            <asp:Label ID="lblFacsimile" runat="server">Facsimile (XXX-XXX-XXXX)</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtFacsimile" runat="server"></asp:TextBox>
+                            <cc1:MaskedEditExtender ID="mskFacsimile" runat="server" TargetControlID="txtFacsimile"
+                                Mask="999-999-9999" MaskType="Number" AutoComplete="False" ClearMaskOnLostFocus="false">
+                            </cc1:MaskedEditExtender>
+                            <asp:RegularExpressionValidator ID="revFacsimile" ControlToValidate="txtFacsimile"
+                                runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Facsimile in xxx-xxx-xxxx format(Claimant Information)."
+                                Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 20%">
+                            <asp:Label ID="lblEstimated" runat="server">Estimated Cost of Treatment</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" style="width: 25%">
+                            $<asp:TextBox ID="txtEstimated" runat="server" onKeyPress="return(currencyFormat(this,',','.',event))"></asp:TextBox>
+                        </td>
+                        <td align="left" class="lc" style="width: 20%">
+                            <asp:Label ID="lblBillRec" runat="server">Copy of All Medical Bills Received?</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" style="width: 25%">
+                            <asp:RadioButtonList ID="rbtnlBillRec" runat="server" RepeatDirection="Horizontal">
+                                <asp:ListItem Selected="True">Yes</asp:ListItem>
+                                <asp:ListItem>No</asp:ListItem>
+                            </asp:RadioButtonList>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="divseven" style="width: 100%; display: none;" runat="server">
+                <table id="Table7" runat="server" cellpadding="2" cellspacing="2" class="stylesheet"
+                    width="100%">
+                    <tr>
+                        <td class="ghc" colspan="6">
+                            <asp:Label ID="lblProDamage" runat="server">Property Damage
+                            </asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 20%">
+                            <asp:Label ID="lblProOwner" runat="server">Is Claimant the Property Owner?
+                            </asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" style="width: 25%">
+                            <asp:RadioButtonList ID="rbtnProOwner" runat="server" RepeatDirection="Horizontal">
+                                <asp:ListItem Selected="True">Yes</asp:ListItem>
+                                <asp:ListItem>No</asp:ListItem>
+                            </asp:RadioButtonList>
+                        </td>
+                        <td colspan="3">
+                            <span style="font-size: 8pt">If Claimant Not Property Owner, please provide Owner information.</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="lc" colspan="3">
+                            <asp:Label ID="lblOwnerInfo" runat="server"><strong>Owner Information (if not claimant)</strong></asp:Label>
+                        </td>
+                        <td>
+                            &nbsp</td>
+                    </tr>
+                    <tr>
+                        <td class="lc">
+                            <asp:Label ID="lblOwnerName" runat="server"> Name
+                            </asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic">
+                            <asp:TextBox ID="txtOwnerName" runat="server"></asp:TextBox>
+                        </td>
+                        <td class="lc">
+                        </td>
+                        <td align="center" class="ic">
+                        </td>
+                        <td class="ic">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="lc" style="width: 21%">
+                            <asp:Label ID="lblOwnerAdd1" runat="server">Address 1</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtOwnerAdd1" runat="server"></asp:TextBox>
+                        </td>
+                        <td class="lc" style="width: 21%">
+                            <asp:Label ID="lblOwnerAdd2" runat="server">Address 2</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtOwnerAdd2" runat="server"></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 21%">
+                            <asp:Label ID="lblOwnerCity" runat="server">City </asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtOwnerCity" runat="server"></asp:TextBox>
+                        </td>
+                        <td class="lc">
+                            <asp:Label ID="lblOwnerState" runat="server"> State </asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic">
+                            <asp:DropDownList ID="dwOwnerState" runat="server">
+                            </asp:DropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 21%">
+                            <asp:Label ID="lblOwnerZip" runat="server">Zip Code(XXXXX-XXXX )</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtOwnerZip" runat="server"></asp:TextBox>
+                              <cc1:MaskedEditExtender ID="MaskedEditExtender6" runat="server" TargetControlID="txtOwnerZip"
+                                Mask="99999-9999" MaskType="Number" AutoComplete="False" ClearMaskOnLostFocus="false">
+                            </cc1:MaskedEditExtender>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator12" ControlToValidate="txtOwnerZip"
+                                runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter zipcode in xxxxx-xxxx format(Owner)."
+                                Display="none" ValidationExpression="^\d{5}-\d{4}"></asp:RegularExpressionValidator>
+                        </td>
+                        <td class="lc">
+                        </td>
+                        <td align="center" class="ic">
+                        </td>
+                        <td class="ic">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="lc" style="width: 21%">
+                            <asp:Label ID="lblOwnerHomeNo" runat="server">Home Telephone (XXX-XXX-XXXX)</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtOwnerHomeNo" runat="server"></asp:TextBox>
+                            <cc1:MaskedEditExtender ID="mskOwnerHomeNo" runat="server" TargetControlID="txtOwnerHomeNo"
+                                Mask="999-999-9999" MaskType="Number" AutoComplete="False" ClearMaskOnLostFocus="false">
+                            </cc1:MaskedEditExtender>
+                            <asp:RegularExpressionValidator ID="revOwnerHomeNo" ControlToValidate="txtOwnerHomeNo"
+                                runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Home Telephone Number in xxx-xxx-xxxx format(Claimant Information)."
+                                Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
+                        </td>
+                        <td class="lc" style="width: 21%">
+                            <asp:Label ID="lblOwnerWorkNo" runat="server">Work Telephone (XXX-XXX-XXXX)</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtOwnerWorkNo" runat="server"></asp:TextBox>
+                            <cc1:MaskedEditExtender ID="mskOwnerWorkNo" runat="server" TargetControlID="txtOwnerWorkNo"
+                                Mask="999-999-9999" MaskType="Number" AutoComplete="False" ClearMaskOnLostFocus="false">
+                            </cc1:MaskedEditExtender>
+                            <asp:RegularExpressionValidator ID="revOwnerWorkNo" ControlToValidate="txtOwnerWorkNo"
+                                runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Facsimile in xxx-xxx-xxxx format(Claimant Information)."
+                                Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="lc" style="width: 21%">
+                            <asp:Label ID="lblOwnerCellNo" runat="server">Cell Telephone (XXX-XXX-XXXX)</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtOwnerCellNo" runat="server"></asp:TextBox>
+                            <cc1:MaskedEditExtender ID="mskOwnerCellNo" runat="server" TargetControlID="txtOwnerCellNo"
+                                Mask="999-999-9999" MaskType="Number" AutoComplete="False" ClearMaskOnLostFocus="false">
+                            </cc1:MaskedEditExtender>
+                            <asp:RegularExpressionValidator ID="revOwnerCellNo" ControlToValidate="txtOwnerCellNo"
+                                runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Cell Telephone Number in xxx-xxx-xxxx format(Claimant Information)."
+                                Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
+                        </td>
+                        <td class="lc" style="width: 21%">
+                            <asp:Label ID="lblOwnerEmail" runat="server">E-mail</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtOwnerEmail" runat="server"></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="lc" style="width: 20%">
+                            <asp:Label ID="lblOwnerDescDamage" runat="server">Description of Property Damage
+                            </asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" colspan="4">
+                            <asp:TextBox ID="txtOwnerDescDamage" TextMode="MultiLine" runat="server"></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 20%">
+                            <asp:Label ID="lblCostProDamage" runat="server">Estimated Repair Cost of Property Damage</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" style="width: 25%">
+                            $<asp:TextBox ID="txtCostProDamage" runat="server" onKeyPress="return(currencyFormat(this,',','.',event))"></asp:TextBox>
+                        </td>
+                        <td align="left" class="lc" style="width: 20%">
+                            <asp:Label ID="lblEstimate" runat="server">Copy of All Estimates Received?</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic" style="width: 25%">
+                            <asp:RadioButtonList ID="rbtnlEstimate" runat="server" RepeatDirection="Horizontal">
+                                <asp:ListItem Selected="True">Yes</asp:ListItem>
+                                <asp:ListItem>No</asp:ListItem>
+                            </asp:RadioButtonList>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="diveight" style="width: 100%; display: none;" runat="server">
+                <table id="Table29" runat="server" cellpadding="2" cellspacing="2" class="stylesheet"
+                    width="100%">
+                    <tr>
+                        <td class="ghc" colspan="6">
+                            <asp:Label ID="lblSettlement" runat="server">Settlement</asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc">
+                            <asp:Label ID="lblSettlementOff" runat="server"> Date Settlement Offered </asp:Label>
+                        </td>
+                        <td align="Center" class="lc">
+                            :
+                        </td>
+                        <td align="left" class="ic">
+                            <asp:TextBox ID="txtSettlementOff" runat="server"></asp:TextBox>
+                            <img onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtSettlementOff', 'mm/dd/y');"
+                                onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
+                                align="absmiddle" />
+                            <cc1:MaskedEditExtender ID="mskSettlementOff" runat="server" AcceptNegative="Left"
+                                DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true"
+                                OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtSettlementOff"
+                                CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
+                            </cc1:MaskedEditExtender>
+                            <cc1:MaskedEditValidator ID="mskSettlementOff1" runat="server" ControlExtender="Mask4"
+                                ControlToValidate="txtSettlementOff" Display="dynamic" IsValidEmpty="true" MaximumValue=""
+                                InvalidValueMessage="Date Settlement Offered is invalid(Claim Identification)"
+                                MaximumValueMessage="" MinimumValueMessage="" TooltipMessage="" MinimumValue=""
+                                ValidationGroup="vsErrorGroup">
+                            </cc1:MaskedEditValidator>
+                            <asp:RegularExpressionValidator ID="revSettlementOff" runat="server" ControlToValidate="txtSettlementOff"
+                                ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
+                                ErrorMessage="Date Settlement Offered is Not Valid." Display="none" ValidationGroup="vsErrorGroup">
+                            </asp:RegularExpressionValidator>
+                        </td>
+                        <td align="left" class="lc">
+                            <asp:Label ID="lblAmtSettlement" runat="server"> Amount of Settlement </asp:Label>
+                        </td>
+                        <td align="Center" class="lc">
+                            :
+                        </td>
+                        <td align="left" class="ic">
+                            $<asp:TextBox ID="txtAmtSettlement" runat="server" onKeyPress="return(currencyFormat(this,',','.',event))"></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc">
+                            <asp:Label ID="lblReleaseDate" runat="server"> Date of Release</asp:Label>
+                        </td>
+                        <td align="Center" class="lc">
+                            :
+                        </td>
+                        <td align="left" class="ic">
+                            <asp:TextBox ID="txtReleaseDate" runat="server"></asp:TextBox>
+                            <img onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtReleaseDate', 'mm/dd/y');"
+                                onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
+                                align="absmiddle" />
+                            <cc1:MaskedEditExtender ID="mskReleaseDate" runat="server" AcceptNegative="Left"
+                                DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true"
+                                OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtReleaseDate"
+                                CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
+                            </cc1:MaskedEditExtender>
+                            <cc1:MaskedEditValidator ID="mskReleaseDate2" runat="server" ControlExtender="Mask4"
+                                ControlToValidate="txtReleaseDate" Display="dynamic" IsValidEmpty="true" MaximumValue=""
+                                InvalidValueMessage="Date Release is invalid" MaximumValueMessage="" MinimumValueMessage=""
+                                TooltipMessage="" MinimumValue="" ValidationGroup="vsErrorGroup">
+                            </cc1:MaskedEditValidator>
+                            <asp:RegularExpressionValidator ID="revReleaseDate" runat="server" ControlToValidate="txtReleaseDate"
+                                ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
+                                ErrorMessage="Date Reported to Carrier is Not Valid(Claim Identification)" Display="none"
+                                ValidationGroup="vsErrorGroup">
+                            </asp:RegularExpressionValidator>
+                        </td>
+                        <td align="left" class="lc">
+                            <asp:Label ID="lblSettlementDate" runat="server"> Date Settlement Check Mailed</asp:Label>
+                        </td>
+                        <td align="Center" class="lc">
+                            :
+                        </td>
+                        <td align="left" class="ic">
+                            <asp:TextBox ID="txtSettlementDate" runat="server"></asp:TextBox>
+                            <img onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtSettlementDate', 'mm/dd/y');"
+                                onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
+                                align="absmiddle" />
+                            <cc1:MaskedEditExtender ID="mskSettlementDate" runat="server" AcceptNegative="Left"
+                                DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true"
+                                OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtSettlementDate"
+                                CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
+                            </cc1:MaskedEditExtender>
+                            <cc1:MaskedEditValidator ID="mskSettlementDate2" runat="server" ControlExtender="Mask4"
+                                ControlToValidate="txtSettlementDate" Display="dynamic" IsValidEmpty="true" MaximumValue=""
+                                InvalidValueMessage="Date Release is invalid" MaximumValueMessage="" MinimumValueMessage=""
+                                TooltipMessage="" MinimumValue="" ValidationGroup="vsErrorGroup">
+                            </cc1:MaskedEditValidator>
+                            <asp:RegularExpressionValidator ID="revSettlementDate" runat="server" ControlToValidate="txtSettlementDate"
+                                ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
+                                ErrorMessage="Date Reported to Carrier is Not Valid(Claim Identification)" Display="none"
+                                ValidationGroup="vsErrorGroup">
+                            </asp:RegularExpressionValidator>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="divnine" style="width: 100%; display: none;" runat="server">
+                <table id="Table13" runat="server" cellpadding="2" cellspacing="4" class="stylesheet"
+                    width="100%">
+                    <tr>
+                        <td class="ghc" colspan="6">
+                            <asp:Label ID="Label4" runat="server">Financial Summary
+                            </asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="lc">
+                            &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                            &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                            <asp:Label ID="lblIncurred" runat="server"><strong>Incurred Amount in $ </strong> </asp:Label>
+                            &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                            <asp:Label ID="lblPaidAmount" runat="server"><strong>Paid Amount in $</strong> </asp:Label>
+                            &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                            <asp:Label ID="lblOutstanding" runat="server"><strong>Outstanding Amount in $ </strong></asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="lc">
+                            <asp:Label ID="lblBodilyinjury1" runat="server">Bodily Injury</asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="lc">
+                            <asp:Label ID="lblPropertyDamage" runat="server">Property Damage
+                            </asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="lc">
+                            <asp:Label ID="lblExpenses" runat="server">Expenses
+                            </asp:Label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="divten" style="width: 100%; display: none;" runat="server">
+                <table id="Table28" runat="server" cellpadding="2" cellspacing="2" class="stylesheet"
+                    width="100%">
+                    <tr>
+                        <td class="ghc" colspan="6">
+                            <asp:Label ID="lblClaimRepresent" runat="server">Claim Representative 
+                            </asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 20%">
+                            <asp:Label ID="lblname" runat="server">Name</asp:Label>
+                            <span class="mf">*</span>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtname" runat="server"></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" ControlToValidate="txtname"
+                                Display="none" Text="*" ErrorMessage="Please Enter Name (Claim Representative)"
+                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                        </td>
+                        <td align="left" class="lc" style="width: 20%">
+                            <asp:Label ID="lblTelephone" runat="server">Telephone</asp:Label>
+                            <span class="mf">*</span>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtTelephone" runat="server"></asp:TextBox>
+                            <cc1:MaskedEditExtender ID="mskPhone" runat="server" TargetControlID="txtTelephone"
+                                Mask="999-999-9999" MaskType="Number" AutoComplete="False" ClearMaskOnLostFocus="false">
+                            </cc1:MaskedEditExtender>
+                            <asp:RegularExpressionValidator ID="revPhone" ControlToValidate="txtTelephone" runat="server"
+                                ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter the Telephone Number in xxx-xxx-xxxx format(Claim Representative)."
+                                Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator7" runat="server" ControlToValidate="txtTelephone"
+                                Display="none" Text="*" ErrorMessage="Please Enter Telephone Number (Claim Representative)"
+                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 20%">
+                            <asp:Label ID="lblEMail" runat="server">E-Mail</asp:Label>
+                            <span class="mf">*</span>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtEMail" runat="server"></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server" ControlToValidate="txtEMail"
+                                Display="none" Text="*" ErrorMessage="Please Enter E-Mail (Claim Representative)"
+                                ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator ID="revEmail" runat="server" ControlToValidate="txtEMail"
+                                ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="Email Address Is Invalid"
+                                SetFocusOnError="True" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*">*</asp:RegularExpressionValidator>
+                        </td>
+                        <td>
+                            &nbsp</td>
+                        <td>
+                            &nbsp</td>
+                        <td>
+                            &nbsp</td>
+                    </tr>
+                </table>
+            </div>
+            <div style="width: 100%; display: none;" id="divfourteen" runat="server">
+                <table border="0" cellpadding="0" cellspacing="6" width="100%">
+                    <tr>
+                        <td class="ghc" colspan="6">
+                            <asp:Label ID="lblAttach" runat="server">Attachment</asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;</td>
+                    </tr>
+                    <tr style="display: none;">
+                        <td valign="top" class="lc" style="width: 20%;">
+                            <asp:Label ID="lblAttachType" runat="server">Attachment Type</asp:Label>
+                        </td>
+                        <td style="width: 5%;" valign="top" class="lc">
+                            :
+                        </td>
+                        <td style="width: 25%;" valign="top" class="ic">
+                            <asp:DropDownList ID="ddlAttachType" runat="server">
+                            </asp:DropDownList>
+                            <asp:RequiredFieldValidator ID="rfvattach" runat="server" ControlToValidate="ddlAttachType"
+                                Display="none" Text="*" ValidationGroup="vsErrorGroup" InitialValue="0" ErrorMessage="Please Select Attachment Type"></asp:RequiredFieldValidator>
+                        </td>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top" class="lc">
+                            <asp:Label ID="lblAttachDesc" runat="server">  Attachment Description</asp:Label>
+                        </td>
+                        <td valign="top" class="lc">
+                            :
+                        </td>
+                        <td colspan="4" valign="top" class="ic">
+                            <asp:ImageButton ID="ibtnAttachment" ImageUrl="~/Images/plus.jpg" runat="server"
+                                OnClientClick="javascript:return MinMax('attachment');" />
+                            <div id="pnlAttach" style="display: none;">
+                                <asp:TextBox ID="txtAttachDesc" runat="server" TextMode="MultiLine" Width="94%"></asp:TextBox>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top" class="lc">
+                            Select File
+                        </td>
+                        <td valign="top" class="lc">
+                            :
+                        </td>
+                        <td colspan="4" valign="top" class="ic">
+                            <asp:FileUpload ID="uplCommon" runat="server" />
+                            <asp:RequiredFieldValidator ID="rvfselect" runat="server" ControlToValidate="uplCommon"
+                                Display="none" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Select File to Upload"></asp:RequiredFieldValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="ic">
+                            &nbsp;
+                        </td>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td colspan="4">
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr align="center">
+                        <td colspan="6">
+                            <asp:Button ID="btnAddAttachment" runat="server" ValidationGroup="vsErrorGroup" Text="Add Attachment"
+                                OnClick="btnAddAttachment_Click" />
+                            <%--OnClientClick="javascript:ValAttach();" --%>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="dvAttachDetails" runat="server" style="display: none;">
+                <table width="100%">
+                    <tr>
+                        <td colspan="2">
+                            <table cellspacing="1" style="background-color: #7f7f7f; color: White; font-weight: Bolder;
+                                font-family: Tahoma; font-size: 10pt;" width="100%">
+                                <tr>
+                                    <td class="ghc">
+                                        Attachment Details
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <asp:GridView ID="gvAttachmentDetails" runat="server" AllowPaging="True" AllowSorting="false"
+                                AutoGenerateColumns="false" DataKeyNames="PK_Attachment_ID" Width="100%">
+                                <Columns>
+                                    <asp:TemplateField>
+                                        <ItemTemplate>
+                                            <input name="chkItem" type="checkbox" value='<%# Eval("PK_Attachment_ID")%>' onclick="javascript:javascript:UnCheckHeader('gvAttachmentDetails')" />
+                                        </ItemTemplate>
+                                        <ItemStyle Width="10px" />
+                                        <HeaderTemplate>
+                                            <input id="chkHeader" name="chkHeader" type="checkbox" runat="server" onclick="javascript:SelectAllCheckboxes(this)" />
+                                        </HeaderTemplate>
+                                        <HeaderStyle Width="10px" />
+                                    </asp:TemplateField>
+                                    <asp:BoundField DataField="Attachment_Type" HeaderText="Attachment Type" Visible="false" />
+                                    <asp:BoundField DataField="Attachment_Description" HeaderText="Attachment Description" />
+                                    <asp:BoundField DataField="Attachment_Name1" HeaderText="File Name" />
+                                    <asp:TemplateField HeaderText="View">
+                                        <ItemTemplate>
+                                            <asp:ImageButton ID="imgbtnDwnld" runat="server" CommandArgument='<%# Eval("Attachment_Name")%>'
+                                                CommandName="Download" ImageAlign="Left" ImageUrl="~/Images/download.gif" />
+                                        </ItemTemplate>
+                                        <ItemStyle HorizontalAlign="Center" Width="60px" />
+                                    </asp:TemplateField>
+                                    <%-- <asp:TemplateField HeaderText="Mail">
+                                        <ItemTemplate>
+                                            <asp:ImageButton ID="imgbtnMail" runat="server" CommandArgument='<%# Eval("Attachment_Name")%>'
+                                                CommandName="Mail" ImageAlign="Left" ImageUrl="~/Images/emailicon.gif" />
+                                        </ItemTemplate>
+                                        <ItemStyle HorizontalAlign="Center" Width="60px" />
+                                    </asp:TemplateField>--%>
+                                </Columns>
+                                <EmptyDataRowStyle ForeColor="red" HorizontalAlign="Center" />
+                                <EmptyDataTemplate>
+                                    Currently There Is No Attachment.<br />
+                                    Pls Add One Or More Attachment.
+                                </EmptyDataTemplate>
+                                <PagerSettings Visible="False" />
+                                <PagerSettings Visible="False" />
+                            </asp:GridView>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <asp:Button ID="btnRemove" runat="server" Text="Remove" OnClick="btnRemove_Click" />
+                            <asp:Button ID="btnMail" runat="server" Text="Mail" OnClientClick="javascript:return OpenWMail('gvAttachmentDetails','Liability_Claim');" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="divbtn" runat="server">
+        <table style="width: 100%;">
+            <tr>
+                <td align="center">
+                    <asp:Button ID="btnsave" OnClientClick="javascript:ValSave();" ValidationGroup="vsErrorGroup"
+                        runat="server" Text="Save & View" OnClick="btnsave_Click" />
+                    <asp:Button ID="btnNextStep" runat="server" OnClientClick="javascript:ValSave();"
+                        ValidationGroup="vsErrorGroup" Text="Next Step" Width="98px" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="divview" runat="server" style="border: solid 1px #7F7F7F; width: 100%; display: none;
+        float: right; margin: 1px 5px 1px 1px; padding: 5px 5px 5px 5px">
+        <div id="vwdivfirst" style="width: 100%; display: block;" runat="server">
+            <table id="Table15" runat="server" cellpadding="2" cellspacing="2" class="stylesheet"
+                width="100%">
+                <tr>
+                    <td class="ghc" colspan="6">
+                        <asp:Label ID="lblvwvwClaimId" runat="server">Claim Identification 
+                        </asp:Label>
+                    </td>
+                </tr>
+                <tr id="Tr1" runat="server">
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwClaimNumber" runat="server">Claim Number</asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td align="left" class="ic">
+                        <asp:Label ID="lblvweClaimNumber" runat="server"></asp:Label>
+                    </td>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwvwReptoCarrier" runat="server">Reported to Carrier</asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvweReptoCarrier" runat="server">                            
+                        </asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwvwClaimType" runat="server">Claim Type</asp:Label>&nbsp;
+                    </td>
+                    <td align="Center" class="lc">
+                        :
+                    </td>
+                    <td align="left" class="ic" style="width: 20%">
+                        <asp:Label ID="lblvweClaimType" runat="server">
+                        </asp:Label>
+                    </td>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwDateReportedtoFair" runat="server">Date Reported to FairPoint </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvweDateReportedtoFair" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc">
+                        <asp:Label ID="lblvwClaimant" runat="server"> Claimant </asp:Label>
+                    </td>
+                    <td align="Center" class="lc">
+                        :
+                    </td>
+                    <td align="left" class="ic">
+                        <asp:Label ID="lblvweClaimant" runat="server" Width="153px">
+                        </asp:Label>
+                    </td>
+                    <td align="left" class="lc">
+                        <asp:Label ID="lblvwDateClaimOpened" runat="server"> Date Claim Opened </asp:Label>
+                    </td>
+                    <td align="Center" class="lc">
+                        :
+                    </td>
+                    <td align="left" class="ic">
+                        <asp:Label ID="lblvweDateClaimOpened" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc">
+                        <asp:Label ID="lblvwLastName" runat="server">Last Name</asp:Label>
+                    </td>
+                    <td align="Center" class="lc" style="height: 25px">
+                        :
+                    </td>
+                    <td align="left" class="ic">
+                        <asp:Label ID="lblvweLastName" runat="server"></asp:Label>
+                    </td>
+                    <td align="left" class="lc">
+                        <asp:Label ID="lblvwDateClaimClosed" runat="server">Date Claim Closed</asp:Label>
+                    </td>
+                    <td align="Center" class="lc">
+                        :
+                    </td>
+                    <td align="left" class="ic">
+                        <asp:Label ID="lblvweDateClaimClosed" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc">
+                        <asp:Label ID="lblvwFirstName" runat="server">First Name</asp:Label>
+                    </td>
+                    <td align="Center" class="lc" style="height: 25px">
+                        :
+                    </td>
+                    <td align="left" class="ic">
+                        <asp:Label ID="lblvweFirstName" runat="server"></asp:Label>
+                    </td>
+                    <td align="left" class="lc">
+                        <asp:Label ID="lblvwDateClaimReopened" runat="server">Date Claim Reopened</asp:Label>
+                    </td>
+                    <td align="Center" class="lc">
+                        :
+                    </td>
+                    <td align="left" class="ic">
+                        <asp:Label ID="lblvweDateClaimReopened" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc">
+                        <asp:Label ID="lblvwEntity" runat="server"> Entity  </asp:Label>&nbsp;
+                    </td>
+                    <td align="Center" class="lc">
+                        :
+                    </td>
+                    <td align="left" class="ic">
+                        <asp:Label ID="lblvweEntity" runat="server">
+                        </asp:Label>
+                    </td>
+                    <td align="left" class="lc">
+                        <asp:Label ID="lblvwDateReportedtoCarrier" runat="server"> Date Reported to Carrier </asp:Label>
+                        <%-- <span class="mf">*</span>--%>
+                    </td>
+                    <td align="Center" class="lc">
+                        :
+                    </td>
+                    <td align="left" class="ic">
+                        <asp:Label ID="lblvweDateReportedtoCarrier" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc">
+                        <asp:Label ID="lblvwCarrierName" runat="server">Carrier Name</asp:Label>&nbsp;
+                    </td>
+                    <td align="Center" class="lc" style="height: 25px">
+                        :
+                    </td>
+                    <td align="left" class="ic">
+                        <asp:Label ID="lblvweCarrierName" runat="server"></asp:Label>
+                    </td>
+                    <td align="left" class="lc">
+                        <asp:Label ID="lblvwDateofLoss" runat="server">Date of Loss </asp:Label>
+                    </td>
+                    <td align="Center" class="lc">
+                        :
+                    </td>
+                    <td align="left" class="ic">
+                        <asp:Label ID="lblvweDateofLoss" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lc">
+                        <asp:Label ID="lblvwTimeofLoss" runat="server">Time of Loss (HH:MM)</asp:Label>
+                    </td>
+                    <td align="center">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweTimeofLoss" runat="server" MaxLength="5"></asp:Label>
+                    </td>
+                    <td class="lc">
+                        <asp:Label ID="lblvwTPAName" runat="server">TPA Name</asp:Label>
+                    </td>
+                    <td align="center">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweTPAName" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc">
+                        <asp:Label ID="lblvwIsClaimantanEmp" runat="server">Is Claimant an Employee?</asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td align="left" class="lc">
+                        <asp:Label ID="lblvwenIsClaimantanEmp" runat="server">
+                         
+                        </asp:Label>
+                    </td>
+                    <td class="lc">
+                        <asp:Label ID="lblvwPolicyNo" runat="server">Policy Number</asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvwePolicyNo" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc">
+                        <asp:Label ID="lblvwDoesClimant" runat="server">Does Claimant have legal representation?</asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td align="left" class="lc">
+                        <asp:Label ID="lblvwenDoesClimant" runat="server">
+                            
+                        </asp:Label>
+                    </td>
+                    <td class="lc">
+                        <asp:Label ID="lblvwPolicyEffecDate" runat="server">Policy Effective Date</asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvwePolicyEffecDate" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp</td>
+                    <td>
+                        &nbsp
+                    </td>
+                    <%-- <asp:Label ID="lblvweempid" runat="server"></asp:Label>--%>
+                    <td>
+                        &nbsp</td>
+                    <td class="lc">
+                        <asp:Label ID="lblvwPolicyExpDate" runat="server">Policy Expiration Date</asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvwePolicyExpDate" runat="server"></asp:Label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="viewdivsecond" style="width: 100%; display: block;" runat="server">
+            <table id="Table8" runat="server" cellpadding="2" cellspacing="2" class="stylesheet"
+                width="100%">
+                <tr>
+                    <td class="ghc" colspan="6">
+                        <asp:Label ID="Label2" runat="server">Liability Coverage 
+                        </asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc">
+                        <asp:Label ID="Label3" runat="server">Premises and /or Operations</asp:Label>
+                    </td>
+                    <td align="center">
+                        :
+                    </td>
+                    <td align="left" class="ic">
+                        <asp:RadioButton ID="rbtnvwPremises" runat="server" />
+                    </td>
+                    <td align="left" class="lc">
+                        • Bodily Injury or Property Damage on the company premises, location or job site
+                        (but not due to completed work or specific product)
+                        <br />
+                        • Loss happened on company owned, rented or controlled property
+                        <br />
+                        • Loss occurred while the company was conducting their business 0</td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc">
+                        <asp:Label ID="Label6" runat="server">Products</asp:Label>
+                    </td>
+                    <td align="center">
+                        :
+                    </td>
+                    <td align="left" class="ic">
+                        <asp:RadioButton ID="rbtnvwProducts" runat="server" />
+                    </td>
+                    <td align="left" class="lc">
+                        • The company’s product (made, manufactured, distributed, handled or sold by the
+                        company) caused the Bodily Injury or Property Damage
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc">
+                        <asp:Label ID="Label7" runat="server">Completed Operations</asp:Label>
+                    </td>
+                    <td align="center">
+                        :
+                    </td>
+                    <td align="left" class="ic">
+                        <asp:RadioButton ID="rbtnvwComOp" runat="server" />
+                    </td>
+                    <td align="left" class="lc">
+                        • The company’s finished work caused Bodily Injury or Property Damage of someone
+                        not employed by the company
+                        <br />
+                        • The company’s work was finished and/or put to its intended use before the accident
+                        happened
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="viewdivthird" style="width: 100%; display: block;" runat="server">
+            <table id="Table17" runat="server" cellpadding="2" cellspacing="2" class="stylesheet"
+                width="100%">
+                <tr>
+                    <td class="ghc" colspan="6">
+                        <asp:Label ID="lblvwLossLoc" runat="server">Loss Location 
+                        </asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 21%">
+                        <asp:Label ID="lblvwAdd1" runat="server">Address 1</asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td align="left" class="ic" style="width: 25%">
+                        <asp:Label ID="lblvweAdd1" runat="server"></asp:Label>
+                    </td>
+                    <td align="left" class="lc" style="width: 21%">
+                        <asp:Label ID="lblvwAdd2" runat="server">Address 2</asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td align="left" class="ic" style="width: 25%">
+                        <asp:Label ID="lblvweAdd2" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 21%">
+                        <asp:Label ID="lblvwCity" runat="server">City </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td align="left" class="ic" style="width: 25%">
+                        <asp:Label ID="lblvweCity" runat="server"></asp:Label>
+                    </td>
+                    <td class="lc">
+                        <asp:Label ID="lblvwState" runat="server"> State </asp:Label>&nbsp;
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweState" runat="server">
+                        </asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwZip" runat="server">Zip Code (XXXXX-XXXX) </asp:Label>
+                        <%--  <span class="mf">*</span>--%>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td align="left" class="ic" style="width: 25%">
+                        <asp:Label ID="lblvweZip" runat="server"></asp:Label>
+                    </td>
+                    <td class="lc">
+                        <asp:Label ID="lblvwCounty" runat="server"> County </asp:Label>
+                        <%--  <span class="mf">*</span>--%>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweCounty" runat="server">
+                        </asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc">
+                        <asp:Label ID="lblvwDidAccOccur" runat="server">Did Accident Occur on Company Property?</asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td align="left" class="lc">
+                        <asp:Label ID="lblvweDidAccOccur" runat="server"></asp:Label>
+                    </td>
+                    <td>
+                        &nbsp</td>
+                    <td>
+                        &nbsp</td>
+                    <td>
+                        &nbsp</td>
+                </tr>
+            </table>
+        </div>
+        <div id="viewdivfour" style="width: 100%; display: block;" runat="server">
+            <table id="Table18" runat="server" cellpadding="2" cellspacing="2" class="stylesheet"
+                width="100%">
+                <tr>
+                    <td class="ghc" colspan="6">
+                        <asp:Label ID="lblvwLossInfo" runat="server">Loss Information
+                        </asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwfullDescOfLOss" runat="server">Full Description of Loss 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic" colspan="4">
+                        <asp:Label ID="lblvwefullDescOfLOss" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwClaimantInfo" runat="server">Claimant Information 
+                        </asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwClaimantAdd1" runat="server">Address 1 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweClaimantAdd1" runat="server"></asp:Label>
+                    </td>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwClaimantAdd2" runat="server">Address 2 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweClaimantAdd2" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwClaimantCity" runat="server">City 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweClaimantCity" runat="server"></asp:Label>
+                    </td>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwClaimantState" runat="server">State 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweClaimantState" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwClaimantZip" runat="server">Zip Code (XXXXX-XXXX) 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweClaimantZip" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwClaimantHomeTele" runat="server">Home Telephone (XXX-XXX-XXXX) 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweClaimantHomeTele" runat="server"></asp:Label>
+                    </td>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwClaimantWorkTele" runat="server">Work Telephone (XXX-XXX-XXXX) 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweClaimantWorkTele" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwClaimantCellTele" runat="server">Cell Telephone (XXX-XXX-XXXX) 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweClaimantCellTele" runat="server"></asp:Label>
+                    </td>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwClaimantEmail" runat="server">E-Mail 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweClaimantEmail" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwClaimantGender" runat="server">Gender 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweClaimantGender" runat="server"></asp:Label>
+                    </td>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwClaimantCust" runat="server">Is Claimant a Customer? 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweClaimantCust" runat="server"></asp:Label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="viewdivfive" style="width: 100%; display: block;" runat="server">
+            <table id="Table9" runat="server" cellpadding="2" cellspacing="2" class="stylesheet"
+                width="100%">
+                <tr>
+                    <td class="ghc" colspan="6">
+                        <asp:Label ID="lblvwBodilyInjury" runat="server">Bodily Injury
+                        </asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwBodilyInjuryDesc" runat="server">Description of Injury 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic" colspan="4">
+                        <asp:Label ID="lblvweBodilyInjuryDesc" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc">
+                        <asp:Label ID="lblvwMedical" runat="server">Medical Treatment Facility Information  
+                        </asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwFacilityName" runat="server">Name of Facility
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweFacilityName" runat="server"></asp:Label>
+                    </td>
+                    <td align="left" class="lc" style="width: 20%">
+                    </td>
+                    <td align="center" class="ic">
+                    </td>
+                    <td class="ic">
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwBodyAdd1" runat="server">Address 1 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweBodyAdd1" runat="server"></asp:Label>
+                    </td>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwBodyAdd2" runat="server">Address 2 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweBodyAdd2" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwBodyCity" runat="server">City 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweBodyCity" runat="server"></asp:Label>
+                    </td>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwBodyState" runat="server">State 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweBodyState" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwBodyzip" runat="server">Zip Code (XXXXX-XXXX) 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweBodyzip" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwBodyTele" runat="server">Telephone (XXX-XXX-XXXX) 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweBodyTele" runat="server"></asp:Label>
+                    </td>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwBodyFacsimile" runat="server">Facsimile (XXX-XXX-XXXX) 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweBodyFacsimile" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwEstimated" runat="server">Estimated Cost of Treatment   
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        $<asp:Label ID="lblvweEstimated" runat="server"></asp:Label>
+                    </td>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwCostRec" runat="server">Copy of All Medical Bills Received?
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweCostRec" runat="server"></asp:Label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="viewdivsix" style="width: 100%; display: block;" runat="server">
+            <table id="Table10" runat="server" cellpadding="2" cellspacing="2" class="stylesheet"
+                width="100%">
+                <tr>
+                    <td class="ghc" colspan="6">
+                        <asp:Label ID="lblvwProDamage" runat="server">Property Damage
+                        </asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwClaimantOwner" runat="server">Is Claimant the Property Owner? 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic" style="width: 25%">
+                        <asp:Label ID="lblvweClaimantOwner" runat="server" Width="93%"></asp:Label>
+                    </td>
+                    <td align="left" class="lc" colspan="3">
+                        <asp:Label ID="Label9" runat="server">If Claimant Not Property Owner, please provide Owner information.  
+                        </asp:Label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="viewdivseven" style="width: 100%; display: block;" runat="server">
+            <table id="Table11" runat="server" cellpadding="2" cellspacing="2" class="stylesheet"
+                width="100%">
+                <tr>
+                    <td class="ghc" colspan="6">
+                        <asp:Label ID="lblvwOwnerInfo" runat="server">Owner Information (if not claimant)
+                        </asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwOwnername" runat="server">Name
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic" colspan="4">
+                        <asp:Label ID="lblvweOwnername" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwOwnerAdd1" runat="server">Address 1 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweOwnerAdd1" runat="server"></asp:Label>
+                    </td>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwOwnerAdd2" runat="server">Address 2 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweOwnerAdd2" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwOwnerCity" runat="server">City 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweOwnerCity" runat="server"></asp:Label>
+                    </td>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwOwnerState" runat="server">State 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweOwnerState" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwOwnerZip" runat="server">Zip Code (XXXXX-XXXX) 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic" colspan="4">
+                        <asp:Label ID="lblvweOwnerZip" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwOwnerHomeTele" runat="server">Home Telephone (XXX-XXX-XXXX) 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweOwnerHomeTele" runat="server"></asp:Label>
+                    </td>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwOwnerWorkTele" runat="server">Work Telephone (XXX-XXX-XXXX) 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweOwnerWorkTele" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwOwnerCellTele" runat="server">Cell Telephone (XXX-XXX-XXXX) 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweOwnerCellTele" runat="server"></asp:Label>
+                    </td>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwOwnerEmail" runat="server">E-Mail 
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweOwnerEmail" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwOwnerProDamage" runat="server">Description of Property Damage
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweOwnerProDamage" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwOwnerEstimated" runat="server">Estimated Repair Cost of Property Damage   
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        $<asp:Label ID="lblvweOwnerEstimated" runat="server"></asp:Label>
+                    </td>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwOwnerEstiRec" runat="server">Copy of All Estimates Received?
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic">
+                        <asp:Label ID="lblvweOwnerEstiRec" runat="server"></asp:Label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="viewdiveight" style="width: 100%; display: block;" runat="server">
+            <table id="Table12" runat="server" cellpadding="2" cellspacing="2" class="stylesheet"
+                width="100%">
+                <tr>
+                    <td class="ghc" colspan="6">
+                        <asp:Label ID="Label10" runat="server">Settlement
+                        </asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwSettlementDate" runat="server">Date Settlement Offered
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic" style="width: 25%">
+                        <asp:Label ID="lblvweSettlementDate" runat="server" Width="93%"></asp:Label>
+                    </td>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwSettlementAmt" runat="server">Amount of Settlement
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic" style="width: 25%">
+                        $<asp:Label ID="lblvweSettlementAmt" runat="server" Width="93%"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwSettlementReleaseDate" runat="server">Date of Release
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic" style="width: 25%">
+                        <asp:Label ID="lblvweSettlementReleaseDate" runat="server" Width="93%"></asp:Label>
+                    </td>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwDateSettleChk" runat="server">Date Settlement Check Mailed
+                        </asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td class="ic" style="width: 25%">
+                        <asp:Label ID="lblvweDateSettleChk" runat="server" Width="93%"></asp:Label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="viewdivnine" style="width: 100%; display: block;" runat="server">
+            <table id="Table22" runat="server" cellpadding="2" cellspacing="4" class="stylesheet"
+                width="100%">
+                <tr>
+                    <td class="ghc" colspan="6">
+                        <asp:Label ID="Label8" runat="server">Financial Summary
+                        </asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lc">
+                        &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                        &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                        <asp:Label ID="lblvwIncurred" runat="server"><strong>Incurred Amount in $ </strong> </asp:Label>
+                        &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                        <asp:Label ID="lblvwPaidAmount" runat="server"><strong>Paid Amount in $</strong> </asp:Label>
+                        &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                        <asp:Label ID="lblvwOutstanding" runat="server"><strong>Outstanding Amount in $ </strong></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lc">
+                        <asp:Label ID="lblvwBodilyinjury1" runat="server">Bodily Injury</asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lc">
+                        <asp:Label ID="lblvwPropertyDamage" runat="server">Property Damage
+                        </asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lc">
+                        <asp:Label ID="lblvwExpenses" runat="server">Expenses
+                        </asp:Label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="viewdivten" style="width: 100%; display: block;" runat="server">
+            <table id="Table16" runat="server" cellpadding="2" cellspacing="2" class="stylesheet"
+                width="100%">
+                <tr>
+                    <td class="ghc" colspan="6">
+                        <asp:Label ID="lblvwClaimRepresent" runat="server">Claim Representative 
+                        </asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="lc">
+                        &nbsp;</td>
+                    <td>
+                        &nbsp</td>
+                    <td>
+                        &nbsp</td>
+                    <td>
+                        &nbsp</td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwname" runat="server">Name</asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td align="left" class="ic" style="width: 25%">
+                        <asp:Label ID="lblvwename" runat="server"></asp:Label>
+                    </td>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwTelephone" runat="server">Telephone</asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td align="left" class="ic" style="width: 25%">
+                        <asp:Label ID="lblvweTelephone" runat="server"></asp:Label>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" class="lc" style="width: 20%">
+                        <asp:Label ID="lblvwEMail" runat="server">E-Mail</asp:Label>
+                    </td>
+                    <td align="center" class="ic">
+                        :
+                    </td>
+                    <td align="left" class="ic" style="width: 25%">
+                        <asp:Label ID="lblvweEMail" runat="server"></asp:Label>
+                    </td>
+                    <td>
+                        &nbsp</td>
+                    <td>
+                        &nbsp</td>
+                    <td>
+                        &nbsp</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</asp:Content>

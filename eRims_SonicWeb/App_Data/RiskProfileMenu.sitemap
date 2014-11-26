@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+  <siteMapNode url="" title=""  description="">
+    <siteMapNode url="javascript:void(1);" title="Identification"  description="" />
+    <siteMapNode url="javascript:void(2);" title="General – Minimum Limits"  description="" />
+    <siteMapNode url="javascript:void(3);" title="Auto – Minimum Limits"  description="" />
+    <siteMapNode url="javascript:void(4);" title="Excess – Minimum Limits"  description="" />
+    <siteMapNode url="javascript:void(5);" title="Worker’s Compensation – Minimum Limits"  description="" />
+    <siteMapNode url="javascript:void(6);" title="Property – Minimum Limits"  description="" />
+    <siteMapNode url="javascript:void(7);" title="Professional Liability – Minimum Limits"  description="" />
+    <siteMapNode url="javascript:void(8);" title="Other Liability – Minimum Limits"  description="" />
+    <siteMapNode url="javascript:void(9);" title="Attachment"  description="" />
+  </siteMapNode>
+</siteMap >

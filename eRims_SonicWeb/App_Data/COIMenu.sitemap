@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+  <siteMapNode url="" title=""  description="">
+    <siteMapNode url="javascript:void(1);" title="Insured"  description="" />
+    <siteMapNode url="javascript:void(2);" title="Risk Profile"  description="" />
+    <siteMapNode url="javascript:void(3);" title="Compliance"  description="" />  
+    <siteMapNode url="javascript:void(4);" title="Notification Letter"  description="" />
+    <siteMapNode url="javascript:void(5);" title="Producers"  description="" />
+    <siteMapNode url="javascript:void(6);" title="Insurance Companies"  description="" />
+    <siteMapNode url="javascript:void(7);" title="Limits and Coverage"  description="" />
+    <siteMapNode url="javascript:void(8);" title="Owners"  description="" />
+    <siteMapNode url="javascript:void(9);" title="Copies"  description="" />
+    <siteMapNode url="javascript:void(10);" title="Attachment"  description="" />
+   
+  </siteMapNode>
+</siteMap >

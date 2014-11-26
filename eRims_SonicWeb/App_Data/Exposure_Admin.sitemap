@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+	<siteMapNode>
+		<siteMapNode url="" title="Claims"  description="" roles="">
+			<siteMapNode url="SONIC/FirstReport/FirstReportSearch.aspx" title="First Reports" description="First Reports" roles=""></siteMapNode>
+			<siteMapNode url="SONIC/ClaimInfo/ClaimInformationSearch.aspx" title="Claim Information" description="Claim Information" roles=""></siteMapNode>
+			<siteMapNode url="SONIC/FirstReport/InvestigationSearch.aspx" title="Investigation" description="Investigation" />
+			<siteMapNode url="ExecutiveRisk/EmployeeSearch.aspx" title="Executive Risk" description="Executive Risk" ></siteMapNode>
+			<siteMapNode url="" title="Diary"  description="" roles="" >
+				<siteMapNode url="ExecutiveRisk/AssignDiary.aspx" title="Assign"></siteMapNode>
+				<siteMapNode url="ExecutiveRisk/Search.aspx" title="Search"></siteMapNode>
+			</siteMapNode>
+		</siteMapNode>
+		<siteMapNode url="" title="Exposures"  description="" roles="">
+			<siteMapNode url="SONIC/Exposures/ExposureSearch.aspx" title="Exposures"  description="" roles="" />
+		</siteMapNode>
+		<siteMapNode url="" title="Reports"  description="" roles="">
+			<siteMapNode url="SONIC/FirstReport/WCAllocationLocationReport.aspx" title="WC Allocation Location Report"  description="" roles="" />
+			<siteMapNode url="SONIC/FirstReport/WCAllocationSummaryReport.aspx" title="WC Allocation Summary"  description="" roles="" />
+		</siteMapNode>
+		<siteMapNode url="" title="Administrator"  description="" roles="">
+			<siteMapNode url="Administrator/security.aspx" title="User"  description="" roles="" />
+			<siteMapNode url="Administrator/ChangePassword.aspx" title="Change Password"  description="" roles="" />
+			<siteMapNode url="Administrator/Groups.aspx" title="Group"  description="" roles="" />
+			<siteMapNode url="Administrator/Rights.aspx" title="Rights"  description="" roles="" />
+			<siteMapNode url="Administrator/InspectionQuestion.aspx" title="Inspection Questions"  description="" roles="" />
+			<siteMapNode url="Administrator/WCAllocation.aspx" title="WC Allocation"  description="" roles="" />
+		</siteMapNode>
+	</siteMapNode>
+</siteMap>

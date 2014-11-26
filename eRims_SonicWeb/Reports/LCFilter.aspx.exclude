@@ -1,0 +1,810 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="LCFilter.aspx.cs" Inherits="Reports_LCFilter"  %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title></title>
+    <link href="../App_Themes/Default/Default.css" type="text/css" />
+
+    <script type="text/javascript" src="../JavaScript/JFunctions.js"></script>
+
+    <script type="text/javascript" language="javascript" src="../JavaScript/Calendar_new.js"></script>
+
+    <script type="text/javascript" language="javascript" src="../JavaScript/calendar-en.js"></script>
+
+    <script type="text/javascript" language="javascript" src="../JavaScript/Calendar.js"></script>
+
+    <link href="../App_Themes/Default/stylecal.css" type="text/css" rel="Stylesheet" />
+
+    <script language="javascript" type="text/jscript">
+    var dtCh= "/";
+var minYear=1900;
+var maxYear=2100;
+
+function isInteger(s){
+	var i;
+    for (i = 0; i < s.length; i++){   
+        // Check that current character is number.
+        var c = s.charAt(i);
+        if (((c < "0") || (c > "9"))) return false;
+    }
+    // All characters are numbers.
+    return true;
+}
+
+function stripCharsInBag(s, bag){
+	var i;
+    var returnString = "";
+    // Search through string's characters one by one.
+    // If character is not in bag, append to returnString.
+    for (i = 0; i < s.length; i++){   
+        var c = s.charAt(i);
+        if (bag.indexOf(c) == -1) returnString += c;
+    }
+    return returnString;
+}
+
+function daysInFebruary (year){
+	// February has 29 days in any year evenly divisible by four,
+    // EXCEPT for centurial years which are not also divisible by 400.
+    return (((year % 4 == 0) && ( (!(year % 100 == 0)) || (year % 400 == 0))) ? 29 : 28 );
+}
+function DaysArray(n) {
+	for (var i = 1; i <= n; i++) {
+		this[i] = 31
+		if (i==4 || i==6 || i==9 || i==11) {this[i] = 30}
+		if (i==2) {this[i] = 29}
+   } 
+   return this
+}
+
+function isDate(dtStr){
+	var daysInMonth = DaysArray(12)
+	var pos1=dtStr.indexOf(dtCh)
+	var pos2=dtStr.indexOf(dtCh,pos1+1)
+	var strMonth=dtStr.substring(0,pos1)
+	var strDay=dtStr.substring(pos1+1,pos2)
+	var strYear=dtStr.substring(pos2+1)
+	strYr=strYear
+	if (strDay.charAt(0)=="0" && strDay.length>1) strDay=strDay.substring(1)
+	if (strMonth.charAt(0)=="0" && strMonth.length>1) strMonth=strMonth.substring(1)
+	for (var i = 1; i <= 3; i++) {
+		if (strYr.charAt(0)=="0" && strYr.length>1) strYr=strYr.substring(1)
+	}
+	month=parseInt(strMonth)
+	day=parseInt(strDay)
+	year=parseInt(strYr)
+	if (pos1==-1 || pos2==-1){
+		//alert("The date format should be : mm/dd/yyyy")
+		return false
+	}
+	if (strMonth.length<1 || month<1 || month>12){
+		//alert("Please enter a valid month")
+		return false
+	}
+	if (strDay.length<1 || day<1 || day>31 || (month==2 && day>daysInFebruary(year)) || day > daysInMonth[month]){
+		//alert("Please enter a valid day")
+		return false
+	}
+	if (strYear.length != 4 || year==0 || year<minYear || year>maxYear){
+		//alert("Please enter a valid 4 digit year between "+minYear+" and "+maxYear)
+		return false
+	}
+	if (dtStr.indexOf(dtCh,pos2+1)!=-1 || isInteger(stripCharsInBag(dtStr, dtCh))==false){
+		//alert("Please enter a valid date")
+		return false
+	}
+return true
+}
+
+function ValidateForm(objDt){
+	//var dt=objDt
+	
+	if (isDate(objDt)==false)
+	{
+		return false
+	}
+    return true
+ }
+    </script>
+
+    <script type="text/javascript" language="javascript">
+    var ErrMessage;
+    function Validate(Type)
+    {
+        
+        ErrMessage="";
+        if(document.getElementById("txtReportName").value=="" )
+        {
+            if(Type!='E')
+                ErrMessage= "- Please Enter Report Name.\n";
+        }
+        
+        RadioDate("rdbLstCO","txtCO2","Date Claim Open","D");
+        RadioDate("rdbLstCC","txtCC2","Date Claim Close","D");
+        RadioDate("rdbLstDOI","txtDOI2","Date of Incident","D");
+        RadioDate("rdbLstRD","txtRD2","Reserve Date","D");
+        RadioDate("rdbLstPD","txtPD2","Payment Date","D");
+        
+        RadioDate("rdbLstMP","txtMP2","Medical Paid","P");
+        RadioDate("rdbLstMI","txtMI2","Medical Incurred","P");
+        RadioDate("rdbLstEP","txtEP2","Expense Paid","P");
+        RadioDate("rdbLstEI","txtEI2","Expense Incurred","P");
+        RadioDate("rdbLstIP","txtIP2","Indemnity Paid","P");
+        RadioDate("rdbLstII","txtII2","Indemnity Incurred","P");
+        RadioDate("rdbLstTP","txtTP2","Total Paid","P");
+        RadioDate("rdbLstTI","txtTI2","Total Incurred","P");
+        RadioDate("rdbLstTO","txtTO2","Total Outstanding","P");
+        
+        DateValidate("rdbLstCO","txtCO1","txtCO2","Date Claim Open");
+        DateValidate("rdbLstCC","txtCC1","txtCC2","Date Claim Close");
+        DateValidate("rdbLstDOI","txtDOI1","txtDOI2","Date of Incident");
+        DateValidate("rdbLstRD","txtRD1","txtRD2","Reserve Date");
+        DateValidate("rdbLstPD","txtPD1","txtPD2","Payment Date");
+        
+        if(ErrMessage!="")
+        {
+            alert(ErrMessage);
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    function RadioDate(objRadio,objText,FieldName,Type)
+    {
+        var Out;   
+        var elmnts = document.getElementsByName(objRadio);
+        for (var m_intCounter=0; m_intCounter < elmnts.length; m_intCounter++)
+        {
+            if (elmnts[m_intCounter].checked)
+                {
+                    Out = elmnts[m_intCounter].value;
+                    break;
+                }
+        }
+        if(Out=="B")
+        {
+            if(document.getElementById(objText).value=="")
+            {
+                if(Type=="D")
+                    ErrMessage=ErrMessage+"- Please Enter End Date For "+ FieldName+".\n";
+                else
+                    ErrMessage=ErrMessage+"- Please Enter To Amount For "+ FieldName+".\n";
+            }
+        }
+       
+    }
+    function DateValidate(objRadio,objDt1,objDt2,FieldName)
+    {
+        var Out;   
+        var elmnts = document.getElementsByName(objRadio);
+        for (var m_intCounter=0; m_intCounter < elmnts.length; m_intCounter++)
+        {
+            if (elmnts[m_intCounter].checked)
+                {
+                    Out = elmnts[m_intCounter].value;
+                    break;
+                }
+        }
+        
+        if(Out=="B")
+        {
+            if(document.getElementById(objDt2).value!="")
+            {
+                if(ValidateForm(document.getElementById(objDt2).value)==false)
+                {
+                   ErrMessage=ErrMessage+"- Please Enter Valid End Date For "+ FieldName+".\n";
+                }
+            }
+        } 
+        else
+        {
+             if(document.getElementById(objDt1).value!="")
+             {
+                if(ValidateForm(document.getElementById(objDt1).value)==false)
+                {
+                    ErrMessage=ErrMessage+"- Please Enter Valid Start Date For "+ FieldName+".\n";
+                }
+             }
+        }
+    }
+    </script>
+
+</head>
+<body>
+    <form id="form1" runat="server">
+        <%--<asp:ScriptManager ID="smBankDetail" EnablePageMethods="true" runat="server">
+        </asp:ScriptManager>
+        <asp:UpdatePanel ID="pnlBankDetail" runat="server">
+        <contenttemplate>--%>
+        <div style="width: 100%; text-align: right;">
+            <asp:HiddenField ID="hdnReportId" runat="Server" />
+            <table width="100%">
+                <tr>
+                    <td class="lc">
+                        <table width="100%">
+                            <tr>
+                                <td style="width: 50%;" align="left">
+                                    <table>
+                                        <tr>
+                                            <td class="lc" align="left" style="width: 35%;">
+                                                Date Claim Opened :
+                                            </td>
+                                            <td class="ic" align="left" style="width: 65%;">
+                                                <asp:RadioButtonList ID="rdbLstCO" runat="server" RepeatDirection="Horizontal" AutoPostBack="true"
+                                                    OnSelectedIndexChanged="rdbLstCO_SelectedIndexChanged">
+                                                    <asp:ListItem Text="On" Value="O" Selected="True"></asp:ListItem>
+                                                    <asp:ListItem Text="Between" Value="B"></asp:ListItem>
+                                                    <asp:ListItem Text="Before" Value="BF"></asp:ListItem>
+                                                    <asp:ListItem Text="After" Value="A"></asp:ListItem>
+                                                </asp:RadioButtonList>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" colspan="2">
+                                                <asp:Label ID="lblCO1" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtCO1" runat="server" ValidationGroup="vsErrorGroup" Width="80px"></asp:TextBox>
+                                                <img runat="Server" id="imgCO1" onclick="return showCalendar('txtCO1', 'mm/dd/y');"
+                                                    onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif" />
+                                                <asp:Label ID="lblCO2" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtCO2" runat="server" ValidationGroup="vsErrorGroup" Width="80px"></asp:TextBox>
+                                                <img runat="Server" id="imgCO2" onclick="return showCalendar('txtCO2', 'mm/dd/y');"
+                                                    onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="width: 50%;" align="left">
+                                    <table>
+                                        <tr>
+                                            <td class="lc" align="left" style="width: 35%;">
+                                                Date Claim Closed :
+                                            </td>
+                                            <td class="ic" align="left" style="width: 65%;">
+                                                <asp:RadioButtonList ID="rdbLstCC" runat="server" RepeatDirection="Horizontal" AutoPostBack="true"
+                                                    OnSelectedIndexChanged="rdbLstCC_SelectedIndexChanged">
+                                                    <asp:ListItem Text="On" Value="O" Selected="True"></asp:ListItem>
+                                                    <asp:ListItem Text="Between" Value="B"></asp:ListItem>
+                                                    <asp:ListItem Text="Before" Value="BF"></asp:ListItem>
+                                                    <asp:ListItem Text="After" Value="A"></asp:ListItem>
+                                                </asp:RadioButtonList>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" colspan="2">
+                                                <asp:Label ID="lblCC1" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtCC1" runat="server" ValidationGroup="vsErrorGroup" Width="80px"></asp:TextBox>
+                                                <img runat="Server" id="imgCC1" onclick="return showCalendar('txtCC1', 'mm/dd/y');"
+                                                    onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif" />
+                                                <asp:Label ID="lblCC2" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtCC2" runat="server" ValidationGroup="vsErrorGroup" Width="80px"></asp:TextBox>
+                                                <img runat="Server" id="imgCC2" onclick="return showCalendar('txtCC2', 'mm/dd/y');"
+                                                    onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 50%;" align="left">
+                                    <table>
+                                        <tr>
+                                            <td class="lc" align="left" style="width: 35%;">
+                                                Date of Incident :
+                                            </td>
+                                            <td class="ic" align="left" style="width: 65%;">
+                                                <asp:RadioButtonList ID="rdbLstDOI" runat="server" RepeatDirection="Horizontal" AutoPostBack="true"
+                                                    OnSelectedIndexChanged="rdbLstDOI_SelectedIndexChanged">
+                                                    <asp:ListItem Text="On" Value="O" Selected="True"></asp:ListItem>
+                                                    <asp:ListItem Text="Between" Value="B"></asp:ListItem>
+                                                    <asp:ListItem Text="Before" Value="BF"></asp:ListItem>
+                                                    <asp:ListItem Text="After" Value="A"></asp:ListItem>
+                                                </asp:RadioButtonList>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" colspan="2">
+                                                <asp:Label ID="lblDOI1" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtDOI1" runat="server" ValidationGroup="vsErrorGroup" Width="80px"></asp:TextBox>
+                                                <img runat="Server" id="imgDOI1" onclick="return showCalendar('txtDOI1', 'mm/dd/y');"
+                                                    onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif" />
+                                                <asp:Label ID="lblDOI2" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtDOI2" runat="server" ValidationGroup="vsErrorGroup" Width="80px"></asp:TextBox>
+                                                <img runat="Server" id="imgDOI2" onclick="return showCalendar('txtDOI2', 'mm/dd/y');"
+                                                    onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="width: 50%;" align="left" valign="top">
+                                    <table>
+                                        <tr>
+                                            <td class="lc" align="left">
+                                                Status:</td>
+                                            <td class="lc" align="left">
+                                                <asp:CheckBoxList ID="chkLstStatus" runat="server" RepeatDirection="Horizontal">
+                                                    <asp:ListItem Text="Open" Value="O"></asp:ListItem>
+                                                    <asp:ListItem Text="Re-Open" Value="R"></asp:ListItem>
+                                                    <asp:ListItem Text="Close" Value="C"></asp:ListItem>
+                                                </asp:CheckBoxList>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 50%;" align="left">
+                                    <table>
+                                        <tr>
+                                            <td class="lc" align="left" style="width: 35%;">
+                                                Reserve Date :
+                                            </td>
+                                            <td class="ic" align="left" style="width: 65%;">
+                                                <asp:RadioButtonList ID="rdbLstRD" runat="server" RepeatDirection="Horizontal" AutoPostBack="true"
+                                                    OnSelectedIndexChanged="rdbLstRD_SelectedIndexChanged">
+                                                    <asp:ListItem Text="On" Value="O" Selected="True"></asp:ListItem>
+                                                    <asp:ListItem Text="Between" Value="B"></asp:ListItem>
+                                                    <asp:ListItem Text="Before" Value="BF"></asp:ListItem>
+                                                    <asp:ListItem Text="After" Value="A"></asp:ListItem>
+                                                </asp:RadioButtonList>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" colspan="2">
+                                                <asp:Label ID="lblRD1" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtRD1" runat="server" ValidationGroup="vsErrorGroup" Width="80px"></asp:TextBox>
+                                                <img runat="Server" id="imgRD1" onclick="return showCalendar('txtRD1', 'mm/dd/y');"
+                                                    onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif" />
+                                                <asp:Label ID="lblRD2" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtRD2" runat="server" ValidationGroup="vsErrorGroup" Width="80px"></asp:TextBox>
+                                                <img runat="Server" id="imgRD2" onclick="return showCalendar('txtRD2', 'mm/dd/y');"
+                                                    onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="width: 50%;" align="left">
+                                    <table>
+                                        <tr>
+                                            <td class="lc" align="left" style="width: 35%;">
+                                                Payment Date :
+                                            </td>
+                                            <td class="ic" align="left" style="width: 65%;">
+                                                <asp:RadioButtonList ID="rdbLstPD" runat="server" RepeatDirection="Horizontal" AutoPostBack="true"
+                                                    OnSelectedIndexChanged="rdbLstPD_SelectedIndexChanged">
+                                                    <asp:ListItem Text="On" Value="O" Selected="True"></asp:ListItem>
+                                                    <asp:ListItem Text="Between" Value="B"></asp:ListItem>
+                                                    <asp:ListItem Text="Before" Value="BF"></asp:ListItem>
+                                                    <asp:ListItem Text="After" Value="A"></asp:ListItem>
+                                                </asp:RadioButtonList>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" colspan="2">
+                                                <asp:Label ID="lblPD1" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtPD1" runat="server" ValidationGroup="vsErrorGroup" Width="80px"></asp:TextBox>
+                                                <img runat="Server" id="imgPD1" onclick="return showCalendar('txtPD1', 'mm/dd/y');"
+                                                    onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif" />
+                                                <asp:Label ID="lblPD2" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtPD2" runat="server" ValidationGroup="vsErrorGroup" Width="80px"></asp:TextBox>
+                                                <img runat="Server" id="imgPD2" onclick="return showCalendar('txtPD2', 'mm/dd/y');"
+                                                    onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 50%;" align="left">
+                                    <table>
+                                        <tr>
+                                            <td class="lc" align="left">
+                                                Division:<asp:CheckBox ID="chkDivision" runat="server" Text="Select/Deselect All"
+                                                    OnCheckedChanged="chkDivision_CheckedChanged" AutoPostBack="True" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <asp:ListBox ID="lstDivision" runat="server" SelectionMode="Multiple" Width="380px">
+                                                </asp:ListBox>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="width: 50%;" align="left" valign="top">
+                                    <table>
+                                        <tr>
+                                            <td class="lc">
+                                                Facility:<asp:CheckBox ID="chkFacility" runat="server" Text="Select/Deselect All"
+                                                    OnCheckedChanged="chkFacility_CheckedChanged" AutoPostBack="True" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="ic">
+                                                <asp:ListBox ID="lstFacility" runat="server" SelectionMode="Multiple" Width="380px">
+                                                </asp:ListBox>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr style="display: none;">
+                                <td style="width: 50%; display: none;" align="left" valign="top">
+                                    <table>
+                                        <tr>
+                                            <td class="lc">
+                                                Body Parts:<asp:CheckBox ID="chkBodyPart" runat="server" Text="Select/Deselect All"
+                                                    OnCheckedChanged="chkBodyPart_CheckedChanged" AutoPostBack="True" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="ic">
+                                                <asp:ListBox ID="lstBParts" runat="server" SelectionMode="Multiple" Width="380px"></asp:ListBox>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="width: 50%; display: none;" align="left">
+                                    <table>
+                                        <tr>
+                                            <td class="lc" align="left">
+                                                Coverage State:<asp:CheckBox ID="chkCovState" runat="server" Text="Select/Deselect All"
+                                                    OnCheckedChanged="chkCovState_CheckedChanged" AutoPostBack="True" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <asp:ListBox ID="lstState" runat="server" SelectionMode="Multiple" Width="380px"></asp:ListBox>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr style="display: none;">
+                                <td style="width: 50%;" align="left" valign="top">
+                                    <table>
+                                        <tr>
+                                            <td class="lc">
+                                                Cause:<asp:CheckBox ID="chkCause" runat="server" Text="Select/Deselect All" OnCheckedChanged="chkCause_CheckedChanged"
+                                                    AutoPostBack="True" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="ic">
+                                                <asp:ListBox ID="lstCause" runat="server" SelectionMode="Multiple" Width="380px"></asp:ListBox></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="width: 50%;" align="left" valign="top">
+                                    <table>
+                                        <tr>
+                                            <td class="lc">
+                                                Injury:<asp:CheckBox ID="chkInjury" runat="server" Text="Select/Deselect All" OnCheckedChanged="chkInjury_CheckedChanged"
+                                                    AutoPostBack="True" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="ic">
+                                                <asp:ListBox ID="lstInjury" runat="server" SelectionMode="Multiple" Width="380px"></asp:ListBox></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 50%;" align="left">
+                                    <table>
+                                        <tr>
+                                            <td class="lc" align="left" style="width: 30%;">
+                                                Medical Paid:
+                                            </td>
+                                            <td class="ic" align="left" style="width: 70%;">
+                                                <asp:RadioButtonList ID="rdbLstMP" runat="server" RepeatDirection="Horizontal" AutoPostBack="true"
+                                                    OnSelectedIndexChanged="rdbLstMP_SelectedIndexChanged">
+                                                    <asp:ListItem Text="Greater Than" Value="G" Selected="True"></asp:ListItem>
+                                                    <asp:ListItem Text="Between" Value="B"></asp:ListItem>
+                                                    <asp:ListItem Text="Less Than" Value="L"></asp:ListItem>
+                                                </asp:RadioButtonList>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="lc" align="left" colspan="2">
+                                                <asp:Label ID="lblMP1" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtMP1" runat="server" ValidationGroup="vsErrorGroup" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                    SkinID="txtAmt"></asp:TextBox>
+                                                <asp:Label ID="lblMP2" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtMP2" runat="server" ValidationGroup="vsErrorGroup" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                    SkinID="txtAmt"></asp:TextBox>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="width: 50%;" align="left">
+                                    <table>
+                                        <tr>
+                                            <td class="lc" align="left" style="width: 35%;">
+                                                Medical Incurred:
+                                            </td>
+                                            <td class="ic" align="left" style="width: 65%;">
+                                                <asp:RadioButtonList ID="rdbLstMI" runat="server" RepeatDirection="Horizontal" AutoPostBack="true"
+                                                    OnSelectedIndexChanged="rdbLstMI_SelectedIndexChanged">
+                                                    <asp:ListItem Text="Greater Than" Value="G" Selected="True"></asp:ListItem>
+                                                    <asp:ListItem Text="Between" Value="B"></asp:ListItem>
+                                                    <asp:ListItem Text="Less Than" Value="L"></asp:ListItem>
+                                                </asp:RadioButtonList>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="lc" align="left" colspan="2">
+                                                <asp:Label ID="lblMI1" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtMI1" runat="server" ValidationGroup="vsErrorGroup" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                    SkinID="txtAmt"></asp:TextBox>
+                                                <asp:Label ID="lblMI2" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtMI2" runat="server" ValidationGroup="vsErrorGroup" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                    SkinID="txtAmt"></asp:TextBox>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 50%;" align="left">
+                                    <table>
+                                        <tr>
+                                            <td class="lc" align="left" style="width: 30%;">
+                                                Expense Paid:
+                                            </td>
+                                            <td class="ic" align="left" style="width: 70%;">
+                                                <asp:RadioButtonList ID="rdbLstEP" runat="server" RepeatDirection="Horizontal" AutoPostBack="true"
+                                                    OnSelectedIndexChanged="rdbLstEP_SelectedIndexChanged">
+                                                    <asp:ListItem Text="Greater Than" Value="G" Selected="True"></asp:ListItem>
+                                                    <asp:ListItem Text="Between" Value="B"></asp:ListItem>
+                                                    <asp:ListItem Text="Less Than" Value="L"></asp:ListItem>
+                                                </asp:RadioButtonList>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="lc" align="left" colspan="2">
+                                                <asp:Label ID="lblEP1" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtEP1" runat="server" ValidationGroup="vsErrorGroup" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                    SkinID="txtAmt"></asp:TextBox>
+                                                <asp:Label ID="lblEP2" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtEP2" runat="server" ValidationGroup="vsErrorGroup" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                    SkinID="txtAmt"></asp:TextBox>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="width: 50%;" align="left">
+                                    <table>
+                                        <tr>
+                                            <td class="lc" align="left" style="width: 35%;">
+                                                Expense Incurred:
+                                            </td>
+                                            <td class="ic" align="left" style="width: 65%;">
+                                                <asp:RadioButtonList ID="rdbLstEI" runat="server" RepeatDirection="Horizontal" AutoPostBack="true"
+                                                    OnSelectedIndexChanged="rdbLstEI_SelectedIndexChanged">
+                                                    <asp:ListItem Text="Greater Than" Value="G" Selected="True"></asp:ListItem>
+                                                    <asp:ListItem Text="Between" Value="B"></asp:ListItem>
+                                                    <asp:ListItem Text="Less Than" Value="L"></asp:ListItem>
+                                                </asp:RadioButtonList>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="lc" align="left" colspan="2">
+                                                <asp:Label ID="lblEI1" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtEI1" runat="server" ValidationGroup="vsErrorGroup" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                    SkinID="txtAmt"></asp:TextBox>
+                                                <asp:Label ID="lblEI2" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtEI2" runat="server" ValidationGroup="vsErrorGroup" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                    SkinID="txtAmt"></asp:TextBox>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 50%;" align="left">
+                                    <table>
+                                        <tr>
+                                            <td class="lc" align="left" style="width: 30%;">
+                                                Indemnity Paid:
+                                            </td>
+                                            <td class="ic" align="left" style="width: 70%;">
+                                                <asp:RadioButtonList ID="rdbLstIP" runat="server" RepeatDirection="Horizontal" AutoPostBack="true"
+                                                    OnSelectedIndexChanged="rdbLstIP_SelectedIndexChanged">
+                                                    <asp:ListItem Text="Greater Than" Value="G" Selected="True"></asp:ListItem>
+                                                    <asp:ListItem Text="Between" Value="B"></asp:ListItem>
+                                                    <asp:ListItem Text="Less Than" Value="L"></asp:ListItem>
+                                                </asp:RadioButtonList>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="lc" align="left" colspan="2">
+                                                <asp:Label ID="lblIP1" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtIP1" runat="server" ValidationGroup="vsErrorGroup" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                    SkinID="txtAmt"></asp:TextBox>
+                                                <asp:Label ID="lblIP2" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtIP2" runat="server" ValidationGroup="vsErrorGroup" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                    SkinID="txtAmt"></asp:TextBox>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="width: 50%;" align="left">
+                                    <table>
+                                        <tr>
+                                            <td class="lc" align="left" style="width: 35%;">
+                                                Indemnity Incurred:
+                                            </td>
+                                            <td class="ic" align="left" style="width: 65%;">
+                                                <asp:RadioButtonList ID="rdbLstII" runat="server" RepeatDirection="Horizontal" AutoPostBack="true"
+                                                    OnSelectedIndexChanged="rdbLstII_SelectedIndexChanged">
+                                                    <asp:ListItem Text="Greater Than" Value="G" Selected="True"></asp:ListItem>
+                                                    <asp:ListItem Text="Between" Value="B"></asp:ListItem>
+                                                    <asp:ListItem Text="Less Than" Value="L"></asp:ListItem>
+                                                </asp:RadioButtonList>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="lc" align="left" colspan="2">
+                                                <asp:Label ID="lblII1" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtII1" runat="server" ValidationGroup="vsErrorGroup" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                    SkinID="txtAmt"></asp:TextBox>
+                                                <asp:Label ID="lblII2" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtII2" runat="server" ValidationGroup="vsErrorGroup" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                    SkinID="txtAmt"></asp:TextBox>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 50%;" align="left">
+                                    <table>
+                                        <tr>
+                                            <td class="lc" align="left" style="width: 30%;">
+                                                Total Paid:
+                                            </td>
+                                            <td class="ic" align="left" style="width: 70%;">
+                                                <asp:RadioButtonList ID="rdbLstTP" runat="server" RepeatDirection="Horizontal" AutoPostBack="true"
+                                                    OnSelectedIndexChanged="rdbLstTP_SelectedIndexChanged">
+                                                    <asp:ListItem Text="Greater Than" Value="G" Selected="True"></asp:ListItem>
+                                                    <asp:ListItem Text="Between" Value="B"></asp:ListItem>
+                                                    <asp:ListItem Text="Less Than" Value="L"></asp:ListItem>
+                                                </asp:RadioButtonList>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="lc" align="left" colspan="2">
+                                                <asp:Label ID="lblTP1" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtTP1" runat="server" ValidationGroup="vsErrorGroup" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                    SkinID="txtAmt"></asp:TextBox>
+                                                <asp:Label ID="lblTP2" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtTP2" runat="server" ValidationGroup="vsErrorGroup" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                    SkinID="txtAmt"></asp:TextBox>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td style="width: 50%;" align="left">
+                                    <table>
+                                        <tr>
+                                            <td class="lc" align="left" style="width: 35%;">
+                                                Total Incurred:
+                                            </td>
+                                            <td class="ic" align="left" style="width: 65%;">
+                                                <asp:RadioButtonList ID="rdbLstTI" runat="server" RepeatDirection="Horizontal" AutoPostBack="true"
+                                                    OnSelectedIndexChanged="rdbLstTI_SelectedIndexChanged">
+                                                    <asp:ListItem Text="Greater Than" Value="G" Selected="True"></asp:ListItem>
+                                                    <asp:ListItem Text="Between" Value="B"></asp:ListItem>
+                                                    <asp:ListItem Text="Less Than" Value="L"></asp:ListItem>
+                                                </asp:RadioButtonList>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="lc" align="left" colspan="2">
+                                                <asp:Label ID="lblTI1" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtTI1" runat="server" ValidationGroup="vsErrorGroup" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                    SkinID="txtAmt"></asp:TextBox>
+                                                <asp:Label ID="lblTI2" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtTI2" runat="server" ValidationGroup="vsErrorGroup" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                    SkinID="txtAmt"></asp:TextBox>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left">
+                                    <table>
+                                        <tr>
+                                            <td class="lc" align="left" style="width: 30%;">
+                                                Total OutStanding:
+                                            </td>
+                                            <td class="ic" align="left" style="width: 70%;">
+                                                <asp:RadioButtonList ID="rdbLstTO" runat="server" RepeatDirection="Horizontal" AutoPostBack="true"
+                                                    OnSelectedIndexChanged="rdbLstTO_SelectedIndexChanged">
+                                                    <asp:ListItem Text="Greater Than" Value="G" Selected="True"></asp:ListItem>
+                                                    <asp:ListItem Text="Between" Value="B"></asp:ListItem>
+                                                    <asp:ListItem Text="Less Than" Value="L"></asp:ListItem>
+                                                </asp:RadioButtonList>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="lc" align="left" colspan="2">
+                                                <asp:Label ID="lblTO1" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtTO1" runat="server" ValidationGroup="vsErrorGroup" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                    SkinID="txtAmt"></asp:TextBox>
+                                                <asp:Label ID="lblTO2" runat="server"></asp:Label>
+                                                <asp:TextBox ID="txtTO2" runat="server" ValidationGroup="vsErrorGroup" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                    SkinID="txtAmt"></asp:TextBox>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td align="left">
+                                    <table style="display: none;">
+                                        <tr>
+                                            <td class="lc" align="left">
+                                                Major Claim Type:
+                                            </td>
+                                            <td class="lc" align="left">
+                                                <asp:CheckBoxList ID="chkLstClaimType" runat="server" RepeatDirection="Horizontal">
+                                                    <asp:ListItem Text="MO" Value="M"></asp:ListItem>
+                                                    <asp:ListItem Text="LT" Value="L"></asp:ListItem>
+                                                </asp:CheckBoxList>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                Report Name:</td>
+                                            <td>
+                                                <asp:TextBox ID="txtReportName" runat="server" SkinID="txtAMt"></asp:TextBox><span
+                                                    class="mf">*</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Select Report:</td>
+                                            <td>
+                                                <asp:DropDownList ID="ddlReports" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlReports_SelectedIndexChanged">
+                                                </asp:DropDownList>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">
+                        <asp:Button ID="btnExportExcel" runat="Server" CssClass="btn" OnClick="btnExportExcel_Click"
+                            Text="Output to Excel" />
+                        <asp:Button ID="btnSubmit" runat="Server" OnClick="btnSubmit_Click" Text="Save Report" />
+                        <asp:Button ID="btnClear" runat="Server" OnClick="btnClear_Click" Text="Clear" />
+                    </td>
+                </tr>
+            </table>
+            <asp:GridView ID="gvAdHoc" runat="Server" AllowPaging="false" AllowSorting="false"
+                ShowFooter="true" EnableTheming="false"   AutoGenerateColumns="true" CaptionAlign="Left"
+                CellPadding="5" Width="100%" GridLines="Both" HeaderStyle-HorizontalAlign="Left"
+                RowStyle-HorizontalAlign="Left" OnRowDataBound="gvAdHoc_RowDataBound">
+                <Columns>
+                    <asp:TemplateField>
+                        <FooterTemplate>
+                            
+                            <asp:GridView ID="gvChild1" runat="server" EnableTheming="false"  GridLines="Both">
+                            </asp:GridView>
+                            
+                            <asp:GridView ID="gvChild" runat="server" EnableTheming="false"  GridLines="Both">
+                            </asp:GridView>
+                        </FooterTemplate>
+                    </asp:TemplateField>
+                </Columns>
+            </asp:GridView>
+        </div>
+        <%-- </contenttemplate>
+        </asp:UpdatePanel>--%>
+    </form>
+</body>
+</html>

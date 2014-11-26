@@ -1,0 +1,666 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>First Report :: Dealer Physical Damage</title>
+    <style type="text/css">
+        body
+        {
+            margin: 0px auto;
+            background-color: #FFFFFF;
+            font-size: 11px;
+            font-family: Tahoma;
+            margin-left: 1px;
+            margin-right: 1px;
+        }
+        .bandHeaderRow
+        {
+            border: #7f7f7f solid 1px;
+            vertical-align: middle;
+            background-color: #9a9a9a;
+            padding-left: 0px;
+            height: 18px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #f5f5f5;
+            text-decoration: none;
+        }
+        .PropertyInfoBG
+        {
+            background-color: #95B3D7;
+            color: White;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        .DataBG
+        {
+            background-color: #FFFFFF;
+            border: #7f7f7f solid 1px;
+        }
+        .HideClass
+        {
+            display: none;
+        }
+        .cols
+        {
+            border: Black solid 1px;
+        }
+    </style>
+</head>
+<body>
+    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+        <tr>
+            <td align="left" width="18%">
+                First Report Number
+            </td>
+            <td align="center" width="4%">
+                :
+            </td>
+            <td align="left" width="28%">
+                [lblFirstReportNumber]
+            </td>
+            <td align="left" width="18%">
+                &nbsp;
+            </td>
+            <td align="center" width="4%">
+                &nbsp;
+            </td>
+            <td align="left" width="28%">
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+    <div class="bandHeaderRow">
+        &nbsp; Location Information</div>
+    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+        <tr>
+            <td align="left" width="18%">
+                Location Number
+            </td>
+            <td align="center" width="4%">
+                :
+            </td>
+            <td align="left" width="28%">
+                [lblLocationNumber]
+            </td>
+            <td align="left" width="18%">
+                Location d/b/a
+            </td>
+            <td align="center" width="4%">
+                :
+            </td>
+            <td align="left" width="28%">
+                [lblLocationdba]
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                Legal Entity
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4">
+                [lblLegalEntity]
+            </td>
+        </tr>
+        <tr>
+            <td align="left">
+                Location f/k/a
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left" colspan="4">
+                [lblLocationfka]
+            </td>
+        </tr>
+        <tr>
+            <td align="left">
+                Address 1
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left" colspan="4">
+                [lblLocationAddress1]
+            </td>
+        </tr>
+        <tr>
+            <td align="left">
+                Address 2
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left" colspan="4">
+                [lblLocationAddress2]
+            </td>
+        </tr>
+        <tr>
+            <td align="left">
+                City
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left" colspan="4">
+                [lblLocationCity]
+            </td>
+        </tr>
+        <tr>
+            <td align="left">
+                State
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left" colspan="4">
+                [lblLocationState]
+            </td>
+        </tr>
+        <tr>
+            <td align="left">
+                Zip Code
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left" colspan="4">
+                [lblLocationZipCode]
+            </td>
+        </tr>
+    </table>
+    <div class="bandHeaderRow">
+        &nbsp; Loss Location if Different</div>
+    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+        <tr>
+            <td align="left" style="width: 18%">
+                Address 1
+            </td>
+            <td align="center" style="width: 4%">
+                :
+            </td>
+            <td align="left" style="width: 28%">
+                [lblLoss_Address_1]
+            </td>
+            <td align="left" style="width: 18%">
+                Did the accident occur on company property?
+            </td>
+            <td align="center" style="width: 4%">
+                :
+            </td>
+            <td align="left" style="width: 28%">
+                [lblOn_Company_Property]
+            </td>
+        </tr>
+        <tr>
+            <td align="left">
+                Address 2
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left">
+                [lblLoss_Address_2]
+            </td>
+            <td align="left">
+                Date of Loss
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left">
+                [lblDate_Of_Loss]
+            </td>
+        </tr>
+        <tr>
+            <td align="left">
+                City
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left">
+                [lblLoss_City]
+            </td>
+            <td align="left">
+                Time of Loss (HH:MM)
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left">
+                [lblTime_of_Loss]
+            </td>
+        </tr>
+        <tr>
+            <td align="left">
+                State
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left">
+                [lblLoss_State]
+            </td>
+            <td align="left">
+                &nbsp;
+            </td>
+            <td align="center">
+                &nbsp;
+            </td>
+            <td align="left">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td align="left">
+                Zip Code
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left">
+                [lblLoss_ZipCode]
+            </td>
+            <td align="left">
+                &nbsp;
+            </td>
+            <td align="center">
+                &nbsp;
+            </td>
+            <td align="left">
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+    <div class="bandHeaderRow">
+        &nbsp; Contact Information</div>
+    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+        <tr>
+            <td align="left" width="18%">
+                Dealership/Collision Center
+            </td>
+            <td align="center" width="4%">
+                :
+            </td>
+            <td width="28%" align="left">
+                [lbldba]
+            </td>
+            <td align="left" width="18%">
+                &nbsp;
+            </td>
+            <td align="left" width="4%">
+                &nbsp;
+            </td>
+            <td align="left" width="28%">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td align="left">
+                Contact Name
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left">
+                [lblContactName]
+            </td>
+            <td align="left">
+                Address 1
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left">
+                [lblAddress_1]
+            </td>
+        </tr>
+        <tr>
+            <td align="left">
+                When to Contact
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left">
+                [lblContact_Best_Time]
+            </td>
+            <td align="left">
+                Address 2
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left">
+                [lblAddress_2]
+            </td>
+        </tr>
+        <tr>
+            <td align="left">
+                Telephone Number 1<br />
+                (xxx-xxx-xxxx)
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left">
+                [lblWork_Phone]
+            </td>
+            <td align="left">
+                City
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left">
+                [lblCity]
+            </td>
+        </tr>
+        <tr>
+            <td align="left">
+                Telephone Number 2<br />
+                (xxx-xxx-xxxx)
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left">
+                [lblEmployee_Cell_Phone]
+            </td>
+            <td align="left">
+                State
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left">
+                [lblState]
+            </td>
+        </tr>
+        <tr>
+            <td align="left">
+                Fax Number<br />
+                (xxx-xxx-xxxx)
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left">
+                [lblEmployee_Fax]
+            </td>
+            <td align="left">
+                Zip
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left">
+                [lblZip_Code]
+            </td>
+        </tr>
+        <tr>
+            <td align="left">
+                Email Address
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left" colspan="4">
+                [lblEmail]
+            </td>
+        </tr>
+        <tr>
+            <td align="left">
+                Date Reported to Sonic
+            </td>
+            <td align="center">
+                :
+            </td>
+            <td align="left" colspan="4">
+                [lblDate_Reported_To_Sonic]
+            </td>
+        </tr>
+    </table>
+    <div class="bandHeaderRow">
+        &nbsp; Loss Information</div>
+    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+        <tr>
+            <td align="left" style="width: 18%">
+                Date of Loss
+            </td>
+            <td align="center" style="width: 4%">
+                :
+            </td>
+            <td align="left" style="width: 28%">
+                [lblLossDate_Of_Loss]
+            </td>
+            <td align="left" style="width: 18%">
+                &nbsp;
+            </td>
+            <td align="center" style="width: 4%">
+                &nbsp;
+            </td>
+            <td align="left" style="width: 28%">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6" align="left">
+                Cause of Loss
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6" align="left">
+                Theft :
+            </td>
+        </tr>
+        <!--[tdViewtheft] -->
+        <tr>
+            <td colspan="6" style="width: 100%;" id="tdViewtheft">
+                <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                    <tr>
+                        <td colspan="6" style="width: 100%;">
+                            [TheftInfo]
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--[#tdViewtheft] -->
+        <tr>
+            <td colspan="6" align="left">
+                Partial Theft :
+            </td>
+        </tr>
+        <!--[tdViewPartialTheft] -->
+        <tr>
+            <td colspan="6" style="width: 100%;" id="tdViewPartialTheft">
+                <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                    <tr>
+                        <td colspan="6" style="width: 100%;">
+                            [PartialTheftInfo]
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--[#tdViewPartialTheft] -->
+        <tr>
+            <td colspan="6" align="left">
+                Vandalism :
+            </td>
+        </tr>
+        <!--[tdViewVandalism] -->
+        <tr>
+            <td colspan="6" style="width: 100%;" id="tdViewVandalism">
+                <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                    <tr>
+                        <td colspan="6" style="width: 100%;">
+                            [VandalismInfo]
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--[#tdViewVandalism] -->
+        <tr>
+            <td colspan="6" align="left">
+                MVA - Damage (Single Vehicle) :
+            </td>
+        </tr>
+        <!--[tdViewMVA_Single_Damage] -->
+        <tr>
+            <td colspan="6" style="width: 100%;" id="tdViewMVA_Single_Damage">
+                <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                    <tr>
+                        <td colspan="6" style="width: 100%;">
+                            [MVASingleInfo]
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--[#tdViewMVA_Single_Damage] -->
+        <tr>
+            <td colspan="6" align="left">
+                MVA - Damage (Multiple Vehicle) :
+            </td>
+        </tr>
+        <!--[tdViewMVA_Multi_Damage] -->
+        <tr>
+            <td colspan="6" style="width: 100%;" id="tdViewMVA_Multi_Damage">
+                <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                    <tr>
+                        <td colspan="6" style="width: 100%;">
+                            [MultiDamageVehicleInfo]
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--[#tdViewMVA_Multi_Damage] -->
+        <tr>
+            <td colspan="6" align="left">
+                Hail :
+            </td>
+        </tr>
+        <!--[tdViewHail] -->
+        <tr>
+            <td colspan="6" style="width: 100%" id="tdViewHail">
+                <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                    <tr>
+                        <td colspan="6" style="width: 100%;">
+                            [HailInfo]
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--[#tdViewHail] -->
+        <tr>
+            <td colspan="6" align="left">
+                Flood :
+            </td>
+        </tr>
+        <!--[tdViewFlood] -->
+        <tr>
+            <td colspan="6" style="width: 100%" id="tdViewFlood">
+                <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                    <tr>
+                        <td colspan="6" style="width: 100%;">
+                            [FloodInfo]
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--[#tdViewFlood] -->
+        <tr>
+            <td colspan="6" align="left">
+                Fire :
+            </td>
+        </tr>
+        <!--[tdViewFire] -->
+        <tr>
+            <td colspan="6" style="width: 100%" id="tdViewFire">
+                <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                    <tr>
+                        <td colspan="6" style="width: 100%;">
+                            [FireInfo]
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--[#tdViewFire] -->
+        <tr>
+            <td colspan="6" align="left">
+                Wind :
+            </td>
+        </tr>
+        <!--[tdViewWind] -->
+        <tr>
+            <td colspan="6" style="width: 100%" id="tdViewWind">
+                <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                    <tr>
+                        <td colspan="6" style="width: 100%;">
+                            [WindInfo]
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--[#tdViewWind] -->
+        <tr>
+            <td colspan="6" align="left">
+                Fraud :
+            </td>
+        </tr>
+        <!--[tdViewFraud] -->
+        <tr>
+            <td colspan="6" style="width: 100%" id="tdViewFraud">
+                <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                    <tr>
+                        <td colspan="6">
+                            [FraudInfo]
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!--[#tdViewFraud] -->
+    </table>
+    <div class="bandHeaderRow">
+        &nbsp; Witnesses</div>
+    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+        <tr>
+            <td colspan="6" style="width: 100%" id="tdWitness">
+                <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                    <tr>
+                        <td colspan="6">
+                            [WitnessInfo]
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <div class="bandHeaderRow">
+        &nbsp; Comments and Attachments</div>
+    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+        <tr>
+            <td align="left" style="width: 18%" valign="top">
+                Comments
+            </td>
+            <td align="center" style="width: 4%" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4">
+                [lblComments]
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

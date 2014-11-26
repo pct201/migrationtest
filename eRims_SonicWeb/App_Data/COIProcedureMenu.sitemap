@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+  <siteMapNode url="" title=""  description="">
+    <siteMapNode url="javascript:void(1);" title="Producer &lt;span style='color: Red;'&gt;*&lt;/span&gt;"  description="" />
+    <siteMapNode url="javascript:void(2);" title="Attachment"  description="" />
+  </siteMapNode>
+</siteMap >

@@ -1,0 +1,773 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style type="text/css">
+        .td
+        {
+            font-size: 12px;
+        }
+        .HeaderRow
+        {
+            margin: 10px 10px 0 275px;
+            vertical-align: middle;
+            background-color: #bfbfbf;
+            padding-left: 5px;
+            font-weight: bold;
+            color: Black;
+            text-decoration: none;
+            font-family: Arial;
+            font-size: 14px;
+        }
+        .ValueCell
+        {
+            font-family: Arial;
+            font-size: 12px;
+            text-align: left;
+        }
+        .TitleCell
+        {
+            font-family: Arial;
+            font-size: 12px;
+            text-align: left;
+            font-weight: bold;
+            width: 18%;
+        }
+    </style>
+</head>
+<body>
+    <table cellpadding="1" cellspacing="1" border="0" width="100%">
+        <tr>
+            <td align="left" style="font-size: 14px; font-family: Arial; font-weight: bold">
+                Customer
+            </td>
+        </tr>
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td style="font-size: 12px; font-family: Arial; font-weight: bold;" colspan="6" class="HeaderRow">
+                Customer Information
+            </td>
+        </tr>
+        <tr>
+            <td align="left" style="font-family: Arial; font-size: 12px; font-weight: bold;">
+                <table border="0" cellspacing="1" cellpadding="5" width="100%">
+                    <tbody>
+                        <tr valign="top">
+                            <td width="22%" align="left">
+                                Complaint Number
+                            </td>
+                            <td width="2%" align="center">
+                                :
+                            </td>
+                            <td width="26%" align="left" style="font-weight: normal;">
+                                [ComplaintNumber]
+                            </td>
+                            <td width="21%" align="left">
+                                Date of Incident
+                            </td>
+                            <td width="2%" align="center">
+                                :
+                            </td>
+                            <td width="27%" align="left" style="font-weight: normal;">
+                                [DateofIncident]
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                Source
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [Source]
+                            </td>
+                            <td align="left">
+                                &nbsp;
+                            </td>
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                Last Name
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [LastName]
+                            </td>
+                            <td align="left">
+                                First Name
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [FirstName]
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                Address
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [Address]
+                            </td>
+                            <td align="left">
+                                City
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [City]
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                State
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [State]
+                            </td>
+                            <td valign="top" align="left">
+                                Zip (XXXXX-XXXX)
+                            </td>
+                            <td valign="top" align="center">
+                                :
+                            </td>
+                            <td valign="top" align="left" style="font-weight: normal;">
+                                [Zip]
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                Email
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [Email]
+                            </td>
+                            <td align="left">
+                                &nbsp;
+                            </td>
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                Home Telephone (XXX-XXX-XXXX)
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [HomeTelephone]
+                            </td>
+                            <td align="left">
+                                Cell Telephone (XXX-XXX-XXXX)
+                            </td>
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [CellTelephone]
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                Work Telephone (XXX-XXX-XXXX)
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [WorkTelephone]
+                            </td>
+                            <td align="left">
+                                Work Telephone Extension
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [WorkTelephoneExtension]
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                Summary
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;" colspan="4">
+                                [Summary]
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>       
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td style="font-size: 12px; font-family: Arial; font-weight: bold;" colspan="6" class="HeaderRow">
+                Department Information
+            </td>
+        </tr>
+        <tr>
+            <td align="left" style="font-family: Arial; font-size: 12px; font-weight: bold;">
+                <table border="0" cellspacing="1" cellpadding="5" width="100%">
+                    <tbody>
+                        <tr valign="top">
+                            <td align="left" width="22%">
+                                Department
+                            </td>
+                            <td align="center" width="2%">
+                                :
+                            </td>
+                            <td align="left" width="26%" style="font-weight: normal;">
+                                [Department]
+                            </td>
+                            <td align="left" width="21%">
+                                Department Detail
+                            </td>
+                            <td align="center" width="2%">
+                                :
+                            </td>
+                            <td align="left" width="27%" style="font-weight: normal;">
+                                [DepartmentDetail]
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                Date of Service
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [DateofService]
+                            </td>
+                            <td align="left">
+                                Date of Service Estimated?
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [DateofServiceEstimated]
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                Dealer
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [Dealer]
+                            </td>
+                            <td align="left">
+                                Brand
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [Brand]
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                Model
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [Model]
+                            </td>
+                            <td align="left">
+                                Year
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [Year]
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td style="font-size: 12px; font-family: Arial; font-weight: bold;" colspan="6" class="HeaderRow">
+                Contacts and Dates
+            </td>
+        </tr>       
+        <tr>
+            <td align="left" style="font-family: Arial; font-size: 12px; font-weight: bold;">
+                <table border="0" cellspacing="1" cellpadding="5" width="100%">
+                    <tbody>
+                        <tr valign="top">
+                            <td align="left" width="22%">
+                                CRM Contacted
+                            </td>
+                            <td align="center" width="2%">
+                                :
+                            </td>
+                            <td align="left" width="26%" style="font-weight: normal;">
+                                [CRMContacted]
+                            </td>
+                            <td align="left" width="21%">
+                                &nbsp;
+                            </td>
+                            <td align="center" width="2%">
+                                &nbsp;
+                            </td>
+                            <td align="left" width="27%" style="font-weight: normal;">
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left" width="22%">
+                                Resolution Manager
+                            </td>
+                            <td align="center" width="2%">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;" width="26%">
+                                [ResolutionManager]
+                            </td>
+                            <td align="left" width="21%">
+                                Resolution Manager Name
+                            </td>
+                            <td align="center" width="2%">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;" width="27%">
+                                [ResolutionManagerName]
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                Resolution Manager Email
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [ResolutionManagerEmail]
+                            </td>
+                            <td align="left">
+                                &nbsp;
+                            </td>
+                            <td align="center">
+                                &nbsp;
+                            </td>
+                            <td align="left">
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                Customer Contacted GM?
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [CustomerContactedGM]
+                            </td>
+                            <td align="left">
+                                GM Name
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [GMName]
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                Date of Contact RVP
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [DateofContactRVP]
+                            </td>
+                            <td align="left">
+                                RVP Name
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [RVPName]
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                Date of Contact DFOD
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [DateofContactDFOD]
+                            </td>
+                            <td align="left">
+                                DFOD
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [DFOD]
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                &nbsp;
+                            </td>
+                            <td align="center">
+                                &nbsp;
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                &nbsp;
+                            </td>
+                            <td align="left">
+                                Other Contact Name
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [OtherContactName]
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                Legal/Attorney General?
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [LegalAttorneyGeneral]
+                            </td>
+                            <td align="left">
+                                Legal Email
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [LegalEmail]
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                Demand Letter?
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [DemandLetter]
+                            </td>
+                            <td align="left">
+                                &nbsp;
+                            </td>
+                            <td align="center">
+                                &nbsp;
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                Date of Last Update
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [DateofLastUpdate]
+                            </td>
+                            <td align="left">
+                                Last Action
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [LastAction]
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+        </tr>          
+         <tr valign="top">
+            <td align="left" style="font-family: Arial; font-size: 14px; font-weight: bold;">
+                [ComplaintGrid]
+            </td>
+        </tr>
+         <tr>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td align="left" style="font-family: Arial; font-size: 14px; font-weight: bold;">
+                [Field Notes Grid]
+            </td>
+        </tr>
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td align="left" style="font-family: Arial; font-size: 12px; font-weight: bold;">
+                <table border="0" cellspacing="1" cellpadding="5" width="100%">
+                    <tr valign="top">
+                        <td align="left" width="22%">
+                            Field Resolution Information 
+                        </td>
+                        <td align="center" width="2%">
+                            :
+                        </td>
+                        <td align="left" width="76%" style="font-weight: normal;" colspan="4">
+                            [FieldResolutionInformation]
+                        </td>                       
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!-- <tr>
+           <td align="left" style="font-family: Arial; font-size: 12px; font-weight: bold;">
+                <table border="0" cellspacing="1" cellpadding="5" width="100%">
+                    <tbody>
+                        <tr valign="top">
+                            <td align="left" width="22%">
+                                Field Notes Grid
+                            </td>
+                            <td align="center" width="2%">
+                                :
+                            </td>
+                            <td align="left" width="76%" style="font-weight: normal;">
+                                [Field Notes Grid]
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>-->
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td style="font-size: 12px; font-family: Arial; font-weight: bold;" colspan="6" class="HeaderRow">
+                Resolution
+            </td>
+        </tr>
+        <tr>
+            <td align="left" style="font-family: Arial; font-size: 12px; font-weight: bold;">
+                <table border="0" cellspacing="1" cellpadding="5" width="100%">
+                    <tbody>
+                        <tr valign="top">
+                            <td align="left" width="22%">
+                                Resolution Summary
+                            </td>
+                            <td align="center" width="2%">
+                                :
+                            </td>
+                            <td align="left" width="76%" colspan="4" style="font-weight: normal;">
+                                [ResolutionSummary]
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left" width="22%">
+                                Complete?
+                            </td>
+                            <td align="center" width="2%">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;" width="26%">
+                                [Complete]
+                            </td>
+                            <td align="left" width="21%">
+                                Close Date
+                            </td>
+                            <td align="center" width="2%">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;" width="27%">
+                                [CloseDate]
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                Days to Close
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [DaystoClose]
+                            </td>
+                            <td align="left">
+                                Customer Call Back After Resolved
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" align="left" style="font-weight: normal;">
+                                [CustomerCallBackAfterResolved]
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                Resolution Letter to Customer?
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [ResolutionLettertoCustomer]
+                            </td>
+                            <td align="left">
+                                Date Resolution Letter Sent
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [DateResolutionLetterSent]
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                Sent By
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [SentBy]
+                            </td>
+                            <td align="left">
+                                &nbsp;
+                            </td>
+                            <td align="center">
+                                &nbsp;
+                            </td>
+                            <td align="left">
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                Letter N/A?
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [LetterNA]
+                            </td>
+                            <td align="left">
+                                Letter N/A Reason
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left" style="font-weight: normal;">
+                                [LetterNAReason]
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td align="left">
+                                Letter N/A Note
+                            </td>
+                            <td align="center">
+                                &nbsp;
+                            </td>
+                            <td align="left" style="font-weight: normal;" colspan="4">
+                                [LetterNANote]
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td style="font-size: 12px; font-family: Arial; font-weight: bold;" colspan="6" class="HeaderRow">
+                [EmailLog]
+            </td>
+        </tr>
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td align="left" style="font-family: Arial; font-size: 14px; font-weight: bold;">
+                [Attachments]
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

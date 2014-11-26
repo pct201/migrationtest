@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AdHocReportField>
+  
+  <Field Title="Building Occupancy - Sales - New" TableName="" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Building Occupancy - Body Shop" TableName="" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Building Occupancy - Parking Lot" TableName="" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Building Occupancy - Sales - Used" TableName="" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Building Occupancy - Parts" TableName="" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Building Occupancy - Raw Land" TableName="" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Building Occupancy - Service" TableName="" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Building Occupancy - Office" TableName="" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Equipment" TableName="LU_Equipment_Type_Pollution" Type="DropDown" HasCode="N" ></Field>
+  <Field Title="Project Type" TableName="LU_EPM_Project_Type" Type="DropDown" HasCode="N" ></Field>
+  <Field Title="Requesting Entity" TableName="LU_EPM_Requesting_Agency" Type="DropDown" HasCode="N" ></Field>
+  <Field Title="Target Area" TableName="LU_EPM_TargetArea" Type="DropDown" HasCode="N" ></Field>
+  <Field Title="Purpose Of Project" TableName="LU_EPM_PurposeOfProject" Type="DropDown" HasCode="N"></Field>
+  <Field Title="Project Phase" TableName="LU_EPM_Project_Phase" Type="DropDown" HasCode="N" ></Field>
+  <Field Title="Milestone" TableName="LU_EPM_Milestone" Type="DropDown" HasCode="N" ></Field>
+  <Field Title="E-Mail Reminder" TableName="" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="E-Mail List from Milestone" TableName="LU_EPM_Milestone" Type="DropDown" HasCode="N" ></Field>
+  <Field Title="Required Activity" TableName="LU_EPM_Required_Activity" Type="DropDown" HasCode="N" ></Field>
+  <Field Title="Outcome" TableName="LU_EPM_Outcome" Type="DropDown" HasCode="N" ></Field>
+
+</AdHocReportField>

@@ -1,0 +1,266 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Default.master.cs" Inherits="_Default" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta name="robots" content="noindex" />
+    <title>Risk Insurance Management System</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=7" />
+    <link rel="shortcut icon" type="image/ico" href="images\ess.ico" />
+    <meta http-equiv="Page-Exit" content="progid:DXImageTransform.Microsoft.Fade(duration=.5)" />
+    <link href="greybox/gb_styles.css" rel="stylesheet" type="text/css" />
+    <%--  <link href="App_Themes/Default/calDateTime.css" rel="stylesheet" type="text/css" />--%>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("select").each(function () {
+                $(this).mouseover(function () {
+                    $(this).find("option").each(function () {
+                        $(this).attr("title", $(this).text());
+                    });
+                });
+            });
+        });
+    </script>
+    
+</head>
+<body class="style">
+    <form id="form1" runat="server">
+    <asp:UpdateProgress runat="server" ID="upProgress" DisplayAfter="10">
+        <ProgressTemplate>
+            <div class="UpdatePanelloading" id="divProgress" style="width: 100%;">
+                <table id="ProgressTable" cellpadding="0" cellspacing="0" border="0" style="width: 100%;
+                    height: 100%;">
+                    <tr align="center" valign="middle">
+                        <td class="LoadingText" align="center" valign="middle">
+                            <img src="<%=AppConfig.ImageURL%>//indicator.gif" alt="Loading" />&nbsp;&nbsp;&nbsp;Please
+                            Wait..
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </ProgressTemplate>
+    </asp:UpdateProgress>
+    <asp:ScriptManager runat="server" ID="scMain" EnablePartialRendering="true" EnablePageMethods="true">
+    </asp:ScriptManager>
+    <div id="container">
+        <asp:HiddenField ID="hdnLoginAuditID" runat="server" />
+        <div id="top1">
+        </div>
+        <div id="top2">
+        </div>
+        <div id="header" class="header_text" runat="server" style="background-image: url(../images/header.jpg);
+            background-repeat: no-repeat;">
+            <table width="100%" border="0" style="text-align: right;" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td align="right" style="text-align: right">
+                        Welcome
+                        <%=clsSession.FirstName%>&nbsp;<%=clsSession.LastName%>&nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right" style="text-align: right">
+                        <a href="<%=AppConfig.SiteURL%>Logoff.aspx?outlook=1" class="top_link" id="hrefLogoff"
+                            runat="server" onserverclick="HrefClick">Logoff</a> &nbsp;&nbsp;
+                        <input type="hidden" id="hdntext" name="hdntext" value="" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+            </table>
+            <!-- end #header -->
+        </div>
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+                <td width="100%">
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td width="100%">
+                    <div>
+                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                        </asp:ContentPlaceHolder>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="100%">
+                    <div id="footer">
+                        <p>
+                            ©
+                            <%= DateTime.Now.Year %>, Emerson Software Solutions Inc, All Rights Reserved
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <asp:HiddenField ID="hnd1" runat="server" />
+    <script type="text/javascript" src="<%=AppConfig.SiteURL %>JavaScript/Validator.js"></script>
+    </form>
+    <script language="javascript" type="text/javascript">
+
+
+        var reqXML;
+        var strReturn;
+        function LoadXMLDoc(url) {
+            if (window.XMLHttpRequest) {
+                //Mozilla, Firefox, Opera 8.01, Safari
+                reqXML = new XMLHttpRequest();
+                reqXML.onreadystatechange = BuildXMLResults;
+                reqXML.open("GET", url, true);
+                reqXML.send(null);
+            } else
+                if (window.ActiveXObject) {
+                    //IE
+                    reqXML = new ActiveXObject("Microsoft.XMLHTTP");
+                    if (reqXML) {
+                        reqXML.onreadystatechange = BuildXMLResults;
+                        reqXML.open("GET", url, true);
+                        reqXML.send();
+                    }
+                } else {
+                    //Older Browsers 
+                    alert("Your Browser does not support Ajax!");
+                }
+        }
+        function BuildXMLResults() {
+            if (reqXML.readyState == 4) {
+                //completed state
+
+                if (reqXML.status == 200) {
+                    //We got a sucess page back
+                    //Check to verify the message from the server 
+
+                    if (reqXML.responseText.indexOf("Session Updated - Server Time:") == 0) {
+                        //window.status = reqXML.responseText; //display the message in the status bar
+                        SetTimer();
+                        //restart timer
+
+                    } else {
+                        //display that that session expired
+                        alert("Your session appears to have expired. You may loose your current data.");
+                    }
+                } else {
+                    //display server code not be accessed
+                    alert("There was a problem retrieving the XML data:\n" + reqXML.statusText);
+                }
+            }
+        }
+        function ConfirmUpdate() {
+
+            var strScript = "";
+
+            //            $find('PopupTimeOut').show();
+            var sURL = "";
+            sURL = "<%=AppConfig.SiteURL%>PopupTimeOut.aspx";
+            strReturn = window.showModalDialog(sURL, 'STimeOut', 'dialogHeight:200px; dialogwidth:500px; Scroll: Yes; center: Yes; Resizable:No; Status:No;')
+            var nIndex = 0;
+            nIndex = strReturn.indexOf("^");
+            if (nIndex > 0) {
+                //code to get the action done by the user
+
+                var strAction;
+                strAction = strReturn.substr(0, nIndex);
+
+                //*****code to convert remaining session time into milliseconds*****
+
+                var min = strReturn.substr(nIndex + 1, 2);
+                var sec = strReturn.substr(nIndex + 4);
+
+                if (min > 0) {
+                    min = min * 60 * 1000;
+                }
+
+                if (sec > 0) {
+                    sec = sec * 1000;
+                }
+
+                var totalremaintime;
+                totalremaintime = min + sec;
+                //******************************************************************
+
+                if (strAction == "Ok") {
+                    LoadXMLDoc('<%=AppConfig.SiteURL%>sessionupdater.aspx');
+                    strReturn = '';
+                } else
+                    if (strAction == "Auto") {
+                        OnTimeOut(0);
+                    } else
+                        if (strAction == "Cancel" || strAction == "Cross") {
+
+                            if (isNaN(totalremaintime)) {
+                                OnTimeOut(0);
+                            } else {
+                                OnTimeOut(totalremaintime);
+                            }
+                        }
+
+            }
+
+        }
+        var timerObj;
+        function SetTimer() {
+            //How long before timeout (should be a few minutes before your server's timeout
+
+            var dblMinutes = 15;
+            //set timer to call function to confirm update 
+            timerObj = setTimeout("ConfirmUpdate()", 1000 * 60 * dblMinutes);
+        }
+        var outtimerObj;
+        function RedirectPage() {
+
+            parent.window.location.href = '<%=AppConfig.SiteURL%>Logoff.aspx';
+        }
+        function OnTimeOut(totalremaintime) {
+
+
+            outtimerObj = window.setTimeout('RedirectPage()', totalremaintime);
+        }
+        //start the timer
+        SetTimer();
+        // Session
+        window.onscroll = getScrollHeight;
+        function getScrollHeight() {
+            var h = window.pageYOffset ||
+               document.body.scrollTop ||
+               document.documentElement.scrollTop;
+            document.getElementById('divProgress').style.height = screen.height + h;
+            document.getElementById('ProgressTable').style.height = screen.height + h;
+        }
+    </script>
+</body>
+<script type="text/javascript" src="<%=AppConfig.SiteURL %>JavaScript/shortcut.js"></script>
+<%--<script type="text/javascript">
+    var AskfForLogoff = true;
+    window.onbeforeunload = function () {
+        //alert(window.event.clientX + " " + window.event.clientY);
+        if (AskfForLogoff && (window.event.clientX < 0 || window.event.clientY < 0)) {
+            if (confirm("You have selected to close the eRIMS2 application and be logged off. Continue?")) {
+                //do your actions, even launch xmlhttprequest
+                __doPostBack('PerformLogOff', '');
+            }
+            return "";
+        }
+    }
+
+
+    window.onload = function() {
+        shortcut.add("Ctrl+W", ConfirmExit, { 'type': 'keydown', 'propagate': true, 'target': document });
+        shortcut.add("Ctrl+F4", ConfirmExit, { 'type': 'keydown', 'propagate': true, 'target': document });
+        shortcut.add("Alt+F4", ConfirmExit, { 'type': 'keydown', 'propagate': true, 'target': document });
+    }
+
+    function ConfirmExit() {
+        if (confirm("You have selected to close the eRIMS2 application and be logged off. Continue?")) {
+            //do your actions, even launch xmlhttprequest
+            __doPostBack('PerformLogOff', '');
+        }
+    }
+</script>--%>
+</html>

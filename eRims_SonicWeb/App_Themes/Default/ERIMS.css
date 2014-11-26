@@ -1,0 +1,225 @@
+﻿/* Elements */
+body{margin: 0px auto;background-color: #FFFFFF;FONT-SIZE: 11px; FONT-FAMILY: Tahoma;margin-left:1px;margin-right:1px;}
+
+IMG{border:0;} 
+/* Elements */
+
+/* Master Page */
+.dvPage{width:999px;}
+.dvContainer{background-color:#FFFFFF;margin:0 auto; border:1px solid #000000;text-align:left;padding:2px 2px 2px 2px;}
+/* Master Page */
+
+/************************** Common **************************/
+
+.Spacer{background-image:url('Images/spacer.gif');}
+
+/* messages (success,error,other messages) */
+.msg1{color:Red;}
+.msg2{color:Black;}
+/* messages (success,error,other messages) */
+
+
+/* these are the classes for links later we'll remove classes which are not needed.*/
+/*A:link {color:#0000FF;font-size:8pt;font-family:Tahoma;}
+A:visited {color:#0000FF;font-size:8pt;font-family:Tahoma;}
+A:hover {color:#0000FF; font-size:8pt;font-family:Tahoma;}
+A:active {color:#0000FF; font-size:8pt;font-family:Tahoma;}
+
+A.Small:link {color:#5B18FF; text-decoration:none;font-size:10px;font-family:Tahoma;}
+A.Small:visited {color:#5B18FF; text-decoration:none;font-size:10px;font-family:Tahoma;}
+A.Small:hover {color:#5B18FF; text-decoration:none;font-size:10px;font-family:Tahoma;}
+A.Small:active {color:#5B18FF; text-decoration:none;font-size:10px;font-family:Tahoma;}
+
+A.Normal:link {color:#5B18FF; text-decoration:none;font-size:12px;font-family:Tahoma;}
+A.Normal:visited {color:#5B18FF; text-decoration:none;font-size:12px;font-family:Tahoma;}
+A.Normal:hover {color:#5B18FF; text-decoration:none;font-size:12px;font-family:Tahoma;}
+A.Normal:active {color:#5B18FF; text-decoration:none;font-size:12px;font-family:Tahoma;}*/
+
+/* these are the classes for links later we'll remove classes which are not needed.*/
+
+/************* FONTS *****************/
+.SmallFont{font-family:Verdana;color:#666666;font-size:10px;font-weight:normal;}
+.SmallFontBold{font-family:Verdana;color:#666666;font-size:10px;font-weight:bold;}
+
+.MediumFont{font-family:Verdana;color:#666666;font-size:11px;font-weight:normal;} 
+.MediumFontBold{font-family:Verdana;color:#666666;font-size:11px;font-weight:bold;} 
+
+.NormalFont{font-family:Verdana;color:#666666;font-size:12px;font-weight:normal;}
+.NormalFontBold{font-family:Verdana;color:#666666;font-size:12px;font-weight:bold;}
+
+.BigFont{font-family:Verdana;color:#666666;font-size:14px;font-weight:normal;}
+.BigFontBold{font-family:Verdana;color:#666666;font-size:14px;font-weight:bold;}
+/***************************************/
+
+/********************************************** Common ******************************/
+
+/*********** Table and Grid *******************/
+.tblGrid{background-color:#ffffff;}
+.titlerow{background-color:#3D3D3D;color:White;text-align:center;} /* title for grid or table */
+.headerrow{background-color:#F2F2F2;FONT-WEIGHT: bold;color:#666666;} /* headers of table or grid columns*/
+.normalrow{background-color:#F7F7F7;} 
+.altrow{background-color:#F7F7F7;}
+.headerrow{background-color:Gray;FONT-WEIGHT: bold;color:#ffffff;} /* headers of table or grid columns*/
+.headerrow2{background-color:#F2F2F2;FONT-WEIGHT: bold;color:#666666;}
+.normalrow{background-color:#F2F2F2; color :#666666; text-align :center  } 
+.normalrow2{background-color:#F7F7F7;} 
+.bandHeaderRow
+{
+	border: #7f7f7f solid 1px;
+	vertical-align: middle;
+	background-color: #9a9a9a;
+	padding-left: 5px;
+	height: 18px;
+	font-size: 12px;
+	font-weight: bold;
+	color: #f5f5f5;
+	text-decoration: none;
+}
+
+.emptyrow{background-color:#F2F2F2;}
+.headerrowSmall{FONT-WEIGHT: bold; FONT-SIZE: 11px; COLOR: #365F91; FONT-FAMILY: verdana;}
+/***********************************/
+
+
+/********** headings **************/
+
+
+.headerBarMedium{background-color:#95B3D7;height:18px;padding-left:3px;}
+
+.headerFontMedium{font-weight: bold;font-size: 12px; color: #000000; font-family: verdana;padding-left:2px;}
+
+
+
+.headerFontBig{font-weight: bold; font-size: 13px; color: #FFFFFF; font-family: verdana;padding-left:2px;}
+.headerFontSmall{font-weight: bold; font-size: 11px; color: #365F91; font-family: verdana;padding-left:2px;}
+
+.headerBarBig{background-color:#95B3D7;height:22px;padding-left:3px;}
+.headerBarSmall{background-color:#FFFFFF;height:15px;padding-left:3px;}
+
+.groupHeaderBar{background-color:#D9D9D9;font-weight:bold;font-size:14px;height:21px;color:#000000;font-family:Verdana;padding-left:5px;}
+
+.headingBar{background-color:#D9D9D9;font-weight:bold;font-size:14px;height:21px;color:#000000;font-family:Verdana;padding-left:5px;}
+.heading {font-weight: bold; font-size: 12px; color: #000000; font-family: verdana;padding-left:3px;}
+.boldPoint{font-weight:bold;font-size:11px;color:#000000;font-family:Verdana;}
+.leftMenu{width:200px;font-weight: bold; font-size: 12px; color: #000000; font-family: verdana;vertical-align:top;border:solid 1px black;}
+/***************************************/
+
+
+/********** asp controls **************/
+
+.txtBox {
+	BORDER-RIGHT: #999999 1px solid; BORDER-TOP: #999999 1px solid; FONT-SIZE: 11px; BORDER-LEFT: #999999 1px solid; WIDTH: 230px; COLOR: #333333; BORDER-BOTTOM: #999999 1px solid; FONT-FAMILY: tahoma; BACKGROUND-COLOR: #f7f7f7
+}
+.drpDwnList {
+	BORDER-RIGHT: #999999 1px solid; BORDER-TOP: #999999 1px solid; FONT-SIZE: 11px; BORDER-LEFT: #999999 1px solid; WIDTH: 150px; COLOR: #333333; BORDER-BOTTOM: #999999 1px solid; FONT-FAMILY: tahoma; BACKGROUND-COLOR: #f7f7f7
+}
+.txtareaview {
+	BORDER-RIGHT: #999999 0px; BORDER-TOP: #999999 0px; FONT-SIZE: 11px; FLOAT: none; VISIBILITY: visible; OVERFLOW: visible; BORDER-LEFT: #999999 0px; WIDTH: 734px; COLOR: #333333; LINE-HEIGHT: 17px; BORDER-BOTTOM: #999999 0px; FONT-FAMILY: tahoma; POSITION: static; HEIGHT: 57px; BACKGROUND-COLOR: transparent
+}
+.dollartxtfields {
+	BORDER-RIGHT: #999999 1px solid; BORDER-TOP: #999999 1px solid; FONT-SIZE: 11px; BORDER-LEFT: #999999 1px solid; WIDTH: 220px; COLOR: #333333; BORDER-BOTTOM: #999999 1px solid; FONT-FAMILY: tahoma; BACKGROUND-COLOR: #f7f7f7
+}
+.buttonGeneral
+{
+	
+	background-position: left top;	
+	height: 22px;
+	background-repeat: no-repeat;
+	border-style: none;
+	background-color: Transparent;
+	color: #FFFFFF;	
+	cursor:pointer;
+}
+/***************************************/
+
+
+.pagingfont {
+	FONT-SIZE: 9px; COLOR: #333333; FONT-FAMILY: verdana; TEXT-DECORATION: none
+}
+.pagingfields {
+	FONT-SIZE: 9px; COLOR: #333333; FONT-FAMILY: verdana
+}
+
+/********* Menu *****************/
+
+.AdminMenu
+{
+	background-color:#276692;font-weight: bold; FONT-SIZE: 11px;color:White; FONT-FAMILY:  Tahoma;
+	height:20px;text-align:left;cursor:pointer;padding-left:14px;
+}
+.AdminMenuHover
+{
+	background-color:#EBEDEF;FONT-WEIGHT: bold; FONT-SIZE: 11px;color: #800000; FONT-FAMILY:  Tahoma;
+	height:20px; text-align:left;cursor:pointer;padding-left:14px;
+}
+
+.AdminSubMenu
+{
+	background-color:#276692;font-weight: bold; FONT-SIZE: 11px;color:White; FONT-FAMILY:  Tahoma;
+	height:20px;text-align:left;cursor:pointer;padding-left:14px;
+}
+
+.AdminSubMenuHover
+{
+	background-color:#EBEDEF;FONT-WEIGHT: bold; FONT-SIZE: 11px;color: #800000; FONT-FAMILY:  Tahoma;
+	height:20px; text-align:left;cursor:pointer;padding-left:14px;
+}
+
+
+/********************************/
+
+
+.BlueBg{background-color: #276692;}
+
+.PropertyInfoBG{background-color:#95B3D7;color:White;font-weight:bold;font-size:13px;}
+
+.LeftMenuStatic{color:#6f6c6c;font-family:Verdana;font-size:11px;font-weight:700;cursor:pointer;}
+.LeftMenuHover{color:#999999;font-family:Verdana;font-size:11px;font-weight:700;cursor:pointer;}
+.LeftMenuSelected{color:#266591;font-family:Verdana;font-size:11px;font-weight:700;cursor:pointer;}
+
+.C_LeftMenuStatic{color:#6f6c6c;font-family:Verdana;font-size:11px;font-weight:700;cursor:pointer;text-decoration:none;}
+.C_LeftMenuHover{color:#999999;font-family:Verdana;font-size:11px;font-weight:700;cursor:pointer;text-decoration:none;}
+.C_LeftMenuSelected{color:#266591;font-family:Verdana;font-size:11px;font-weight:700;cursor:pointer;text-decoration:none;}
+
+.GridClass
+{
+	color: #333333;
+	font-family: Tahoma;
+	font-size: 8pt;
+}
+.FooterStyle
+{
+	background-color: #507CD1;
+	font-weight: bold;
+	color: White;
+	font-family: Tahoma;
+	font-size: 8pt;
+}
+.HeaderStyle
+{
+	background-color: #7f7f7f;
+	font-weight: bold;
+	color: White;
+	font-family: Tahoma;
+	font-size: 8pt;
+}
+.RowStyle
+{
+	background-color: #EAEAEA;
+	font-family: Tahoma;
+	font-size: 8pt;
+}
+.AlterRowStyle
+{
+	background-color: White;
+	font-family: Tahoma;
+	font-size: 8pt;
+}
+
+.tab{background-image:url(../../Images/normal_btn.jpg);background-repeat:no-repeat;height:29px;width:112px;cursor:pointer;color:#333333;font-family:Verdana;font-size:10px;text-align:center;font-weight:bold;}
+.tabSelected{background-image:url(../../Images/active_btn.jpg);background-repeat:no-repeat;height:29px;width:112px;cursor:pointer;color:#e7e5e5;font-family:Verdana;font-weight:700;font-size:10px;text-align:center;}
+.tab:hover{background-image:url(../../Images/normal_btn.jpg);background-repeat:no-repeat;height:29px;width:112px;cursor:pointer;color:#999999;font-family:Verdana;font-size:10px;text-align:center;font-weight:bold;}
+
+.BlueItalicText{color:#0066cc;font-style:italic;}
+
+ 

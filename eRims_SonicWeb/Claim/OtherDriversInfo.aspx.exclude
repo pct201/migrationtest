@@ -1,0 +1,632 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="OtherDriversInfo.aspx.cs"
+    MasterPageFile="~/Default.master" Inherits="Claim_OtherDriversInfo" Title="Risk Insurance Management System" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+
+    <script type="text/javascript" src="../JavaScript/JFunctions.js"></script>
+
+    <script type="text/javascript" language="javascript" src="../JavaScript/Calendar_new.js"></script>
+
+    <script type="text/javascript" language="javascript" src="../JavaScript/calendar-en.js"></script>
+
+    <script type="text/javascript" language="javascript" src="../JavaScript/Calendar.js"></script>
+
+    <script type="text/javascript">  
+    
+    var pattern =/[0-9,-]/;
+  
+		function isValidzip(id) {
+		    var keyCode = event.keyCode? event.keyCode : event.which;
+			var key = String.fromCharCode(keyCode);
+			if(!pattern.test(key))
+			{
+				event.keyCode="";
+				return false;
+			}
+		}
+         function ValAttach()
+        {      
+            document.getElementById("ctl00_ContentPlaceHolder1_rfvattach").enabled =true;
+            document.getElementById("ctl00_ContentPlaceHolder1_rvfselect").enabled =true;
+            
+            if(document.getElementById("ctl00_ContentPlaceHolder1_txtTelephone").value=="___-___-____")
+            document.getElementById("ctl00_ContentPlaceHolder1_txtTelephone").value="";
+            
+             if(document.getElementById("ctl00_ContentPlaceHolder1_txtInsuranceTeleNo").value=="___-___-____")
+            document.getElementById("ctl00_ContentPlaceHolder1_txtInsuranceTeleNo").value="";
+            
+             if(document.getElementById("ctl00_ContentPlaceHolder1_txtAgentTeleNo").value=="___-___-____")
+            document.getElementById("ctl00_ContentPlaceHolder1_txtAgentTeleNo").value="";
+          
+            if(document.getElementById("ctl00_ContentPlaceHolder1_txtZip").value=="_____-____")
+            document.getElementById("ctl00_ContentPlaceHolder1_txtZip").value="";
+            return true;
+        }
+        function ValSave()
+        {            
+            document.getElementById("ctl00_ContentPlaceHolder1_rfvattach").enabled =false;
+            document.getElementById("ctl00_ContentPlaceHolder1_rvfselect").enabled =false;
+             if(document.getElementById("ctl00_ContentPlaceHolder1_txtTelephone").value=="___-___-____")
+            document.getElementById("ctl00_ContentPlaceHolder1_txtTelephone").value="";
+            
+             if(document.getElementById("ctl00_ContentPlaceHolder1_txtInsuranceTeleNo").value=="___-___-____")
+            document.getElementById("ctl00_ContentPlaceHolder1_txtInsuranceTeleNo").value="";
+            
+             if(document.getElementById("ctl00_ContentPlaceHolder1_txtAgentTeleNo").value=="___-___-____")
+            document.getElementById("ctl00_ContentPlaceHolder1_txtAgentTeleNo").value="";
+          
+            if(document.getElementById("ctl00_ContentPlaceHolder1_txtZip").value=="_____-____")
+            document.getElementById("ctl00_ContentPlaceHolder1_txtZip").value="";
+            return true;
+        }
+        
+          function openWindow(strURL)
+    {
+        oWnd=window.open(strURL,"Erims","location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=500,height=300");
+        oWnd.moveTo(260,180);
+        return false;
+        
+    }
+    function openMailWindow(strURL)
+    {
+        //oWnd=window.open("Mail.aspx?AttName="+ strURL,"Erims","location=0,status=0,scrollbars=1,menubar=0,resizable=0,toolbar=0,width=500,height=280");
+        oWnd=window.open(strURL,"Erims","location=0,status=0,scrollbars=1,menubar=0,resizable=0,toolbar=0,width=500,height=280");
+        oWnd.moveTo(260,180);
+        return false;
+        
+    }
+         function MinMax(name)
+    {
+       
+       
+        if(name == "attachment")
+        {
+            if(document.getElementById("ctl00_ContentPlaceHolder1_txtAttachDesc").style.height == "")
+            {
+                document.getElementById("ctl00_ContentPlaceHolder1_ibtnAttachment").src = "../Images/minus.jpg";
+                document.getElementById("ctl00_ContentPlaceHolder1_txtAttachDesc").style.height = "100px";
+                document.getElementById("pnlAttach").style.display = "block";
+            }
+            else if(document.getElementById("ctl00_ContentPlaceHolder1_txtAttachDesc").style.height == "100px")
+            {
+                 document.getElementById("ctl00_ContentPlaceHolder1_ibtnAttachment").src = "../Images/plus.jpg";
+                document.getElementById("ctl00_ContentPlaceHolder1_txtAttachDesc").style.height="";
+                document.getElementById("pnlAttach").style.display = "none";
+            }
+        }
+        return false;
+    }
+    
+    	///Zip Code
+		
+	
+	    
+	
+	
+//Function to verify numeric value in textbox
+      function CheckNum(txtnum)
+     {
+        
+      var txt = document.getElementById(txtnum);
+   
+        if((event.keyCode <= 47) || (event.keyCode > 58)|| (event.keyCode == 58))
+        {
+             if(event.keyCode != 46)
+             {
+                event.cancelBubble = true;
+                event.returnValue = false;
+             }
+        }
+        
+      
+        
+        
+    }
+
+
+
+
+function ZipMasking(e,str,textbox)
+	{
+	
+		if(!((e.keyCode > 47 && e.keyCode < 58)||(e.keyCode > 95 && e.keyCode < 106)))
+		{
+			str = str.substring(0,str.length);
+			textbox.value = str;
+		}
+		else
+		{
+			if(str.length ==1 && e.keyCode != 8)
+			str= str;
+			if(str.length == 5)
+			{
+				if(e.keyCode != 8)
+				str = str+"-";
+			}
+			if(str.length == 10 && e.keyCode != 8)
+			{	
+				str = str;
+			}
+
+			if(str.charAt(5) != "-" && str.charAt(5) != "")
+			{
+				str = str.substring(0,5)+"-"+str.substring(5,str.length); 
+			}
+
+			str = str.substring(0,10);
+		    textbox.value = str;
+
+			
+		}
+	}    
+    
+    </script>
+
+    <asp:ScriptManager runat="server" id="ScriptManager1">
+    </asp:ScriptManager>
+     
+    <div>
+        <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
+            HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
+            ValidationGroup="vsErrorGroup" CssClass="errormessage"></asp:ValidationSummary>
+        <asp:CustomValidator ID="cvErrorMsg" runat="server" ErrorMessage="" EnableClientScript="false"
+            ValidationGroup="vsErrorGroup" Display="None"></asp:CustomValidator>
+    </div>
+    <div style="width: 100%" id="contmain">
+        <br />
+        <div id="Div1" runat="server" style="width: 100%; display:none; text-align: center">
+            <table border="0" align="left" cellpadding="1" cellspacing="0" width="78%">
+                <tr>
+                    <td align="center" style="background-image: url('../images/active_btn.jpg')" class="active_tab"
+                        valign="middle">
+                        Auto Liability
+                    </td>
+                    <td align="center" class="normal_tab" style="background-image: url('../images/normal_btn.jpg')"
+                        valign="middle">
+                        <a class="main_menu" href="#">General Reserve Worksheet</a></td>
+                    <%--<td align="center" class="normal_tab" style="background-image: url('../images/normal_btn.jpg')"
+                        valign="middle">
+                       <a class="main_menu" href="Subrogation.aspx"> Carrier Data</a></td>--%>
+                    <td align="center" class="normal_tab" style="background-image: url('../images/normal_btn.jpg')"
+                        valign="middle">
+                        <a class="main_menu" href="#">Subrogation</a>
+                    </td>
+                    <td align="center" class="normal_tab" style="background-image: url('../images/normal_btn.jpg')"
+                        valign="middle">
+                        <a class="main_menu" href="#">Subrogation Detail</a>
+                    </td>
+                    <td align="center" class="normal_tab" style="background-image: url('../images/normal_btn.jpg')"
+                        valign="middle">
+                        <a class="main_menu" href="#">Check Register</a></td>
+                    <td align="center" class="normal_tab" style="background-image: url('../images/normal_btn.jpg')"
+                        valign="middle">
+                        <a class="main_menu" href="#">Diary</a></td>
+                    <td align="center" class="normal_tab" style="background-image: url('../images/normal_btn.jpg')"
+                        valign="middle">
+                        <a class="main_menu" href="#">Adjustor Notes</a></td>
+                    <%-- <td align="center" class="normal_tab" style="background-image: url('../images/normal_btn.jpg')"
+                        valign="middle">
+                        <a class="main_menu" href="#">Settlement</a></td>--%>
+                </tr>
+            </table>
+        </div>
+        <div id="mainContent" runat="server" style="width: 100%; border: solid 1px; float: right;">
+            <div id="divthird" style="width: 100%; display: block;" runat="server">
+                <table id="Table6" runat="server" cellpadding="2" cellspacing="2" class="stylesheet"
+                    width="100%">
+                    <tr>
+                        <td class="ghc" colspan="6">
+                            <asp:Label ID="lblDriverInfo" runat="server">Other Drivers Information                       </asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 21%">
+                            <asp:Label ID="lblname" runat="server">Name</asp:Label>
+                            <span class="mf">*</span>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtname" runat="server" MaxLength="50" ></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator12" runat="server" ControlToValidate="txtname"
+                                Display="none" Text="*" ErrorMessage="Please Enter Name " ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+                        </td>
+                        <td>
+                            &nbsp</td>
+                        <td>
+                            &nbsp</td>
+                        <td>
+                            &nbsp</td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 21%">
+                            <asp:Label ID="lblAdd1" runat="server">Address 1</asp:Label>
+                            <%-- <span class="mf">*</span>--%>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtAdd1" runat="server" MaxLength="50" ></asp:TextBox>
+                        </td>
+                        <td align="left" class="lc" style="width: 21%">
+                            <asp:Label ID="lblAdd2" runat="server">Address 2</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtAdd2" runat="server" MaxLength="50" ></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 21%">
+                            <asp:Label ID="lblCity" runat="server">City </asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtCity" runat="server" MaxLength="30" ></asp:TextBox>
+                            <%--  <asp:RequiredFieldValidator ID="RequiredFieldValidator10" runat="server" ControlToValidate="txtCity"
+                            Display="none" Text="*" ErrorMessage="Please Enter City (Loss Location)"
+                            ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>--%>
+                        </td>
+                        <td class="lc">
+                            <asp:Label ID="lblState" runat="server"> State </asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic">
+                            <asp:DropDownList ID="dwState" runat="server" Width="153px" SkinID="dropotherDr">
+                            </asp:DropDownList>
+                            <%-- <asp:RequiredFieldValidator ID="RequiredFieldValidator11" runat="server" ControlToValidate="dwState"
+                            Display="none" Text="*"  ErrorMessage="Please Select State(Loss Location)"
+                            ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+               --%>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 20%">
+                            <asp:Label ID="lblZip" runat="server">Zip Code (XXXXX-XXXX) </asp:Label>
+                            <%--  <span class="mf">*</span>--%>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtZip" runat="server" MaxLength="10"></asp:TextBox>
+                         
+                        <%--  <cc1:MaskedEditExtender ID="MaskedEditExtender6" runat="server" TargetControlID="txtZip"
+                            Mask="99999-9999" MaskType="Number" AutoComplete="False" ClearMaskOnLostFocus="false">
+                        </cc1:MaskedEditExtender>--%>
+                        <asp:RegularExpressionValidator ID="RegularExpressionValidator12" ControlToValidate="txtZip" runat="server"
+                            ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Zip Code in XXXXX-XXXX or XXXXX format."
+                            Display="none" ValidationExpression="^\d{5}(-\d{4})?"></asp:RegularExpressionValidator>
+                             </td>
+                        <td class="lc">
+                            <asp:Label ID="lblTelephone" runat="server"> Telephone (XXX-XXX-XXXX)</asp:Label>
+                            <%--  <span class="mf">*</span>--%>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic">
+                            <asp:TextBox ID="txtTelephone" runat="server" MaxLength="12" ></asp:TextBox>
+                            <cc1:MaskedEditExtender ID="mskPhone" runat="server" TargetControlID="txtTelephone"
+                                Mask="999-999-9999" MaskType="Number" AutoComplete="False" ClearMaskOnLostFocus="false">
+                            </cc1:MaskedEditExtender>
+                            <asp:RegularExpressionValidator ID="revPhone" ControlToValidate="txtTelephone" runat="server"
+                                ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter the Telephone Number in xxx-xxx-xxxx format."
+                                Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 20%">
+                            <asp:Label ID="lblLicenseNo" runat="server">Driver’s License Number</asp:Label>
+                            <%--  <span class="mf">*</span>--%>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtLicenseNo" runat="server" MaxLength="20" ></asp:TextBox>
+                            <%--     <cc1:MaskedEditExtender ID="MaskedEditExtender5" runat="server" TargetControlID="txtTelephone"
+                                                                        Mask="99999-9999" MaskType="Number" AutoComplete="False" ClearMaskOnLostFocus="false">
+                                                                    </cc1:MaskedEditExtender>
+                                                                 
+                              <asp:RegularExpressionValidator ID="RegularExpressionValidator11" ControlToValidate="txtTelephone" runat="server"
+                                                                        ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter the Telephone Number in xxx-xxx-xxxx format(Claim Representative)."
+                                                                        Display="none" ValidationExpression="((\(\d{5}\) ?)|(\d{5}-))?-\d{4}$"></asp:RegularExpressionValidator>
+               --%>
+                        </td>
+                        <td class="lc">
+                            <asp:Label ID="lblLicenseState" runat="server">Driver’s License State</asp:Label>
+                            <%--  <span class="mf">*</span>--%>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic">
+                            <asp:DropDownList ID="dwLicenseState" runat="server" Width="153px" SkinID="dropotherDr" >
+                            </asp:DropDownList>
+                            <%-- <asp:RequiredFieldValidator ID="RequiredFieldValidator11" runat="server" ControlToValidate="dwState"
+                            Display="none" Text="*"  ErrorMessage="Please Select State(Loss Location)"
+                            ValidationGroup="vsErrorGroup"></asp:RequiredFieldValidator>
+               --%>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="ghc" colspan="6">
+                            <asp:Label ID="lblInsurance" runat="server">Insurance                       </asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 20%">
+                            <asp:Label ID="lblCarrier" runat="server">Insurance Carrier</asp:Label>
+                            <%--  <span class="mf">*</span>--%>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtCarrier" runat="server" MaxLength="30" ></asp:TextBox>
+                            <%--     <cc1:MaskedEditExtender ID="MaskedEditExtender5" runat="server" TargetControlID="txtTelephone"
+                                                                        Mask="99999-9999" MaskType="Number" AutoComplete="False" ClearMaskOnLostFocus="false">
+                                                                    </cc1:MaskedEditExtender>
+                                                                 
+                              <asp:RegularExpressionValidator ID="RegularExpressionValidator11" ControlToValidate="txtTelephone" runat="server"
+                                                                        ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter the Telephone Number in xxx-xxx-xxxx format(Claim Representative)."
+                                                                        Display="none" ValidationExpression="((\(\d{5}\) ?)|(\d{5}-))?-\d{4}$"></asp:RegularExpressionValidator>
+               --%>
+                        </td>
+                        <td class="lc">
+                            <asp:Label ID="Label2" runat="server">Insurance Telephone (XXX-XXX-XXXX)</asp:Label>
+                            <%--  <span class="mf">*</span>--%>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic">
+                            <asp:TextBox ID="txtInsuranceTeleNo" runat="server" MaxLength="12" ></asp:TextBox>
+                            <cc1:MaskedEditExtender ID="meeInsuranceTeleNo" runat="server" TargetControlID="txtInsuranceTeleNo"
+                                Mask="999-999-9999" MaskType="Number" AutoComplete="False" ClearMaskOnLostFocus="false">
+                            </cc1:MaskedEditExtender>
+                            <asp:RegularExpressionValidator ID="revInsuranceTeleNo" ControlToValidate="txtInsuranceTeleNo"
+                                runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter the Telephone Number in xxx-xxx-xxxx format."
+                                Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 20%">
+                            <asp:Label ID="lblAgentName" runat="server">Insurance Agent Name</asp:Label>
+                            <%--  <span class="mf">*</span>--%>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtAgentName" runat="server" MaxLength="50" ></asp:TextBox>
+                            <%--     <cc1:MaskedEditExtender ID="MaskedEditExtender5" runat="server" TargetControlID="txtTelephone"
+                                                                        Mask="99999-9999" MaskType="Number" AutoComplete="False" ClearMaskOnLostFocus="false">
+                                                                    </cc1:MaskedEditExtender>
+                                                                 
+                              <asp:RegularExpressionValidator ID="RegularExpressionValidator11" ControlToValidate="txtTelephone" runat="server"
+                                                                        ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter the Telephone Number in xxx-xxx-xxxx format(Claim Representative)."
+                                                                        Display="none" ValidationExpression="((\(\d{5}\) ?)|(\d{5}-))?-\d{4}$"></asp:RegularExpressionValidator>
+               --%>
+                        </td>
+                        <td class="lc">
+                            <asp:Label ID="Label3" runat="server">Insurance Agent Telephone (XXX-XXX-XXXX)</asp:Label>
+                            <%--  <span class="mf">*</span>--%>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td class="ic">
+                            <asp:TextBox ID="txtAgentTeleNo" runat="server" MaxLength="12" ></asp:TextBox>
+                            <cc1:MaskedEditExtender ID="meeAgentTeleNo" runat="server" TargetControlID="txtAgentTeleNo"
+                                Mask="999-999-9999" MaskType="Number" AutoComplete="False" ClearMaskOnLostFocus="false">
+                            </cc1:MaskedEditExtender>
+                            <asp:RegularExpressionValidator ID="revAgentTeleNo" ControlToValidate="txtAgentTeleNo"
+                                runat="server" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter the Telephone Number in xxx-xxx-xxxx format."
+                                Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" class="lc" style="width: 21%">
+                            <asp:Label ID="lblPolicyNo" runat="server">Policy Number</asp:Label>
+                        </td>
+                        <td align="center" class="ic">
+                            :
+                        </td>
+                        <td align="left" class="ic" style="width: 25%">
+                            <asp:TextBox ID="txtPolicyNo" runat="server" MaxLength="10" ></asp:TextBox>&nbsp;
+                        </td>
+                        <td>
+                            &nbsp</td>
+                        <td>
+                            &nbsp</td>
+                        <td>
+                            &nbsp</td>
+                    </tr>
+                </table>
+            </div>
+            <div style="width: 100%; display: block;" id="divAttach" runat="server">
+                <table border="0" cellpadding="0" cellspacing="6" width="100%">
+                    <tr>
+                        <td class="ghc" colspan="6">
+                            <asp:Label ID="lblAttach" runat="server">Attachment</asp:Label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;</td>
+                    </tr>
+                    <tr style="display: none;">
+                        <td valign="top" class="lc" style="width: 20%;">
+                            <asp:Label ID="lblAttachType" runat="server">Attachment Type</asp:Label>
+                        </td>
+                        <td align="center" class="lc">
+                            :
+                        </td>
+                        <td style="width: 25%;" valign="top" class="ic">
+                            <asp:DropDownList ID="ddlAttachType" runat="server">
+                            </asp:DropDownList>
+                            <asp:RequiredFieldValidator ID="rfvattach" runat="server" ControlToValidate="ddlAttachType"
+                                Display="none" Text="*" ValidationGroup="vsErrorGroup" InitialValue="0" ErrorMessage="Please Select Attachment Type"></asp:RequiredFieldValidator>
+                        </td>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top" class="lc" style="width: 20%">
+                            <asp:Label ID="lblAttachDesc" runat="server">  Attachment Description</asp:Label>
+                        </td>
+                        <td valign="top" class="lc">
+                            :
+                        </td>
+                        <td colspan="4" valign="top" class="ic">
+                            <asp:ImageButton ID="ibtnAttachment" ImageUrl="~/Images/Minus.jpg" runat="server"
+                                OnClientClick="javascript:return MinMax('attachment');" />
+                            <div id="pnlAttach" style="display: block;">
+                                <asp:TextBox ID="txtAttachDesc" runat="server" TextMode="MultiLine" Height="100px" Width="88%"></asp:TextBox>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top" class="lc">
+                            Select File
+                        </td>
+                        <td valign="top" class="lc">
+                            :
+                        </td>
+                        <td colspan="4" valign="top" class="ic">
+                            <asp:FileUpload ID="uplCommon" runat="server" />
+                            <asp:RequiredFieldValidator ID="rvfselect" runat="server" ControlToValidate="uplCommon"
+                                Display="none" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Select File to Upload"></asp:RequiredFieldValidator>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="ic">
+                            &nbsp;
+                        </td>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td colspan="4">
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <%-- <tr align="center">
+                    <td colspan="6">
+                        <asp:Button ID="Add" runat="server" ValidationGroup="vsErrorGroup" Text="Add Attachment" />
+                     
+                    </td>
+                </tr>--%>
+                </table>
+            </div>
+            <div id="divbtn" runat="server">
+                <table style="width: 100%;">
+                    <tr>
+                        <td align="center">
+                            <asp:Button ID="btnsave" OnClientClick="javascript:ValSave();" ValidationGroup="vsErrorGroup"
+                                runat="server" Text="Save & View" OnClick="btnsave_Click" />
+                             <asp:Button ID="btnAddAttachment" runat="server" Text="Add Attachment" ValidationGroup="vsErrorGroup" OnClientClick="javascript:ValAttach();"
+                                OnClick="btnAddAttachment_Click" />
+                                <asp:Button ID="btnCancel" runat="server" Text="Cancel" OnClick="btnCancel_Click" />
+                        </td>
+                        
+                        <%-- <tr>
+                        <td colspan="6" align="center" class="ic">
+                            <asp:Button ID="btnAddAttachment" runat="server" Text="Add Attachment" ValidationGroup="vsErrorGroup" OnClientClick="javascript:ValAttach();"
+                                OnClick="btnAddAttachment_Click" />
+                        </td>
+                    </tr>--%>
+                        
+                    </tr>
+                </table>
+            </div>
+            <div id="dvAttachDetails" runat="server" style="display: none;">
+                <table width="100%">
+                    <tr>
+                        <td colspan="2">
+                            <table cellspacing="1" width="100%" style="background-color: #7f7f7f; color: White;
+                                font-weight: Bolder; font-family: Tahoma; font-size: 10pt;">
+                                <tr>
+                                    <td class="ghc">
+                                        Attachment Details
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <asp:GridView ID="gvAttachmentDetails" runat="server" AutoGenerateColumns="false"
+                                DataKeyNames="PK_Attachment_ID" Width="100%" AllowPaging="True" AllowSorting="False"
+                                OnRowDataBound="gvAttachmentDetails_RowDataBound">
+                                <Columns>
+                                    <asp:TemplateField>
+                                        <ItemTemplate>
+                                            <input name="chkItem" type="checkbox" value='<%# Eval("PK_Attachment_ID")%>' onclick="javascript:UnCheckHeader('gvAttachmentDetails')" />
+                                        </ItemTemplate>
+                                        <ItemStyle Width="10px" />
+                                        <HeaderTemplate>
+                                            <input type="checkbox" name="chkHeader" id="chkHeader" runat="Server" onclick="javascript:SelectAllCheckboxes(this)" />
+                                        </HeaderTemplate>
+                                        <HeaderStyle Width="10px" />
+                                    </asp:TemplateField>
+                                    <asp:BoundField DataField="Attachment_Type" HeaderText="Attachment Type" Visible="false">
+                                    </asp:BoundField>
+                                    <asp:BoundField DataField="Attachment_Description" HeaderText="Attachment Description"></asp:BoundField>
+                                    <asp:BoundField DataField="Attachment_Name1" HeaderText="File Name">
+                                    </asp:BoundField>
+                                    <asp:TemplateField HeaderText="View">
+                                        <ItemTemplate>
+                                            <asp:ImageButton ID="imgbtnDwnld" CommandName="Download" CommandArgument='<%# Eval("Attachment_Name")%>'
+                                                runat="server" ImageAlign="Left" ImageUrl="~/Images/download.gif" />
+                                        </ItemTemplate>
+                                        <ItemStyle HorizontalAlign="Center" Width="60px" />
+                                    </asp:TemplateField>
+                                    <%--<asp:TemplateField HeaderText="Mail">
+                                        <ItemTemplate>
+                                            <asp:ImageButton ID="imgbtnMail" CommandName="Mail" CommandArgument='<%# Eval("Attachment_Name")%>'
+                                                runat="server" ImageUrl="~/Images/emailicon.gif" ImageAlign="Left" />
+                                        </ItemTemplate>
+                                        <ItemStyle HorizontalAlign="Center" Width="60px" />
+                                    </asp:TemplateField>--%>
+                                </Columns>
+                                <EmptyDataRowStyle ForeColor="red" HorizontalAlign="Center" />
+                                <EmptyDataTemplate>
+                                    Currently there is no Attachment.<br />
+                                    Please add one or more Attachment.
+                                </EmptyDataTemplate>
+                                <PagerSettings Visible="False" />
+                                <PagerSettings Visible="False" />
+                            </asp:GridView>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <asp:Button ID="btnRemove" runat="server" Text="Remove" OnClick="btnRemove_Click" />
+                            <asp:Button ID="btnMail" runat="server" Text="Mail" OnClientClick="javascript:return OpenWMail('gvAttachmentDetails','OtherDriver');" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <br/>
+</asp:Content>

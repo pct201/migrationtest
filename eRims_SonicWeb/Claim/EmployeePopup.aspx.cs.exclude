@@ -1,0 +1,1577 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using RIMS_Base.Biz;
+using System.Collections.Generic;
+using System.Web.Mail;
+using System.Net;
+using System.Globalization;
+using System.Security.Cryptography;
+using System.IO;
+public partial class WorkerCompensation_Employee_Search_Popup : System.Web.UI.Page
+{
+    #region Public Variables
+    public RIMS_Base.Biz.cEmployee m_objemp;
+    public RIMS_Base.Biz.CGeneral objGeneral;
+    List<RIMS_Base.cEmployee> lstEmpDetails = null;
+    List<RIMS_Base.cEmployee> lstautoEmployeeID = null;
+    
+
+    string strSortExp = String.Empty;
+    #endregion
+
+    #region Private Variables(Employee Details)
+    int m_intEmployeeId = 0;
+    int m_intRetval = -1;
+    public int m_intPreventAdd = 0;
+    public RIMS_Base.Biz.cEmployee m_objEmployee;
+    List<RIMS_Base.cEmployee> lstEmployee = null;
+    public RIMS_Base.Biz.CGeneral m_objState;
+    List<RIMS_Base.CGeneral> lstState = null;
+    public RIMS_Base.Biz.CGeneral m_objDState;
+    List<RIMS_Base.CGeneral> lstDState = null;
+    public RIMS_Base.Biz.cEmployee m_objMaritalStatus;
+    List<RIMS_Base.cEmployee> lstMaritalStatus = null;
+    public RIMS_Base.Biz.cEmployee m_objLicType;
+    List<RIMS_Base.cEmployee> lstLicType = null;
+    public RIMS_Base.Biz.cEmployee m_objJobCls;
+    List<RIMS_Base.cEmployee> lstJobCls = null;
+
+    public RIMS_Base.Biz.CGeneral m_objAttachmentType;
+    List<RIMS_Base.CGeneral> lstAttachmentType = null;
+    public RIMS_Base.Biz.CAttachment m_objAttachment;
+    List<RIMS_Base.CAttachment> lstAttachment = null;
+    ListItem m_lstCommon;
+    //string strSortExp = string.Empty;
+    public string m_strPath = string.Empty;
+    public string m_strFolderName = "Employee";
+    public string m_strCustomFileName = string.Empty;
+    public string m_strFileName = string.Empty;
+    public string m_strGlobalPath = string.Empty;
+    #endregion
+
+    #region Event Handlers
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        m_strGlobalPath = Page.ResolveUrl(ConfigurationManager.AppSettings["UploadPath"] + "/Employee/");
+        dvSearch.Visible = true;
+        dvAttachDetails.Visible = false;
+      
+      //  btnadd.Attributes.Add("onclick", "javascript:return openEmployeeDetails();");
+        if (Request.QueryString["Page"] == "Auto" || Request.QueryString["Page"] == "WC")
+        {
+
+            btnadd.Visible = true;
+        }
+
+        else if (Request.QueryString["Page"] == "General")
+        {
+            btnadd.Visible = true;
+        }
+       
+
+        txtZipcode.Attributes.Add("onKeyUp", "return ZipMasking(event,this.value,this);");
+        txtZipcode.Attributes.Add("onKeyPress", "return CheckNum(this);");
+        if (!IsPostBack)
+        {
+
+            btnDelete.Attributes.Add("onclick", "return OMSCheckSelected1('chkItem','gvEmployee','Delete');");
+            btnRemove.Attributes.Add("onclick", "return OMSCheckSelected1('chkItem','gvAttachmentDetails','Delete');");
+            BindCombos();
+
+            gvEmployeeDetails.PageSize = 10;
+            gvEmployeeDetails.DataSource = BindEmpDetails();
+            gvEmployeeDetails.DataBind();
+          
+            //mvEmployee.ActiveViewIndex = 0;
+            mvEmployee.ActiveViewIndex = 1;
+            Bindfv(FormViewMode.Insert);
+                        
+            gvEmployee.PageSize = 10;
+            btnRemove.Visible = false;
+            btnMail.Visible = false;
+            gvEmployee.DataSource = BindEmployee();
+            gvEmployee.DataBind();
+
+            ddlPage.DataBind();
+            ddlPage.SelectedValue = "10";
+            if (gvEmployee.PageCount == 0)
+            { lblPageInfo.Text = "Page 0 of 0"; }
+            else
+            {
+                lblPageInfo.Text = "Page 1 of " + gvEmployee.PageCount.ToString();
+            }
+            txtPageNo.Text = "1";
+            ViewState["PreventAdd"] = "N";
+
+
+            //End Employee Details
+
+            
+        }
+        //m_objEmployee = new RIMS_Base.Biz.cEmployee();
+        //lstautoEmployeeID = new List<RIMS_Base.cEmployee>();
+
+        //lstautoEmployeeID = m_objEmployee.GetAutoPopulateEmployeeId();
+        //if (lstautoEmployeeID.Count > 0)
+        //{
+        //    ((TextBox)fvEmployee.FindControl("txtEmployeeId")).Text = lstautoEmployeeID[0].Employee_Id;
+        //}
+        
+    }
+    protected void btnSearch_Click1(object sender, EventArgs e)
+    {
+
+        try
+        {
+            m_objemp = new RIMS_Base.Biz.cEmployee();
+            lstEmpDetails = new List<RIMS_Base.cEmployee>();
+            lstEmpDetails = m_objemp.Get_Search_Data(ddlSearch.SelectedValue, txtsearch.Text.Trim());
+            gvEmployeeDetails.DataSource = lstEmpDetails;
+            gvEmployeeDetails.DataBind();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void gvEmployeeDetails_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        try
+        {
+            lstEmpDetails = new List<RIMS_Base.cEmployee>();
+            if (ViewState["sortDirection"] == null)
+                ViewState["sortDirection"] = SortDirection.Descending;
+            // Changes the sort direction 
+            else
+            {
+                if (((SortDirection)ViewState["sortDirection"]) == SortDirection.Ascending)
+                    ViewState["sortDirection"] = SortDirection.Descending;
+                else
+                    ViewState["sortDirection"] = SortDirection.Ascending;
+            }
+            ViewState["SortExp"] = strSortExp = e.SortExpression;
+
+            lstEmpDetails = BindEmpDetails();
+            if (ViewState["SortExp"] != null)
+                lstEmpDetails.Sort(new RIMS_Base.GenericComparer<RIMS_Base.cEmployee>((string)ViewState["SortExp"], (SortDirection)ViewState["sortDirection"]));
+            gvEmployeeDetails.DataSource = lstEmpDetails;
+            gvEmployeeDetails.DataBind();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void gvEmployeeDetails_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                if (Request.QueryString["Page"] == "WC")
+                {
+
+                    LinkButton lbtnTempEmpid = new LinkButton();
+                    LinkButton lbtnTempFirst = new LinkButton();
+                    LinkButton lbtnTempLast = new LinkButton();
+                    LinkButton lbtnTempmiddle = new LinkButton();
+                    LinkButton lbtnpkid = new LinkButton();
+
+                    
+                    lbtnTempFirst = ((LinkButton)(e.Row.FindControl("lbtnEmpFirstName")));
+                    lbtnTempLast = ((LinkButton)(e.Row.FindControl("lbtnEmpLastName")));
+                    lbtnTempmiddle = ((LinkButton)(e.Row.FindControl("lbtnEmpMiddle")));
+                    lbtnpkid = ((LinkButton)(e.Row.FindControl("lblpkid")));
+
+
+                    Label lblTemp = new Label();
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpid"))).Attributes.Add("onclick", "fillWC('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpLastName"))).Attributes.Add("onclick", "fillWC('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpFirstName"))).Attributes.Add("onclick", "fillWC('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpMiddle"))).Attributes.Add("onclick", "fillWC('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnCity"))).Attributes.Add("onclick", "fillWC('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnAddress"))).Attributes.Add("onclick", "fillWC('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnState"))).Attributes.Add("onclick", "fillWC('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnZip"))).Attributes.Add("onclick", "fillWC('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+
+
+                }
+
+                else if (Request.QueryString["Page"] == "Auto")
+                {
+
+                 
+
+                    LinkButton lbtnTempEmpid = new LinkButton();
+                    LinkButton lbtnTempFirst = new LinkButton();
+                    LinkButton lbtnTempAdd = new LinkButton();
+                    LinkButton lbtnTempLast = new LinkButton();
+                    LinkButton lbtnTempmiddle = new LinkButton();
+                    LinkButton lbtnTemp = new LinkButton();
+                    LinkButton lbtnTempCity = new LinkButton();
+                    LinkButton lbtnTempState = new LinkButton();
+                    LinkButton lbtnTempZip = new LinkButton();
+
+                    LinkButton lbtnpkid = new LinkButton();
+
+                    lbtnTempEmpid = ((LinkButton)(e.Row.FindControl("lbtnEmpid")));
+                    lbtnTempFirst = ((LinkButton)(e.Row.FindControl("lbtnEmpFirstName")));
+                    lbtnTempAdd = ((LinkButton)(e.Row.FindControl("lbtnAddress")));
+                    lbtnTempLast = ((LinkButton)(e.Row.FindControl("lbtnEmpLastName")));
+                    lbtnTempmiddle = ((LinkButton)(e.Row.FindControl("lbtnEmpMiddle")));
+                    lbtnpkid = ((LinkButton)(e.Row.FindControl("lblpkid")));
+                    lbtnTempCity = ((LinkButton)(e.Row.FindControl("lbtnCity")));
+
+                    lbtnTempState = ((LinkButton)(e.Row.FindControl("lbtnState")));
+                    lbtnTempZip = ((LinkButton)(e.Row.FindControl("lbtnZip")));
+
+
+
+                    Label lblTemp = new Label();
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpid"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpLastName"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpFirstName"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpMiddle"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnCity"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnAddress"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnState"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnZip"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+
+
+                }
+                else if (Request.QueryString["Page"] == "ClaimSearch")
+                {
+                    LinkButton lbtnTempEmpid = new LinkButton();
+                    LinkButton lbtnTempFirst = new LinkButton();
+                    LinkButton lbtnTempAdd = new LinkButton();
+                    LinkButton lbtnTempLast = new LinkButton();
+                    LinkButton lbtnTempmiddle = new LinkButton();
+                    LinkButton lbtnTemp = new LinkButton();
+                    LinkButton lbtnTempCity = new LinkButton();
+                    LinkButton lbtnTempState = new LinkButton();
+                    LinkButton lbtnTempZip = new LinkButton();
+
+                    LinkButton lbtnpkid = new LinkButton();
+
+                    lbtnTempEmpid = ((LinkButton)(e.Row.FindControl("lbtnEmpid")));
+                    lbtnTempFirst = ((LinkButton)(e.Row.FindControl("lbtnEmpFirstName")));
+                    lbtnTempAdd = ((LinkButton)(e.Row.FindControl("lbtnAddress")));
+                    lbtnTempLast = ((LinkButton)(e.Row.FindControl("lbtnEmpLastName")));
+                    lbtnTempmiddle = ((LinkButton)(e.Row.FindControl("lbtnEmpMiddle")));
+                    lbtnpkid = ((LinkButton)(e.Row.FindControl("lblpkid")));
+                    lbtnTempCity = ((LinkButton)(e.Row.FindControl("lbtnCity")));
+
+                    lbtnTempState = ((LinkButton)(e.Row.FindControl("lbtnState")));
+                    lbtnTempZip = ((LinkButton)(e.Row.FindControl("lbtnZip")));
+
+
+
+                    Label lblTemp = new Label();
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpid"))).Attributes.Add("onclick", "fillClaimSearch('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpLastName"))).Attributes.Add("onclick", "fillClaimSearch('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpFirstName"))).Attributes.Add("onclick", "fillClaimSearch('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpMiddle"))).Attributes.Add("onclick", "fillClaimSearch('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnCity"))).Attributes.Add("onclick", "fillClaimSearch('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnAddress"))).Attributes.Add("onclick", "fillClaimSearch('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnState"))).Attributes.Add("onclick", "fillClaimSearch('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnZip"))).Attributes.Add("onclick", "fillClaimSearch('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "');");
+
+                }
+                else if (Request.QueryString["Page"] == "EmpTraining")
+                {
+                    LinkButton lbtnTempEmpid4 = new LinkButton();
+                    LinkButton lbtnTempFirst4 = new LinkButton();
+                    LinkButton lbtnTempMiddle4 = new LinkButton();
+                    LinkButton lbtnTempLast4 = new LinkButton();
+                    LinkButton lbtnpkid = new LinkButton();
+
+                    lbtnTempEmpid4 = ((LinkButton)(e.Row.FindControl("lbtnEmpid")));
+                    lbtnTempFirst4 = ((LinkButton)(e.Row.FindControl("lbtnEmpFirstName")));
+                    lbtnTempMiddle4 = ((LinkButton)(e.Row.FindControl("lbtnEmpMiddle")));
+                    lbtnTempLast4 = ((LinkButton)(e.Row.FindControl("lbtnEmpLastName")));
+
+
+
+                    LinkButton lblTemp4 = new LinkButton();
+                    lblTemp4 = ((LinkButton)(e.Row.FindControl("lblpkid")));
+                    lblTemp4.Attributes.Add("onclick", "fillEmpTraining('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpid"))).Attributes.Add("onclick", "fillEmpTraining('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpLastName"))).Attributes.Add("onclick", "fillEmpTraining('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpFirstName"))).Attributes.Add("onclick", "fillEmpTraining('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpMiddle"))).Attributes.Add("onclick", "fillEmpTraining('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnCity"))).Attributes.Add("onclick", "fillEmpTraining('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnAddress"))).Attributes.Add("onclick", "fillEmpTraining('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnState"))).Attributes.Add("onclick", "fillEmpTraining('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnZip"))).Attributes.Add("onclick", "fillEmpTraining('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                }
+                else if (Request.QueryString["Page"] == "Supervisor")
+                {
+                    LinkButton lbtnTempEmpid4 = new LinkButton();
+                    LinkButton lbtnTempFirst4 = new LinkButton();
+                    LinkButton lbtnTempMiddle4 = new LinkButton();
+                    LinkButton lbtnTempLast4 = new LinkButton();
+                    LinkButton lbtnpkid = new LinkButton();
+
+                    lbtnTempEmpid4 = ((LinkButton)(e.Row.FindControl("lbtnEmpid")));
+                    lbtnTempFirst4 = ((LinkButton)(e.Row.FindControl("lbtnEmpFirstName")));
+                    lbtnTempMiddle4 = ((LinkButton)(e.Row.FindControl("lbtnEmpMiddle")));
+                    lbtnTempLast4 = ((LinkButton)(e.Row.FindControl("lbtnEmpLastName")));
+
+                    LinkButton lblTemp4 = new LinkButton();
+                    lblTemp4 = ((LinkButton)(e.Row.FindControl("lblpkid")));
+                    lblTemp4.Attributes.Add("onclick", "fillEmpSupervisor('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpid"))).Attributes.Add("onclick", "fillEmpSupervisor('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpLastName"))).Attributes.Add("onclick", "fillEmpSupervisor('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpFirstName"))).Attributes.Add("onclick", "fillEmpSupervisor('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpMiddle"))).Attributes.Add("onclick", "fillEmpSupervisor('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnCity"))).Attributes.Add("onclick", "fillEmpSupervisor('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnAddress"))).Attributes.Add("onclick", "fillEmpSupervisor('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnState"))).Attributes.Add("onclick", "fillEmpSupervisor('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnZip"))).Attributes.Add("onclick", "fillEmpSupervisor('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                }
+
+               else if (Request.QueryString["Page"] == "EmpPopup")
+                {
+                    LinkButton lbtnTempEmpid4 = new LinkButton();
+                    LinkButton lbtnTempFirst4 = new LinkButton();
+                    LinkButton lbtnTempMiddle4 = new LinkButton();
+                    LinkButton lbtnTempLast4 = new LinkButton();
+                    LinkButton lbtnpkid = new LinkButton();
+
+                    lbtnTempEmpid4 = ((LinkButton)(e.Row.FindControl("lbtnEmpid")));
+                    lbtnTempFirst4 = ((LinkButton)(e.Row.FindControl("lbtnEmpFirstName")));
+                    lbtnTempMiddle4 = ((LinkButton)(e.Row.FindControl("lbtnEmpMiddle")));
+                    lbtnTempLast4 = ((LinkButton)(e.Row.FindControl("lbtnEmpLastName")));
+
+                    LinkButton lblTemp4 = new LinkButton();
+                    lblTemp4 = ((LinkButton)(e.Row.FindControl("lblpkid")));
+                    lblTemp4.Attributes.Add("onclick", "fillEmpSupervisorPopup('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpid"))).Attributes.Add("onclick", "fillEmpSupervisorPopup('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpLastName"))).Attributes.Add("onclick", "fillEmpSupervisorPopup('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpFirstName"))).Attributes.Add("onclick", "fillEmpSupervisorPopup('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpMiddle"))).Attributes.Add("onclick", "fillEmpSupervisorPopup('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnCity"))).Attributes.Add("onclick", "fillEmpSupervisorPopup('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnAddress"))).Attributes.Add("onclick", "fillEmpSupervisorPopup('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnState"))).Attributes.Add("onclick", "fillEmpSupervisorPopup('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnZip"))).Attributes.Add("onclick", "fillEmpSupervisorPopup('" + lbtnTempFirst4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempMiddle4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast4.CommandArgument.ToString().Replace("'", "\\'") + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                }
+
+
+
+
+                    
+                else if (Request.QueryString["Page"] == "EmpPopupSupervisor")
+                {
+                    LinkButton lbtnTempEmpid4 = new LinkButton();
+                    LinkButton lbtnTempFirst4 = new LinkButton();
+                    LinkButton lbtnTempMiddle4 = new LinkButton();
+                    LinkButton lbtnTempLast4 = new LinkButton();
+                    LinkButton lbtnpkid = new LinkButton();
+
+                    lbtnTempEmpid4 = ((LinkButton)(e.Row.FindControl("lbtnEmpid")));
+                    lbtnTempFirst4 = ((LinkButton)(e.Row.FindControl("lbtnEmpFirstName")));
+                    lbtnTempMiddle4 = ((LinkButton)(e.Row.FindControl("lbtnEmpMiddle")));
+                    lbtnTempLast4 = ((LinkButton)(e.Row.FindControl("lbtnEmpLastName")));
+
+                    LinkButton lblTemp4 = new LinkButton();
+                    lblTemp4 = ((LinkButton)(e.Row.FindControl("lblpkid")));
+                    //lblTemp4.Attributes.Add("onclick", "fillEmppopupSupervisor('" + lbtnTempFirst4.CommandArgument.ToString() + "','" + lbtnTempMiddle4.CommandArgument.ToString() + "','" + lbtnTempLast4.CommandArgument.ToString() + "','" + lblTemp4.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpid"))).Attributes.Add("onclick", "fillEmppopupSupervisor('" + lbtnTempFirst4.ClientID.ToString() + "','" + lbtnTempMiddle4.ClientID.ToString() + "','" + lbtnTempLast4.ClientID.ToString() + "','" + lblTemp4.ClientID.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpLastName"))).Attributes.Add("onclick", "fillEmppopupSupervisor('" + lbtnTempFirst4.ClientID.ToString() + "','" + lbtnTempMiddle4.ClientID.ToString() + "','" + lbtnTempLast4.ClientID.ToString() + "','" + lblTemp4.ClientID.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpFirstName"))).Attributes.Add("onclick", "fillEmppopupSupervisor('" + lbtnTempFirst4.ClientID.ToString() + "','" + lbtnTempMiddle4.ClientID.ToString() + "','" + lbtnTempLast4.ClientID.ToString() + "','" + lblTemp4.ClientID.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpMiddle"))).Attributes.Add("onclick", "fillEmppopupSupervisor('" + lbtnTempFirst4.ClientID.ToString() + "','" + lbtnTempMiddle4.ClientID.ToString() + "','" + lbtnTempLast4.ClientID.ToString() + "','" + lblTemp4.ClientID.ToString() + "');");
+                  //  ((LinkButton)(e.Row.FindControl("lbtnSocialSeco"))).Attributes.Add("onclick", "fillEmppopupSupervisor('" + lbtnTempFirst4.ClientID.ToString() + "','" + lbtnTempMiddle4.ClientID.ToString() + "','" + lbtnTempLast4.ClientID.ToString() + "','" + lblTemp4.ClientID.ToString() + "');");
+                }
+
+                else if (Request.QueryString["Page"] == "General")
+                {
+                  
+                    LinkButton lbtnTempEmpid = new LinkButton();
+                    LinkButton lbtnTempFirst = new LinkButton();
+                    LinkButton lbtnTempAdd = new LinkButton();
+                    LinkButton lbtnTempLast = new LinkButton();
+                    LinkButton lbtnTemp = new LinkButton();
+                    LinkButton lbtnTempCity = new LinkButton();
+                    LinkButton lbtnTempState = new LinkButton();
+                    LinkButton lbtnTempZip = new LinkButton();
+                    LinkButton lbtnTempmiddle = new LinkButton();
+                    // LinkButton lbtnTempAdd1 = new LinkButton();
+                    LinkButton lbtnTempAdd2 = new LinkButton();
+                    LinkButton lbtnTempHome = new LinkButton();
+                    LinkButton lbtnTempCell = new LinkButton();
+                    LinkButton lbtnTempWork = new LinkButton();
+                    LinkButton lbtnTempEmail = new LinkButton();
+
+
+                    LinkButton lbtnpkid = new LinkButton();
+
+                    lbtnTempEmpid = ((LinkButton)(e.Row.FindControl("lbtnEmpid")));
+                    lbtnTempFirst = ((LinkButton)(e.Row.FindControl("lbtnEmpFirstName")));
+                    lbtnTempmiddle = ((LinkButton)(e.Row.FindControl("lbtnEmpMiddle")));
+                    lbtnTempAdd = ((LinkButton)(e.Row.FindControl("lbtnAddress")));
+                    lbtnTempAdd2 = ((LinkButton)(e.Row.FindControl("lbtnAddress2")));
+                    lbtnTempLast = ((LinkButton)(e.Row.FindControl("lbtnEmpLastName")));
+                    lbtnpkid = ((LinkButton)(e.Row.FindControl("lblpkid")));
+                    lbtnTempCity = ((LinkButton)(e.Row.FindControl("lbtnCity")));
+                    lbtnTempState = ((LinkButton)(e.Row.FindControl("lbtnState")));
+                    lbtnTempZip = ((LinkButton)(e.Row.FindControl("lbtnZip")));
+                    lbtnTempHome = ((LinkButton)(e.Row.FindControl("lbtnHome")));
+                    lbtnTempCell = ((LinkButton)(e.Row.FindControl("lbtnCell")));
+                    lbtnTempWork = ((LinkButton)(e.Row.FindControl("lbtnWork")));
+                    lbtnTempEmail = ((LinkButton)(e.Row.FindControl("lbtnEmail")));
+
+                    Label lblTemp = new Label();
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpid"))).Attributes.Add("onclick", "fillPaytoG('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "','" + lbtnTempAdd.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempAdd2.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempCity.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempState.CommandArgument.ToString() + "','" + lbtnTempZip.CommandArgument.ToString() + "','" + lbtnTempHome.CommandArgument.ToString() + "','" + lbtnTempCell.CommandArgument.ToString() + "','" + lbtnTempWork.CommandArgument.ToString() + "','" + lbtnTempEmail.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpLastName"))).Attributes.Add("onclick", "fillPaytoG('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "','" + lbtnTempAdd.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempAdd2.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempCity.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempState.CommandArgument.ToString() + "','" + lbtnTempZip.CommandArgument.ToString() + "','" + lbtnTempHome.CommandArgument.ToString() + "','" + lbtnTempCell.CommandArgument.ToString() + "','" + lbtnTempWork.CommandArgument.ToString() + "','" + lbtnTempEmail.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpFirstName"))).Attributes.Add("onclick", "fillPaytoG('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "','" + lbtnTempAdd.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempAdd2.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempCity.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempState.CommandArgument.ToString() + "','" + lbtnTempZip.CommandArgument.ToString() + "','" + lbtnTempHome.CommandArgument.ToString() + "','" + lbtnTempCell.CommandArgument.ToString() + "','" + lbtnTempWork.CommandArgument.ToString() + "','" + lbtnTempEmail.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnEmpMiddle"))).Attributes.Add("onclick", "fillPaytoG('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "','" + lbtnTempAdd.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempAdd2.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempCity.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempState.CommandArgument.ToString() + "','" + lbtnTempZip.CommandArgument.ToString() + "','" + lbtnTempHome.CommandArgument.ToString() + "','" + lbtnTempCell.CommandArgument.ToString() + "','" + lbtnTempWork.CommandArgument.ToString() + "','" + lbtnTempEmail.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnCity"))).Attributes.Add("onclick", "fillPaytoG('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "','" + lbtnTempAdd.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempAdd2.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempCity.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempState.CommandArgument.ToString() + "','" + lbtnTempZip.CommandArgument.ToString() + "','" + lbtnTempHome.CommandArgument.ToString() + "','" + lbtnTempCell.CommandArgument.ToString() + "','" + lbtnTempWork.CommandArgument.ToString() + "','" + lbtnTempEmail.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnAddress"))).Attributes.Add("onclick", "fillPaytoG('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "','" + lbtnTempAdd.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempAdd2.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempCity.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempState.CommandArgument.ToString() + "','" + lbtnTempZip.CommandArgument.ToString() + "','" + lbtnTempHome.CommandArgument.ToString() + "','" + lbtnTempCell.CommandArgument.ToString() + "','" + lbtnTempWork.CommandArgument.ToString() + "','" + lbtnTempEmail.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnState"))).Attributes.Add("onclick", "fillPaytoG('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "','" + lbtnTempAdd.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempAdd2.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempCity.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempState.CommandArgument.ToString() + "','" + lbtnTempZip.CommandArgument.ToString() + "','" + lbtnTempHome.CommandArgument.ToString() + "','" + lbtnTempCell.CommandArgument.ToString() + "','" + lbtnTempWork.CommandArgument.ToString() + "','" + lbtnTempEmail.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnZip"))).Attributes.Add("onclick", "fillPaytoG('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnpkid.CommandArgument.ToString() + "','" + lbtnTempAdd.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempAdd2.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempCity.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempState.CommandArgument.ToString() + "','" + lbtnTempZip.CommandArgument.ToString() + "','" + lbtnTempHome.CommandArgument.ToString() + "','" + lbtnTempCell.CommandArgument.ToString() + "','" + lbtnTempWork.CommandArgument.ToString() + "','" + lbtnTempEmail.CommandArgument.ToString() + "');");
+
+                }
+
+               
+
+
+
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+
+    }
+    protected void gvEmployeeDetails_RowCreated(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.Header)
+        {
+            if (String.Empty != strSortExp)
+            {
+                AddSortImage(e.Row);
+            }
+            else
+            {
+                Image sortImage = new Image();
+                sortImage.ImageUrl = "~/Images/up-arrow.gif";
+                sortImage.AlternateText = "Descending Order";
+                e.Row.Cells[3].Controls.Add(sortImage);
+            }
+        }
+    }
+    protected void btnadd_Click(object sender, EventArgs e)
+    {
+        //Response.Redirect("../WorkerCompensation/EmployeeDetails_Popup.aspx");
+    }
+    protected void btnGo1_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            m_objemp = new RIMS_Base.Biz.cEmployee();
+            lstEmpDetails = new List<RIMS_Base.cEmployee>();
+            if (dwState.SelectedIndex > 0)
+            {
+                lstEmpDetails = m_objemp.Get_AdvanceSearch_Data(txtLastName.Text.Trim(), txtFirstName.Text.Trim(), txtAddress.Text.Trim(), txtCity.Text.Trim(), dwState.SelectedItem.Text, txtZipcode.Text.Trim(),Convert.ToDecimal(dwEntity.SelectedValue));
+            }
+            else
+                lstEmpDetails = m_objemp.Get_AdvanceSearch_Data(txtLastName.Text.Trim(), txtFirstName.Text.Trim(), txtAddress.Text.Trim(), txtCity.Text.Trim(),string.Empty, txtZipcode.Text.Trim(),Convert.ToDecimal(dwEntity.SelectedValue));
+            gvEmployeeDetails.DataSource = lstEmpDetails;
+            gvEmployeeDetails.DataBind();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void gvEmployeeDetails_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        gvEmployeeDetails.PageIndex = e.NewPageIndex;
+        gvEmployeeDetails.DataSource = BindEmpDetails();
+        gvEmployeeDetails.DataBind();
+    }
+    private int GetSortColumnIndex(string strSortExp)
+    {
+        int nRet = 0;
+        // Iterate through the Columns collection to determine the index
+        // of the column being sorted.
+        foreach (DataControlField field in gvEmployeeDetails.Columns)
+        {
+            if (field.SortExpression.ToString() == ViewState["SortExp"].ToString())
+            {
+                nRet = gvEmployeeDetails.Columns.IndexOf(field);
+            }
+        }
+        return nRet;
+    }
+    private void AddSortImage(GridViewRow headerRow)
+    {
+
+        Int32 iCol = GetSortColumnIndex(strSortExp);
+        if (-1 == iCol)
+        {
+            return;
+        }
+        // Create the sorting image based on the sort direction.
+        Image sortImage = new Image();
+
+        if (SortDirection.Ascending.ToString() == ViewState["sortDirection"].ToString())
+        {
+            sortImage.ImageUrl = "~/Images/up-arrow.gif";
+            sortImage.AlternateText = "Descending Order";
+        }
+        else
+        {
+            sortImage.ImageUrl = "~/Images/down-arrow.gif";
+            sortImage.AlternateText = "Ascending Order";
+        }
+
+        // Add the image to the appropriate header cell.
+        headerRow.Cells[iCol].Controls.Add(sortImage);
+    }
+    #endregion
+
+    #region Event Handlers(Employee Details)
+
+    
+    protected void btnNext_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (gvEmployee.PageIndex <= gvEmployee.PageCount)
+            {
+                gvEmployee.PageIndex = gvEmployee.PageIndex + 1;
+                GeneralSorting();
+
+                lblPageInfo.Text = "Page " + Convert.ToString(gvEmployee.PageIndex + 1) + " of " + gvEmployee.PageCount.ToString();
+                lblEmployeeTotal.Text = "Total Employee : " + lstEmployee.Count.ToString();
+            }
+
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    protected void btnPrev_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (gvEmployee.PageIndex <= gvEmployee.PageCount)
+            {
+                gvEmployee.PageIndex = gvEmployee.PageIndex - 1;
+                GeneralSorting();
+                lblPageInfo.Text = "Page " + Convert.ToString(gvEmployee.PageIndex + 1) + " of " + gvEmployee.PageCount.ToString();
+                lblEmployeeTotal.Text = "Total Employee : " + lstEmployee.Count.ToString();
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    protected void btnDelete_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            m_objEmployee = new RIMS_Base.Biz.cEmployee();
+            m_intRetval = m_objEmployee.Employee_Delete(Request.Form["chkItem"].ToString());
+            if (m_intRetval <= 0)
+            {
+                mvEmployee.ActiveViewIndex = 0;
+                gvEmployee.DataSource = BindEmployee();
+                gvEmployee.DataBind();
+            }
+            lblEmployeeTotal.Text = "Total Employee : " + lstEmployee.Count.ToString();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+    }
+    protected void btnAddNew_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            dvSearch.Visible = false;
+            mvEmployee.ActiveViewIndex = 1;
+            Bindfv(FormViewMode.Insert);
+            btnRemove.Visible = false;
+            btnMail.Visible = false;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+    }
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            //m_objEmployee = new RIMS_Base.Biz.cEmployee();
+            //lstEmployee = new List<RIMS_Base.cEmployee>();
+            //lstEmployee = m_objEmployee.Get_Search_Data(ddlSearch.SelectedValue, txtSearch.Text.Trim());
+            //gvEmployee.DataSource = lstEmployee;
+            //gvEmployee.DataBind();
+            //if (gvEmployee.PageCount == 0)
+            //{ lblPageInfo.Text = "Page 0 of 0"; }
+            //else
+            //{
+            //    lblPageInfo.Text = "Page 1 of " + gvEmployee.PageCount.ToString();
+            //}
+            //lblEmployeeTotal.Text = "Total Employee : " + lstEmployee.Count.ToString();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnSave_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (ViewState["PreventAdd"].ToString() == "N")
+            {
+                m_objEmployee = new RIMS_Base.Biz.cEmployee();
+                if (fvEmployee.CurrentMode == FormViewMode.Insert)
+                {
+                    m_objEmployee.PK_Employee_ID = 0;
+                }
+                else
+                {
+                    m_objEmployee.PK_Employee_ID = Convert.ToInt32(((Label)fvEmployee.FindControl("lblPkEmployeeId")).Text);
+                }
+                m_objEmployee.Employee_Id = Convert.ToString(((TextBox)fvEmployee.FindControl("txtEmployeeId")).Text);
+                m_objEmployee.First_Name = Convert.ToString(((TextBox)fvEmployee.FindControl("txtFirstName")).Text).Replace("'", "''");
+                m_objEmployee.Employee_Address_1 = Convert.ToString(((TextBox)fvEmployee.FindControl("txtAddress1")).Text).Replace("'", "''");
+                m_objEmployee.Employee_City = Convert.ToString(((TextBox)fvEmployee.FindControl("txtCity")).Text).Replace("'", "''");
+                m_objEmployee.Employee_Zip_Code = Convert.ToString(((TextBox)fvEmployee.FindControl("txtZip")).Text);
+                m_objEmployee.Employee_Cell_Phone = Convert.ToString(((TextBox)fvEmployee.FindControl("txtCellTeleNo")).Text);
+
+                if ((((DropDownList)fvEmployee.FindControl("ddlMaritalStatus")).SelectedValue) != "0")
+                m_objEmployee.FK_Marital_Status = Convert.ToDecimal(((DropDownList)fvEmployee.FindControl("ddlMaritalStatus")).SelectedValue);
+                if (((TextBox)fvEmployee.FindControl("txtNoOfDependents")).Text != string.Empty)
+                    m_objEmployee.Number_Of_Dependents = Convert.ToDecimal(((TextBox)fvEmployee.FindControl("txtNoOfDependents")).Text);
+                if (((TextBox)fvEmployee.FindControl("txtDeathDate")).Text != string.Empty)
+                    m_objEmployee.Date_Of_Death = Convert.ToDateTime(((TextBox)fvEmployee.FindControl("txtDeathDate")).Text);
+                m_objEmployee.Last_Name = Convert.ToString(((TextBox)fvEmployee.FindControl("txtLastName")).Text).Replace("'", "''");
+                m_objEmployee.Middle_Name = Convert.ToString(((TextBox)fvEmployee.FindControl("txtMiddleName")).Text).Replace("'", "''");
+                m_objEmployee.Employee_Address_2 = Convert.ToString(((TextBox)fvEmployee.FindControl("txtAddress2")).Text).Replace("'", "''");
+                m_objEmployee.Employee_State = Convert.ToDecimal(((DropDownList)fvEmployee.FindControl("ddlState")).SelectedValue);
+                m_objEmployee.Employee_Home_Phone = Convert.ToString(((TextBox)fvEmployee.FindControl("txtHomeTeleNo")).Text);
+                m_objEmployee.Social_Security_Number = RIMS_Base.Biz.CGeneral.Encrypt(Convert.ToString(((TextBox)fvEmployee.FindControl("txtSSN")).Text), true);
+                m_objEmployee.Sex = Convert.ToString(((RadioButtonList)fvEmployee.FindControl("rdlSex")).SelectedValue);
+                if (((TextBox)fvEmployee.FindControl("txtDOB")).Text != string.Empty)
+                    m_objEmployee.Date_Of_Birth = Convert.ToDateTime(((TextBox)fvEmployee.FindControl("txtDOB")).Text);
+                if ((((DropDownList)fvEmployee.FindControl("ddlDLState")).SelectedValue) != "0")
+                    m_objEmployee.Drivers_License_State = Convert.ToString(((DropDownList)fvEmployee.FindControl("ddlDLState")).SelectedItem.Text);
+                if ((((DropDownList)fvEmployee.FindControl("ddlDLType")).SelectedValue) != "0")
+                    m_objEmployee.Drivers_License_Type = Convert.ToString(((DropDownList)fvEmployee.FindControl("ddlDLType")).SelectedItem.Text);
+                m_objEmployee.Drivers_License_Restrictions = Convert.ToString(((TextBox)fvEmployee.FindControl("txtRDS")).Text);
+                if (((TextBox)fvEmployee.FindControl("txtDateIssued")).Text != string.Empty)
+                    m_objEmployee.Drivers_License_Issued = Convert.ToDateTime(((TextBox)fvEmployee.FindControl("txtDateIssued")).Text);
+                m_objEmployee.Drivers_License_Number = Convert.ToString(((TextBox)fvEmployee.FindControl("txtDLN")).Text);
+                m_objEmployee.Drivers_License_Class = Convert.ToString(((TextBox)fvEmployee.FindControl("txtDLC")).Text);
+                m_objEmployee.Drivers_License_Endorsements = Convert.ToString(((TextBox)fvEmployee.FindControl("txtDLE")).Text);
+                if (((TextBox)fvEmployee.FindControl("txtDateExpired")).Text != string.Empty)
+                    m_objEmployee.Drivers_License_Expires = Convert.ToDateTime(((TextBox)fvEmployee.FindControl("txtDateExpired")).Text);
+                m_objEmployee.Job_Title = Convert.ToString(((TextBox)fvEmployee.FindControl("txtJobtitle")).Text);
+                if (((TextBox)fvEmployee.FindControl("txtSalary")).Text != string.Empty)
+                    m_objEmployee.Salary = Convert.ToDecimal(((TextBox)fvEmployee.FindControl("txtSalary")).Text);
+                if (((TextBox)fvEmployee.FindControl("txtSupId")).Text != string.Empty)
+                    m_objEmployee.Supervisor = Convert.ToDecimal(((TextBox)fvEmployee.FindControl("txtSupId")).Text);
+                if (((TextBox)fvEmployee.FindControl("txtHireDate")).Text != string.Empty)
+                    m_objEmployee.Hire_Date = Convert.ToDateTime(((TextBox)fvEmployee.FindControl("txtHireDate")).Text);
+                m_objEmployee.Inactive = Convert.ToString(((TextBox)fvEmployee.FindControl("txtActive")).Text);
+                if (((TextBox)fvEmployee.FindControl("txtCCId")).Text != string.Empty)
+                    m_objEmployee.FK_Cost_Center = Convert.ToDecimal(((TextBox)fvEmployee.FindControl("txtCCId")).Text);
+                m_objEmployee.Occupation_Description = Convert.ToString(((TextBox)fvEmployee.FindControl("txtOccuDesc")).Text);
+                m_objEmployee.Work_Phone = Convert.ToString(((TextBox)fvEmployee.FindControl("txtWorkTeleNo")).Text);
+                if ((((DropDownList)fvEmployee.FindControl("ddlJobClassification")).SelectedValue) != "0")
+                    m_objEmployee.FK_Job_Classification = Convert.ToDecimal(((DropDownList)fvEmployee.FindControl("ddlJobClassification")).SelectedValue);
+                m_objEmployee.Email = Convert.ToString(((TextBox)fvEmployee.FindControl("txtEmail")).Text);
+                m_objEmployee.Update_Date = System.DateTime.Now;
+                m_objEmployee.Updated_By = "1";
+
+                m_intRetval = m_objEmployee.Employee_InsertUpdate(m_objEmployee);
+
+
+                // ((Label)fvEmployee.FindControl("lblPkEmployeeId")).Text = m_intRetval.ToString();
+                // ViewState["PreventAdd"] = "Y";
+                // ViewState["EmpID"] = m_intRetval.ToString();
+                //if (m_intRetval >= 0)
+                //{
+                //    mvEmployee.ActiveViewIndex = 0;
+                //    gvEmployee.DataSource = BindEmployee();
+                //    gvEmployee.DataBind();
+                //}
+
+                //}
+                //else
+                //{
+                //    ViewState["PreventAdd"] = "N";
+                //    mvEmployee.ActiveViewIndex = 0;
+                //    gvEmployee.DataSource = BindEmployee();
+                //    gvEmployee.DataBind();
+                //}
+                //dvSearch.Visible = true;
+
+
+                if (m_intRetval >= 0)
+                {
+                    m_objEmployee = new RIMS_Base.Biz.cEmployee();
+                    lstEmployee = new List<RIMS_Base.cEmployee>();
+                    lstEmployee = m_objEmployee.GetEmployeeByID(m_intRetval);
+                    TextBox lbtnTempFirst = new TextBox();
+                    TextBox lbtnTempMiddle = new TextBox();
+                    TextBox lbtnTempLast = new TextBox();
+                    TextBox lbtnTempID = new TextBox();
+
+                    //TextBox lbtnTempADD1 = new TextBox();
+                    //TextBox lbtnTempADD2 = new TextBox();
+                    //TextBox lbtnTempCity = new TextBox();
+                    //TextBox lbtnTempState = new TextBox();
+                    //TextBox lbtnTempZip = new TextBox();
+                    //TextBox lbtnTempHomeTelNO = new TextBox();
+                    //TextBox lbtnTempCellNo = new TextBox();
+                    //TextBox lbtnTempEmail = new TextBox();
+
+
+                    lbtnTempFirst.Text = lstEmployee[0].First_Name;
+                    lbtnTempMiddle.Text = lstEmployee[0].Middle_Name;
+                    lbtnTempLast.Text = lstEmployee[0].Last_Name;
+                    lbtnTempID.Text = lstEmployee[0].PK_Employee_ID.ToString();
+
+                    //lbtnTempADD1.Text = lstEmployee[0].Employee_Address_1;
+                    //lbtnTempADD2.Text = lstEmployee[0].Employee_Address_2;
+                    //lbtnTempCity.Text = lstEmployee[0].Employee_City;
+                    //lbtnTempState.Text = lstEmployee[0].Employee_State.ToString();
+                    //lbtnTempZip.Text = lstEmployee[0].Employee_Zip_Code;
+                    //lbtnTempHomeTelNO.Text = lstEmployee[0].Employee_Home_Phone;
+                    //lbtnTempCellNo.Text = lstEmployee[0].Employee_Cell_Phone;
+                    //lbtnTempEmail.Text = lstEmployee[0].Email;
+
+                    if (Request.QueryString["Page"] == "Auto")
+                    {
+
+                        Page.RegisterStartupScript("close", "<script language=javascript>   window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtFirstName').value = '" + lbtnTempFirst.Text.Replace("''", "\\'") + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtLastName').value = '" + lbtnTempLast.Text.Replace("''", "\\'") + "';  window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtempid').value = '" + lbtnTempID.Text + "'; self.close(); </script>");
+                    }
+                    else 
+                    {
+                        Page.RegisterStartupScript("close", "<script language=javascript>   window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtFirstName').value = '" + lbtnTempFirst.Text.Replace("''", "\\'") + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtLastName').value = '" + lbtnTempLast.Text.Replace("''", "\\'") + "';  window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtempid').value = '" + lbtnTempID.Text + "'; self.close(); </script>");
+                    //    Page.RegisterStartupScript("close", "<script language=javascript>   window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtFirstName').value = '" + lbtnTempFirst.Text + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtLastName').value = '" + lbtnTempLast.Text + "';window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtempid').value = '" + lbtnTempID.Text + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtClaimantAdd1').value = '" + lbtnTempADD1.Text + "';window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtClaimantAdd2').value = '" + lbtnTempADD2.Text + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtClaimantCity').value = '" + lbtnTempCity.Text + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtClaimantState').value = '" + lbtnTempState.Text + "';window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtClaimantZip').value = '" + lbtnTempZip.Text + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtHomeTeleNo').value = '" + lbtnTempHomeTelNO.Text + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtCellTeleNo').value = '" + lbtnTempCellNo.Text + "'window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtEmail').value = '" + lbtnTempEmail.Text + "';  self.close(); </script>");
+                        //window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtEmail').value = '" + lbtnTempEmail.Text + "'; 
+                    }
+
+
+                   
+                }
+
+
+
+            }
+            else
+            {
+                m_intRetval = Convert.ToInt32(((Label)fvEmployee.FindControl("lblPkEmployeeId")).Text);
+                if (m_intRetval >= 0 || ViewState["PreventAdd"].ToString() == "Y")
+                {
+                    m_objEmployee = new RIMS_Base.Biz.cEmployee();
+                    lstEmployee = new List<RIMS_Base.cEmployee>();
+                    lstEmployee = m_objEmployee.GetEmployeeByID(m_intRetval);
+                    TextBox lbtnTempFirst = new TextBox();
+                    TextBox lbtnTempMiddle = new TextBox();
+                    TextBox lbtnTempLast = new TextBox();
+                    TextBox lbtnTempID = new TextBox();
+
+
+                    lbtnTempFirst.Text = lstEmployee[0].First_Name;
+                    lbtnTempMiddle.Text = lstEmployee[0].Middle_Name;
+                    lbtnTempLast.Text = lstEmployee[0].Last_Name;
+                    lbtnTempID.Text = lstEmployee[0].PK_Employee_ID.ToString();
+
+                    if (Request.QueryString["Page"] == "Auto")
+                    {
+
+                        Page.RegisterStartupScript("close", "<script language=javascript>   window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtFirstName').value = '" + lbtnTempFirst.Text.Replace("''", "\\'") + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtLastName').value = '" + lbtnTempLast.Text.Replace("''", "\\'") + "';  window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtempid').value = '" + lbtnTempID.Text + "'; self.close(); </script>");
+                    }
+                    else
+                    {
+                        Page.RegisterStartupScript("close", "<script language=javascript>   window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtFirstName').value = '" + lbtnTempFirst.Text.Replace("''", "\\'") + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtLastName').value = '" + lbtnTempLast.Text.Replace("''", "\\'") + "';  window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtempid').value = '" + lbtnTempID.Text + "'; self.close(); </script>");
+                    }
+
+
+                }
+            }
+
+
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        EmpSearch.Style["display"] = "block";
+        EmpDetails.Style["display"] = "none";
+        Page.RegisterStartupScript("load", "<script type=\"text/javascript\">\n" +
+            "window.resizeTo(700,450); window.moveTo(200, 130);\n" +
+            "<" + "/script>");
+
+
+    }
+
+    protected void btnCancelTemp_Click(object sender, EventArgs e)
+    {
+        if (Request.QueryString["Page"] == "LiabilityEmp")
+        {
+            RegisterStartupScript("load", "<script type=\"text/javascript\">\n" +
+            "self.close();\n" +
+            "<" + "/script>");
+
+        }
+    }
+    protected void gvEmployee_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            if (e.CommandName != "Sort")
+            {
+                dvSearch.Visible = false;
+                mvEmployee.ActiveViewIndex = 1;
+                m_intEmployeeId = Convert.ToInt32(e.CommandArgument.ToString());
+            }
+            if (e.CommandName == "EditItem")
+            {
+                dvSearch.Visible = false;
+                Bindfv(FormViewMode.Edit);
+                gvAttachmentDetails.DataSource = BindAttachmentDetails();
+                gvAttachmentDetails.DataBind();
+                if (lstAttachment.Count > 0)
+                {
+                    btnRemove.Visible = true;
+                    btnMail.Visible = true;
+                }
+                else
+                {
+                    btnRemove.Visible = false;
+                    btnMail.Visible = false;
+                }
+
+            }
+            else if (e.CommandName == "View")
+            {
+                dvSearch.Visible = false;
+                Bindfv(FormViewMode.ReadOnly);
+                gvAttachmentDetails.DataSource = BindAttachmentDetails();
+                gvAttachmentDetails.DataBind();
+                btnRemove.Visible = false;
+                btnMail.Visible = false;
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void gvEmployee_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        try
+        {
+            lstEmployee = new List<RIMS_Base.cEmployee>();
+            if (ViewState["sortDirection"] == null)
+                ViewState["sortDirection"] = SortDirection.Descending;
+            // Changes the sort direction 
+            else
+            {
+                if (((SortDirection)ViewState["sortDirection"]) == SortDirection.Ascending)
+                    ViewState["sortDirection"] = SortDirection.Descending;
+                else
+                    ViewState["sortDirection"] = SortDirection.Ascending;
+            }
+            ViewState["SortExp"] = strSortExp = e.SortExpression;
+
+            lstEmployee = BindEmployee();
+            if (ViewState["SortExp"] != null)
+                lstEmployee.Sort(new RIMS_Base.GenericComparer<RIMS_Base.cEmployee>((string)ViewState["SortExp"], (SortDirection)ViewState["sortDirection"]));
+            gvEmployee.DataSource = lstEmployee;
+            gvEmployee.DataBind();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void fvEmployee_DataBound(object sender, EventArgs e)
+    {
+        try
+        {
+            if (fvEmployee.CurrentMode != FormViewMode.ReadOnly)
+            {
+                ((TextBox)fvEmployee.FindControl("txtchkdate")).Text = DateTime.Now.ToShortDateString();
+                ((DropDownList)fvEmployee.FindControl("ddlMaritalStatus")).DataSource = GetMaritalStatus();
+                ((DropDownList)fvEmployee.FindControl("ddlMaritalStatus")).DataTextField = "MaritalStatus";
+                ((DropDownList)fvEmployee.FindControl("ddlMaritalStatus")).DataValueField = "FK_Marital_Status";
+                ((DropDownList)fvEmployee.FindControl("ddlMaritalStatus")).DataBind();
+                m_lstCommon = new ListItem("-----------Select-----------", "0");
+                ((DropDownList)fvEmployee.FindControl("ddlMaritalStatus")).Items.Insert(0, m_lstCommon);
+
+
+                ((DropDownList)fvEmployee.FindControl("ddlState")).DataSource = GetState();
+                ((DropDownList)fvEmployee.FindControl("ddlState")).DataTextField = "FLD_state";
+                ((DropDownList)fvEmployee.FindControl("ddlState")).DataValueField = "PK_ID";
+                ((DropDownList)fvEmployee.FindControl("ddlState")).DataBind();
+                m_lstCommon = new ListItem("-----------Select-----------", "0");
+                ((DropDownList)fvEmployee.FindControl("ddlState")).Items.Insert(0, m_lstCommon);
+
+                ((DropDownList)fvEmployee.FindControl("ddlDLState")).DataSource = GetDState();
+                ((DropDownList)fvEmployee.FindControl("ddlDLState")).DataTextField = "FLD_state";
+                ((DropDownList)fvEmployee.FindControl("ddlDLState")).DataValueField = "FLD_state";
+                ((DropDownList)fvEmployee.FindControl("ddlDLState")).DataBind();
+                m_lstCommon = new ListItem("-----------Select-----------", "0");
+                ((DropDownList)fvEmployee.FindControl("ddlDLState")).Items.Insert(0, m_lstCommon);
+
+                ((DropDownList)fvEmployee.FindControl("ddlDLType")).DataSource = GetLicenseType();
+                ((DropDownList)fvEmployee.FindControl("ddlDLType")).DataTextField = "LicenseType";
+                ((DropDownList)fvEmployee.FindControl("ddlDLType")).DataValueField = "LicenseType";
+                ((DropDownList)fvEmployee.FindControl("ddlDLType")).DataBind();
+                m_lstCommon = new ListItem("-----------Select-----------", "0");
+                ((DropDownList)fvEmployee.FindControl("ddlDLType")).Items.Insert(0, m_lstCommon);
+
+                ((DropDownList)fvEmployee.FindControl("ddlJobClassification")).DataSource = GetJobClassification();
+                ((DropDownList)fvEmployee.FindControl("ddlJobClassification")).DataTextField = "JobClassfication";
+                ((DropDownList)fvEmployee.FindControl("ddlJobClassification")).DataValueField = "FK_Job_Classification";
+                ((DropDownList)fvEmployee.FindControl("ddlJobClassification")).DataBind();
+                m_lstCommon = new ListItem("-----------Select-----------", "0");
+                ((DropDownList)fvEmployee.FindControl("ddlJobClassification")).Items.Insert(0, m_lstCommon);
+
+                ((DropDownList)fvEmployee.FindControl("ddlAttachType")).DataSource = GetAttachmentType();
+                ((DropDownList)fvEmployee.FindControl("ddlAttachType")).DataTextField = "FLD_Desc";
+                ((DropDownList)fvEmployee.FindControl("ddlAttachType")).DataValueField = "FLD_Code";
+                ((DropDownList)fvEmployee.FindControl("ddlAttachType")).DataBind();
+                m_lstCommon = new ListItem("-----------Select-----------", "0");
+                ((DropDownList)fvEmployee.FindControl("ddlAttachType")).Items.Insert(0, m_lstCommon);
+                ((DropDownList)fvEmployee.FindControl("ddlAttachType")).SelectedValue = "1";
+
+
+            }
+
+            if (fvEmployee.CurrentMode == FormViewMode.Edit)
+            {
+                ((DropDownList)fvEmployee.FindControl("ddlMaritalStatus")).SelectedValue = lstEmployee[0].FK_Marital_Status.ToString();
+                ((DropDownList)fvEmployee.FindControl("ddlState")).SelectedValue = lstEmployee[0].Employee_State.ToString();
+                if (lstEmployee[0].Drivers_License_Type.ToString() != string.Empty)
+                    ((DropDownList)fvEmployee.FindControl("ddlDLType")).SelectedValue = lstEmployee[0].Drivers_License_Type.ToString();
+
+                if (lstEmployee[0].FK_Job_Classification.ToString() != string.Empty)
+                    ((DropDownList)fvEmployee.FindControl("ddlJobClassification")).SelectedValue = lstEmployee[0].FK_Job_Classification.ToString();
+                if (lstEmployee[0].Drivers_License_State.ToString() != string.Empty)
+                    ((DropDownList)fvEmployee.FindControl("ddlDLState")).SelectedValue = lstEmployee[0].Drivers_License_State.ToString();
+                ((RadioButtonList)fvEmployee.FindControl("rdlSex")).SelectedValue = lstEmployee[0].Sex;
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void ddlPage_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            gvEmployee.PageSize = Convert.ToInt32(ddlPage.SelectedValue);
+            gvEmployee.DataSource = BindEmployee();
+            gvEmployee.DataBind();
+            lblPageInfo.Text = "Page 1 of " + gvEmployee.PageCount.ToString();
+            txtPageNo.Text = "1";
+            lblEmployeeTotal.Text = "Total Employee Details :" + lstEmployee.Count.ToString();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnAddAttachment_Click(object sender, EventArgs e)
+    {
+        //EmpDetails.style["display"] = "block";
+        //EmpSearch.style["display"] = "none";
+        dvSearch.Visible = false;
+
+        if (fvEmployee.CurrentMode == FormViewMode.Insert)
+        {
+            if (ViewState["PreventAdd"].ToString() == "N")
+            {
+                m_objEmployee = new RIMS_Base.Biz.cEmployee();
+                if (fvEmployee.CurrentMode == FormViewMode.Insert)
+                {
+                    m_objEmployee.PK_Employee_ID = 0;
+                }
+                else
+                {
+                    m_objEmployee.PK_Employee_ID = Convert.ToInt32(((Label)fvEmployee.FindControl("lblPkEmployeeId")).Text);
+                }
+                m_objEmployee.Employee_Id = Convert.ToString(((TextBox)fvEmployee.FindControl("txtEmployeeId")).Text);
+                m_objEmployee.First_Name = Convert.ToString(((TextBox)fvEmployee.FindControl("txtFirstName")).Text.Replace("'", "''"));
+                m_objEmployee.Employee_Address_1 = Convert.ToString(((TextBox)fvEmployee.FindControl("txtAddress1")).Text.Replace("'", "''"));
+                m_objEmployee.Employee_City = Convert.ToString(((TextBox)fvEmployee.FindControl("txtCity")).Text.Replace("'", "''"));
+                m_objEmployee.Employee_Zip_Code = Convert.ToString(((TextBox)fvEmployee.FindControl("txtZip")).Text);
+                m_objEmployee.Employee_Cell_Phone = Convert.ToString(((TextBox)fvEmployee.FindControl("txtCellTeleNo")).Text);
+
+                if ((((DropDownList)fvEmployee.FindControl("ddlMaritalStatus")).SelectedValue) != "0")
+                m_objEmployee.FK_Marital_Status = Convert.ToDecimal(((DropDownList)fvEmployee.FindControl("ddlMaritalStatus")).SelectedValue);
+                if (((TextBox)fvEmployee.FindControl("txtNoOfDependents")).Text != string.Empty)
+                    m_objEmployee.Number_Of_Dependents = Convert.ToDecimal(((TextBox)fvEmployee.FindControl("txtNoOfDependents")).Text);
+                if (((TextBox)fvEmployee.FindControl("txtDeathDate")).Text != string.Empty)
+                    m_objEmployee.Date_Of_Death = Convert.ToDateTime(((TextBox)fvEmployee.FindControl("txtDeathDate")).Text);
+                m_objEmployee.Last_Name = Convert.ToString(((TextBox)fvEmployee.FindControl("txtLastName")).Text.Replace("'", "''"));
+                m_objEmployee.Middle_Name = Convert.ToString(((TextBox)fvEmployee.FindControl("txtMiddleName")).Text.Replace("'", "''"));
+                m_objEmployee.Employee_Address_2 = Convert.ToString(((TextBox)fvEmployee.FindControl("txtAddress2")).Text.Replace("'", "''"));
+                m_objEmployee.Employee_State = Convert.ToDecimal(((DropDownList)fvEmployee.FindControl("ddlState")).SelectedValue);
+                m_objEmployee.Employee_Home_Phone = Convert.ToString(((TextBox)fvEmployee.FindControl("txtHomeTeleNo")).Text);
+                m_objEmployee.Social_Security_Number = RIMS_Base.Biz.CGeneral.Encrypt(Convert.ToString(((TextBox)fvEmployee.FindControl("txtSSN")).Text), true);
+                m_objEmployee.Sex = Convert.ToString(((RadioButtonList)fvEmployee.FindControl("rdlSex")).SelectedValue);
+                if (((TextBox)fvEmployee.FindControl("txtDOB")).Text != string.Empty)
+                    m_objEmployee.Date_Of_Birth = Convert.ToDateTime(((TextBox)fvEmployee.FindControl("txtDOB")).Text);
+                if ((((DropDownList)fvEmployee.FindControl("ddlDLState")).SelectedValue) != "0")
+                    m_objEmployee.Drivers_License_State = Convert.ToString(((DropDownList)fvEmployee.FindControl("ddlDLState")).SelectedItem.Text);
+                if ((((DropDownList)fvEmployee.FindControl("ddlDLType")).SelectedValue) != "0")
+                    m_objEmployee.Drivers_License_Type = Convert.ToString(((DropDownList)fvEmployee.FindControl("ddlDLType")).SelectedItem.Text);
+                m_objEmployee.Drivers_License_Restrictions = Convert.ToString(((TextBox)fvEmployee.FindControl("txtRDS")).Text.Replace("'", "''"));
+                if (((TextBox)fvEmployee.FindControl("txtDateIssued")).Text != string.Empty)
+                    m_objEmployee.Drivers_License_Issued = Convert.ToDateTime(((TextBox)fvEmployee.FindControl("txtDateIssued")).Text);
+                m_objEmployee.Drivers_License_Number = Convert.ToString(((TextBox)fvEmployee.FindControl("txtDLN")).Text);
+                m_objEmployee.Drivers_License_Class = Convert.ToString(((TextBox)fvEmployee.FindControl("txtDLC")).Text);
+                m_objEmployee.Drivers_License_Endorsements = Convert.ToString(((TextBox)fvEmployee.FindControl("txtDLE")).Text);
+                if (((TextBox)fvEmployee.FindControl("txtDateExpired")).Text != string.Empty)
+                    m_objEmployee.Drivers_License_Expires = Convert.ToDateTime(((TextBox)fvEmployee.FindControl("txtDateExpired")).Text);
+                m_objEmployee.Job_Title = Convert.ToString(((TextBox)fvEmployee.FindControl("txtJobtitle")).Text.Replace("'", "''"));
+                if (((TextBox)fvEmployee.FindControl("txtSalary")).Text != string.Empty)
+                    m_objEmployee.Salary = Convert.ToDecimal(((TextBox)fvEmployee.FindControl("txtSalary")).Text);
+                if (((TextBox)fvEmployee.FindControl("txtSupId")).Text != string.Empty)
+                    m_objEmployee.Supervisor = Convert.ToDecimal(((TextBox)fvEmployee.FindControl("txtSupId")).Text);
+                if (((TextBox)fvEmployee.FindControl("txtHireDate")).Text != string.Empty)
+                    m_objEmployee.Hire_Date = Convert.ToDateTime(((TextBox)fvEmployee.FindControl("txtHireDate")).Text);
+                m_objEmployee.Inactive = Convert.ToString(((TextBox)fvEmployee.FindControl("txtActive")).Text);
+                if (((TextBox)fvEmployee.FindControl("txtCCId")).Text != string.Empty)
+                    m_objEmployee.FK_Cost_Center = Convert.ToDecimal(((TextBox)fvEmployee.FindControl("txtCCId")).Text);
+                m_objEmployee.Occupation_Description = Convert.ToString(((TextBox)fvEmployee.FindControl("txtOccuDesc")).Text);
+                m_objEmployee.Work_Phone = Convert.ToString(((TextBox)fvEmployee.FindControl("txtWorkTeleNo")).Text);
+                if ((((DropDownList)fvEmployee.FindControl("ddlJobClassification")).SelectedValue) != "0")
+                    m_objEmployee.FK_Job_Classification = Convert.ToDecimal(((DropDownList)fvEmployee.FindControl("ddlJobClassification")).SelectedValue);
+                m_objEmployee.Email = Convert.ToString(((TextBox)fvEmployee.FindControl("txtEmail")).Text);
+                m_objEmployee.Update_Date = System.DateTime.Now;
+                m_objEmployee.Updated_By = "1";
+                m_intRetval = m_objEmployee.Employee_InsertUpdate(m_objEmployee);
+                ((Label)fvEmployee.FindControl("lblPkEmployeeId")).Text = m_intRetval.ToString();
+                ViewState["PreventAdd"] = "Y";
+            }
+            if (m_intRetval >= 0 || ViewState["PreventAdd"].ToString() == "Y")
+            {
+                dvAttachDetails.Visible = true;
+
+                AddAttachment();
+                if (m_intRetval >= 0)
+                {
+                    gvAttachmentDetails.DataSource = BindAttachmentDetails();
+                    gvAttachmentDetails.DataBind();
+                    if (lstAttachment.Count > 0)
+                    {
+                        btnRemove.Visible = true;
+                        btnMail.Visible = true;
+
+                    }
+                    else
+                    {
+                        btnRemove.Visible = false;
+                        btnMail.Visible = false;
+                    }
+                    EmpSearch.Style["display"] = "none";
+                    EmpDetails.Style["display"] = "block";
+                }
+            }
+
+
+        }
+        else
+        {
+            dvAttachDetails.Visible = true;
+            AddAttachment();
+            if (m_intRetval >= 0)
+            {
+                gvAttachmentDetails.DataSource = BindAttachmentDetails();
+                gvAttachmentDetails.DataBind();
+                if (lstAttachment.Count > 0)
+                {
+                    btnRemove.Visible = true;
+                    btnMail.Visible = true;
+
+                }
+                else
+                {
+                    btnRemove.Visible = false;
+                    btnMail.Visible = false;
+                }
+                EmpSearch.Style["display"] = "none";
+                EmpDetails.Style["display"] = "block";
+            }
+        }
+
+
+    }
+    protected void gvAttachmentDetails_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                ((ImageButton)e.Row.FindControl("imgbtnDwnld")).Attributes.Add("onclick", "javascript:return openWindow('" + m_strGlobalPath + ((ImageButton)e.Row.FindControl("imgbtnDwnld")).CommandArgument.ToString() + "');");
+                // ((ImageButton)e.Row.FindControl("imgbtnMail")).Attributes.Add("onclick", "javascript:return openMailWindow('../ErimsMail.aspx?AttMod=Employee&AttName=" + ((ImageButton)e.Row.FindControl("imgbtnMail")).CommandArgument.ToString() + "');");
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnRemove_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            m_objAttachment = new RIMS_Base.Biz.CAttachment();
+            m_intRetval = m_objAttachment.DeleteAttachment(Request.Form["chkItem"].ToString());
+            if (m_intRetval <= 0)
+            {
+                gvAttachmentDetails.DataSource = BindAttachmentDetails();
+                gvAttachmentDetails.DataBind();
+                if (lstAttachment.Count > 0)
+                {
+                    btnRemove.Visible = true;
+                    btnMail.Visible = true;
+                }
+                else
+                {
+                    btnRemove.Visible = false;
+                    btnMail.Visible = false;
+                }
+            }
+            dvAttachDetails.Visible = true;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void gvEmployee_RowCreated(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.Header)
+        {
+            if (String.Empty != strSortExp || ViewState["SortExp"] != null)
+            {
+                AddSortImage(e.Row);
+            }
+            else
+            {
+                System.Web.UI.WebControls.Image sortImage = new System.Web.UI.WebControls.Image();
+                sortImage.ImageUrl = "~/Images/up-arrow.gif";
+                sortImage.AlternateText = "Descending Order";
+                e.Row.Cells[3].Controls.Add(sortImage);
+
+            }
+        }
+    }
+    protected void fvEmployee_PageIndexChanging(object sender, FormViewPageEventArgs e)
+    {
+
+    }
+
+    protected void btnGo_Click2(object sender, EventArgs e)
+    {
+
+    }
+    #endregion
+
+    #region Private Methods
+    private void BindCombos()
+    {
+        objGeneral = new RIMS_Base.Biz.CGeneral();
+        dwEntity.DataSource = objGeneral.GetAllEntity();
+        dwEntity.DataTextField = "Entity_Description";
+        dwEntity.DataValueField = "PK_Entity";
+        dwEntity.DataBind();
+        ListItem lstItemEntity = new ListItem("------------Select------------", "0");
+        dwEntity.Items.Insert(0, lstItemEntity);
+
+
+        dwState.DataSource = objGeneral.GetAllState();
+        dwState.DataTextField = "FLD_state";
+        dwState.DataValueField = "Code";
+        dwState.DataBind();
+        ListItem lstItem = new ListItem("------------Select------------", "0");
+        dwState.Items.Insert(0, lstItem);
+
+    }
+    /// <summary>
+    /// Get the All Employee's Details
+    /// </summary>
+    private List<RIMS_Base.cEmployee> BindEmpDetails()
+    {
+        try
+        {
+            m_objemp = new RIMS_Base.Biz.cEmployee();
+            lstEmpDetails = new List<RIMS_Base.cEmployee>();
+            lstEmpDetails = null;
+            if (txtLastName.Text != string.Empty || txtFirstName.Text != string.Empty || txtAddress.Text != string.Empty || txtCity.Text != string.Empty || txtState.Text != string.Empty || txtZipcode.Text != string.Empty)
+            {
+                lstEmpDetails = m_objemp.Get_AdvanceSearch_Data(txtLastName.Text.Trim(), txtFirstName.Text.Trim(), txtAddress.Text.Trim(), txtCity.Text.Trim(), txtState.Text.Trim(), txtZipcode.Text.Trim(),Convert.ToDecimal(dwEntity.SelectedValue));
+            }
+            else
+            {
+                lstEmpDetails = m_objemp.GetAll_State();
+            }
+            return lstEmpDetails;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+    }
+    #endregion
+
+    #region Private Methods(Employee Details)
+    /// <summary>
+    /// Get the All Vendor's Details
+    /// </summary>
+    private List<RIMS_Base.cEmployee> BindEmployee()
+    {
+        try
+        {
+            //m_objEmployee = new RIMS_Base.Biz.cEmployee();
+            //lstEmployee = new List<RIMS_Base.cEmployee>();
+            //lstEmployee = null;
+            //if (txtSearch.Text != string.Empty)
+            //{
+            //    lstEmployee = m_objEmployee.Get_Search_Data(ddlSearch.SelectedValue, txtSearch.Text.Trim());
+            //}
+            //else
+            //{
+            //    lstEmployee = m_objEmployee.GetAll();
+            //}
+            //lblEmployeeTotal.Text = "Total Employee : " + lstEmployee.Count.ToString();
+            return lstEmployee;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+    }
+    /// <summary>
+    /// Bind The Attachment Details.
+    /// </summary>
+    /// <returns></returns>
+    private List<RIMS_Base.CAttachment> BindAttachmentDetails()
+    {
+        try
+        {
+            m_objAttachment = new RIMS_Base.Biz.CAttachment();
+            lstAttachment = new List<RIMS_Base.CAttachment>();
+            lstAttachment = m_objAttachment.GetAll(0, Convert.ToInt32(((Label)fvEmployee.FindControl("lblPkEmployeeId")).Text), "Employee");
+            return lstAttachment;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+    }
+    /// <summary>
+    /// Get All State.
+    /// </summary>
+    private List<RIMS_Base.CGeneral> GetState()
+    {
+        try
+        {
+            m_objState = new RIMS_Base.Biz.CGeneral();
+            lstState = new List<RIMS_Base.CGeneral>();
+            lstState = m_objState.GetAllState();
+            return lstState;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+
+    }
+    private List<RIMS_Base.CGeneral> GetDState()
+    {
+        try
+        {
+            m_objDState = new RIMS_Base.Biz.CGeneral();
+            lstDState = new List<RIMS_Base.CGeneral>();
+            lstDState = m_objDState.GetAllState();
+            return lstDState;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+
+    }
+    private List<RIMS_Base.cEmployee> GetMaritalStatus()
+    {
+        try
+        {
+            m_objMaritalStatus = new RIMS_Base.Biz.cEmployee();
+            lstMaritalStatus = new List<RIMS_Base.cEmployee>();
+            lstMaritalStatus = m_objMaritalStatus.GetMaritalStatus();
+            return lstMaritalStatus;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+    }
+    private List<RIMS_Base.cEmployee> GetJobClassification()
+    {
+        try
+        {
+            m_objJobCls = new RIMS_Base.Biz.cEmployee();
+            lstJobCls = new List<RIMS_Base.cEmployee>();
+            lstJobCls = m_objJobCls.GetJobClassfication();
+            return lstJobCls;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+    }
+    private List<RIMS_Base.cEmployee> GetLicenseType()
+    {
+        try
+        {
+            m_objLicType = new RIMS_Base.Biz.cEmployee();
+            lstLicType = new List<RIMS_Base.cEmployee>();
+            lstLicType = m_objLicType.GetLicenseType();
+            return lstLicType;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+    }
+    /// <summary>
+    /// Get All Attachment Type.
+    /// </summary>
+    private List<RIMS_Base.CGeneral> GetAttachmentType()
+    {
+        try
+        {
+            m_objAttachmentType = new RIMS_Base.Biz.CGeneral();
+            lstAttachmentType = new List<RIMS_Base.CGeneral>();
+            lstAttachmentType = m_objAttachmentType.GetAttachamentType();
+            return lstAttachmentType;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+
+    }
+    /// <summary>
+    /// Bind the Formview Templates.
+    /// </summary>
+    /// <param name="fvMode"></param>
+    private void Bindfv(FormViewMode fvMode)
+    {
+        try
+        {
+
+            if (fvMode == FormViewMode.Insert)
+                fvEmployee.ChangeMode(FormViewMode.Insert);
+            else if (fvMode == FormViewMode.Edit)
+                fvEmployee.ChangeMode(FormViewMode.Edit);
+            else if (fvMode == FormViewMode.ReadOnly)
+                fvEmployee.ChangeMode(FormViewMode.ReadOnly);
+            if (fvMode != FormViewMode.Insert)
+            {
+                dvAttachDetails.Visible = true;
+                m_objEmployee = new RIMS_Base.Biz.cEmployee();
+                lstEmployee = new List<RIMS_Base.cEmployee>();
+                lstEmployee = m_objEmployee.GetEmployeeByID(m_intEmployeeId);
+                fvEmployee.DataSource = lstEmployee;
+
+            }
+            fvEmployee.DataBind();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+        }
+
+    }
+    /// <summary>
+    /// Upload Documents
+    /// </summary>
+    private void UploadDocuments()
+    {
+        try
+        {
+            m_strPath = Server.MapPath(ConfigurationManager.AppSettings["UploadPath"]);
+
+            if (!(Directory.Exists(m_strPath + "\\" + m_strFolderName)))
+            {
+                Directory.CreateDirectory(m_strPath + "\\" + m_strFolderName);
+            }
+            m_strFileName = GetCustomFileName() + ((FileUpload)fvEmployee.FindControl("uplCommon")).FileName.ToString();
+            m_strPath = m_strPath + "\\" + m_strFolderName + "\\" + m_strFileName;
+            ((FileUpload)fvEmployee.FindControl("uplCommon")).SaveAs(m_strPath);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    /// <summary>
+    /// Get Custom File Name.
+    /// </summary>
+    /// <returns></returns>
+    private string GetCustomFileName()
+    {
+        try
+        {
+            m_strCustomFileName = System.DateTime.Now.ToString("MMddyyhhmmss");
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return m_strCustomFileName;
+    }
+    /// <summary>
+    /// Insert Attachment in Database.
+    /// </summary>
+    /// <returns>Integer</returns>
+    private int AddAttachment()
+    {
+        try
+        {
+            UploadDocuments();
+            m_objAttachment = new RIMS_Base.Biz.CAttachment();
+            m_objAttachment.Attachment_Table = "Employee";
+            m_objAttachment.Foreign_Key = Convert.ToInt32(((Label)fvEmployee.FindControl("lblPkEmployeeId")).Text);
+            m_objAttachment.FK_Attachment_Type = Convert.ToInt32(((DropDownList)fvEmployee.FindControl("ddlAttachType")).SelectedValue);
+            m_objAttachment.Attachment_Description = ((TextBox)fvEmployee.FindControl("txtDescription")).Text;
+            m_objAttachment.Attachment_Name = m_strFileName;
+            m_objAttachment.Updated_By = "1";
+            m_objAttachment.Update_Date = System.DateTime.Now.Date;
+            m_intRetval = m_objAttachment.InsertUpdateAttachment(m_objAttachment);
+            ((TextBox)fvEmployee.FindControl("txtDescription")).Text = string.Empty;
+            ((DropDownList)fvEmployee.FindControl("ddlAttachType")).SelectedValue = "1";
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return m_intRetval;
+    }
+    private void GeneralSorting()
+    {
+        try
+        {
+            lstEmpDetails = new List<RIMS_Base.cEmployee>();
+            lstEmpDetails = BindEmpDetails();
+            if (ViewState["SortExp"] != null && ViewState["sortDirection"] != null)
+            {
+                lstEmpDetails.Sort(new RIMS_Base.GenericComparer<RIMS_Base.cEmployee>((string)ViewState["SortExp"], (SortDirection)ViewState["sortDirection"]));
+                strSortExp = ViewState["SortExp"].ToString();
+            }
+            gvEmployeeDetails.DataSource = lstEmpDetails;
+            gvEmployeeDetails.DataBind();
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+
+    }
+    #endregion
+
+   
+    //protected void btnadd_Click1(object sender, EventArgs e)
+    //{
+
+    //    m_objEmployee = new RIMS_Base.Biz.cEmployee();
+    //    lstautoEmployeeID = new List<RIMS_Base.cEmployee>();
+
+    //    lstautoEmployeeID = m_objEmployee.GetAutoPopulateEmployeeId();
+    //    ((TextBox)fvEmployee.FindControl("txtEmployeeId")).Text = lstautoEmployeeID[0].Employee_Id;
+
+    //    EmpDetails.Style["display"] = "block";
+    //    EmpSearch.Style["display"] = "none";
+
+
+    //   // btnadd.Attributes.Add("onclick", "javascript:return openEmployeeDetails();");
+
+    //    Page.RegisterStartupScript("load", "<script type=\"text/javascript\">\n" +
+    //     "window.resizeTo(800,500); window.moveTo(100,120);\n" +
+    //     "<" + "/script>");
+    
+    
+
+      
+
+    //}
+   
+}

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AdHocReportField>
+	<Field Title="Franchise Brand" TableName="LU_Franchise_Brand" Type="DropDown" HasCode="Y" ></Field>
+	<Field Title="Franchise Plans Submitted" TableName="LU_Franchise_Plans_Submitted" Type="DropDown" HasCode="Y" ></Field>
+	<Field Title="Franchise Additional Land" TableName="LU_Franchise_Additional_Land" Type="DropDown" HasCode="Y" ></Field>
+	<Field Title="Franchise Permit Secured" TableName="LU_Franchise_Permit_Secured" Type="DropDown" HasCode="Y" ></Field>
+	<Field Title="Franchise Option1" TableName="LU_Franchise_Option" Type="DropDown" HasCode="Y" ></Field>
+	<Field Title="Franchise Option2" TableName="LU_Franchise_Option" Type="DropDown" HasCode="Y" ></Field>
+	<Field Title="Franchise Option3" TableName="LU_Franchise_Option" Type="DropDown" HasCode="Y" ></Field>
+	<Field Title="Franchise Option4" TableName="LU_Franchise_Option" Type="DropDown" HasCode="Y" ></Field>
+	<Field Title="Franchise Option5" TableName="LU_Franchise_Option" Type="DropDown" HasCode="Y" ></Field>
+</AdHocReportField>

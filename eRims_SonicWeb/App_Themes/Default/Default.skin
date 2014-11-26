@@ -1,0 +1,178 @@
+<%--
+Default skin template. The following skins are provided as examples only.
+
+1. Named control skin. The SkinId should be uniquely defined because
+   duplicate SkinId's per control type are not allowed in the same theme.
+
+2. Default skin. The SkinId is not defined. Only one default 
+   control skin per control type is allowed in the same theme.
+
+--%>
+<asp:GridView runat="server" CellPadding="4" ForeColor="#333333" GridLines="None" Font-Names="Tahoma" Font-size="8pt" AutoGenerateColumns="false">
+        <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" Font-Names="Tahoma" Font-size="8pt" />
+        <RowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-size="8pt" VerticalAlign="Top" />
+        <EditRowStyle BackColor="#2461BF" Font-Names="Tahoma" Font-size="8pt"  />
+        <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" Font-Names="Tahoma" Font-size="8pt"  />
+        <PagerStyle BackColor="#7f7f7f" ForeColor="White" HorizontalAlign="Center"  Font-Names="Tahoma" Font-size="8pt" />
+        <HeaderStyle BackColor="#7f7f7f" Font-Bold="True" ForeColor="White" Font-Names="Tahoma" Font-size="8pt"  HorizontalAlign="Left"/>  
+        <AlternatingRowStyle BackColor="White" Font-Names="Tahoma" Font-size="8pt" VerticalAlign="Top" />
+        <EmptyDataRowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-size="8pt" HorizontalAlign="Center"/>
+</asp:GridView>
+<asp:GridView runat="server" CellPadding="0" ForeColor="#333333" GridLines="None" Font-Names="Tahoma" Font-size="8pt" SkinID="Default"  AutoGenerateColumns="false">
+        <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" Font-Names="Tahoma" Font-size="8pt" />
+        <RowStyle BackColor="white" Font-Names="Tahoma" Font-size="8pt" VerticalAlign="Top"/>
+        <EditRowStyle BackColor="#2461BF" Font-Names="Tahoma" Font-size="8pt"  />
+        <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" Font-Names="Tahoma" Font-size="8pt"  />
+        <PagerStyle BackColor="white" ForeColor="#333333" HorizontalAlign="Center"  Font-Names="Tahoma" Font-size="8pt" />
+        <HeaderStyle BackColor="#7f7f7f" Font-Bold="True" ForeColor="White" Font-Names="Tahoma" Font-size="8pt"  HorizontalAlign="Left"/>        
+        <AlternatingRowStyle BackColor="White" Font-Names="Tahoma" Font-size="8pt"  VerticalAlign="Top"/>
+        <EmptyDataRowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-size="8pt" HorizontalAlign="Center"/>
+</asp:GridView>
+<asp:DataGrid runat="server" CellPadding="4" ForeColor="#333333" Width="98%" GridLines="None" Font-Names="Tahoma" Font-size="8pt">
+         <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" Font-Names="Tahoma" Font-size="8pt" />     
+         <ItemStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-size="8pt" />
+        <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center"  Font-Names="Tahoma" Font-size="8pt" />
+        <HeaderStyle BackColor="#7f7f7f" Font-Bold="True" ForeColor="White" Font-Names="Tahoma" Font-size="8pt" />
+        <AlternatingItemStyle BackColor="White" Font-Names="Tahoma" Font-size="8pt"  />
+</asp:DataGrid>
+
+<asp:RadioButtonList runat="server" RepeatDirection="Horizontal" class="rbl"></asp:RadioButtonList>
+
+<asp:Button runat="server" class="btn"  />
+<asp:Button runat="server" class="btn" skinId="btnGen" />
+
+<asp:Menu runat="server" Orientation="Horizontal" StaticDisplayLevels="2" Width="90%" SkinID="mnuTab"  StaticSubMenuIndent="10px"  BackColor="#9a9a9a" DynamicHorizontalOffset="2" Font-Names="Verdana" Font-Size="0.8em" ForeColor="#ffffff">
+    <StaticMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+    <DynamicHoverStyle BackColor="#990000" ForeColor="White" />
+    <DynamicMenuStyle BackColor="#9a9a9a" />
+    <StaticSelectedStyle BackColor="#9a9a9a" />
+    <DynamicSelectedStyle BackColor="#9a9a9a" />
+    <DynamicMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+    <StaticHoverStyle BackColor="#990000" ForeColor="White" />
+</asp:Menu>
+
+<asp:Menu runat="server" Orientation="Horizontal" StaticDisplayLevels="2" SkinID="mnuMain"  StaticSubMenuIndent="10px"  BackColor="#276692" DynamicHorizontalOffset="2" Font-Names="Verdana" Font-Size="11px" Font-Bold="true" ForeColor="#ffffff">
+    <StaticMenuItemStyle/>
+    <DynamicHoverStyle BackColor="#ebedef" ForeColor="maroon" />
+    <DynamicMenuStyle BackColor="#276692" />
+    <StaticSelectedStyle BackColor="#276692" />
+    <DynamicSelectedStyle BackColor="#276692" />
+    <DynamicMenuItemStyle HorizontalPadding="15px" VerticalPadding="2px" />
+    <StaticHoverStyle BackColor="#ebedef" ForeColor="maroon" />
+</asp:Menu>
+
+<asp:DropDownList runat="server" SkinID="drpYesNoString" >
+    <asp:ListItem Selected="True" Text="--Select--" Value=""></asp:ListItem>  
+    <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+    <asp:ListItem Text="No" Value="N" ></asp:ListItem>
+</asp:DropDownList>
+<asp:DropDownList runat="server" SkinID="Default"></asp:DropDownList>
+<asp:DropDownList runat="server" Width="82%"></asp:DropDownList>
+<asp:DropDownList runat="server" SkinID ="dropdw" Width="26%"></asp:DropDownList>
+<asp:DropDownList runat="server" SkinID ="dropother" Width="51%"></asp:DropDownList>
+<asp:DropDownList runat="server" SkinID ="dropotherDr" Width="64%"></asp:DropDownList>
+<asp:DropDownList runat="server" SkinID ="dropotherinjured" Width="57%"></asp:DropDownList>
+<asp:DropDownList runat="server" SkinID ="propertyDr" Width="68%"></asp:DropDownList>
+<asp:DropDownList runat="server" SkinID ="propertyGwender" Width="66%"></asp:DropDownList>
+<asp:DropDownList runat="server" SkinID ="property" Width="67%"></asp:DropDownList>
+<asp:DropDownList runat="server" SkinID ="dropGen"></asp:DropDownList>
+
+<asp:DropDownList runat="server" Width="98%" SkinID ="dropTextLen"></asp:DropDownList>
+<asp:DropDownList runat="server" Width="175px" SkinID ="ddlSONIC"></asp:DropDownList>
+<asp:DropDownList runat="server" Width="99%" SkinID ="dropCarrierBig"></asp:DropDownList>
+
+<asp:DropDownList runat="server" Width="94%" SkinID ="dropOtherBig"></asp:DropDownList>
+<asp:DropDownList runat="server" Width="175px" SkinID ="ddlExposure"></asp:DropDownList>
+<asp:DropDownList runat="server" Width="175px" SkinID ="ddlStatus">
+    <asp:ListItem Text="--Select--" Value="" />
+    <asp:ListItem Text="Active" Value="Active" />
+    <asp:ListItem Text="Inactive" Value="Inactive" />
+    <asp:ListItem Text="Close" Value="Close" />
+</asp:DropDownList>
+
+<asp:TextBox runat="server" SkinID="txtDate" onkeypress="javascript:return FormatDate(event,this.id);" onpaste="return false;" ></asp:TextBox>
+<asp:TextBox runat="server" SkinID="txtValidDate" onkeypress="javascript:return FormatDate(event,this.id);" onblur="javascript:return CheckValidDate(this.id);"></asp:TextBox>
+<asp:TextBox runat="server" SkinID="txtPhone" onpaste="return false;" onKeyPress="javascript:return FormatPhone(event,this.id);"></asp:TextBox>
+<asp:TextBox runat="server" Width="90.5%" SkinID="txtCarrier"></asp:TextBox>
+<asp:TextBox runat="server" Width="94%" SkinID="txtNo$Carrier"></asp:TextBox>
+<asp:TextBox runat="server" SkinID="txtDisabled" TabIndex="-1" onkeydown="javascript:return false;" CssClass="disbled" onpaste="return false;"  />
+<asp:TextBox runat="server" Width="80%" SkinID="txtGeneral"></asp:TextBox>
+<asp:TextBox runat="server" Width="143px" SkinID="txtAmt"></asp:TextBox>
+<asp:Label runat="server" SkinID="lblError" CssClass="error"></asp:Label>
+<asp:Label runat="server" SkinID="lblText" CssClass="lblText"></asp:Label>
+<asp:Label runat="server" SkinID="lblPercent" Width="40px" Height="16px" BorderColor="gray" BorderStyle="Solid" BorderWidth="1px" Text="0"></asp:Label>
+<asp:TextBox runat="server" SkinID="txtReadOnlyDate"></asp:TextBox>
+<asp:TextBox runat="server" SkinID="txtDateLessThanToday"  onblur="javascript:return CompareDateLessThanToday(this.id);"></asp:TextBox>
+<asp:TextBox runat="server" SkinID="txtDateGreaterThanToday"  onblur="javascript:return CompareDateGreaterThanToday(this.id);"></asp:TextBox>
+<asp:TextBox runat="server" SkinID="txtYearWithRange" onKeyPress="javascript:return FormatInteger(event);"></asp:TextBox>
+<asp:TextBox runat="server" SkinID="txtZipCode" onpaste="return false;" onKeyPress="javascript:return FormatZipCode(event,this.id);"></asp:TextBox>
+<asp:RadioButtonList runat="server" SkinID="YesNoType" RepeatDirection="Horizontal" CellPadding="0" CellSpacing="0">
+    <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+    <asp:ListItem Text="No" Value="N" Selected ="True"></asp:ListItem>
+</asp:RadioButtonList>
+<asp:RadioButtonList runat="server" SkinID="YesNoNotRequiredType" RepeatDirection="Horizontal" CellPadding="0" CellSpacing="0">
+    <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+    <asp:ListItem Text="No" Value="N" Selected ="True"></asp:ListItem>
+    <asp:ListItem Text="Not Required" Value="R"></asp:ListItem>
+</asp:RadioButtonList>
+<asp:TextBox runat="server" SkinID="txtCurrency"  onkeypress="return FormatNumber(event,this.id,12,false,false);" onpaste="return false;" onblur="formatCurrencyOnBlur(this);" width="133px" />
+<asp:TextBox runat="server" SkinID="txtPercentage"  onkeypress="return FormatNumber(event,this.id,5,false,false);" onpaste="return false;" onblur="formatCurrencyOnBlur(this);" width="133px" />
+
+<asp:DropDownList runat="server" SkinID="Attachment" CssClass="drpDwnList">
+    <asp:ListItem Text="--Select Attachment Type--" Value="0" />
+    <asp:ListItem Text="Document" Value="1" />
+    <asp:ListItem Text="Image" Value="2" />
+    <asp:ListItem Text="Note" Value="3" />
+</asp:DropDownList>
+
+<asp:DropDownList  runat="server" width="145px" skinID="OhioClaimStatus" >
+    <asp:ListItem Text="Active" Value="A"></asp:ListItem>
+    <asp:ListItem Text="Inactive" Value="I"></asp:ListItem>
+</asp:DropDownList>
+
+<asp:RadioButtonList runat="server" SkinID="YesNoTypeNullSelection" RepeatDirection="Horizontal" CellPadding="0" CellSpacing="0">
+    <asp:ListItem Text="Yes" Value="1"></asp:ListItem>
+    <asp:ListItem Text="No" Value="0"></asp:ListItem>
+</asp:RadioButtonList>
+
+<asp:RadioButtonList runat="server" SkinID="YNTypeNullSelection" RepeatDirection="Horizontal" CellPadding="0" CellSpacing="0">
+    <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+    <asp:ListItem Text="No" Value="N"></asp:ListItem>
+</asp:RadioButtonList>
+
+<asp:RadioButtonList runat="server" SkinID="YesNoNone" RepeatDirection="Horizontal" CellPadding="0" CellSpacing="0">
+    <asp:ListItem Text="Yes" Value="1"></asp:ListItem>
+    <asp:ListItem Text="No" Value="0"></asp:ListItem>
+    <asp:ListItem Text="None" Value="2" Selected="true"></asp:ListItem>
+</asp:RadioButtonList>
+
+<asp:RadioButtonList runat="server" SkinID="YesNoUnknownType" RepeatDirection="Horizontal" CellPadding="0" CellSpacing="0">
+    <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+    <asp:ListItem Text="No" Value="N"></asp:ListItem>
+    <asp:ListItem Text="Unknown" Value="-1" selected="true"></asp:ListItem>
+</asp:RadioButtonList>
+
+<asp:RadioButtonList runat="server" SkinID="ApprovedNotApprovedTypeNullSelection" RepeatDirection="Horizontal" CellPadding="0" CellSpacing="0">
+    <asp:ListItem Text="Approved" Value="1"></asp:ListItem>
+    <asp:ListItem Text="NotApproved" Value="0"></asp:ListItem>
+</asp:RadioButtonList>
+
+
+<asp:Button runat="server" SkinID="SavePassword" CssClass="btn" Text= "Save Password" />
+<asp:Button runat="server" SkinID="Save" CssClass="btn" Style="width:70px;" Text="Save" />
+<asp:Button runat="server" SkinID="SaveAndView" text= "Save & View" CssClass="btn" Style="width:120px;" />
+<asp:Button runat="server" SkinID="AddAttachment" CssClass="btn" Text="Add Attachment" Style="width:140px; display:none " />
+<asp:Button runat="server" SkinID="Back" CssClass="btn" Style="width:80px;" Text="Back"/>
+<asp:Button runat="server" SkinID="AddNew" CssClass="btn" Style="width:80px;" Text = "Add New"    />
+<asp:Button runat="server" SkinID="Remove" CssClass="btn" Style="width:90px;" Text="Remove" />
+<asp:Button runat="server" SkinID="Search" CssClass="btn" Style="width:90px;" Text= "Search" />
+<asp:Button runat="server" SkinID="Send" CssClass="btn" Style="width:60px;" Text="Send" />
+<asp:Button runat="server" SkinID="Close" CssClass="btn" Style="width:70px;" Text="Close" />
+<asp:Button runat="server" SkinID="Revert&Return" CssClass="btn" Style="width:130px;" Text="Revert & Return"/>
+<asp:Button runat="server" SkinID="NextStep" CssClass="btn" Style="width:80px;" Text="Next"/>
+<asp:Button runat="server" SkinID="Save&Return" CssClass="btn" Style="width:130px;" text="Save & Return" />
+<asp:Button runat="server" SkinID="Login" CssClass="btn" Style="width:65px;" Text="Login" />
+<asp:Button runat="server" SkinID="GO" CssClass="btn" Text="Go" />
+<asp:Button runat="server" SkinID="Add" CssClass="btn" Text="Add" />
+
+<asp:Label runat="server" ForeColor="Red" SkinID="MessageOrNote" Text="Note : All fields marked with an asterisk are required before saving" />

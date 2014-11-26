@@ -1,0 +1,205 @@
+﻿using System;
+using System.Collections;
+using System.Configuration;
+using System.Data;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using ERIMS.DAL;
+
+public partial class SONIC_RealEstate_rptSubleaseReport : System.Web.UI.Page
+{
+    #region "Variables"
+    DataTable dtDBA, dtReport;
+    #endregion
+
+    #region "Page Load"
+    /// <summary>
+    /// Handles event when page is loaded
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        // if page is loaded first time
+        if (!IsPostBack)
+        {
+            // get regions for user having access to and bind the regions list box
+            BindDropDownList();
+            lstLocation.Focus();
+        }
+        clsGeneral.SetListBoxToolTip(new ListBox[] { lstLocation });
+    }
+    #endregion
+
+    #region "Controls Events"
+
+    /// <summary>
+    /// Back show report to Criteria
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnBack_Click(object sender, EventArgs e)
+    {
+        trCriteria.Visible = true;
+        tblReport.Visible = false;
+    }
+
+    /// <summary>
+    /// Handles Show Report button click
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnShowReport_Click(object sender, EventArgs e)
+    {
+        DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
+        string strRegion = string.Empty, strLocationStatus = string.Empty; ;
+        DataSet dsReport;
+
+        if (txtLCDateFrom.Text.Trim() != string.Empty)
+            dtLCDFrom = Convert.ToDateTime(txtLCDateFrom.Text);
+
+        if (txtLCDateTo.Text.Trim() != string.Empty)
+            dtLCDTo = Convert.ToDateTime(txtLCDateTo.Text);
+
+        if (txtLEDateFrom.Text.Trim() != string.Empty)
+            dtLEDFrom = Convert.ToDateTime(txtLEDateFrom.Text);
+
+        if (txtLEDateTo.Text.Trim() != string.Empty)
+            dtLEDTo = Convert.ToDateTime(txtLEDateTo.Text);
+
+        // get selected regions
+        foreach (ListItem li in lstLocation.Items)
+        {
+            if (li.Selected)
+                strRegion = strRegion + "'" + li.Value + "',";
+        }
+        strRegion = strRegion.TrimEnd(',');
+
+        string strStatus = "";
+        foreach (ListItem li in lstBuildingStatus.Items)
+        {
+            if (li.Selected)
+                strStatus = strStatus + "'" + li.Value + "',";
+        }
+        strStatus = strStatus.TrimEnd(',');
+
+        // get report result from database
+        dsReport = Report.GetSubLeaseReportCOI(strRegion, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo, strStatus);
+                        
+        // get data tables from dataset
+        DataTable dtRegions = dsReport.Tables[0];
+
+        // bind the main grid which lists regions
+        gvDescription.DataSource = dtRegions;
+        gvDescription.DataBind();
+
+        // show grid and export link 
+        tblReport.Visible = true;
+        trCriteria.Visible = false;
+        lbtExportToExcel.Visible = dtRegions.Rows.Count > 0;
+        btnBack.Visible = true;
+
+        // Check if record found or not.
+        if (dtRegions.Rows.Count > 0)
+        {            
+            trMessage.Visible = false;
+            trGrid.Visible = true;
+        }
+        else
+        {
+            // if record not found then hide Header and set width and height so scroll bar not visible.
+            trMessage.Visible = true;
+            trGrid.Visible = false;
+        }
+    }
+
+    /// <summary>
+    /// Handles Export to Excel link click
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void lbtExportToExcel_Click(object sender, EventArgs e)
+    {
+        //gvDescription.ShowHeader = true;
+        // set borders for tables and gridlines in grids to be displayed in excel file
+        ((HtmlTable)gvDescription.HeaderRow.FindControl("tblHeader")).Border = 1;
+        gvDescription.GridLines = GridLines.Both;
+        gvDescription.FooterRow.Visible = false;
+        foreach (GridViewRow gvRow in gvDescription.Rows)
+        {
+            HtmlTable tbl = (HtmlTable)gvRow.FindControl("tblDetails");
+            tbl.Visible = true;
+            tbl.Border = 1;
+        }
+
+        // export data to excel from grid view
+        GridViewExportUtil.ExportGrid("SubLeaseReport.xls", gvDescription);
+
+        // reset the settings
+        foreach (GridViewRow gvRow in gvDescription.Rows)
+        {
+            HtmlTable tbl = (HtmlTable)gvRow.FindControl("tblDetails");
+            tbl.Border = 0;
+        }
+        // gvDescription.ShowHeader = false;
+        gvDescription.GridLines = GridLines.None;
+        ((HtmlTable)gvDescription.HeaderRow.FindControl("tblHeader")).Border = 0;
+    }
+
+    /// <summary>
+    /// Handles Clear Criteria button click
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnClearCriteria_Click(object sender, EventArgs e)
+    {
+        // load the page again to clear selection
+        lstLocation.ClearSelection();
+        txtLCDateFrom.Text = "";
+        txtLCDateTo.Text = "";
+        txtLEDateFrom.Text = "";
+        txtLEDateTo.Text = "";
+        lstBuildingStatus.ClearSelection();
+    }
+
+    /// <summary>
+    /// This method is added for export Gird view To Excel which contains SubGridview.
+    /// </summary>
+    /// <param name="control"></param>
+    public override void VerifyRenderingInServerForm(Control control)
+    {
+        return;
+    }
+    #endregion
+
+    #region "Private Methods"
+    /// <summary>
+    /// Generates the string having selected values of Listbox in comma separated format
+    /// </summary>
+    /// <param name="lst"></param>
+    /// <returns></returns>
+    private string GetCommaSeparatedValues(ListBox lst)
+    {
+        string strRegion = string.Empty;
+        foreach (ListItem itmRegion in lst.Items)
+        {
+            if (itmRegion.Selected)
+                strRegion = strRegion + itmRegion.Value + ",";
+        }
+        strRegion = strRegion.TrimEnd(',');
+        return strRegion;
+    }
+
+    ///// <summary>
+    ///// Bind Drop Down List
+    ///// </summary>    
+    private void BindDropDownList()
+    {
+        ComboHelper.FillRegionListBox(new ListBox[] { lstLocation }, false);
+    }
+    #endregion
+}

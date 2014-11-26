@@ -1,0 +1,1175 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Collections.Generic;
+using System.IO;
+using RIMS_Base.Biz;
+
+public partial class Liability_Claimant_search : System.Web.UI.Page
+{
+    #region Public Variables
+    public RIMS_Base.Biz.CClaimant m_objClaimant;
+    List<RIMS_Base.CClaimant> lstClaimant = null;
+    List<RIMS_Base.CClaimant> lstautoClaimantID = null;
+    public RIMS_Base.Biz.CGeneral objGeneral;
+    string strSortExp = String.Empty;
+    #endregion
+
+    #region Public Variables(ADD Cliamant)
+    int m_intClaimantDetailsId = 0;
+    int m_intRetval = -1;
+    public int m_intPreventAdd = 0;
+    public RIMS_Base.Biz.CClaimant m_objClaimantDetails;
+    List<RIMS_Base.CClaimant> lstClaimantDetails = null;
+    public RIMS_Base.Biz.CRolePermission m_objRightDetails;
+    List<RIMS_Base.CRolePermission> lstRightDetails = null;
+    public RIMS_Base.Biz.CGeneral m_objAttachmentType;
+    List<RIMS_Base.CGeneral> lstAttachmentType = null;
+    public RIMS_Base.Biz.CGeneral m_objState;
+    List<RIMS_Base.CGeneral> lstState = null;
+    public RIMS_Base.Biz.CAttachment m_objAttachment;
+    List<RIMS_Base.CAttachment> lstAttachment = null;
+    ListItem m_lstCommon;
+   // string strSortExp = string.Empty;
+
+    public string m_strPath = string.Empty;
+    public string m_strFolderName = "Claimant";
+    public string m_strCustomFileName = string.Empty;
+    public string m_strFileName = string.Empty;
+    public string m_strGlobalPath = string.Empty;
+    #endregion
+
+    #region Event Handlers
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        if (Request.QueryString["Page"] == "Auto")
+        {
+            btnadd.Visible = true;
+        }
+        else if (Request.QueryString["Page"] == "ClaimSearch")
+        {
+            btnadd.Visible = false;
+        }
+        else
+        {
+            btnadd.Visible = true;
+        }
+
+        txtZipcode.Attributes.Add("onKeyUp", "return ZipMasking(event,this.value,this);");
+        txtZipcode.Attributes.Add("onKeyPress","return CheckNum(this);");
+
+        m_strGlobalPath = Page.ResolveUrl(ConfigurationManager.AppSettings["UploadPath"] + "/Claimant/");
+        dvAttachDetails.Visible = false;
+        if (!IsPostBack)
+        {
+            btnDelete.Attributes.Add("onclick", "return OMSCheckSelected1('chkItem','gvClaimantDetails','Delete');");
+            btnRemove.Attributes.Add("onclick", "return OMSCheckSelected1('chkItem','gvAttachmentDetails','Delete');");
+            mvClaimantDetails.ActiveViewIndex = 1;
+            Bindfv(FormViewMode.Insert);
+                      
+            ViewState["PreventAdd"] = "N";
+
+            gvEmployeeDetails.PageSize = 10;
+            gvEmployeeDetails.DataSource = BindEmpDetails();
+            gvEmployeeDetails.DataBind();
+            BindCombos();
+        }
+
+        //m_objClaimantDetails = new RIMS_Base.Biz.CClaimant();
+        //lstautoClaimantID = new List<RIMS_Base.CClaimant>();
+
+        //lstautoClaimantID = m_objClaimantDetails.GetClaimantAutopopulate();
+        //((TextBox)fvClaimantDetails.FindControl("txtClaimantId")).Text = lstautoClaimantID[0].Claimant_Id;
+
+
+    }
+    protected void btnSearch_Click1(object sender, EventArgs e)
+    {
+
+        try
+        {
+            m_objClaimant = new RIMS_Base.Biz.CClaimant();
+            lstClaimant = new List<RIMS_Base.CClaimant>();
+            lstClaimant = m_objClaimant.Get_Search_Data(ddlSearch.SelectedValue,txtsearch.Text.Trim());
+            for (int cnt = 0; cnt < lstClaimant.Count; cnt++)
+            {
+                lstClaimant[cnt].Social_Security_Number = RIMS_Base.Biz.CGeneral.Decrypt(lstClaimant[cnt].Social_Security_Number, true);
+            }
+            gvEmployeeDetails.DataSource = lstClaimant;
+            gvEmployeeDetails.DataBind();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void gvEmployeeDetails_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        try
+        {
+            lstClaimant = new List<RIMS_Base.CClaimant>();
+            if (ViewState["sortDirection"] == null)
+                ViewState["sortDirection"] = SortDirection.Descending;
+            // Changes the sort direction 
+            else
+            {
+                if (((SortDirection)ViewState["sortDirection"]) == SortDirection.Ascending)
+                    ViewState["sortDirection"] = SortDirection.Descending;
+                else
+                    ViewState["sortDirection"] = SortDirection.Ascending;
+            }
+            ViewState["SortExp"] = strSortExp = e.SortExpression;
+
+            lstClaimant = BindEmpDetails();
+            if (ViewState["SortExp"] != null)
+                lstClaimant.Sort(new RIMS_Base.GenericComparer<RIMS_Base.CClaimant>((string)ViewState["SortExp"], (SortDirection)ViewState["sortDirection"]));
+            gvEmployeeDetails.DataSource = lstClaimant;
+            gvEmployeeDetails.DataBind();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void gvEmployeeDetails_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+
+                if (Request.QueryString["Page"] == "Auto")
+                {
+                    //btnadd.Visible = true;
+                    LinkButton lbtnTempid = new LinkButton();
+                    LinkButton lbtnTempFirst = new LinkButton();
+                    LinkButton lbtnTempMiddle = new LinkButton();
+                    LinkButton lbtnTempLast = new LinkButton();
+                    LinkButton lbtnSocialSeco = new LinkButton();
+
+                    lbtnTempid = ((LinkButton)(e.Row.FindControl("lblpkid")));
+                    lbtnTempFirst = ((LinkButton)(e.Row.FindControl("lbtnFirstName")));
+                    lbtnTempMiddle = ((LinkButton)(e.Row.FindControl("lbtnMiddle")));
+                    lbtnTempLast = ((LinkButton)(e.Row.FindControl("lbtnLastName")));
+                    lbtnSocialSeco = ((LinkButton)(e.Row.FindControl("lbtnSocialSeco")));
+
+                    lbtnTempid.Attributes.Add("onclick", "fillPayto('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnFirstName"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnMiddle"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnLastName"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnid"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnSocialSeco"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempid.CommandArgument.ToString() + "');");
+                }
+                else if (Request.QueryString["Page"] == "ClaimSearch")
+                {
+                    LinkButton lbtnTempid = new LinkButton();
+                    LinkButton lbtnTempFirst = new LinkButton();
+                    LinkButton lbtnTempMiddle = new LinkButton();
+                    LinkButton lbtnTempLast = new LinkButton();
+                    LinkButton lbtnSocialSeco = new LinkButton();
+
+                    lbtnTempid = ((LinkButton)(e.Row.FindControl("lblpkid")));
+                    lbtnTempFirst = ((LinkButton)(e.Row.FindControl("lbtnFirstName")));
+                    lbtnTempMiddle = ((LinkButton)(e.Row.FindControl("lbtnMiddle")));
+                    lbtnTempLast = ((LinkButton)(e.Row.FindControl("lbtnLastName")));
+                    lbtnSocialSeco = ((LinkButton)(e.Row.FindControl("lbtnSocialSeco")));
+
+                    lbtnTempid.Attributes.Add("onclick", "fillClaimSearch('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnFirstName"))).Attributes.Add("onclick", "fillClaimSearch('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnMiddle"))).Attributes.Add("onclick", "fillClaimSearch('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnLastName"))).Attributes.Add("onclick", "fillClaimSearch('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnid"))).Attributes.Add("onclick", "fillClaimSearch('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempid.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnSocialSeco"))).Attributes.Add("onclick", "fillClaimSearch('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempid.CommandArgument.ToString() + "');");
+                }
+                else
+                {
+                    //btnadd.Visible = true;
+
+                    LinkButton lbtnTempid = new LinkButton();
+                    LinkButton lbtnTempFirst = new LinkButton();
+                    LinkButton lbtnTempMiddle = new LinkButton();
+                    LinkButton lbtnTempLast = new LinkButton();
+                    LinkButton lbtnSocialSeco = new LinkButton();
+
+                    LinkButton lbtnTempAdd1 = new LinkButton();
+                    LinkButton lbtnTempAdd2 = new LinkButton();
+                    LinkButton lbtnTempCity = new LinkButton();
+                    LinkButton lbtnTempState = new LinkButton();
+                    LinkButton lbtnTempZip = new LinkButton();
+                    LinkButton lbtnTempHome = new LinkButton();
+                    LinkButton lbtnTempCell = new LinkButton();
+
+
+
+                    lbtnTempid = ((LinkButton)(e.Row.FindControl("lblpkid")));
+                    lbtnTempFirst = ((LinkButton)(e.Row.FindControl("lbtnFirstName")));
+                    lbtnTempMiddle = ((LinkButton)(e.Row.FindControl("lbtnMiddle")));
+                    lbtnTempLast = ((LinkButton)(e.Row.FindControl("lbtnLastName")));
+                    lbtnSocialSeco = ((LinkButton)(e.Row.FindControl("lbtnSocialSeco")));
+
+
+                    lbtnTempAdd1 = ((LinkButton)(e.Row.FindControl("lbtnAdd1")));
+                    lbtnTempAdd2 = ((LinkButton)(e.Row.FindControl("lbtnAdd2")));
+                    lbtnTempCity = ((LinkButton)(e.Row.FindControl("lbtnCity")));
+                    lbtnTempState = ((LinkButton)(e.Row.FindControl("lbtnState")));
+                    lbtnTempZip = ((LinkButton)(e.Row.FindControl("lbtnZip")));
+                    lbtnTempHome = ((LinkButton)(e.Row.FindControl("lbtnHome")));
+                    lbtnTempCell = ((LinkButton)(e.Row.FindControl("lbtnCell")));
+
+                    lbtnTempid.Attributes.Add("onclick", "fillPaytoG('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempid.CommandArgument.ToString() + "','" + lbtnTempAdd1.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempAdd2.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempCity.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempState.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempZip.CommandArgument.ToString() + "','" + lbtnTempHome.CommandArgument.ToString() + "','" + lbtnTempCell.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnFirstName"))).Attributes.Add("onclick", "fillPaytoG('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempid.CommandArgument.ToString() + "','" + lbtnTempAdd1.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempAdd2.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempCity.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempState.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempZip.CommandArgument.ToString() + "','" + lbtnTempHome.CommandArgument.ToString() + "','" + lbtnTempCell.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnMiddle"))).Attributes.Add("onclick", "fillPaytoG('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempid.CommandArgument.ToString() + "','" + lbtnTempAdd1.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempAdd2.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempCity.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempState.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempZip.CommandArgument.ToString() + "','" + lbtnTempHome.CommandArgument.ToString() + "','" + lbtnTempCell.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnLastName"))).Attributes.Add("onclick", "fillPaytoG('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempid.CommandArgument.ToString() + "','" + lbtnTempAdd1.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempAdd2.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempCity.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempState.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempZip.CommandArgument.ToString() + "','" + lbtnTempHome.CommandArgument.ToString() + "','" + lbtnTempCell.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnid"))).Attributes.Add("onclick", "fillPaytoG('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempid.CommandArgument.ToString() + "','" + lbtnTempAdd1.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempAdd2.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempCity.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempState.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempZip.CommandArgument.ToString() + "','" + lbtnTempHome.CommandArgument.ToString() + "','" + lbtnTempCell.CommandArgument.ToString() + "');");
+                    ((LinkButton)(e.Row.FindControl("lbtnSocialSeco"))).Attributes.Add("onclick", "fillPaytoG('" + lbtnTempFirst.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempLast.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempid.CommandArgument.ToString() + "','" + lbtnTempAdd1.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempAdd2.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempCity.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempState.CommandArgument.ToString().Replace("'", "\\'") + "','" + lbtnTempZip.CommandArgument.ToString() + "','" + lbtnTempHome.CommandArgument.ToString() + "','" + lbtnTempCell.CommandArgument.ToString() + "');");
+
+                }
+            }
+              
+
+           }
+        
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+
+    }
+    protected void gvEmployeeDetails_RowCreated(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.Header)
+        {
+            if (String.Empty != strSortExp)
+            {
+                AddSortImage(e.Row);
+            }
+            else
+            {
+                Image sortImage = new Image();
+                sortImage.ImageUrl = "~/Images/up-arrow.gif";
+                sortImage.AlternateText = "Descending Order";
+                e.Row.Cells[3].Controls.Add(sortImage);
+            }
+        }
+    }
+    private int GetSortColumnIndex(string strSortExp)
+    {
+        int nRet = 0;
+        // Iterate through the Columns collection to determine the index
+        // of the column being sorted.
+        foreach (DataControlField field in gvEmployeeDetails.Columns)
+        {
+            if (field.SortExpression.ToString() == ViewState["SortExp"].ToString())
+            {
+                nRet = gvEmployeeDetails.Columns.IndexOf(field);
+            }
+        }
+        return nRet;
+    }
+    private void AddSortImage(GridViewRow headerRow)
+    {
+
+        Int32 iCol = GetSortColumnIndex(strSortExp);
+        if (-1 == iCol)
+        {
+            return;
+        }
+        // Create the sorting image based on the sort direction.
+        Image sortImage = new Image();
+
+        if (SortDirection.Ascending.ToString() == ViewState["sortDirection"].ToString())
+        {
+            sortImage.ImageUrl = "~/Images/up-arrow.gif";
+            sortImage.AlternateText = "Descending Order";
+        }
+        else
+        {
+            sortImage.ImageUrl = "~/Images/down-arrow.gif";
+            sortImage.AlternateText = "Ascending Order";
+        }
+
+        // Add the image to the appropriate header cell.
+        headerRow.Cells[iCol].Controls.Add(sortImage);
+    }
+    protected void gvEmployeeDetails_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+
+        gvEmployeeDetails.PageIndex = e.NewPageIndex;
+        gvEmployeeDetails.DataSource = BindEmpDetails();
+        gvEmployeeDetails.DataBind();
+    }
+    protected void btnGo_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            m_objClaimant = new RIMS_Base.Biz.CClaimant();
+            lstClaimant = new List<RIMS_Base.CClaimant>();
+            if (dwState.SelectedIndex > 0)
+            {
+                lstClaimant = m_objClaimant.Get_AdvanceSearch_Data(txtLastName.Text.Trim(), txtFirstName.Text.Trim(), txtAddress.Text.Trim(), txtCity.Text.Trim(), dwState.SelectedItem.Text, txtZipcode.Text.Trim());
+            }
+            else
+                lstClaimant = m_objClaimant.Get_AdvanceSearch_Data(txtLastName.Text.Trim(), txtFirstName.Text.Trim(), txtAddress.Text.Trim(), txtCity.Text.Trim(), string.Empty, txtZipcode.Text.Trim());
+            for (int cnt = 0; cnt < lstClaimant.Count; cnt++)
+            {
+                lstClaimant[cnt].Social_Security_Number = RIMS_Base.Biz.CGeneral.Decrypt(lstClaimant[cnt].Social_Security_Number, true);
+            }
+            gvEmployeeDetails.DataSource = lstClaimant;
+            gvEmployeeDetails.DataBind();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    #endregion
+    
+    #region Event Handlers(ADD Cliamant)
+   
+    protected void btnNext_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (gvClaimantDetails.PageIndex <= gvClaimantDetails.PageCount)
+            {
+                gvClaimantDetails.PageIndex = gvClaimantDetails.PageIndex + 1;
+                GeneralSorting();
+
+            }
+
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    protected void btnPrev_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (gvClaimantDetails.PageIndex <= gvClaimantDetails.PageCount)
+            {
+                gvClaimantDetails.PageIndex = gvClaimantDetails.PageIndex - 1;
+                GeneralSorting();
+              
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    protected void btnAddNew_Click(object sender, EventArgs e)
+    {
+        try
+        {
+           // dvSearch.Visible = false;
+            mvClaimantDetails.ActiveViewIndex = 1;
+            Bindfv(FormViewMode.Insert);
+            btnRemove.Visible = false;
+            btnMail.Visible = false;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+    }
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            m_objClaimantDetails = new RIMS_Base.Biz.CClaimant();
+            lstClaimantDetails = new List<RIMS_Base.CClaimant>();
+           // lstClaimantDetails = m_objClaimantDetails.Get_Search_Data(ddlSearch.SelectedValue, txtSearch.Text.Trim());
+            gvClaimantDetails.DataSource = lstClaimantDetails;
+            gvClaimantDetails.DataBind();
+            
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnSave_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (ViewState["PreventAdd"].ToString() == "N")
+            {
+                m_objClaimantDetails = new RIMS_Base.Biz.CClaimant();
+                if (fvClaimantDetails.CurrentMode == FormViewMode.Insert)
+                {
+                    m_objClaimantDetails.PK_Claimant_Id = 0;
+                }
+                else
+                {
+                    m_objClaimantDetails.PK_Claimant_Id = Convert.ToInt32(((Label)fvClaimantDetails.FindControl("lblClaimantDetailsId")).Text);
+                }
+                m_objClaimantDetails.First_Name = ((TextBox)fvClaimantDetails.FindControl("txtFirstName")).Text.Replace("'", "''");
+                m_objClaimantDetails.Last_Name = ((TextBox)fvClaimantDetails.FindControl("txtLastName")).Text.Replace("'", "''");
+                m_objClaimantDetails.Claimant_Address_1 = ((TextBox)fvClaimantDetails.FindControl("txtAddress1")).Text.Replace("'", "''");
+                m_objClaimantDetails.Claimant_Address_2 = ((TextBox)fvClaimantDetails.FindControl("txtAddress2")).Text.Replace("'", "''");
+                m_objClaimantDetails.Claimant_State = ((DropDownList)fvClaimantDetails.FindControl("ddlState")).SelectedValue;
+                m_objClaimantDetails.Claimant_City = ((TextBox)fvClaimantDetails.FindControl("txtCity")).Text.Replace("'", "''");
+                m_objClaimantDetails.Claimant_Cell_Phone = ((TextBox)fvClaimantDetails.FindControl("txtCellPhone")).Text;
+                m_objClaimantDetails.Drivers_License_State = ((DropDownList)fvClaimantDetails.FindControl("ddlDriverState")).SelectedItem.Text;
+                m_objClaimantDetails.Claimant_Zip_Code = ((TextBox)fvClaimantDetails.FindControl("txtZip")).Text;
+                m_objClaimantDetails.Claimant_Home_Phone = ((TextBox)fvClaimantDetails.FindControl("txtHomePhone")).Text;
+                m_objClaimantDetails.Claimant_Id = ((TextBox)fvClaimantDetails.FindControl("txtClaimantId")).Text;
+                m_objClaimantDetails.Middle_Name = ((TextBox)fvClaimantDetails.FindControl("txtMiddleName")).Text.Replace("'", "''");
+                m_objClaimantDetails.Drivers_License_Number = ((TextBox)fvClaimantDetails.FindControl("txtDriverLicenseNumber")).Text;
+                m_objClaimantDetails.Social_Security_Number = RIMS_Base.Biz.CGeneral.Encrypt(((TextBox)fvClaimantDetails.FindControl("txtSSN")).Text, true);
+                if (((TextBox)fvClaimantDetails.FindControl("txtDOB")).Text != string.Empty)
+                    m_objClaimantDetails.Date_Of_Birth = Convert.ToDateTime(((TextBox)fvClaimantDetails.FindControl("txtDOB")).Text);
+                m_objClaimantDetails.Updated_By = Session["UserID"].ToString();
+                m_objClaimantDetails.Update_Date = System.DateTime.Now.Date;
+                m_intRetval = m_objClaimantDetails.InsertUpdateClaimant(m_objClaimantDetails);
+
+
+                if (m_intRetval >= 0)
+                {
+                     m_objClaimantDetails = new RIMS_Base.Biz.CClaimant();
+                    lstClaimant = new List<RIMS_Base.CClaimant>();
+                    lstClaimant = m_objClaimantDetails.GetClaimantByID(m_intRetval);
+                    TextBox lbtnTempFirst = new TextBox();
+                    TextBox lbtnTempMiddle = new TextBox();
+                    TextBox lbtnTempLast = new TextBox();
+                    TextBox lbtnTempID = new TextBox();
+
+                    TextBox lbtnTempADD1 = new TextBox();
+                    TextBox lbtnTempADD2 = new TextBox();
+                    TextBox lbtnTempCity = new TextBox();
+                    TextBox lbtnTempState = new TextBox();
+                    TextBox lbtnTempZip = new TextBox();
+                    TextBox lbtnTempHomeTelNO = new TextBox();
+                    TextBox lbtnTempCellNo = new TextBox();
+
+
+
+                    lbtnTempFirst.Text = lstClaimant[0].First_Name;
+                    lbtnTempMiddle.Text = lstClaimant[0].Middle_Name;
+                    lbtnTempLast.Text = lstClaimant[0].Last_Name;
+                    lbtnTempID.Text = lstClaimant[0].PK_Claimant_Id.ToString();
+                    lbtnTempADD1.Text = lstClaimant[0].Claimant_Address_1;
+                    lbtnTempADD2.Text = lstClaimant[0].Claimant_Address_2;
+                    lbtnTempCity.Text = lstClaimant[0].Claimant_City;
+                    lbtnTempState.Text = lstClaimant[0].Claimant_State;
+                    lbtnTempZip.Text = lstClaimant[0].Claimant_Zip_Code;
+                    lbtnTempHomeTelNO.Text = lstClaimant[0].Claimant_Home_Phone;
+                    lbtnTempCellNo.Text = lstClaimant[0].Claimant_Cell_Phone;
+
+
+                    if (Request.QueryString["Page"] == "Auto")
+                    {
+
+                        Page.RegisterStartupScript("close", "<script language=javascript>   window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtFirstName').value = '" + lbtnTempFirst.Text.Replace("''", "\\'") + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtLastName').value = '" + lbtnTempLast.Text.Replace("''", "\\'") + "';  window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtempid').value = '" + lbtnTempID.Text + "'; self.close(); </script>");
+                    }
+                    else 
+                    {
+                        Page.RegisterStartupScript("close", "<script language=javascript>   window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtFirstName').value = '" + lbtnTempFirst.Text.Replace("''", "\\'") + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtLastName').value = '" + lbtnTempLast.Text.Replace("''", "\\'") + "';window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtempid').value = '" + lbtnTempID.Text + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtClaimantAdd1').value = '" + lbtnTempADD1.Text.Replace("'", "\\'") + "';window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtClaimantAdd2').value = '" + lbtnTempADD2.Text.Replace("'", "\\'") + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtClaimantCity').value = '" + lbtnTempCity.Text.Replace("'", "\\'") + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtClaimantState').value = '" + lbtnTempState.Text.Replace("'", "\\'") + "';window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtClaimantZip').value = '" + lbtnTempZip.Text + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtHomeTeleNo').value = '" + lbtnTempHomeTelNO.Text + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtCellTeleNo').value = '" + lbtnTempCellNo.Text + "'; self.close(); </script>");
+                    }
+                }
+
+            }
+
+            else
+            {
+                m_intRetval = Convert.ToInt32(((Label)fvClaimantDetails.FindControl("lblClaimantDetailsId")).Text);
+                if (m_intRetval >= 0 || ViewState["PreventAdd"].ToString() == "Y")
+                {
+
+                    m_objClaimantDetails = new RIMS_Base.Biz.CClaimant();
+                    lstClaimant = new List<RIMS_Base.CClaimant>();
+                    lstClaimant = m_objClaimantDetails.GetClaimantByID(m_intRetval);
+                    TextBox lbtnTempFirst = new TextBox();
+                    TextBox lbtnTempMiddle = new TextBox();
+                    TextBox lbtnTempLast = new TextBox();
+                    TextBox lbtnTempID = new TextBox();
+                    TextBox lbtnTempADD1 = new TextBox();
+                    TextBox lbtnTempADD2 = new TextBox();
+                    TextBox lbtnTempCity = new TextBox();
+                    TextBox lbtnTempState = new TextBox();
+                    TextBox lbtnTempZip = new TextBox();
+                    TextBox lbtnTempHomeTelNO = new TextBox();
+                    TextBox lbtnTempCellNo = new TextBox();
+
+                    lbtnTempFirst.Text = lstClaimant[0].First_Name;
+                    lbtnTempMiddle.Text = lstClaimant[0].Middle_Name;
+                    lbtnTempLast.Text = lstClaimant[0].Last_Name;
+                    lbtnTempID.Text = lstClaimant[0].PK_Claimant_Id.ToString();
+                    lbtnTempADD1.Text = lstClaimant[0].Claimant_Address_1;
+                    lbtnTempADD2.Text = lstClaimant[0].Claimant_Address_2;
+                    lbtnTempCity.Text = lstClaimant[0].Claimant_City;
+                    lbtnTempState.Text = lstClaimant[0].Claimant_State;
+                    lbtnTempZip.Text = lstClaimant[0].Claimant_Zip_Code;
+                    lbtnTempHomeTelNO.Text = lstClaimant[0].Claimant_Home_Phone;
+                    lbtnTempCellNo.Text = lstClaimant[0].Claimant_Cell_Phone;
+
+                    if (Request.QueryString["Page"] == "Auto")
+                    {
+
+                        Page.RegisterStartupScript("close", "<script language=javascript>   window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtFirstName').value = '" + lbtnTempFirst.Text.Replace("''", "\\'") + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtLastName').value = '" + lbtnTempLast.Text.Replace("''", "\\'") + "';  window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtempid').value = '" + lbtnTempID.Text + "'; self.close(); </script>");
+                    }
+                    else
+                    {
+                        Page.RegisterStartupScript("close", "<script language=javascript>   window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtFirstName').value = '" + lbtnTempFirst.Text.Replace("''", "\\'") + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtLastName').value = '" + lbtnTempLast.Text.Replace("''", "\\'") + "';window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtempid').value = '" + lbtnTempID.Text + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtClaimantAdd1').value = '" + lbtnTempADD1.Text.Replace("''", "\\'") + "';window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtClaimantAdd2').value = '" + lbtnTempADD2.Text.Replace("''", "\\'") + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtClaimantCity').value = '" + lbtnTempCity.Text.Replace("''", "\\'") + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtClaimantState').value = '" + lbtnTempState.Text + "';window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtClaimantZip').value = '" + lbtnTempZip.Text + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtHomeTeleNo').value = '" + lbtnTempHomeTelNO.Text + "'; window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtCellTeleNo').value = '" + lbtnTempCellNo.Text + "'; self.close(); </script>");
+                    }
+
+                }
+            }
+           // dvSearch.Visible = true;
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+
+        ((TextBox)fvClaimantDetails.FindControl("txtDOB")).Text = "";
+        ((TextBox)fvClaimantDetails.FindControl("txtClaimantId")).Text = "";
+        ((TextBox)fvClaimantDetails.FindControl("txtFirstName")).Text = "";
+        ((TextBox)fvClaimantDetails.FindControl("txtAddress1")).Text = "";
+        ((TextBox)fvClaimantDetails.FindControl("txtCity")).Text = "";
+        ((TextBox)fvClaimantDetails.FindControl("txtZip")).Text = "";
+        ((TextBox)fvClaimantDetails.FindControl("txtCellPhone")).Text = "";
+        ((TextBox)fvClaimantDetails.FindControl("txtDriverLicenseNumber")).Text = "";
+        ((TextBox)fvClaimantDetails.FindControl("txtLastName")).Text = "";
+        ((TextBox)fvClaimantDetails.FindControl("txtMiddleName")).Text = "";
+        ((TextBox)fvClaimantDetails.FindControl("txtAddress2")).Text = "";
+        ((TextBox)fvClaimantDetails.FindControl("txtHomePhone")).Text = "";
+        ((TextBox)fvClaimantDetails.FindControl("txtSSN")).Text = "";
+        ((DropDownList)fvClaimantDetails.FindControl("ddlDriverState")).SelectedIndex = 0;
+        ((DropDownList)fvClaimantDetails.FindControl("ddlState")).SelectedIndex = 0;
+
+        dvsearchpopup.Style["display"] = "block";
+        dvcliamant.Style["display"] = "none";
+        Page.RegisterStartupScript("load", "<script type=\"text/javascript\">\n" +
+            "window.resizeTo(700,450); window.moveTo(200,130);\n" +
+            "<" + "/script>");
+
+
+    }
+    protected void gvClaimantDetails_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            if (ViewState["Edit"].ToString() == "True")
+            {
+                ((Button)(e.Row.FindControl("btnEdit"))).Enabled = true;
+            }
+            else
+            {
+                ((Button)(e.Row.FindControl("btnEdit"))).Enabled = false;
+            }
+            if (ViewState["View"].ToString() == "True")
+            {
+                ((Button)(e.Row.FindControl("btnView"))).Enabled = true;
+            }
+            else
+            {
+                ((Button)(e.Row.FindControl("btnView"))).Enabled = false;
+            }
+        }
+    }
+    protected void gvClaimantDetails_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            if (e.CommandName != "Sort")
+            {
+             //   dvSearch.Visible = false;
+                mvClaimantDetails.ActiveViewIndex = 1;
+                m_intClaimantDetailsId = Convert.ToInt32(e.CommandArgument.ToString());
+            }
+            if (e.CommandName == "EditItem")
+            {
+               // dvSearch.Visible = false;
+                Bindfv(FormViewMode.Edit);
+                gvAttachmentDetails.DataSource = BindAttachmentDetails();
+                gvAttachmentDetails.DataBind();
+                if (lstAttachment.Count > 0)
+                {
+                    btnRemove.Visible = true;
+                    btnMail.Visible = true;
+                }
+                else
+                {
+                    btnRemove.Visible = false;
+                    btnMail.Visible = false;
+                }
+
+            }
+            else if (e.CommandName == "View")
+            {
+              //  dvSearch.Visible = false;
+                Bindfv(FormViewMode.ReadOnly);
+                gvAttachmentDetails.DataSource = BindAttachmentDetails();
+                gvAttachmentDetails.DataBind();
+                btnRemove.Visible = false;
+                btnMail.Visible = false;
+
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void gvClaimantDetails_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        try
+        {
+            lstClaimantDetails = new List<RIMS_Base.CClaimant>();
+            if (ViewState["sortDirection"] == null)
+                ViewState["sortDirection"] = SortDirection.Ascending;
+            // Changes the sort direction 
+            else
+            {
+                if (((SortDirection)ViewState["sortDirection"]) == SortDirection.Ascending)
+                    ViewState["sortDirection"] = SortDirection.Descending;
+                else
+                    ViewState["sortDirection"] = SortDirection.Ascending;
+            }
+            ViewState["SortExp"] = strSortExp = e.SortExpression;
+
+            lstClaimantDetails = BindClaimantDetails();
+            if (ViewState["SortExp"] != null)
+                lstClaimantDetails.Sort(new RIMS_Base.GenericComparer<RIMS_Base.CClaimant>((string)ViewState["SortExp"], (SortDirection)ViewState["sortDirection"]));
+            gvClaimantDetails.DataSource = lstClaimantDetails;
+            gvClaimantDetails.DataBind();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void fvClaimantDetails_DataBound(object sender, EventArgs e)
+    {
+        try
+        {
+            if (fvClaimantDetails.CurrentMode != FormViewMode.ReadOnly)
+            {
+                ((TextBox)fvClaimantDetails.FindControl("txtCurrentDate")).Text = DateTime.Now.ToShortDateString();
+                ((DropDownList)fvClaimantDetails.FindControl("ddlState")).DataSource = GetState();
+                ((DropDownList)fvClaimantDetails.FindControl("ddlState")).DataTextField = "FLD_state";
+                ((DropDownList)fvClaimantDetails.FindControl("ddlState")).DataValueField = "FLD_abbreviation";
+                ((DropDownList)fvClaimantDetails.FindControl("ddlState")).DataBind();
+                m_lstCommon = new ListItem("--Select State--", "0");
+                ((DropDownList)fvClaimantDetails.FindControl("ddlState")).Items.Insert(0, m_lstCommon);
+
+
+                ((DropDownList)fvClaimantDetails.FindControl("ddlDriverState")).DataSource = GetState();
+                ((DropDownList)fvClaimantDetails.FindControl("ddlDriverState")).DataTextField = "FLD_state";
+                ((DropDownList)fvClaimantDetails.FindControl("ddlDriverState")).DataValueField = "FLD_abbreviation";
+                ((DropDownList)fvClaimantDetails.FindControl("ddlDriverState")).DataBind();
+                m_lstCommon = new ListItem("--Select State--", "0");
+                ((DropDownList)fvClaimantDetails.FindControl("ddlDriverState")).Items.Insert(0, m_lstCommon);
+
+
+                ((DropDownList)fvClaimantDetails.FindControl("ddlAttachType")).DataSource = GetAttachmentType();
+                ((DropDownList)fvClaimantDetails.FindControl("ddlAttachType")).DataTextField = "FLD_Desc";
+                ((DropDownList)fvClaimantDetails.FindControl("ddlAttachType")).DataValueField = "FLD_Code";
+                ((DropDownList)fvClaimantDetails.FindControl("ddlAttachType")).DataBind();
+                m_lstCommon = new ListItem("--Select Attachment Type--", "0");
+                ((DropDownList)fvClaimantDetails.FindControl("ddlAttachType")).Items.Insert(0, m_lstCommon);
+                ((DropDownList)fvClaimantDetails.FindControl("ddlAttachType")).SelectedValue = "1";
+
+
+
+            }
+
+            if (fvClaimantDetails.CurrentMode == FormViewMode.Edit)
+            {
+                ((DropDownList)fvClaimantDetails.FindControl("ddlState")).SelectedValue = lstClaimantDetails[0].Claimant_State.ToString();
+                ((DropDownList)fvClaimantDetails.FindControl("ddlDriverState")).SelectedItem.Text = lstClaimantDetails[0].Drivers_License_State.ToString();
+            }
+            if (fvClaimantDetails.CurrentMode == FormViewMode.ReadOnly)
+            {
+                gvAttachmentDetails.Columns[0].Visible = false;
+            }
+            else
+            {
+                gvAttachmentDetails.Columns[0].Visible = true;
+            }
+
+            if (fvClaimantDetails.CurrentMode == FormViewMode.ReadOnly)
+            {
+                ((Label)fvClaimantDetails.FindControl("lblSSN")).Text = RIMS_Base.Biz.CGeneral.Decrypt(lstClaimantDetails[0].Social_Security_Number, true);
+            }
+            if (fvClaimantDetails.CurrentMode == FormViewMode.Edit)
+            {
+                ((TextBox)fvClaimantDetails.FindControl("txtSSN")).Text = RIMS_Base.Biz.CGeneral.Decrypt(lstClaimantDetails[0].Social_Security_Number, true);
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void ddlPage_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            //gvClaimantDetails.PageSize = Convert.ToInt32(ddlPage.SelectedValue);
+            //gvClaimantDetails.DataSource = BindClaimantDetails();
+            //gvClaimantDetails.DataBind();
+            //lblPageInfo.Text = "Page 1 of " + gvClaimantDetails.PageCount.ToString();
+            //txtPageNo.Text = "1";
+            //lblClaimantTotal.Text = "Total Claimant Details:" + lstClaimantDetails.Count.ToString();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnAddAttachment_Click(object sender, EventArgs e)
+    {
+       // dvSearch.Visible = false;
+        if (fvClaimantDetails.CurrentMode == FormViewMode.Insert)
+        {
+            if (ViewState["PreventAdd"].ToString() == "N")
+            {
+                m_objClaimantDetails = new RIMS_Base.Biz.CClaimant();
+                if (fvClaimantDetails.CurrentMode == FormViewMode.Insert)
+                {
+                    m_objClaimantDetails.PK_Claimant_Id = 0;
+                }
+                else
+                {
+                    m_objClaimantDetails.PK_Claimant_Id = Convert.ToInt32(((Label)fvClaimantDetails.FindControl("lblClaimantDetailsId")).Text);
+                }
+                m_objClaimantDetails.First_Name = ((TextBox)fvClaimantDetails.FindControl("txtFirstName")).Text.Replace("'", "''");
+                m_objClaimantDetails.Last_Name = ((TextBox)fvClaimantDetails.FindControl("txtLastName")).Text.Replace("'", "''");
+                m_objClaimantDetails.Claimant_Address_1 = ((TextBox)fvClaimantDetails.FindControl("txtAddress1")).Text.Replace("'", "''");
+                m_objClaimantDetails.Claimant_Address_2 = ((TextBox)fvClaimantDetails.FindControl("txtAddress2")).Text.Replace("'", "''");
+                m_objClaimantDetails.Claimant_State = ((DropDownList)fvClaimantDetails.FindControl("ddlState")).SelectedValue;
+                m_objClaimantDetails.Claimant_City = ((TextBox)fvClaimantDetails.FindControl("txtCity")).Text.Replace("'", "''");
+                m_objClaimantDetails.Claimant_Cell_Phone = ((TextBox)fvClaimantDetails.FindControl("txtCellPhone")).Text;
+                m_objClaimantDetails.Drivers_License_State = ((DropDownList)fvClaimantDetails.FindControl("ddlDriverState")).SelectedItem.Text;
+                m_objClaimantDetails.Claimant_Zip_Code = ((TextBox)fvClaimantDetails.FindControl("txtZip")).Text;
+                m_objClaimantDetails.Claimant_Home_Phone = ((TextBox)fvClaimantDetails.FindControl("txtHomePhone")).Text;
+                m_objClaimantDetails.Claimant_Id = ((TextBox)fvClaimantDetails.FindControl("txtClaimantId")).Text;
+                m_objClaimantDetails.Middle_Name = ((TextBox)fvClaimantDetails.FindControl("txtMiddleName")).Text.Replace("'", "''");
+                m_objClaimantDetails.Drivers_License_Number = ((TextBox)fvClaimantDetails.FindControl("txtDriverLicenseNumber")).Text;
+                m_objClaimantDetails.Social_Security_Number = RIMS_Base.Biz.CGeneral.Encrypt(((TextBox)fvClaimantDetails.FindControl("txtSSN")).Text, true);
+                if (((TextBox)fvClaimantDetails.FindControl("txtDOB")).Text != string.Empty)
+                m_objClaimantDetails.Date_Of_Birth = Convert.ToDateTime(((TextBox)fvClaimantDetails.FindControl("txtDOB")).Text);
+                m_objClaimantDetails.Updated_By = Session["UserID"].ToString();
+                m_objClaimantDetails.Update_Date = System.DateTime.Now.Date;
+                m_intRetval = m_objClaimantDetails.InsertUpdateClaimant(m_objClaimantDetails);
+                ((Label)fvClaimantDetails.FindControl("lblClaimantDetailsId")).Text = m_intRetval.ToString();
+                ViewState["PreventAdd"] = "Y";
+            }
+            if (m_intRetval >= 0 || ViewState["PreventAdd"].ToString() == "Y")
+            {
+                dvAttachDetails.Visible = true;
+
+                AddAttachment();
+                if (m_intRetval >= 0)
+                {
+                    gvAttachmentDetails.DataSource = BindAttachmentDetails();
+                    gvAttachmentDetails.DataBind();
+                    if (lstAttachment.Count > 0)
+                    {
+                        btnRemove.Visible = true;
+                        btnMail.Visible = true;
+                    }
+                    else
+                    {
+                        btnRemove.Visible = false;
+                        btnMail.Visible = false;
+                    }
+                    dvsearchpopup.Style["display"] = "none";
+                    dvcliamant.Style["display"] = "block";
+                }
+            }
+        }
+        else
+        {
+            dvAttachDetails.Visible = true;
+            AddAttachment();
+            if (m_intRetval >= 0)
+            {
+                gvAttachmentDetails.DataSource = BindAttachmentDetails();
+                gvAttachmentDetails.DataBind();
+                if (lstAttachment.Count > 0)
+                {
+                    btnRemove.Visible = true;
+                    btnMail.Visible = true;
+                }
+                else
+                {
+                    btnRemove.Visible = false;
+                    btnMail.Visible = false;
+                }
+
+            }
+
+        }
+
+
+
+    }
+    protected void gvAttachmentDetails_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                ((ImageButton)e.Row.FindControl("imgbtnDwnld")).Attributes.Add("onclick", "javascript:return openWindow('" + m_strGlobalPath + ((ImageButton)e.Row.FindControl("imgbtnDwnld")).CommandArgument.ToString() + "');");
+                //((ImageButton)e.Row.FindControl("imgbtnMail")).Attributes.Add("onclick", "javascript:return openMailWindow('../ErimsMail.aspx?AttMod=Claimant&AttName=" + ((ImageButton)e.Row.FindControl("imgbtnMail")).CommandArgument.ToString() + "');");
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnRemove_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            m_objAttachment = new RIMS_Base.Biz.CAttachment();
+            m_intRetval = m_objAttachment.DeleteAttachment(Request.Form["chkItem"].ToString());
+            if (m_intRetval <= 0)
+            {
+                gvAttachmentDetails.DataSource = BindAttachmentDetails();
+                gvAttachmentDetails.DataBind();
+                if (lstAttachment.Count > 0)
+                {
+                    btnRemove.Visible = true;
+                    btnMail.Visible = true;
+                }
+                else
+                {
+                    btnRemove.Visible = false;
+                    btnMail.Visible = false;
+                }
+            }
+            dvAttachDetails.Visible = true;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void gvClaimantDetails_RowCreated(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.Header)
+        {
+            if (String.Empty != strSortExp)
+            {
+                AddSortImage(e.Row);
+            }
+        }
+    }
+    //protected void btnadd_Click1(object sender, EventArgs e)
+    //{
+    //    try
+    //    {
+    //        dvcliamant.Style["display"] = "block";
+    //        dvsearchpopup.Style["display"] = "none";
+
+    //        Page.RegisterStartupScript("load", "<script type=\"text/javascript\">\n" +
+    //          "window.resizeTo(800,500); window.moveTo(100,120);\n" +
+    //          "<" + "/script>");
+
+
+    //        m_objClaimantDetails = new RIMS_Base.Biz.CClaimant();
+    //        lstautoClaimantID = new List<RIMS_Base.CClaimant>();
+
+    //        lstautoClaimantID = m_objClaimantDetails.GetClaimantAutopopulate();
+    //        if (lstautoClaimantID.Count > 0)
+    //        {
+    //            ((TextBox)fvClaimantDetails.FindControl("txtClaimantId")).Text = lstautoClaimantID[0].Claimant_Id;
+    //        }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        throw ex;
+    //    }
+
+    //}
+    #endregion
+    
+    #region Private Methods
+    /// <summary>
+    /// Get the All Employee's Details
+    /// </summary>
+    private List<RIMS_Base.CClaimant> BindEmpDetails()
+    {
+        try
+        {
+            m_objClaimant = new RIMS_Base.Biz.CClaimant();
+            lstClaimant = new List<RIMS_Base.CClaimant>();
+            lstClaimant = null;
+            if (txtLastName.Text != string.Empty || txtFirstName.Text != string.Empty || txtAddress.Text != string.Empty || txtCity.Text != string.Empty || txtState.Text != string.Empty || txtZipcode.Text != string.Empty)
+            {
+                lstClaimant = m_objClaimant.Get_AdvanceSearch_Data(txtLastName.Text.Trim(), txtFirstName.Text.Trim(), txtAddress.Text.Trim(), txtCity.Text.Trim(), txtState.Text.Trim(), txtZipcode.Text.Trim());
+            }
+            else
+            {
+                lstClaimant = m_objClaimant.GetAll();
+            }
+            for (int cnt = 0; cnt < lstClaimant.Count; cnt++)
+            {
+                lstClaimant[cnt].Social_Security_Number = RIMS_Base.Biz.CGeneral.Decrypt(lstClaimant[cnt].Social_Security_Number, true);
+            }
+            return lstClaimant;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+    }
+    private void BindCombos()
+    {
+        objGeneral = new RIMS_Base.Biz.CGeneral();
+        dwState.DataSource = objGeneral.GetAllState();
+        dwState.DataTextField = "FLD_state";
+        dwState.DataValueField = "Code";
+        dwState.DataBind();
+        ListItem lstItem = new ListItem("------------Select------------", "0");
+        dwState.Items.Insert(0, lstItem);
+    }
+    #endregion
+
+    #region Private Methods(ADD Cliamant)
+    /// <summary>
+    /// Get the All Vendor's Details
+    /// </summary>
+   
+    /// <summary>
+    /// Bind The Attachment Details.
+    /// </summary>
+    /// <returns></returns>
+    private List<RIMS_Base.CAttachment> BindAttachmentDetails()
+    {
+        try
+        {
+            m_objAttachment = new RIMS_Base.Biz.CAttachment();
+            lstAttachment = new List<RIMS_Base.CAttachment>();
+            lstAttachment = m_objAttachment.GetAll(0, Convert.ToInt32(((Label)fvClaimantDetails.FindControl("lblClaimantDetailsId")).Text), "Claimant");
+            return lstAttachment;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+    }
+    /// <summary>
+    /// Get All State.
+    /// </summary>
+    private List<RIMS_Base.CGeneral> GetState()
+    {
+        try
+        {
+            m_objState = new RIMS_Base.Biz.CGeneral();
+            lstState = new List<RIMS_Base.CGeneral>();
+            lstState = m_objState.GetAllState();
+            return lstState;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+
+    }
+    /// <summary>
+    /// Get All Attachment Type.
+    /// </summary>
+    private List<RIMS_Base.CGeneral> GetAttachmentType()
+    {
+        try
+        {
+            m_objAttachmentType = new RIMS_Base.Biz.CGeneral();
+            lstAttachmentType = new List<RIMS_Base.CGeneral>();
+            lstAttachmentType = m_objAttachmentType.GetAttachamentType();
+            return lstAttachmentType;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+
+    }
+    /// <summary>
+    /// Bind the Formview Templates.
+    /// </summary>
+    /// <param name="fvMode"></param>
+    private void Bindfv(FormViewMode fvMode)
+    {
+        try
+        {
+
+            if (fvMode == FormViewMode.Insert)
+                fvClaimantDetails.ChangeMode(FormViewMode.Insert);
+            else if (fvMode == FormViewMode.Edit)
+                fvClaimantDetails.ChangeMode(FormViewMode.Edit);
+            else if (fvMode == FormViewMode.ReadOnly)
+                fvClaimantDetails.ChangeMode(FormViewMode.ReadOnly);
+            if (fvMode != FormViewMode.Insert)
+            {
+                dvAttachDetails.Visible = true;
+                m_objClaimantDetails = new RIMS_Base.Biz.CClaimant();
+                lstClaimantDetails = new List<RIMS_Base.CClaimant>();
+                lstClaimantDetails = m_objClaimantDetails.GetClaimantByID(m_intClaimantDetailsId);
+                fvClaimantDetails.DataSource = lstClaimantDetails;
+
+            }
+            fvClaimantDetails.DataBind();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+        }
+
+    }
+    /// <summary>
+    /// Upload Documents
+    /// </summary>
+    private void UploadDocuments()
+    {
+        try
+        {
+            m_strPath = Server.MapPath(ConfigurationManager.AppSettings["UploadPath"]);
+
+            if (!(Directory.Exists(m_strPath + "\\" + m_strFolderName)))
+            {
+                Directory.CreateDirectory(m_strPath + "\\" + m_strFolderName);
+            }
+            m_strFileName = GetCustomFileName() + ((FileUpload)fvClaimantDetails.FindControl("uplCommon")).FileName.ToString();
+            m_strPath = m_strPath + "\\" + m_strFolderName + "\\" + m_strFileName;
+            ((FileUpload)fvClaimantDetails.FindControl("uplCommon")).SaveAs(m_strPath);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    /// <summary>
+    /// Get Custom File Name.
+    /// </summary>
+    /// <returns></returns>
+    private string GetCustomFileName()
+    {
+        try
+        {
+            m_strCustomFileName = System.DateTime.Now.ToString("MMddyyhhmmss");
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return m_strCustomFileName;
+    }
+    /// <summary>
+    /// Insert Attachment in Database.
+    /// </summary>
+    /// <returns>Integer</returns>
+    /// 
+    private List<RIMS_Base.CClaimant> BindClaimantDetails()
+    {
+        try
+        {
+            m_objClaimantDetails = new RIMS_Base.Biz.CClaimant();
+            lstClaimantDetails = new List<RIMS_Base.CClaimant>();
+            lstClaimantDetails = null;
+            //if (txtSearch.Text != string.Empty)
+            //{
+            //    lstClaimantDetails = m_objClaimantDetails.Get_Search_Data(ddlSearch.SelectedValue, txtSearch.Text.Trim());
+            //}
+            //else
+            //{
+            //    lstClaimantDetails = m_objClaimantDetails.GetAll();
+            //}
+            //lblClaimantTotal.Text = "Total Claimant Details:" + lstClaimantDetails.Count.ToString();
+            return lstClaimantDetails;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+    }
+    private int AddAttachment()
+    {
+        try
+        {
+            UploadDocuments();
+            m_objAttachment = new RIMS_Base.Biz.CAttachment();
+            m_objAttachment.Attachment_Table = "Claimant";
+            m_objAttachment.Foreign_Key = Convert.ToInt32(((Label)fvClaimantDetails.FindControl("lblClaimantDetailsId")).Text);
+            m_objAttachment.FK_Attachment_Type = Convert.ToInt32(((DropDownList)fvClaimantDetails.FindControl("ddlAttachType")).SelectedValue);
+            m_objAttachment.Attachment_Description = ((TextBox)fvClaimantDetails.FindControl("txtDescription")).Text;
+            m_objAttachment.Attachment_Name = m_strFileName;
+            m_objAttachment.Updated_By = Session["UserID"].ToString();
+            m_objAttachment.Update_Date = System.DateTime.Now.Date;
+            m_intRetval = m_objAttachment.InsertUpdateAttachment(m_objAttachment);
+            ((TextBox)fvClaimantDetails.FindControl("txtDescription")).Text = string.Empty;
+            ((DropDownList)fvClaimantDetails.FindControl("ddlAttachType")).SelectedValue = "1";
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return m_intRetval;
+    }
+    private void GeneralSorting()
+    {
+        try
+        {
+            lstClaimantDetails = new List<RIMS_Base.CClaimant>();
+            lstClaimantDetails = BindClaimantDetails();
+            if (ViewState["SortExp"] != null && ViewState["sortDirection"] != null)
+                lstClaimantDetails.Sort(new RIMS_Base.GenericComparer<RIMS_Base.CClaimant>((string)ViewState["SortExp"], (SortDirection)ViewState["sortDirection"]));
+            gvClaimantDetails.DataSource = lstClaimantDetails;
+            gvClaimantDetails.DataBind();
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+
+    }
+    #endregion
+   
+   
+}

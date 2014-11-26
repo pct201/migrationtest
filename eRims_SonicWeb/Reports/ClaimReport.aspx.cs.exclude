@@ -1,0 +1,193 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+public partial class Report_ClaimReport : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        lblClaimType.Text = rdblstContent.SelectedItem.Text;
+       //btnExportExcel.Visible = false;
+    }
+    /// <summary>
+    /// Event is fire when Reference radiobuttonlist index change
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void rdlReference_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            btnShowFields.Text = "Show Fields";
+            ifrmAddHoc.Style.Add("display", "none");
+            //if (rdlReference.SelectedValue == "L")
+            //{
+            //    lblHeader.Text = "Reference List";
+            //    btnShowFields.Visible = true;
+            //}
+            //else if (rdlReference.SelectedValue == "D")
+            //{
+            //    lblHeader.Text = "Reference List";
+            //    btnShowFields.Visible = true;
+            //}
+            //else if (rdlReference.SelectedValue == "P")
+            //{
+            //    lblHeader.Text = "Reference List";
+            //    btnShowFields.Visible = true;
+            //}
+            //else if (rdlReference.SelectedValue == "B")
+            //{
+            //    lblHeader.Text = "Reference List";
+            //    btnShowFields.Visible = true;
+            //}
+            //else if (rdlReference.SelectedValue == "T")
+            //{
+            //    lblHeader.Text = "Reference List";
+            //    btnShowFields.Visible = true;
+            //}
+            //else if (rdlReference.SelectedValue == "H")
+            //{
+            //    lblHeader.Text = "Reference List";
+            //    btnShowFields.Visible = true;
+            //}
+            //else if (rdlReference.SelectedValue == "C")
+            //{
+            //    lblHeader.Text = "Reference List";
+            //    btnShowFields.Visible = true;
+            //}
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    /// <summary>
+    /// Event is fire when Content radiobuttonlist index change
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void rdblstContent_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            btnShowFilter.Text = "Show Filters";
+            btnShowFields.Text = "Show Fields";
+            ifrmAddHoc.Style.Add("display", "none");
+            ifrmAddHoc.Attributes["src"] = "";
+            Session["OrderBy"] = null;
+            Session["ShowFields"] = null;
+            Session["ReportId"] = null;
+            Session["Sub"] = "0";
+            Session["Grand"] = "0";
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    /// <summary>
+    /// This event is fire when Click on showfilter button and display filter parameter.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnShowFilter_Click(object sender, EventArgs e)
+    {
+        try
+        {
+
+            if (btnShowFilter.Text == "Show Filters")
+            {
+                btnShowFilter.Text = "Hide Filters";
+                btnShowFields.Text = "Show Fields";
+                ifrmAddHoc.Style.Add("display", "block");
+                if (rdblstContent.SelectedValue == "1")
+                {
+                    ifrmAddHoc.Attributes["src"] = "WCFilter.aspx?Claim=WC";
+                    ifrmAddHoc.Attributes["height"] = "920px";
+                }
+                else 
+                {
+                    ifrmAddHoc.Attributes["src"] = "LCFilter.aspx?Claim=LC";
+                    ifrmAddHoc.Attributes["height"] = "920px";
+                }
+                
+            }
+            else if (btnShowFilter.Text == "Hide Filters")
+            {
+                btnShowFilter.Text = "Show Filters";
+                ifrmAddHoc.Style.Add("display", "none");
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    /// <summary>
+    /// This event is fire when Click on showfields button and display output,primary and secondary fields for generate report's Criteria.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnShowFields_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            
+            if (btnShowFields.Text == "Show Fields")
+            {
+                btnShowFields.Text = "Hide Fields";
+                btnShowFilter.Text = "Show Filters";
+                ifrmAddHoc.Style.Add("display", "block");
+                if (rdblstContent.SelectedValue == "1")
+                {
+                    ifrmAddHoc.Attributes["src"] = "Fields.aspx?Claim=WC";
+                }
+                else 
+                {
+                    ifrmAddHoc.Attributes["src"] = "Fields.aspx?Claim=LC";//?Section=" + rdlReference.SelectedValue;
+                }
+               
+                ifrmAddHoc.Attributes["height"] = "460 px";
+
+            }
+            else if (btnShowFields.Text == "Hide Fields")
+            {
+                btnShowFields.Text = "Show Fields";
+                ifrmAddHoc.Style.Add("display", "none");
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    /// <summary>
+    /// Click on ExportExcel button for generate a report
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    //protected void btnExportExcel_Click(object sender, EventArgs e)
+    //{
+    //    try
+    //    {
+    //        //string temp = Request.ApplicationPath.ToString();
+    //        //Response.Redirect(Request.ApplicationPath.ToString() + "\\Reports\\" + "ClaimReport.aspx", false);
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        throw ex;
+    //    }
+    //    finally
+    //    {
+            
+    //    }
+    //}     
+}

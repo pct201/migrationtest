@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+  <siteMapNode url="" title=""  description="">
+    <siteMapNode url="javascript:void(1);" title="Vehicles &lt;span style='color: Red;'&gt;*&lt;/span&gt;"  description="" />
+    <siteMapNode url="javascript:void(2);" title="Location and Contact"  description="" />
+    <siteMapNode url="javascript:void(3);" title="Usage"  description="" />
+    <siteMapNode url="javascript:void(4);" title="Ownership"  description="" />
+    <siteMapNode url="javascript:void(5);" title="Inspection"  description="" />
+    <siteMapNode url="javascript:void(6);" title="Insurance"  description="" />
+    <siteMapNode url="javascript:void(7);" title="Notes"  description="" />
+    <siteMapNode url="javascript:void(8);" title="Attachment"  description="" />
+   </siteMapNode>
+</siteMap >

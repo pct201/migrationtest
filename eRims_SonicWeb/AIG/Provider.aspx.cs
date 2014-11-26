@@ -1,0 +1,722 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Collections.Generic;
+using System.IO;
+public partial class AIG_Provider : System.Web.UI.Page
+{
+    #region Private Variables
+    int m_intProviderId = 0;
+    int m_intRetval = -1;
+    public int m_intPreventAdd = 0;
+    public RIMS_Base.Biz.CProvider m_objProvider;
+    List<RIMS_Base.CProvider> lstProvider = null;
+
+    public RIMS_Base.Biz.CGeneral m_objAttachmentType;
+    List<RIMS_Base.CGeneral> lstAttachmentType = null;
+    public RIMS_Base.Biz.CGeneral m_objState;
+    List<RIMS_Base.CGeneral> lstState = null;
+    public RIMS_Base.Biz.CAttachment m_objAttachment;
+    List<RIMS_Base.CAttachment> lstAttachment = null;
+    ListItem m_lstCommon;
+
+    public string m_strPath = string.Empty;
+    public string m_strFolderName = "Provider";
+    public string m_strCustomFileName = string.Empty;
+    public string m_strFileName = string.Empty;
+    public string m_strGlobalPath = string.Empty;
+    #endregion
+    #region Event Handlers
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            m_strGlobalPath = Page.ResolveUrl(ConfigurationManager.AppSettings["UploadPath"] + "/Provider/");
+            dvSearch.Visible = true;
+            dvAttachDetails.Visible = false;
+            if (!IsPostBack)
+            {
+                btnDelete.Attributes.Add("onclick", "return OMSCheckSelected1('chkItem','gvProvider','Delete');");
+                btnRemove.Attributes.Add("onclick", "return OMSCheckSelected1('chkItem','gvProvider','Delete');");
+                mvProvider.ActiveViewIndex = 0;
+
+                gvProvider.PageSize = 10;
+                btnRemove.Visible = false;
+                btnMail.Visible = false;
+                gvProvider.DataSource = BindProvider();
+                gvProvider.DataBind();
+
+                ddlPage.DataBind();
+                ddlPage.SelectedValue = "10";
+                lblPageInfo.Text = "Page 1 of " + gvProvider.PageCount.ToString();
+                txtPageNo.Text = "1";
+                ViewState["PreventAdd"] = "N";
+
+            }
+
+
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnGo_Click(object sender, EventArgs e)
+    {
+        try
+        {
+
+            if (txtPageNo.Text.ToString().Trim() == string.Empty || Convert.ToInt32(txtPageNo.Text) < 1)
+            {
+                gvProvider.PageIndex = 0;
+                txtPageNo.Text = "1";
+            }
+            else if (Convert.ToInt32(txtPageNo.Text) > gvProvider.PageCount)
+            {
+                gvProvider.PageIndex = gvProvider.PageCount;
+                txtPageNo.Text = gvProvider.PageCount.ToString();
+            }
+            else
+            {
+                gvProvider.PageIndex = Convert.ToInt32(txtPageNo.Text) - 1;
+            }
+            lblPageInfo.Text = "Page " + txtPageNo.Text.ToString() + " of " + gvProvider.PageCount.ToString();
+            gvProvider.DataSource = BindProvider();
+            gvProvider.DataBind();
+            lblProviderTotal.Text = "Total Provider Details:" + lstProvider.Count.ToString();
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+    }
+    protected void btnNext_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (gvProvider.PageIndex <= gvProvider.PageCount)
+            {
+                gvProvider.PageIndex = gvProvider.PageIndex + 1;
+                GeneralSorting();
+
+                lblPageInfo.Text = "Page " + Convert.ToString(gvProvider.PageIndex + 1) + " of " + gvProvider.PageCount.ToString();
+                lblProviderTotal.Text = "Total Provider Details:" + lstProvider.Count.ToString();
+            }
+
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    protected void btnPrev_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (gvProvider.PageIndex <= gvProvider.PageCount)
+            {
+                gvProvider.PageIndex = gvProvider.PageIndex - 1;
+                GeneralSorting();
+                lblPageInfo.Text = "Page " + Convert.ToString(gvProvider.PageIndex + 1) + " of " + gvProvider.PageCount.ToString();
+                lblProviderTotal.Text = "Total Provider Details:" + lstProvider.Count.ToString();
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    protected void btnDelete_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            m_objProvider = new RIMS_Base.Biz.CProvider();
+            m_intRetval = m_objProvider.Provider_Delete(Request.Form["chkItem"].ToString());
+            if (m_intRetval <= 0)
+            {
+                mvProvider.ActiveViewIndex = 0;
+                gvProvider.DataSource = BindProvider();
+                gvProvider.DataBind();
+            }
+            lblProviderTotal.Text = "Total Provider Details:" + lstProvider.Count.ToString();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+    }
+    protected void btnAddNew_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            dvSearch.Visible = false;
+            mvProvider.ActiveViewIndex = 1;
+            Bindfv(FormViewMode.Insert);
+            btnRemove.Visible = false;
+            btnMail.Visible = false;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+    }
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            m_objProvider = new RIMS_Base.Biz.CProvider();
+            lstProvider = new List<RIMS_Base.CProvider>();
+            lstProvider = m_objProvider.Get_Search_Data(ddlSearch.SelectedValue, txtSearch.Text.Trim());
+            gvProvider.DataSource = lstProvider;
+            gvProvider.DataBind();
+            lblPageInfo.Text = "Page 1 of " + gvProvider.PageCount.ToString();
+            lblProviderTotal.Text = "Total Provider Details:" + lstProvider.Count.ToString();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnSave_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (ViewState["PreventAdd"].ToString() == "N")
+            {
+                m_objProvider = new RIMS_Base.Biz.CProvider();
+                if (fvProvider.CurrentMode == FormViewMode.Insert)
+                {
+                    m_objProvider.PK_Provider_ID = 0;
+                }
+                else
+                {
+                    m_objProvider.PK_Provider_ID = Convert.ToInt32(((Label)fvProvider.FindControl("lblProviderId")).Text);
+                }
+                m_objProvider.Name = ((TextBox)fvProvider.FindControl("txtProviderName")).Text.Replace("'", "''");
+                m_objProvider.Address_1 = ((TextBox)fvProvider.FindControl("txtAddress1")).Text.Replace("'", "''");
+                m_objProvider.Address_2 = ((TextBox)fvProvider.FindControl("txtAddress2")).Text;
+                m_objProvider.State = ((DropDownList)fvProvider.FindControl("ddlState")).SelectedValue;
+                m_objProvider.City = ((TextBox)fvProvider.FindControl("txtCity")).Text;
+                m_objProvider.Phone = ((TextBox)fvProvider.FindControl("txtTeleNo")).Text;
+                m_objProvider.Zip_Code = ((TextBox)fvProvider.FindControl("txtZip")).Text;
+                m_objProvider.Facsimile = ((TextBox)fvProvider.FindControl("txtFax")).Text;
+                m_objProvider.Tax_Id = ((TextBox)fvProvider.FindControl("txtProviderTaxId")).Text;
+
+                m_objProvider.Updated_By = "1";
+                m_objProvider.Update_Date = System.DateTime.Now.Date;
+                m_intRetval = m_objProvider.Provider_InsertUpdate(m_objProvider);
+                if (m_intRetval >= 0)
+                {
+                    mvProvider.ActiveViewIndex = 0;
+                    gvProvider.DataSource = BindProvider();
+                    gvProvider.DataBind();
+                }
+
+            }
+            else
+            {
+                ViewState["PreventAdd"] = "N";
+                mvProvider.ActiveViewIndex = 0;
+                gvProvider.DataSource = BindProvider();
+                gvProvider.DataBind();
+            }
+            dvSearch.Visible = true;
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        try
+        {
+
+            mvProvider.ActiveViewIndex = 0;
+            gvProvider.DataSource = BindProvider();
+            gvProvider.DataBind();
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+    }
+
+    protected void gvProvider_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            if (e.CommandName != "Sort")
+            {
+                dvSearch.Visible = false;
+                mvProvider.ActiveViewIndex = 1;
+                m_intProviderId = Convert.ToInt32(e.CommandArgument.ToString());
+            }
+            if (e.CommandName == "EditItem")
+            {
+                dvSearch.Visible = false;
+                Bindfv(FormViewMode.Edit);
+                gvAttachmentDetails.DataSource = BindAttachmentDetails();
+                gvAttachmentDetails.DataBind();
+                if (lstAttachment.Count > 0)
+                {
+                    btnRemove.Visible = true;
+                    btnMail.Visible = true;
+                }
+                else
+                {
+                    btnRemove.Visible = false;
+                    btnMail.Visible = false;
+                }
+
+            }
+            else if (e.CommandName == "View")
+            {
+                dvSearch.Visible = false;
+                Bindfv(FormViewMode.ReadOnly);
+                gvAttachmentDetails.DataSource = BindAttachmentDetails();
+                gvAttachmentDetails.DataBind();
+                btnRemove.Visible = false;
+                btnMail.Visible = false;
+
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void gvProvider_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        try
+        {
+            lstProvider = new List<RIMS_Base.CProvider>();
+            if (ViewState["sortDirection"] == null)
+                ViewState["sortDirection"] = SortDirection.Ascending;
+            // Changes the sort direction 
+            else
+            {
+                if (((SortDirection)ViewState["sortDirection"]) == SortDirection.Ascending)
+                    ViewState["sortDirection"] = SortDirection.Descending;
+                else
+                    ViewState["sortDirection"] = SortDirection.Ascending;
+            }
+            ViewState["SortExp"] = e.SortExpression;
+
+            lstProvider = BindProvider();
+            if (ViewState["SortExp"] != null)
+                lstProvider.Sort(new RIMS_Base.GenericComparer<RIMS_Base.CProvider>((string)ViewState["SortExp"], (SortDirection)ViewState["sortDirection"]));
+            gvProvider.DataSource = lstProvider;
+            gvProvider.DataBind();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void fvProvider_DataBound(object sender, EventArgs e)
+    {
+        try
+        {
+            if (fvProvider.CurrentMode != FormViewMode.ReadOnly)
+            {
+
+                ((DropDownList)fvProvider.FindControl("ddlState")).DataSource = GetState();
+                ((DropDownList)fvProvider.FindControl("ddlState")).DataTextField = "FLD_state";
+                ((DropDownList)fvProvider.FindControl("ddlState")).DataValueField = "FLD_state";
+                ((DropDownList)fvProvider.FindControl("ddlState")).DataBind();
+                m_lstCommon = new ListItem("--Select State--", "0");
+                ((DropDownList)fvProvider.FindControl("ddlState")).Items.Insert(0, m_lstCommon);
+
+                ((DropDownList)fvProvider.FindControl("ddlAttachType")).DataSource = GetAttachmentType();
+                ((DropDownList)fvProvider.FindControl("ddlAttachType")).DataTextField = "FLD_Desc";
+                ((DropDownList)fvProvider.FindControl("ddlAttachType")).DataValueField = "FLD_Code";
+                ((DropDownList)fvProvider.FindControl("ddlAttachType")).DataBind();
+                m_lstCommon = new ListItem("--Select Attachment Type--", "0");
+                ((DropDownList)fvProvider.FindControl("ddlAttachType")).Items.Insert(0, m_lstCommon);
+            }
+
+            if (fvProvider.CurrentMode == FormViewMode.Edit)
+            {
+                if (lstProvider[0].State.ToString() != string.Empty)
+                    ((DropDownList)fvProvider.FindControl("ddlState")).SelectedValue = lstProvider[0].State.ToString();
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void ddlPage_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            gvProvider.PageSize = Convert.ToInt32(ddlPage.SelectedValue);
+            gvProvider.DataSource = BindProvider();
+            gvProvider.DataBind();
+            lblPageInfo.Text = "Page 1 of " + gvProvider.PageCount.ToString();
+            txtPageNo.Text = "1";
+            lblProviderTotal.Text = "Total Provider Details:" + lstProvider.Count.ToString();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnAddAttachment_Click(object sender, EventArgs e)
+    {
+        dvSearch.Visible = false;
+        if (fvProvider.CurrentMode == FormViewMode.Insert)
+        {
+            if (ViewState["PreventAdd"].ToString() == "N")
+            {
+                m_objProvider = new RIMS_Base.Biz.CProvider();
+                if (fvProvider.CurrentMode == FormViewMode.Insert)
+                {
+                    m_objProvider.PK_Provider_ID = 0;
+                }
+                else
+                {
+                    m_objProvider.PK_Provider_ID = Convert.ToInt32(((Label)fvProvider.FindControl("lblProviderId")).Text);
+                }
+                m_objProvider.Name = ((TextBox)fvProvider.FindControl("txtProviderName")).Text.Replace("'", "''");
+                m_objProvider.Address_1 = ((TextBox)fvProvider.FindControl("txtAddress1")).Text.Replace("'", "''");
+                m_objProvider.Address_2 = ((TextBox)fvProvider.FindControl("txtAddress2")).Text;
+                m_objProvider.State = ((DropDownList)fvProvider.FindControl("ddlState")).SelectedValue;
+                m_objProvider.City = ((TextBox)fvProvider.FindControl("txtCity")).Text;
+                m_objProvider.Phone = ((TextBox)fvProvider.FindControl("txtTeleNo")).Text;
+                m_objProvider.Zip_Code = ((TextBox)fvProvider.FindControl("txtZip")).Text;
+                m_objProvider.Facsimile = ((TextBox)fvProvider.FindControl("txtFax")).Text;
+                m_objProvider.Tax_Id = ((TextBox)fvProvider.FindControl("txtProviderTaxId")).Text;
+
+                m_objProvider.Updated_By = "1";
+                m_objProvider.Update_Date = System.DateTime.Now.Date;
+                m_intRetval = m_objProvider.Provider_InsertUpdate(m_objProvider);
+                ((Label)fvProvider.FindControl("lblProviderId")).Text = m_intRetval.ToString();
+                ViewState["PreventAdd"] = "Y";
+            }
+            if (m_intRetval >= 0 || ViewState["PreventAdd"].ToString() == "Y")
+            {
+                dvAttachDetails.Visible = true;
+
+                AddAttachment();
+                if (m_intRetval >= 0)
+                {
+                    gvAttachmentDetails.DataSource = BindAttachmentDetails();
+                    gvAttachmentDetails.DataBind();
+                    if (lstAttachment.Count > 0)
+                    {
+                        btnRemove.Visible = true;
+                        btnMail.Visible = true;
+                    }
+                    else
+                    {
+                        btnRemove.Visible = false;
+                        btnMail.Visible = false;
+                    }
+                }
+            }
+        }
+        else
+        {
+            dvAttachDetails.Visible = true;
+            AddAttachment();
+            if (m_intRetval >= 0)
+            {
+                gvAttachmentDetails.DataSource = BindAttachmentDetails();
+                gvAttachmentDetails.DataBind();
+                if (lstAttachment.Count > 0)
+                {
+                    btnRemove.Visible = true;
+                    btnMail.Visible = true;
+                }
+                else
+                {
+                    btnRemove.Visible = false;
+                    btnMail.Visible = false;
+                }
+
+            }
+
+        }
+
+
+
+    }
+    protected void gvAttachmentDetails_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                ((ImageButton)e.Row.FindControl("imgbtnDwnld")).Attributes.Add("onclick", "javascript:return openWindow('" + m_strGlobalPath + ((ImageButton)e.Row.FindControl("imgbtnDwnld")).CommandArgument.ToString() + "');");
+                //((ImageButton)e.Row.FindControl("imgbtnMail")).Attributes.Add("onclick", "javascript:return openMailWindow('../ErimsMail.aspx?AttMod=Claimant&AttName=" + ((ImageButton)e.Row.FindControl("imgbtnMail")).CommandArgument.ToString() + "');");
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnRemove_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            m_objAttachment = new RIMS_Base.Biz.CAttachment();
+            m_intRetval = m_objAttachment.DeleteAttachment(Request.Form["chkItem"].ToString());
+            if (m_intRetval <= 0)
+            {
+                gvAttachmentDetails.DataSource = BindAttachmentDetails();
+                gvAttachmentDetails.DataBind();
+                if (lstAttachment.Count > 0)
+                {
+                    btnRemove.Visible = true;
+                    btnMail.Visible = true;
+                }
+                else
+                {
+                    btnRemove.Visible = false;
+                    btnMail.Visible = false;
+                }
+            }
+            dvAttachDetails.Visible = true;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    #endregion
+    #region Private Methods
+    /// <summary>
+    /// Get the All Vendor's Details
+    /// </summary>
+    private List<RIMS_Base.CProvider> BindProvider()
+    {
+        try
+        {
+            m_objProvider = new RIMS_Base.Biz.CProvider();
+            lstProvider = new List<RIMS_Base.CProvider>();
+            lstProvider = null;
+            if (txtSearch.Text != string.Empty)
+            {
+                lstProvider = m_objProvider.Get_Search_Data(ddlSearch.SelectedValue, txtSearch.Text.Trim());
+            }
+            else
+            {
+                lstProvider = m_objProvider.GetAll();
+            }
+            lblProviderTotal.Text = "Total Provider Details:" + lstProvider.Count.ToString();
+            return lstProvider;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+    }
+    /// <summary>
+    /// Bind The Attachment Details.
+    /// </summary>
+    /// <returns></returns>
+    private List<RIMS_Base.CAttachment> BindAttachmentDetails()
+    {
+        try
+        {
+            m_objAttachment = new RIMS_Base.Biz.CAttachment();
+            lstAttachment = new List<RIMS_Base.CAttachment>();
+            lstAttachment = m_objAttachment.GetAll(0, Convert.ToInt32(((Label)fvProvider.FindControl("lblProviderId")).Text), "Provider");
+            return lstAttachment;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+    }
+    /// <summary>
+    /// Get All State.
+    /// </summary>
+    private List<RIMS_Base.CGeneral> GetState()
+    {
+        try
+        {
+            m_objState = new RIMS_Base.Biz.CGeneral();
+            lstState = new List<RIMS_Base.CGeneral>();
+            lstState = m_objState.GetAllState();
+            return lstState;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+
+    }
+    /// <summary>
+    /// Get All Attachment Type.
+    /// </summary>
+    private List<RIMS_Base.CGeneral> GetAttachmentType()
+    {
+        try
+        {
+            m_objAttachmentType = new RIMS_Base.Biz.CGeneral();
+            lstAttachmentType = new List<RIMS_Base.CGeneral>();
+            lstAttachmentType = m_objAttachmentType.GetAttachamentType();
+            return lstAttachmentType;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+
+    }
+    /// <summary>
+    /// Bind the Formview Templates.
+    /// </summary>
+    /// <param name="fvMode"></param>
+    private void Bindfv(FormViewMode fvMode)
+    {
+        try
+        {
+
+            if (fvMode == FormViewMode.Insert)
+                fvProvider.ChangeMode(FormViewMode.Insert);
+            else if (fvMode == FormViewMode.Edit)
+                fvProvider.ChangeMode(FormViewMode.Edit);
+            else if (fvMode == FormViewMode.ReadOnly)
+                fvProvider.ChangeMode(FormViewMode.ReadOnly);
+            if (fvMode != FormViewMode.Insert)
+            {
+                dvAttachDetails.Visible = true;
+                m_objProvider = new RIMS_Base.Biz.CProvider();
+                lstProvider = new List<RIMS_Base.CProvider>();
+                lstProvider = m_objProvider.Provider_GetByID(m_intProviderId);
+                fvProvider.DataSource = lstProvider;
+
+            }
+            fvProvider.DataBind();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+        }
+
+    }
+    /// <summary>
+    /// Upload Documents
+    /// </summary>
+    private void UploadDocuments()
+    {
+        try
+        {
+            m_strPath = Server.MapPath(ConfigurationManager.AppSettings["UploadPath"]);
+
+            if (!(Directory.Exists(m_strPath + "\\" + m_strFolderName)))
+            {
+                Directory.CreateDirectory(m_strPath + "\\" + m_strFolderName);
+            }
+            m_strFileName = GetCustomFileName() + ((FileUpload)fvProvider.FindControl("uplCommon")).FileName.ToString();
+            m_strPath = m_strPath + "\\" + m_strFolderName + "\\" + m_strFileName;
+            ((FileUpload)fvProvider.FindControl("uplCommon")).SaveAs(m_strPath);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    /// <summary>
+    /// Get Custom File Name.
+    /// </summary>
+    /// <returns></returns>
+    private string GetCustomFileName()
+    {
+        try
+        {
+            m_strCustomFileName = System.DateTime.Now.ToString("MMddyyhhmmss");
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return m_strCustomFileName;
+    }
+    /// <summary>
+    /// Insert Attachment in Database.
+    /// </summary>
+    /// <returns>Integer</returns>
+    private int AddAttachment()
+    {
+        try
+        {
+            UploadDocuments();
+            m_objAttachment = new RIMS_Base.Biz.CAttachment();
+            m_objAttachment.Attachment_Table = "Provider";
+            m_objAttachment.Foreign_Key = Convert.ToInt32(((Label)fvProvider.FindControl("lblProviderId")).Text);
+            m_objAttachment.FK_Attachment_Type = Convert.ToInt32(((DropDownList)fvProvider.FindControl("ddlAttachType")).SelectedValue);
+            m_objAttachment.Attachment_Description = ((TextBox)fvProvider.FindControl("txtDescription")).Text;
+            m_objAttachment.Attachment_Name = m_strFileName;
+            m_objAttachment.Updated_By = "1";
+            m_objAttachment.Update_Date = System.DateTime.Now.Date;
+            m_intRetval = m_objAttachment.InsertUpdateAttachment(m_objAttachment);
+            ((TextBox)fvProvider.FindControl("txtDescription")).Text = string.Empty;
+            ((DropDownList)fvProvider.FindControl("ddlAttachType")).SelectedValue = "0";
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return m_intRetval;
+    }
+    private void GeneralSorting()
+    {
+        try
+        {
+            lstProvider = new List<RIMS_Base.CProvider>();
+            lstProvider = BindProvider();
+            if (ViewState["SortExp"] != null && ViewState["sortDirection"] != null)
+                lstProvider.Sort(new RIMS_Base.GenericComparer<RIMS_Base.CProvider>((string)ViewState["SortExp"], (SortDirection)ViewState["sortDirection"]));
+            gvProvider.DataSource = lstProvider;
+            gvProvider.DataBind();
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+
+    }
+    #endregion
+}

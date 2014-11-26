@@ -1,0 +1,3769 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Collections.Generic;
+using System.IO;
+
+public partial class Claim_AutoLiability : System.Web.UI.Page
+{
+    #region Private Variables
+    public RIMS_Base.Biz.CLiabilityClaim_FCI objliability;
+    public RIMS_Base.Biz.CLiabilityClaimRepresentative objClaimRepresentive;
+    public RIMS_Base.Biz.CLiabilityClaimLossLocation objLossLocation;
+    public RIMS_Base.Biz.CLiabilityClaimLossInfo objLossinfo;
+    public RIMS_Base.Biz.CLiabilityClaimCmpVehicleInfo objCompanyVehInfo;
+    public RIMS_Base.Biz.CLiabilityClaimCmpDriverInfo objCompanyDriverInfo;
+    public RIMS_Base.Biz.CLiabilityClaimOtherPropertyDamage objOtherPropertyDamage;
+    public RIMS_Base.Biz.CLiabilityClaimOtherParty objOtherParty;
+
+    public RIMS_Base.Biz.CLiabilityClaimOtherVehInfo objOthervehinfo;
+    public RIMS_Base.Biz.CLiabilityClaimOtherDriverInfo objOtherDriverinfo;
+    public RIMS_Base.Biz.CLiabilityClaimOtherPersonInfo objPersonalinjured;
+    public RIMS_Base.Biz.CLiabilityClaimWitness objWitness;
+    string strSortExp = String.Empty;
+    ListItem m_lstCommon;
+    public RIMS_Base.Biz.CCheckWriting m_objClaimReservesInfo;
+    List<RIMS_Base.CCheckWriting> lstClaimReservesInfo = null;
+
+    public RIMS_Base.Biz.CCheckRegister objCheckRegister;
+    public RIMS_Base.Biz.CGeneral m_objCounty;
+    int intRet = -1;
+    int m_intRetval = -1;
+    int m_intRetval2 = -1;
+    int m_intRetval3 = -1;
+    int m_intRetval4 = -1;
+    int m_intRetval5 = -1;
+    int m_intRetval6 = -1;
+    int m_intRetval7 = -1;
+    int m_intRetval8 = -1;
+
+    public RIMS_Base.Biz.CGeneral objGeneral;
+
+
+    List<RIMS_Base.CLiabilityClaim_FCI> lstliability, lstemp, lstClimant, lstDriver, lstcarrier;
+    List<RIMS_Base.CLiabilityClaimRepresentative> lstRepresent;
+    List<RIMS_Base.CLiabilityClaimLossLocation> lstLossLocation;
+    List<RIMS_Base.CLiabilityClaimLossInfo> lstLossInfo;
+    List<RIMS_Base.CLiabilityClaimCmpVehicleInfo> lstVehicleInfo;
+    List<RIMS_Base.CLiabilityClaimCmpDriverInfo> lstDriverInfo;
+    List<RIMS_Base.CLiabilityClaimOtherPropertyDamage> lstOtherPropertyDamage;
+    List<RIMS_Base.CLiabilityClaimOtherParty> lstotherParty;
+
+    List<RIMS_Base.CCheckRegister> lstCheckRegister = null;
+
+    //-----Add Grid
+
+    public RIMS_Base.Biz.CLiabilityClaimOtherVehInfo m_objotherVeh;
+    List<RIMS_Base.CLiabilityClaimOtherVehInfo> lstOtherVehicle = null;
+
+    public RIMS_Base.Biz.CLiabilityClaimOtherDriverInfo m_objotherDriver;
+    List<RIMS_Base.CLiabilityClaimOtherDriverInfo> lstOtherDriver;
+
+    public RIMS_Base.Biz.CLiabilityClaimOtherPersonInfo m_objInjuredPerInfo;
+    List<RIMS_Base.CLiabilityClaimOtherPersonInfo> lstInjuredPerInfo = null;
+
+    public RIMS_Base.Biz.CLiabilityClaimWitness m_objWitness;
+    List<RIMS_Base.CLiabilityClaimWitness> lstWitness = null;
+
+    // -- Attachment
+    public string m_strCustomFileName = string.Empty;
+    public string m_strFileName = string.Empty;
+    public string m_strGlobalPath = string.Empty;
+    public string m_strPath = string.Empty;
+    public string m_strFolderName = "Liability_Claim";
+    public RIMS_Base.Biz.CAttachment m_objAttachment;
+    List<RIMS_Base.CAttachment> lstAttachment = null;
+    int Attach_Retval = -1;
+
+
+
+    #endregion
+
+    #region Event Handlers
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Request.QueryString.Count > 0)
+        {
+            if (Request.QueryString["Liability"] == "Automobile")
+            {
+                Session["WorkerCompID"] = null;
+                Session["ViewAll"] = null;
+            }
+        }
+
+
+        txtZip.Attributes.Add("onKeyUp", "return ZipMasking(event,this.value,this);");
+        txtZip.Attributes.Add("onKeyPress", "return CheckNum(this);");
+
+
+
+
+        txtyear.Attributes.Add("onKeyPress", "isValid(this)");
+        //txtZip.Attributes.Add("onKeyPress", "isValid(this)");
+        txtyear.Attributes.Add("onfocusout", "YearValidate(this.id)");
+        m_strGlobalPath = Page.ResolveUrl(ConfigurationManager.AppSettings["UploadPath"] + "/Liability_Claim/");
+
+        if (!IsPostBack)
+        {
+            Session["ClaimType"] = "Automobile";
+            btnRemove.Attributes.Add("onclick", "return OMSCheckSelected1('chkItem','gvAttachmentDetails','Delete');");
+            ViewState.Clear();
+            dispTagName.Value = "";
+            BindCombo();
+            btnRemove.Visible = false;
+            btnMail.Visible = false;
+            Session["page"] = "Auto";
+
+            // -- For the Javascript for getten()
+            hdnAttachmentChkBox.Value = "NotDisplay";
+
+            if (Session["WorkerCompID"] != null && Session["WorkerCompID"].ToString() != String.Empty)
+            {
+                ViewState["PK_Liability_Claim"] = Session["WorkerCompID"].ToString();
+
+
+                if (Session["ViewAll"] != null && Session["ViewAll"].ToString() != String.Empty)
+                {//View
+
+                    ViewAllFromSearchGrid();
+                }
+                else
+                {//Edit
+                    if (Request.QueryString["Page"] == "Driver")
+                    {
+                        RetriveDataByID();
+                        diveleven.Style["display"] = "block";
+                        divfirst.Style["display"] = "none";
+                        divSearchDr.Style["display"] = "block";
+                        // divbtnDr.Style["display"] = "block";
+                    }
+                    else if (Request.QueryString["Page"] == "Vehicle")
+                    {
+                        RetriveDataByID();
+                        divten.Style["display"] = "block";
+                        divfirst.Style["display"] = "none";
+                        divSearch.Style["display"] = "block";
+                        divbtn.Style["display"] = "block";
+                    }
+                    else if (Request.QueryString["Page"] == "Injured")
+                    {
+                        RetriveDataByID();
+                        divtwelve.Style["display"] = "block";
+                        divfirst.Style["display"] = "none";
+                        divSearchinjured.Style["display"] = "block";
+                    }
+                    else if (Request.QueryString["Page"] == "Witness")
+                    {
+                        RetriveDataByID();
+                        divthirteen.Style["display"] = "block";
+                        divfirst.Style["display"] = "none";
+                        divSearchwt.Style["display"] = "block";
+                    }
+
+                    else
+                    {
+
+                        RetriveDataByID();
+                    }
+                }
+                lblsep.Visible = true;
+                lblClaimNumber.Visible = true;
+                Div1.Style.Add("display", "block");
+                dvDisable.Style.Add("display", "none");
+            }
+            else
+            {
+
+                Div1.Style.Add("display", "none");
+                dvDisable.Style.Add("display", "block");
+            }
+
+
+
+            gvOtherVehicles.DataSource = BindOtherVehDetails();
+            gvOtherVehicles.DataBind();
+
+            gvOtherVehicles.PageSize = 10;
+            ddlPage.DataBind();
+            ddlPage.SelectedValue = "10";
+            lblPageInfo.Text = "Page 1 of " + gvOtherVehicles.PageCount.ToString();
+            txtPageNo.Text = "1";
+
+            gvWitness.DataSource = BindWitnessDetails();
+            gvWitness.DataBind();
+
+            gvWitness.PageSize = 10;
+            ddlPagewt.DataBind();
+            ddlPagewt.SelectedValue = "10";
+            lblPageInfowt.Text = "Page 1 of " + gvWitness.PageCount.ToString();
+            txtPageNowt.Text = "1";
+
+            gvOtherDrivers.DataSource = BindOtherDriverDetails();
+            gvOtherDrivers.DataBind();
+
+            gvOtherDrivers.PageSize = 10;
+            ddlPageDr.DataBind();
+            ddlPageDr.SelectedValue = "10";
+            lblPageInfoDr.Text = "Page 1 of " + gvOtherDrivers.PageCount.ToString();
+            txtPageNoDr.Text = "1";
+
+            gvInjuredPersons.DataSource = BindInjuredPersonDetails();
+            gvInjuredPersons.DataBind();
+
+            gvInjuredPersons.PageSize = 10;
+            ddlPagepr.DataBind();
+            ddlPagepr.SelectedValue = "10";
+            lblPageInfopr.Text = "Page 1 of " + gvInjuredPersons.PageCount.ToString();
+            txtPageNopr.Text = "1";
+
+
+        }
+    }
+
+
+    protected void btnsave_Click(object sender, EventArgs e)
+    {
+        System.Threading.Thread.Sleep(3000);
+        dvAttachDetails.Style["display"] = "none";
+        divfirst.Style["display"] = "none";
+        divsecond.Style["display"] = "none";
+        divthird.Style["display"] = "none";
+        divfour.Style["display"] = "none";
+        divfive.Style["display"] = "none";
+        divsix.Style["display"] = "none";
+        divseven.Style["display"] = "none";
+        diveight.Style["display"] = "none";
+        divnine.Style["display"] = "none";
+        divten.Style["display"] = "none";
+        LeftDiv.Style["display"] = "none";
+        divview.Style["display"] = "block";
+        divbtn.Style["display"] = "none";
+        mainContent.Style["display"] = "none";
+
+        InsertData();
+        mainContent.Style["display"] = "none";
+        divview.Style["display"] = "block";
+
+        ViewData();
+        Div1.Style.Add("display", "block");
+        dvDisable.Style.Add("display", "none");
+
+        btnBack.Visible = false;
+        btnViewBack.Visible = true;
+    }
+    protected void lnkbtnAddOtherDr_Click(object sender, EventArgs e)
+    {
+        InsertData();
+        Response.Redirect("~/Claim/OtherDriversInfo.aspx");
+    }
+
+    protected void lnkbtnAddotherVehInfo_Click(object sender, EventArgs e)
+    {
+        InsertData();
+        Response.Redirect("~/Claim/OtherVehicleInfo.aspx");
+    }
+    protected void lnkbtnInjuredPersons_Click(object sender, EventArgs e)
+    {
+        InsertData();
+        Response.Redirect("~/Claim/InjuredPerson.aspx");
+    }
+
+    protected void lnkbtnWitness_Click(object sender, EventArgs e)
+    {
+        InsertData();
+        Response.Redirect("~/Claim/Witness.aspx");
+    }
+
+    protected void btnNextStep_Click(object sender, EventArgs e)
+    {
+        InsertData();
+        Response.Redirect("../Claim/ReserveWorksheetHistoryGrid.aspx");
+    }
+    protected void gvAttachView_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                ((ImageButton)e.Row.FindControl("imgbtnDwnld")).Attributes.Add("onclick", "javascript:return openWindow('" + m_strGlobalPath + ((ImageButton)e.Row.FindControl("imgbtnDwnld")).CommandArgument.ToString() + "');");
+                //  ((ImageButton)e.Row.FindControl("imgbtnMail")).Attributes.Add("onclick", "javascript:return openMailWindow('../ErimsMail.aspx?AttMod=Workers_Comp&AttName=" + ((ImageButton)e.Row.FindControl("imgbtnMail")).CommandArgument.ToString() + "');");
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void gvAttachmentDetails_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                ((ImageButton)e.Row.FindControl("imgbtnDwnld")).Attributes.Add("onclick", "javascript:return openWindow('" + m_strGlobalPath + ((ImageButton)e.Row.FindControl("imgbtnDwnld")).CommandArgument.ToString() + "');");
+                //((ImageButton)e.Row.FindControl("imgbtnMail")).Attributes.Add("onclick", "javascript:return openMailWindow('../ErimsMail.aspx?AttMod=Workers_Comp&AttName=" + ((ImageButton)e.Row.FindControl("imgbtnMail")).CommandArgument.ToString() + "');");
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnAddAttachment_Click(object sender, EventArgs e)
+    {
+
+    }
+    protected void btnRemove_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            m_objAttachment = new RIMS_Base.Biz.CAttachment();
+            m_intRetval = m_objAttachment.DeleteAttachment(Request.Form["chkItem"].ToString());
+            if (m_intRetval <= 0)
+            {
+
+                gvAttachmentDetails.DataSource = BindAttachmentDetails();
+                gvAttachmentDetails.DataBind();
+                if (lstAttachment.Count > 0)
+                {
+                    btnRemove.Visible = true;
+                    btnMail.Visible = true;
+                }
+                else
+                {
+                    btnRemove.Visible = false;
+                    btnMail.Visible = false;
+                }
+            }
+            dvAttachDetails.Visible = true;
+            dvAttachDetails.Style["display"] = "block";
+            divfirst.Style["display"] = "none";
+            divsecond.Style["display"] = "none";
+            divthird.Style["display"] = "none";
+            divfour.Style["display"] = "none";
+            divfive.Style["display"] = "none";
+            divsix.Style["display"] = "none";
+            divseven.Style["display"] = "none";
+            diveight.Style["display"] = "none";
+            divnine.Style["display"] = "none";
+            divten.Style["display"] = "none";
+            diveleven.Style["display"] = "none";
+            divtwelve.Style["display"] = "none";
+            divthirteen.Style["display"] = "none";
+            divSearchwt.Style["display"] = "none";
+            divSearchDr.Style["display"] = "none";
+            divSearch.Style["display"] = "none";
+            divSearchinjured.Style["display"] = "none";
+            // ViewDiv.Style["display"] = "none";
+            LeftDiv.Style["display"] = "block";
+            divfourteen.Style["display"] = "block";
+            // --- highlight the third menu of the Left side.
+            //  dispTagName.Value = "divten";
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnAddAttachment_click(object sender, EventArgs e)
+    {
+        dvAttachDetails.Style["display"] = "block";
+        divfirst.Style["display"] = "none";
+        divsecond.Style["display"] = "none";
+        divthird.Style["display"] = "none";
+        divfour.Style["display"] = "none";
+        divfive.Style["display"] = "none";
+        divsix.Style["display"] = "none";
+        divseven.Style["display"] = "none";
+        diveight.Style["display"] = "none";
+        divnine.Style["display"] = "none";
+        divten.Style["display"] = "none";
+        diveleven.Style["display"] = "none";
+        divtwelve.Style["display"] = "none";
+        divthirteen.Style["display"] = "none";
+        divfourteen.Style["display"] = "block";
+
+        divSearchwt.Style["display"] = "none";
+        divSearchDr.Style["display"] = "none";
+        divSearch.Style["display"] = "none";
+        divSearchinjured.Style["display"] = "none";
+
+        LeftDiv.Style["display"] = "block";
+        // ViewDiv.Style["display"] = "none";
+        btnRemove.Visible = true;
+        btnMail.Visible = true;
+        AddAttachment();
+        if (Attach_Retval > 0)
+        {
+            gvAttachmentDetails.DataSource = BindAttachmentDetails();
+            gvAttachmentDetails.DataBind();
+
+        }
+        //  dispTagName.Value = "divten";
+        txtAttachDesc.Text = "";
+        ddlAttachType.SelectedIndex = 1;
+
+    }
+    //-- Grid Event ---
+    protected void gvWitness_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+
+                ImageButton DeleteButton = (ImageButton)e.Row.FindControl("ibtnDelete"); DeleteButton.OnClientClick = string.Format("return confirm('Are you sure you want to Delete ?');", e.Row.Cells[1].Text.Trim());
+
+                LinkButton lbtnTempid = new LinkButton();
+                LinkButton lbtnTempName = new LinkButton();
+                LinkButton lbtnTempAddress = new LinkButton();
+                LinkButton lbtnTempCity = new LinkButton();
+                LinkButton lbtnTempState = new LinkButton();
+
+                lbtnTempid = ((LinkButton)(e.Row.FindControl("lblpkid")));
+                //lbtnTempName = ((LinkButton)(e.Row.FindControl("lbtnName")));
+                //lbtnTempAddress = ((LinkButton)(e.Row.FindControl("lbtnAddress")));
+                //lbtnTempCity = ((LinkButton)(e.Row.FindControl("lbtncity")));
+                //lbtnTempState = ((LinkButton)(e.Row.FindControl("lbtnstate")));
+
+
+                lbtnTempid.Attributes.Add("onclick", "fillPayto('" + lbtnTempid.CommandArgument.ToString() + "');");
+
+
+                HtmlAnchor htmAn = new HtmlAnchor();
+                HtmlAnchor htmAnadd = new HtmlAnchor();
+                HtmlAnchor htmAnCity = new HtmlAnchor();
+                HtmlAnchor htmAnState = new HtmlAnchor();
+
+                htmAn = ((HtmlAnchor)(e.Row.FindControl("lnkWitname")));
+                htmAnadd = ((HtmlAnchor)(e.Row.FindControl("lnkWitAdd")));
+                htmAnCity = ((HtmlAnchor)(e.Row.FindControl("lnkWitCity")));
+                htmAnState = ((HtmlAnchor)(e.Row.FindControl("lnkWitState")));
+
+                htmAn.HRef = "../Claim/Witness.aspx?LiabilityID=" + lbtnTempid.CommandArgument.ToString();
+                htmAn.Target = "_parent";
+
+                htmAnadd.HRef = "../Claim/Witness.aspx?LiabilityID=" + lbtnTempid.CommandArgument.ToString();
+                htmAnadd.Target = "_parent";
+
+                htmAnCity.HRef = "../Claim/Witness.aspx?LiabilityID=" + lbtnTempid.CommandArgument.ToString();
+                htmAnCity.Target = "_parent";
+
+                htmAnState.HRef = "../Claim/Witness.aspx?LiabilityID=" + lbtnTempid.CommandArgument.ToString();
+                htmAnState.Target = "_parent";
+
+
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+
+    }
+    protected void gvOtherDrivers_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+
+                ImageButton DeleteButton = (ImageButton)e.Row.FindControl("ibtnDelete"); DeleteButton.OnClientClick = string.Format("return confirm('Are you sure you want to Delete ?');", e.Row.Cells[1].Text.Trim());
+
+                LinkButton lbtnTempid = new LinkButton();
+                LinkButton lbtnTempName = new LinkButton();
+                LinkButton lbtnTempAddress = new LinkButton();
+                LinkButton lbtnTempCity = new LinkButton();
+                LinkButton lbtnTempState = new LinkButton();
+
+                lbtnTempid = ((LinkButton)(e.Row.FindControl("lblpkid")));
+                lbtnTempName = ((LinkButton)(e.Row.FindControl("lbtnName")));
+                lbtnTempAddress = ((LinkButton)(e.Row.FindControl("lbtnAddress")));
+                lbtnTempCity = ((LinkButton)(e.Row.FindControl("lbtncity")));
+
+                lbtnTempid.Attributes.Add("onclick", "fillPayto('" + lbtnTempid.CommandArgument.ToString() + "');");
+
+                //((LinkButton)(e.Row.FindControl("lbtnName"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempid.CommandArgument.ToString() + "');");
+                //((LinkButton)(e.Row.FindControl("lbtnAddress"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempid.CommandArgument.ToString() + "');");
+                //((LinkButton)(e.Row.FindControl("lbtncity"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempid.CommandArgument.ToString() + "');");
+                //((LinkButton)(e.Row.FindControl("lbtnstate"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempid.CommandArgument.ToString() + "');");
+
+                HtmlAnchor htmAn = new HtmlAnchor();
+                HtmlAnchor htmAnadd = new HtmlAnchor();
+                HtmlAnchor htmAnCity = new HtmlAnchor();
+                HtmlAnchor htmAnState = new HtmlAnchor();
+
+                htmAn = ((HtmlAnchor)(e.Row.FindControl("lnknam")));
+                htmAnadd = ((HtmlAnchor)(e.Row.FindControl("lnkAdd")));
+                htmAnCity = ((HtmlAnchor)(e.Row.FindControl("lnkCity")));
+                htmAnState = ((HtmlAnchor)(e.Row.FindControl("lnkstate")));
+
+                htmAn.HRef = "../Claim/OtherDriversInfo.aspx?LiabilityID=" + lbtnTempid.CommandArgument.ToString();
+                htmAn.Target = "_parent";
+
+                htmAnadd.HRef = "../Claim/OtherDriversInfo.aspx?LiabilityID=" + lbtnTempid.CommandArgument.ToString();
+                htmAnadd.Target = "_parent";
+
+                htmAnCity.HRef = "../Claim/OtherDriversInfo.aspx?LiabilityID=" + lbtnTempid.CommandArgument.ToString();
+                htmAnCity.Target = "_parent";
+
+                htmAnState.HRef = "../Claim/OtherDriversInfo.aspx?LiabilityID=" + lbtnTempid.CommandArgument.ToString();
+                htmAnState.Target = "_parent";
+
+
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+
+    }
+    protected void gvInjuredPersons_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+
+                ImageButton DeleteButton = (ImageButton)e.Row.FindControl("ibtnDelete"); DeleteButton.OnClientClick = string.Format("return confirm('Are you sure you want to Delete ?');", e.Row.Cells[1].Text.Trim());
+
+                LinkButton lbtnTempid = new LinkButton();
+                LinkButton lbtnTempName = new LinkButton();
+                LinkButton lbtnTempAddress = new LinkButton();
+                LinkButton lbtnTempCity = new LinkButton();
+                LinkButton lbtnTempState = new LinkButton();
+
+                lbtnTempid = ((LinkButton)(e.Row.FindControl("lblpkid")));
+                lbtnTempName = ((LinkButton)(e.Row.FindControl("lbtnName")));
+                lbtnTempAddress = ((LinkButton)(e.Row.FindControl("lbtnAddress")));
+                lbtnTempCity = ((LinkButton)(e.Row.FindControl("lbtncity")));
+                lbtnTempState = ((LinkButton)(e.Row.FindControl("lbtnstate")));
+
+
+                lbtnTempid.Attributes.Add("onclick", "fillPayto('" + lbtnTempid.CommandArgument.ToString() + "');");
+
+                //((LinkButton)(e.Row.FindControl("lbtnName"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempid.CommandArgument.ToString() + "');");
+                //((LinkButton)(e.Row.FindControl("lbtnAddress"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempid.CommandArgument.ToString() + "');");
+                //((LinkButton)(e.Row.FindControl("lbtncity"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempid.CommandArgument.ToString() + "');");
+                //((LinkButton)(e.Row.FindControl("lbtnstate"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempid.CommandArgument.ToString() + "');");
+
+                HtmlAnchor htmAn = new HtmlAnchor();
+                HtmlAnchor htmAnadd = new HtmlAnchor();
+                HtmlAnchor htmAnCity = new HtmlAnchor();
+                HtmlAnchor htmAnState = new HtmlAnchor();
+
+                htmAn = ((HtmlAnchor)(e.Row.FindControl("lnkinjured")));
+                htmAnadd = ((HtmlAnchor)(e.Row.FindControl("lnkAdd")));
+                htmAnCity = ((HtmlAnchor)(e.Row.FindControl("lnkCity")));
+                htmAnState = ((HtmlAnchor)(e.Row.FindControl("lnkState")));
+
+                htmAn.HRef = "../Claim/InjuredPerson.aspx?LiabilityID=" + lbtnTempid.CommandArgument.ToString();
+                htmAn.Target = "_parent";
+
+                htmAnadd.HRef = "../Claim/InjuredPerson.aspx?LiabilityID=" + lbtnTempid.CommandArgument.ToString();
+                htmAnadd.Target = "_parent";
+
+                htmAnCity.HRef = "../Claim/InjuredPerson.aspx?LiabilityID=" + lbtnTempid.CommandArgument.ToString();
+                htmAnCity.Target = "_parent";
+
+                htmAnState.HRef = "../Claim/InjuredPerson.aspx?LiabilityID=" + lbtnTempid.CommandArgument.ToString();
+                htmAnState.Target = "_parent";
+
+
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+    }
+    protected void gvOtherVehicles_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+
+                ImageButton DeleteButton = (ImageButton)e.Row.FindControl("ibtnDelete"); DeleteButton.OnClientClick = string.Format("return confirm('Are you sure you want to Delete ?');", e.Row.Cells[1].Text.Trim());
+
+
+                LinkButton lbtnTempid = new LinkButton();
+                LinkButton lbtnTempName = new LinkButton();
+                LinkButton lbtnTempAddress = new LinkButton();
+                LinkButton lbtnTempCity = new LinkButton();
+                LinkButton lbtnTempState = new LinkButton();
+
+                lbtnTempid = ((LinkButton)(e.Row.FindControl("lblpkid")));
+                lbtnTempName = ((LinkButton)(e.Row.FindControl("lbtnName")));
+                lbtnTempAddress = ((LinkButton)(e.Row.FindControl("lbtnAddress")));
+                lbtnTempCity = ((LinkButton)(e.Row.FindControl("lbtncity")));
+                lbtnTempState = ((LinkButton)(e.Row.FindControl("lbtnstate")));
+
+
+                lbtnTempid.Attributes.Add("onclick", "fillPayto('" + lbtnTempid.CommandArgument.ToString() + "');");
+
+                //((LinkButton)(e.Row.FindControl("lbtnName"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempid.CommandArgument.ToString() + "');");
+                //((LinkButton)(e.Row.FindControl("lbtnAddress"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempid.CommandArgument.ToString() + "');");
+                //((LinkButton)(e.Row.FindControl("lbtncity"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempid.CommandArgument.ToString() + "');");
+                //((LinkButton)(e.Row.FindControl("lbtnstate"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempid.CommandArgument.ToString() + "');");
+
+                HtmlAnchor htmAn = new HtmlAnchor();
+                HtmlAnchor htmAnmake = new HtmlAnchor();
+                HtmlAnchor htmAnmodel = new HtmlAnchor();
+                HtmlAnchor htmAnState = new HtmlAnchor();
+                HtmlAnchor htmAnplateno = new HtmlAnchor();
+                HtmlAnchor htmAnplatestate = new HtmlAnchor();
+
+                htmAn = ((HtmlAnchor)(e.Row.FindControl("lnkyear")));
+                htmAnmake = ((HtmlAnchor)(e.Row.FindControl("lnkmake")));
+                htmAnmodel = ((HtmlAnchor)(e.Row.FindControl("lnkmodel")));
+                htmAnState = ((HtmlAnchor)(e.Row.FindControl("lnkstate")));
+                htmAnplateno = ((HtmlAnchor)(e.Row.FindControl("lnkplateno")));
+                htmAnplatestate = ((HtmlAnchor)(e.Row.FindControl("lnkplatestate")));
+
+                htmAn.HRef = "../Claim/OtherVehicleInfo.aspx?LiabilityID=" + lbtnTempid.CommandArgument.ToString();
+                htmAn.Target = "_parent";
+
+                htmAnmake.HRef = "../Claim/OtherVehicleInfo.aspx?LiabilityID=" + lbtnTempid.CommandArgument.ToString();
+                htmAnmake.Target = "_parent";
+
+                htmAnmodel.HRef = "../Claim/OtherVehicleInfo.aspx?LiabilityID=" + lbtnTempid.CommandArgument.ToString();
+                htmAnmodel.Target = "_parent";
+
+                htmAnState.HRef = "../Claim/OtherVehicleInfo.aspx?LiabilityID=" + lbtnTempid.CommandArgument.ToString();
+                htmAnState.Target = "_parent";
+
+
+                htmAnplateno.HRef = "../Claim/OtherVehicleInfo.aspx?LiabilityID=" + lbtnTempid.CommandArgument.ToString();
+                htmAnplateno.Target = "_parent";
+
+
+                htmAnplatestate.HRef = "../Claim/OtherVehicleInfo.aspx?LiabilityID=" + lbtnTempid.CommandArgument.ToString();
+                htmAnplatestate.Target = "_parent";
+
+
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
+    protected void gvOtherVehicles_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "DeleteCorrectiveAction")
+        {
+            objOthervehinfo = new RIMS_Base.Biz.CLiabilityClaimOtherVehInfo();
+            intRet = objOthervehinfo.Delete_Claim_OtherVehInfo(Convert.ToInt32(e.CommandArgument.ToString()));
+            gvOtherVehicles.DataSource = BindOtherVehDetails();
+            gvOtherVehicles.DataBind();
+            divfirst.Style["display"] = "none";
+            divten.Style["display"] = "block";
+            diveleven.Style["display"] = "none";
+
+
+            divtwelve.Style["display"] = "none";
+            divthirteen.Style["display"] = "none";
+
+            divSearchDr.Style["display"] = "none";
+            divSearch.Style["display"] = "block";
+            divSearchwt.Style["display"] = "none";
+            divSearchinjured.Style["display"] = "none";
+
+        }
+
+        if (e.CommandName.ToString() == "Redirect")
+        {
+            Response.Redirect("../Claim/OtherVehicleInfo.aspx?LiabilityID=" + e.CommandArgument.ToString(), true);
+        }
+    }
+    protected void gvInjuredPersons_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "DeleteCorrectiveAction")
+        {
+            objPersonalinjured = new RIMS_Base.Biz.CLiabilityClaimOtherPersonInfo();
+            intRet = objPersonalinjured.Delete_Claim_OtherPersonInfo(Convert.ToInt32(e.CommandArgument.ToString()));
+            gvInjuredPersons.DataSource = BindInjuredPersonDetails();
+            gvInjuredPersons.DataBind();
+            divfirst.Style["display"] = "none";
+            divtwelve.Style["display"] = "block";
+            diveleven.Style["display"] = "none";
+
+            divthirteen.Style["display"] = "none";
+            divten.Style["display"] = "none";
+
+            divSearchDr.Style["display"] = "none";
+            divSearch.Style["display"] = "none";
+            divSearchwt.Style["display"] = "none";
+            divSearchinjured.Style["display"] = "block";
+
+        }
+        if (e.CommandName.ToString() == "Redirect")
+        {
+            Response.Redirect("../Claim/InjuredPerson.aspx?LiabilityID=" + e.CommandArgument.ToString(), true);
+        }
+    }
+    protected void gvWitness_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "DeleteCorrectiveAction")
+        {
+            objWitness = new RIMS_Base.Biz.CLiabilityClaimWitness();
+            intRet = objWitness.Delete_Claim_Witness(Convert.ToInt32(e.CommandArgument.ToString()));
+            gvWitness.DataSource = BindWitnessDetails();
+            gvWitness.DataBind();
+            divfirst.Style["display"] = "none";
+            divthirteen.Style["display"] = "block";
+            divtwelve.Style["display"] = "none";
+            diveleven.Style["display"] = "none";
+            divten.Style["display"] = "none";
+
+            divSearchDr.Style["display"] = "none";
+            divSearch.Style["display"] = "none";
+            divSearchwt.Style["display"] = "block";
+            divSearchinjured.Style["display"] = "none";
+        }
+
+        if (e.CommandName.ToString() == "Redirect")
+        {
+            Response.Redirect("../Claim/Witness.aspx?LiabilityID=" + e.CommandArgument.ToString(), true);
+        }
+    }
+    protected void gvOtherDrivers_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+
+        if (e.CommandName == "DeleteCorrectiveAction")
+        {
+            objOtherDriverinfo = new RIMS_Base.Biz.CLiabilityClaimOtherDriverInfo();
+            intRet = objOtherDriverinfo.Deleteility_Claim_OtherDriverInfo(Convert.ToInt32(e.CommandArgument.ToString()));
+            gvOtherDrivers.DataSource = BindOtherDriverDetails();
+            gvOtherDrivers.DataBind();
+
+
+            divfirst.Style["display"] = "none";
+            diveleven.Style["display"] = "block";
+            divten.Style["display"] = "none";
+            divtwelve.Style["display"] = "none";
+            divthirteen.Style["display"] = "none";
+            divSearchDr.Style["display"] = "block";
+
+            divSearch.Style["display"] = "none";
+            divSearchwt.Style["display"] = "none";
+            divSearchinjured.Style["display"] = "none";
+
+        }
+        if (e.CommandName.ToString() == "Redirect")
+        {
+            Response.Redirect("../Claim/OtherDriversInfo.aspx?LiabilityID=" + e.CommandArgument.ToString(), true);
+        }
+    }
+
+    protected void gvOtherDrivers_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        m_objotherDriver = new RIMS_Base.Biz.CLiabilityClaimOtherDriverInfo();
+        lstOtherDriver = new List<RIMS_Base.CLiabilityClaimOtherDriverInfo>();
+
+        if (ViewState["sortDirection"] == null)
+            ViewState["sortDirection"] = SortDirection.Ascending;
+        // Changes the sort direction 
+        else
+        {
+            if (((SortDirection)ViewState["sortDirection"]) == SortDirection.Ascending)
+                ViewState["sortDirection"] = SortDirection.Descending;
+            else
+                ViewState["sortDirection"] = SortDirection.Ascending;
+        }
+        ViewState["SortExp"] = strSortExp = e.SortExpression;
+
+        lstOtherDriver = BindOtherDriverDetails();// objAdjustor.SearchAdjustorData(null, null, Convert.ToDecimal(ViewState["TableFK"].ToString()), ViewState["TableName"].ToString());
+
+        if (ViewState["SortExp"] != null)
+            lstOtherDriver.Sort(new RIMS_Base.GenericComparer<RIMS_Base.CLiabilityClaimOtherDriverInfo>((string)ViewState["SortExp"], (SortDirection)ViewState["sortDirection"]));
+        gvOtherDrivers.DataSource = lstOtherDriver;
+        gvOtherDrivers.DataBind();
+
+        //divSearch.Style["display"] = "block";
+        divfirst.Style["display"] = "none";
+        diveleven.Style["display"] = "block";
+        divten.Style["display"] = "none";
+        divtwelve.Style["display"] = "none";
+        divthirteen.Style["display"] = "none";
+
+        divSearchinjured.Style["display"] = "none";
+        divSearchwt.Style["display"] = "none";
+        divSearch.Style["display"] = "none";
+        divSearchDr.Style["display"] = "block";
+    }
+    protected void gvOtherVehicles_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        m_objotherVeh = new RIMS_Base.Biz.CLiabilityClaimOtherVehInfo();
+        lstOtherVehicle = new List<RIMS_Base.CLiabilityClaimOtherVehInfo>();
+
+        if (ViewState["sortDirection"] == null)
+            ViewState["sortDirection"] = SortDirection.Ascending;
+        // Changes the sort direction 
+        else
+        {
+            if (((SortDirection)ViewState["sortDirection"]) == SortDirection.Ascending)
+                ViewState["sortDirection"] = SortDirection.Descending;
+            else
+                ViewState["sortDirection"] = SortDirection.Ascending;
+        }
+        ViewState["SortExp"] = strSortExp = e.SortExpression;
+
+        lstOtherVehicle = BindOtherVehDetails();// objAdjustor.SearchAdjustorData(null, null, Convert.ToDecimal(ViewState["TableFK"].ToString()), ViewState["TableName"].ToString());
+
+        if (ViewState["SortExp"] != null)
+            lstOtherVehicle.Sort(new RIMS_Base.GenericComparer<RIMS_Base.CLiabilityClaimOtherVehInfo>((string)ViewState["SortExp"], (SortDirection)ViewState["sortDirection"]));
+        gvOtherVehicles.DataSource = lstOtherVehicle;
+        gvOtherVehicles.DataBind();
+
+        //divSearch.Style["display"] = "block";
+        divfirst.Style["display"] = "none";
+        divten.Style["display"] = "block";
+        diveleven.Style["display"] = "none";
+
+
+        divtwelve.Style["display"] = "none";
+        divthirteen.Style["display"] = "none";
+
+        divSearchinjured.Style["display"] = "none";
+        divSearchwt.Style["display"] = "none";
+        divSearch.Style["display"] = "block";
+        divSearchDr.Style["display"] = "none";
+    }
+    protected void gvInjuredPersons_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        m_objInjuredPerInfo = new RIMS_Base.Biz.CLiabilityClaimOtherPersonInfo();
+        lstInjuredPerInfo = new List<RIMS_Base.CLiabilityClaimOtherPersonInfo>();
+
+        if (ViewState["sortDirection"] == null)
+            ViewState["sortDirection"] = SortDirection.Ascending;
+        // Changes the sort direction 
+        else
+        {
+            if (((SortDirection)ViewState["sortDirection"]) == SortDirection.Ascending)
+                ViewState["sortDirection"] = SortDirection.Descending;
+            else
+                ViewState["sortDirection"] = SortDirection.Ascending;
+        }
+        ViewState["SortExp"] = strSortExp = e.SortExpression;
+
+        lstInjuredPerInfo = BindInjuredPersonDetails();// objAdjustor.SearchAdjustorData(null, null, Convert.ToDecimal(ViewState["TableFK"].ToString()), ViewState["TableName"].ToString());
+
+        if (ViewState["SortExp"] != null)
+            lstInjuredPerInfo.Sort(new RIMS_Base.GenericComparer<RIMS_Base.CLiabilityClaimOtherPersonInfo>((string)ViewState["SortExp"], (SortDirection)ViewState["sortDirection"]));
+        gvInjuredPersons.DataSource = lstInjuredPerInfo;
+        gvInjuredPersons.DataBind();
+
+        //divSearch.Style["display"] = "block";
+        divfirst.Style["display"] = "none";
+        divtwelve.Style["display"] = "block";
+        diveleven.Style["display"] = "none";
+
+        divthirteen.Style["display"] = "none";
+        divten.Style["display"] = "none";
+
+        divSearchinjured.Style["display"] = "block";
+        divSearchwt.Style["display"] = "none";
+        divSearch.Style["display"] = "none";
+        divSearchDr.Style["display"] = "none";
+
+
+    }
+    protected void gvWitness_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        m_objWitness = new RIMS_Base.Biz.CLiabilityClaimWitness();
+        lstWitness = new List<RIMS_Base.CLiabilityClaimWitness>();
+
+        if (ViewState["sortDirection"] == null)
+            ViewState["sortDirection"] = SortDirection.Ascending;
+        // Changes the sort direction 
+        else
+        {
+            if (((SortDirection)ViewState["sortDirection"]) == SortDirection.Ascending)
+                ViewState["sortDirection"] = SortDirection.Descending;
+            else
+                ViewState["sortDirection"] = SortDirection.Ascending;
+        }
+        ViewState["SortExp"] = strSortExp = e.SortExpression;
+
+        lstWitness = BindWitnessDetails();// objAdjustor.SearchAdjustorData(null, null, Convert.ToDecimal(ViewState["TableFK"].ToString()), ViewState["TableName"].ToString());
+
+        if (ViewState["SortExp"] != null)
+            lstWitness.Sort(new RIMS_Base.GenericComparer<RIMS_Base.CLiabilityClaimWitness>((string)ViewState["SortExp"], (SortDirection)ViewState["sortDirection"]));
+        gvWitness.DataSource = lstWitness;
+        gvWitness.DataBind();
+
+        //divSearch.Style["display"] = "block";
+        divfirst.Style["display"] = "none";
+        divthirteen.Style["display"] = "block";
+        divtwelve.Style["display"] = "none";
+        diveleven.Style["display"] = "none";
+        divten.Style["display"] = "none";
+
+        divSearchinjured.Style["display"] = "none";
+        divSearchwt.Style["display"] = "block";
+        divSearch.Style["display"] = "none";
+        divSearchDr.Style["display"] = "none";
+
+
+    }
+
+
+
+    protected void gvOtherDrivers_RowCreated(object sender, GridViewRowEventArgs e)
+    {
+
+        if (e.Row.RowType == DataControlRowType.Header)
+        {
+            if (String.Empty != strSortExp)
+            {
+                AddSortImage(e.Row);
+            }
+            else
+            {
+                Image sortImage = new Image();
+                sortImage.ImageUrl = "~/Images/up-arrow.gif";
+                sortImage.AlternateText = "Descending Order";
+                e.Row.Cells[1].Controls.Add(sortImage);
+            }
+        }
+
+    }
+    protected void gvOtherVehicles_RowCreated(object sender, GridViewRowEventArgs e)
+    {
+
+        if (e.Row.RowType == DataControlRowType.Header)
+        {
+            if (String.Empty != strSortExp)
+            {
+                AddSortImageVehicle(e.Row);
+            }
+            else
+            {
+                Image sortImage = new Image();
+                sortImage.ImageUrl = "~/Images/up-arrow.gif";
+                sortImage.AlternateText = "Descending Order";
+                e.Row.Cells[1].Controls.Add(sortImage);
+            }
+        }
+
+    }
+    protected void gvInjuredPersons_RowCreated(object sender, GridViewRowEventArgs e)
+    {
+
+        if (e.Row.RowType == DataControlRowType.Header)
+        {
+            if (String.Empty != strSortExp)
+            {
+                AddSortImageInjured(e.Row);
+            }
+            else
+            {
+                Image sortImage = new Image();
+                sortImage.ImageUrl = "~/Images/up-arrow.gif";
+                sortImage.AlternateText = "Descending Order";
+                e.Row.Cells[1].Controls.Add(sortImage);
+            }
+        }
+
+    }
+    protected void gvWitness_RowCreated(object sender, GridViewRowEventArgs e)
+    {
+
+        if (e.Row.RowType == DataControlRowType.Header)
+        {
+            if (String.Empty != strSortExp)
+            {
+                AddSortImagewitness(e.Row);
+            }
+            else
+            {
+                Image sortImage = new Image();
+                sortImage.ImageUrl = "~/Images/up-arrow.gif";
+                sortImage.AlternateText = "Descending Order";
+                e.Row.Cells[1].Controls.Add(sortImage);
+            }
+        }
+
+    }
+
+    private int GetSortColumnIndex(string strSortExp)
+    {
+        int nRet = 0;
+        // Iterate through the Columns collection to determine the index
+        // of the column being sorted.
+        foreach (DataControlField field in gvOtherDrivers.Columns)
+        {
+            if (field.SortExpression.ToString() == ViewState["SortExp"].ToString())
+            {
+                nRet = gvOtherDrivers.Columns.IndexOf(field);
+            }
+        }
+        return nRet;
+    }
+    private int GetSortColumnIndexVehicle(string strSortExp)
+    {
+        int nRet = 0;
+        // Iterate through the Columns collection to determine the index
+        // of the column being sorted.
+        foreach (DataControlField field in gvOtherVehicles.Columns)
+        {
+            if (field.SortExpression.ToString() == ViewState["SortExp"].ToString())
+            {
+                nRet = gvOtherVehicles.Columns.IndexOf(field);
+            }
+        }
+        return nRet;
+    }
+    private int GetSortColumnIndexinjured(string strSortExp)
+    {
+        int nRet = 0;
+        // Iterate through the Columns collection to determine the index
+        // of the column being sorted.
+        foreach (DataControlField field in gvInjuredPersons.Columns)
+        {
+            if (field.SortExpression.ToString() == ViewState["SortExp"].ToString())
+            {
+                nRet = gvInjuredPersons.Columns.IndexOf(field);
+            }
+        }
+        return nRet;
+    }
+    private int GetSortColumnIndexwitness(string strSortExp)
+    {
+        int nRet = 0;
+        // Iterate through the Columns collection to determine the index
+        // of the column being sorted.
+        foreach (DataControlField field in gvWitness.Columns)
+        {
+            if (field.SortExpression.ToString() == ViewState["SortExp"].ToString())
+            {
+                nRet = gvWitness.Columns.IndexOf(field);
+            }
+        }
+        return nRet;
+    }
+
+    private void AddSortImage(GridViewRow headerRow)
+    {
+
+        Int32 iCol = GetSortColumnIndex(strSortExp);
+        if (-1 == iCol)
+        {
+            return;
+        }
+        // Create the sorting image based on the sort direction.
+        Image sortImage = new Image();
+
+        if (SortDirection.Ascending.ToString() == ViewState["sortDirection"].ToString())
+        {
+            sortImage.ImageUrl = "~/Images/up-arrow.gif";
+            sortImage.AlternateText = "Descending Order";
+        }
+        else
+        {
+            sortImage.ImageUrl = "~/Images/down-arrow.gif";
+            sortImage.AlternateText = "Ascending Order";
+        }
+
+        // Add the image to the appropriate header cell.
+        headerRow.Cells[iCol].Controls.Add(sortImage);
+    }
+    private void AddSortImageVehicle(GridViewRow headerRow)
+    {
+
+        Int32 iCol = GetSortColumnIndexVehicle(strSortExp);
+        if (-1 == iCol)
+        {
+            return;
+        }
+        // Create the sorting image based on the sort direction.
+        Image sortImage = new Image();
+
+        if (SortDirection.Ascending.ToString() == ViewState["sortDirection"].ToString())
+        {
+            sortImage.ImageUrl = "~/Images/up-arrow.gif";
+            sortImage.AlternateText = "Descending Order";
+        }
+        else
+        {
+            sortImage.ImageUrl = "~/Images/down-arrow.gif";
+            sortImage.AlternateText = "Ascending Order";
+        }
+
+        // Add the image to the appropriate header cell.
+        headerRow.Cells[iCol].Controls.Add(sortImage);
+    }
+    private void AddSortImageInjured(GridViewRow headerRow)
+    {
+
+        Int32 iCol = GetSortColumnIndexinjured(strSortExp);
+        if (-1 == iCol)
+        {
+            return;
+        }
+        // Create the sorting image based on the sort direction.
+        Image sortImage = new Image();
+
+        if (SortDirection.Ascending.ToString() == ViewState["sortDirection"].ToString())
+        {
+            sortImage.ImageUrl = "~/Images/up-arrow.gif";
+            sortImage.AlternateText = "Descending Order";
+        }
+        else
+        {
+            sortImage.ImageUrl = "~/Images/down-arrow.gif";
+            sortImage.AlternateText = "Ascending Order";
+        }
+
+        // Add the image to the appropriate header cell.
+        headerRow.Cells[iCol].Controls.Add(sortImage);
+    }
+    private void AddSortImagewitness(GridViewRow headerRow)
+    {
+
+        Int32 iCol = GetSortColumnIndexwitness(strSortExp);
+        if (-1 == iCol)
+        {
+            return;
+        }
+        // Create the sorting image based on the sort direction.
+        Image sortImage = new Image();
+
+        if (SortDirection.Ascending.ToString() == ViewState["sortDirection"].ToString())
+        {
+            sortImage.ImageUrl = "~/Images/up-arrow.gif";
+            sortImage.AlternateText = "Descending Order";
+        }
+        else
+        {
+            sortImage.ImageUrl = "~/Images/down-arrow.gif";
+            sortImage.AlternateText = "Ascending Order";
+        }
+
+        // Add the image to the appropriate header cell.
+        headerRow.Cells[iCol].Controls.Add(sortImage);
+    }
+
+
+
+    protected void btnBack_Click(object sender, EventArgs e)
+    {
+        //RetriveDataByID();
+
+        Response.Redirect("../Claim/ReserveWorksheetHistoryGrid.aspx");
+
+    }
+    protected void btnViewBack_Click(object sender, EventArgs e)
+    {
+        divfirst.Style["display"] = "block";
+        divview.Style["display"] = "none";
+        mainContent.Style["display"] = "block";
+        LeftDiv.Style["display"] = "block";
+        divbtn.Style["display"] = "block";
+        gvAttachmentDetails.Style["display"] = "block";
+        divten.Style["display"] = "none";
+        diveleven.Style["display"] = "none";
+        divtwelve.Style["display"] = "none";
+        divthirteen.Style["display"] = "none";
+        divfourteen.Style["display"] = "none";
+        divSearch.Style["display"] = "none";
+        divSearchDr.Style["display"] = "none";
+        divSearchinjured.Style["display"] = "none";
+        divSearchwt.Style["display"] = "none";
+
+        //-- for the javascript getten()
+        hdnAttachmentChkBox.Value = "Display";
+
+        btnBack.Visible = true;
+        btnViewBack.Visible = false;
+    }
+    protected void dwState_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (dwState.SelectedIndex == 0)
+            {
+                dwState.Items.Clear();
+                m_lstCommon = new ListItem("------------Select------------", "0");
+                dwCounty.Items.Insert(0, m_lstCommon);
+
+            }
+            else
+            {
+                DataSet m_dsCommon = new DataSet();
+                m_objCounty = new RIMS_Base.Biz.CGeneral();
+                m_dsCommon = m_objCounty.GetCountyByState(dwState.SelectedItem.Text);
+                dwCounty.DataSource = m_dsCommon.Tables[0].DefaultView;
+                dwCounty.DataTextField = m_dsCommon.Tables[0].Columns["FLD_county"].ToString();
+                dwCounty.DataValueField = m_dsCommon.Tables[0].Columns["FLD_county"].ToString();
+                dwCounty.DataBind();
+                m_lstCommon = new ListItem("------------Select------------", "0");
+                dwCounty.Items.Insert(0, m_lstCommon);
+
+            }
+            divthird.Style["display"] = "block";
+            divfirst.Style["display"] = "none";
+            divsecond.Style["display"] = "none";
+            divSearch.Style["display"] = "none";
+            divSearchDr.Style["display"] = "none";
+            divSearchinjured.Style["display"] = "none";
+            divSearchDr.Style["display"] = "none";
+            divtwelve.Style["display"] = "none";
+            divten.Style["display"] = "none";
+            diveleven.Style["display"] = "none";
+            divthirteen.Style["display"] = "none";
+
+
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
+    #endregion
+
+    #region Private Methods
+    private void BindCombo()
+    {
+        objGeneral = new RIMS_Base.Biz.CGeneral();
+        dwState.DataSource = objGeneral.GetAllState();
+        dwState.DataTextField = "FLD_state";
+        dwState.DataValueField = "Code";
+        dwState.DataBind();
+        ListItem lstItem = new ListItem("------------Select------------", "0");
+        dwState.Items.Insert(0, lstItem);
+
+        dwLicensePlateState.DataSource = objGeneral.GetAllState();
+        dwLicensePlateState.DataTextField = "FLD_state";
+        dwLicensePlateState.DataValueField = "Code";
+        dwLicensePlateState.DataBind();
+        ListItem lstItemPlateState = new ListItem("------------Select------------", "0");
+        dwLicensePlateState.Items.Insert(0, lstItemPlateState);
+
+
+        if (Request.QueryString["Liability"] == "Automobile")
+        {
+            dwCounty.Items.Clear();
+            m_lstCommon = new ListItem("---------------Select---------------", "0");
+            dwCounty.Items.Insert(0, m_lstCommon);
+
+        }
+
+        else
+        {
+            dwCounty.DataSource = objGeneral.GetCounty();
+            dwCounty.DataTextField = "FLD_county";
+            dwCounty.DataValueField = "PK_ID";
+            dwCounty.DataBind();
+            ListItem lstItemcounty = new ListItem("------------Select------------", "0");
+            dwCounty.Items.Insert(0, lstItemcounty);
+        }
+
+
+
+        dwEntity.DataSource = objGeneral.GetAllEntity();
+        dwEntity.DataTextField = "Entity_Description";
+        dwEntity.DataValueField = "PK_Entity";
+        dwEntity.DataBind();
+        ListItem lstItemEntity = new ListItem("----------------------------------------------------------------Select----------------------------------------------------------------", "0");
+        dwEntity.Items.Insert(0, lstItemEntity);
+
+        dwClaimant.DataSource = objGeneral.GetClaimantTypes();
+        dwClaimant.DataTextField = "ClaimantType_Fld_Desc";
+        dwClaimant.DataValueField = "PK_Claimant_Type";
+        dwClaimant.DataBind();
+        ListItem lstItemclaimtype = new ListItem("------------Select------------", "0");
+        dwClaimant.Items.Insert(0, lstItemclaimtype);
+
+        ddlAttachType.DataSource = objGeneral.GetClaimantTypes();
+        ddlAttachType.DataTextField = "FLD_desc";
+        ddlAttachType.DataValueField = "PK_ID";
+        ddlAttachType.DataBind();
+        ListItem lstItemattach = new ListItem("------------Select------------", "0");
+        ddlAttachType.Items.Insert(0, lstItemattach);
+        ddlAttachType.SelectedIndex = 1;
+
+
+        dwClaimType.DataSource = objGeneral.GetAutoClaimTypes();
+        dwClaimType.DataTextField = "AClaimType_Fld_Desc";
+        dwClaimType.DataValueField = "PK_Auto_Claim_Type";
+        dwClaimType.DataBind();
+        ListItem lstItemclaim = new ListItem("------------Select------------", "0");
+        dwClaimType.Items.Insert(0, lstItemclaim);
+    }
+
+    private void InsertData()
+    {
+        try
+        {
+            objliability = new RIMS_Base.Biz.CLiabilityClaim_FCI();
+            objClaimRepresentive = new RIMS_Base.Biz.CLiabilityClaimRepresentative();
+            objLossLocation = new RIMS_Base.Biz.CLiabilityClaimLossLocation();
+            objLossinfo = new RIMS_Base.Biz.CLiabilityClaimLossInfo();
+            objCompanyVehInfo = new RIMS_Base.Biz.CLiabilityClaimCmpVehicleInfo();
+            objCompanyDriverInfo = new RIMS_Base.Biz.CLiabilityClaimCmpDriverInfo();
+            objOtherPropertyDamage = new RIMS_Base.Biz.CLiabilityClaimOtherPropertyDamage();
+            objOtherParty = new RIMS_Base.Biz.CLiabilityClaimOtherParty();
+            if (ViewState["PK_Liability_Claim"] != null && ViewState["PK_Liability_Claim"].ToString() != String.Empty)
+            {
+                objliability.PK_Liability_Claim = Convert.ToInt32(ViewState["PK_Liability_Claim"].ToString());
+            }
+
+            //Claim Identification
+
+            if (txtempid.Text != String.Empty)
+                objliability.Fk_ECD_Id = Convert.ToDecimal(txtempid.Text.ToString());
+
+
+
+            objliability.FK_Liability_Major_Claim_Type = 1;
+
+            if (rbtReptoCarrier.SelectedIndex == 0)
+                objliability.Report_To_Carrier = "Y";
+            else if (rbtReptoCarrier.SelectedIndex == 1)
+                objliability.Report_To_Carrier = "N";
+
+
+
+            if (dwClaimType.SelectedIndex != 0)
+                objliability.FK_Claim_Type = Convert.ToDecimal(dwClaimType.SelectedValue.ToString());
+
+            if (txtDateReportedtoFair.Text != String.Empty)
+                objliability.Date_To_Fairpoint = Convert.ToDateTime(txtDateReportedtoFair.Text);
+
+            if (dwClaimant.SelectedIndex != 0)
+                objliability.FK_Claimant_id = Convert.ToDecimal(dwClaimant.SelectedValue.ToString());
+
+            if (txtDateClaimOpened.Text != String.Empty)
+                objliability.Claim_Open_Date = Convert.ToDateTime(txtDateClaimOpened.Text);
+
+            if (txtDateClaimClosed.Text != String.Empty)
+                objliability.Claim_Close_Date = Convert.ToDateTime(txtDateClaimClosed.Text);
+
+            if (txtDateClaimReopened.Text != String.Empty)
+                objliability.Claim_Reopen_Date = Convert.ToDateTime(txtDateClaimReopened.Text);
+
+            if (dwEntity.SelectedIndex != 0)
+                objliability.FK_Entity = Convert.ToDecimal(dwEntity.SelectedValue.ToString());
+
+            if (txtlblDateReportedtoCarrier.Text != String.Empty)
+                objliability.Date_To_Carrier = Convert.ToDateTime(txtlblDateReportedtoCarrier.Text);
+
+            if (txtpolicyid.Text != String.Empty)
+                objliability.FK_Carrier = Convert.ToDecimal(txtpolicyid.Text.ToString());
+
+
+            if (txtDateofLoss.Text != String.Empty)
+                objliability.Date_Of_Loss = Convert.ToDateTime(txtDateofLoss.Text);
+
+            if (txtTimeofLoss.Text != String.Empty)
+                objliability.Time_Of_Loss = txtTimeofLoss.Text.Trim();
+
+            if (txtTPAName.Text != String.Empty)
+                objliability.TPA_Name = txtTPAName.Text.Trim();
+
+
+            // //if (lstliability[0].Legal == "Y")
+            // //      lblvwenDoesClimant.Text = "Yes";
+            // //  else if (lstliability[0].Legal == "N")
+            // //   lblvwenDoesClimant.Text = "N0";
+
+            //if (rbtnIsClaimantanEmp.SelectedIndex == 0)
+            //    objliability.Cliamant_An_Employee = "Y";
+            //else if (rbtnIsClaimantanEmp.SelectedIndex == 1)
+            //    objliability.Cliamant_An_Employee = "N";
+
+
+            if (rbtnIsClaimantanEmp.SelectedIndex == 0)
+                objliability.Cliamant_An_Employee = "Y";
+            else if (rbtnIsClaimantanEmp.SelectedIndex == 1)
+                objliability.Cliamant_An_Employee = "N";
+
+
+            if (txtPolicyNo.Text != String.Empty)
+                objliability.Policy_Number_Claim = txtPolicyNo.Text.Trim();
+
+            if (rbtnDoesClimant.SelectedIndex == 0)
+                objliability.Legal = "Y";
+            else if (rbtnDoesClimant.SelectedIndex == 1)
+                objliability.Legal = "N";
+
+            if (txtPolicyEffecDate.Text != String.Empty)
+                objliability.Effective_Policy_Date = Convert.ToDateTime(txtPolicyEffecDate.Text);
+
+            if (txtPolicyExpDate.Text != String.Empty)
+                objliability.Expiration_Policy_Date = Convert.ToDateTime(txtPolicyExpDate.Text);
+
+            // 
+            m_intRetval = Convert.ToInt32(objliability.InsertUpdateility_Claim(objliability));
+
+
+            //Claim Representative
+
+            if (txtname.Text != String.Empty)
+                objClaimRepresentive.FairPoint_Name = txtname.Text.Trim();
+
+            if (txtTelephone.Text != String.Empty)
+                objClaimRepresentive.Telephone = txtTelephone.Text.Trim();
+
+            if (txtEMail.Text != String.Empty)
+                objClaimRepresentive.Email = txtEMail.Text.Trim();
+
+            objClaimRepresentive.FK_Liability_Claim = Convert.ToInt32(m_intRetval.ToString());
+
+            m_intRetval2 = Convert.ToInt32(objClaimRepresentive.InsertUpdateility_Claim_Representative(objClaimRepresentive));
+
+            //Loss Location
+
+            if (txtAdd1.Text != String.Empty)
+                objLossLocation.Address1 = txtAdd1.Text.Trim();
+
+            if (txtAdd2.Text != String.Empty)
+                objLossLocation.Address2 = txtAdd2.Text.Trim();
+
+            if (txtCity.Text != String.Empty)
+                objLossLocation.City = txtCity.Text.Trim();
+
+
+            if (dwState.SelectedIndex != 0)
+                objLossLocation.FK_State = Convert.ToDecimal(dwState.SelectedValue.ToString());
+
+            if (txtZip.Text != String.Empty)
+                objLossLocation.Zip = txtZip.Text.Trim();
+
+            if (dwCounty.SelectedIndex != 0)
+                objLossLocation.County = Convert.ToString(dwCounty.SelectedItem.Text);
+
+            if (rbtnDidAccOccur.SelectedIndex == 0)
+                objLossLocation.Accident_In_Company = "Y";
+            else if (rbtnDidAccOccur.SelectedIndex == 1)
+                objLossLocation.Accident_In_Company = "N";
+
+            objLossLocation.Updated_By = "1";
+            objLossLocation.FK_Liability_Claim = Convert.ToInt32(m_intRetval.ToString());
+
+            m_intRetval3 = Convert.ToInt32(objLossLocation.InsertUpdateility_Claim_LossLocation(objLossLocation));
+
+
+
+            //Loss Information
+            if (txtfullDescOfLOss.Text != String.Empty)
+                objLossinfo.Full_Desc_loss = txtfullDescOfLOss.Text.Trim();
+
+
+            if (rbtnWerePolice.SelectedIndex == 0)
+                objLossinfo.Police_Notified = "Y";
+            else if (rbtnWerePolice.SelectedIndex == 1)
+                objLossinfo.Police_Notified = "N";
+
+            if (txtisyesnameofagency.Text != String.Empty)
+                objLossinfo.Name_Of_Agency = txtisyesnameofagency.Text.Trim();
+
+            if (txtOfficername.Text != String.Empty)
+                objLossinfo.Officer_Name = txtOfficername.Text.Trim();
+
+            if (txtOfficerBadgeNo.Text != String.Empty)
+                objLossinfo.Officer_BadgeNo = txtOfficerBadgeNo.Text.Trim();
+
+
+            if (rbtnWasTicketIss.SelectedIndex == 0)
+                objLossinfo.Ticket_Issued = "Y";
+            else if (rbtnWasTicketIss.SelectedIndex == 1)
+                objLossinfo.Ticket_Issued = "N";
+
+            if (rbtnAnyInjuries.SelectedIndex == 0)
+                objLossinfo.Injury_To_Cmp_Emps = "Y";
+            else if (rbtnAnyInjuries.SelectedIndex == 1)
+                objLossinfo.Injury_To_Cmp_Emps = "N";
+
+            if (txtIfYesDesEmp.Text != String.Empty)
+                objLossinfo.Injury_Desc_Emps = txtIfYesDesEmp.Text.Trim();
+
+
+            if (rbtnAnyInjuriestoOther.SelectedIndex == 0)
+                objLossinfo.Injury_To_Others = "Y";
+            else if (rbtnAnyInjuriestoOther.SelectedIndex == 1)
+                objLossinfo.Injury_To_Others = "N";
+
+            if (txtifyesDesotherparty.Text != String.Empty)
+                objLossinfo.Injury_Desc_Others = txtifyesDesotherparty.Text.Trim();
+
+            if (rbtnWasAccPreventLess.SelectedIndex == 0)
+                objLossinfo.Accident_Prev_Less_10k = "Y";
+            else if (rbtnWasAccPreventLess.SelectedIndex == 1)
+                objLossinfo.Accident_Prev_Less_10k = "N";
+
+            if (rbtnWasAccPrevent.SelectedIndex == 0)
+                objLossinfo.Accident_Prev_Greater_10k = "Y";
+            else if (rbtnWasAccPrevent.SelectedIndex == 1)
+                objLossinfo.Accident_Prev_Greater_10k = "N";
+
+            if (rbtnwasAccNonPrevent.SelectedIndex == 0)
+                objLossinfo.Accident_NonPrev = "Y";
+            else if (rbtnwasAccNonPrevent.SelectedIndex == 1)
+                objLossinfo.Accident_NonPrev = "N";
+
+
+            objLossinfo.FK_Liability_Claim = Convert.ToInt32(m_intRetval.ToString());
+
+            m_intRetval4 = Convert.ToInt32(objLossinfo.InsertUpdateility_Claim_LossInfo(objLossinfo));
+
+
+
+            //Company Vehicle Information
+
+            if (txtyear.Text != String.Empty)
+                objCompanyVehInfo.Year = txtyear.Text.Trim();
+
+            if (txtMake.Text != String.Empty)
+                objCompanyVehInfo.Make = txtMake.Text.Trim();
+
+            if (txtmodel.Text != String.Empty)
+                objCompanyVehInfo.Model = txtmodel.Text.Trim();
+
+            if (txtVIN.Text != String.Empty)
+                objCompanyVehInfo.VIN = txtVIN.Text.Trim();
+
+
+            if (txtLicensePlateNo.Text != String.Empty)
+                objCompanyVehInfo.License_Plate_Number = txtLicensePlateNo.Text.Trim();
+
+            if (dwLicensePlateState.SelectedIndex != 0)
+                objCompanyVehInfo.FK_License_Plate_State = Convert.ToDecimal(dwLicensePlateState.SelectedValue.ToString());
+
+
+            if (txtVehicleColor.Text != String.Empty)
+                objCompanyVehInfo.Vehicle_Color = txtVehicleColor.Text.Trim();
+
+
+
+            if (rbtnWascompanyvehicle.SelectedIndex == 0)
+                objCompanyVehInfo.CmpVeh_Only_Veh = "Y";
+            else if (rbtnWascompanyvehicle.SelectedIndex == 1)
+                objCompanyVehInfo.CmpVeh_Only_Veh = "N";
+
+            if (txtDescDmgtoCompany.Text != String.Empty)
+                objCompanyVehInfo.Damage_To_CmpVeh = txtDescDmgtoCompany.Text.Trim();
+
+
+            objCompanyVehInfo.FK_Liability_Claim = Convert.ToInt32(m_intRetval.ToString());
+
+            m_intRetval5 = Convert.ToInt32(objCompanyVehInfo.InsertUpdateility_Claim_CmpVehicleInfo(objCompanyVehInfo));
+
+
+            // Company Driver Information
+
+
+            if (txtDrName.Text != String.Empty)
+                objCompanyDriverInfo.Name = txtDrName.Text.Trim();
+
+
+            if (txtDrTeleNo.Text != String.Empty)
+                objCompanyDriverInfo.Telephone_No = txtDrTeleNo.Text.Trim();
+
+            if (txtSupervisor.Text != String.Empty)
+                objCompanyDriverInfo.Supervisor = txtSupervisor.Text.Trim();
+
+
+            if (txtSupervisorTel.Text != String.Empty)
+                objCompanyDriverInfo.Supervisor_TeleNo = txtSupervisorTel.Text.Trim();
+
+            if (txtListCompanyPass.Text != String.Empty)
+                objCompanyDriverInfo.List_Company_Passengers = txtListCompanyPass.Text.Trim();
+
+
+
+            objCompanyDriverInfo.FK_Liability_Claim = Convert.ToInt32(m_intRetval.ToString());
+
+            m_intRetval6 = Convert.ToInt32(objCompanyDriverInfo.InsertUpdatelility_Claim_CmpDriverInfo(objCompanyDriverInfo));
+
+            //Other Property Damage
+
+
+
+            if (rbtnDamagetoProOther.SelectedIndex == 0)
+                objOtherPropertyDamage.Damage_To_Property = "Y";
+            else if (rbtnDamagetoProOther.SelectedIndex == 1)
+                objOtherPropertyDamage.Damage_To_Property = "N";
+
+
+            if (txtDmgDesc.Text != String.Empty)
+                objOtherPropertyDamage.Damage_Desc = txtDmgDesc.Text.Trim();
+
+            if (txtEstimatedCost.Text != String.Empty)
+                objOtherPropertyDamage.Cost_To_Repair = Convert.ToDecimal(txtEstimatedCost.Text.ToString());
+
+
+            objOtherPropertyDamage.FK_Liability_Claim = Convert.ToInt32(m_intRetval.ToString());
+
+            m_intRetval7 = Convert.ToInt32(objOtherPropertyDamage.InsertUpdateility_Claim_OtherPropertyDamage(objOtherPropertyDamage));
+
+
+
+            //Financial Summary
+
+
+            //end
+
+
+            //Other Party
+
+            if (txtnameotherparty.Text != String.Empty)
+                objOtherParty.Name = txtnameotherparty.Text.Trim();
+
+            if (txttelotherparty.Text != String.Empty)
+                objOtherParty.TelePhone = txttelotherparty.Text.Trim();
+
+            if (txtEmailotherparty.Text != String.Empty)
+                objOtherParty.Email = txtEmailotherparty.Text.Trim();
+
+            objOtherParty.FK_Liability_Claim = Convert.ToInt32(m_intRetval.ToString());
+
+            m_intRetval8 = Convert.ToInt32(objOtherParty.InsertUpdateility_Claim_OtherParty(objOtherParty));
+
+
+            //................Mail Process.............
+
+            if (ViewState["PK_Liability_Claim"] == null || ViewState["PK_Liability_Claim"].ToString() == String.Empty)
+            {
+                objliability = new RIMS_Base.Biz.CLiabilityClaim_FCI();
+                lstliability = new List<RIMS_Base.CLiabilityClaim_FCI>();
+                Int32 Liabilityid = Convert.ToInt32(m_intRetval);
+                lstliability = objliability.GetAL_ClaimByID(Liabilityid);
+
+                if (lstliability.Count != 0)
+                {
+                    string ClaimID = String.Empty;
+                    ClaimID = lstliability[0].Claim_Number;
+                    //Need to store last claim number, user has worked with for displaying in Enter payments in Check writing
+                    Session["LastClaimNumber"] = ClaimID;
+                }
+
+                System.Threading.Thread.Sleep(3000);
+
+                RIMS_Base.Biz.CSecurity m_objSecurity = new RIMS_Base.Biz.CSecurity();
+                List<RIMS_Base.CSecurity> lstSecurity = new List<RIMS_Base.CSecurity>();
+                lstSecurity = m_objSecurity.GetAdminByID(Convert.ToInt32(1));
+                if (lstSecurity.Count > 0)
+                {
+                    if (lstSecurity[0].Email != string.Empty)
+                    {
+                        string ClaimID = String.Empty;
+                        Decimal Facility;
+                        ClaimID = lstliability[0].Claim_Number;
+                        Facility = Convert.ToDecimal(lstliability[0].FK_Entity.ToString());
+                        string msg = "Here are the Details of Claim Generated";
+                        string claimsg = "Claim Number(Auto Liability)";
+                        string Fac = "Entity";
+                        string Emp = "Employee Name";
+                        string Cli = "Claimant Name";
+                        string Driver = "Driver Name";
+                        string PR = "Dear ";
+                        string incDate = "Date of Loss";
+
+                        if (lstliability[0].FK_Claimant_id == 1)
+                        {
+                            lstemp = objliability.GetEmployee_ByID(Liabilityid, Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+                            if (lstemp.Count != 0)
+                            {
+                                for (int i = 0; i < lstSecurity.Count; i++)
+                                {
+                                    string body = "<html><body> " + PR + lstSecurity[i].FIRST_NAME + " " + lstSecurity[i].LAST_NAME + "<br/>" + msg + ":" + "<br/>" + claimsg + ":" + ClaimID + "<br/>" + Fac + ":" + Facility + "<br/>" + Emp + ":" + lstemp[0].First_Name + "<br/>" + incDate + ":" + (Convert.ToDateTime(lstliability[0].Date_Of_Loss)).ToShortDateString() + "</html></body>";
+                                    sendMail(ConfigurationManager.AppSettings["mailFrom"].ToString(), lstSecurity[i].Email, string.Empty, string.Empty, "claim number(Auto Liability)", body);
+                                }
+                            }
+                        }
+
+                        if (lstliability[0].FK_Claimant_id == 2)
+                        {
+                            lstClimant = objliability.GetCliamant_ByID(Liabilityid, Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+                            if (lstClimant.Count != 0)
+                            {
+                                for (int i = 0; i < lstSecurity.Count; i++)
+                                {
+                                    string body = "<html><body> " + PR + lstSecurity[i].FIRST_NAME + " " + lstSecurity[i].LAST_NAME + "<br/>" + msg + ":" + "<br/>" + claimsg + ":" + ClaimID + "<br/>" + Fac + ":" + Facility + "<br/>" + Cli + ":" + lstClimant[0].Cliamant_First_Name + "<br/>" + incDate + ":" + (Convert.ToDateTime(lstliability[0].Date_Of_Loss)).ToShortDateString() + "</html></body>";
+                                    sendMail(ConfigurationManager.AppSettings["mailFrom"].ToString(), lstSecurity[i].Email, string.Empty, string.Empty, "claim number(Auto Liability)", body);
+                                }
+                            }
+
+                        }
+
+                        if (lstliability[0].FK_Claimant_id == 3)
+                        {
+                            lstDriver = objliability.GetDriver_ByID(Liabilityid, Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+                            if (lstDriver.Count != 0)
+                            {
+                                for (int i = 0; i < lstSecurity.Count; i++)
+                                {
+                                    string body = "<html><body> " + PR + lstSecurity[i].FIRST_NAME + " " + lstSecurity[i].LAST_NAME + "<br/>" + msg + ":" + "<br/>" + claimsg + ":" + ClaimID + "<br/>" + Fac + ":" + Facility + "<br/>" + Driver + ":" + lstDriver[0].Driver_First_Name + "<br/>" + incDate + ":" + (Convert.ToDateTime(lstliability[0].Date_Of_Loss)).ToShortDateString() + "</html></body>";
+                                    sendMail(ConfigurationManager.AppSettings["mailFrom"].ToString(), lstSecurity[i].Email, string.Empty, string.Empty, "FCI- Auto Liability claim number", body);
+                                }
+                            }
+
+                        }
+
+
+                    }
+                }
+
+            }
+
+            //End Mail Sending
+
+            ViewState["PK_Liability_Claim"] = m_intRetval.ToString();
+            Session["WorkerCompID"] = ViewState["PK_Liability_Claim"].ToString();
+
+
+
+        }
+
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+    }
+
+    public static string sendMail(string from, string to, string cc, string bcc, string subject, string body)
+    {
+        if (!AppConfig.AllowMailSending)
+            return "";
+        // Mail initialization
+        System.Web.Mail.MailMessage mailMsg = new System.Web.Mail.MailMessage();
+        mailMsg.From = "Erims2<" + from + ">";
+        mailMsg.To = to;
+        mailMsg.Cc = cc;
+        mailMsg.Bcc = bcc;
+        mailMsg.Subject = subject;
+        mailMsg.BodyFormat = System.Web.Mail.MailFormat.Html;
+        mailMsg.Body = body;
+
+
+
+        mailMsg.Priority = System.Web.Mail.MailPriority.Normal;
+        // Smtp configuration
+        System.Web.Mail.SmtpMail.SmtpServer = "smtp.gmail.com";
+        // - smtp.gmail.com use smtp authentication
+        mailMsg.Fields.Add("http://schemas.microsoft.com/cdo/configuration/smtpauthenticate", "1");
+        mailMsg.Fields.Add("http://schemas.microsoft.com/cdo/configuration/sendusername", from);
+        //Password for From mail account.
+        //m_strSMTPpwd = DecryptPassword(System.Configuration.ConfigurationManager.AppSettings["SMTPPwd"]);
+        mailMsg.Fields.Add("http://schemas.microsoft.com/cdo/configuration/sendpassword", System.Configuration.ConfigurationManager.AppSettings["SMTPPwd"]);
+        // - smtp.gmail.com use port 465 or 587 ifmisBugs@astegic.com/ifmisbugs
+        mailMsg.Fields.Add("http://schemas.microsoft.com/cdo/configuration/smtpserverport", "465");
+        // - smtp.gmail.com use STARTTLS (some call this SSL)
+        mailMsg.Fields.Add("http://schemas.microsoft.com/cdo/configuration/smtpusessl", "true");
+        // try to send Mail
+        try
+        {
+            System.Web.Mail.SmtpMail.Send(mailMsg);
+            return "";
+        }
+        catch (Exception ex)
+        {
+            return ex.Message;
+        }
+    }
+    private void ViewData()
+    {
+
+        objliability = new RIMS_Base.Biz.CLiabilityClaim_FCI();
+        objClaimRepresentive = new RIMS_Base.Biz.CLiabilityClaimRepresentative();
+        objLossLocation = new RIMS_Base.Biz.CLiabilityClaimLossLocation();
+        objLossinfo = new RIMS_Base.Biz.CLiabilityClaimLossInfo();
+        objCompanyVehInfo = new RIMS_Base.Biz.CLiabilityClaimCmpVehicleInfo();
+        objCompanyDriverInfo = new RIMS_Base.Biz.CLiabilityClaimCmpDriverInfo();
+        objOtherPropertyDamage = new RIMS_Base.Biz.CLiabilityClaimOtherPropertyDamage();
+        objOtherParty = new RIMS_Base.Biz.CLiabilityClaimOtherParty();
+
+        lstliability = new List<RIMS_Base.CLiabilityClaim_FCI>();
+        lstRepresent = new List<RIMS_Base.CLiabilityClaimRepresentative>();
+        lstLossLocation = new List<RIMS_Base.CLiabilityClaimLossLocation>();
+        lstLossInfo = new List<RIMS_Base.CLiabilityClaimLossInfo>();
+        lstVehicleInfo = new List<RIMS_Base.CLiabilityClaimCmpVehicleInfo>();
+        lstDriverInfo = new List<RIMS_Base.CLiabilityClaimCmpDriverInfo>();
+        lstOtherPropertyDamage = new List<RIMS_Base.CLiabilityClaimOtherPropertyDamage>();
+        lstotherParty = new List<RIMS_Base.CLiabilityClaimOtherParty>();
+
+
+
+        Int32 Liabilityid = Convert.ToInt32(ViewState["PK_Liability_Claim"]);
+
+        Decimal LiabilityClaimid = Convert.ToDecimal(ViewState["PK_Liability_Claim"]);
+
+        lstliability = objliability.GetAL_ClaimByID(Liabilityid);
+        lstRepresent = objClaimRepresentive.GetAL_Claim_RepresentativeByID(LiabilityClaimid);
+        lstLossLocation = objLossLocation.GetAL_Claim_LossLocationByID(LiabilityClaimid);
+        lstLossInfo = objLossinfo.GetAL_Claim_LossInfoByID(LiabilityClaimid);
+        lstVehicleInfo = objCompanyVehInfo.GetAL_Claim_CmpVehicleInfoByID(LiabilityClaimid);
+        lstDriverInfo = objCompanyDriverInfo.GetAL_Claim_CmpDriverInfoByID(LiabilityClaimid);
+        lstOtherPropertyDamage = objOtherPropertyDamage.GetAL_Claim_OtherPropertyDamageByID(LiabilityClaimid);
+        lstotherParty = objOtherParty.GetAL_Claim_OtherPartyByID(LiabilityClaimid);
+        try
+        {
+
+            lblvwClaimNumber.Text = lstliability[0].Claim_Number;
+            //Need to store last claim number, user has worked with for displaying in Enter payments in Check writing
+            Session["LastClaimNumber"] = lblvwClaimNumber.Text;
+            if (lstliability[0].Report_To_Carrier == "Y")
+                lblvweReptoCarrier.Text = "Yes";
+            else if (lstliability[0].Report_To_Carrier == "N")
+                lblvweReptoCarrier.Text = "N0";
+
+            if (lstliability[0].FK_Claim_Type != null)
+                lblvweClaimType.Text = dwClaimType.Items.FindByValue(lstliability[0].FK_Claim_Type.ToString()).Text;
+
+
+            if (lstliability[0].Date_To_Fairpoint.ToString() != String.Empty)
+                lblvweDateReportedtoFair.Text = Convert.ToDateTime(lstliability[0].Date_To_Fairpoint.ToString()).ToShortDateString();
+
+            if (lstliability[0].FK_Claimant_id != null)
+                lblvweClaimant.Text = dwClaimant.Items.FindByValue(lstliability[0].FK_Claimant_id.ToString()).Text;
+
+
+            if (lstliability[0].Claim_Open_Date.ToString() != String.Empty)
+                lblvweDateClaimOpened.Text = Convert.ToDateTime(lstliability[0].Claim_Open_Date.ToString()).ToShortDateString();
+
+            if (lstliability[0].Claim_Close_Date.ToString() != String.Empty)
+                lblvweDateClaimClosed.Text = Convert.ToDateTime(lstliability[0].Claim_Close_Date.ToString()).ToShortDateString();
+
+
+            //last name
+
+            if (lstliability[0].Claim_Reopen_Date.ToString() != String.Empty)
+                lblvweDateClaimReopened.Text = Convert.ToDateTime(lstliability[0].Claim_Reopen_Date.ToString()).ToShortDateString();
+
+
+            if (lstliability[0].FK_Entity != null)
+                lblvweEntity.Text = dwEntity.Items.FindByValue(lstliability[0].FK_Entity.ToString()).Text;
+
+            if (lstliability[0].Date_To_Carrier.ToString() != String.Empty)
+                lblvweDateReportedtoCarrier.Text = Convert.ToDateTime(lstliability[0].Date_To_Carrier.ToString()).ToShortDateString();
+
+            //  lblvweCarrierName.Text = lstliability.FK_Carrier;
+
+            if (lstliability[0].Date_Of_Loss.ToString() != String.Empty)
+                lblvweDateofLoss.Text = Convert.ToDateTime(lstliability[0].Date_Of_Loss.ToString()).ToShortDateString();
+
+            if (lstliability[0].Time_Of_Loss != String.Empty)
+                lblvweTimeofLoss.Text = lstliability[0].Time_Of_Loss;
+
+            if (lstliability[0].TPA_Name != String.Empty)
+                lblvweTPAName.Text = lstliability[0].TPA_Name;
+
+
+
+            if (lstliability[0].Cliamant_An_Employee == "Y")
+                lblvwenIsClaimantanEmp.Text = "Yes";
+            else if (lstliability[0].Cliamant_An_Employee == "N")
+                lblvwenIsClaimantanEmp.Text = "N0";
+
+
+            if (lstliability[0].Legal == "Y")
+                lblvwenDoesClimant.Text = "Yes";
+            else if (lstliability[0].Legal == "N")
+                lblvwenDoesClimant.Text = "N0";
+
+
+
+            if (lstliability[0].FK_Claimant_id == 1)
+            {
+                lstemp = objliability.GetEmployee_ByID(Liabilityid, Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+
+                lblvweFirstName.Text = lstemp[0].First_Name.Replace("''", "'");
+                lblvweLastName.Text = lstemp[0].Last_Name.Replace("''", "'");
+            }
+
+            if (lstliability[0].FK_Claimant_id == 2)
+            {
+                lstClimant = objliability.GetCliamant_ByID(Liabilityid, Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+
+                lblvweFirstName.Text = lstClimant[0].Cliamant_First_Name.Replace("''", "'");
+                lblvweLastName.Text = lstClimant[0].Cliamant_Last_Name.Replace("''", "'");
+            }
+
+            if (lstliability[0].FK_Claimant_id == 3)
+            {
+                lstDriver = objliability.GetDriver_ByID(Liabilityid, Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+
+                lblvweFirstName.Text = lstDriver[0].Driver_First_Name.Replace("''", "'");
+                lblvweLastName.Text = lstDriver[0].Driver_Last_Name.Replace("''", "'");
+            }
+
+            lstcarrier = objliability.GetCarrier_ByID(Liabilityid, Convert.ToInt32(lstliability[0].FK_Carrier));
+
+            if (lstcarrier.Count != 0)
+            {
+                lblvweCarrierName.Text = lstcarrier[0].Carrier;
+
+                if (lstcarrier[0].Effective_Policy_Date.ToString() != String.Empty)
+                    lblvwePolicyEffecDate.Text = Convert.ToDateTime(lstcarrier[0].Effective_Policy_Date.ToString()).ToShortDateString();
+
+                if (lstcarrier[0].Expiration_Policy_Date.ToString() != String.Empty)
+                    lblvwePolicyExpDate.Text = Convert.ToDateTime(lstcarrier[0].Expiration_Policy_Date.ToString()).ToShortDateString();
+
+
+                if (lstcarrier[0].Policy_Number_Claim != String.Empty)
+                    lblvwePolicyNo.Text = lstcarrier[0].Policy_Number_Claim;
+            }
+
+            //Claim Representative
+
+            if (lstRepresent.Count != 0)
+            {
+
+                if (lstRepresent[0].FairPoint_Name != String.Empty)
+                    lblvwename.Text = lstRepresent[0].FairPoint_Name;
+
+                if (lstRepresent[0].Telephone != String.Empty)
+                    lblvweTelephone.Text = lstRepresent[0].Telephone;
+
+                if (lstRepresent[0].Email != String.Empty)
+                    lblvweEMail.Text = lstRepresent[0].Email;
+            }
+
+
+            //Loss Location
+            if (lstLossLocation.Count != 0)
+            {
+                if (lstLossLocation[0].Address1 != String.Empty)
+                    lblvweAdd1.Text = lstLossLocation[0].Address1;
+
+                if (lstLossLocation[0].Address2 != String.Empty)
+                    lblvweAdd2.Text = lstLossLocation[0].Address2;
+
+
+                if (lstLossLocation[0].City != String.Empty)
+                    lblvweCity.Text = lstLossLocation[0].City;
+
+
+                if (lstLossLocation[0].FK_State != null)
+                    lblvwestate.Text = dwState.Items.FindByValue(lstLossLocation[0].FK_State.ToString()).Text;
+
+                if (lstLossLocation[0].Zip != String.Empty)
+                    lblvweZip.Text = lstLossLocation[0].Zip;
+
+                if (lstLossLocation[0].County != String.Empty)
+                    lblvweCounty.Text = lstLossLocation[0].County;
+
+
+                if (lstLossLocation[0].Accident_In_Company == "Y")
+                    lblvweDidAccOccur.Text = "Yes";
+                else if (lstLossLocation[0].Accident_In_Company == "N")
+                    lblvweDidAccOccur.Text = "N0";
+
+            }
+
+            //Loss Information
+            if (lstLossInfo.Count != 0)
+            {
+                if (lstLossInfo[0].Full_Desc_loss != String.Empty)
+                    lblvwefullDescOfLOss.Text = lstLossInfo[0].Full_Desc_loss;
+
+                if (lstLossInfo[0].Police_Notified == "Y")
+                    lblvweWerePolice.Text = "Yes";
+                else if (lstLossInfo[0].Police_Notified == "N")
+                    lblvweWerePolice.Text = "N0";
+
+                if (lstLossInfo[0].Name_Of_Agency != String.Empty)
+                    lblvweisyesnameofagency.Text = lstLossInfo[0].Name_Of_Agency;
+
+                if (lstLossInfo[0].Officer_Name != String.Empty)
+                    lblvweOfficername.Text = lstLossInfo[0].Officer_Name;
+
+                if (lstLossInfo[0].Officer_BadgeNo != String.Empty)
+                    lblvweOfficerBadgeNo.Text = lstLossInfo[0].Officer_BadgeNo;
+
+
+                if (lstLossInfo[0].Injury_To_Cmp_Emps == "Y")
+                    lblvweWasTicketIss.Text = "Yes";
+                else if (lstLossInfo[0].Injury_To_Cmp_Emps == "N")
+                    lblvweWasTicketIss.Text = "N0";
+
+
+
+                if (lstLossInfo[0].Ticket_Issued == "Y")
+                    lblvweAnyInjuries.Text = "Yes";
+                else if (lstLossInfo[0].Ticket_Issued == "N")
+                    lblvweAnyInjuries.Text = "N0";
+
+                if (lstLossInfo[0].Injury_Desc_Emps != String.Empty)
+                    lblvweIfYesDesEmp.Text = lstLossInfo[0].Injury_Desc_Emps;
+
+
+                if (lstLossInfo[0].Injury_To_Others == "Y")
+                    lblvweAnyInjuriestoOther.Text = "Yes";
+                else if (lstLossInfo[0].Injury_To_Others == "N")
+                    lblvweAnyInjuriestoOther.Text = "N0";
+
+                if (lstLossInfo[0].Injury_Desc_Others != String.Empty)
+                    lblvweifyesDesotherparty.Text = lstLossInfo[0].Injury_Desc_Others;
+
+
+
+                if (lstLossInfo[0].Accident_Prev_Less_10k == "Y")
+                    lblvweWasAccPreventLess.Text = "Yes";
+                else if (lstLossInfo[0].Accident_Prev_Less_10k == "N")
+                    lblvweWasAccPreventLess.Text = "N0";
+
+
+                if (lstLossInfo[0].Accident_Prev_Greater_10k == "Y")
+                    lblvweWasAccPrevent.Text = "Yes";
+                else if (lstLossInfo[0].Accident_Prev_Greater_10k == "N")
+                    lblvweWasAccPrevent.Text = "N0";
+
+
+                if (lstLossInfo[0].Accident_NonPrev == "Y")
+                    lblvwewasAccNonPrevent.Text = "Yes";
+                else if (lstLossInfo[0].Accident_NonPrev == "N")
+                    lblvwewasAccNonPrevent.Text = "N0";
+            }
+            //Company Vehicle Information
+            if (lstVehicleInfo.Count != 0)
+            {
+                if (lstVehicleInfo[0].Year != String.Empty)
+                    lblvweyear.Text = lstVehicleInfo[0].Year;
+
+                if (lstVehicleInfo[0].Make != String.Empty)
+                    lblvweMake.Text = lstVehicleInfo[0].Make;
+
+                if (lstVehicleInfo[0].Model != String.Empty)
+                    lblvwemodel.Text = lstVehicleInfo[0].Model;
+
+                if (lstVehicleInfo[0].VIN != String.Empty)
+                    lblvweVIN.Text = lstVehicleInfo[0].VIN;
+
+                if (lstVehicleInfo[0].License_Plate_Number != String.Empty)
+                    lblvweLicensePlateNo.Text = lstVehicleInfo[0].License_Plate_Number;
+
+                if (lstVehicleInfo[0].Vehicle_Color != String.Empty)
+                    lblvweVehicleColor.Text = lstVehicleInfo[0].Vehicle_Color;
+
+
+                if (lstVehicleInfo[0].FK_License_Plate_State != null)
+                    lblvweLicensePlateState.Text = dwLicensePlateState.Items.FindByValue(lstVehicleInfo[0].FK_License_Plate_State.ToString()).Text;
+
+
+                if (lstVehicleInfo[0].CmpVeh_Only_Veh == "Y")
+                    lblvweWascompanyvehicle.Text = "Yes";
+                else if (lstVehicleInfo[0].CmpVeh_Only_Veh == "N")
+                    lblvweWascompanyvehicle.Text = "N0";
+
+                if (lstVehicleInfo[0].Damage_To_CmpVeh != String.Empty)
+                    lblvweDescDmgtoCompany.Text = lstVehicleInfo[0].Damage_To_CmpVeh;
+
+            }
+
+            // Company Driver Information
+            if (lstDriverInfo.Count != 0)
+            {
+                if (lstDriverInfo[0].Name != String.Empty)
+                    lblvweDrName.Text = lstDriverInfo[0].Name;
+
+                if (lstDriverInfo[0].Telephone_No != String.Empty)
+                    lblvweDrTeleNo.Text = lstDriverInfo[0].Telephone_No;
+
+                if (lstDriverInfo[0].Supervisor != String.Empty)
+                    lblvweSupervisor.Text = lstDriverInfo[0].Supervisor;
+
+                if (lstDriverInfo[0].List_Company_Passengers != String.Empty)
+                    lblvweListCompanyPass.Text = lstDriverInfo[0].List_Company_Passengers;
+
+
+                if (lstDriverInfo[0].Supervisor_TeleNo != String.Empty)
+                    lblvweSupervisorTel.Text = lstDriverInfo[0].Supervisor_TeleNo;
+            }
+
+            //Other Property Damage
+
+            if (lstOtherPropertyDamage.Count != 0)
+            {
+                if (lstOtherPropertyDamage[0].Damage_To_Property == "Y")
+                    lblvweDamagetoProOther.Text = "Yes";
+                else if (lstOtherPropertyDamage[0].Damage_To_Property == "N")
+                    lblvweDamagetoProOther.Text = "N0";
+
+                if (lstOtherPropertyDamage[0].Damage_Desc != String.Empty)
+                    lblvweDmgDesc.Text = lstOtherPropertyDamage[0].Damage_Desc;
+
+                if (lstOtherPropertyDamage[0].Cost_To_Repair.ToString() != String.Empty)
+                    lblvweEstimatedCost.Text = lstOtherPropertyDamage[0].Cost_To_Repair.ToString();
+            }
+
+            //other party
+
+            if (lstotherParty[0].Name != String.Empty)
+                lblvwenameotherparty.Text = lstotherParty[0].Name;
+
+            if (lstotherParty[0].TelePhone != String.Empty)
+                lblvwetelotherparty.Text = lstotherParty[0].TelePhone;
+
+
+            if (lstotherParty[0].Email != String.Empty)
+                lblvweEmailotherparty.Text = lstotherParty[0].Email;
+
+
+            //Witness Grid
+            gvviewOtherDrivers.PageSize = 10;
+            gvviewOtherDrivers.DataSource = BindOtherDriverDetails();
+            gvviewOtherDrivers.DataBind();
+
+            gvviewOtherVehicles.PageSize = 10;
+            gvviewOtherVehicles.DataSource = BindOtherVehDetails();
+            gvviewOtherVehicles.DataBind();
+
+
+            gvviewInjuredPersons.PageSize = 10;
+            gvviewInjuredPersons.DataSource = BindInjuredPersonDetails();
+            gvviewInjuredPersons.DataBind();
+
+            gvviewWitness.PageSize = 10;
+            gvviewWitness.DataSource = BindWitnessDetails();
+            gvviewWitness.DataBind();
+
+            //Financial Summary
+
+            DispalayCheckRegisterDatainView(lstliability[0].Claim_Number);
+
+
+
+
+            lstAttachment = BindAttachmentDetails();
+            if (lstAttachment.Count > 0)
+            {
+                gvAttachView.DataSource = lstAttachment;
+                gvAttachView.DataBind();
+                btnRemove.Visible = true;
+            }
+            gvAttachView.Columns[0].Visible = false;
+
+
+
+        }
+
+
+
+
+
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
+    private void RetriveDataByID()
+    {
+        objliability = new RIMS_Base.Biz.CLiabilityClaim_FCI();
+        objClaimRepresentive = new RIMS_Base.Biz.CLiabilityClaimRepresentative();
+        objLossLocation = new RIMS_Base.Biz.CLiabilityClaimLossLocation();
+        objLossinfo = new RIMS_Base.Biz.CLiabilityClaimLossInfo();
+        objCompanyVehInfo = new RIMS_Base.Biz.CLiabilityClaimCmpVehicleInfo();
+        objCompanyDriverInfo = new RIMS_Base.Biz.CLiabilityClaimCmpDriverInfo();
+        objOtherPropertyDamage = new RIMS_Base.Biz.CLiabilityClaimOtherPropertyDamage();
+        objOtherParty = new RIMS_Base.Biz.CLiabilityClaimOtherParty();
+
+
+        lstliability = new List<RIMS_Base.CLiabilityClaim_FCI>();
+        lstRepresent = new List<RIMS_Base.CLiabilityClaimRepresentative>();
+        lstLossLocation = new List<RIMS_Base.CLiabilityClaimLossLocation>();
+        lstLossInfo = new List<RIMS_Base.CLiabilityClaimLossInfo>();
+        lstVehicleInfo = new List<RIMS_Base.CLiabilityClaimCmpVehicleInfo>();
+        lstDriverInfo = new List<RIMS_Base.CLiabilityClaimCmpDriverInfo>();
+        lstOtherPropertyDamage = new List<RIMS_Base.CLiabilityClaimOtherPropertyDamage>();
+        lstotherParty = new List<RIMS_Base.CLiabilityClaimOtherParty>();
+
+        Int32 Liabilityid = Convert.ToInt32(Session["WorkerCompID"]);
+        Decimal LiabilityClaimid = Convert.ToDecimal(Session["WorkerCompID"]);
+
+        lstliability = objliability.GetAL_ClaimByID(Liabilityid);
+        lstRepresent = objClaimRepresentive.GetAL_Claim_RepresentativeByID(LiabilityClaimid);
+        lstLossLocation = objLossLocation.GetAL_Claim_LossLocationByID(LiabilityClaimid);
+        lstLossInfo = objLossinfo.GetAL_Claim_LossInfoByID(LiabilityClaimid);
+        lstVehicleInfo = objCompanyVehInfo.GetAL_Claim_CmpVehicleInfoByID(LiabilityClaimid);
+        lstDriverInfo = objCompanyDriverInfo.GetAL_Claim_CmpDriverInfoByID(LiabilityClaimid);
+        lstOtherPropertyDamage = objOtherPropertyDamage.GetAL_Claim_OtherPropertyDamageByID(LiabilityClaimid);
+        lstotherParty = objOtherParty.GetAL_Claim_OtherPartyByID(LiabilityClaimid);
+        try
+        {
+            if (lstliability.Count != 0)
+            {
+
+                //..................Claim Identification..........................
+                lblclaimnoedit.Text = lstliability[0].Claim_Number;
+                //Need to store last claim number, user has worked with for displaying in Enter payments in Check writing
+                Session["LastClaimNumber"] = lblclaimnoedit.Text;
+                if (lstliability[0].Report_To_Carrier == "Y")
+                    rbtReptoCarrier.SelectedIndex = 0;
+                else if (lstliability[0].Report_To_Carrier == "N")
+                    rbtReptoCarrier.SelectedIndex = 1;
+
+                if (lstliability[0].FK_Claim_Type != null)
+                    dwClaimType.SelectedIndex = dwClaimType.Items.IndexOf(dwClaimType.Items.FindByValue(lstliability[0].FK_Claim_Type.ToString()));
+
+                if (lstliability[0].Fk_ECD_Id != null)
+                    txtempid.Text = lstliability[0].Fk_ECD_Id.ToString();
+
+
+
+
+                //if (dwClaimType.SelectedIndex != 0)
+                //    objliability.FK_Claim_Type = Convert.ToDecimal(dwClaimType.SelectedValue.ToString());
+
+                if (lstliability[0].Date_To_Fairpoint.ToString() != String.Empty)
+                    txtDateReportedtoFair.Text = Convert.ToDateTime(lstliability[0].Date_To_Fairpoint.ToString()).ToShortDateString();
+
+                if (lstliability[0].Claim_Open_Date.ToString() != String.Empty)
+                    txtDateClaimOpened.Text = Convert.ToDateTime(lstliability[0].Claim_Open_Date.ToString()).ToShortDateString();
+
+                if (lstliability[0].FK_Claimant_id != null)
+                    dwClaimant.SelectedIndex = dwClaimant.Items.IndexOf(dwClaimant.Items.FindByValue(lstliability[0].FK_Claimant_id.ToString()));
+
+                if (lstliability[0].Claim_Close_Date.ToString() != String.Empty)
+                    txtDateClaimClosed.Text = Convert.ToDateTime(lstliability[0].Claim_Close_Date.ToString()).ToShortDateString();
+
+                if (lstliability[0].Claim_Reopen_Date.ToString() != String.Empty)
+                    txtDateClaimReopened.Text = Convert.ToDateTime(lstliability[0].Claim_Reopen_Date.ToString()).ToShortDateString();
+
+
+                if (lstliability[0].FK_Entity != null)
+                    dwEntity.SelectedIndex = dwEntity.Items.IndexOf(dwEntity.Items.FindByValue(lstliability[0].FK_Entity.ToString()));
+
+                if (lstliability[0].Date_To_Carrier.ToString() != String.Empty)
+                    txtlblDateReportedtoCarrier.Text = Convert.ToDateTime(lstliability[0].Date_To_Carrier.ToString()).ToShortDateString();
+
+                if (lstliability[0].FK_Carrier != null)
+                    txtpolicyid.Text = lstliability[0].FK_Carrier.ToString();
+
+
+                if (lstliability[0].Date_Of_Loss.ToString() != String.Empty)
+                    txtDateofLoss.Text = Convert.ToDateTime(lstliability[0].Date_Of_Loss.ToString()).ToShortDateString();
+
+                if (lstliability[0].Time_Of_Loss != String.Empty)
+                    txtTimeofLoss.Text = lstliability[0].Time_Of_Loss;
+
+                if (lstliability[0].TPA_Name != String.Empty)
+                    txtTPAName.Text = lstliability[0].TPA_Name;
+
+
+
+
+                if (lstliability[0].Cliamant_An_Employee == "Y")
+                    rbtnIsClaimantanEmp.SelectedIndex = 0;
+                else if (lstliability[0].Cliamant_An_Employee == "N")
+                    rbtnIsClaimantanEmp.SelectedIndex = 1;
+
+
+
+                if (lstliability[0].Legal == "Y")
+                    rbtnDoesClimant.SelectedIndex = 0;
+                else if (lstliability[0].Legal == "N")
+                    rbtnDoesClimant.SelectedIndex = 1;
+
+                //if (lstliability[0].Effective_Policy_Date.ToString() != String.Empty)
+                //    txtPolicyEffecDate.Text = Convert.ToDateTime(lstliability[0].Effective_Policy_Date.ToString()).ToShortDateString();
+
+                //if (lstliability[0].Expiration_Policy_Date.ToString() != String.Empty)
+                //    txtPolicyExpDate.Text = Convert.ToDateTime(lstliability[0].Expiration_Policy_Date.ToString()).ToShortDateString();
+
+                if (lstliability[0].FK_Claimant_id == 1)
+                {
+                    lstemp = objliability.GetEmployee_ByID(Liabilityid, Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+
+                    txtFirstName.Text = lstemp[0].First_Name.Replace("''", "'");
+                    txtLastName.Text = lstemp[0].Last_Name.Replace("''", "'");
+                }
+
+                if (lstliability[0].FK_Claimant_id == 2)
+                {
+                    lstClimant = objliability.GetCliamant_ByID(Liabilityid, Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+
+                    txtFirstName.Text = lstClimant[0].Cliamant_First_Name.Replace("''", "'");
+                    txtLastName.Text = lstClimant[0].Cliamant_Last_Name.Replace("''", "'");
+                }
+
+                if (lstliability[0].FK_Claimant_id == 3)
+                {
+                    lstDriver = objliability.GetDriver_ByID(Liabilityid, Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+
+                    txtFirstName.Text = lstDriver[0].Driver_First_Name.Replace("''", "'");
+                    txtLastName.Text = lstDriver[0].Driver_Last_Name.Replace("''", "'");
+                }
+
+                lstcarrier = objliability.GetCarrier_ByID(Liabilityid, Convert.ToInt32(lstliability[0].FK_Carrier));
+
+                if (lstcarrier.Count != 0)
+                {
+                    txtCarrierName.Text = lstcarrier[0].Carrier.ToString();
+
+                    if (lstcarrier[0].Effective_Policy_Date.ToString() != String.Empty)
+                        txtPolicyEffecDate.Text = Convert.ToDateTime(lstcarrier[0].Effective_Policy_Date.ToString()).ToShortDateString();
+
+                    if (lstcarrier[0].Expiration_Policy_Date.ToString() != String.Empty)
+                        txtPolicyExpDate.Text = Convert.ToDateTime(lstcarrier[0].Expiration_Policy_Date.ToString()).ToShortDateString();
+
+                    if (lstcarrier[0].Policy_Number_Claim != String.Empty)
+                        txtPolicyNo.Text = lstcarrier[0].Policy_Number_Claim;
+                }
+
+
+
+                if (lstRepresent.Count != 0)
+                {
+
+                    //Claim Representative
+
+
+                    if (lstRepresent[0].FairPoint_Name != String.Empty)
+                        txtname.Text = lstRepresent[0].FairPoint_Name;
+
+                    if (lstRepresent[0].Telephone != String.Empty)
+                        txtTelephone.Text = lstRepresent[0].Telephone;
+
+                    if (lstRepresent[0].Email != String.Empty)
+                        txtEMail.Text = lstRepresent[0].Email;
+
+
+                }
+
+                if (lstLossLocation.Count != 0)
+                {
+                    //Loss Location
+
+                    if (lstLossLocation[0].Address1 != String.Empty)
+                        txtAdd1.Text = lstLossLocation[0].Address1;
+
+                    if (lstLossLocation[0].Address2 != String.Empty)
+                        txtAdd2.Text = lstLossLocation[0].Address2;
+
+                    if (lstLossLocation[0].City != String.Empty)
+                        txtCity.Text = lstLossLocation[0].City;
+
+                    if (lstLossLocation[0].Zip != String.Empty)
+                        txtZip.Text = lstLossLocation[0].Zip;
+
+                    if (lstLossLocation[0].FK_State != null)
+                        dwState.SelectedIndex = dwState.Items.IndexOf(dwState.Items.FindByValue(lstLossLocation[0].FK_State.ToString()));
+
+
+                    if (lstLossLocation[0].County != String.Empty)
+                        dwCounty.SelectedItem.Text = lstLossLocation[0].County;
+
+                    if (lstLossLocation[0].Accident_In_Company == "Y")
+                        rbtnDidAccOccur.SelectedIndex = 0;
+                    else if (lstLossLocation[0].Accident_In_Company == "N")
+                        rbtnDidAccOccur.SelectedIndex = 1;
+                }
+
+                if (lstLossInfo.Count != 0)
+                {
+
+                    //Loss Information
+
+                    if (lstLossInfo[0].Full_Desc_loss != String.Empty)
+                        txtfullDescOfLOss.Text = lstLossInfo[0].Full_Desc_loss;
+
+
+
+                    if (lstLossInfo[0].Police_Notified == "Y")
+                        rbtnWerePolice.SelectedIndex = 0;
+                    else if (lstLossInfo[0].Police_Notified == "N")
+                        rbtnWerePolice.SelectedIndex = 1;
+
+                    if (lstLossInfo[0].Name_Of_Agency != String.Empty)
+                        txtisyesnameofagency.Text = lstLossInfo[0].Name_Of_Agency;
+
+                    if (lstLossInfo[0].Officer_Name != String.Empty)
+                        txtOfficername.Text = lstLossInfo[0].Officer_Name;
+
+                    if (lstLossInfo[0].Officer_BadgeNo != String.Empty)
+                        txtOfficerBadgeNo.Text = lstLossInfo[0].Officer_BadgeNo;
+
+
+                    if (lstLossInfo[0].Ticket_Issued == "Y")
+                        rbtnWasTicketIss.SelectedIndex = 0;
+                    else if (lstLossInfo[0].Ticket_Issued == "N")
+                        rbtnWasTicketIss.SelectedIndex = 1;
+
+                    if (lstLossInfo[0].Injury_To_Cmp_Emps == "Y")
+                        rbtnAnyInjuries.SelectedIndex = 0;
+                    else if (lstLossInfo[0].Injury_To_Cmp_Emps == "N")
+                        rbtnAnyInjuries.SelectedIndex = 1;
+
+                    if (lstLossInfo[0].Injury_Desc_Emps != String.Empty)
+                        txtIfYesDesEmp.Text = lstLossInfo[0].Injury_Desc_Emps;
+
+                    if (lstLossInfo[0].Injury_To_Others == "Y")
+                        rbtnAnyInjuriestoOther.SelectedIndex = 0;
+                    else if (lstLossInfo[0].Injury_To_Others == "N")
+                        rbtnAnyInjuriestoOther.SelectedIndex = 1;
+
+                    if (lstLossInfo[0].Injury_Desc_Others != String.Empty)
+                        txtifyesDesotherparty.Text = lstLossInfo[0].Injury_Desc_Others;
+
+
+                    if (lstLossInfo[0].Accident_Prev_Less_10k == "Y")
+                        rbtnWasAccPreventLess.SelectedIndex = 0;
+                    else if (lstLossInfo[0].Accident_Prev_Less_10k == "N")
+                        rbtnWasAccPreventLess.SelectedIndex = 1;
+
+
+
+                    if (lstLossInfo[0].Accident_Prev_Greater_10k == "Y")
+                        rbtnWasAccPrevent.SelectedIndex = 0;
+                    else if (lstLossInfo[0].Accident_Prev_Greater_10k == "N")
+                        rbtnWasAccPrevent.SelectedIndex = 1;
+
+                    if (lstLossInfo[0].Accident_NonPrev == "Y")
+                        rbtnwasAccNonPrevent.SelectedIndex = 0;
+                    else if (lstLossInfo[0].Accident_NonPrev == "N")
+                        rbtnwasAccNonPrevent.SelectedIndex = 1;
+
+
+                    if (lstVehicleInfo.Count != 0)
+                    {
+
+                        if (lstVehicleInfo[0].Year != String.Empty)
+                            txtyear.Text = lstVehicleInfo[0].Year;
+
+
+                        if (lstVehicleInfo[0].Make != String.Empty)
+                            txtMake.Text = lstVehicleInfo[0].Make;
+
+                        if (lstVehicleInfo[0].Model != String.Empty)
+                            txtmodel.Text = lstVehicleInfo[0].Model;
+
+                        if (lstVehicleInfo[0].VIN != String.Empty)
+                            txtVIN.Text = lstVehicleInfo[0].VIN;
+
+                        if (lstVehicleInfo[0].License_Plate_Number != String.Empty)
+                            txtLicensePlateNo.Text = lstVehicleInfo[0].License_Plate_Number;
+
+                        if (lstVehicleInfo[0].Vehicle_Color != String.Empty)
+                            txtVehicleColor.Text = lstVehicleInfo[0].Vehicle_Color;
+
+                        if (lstVehicleInfo[0].FK_License_Plate_State != null)
+                            dwLicensePlateState.SelectedIndex = dwLicensePlateState.Items.IndexOf(dwLicensePlateState.Items.FindByValue(lstVehicleInfo[0].FK_License_Plate_State.ToString()));
+
+
+                        if (lstVehicleInfo[0].CmpVeh_Only_Veh == "Y")
+                            rbtnWascompanyvehicle.SelectedIndex = 0;
+                        else if (lstVehicleInfo[0].CmpVeh_Only_Veh == "N")
+                            rbtnWascompanyvehicle.SelectedIndex = 1;
+
+                        if (lstDriverInfo.Count != 0)
+                        {
+
+                            // Company Driver Information
+
+
+                            if (lstDriverInfo[0].Name != String.Empty)
+                                txtDrName.Text = lstDriverInfo[0].Name;
+
+                            if (lstDriverInfo[0].Telephone_No != String.Empty)
+                                txtDrTeleNo.Text = lstDriverInfo[0].Telephone_No;
+
+                            if (lstDriverInfo[0].Supervisor != String.Empty)
+                                txtSupervisor.Text = lstDriverInfo[0].Supervisor;
+
+                            if (lstDriverInfo[0].Supervisor_TeleNo != String.Empty)
+                                txtSupervisorTel.Text = lstDriverInfo[0].Supervisor_TeleNo;
+
+                            if (lstDriverInfo[0].List_Company_Passengers != String.Empty)
+                                txtListCompanyPass.Text = lstDriverInfo[0].List_Company_Passengers;
+
+                        }
+
+                        //Other Property Damage
+
+                        if (lstOtherPropertyDamage.Count != 0)
+                        {
+
+                            if (lstOtherPropertyDamage[0].Damage_To_Property == "Y")
+                                rbtnDamagetoProOther.SelectedIndex = 0;
+                            else if (lstOtherPropertyDamage[0].Damage_To_Property == "N")
+                                rbtnDamagetoProOther.SelectedIndex = 1;
+
+                            if (lstOtherPropertyDamage[0].Damage_Desc != String.Empty)
+                                txtDmgDesc.Text = lstOtherPropertyDamage[0].Damage_Desc;
+
+                            if (lstOtherPropertyDamage[0].Cost_To_Repair.ToString() != String.Empty)
+                                txtEstimatedCost.Text = lstOtherPropertyDamage[0].Cost_To_Repair.ToString();
+
+
+
+                        }
+
+                        if (lstotherParty.Count != 0)
+                        {
+                            //Other Party
+
+                            if (lstotherParty[0].Name != String.Empty)
+                                txtnameotherparty.Text = lstotherParty[0].Name;
+
+                            if (lstotherParty[0].TelePhone != String.Empty)
+                                txttelotherparty.Text = lstotherParty[0].TelePhone;
+
+                            if (lstotherParty[0].Email != String.Empty)
+                                txtEmailotherparty.Text = lstotherParty[0].Email;
+
+
+                        }
+
+
+
+                        //  DispalayCheckRegisterData();
+
+
+
+
+                        //Witness Grid
+                        gvOtherDrivers.PageSize = 10;
+                        gvOtherDrivers.DataSource = BindOtherDriverDetails();
+                        gvOtherDrivers.DataBind();
+
+                        gvOtherVehicles.PageSize = 10;
+                        gvOtherVehicles.DataSource = BindOtherVehDetails();
+                        gvOtherVehicles.DataBind();
+
+
+                        gvInjuredPersons.PageSize = 10;
+                        gvInjuredPersons.DataSource = BindInjuredPersonDetails();
+                        gvInjuredPersons.DataBind();
+
+                        gvWitness.PageSize = 10;
+                        gvWitness.DataSource = BindWitnessDetails();
+                        gvWitness.DataBind();
+
+
+
+                    }
+
+                    //Finanance Information
+
+                    DispalayCheckRegisterData(lstliability[0].Claim_Number);
+
+
+
+                }
+                lstAttachment = BindAttachmentDetails();
+                if (lstAttachment.Count > 0)
+                {
+                    gvAttachmentDetails.DataSource = lstAttachment;
+                    gvAttachmentDetails.DataBind();
+                    //dispTagName.Value = "dvAttachDetails";
+                    btnRemove.Visible = true;
+                    btnMail.Visible = true;
+                }
+                else
+                {
+                    btnRemove.Visible = false;
+                    btnMail.Visible = false;
+                }
+
+            }
+            else
+            {
+                btnRemove.Visible = false;
+                btnMail.Visible = false;
+            }
+        }
+
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+
+
+    }
+
+    private List<RIMS_Base.CLiabilityClaimOtherVehInfo> BindOtherVehDetails()
+    {
+        try
+        {
+            m_objotherVeh = new RIMS_Base.Biz.CLiabilityClaimOtherVehInfo();
+            lstOtherVehicle = new List<RIMS_Base.CLiabilityClaimOtherVehInfo>();
+            lstOtherVehicle = null;
+
+            if (ViewState["PK_Liability_Claim"] != null && ViewState["PK_Liability_Claim"].ToString() != "")
+            {
+                lstOtherVehicle = m_objotherVeh.GetAL_Claim_OtherVehInfoByID(Convert.ToDecimal(ViewState["PK_Liability_Claim"].ToString()));
+            }
+            return lstOtherVehicle;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+    }
+
+    private List<RIMS_Base.CLiabilityClaimOtherDriverInfo> BindOtherDriverDetails()
+    {
+        try
+        {
+            m_objotherDriver = new RIMS_Base.Biz.CLiabilityClaimOtherDriverInfo();
+            lstOtherDriver = new List<RIMS_Base.CLiabilityClaimOtherDriverInfo>();
+            lstOtherDriver = null;
+
+            if (ViewState["PK_Liability_Claim"] != null && ViewState["PK_Liability_Claim"].ToString() != "")
+            {
+                lstOtherDriver = m_objotherDriver.GetAL_Claim_OtherDriverInfoByID(Convert.ToDecimal(ViewState["PK_Liability_Claim"].ToString()));
+            }
+            return lstOtherDriver;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+    }
+    private List<RIMS_Base.CLiabilityClaimOtherPersonInfo> BindInjuredPersonDetails()
+    {
+        try
+        {
+            m_objInjuredPerInfo = new RIMS_Base.Biz.CLiabilityClaimOtherPersonInfo();
+            lstInjuredPerInfo = new List<RIMS_Base.CLiabilityClaimOtherPersonInfo>();
+            lstInjuredPerInfo = null;
+
+            if (ViewState["PK_Liability_Claim"] != null && ViewState["PK_Liability_Claim"].ToString() != "")
+            {
+                lstInjuredPerInfo = m_objInjuredPerInfo.GetAL_Claim_OtherPersonInfoByID(Convert.ToDecimal(ViewState["PK_Liability_Claim"].ToString()));
+            }
+            return lstInjuredPerInfo;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+    }
+
+    private List<RIMS_Base.CLiabilityClaimWitness> BindWitnessDetails()
+    {
+        try
+        {
+            m_objWitness = new RIMS_Base.Biz.CLiabilityClaimWitness();
+            lstWitness = new List<RIMS_Base.CLiabilityClaimWitness>();
+            lstWitness = null;
+
+            if (ViewState["PK_Liability_Claim"] != null && ViewState["PK_Liability_Claim"].ToString() != "")
+            {
+                lstWitness = m_objWitness.GetAL_Claim_WitnessByID(Convert.ToDecimal(ViewState["PK_Liability_Claim"].ToString()));
+            }
+            return lstWitness;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+    }
+
+    private void DispalayCheckRegisterData(string claimNo)
+    {
+
+        m_objClaimReservesInfo = new RIMS_Base.Biz.CCheckWriting();
+        lstClaimReservesInfo = new List<RIMS_Base.CCheckWriting>();
+        lstClaimReservesInfo = m_objClaimReservesInfo.GetClaimInfoByClaimNo(claimNo);
+        ViewState["TableName"] = lstClaimReservesInfo[0].TableName.ToString();
+        ViewState["TableFK"] = lstClaimReservesInfo[0].TableFK.ToString();
+        objCheckRegister = new RIMS_Base.Biz.CCheckRegister();
+        if (ViewState["TableFK"] != null && ViewState["TableName"] != null)
+        {
+            // Commented by Mayuri on  04-Mar-2008
+            lstCheckRegister = objCheckRegister.GetCheckRegisterByID(Convert.ToDecimal(ViewState["TableFK"].ToString()), ViewState["TableName"].ToString());
+            // Commented by Alpesh on  03-Mar-2008
+            //lstCheckRegister = objCheckRegister.GetCheckRegisterByID(Convert.ToDecimal(Session["WorkerCompID"].ToString()), ViewState["TableName"].ToString());
+
+        }
+        if (lstCheckRegister.Count != 0)
+        {
+
+            if (lstCheckRegister[0].Indemnity_Incurred != null)
+                lblIndemIncurred.Text = lstCheckRegister[0].Indemnity_Incurred.ToString();
+            else
+                lblIndemIncurred.Text = "0.0";
+            if (lstCheckRegister[0].Indemnity_Paid != null)
+                lblIndemPaid.Text = lstCheckRegister[0].Indemnity_Paid.ToString();
+            else
+                lblIndemPaid.Text = "0.0";
+            //if (lstCheckRegister[0].Indemnity_Outstanding != null)
+            if (lstCheckRegister[0].Indemnity_Incurred != null && lstCheckRegister[0].Indemnity_Paid != null)
+            {
+                decimal? Temp = lstCheckRegister[0].Indemnity_Incurred - lstCheckRegister[0].Indemnity_Paid;
+                lblIndemOutStanding.Text = Temp.ToString();
+            }
+            else if (lstCheckRegister[0].Indemnity_Incurred != null && lstCheckRegister[0].Indemnity_Paid == null)
+            {
+                lblIndemOutStanding.Text = lstCheckRegister[0].Indemnity_Incurred.ToString();
+            }
+            else if (lstCheckRegister[0].Indemnity_Incurred == null && lstCheckRegister[0].Indemnity_Paid == null)
+            {
+                lblIndemOutStanding.Text = "0.0";
+            }
+            if (lstCheckRegister[0].Indemnity_Current_Month != null)
+                lblIndemCurrentMonth.Text = lstCheckRegister[0].Indemnity_Current_Month.ToString();
+            else
+                lblIndemCurrentMonth.Text = "0.0";
+            if (lstCheckRegister[0].Medical_Incurred != null)
+                lblMediIncured.Text = lstCheckRegister[0].Medical_Incurred.ToString();
+            else
+                lblMediIncured.Text = "0.0";
+            if (lstCheckRegister[0].Medical_Paid != null)
+                lblMediPaid.Text = lstCheckRegister[0].Medical_Paid.ToString();
+            else
+                lblMediPaid.Text = "0.0";
+            //if (lstCheckRegister[0].Medical_Outstanding != null)
+            if (lstCheckRegister[0].Medical_Incurred != null && lstCheckRegister[0].Medical_Paid != null)
+            {
+                decimal? Temp = lstCheckRegister[0].Medical_Incurred - lstCheckRegister[0].Medical_Paid;
+                lblMediOutStand.Text = Temp.ToString();
+            }
+            else if (lstCheckRegister[0].Medical_Incurred != null && lstCheckRegister[0].Medical_Paid == null)
+            {
+                lblMediOutStand.Text = lstCheckRegister[0].Medical_Incurred.ToString();
+            }
+            else if (lstCheckRegister[0].Medical_Incurred == null && lstCheckRegister[0].Medical_Paid == null)
+            {
+                lblMediOutStand.Text = "0.0";
+            }
+            if (lstCheckRegister[0].Medical_Current_Month != null)
+                lblMediCurrentMonth.Text = lstCheckRegister[0].Medical_Current_Month.ToString();
+            else
+                lblMediCurrentMonth.Text = "0.0";
+            if (lstCheckRegister[0].Expense_Incurred != null)
+                lblExpIncurred.Text = lstCheckRegister[0].Expense_Incurred.ToString();
+            else
+                lblExpIncurred.Text = "0.0";
+            if (lstCheckRegister[0].Expense_Paid != null)
+                lblExpIndemPaid.Text = lstCheckRegister[0].Expense_Paid.ToString();
+            else
+                lblExpIndemPaid.Text = "0.0";
+            //if (lstCheckRegister[0].Expense_Outstanding != null)
+            if (lstCheckRegister[0].Expense_Incurred != null && lstCheckRegister[0].Expense_Paid != null)
+            {
+                decimal? Temp = lstCheckRegister[0].Expense_Incurred - lstCheckRegister[0].Expense_Paid;
+                lblExpOutStand.Text = Temp.ToString();
+            }
+            else if (lstCheckRegister[0].Expense_Incurred != null && lstCheckRegister[0].Expense_Paid == null)
+            {
+                lblExpOutStand.Text = lstCheckRegister[0].Expense_Incurred.ToString();
+            }
+            else if (lstCheckRegister[0].Expense_Incurred == null && lstCheckRegister[0].Expense_Paid == null)
+            {
+                lblExpOutStand.Text = "0.0";
+            }
+            if (lstCheckRegister[0].Expense_Current_Month != null)
+                lblExpCurrentMonth.Text = lstCheckRegister[0].Expense_Current_Month.ToString();
+            else
+                lblExpCurrentMonth.Text = "0.0";
+        }
+
+    }
+
+    private void DispalayCheckRegisterDatainView(string claimNo)
+    {
+
+        m_objClaimReservesInfo = new RIMS_Base.Biz.CCheckWriting();
+        lstClaimReservesInfo = new List<RIMS_Base.CCheckWriting>();
+        lstClaimReservesInfo = m_objClaimReservesInfo.GetClaimInfoByClaimNo(claimNo);
+        ViewState["TableName"] = lstClaimReservesInfo[0].TableName.ToString();
+        ViewState["TableFK"] = lstClaimReservesInfo[0].TableFK.ToString();
+        objCheckRegister = new RIMS_Base.Biz.CCheckRegister();
+        if (ViewState["TableFK"] != null && ViewState["TableName"] != null)
+        {
+
+            lstCheckRegister = objCheckRegister.GetCheckRegisterByID(Convert.ToDecimal(ViewState["TableFK"].ToString()), ViewState["TableName"].ToString());
+
+        }
+        if (lstCheckRegister.Count != 0)
+        {
+
+            if (lstCheckRegister[0].Indemnity_Incurred != null)
+                lblvwIndemIncurred.Text = lstCheckRegister[0].Indemnity_Incurred.ToString();
+            else
+                lblvwIndemIncurred.Text = "0.0";
+            if (lstCheckRegister[0].Indemnity_Paid != null)
+                lblvwIndemPaid.Text = lstCheckRegister[0].Indemnity_Paid.ToString();
+            else
+                lblvwIndemPaid.Text = "0.0";
+            //if (lstCheckRegister[0].Indemnity_Outstanding != null)
+            if (lstCheckRegister[0].Indemnity_Incurred != null && lstCheckRegister[0].Indemnity_Paid != null)
+            {
+                decimal? Temp = lstCheckRegister[0].Indemnity_Incurred - lstCheckRegister[0].Indemnity_Paid;
+                lblvwIndemOutStanding.Text = Temp.ToString();
+            }
+            else if (lstCheckRegister[0].Indemnity_Incurred != null && lstCheckRegister[0].Indemnity_Paid == null)
+            {
+                lblvwIndemOutStanding.Text = lstCheckRegister[0].Indemnity_Incurred.ToString();
+            }
+            else if (lstCheckRegister[0].Indemnity_Incurred == null && lstCheckRegister[0].Indemnity_Paid == null)
+            {
+                lblvwIndemOutStanding.Text = "0.0";
+            }
+            if (lstCheckRegister[0].Indemnity_Current_Month != null)
+                lblvwIndemCurrentMonth.Text = lstCheckRegister[0].Indemnity_Current_Month.ToString();
+            else
+                lblvwIndemCurrentMonth.Text = "0.0";
+            if (lstCheckRegister[0].Medical_Incurred != null)
+                lblvwMediIncured.Text = lstCheckRegister[0].Medical_Incurred.ToString();
+            else
+                lblvwMediIncured.Text = "0.0";
+            if (lstCheckRegister[0].Medical_Paid != null)
+                lblvwMediPaid.Text = lstCheckRegister[0].Medical_Paid.ToString();
+            else
+                lblvwMediPaid.Text = "0.0";
+            //if (lstCheckRegister[0].Medical_Outstanding != null)
+            if (lstCheckRegister[0].Medical_Incurred != null && lstCheckRegister[0].Medical_Paid != null)
+            {
+                decimal? Temp = lstCheckRegister[0].Medical_Incurred - lstCheckRegister[0].Medical_Paid;
+                lblvwMediOutStand.Text = Temp.ToString();
+            }
+            else if (lstCheckRegister[0].Medical_Incurred != null && lstCheckRegister[0].Medical_Paid == null)
+            {
+                lblvwMediOutStand.Text = lstCheckRegister[0].Medical_Incurred.ToString();
+            }
+            else if (lstCheckRegister[0].Medical_Incurred == null && lstCheckRegister[0].Medical_Paid == null)
+            {
+                lblvwMediOutStand.Text = "0.0";
+            }
+            if (lstCheckRegister[0].Medical_Current_Month != null)
+                lblvwMediCurrentMonth.Text = lstCheckRegister[0].Medical_Current_Month.ToString();
+            else
+                lblvwMediCurrentMonth.Text = "0.0";
+            if (lstCheckRegister[0].Expense_Incurred != null)
+                lblvwExpIncurred.Text = lstCheckRegister[0].Expense_Incurred.ToString();
+            else
+                lblvwExpIncurred.Text = "0.0";
+            if (lstCheckRegister[0].Expense_Paid != null)
+                lblvwExpIndemPaid.Text = lstCheckRegister[0].Expense_Paid.ToString();
+            else
+                lblvwExpIndemPaid.Text = "0.0";
+            //if (lstCheckRegister[0].Expense_Outstanding != null)
+            if (lstCheckRegister[0].Expense_Incurred != null && lstCheckRegister[0].Expense_Paid != null)
+            {
+                decimal? Temp = lstCheckRegister[0].Expense_Incurred - lstCheckRegister[0].Expense_Paid;
+                lblvwExpOutStand.Text = Temp.ToString();
+            }
+            else if (lstCheckRegister[0].Expense_Incurred != null && lstCheckRegister[0].Expense_Paid == null)
+            {
+                lblvwExpOutStand.Text = lstCheckRegister[0].Expense_Incurred.ToString();
+            }
+            else if (lstCheckRegister[0].Expense_Incurred == null && lstCheckRegister[0].Expense_Paid == null)
+            {
+                lblvwExpOutStand.Text = "0.0";
+            }
+            if (lstCheckRegister[0].Expense_Current_Month != null)
+                lblvwExpCurrentMonth.Text = lstCheckRegister[0].Expense_Current_Month.ToString();
+            else
+                lblvwExpCurrentMonth.Text = "0.0";
+        }
+    }
+
+    private void GeneralSorting()
+    {
+        try
+        {
+            lstOtherDriver = new List<RIMS_Base.CLiabilityClaimOtherDriverInfo>();
+            lstOtherDriver = BindOtherDriverDetails();
+            if (ViewState["SortExp"] != null && ViewState["sortDirection"] != null)
+            {
+                lstOtherDriver.Sort(new RIMS_Base.GenericComparer<RIMS_Base.CLiabilityClaimOtherDriverInfo>((string)ViewState["SortExp"], (SortDirection)ViewState["sortDirection"]));
+                strSortExp = ViewState["SortExp"].ToString();
+            }
+            gvOtherDrivers.DataSource = lstOtherDriver;
+            gvOtherDrivers.DataBind();
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+
+    }
+
+    private void GeneralSortingVehicle()
+    {
+        try
+        {
+            lstOtherVehicle = new List<RIMS_Base.CLiabilityClaimOtherVehInfo>();
+            lstOtherVehicle = BindOtherVehDetails();
+            if (ViewState["SortExp"] != null && ViewState["sortDirection"] != null)
+            {
+                lstOtherVehicle.Sort(new RIMS_Base.GenericComparer<RIMS_Base.CLiabilityClaimOtherVehInfo>((string)ViewState["SortExp"], (SortDirection)ViewState["sortDirection"]));
+                strSortExp = ViewState["SortExp"].ToString();
+            }
+            gvOtherVehicles.DataSource = lstOtherVehicle;
+            gvOtherVehicles.DataBind();
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+
+    }
+
+    private void GeneralSortinginjured()
+    {
+        try
+        {
+            lstInjuredPerInfo = new List<RIMS_Base.CLiabilityClaimOtherPersonInfo>();
+            lstInjuredPerInfo = BindInjuredPersonDetails();
+            if (ViewState["SortExp"] != null && ViewState["sortDirection"] != null)
+            {
+                lstInjuredPerInfo.Sort(new RIMS_Base.GenericComparer<RIMS_Base.CLiabilityClaimOtherPersonInfo>((string)ViewState["SortExp"], (SortDirection)ViewState["sortDirection"]));
+                strSortExp = ViewState["SortExp"].ToString();
+            }
+            gvInjuredPersons.DataSource = lstInjuredPerInfo;
+            gvInjuredPersons.DataBind();
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+
+    }
+
+    private void GeneralSortingWitness()
+    {
+        try
+        {
+            lstWitness = new List<RIMS_Base.CLiabilityClaimWitness>();
+            lstWitness = BindWitnessDetails();
+            if (ViewState["SortExp"] != null && ViewState["sortDirection"] != null)
+            {
+                lstWitness.Sort(new RIMS_Base.GenericComparer<RIMS_Base.CLiabilityClaimWitness>((string)ViewState["SortExp"], (SortDirection)ViewState["sortDirection"]));
+                strSortExp = ViewState["SortExp"].ToString();
+            }
+            gvWitness.DataSource = lstWitness;
+            gvWitness.DataBind();
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+
+    }
+    #region Attachment
+    private void UploadDocuments()
+    {
+        try
+        {
+            m_strPath = Server.MapPath(ConfigurationManager.AppSettings["UploadPath"]);
+
+            if (!(Directory.Exists(m_strPath + "\\" + m_strFolderName)))
+            {
+                Directory.CreateDirectory(m_strPath + "\\" + m_strFolderName);
+            }
+            m_strFileName = GetCustomFileName() + uplCommon.FileName.ToString();
+            m_strPath = m_strPath + "\\" + m_strFolderName + "\\" + m_strFileName;
+            uplCommon.SaveAs(m_strPath);
+
+        }
+        catch (Exception ex)
+        {
+
+            throw ex;
+        }
+    }
+
+    private string GetCustomFileName()
+    {
+        try
+        {
+            m_strCustomFileName = System.DateTime.Now.ToString("MMddyyhhmmss");
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return m_strCustomFileName;
+    }
+    /// <summary>
+    /// Insert Attachment in Database.
+    /// </summary>
+    /// <returns>Integer</returns>
+    private int AddAttachment()
+    {
+        try
+        {
+            InsertData();
+            UploadDocuments();
+            m_objAttachment = new RIMS_Base.Biz.CAttachment();
+            m_objAttachment.Attachment_Table = "Liability_Claim";
+            m_objAttachment.Foreign_Key = Convert.ToInt32(ViewState["PK_Liability_Claim"].ToString());
+            m_objAttachment.FK_Attachment_Type = 1;
+            //  Convert.ToInt32(ddlAttachType.SelectedValue);
+            m_objAttachment.Attachment_Description = txtAttachDesc.Text.Replace("'", "''");
+            m_objAttachment.Attachment_Name = m_strFileName;
+            m_objAttachment.Updated_By = "1";
+            m_objAttachment.Update_Date = System.DateTime.Now.Date;
+            Attach_Retval = m_objAttachment.InsertUpdateAttachment(m_objAttachment);
+
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return Attach_Retval;
+    }
+
+    private List<RIMS_Base.CAttachment> BindAttachmentDetails()
+    {
+        try
+        {
+            m_objAttachment = new RIMS_Base.Biz.CAttachment();
+            lstAttachment = new List<RIMS_Base.CAttachment>();
+            if (ViewState["PK_Liability_Claim"] != null && ViewState["PK_Liability_Claim"].ToString() != "")
+                lstAttachment = m_objAttachment.GetAll(0, Convert.ToInt32(ViewState["PK_Liability_Claim"].ToString()), "Liability_Claim");
+
+            return lstAttachment;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+    }
+    private void ViewAllFromSearchGrid()
+    {
+
+
+        dvAttachDetails.Style["display"] = "none";
+        divfirst.Style["display"] = "none";
+        divsecond.Style["display"] = "none";
+        divthird.Style["display"] = "none";
+        divfour.Style["display"] = "none";
+        divfive.Style["display"] = "none";
+        divsix.Style["display"] = "none";
+        divseven.Style["display"] = "none";
+        diveight.Style["display"] = "none";
+        divnine.Style["display"] = "none";
+        divten.Style["display"] = "none";
+        divview.Style["display"] = "block";
+
+        LeftDiv.Style["display"] = "none";
+        divbtn.Style["display"] = "none";
+        mainContent.Style["display"] = "none";
+
+        //btnViewBack.Visible = false;
+        //btnBack.Visible = true;
+
+        ViewData();
+
+    }
+
+
+
+    #endregion
+
+    #endregion
+
+    #region Paging Process vehicle
+    protected void gvOtherVehicles_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+
+    }
+    protected void btnSaveView_Click(object sender, EventArgs e)
+    {
+
+    }
+    protected void ddlPage_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            gvOtherVehicles.PageSize = Convert.ToInt32(ddlPage.SelectedValue);
+            gvOtherVehicles.DataSource = BindOtherVehDetails();
+            gvOtherVehicles.DataBind();
+            lblPageInfo.Text = "Page 1 of " + gvOtherVehicles.PageCount.ToString();
+            txtPageNo.Text = "1";
+
+            divfirst.Style["display"] = "none";
+            divSearch.Style["display"] = "block";
+            divbtn.Style["display"] = "block";
+            divten.Style["display"] = "block";
+            //second.CssClass = "left_menu_active";
+            //first.CssClass = "left_menu";
+
+            diveleven.Style["display"] = "none";
+            divtwelve.Style["display"] = "none";
+            divthirteen.Style["display"] = "none";
+            divSearchDr.Style["display"] = "none";
+            divSearchwt.Style["display"] = "none";
+            divSearchinjured.Style["display"] = "none";
+
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnGo_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (txtPageNo.Text.ToString().Trim() == string.Empty || Convert.ToInt32(txtPageNo.Text) < 1)
+            {
+                gvOtherVehicles.PageIndex = 0;
+                txtPageNo.Text = "1";
+            }
+            else if (Convert.ToInt32(txtPageNo.Text) > gvOtherVehicles.PageCount)
+            {
+                gvOtherVehicles.PageIndex = gvOtherVehicles.PageCount;
+                txtPageNo.Text = gvOtherVehicles.PageCount.ToString();
+            }
+            else
+            {
+                gvOtherVehicles.PageIndex = Convert.ToInt32(txtPageNo.Text) - 1;
+            }
+            lblPageInfo.Text = "Page " + txtPageNo.Text.ToString() + " of " + gvOtherVehicles.PageCount.ToString();
+            gvOtherVehicles.DataSource = BindOtherVehDetails();
+            gvOtherVehicles.DataBind();
+
+            divfirst.Style["display"] = "none";
+            divSearch.Style["display"] = "block";
+            // divthird.Style["display"] = "block";
+            divbtn.Style["display"] = "block";
+            divten.Style["display"] = "block";
+
+            // first.Style["CssClass"] = "left_menu";
+            //.Style["CssClass"] = "left_menu_active";
+
+            diveleven.Style["display"] = "none";
+            divtwelve.Style["display"] = "none";
+            divthirteen.Style["display"] = "none";
+            divSearchDr.Style["display"] = "none";
+            divSearchwt.Style["display"] = "none";
+            divSearchinjured.Style["display"] = "none";
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+    }
+    protected void btnPrev_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (gvOtherVehicles.PageIndex <= gvOtherVehicles.PageCount)
+            {
+                gvOtherVehicles.PageIndex = gvOtherVehicles.PageIndex - 1;
+                //GeneralSortingVehicle();
+                gvOtherVehicles.DataSource = BindOtherVehDetails();
+                gvOtherVehicles.DataBind();
+                lblPageInfo.Text = "Page " + Convert.ToString(gvOtherVehicles.PageIndex + 1) + " of " + gvOtherVehicles.PageCount.ToString();
+
+            }
+
+            divSearch.Style["display"] = "block";
+            divfirst.Style["display"] = "none";
+            // divthird.Style["display"] = "block";
+            divbtn.Style["display"] = "block";
+            divten.Style["display"] = "block";
+            //second.CssClass = "left_menu_active";
+            //first.CssClass = "left_menu";
+
+            diveleven.Style["display"] = "none";
+            divtwelve.Style["display"] = "none";
+            divthirteen.Style["display"] = "none";
+            divSearchDr.Style["display"] = "none";
+            divSearchwt.Style["display"] = "none";
+            divSearchinjured.Style["display"] = "none";
+
+
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    protected void btnNext_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (gvOtherVehicles.PageIndex <= gvOtherVehicles.PageCount)
+            {
+                gvOtherVehicles.PageIndex = gvOtherVehicles.PageIndex + 1;
+                // GeneralSortingVehicle();
+                gvOtherVehicles.DataSource = BindOtherVehDetails();
+                gvOtherVehicles.DataBind();
+                lblPageInfo.Text = "Page " + Convert.ToString(gvOtherVehicles.PageIndex + 1) + " of " + gvOtherVehicles.PageCount.ToString();
+
+            }
+
+            divSearch.Style["display"] = "block";
+            divfirst.Style["display"] = "none";
+            //divthird.Style["display"] = "none";
+            divbtn.Style["display"] = "block";
+            divten.Style["display"] = "block";
+            //second.CssClass = "left_menu_active";
+            //first.CssClass = "left_menu";
+
+            diveleven.Style["display"] = "none";
+            divtwelve.Style["display"] = "none";
+            divthirteen.Style["display"] = "none";
+            divSearchDr.Style["display"] = "none";
+            divSearchwt.Style["display"] = "none";
+            divSearchinjured.Style["display"] = "none";
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    #endregion
+
+    #region Paging Process Driver
+    protected void gvOtherDrivers_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+
+    }
+    //protected void btnSaveView_Click(object sender, EventArgs e)
+    //{
+
+    //}
+    protected void btnSearchDr_Click(object sender, EventArgs e)
+    {
+        gvOtherDrivers.DataSource = BindOtherDriverDetails();
+        gvOtherDrivers.DataBind();
+
+        lblPageInfo.Text = "Page 1 of " + gvOtherDrivers.PageCount.ToString();
+        divfirst.Style["display"] = "none";
+        divSearchDr.Style["display"] = "block";
+        // divthird.Style["display"] = "block";
+        divbtn.Style["display"] = "block";
+        diveleven.Style["display"] = "block";
+        //second.CssClass = "left_menu_active";
+        //first.CssClass = "left_menu";
+
+        divSearchwt.Style["display"] = "none";
+        divSearch.Style["display"] = "none";
+        divSearchinjured.Style["display"] = "none";
+
+        divten.Style["display"] = "none";
+        divtwelve.Style["display"] = "none";
+        divthirteen.Style["display"] = "none";
+        divSearch.Style["display"] = "none";
+
+    }
+    protected void ddlPageDr_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            gvOtherDrivers.PageSize = Convert.ToInt32(ddlPageDr.SelectedValue);
+            gvOtherDrivers.DataSource = BindOtherDriverDetails();
+            gvOtherDrivers.DataBind();
+            lblPageInfoDr.Text = "Page 1 of " + gvOtherDrivers.PageCount.ToString();
+            txtPageNoDr.Text = "1";
+
+            divfirst.Style["display"] = "none";
+            divSearchDr.Style["display"] = "block";
+            divbtn.Style["display"] = "block";
+            diveleven.Style["display"] = "block";
+
+            //first.CssClass = "left_menu";
+
+            divSearchwt.Style["display"] = "none";
+            divSearch.Style["display"] = "none";
+            divSearchinjured.Style["display"] = "none";
+            divten.Style["display"] = "none";
+            divtwelve.Style["display"] = "none";
+            divthirteen.Style["display"] = "none";
+            divSearch.Style["display"] = "none";
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnGoDr_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (txtPageNoDr.Text.ToString().Trim() == string.Empty || Convert.ToInt32(txtPageNoDr.Text) < 1)
+            {
+                gvOtherDrivers.PageIndex = 0;
+                txtPageNoDr.Text = "1";
+            }
+            else if (Convert.ToInt32(txtPageNoDr.Text) > gvOtherDrivers.PageCount)
+            {
+                gvOtherDrivers.PageIndex = gvOtherDrivers.PageCount;
+                txtPageNoDr.Text = gvOtherDrivers.PageCount.ToString();
+            }
+            else
+            {
+                gvOtherDrivers.PageIndex = Convert.ToInt32(txtPageNoDr.Text) - 1;
+            }
+            lblPageInfoDr.Text = "Page " + txtPageNoDr.Text.ToString() + " of " + gvOtherDrivers.PageCount.ToString();
+            gvOtherDrivers.DataSource = BindOtherDriverDetails();
+            gvOtherDrivers.DataBind();
+
+            divfirst.Style["display"] = "none";
+            divSearchDr.Style["display"] = "block";
+            // divthird.Style["display"] = "block";
+            divbtn.Style["display"] = "block";
+            diveleven.Style["display"] = "block";
+
+            // first.Style["CssClass"] = "left_menu";
+            //.Style["CssClass"] = "left_menu_active";
+            divSearchwt.Style["display"] = "none";
+            divSearch.Style["display"] = "none";
+            divSearchinjured.Style["display"] = "none";
+            divten.Style["display"] = "none";
+            divtwelve.Style["display"] = "none";
+            divthirteen.Style["display"] = "none";
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+    }
+    protected void btnPrevDr_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (gvOtherDrivers.PageIndex <= gvOtherDrivers.PageCount)
+            {
+                gvOtherDrivers.PageIndex = gvOtherDrivers.PageIndex - 1;
+                GeneralSorting();
+                //gvSubrogation.DataSource = BindSubrogationDetails();
+                //gvSubrogation.DataBind();
+                lblPageInfoDr.Text = "Page " + Convert.ToString(gvOtherDrivers.PageIndex + 1) + " of " + gvOtherDrivers.PageCount.ToString();
+
+            }
+
+            divSearchDr.Style["display"] = "block";
+            divfirst.Style["display"] = "none";
+            divbtn.Style["display"] = "block";
+            diveleven.Style["display"] = "block";
+
+            divten.Style["display"] = "none";
+            divtwelve.Style["display"] = "none";
+            divthirteen.Style["display"] = "none";
+            divSearchwt.Style["display"] = "none";
+            divSearch.Style["display"] = "none";
+            divSearchinjured.Style["display"] = "none";
+
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    protected void btnNextDr_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (gvOtherDrivers.PageIndex <= gvOtherVehicles.PageCount)
+            {
+                gvOtherDrivers.PageIndex = gvOtherDrivers.PageIndex + 1;
+                GeneralSorting();
+                //gvSubrogation.DataSource = BindSubrogationDetails();
+                //gvSubrogation.DataBind();
+                lblPageInfoDr.Text = "Page " + Convert.ToString(gvOtherDrivers.PageIndex + 1) + " of " + gvOtherDrivers.PageCount.ToString();
+
+            }
+
+            divSearchDr.Style["display"] = "block";
+            divfirst.Style["display"] = "none";
+            //divthird.Style["display"] = "none";
+            divbtn.Style["display"] = "block";
+            diveleven.Style["display"] = "block";
+            //second.CssClass = "left_menu_active";
+            //first.CssClass = "left_menu";
+
+            divten.Style["display"] = "none";
+            divtwelve.Style["display"] = "none";
+            divthirteen.Style["display"] = "none";
+            divSearchwt.Style["display"] = "none";
+            divSearch.Style["display"] = "none";
+            divSearchinjured.Style["display"] = "none";
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    #endregion
+
+    #region Paging Process injured
+    protected void gvInjuredPersons_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+
+    }
+    //protected void btnSaveView_Click(object sender, EventArgs e)
+    //{
+
+    //}
+    //protected void btnSearch_Click(object sender, EventArgs e)
+    //{
+    //    gvOtherVehicles.DataSource = BindOtherVehDetails();
+    //    gvOtherVehicles.DataBind();
+
+    //    lblPageInfo.Text = "Page 1 of " + gvOtherVehicles.PageCount.ToString();
+    //    divfirst.Style["display"] = "none";
+    //    divSearch.Style["display"] = "block";
+    //    // divthird.Style["display"] = "block";
+    //    divbtn.Style["display"] = "block";
+    //    divten.Style["display"] = "block";
+    //    //second.CssClass = "left_menu_active";
+    //    //first.CssClass = "left_menu";
+
+    //    diveleven.Style["display"] = "none";
+    //    divtwelve.Style["display"] = "none";
+    //    divthirteen.Style["display"] = "none";
+    //    divSearchDr.Style["display"] = "none";
+
+    //}
+    protected void ddlPagepr_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            gvInjuredPersons.PageSize = Convert.ToInt32(ddlPagepr.SelectedValue);
+            gvInjuredPersons.DataSource = BindInjuredPersonDetails();
+            gvInjuredPersons.DataBind();
+            lblPageInfopr.Text = "Page 1 of " + gvInjuredPersons.PageCount.ToString();
+            txtPageNopr.Text = "1";
+
+            divSearchinjured.Style["display"] = "block";
+            divfirst.Style["display"] = "none";
+
+            divbtn.Style["display"] = "block";
+            divtwelve.Style["display"] = "block";
+            //second.CssClass = "left_menu_active";
+            //first.CssClass = "left_menu";
+
+            divSearchwt.Style["display"] = "none";
+            divSearch.Style["display"] = "none";
+            divSearchDr.Style["display"] = "none";
+
+            diveleven.Style["display"] = "none";
+            divten.Style["display"] = "none";
+            divthirteen.Style["display"] = "none";
+            divSearchDr.Style["display"] = "none";
+            divSearch.Style["display"] = "none";
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnGopr_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (txtPageNopr.Text.ToString().Trim() == string.Empty || Convert.ToInt32(txtPageNopr.Text) < 1)
+            {
+                gvInjuredPersons.PageIndex = 0;
+                txtPageNopr.Text = "1";
+            }
+            else if (Convert.ToInt32(txtPageNopr.Text) > gvInjuredPersons.PageCount)
+            {
+                gvInjuredPersons.PageIndex = gvInjuredPersons.PageCount;
+                txtPageNopr.Text = gvInjuredPersons.PageCount.ToString();
+            }
+            else
+            {
+                gvInjuredPersons.PageIndex = Convert.ToInt32(txtPageNopr.Text) - 1;
+            }
+            lblPageInfopr.Text = "Page " + txtPageNopr.Text.ToString() + " of " + gvInjuredPersons.PageCount.ToString();
+            gvInjuredPersons.DataSource = BindInjuredPersonDetails();
+            gvInjuredPersons.DataBind();
+
+            divSearchinjured.Style["display"] = "block";
+            divfirst.Style["display"] = "none";
+
+            divbtn.Style["display"] = "block";
+            divtwelve.Style["display"] = "block";
+            //second.CssClass = "left_menu_active";
+            //first.CssClass = "left_menu";
+
+            divSearchwt.Style["display"] = "none";
+            divSearch.Style["display"] = "none";
+            divSearchDr.Style["display"] = "none";
+            diveleven.Style["display"] = "none";
+            divten.Style["display"] = "none";
+            divthirteen.Style["display"] = "none";
+            divSearchDr.Style["display"] = "none";
+            divSearch.Style["display"] = "none";
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+    }
+    protected void btnPrevpr_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (gvInjuredPersons.PageIndex <= gvInjuredPersons.PageCount)
+            {
+                gvInjuredPersons.PageIndex = gvInjuredPersons.PageIndex - 1;
+                //GeneralSortinginjured();
+                gvInjuredPersons.DataSource = BindInjuredPersonDetails();
+                gvInjuredPersons.DataBind();
+                lblPageInfopr.Text = "Page " + Convert.ToString(gvInjuredPersons.PageIndex + 1) + " of " + gvInjuredPersons.PageCount.ToString();
+
+            }
+
+            divSearchinjured.Style["display"] = "block";
+            divfirst.Style["display"] = "none";
+            divSearchwt.Style["display"] = "none";
+            divSearch.Style["display"] = "none";
+            divSearchDr.Style["display"] = "none";
+
+
+            divbtn.Style["display"] = "block";
+            divtwelve.Style["display"] = "block";
+            //second.CssClass = "left_menu_active";
+            //first.CssClass = "left_menu";
+
+            diveleven.Style["display"] = "none";
+            divten.Style["display"] = "none";
+            divthirteen.Style["display"] = "none";
+
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    protected void btnNextpr_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (gvInjuredPersons.PageIndex <= gvInjuredPersons.PageCount)
+            {
+                gvInjuredPersons.PageIndex = gvInjuredPersons.PageIndex + 1;
+                // GeneralSortinginjured();
+                gvInjuredPersons.DataSource = BindInjuredPersonDetails();
+                gvInjuredPersons.DataBind();
+                lblPageInfopr.Text = "Page " + Convert.ToString(gvInjuredPersons.PageIndex + 1) + " of " + gvInjuredPersons.PageCount.ToString();
+
+            }
+
+            divSearchinjured.Style["display"] = "block";
+            divfirst.Style["display"] = "none";
+
+            divbtn.Style["display"] = "block";
+            divtwelve.Style["display"] = "block";
+            //second.CssClass = "left_menu_active";
+            //first.CssClass = "left_menu";
+            divSearchwt.Style["display"] = "none";
+            divSearch.Style["display"] = "none";
+            divSearchDr.Style["display"] = "none";
+
+
+            diveleven.Style["display"] = "none";
+            divten.Style["display"] = "none";
+            divthirteen.Style["display"] = "none";
+            divSearchDr.Style["display"] = "none";
+            divSearch.Style["display"] = "none";
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    #endregion
+
+    #region Paging Process Witness
+    protected void gvWitness_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+
+    }
+
+    //protected void btnSearch_Click(object sender, EventArgs e)
+    //{
+    //    gvWitness.DataSource = BindWitnessDetails();
+    //    gvWitness.DataBind();
+
+    //    lblPageInfowt.Text = "Page 1 of " + gvWitness.PageCount.ToString();
+    //    divfirst.Style["display"] = "none";
+    //    divSearchwt.Style["display"] = "block";
+
+    //    divbtn.Style["display"] = "block";
+    //    divthirteen.Style["display"] = "block";
+
+    //    diveleven.Style["display"] = "none";
+    //    divtwelve.Style["display"] = "none";
+    //    divten.Style["display"] = "none";
+    //    divSearchDr.Style["display"] = "none";
+
+    //}
+    protected void ddlPagewt_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            gvWitness.PageSize = Convert.ToInt32(ddlPagewt.SelectedValue);
+            gvWitness.DataSource = BindWitnessDetails();
+            gvWitness.DataBind();
+            lblPageInfowt.Text = "Page 1 of " + gvWitness.PageCount.ToString();
+            txtPageNowt.Text = "1";
+
+            divfirst.Style["display"] = "none";
+            divSearchwt.Style["display"] = "block";
+
+            divbtn.Style["display"] = "block";
+            divthirteen.Style["display"] = "block";
+
+            diveleven.Style["display"] = "none";
+            divtwelve.Style["display"] = "none";
+            divten.Style["display"] = "none";
+            divSearchDr.Style["display"] = "none";
+            divSearch.Style["display"] = "none";
+            divSearchinjured.Style["display"] = "none";
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnGowt_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (txtPageNowt.Text.ToString().Trim() == string.Empty || Convert.ToInt32(txtPageNowt.Text) < 1)
+            {
+                gvWitness.PageIndex = 0;
+                txtPageNowt.Text = "1";
+            }
+            else if (Convert.ToInt32(txtPageNowt.Text) > gvWitness.PageCount)
+            {
+                gvWitness.PageIndex = gvWitness.PageCount;
+                txtPageNowt.Text = gvWitness.PageCount.ToString();
+            }
+            else
+            {
+                gvWitness.PageIndex = Convert.ToInt32(txtPageNowt.Text) - 1;
+            }
+            lblPageInfowt.Text = "Page " + txtPageNowt.Text.ToString() + " of " + gvWitness.PageCount.ToString();
+            gvWitness.DataSource = BindWitnessDetails();
+            gvWitness.DataBind();
+
+            divfirst.Style["display"] = "none";
+            divSearchwt.Style["display"] = "block";
+
+            divbtn.Style["display"] = "block";
+            divthirteen.Style["display"] = "block";
+
+            diveleven.Style["display"] = "none";
+            divtwelve.Style["display"] = "none";
+            divten.Style["display"] = "none";
+            divSearchDr.Style["display"] = "none";
+            divSearch.Style["display"] = "none";
+            divSearchinjured.Style["display"] = "none";
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+    }
+    protected void btnPrevwt_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (gvWitness.PageIndex <= gvWitness.PageCount)
+            {
+                gvWitness.PageIndex = gvWitness.PageIndex - 1;
+                // GeneralSortingWitness();
+                gvWitness.DataSource = BindWitnessDetails();
+                gvWitness.DataBind();
+                lblPageInfowt.Text = "Page " + Convert.ToString(gvWitness.PageIndex + 1) + " of " + gvWitness.PageCount.ToString();
+
+            }
+
+            divfirst.Style["display"] = "none";
+            divSearchwt.Style["display"] = "block";
+
+            divbtn.Style["display"] = "block";
+            divthirteen.Style["display"] = "block";
+
+            diveleven.Style["display"] = "none";
+            divtwelve.Style["display"] = "none";
+            divten.Style["display"] = "none";
+            divSearchDr.Style["display"] = "none";
+            divSearch.Style["display"] = "none";
+            divSearchinjured.Style["display"] = "none";
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    protected void btnNextwt_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (gvWitness.PageIndex <= gvWitness.PageCount)
+            {
+                gvWitness.PageIndex = gvWitness.PageIndex + 1;
+                // GeneralSortingWitness();
+                gvWitness.DataSource = BindWitnessDetails();
+                gvWitness.DataBind();
+                lblPageInfowt.Text = "Page " + Convert.ToString(gvWitness.PageIndex + 1) + " of " + gvWitness.PageCount.ToString();
+
+            }
+            divfirst.Style["display"] = "none";
+            divSearchwt.Style["display"] = "block";
+
+            divbtn.Style["display"] = "block";
+            divthirteen.Style["display"] = "block";
+
+            diveleven.Style["display"] = "none";
+            divtwelve.Style["display"] = "none";
+            divten.Style["display"] = "none";
+            divSearchDr.Style["display"] = "none";
+            divSearch.Style["display"] = "none";
+            divSearchinjured.Style["display"] = "none";
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    #endregion
+
+}

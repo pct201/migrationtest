@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Reports>
+	<Report Name="Bordereau Report" Description="Report highlighting EPLI Claims occurring within a specified time-frame" PageURL="ExecutiveRisk/RptBordereau.aspx"/>
+	<Report Name="Claim Notification Bordereau Report" Description="Report Detailing EPLI Claims and Defense details within a specified timeframe" PageURL="ExecutiveRisk/RptNotif_Bordereau.aspx"/>
+	<Report Name="EPLI Pending Investigation and Litigation Summary Report" Description="Report detailing open EPLI Claims" PageURL="ExecutiveRisk/RptLitigationSummary.aspx"/>
+	<Report Name="Immediately Reportable Claims" Description="List of all open Executive Risk Claims in Bordereau Report Format" PageURL="ExecutiveRisk/RptReportableClaims.aspx"/>
+	<Report Name="Network Call Summary Report" Description="Report detailing open Network Calls and corresponding status information" PageURL="ExecutiveRisk/RptNetWorkCallSummary.aspx"/>	
+</Reports>

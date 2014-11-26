@@ -1,0 +1,205 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+public partial class Reports_Fields : System.Web.UI.Page
+{
+    public  CommonDBFunction m_objFields;
+    DataSet m_dsFields;
+    public string m_strOrderBy;
+    #region Event Handlers
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+
+            //lstFirst.Attributes.Add("onchange", " checkSelected("+lstFirst.SelectedValue+");");
+            //lstSecond.Attributes.Add("onchange", "checkSelected();");
+            //lstThird.Attributes.Add("onchange", " checkSelected();");
+            BindFields();
+            lstFields.DataSource = m_dsFields.Tables[0].DefaultView;
+            lstFields.DataTextField = "AdhocFieldname";
+            lstFields.DataValueField = "AdhocID";
+            lstFields.DataBind();
+
+            lstFirst.DataSource = m_dsFields.Tables[0].DefaultView;
+            lstFirst.DataTextField = "AdhocFieldname";
+            lstFirst.DataValueField = "AdhocFieldname1";
+            lstFirst.DataBind();
+
+            lstSecond.DataSource = m_dsFields.Tables[0].DefaultView;
+            lstSecond.DataTextField = "AdhocFieldname";
+            lstSecond.DataValueField = "AdhocFieldname1";
+            lstSecond.DataBind();
+
+            lstThird.DataSource = m_dsFields.Tables[0].DefaultView;
+            lstThird.DataTextField = "AdhocFieldname";
+            lstThird.DataValueField = "AdhocFieldname1";
+            lstThird.DataBind();
+            if (Session["ReportId"] == null)
+            {
+                Session["ShowFields"] = null;
+                Session["OrderBy"] = null;
+            }
+            if (Session["ShowFields"] != null)
+            {
+                BinListData(Session["ShowFields"].ToString(), lstFields);
+            }
+            if (Session["OrderBy"] != null)
+            {
+                string[] m_strArrIds = new string[3];
+                m_strArrIds = Session["OrderBy"].ToString().Split(',');
+                for (int m_inCounter = 0; m_inCounter < m_strArrIds.Length; m_inCounter++)
+                {
+                    if (m_inCounter==0)
+                    {
+                        lstFirst.Items.FindByValue(m_strArrIds[0].ToString()).Selected = true;
+                    }
+                    if (m_inCounter==1)
+                    {
+                        lstSecond.Items.FindByValue(m_strArrIds[1].ToString()).Selected = true;
+                    }
+                    if (m_inCounter == 2)
+                    {
+                        lstThird.Items.FindByValue(m_strArrIds[2].ToString()).Selected = true;
+                    }
+                }
+            }
+            if (Session["Sub"] != null)
+            {
+                if (Session["Sub"].ToString() == "1")
+                {
+                    chkSub.Checked = true;
+                }
+                else
+                {
+                    chkSub.Checked = false;
+                }
+            }
+            if (Session["Grand"] != null)
+            {
+                if (Session["Grand"].ToString() == "1")
+                {
+                    chkGrand.Checked = true;
+                }
+                else
+                {
+                    chkGrand.Checked = false;
+                }
+            }
+
+
+
+        }
+        
+    }
+    protected void lstFields_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        Session["ShowFields"] = Request.Form[lstFields.UniqueID];
+    }
+    protected void lstFirst_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        SetOrderByString();
+    }
+    protected void lstSecond_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        SetOrderByString();
+    }
+    protected void lstThird_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        SetOrderByString();
+    }
+    #endregion
+    #region Private Methods
+    private void SetOrderByString()
+    {
+        if (lstFirst.SelectedValue != string.Empty)
+        {
+            m_strOrderBy = m_strOrderBy+lstFirst.SelectedValue + ",";
+        }
+        if (lstSecond.SelectedValue != string.Empty)
+        {
+            m_strOrderBy = m_strOrderBy + lstSecond.SelectedValue + ",";
+        }
+        if (lstThird.SelectedValue != string.Empty)
+        {
+            m_strOrderBy = m_strOrderBy+ lstThird.SelectedValue + ",";
+        }
+        if (m_strOrderBy != string.Empty)
+        {
+            m_strOrderBy = m_strOrderBy.Substring(0, m_strOrderBy.Length - 1);
+        }
+        Session["OrderBy"] = m_strOrderBy;
+    }
+    private DataSet BindFields()
+    {
+        m_objFields = new CommonDBFunction();
+        m_dsFields = new DataSet();
+        m_dsFields = m_objFields.GetAllAdHocFields(Request.QueryString[0].ToString());
+        return m_dsFields;
+
+    }
+    private void BinListData(string m_strIDs, ListBox lstCommon)
+    {
+        try
+        {
+            string[] m_strSplitIds = new string[m_strIDs.Length];
+            m_strSplitIds = m_strIDs.Split(',');
+            for (int m_intCounter = 0; m_intCounter < m_strSplitIds.Length; m_intCounter++)
+            {
+                lstCommon.Items.FindByValue(m_strSplitIds[m_intCounter]).Selected = true;
+            }
+
+        }
+        catch
+        {
+            throw;
+        }
+    }
+    #endregion
+    protected void chkSelUnSelFields_CheckedChanged(object sender, EventArgs e)
+    {
+        if (chkSelUnSelFields.Checked == true)
+        {
+            for (int i = 0; i < lstFields.Items.Count; i++)
+            {
+                lstFields.Items[i].Selected = true;
+            }
+        }
+        else
+        {
+            lstFields.SelectedIndex = -1;
+        }
+    }
+    protected void chkGrand_CheckedChanged(object sender, EventArgs e)
+    {
+        if (chkGrand.Checked == true)
+        {
+            Session["Grand"] = "1";
+
+        }
+        else
+        {
+            Session["Grand"] = "0";
+        }
+    }
+    protected void chkSub_CheckedChanged(object sender, EventArgs e)
+    {
+        if (chkSub.Checked == true)
+        {
+            Session["Sub"] = "1";
+
+        }
+        else
+        {
+            Session["Sub"] = "0";
+        }
+    }
+}

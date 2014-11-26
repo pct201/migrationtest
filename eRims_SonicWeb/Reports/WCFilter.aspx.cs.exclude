@@ -1,0 +1,1176 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Collections.Generic;
+public partial class Reports_Filter : System.Web.UI.Page
+{
+    public RIMS_Base.Biz.CGeneral m_objBodyParts;
+    public RIMS_Base.Biz.CGeneral m_objCause;
+    public RIMS_Base.Biz.CGeneral m_objState;
+    public RIMS_Base.Biz.CGeneral m_objFacility;
+    public RIMS_Base.Biz.CGeneral m_objInjury;
+    public RIMS_Base.Biz.CGeneral m_objDivision;
+    public DataSet m_dsCommon;
+    public CommonDBFunction m_objFields;
+    DataSet m_dsFields;
+    string m_strOrderBy=string.Empty;
+    string m_strShowFields = string.Empty;
+    int m_intRetVal;
+    DataSet m_dsRptDetails = new DataSet();
+    
+    #region Event Handlers
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+        if (!IsPostBack)
+        {
+            /*BindFields();
+            lstFields.DataSource = m_dsFields.Tables[0].DefaultView;
+            lstFields.DataTextField = "AdhocFieldname";
+            lstFields.DataValueField = "AdhocColumnname";
+            lstFields.DataBind();*/
+
+            btnSubmit.Attributes.Add("onclick", "return Validate('S');");
+            btnExportExcel.Attributes.Add("onclick", "return Validate('E');");
+            BindReports(0);
+            BindBodyParts();
+            BindCause();
+            BindState();
+            BindInjury();
+            BindFacility();
+            BindDivison();
+            
+            lblDOI2.Visible = false;
+            txtDOI2.Visible = false;
+            imgDOI2.Visible = false;
+            lblDOI1.Text = rdbLstDOI.SelectedItem.Text + " Date:";
+
+            lblCO2.Visible = false;
+            txtCO2.Visible = false;
+            imgCO2.Visible = false;
+            lblCO1.Text = rdbLstCO.SelectedItem.Text + " Date:";
+
+            lblCC2.Visible = false;
+            txtCC2.Visible = false;
+            imgCC2.Visible = false;
+            lblCC1.Text = rdbLstCC.SelectedItem.Text + " Date:";
+
+            lblRD2.Visible = false;
+            txtRD2.Visible = false;
+            imgRD2.Visible = false;
+            lblRD1.Text = rdbLstCO.SelectedItem.Text + " Date:";
+
+            lblPD2.Visible = false;
+            txtPD2.Visible = false;
+            imgPD2.Visible = false;
+            lblPD1.Text = rdbLstCC.SelectedItem.Text + " Date:";
+
+            lblTP2.Visible = false;
+            txtTP2.Visible = false;
+            lblTP1.Text = rdbLstTP.SelectedItem.Text + " :$";
+
+            lblTI2.Visible = false;
+            txtTI2.Visible = false;
+            lblTI1.Text = rdbLstTI.SelectedItem.Text + " :$";
+
+            lblTO2.Visible = false;
+            txtTO2.Visible = false;
+            lblTO1.Text = rdbLstTP.SelectedItem.Text + " :$";
+
+            lblMP2.Visible = false;
+            txtMP2.Visible = false;
+            lblMP1.Text = rdbLstMP.SelectedItem.Text + " :$";
+
+            lblMI2.Visible = false;
+            txtMI2.Visible = false;
+            lblMI1.Text = rdbLstMI.SelectedItem.Text + " :$";
+
+            lblEP2.Visible = false;
+            txtEP2.Visible = false;
+            lblEP1.Text = rdbLstEP.SelectedItem.Text + " :$";
+
+            lblEI2.Visible = false;
+            txtEI2.Visible = false;
+            lblEI1.Text = rdbLstEI.SelectedItem.Text + " :$";
+
+            lblIP2.Visible = false;
+            txtIP2.Visible = false;
+            lblIP1.Text = rdbLstEP.SelectedItem.Text + " :$";
+
+            lblII2.Visible = false;
+            txtII2.Visible = false;
+            lblII1.Text = rdbLstEI.SelectedItem.Text + " :$";
+            if (Session["ReportId"] != null)
+            {
+                BindAllData(Convert.ToInt32(Session["ReportId"]));
+                ddlReports.SelectedValue = Session["ReportId"].ToString();
+                hdnReportId.Value = Session["ReportId"].ToString();
+            }
+            
+        }
+    }
+    protected void ddlReports_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            Reset();
+            if (ddlReports.SelectedValue != "0")
+            {
+                BindAllData(Convert.ToInt32(ddlReports.SelectedValue));
+
+            }
+               
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnExportExcel_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            
+            if(Session["OrderBy"]!=null)
+                m_strOrderBy = " ORDER BY " + Session["OrderBy"].ToString();
+            if (Session["ShowFields"] != null)
+                m_strShowFields = Session["ShowFields"].ToString();
+            if(Session["Grand"]==null)
+                Session["Grand"]= "0" ;
+            if (Session["Sub"] == null)
+                Session["Sub"] = "0";
+            CommonDBFunction objCommon = new CommonDBFunction();
+            m_dsCommon=new DataSet();
+            m_dsCommon = objCommon.GetWorkersCompAdHocDetails(
+                rdbLstCO.SelectedValue, 
+                txtCO1.Text == string.Empty ? Convert.ToDateTime("1/1/1753 12:00:00 AM") : Convert.ToDateTime(txtCO1.Text),
+                txtCO2.Text == string.Empty ? Convert.ToDateTime("1/1/1753 12:00:00 AM") : Convert.ToDateTime(txtCO2.Text),
+                
+                rdbLstCC.SelectedValue,
+                txtCC1.Text == string.Empty ? Convert.ToDateTime("1/1/1753 12:00:00 AM") : Convert.ToDateTime(txtCC1.Text),
+                txtCC2.Text == string.Empty ? Convert.ToDateTime("1/1/1753 12:00:00 AM") : Convert.ToDateTime(txtCC2.Text),
+                
+                rdbLstDOI.SelectedValue,
+                txtDOI1.Text == string.Empty ? Convert.ToDateTime("1/1/1753 12:00:00 AM") : Convert.ToDateTime(txtDOI1.Text),
+                txtDOI2.Text == string.Empty ? Convert.ToDateTime("1/1/1753 12:00:00 AM") : Convert.ToDateTime(txtDOI2.Text),
+                               
+                chkLstStatus.Items[0].Selected == true ? chkLstStatus.Items[0].Value : null, 
+                chkLstStatus.Items[1].Selected == true ? chkLstStatus.Items[1].Value : null, 
+                chkLstStatus.Items[2].Selected==true ? chkLstStatus.Items[2].Value:null,
+                
+                Request.Form[lstState.UniqueID], Request.Form[lstDivision.UniqueID], 
+                Request.Form[lstBParts.UniqueID],Request.Form[lstFacility.UniqueID], 
+                Request.Form[lstCause.UniqueID], Request.Form[lstInjury.UniqueID],
+                
+                rdbLstMP.SelectedValue,
+                txtMP1.Text == string.Empty ? -1 : Convert.ToDecimal(txtMP1.Text), 
+                txtMP2.Text == string.Empty ? -1 : Convert.ToDecimal(txtMP2.Text),
+                
+                rdbLstMI.SelectedValue,
+                txtMI1.Text == string.Empty ? -1 : Convert.ToDecimal(txtMI1.Text),
+                txtMI2.Text == string.Empty ? -1 : Convert.ToDecimal(txtMI2.Text),
+
+                rdbLstEP.SelectedValue,
+                txtEP1.Text == string.Empty ? -1 : Convert.ToDecimal(txtEP1.Text),
+                txtEP2.Text == string.Empty ? -1 : Convert.ToDecimal(txtEP2.Text),
+
+                rdbLstEI.SelectedValue,
+                txtEI1.Text == string.Empty ? -1 : Convert.ToDecimal(txtEI1.Text),
+                txtEI2.Text == string.Empty ? -1 : Convert.ToDecimal(txtEI2.Text),
+
+                rdbLstIP.SelectedValue,
+                txtIP1.Text == string.Empty ? -1 : Convert.ToDecimal(txtIP1.Text),
+                txtIP2.Text == string.Empty ? -1 : Convert.ToDecimal(txtIP2.Text),
+
+                rdbLstII.SelectedValue,
+                txtII1.Text == string.Empty ? -1 : Convert.ToDecimal(txtII1.Text),
+                txtII2.Text == string.Empty ? -1 : Convert.ToDecimal(txtII2.Text),
+
+                rdbLstTP.SelectedValue,
+                txtTP1.Text == string.Empty ? -1 : Convert.ToDecimal(txtTP1.Text),
+                txtTP2.Text == string.Empty ? -1 : Convert.ToDecimal(txtTP2.Text),
+
+                rdbLstTI.SelectedValue,
+                txtTI1.Text == string.Empty ? -1 : Convert.ToDecimal(txtTI1.Text),
+                txtTI2.Text == string.Empty ? -1 : Convert.ToDecimal(txtTI2.Text),
+
+                rdbLstTO.SelectedValue,
+                txtTO1.Text == string.Empty ? -1 : Convert.ToDecimal(txtTO1.Text),
+                txtTO2.Text == string.Empty ? -1 : Convert.ToDecimal(txtTO2.Text),
+                
+                chkLstClaimType.Items[0].Selected == true ? chkLstClaimType.Items[0].Value : null,
+                chkLstClaimType.Items[1].Selected == true ? chkLstClaimType.Items[1].Value : null,
+
+                rdbLstRD.SelectedValue,
+                txtRD1.Text == string.Empty ? Convert.ToDateTime("1/1/1753 12:00:00 AM") : Convert.ToDateTime(txtRD1.Text),
+                txtRD2.Text == string.Empty ? Convert.ToDateTime("1/1/1753 12:00:00 AM") : Convert.ToDateTime(txtRD2.Text),
+
+                rdbLstPD.SelectedValue,
+                txtPD1.Text == string.Empty ? Convert.ToDateTime("1/1/1753 12:00:00 AM") : Convert.ToDateTime(txtPD1.Text),
+                txtPD2.Text == string.Empty ? Convert.ToDateTime("1/1/1753 12:00:00 AM") : Convert.ToDateTime(txtPD2.Text),
+
+                m_strOrderBy, m_strShowFields 
+            );
+
+            gvAdHoc.DataSource = RemoveExtraColumns(m_dsCommon, m_strShowFields); 
+            gvAdHoc.DataBind();
+
+            GridViewExportUtil.ExportAdHoc("AdHocReportWC.xls", this.gvAdHoc);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+    }
+    public override void VerifyRenderingInServerForm(Control control)
+    {
+        /* Confirms that an HtmlForm control is rendered for the specified ASP.NET
+           server control at run time. */
+    }
+    protected void btnSubmit_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (Session["OrderBy"] != null)
+                m_strOrderBy = Session["OrderBy"].ToString();
+            if (Session["ShowFields"] != null)
+                m_strShowFields = Session["ShowFields"].ToString();
+                CommonDBFunction objCommon = new CommonDBFunction();
+                m_intRetVal = objCommon.InsertUpdateClaimReportDetails(
+                rdbLstCO.SelectedValue,
+                txtCO1.Text == string.Empty ? Convert.ToDateTime("1/1/1753 12:00:00 AM") : Convert.ToDateTime(txtCO1.Text),
+                txtCO2.Text == string.Empty ? Convert.ToDateTime("1/1/1753 12:00:00 AM") : Convert.ToDateTime(txtCO2.Text),
+
+                rdbLstCC.SelectedValue,
+                txtCC1.Text == string.Empty ? Convert.ToDateTime("1/1/1753 12:00:00 AM") : Convert.ToDateTime(txtCC1.Text),
+                txtCC2.Text == string.Empty ? Convert.ToDateTime("1/1/1753 12:00:00 AM") : Convert.ToDateTime(txtCC2.Text),
+
+                rdbLstDOI.SelectedValue,
+                txtDOI1.Text == string.Empty ? Convert.ToDateTime("1/1/1753 12:00:00 AM") : Convert.ToDateTime(txtDOI1.Text),
+                txtDOI2.Text == string.Empty ? Convert.ToDateTime("1/1/1753 12:00:00 AM") : Convert.ToDateTime(txtDOI2.Text),
+
+                chkLstStatus.Items[0].Selected == true ? chkLstStatus.Items[0].Value : null,
+                chkLstStatus.Items[1].Selected == true ? chkLstStatus.Items[1].Value : null,
+                chkLstStatus.Items[2].Selected == true ? chkLstStatus.Items[2].Value : null,
+
+                Request.Form[lstState.UniqueID], Request.Form[lstDivision.UniqueID],
+                Request.Form[lstBParts.UniqueID], Request.Form[lstFacility.UniqueID],
+                Request.Form[lstCause.UniqueID], Request.Form[lstInjury.UniqueID],
+
+                rdbLstMP.SelectedValue,
+                txtMP1.Text == string.Empty ? -1 : Convert.ToDecimal(txtMP1.Text),
+                txtMP2.Text == string.Empty ? -1 : Convert.ToDecimal(txtMP2.Text),
+
+                rdbLstMI.SelectedValue,
+                txtMI1.Text == string.Empty ? -1 : Convert.ToDecimal(txtMI1.Text),
+                txtMI2.Text == string.Empty ? -1 : Convert.ToDecimal(txtMI2.Text),
+
+                rdbLstEP.SelectedValue,
+                txtEP1.Text == string.Empty ? -1 : Convert.ToDecimal(txtEP1.Text),
+                txtEP2.Text == string.Empty ? -1 : Convert.ToDecimal(txtEP2.Text),
+
+                rdbLstEI.SelectedValue,
+                txtEI1.Text == string.Empty ? -1 : Convert.ToDecimal(txtEI1.Text),
+                txtEI2.Text == string.Empty ? -1 : Convert.ToDecimal(txtEI2.Text),
+
+                rdbLstIP.SelectedValue,
+                txtIP1.Text == string.Empty ? -1 : Convert.ToDecimal(txtIP1.Text),
+                txtIP2.Text == string.Empty ? -1 : Convert.ToDecimal(txtIP2.Text),
+
+                rdbLstII.SelectedValue,
+                txtII1.Text == string.Empty ? -1 : Convert.ToDecimal(txtII1.Text),
+                txtII2.Text == string.Empty ? -1 : Convert.ToDecimal(txtII2.Text),
+
+                rdbLstTP.SelectedValue,
+                txtTP1.Text == string.Empty ? -1 : Convert.ToDecimal(txtTP1.Text),
+                txtTP2.Text == string.Empty ? -1 : Convert.ToDecimal(txtTP2.Text),
+
+                rdbLstTI.SelectedValue,
+                txtTI1.Text == string.Empty ? -1 : Convert.ToDecimal(txtTI1.Text),
+                txtTI2.Text == string.Empty ? -1 : Convert.ToDecimal(txtTI2.Text),
+
+                rdbLstTO.SelectedValue,
+                txtTO1.Text == string.Empty ? -1 : Convert.ToDecimal(txtTO1.Text),
+                txtTO2.Text == string.Empty ? -1 : Convert.ToDecimal(txtTO2.Text),
+
+                //chkLstClaimType.Items[0].Selected == true ? chkLstClaimType.Items[0].Value : null,
+                //chkLstClaimType.Items[1].Selected == true ? chkLstClaimType.Items[1].Value : null,
+                null,null   ,
+                rdbLstRD.SelectedValue,
+                txtRD1.Text == string.Empty ? Convert.ToDateTime("1/1/1753 12:00:00 AM") : Convert.ToDateTime(txtRD1.Text),
+                txtRD2.Text == string.Empty ? Convert.ToDateTime("1/1/1753 12:00:00 AM") : Convert.ToDateTime(txtRD2.Text),
+
+                rdbLstPD.SelectedValue,
+                txtPD1.Text == string.Empty ? Convert.ToDateTime("1/1/1753 12:00:00 AM") : Convert.ToDateTime(txtPD1.Text),
+                txtPD2.Text == string.Empty ? Convert.ToDateTime("1/1/1753 12:00:00 AM") : Convert.ToDateTime(txtPD2.Text),
+
+                m_strOrderBy, 1, txtReportName.Text, hdnReportId.Value == string.Empty ? 0 : Convert.ToInt32(hdnReportId.Value)
+                , "WC", m_strShowFields, Session["Sub"] == null ? "0" : Session["Sub"].ToString(), Session["Grand"] == null ? "0" : Session["Grand"].ToString()
+            );
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnClear_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            Reset();
+            ddlReports.SelectedIndex = 0;
+        }
+        catch
+        {
+            throw;
+        }
+
+    }
+
+    protected void rdbLstDOI_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (rdbLstDOI.SelectedValue == "B")
+        {
+            lblDOI2.Visible = true ;
+            txtDOI2.Visible = true ;
+            imgDOI2.Visible = true;
+            lblDOI2.Text = "End Date:";
+            lblDOI1.Text = "Start Date:";
+        }
+        else
+        {
+            lblDOI2.Visible = false;
+            txtDOI2.Visible = false;
+            imgDOI2.Visible = false;
+            lblDOI1.Text = rdbLstDOI.SelectedItem.Text + " Date:";
+        }
+    }
+    protected void rdbLstCO_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (rdbLstCO.SelectedValue == "B")
+        {
+            lblCO2.Visible = true ;
+            txtCO2.Visible = true ;
+            imgCO2.Visible = true;
+            lblCO2.Text = "End Date:";
+            lblCO1.Text = "Start Date:";
+        }
+        else
+        {
+            lblCO2.Visible = false;
+            txtCO2.Visible = false;
+            imgCO2.Visible = false;
+            lblCO1.Text = rdbLstCO.SelectedItem.Text + " Date:";
+        }
+    }
+    protected void rdbLstCC_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (rdbLstCC.SelectedValue == "B")
+        {
+            lblCC2.Visible = true;
+            txtCC2.Visible = true;
+            imgCC2.Visible = true;
+            lblCC2.Text = "End Date:";
+            lblCC1.Text = "Start Date:";
+        }
+        else
+        {
+            lblCC2.Visible = false;
+            txtCC2.Visible = false;
+            imgCC2.Visible = false;
+            lblCC1.Text = rdbLstCC.SelectedItem.Text + " Date:";
+        }
+    }
+    protected void rdbLstRD_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (rdbLstRD.SelectedValue == "B")
+        {
+            lblRD2.Visible = true;
+            txtRD2.Visible = true;
+            imgRD2.Visible = true;
+            lblRD2.Text = "End Date:";
+            lblRD1.Text = "Start Date:";
+        }
+        else
+        {
+            lblRD2.Visible = false;
+            txtRD2.Visible = false;
+            imgRD2.Visible = false;
+            lblRD1.Text = rdbLstRD.SelectedItem.Text + " Date:";
+        }
+    }
+    protected void rdbLstPD_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (rdbLstPD.SelectedValue == "B")
+        {
+            lblPD2.Visible = true;
+            txtPD2.Visible = true;
+            imgPD2.Visible = true;
+            lblPD2.Text = "End Date:";
+            lblPD1.Text = "Start Date:";
+        }
+        else
+        {
+            lblPD2.Visible = false;
+            txtPD2.Visible = false;
+            imgPD2.Visible = false;
+            lblPD1.Text = rdbLstPD.SelectedItem.Text + " Date:";
+        }
+    }
+    
+    protected void rdbLstTP_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (rdbLstTP.SelectedValue == "B")
+        {
+            lblTP2.Visible = true;
+            txtTP2.Visible = true;
+            
+            lblTP2.Text = "To :$";
+            lblTP1.Text = "From :$";
+        }
+        else
+        {
+            lblTP2.Visible = false;
+            txtTP2.Visible = false;
+
+            lblTP1.Text = rdbLstTP.SelectedItem.Text + ":$";
+        }
+    }
+    protected void rdbLstTI_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (rdbLstTI.SelectedValue == "B")
+        {
+            lblTI2.Visible = true;
+            txtTI2.Visible = true;
+
+            lblTI2.Text = "To :$";
+            lblTI1.Text = "From :$";
+        }
+        else
+        {
+            lblTI2.Visible = false;
+            txtTI2.Visible = false;
+
+            lblTI1.Text = rdbLstTI.SelectedItem.Text + ":$";
+        }
+    }
+    protected void rdbLstTO_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (rdbLstTO.SelectedValue == "B")
+        {
+            lblTO2.Visible = true;
+            txtTO2.Visible = true;
+
+            lblTO2.Text = "To :$";
+            lblTO1.Text = "From :$";
+        }
+        else
+        {
+            lblTO2.Visible = false;
+            txtTO2.Visible = false;
+
+            lblTO1.Text = rdbLstTO.SelectedItem.Text + ":$";
+        }
+    }
+
+    protected void rdbLstMP_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (rdbLstMP.SelectedValue == "B")
+        {
+            lblMP2.Visible = true;
+            txtMP2.Visible = true;
+
+            lblMP2.Text = "To :$";
+            lblMP1.Text = "From :$";
+        }
+        else
+        {
+            lblMP2.Visible = false;
+            txtMP2.Visible = false;
+
+            lblMP1.Text = rdbLstMP.SelectedItem.Text + ":$";
+        }
+    }
+    protected void rdbLstMI_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (rdbLstMI.SelectedValue == "B")
+        {
+            lblMI2.Visible = true;
+            txtMI2.Visible = true;
+
+            lblMI2.Text = "To :$";
+            lblMI1.Text = "From :$";
+        }
+        else
+        {
+            lblMI2.Visible = false;
+            txtMI2.Visible = false;
+
+            lblMI1.Text = rdbLstMI.SelectedItem.Text + ":$";
+        }
+    }
+
+    protected void rdbLstEP_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (rdbLstEP.SelectedValue == "B")
+        {
+            lblEP2.Visible = true;
+            txtEP2.Visible = true;
+
+            lblEP2.Text = "To :$";
+            lblEP1.Text = "From :$";
+        }
+        else
+        {
+            lblEP2.Visible = false;
+            txtEP2.Visible = false;
+
+            lblEP1.Text = rdbLstEP.SelectedItem.Text + ":$";
+        }
+    }
+    protected void rdbLstEI_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (rdbLstEI.SelectedValue == "B")
+        {
+            lblEI2.Visible = true;
+            txtEI2.Visible = true;
+
+            lblEI2.Text = "To :$";
+            lblEI1.Text = "From :$";
+        }
+        else
+        {
+            lblEI2.Visible = false;
+            txtEI2.Visible = false;
+
+            lblEI1.Text = rdbLstEI.SelectedItem.Text + ":$";
+        }
+    }
+
+    protected void rdbLstIP_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (rdbLstIP.SelectedValue == "B")
+        {
+            lblIP2.Visible = true;
+            txtIP2.Visible = true;
+
+            lblIP2.Text = "To :$";
+            lblIP1.Text = "From :$";
+        }
+        else
+        {
+            lblIP2.Visible = false;
+            txtIP2.Visible = false;
+
+            lblIP1.Text = rdbLstIP.SelectedItem.Text + ":$";
+        }
+    }
+    protected void rdbLstII_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (rdbLstII.SelectedValue == "B")
+        {
+            lblII2.Visible = true;
+            txtII2.Visible = true;
+
+            lblII2.Text = "To :$";
+            lblII1.Text = "From :$";
+        }
+        else
+        {
+            lblII2.Visible = false;
+            txtII2.Visible = false;
+
+            lblII1.Text = rdbLstII.SelectedItem.Text + ":$";
+        }
+    }
+
+    protected void chkCovState_CheckedChanged(object sender, EventArgs e)
+    {
+        SelectDeselect(chkCovState, lstState);
+    }
+    protected void chkDivision_CheckedChanged(object sender, EventArgs e)
+    {
+        SelectDeselect(chkDivision,lstDivision);
+    }
+    protected void chkBodyPart_CheckedChanged(object sender, EventArgs e)
+    {
+        SelectDeselect(chkBodyPart, lstBParts);
+    }
+    protected void chkFacility_CheckedChanged(object sender, EventArgs e)
+    {
+        SelectDeselect(chkFacility, lstFacility);
+    }
+    protected void chkCause_CheckedChanged(object sender, EventArgs e)
+    {
+        SelectDeselect(chkCause, lstCause);
+    }
+    protected void chkInjury_CheckedChanged(object sender, EventArgs e)
+    {
+        SelectDeselect(chkInjury, lstInjury);
+    }
+    private void SelectDeselect(CheckBox chkGeneral, ListBox lstGeneral)
+    {
+        if (chkGeneral.Checked == true)
+        {
+            for (int i = 0; i < lstGeneral.Items.Count; i++)
+            {
+                lstGeneral.Items[i].Selected = true;
+            }
+        }
+        else
+        {
+            lstGeneral.SelectedIndex = -1;
+        }
+    }
+
+    protected void gvAdHoc_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        
+        if (e.Row.RowType == DataControlRowType.Footer)
+        {
+            if (Session["Grand"].ToString() != "0")
+            {
+                ((GridView)e.Row.Cells[0].FindControl("gvChild")).DataSource = m_dsCommon.Tables[1].DefaultView;
+                ((GridView)e.Row.Cells[0].FindControl("gvChild")).DataBind();
+            }
+            if (Session["Sub"].ToString() != "0")
+            {
+                ((GridView)e.Row.Cells[0].FindControl("gvChild1")).DataSource = m_dsCommon.Tables[2].DefaultView;
+                ((GridView)e.Row.Cells[0].FindControl("gvChild1")).DataBind();
+            }
+            for (int m_TempCounter = 1; m_TempCounter < e.Row.Cells.Count; m_TempCounter++)
+            {
+                e.Row.Cells[m_TempCounter].Visible = false;
+            }
+
+            e.Row.Cells[0].ColumnSpan = e.Row.Cells.Count;
+        }
+        else
+        {
+
+            e.Row.Cells[0].Visible = false;
+        }
+        
+    }
+    #endregion
+    #region Private Method
+    private void BindAllData(int m_intReportId)
+    {
+        try
+        {
+            GetReportData(m_intReportId );
+            hdnReportId.Value = m_dsRptDetails.Tables[0].Rows[0]["ReportId"].ToString();
+            txtReportName.Text = m_dsRptDetails.Tables[0].Rows[0]["ReportName"].ToString();
+            Session["ReportId"] = m_intReportId;
+            Session["Sub"] =m_dsRptDetails.Tables[0].Rows[0]["ShowSubTotal"].ToString();
+            Session["Grand"] = m_dsRptDetails.Tables[0].Rows[0]["ShowGrandTotal"].ToString(); 
+            if (m_dsRptDetails.Tables[0].Rows[0]["OrderBy"].ToString() != string.Empty && Session["OrderBy"] == null)
+                Session["OrderBy"] = m_dsRptDetails.Tables[0].Rows[0]["OrderBy"].ToString();
+            if (m_dsRptDetails.Tables[0].Rows[0]["ShowFields"].ToString() != string.Empty && Session["ShowFields"] == null)
+                Session["ShowFields"] = m_dsRptDetails.Tables[0].Rows[0]["ShowFields"].ToString();
+            //Claim Open/Close Data.
+            BindDateData(rdbLstCO, lblCO1, lblCO2, txtCO1, txtCO2, imgCO2,
+                            m_dsRptDetails.Tables[0].Rows[0]["ClaimOpenCriteria"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["ClaimOpenStartDate"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["ClaimOpenEndDate"].ToString());
+
+            BindDateData(rdbLstCC, lblCC1, lblCC2, txtCC1, txtCC2, imgCC2,
+                            m_dsRptDetails.Tables[0].Rows[0]["ClaimCloseCriteria"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["ClaimCloseStartDate"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["ClaimCloseEndDate"].ToString());
+            //Date of incident
+            BindDateData(rdbLstDOI, lblDOI1, lblDOI2, txtDOI1, txtDOI2, imgDOI2,
+                            m_dsRptDetails.Tables[0].Rows[0]["DOICriteria"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["DOIStart"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["DOIEnd"].ToString());
+            //Reserve/Payment Date.
+            BindDateData(rdbLstRD, lblRD1, lblRD2, txtRD1, txtRD2, imgRD2,
+                            m_dsRptDetails.Tables[0].Rows[0]["ClaimReserveCriteria"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["ClaimReserveStartDate"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["ClaimReserveEndDate"].ToString());
+            BindDateData(rdbLstPD, lblPD1, lblDOI2, txtPD1, txtPD2, imgPD2,
+                            m_dsRptDetails.Tables[0].Rows[0]["ClaimPaymentCriteria"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["ClaimPaymentStartDate"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["ClaimPaymentEndDate"].ToString());
+
+            //Status of Claim
+            if (m_dsRptDetails.Tables[0].Rows[0]["OStatus"].ToString() != string.Empty)
+                chkLstStatus.Items.FindByValue(m_dsRptDetails.Tables[0].Rows[0]["OStatus"].ToString()).Selected = true;
+            if (m_dsRptDetails.Tables[0].Rows[0]["CStatus"].ToString() != string.Empty)
+                chkLstStatus.Items.FindByValue(m_dsRptDetails.Tables[0].Rows[0]["CStatus"].ToString()).Selected = true;
+            if (m_dsRptDetails.Tables[0].Rows[0]["ROStatus"].ToString() != string.Empty)
+                chkLstStatus.Items.FindByValue(m_dsRptDetails.Tables[0].Rows[0]["ROStatus"].ToString()).Selected = true;
+            //End
+            //Bind All List Box Control.
+            if (m_dsRptDetails.Tables[0].Rows[0]["CovState"].ToString() != string.Empty)
+                BinListData(m_dsRptDetails.Tables[0].Rows[0]["CovState"].ToString(), lstState);
+            if (m_dsRptDetails.Tables[0].Rows[0]["Division"].ToString() != string.Empty)
+                BinListData(m_dsRptDetails.Tables[0].Rows[0]["Division"].ToString(), lstDivision);
+            if (m_dsRptDetails.Tables[0].Rows[0]["BodyPart"].ToString() != string.Empty)
+                BinListData(m_dsRptDetails.Tables[0].Rows[0]["BodyPart"].ToString(), lstBParts);
+            if (m_dsRptDetails.Tables[0].Rows[0]["Facility"].ToString() != string.Empty)
+                BinListData(m_dsRptDetails.Tables[0].Rows[0]["Facility"].ToString(), lstFacility);
+            if (m_dsRptDetails.Tables[0].Rows[0]["Cause"].ToString() != string.Empty)
+                BinListData(m_dsRptDetails.Tables[0].Rows[0]["Cause"].ToString(), lstCause);
+            if (m_dsRptDetails.Tables[0].Rows[0]["Injury"].ToString() != string.Empty)
+                BinListData(m_dsRptDetails.Tables[0].Rows[0]["Injury"].ToString(), lstInjury);
+
+            //Medical Paid & Incurred.
+            BindAmountData(rdbLstMP, lblMP1, lblMP2, txtMP1, txtMP2,
+                            m_dsRptDetails.Tables[0].Rows[0]["MPCriteria"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["MPStartAmount"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["MPEndAmount"].ToString());
+
+            BindAmountData(rdbLstMI, lblMI1, lblMI2, txtMI1, txtMI2,
+                            m_dsRptDetails.Tables[0].Rows[0]["MICriteria"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["MIStartAmount"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["MIEndAmount"].ToString());
+            //Expense Paid & Incurred.
+            BindAmountData(rdbLstEP, lblEP1, lblEP2, txtEP1, txtEP2,
+                            m_dsRptDetails.Tables[0].Rows[0]["EPCriteria"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["EPStartAmount"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["EPEndAmount"].ToString());
+            BindAmountData(rdbLstEI, lblEI1, lblEI2, txtEI1, txtEI2,
+                            m_dsRptDetails.Tables[0].Rows[0]["EICriteria"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["EIStartAmount"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["EIEndAmount"].ToString());
+            //Indemnity Paid & Incurred.
+            BindAmountData(rdbLstIP, lblIP1, lblIP2, txtIP1, txtIP2,
+                            m_dsRptDetails.Tables[0].Rows[0]["IPCriteria"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["IPStartAmount"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["IPEndAmount"].ToString());
+            BindAmountData(rdbLstII, lblII1, lblII2, txtII1, txtII2,
+                            m_dsRptDetails.Tables[0].Rows[0]["IICriteria"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["IIStartAmount"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["IIEndAmount"].ToString());
+            //Total Paid & Incurred.
+            BindAmountData(rdbLstTP, lblTP1, lblTP2, txtTP1, txtTP2,
+                            m_dsRptDetails.Tables[0].Rows[0]["TPCriteria"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["TPStartAmount"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["TPEndAmount"].ToString());
+            BindAmountData(rdbLstTI, lblTI1, lblTI2, txtTI1, txtTI2,
+                            m_dsRptDetails.Tables[0].Rows[0]["TICriteria"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["TIStartAmount"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["TIEndAmount"].ToString());
+            //Total Out Standing.
+            BindAmountData(rdbLstTO, lblTO1, lblTO2, txtTO1, txtTO2,
+                            m_dsRptDetails.Tables[0].Rows[0]["TOCriteria"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["TOStartAmount"].ToString(),
+                            m_dsRptDetails.Tables[0].Rows[0]["TOEndAmount"].ToString());
+
+        }
+        catch
+        {
+            throw;
+        }
+    }
+    private void BindDateData(RadioButtonList rdbCommon, Label lbl1, Label lbl2, TextBox txt1, TextBox txt2,HtmlImage img2, string m_strCriteria, string value1, string value2)
+    {
+        try
+        {
+            rdbCommon.Items.FindByValue(m_strCriteria).Selected = true;
+            lbl1.Text = rdbCommon.Items.FindByValue(m_strCriteria).Text + " Date:";
+            if (value1 != "1/1/1753 12:00:00 AM" && value1!=string.Empty)
+                txt1.Text = Convert.ToDateTime(value1).ToShortDateString();
+            if (value2 != "1/1/1753 12:00:00 AM" && value2 != string.Empty)
+            {
+                img2.Visible = true;
+                txt2.Text = Convert.ToDateTime(value2).ToShortDateString();
+                txt2.Visible = true;
+                lbl2.Text = "End Date:";
+                lbl2.Visible = true;
+                lbl1.Text = "Start Date:";
+            }
+        }
+        catch
+        {
+            throw;
+        }
+    }
+    private void BinListData(string m_strIDs,ListBox lstCommon)
+    {
+        try
+        {
+            string[] m_strSplitIds = new string[m_strIDs.Length];
+            m_strSplitIds = m_strIDs.Split(',');
+            for (int m_intCounter = 0; m_intCounter < m_strSplitIds.Length; m_intCounter++)
+            {
+                lstCommon.Items.FindByValue(m_strSplitIds[m_intCounter]).Selected = true;
+            }
+
+        }
+        catch
+        {
+            throw;
+        }
+    }
+    private void BindAmountData(RadioButtonList rdbCommon,Label lbl1, Label lbl2, TextBox txt1, TextBox txt2, string m_strCriteria, string value1, string value2)
+    {
+        try
+        {
+            //Payment Date
+            rdbCommon.Items.FindByValue(m_strCriteria).Selected = true;
+            lbl1.Text = rdbCommon.Items.FindByValue(m_strCriteria).Text;
+            if(value1!=string.Empty && value1!="-1")
+            txt1.Text = value1;
+            if (value2  != string.Empty && value2!="-1")
+            {
+                txt2.Text = value2;
+                txt2.Visible = true;
+                lbl2.Text = "From:";
+                lbl2.Visible = true;
+                lbl1.Text = "To:";
+            }
+        }
+        catch
+        {
+            throw;
+        }
+    }
+    private void BindReports(int m_intReportId)
+    {
+        GetReportData(m_intReportId);
+        if (m_dsRptDetails.Tables[0].Rows.Count > 0)
+        {
+            ddlReports.DataSource = m_dsRptDetails.Tables[0].DefaultView;
+            ddlReports.DataTextField = "ReportName";
+            ddlReports.DataValueField = "ReportId";
+            ddlReports.DataBind();
+        }
+        ListItem lstCommon = new ListItem("---Select Report--", "0");
+        ddlReports.Items.Insert(0, lstCommon);
+
+    }
+    private void GetReportData(int m_intReportId)
+    {
+        try
+        {
+            CommonDBFunction objCommon = new CommonDBFunction();
+            m_dsRptDetails = new DataSet();
+            m_dsRptDetails = objCommon.GetReportDetails(m_intReportId,"WC");
+        
+        }
+        catch
+        {
+            throw;
+        }
+
+    }
+    private void Reset()
+    {
+        try
+        {
+            UnBindDateData(rdbLstCO, lblCO1, lblCO2, txtCO1, txtCO2, imgCO2);
+            UnBindDateData(rdbLstCC, lblCC1, lblCC2, txtCC1, txtCC2, imgCC2);
+            UnBindDateData(rdbLstDOI, lblDOI1, lblDOI2, txtDOI1, txtDOI2, imgDOI2);
+            UnBindDateData(rdbLstRD, lblRD1, lblRD2, txtRD1, txtRD2, imgRD2);
+            UnBindDateData(rdbLstPD, lblPD1, lblPD2, txtPD1, txtPD2, imgPD2);
+
+            //lstNatureInjury.SelectedIndex = -1;
+            lstState.SelectedIndex = -1;
+            lstDivision.SelectedIndex = -1;
+            lstBParts.SelectedIndex = -1;
+            lstFacility.SelectedIndex = -1;
+            lstCause.SelectedIndex = -1;
+            lstInjury.SelectedIndex = -1;
+
+            UnBindAmountData(rdbLstMP, lblMP1, lblMP2, txtMP1, txtMP2);
+            UnBindAmountData(rdbLstMI, lblMI1, lblMI2, txtMI1, txtMI2);
+            UnBindAmountData(rdbLstEP, lblEP1, lblEP2, txtEP1, txtEP2);
+            UnBindAmountData(rdbLstEI, lblEI1, lblEI2, txtEI1, txtEI2);
+            UnBindAmountData(rdbLstIP, lblIP1, lblIP2, txtIP1, txtIP2);
+            UnBindAmountData(rdbLstII, lblII1, lblII2, txtII1, txtII2);
+            UnBindAmountData(rdbLstTP, lblTP1, lblTP2, txtTP1, txtTP2);
+            UnBindAmountData(rdbLstTI, lblTI1, lblTI2, txtTI1, txtTI2);
+            UnBindAmountData(rdbLstTO, lblTO1, lblTO2, txtTO1, txtTO2);
+            chkLstClaimType.SelectedIndex = -1;
+            chkLstStatus.SelectedIndex = -1;
+            txtReportName.Text = string.Empty;
+            hdnReportId.Value = string.Empty;
+            Session["OrderBy"] = null;
+            Session["ShowFields"] = null;
+            Session["ReportId"] = null;
+        }
+        catch
+        {
+            throw;
+        }
+    }
+    private void UnBindDateData(RadioButtonList rdbCommon, Label lbl1, Label lbl2, TextBox txt1, TextBox txt2, HtmlImage img2)
+    {
+        try
+        {
+            rdbCommon.SelectedValue = "O";
+            lbl2.Visible = false;
+            txt2.Visible = false;
+            txt2.Text = string.Empty;
+            txt1.Text = string.Empty;
+            img2.Visible = false;
+            lbl1.Text = rdbLstCO.SelectedItem.Text + " Date:";
+        }
+        catch
+        {
+            throw;
+        }
+    }
+    private void UnBindAmountData(RadioButtonList rdbCommon, Label lbl1, Label lbl2, TextBox txt1, TextBox txt2)
+    {
+        try
+        {
+            rdbCommon.SelectedValue = "G";
+            lbl1.Text = rdbCommon.SelectedItem.Text;
+            txt1.Text = string.Empty;
+            txt2.Text = string.Empty;
+            txt2.Visible = false;
+            lbl2.Text = "To :";
+            lbl2.Visible = false;
+
+
+        }
+        catch
+        {
+            throw;
+        }
+    }
+
+    private void BindBodyParts()
+    {
+        m_objBodyParts = new RIMS_Base.Biz.CGeneral();
+        
+        lstBParts.DataSource = m_objBodyParts.GetBodyParts();
+        lstBParts.DataTextField = "FLD_desc_Body";
+        lstBParts.DataValueField = "PK_ID_Body";
+        lstBParts.DataBind();
+        
+    }
+    private void BindCause()
+    {
+        m_objCause = new RIMS_Base.Biz.CGeneral();
+
+        lstCause.DataSource = m_objCause.GetClaimCause();
+        lstCause.DataTextField = "Claim_Cause_FLD_desc";
+        lstCause.DataValueField = "Claim_Cause_PK_ID";
+        lstCause.DataBind();
+    }
+    private void BindInjury()
+    {
+        m_objInjury = new RIMS_Base.Biz.CGeneral();
+
+        lstInjury.DataSource = m_objInjury.GetInjuryType();
+        lstInjury.DataTextField = "Injury_type_FLD_desc";
+        lstInjury.DataValueField = "Injury_type_PK_ID";
+        lstInjury.DataBind();
+    }
+    private void BindState()
+    {
+        m_objState = new RIMS_Base.Biz.CGeneral();
+
+        lstState.DataSource = m_objState.GetAllState();
+        lstState.DataTextField = "FLD_state";
+        lstState.DataValueField = "PK_ID";
+        lstState.DataBind();
+    }
+    private void BindFacility()
+    {
+        m_objFacility = new RIMS_Base.Biz.CGeneral();
+
+        lstFacility.DataSource = m_objFacility.GetAllEntity();
+        lstFacility.DataTextField = "Entity_Description";
+        lstFacility.DataValueField = "PK_Entity";
+        lstFacility.DataBind();
+    }
+    private void BindDivison()
+    {
+        m_objDivision = new RIMS_Base.Biz.CGeneral();
+
+        lstDivision.DataSource = m_objDivision.GetAllEntity();
+        lstDivision.DataTextField = "Entity_Code";
+        lstDivision.DataValueField = "PK_Entity";
+        lstDivision.DataBind();
+    }
+    private DataSet BindFields()
+    {
+        m_objFields = new CommonDBFunction();
+        m_dsFields = new DataSet();
+        m_dsFields = m_objFields.GetAllAdHocFields(Request.QueryString[0].ToString());
+        return m_dsFields;
+
+    }
+    private DataSet RemoveExtraColumns(DataSet m_dsTmp, string m_strTmp)
+    {
+        try
+        {
+            string[] m_strArr=new string[m_dsTmp.Tables[0].Columns.Count];
+            string[] m_strIdToDelete = new string[m_dsTmp.Tables[3].Rows.Count];
+            bool m_blnFlag=false ;
+            int m_intDeleteCount=0;
+            int m_intLength=m_dsTmp.Tables[0].Columns.Count;
+            m_strArr=m_strTmp.Split(',');
+            if (m_strTmp != string.Empty)
+            {
+                m_strArr = m_strTmp.Split(',');
+                if (m_strArr.Length > 0)
+                {
+                    for (int m_intCount = 0; m_intCount < m_dsTmp.Tables[3].Rows.Count; m_intCount++)
+                    {
+                        m_blnFlag = false;
+                        for (int m_intCount1 = 0; m_intCount1 < m_strArr.Length; m_intCount1++)
+                        {
+
+                            if (m_strArr[m_intCount1].ToString() == m_dsTmp.Tables[3].Rows[m_intCount]["AdhocID"].ToString())
+                            {
+                                m_blnFlag = true;
+
+                            }
+
+                        }
+                        if (m_blnFlag == false)
+                        {
+                            m_strIdToDelete[m_intDeleteCount] = m_dsTmp.Tables[3].Rows[m_intCount]["AdhocID"].ToString();
+                            m_intDeleteCount = m_intDeleteCount + 1;
+                        }
+                        else
+                        {
+                            m_strIdToDelete[m_intDeleteCount] = "0";
+                            m_intDeleteCount = m_intDeleteCount + 1;
+                        }
+                    }
+                }
+
+            }
+
+            if (m_intDeleteCount > 0)
+            {
+                int m_intCount=0;
+                
+                for (int i = 0; i < m_intDeleteCount; i++)
+                {
+                    if (m_strIdToDelete[i] == "0")
+                    {
+                        m_intCount = m_intCount + 1;
+                       
+                    }
+                    else if(m_strIdToDelete[i] != "-1")
+                        m_dsTmp.Tables[0].Columns.RemoveAt(m_intCount);
+               }
+            }
+            return m_dsTmp;
+        }
+        catch
+        {
+            throw;
+        }
+
+    }
+
+    #endregion
+    #region Commented Code
+    private void BindDateData()
+    {
+        try
+        {
+            //Claim Open Date
+            rdbLstCO.Items.FindByValue(m_dsRptDetails.Tables[0].Rows[0]["ClaimOpenCriteria"].ToString()).Selected = true;
+            lblCO1.Text = rdbLstCO.Items.FindByValue(m_dsRptDetails.Tables[0].Rows[0]["ClaimOpenCriteria"].ToString()).Text + " Date:";
+            if (m_dsRptDetails.Tables[0].Rows[0]["ClaimOpenStartDate"].ToString() != "1/1/1753 12:00:00 AM")
+                txtCO1.Text = Convert.ToDateTime(m_dsRptDetails.Tables[0].Rows[0]["ClaimOpenStartDate"].ToString()).ToShortDateString();
+            if (m_dsRptDetails.Tables[0].Rows[0]["ClaimOpenEndDate"].ToString() != "1/1/1753 12:00:00 AM")
+            {
+                txtCO2.Text = Convert.ToDateTime(m_dsRptDetails.Tables[0].Rows[0]["ClaimOpenEndDate"].ToString()).ToShortDateString();
+                lblCO2.Visible = true;
+                txtCO2.Visible = true;
+                imgCO2.Visible = true;
+                lblCO2.Text = "End Date:";
+                lblCO1.Text = "Start Date:";
+            }
+            //End 
+
+            //Claim Close Date
+            rdbLstCC.Items.FindByValue(m_dsRptDetails.Tables[0].Rows[0]["ClaimCloseCriteria"].ToString()).Selected = true;
+            lblCC1.Text = rdbLstCC.Items.FindByValue(m_dsRptDetails.Tables[0].Rows[0]["ClaimCloseCriteria"].ToString()).Text + " Date:";
+
+            if (m_dsRptDetails.Tables[0].Rows[0]["ClaimCloseStartDate"].ToString() != "1/1/1753 12:00:00 AM")
+                txtCC1.Text = Convert.ToDateTime(m_dsRptDetails.Tables[0].Rows[0]["ClaimCloseStartDate"].ToString()).ToShortDateString();
+            if (m_dsRptDetails.Tables[0].Rows[0]["ClaimCloseEndDate"].ToString() != "1/1/1753 12:00:00 AM")
+            {
+                txtCC2.Text = Convert.ToDateTime(m_dsRptDetails.Tables[0].Rows[0]["ClaimCloseEndDate"].ToString()).ToShortDateString();
+                lblCC2.Visible = true;
+                txtCC2.Visible = true;
+                imgCC2.Visible = true;
+                lblCC2.Text = "End Date:";
+                lblCC1.Text = "Start Date:";
+            }
+            //End
+            //Date Of Incident
+            rdbLstDOI.Items.FindByValue(m_dsRptDetails.Tables[0].Rows[0]["DOICriteria"].ToString()).Selected = true;
+            lblDOI1.Text = rdbLstDOI.Items.FindByValue(m_dsRptDetails.Tables[0].Rows[0]["DOICriteria"].ToString()).Text + " Date:";
+
+            if (m_dsRptDetails.Tables[0].Rows[0]["DOIStart"].ToString() != "1/1/1753 12:00:00 AM")
+                txtDOI1.Text = Convert.ToDateTime(m_dsRptDetails.Tables[0].Rows[0]["DOIStart"].ToString()).ToShortDateString();
+            if (m_dsRptDetails.Tables[0].Rows[0]["DOIEnd"].ToString() != "1/1/1753 12:00:00 AM")
+            {
+                txtDOI2.Text = Convert.ToDateTime(m_dsRptDetails.Tables[0].Rows[0]["DOIEnd"].ToString()).ToShortDateString();
+                lblDOI2.Visible = true;
+                txtDOI2.Visible = true;
+                imgDOI2.Visible = true;
+                lblDOI2.Text = "End Date:";
+                lblDOI1.Text = "Start Date:";
+            }
+            //End
+
+
+
+            //Reserve Date
+            rdbLstRD.Items.FindByValue(m_dsRptDetails.Tables[0].Rows[0]["ClaimReserveCriteria"].ToString()).Selected = true;
+            lblRD1.Text = rdbLstRD.Items.FindByValue(m_dsRptDetails.Tables[0].Rows[0]["ClaimReserveCriteria"].ToString()).Text + " Date:";
+
+            if (m_dsRptDetails.Tables[0].Rows[0]["ClaimReserveStartDate"].ToString() != "1/1/1753 12:00:00 AM")
+                txtRD1.Text = Convert.ToDateTime(m_dsRptDetails.Tables[0].Rows[0]["ClaimReserveStartDate"].ToString()).ToShortDateString();
+            if (m_dsRptDetails.Tables[0].Rows[0]["ClaimReserveEndDate"].ToString() != "1/1/1753 12:00:00 AM")
+            {
+                txtRD2.Text = Convert.ToDateTime(m_dsRptDetails.Tables[0].Rows[0]["ClaimReserveEndDate"].ToString()).ToShortDateString();
+                lblRD2.Visible = true;
+                txtRD2.Visible = true;
+                imgRD2.Visible = true;
+                lblRD2.Text = "End Date:";
+                lblRD1.Text = "Start Date:";
+            }
+
+            //End
+
+            //Payment Date
+            rdbLstPD.Items.FindByValue(m_dsRptDetails.Tables[0].Rows[0]["ClaimPaymentCriteria"].ToString()).Selected = true;
+            lblPD1.Text = rdbLstPD.Items.FindByValue(m_dsRptDetails.Tables[0].Rows[0]["ClaimPaymentCriteria"].ToString()).Text + " Date:";
+
+            if (m_dsRptDetails.Tables[0].Rows[0]["ClaimPaymentStartDate"].ToString() != "1/1/1753 12:00:00 AM")
+                txtPD1.Text = Convert.ToDateTime(m_dsRptDetails.Tables[0].Rows[0]["ClaimPaymentStartDate"].ToString()).ToShortDateString();
+            if (m_dsRptDetails.Tables[0].Rows[0]["ClaimPaymentEndDate"].ToString() != "1/1/1753 12:00:00 AM")
+            {
+                txtPD2.Text = Convert.ToDateTime(m_dsRptDetails.Tables[0].Rows[0]["ClaimPaymentEndDate"].ToString()).ToShortDateString();
+                lblPD2.Visible = true;
+                txtPD2.Visible = true;
+                imgPD2.Visible = true;
+                lblPD2.Text = "End Date:";
+                lblPD1.Text = "Start Date:";
+            }
+
+            //End
+        }
+        catch
+        {
+            throw;
+        }
+    }
+    #endregion
+}

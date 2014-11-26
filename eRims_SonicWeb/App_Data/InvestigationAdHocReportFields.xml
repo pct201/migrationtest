@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AdHocReportField>
+	<Field Title="Nature of Injury" TableName="LU_Nature_of_Injury" Type="DropDown" HasCode="N" ></Field>
+  <Field Title="Safeguards/Safety Equipment Provided" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Safeguards/Safety Equipment Used" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Machine Part was involved" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Machine Part was defective" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 01. Operating equipment without authority" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 02. Failure to warn" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 03. Failure to secure" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 04. Operating at improper speed" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 05. Making safety devices inoperative" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 06. Using defective equipment" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 07. Failure to use Personal Protective Equipment(PPE) Properly" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 08. Improper loading" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 09. Improper placement" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 10. Improper lifting" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 11. Improper position for task" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 12. Servicing equipment in operation" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 13. Horse Play" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 14. Under the influence of alcohol and/or other drugs" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 15. Using equipment improperly" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 16. Failure to follow procedure" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 17. Failure to identify hazard/risk" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 18. Failure to check/monitor" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 19. Failure to react/correct" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 20. Failure to communicate/coordinate" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 21. Inadequate guards or barriers" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 22. Inadequate or improper protective equipment" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 23. Defective tools, equipment or materials" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 24. Congestion or restricted action" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 25. Inadequate warning system" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 26. Fire and explosion hazards" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 27. Poor housekeeping/disorder" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 28. Noise exposure" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 29. Radiation exposure" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 30. Temperature extremes" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 31. Inadequate or excessive illumination" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 32. Inadequate ventilation" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 33. Presences of harmful materials" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 34. Inadequate instructions/procedures" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 35. Inadequate information/data" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 36. Inadequate preparation/planning" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 37. Inadequate support/assistance" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 38. Inadequate communication hardware/software/process" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 39. Road conditions" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 40. Weather conditions" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 41. Mind off task" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Cause 42. Other - Describe" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Factor 01. Inadequate physical capability" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Factor 02. Inadequate Mental/Psych. capability" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Factor 03. Physical/Physiological stress" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Factor 04. Mental/Physiological stress" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Factor 05. Lack of knowledge" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Factor 06. Lack of training/skill" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Factor 07. Improper motivation " TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Factor 08. Abuse or misuse9. Inadequate leader/supervision" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Factor 09. Inadequate leader/supervision " TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Factor 10. Inadequate engineering" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Factor 11. Inadequate purchasing" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Factor 12. Inadequate maintenance" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Factor 13. Inadequate tools/equipment" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Factor 14. Inadequate work standard" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Factor 15. Excessive wear/tear" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Factor 16. Inadequate communications" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Factor 17. Inadequate controls" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Factor 18. Poor housekeeping" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Factor 19. Other-Describe" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="OSHA Recordable" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="RLCM Complete" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+  
+</AdHocReportField>

@@ -1,0 +1,345 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Collections.Generic;
+using System.IO;
+
+public partial class Claim_Witness : System.Web.UI.Page
+{
+
+    #region Private Variables
+    public RIMS_Base.Biz.CLiabilityClaimWitness m_objWitness;
+    public RIMS_Base.Biz.CGeneral objGeneral;
+    int m_intRetval = -1;
+
+
+    List<RIMS_Base.CLiabilityClaimWitness> lstwitness;
+
+
+    public string m_strCustomFileName = string.Empty;
+    public string m_strFileName = string.Empty;
+    public string m_strGlobalPath = string.Empty;
+    public string m_strPath = string.Empty;
+    public string m_strFolderName = "Witness";
+    public RIMS_Base.Biz.CAttachment m_objAttachment;
+    List<RIMS_Base.CAttachment> lstAttachment = null;
+    int Attach_Retval = -1;
+    #endregion
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        txtZip.Attributes.Add("onKeyUp", "return ZipMasking(event,this.value,this);");
+        txtZip.Attributes.Add("onKeyPress", "return CheckNum(this);");
+
+
+        txtZip.Attributes.Add("onKeyPress", "isValid(this)");
+        m_strGlobalPath = Page.ResolveUrl(ConfigurationManager.AppSettings["UploadPath"] + "/" + m_strFolderName + "/");
+            
+        if (!IsPostBack)
+        {
+            BindCombo();
+           
+            gvAttachmentDetails.DataSource = BindAttachmentDetails();
+            gvAttachmentDetails.DataBind();
+
+
+            btnRemove.Attributes.Add("onclick", "return OMSCheckSelected1('chkItem','gvAttachmentDetails','Delete');");
+ 
+            if (Request.QueryString.Count > 0)
+            {
+                if (Request.QueryString["LiabilityID"] != string.Empty)
+                {
+                    Session["WitnessId"] = Request.QueryString["LiabilityID"].ToString();
+                    ViewState["Pk_Id"] = Request.QueryString["LiabilityID"].ToString();
+                    RetriveData();
+                }
+            }
+
+
+          
+        }
+    }
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("../Claim/AutoLiability.aspx?Page=Witness");
+    }
+
+    #region Private Methods
+    private void BindCombo()
+    {
+        objGeneral = new RIMS_Base.Biz.CGeneral();
+        dwState.DataSource = objGeneral.GetAllState();
+        dwState.DataTextField = "FLD_state";
+        dwState.DataValueField = "Code";
+        dwState.DataBind();
+        ListItem lstItem = new ListItem("------------Select------------", "0");
+        dwState.Items.Insert(0, lstItem);
+       
+    }
+
+    private void RetriveData()
+    {
+        m_objWitness = new RIMS_Base.Biz.CLiabilityClaimWitness();
+        lstwitness = new List<RIMS_Base.CLiabilityClaimWitness>();
+        Int32 LiabilityClaimid = Convert.ToInt32(Session["WitnessId"].ToString());
+        lstwitness = m_objWitness.Get_Witness_ByID(LiabilityClaimid);
+
+        try
+        {
+            if (lstwitness.Count != 0)
+            {
+                if (lstwitness[0].Witeness_Name != String.Empty)
+                    txtname.Text = lstwitness[0].Witeness_Name;
+
+                if (lstwitness[0].Witness_Address1 != String.Empty)
+                    txtAdd1.Text = lstwitness[0].Witness_Address1;
+
+                if (lstwitness[0].Witness_Address2 != String.Empty)
+                    txtAdd2.Text = lstwitness[0].Witness_Address2;
+
+                if (lstwitness[0].Witness_City != String.Empty)
+                    txtCity.Text = lstwitness[0].Witness_City;
+
+                if (lstwitness[0].Witness_Telephone != String.Empty)
+                    txtTelephone.Text = lstwitness[0].Witness_Telephone;
+
+                if (lstwitness[0].Witness_Zipcode != String.Empty)
+                    txtZip.Text = lstwitness[0].Witness_Zipcode;
+
+                if (lstwitness[0].Witness_Statement != String.Empty)
+                    txtwitstmt.Text = lstwitness[0].Witness_Statement;
+
+                if (lstwitness[0].FK_Witness_State != null)
+                    dwState.SelectedIndex = dwState.Items.IndexOf(dwState.Items.FindByValue(lstwitness[0].FK_Witness_State.ToString()));
+
+                lstAttachment = BindAttachmentDetails();
+                if (lstAttachment.Count > 0)
+                {
+                    gvAttachmentDetails.DataSource = lstAttachment;
+                    gvAttachmentDetails.DataBind();
+                    //dispTagName.Value = "dvAttachDetails";
+                    btnRemove.Visible = true;
+                    btnMail.Visible = true;
+                    dvAttachDetails.Style["display"] = "block";
+                 
+                }
+
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    
+    }
+    private void InsertUpdateData()
+    {
+        try
+        {
+
+            m_objWitness = new RIMS_Base.Biz.CLiabilityClaimWitness();
+
+            if (ViewState["Pk_Id"] != null && ViewState["Pk_Id"].ToString() != String.Empty)
+            {
+                m_objWitness.PK_Witness = Convert.ToInt32(ViewState["Pk_Id"].ToString());
+                m_objWitness.Updated_Date = DateTime.Now;
+            }
+            m_objWitness.FK_Liability_Claim = Convert.ToDecimal(Session["WorkerCompID"]);
+            m_objWitness.Witeness_Name = txtname.Text.Trim();
+            m_objWitness.Witness_Address1 = txtAdd1.Text.Trim();
+            m_objWitness.Witness_Address2 = txtAdd2.Text.Trim();
+            m_objWitness.Witness_City = txtCity.Text.Trim();
+            if (dwState.SelectedIndex != 0)
+                m_objWitness.FK_Witness_State = Convert.ToDecimal(dwState.SelectedValue);
+            m_objWitness.Witness_Telephone = txtTelephone.Text.Trim();
+            m_objWitness.Witness_Zipcode = txtZip.Text.Trim();
+            m_objWitness.Witness_Statement = txtwitstmt.Text.Trim();
+
+            m_intRetval = m_objWitness.InsertUpdateility_Claim_Witness(m_objWitness);
+            ViewState["Pk_Id"] = m_intRetval;
+
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+    }
+    #region Attachment
+
+    protected void gvAttachmentDetails_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                ((ImageButton)e.Row.FindControl("imgbtnDwnld")).Attributes.Add("onclick", "javascript:return openWindow('" + m_strGlobalPath + ((ImageButton)e.Row.FindControl("imgbtnDwnld")).CommandArgument.ToString() + "');");
+              
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
+    private void UploadDocuments()
+    {
+        try
+        {
+            m_strPath = Server.MapPath(ConfigurationManager.AppSettings["UploadPath"]);
+
+            if (!(Directory.Exists(m_strPath + "\\" + m_strFolderName)))
+            {
+                Directory.CreateDirectory(m_strPath + "\\" + m_strFolderName);
+            }
+            m_strFileName = GetCustomFileName() + uplCommon.FileName.ToString();
+            m_strPath = m_strPath + "\\" + m_strFolderName + "\\" + m_strFileName;
+            uplCommon.SaveAs(m_strPath);
+
+        }
+        catch (Exception ex)
+        {
+            //Log.Append("Error in UploadPhotoImages Method of ConditionAssessment's PhotoGraphs:" + ex.Message);
+            //Common.reportError("Error in UploadPhotoImages Method of ConditionAssessment's PhotoGraphs:", ex.Message);
+            throw ex;
+        }
+    }
+
+    private string GetCustomFileName()
+    {
+        try
+        {
+            m_strCustomFileName = System.DateTime.Now.ToString("MMddyyhhmmss");
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return m_strCustomFileName;
+    }
+
+    private int AddAttachment()
+    {
+        try
+        {
+            //InsertUpdateData();
+            UploadDocuments();
+            m_objAttachment = new RIMS_Base.Biz.CAttachment();
+            m_objAttachment.Attachment_Table = "Liability_Claim_Witness";
+            m_objAttachment.Foreign_Key = Convert.ToInt32(ViewState["Pk_Id"].ToString());
+            m_objAttachment.FK_Attachment_Type = 1;
+            //Convert.ToInt32(ddlAttachType.SelectedValue);
+            m_objAttachment.Attachment_Description = txtAttachDesc.Text.Replace("'", "''");
+            m_objAttachment.Attachment_Name = m_strFileName;
+            m_objAttachment.Updated_By = Session["UserID"].ToString();
+            m_objAttachment.Update_Date = System.DateTime.Now.Date;
+            Attach_Retval = m_objAttachment.InsertUpdateAttachment(m_objAttachment);
+
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return Attach_Retval;
+    }
+    protected void btnAddAttachment_Click(object sender, EventArgs e)
+    {
+        InsertUpdateData();
+        //dvAttachDetails.Style["display"] = "block";
+        //divAttachmen.Style["display"] = "block";
+        //divClaimDetail.Style["display"] = "none";
+        //divInsurance.Style["display"] = "none";
+
+        //hdnTagName.Value = "third";
+        dvAttachDetails.Style["display"] = "block";
+        AddAttachment();
+
+        ddlAttachType.SelectedIndex = 1;
+        txtAttachDesc.Text = "";
+
+        if (Attach_Retval > 0)
+        {
+            gvAttachmentDetails.DataSource = BindAttachmentDetails();
+            gvAttachmentDetails.DataBind();
+
+        }
+        btnRemove.Visible = true;
+        //dispTagName.Value = "divthird";
+    }
+    private List<RIMS_Base.CAttachment> BindAttachmentDetails()
+    {
+        try
+        {
+            m_objAttachment = new RIMS_Base.Biz.CAttachment();
+            lstAttachment = new List<RIMS_Base.CAttachment>();
+            if (ViewState["Pk_Id"] != null && ViewState["Pk_Id"].ToString() != string.Empty)
+                lstAttachment = m_objAttachment.GetAll(0, Convert.ToInt32(ViewState["Pk_Id"].ToString()), "Liability_Claim_Witness");
+            else
+                lstAttachment = m_objAttachment.GetAll(0, 0, "Liability_Claim_Witness");
+
+            if (lstAttachment.Count > 0)
+            {
+                btnRemove.Visible = true;
+                btnMail.Visible = true;
+               
+            }
+            else
+            {
+                btnRemove.Visible = false;
+                btnMail.Visible = false;
+               
+            }
+            return lstAttachment;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+    }
+    protected void btnRemove_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            m_objAttachment = new RIMS_Base.Biz.CAttachment();
+            Attach_Retval = m_objAttachment.DeleteAttachment(Request.Form["chkItem"].ToString());
+            if (Attach_Retval <= 0)
+            {
+
+                gvAttachmentDetails.DataSource = BindAttachmentDetails();
+                gvAttachmentDetails.DataBind();
+                if (lstAttachment.Count > 0)
+                    btnRemove.Visible = true;
+                else
+                    btnRemove.Visible = false;
+            }
+            dvAttachDetails.Visible = true;
+
+            
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    #endregion
+    #endregion
+    protected void btnsave_Click(object sender, EventArgs e)
+    {
+        InsertUpdateData();
+        Response.Redirect("../Claim/AutoLiability.aspx?Page=Witness");
+    }
+}

@@ -1,0 +1,162 @@
+﻿															<asp:TemplateField HeaderText="Management Section">
+																<ItemStyle Width="10%" VerticalAlign="Top" HorizontalAlign="Center" />
+																<ItemTemplate>
+																	<asp:Label ID="lblMgtSection" runat="server" Text='<%#DataBinder.Eval(Container.DataItem,
+                                                                    "Management_Section") %>'></asp:Label>
+																</ItemTemplate>
+															</asp:TemplateField>
+															<asp:TemplateField HeaderText="RLCM Comments">
+																<ItemStyle Width="30%" />
+																<ItemTemplate>
+																	<div id="div1">
+																		<asp:GridView ID="gv_Child" runat="server" Width="100%" AutoGenerateColumns="false"
+																			DataKeyNames="PK_LU_Sedgwick_Evaluation" SkinID="none">
+																			<Columns>
+																				<asp:TemplateField Visible="false">
+																					<ItemTemplate>
+																						<asp:HiddenField ID="hdnMgtSection" runat="server" Value='<%#DataBinder.Eval(Container.DataItem,
+                                                                    "Management_Section") %>'></asp:HiddenField>
+																					</ItemTemplate>
+																				</asp:TemplateField>
+																				<asp:BoundField HeaderText="Evaluation" DataField="Evaluation" ItemStyle-Width="30%"
+																					ItemStyle-HorizontalAlign="Left" />
+																				<asp:TemplateField HeaderText="RLCM Comments">
+																					<ItemStyle HorizontalAlign="Center" Width="30px" />
+																					<ItemTemplate>
+																						<asp:HiddenField ID="hdnPK_Sedgwick_Claim_RLCM_Comments" runat="server" Value='<%#DataBinder.Eval(Container.DataItem,
+                                                                    "PK_Sedgwick_Claim_RLCM_Comments") %>'></asp:HiddenField>
+																						<uc:ctrlMultiLineTextBox runat="server" ID="txtRLCM_Comments" Width="150" ControlType="TextBox"
+																							Text='<%#DataBinder.Eval(Container.DataItem,
+                                                                    "Comments") %>' />
+																					</ItemTemplate>
+																				</asp:TemplateField>
+																			</Columns>
+																		</asp:GridView>
+																	</div>
+																</ItemTemplate>
+															</asp:TemplateField>
+															<asp:TemplateField HeaderText="RLCM/Sedgwick Action Plan">
+																<ItemStyle Width="55%" VerticalAlign="Top" />
+																<ItemTemplate>
+																	<div id="divActionPlan">
+																		<asp:GridView ID="gv_NestedChild" runat="server" Width="100%" AutoGenerateColumns="false"
+																			OnRowDataBound="gv_NestedChild_OnRowDataBound" OnRowCommand="gv_NestedChild_RowCommand">
+																			<Columns>
+																				<asp:TemplateField HeaderText="" Visible="false">
+																					<ItemStyle HorizontalAlign="Center" />
+																					<ItemTemplate>
+																						<asp:HiddenField ID="hdnRLCM" runat="server" Value='<%#DataBinder.Eval(Container.DataItem,
+                                                                    "RLCM_Sedgwick") %>' />
+																					</ItemTemplate>
+																				</asp:TemplateField>
+																				<asp:TemplateField HeaderText="">
+																					<ItemTemplate>
+																						<asp:HiddenField ID="hdnPK_Sedgwick_Claim_Action_Plan" runat="server" Value='<%#DataBinder.Eval(Container.DataItem,
+                                                                    "PK_Sedgwick_Claim_Action_Plan") %>'></asp:HiddenField>
+																					</ItemTemplate>
+																				</asp:TemplateField>
+																				<asp:TemplateField HeaderText="RLCM/Sedgwick">
+																					<ItemStyle HorizontalAlign="Center" />
+																					<ItemTemplate>
+																						<asp:DropDownList ID="ddlRLCM_Sedgwick" runat="server" Width="100px">
+																							<asp:ListItem Value="RLCM" Text="RLCM"></asp:ListItem>
+																							<asp:ListItem Value="Sedgwick" Text="Sedgwick"></asp:ListItem>
+																						</asp:DropDownList>
+																					</ItemTemplate>
+																				</asp:TemplateField>
+																				<asp:BoundField DataField="Action_Item" HeaderText="Action Item" />
+																				<asp:TemplateField HeaderText="Target Date">
+																					<ItemStyle HorizontalAlign="Center" Width="30px" />
+																					<ItemTemplate>
+																						<asp:TextBox ID="txtTargetDate" runat="server" MaxLength="10" SkinID="txtdate" Width="80px"
+																							Text='<%# clsGeneral.FormatDBNullDateToDisplay_Claim(Eval("Target_Date"))%>'></asp:TextBox>
+																						<cc1:CalendarExtender ID="calTargetDate" runat="server" Format="MM/dd/yyyy" TargetControlID="txtTargetDate">
+																						</cc1:CalendarExtender>
+																					</ItemTemplate>
+																				</asp:TemplateField>
+																				<asp:TemplateField HeaderText="Actual Date">
+																					<ItemStyle HorizontalAlign="Center" Width="30px" />
+																					<ItemTemplate>
+																						<asp:TextBox ID="txtActualDate" runat="server" MaxLength="10" SkinID="txtdate" Width="80px"
+																							Text='<%# clsGeneral.FormatDBNullDateToDisplay_Claim(Eval("Actual_Date"))%>'></asp:TextBox>
+																						<cc1:CalendarExtender ID="calActualDate" runat="server" Format="MM/dd/yyyy" TargetControlID="txtActualDate">
+																						</cc1:CalendarExtender>
+																					</ItemTemplate>
+																				</asp:TemplateField>
+																				<asp:TemplateField HeaderText="Remove">
+																					<ItemStyle HorizontalAlign="Center" Width="10%" />
+																					<ItemTemplate>
+																						<asp:ImageButton runat="server" ID="imgRemove" ImageUrl="~/Images/grdimg_delete.gif"
+																							CommandName="Remove" CommandArgument='<%# Eval("PK_Sedgwick_Claim_Action_Plan") %>' />
+																					</ItemTemplate>
+																				</asp:TemplateField>
+																			</Columns>
+																		</asp:GridView>
+																	</div>
+																</ItemTemplate>
+															</asp:TemplateField>
+															<asp:TemplateField>
+																<ItemStyle Width="5%" VerticalAlign="Top" />
+																<ItemTemplate>
+																	<asp:LinkButton runat="server" ID="lnkAddRow" CommandName="AddNewRow" CommandArgument='<%#DataBinder.Eval(Container.DataItem,
+                                                                    "Management_Section") %>'>
+                                                                        Add
+																	</asp:LinkButton>
+																</ItemTemplate>
+															</asp:TemplateField>
+															<asp:TemplateField>
+																<%--<ItemStyle Width="10%" />--%>
+																<ItemTemplate>
+																	<%--<tr><td colspan="100%">&nbsp;</td></tr>--%>
+																	<tr style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt;
+																		font-weight: bold;">
+																		<td colspan="100%">
+																			<asp:Label ID="lblMgtSectionasd" runat="server" Text='<%#DataBinder.Eval(Container.DataItem,
+                                                                    "Management_Section_Scoring") %>'></asp:Label>
+																		</td>
+																	</tr>
+																</ItemTemplate>
+															</asp:TemplateField>
+															<asp:TemplateField>
+																<%--<ItemStyle Width="60%" />--%>
+																<ItemTemplate>
+																	<tr>
+																		<td colspan="100%">
+																			<div id="div122">
+																				<asp:GridView ID="gv_MedicalScoring" runat="server" Width="100%" AutoGenerateColumns="false"
+																					SkinID="none" ShowHeader="false">
+																					<Columns>
+																						<asp:TemplateField>
+																							<ItemStyle Width="10%" />
+																							<ItemTemplate>
+																								<asp:Literal ID="text_shipped" Text="" runat="server" />
+																							</ItemTemplate>
+																						</asp:TemplateField>
+																						<asp:BoundField DataField="Scoring_Note" HeaderText="" />
+																					</Columns>
+																				</asp:GridView>
+																			</div>
+																		</td>
+																	</tr>
+																</ItemTemplate>
+															</asp:TemplateField>
+															<asp:TemplateField>
+																<ItemTemplate>
+																	<tr style="border-bottom: 1px solid black;">
+																		<td style="width: 30%;">
+																			<asp:Label ID="lblMgtSectiondrp" runat="server" Text='<%#DataBinder.Eval(Container.DataItem,
+                                                                    "Mgt_Section_RLCM_Scoring") %>'></asp:Label>
+																		</td>
+																		<td style="width: 70%;">
+																			<asp:DropDownList ID="ddlRLCM_Medical_Score" runat="server" Width="100px">
+																				<asp:ListItem Value="0" Text="Select"></asp:ListItem>
+																				<asp:ListItem Value="1" Text="1"></asp:ListItem>
+																				<asp:ListItem Value="0" Text="0"></asp:ListItem>
+																			</asp:DropDownList>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td colspan="100%">&nbsp;</td>
+																	</tr>
+																</ItemTemplate>
+															</asp:TemplateField>

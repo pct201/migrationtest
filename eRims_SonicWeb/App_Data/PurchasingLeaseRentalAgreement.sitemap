@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+	<siteMapNode url="" title=""  description="">
+		<siteMapNode url="javascript:void(1);" title="Lease/Rental Agreement"  description="" />
+		<siteMapNode url="javascript:void(2);" title="Contact Information"  description="" />
+		<siteMapNode url="javascript:void(3);" title="Notes"  description="" />
+		<siteMapNode url="javascript:void(4);" title="Attachment"  description="" />
+	</siteMapNode>
+</siteMap>

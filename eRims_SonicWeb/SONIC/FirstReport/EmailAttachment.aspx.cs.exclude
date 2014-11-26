@@ -1,0 +1,58 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using ERIMS.DAL;
+
+public partial class SONIC_EmailAttachment : System.Web.UI.Page
+{
+    /// <summary>
+    ///  store Attachment String Array
+    /// </summary>    
+    public string[] DocName
+    {
+        get { return (string[])this.ViewState["strDocName"]; }
+        set { this.ViewState["strDocName"] = value; }
+    }
+
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            if (Request.QueryString["AttMod"].ToString() == clsGeneral.Exposure_Enviroment_Table.Enviro_Equipment.ToString() ||
+                Request.QueryString["AttMod"].ToString() == clsGeneral.Exposure_Enviroment_Table.Enviro_Inspection.ToString() ||
+                Request.QueryString["AttMod"].ToString() == clsGeneral.Exposure_Enviroment_Table.Enviro_Permit.ToString() ||
+                Request.QueryString["AttMod"].ToString() == clsGeneral.Exposure_Enviroment_Table.Enviro_Phase1.ToString() ||
+                Request.QueryString["AttMod"].ToString() == clsGeneral.Exposure_Enviroment_Table.Enviro_SPCC.ToString())
+            {
+                DataSet dsAttachment = Enviro_Attachments.SelectByMultipleIDs(Request.QueryString[1].ToString());
+                string[] strDocName = new string[Request.QueryString[1].ToString().Split(',').Length];
+
+                // Create string array for Attachments
+                this.lblAttachment.Text = "";
+
+                for (int i = 0; i < dsAttachment.Tables[0].Rows.Count; i++)
+                {
+                    strDocName[i] = clsGeneral.GetEnvironment_AttachmentDocPath(dsAttachment.Tables[0].Rows[i]["FileName"].ToString()) + dsAttachment.Tables[0].Rows[i]["Filename"].ToString();
+                    this.lblAttachment.Text += lblAttachment.Text.Trim() == string.Empty ? dsAttachment.Tables[0].Rows[i]["FileName"].ToString() : ", " + dsAttachment.Tables[0].Rows[i]["FileName"].ToString();
+                }
+                DocName = strDocName;
+            }
+        }
+
+    }
+
+    protected void btnSend_Click(object sender, EventArgs e)
+    {
+        clsGeneral.SendMailMessage(ConfigurationManager.AppSettings["mailFrom"].ToString(), txtToEmail.Text, string.Empty, string.Empty, txtSubject.Text, txtBody.Text, true, DocName);
+        lblScript.Text = "<script type='text/javascript'>Close();</script>";
+    }
+
+}

@@ -1,0 +1,55 @@
+<%@ Master Language="C#" AutoEventWireup="true" EnableTheming="true" CodeFile="Login.master.cs"
+    Inherits="Login" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>Risk Insurance Management System</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=7" />
+     <link rel="shortcut icon" type="image/ico" href="images\ess.ico" />
+    <script type="text/javascript" src="JavaScript/JFunctions.js"></script>
+    
+    <style type="text/css">
+    <!--
+    .style1 {color: #495058}
+    -->
+    </style>
+</head>
+<body class="style">
+    <form id="aspnetForm" runat="server" method="post">
+        <div id="container">
+            <div id="top1">
+            </div>
+            <div id="top2">
+            </div>
+            <div id="header" class="header_text" runat="server" style="background-image: url(images/header2.jpg);">
+                <table width="25%" border="0" style="text-align: right;" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td align="right">
+                            &nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;</td>
+                    </tr>
+                </table>
+                <!-- end #header -->
+            </div>
+            
+            <div>
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+            <div id="footer">
+                <p>
+                    © <%= DateTime.Now.Year.ToString() %>, Emerson Software Solutions Inc, All Rights Reserved
+                </p>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

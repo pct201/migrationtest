@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AdHocReportField>
+  <Field Title="Investigations - Item Status" TableName="LU_Item_Status" Type="DropDown" HasCode="Y" ></Field>
+  <Field Title="What is the associates current Status" TableName="LU_Work_Status" Type="DropDown" HasCode="Y" ></Field>
+  <Field Title="New Procedures - Importance" TableName="LU_Importance" Type="DropDown" HasCode="Y" ></Field>
+  <Field Title="New Procedures - Source" TableName="LU_Procedure_Source" Type="DropDown" HasCode="Y" ></Field>
+  <Field Title="New Procedures - Status" TableName="LU_Item_Status" Type="DropDown" HasCode="Y" ></Field>
+  <Field Title="Suggestions - Source" TableName="LU_Suggetion_Source" Type="DropDown" HasCode="Y" ></Field>
+  <Field Title="Suggestions - Importance" TableName="LU_Importance" Type="DropDown" HasCode="Y" ></Field>
+  <Field Title="Suggestions - Status" TableName="LU_Item_Status" Type="DropDown" HasCode="Y" ></Field>
+  <Field Title="Attendee SLT Role" TableName="LU_SLT_Role" Type="DropDown" HasCode="Y" ></Field>
+  <Field Title="Safety Walk Member SLT Role" TableName="LU_SLT_Role" Type="DropDown" HasCode="Y" ></Field>
+  <Field Title="Deficiencies Corrected - Sales" TableName="" Type="drpYesNoNone" HasCode="N" ></Field>
+  <Field Title="Deficiencies Corrected - Parts" TableName="" Type="drpYesNoNone" HasCode="N" ></Field>
+  <Field Title="Deficiencies Corrected - Service Facility" TableName="" Type="drpYesNoNone" HasCode="N" ></Field>
+  <Field Title="Deficiencies Corrected - Body Shop" TableName="" Type="drpYesNoNone" HasCode="N" ></Field>
+  <Field Title="Deficiencies Corrected - Business Office" TableName="" Type="drpYesNoNone" HasCode="N" ></Field>
+  <Field Title="Deficiencies Corrected - Detail Area" TableName="" Type="drpYesNoNone" HasCode="N" ></Field>
+  <Field Title="Deficiencies Corrected - Car Wash" TableName="" Type="drpYesNoNone" HasCode="N" ></Field>
+  <Field Title="Deficiencies Corrected - Parking Lot" TableName="" Type="drpYesNoNone" HasCode="N" ></Field>
+  <Field Title="Attendee Present" TableName="" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Previous Meeting Reviewed and Approved" TableName="" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Monthly Safety Walk Completed" TableName="" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Safety Walk - Participated" TableName="" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Inspection - RLCM Notified" TableName="" Type="drpYesNoInt" HasCode="N" ></Field>
+  <Field Title="Training Suggestions - Completed" TableName="" Type="drpYesNoInt" HasCode="N" ></Field>
+</AdHocReportField>

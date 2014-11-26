@@ -1,0 +1,423 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Default.master" AutoEventWireup="true" CodeFile="PremiumAllocationFields.aspx.cs" Inherits="SONIC_Exposures_PremiumAllocationFields" %>
+
+<%@ Register Src="~/Controls/Notes/Notes.ascx" TagName="ctrlMultiLineTextBox" TagPrefix="uc" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+ <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Calendar_new.js"></script>
+
+    <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/calendar-en.js"></script>
+
+    <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Calendar.js"></script>
+
+    <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Validator.js"></script>
+
+    <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Date_Validation.js"></script>
+
+    <div>
+     <asp:ValidationSummary ID="vsError" runat="server" CssClass="errormessage" ValidationGroup="vsError"
+            BorderColor="DimGray" BorderWidth="1" HeaderText="Verify the following fields:"
+            ShowMessageBox="true" ShowSummary="false"></asp:ValidationSummary>
+   </div>
+    <table cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td class="bandHeaderRow" align="left">
+                Premium Allocation
+            </td>
+        </tr>
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <asp:Panel ID="pnlEdit" runat="server">
+                    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                        <tr>
+                            <td colspan="3">
+                                <asp:Label ID="lblError" runat="server" Visible="False" Font-Bold="True" CssClass="error"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr valign="top">
+                            <td>
+                                Year <span style="color: Red;">*</span>
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td>
+                                <asp:TextBox ID="txtYear" runat="server" MaxLength="4" Width="170px" onpaste="return false" SkinID="txtYearWithRange">
+                                </asp:TextBox>
+                                <asp:RequiredFieldValidator ID="revtxtYear" runat="server" Display="None" ErrorMessage="Please Enter Year."
+                                    ControlToValidate="txtYear" SetFocusOnError="true" ValidationGroup="vsError"></asp:RequiredFieldValidator>
+                                <asp:RangeValidator ID="rvtxtYearBuilt" runat="server" ControlToValidate="txtYear"
+                                    ValidationGroup="vsError" Type="Integer" MinimumValue="1"
+                                    MaximumValue="2100" ErrorMessage="Year is not valid."
+                                    Display="None"></asp:RangeValidator>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" width="18%">
+                                Worker's Compensation Premium
+                            </td>
+                            <td align="center" width="4%">
+                                :
+                            </td>
+                            <td align="left" width="28%">
+                                <asp:TextBox ID="txtWC_Premium" runat="server" Width="170px" onkeypress="return FormatNumberToDec(event,this.id,16,false,2);"
+                                onpaste="return false" />
+                            </td>
+                            <td align="left" width="18%">
+                                Texas Worker's Compensation Premium
+                            </td>
+                            <td align="center" width="4%">
+                                :
+                            </td>
+                            <td align="left" width="28%">
+                                <asp:TextBox ID="txtTexas_WC_Premium" runat="server" Width="170px" onkeypress="return FormatNumberToDec(event,this.id,16,false,2);"
+                                onpaste="return false" />
+                            </td>
+                        </tr>
+                         <tr>
+                            <td align="left" width="18%">
+                                Loss Fund Premium
+                            </td>
+                            <td align="center" width="4%">
+                                :
+                            </td>
+                            <td align="left" width="28%">
+                                <asp:TextBox ID="txtLoss_Fund_Premium" runat="server" Width="170px" onkeypress="return FormatNumberToDec(event,this.id,16,false,2);"
+                                onpaste="return false" />
+                            </td>
+                            <td align="left" width="18%">
+                                Garage Liability Premium
+                            </td>
+                            <td align="center" width="4%">
+                                :
+                            </td>
+                            <td align="left" width="28%">
+                                <asp:TextBox ID="txtGarage_Liability_Premium" runat="server" Width="170px" onkeypress="return FormatNumberToDec(event,this.id,16,false,2);"
+                                onpaste="return false" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" width="18%">
+                                Property Premium
+                            </td>
+                            <td align="center" width="4%">
+                                :
+                            </td>
+                            <td align="left" width="28%">
+                                <asp:TextBox ID="txtProperty_Premium" runat="server" Width="170px" onkeypress="return FormatNumberToDec(event,this.id,16,false,2);"
+                                onpaste="return false" />
+                            </td>
+                            <td align="left" width="18%">
+                                Crime Premium
+                            </td>
+                            <td align="center" width="4%">
+                                :
+                            </td>
+                            <td align="left" width="28%">
+                                <asp:TextBox ID="txtCrime_Premium" runat="server" Width="170px" onkeypress="return FormatNumberToDec(event,this.id,16,false,2);"
+                                onpaste="return false" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" width="18%">
+                                Umbrella Premium
+                            </td>
+                            <td align="center" width="4%">
+                                :
+                            </td>
+                            <td align="left" width="28%">
+                                <asp:TextBox ID="txtUmbrella_Premium" runat="server" Width="170px" onkeypress="return FormatNumberToDec(event,this.id,16,false,2);"
+                                onpaste="return false" />
+                            </td>
+                            <td align="left" width="18%">
+                                Excess Umbrella Premium
+                            </td>
+                            <td align="center" width="4%">
+                                :
+                            </td>
+                            <td align="left" width="28%">
+                                <asp:TextBox ID="txtExcess_Umbrella_Premium" runat="server" Width="170px" onkeypress="return FormatNumberToDec(event,this.id,16,false,2);"
+                                onpaste="return false" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" width="18%">
+                                2nd Layer Umbrella Premium
+                            </td>
+                            <td align="center" width="4%">
+                                :
+                            </td>
+                            <td align="left" width="28%">
+                                <asp:TextBox ID="txtSecond_Layer_Umbrella_Premium" runat="server" Width="170px" onkeypress="return FormatNumberToDec(event,this.id,16,false,2);"
+                                onpaste="return false" />
+                            </td>
+                            <td align="left" width="18%">
+                                EPL Premium
+                            </td>
+                            <td align="center" width="4%">
+                                :
+                            </td>
+                            <td align="left" width="28%">
+                                <asp:TextBox ID="txtEPL_Premium" runat="server" Width="170px" onkeypress="return FormatNumberToDec(event,this.id,16,false,2);"
+                                onpaste="return false" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" width="18%">
+                                Cyber Premium
+                            </td>
+                            <td align="center" width="4%">
+                                :
+                            </td>
+                            <td align="left" width="28%">
+                                <asp:TextBox ID="txtCyber_Premium" runat="server" Width="170px" onkeypress="return FormatNumberToDec(event,this.id,16,false,2);"
+                                onpaste="return false" />
+                            </td>
+                            <td align="left" width="18%">
+                                Total Risk Management Fee
+                            </td>
+                            <td align="center" width="4%">
+                                :
+                            </td>
+                            <td align="left" width="28%">
+                                <asp:TextBox ID="txtTotal_Risk_Management_Fee" runat="server" Width="170px" onkeypress="return FormatNumberToDec(event,this.id,16,false,2);"
+                                onpaste="return false" />
+                            </td>
+                        </tr>
+                         <tr>
+                            <td align="left" width="18%">
+                                Pollution Premiun
+                            </td>
+                            <td align="center" width="4%">
+                                :
+                            </td>
+                            <td align="left" width="28%">
+                                <asp:TextBox ID="txtPollution_Premium" runat="server" Width="170px" onkeypress="return FormatNumberToDec(event,this.id,16,false,2);"
+                                onpaste="return false" />
+                            </td>
+                            <td align="left" width="18%">
+                                &nbsp;
+                            </td>
+                            <td align="center" width="4%">
+                                &nbsp;
+                            </td>
+                            <td align="left" width="28%">
+                                &nbsp;
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" align="center">
+                                <asp:Button runat="server" ID="btnSave" Text=" Save " OnClick="btnSave_Click"
+                                    ToolTip="Save" CausesValidation="true" ValidationGroup="vsError"  />
+                                &nbsp;&nbsp;
+                                <asp:Button runat="server" ID="btnBackToSearch" Text="Back To Search" OnClick="btnBackToSearch_Click"
+                                    ToolTip="Back To Search" CausesValidation="false" />
+                            </td>
+                        </tr>
+                    </table>
+                </asp:Panel>
+                <asp:Panel ID="pnlView" runat="server">
+                    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                        <tr valign="top">
+                            <td>
+                                Year
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td>
+                                <asp:Label ID="lblYear" runat="server">                                 
+                                </asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" width="18%">
+                                Worker's Compensation Premium
+                            </td>
+                            <td align="center" width="4%">
+                                :
+                            </td>
+                            <td align="left" width="28%">
+                                <asp:Label ID="lblWC_Premium" runat="server"></asp:Label>
+                            </td>
+                            <td align="left" width="18%">
+                               Texas Worker's Compensation Premium
+                            </td>
+                            <td align="center" width="4%">
+                                :
+                            </td>
+                            <td align="left" width="28%">
+                                <asp:Label ID="lblTexas_WC_Premium" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" width="18%">
+                                Loss Fund Premium
+                            </td>
+                            <td align="center" width="4%">
+                                :
+                            </td>
+                            <td align="left" width="28%">
+                                <asp:Label ID="lblLoss_Fund_Premium" runat="server">
+                                </asp:Label>
+                            </td>
+                            <td align="left" width="18%">
+                                Garage Liability Premium
+                            </td>
+                            <td align="center" width="4%">
+                                :
+                            </td>
+                            <td align="left" width="28%">
+                                <asp:Label ID="lblGarage_Liability_Premium" runat="server" SkinID="lblDate"></asp:Label>
+                                <br />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">
+                                Property Premium
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left">
+                                <asp:Label ID="lblProperty_Premium" runat="server"></asp:Label>
+                            </td>
+                            <td align="left">
+                                Crime Premium
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left">
+                                <asp:Label ID="lblCrime_Premium" runat="server"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">
+                                Umbrella Premium
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left">
+                                <asp:Label ID="lblUmbrella_Premium" runat="server" onKeyPress="return FormatInteger(event);"></asp:Label>
+                            </td>
+                            <td align="left">
+                                Excess Umbrella Premium
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left">
+                                <asp:Label ID="lblExcess_Umbrella_Premium" runat="server" SkinID="lblDate"></asp:Label>
+                                <br />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">
+                               2nd Layer Umbrella Premium
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left">
+                                <asp:Label runat="server" ID="lblSecond_Layer_Umbrella_Premium"></asp:Label>
+                            </td>
+                            <td align="left">
+                                EPL Premium
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left">
+                                <asp:Label runat="server" ID="lblEPL_Premium"></asp:Label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">
+                                Cyber Premium
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left">
+                                <asp:Label ID="lblCyber_Premium" runat="server">
+                                </asp:Label>
+                            </td>
+                            <td align="left">
+                                Total Risk Management Fee
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left">
+                                <asp:Label ID="lblTotal_Risk_Management_Fee" runat="server" SkinID="lblDate"></asp:Label>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td align="left">
+                                Pollution Premium
+                            </td>
+                            <td align="center">
+                                :
+                            </td>
+                            <td align="left">
+                                <asp:Label ID="lblPollution_Premium" runat="server">
+                                </asp:Label>
+                            </td>
+                            <td align="left">
+                                &nbsp;
+                            </td>
+                            <td align="center">
+                                &nbsp;
+                            </td>
+                            <td align="left">
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" align="center">
+                                <asp:Button runat="server" ID="btnBackToEdit" Text=" Edit " OnClick="btnBackToEdit_Click"
+                                    ToolTip="Edit" />
+                                &nbsp;&nbsp;
+                                <asp:Button runat="server" ID="btnBack" Text="Back To Search" OnClick="btnBackToSearch_Click"
+                                    ToolTip="Back To Search" CausesValidation="false" />
+                            </td>
+                        </tr>
+                    </table>
+                </asp:Panel>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+</asp:Content>
+

@@ -1,0 +1,83 @@
+<%@ Page Language="C#" MasterPageFile="~/Default.master" AutoEventWireup="true" CodeFile="ClaimReport.aspx.cs"
+    Inherits="Report_ClaimReport" Title="Risk Insurance Management System" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <table width="100%" cellpadding="0" cellspacing="0" class="mainTable">
+        <tr>
+            <td>
+                <table cellpadding="0" width="100%">
+                    <tr>
+                        <td colspan="2">
+                            <table cellspacing="1" width="100%" style="background-color: #7f7f7f; color: White;
+                                font-weight: Bolder; font-family: Tahoma; font-size: 10pt; text-align: left;">
+                                <tr>
+                                    <td class="ghc">
+                                        Claim Report
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                    <td colspan="2" align="right" style="font-weight:bold;font-size:small;">
+                    <asp:Label ID="lblClaimType" runat="Server"></asp:Label>
+                    </td>
+                    </tr>
+                    <tr >
+                        <td class="lc" align="right" style="width: 30%;">
+                            <strong>Claim Type: </strong>
+                        </td>
+                        <td valign="top" class="ic" style="width: 70%;">
+                            <asp:RadioButtonList ID="rdblstContent" runat="Server" AutoPostBack="true" OnSelectedIndexChanged="rdblstContent_SelectedIndexChanged"
+                                RepeatDirection="Horizontal">
+                                <asp:ListItem Text="Workers Compensation" Value="1" Selected="True"></asp:ListItem>
+                                <asp:ListItem Text="Auto Liability " Value="2"></asp:ListItem>
+                                <asp:ListItem Text="General Liability " Value="3"></asp:ListItem>
+                            </asp:RadioButtonList>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <td class="lc">
+                            <strong>
+                                <asp:Label ID="lblHeader" runat="server"></asp:Label></strong>
+                        </td>
+                        <td valign="top">
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;
+                            <asp:Label ID="lblMessage" runat="server"></asp:Label></td>
+                        <td align="left" valign="top">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<asp:Button ID="btnShowFilter" runat="server" CssClass="btn" OnClick="btnShowFilter_Click"
+                                Text="Show Filters" Width="95px" />
+                            <asp:Button ID="btnShowFields" runat="server" CssClass="btn" OnClick="btnShowFields_Click"
+                                Text="Show Fields" Width="95px" />
+                            <%--<asp:Button ID="btnExportExcel" runat="Server" CssClass="btn" OnClick="btnExportExcel_Click"
+                                Text="Output to Excel" />--%>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"> &nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="2" align="right" >
+                <table width="100%" cellpadding="0" cellspacing ="0">
+                    <tr>
+                        <td valign="top" align="center">
+                            <iframe width="100%" id="ifrmAddHoc" name="ifrmAddHoc" scrolling="no" marginwidth="0"
+                                runat="server" frameborder="0" height="0"></iframe>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    
+    
+   
+</asp:Content>

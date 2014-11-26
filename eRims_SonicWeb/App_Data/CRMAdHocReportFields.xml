@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AdHocReportField>
+	<Field Title="CRM Source" TableName="LU_CRM_Source" Type="DropDown" HasCode="Y" ></Field>
+	<Field Title="State" TableName="State" Type="DropDown" HasCode="Y" ></Field>
+	<Field Title="CRM Department" TableName="LU_CRM_Department" Type="DropDown" HasCode="Y" ></Field>
+	<Field Title="CRM Department Detail" TableName="LU_CRM_Dept_Desc_Detail" Type="DropDown" HasCode="Y" ></Field>
+	<Field Title="CRM Brand" TableName="LU_CRM_Brand" Type="DropDown" HasCode="Y" ></Field>
+	<Field Title="CRM Contacted" TableName="LU_CRM_Contacted_Resolution" Type="DropDown" HasCode="Y" ></Field>
+	<Field Title="Resolution Manager" TableName="LU_CRM_Contacted_Resolution" Type="DropDown" HasCode="Y" ></Field>
+	<Field Title="RVP Name" TableName="LU_CRM_RVP" Type="DropDown" HasCode="Y" ></Field>
+	<Field Title="CRM DFOD" TableName="LU_CRM_DFOD" Type="DropDown" HasCode="Y" ></Field>
+	<Field Title="CRM Response Method" TableName="LU_CRM_Response_Method" Type="DropDown" HasCode="Y" ></Field>
+	<Field Title="CRM Letter NA Reason" TableName="LU_CRM_Letter_NA_Reason" Type="DropDown" HasCode="Y" ></Field>
+	<Field Title="CRM Category" TableName="LU_CRM_Category" Type="DropDown" HasCode="Y" ></Field>
+</AdHocReportField>

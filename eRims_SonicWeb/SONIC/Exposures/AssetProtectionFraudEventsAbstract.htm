@@ -1,0 +1,1216 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <table width='100%' align='center'>
+        <tr>
+            <td width='100%' align='center'>
+                <span style='font-size: 16px; font-family: Arial;'><b>Sonic Automotive - Asset Protection
+                    – Fraud Events Abstract</b></span>
+            </td>
+        </tr>
+    </table>
+    <table cellpadding="3" cellspacing="1" border="0" width="100%" id="tblMainFraudEventView"
+        runat="server">
+        <tr>
+            <td align="left" valign="top" colspan="6">
+                <b><span style="font-family: Arial; font-size: 13.5px;">Event Claim</span></b>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" width="18%">
+                <span style="font-family: Arial; font-size: 13.5px;">Fraud Number </span>
+            </td>
+            <td align="center" valign="top" width="4%">
+                :
+            </td>
+            <td align="left" valign="top" width="28%">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblFraudNumber] </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" width="18%">
+                <span style="font-family: Arial; font-size: 13.5px;">Exposure Period Begin Date
+                </span>
+            </td>
+            <td align="center" valign="top" width="4%">
+                :
+            </td>
+            <td align="left" valign="top" width="28%">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblExposurePeriodBeginDate]
+                </span>
+            </td>
+            <td align="left" valign="top" width="18%">
+                <span style="font-family: Arial; font-size: 13.5px;">Exposure Period End Date </span>
+            </td>
+            <td align="center" valign="top" width="4%">
+                :
+            </td>
+            <td align="left" valign="top" width="28%">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblExposurePeriodEndDate]
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" width="18%">
+                <span style="font-family: Arial; font-size: 13.5px;">Reported To </span>
+            </td>
+            <td align="center" valign="top" width="4%">
+                :
+            </td>
+            <td align="left" valign="top" width="28%">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblReportedTo] </span>
+            </td>
+            <td align="left" valign="top" width="18%">
+                <span style="font-family: Arial; font-size: 13.5px;">Reported Date </span>
+            </td>
+            <td align="center" valign="top" width="4%">
+                :
+            </td>
+            <td align="left" valign="top" width="28%">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblReportedDate] </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" width="18%" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Description of Event </span>
+            </td>
+            <td align="center" width="4%" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblDesciptionOfEvent] </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" colspan="6">
+                <span style="font-family: Arial; font-size: 13.5px;"><b>Notification </b></span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+            </td>
+            <td align="center" valign="top">
+            </td>
+            <td align="left" valign="top" colspan="4">
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="27%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkCustomerRelationsHotLineView]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Customer Relations Hot Line </span>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkDiscoveredFraudthroughAuditsView]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Discovered Fraud through Audits</span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+            </td>
+            <td align="center" valign="top">
+            </td>
+            <td align="left" valign="top" colspan="4">
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="27%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkIntrnlAditCntrlLeadToFraudEventView]
+                                Internal &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Audit Control Breakdown leading to
+                                Fraud Event </span>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkRetailLendingView]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Retail Lending </span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+            </td>
+            <td align="center" valign="top">
+            </td>
+            <td align="left" valign="top" colspan="4">
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="27%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkSonicAssociate1800HotLineView]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Sonic Associate 1-800 Hot Line </span>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkStoreRedFlagsView]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Store Red Flags </span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+            </td>
+            <td align="center" valign="top">
+            </td>
+            <td align="left" valign="top" colspan="4">
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="27%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkOtherView]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Other
+                            </span>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" width="18%" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Other Notification Description
+                </span>
+            </td>
+            <td align="center" width="4%" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblOther_Notification_Description]
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" colspan="6">
+                <span style="font-family: Arial; font-size: 13.5px;"><b>Initial Review </b></span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Initial Claim Review Purification
+                    Notes </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblInternal_Review_Purification_Notes]
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Fraud Date</span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblFraud_Date]</span>
+            </td>
+            <td align="left" valign="top">
+                &nbsp;
+            </td>
+            <td align="center" valign="top">
+                &nbsp;
+            </td>
+            <td align="left" valign="top">
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" colspan="6">
+                <span style="font-family: Arial; font-size: 13.5px;"><b>Partnership Assignments </b>
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">HR Assignment </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblHR_Assignment] </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">HR Associate Contacted </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblHR_Associate_Contacted]
+                </span>
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Date HR Assigned </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblDate_HR_Assigned] </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Internal Audit Assignment </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblInternal_Audit_Assignment]
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Internal Audit Associate Contacted
+                </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblInternal_Audit_Associate_Contacted]
+                </span>
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Date Internal Audit Assigned
+                </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblDate_Internal_Audit_Assigned]
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Store Controller Assignment
+                </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblStore_Controller_Assignment]
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Store Controller Associate Contacted
+                </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblStore_Controller_Associate_Contacted]
+                </span>
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Date Store Controller Assigned
+                </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblDate_Store_Controller_Assigned]
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Regional Controller Assignment
+                </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblRegional_Controller_Assignment]
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Regional Controller Associate Contacted
+                </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblRegional_Controller_Associate_Contacted]
+                </span>
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Date Regional Controller Assigned
+                </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblDate_Regional_Controller_Assigned]</span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Legal Department Assignment
+                </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblLegal_Department_Assignment]
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Legal Department Associate Contacted
+                </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblLegal_Department_Associate_Contacted]
+                </span>
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Date Legal Department Assigned
+                </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblDate_Legal_Department_Assigned]
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Outside Legal Assignment </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblOutside_Legal_Assignment]
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Outside Legal Person Contacted
+                </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblOutside_Legal_Associate_Contacted]
+                </span>
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Date Outside Legal Assigned</span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblDate_Outside_Legal_Assigned]
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Operations Assignment </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblOperations_Assignment]
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Operations Associate Contacted
+                </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblOperations_Associate_Contacted]
+                </span>
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Date Operations Assigned </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblDate_Operations_Assigned]
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Retail Lending Assignment </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblRetail_Lending_Assignment]</span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Retail Lending Associate Contacted
+                </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblRetail_Lending_Associate_Contacted]
+                </span>
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Date Retail Lending Assigned
+                </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblDate_Retail_Lending_Assigned]
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">BT Security Assignment </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblBT_Security_Assignment]</span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">BT Security Associate Contacted
+                </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblBT_Security_Associate_Contacted]
+                </span>
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Date BT Security Assigned </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblDate_BT_Security_Assigned]
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Other Assignment </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblOther_Assignment]</span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Other/Person Contacted </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblAssociated_Contacted] </span>
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Date Assigned </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblDate_Assigned] </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" colspan="6">
+                <span style="font-family: Arial; font-size: 13.5px;"><b>NAPM Investigation </b></span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">On-Site Findings: </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblOnSite_Findings]</span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">TLO Findings </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblTLO_Findings]</span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Statements Obtained </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblStatements_Obtained] </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Fact Finding/Due-Diligence
+                </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblFact_Finding_andor_Due_Diligence]</span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Law Enforcement Involvement
+                </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblLaw_Enforcement_Involvement]
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" colspan="6">
+                <span style="font-family: Arial; font-size: 13.5px;"><b>Disposition Game Plan</b>
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+            </td>
+            <td align="center" valign="top">
+            </td>
+            <td align="left" valign="top" colspan="4">
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="27%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkCivilActionView] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Civil Action </span>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkCriminalActionView]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Criminal Action </span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+            </td>
+            <td align="center" valign="top">
+            </td>
+            <td align="left" valign="top" colspan="4">
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="27%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkFurtherInvestigationView] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Further Investigation </span>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+            </td>
+            <td align="center" valign="top">
+            </td>
+            <td align="left" valign="top">
+                <span style="text-decoration: underline; font-family: Arial; font-size: 13.5px;">Associate
+                    Corrective Action</span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+            </td>
+            <td align="center" valign="top">
+            </td>
+            <td align="left" valign="top" colspan="4">
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="27%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkSuspensionView] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Suspension </span>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkTerminationView] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Termination </span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+            </td>
+            <td align="center" valign="top">
+            </td>
+            <td align="left" valign="top" colspan="4">
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="27%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkWrittenView] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Written </span>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkVerbalView] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Verbal </span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+            </td>
+            <td align="center" valign="top">
+            </td>
+            <td align="left" valign="top" colspan="4">
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="27%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkCommunicationStrategyView]
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Communication Strategy (Internal and External)
+                            </span>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkGamePlanOtherView] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Other</span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Detailed Disposition Game Plan
+                    Description </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblDetailed_Deisposition_Game_Plan_Description]
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+            </td>
+            <td align="center" valign="top">
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[chkAccountingGapsandControlView]
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Accounting Gaps and Controls </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+            </td>
+            <td align="center" valign="top">
+            </td>
+            <td align="left" valign="top">
+                <span style="text-decoration: underline; font-family: Arial; font-size: 13.5px;">Red
+                    Flags Missed</span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+            </td>
+            <td align="center" valign="top">
+            </td>
+            <td align="left" valign="top" colspan="4">
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="27%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkMFRIncentivesView] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Aging – MFR Incentives </span>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkAgingWarrantiesView] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Aging – Warranties</span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+            </td>
+            <td align="center" valign="top">
+            </td>
+            <td align="left" valign="top" colspan="4">
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="27%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkAccountPayableSchemesView]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Account
+                                Payable Schemes </span>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkAssociateCollusionView] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Associate(s) Collusion </span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+            </td>
+            <td align="center" valign="top">
+            </td>
+            <td align="left" valign="top" colspan="4">
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="27%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkBillingSchemesView] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Billing Schemes </span>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkExternalScamView] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                External Scam </span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+            </td>
+            <td align="center" valign="top">
+            </td>
+            <td align="left" valign="top" colspan="4">
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="27%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkImproperDisclosuretoCustomerFandIProductPurchaseView]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Improper Disclosure to Customer F&I Product Purchase </span>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkImproperDisclosuretoCustomerVehiclePurchaseView]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Improper Disclosure to Customer Vehicle Purchase </span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+            </td>
+            <td align="center" valign="top">
+            </td>
+            <td align="left" valign="top" colspan="4">
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="27%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkInventorySchemesView] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Inventory Schemes </span>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkOperasionsNoAdherencetoSonicPolicyandPlaybookView]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Operasions – No Adherence to Sonic Policy and Playbook </span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+            </td>
+            <td align="center" valign="top">
+            </td>
+            <td align="left" valign="top" colspan="4">
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="27%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkVendorCollusionView] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Vendor Collusion </span>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkVendorSchemesView]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Vendor Schemes </span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+            </td>
+            <td align="center" valign="top">
+            </td>
+            <td align="left" valign="top" colspan="4">
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="27%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkDispositionGameplanOtherView]
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Other </span>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Detail Description of Root Cause
+                </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblDetail_Description_of_Root_Cause]</span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" colspan="6">
+                <span style="font-family: Arial; font-size: 13.5px;"><b>Corrective Action/Recommendation
+                </b></span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+            </td>
+            <td align="center" valign="top">
+            </td>
+            <td align="left" valign="top" colspan="4">
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="27%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkchangeaControlView]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Change
+                                a Control</span>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkCurrentSystemEnhancementView]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Current
+                                System Enhancement</span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+            </td>
+            <td align="center" valign="top">
+            </td>
+            <td align="left" valign="top" colspan="4">
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="27%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkImplementPolicyView] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Implement
+                                Policy</span>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkNewSystemChangeView] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;New
+                                System Change</span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+            </td>
+            <td align="center" valign="top">
+            </td>
+            <td align="left" valign="top" colspan="4">
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="27%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkResultOfDespositionPlanView]
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Results of Disposition Plan </span>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkRetrainingView] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Re-Training </span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+            </td>
+            <td align="center" valign="top">
+            </td>
+            <td align="left" valign="top" colspan="4">
+                <table width="100%">
+                    <tr>
+                        <td align="left" valign="top" width="27%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkTrainingView] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Training </span>
+                        </td>
+                        <td align="left" valign="top" width="50%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[chkCorrectiveActionRecommendationOtherView]
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Other</span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Detailed Description of Corrective
+                    Action/Recommendation </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblDetail_Description_of_Corrective_Action_andor_Recommendation]</span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" colspan="6">
+                <span style="font-family: Arial; font-size: 13.5px;"><b>Asset Protection Committee</b>
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Notes Grid </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top" colspan="4">
+                <span style="font-family: Arial; font-size: 13.5px;">[gvNotesGridView]</span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" colspan="6">
+                <span style="font-family: Arial; font-size: 13.5px;"><b>Event Claim Status </b></span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Close File</span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblClose_File] </span>
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Close Date </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblClose_Date] </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Reopen File </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblReopen_File] </span>
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Reopen Date </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblReopen_Date] </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Comments </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" colspan="4" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">[lblEventComments]</span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" colspan="6">
+                <span style="font-family: Arial; font-size: 13.5px;"><b>Financial Risk Exposure Grid
+                </b></span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Financial Reserve Grid </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top" colspan="4">
+                <span style="font-family: Arial; font-size: 13.5px;">[gvFinancialReserveTransactionView]
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td align="left" valign="top">
+                <span style="font-family: Arial; font-size: 13.5px;">Financial Matrix </span>
+            </td>
+            <td align="center" valign="top">
+                :
+            </td>
+            <td align="left" valign="top" colspan="4">
+                <table width="100%" cellspacing="0px" cellpadding="5px">
+                    <tr class="bandHeaderRow">
+                        <td align="left" valign="top" width="25%">
+                        </td>
+                        <td align="right" valign="top" width="25%">
+                            <span style="font-family: Arial; font-size: 13.5px;">Potential Loss Exposure </span>
+                        </td>
+                        <td align="right" valign="top" width="25%">
+                            <span style="font-family: Arial; font-size: 13.5px;">Expense </span>
+                        </td>
+                        <td align="right" valign="top" width="25%">
+                            <span style="font-family: Arial; font-size: 13.5px;">Total </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top" width="25%" class="bandHeaderRow">
+                            <span style="font-family: Arial; font-size: 13.5px;">Reserve </span>
+                        </td>
+                        <td align="right" valign="top" width="25%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[lblFMReservePotentialLossView]
+                            </span>
+                        </td>
+                        <td align="right" valign="top" width="25%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[lblFMReserveExpenseView] </span>
+                        </td>
+                        <td align="right" valign="top" width="25%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[lblFMReserveTotalView] </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top" width="25%" class="bandHeaderRow">
+                            <span style="font-family: Arial; font-size: 13.5px;">Paid </span>
+                        </td>
+                        <td align="right" valign="top" width="25%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[lblFMPaidPotentialLossView]
+                            </span>
+                        </td>
+                        <td align="right" valign="top" width="25%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[lblFMPaidExpenseView] </span>
+                        </td>
+                        <td align="right" valign="top" width="25%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[lblFMPaidTotalView] </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top" width="25%" class="bandHeaderRow">
+                            <span style="font-family: Arial; font-size: 13.5px;">Recovery </span>
+                        </td>
+                        <td align="right" valign="top" width="25%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[lblFMRecoveryPotentialLossView]
+                            </span>
+                        </td>
+                        <td align="right" valign="top" width="25%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[lblFMRecoveryExpenseView]
+                            </span>
+                        </td>
+                        <td align="right" valign="top" width="25%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[lblFMRecoveryTotalView] </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top" width="25%" class="bandHeaderRow">
+                            <span style="font-family: Arial; font-size: 13.5px;">Outstanding </span>
+                        </td>
+                        <td align="right" valign="top" width="25%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[lblFMOutstandingPotentialLossView]
+                            </span>
+                        </td>
+                        <td align="right" valign="top" width="25%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[lblFMOutstandingExpenseView]
+                            </span>
+                        </td>
+                        <td align="right" valign="top" width="25%">
+                            <span style="font-family: Arial; font-size: 13.5px;">[lblFMOutstandingTotalView]
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

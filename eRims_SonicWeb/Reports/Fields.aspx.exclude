@@ -1,0 +1,145 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Fields.aspx.cs" Inherits="Reports_Fields"
+    MaintainScrollPositionOnPostback="true" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <link href="../App_Themes/Default/Default.css" type="text/css" />
+
+    <script type="text/javascript" language="javascript">
+    var First=-1;
+    var Second=-1;
+    var Third=-1;
+    function ListFirst(ElementName,Index)
+    {
+        First=-1;
+        First=Index;
+        return Common(ElementName); 
+    }
+    function ListSecond(ElementName,Index)
+    {
+        Second=-1;
+        Second=Index;
+        if(First==-1)
+        {
+            alert("- Please Select in this order \n( First Level Sorting->Second Level Sorting->Third Level Sorting ).");
+            document.getElementById(ElementName).selectedIndex=-1;
+            Second=-1;
+            return false;
+        }
+        return Common(ElementName); 
+    }
+    function ListThird(ElementName,Index)
+    {
+        Third=-1;
+        Third=Index;
+        
+        if(Second==-1 || First==-1)
+        {
+            alert("- Please Select in this order \n( First Level Sorting->Second Level Sorting->Third Level Sorting ).");
+            document.getElementById(ElementName).selectedIndex=-1;
+            Third=-1;
+            return false;
+        }
+        return Common(ElementName); 
+        
+    }
+    function Common(ElementName)
+    {
+        //alert(First);
+        //alert(Second);
+        //alert(Third);
+        //alert(First==Second);
+        if((First==Second || First==Third) && First!=-1 && ElementName=='lstFirst')
+        {
+        
+            alert("Please Select Different Values Three Level Sorting.");
+            document.getElementById(ElementName).selectedIndex=-1;
+            First=-1;
+            return false;
+        }
+        else if((Second==Third || Second==First) && Second!=-1 && ElementName=='lstSecond')
+        {
+            alert("Please Select Different Values Three Level Sorting.");
+            document.getElementById(ElementName).selectedIndex=-1;
+            Second=-1;
+            return false;
+        }
+        else if((Third==First  || Third==Second)&& Third!=-1 && ElementName=='lstThird')
+        {
+            alert("Please Select Different Values Three Level Sorting.");
+            document.getElementById(ElementName).selectedIndex=-1;
+            Third=-1;
+            return false;
+        }
+        
+        return true;
+    }
+    
+    </script>
+
+</head>
+<body>
+    <form id="form1" runat="server">
+        <asp:ScriptManager ID="smBankDetail1" EnablePageMethods="true" runat="server">
+        </asp:ScriptManager>
+        <asp:UpdatePanel ID="pnlBankDetail1" runat="server">
+            <ContentTemplate>
+                <div>
+                    <table>
+                        <tr>
+                            <td class="lc" align="left">
+                                <strong>Fields</strong>
+                            </td>
+                            <td class="lc" align="left">
+                                <strong>First Level Sorting</strong>
+                            </td>
+                            <td class="lc" align="left">
+                                <strong>Second Level Sorting</strong>
+                            </td>
+                            <td class="lc" align="left">
+                                <strong>Third Level Sorting</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="ic" style="width: 25%">
+                                <asp:ListBox ID="lstFields" runat="server" Height="150px" AutoPostBack="True" OnSelectedIndexChanged="lstFields_SelectedIndexChanged"
+                                    SelectionMode="Multiple"></asp:ListBox>
+                            </td>
+                            <td class="ic" style="width: 25%">
+                                <asp:ListBox ID="lstFirst" runat="server" Height="150px" AutoPostBack="True" OnSelectedIndexChanged="lstFirst_SelectedIndexChanged"
+                                    SelectionMode="Single" onclick="javascript:return ListFirst(this.id,this.selectedIndex);">
+                                </asp:ListBox>
+                            </td>
+                            <td class="ic" style="width: 25%">
+                                <asp:ListBox ID="lstSecond" runat="server" Height="150px" AutoPostBack="True" OnSelectedIndexChanged="lstSecond_SelectedIndexChanged"
+                                    SelectionMode="Single" onclick="javascript:return ListSecond(this.id,this.selectedIndex);">
+                                </asp:ListBox>
+                            </td>
+                            <td class="ic" style="width: 25%">
+                                <asp:ListBox ID="lstThird" runat="server" Height="150px" AutoPostBack="True" OnSelectedIndexChanged="lstThird_SelectedIndexChanged"
+                                    SelectionMode="Single" onclick="javascript:return ListThird(this.id,this.selectedIndex);">
+                                </asp:ListBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="ic" style="width: 25%" align="left">
+                                <asp:CheckBox ID="chkSelUnSelFields" runat="server" Text="Select/Deselect All" OnCheckedChanged="chkSelUnSelFields_CheckedChanged" AutoPostBack="True" />
+                            </td>
+                            <td class="ic" style="width: 25%" align="left">
+                                    <asp:CheckBox ID="chkSub" runat="server" Text="Sub Total" OnCheckedChanged="chkSub_CheckedChanged" AutoPostBack="True" />
+                          </td>
+                            <td class="ic" style="width: 25%" align="left">
+                                     <asp:CheckBox ID="chkGrand" runat="server" Text="Grand Total" OnCheckedChanged="chkGrand_CheckedChanged" AutoPostBack="True" />
+                          </td>
+                            <td class="ic" style="width: 25%" align="left">
+                                &nbsp;</td>
+                        </tr>
+                    </table>
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+    </form>
+</body>
+</html>

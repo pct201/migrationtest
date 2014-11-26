@@ -1,0 +1,1309 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Mail;
+using System.Globalization;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Collections.Generic;
+using RIMS_Base.Biz;
+using System.IO;
+public partial class Liability_ReserveWorksheetHistoryGrid : System.Web.UI.Page
+{
+    #region private variables
+    public RIMS_Base.Biz.cLiabilityReserveWorkHistory m_objLiabilityRW;
+    List<RIMS_Base.cLiabilityReserveWorkHistory> lstWorkerRW = null;
+    RIMS_Base.Biz.CLiabilityClaim objWorkerComp;
+    List<RIMS_Base.CLiabilityClaim> lstWorkerComp = null;
+    int m_intWorkersCompRWID = 0;
+    IFormatProvider format = new CultureInfo("en-US");
+    List<RIMS_Base.cLiabilityReserveWorkHistory> lstClaimReservesInfo = null;
+    public RIMS_Base.Biz.cLiabilityReserveWorkHistory m_objClaimReservesInfo;
+    string AttachmentID = "";
+    //public RIMS_Base.Biz.CCheckWriting m_objClaimReservesInfo;
+    //List<RIMS_Base.CCheckWriting> lstClaimReservesInfo = null;
+    // Payment Details
+    DataSet dsPayment;
+
+
+    // -- Attachment
+    public string m_strCustomFileName = string.Empty;
+    public string m_strFileName = string.Empty;
+    public string m_strGlobalPath = string.Empty;
+    public string m_strPath = string.Empty;
+    public string m_strFolderName = "Liability_Claim_RW";
+    public RIMS_Base.Biz.CAttachment m_objAttachment;
+    List<RIMS_Base.CAttachment> lstAttachment = null;
+    int Attach_Retval = -1;
+    int m_intRetval = -1;
+
+    //string AttachmentID = "";
+
+    // Total Variables
+    public static decimal m_IndeResTot = 0.0M;
+    public static decimal m_MediResTot = 0.0M;
+    public static decimal m_ExpResTot = 0.0M;
+    public static decimal m_NetTotal = 0.0M;
+
+    string strSortExp = String.Empty;
+
+    public RIMS_Base.Biz.CRolePermission m_objRightDetails;
+    List<RIMS_Base.CRolePermission> lstRightDetails = null;
+    #endregion
+    #region EeventHendler
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            m_strGlobalPath = Page.ResolveUrl(ConfigurationManager.AppSettings["UploadPath"] + "/" + m_strFolderName + "/");
+            btnDelete.Attributes.Add("onclick", "return OMSCheckSelected1('chkItem','gvWorkerRW','Delete');");
+            btnRemove.Attributes.Add("onclick", "return OMSCheckSelected1('chkItem','gvAttachmentDetails','Delete');");
+
+            if (!IsPostBack)
+            {
+                if (Session["page"] != null)
+                {
+                    if (Session["page"].ToString() == "General")
+                    {
+                        GenTab.Style["display"] = "block";
+                        AutoTab.Style["display"] = "none";
+                    }
+                }
+                ViewState.Clear();
+                if (SetUserRights() == true)
+                {
+                    btnNextStep.Visible = true;
+                    btnRemove.Visible = false;
+                    btnMail.Visible = false;
+
+                    if (Session["ViewAll"] != null && Session["ViewAll"].ToString() != String.Empty)
+                    {
+
+                        ViewAllRecords();
+                    }
+                    else
+                    {
+                        BindClaimAndReservesData();
+                        BindPaymentDetails();
+
+                        lbtnClaimDetail.Style.Add("CssClass", "left_menu_active");
+                        lbtnRHistory.Style.Add("CssClass", "left_menu");
+                        lbtnOutstanding.Style.Add("CssClass", "left_menu");
+                        dvClaimDetail.Style.Add("display", "block");
+                        dvReserveHistory.Style.Add("display", "none");
+                        dvOutstanding.Style.Add("display", "none");
+
+                        // --- Commente Due to PAGE PRE RENDER.
+                        //gvWorkerRW.DataSource = BindWorkerRW();
+                        lblRWTotal.Text = "Total Reserve Worksheets : " + BindWorkerRW().Count.ToString();
+                        gvWorkerRW.PageSize = 10;
+                        gvWorkerRW.DataBind();
+                        ddlPage.SelectedIndex = 2;
+                        mvWorkersRW.ActiveViewIndex = 0;
+                        lblPageInfo.Text = "Page " + Convert.ToString(gvWorkerRW.PageIndex + 1) + " of " + gvWorkerRW.PageCount.ToString();
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+    }
+    protected void Page_PreRender(object sender, EventArgs e)
+    {
+        if (Session["ViewAll"] == null)
+        {
+            GeneralSorting();
+        }
+    }
+    private void setVisible()
+    {
+        dvClaimDetail.Style.Add("display", "none");
+        dvReserveHistory.Style.Add("display", "none");
+        dvOutstanding.Style.Add("display", "none");
+
+        if (Request.QueryString["id"] != null)
+        {
+            switch (Convert.ToInt32(Request.QueryString["id"].ToString()))
+            {
+                case 1:
+                    dvClaimDetail.Style.Add("display", "block");
+                    break;
+                case 2:
+                    dvReserveHistory.Style.Add("display", "block");
+                    break;
+                case 3:
+                    dvOutstanding.Style.Add("display", "block");
+                    break;
+                default:
+                    dvClaimDetail.Style.Add("display", "block");
+                    break;
+            }
+        }
+        else
+        {
+            dvClaimDetail.Style.Add("display", "block");
+        }
+    }
+    protected void LinkButton2_Click(object sender, EventArgs e)
+    {
+        //  mvReserverWrkSht.ActiveViewIndex = 2;
+    }
+    protected void Button3_Click(object sender, EventArgs e)
+    {
+        //     mvReserverWrkSht.ActiveViewIndex = 0;
+    }
+    protected void btnNextStep_Click(object sender, EventArgs e)
+    {
+        if (Request.QueryString["page"] == "General")
+        {
+            Response.Redirect("../Claim/Subrogation.aspx?page=General");
+        }
+        else
+            Response.Redirect("../Claim/Subrogation.aspx");
+    }
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/WorkerCompensation/WorkersCompensation.aspx");
+    }
+    protected void btnBackView_Click(object sender, EventArgs e)
+    {
+        mvWorkersRW.ActiveViewIndex = 0;
+    }
+    protected void btnBack_Click(object sender, EventArgs e)
+    {
+
+    }
+    protected void btnRemove_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            m_objAttachment = new RIMS_Base.Biz.CAttachment();
+            Attach_Retval = m_objAttachment.DeleteAttachment(Request.Form["chkItem"].ToString());
+            if (Attach_Retval <= 0)
+            {
+
+                gvAttachmentDetails.DataSource = BindAttachmentDetails();
+                gvAttachmentDetails.DataBind();
+                if (lstAttachment.Count > 0)
+                {
+                    btnRemove.Visible = true;
+                    btnMail.Visible = true;
+                }
+                else
+                {
+                    btnRemove.Visible = false;
+                    btnMail.Visible = false;
+                }
+            }
+            dvAttachDetails.Visible = true;
+
+            //dvAttachDetails.Style["display"] = "block";
+            //divAttachment.Style["display"] = "block";
+            //divClaimDetail.Style["display"] = "none";
+            //divInsurance.Style["display"] = "none";
+
+            //hdnTagName.Value = "third";
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void mvWorkersRW_ActiveViewChanged(object sender, EventArgs e)
+    {
+
+    }
+    #endregion
+    #region Left Menu (Vertical menu)
+    protected void lbtnClaimDetail_Click(object sender, EventArgs e)
+    {
+        lbtnClaimDetail.CssClass = "left_menu_active";
+        lbtnRHistory.CssClass = "left_menu";
+        lbtnOutstanding.CssClass = "left_menu";
+        lbtnPaymentDetails.CssClass = "left_menu";
+
+        dvClaimDetail.Style.Add("display", "block");
+        dvReserveHistory.Style.Add("display", "none");
+        dvOutstanding.Style.Add("display", "none");
+        dvPaymentDetails.Style.Add("display", "none");
+
+    }
+    protected void lbtnRHistory_Click(object sender, EventArgs e)
+    {
+        lbtnClaimDetail.CssClass = "left_menu";
+        lbtnRHistory.CssClass = "left_menu_active";
+        lbtnOutstanding.CssClass = "left_menu";
+        lbtnPaymentDetails.CssClass = "left_menu";
+
+        dvClaimDetail.Style.Add("display", "none");
+        dvReserveHistory.Style.Add("display", "block");
+        dvOutstanding.Style.Add("display", "none");
+        dvPaymentDetails.Style.Add("display", "none");
+        mvWorkersRW.ActiveViewIndex = 0;
+        btnNextStep.Visible = true;
+    }
+    protected void lbtnOutstanding_Click(object sender, EventArgs e)
+    {
+        lbtnClaimDetail.CssClass = "left_menu";
+        lbtnRHistory.CssClass = "left_menu";
+        lbtnOutstanding.CssClass = "left_menu_active";
+        lbtnPaymentDetails.CssClass = "left_menu";
+
+        dvClaimDetail.Style.Add("display", "none");
+        dvReserveHistory.Style.Add("display", "none");
+        dvOutstanding.Style.Add("display", "block");
+        dvPaymentDetails.Style.Add("display", "none");
+
+        lstWorkerRW = new List<RIMS_Base.cLiabilityReserveWorkHistory>();
+        lstWorkerRW = BindWorkerRW_OutStand();
+        if (lstWorkerRW.Count > 0)
+        {
+            lblIOutStand.Text = lstWorkerRW[0].Indemnity_Total.ToString();
+            lblMOutStand.Text = lstWorkerRW[0].Medical_Total.ToString();
+            lblEOutStand.Text = lstWorkerRW[0].Expenses_Total.ToString();
+            lblOSTotal.Text = lstWorkerRW[0].LTotal.ToString();
+        }
+        //lblIOutStand.Text = m_IndeResTot.ToString();
+        //lblMOutStand.Text = m_MediResTot.ToString();
+        //lblEOutStand.Text = m_ExpResTot.ToString();
+        //lblOSTotal.Text = Convert.ToString(m_IndeResTot + m_MediResTot + m_ExpResTot);
+        btnNextStep.Visible = true;
+    }
+    protected void lbtnPaymentDetails_Click(object sender, EventArgs e)
+    {
+        lbtnClaimDetail.CssClass = "left_menu";
+        lbtnRHistory.CssClass = "left_menu";
+        lbtnOutstanding.CssClass = "left_menu";
+        lbtnPaymentDetails.CssClass = "left_menu_active";
+
+        dvClaimDetail.Style.Add("display", "none");
+        dvReserveHistory.Style.Add("display", "none");
+        dvOutstanding.Style.Add("display", "none");
+        dvPaymentDetails.Style.Add("display", "block");
+        btnNextStep.Visible = true;
+    }
+
+    #endregion
+
+    #region Attachment
+
+    protected void gvAttachmentDetails_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                ((ImageButton)e.Row.FindControl("imgbtnDwnld")).Attributes.Add("onclick", "javascript:return openWindow('" + m_strGlobalPath + "/" + ((ImageButton)e.Row.FindControl("imgbtnDwnld")).CommandArgument.ToString() + "');");
+                //((ImageButton)e.Row.FindControl("imgbtnMail")).Attributes.Add("onclick", "javascript:return openMailWindow('../ErimsMail.aspx?AttMod=" + m_strFolderName + "&AttName=" + ((ImageButton)e.Row.FindControl("imgbtnMail")).CommandArgument.ToString() + "');");
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
+    private void UploadDocuments()
+    {
+        try
+        {
+            m_strPath = Server.MapPath(ConfigurationManager.AppSettings["UploadPath"]);
+
+            if (!(Directory.Exists(m_strPath + "\\" + m_strFolderName)))
+            {
+                Directory.CreateDirectory(m_strPath + "\\" + m_strFolderName);
+            }
+            m_strFileName = GetCustomFileName() + ((FileUpload)fvWorkersRW.FindControl("uplCommon")).FileName.ToString();
+            m_strPath = m_strPath + "\\" + m_strFolderName + "\\" + m_strFileName;
+            ((FileUpload)fvWorkersRW.FindControl("uplCommon")).SaveAs(m_strPath);
+
+        }
+        catch (Exception ex)
+        {
+
+            throw ex;
+        }
+    }
+
+    private string GetCustomFileName()
+    {
+        try
+        {
+            m_strCustomFileName = System.DateTime.Now.ToString("MMddyyhhmmss");
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return m_strCustomFileName;
+    }
+
+    private int AddAttachment()
+    {
+        try
+        {
+            //InsertUpdate();
+            UploadDocuments();
+            m_objAttachment = new RIMS_Base.Biz.CAttachment();
+            m_objAttachment.Attachment_Table = "Liability_Claim_RW";
+            m_objAttachment.Foreign_Key = Convert.ToInt32(ViewState["PK_Liability_Claim_RW_ID"].ToString());
+            m_objAttachment.FK_Attachment_Type = Convert.ToInt32(((DropDownList)fvWorkersRW.FindControl("ddlAttachType")).SelectedValue);
+            m_objAttachment.Attachment_Description = ((TextBox)fvWorkersRW.FindControl("txtAttachDesc")).Text.Replace("'", "''");
+            m_objAttachment.Attachment_Name = m_strFileName;
+            m_objAttachment.Updated_By = Session["UserID"].ToString();
+            m_objAttachment.Update_Date = System.DateTime.Now.Date;
+            Attach_Retval = m_objAttachment.InsertUpdateAttachment(m_objAttachment);
+
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return Attach_Retval;
+    }
+
+    protected void btnAddAttachment_Click(object sender, EventArgs e)
+    {
+        try
+        {
+
+            Page.Validate();
+            btnRemove.Visible = true;
+            btnMail.Visible = true;
+            //if (ViewState["PK_Liability_Claim_RW_ID"] == null)
+            //{
+            InsertUpdate();
+            //}
+
+            AddAttachment();
+            if (Attach_Retval > 0)
+            {
+                gvAttachmentDetails.DataSource = BindAttachmentDetails();
+                gvAttachmentDetails.DataBind();
+            }
+            ((TextBox)fvWorkersRW.FindControl("txtAttachDesc")).Text = "";
+            ((DropDownList)fvWorkersRW.FindControl("ddlAttachType")).SelectedIndex = 1;
+
+            dvAttachDetails.Style["display"] = "block";
+            //lbtnRHistory.CssClass = "left_menu_active";
+            //lbtnClaimDetail.CssClass = "left_menu";
+            //lbtnOutstanding.CssClass = "left_menu";
+            //dvClaimDetail.Style["display"] = "none";
+            dvReserveHistory.Style["display"] = "block";
+            //dvOutstanding.Style["display"] = "none";
+            //divbtn.Style["display"] = "none";
+        }
+        catch (Exception ex)
+        {
+
+            throw;
+        }
+
+
+    }
+
+    private List<RIMS_Base.CAttachment> BindAttachmentDetails()
+    {
+        try
+        {
+            m_objAttachment = new RIMS_Base.Biz.CAttachment();
+            lstAttachment = new List<RIMS_Base.CAttachment>();
+            if (ViewState["PK_Liability_Claim_RW_ID"] != null && ViewState["PK_Liability_Claim_RW_ID"].ToString() != "")
+                lstAttachment = m_objAttachment.GetAll(0, Convert.ToInt32(ViewState["PK_Liability_Claim_RW_ID"].ToString()), "Liability_Claim_RW");
+            if (lstAttachment.Count > 0)
+                dvAttachDetails.Style["display"] = "block";
+
+            return lstAttachment;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+    }
+
+    #endregion
+
+    #region Gridview
+    protected void btnAddNew_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            dvClaimDetail.Style.Add("display", "block");
+            mvWorkersRW.ActiveViewIndex = 1;
+            Bindfv(FormViewMode.Insert);
+            btnRemove.Visible = false;
+            btnMail.Visible = false;
+            btnNextStep.Visible = false;
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+    }
+    protected void btnDelete_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            int m_intRetval = -1;
+            m_objLiabilityRW = new RIMS_Base.Biz.cLiabilityReserveWorkHistory();
+            m_intRetval = m_objLiabilityRW.Delete_RWComp(Request.Form["chkItem"].ToString());
+            if (m_intRetval <= 0)
+            {
+                mvWorkersRW.ActiveViewIndex = 0;
+                gvWorkerRW.DataSource = BindWorkerRW();
+                gvWorkerRW.DataBind();
+                lblPageInfo.Text = "Page " + Convert.ToString(gvWorkerRW.PageIndex + 1) + " of " + gvWorkerRW.PageCount.ToString();
+                //BindWorkerRW();
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+    }
+    protected void btnPrev_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (gvWorkerRW.PageIndex <= gvWorkerRW.PageCount)
+            {
+                gvWorkerRW.PageIndex = gvWorkerRW.PageIndex - 1;
+                GeneralSorting();
+                gvWorkerRW.DataSource = BindWorkerRW();
+                gvWorkerRW.DataBind();
+                lblPageInfo.Text = "Page " + Convert.ToString(gvWorkerRW.PageIndex + 1) + " of " + gvWorkerRW.PageCount.ToString();
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    protected void btnNext_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (gvWorkerRW.PageIndex <= gvWorkerRW.PageCount)
+            {
+                gvWorkerRW.PageIndex = gvWorkerRW.PageIndex + 1;
+                GeneralSorting();
+                gvWorkerRW.DataSource = BindWorkerRW();
+                gvWorkerRW.DataBind();
+                //lblPageInfo.Text = "Page " + Convert.ToString(gvWorkerRW.PageIndex + 1) + " of " + gvWorkerRW.PageCount.ToString();
+                //lblPageInfo.Text = "Page 1 of " + gvWorkerRW.PageCount.ToString();
+                lblPageInfo.Text = "Page " + Convert.ToString(gvWorkerRW.PageIndex + 1) + " of " + gvWorkerRW.PageCount.ToString();
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    protected void btnGo_Click(object sender, EventArgs e)
+    {
+        try
+        {
+
+            if (txtPageNo.Text.ToString().Trim() == string.Empty || Convert.ToInt32(txtPageNo.Text) < 1)
+            {
+                gvWorkerRW.PageIndex = 0;
+                txtPageNo.Text = "1";
+            }
+            else if (Convert.ToInt32(txtPageNo.Text) > gvWorkerRW.PageCount)
+            {
+                gvWorkerRW.PageIndex = gvWorkerRW.PageCount;
+                txtPageNo.Text = gvWorkerRW.PageCount.ToString();
+            }
+            else
+            {
+                gvWorkerRW.PageIndex = Convert.ToInt32(txtPageNo.Text) - 1;
+            }
+            lblPageInfo.Text = "Page " + txtPageNo.Text.ToString() + " of " + gvWorkerRW.PageCount.ToString();
+            gvWorkerRW.DataSource = BindWorkerRW();
+            gvWorkerRW.DataBind();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+    }
+    protected void ddlPage_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            gvWorkerRW.PageSize = Convert.ToInt32(ddlPage.SelectedValue);
+            gvWorkerRW.DataSource = BindWorkerRW();
+            gvWorkerRW.DataBind();
+            lblPageInfo.Text = "Page " + (gvWorkerRW.PageIndex + 1) + " of " + gvWorkerRW.PageCount.ToString();
+            txtPageNo.Text = "1";
+            lblRWTotal.Text = "Total Reserve Worksheets : " + BindWorkerRW().Count.ToString(); ;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    /// <summary>
+    /// Get the All WorkersComp Reserve Worksheets
+    /// </summary>
+    private List<RIMS_Base.cLiabilityReserveWorkHistory> BindWorkerRW()
+    {
+        try
+        {
+            m_objLiabilityRW = new RIMS_Base.Biz.cLiabilityReserveWorkHistory();
+            lstWorkerRW = new List<RIMS_Base.cLiabilityReserveWorkHistory>();
+            //lstWorkerRW = m_objLiabilityRW.GetAll(true);
+            lstWorkerRW = m_objLiabilityRW.Workers_Comp_RWRecords(Convert.ToDecimal(Session["WorkerCompID"].ToString()));
+
+
+            return lstWorkerRW;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+    }
+    private List<RIMS_Base.cLiabilityReserveWorkHistory> BindWorkerRW_OutStand()
+    {
+        try
+        {
+            m_objLiabilityRW = new RIMS_Base.Biz.cLiabilityReserveWorkHistory();
+            lstWorkerRW = new List<RIMS_Base.cLiabilityReserveWorkHistory>();
+            //lstWorkerRW = m_objLiabilityRW.GetAll(true);
+            lstWorkerRW = m_objLiabilityRW.Workers_Comp_RWRecords_OutStand(Convert.ToDecimal(Session["WorkerCompID"].ToString()));
+
+
+            return lstWorkerRW;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+    }
+    protected void gvWorkerRW_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        try
+        {
+            lstWorkerRW = new List<RIMS_Base.cLiabilityReserveWorkHistory>();
+            if (ViewState["sortDirection"] == null)
+                ViewState["sortDirection"] = SortDirection.Ascending;
+            // Changes the sort direction 
+            else
+            {
+                if (((SortDirection)ViewState["sortDirection"]) == SortDirection.Ascending)
+                    ViewState["sortDirection"] = SortDirection.Descending;
+                else
+                    ViewState["sortDirection"] = SortDirection.Ascending;
+            }
+            ViewState["SortExp"] = strSortExp = e.SortExpression;
+
+            lstWorkerRW = BindWorkerRW();
+            if (ViewState["SortExp"] != null)
+                lstWorkerRW.Sort(new RIMS_Base.GenericComparer<RIMS_Base.cLiabilityReserveWorkHistory>((string)ViewState["SortExp"], (SortDirection)ViewState["sortDirection"]));
+            gvWorkerRW.DataSource = lstWorkerRW;
+            gvWorkerRW.DataBind();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void gvWorkerRW_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            if (e.CommandName != "Sort")
+            {
+                //dvSearch.Visible = false;
+                //mvBankDetails.ActiveViewIndex = 1;
+                m_intWorkersCompRWID = Convert.ToInt32(e.CommandArgument.ToString());
+                ViewState["PK_Liability_Claim_RW_ID"] = Convert.ToInt32(e.CommandArgument.ToString());
+            }
+            if (e.CommandName == "EditItem")
+            {
+                dvClaimDetail.Style.Add("display", "block");
+                mvWorkersRW.ActiveViewIndex = 1;
+                Bindfv(FormViewMode.Edit);
+            }
+            else if (e.CommandName == "View")
+            {
+
+                dvClaimDetail.Style.Add("display", "block");
+                mvWorkersRW.ActiveViewIndex = 1;
+                Bindfv(FormViewMode.ReadOnly);
+                btnNextStep.Visible = false;
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void gvWorkerRW_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+
+        if (e.Row.RowType == DataControlRowType.Header)
+        {
+            m_IndeResTot = 0.0M;
+            m_MediResTot = 0.0M;
+            m_ExpResTot = 0.0M;
+
+            try
+            {
+                DataSet dstLibReserve = new DataSet();
+                m_objLiabilityRW = new RIMS_Base.Biz.cLiabilityReserveWorkHistory();
+                dstLibReserve = m_objLiabilityRW.GetLiabilityReserveLabel();
+                for (int i = 0; i < dstLibReserve.Tables[0].Rows.Count; i++)
+                {
+
+                    if (dstLibReserve.Tables[0].Rows[i]["Control_Type"].ToString() == "GridView")
+                    {
+                        if (dstLibReserve.Tables[0].Rows[i]["Control_Name"].ToString() == "gvWorkerRW")
+                        {
+                            if (dstLibReserve.Tables[0].Rows[i]["caption"].ToString().Trim() != String.Empty)
+                            {
+                                int ColumnNo = Convert.ToInt32(dstLibReserve.Tables[0].Rows[i]["Label_Name"].ToString());
+                                //((Label)e.Row.FindControl(dstLibReserve.Tables[0].Rows[i]["ViewAll_Label_Name"].ToString())).Text = dstLibReserve.Tables[0].Rows[i]["Caption"].ToString();
+                                gvWorkerRW.Columns[ColumnNo].HeaderText = dstLibReserve.Tables[0].Rows[i]["Caption"].ToString();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            m_IndeResTot += Convert.ToDecimal(e.Row.Cells[2].Text.ToString());
+            m_MediResTot += Convert.ToDecimal(e.Row.Cells[3].Text.ToString());
+            m_ExpResTot += Convert.ToDecimal(e.Row.Cells[4].Text.ToString());
+
+            if (ViewState["Edit"] != null && ViewState["Edit"].ToString() != string.Empty)
+            {
+                if (ViewState["Edit"].ToString() == "True")
+                    ((Button)e.Row.FindControl("btnEdit")).Enabled = true;
+                else
+                {
+                    ((Button)e.Row.FindControl("btnEdit")).Enabled = false;
+                    ((Button)e.Row.FindControl("btnEdit")).ToolTip = "You have no rights";
+                }
+            }
+            if (ViewState["View"] != null && ViewState["View"].ToString() != string.Empty)
+            {
+                if (ViewState["View"].ToString() == "True")
+                    ((Button)e.Row.FindControl("btnView")).Enabled = true;
+                else
+                {
+                    ((Button)e.Row.FindControl("btnView")).Enabled = false;
+                    ((Button)e.Row.FindControl("btnView")).ToolTip = "You have no rights";
+                }
+            }
+
+        }
+    }
+    protected void gvWorkerRW_RowCreated(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.Header)
+        {
+            if (String.Empty != strSortExp)
+            {
+                AddSortImage(e.Row);
+            }
+        }
+    }
+    private int GetSortColumnIndex(string strSortExp)
+    {
+        int nRet = 0;
+        // Iterate through the Columns collection to determine the index
+        // of the column being sorted.
+        foreach (DataControlField field in gvWorkerRW.Columns)
+        {
+            if (field.SortExpression.ToString() == ViewState["SortExp"].ToString())
+            {
+                nRet = gvWorkerRW.Columns.IndexOf(field);
+            }
+        }
+        return nRet;
+    }
+    private void AddSortImage(GridViewRow headerRow)
+    {
+
+        Int32 iCol = GetSortColumnIndex(strSortExp);
+        if (-1 == iCol)
+        {
+            return;
+        }
+        // Create the sorting image based on the sort direction.
+        Image sortImage = new Image();
+
+        if (SortDirection.Ascending.ToString() == ViewState["sortDirection"].ToString())
+        {
+            sortImage.ImageUrl = "~/Images/up-arrow.gif";
+            sortImage.AlternateText = "Descending Order";
+        }
+        else
+        {
+            sortImage.ImageUrl = "~/Images/down-arrow.gif";
+            sortImage.AlternateText = "Ascending Order";
+        }
+
+        // Add the image to the appropriate header cell.
+        headerRow.Cells[iCol].Controls.Add(sortImage);
+    }
+    #endregion
+
+    #region FormView
+    /// <summary>
+    /// Bind form view
+    /// </summary>
+    /// <param name="fvMode">Form View Mode</param>
+    private void Bindfv(FormViewMode fvMode)
+    {
+        try
+        {
+            if (fvMode == FormViewMode.Insert)
+                fvWorkersRW.ChangeMode(FormViewMode.Insert);
+
+            else if (fvMode == FormViewMode.Edit)
+            {
+                fvWorkersRW.ChangeMode(FormViewMode.Edit);
+                btnNextStep.Visible = false;
+            }
+            else if (fvMode == FormViewMode.ReadOnly)
+                fvWorkersRW.ChangeMode(FormViewMode.ReadOnly);
+            btnMail.Visible = false;
+            btnRemove.Visible = false;
+            if (fvMode != FormViewMode.Insert)
+            {
+                m_objLiabilityRW = new RIMS_Base.Biz.cLiabilityReserveWorkHistory();
+                lstWorkerRW = new List<RIMS_Base.cLiabilityReserveWorkHistory>();
+                lstWorkerRW = m_objLiabilityRW.Geters_Comp_RWByID(m_intWorkersCompRWID);
+                fvWorkersRW.DataSource = lstWorkerRW;
+            }
+            fvWorkersRW.DataBind();
+            BindClaimAndReservesData();
+            if (fvMode != FormViewMode.Insert)
+            {
+                gvAttachmentDetails.DataSource = BindAttachmentDetails();
+                gvAttachmentDetails.DataBind();
+                dvAttachDetails.Style.Add("display", "block");
+                if (fvMode != FormViewMode.Edit)
+                {
+                    btnRemove.Visible = false;
+                    btnMail.Visible = false;
+                }
+                else
+                {
+                    btnRemove.Visible = true;
+                    btnMail.Visible = true;
+                }
+            }
+            else
+            {
+                ViewState["PK_Liability_Claim_RW_ID"] = null;
+                gvAttachmentDetails.DataSource = BindAttachmentDetails();
+                gvAttachmentDetails.DataBind();
+                dvAttachDetails.Style.Add("display", "block");
+            }
+            if (fvMode == FormViewMode.ReadOnly)
+            {
+                gvAttachmentDetails.Columns[0].Visible = false;
+            }
+            else
+            {
+
+                if (lstAttachment.Count > 0)
+                {
+                    gvAttachmentDetails.DataSource = lstAttachment;
+                    gvAttachmentDetails.DataBind();
+                    //dispTagName.Value = "dvAttachDetails";
+                    btnRemove.Visible = true;
+                    btnMail.Visible = true;
+                }
+                else
+                {
+                    btnRemove.Visible = false;
+                    btnMail.Visible = false;
+                }
+
+                gvAttachmentDetails.Columns[0].Visible = true;
+            }
+
+
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+        }
+    }
+    protected void fvWorkersRW_DataBound(object sender, EventArgs e)
+    {
+        try
+        {
+            List<RIMS_Base.CGeneral> lstGenereal = new List<RIMS_Base.CGeneral>();
+            RIMS_Base.Biz.CGeneral objGeneral = new RIMS_Base.Biz.CGeneral();
+
+            if (fvWorkersRW.CurrentMode != FormViewMode.ReadOnly)
+            {
+                ((DropDownList)fvWorkersRW.FindControl("ddlAttachType")).DataSource = objGeneral.GetAttachamentType();
+                ((DropDownList)fvWorkersRW.FindControl("ddlAttachType")).DataTextField = "FLD_Desc";
+                ((DropDownList)fvWorkersRW.FindControl("ddlAttachType")).DataValueField = "FLD_Code";
+                ((DropDownList)fvWorkersRW.FindControl("ddlAttachType")).DataBind();
+                ((DropDownList)fvWorkersRW.FindControl("ddlAttachType")).Items.Insert(0, "--Select Attachment Type--");
+                ((DropDownList)fvWorkersRW.FindControl("ddlAttachType")).SelectedIndex = 1;
+            }
+
+            if (fvWorkersRW.CurrentMode == FormViewMode.Insert)
+                ((TextBox)fvWorkersRW.FindControl("txtTranscDate")).Text = DateTime.Now.ToShortDateString();
+
+            // -- Display Dynamic Labels
+            try
+            {
+                DataSet dstLibReserve = new DataSet();
+                m_objLiabilityRW = new RIMS_Base.Biz.cLiabilityReserveWorkHistory();
+                dstLibReserve = m_objLiabilityRW.GetLiabilityReserveLabel();
+                for (int i = 0; i < dstLibReserve.Tables[0].Rows.Count; i++)
+                {
+
+                    if (dstLibReserve.Tables[0].Rows[i]["Control_Type"].ToString() == "Label")
+                    {
+                        if (dstLibReserve.Tables[0].Rows[i]["Control_Name"].ToString() == "fvWorkersRW")
+                        {
+                            if (dstLibReserve.Tables[0].Rows[i]["caption"].ToString().Trim() != String.Empty)
+                                ((Label)fvWorkersRW.FindControl(dstLibReserve.Tables[0].Rows[i]["Label_Name"].ToString())).Text = dstLibReserve.Tables[0].Rows[i]["Caption"].ToString();
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //throw ex;
+            }
+
+        }
+        catch (Exception ex)
+        {
+
+            throw;
+        }
+    }
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        dvClaimDetail.Style.Add("display", "none");
+        mvWorkersRW.ActiveViewIndex = 0;
+        btnNextStep.Visible = true;
+    }
+    protected void btnSave_Click(object sender, EventArgs e)
+    {
+        btnNextStep.Visible = true;
+        InsertUpdate();
+        if (m_intRetval >= 0)
+        {
+            gvWorkerRW.DataSource = BindWorkerRW();
+            gvWorkerRW.DataBind();
+            dvClaimDetail.Style.Add("display", "none");
+            mvWorkersRW.ActiveViewIndex = 0;
+        }
+    }
+    #region Insert Update
+    private void InsertUpdate()
+    {
+        m_intRetval = -1;
+        try
+        {
+            m_objLiabilityRW = new RIMS_Base.Biz.cLiabilityReserveWorkHistory();
+            //if (fvWorkersRW.CurrentMode == FormViewMode.Insert)
+            if (ViewState["PK_Liability_Claim_RW_ID"] != null && ViewState["PK_Liability_Claim_RW_ID"].ToString() != String.Empty)
+            {
+                m_objLiabilityRW.PK_Liability_Claim_RW_ID = Convert.ToInt32(ViewState["PK_Liability_Claim_RW_ID"].ToString()); //Convert.ToInt32(((Label)fvWorkersRW.FindControl("lblPKWorkersCompRWID")).Text); ;
+                m_objLiabilityRW.Transaction_Date = Convert.ToDateTime(((TextBox)fvWorkersRW.FindControl("txtTranscDate")).Text);
+            }
+            else
+            {
+                m_objLiabilityRW.PK_Liability_Claim_RW_ID = 0;
+                m_objLiabilityRW.Transaction_Date = DateTime.Now.Date; //Convert.ToDateTime(((TextBox)fvWorkersRW.FindControl("txtMTCDate")).Text, format);
+
+            }
+            m_objLiabilityRW.Indemnity_Total = ((TextBox)fvWorkersRW.FindControl("txtIndemnity")).Text == "" ? Convert.ToDecimal("0.00") : Convert.ToDecimal(((TextBox)fvWorkersRW.FindControl("txtIndemnity")).Text);
+            // m_objLiabilityRW.Transaction_Date = ((TextBox)fvWorkersRW.FindControl("txtTranscDate")).Text == "" ? Convert.ToDateTime : Convert.ToDateTime(((TextBox)fvWorkersRW.FindControl("txtTranscDate")).Text);
+            m_objLiabilityRW.Medical_Total = ((TextBox)fvWorkersRW.FindControl("TxtMedical")).Text == "" ? Convert.ToDecimal("0.00") : Convert.ToDecimal(((TextBox)fvWorkersRW.FindControl("TxtMedical")).Text);
+            m_objLiabilityRW.Expenses_Total = ((TextBox)fvWorkersRW.FindControl("TxtExpenses")).Text == "" ? Convert.ToDecimal("0.00") : Convert.ToDecimal(((TextBox)fvWorkersRW.FindControl("TxtExpenses")).Text);
+
+            m_objLiabilityRW.Total =
+                m_objLiabilityRW.Indemnity_Total +
+                m_objLiabilityRW.Medical_Total +
+                m_objLiabilityRW.Expenses_Total;
+
+            if (m_objLiabilityRW.Total != 0)
+                ((Label)fvWorkersRW.FindControl("txtTotal")).Text = m_objLiabilityRW.Total.ToString();
+            else
+                ((Label)fvWorkersRW.FindControl("txtTotal")).Text = "0.00";
+
+
+
+            // m_objLiabilityRW.Total = ((Label)fvWorkersRW.FindControl("txtTotal")).Text == "" ? Convert.ToDecimal("0.00") : Convert.ToDecimal(((Label)fvWorkersRW.FindControl("txtTotal")).Text);
+
+            m_objLiabilityRW.Updated_By = Session["UserID"].ToString();
+            m_objLiabilityRW.Update_Date = System.DateTime.Now.Date;
+            m_objLiabilityRW.FK_Liability_Claim = Convert.ToInt32(Session["WorkerCompID"].ToString());
+            m_intRetval = m_objLiabilityRW.InsertUpdate_RWComp(m_objLiabilityRW);
+            ViewState["PK_Liability_Claim_RW_ID"] = m_intRetval.ToString();
+            if (m_intRetval >= 0)
+            {
+                //mvWorkersRW.ActiveViewIndex = 0;
+                gvWorkerRW.DataSource = BindWorkerRW();
+                gvWorkerRW.DataBind();
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    #endregion
+    #endregion
+
+    #region Private Methods
+    /// <summary>
+    /// Bind Claim and Reserves information.
+    /// </summary>
+    private void BindClaimData()
+    {
+        try
+        {
+            lblClaimNumber.Text = lstClaimReservesInfo[0].Claim_Number;
+            //lblEmployeeSSN.Text = lstClaimReservesInfo[0].EmployeeSSN;
+            //lblIsEmployee.Text = lstClaimReservesInfo[0].Employee;
+            lblLastName.Text = lstClaimReservesInfo[0].LastName.Replace("''", "'");
+            lblFirstName.Text = lstClaimReservesInfo[0].FirstName.Replace("''", "'");
+            lblMidleName.Text = lstClaimReservesInfo[0].MiddleName.Replace("''", "'");
+
+            lblIncidentDt.Text = Convert.ToDateTime(lstClaimReservesInfo[0].Date_Of_Loss).ToShortDateString();
+
+            if (lstClaimReservesInfo[0].FK_Claimant_id == 1)
+                rbtnEmployee.Items[0].Selected = true;
+
+            else if (lstClaimReservesInfo[0].FK_Claimant_id == 2)
+                rbtnEmployee.Items[1].Selected = true;
+
+            else if (lstClaimReservesInfo[0].FK_Claimant_id == 3)
+                rbtnEmployee.Items[1].Selected = true;
+
+        }
+        catch (Exception ex)
+        {
+        }
+    }
+    /// <summary>
+    /// Bind the Claim information and Reserves information
+    /// </summary>
+    /// 
+
+    private void BindClaimAndReservesData()
+    {
+        try
+        {
+            //Session["WorkerCompID"] = "43";
+            RIMS_Base.Biz.CLiabilityClaim_FCI objWorkerComp = new RIMS_Base.Biz.CLiabilityClaim_FCI();
+            List<RIMS_Base.CLiabilityClaim_FCI> lstWorkerComp = new List<RIMS_Base.CLiabilityClaim_FCI>();
+            lstWorkerComp = objWorkerComp.GetAL_ClaimByID(Convert.ToInt32(Session["WorkerCompID"].ToString()));
+            string Claim_No = lstWorkerComp[0].Claim_Number;
+            m_objClaimReservesInfo = new RIMS_Base.Biz.cLiabilityReserveWorkHistory();
+            lstClaimReservesInfo = new List<RIMS_Base.cLiabilityReserveWorkHistory>();
+            lstClaimReservesInfo = m_objClaimReservesInfo.GetClaimInfoByClaimNo(Claim_No);
+            BindClaimData();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
+    private void GeneralSorting()
+    {
+        try
+        {
+            lstWorkerRW = new List<RIMS_Base.cLiabilityReserveWorkHistory>();
+            lstWorkerRW = BindWorkerRW();
+            if (ViewState["SortExp"] != null && ViewState["sortDirection"] != null)
+            {
+                lstWorkerRW.Sort(new RIMS_Base.GenericComparer<RIMS_Base.cLiabilityReserveWorkHistory>((string)ViewState["SortExp"], (SortDirection)ViewState["sortDirection"]));
+                strSortExp = ViewState["SortExp"].ToString();
+            }
+            gvWorkerRW.DataSource = lstWorkerRW;
+            gvWorkerRW.DataBind();
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+
+    }
+    #endregion
+
+    #region User Rights
+    protected bool SetUserRights()
+    {
+        try
+        {
+
+            m_objRightDetails = new CRolePermission();
+            if (Session["UserRoleId"] != null)
+            {
+                if (Session["ClaimType"] != null && Session["ClaimType"].ToString() != string.Empty)
+                {
+                    if (Session["ClaimType"].ToString() == "Automobile")
+                        lstRightDetails = m_objRightDetails.GetRights(2, Convert.ToInt32(Session["UserRoleId"].ToString()));
+                    if (Session["ClaimType"].ToString() == "General")
+                        lstRightDetails = m_objRightDetails.GetRights(3, Convert.ToInt32(Session["UserRoleId"].ToString()));
+                    if (Session["ClaimType"].ToString() == "PropertyLoss")
+                        lstRightDetails = m_objRightDetails.GetRights(4, Convert.ToInt32(Session["UserRoleId"].ToString()));
+
+                    ViewState["Add"] = lstRightDetails[0].PAdd.ToString();
+                    ViewState["Edit"] = lstRightDetails[0].PEdit.ToString();
+                    ViewState["Delete"] = lstRightDetails[0].PDelete.ToString();
+                    ViewState["View"] = lstRightDetails[0].PView.ToString();
+                    if (ViewState["Add"].ToString() == "True")
+                    {
+                        btnAddNew.Enabled = true;
+                    }
+                    else
+                    {
+                        btnAddNew.Enabled = false;
+                        btnAddNew.ToolTip = "You have no rights";
+                    }
+                    if (ViewState["Delete"].ToString() == "True")
+                    {
+                        btnDelete.Enabled = true;
+                    }
+                    else
+                    {
+                        btnDelete.Enabled = false;
+                        btnDelete.ToolTip = "You have no rights";
+                    }
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            else
+            {
+                Response.Redirect("../Signin.aspx", false);
+                return false;
+            }
+
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
+
+    }
+    #endregion
+
+    #region View All records
+    private void ViewAllRecords()
+    {
+        mainContent.Style["width"] = "99%";
+        leftdiv.Style["display"] = "none";
+        dvClaimDetail.Style["display"] = "block";
+        dvOutstanding.Style["display"] = "block";
+        dvViewAll.Style["display"] = "block";
+        dvAttachment.Style["display"] = "block";
+        dvPaymentDetails.Style["display"] = "block";
+        dvAttachDetails.Style["display"] = "block";
+
+        // Claim and reserve data
+        BindClaimAndReservesData();
+        lblIOutStand.Text = lstClaimReservesInfo[0].Outstanding_INDEMNITY.ToString();
+        lblMOutStand.Text = lstClaimReservesInfo[0].Outstanding_Medical.ToString();
+        lblEOutStand.Text = lstClaimReservesInfo[0].Outstanding_Expense.ToString();
+        lblOSTotal.Text = (Convert.ToDecimal(lblIOutStand.Text) + Convert.ToDecimal(lblMOutStand.Text) + Convert.ToDecimal(lblEOutStand.Text)).ToString();
+
+        //gvViewAll all records
+        gvViewAll.DataSource = BindWorkerRW();
+        gvViewAll.AllowPaging = false;
+        gvViewAll.AllowSorting = false;
+        gvViewAll.DataBind();
+        ddlPage.SelectedIndex = 2;
+
+        //PaymentDetails
+        BindPaymentDetails();
+        //Attachment
+
+        m_objAttachment = new RIMS_Base.Biz.CAttachment();
+        lstAttachment = new List<RIMS_Base.CAttachment>();
+        if (lstWorkerRW.Count > 0)
+        {
+            lstAttachment = m_objAttachment.GetAllAttachmentGroup(AttachmentID, "Liability_Claim_RW");
+        }
+        else
+        {
+            lstAttachment = m_objAttachment.GetAllAttachmentGroup("0", "Liability_Claim_RW");
+        }
+
+
+        gvViewAttachment.DataSource = lstAttachment;
+        gvViewAttachment.DataBind();
+        gvViewAttachment.Columns[0].Visible = false;
+    }
+    protected void gvViewAll_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        //if (e.Row.RowType == DataControlRowType.Header)
+        //{
+        //    m_IndeResTot = 0.0M;
+        //    m_MediResTot = 0.0M;
+        //    m_ExpResTot = 0.0M;
+        //}
+
+        //if (e.Row.RowType == DataControlRowType.DataRow)
+        //{
+        //    m_IndeResTot += Convert.ToDecimal(e.Row.Cells[2].Text.ToString());
+        //    m_MediResTot += Convert.ToDecimal(e.Row.Cells[3].Text.ToString());
+        //    m_ExpResTot += Convert.ToDecimal(e.Row.Cells[4].Text.ToString());
+        //}
+
+        // -- Display Dynamic Labels
+
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            try
+            {
+                DataSet dstLibReserve = new DataSet();
+                m_objLiabilityRW = new RIMS_Base.Biz.cLiabilityReserveWorkHistory();
+                dstLibReserve = m_objLiabilityRW.GetLiabilityReserveLabel();
+                for (int i = 0; i < dstLibReserve.Tables[0].Rows.Count; i++)
+                {
+
+                    if (dstLibReserve.Tables[0].Rows[i]["Control_Type"].ToString() == "Label")
+                    {
+                        if (dstLibReserve.Tables[0].Rows[i]["Control_Name"].ToString() == "fvWorkersRW")
+                        {
+                            if (dstLibReserve.Tables[0].Rows[i]["caption"].ToString().Trim() != String.Empty)
+                                ((Label)e.Row.FindControl(dstLibReserve.Tables[0].Rows[i]["ViewAll_Label_Name"].ToString())).Text = dstLibReserve.Tables[0].Rows[i]["Caption"].ToString();
+                        }
+                    }
+                }
+            }
+
+
+            catch (Exception ex)
+            {
+                //throw ex;
+            }
+
+
+            if (lstWorkerRW.Count > 0)
+            {
+                if (AttachmentID == "")
+                    AttachmentID += ((Label)e.Row.FindControl("lblRwid")).Text.ToString();
+
+                else
+                    AttachmentID += "," + ((Label)e.Row.FindControl("lblRwid")).Text.ToString();
+            }
+
+
+        }
+    }
+    protected void gvViewAttachment_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                ((ImageButton)e.Row.FindControl("imgbtnDwnld")).Attributes.Add("onclick", "javascript:return openWindow('" + m_strGlobalPath + "/" + ((ImageButton)e.Row.FindControl("imgbtnDwnld")).CommandArgument.ToString() + "');");
+                //((ImageButton)e.Row.FindControl("imgbtnMail")).Attributes.Add("onclick", "javascript:return openMailWindow('../ErimsMail.aspx?AttMod=" + m_strFolderName + "&AttName=" + ((ImageButton)e.Row.FindControl("imgbtnMail")).CommandArgument.ToString() + "');");
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
+    #endregion
+    #region Payment Details
+    private void BindPaymentDetails()
+    {
+        try
+        {
+            m_objLiabilityRW = new RIMS_Base.Biz.cLiabilityReserveWorkHistory();
+            dsPayment = new DataSet();
+            dsPayment = m_objLiabilityRW.GetPaymentRecords(Convert.ToDecimal(Session["WorkerCompID"].ToString()));
+            gvPaymentDetails.DataSource = dsPayment;
+            gvPaymentDetails.AllowPaging = false;
+            gvPaymentDetails.DataBind();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void gvPaymentDetails_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        try
+        {
+            //dsPayment = new DataSet();
+            //if (ViewState["sortDirection"] == null)
+            //    ViewState["sortDirection"] = SortDirection.Ascending;
+            //// Changes the sort direction 
+            //else
+            //{
+            //    if (((SortDirection)ViewState["sortDirection"]) == SortDirection.Ascending)
+            //        ViewState["sortDirection"] = SortDirection.Descending;
+            //    else
+            //        ViewState["sortDirection"] = SortDirection.Ascending;
+            //}
+            //ViewState["SortExp"] = e.SortExpression;
+
+            //dsPayment= BindWorkerRW();
+            //if (ViewState["SortExp"] != null)
+            //    lstWorkerRW.Sort(new RIMS_Base.GenericComparer<RIMS_Base.cLiabilityReserveWorkHistory>((string)ViewState["SortExp"], (SortDirection)ViewState["sortDirection"]));
+            //gvWorkerRW.DataSource = lstWorkerRW;
+            //gvWorkerRW.DataBind();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    #endregion
+
+}

@@ -1,0 +1,301 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Tatva_ScheduleMaster.master.cs"
+    Inherits="Tatva_ScheduleMaster" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Risk Insurance Management System</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=7" />
+    <link rel="shortcut icon" type="image/ico" href="images\ess.ico" />
+    <script type="text/javascript" src="JavaScript/JFunctions.js"></script>
+    <style type="text/css">
+    <!--
+    .style1 {color: #495058}
+    -->
+    </style>
+    <script type="text/javascript">
+        // IF IE:
+        //        if(document.all) {
+        //            document.onkeydown = function() {
+        //                var key_f5 = 116;
+        //                // 116 = F5         
+        //                
+        //                if(key_f5 == event.keyCode) {
+        //                    event.keyCode = 0;
+        //                    //alert ("F5 was press!");
+        //                    return false;
+        //                }  else return true;
+        //            }
+        //        }
+
+
+        var reqXML;
+        var strReturn;
+        function LoadXMLDoc(url) {
+            if (window.XMLHttpRequest) {
+                //Mozilla, Firefox, Opera 8.01, Safari
+                reqXML = new XMLHttpRequest();
+                reqXML.onreadystatechange = BuildXMLResults;
+                reqXML.open("GET", url, true);
+                reqXML.send(null);
+            } else
+                if (window.ActiveXObject) {
+                    //IE
+                    reqXML = new ActiveXObject("Microsoft.XMLHTTP");
+                    if (reqXML) {
+                        reqXML.onreadystatechange = BuildXMLResults;
+                        reqXML.open("GET", url, true);
+                        reqXML.send();
+                    }
+                } else {
+                    //Older Browsers 
+                    alert("Your Browser does not support Ajax!");
+                }
+        }
+        function BuildXMLResults() {
+            if (reqXML.readyState == 4) {
+                //completed state
+
+                if (reqXML.status == 200) {
+                    //We got a sucess page back
+                    //Check to verify the message from the server 
+
+                    if (reqXML.responseText.indexOf("Session Updated - Server Time:") == 0) {
+                        //window.status = reqXML.responseText; //display the message in the status bar
+                        SetTimer();
+                        //restart timer
+
+                    } else {
+                        //display that that session expired
+                        alert("Your session appears to have expired. You may loose your current data.");
+                    }
+                } else {
+                    //display server code not be accessed
+                    alert("There was a problem retrieving the XML data:\n" + reqXML.statusText);
+                }
+            }
+        }
+        function ConfirmUpdate() {
+            var sURL = "";
+            sURL = "../PopupTimeOut.aspx";
+            strReturn = window.showModalDialog(sURL, 'STimeOut', 'dialogHeight:200px; dialogwidth:500px; Scroll: Yes; center: Yes; Resizable:No; Status:No;')
+
+            var nIndex = 0;
+            nIndex = strReturn.indexOf("^");
+            if (nIndex > 0) {
+                //code to get the action done by the user
+
+                var strAction;
+                strAction = strReturn.substr(0, nIndex);
+
+                //*****code to convert remaining session time into milliseconds*****
+
+                var min = strReturn.substr(nIndex + 1, 2);
+                //Alpesh
+                //alert('MIN='+min);
+
+                var sec = strReturn.substr(nIndex + 4);
+                //alert('SEC='+sec);
+
+                if (min > 0) {
+                    // Alpesh 
+                    min = min * 60 * 1000;
+                    //            var dblMinutes = 15;
+                    //            min=dblMinutes*60*1000;
+
+                }
+                if (sec > 0) {
+                    sec = sec * 1000;
+                }
+                var totalremaintime;
+                totalremaintime = min + sec;
+                //******************************************************************
+
+                if (strAction == "Ok") {
+                    LoadXMLDoc('../sessionupdater.aspx');
+                    strReturn = '';
+                } else
+                    if (strAction == "Auto") {
+                        //AutoLogOut();
+                        OnTimeOut(0);
+                    } else
+                        if (strAction == "Cancel" || strAction == "Cross") {
+                            //strReturn='';
+
+                            if (isNaN(totalremaintime)) {
+                                OnTimeOut(0);
+                            } else {
+                                OnTimeOut(totalremaintime);
+                            }
+                        }
+                //        else if(strAction=='Cross')
+                //        {
+                //            if(isNaN(totalremaintime))
+                //            {
+                //                OnTimeOut(0);
+                //            }
+                //            else
+                //            {
+                //                OnTimeOut(totalremaintime);
+                //            }
+                //            //strReturn='';
+                //        }
+
+            }
+            //    if(nIndex == -1)
+            //    {
+            //        if(strReturn == 'ResetTime')
+            //        {
+            //            alert("ok");
+            //            LoadXMLDoc('sessionUpdater.aspx');
+            //            strReturn='';
+            //        }
+            //        else if(strReturn == 'AutoClose')
+            //        {
+            //            alert("auto");
+            //            AutoLogOut();
+            //        }
+            //    }
+            //    else
+            //    {        
+            //        if(strReturn.substr(0,nIndex) == 'TimeOut')
+            //        {
+            //            var min=strReturn.substr(nIndex+1,2);
+            //            var sec=strReturn.substr(nIndex+4);
+            //            
+            //            if(min>0)
+            //            {
+            //                min=min*60*1000;
+            //            }
+            //            if(sec>0)
+            //            {
+            //                sec=sec*1000;
+            //            }
+            //            var totalremaintime;
+            //            totalremaintime=min+sec;
+            //            if(isNaN(totalremaintime))
+            //            {
+            //                OnTimeOut(0)
+            //            }
+            //            else
+            //            {
+            //                OnTimeOut(totalremaintime);
+            //            }
+            //        }
+            //    }
+
+        }
+        var timerObj;
+        function SetTimer() {
+            //How long before timeout (should be a few minutes before your server's timeout
+            // alpesh 
+
+            var dblMinutes = 15;
+            //set timer to call function to confirm update 
+            timerObj = setTimeout("ConfirmUpdate()", 1000 * 60 * dblMinutes);
+        }
+        var outtimerObj;
+        //function AutoLogOut()
+        //{
+        //    outtimerObj=window.setTimeout('RedirectPage()', 0*60*1000);
+        //}
+        function RedirectPage() {
+            //alpesh
+            //parent.window.location.href='logout.aspx';
+            parent.window.location.href = '../Signin.aspx';
+        }
+        function OnTimeOut(totalremaintime) {
+            outtimerObj = window.setTimeout('RedirectPage()', totalremaintime);
+        }
+        //start the timer
+        SetTimer();
+        // Session
+
+    </script>
+    <script type="text/javascript" language="javascript">
+
+        function ScheduleSavedConfirm() {
+            if (confirm('Report Scheduled Successfully! Do you want to continue with schedule?'))
+                window.location.href = window.location.href;
+            else
+                window.close();
+        }
+    
+    </script>
+</head>
+<body>
+    <form id="frmSchedule" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server">
+    </asp:ScriptManager>
+    <%--<asp:ScriptManager ID="ScriptManager1" runat="server" ScriptMode="Release" LoadScriptsBeforeUI="false">
+            <Scripts>
+                <asp:ScriptReference Path="~/JavaScript/Main.js" />
+            </Scripts>
+        </asp:ScriptManager>--%>
+    <div id="container">
+        <div id="top1">
+        </div>
+        <div id="top2">
+        </div>
+        <%--<div id="header" class="header_text" runat="server" style="height: 35px">
+            </div>--%>
+        <div>
+            <table>
+                <tr>
+                    <td width="100%" class="Spacer" style="height: 10px;">
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </div>
+    <%--<asp:Panel ID="MPanel" runat="server" Style="display: none">
+            <table class="mainModalTable" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="mainModaTableTD">
+                        <table class="mainModalInnerTable" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td class="mainModalInnerTableTD">
+                                    <table border="0" width="100%" cellspacing="0" cellpadding="4">
+                                        <tr>
+                                            <td class="mainModalDraggablePanelTD" align="left">
+                                                <asp:Panel CssClass="mainModalDraggablePanel" ID="MPD" runat="server">
+                                                    <span class="mainModalTitle" id="spanTitle"></span>
+                                                </asp:Panel>
+                                            </td>
+                                            <td align="right" class="mainModalDraggablePanelCloseTD">
+                                                <asp:ImageButton runat="server" ID="clB" ImageUrl="~/App_Themes/images/close.gif" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: center" class="mainModalContentsTD" colspan="2">
+                                                <div id="mainModalContents">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="mainModalContentsTD" align="center" colspan="2">
+                                                <input type="button" value="Yes" onclick="mainScreen.SubmitConfirm();" class="btn btnYes" />
+                                                &nbsp;
+                                                <input type="button" value="No" onclick="mainScreen.CancelConfirm();" class="btn btnCancel" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </asp:Panel>
+        <cc1:ModalPopupExtender ID="mpeModal" runat="server" PopupControlID="MPanel" TargetControlID="btnHid"
+            BehaviorID="mbMain" BackgroundCssClass="modalBackground" CancelControlID="clB"
+            OnCancelScript="mainScreen.CancelConfirm();" />
+        <asp:Button runat="server" ID="btnHid" Style="display: none;" />--%>
+    </form>
+</body>
+</html>

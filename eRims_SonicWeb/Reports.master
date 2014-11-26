@@ -1,0 +1,268 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Reports.master.cs" Inherits="Reports" %>
+
+<%--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">--%>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>Risk Insurance Management System</title>
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+   <link rel="shortcut icon" type="image/ico" href="images\ess.ico" />
+    <script type="text/javascript" src="JavaScript/JFunctions.js"></script>
+
+    <style type="text/css">
+        <!
+        -- .style1
+        {
+            color: #495058;
+        }
+        -- ></style>
+
+    <script type="text/javascript">
+        // IF IE:
+//        if(document.all) {
+//            document.onkeydown = function() {
+//                var key_f5 = 116;
+//                // 116 = F5         
+//                
+//                if(key_f5 == event.keyCode) {
+//                    event.keyCode = 0;
+//                    //alert ("F5 was press!");
+//                    return false;
+//                }  else return true;
+//            }
+//        }
+        
+        
+        var reqXML;
+        var strReturn;
+        function LoadXMLDoc(url) {
+            if(window.XMLHttpRequest) {
+                //Mozilla, Firefox, Opera 8.01, Safari
+                reqXML = new XMLHttpRequest();
+                reqXML.onreadystatechange = BuildXMLResults;
+                reqXML.open("GET", url, true);
+                reqXML.send(null);
+            }  else
+            if(window.ActiveXObject) {
+                //IE
+                reqXML = new ActiveXObject("Microsoft.XMLHTTP");
+                if(reqXML) {
+                    reqXML.onreadystatechange = BuildXMLResults;
+                    reqXML.open("GET", url, true);
+                    reqXML.send();
+                }
+            }  else {
+                //Older Browsers 
+                alert("Your Browser does not support Ajax!");
+            }
+        }
+        function BuildXMLResults() {
+            if(reqXML.readyState == 4) {
+                //completed state
+                
+                if(reqXML.status == 200) {
+                    //We got a sucess page back
+                    //Check to verify the message from the server 
+                    
+                    if(reqXML.responseText.indexOf("Session Updated - Server Time:") == 0) {
+                        //window.status = reqXML.responseText; //display the message in the status bar
+                        SetTimer();
+                        //restart timer
+                        
+                    }  else {
+                        //display that that session expired
+                        alert("Your session appears to have expired. You may loose your current data.");
+                    }
+                }  else {
+                    //display server code not be accessed
+                    alert("There was a problem retrieving the XML data:\n" + reqXML.statusText);
+                }
+            }
+        }
+        function ConfirmUpdate() {
+            var sURL = "";
+            sURL = "<%=AppConfig.SiteURL%>PopupTimeOut.aspx";
+            strReturn = window.showModalDialog(sURL, 'STimeOut', 'dialogHeight:200px; dialogwidth:500px; Scroll: Yes; center: Yes; Resizable:No; Status:No;')
+                
+            var nIndex = 0;
+            nIndex = strReturn.indexOf("^");
+            if(nIndex > 0) {
+                //code to get the action done by the user
+                
+                var strAction;
+                strAction = strReturn.substr(0, nIndex);
+                
+                //*****code to convert remaining session time into milliseconds*****
+                
+                var min = strReturn.substr(nIndex + 1, 2);
+                //Alpesh
+                //alert('MIN='+min);
+                
+                var sec = strReturn.substr(nIndex + 4);
+                //alert('SEC='+sec);
+                
+                if(min > 0) {
+                    // Alpesh 
+                    min = min * 60 * 1000;
+                    //            var dblMinutes = 15;
+                    //            min=dblMinutes*60*1000;
+                    
+                }
+                if(sec > 0) {
+                    sec = sec * 1000;
+                }
+                var totalremaintime;
+                totalremaintime = min + sec;
+                //******************************************************************
+                
+                if(strAction == "Ok") {
+                    LoadXMLDoc('<%=AppConfig.SiteURL%>sessionupdater.aspx');
+                    strReturn = '';
+                }  else
+                if(strAction == "Auto") {
+                    //AutoLogOut();
+                    OnTimeOut(0);
+                }  else
+                if(strAction == "Cancel" || strAction == "Cross") {
+                    //strReturn='';
+                    
+                    if(isNaN(totalremaintime)) {
+                        OnTimeOut(0);
+                    }  else {
+                        OnTimeOut(totalremaintime);
+                    }
+                }
+                //        else if(strAction=='Cross')
+                //        {
+                //            if(isNaN(totalremaintime))
+                //            {
+                //                OnTimeOut(0);
+                //            }
+                //            else
+                //            {
+                //                OnTimeOut(totalremaintime);
+                //            }
+                //            //strReturn='';
+                //        }
+                
+            }
+            //    if(nIndex == -1)
+            //    {
+            //        if(strReturn == 'ResetTime')
+            //        {
+            //            alert("ok");
+            //            LoadXMLDoc('sessionUpdater.aspx');
+            //            strReturn='';
+            //        }
+            //        else if(strReturn == 'AutoClose')
+            //        {
+            //            alert("auto");
+            //            AutoLogOut();
+            //        }
+            //    }
+            //    else
+            //    {        
+            //        if(strReturn.substr(0,nIndex) == 'TimeOut')
+            //        {
+            //            var min=strReturn.substr(nIndex+1,2);
+            //            var sec=strReturn.substr(nIndex+4);
+            //            
+            //            if(min>0)
+            //            {
+            //                min=min*60*1000;
+            //            }
+            //            if(sec>0)
+            //            {
+            //                sec=sec*1000;
+            //            }
+            //            var totalremaintime;
+            //            totalremaintime=min+sec;
+            //            if(isNaN(totalremaintime))
+            //            {
+            //                OnTimeOut(0)
+            //            }
+            //            else
+            //            {
+            //                OnTimeOut(totalremaintime);
+            //            }
+            //        }
+            //    }
+            
+        }
+        var timerObj;
+        function SetTimer() {
+            //How long before timeout (should be a few minutes before your server's timeout
+            // alpesh 
+            
+            var dblMinutes = 15;
+            //set timer to call function to confirm update 
+            timerObj = setTimeout("ConfirmUpdate()", 1000 * 60 * dblMinutes);
+        }
+        var outtimerObj;
+        //function AutoLogOut()
+        //{
+        //    outtimerObj=window.setTimeout('RedirectPage()', 0*60*1000);
+        //}
+        function RedirectPage() {
+            //alpesh
+            //parent.window.location.href='logout.aspx';
+            parent.window.location.href = '../Signin.aspx';
+        }
+        function OnTimeOut(totalremaintime) {
+            outtimerObj = window.setTimeout('RedirectPage()', totalremaintime);
+        }
+        //start the timer
+        SetTimer();
+        // Session
+
+    </script>
+
+</head>
+<body class="style">
+    <form id="aspnetForm" runat="server" method="post">
+    <div id="container">
+        <div id="top1">
+        </div>
+        <div id="top2">
+        </div>
+        <div id="header" class="header_text" runat="server" style="background-image: url(../images/header2.jpg);">
+            <table width="35%" border="0" style="text-align: right;" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td align="right" style="font-size: 11px; font-family: Tahoma;">
+                        Welcome
+                        <%=Session["UserName"]%>&nbsp;<%=Session["UserRole"]%>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        <a href="<%=AppConfig.SiteURL%>DashBoard\DashboardGraph.aspx" class="top_link">DashBoard</a>
+                        | <a href="../Signin.aspx" class="top_link">Logoff</a> | <a href="#" class="top_link">
+                            Help&nbsp;</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+            </table>
+            <!-- end #header -->
+        </div>
+        <div id="menu">
+            <asp:Menu ID="mnuMain" runat="server" DataSourceID="smdAdmin" Orientation="Horizontal"
+                SkinID="mnuMain" StaticDisplayLevels="2" StaticSubMenuIndent="" Width="100%">
+            </asp:Menu>
+            <asp:SiteMapDataSource ID="smdAdmin" runat="server" />
+        </div>
+        <div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+        <div id="footer">
+            <p>
+                © <%= DateTime.Now.Year.ToString() %>, Emerson Software Solutions Inc, All Rights Reserved
+            </p>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

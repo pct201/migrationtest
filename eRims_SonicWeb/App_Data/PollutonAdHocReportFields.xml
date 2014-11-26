@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AdHocReportField>
+	<Field Title="County" TableName="County" Type="DropDown" HasCode="Y" ></Field>
+	<Field Title="SIC Code" TableName="LU_SIC" Type="DropDown" HasCode="Y" ></Field>
+	<Field Title="NAICS" TableName="LU_NAICS" Type="DropDown" HasCode="Y" ></Field>
+	<Field Title="Permit Type" TableName="LU_Permit_Type" Type="DropDown" HasCode="Y" ></Field>	 
+  <Field Title="Chemical Type" TableName="LU_Chemical_Type" Type="DropDown" HasCode="Y" ></Field>
+  <Field Title="Storage Type" TableName="LU_Storage_Type" Type="DropDown" HasCode="Y" ></Field>
+  <Field Title="Storage Location" TableName="LU_Storage_Location" Type="DropDown" HasCode="Y" ></Field>
+  <Field Title="Hazard Type" TableName="LU_Hazard_Type" Type="DropDown" HasCode="Y" ></Field>
+  <Field Title="Equipment Type" TableName="LU_Equipment_Type_Pollution" Type="DropDown" HasCode="Y" ></Field> 
+  <Field Title="Secondary Containment Type" TableName="LU_Secondary_Containment_Type" Type="DropDown" HasCode="Y" ></Field>
+  <Field Title="Waste Type" TableName="LU_Waste_Type" Type="DropDown" HasCode="Y" ></Field>
+</AdHocReportField> 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<License>
+  <Data>
+    <LicensedTo>Emerson Software Solutions</LicensedTo>
+    <LicenseType>Developer OEM Subscription</LicenseType>
+    <LicenseNote>Limited to 1 developer.</LicenseNote>
+    <OrderID>081204112151</OrderID>
+    <OEM>This is a redistributable license.</OEM>
+    <Products>
+      <Product>Aspose.Words</Product>
+    </Products>
+    <EditionType>Enterprise</EditionType>
+    <SerialNumber>f80e3301-b48f-4580-9f7f-c51569380664</SerialNumber>
+    <SubscriptionExpiry>20091205</SubscriptionExpiry>
+    <LicenseVersion>2.2</LicenseVersion>
+  </Data>
+  <Signature>yQc6/JpcMtUEoEUhKp2MmtEcOZUvNlCBjbxwxG3zO/5ESDTE8jWeLjQsZuGShf/QYDsbdYuHaLVN42ERse75Eq7x3SDjgIvhF2mwXqcmMNgtJFh57zbv9GbIE9AH0lk3W3a5/G8M+4YXp4p3A2u5LoyH/cfLaCsYaMWu72hOATY=</Signature>
+</License>

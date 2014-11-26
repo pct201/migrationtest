@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+  <siteMapNode url="javascript:void(0)" title=""  description="">
+    <siteMapNode url="javascript:ShowPanel(0);" title="Summary"  description=""/>
+    <siteMapNode url="javascript:ToggleNode(2,1);" title="Equipment"  description="">
+    
+      <siteMapNode url="javascript:ShowPanel(1);" title="Equipment Information"  description=""/>
+      <siteMapNode url="javascript:ShowPanel(2);" title="Inadvertent Release"  description=""/>
+      <siteMapNode url="javascript:ShowPanel(3);" title="Attachment"  description=""/>
+      <siteMapNode url="javascript:ShowPanel(4);" title="Recommendations"  description=""/>
+    </siteMapNode>
+    <siteMapNode url="javascript:ToggleNode(7,6);" title="Permit"  description="">
+      <siteMapNode url="javascript:ShowPanel(5)" title="Permit Information"  description=""/>
+      <siteMapNode url="javascript:ShowPanel(6)" title="Attachment"  description=""/>
+      <siteMapNode url="javascript:ShowPanel(7)" title="Recommendations"  description=""/>
+    </siteMapNode>
+    <siteMapNode url="javascript:ToggleNode(11,10);" title="Audit Inspections"  description="">
+      <siteMapNode url="javascript:ShowPanel(8)" title="Audit/Inspections Information"  description=""/>
+      <siteMapNode url="javascript:ShowPanel(9)" title="Attachment"  description=""/>
+      <siteMapNode url="javascript:ShowPanel(10)" title="Recommendations"  description=""/>
+    </siteMapNode>
+    <siteMapNode url="javascript:ToggleNode(15,14);" title="SPCC"  description="">
+      <siteMapNode url="javascript:ShowPanel(11)" title="SPCC Information"  description=""/>
+      <siteMapNode url="javascript:ShowPanel(12)" title="Attachment"  description=""/>
+      <siteMapNode url="javascript:ShowPanel(13)" title="Recommendations"  description=""/>
+    </siteMapNode>
+    <siteMapNode url="javascript:ToggleNode(19,18);" title="Phase I"  description="">
+      <siteMapNode url="javascript:ShowPanel(14)" title="Phase I Information"  description=""/>
+      <siteMapNode url="javascript:ShowPanel(15)" title="Attachment"  description=""/>
+      <siteMapNode url="javascript:ShowPanel(16)" title="Recommendations"  description=""/>
+    </siteMapNode>
+    <siteMapNode url="javascript:ShowPanel(17);" title="EPA IDs"  description="">
+    </siteMapNode>
+  </siteMapNode>
+</siteMap>

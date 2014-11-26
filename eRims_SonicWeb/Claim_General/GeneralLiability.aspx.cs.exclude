@@ -1,0 +1,1961 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Collections.Generic;
+using RIMS_Base.Biz;
+using System.IO;
+
+public partial class Claim_GeneralLiability : System.Web.UI.Page
+{
+    #region Private Variables
+    public RIMS_Base.Biz.CLiabilityClaim_FCI objliability;
+    public RIMS_Base.Biz.CLiabilityClaimRepresentative objClaimRepresentive;
+    public RIMS_Base.Biz.CLiabilityClaimLossLocation objLossLocation;
+    //public RIMS_Base.Biz.CLiabilityClaimLossInfo objLossinfo;
+    public RIMS_Base.Biz.CLiabilityClaimBodilyInjury objBodyInjury;
+    public RIMS_Base.Biz.CLiabilityClaimLossInfoG objLossinfoG;
+    public RIMS_Base.Biz.CLiabilityClaimPropertyDamage objProDamage;
+    public RIMS_Base.Biz.CLiabilityClaimSettlement objSettlement;
+    public RIMS_Base.Biz.CClaimant objClaimant;
+    public RIMS_Base.Biz.cEmployee objEmp;
+    public RIMS_Base.Biz.CPropertyDriver objProDriver;
+    public RIMS_Base.Biz.CCheckRegister objCheckRegister;
+    public RIMS_Base.Biz.CCheckWriting m_objClaimReservesInfo;
+    List<RIMS_Base.CCheckWriting> lstClaimReservesInfo = null;
+    ListItem m_lstCommon;
+    public RIMS_Base.Biz.CGeneral m_objCounty;
+
+    int m_intRetval = -1;
+    int m_intRetval2 = -1;
+    int m_intRetval3 = -1;
+    int m_intRetval4 = -1;
+    int m_intRetval5 = -1;
+    int m_intRetval6 = -1;
+    int m_intRetval7 = -1;
+    int m_intRetval8 = -1;
+
+    public RIMS_Base.Biz.CGeneral objGeneral;
+
+    List<RIMS_Base.CLiabilityClaim_FCI> lstliability, lstemp, lstClimant, lstDriver, lstcarrier;
+    List<RIMS_Base.CLiabilityClaimRepresentative> lstRepresent;
+    List<RIMS_Base.CLiabilityClaimLossLocation> lstLossLocation;
+    List<RIMS_Base.CLiabilityClaimLossInfoG> lstLossInfoG;
+    List<RIMS_Base.CLiabilityClaimPropertyDamage> lstProDamage;
+    List<RIMS_Base.CLiabilityClaimBodilyInjury> lstBodyInjury;
+    List<RIMS_Base.CLiabilityClaimSettlement> lstSettlement;
+    List<RIMS_Base.CClaimant> lstClaimant;
+    List<RIMS_Base.CCheckRegister> lstCheckRegister = null;
+    List<RIMS_Base.CGeneral> lstGeneral;
+
+
+
+
+
+    // -- Attachment
+    public string m_strCustomFileName = string.Empty;
+    public string m_strFileName = string.Empty;
+    public string m_strGlobalPath = string.Empty;
+    public string m_strPath = string.Empty;
+    public string m_strFolderName = "Liability_Claim";
+    public RIMS_Base.Biz.CAttachment m_objAttachment;
+    List<RIMS_Base.CAttachment> lstAttachment = null;
+    int Attach_Retval = -1;
+    #endregion
+
+    #region Event Handlers
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        m_strGlobalPath = Page.ResolveUrl(ConfigurationManager.AppSettings["UploadPath"] + "/Liability_Claim/");
+
+        txtZip.Attributes.Add("onKeyUp", "return ZipMasking(event,this.value,this);");
+        txtZip.Attributes.Add("onKeyPress", "return CheckNum(this);");
+        txtBodyZip.Attributes.Add("onKeyUp", "return ZipMasking(event,this.value,this);");
+        txtBodyZip.Attributes.Add("onKeyPress", "return CheckNum(this);");
+        txtOwnerZip.Attributes.Add("onKeyUp", "return ZipMasking(event,this.value,this);");
+        txtOwnerZip.Attributes.Add("onKeyPress", "return CheckNum(this);");
+        if (!IsPostBack)
+        {
+            if (Request.QueryString.Count > 0)
+            {
+                if (Request.QueryString["Liability"] == "General")
+                {
+                    Session["WorkerCompID"] = null;
+                    Session.Remove("ViewAll");
+                    btnMail.Visible = false;
+                    btnRemove.Visible = false;
+                }
+            }
+
+
+
+            Session["ClaimType"] = "Automobile";
+            Session["page"] = "General";
+            btnRemove.Attributes.Add("onclick", "return OMSCheckSelected1('chkItem','gvAttachmentDetails','Delete');");
+            ViewState.Clear();
+            BindCombo();
+            if (Session["WorkerCompID"] != null && Session["WorkerCompID"].ToString() != String.Empty)
+            {
+                ViewState["PK_Liability_Claim"] = Session["WorkerCompID"].ToString();
+                claimno.Style.Add("display", "block");
+                if (Session["ViewAll"] != null && Session["ViewAll"].ToString() != String.Empty)
+                {     //View              
+                    ViewAllFromSearchGrid();
+                }
+                else
+                {//Edit
+                    RetriveDataByID();
+                }
+                Div1.Style.Add("display", "block");
+                dvDisable.Style.Add("display", "none");
+            }
+            else
+            {
+                Div1.Style.Add("display", "none");
+                dvDisable.Style.Add("display", "block");
+            }
+        }
+
+
+    }
+    protected void btnsave_Click(object sender, EventArgs e)
+    {
+        dvAttachDetails.Style["display"] = "none";
+        divfirst.Style["display"] = "none";
+        divsecond.Style["display"] = "none";
+        divthird.Style["display"] = "none";
+        divfour.Style["display"] = "none";
+        divfive.Style["display"] = "none";
+        divsix.Style["display"] = "none";
+        divseven.Style["display"] = "none";
+        diveight.Style["display"] = "none";
+        divnine.Style["display"] = "none";
+        divten.Style["display"] = "none";
+        divfourteen.Style["display"] = "none";
+        LeftDiv.Style["display"] = "none";
+        divview.Style["display"] = "block";
+        divbtn.Style["display"] = "none";
+        mainContent.Style["display"] = "none";
+        InsertData();
+        ViewData();
+        Div1.Style.Add("display", "block");
+        dvDisable.Style.Add("display", "none");
+        btnViewNext.Visible = false;
+        btnBack.Visible = true;
+
+    }
+    protected void btnAddAttachment_Click(object sender, EventArgs e)
+    {
+        divfourteen.Style["display"] = "block";
+        dvAttachDetails.Style["display"] = "block";
+        dvAttachDetails.Visible = true;
+        divfirst.Style["display"] = "none";
+        divsecond.Style["display"] = "none";
+        divthird.Style["display"] = "none";
+        divfour.Style["display"] = "none";
+        divfive.Style["display"] = "none";
+        divsix.Style["display"] = "none";
+        divseven.Style["display"] = "none";
+        diveight.Style["display"] = "none";
+        divnine.Style["display"] = "none";
+        divten.Style["display"] = "none";
+        LeftDiv.Style["display"] = "block";
+        btnRemove.Visible = true;
+        btnMail.Visible = true;
+
+        AddAttachment();
+        if (Attach_Retval > 0)
+        {
+            gvAttachmentDetails.DataSource = BindAttachmentDetails();
+            gvAttachmentDetails.DataBind();
+            if (lstAttachment.Count > 0)
+            {
+                btnMail.Visible = true;
+                btnRemove.Visible = true;
+
+            }
+            else
+            {
+                btnMail.Visible = false;
+                btnRemove.Visible = false;
+            }
+        }
+
+        //  dispTagName.Value = "divten";
+        txtAttachDesc.Text = "";
+        ddlAttachType.SelectedIndex = 1;
+    }
+    protected void gvAttachView_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                ((ImageButton)e.Row.FindControl("imgbtnDwnld")).Attributes.Add("onclick", "javascript:return openWindow('" + m_strGlobalPath + ((ImageButton)e.Row.FindControl("imgbtnDwnld")).CommandArgument.ToString() + "');");
+                //  ((ImageButton)e.Row.FindControl("imgbtnMail")).Attributes.Add("onclick", "javascript:return openMailWindow('../ErimsMail.aspx?AttMod=Liability_Claim&AttName=" + ((ImageButton)e.Row.FindControl("imgbtnMail")).CommandArgument.ToString() + "');");
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnRemove_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            m_objAttachment = new RIMS_Base.Biz.CAttachment();
+            m_intRetval = m_objAttachment.DeleteAttachment(Request.Form["chkItem"].ToString());
+            if (m_intRetval <= 0)
+            {
+
+                gvAttachmentDetails.DataSource = BindAttachmentDetails();
+                gvAttachmentDetails.DataBind();
+                if (lstAttachment.Count > 0)
+                {
+                    btnRemove.Visible = true;
+                    btnMail.Visible = true;
+                }
+                else
+                {
+                    btnRemove.Visible = false;
+                    btnMail.Visible = false;
+                }
+            }
+            dvAttachDetails.Visible = true;
+            dvAttachDetails.Style["display"] = "block";
+            divfirst.Style["display"] = "none";
+            divsecond.Style["display"] = "none";
+            divthird.Style["display"] = "none";
+            divfour.Style["display"] = "none";
+            divfive.Style["display"] = "none";
+            divsix.Style["display"] = "none";
+            divseven.Style["display"] = "none";
+            diveight.Style["display"] = "none";
+            divnine.Style["display"] = "none";
+            divten.Style["display"] = "none";
+            // ViewDiv.Style["display"] = "none";
+            LeftDiv.Style["display"] = "block";
+
+            // --- highlight the third menu of the Left side.
+            //  dispTagName.Value = "divten";
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnNextStep_Click(object sender, EventArgs e)
+    {
+        InsertData();
+        Response.Redirect("../Claim/ReserveWorksheetHistoryGrid.aspx");
+    }
+    protected void gvAttachmentDetails_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                ((ImageButton)e.Row.FindControl("imgbtnDwnld")).Attributes.Add("onclick", "javascript:return openWindow('" + m_strGlobalPath + ((ImageButton)e.Row.FindControl("imgbtnDwnld")).CommandArgument.ToString() + "');");
+                //((ImageButton)e.Row.FindControl("imgbtnMail")).Attributes.Add("onclick", "javascript:return openMailWindow('../ErimsMail.aspx?AttMod=Vendor&AttName=" + ((ImageButton)e.Row.FindControl("imgbtnMail")).CommandArgument.ToString() + "');");
+            }
+            //if (e.Row.RowType == DataControlRowType.EmptyDataRow)
+            //{
+            //    gvAttachmentDetails.EmptyDataText = "Yash";
+            //}
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+    protected void btnViewNext_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("../Claim/ReserveWorksheetHistoryGrid.aspx");
+    }
+    protected void btnBack_Click(object sender, EventArgs e)
+    {
+        divfirst.Style["display"] = "block";
+        divbtn.Style["display"] = "block";
+        LeftDiv.Style["display"] = "block";
+        mainContent.Style["display"] = "block";
+        divview.Style["display"] = "none";
+
+        btnViewNext.Visible = true;
+        btnBack.Visible = false;
+    }
+    #endregion
+
+    #region Private Methods
+    private void BindCombo()
+    {
+        objGeneral = new RIMS_Base.Biz.CGeneral();
+        dwState.DataSource = objGeneral.GetAllState();
+        dwState.DataTextField = "FLD_state";
+        dwState.DataValueField = "Code";
+        dwState.DataBind();
+        ListItem lstItem = new ListItem("------------Select------------", "0");
+        dwState.Items.Insert(0, lstItem);
+
+        dwClaimType.DataSource = objGeneral.GetGeneralClaimTypes();
+        dwClaimType.DataTextField = "GClaimType_Fld_Desc";
+        dwClaimType.DataValueField = "PK_General_Claim_Type";
+        dwClaimType.DataBind();
+        ListItem lstGeneralClaimItem = new ListItem("------------Select------------", "0");
+        dwClaimType.Items.Insert(0, lstGeneralClaimItem);
+
+        dwBodyState.DataSource = objGeneral.GetAllState();
+        dwBodyState.DataTextField = "FLD_state";
+        dwBodyState.DataValueField = "Code";
+        dwBodyState.DataBind();
+        ListItem lstBodyState = new ListItem("------------Select------------", "0");
+        dwBodyState.Items.Insert(0, lstBodyState);
+
+        dwOwnerState.DataSource = objGeneral.GetAllState();
+        dwOwnerState.DataTextField = "FLD_state";
+        dwOwnerState.DataValueField = "Code";
+        dwOwnerState.DataBind();
+        ListItem lstOwnerState = new ListItem("------------Select------------", "0");
+        dwOwnerState.Items.Insert(0, lstOwnerState);
+
+
+
+        if (Request.QueryString.Count > 0)
+        {
+            if (Request.QueryString["Liability"] == "General")
+            {
+                dwCounty.Items.Clear();
+                m_lstCommon = new ListItem("---------------Select---------------", "0");
+                dwCounty.Items.Insert(0, m_lstCommon);
+
+            }
+            else
+            {
+                dwCounty.DataSource = objGeneral.GetCounty();
+                dwCounty.DataTextField = "FLD_county";
+                dwCounty.DataValueField = "PK_ID";
+                dwCounty.DataBind();
+                ListItem lstItemcounty = new ListItem("------------Select------------", "0");
+                dwCounty.Items.Insert(0, lstItemcounty);
+            }
+        }
+        else
+        {
+            dwCounty.Items.Clear();
+            m_lstCommon = new ListItem("---------------Select---------------", "0");
+            dwCounty.Items.Insert(0, m_lstCommon);
+
+        }
+
+        dwEntity.DataSource = objGeneral.GetAllEntity();
+        dwEntity.DataTextField = "Entity_Description";
+        dwEntity.DataValueField = "PK_Entity";
+        dwEntity.DataBind();
+        ListItem lstItemEntity = new ListItem("----------------------------------------------------------------Select----------------------------------------------------------------", "0");
+        dwEntity.Items.Insert(0, lstItemEntity);
+
+        dwClaimant.DataSource = objGeneral.GetClaimantTypes();
+        dwClaimant.DataTextField = "ClaimantType_Fld_Desc";
+        dwClaimant.DataValueField = "PK_Claimant_Type";
+        dwClaimant.DataBind();
+        ListItem lstItemclaimtype = new ListItem("------------Select------------", "0");
+        dwClaimant.Items.Insert(0, lstItemclaimtype);
+
+        ddlAttachType.DataSource = objGeneral.GetClaimantTypes();
+        ddlAttachType.DataTextField = "FLD_desc";
+        ddlAttachType.DataValueField = "PK_ID";
+        ddlAttachType.DataBind();
+        ListItem lstItemattach = new ListItem("------------Select------------", "0");
+        ddlAttachType.Items.Insert(0, lstItemattach);
+        ddlAttachType.SelectedIndex = 1;
+
+        lstGeneral = objGeneral.GetLiabilityCoverage();
+        if (lstGeneral.Count > 0)
+        {
+            lblIPremises.Text = lstGeneral[0].FLD_Coverage_Desc;
+            lblIProducts.Text = lstGeneral[1].FLD_Coverage_Desc;
+            lblICompOn.Text = lstGeneral[2].FLD_Coverage_Desc;
+
+        }
+
+
+    }
+
+    private void InsertData()
+    {
+
+        try
+        {
+
+            objliability = new RIMS_Base.Biz.CLiabilityClaim_FCI();
+            objClaimRepresentive = new RIMS_Base.Biz.CLiabilityClaimRepresentative();
+            objLossLocation = new RIMS_Base.Biz.CLiabilityClaimLossLocation();
+            objLossinfoG = new RIMS_Base.Biz.CLiabilityClaimLossInfoG();
+            objBodyInjury = new RIMS_Base.Biz.CLiabilityClaimBodilyInjury();
+            if (ViewState["PK_Liability_Claim"] != null && ViewState["PK_Liability_Claim"].ToString() != String.Empty)
+            {
+                objliability.PK_Liability_Claim = Convert.ToInt32(ViewState["PK_Liability_Claim"].ToString());
+
+            }
+
+            //Claim Identification          
+            objliability.FK_Liability_Major_Claim_Type = 2;
+
+            if (txtempid.Text != String.Empty)
+                objliability.Fk_ECD_Id = Convert.ToDecimal(txtempid.Text);
+
+            if (rbtReptoCarrier.SelectedIndex == 0)
+                objliability.Report_To_Carrier = "Y";
+            else if (rbtReptoCarrier.SelectedIndex == 1)
+                objliability.Report_To_Carrier = "N";
+
+            if (dwClaimType.SelectedIndex != 0)
+                objliability.FK_Claim_Type = Convert.ToDecimal(dwClaimType.SelectedValue.ToString());
+
+            if (txtDateReportedtoFair.Text != String.Empty)
+                objliability.Date_To_Fairpoint = Convert.ToDateTime(txtDateReportedtoFair.Text);
+
+            if (dwClaimant.SelectedIndex != 0)
+                objliability.FK_Claimant_id = Convert.ToDecimal(dwClaimant.SelectedValue.ToString());
+
+            if (txtDateClaimOpened.Text != String.Empty)
+                objliability.Claim_Open_Date = Convert.ToDateTime(txtDateClaimOpened.Text);
+
+            if (txtDateClaimClosed.Text != String.Empty)
+                objliability.Claim_Close_Date = Convert.ToDateTime(txtDateClaimClosed.Text);
+
+            if (txtDateClaimReopened.Text != String.Empty)
+                objliability.Claim_Reopen_Date = Convert.ToDateTime(txtDateClaimReopened.Text);
+
+            if (dwEntity.SelectedIndex != 0)
+                objliability.FK_Entity = Convert.ToDecimal(dwEntity.SelectedValue.ToString());
+
+            if (txtlblDateReportedtoCarrier.Text != String.Empty)
+                objliability.Date_To_Carrier = Convert.ToDateTime(txtlblDateReportedtoCarrier.Text);
+
+            if (txtpolicyid.Text != String.Empty)
+                objliability.FK_Carrier = Convert.ToDecimal(txtpolicyid.Text.ToString());
+
+
+            if (txtDateofLoss.Text != String.Empty)
+                objliability.Date_Of_Loss = Convert.ToDateTime(txtDateofLoss.Text);
+
+            if (txtTimeofLoss.Text != String.Empty)
+                objliability.Time_Of_Loss = txtTimeofLoss.Text.Trim();
+
+            if (txtTPAName.Text != String.Empty)
+                objliability.TPA_Name = txtTPAName.Text.Trim();
+
+            //if (rbtnIsClaimantanEmp.SelectedIndex == 0)
+            //    objliability. = "Y";
+            //else if (rbtnIsClaimantanEmp.SelectedIndex == 1)
+            //    objliability.Report_To_Carrier = "N";
+
+
+            if (txtPolicyNo.Text != String.Empty)
+                objliability.Policy_Number_Claim = txtPolicyNo.Text.Trim();
+
+            if (rbtnDoesClimant.SelectedIndex == 0)
+                objliability.Legal = "Y";
+            else if (rbtnDoesClimant.SelectedIndex == 1)
+                objliability.Legal = "N";
+
+            if (txtPolicyEffecDate.Text != String.Empty)
+                objliability.Effective_Policy_Date = Convert.ToDateTime(txtPolicyEffecDate.Text);
+
+            if (txtPolicyExpDate.Text != String.Empty)
+                objliability.Expiration_Policy_Date = Convert.ToDateTime(txtPolicyExpDate.Text);
+
+            // Liability Coverage
+            if (rbtnPremises.Checked == true)
+                objliability.FK_Liability_Coverage = 1;
+            else if (rbtnProducts.Checked == true)
+                objliability.FK_Liability_Coverage = 2;
+            else if (rbtnCompOp.Checked == true)
+                objliability.FK_Liability_Coverage = 3;
+
+            m_intRetval = Convert.ToInt32(objliability.InsertUpdateility_Claim(objliability));
+
+
+
+            //Loss Location
+
+            if (txtAdd1.Text != String.Empty)
+                objLossLocation.Address1 = txtAdd1.Text.Trim();
+
+            if (txtAdd2.Text != String.Empty)
+                objLossLocation.Address2 = txtAdd2.Text.Trim();
+
+            if (txtCity.Text != String.Empty)
+                objLossLocation.City = txtCity.Text.Trim();
+
+
+            if (dwState.SelectedIndex > 0)
+                objLossLocation.FK_State = Convert.ToDecimal(dwState.SelectedValue.ToString());
+
+            if (txtZip.Text != String.Empty)
+                objLossLocation.Zip = txtZip.Text.Trim();
+
+            if (dwCounty.SelectedIndex != 0)
+                objLossLocation.County = Convert.ToString(dwCounty.SelectedItem.Text);
+
+            if (rbtnDidAccOccur.SelectedIndex == 0)
+                objLossLocation.Accident_In_Company = "Y";
+            else if (rbtnDidAccOccur.SelectedIndex == 1)
+                objLossLocation.Accident_In_Company = "N";
+
+            objLossLocation.Updated_By = Session["UserId"].ToString();
+            objLossLocation.FK_Liability_Claim = Convert.ToInt32(m_intRetval.ToString());
+
+            m_intRetval3 = Convert.ToInt32(objLossLocation.InsertUpdateility_Claim_LossLocation(objLossLocation));
+
+            //Loss Information
+            if (txtfullDescOfLOss.Text != String.Empty)
+                objLossinfoG.Desc_Loss = txtfullDescOfLOss.Text.Trim();
+
+            objLossinfoG.FK_Liability_Claim = Convert.ToInt32(m_intRetval.ToString());
+
+            m_intRetval4 = Convert.ToInt32(objLossinfoG.InsertUpdateility_Claim_LossInfo_G(objLossinfoG));
+
+
+            //Bodily Injury
+            if (txtDescInjury.Text != string.Empty)
+            {
+                objBodyInjury.Desc_Injury = txtDescInjury.Text.Trim();
+            }
+
+            if (txtFacilityName.Text != string.Empty)
+            {
+                objBodyInjury.Name_Of_Facility = txtFacilityName.Text.Trim();
+            }
+            if (txtBodyAdd1.Text != string.Empty)
+            {
+                objBodyInjury.Address_1 = txtBodyAdd1.Text.Trim();
+            }
+            if (txtBodyAdd2.Text != string.Empty)
+            {
+                objBodyInjury.Address_2 = txtBodyAdd2.Text.Trim();
+            }
+            if (txtBodyCity.Text != string.Empty)
+            {
+                objBodyInjury.City = txtBodyCity.Text.Trim();
+            }
+            if (dwBodyState.SelectedIndex > 0)
+            {
+                objBodyInjury.FK_State = Convert.ToDecimal(dwBodyState.SelectedValue.ToString());
+
+            }
+            if (txtBodyZip.Text != string.Empty)
+            {
+                objBodyInjury.ZipCode = txtBodyZip.Text.Trim();
+            }
+            if (txtBodyTeleNo.Text != string.Empty)
+            {
+                objBodyInjury.TelePhone = txtBodyTeleNo.Text.Trim();
+            }
+            if (txtFacsimile.Text != string.Empty)
+            {
+                objBodyInjury.Facsimile = txtFacsimile.Text.Trim();
+            }
+            if (txtEstimated.Text != string.Empty)
+            {
+                objBodyInjury.Cost_Of_Treatment = Convert.ToDecimal(txtEstimated.Text.Trim());
+            }
+            if (rbtnlBillRec.SelectedIndex == 0)
+                objBodyInjury.Medical_Bill_Received = "Y";
+            else if (rbtnlBillRec.SelectedIndex == 1)
+                objBodyInjury.Medical_Bill_Received = "N";
+
+            objBodyInjury.FK_Liability_Claim = Convert.ToInt32(m_intRetval.ToString());
+
+            m_intRetval4 = Convert.ToInt32(objBodyInjury.InsertUpdateility_Claim_BodilyInjury(objBodyInjury));
+
+            //Property Damage
+            objProDamage = new RIMS_Base.Biz.CLiabilityClaimPropertyDamage();
+
+            if (rbtnProOwner.SelectedIndex == 0)
+                objProDamage.Property_Owner = "Y";
+            else if (rbtnlBillRec.SelectedIndex == 1)
+                objProDamage.Property_Owner = "N";
+
+            if (txtOwnerName.Text != string.Empty)
+            {
+                objProDamage.Name = txtOwnerName.Text.Trim();
+            }
+            if (txtOwnerAdd1.Text != string.Empty)
+            {
+                objProDamage.Address1 = txtOwnerAdd1.Text.Trim();
+            }
+            if (txtOwnerAdd2.Text != string.Empty)
+            {
+                objProDamage.Address2 = txtOwnerAdd2.Text.Trim();
+            }
+            if (txtOwnerCity.Text != string.Empty)
+            {
+                objProDamage.City = txtOwnerCity.Text.Trim();
+            }
+
+            if (dwOwnerState.SelectedIndex > 0)
+                objProDamage.FK_State = Convert.ToDecimal(dwOwnerState.SelectedValue.ToString());
+
+            if (txtOwnerZip.Text != string.Empty)
+            {
+                objProDamage.Zipcode = txtOwnerZip.Text.Trim();
+            }
+            if (txtOwnerHomeNo.Text != string.Empty)
+            {
+                objProDamage.Home_TeleNo = txtOwnerHomeNo.Text.Trim();
+            }
+            if (txtOwnerWorkNo.Text != string.Empty)
+            {
+                objProDamage.Work_TeleNo = txtOwnerWorkNo.Text.Trim();
+            }
+            if (txtOwnerCellNo.Text != string.Empty)
+            {
+                objProDamage.Cell_TeleNo = txtOwnerCellNo.Text.Trim();
+            }
+            if (txtOwnerEmail.Text != string.Empty)
+            {
+                objProDamage.Email = txtOwnerEmail.Text.Trim();
+            }
+            if (txtOwnerDescDamage.Text != string.Empty)
+            {
+                objProDamage.Desc_Of_Damage = txtOwnerDescDamage.Text.Trim();
+            }
+            if (txtCostProDamage.Text != string.Empty)
+            {
+                objProDamage.Cost_Of_Damage = Convert.ToDecimal(txtCostProDamage.Text.Trim());
+            }
+
+            if (rbtnlEstimate.SelectedIndex == 0)
+                objProDamage.Copy_Estimated_Received = "Y";
+            else if (rbtnlEstimate.SelectedIndex == 1)
+                objProDamage.Copy_Estimated_Received = "N";
+
+            objProDamage.FK_Liability_Claim = Convert.ToInt32(m_intRetval.ToString());
+
+            m_intRetval4 = Convert.ToInt32(objProDamage.InsertUpdateility_Claim_PropertyDamage(objProDamage));
+
+            //Settlement
+
+            objSettlement = new RIMS_Base.Biz.CLiabilityClaimSettlement();
+
+            if (txtSettlementOff.Text != String.Empty)
+            {
+                objSettlement.Settlement_Date_Offered = Convert.ToDateTime(txtSettlementOff.Text.Trim());
+            }
+            if (txtAmtSettlement.Text != string.Empty)
+            {
+                objSettlement.Amnt_Of_Settlement = Convert.ToDecimal(txtAmtSettlement.Text.Trim());
+            }
+            if (txtReleaseDate.Text != String.Empty)
+            {
+                objSettlement.Release_Date = Convert.ToDateTime(txtReleaseDate.Text.Trim());
+            }
+            if (txtSettlementDate.Text != String.Empty)
+            {
+                objSettlement.Settlement_ChkMail_Date = Convert.ToDateTime(txtSettlementDate.Text.Trim());
+            }
+            objSettlement.FK_Liability_Claim = Convert.ToInt32(m_intRetval.ToString());
+
+            m_intRetval4 = Convert.ToInt32(objSettlement.InsertUpdateility_Claim_Settlement(objSettlement));
+            //Claim Representative
+
+            if (txtname.Text != String.Empty)
+                objClaimRepresentive.FairPoint_Name = txtname.Text.Trim();
+
+            if (txtTelephone.Text != String.Empty)
+                objClaimRepresentive.Telephone = txtTelephone.Text.Trim();
+
+            if (txtEMail.Text != String.Empty)
+                objClaimRepresentive.Email = txtEMail.Text.Trim();
+
+            objClaimRepresentive.FK_Liability_Claim = Convert.ToInt32(m_intRetval.ToString());
+
+            m_intRetval2 = Convert.ToInt32(objClaimRepresentive.InsertUpdateility_Claim_Representative(objClaimRepresentive));
+
+
+            //end
+            //................Mail Process.............
+
+            if (ViewState["PK_Liability_Claim"] == null || ViewState["PK_Liability_Claim"].ToString() == String.Empty)
+            {
+                objliability = new RIMS_Base.Biz.CLiabilityClaim_FCI();
+                lstliability = new List<RIMS_Base.CLiabilityClaim_FCI>();
+                Int32 Liabilityid = Convert.ToInt32(m_intRetval);
+                lstliability = objliability.GetAL_ClaimByID(Liabilityid);
+
+                if (lstliability.Count != 0)
+                {
+                    string ClaimID = String.Empty;
+                    ClaimID = lstliability[0].Claim_Number;
+                    //Need to store last claim number, user has worked with for displaying in Enter payments in Check writing
+                    Session["LastClaimNumber"] = ClaimID;
+                }
+
+                System.Threading.Thread.Sleep(3000);
+
+                RIMS_Base.Biz.CSecurity m_objSecurity = new RIMS_Base.Biz.CSecurity();
+                List<RIMS_Base.CSecurity> lstSecurity = new List<RIMS_Base.CSecurity>();
+                lstSecurity = m_objSecurity.GetAdminByID(Convert.ToInt32(1));
+                if (lstSecurity.Count > 0)
+                {
+                    if (lstSecurity[0].Email != string.Empty)
+                    {
+                        string ClaimID = String.Empty;
+                        Decimal Facility;
+                        ClaimID = lstliability[0].Claim_Number;
+                        Facility = Convert.ToDecimal(lstliability[0].FK_Entity.ToString());
+                        string msg = "Here are the Details of Claim Generated";
+                        string claimsg = "Claim Number(General Liability)";
+                        string Fac = "Entity";
+                        string Emp = "Employee Name";
+                        string Cli = "Claimant Name";
+                        string Driver = "Driver Name";
+                        string PR = "Dear ";
+                        string incDate = "Date of Loss";
+
+
+                        if (lstliability[0].FK_Claimant_id == 1)
+                        {
+                            lstemp = objliability.GetEmployee_ByID(Liabilityid, Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+                            if (lstemp.Count != 0)
+                            {
+                                for (int i = 0; i < lstSecurity.Count; i++)
+                                {
+                                    string body = "<html><body> " + PR + lstSecurity[i].FIRST_NAME + " " + lstSecurity[i].LAST_NAME + "<br/>" + msg + ":" + "<br/>" + claimsg + ":" + ClaimID + "<br/>" + Fac + ":" + Facility + "<br/>" + Emp + ":" + lstemp[0].First_Name + "<br/>" + incDate + ":" + (Convert.ToDateTime(lstliability[0].Date_Of_Loss)).ToShortDateString() + "</html></body>";
+                                    sendMail(ConfigurationManager.AppSettings["mailFrom"].ToString(), lstSecurity[i].Email, string.Empty, string.Empty, "claim number(General Liability)", body);
+                                }
+                            }
+                        }
+
+                        if (lstliability[0].FK_Claimant_id == 2)
+                        {
+                            lstClimant = objliability.GetCliamant_ByID(Liabilityid, Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+                            if (lstClimant.Count != 0)
+                            {
+                                for (int i = 0; i < lstSecurity.Count; i++)
+                                {
+                                    string body = "<html><body> " + PR + lstSecurity[i].FIRST_NAME + " " + lstSecurity[i].LAST_NAME + "<br/>" + msg + ":" + "<br/>" + claimsg + ":" + ClaimID + "<br/>" + Fac + ":" + Facility + "<br/>" + Cli + ":" + lstClimant[0].Cliamant_First_Name + "<br/>" + incDate + ":" + (Convert.ToDateTime(lstliability[0].Date_Of_Loss)).ToShortDateString() + "</html></body>";
+                                    sendMail(ConfigurationManager.AppSettings["mailFrom"].ToString(), lstSecurity[i].Email, string.Empty, string.Empty, "claim number(General Liability)", body);
+                                }
+                            }
+                        }
+
+                        if (lstliability[0].FK_Claimant_id == 3)
+                        {
+                            lstDriver = objliability.GetDriver_ByID(Liabilityid, Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+                            if (lstDriver.Count != 0)
+                            {
+                                for (int i = 0; i < lstSecurity.Count; i++)
+                                {
+                                    string body = "<html><body> " + PR + lstSecurity[i].FIRST_NAME + " " + lstSecurity[i].LAST_NAME + "<br/>" + msg + ":" + "<br/>" + claimsg + ":" + ClaimID + "<br/>" + Fac + ":" + Facility + "<br/>" + Driver + ":" + lstDriver[0].Driver_First_Name + "<br/>" + incDate + ":" + (Convert.ToDateTime(lstliability[0].Date_Of_Loss)).ToShortDateString() + "</html></body>";
+                                    sendMail(ConfigurationManager.AppSettings["mailFrom"].ToString(), lstSecurity[i].Email, string.Empty, string.Empty, "claim number(General Liability)", body);
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+            }
+
+            //End Mail Sending
+            ViewState["PK_Liability_Claim"] = m_intRetval.ToString();
+            Session["WorkerCompID"] = ViewState["PK_Liability_Claim"].ToString();
+
+
+        }
+
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+    }
+
+    private void ViewData()
+    {
+
+        objliability = new RIMS_Base.Biz.CLiabilityClaim_FCI();
+        objLossLocation = new RIMS_Base.Biz.CLiabilityClaimLossLocation();
+        objLossinfoG = new RIMS_Base.Biz.CLiabilityClaimLossInfoG();
+        objBodyInjury = new RIMS_Base.Biz.CLiabilityClaimBodilyInjury();
+        objProDamage = new RIMS_Base.Biz.CLiabilityClaimPropertyDamage();
+        objSettlement = new RIMS_Base.Biz.CLiabilityClaimSettlement();
+        objClaimRepresentive = new RIMS_Base.Biz.CLiabilityClaimRepresentative();
+        objClaimant = new RIMS_Base.Biz.CClaimant();
+        objGeneral = new RIMS_Base.Biz.CGeneral();
+
+        lstliability = new List<RIMS_Base.CLiabilityClaim_FCI>();
+        lstLossLocation = new List<RIMS_Base.CLiabilityClaimLossLocation>();
+        lstLossInfoG = new List<RIMS_Base.CLiabilityClaimLossInfoG>();
+        lstBodyInjury = new List<RIMS_Base.CLiabilityClaimBodilyInjury>();
+        lstProDamage = new List<RIMS_Base.CLiabilityClaimPropertyDamage>();
+        lstRepresent = new List<RIMS_Base.CLiabilityClaimRepresentative>();
+        lstSettlement = new List<RIMS_Base.CLiabilityClaimSettlement>();
+        lstClaimant = new List<RIMS_Base.CClaimant>();
+
+
+        Int32 Liabilityid = Convert.ToInt32(ViewState["PK_Liability_Claim"]);
+
+        Decimal LiabilityClaimid = Convert.ToDecimal(ViewState["PK_Liability_Claim"]);
+
+        //Decimal ClaimantId = Convert.ToDecimal(txtempid.Text);
+
+        lstliability = objliability.GetAL_ClaimByID(Liabilityid); //objliability.GetAL_ClaimByID(Liabilityid);
+        lstLossLocation = objLossLocation.GetAL_Claim_LossLocationByID(LiabilityClaimid);
+        lstLossInfoG = objLossinfoG.GetGL_Claim_LossInfo_GByID(LiabilityClaimid);
+        lstBodyInjury = objBodyInjury.GetGL_Claim_BodilyInjuryByID(LiabilityClaimid);
+        lstProDamage = objProDamage.GetGL_Claim_PropertyDamageByID(LiabilityClaimid);
+        lstSettlement = objSettlement.GetGL_Claim_SettlementByID(LiabilityClaimid);
+        lstRepresent = objClaimRepresentive.GetAL_Claim_RepresentativeByID(LiabilityClaimid);// .GetAL_Claim_RepresentativeByID(LiabilityClaimid);
+
+        //lstClaimant = objClaimant.GetClaimantByID(ClaimantId);
+        try
+        {
+
+            lblvweClaimNumber.Text = lstliability[0].Claim_Number;
+            //Need to store last claim number, user has worked with for displaying in Enter payments in Check writing
+            Session["LastClaimNumber"] = lblvweClaimNumber.Text;
+
+            if (lstliability[0].Report_To_Carrier == "Y")
+                lblvweReptoCarrier.Text = "Yes";
+            else if (lstliability[0].Report_To_Carrier == "N")
+                lblvweReptoCarrier.Text = "N0";
+
+            if (lstliability[0].FK_Claim_Type != null)
+                lblvweClaimType.Text = dwClaimType.Items.FindByValue(lstliability[0].FK_Claim_Type.ToString()).Text;
+
+
+            if (lstliability[0].Date_To_Fairpoint.ToString() != String.Empty)
+                lblvweDateReportedtoFair.Text = Convert.ToDateTime(lstliability[0].Date_To_Fairpoint.ToString()).ToShortDateString();
+
+            if (lstliability[0].FK_Claimant_id != null)
+                lblvweClaimant.Text = dwClaimant.Items.FindByValue(lstliability[0].FK_Claimant_id.ToString()).Text;
+
+            if (lstliability[0].FK_Claimant_id == 1)
+            {
+                lstemp = objliability.GetEmployee_ByID(Liabilityid, Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+
+                lblvweFirstName.Text = lstemp[0].First_Name;
+                lblvweLastName.Text = lstemp[0].Last_Name;
+            }
+
+            if (lstliability[0].FK_Claimant_id == 2)
+            {
+                lstClimant = objliability.GetCliamant_ByID(Liabilityid, Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+
+                lblvweFirstName.Text = lstClimant[0].Cliamant_First_Name;
+                lblvweLastName.Text = lstClimant[0].Cliamant_Last_Name;
+            }
+
+            if (lstliability[0].FK_Claimant_id == 3)
+            {
+                lstDriver = objliability.GetDriver_ByID(Liabilityid, Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+
+                lblvweFirstName.Text = lstDriver[0].Driver_First_Name;
+                lblvweLastName.Text = lstDriver[0].Driver_Last_Name;
+            }
+
+
+
+            if (lstliability[0].Claim_Open_Date.ToString() != String.Empty)
+                lblvweDateClaimOpened.Text = Convert.ToDateTime(lstliability[0].Claim_Open_Date.ToString()).ToShortDateString();
+
+            if (lstliability[0].Claim_Close_Date.ToString() != String.Empty)
+                lblvweDateClaimClosed.Text = Convert.ToDateTime(lstliability[0].Claim_Close_Date.ToString()).ToShortDateString();
+
+
+            //last name
+
+            if (lstliability[0].Claim_Reopen_Date.ToString() != String.Empty)
+                lblvweDateClaimReopened.Text = Convert.ToDateTime(lstliability[0].Claim_Reopen_Date.ToString()).ToShortDateString();
+
+
+            if (lstliability[0].FK_Entity != null)
+                lblvweEntity.Text = dwEntity.Items.FindByValue(lstliability[0].FK_Entity.ToString()).Text;
+
+            if (lstliability[0].Date_To_Carrier.ToString() != String.Empty)
+                lblvweDateReportedtoCarrier.Text = Convert.ToDateTime(lstliability[0].Date_To_Carrier.ToString()).ToShortDateString();
+
+            //  lblvweCarrierName.Text = lstliability.FK_Carrier;
+
+            if (lstliability[0].Date_Of_Loss.ToString() != String.Empty)
+                lblvweDateofLoss.Text = Convert.ToDateTime(lstliability[0].Date_Of_Loss.ToString()).ToShortDateString();
+
+            if (lstliability[0].Time_Of_Loss != String.Empty)
+                lblvweTimeofLoss.Text = lstliability[0].Time_Of_Loss;
+
+            if (lstliability[0].TPA_Name != String.Empty)
+                lblvweTPAName.Text = lstliability[0].TPA_Name;
+
+            if (lstliability[0].Policy_Number_Claim != String.Empty)
+                lblvwePolicyNo.Text = lstliability[0].Policy_Number_Claim;
+
+            if (lstliability[0].Legal == "Y")
+                lblvwenDoesClimant.Text = "Yes";
+            else if (lstliability[0].Legal == "N")
+                lblvwenDoesClimant.Text = "N0";
+
+            if (lstliability[0].Effective_Policy_Date.ToString() != String.Empty)
+                lblvwePolicyEffecDate.Text = Convert.ToDateTime(lstliability[0].Effective_Policy_Date.ToString()).ToShortDateString();
+
+            if (lstliability[0].Expiration_Policy_Date.ToString() != String.Empty)
+                lblvwePolicyExpDate.Text = Convert.ToDateTime(lstliability[0].Expiration_Policy_Date.ToString()).ToShortDateString();
+
+            //Liability Coverage
+            lstGeneral = objGeneral.GetLiabilityCoverageById(lstliability[0].FK_Liability_Coverage.Value);
+
+            if (lstGeneral[0].PK_Liability_Coverage == 1)
+            {
+                // rbtnvwPremises.Checked = true;
+                lblvwPremises.Text = lstGeneral[0].FLD_Coverage_Desc;
+                trPremises.Style.Add("display", "block");
+            }
+
+            else if (lstGeneral[0].PK_Liability_Coverage == 2)
+            {
+                //rbtnvwProducts.Checked = true;
+                lblvwProducts.Text = lstGeneral[0].FLD_Coverage_Desc;
+                trProducts.Style.Add("display", "block");
+            }
+            else if (lstGeneral[0].PK_Liability_Coverage == 3)
+            {
+                //rbtnvwComOp.Checked = true;
+                lblvwCompOn.Text = lstGeneral[0].FLD_Coverage_Desc;
+                trComOp.Style.Add("display", "block");
+            }
+
+            lstcarrier = objliability.GetCarrier_ByID(Liabilityid, Convert.ToInt32(lstliability[0].FK_Carrier));
+
+            if (lstcarrier.Count != 0)
+            {
+                lblvweCarrierName.Text = lstcarrier[0].Carrier;
+
+                if (lstcarrier[0].Effective_Policy_Date.ToString() != String.Empty)
+                    lblvwePolicyEffecDate.Text = Convert.ToDateTime(lstcarrier[0].Effective_Policy_Date.ToString()).ToShortDateString();
+
+                if (lstcarrier[0].Expiration_Policy_Date.ToString() != String.Empty)
+                    lblvwePolicyExpDate.Text = Convert.ToDateTime(lstcarrier[0].Expiration_Policy_Date.ToString()).ToShortDateString();
+
+
+                if (lstcarrier[0].Policy_Number_Claim != String.Empty)
+                    lblvwePolicyNo.Text = lstcarrier[0].Policy_Number_Claim;
+            }
+
+
+            //Loss Location
+
+            if (lstLossLocation[0].Address1 != String.Empty)
+                lblvweAdd1.Text = lstLossLocation[0].Address1;
+
+            if (lstLossLocation[0].Address2 != String.Empty)
+                lblvweAdd2.Text = lstLossLocation[0].Address2;
+
+
+            if (lstLossLocation[0].City != String.Empty)
+                lblvweCity.Text = lstLossLocation[0].City;
+
+
+            if (lstLossLocation[0].FK_State > 0)
+                lblvweState.Text = dwState.Items.FindByValue(lstLossLocation[0].FK_State.ToString()).Text;
+
+            if (lstLossLocation[0].Zip != String.Empty)
+                lblvweZip.Text = lstLossLocation[0].Zip;
+
+            if (lstLossLocation[0].County != String.Empty)
+                lblvweCounty.Text = lstLossLocation[0].County;
+
+
+            if (lstLossLocation[0].Accident_In_Company == "Y")
+                lblvweDidAccOccur.Text = "Yes";
+            else if (lstLossLocation[0].Accident_In_Company == "N")
+                lblvweDidAccOccur.Text = "N0";
+
+
+            //Loss Information
+
+            if (lstLossInfoG[0].Desc_Loss != String.Empty)
+                lblvwefullDescOfLOss.Text = lstLossInfoG[0].Desc_Loss;
+
+            //Claimant Info.
+            if (lstliability[0].FK_Claimant_id == 1)
+            {
+                List<RIMS_Base.cEmployee> lstEmpt;
+                objEmp = new RIMS_Base.Biz.cEmployee();
+                lstEmpt = objEmp.GetEmployeeByID(Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+                if (lstEmpt[0].Employee_Address_1 != string.Empty)
+                    lblvweClaimantAdd1.Text = lstEmpt[0].Employee_Address_1;
+                if (lstEmpt[0].Employee_Address_2 != string.Empty)
+                    lblvweClaimantAdd2.Text = lstEmpt[0].Employee_Address_2;
+                if (lstEmpt[0].Employee_City != string.Empty)
+                    lblvweClaimantCity.Text = lstEmpt[0].Employee_City;
+                if (lstEmpt[0].StateName != string.Empty)
+                    lblvweClaimantState.Text = lstEmpt[0].StateName;
+                if (lstEmpt[0].Employee_Zip_Code != string.Empty)
+                    lblvweClaimantZip.Text = lstEmpt[0].Employee_Zip_Code;
+                if (lstEmpt[0].Employee_Home_Phone != string.Empty)
+                    lblvweClaimantHomeTele.Text = lstEmpt[0].Employee_Home_Phone;
+                if (lstEmpt[0].Employee_Cell_Phone != string.Empty)
+                    lblvweClaimantCellTele.Text = lstEmpt[0].Employee_Cell_Phone;
+
+            }
+
+            if (lstliability[0].FK_Claimant_id == 2)
+            {
+                List<RIMS_Base.CClaimant> lstClaimantt;
+                objClaimant = new RIMS_Base.Biz.CClaimant();
+                lstClaimantt = objClaimant.GetClaimantByID(Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+                if (lstClaimantt[0].Claimant_Address_1 != string.Empty)
+                    lblvweClaimantAdd1.Text = lstClaimantt[0].Claimant_Address_1;
+                if (lstClaimantt[0].Claimant_Address_2 != string.Empty)
+                    lblvweClaimantAdd2.Text = lstClaimantt[0].Claimant_Address_2;
+                if (lstClaimantt[0].Claimant_City != string.Empty)
+                    lblvweClaimantCity.Text = lstClaimantt[0].Claimant_City;
+                if (lstClaimantt[0].Claimant_State != null)
+                    lblvweClaimantState.Text = lstClaimantt[0].Claimant_State;
+                if (lstClaimantt[0].Claimant_Zip_Code != string.Empty)
+                    lblvweClaimantZip.Text = lstClaimantt[0].Claimant_Zip_Code;
+                if (lstClaimantt[0].Claimant_Home_Phone != string.Empty)
+                    lblvweClaimantHomeTele.Text = lstClaimantt[0].Claimant_Home_Phone;
+                if (lstClaimantt[0].Claimant_Cell_Phone != string.Empty)
+                    lblvweClaimantCellTele.Text = lstClaimantt[0].Claimant_Cell_Phone;
+
+            }
+
+            if (lstliability[0].FK_Claimant_id == 3)
+            {
+                List<RIMS_Base.CPropertyDriver> lstProDrivert;
+                objProDriver = new RIMS_Base.Biz.CPropertyDriver();
+                lstProDrivert = objProDriver.GetPropertyDriverByID(Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+                if (lstProDrivert[0].Address_1 != string.Empty)
+                    lblvweClaimantAdd1.Text = lstProDrivert[0].Address_1;
+                if (lstProDrivert[0].Address_2 != string.Empty)
+                    lblvweClaimantAdd2.Text = lstProDrivert[0].Address_2;
+                if (lstProDrivert[0].City != string.Empty)
+                    lblvweClaimantCity.Text = lstProDrivert[0].City;
+                if (lstProDrivert[0].StateName != string.Empty)
+                    lblvweClaimantState.Text = lstProDrivert[0].StateName;
+                if (lstProDrivert[0].Zip_Code != string.Empty)
+                    lblvweClaimantZip.Text = lstProDrivert[0].Zip_Code;
+                if (lstProDrivert[0].Home_Telephone != string.Empty)
+                    lblvweClaimantHomeTele.Text = lstProDrivert[0].Home_Telephone;
+                if (lstProDrivert[0].Cell_Phone != string.Empty)
+                    lblvweClaimantCellTele.Text = lstProDrivert[0].Cell_Phone;
+
+            }
+
+
+            //Bodily Injury
+
+            if (lstBodyInjury[0].Desc_Injury != string.Empty)
+                lblvweBodilyInjuryDesc.Text = lstBodyInjury[0].Desc_Injury;
+
+            if (lstBodyInjury[0].Name_Of_Facility != string.Empty)
+                lblvweFacilityName.Text = lstBodyInjury[0].Name_Of_Facility;
+
+            if (lstBodyInjury[0].Address_1 != string.Empty)
+                lblvweBodyAdd1.Text = lstBodyInjury[0].Address_1;
+
+            if (lstBodyInjury[0].Address_2 != string.Empty)
+                lblvweBodyAdd2.Text = lstBodyInjury[0].Address_2;
+
+            if (lstBodyInjury[0].City != string.Empty)
+                lblvweBodyCity.Text = lstBodyInjury[0].City;
+
+            if (lstBodyInjury[0].FK_State > 0)
+                lblvweBodyState.Text = dwBodyState.Items.FindByValue(lstBodyInjury[0].FK_State.ToString()).Text;//dwBodyState.Items.FindByValue(lstBodyInjury[0].FK_State.ToString()).Text;
+
+            if (lstBodyInjury[0].ZipCode != string.Empty)
+                lblvweBodyzip.Text = lstBodyInjury[0].ZipCode;
+
+            if (lstBodyInjury[0].TelePhone != string.Empty)
+                lblvweBodyTele.Text = lstBodyInjury[0].TelePhone;
+
+            if (lstBodyInjury[0].Facsimile != string.Empty)
+                lblvweBodyFacsimile.Text = lstBodyInjury[0].Facsimile;
+
+            if (lstBodyInjury[0].Cost_Of_Treatment != null)
+                lblvweEstimated.Text = lstBodyInjury[0].Cost_Of_Treatment.ToString();
+
+            if (lstBodyInjury[0].Medical_Bill_Received == "Y")
+                lblvweCostRec.Text = "Yes";
+            else if (lstBodyInjury[0].Medical_Bill_Received == "N")
+                lblvweCostRec.Text = "No";
+
+            //Property Damage.
+
+            if (lstProDamage[0].Property_Owner == "Y")
+                lblvweClaimantOwner.Text = "Yes";
+            else if (lstProDamage[0].Property_Owner == "N")
+                lblvweClaimantOwner.Text = "No";
+
+            if (lstProDamage[0].Name != string.Empty)
+                lblvweOwnername.Text = lstProDamage[0].Name;
+            if (lstProDamage[0].Address1 != string.Empty)
+                lblvweOwnerAdd1.Text = lstProDamage[0].Address1;
+            if (lstProDamage[0].Address2 != string.Empty)
+                lblvweOwnerAdd2.Text = lstProDamage[0].Address2;
+            if (lstProDamage[0].City != string.Empty)
+                lblvweOwnerCity.Text = lstProDamage[0].City;
+            if (lstProDamage[0].FK_State > 0)
+                lblvweOwnerState.Text = dwOwnerState.Items.FindByValue(lstProDamage[0].FK_State.ToString()).Text;
+            if (lstProDamage[0].Zipcode != string.Empty)
+                lblvweOwnerZip.Text = lstProDamage[0].Zipcode;
+            if (lstProDamage[0].Home_TeleNo != string.Empty)
+                lblvweOwnerHomeTele.Text = lstProDamage[0].Home_TeleNo;
+            if (lstProDamage[0].Work_TeleNo != string.Empty)
+                lblvweOwnerWorkTele.Text = lstProDamage[0].Work_TeleNo;
+            if (lstProDamage[0].Cell_TeleNo != string.Empty)
+                lblvweOwnerCellTele.Text = lstProDamage[0].Cell_TeleNo;
+            if (lstProDamage[0].Email != string.Empty)
+                lblvweOwnerEmail.Text = lstProDamage[0].Email;
+            if (lstProDamage[0].Desc_Of_Damage != string.Empty)
+                lblvweOwnerProDamage.Text = lstProDamage[0].Desc_Of_Damage;
+            if (lstProDamage[0].Cost_Of_Damage != null)
+                lblvweOwnerEstimated.Text = lstProDamage[0].Cost_Of_Damage.ToString();
+            if (lstProDamage[0].Copy_Estimated_Received == "Y")
+                lblvweOwnerEstiRec.Text = "Yes";
+            else if (lstProDamage[0].Copy_Estimated_Received == "N")
+                lblvweOwnerEstiRec.Text = "No";
+
+            //Settlement
+            if (lstliability[0].Claim_Close_Date.ToString() != String.Empty)
+                lblvweDateClaimClosed.Text = Convert.ToDateTime(lstliability[0].Claim_Close_Date.ToString()).ToShortDateString();
+
+            if (lstSettlement.Count != 0)
+            {
+                if (lstSettlement[0].Settlement_Date_Offered.ToString() != String.Empty)
+                    lblvweSettlementDate.Text = Convert.ToDateTime(lstSettlement[0].Settlement_Date_Offered.ToString()).ToShortDateString();
+                if (lstSettlement[0].Amnt_Of_Settlement != null)
+                    lblvweSettlementAmt.Text = lstSettlement[0].Amnt_Of_Settlement.ToString();
+                if (lstSettlement[0].Release_Date.ToString() != String.Empty)
+                    lblvweSettlementReleaseDate.Text = Convert.ToDateTime(lstSettlement[0].Release_Date.ToString()).ToShortDateString();
+                if (lstSettlement[0].Settlement_ChkMail_Date.ToString() != String.Empty)
+                    lblvweDateSettleChk.Text = Convert.ToDateTime(lstSettlement[0].Settlement_ChkMail_Date.ToString()).ToShortDateString();
+            }
+
+
+            //Claim Representative
+            if (lstRepresent.Count != 0)
+            {
+                if (lstRepresent[0].FairPoint_Name != String.Empty)
+                    lblvwename.Text = lstRepresent[0].FairPoint_Name;
+
+                if (lstRepresent[0].Telephone != String.Empty)
+                    lblvweTelephone.Text = lstRepresent[0].Telephone;
+
+                if (lstRepresent[0].Email != String.Empty)
+                    lblvweEMail.Text = lstRepresent[0].Email;
+            }
+
+            DispalayCheckRegisterData(lstliability[0].Claim_Number, "View");
+            // -- retirve Attachment Details.
+            lstAttachment = BindAttachmentDetails();
+            if (lstAttachment.Count > 0)
+            {
+                gvAttachView.DataSource = lstAttachment;
+                gvAttachView.DataBind();
+                btnRemove.Visible = true;
+            }
+            gvAttachView.Columns[0].Visible = false;
+
+
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
+    private void RetriveDataByID()
+    {
+        objliability = new RIMS_Base.Biz.CLiabilityClaim_FCI();
+        objLossLocation = new RIMS_Base.Biz.CLiabilityClaimLossLocation();
+        objLossinfoG = new RIMS_Base.Biz.CLiabilityClaimLossInfoG();
+        objBodyInjury = new RIMS_Base.Biz.CLiabilityClaimBodilyInjury();
+        objProDamage = new RIMS_Base.Biz.CLiabilityClaimPropertyDamage();
+        objSettlement = new RIMS_Base.Biz.CLiabilityClaimSettlement();
+        objClaimRepresentive = new RIMS_Base.Biz.CLiabilityClaimRepresentative();
+        objClaimant = new RIMS_Base.Biz.CClaimant();
+
+        lstliability = new List<RIMS_Base.CLiabilityClaim_FCI>();
+        lstLossLocation = new List<RIMS_Base.CLiabilityClaimLossLocation>();
+        lstLossInfoG = new List<RIMS_Base.CLiabilityClaimLossInfoG>();
+        lstBodyInjury = new List<RIMS_Base.CLiabilityClaimBodilyInjury>();
+        lstProDamage = new List<RIMS_Base.CLiabilityClaimPropertyDamage>();
+        lstRepresent = new List<RIMS_Base.CLiabilityClaimRepresentative>();
+        lstSettlement = new List<RIMS_Base.CLiabilityClaimSettlement>();
+        lstClaimant = new List<RIMS_Base.CClaimant>();
+
+        Int32 Liabilityid = Convert.ToInt32(ViewState["PK_Liability_Claim"]);
+        Decimal LiabilityClaimid = Convert.ToDecimal(ViewState["PK_Liability_Claim"]);
+
+        lstliability = objliability.GetAL_ClaimByID(Liabilityid); //objliability.GetAL_ClaimByID(Liabilityid);
+        lstLossLocation = objLossLocation.GetAL_Claim_LossLocationByID(LiabilityClaimid);
+        lstLossInfoG = objLossinfoG.GetGL_Claim_LossInfo_GByID(LiabilityClaimid);
+        lstBodyInjury = objBodyInjury.GetGL_Claim_BodilyInjuryByID(LiabilityClaimid);
+        lstProDamage = objProDamage.GetGL_Claim_PropertyDamageByID(LiabilityClaimid);
+        lstSettlement = objSettlement.GetGL_Claim_SettlementByID(LiabilityClaimid);
+        lstRepresent = objClaimRepresentive.GetAL_Claim_RepresentativeByID(LiabilityClaimid);// .GetAL_Claim_RepresentativeByID(LiabilityClaimid);
+        //lstClaimant = objClaimant.GetClaimantByID(ClaimantId);
+
+
+        try
+        {
+            if (lstliability.Count != 0)
+            {
+
+                //..................Claim Identification..........................
+                lblclaimnoedit.Text = lstliability[0].Claim_Number;
+                //Need to store last claim number, user has worked with for displaying in Enter payments in Check writing
+                Session["LastClaimNumber"] = lblclaimnoedit.Text;
+
+                txtempid.Text = lstliability[0].Fk_ECD_Id.ToString();
+
+                if (lstliability[0].Report_To_Carrier == "Y")
+                    rbtReptoCarrier.SelectedIndex = 0;
+                else if (lstliability[0].Report_To_Carrier == "N")
+                    rbtReptoCarrier.SelectedIndex = 1;
+
+                if (lstliability[0].FK_Claim_Type != null)
+                    dwClaimType.SelectedIndex = dwClaimType.Items.IndexOf(dwClaimType.Items.FindByValue(lstliability[0].FK_Claim_Type.ToString()));
+
+                if (lstliability[0].Date_To_Fairpoint.ToString() != String.Empty)
+                    txtDateReportedtoFair.Text = Convert.ToDateTime(lstliability[0].Date_To_Fairpoint.ToString()).ToShortDateString();
+
+                if (lstliability[0].Claim_Open_Date.ToString() != String.Empty)
+                    txtDateClaimOpened.Text = Convert.ToDateTime(lstliability[0].Claim_Open_Date.ToString()).ToShortDateString();
+
+                if (lstliability[0].FK_Claimant_id != null)
+                    dwClaimant.SelectedIndex = dwClaimant.Items.IndexOf(dwClaimant.Items.FindByValue(lstliability[0].FK_Claimant_id.ToString()));
+
+                if (lstliability[0].Claim_Close_Date.ToString() != String.Empty)
+                    txtDateClaimClosed.Text = Convert.ToDateTime(lstliability[0].Claim_Close_Date.ToString()).ToShortDateString();
+
+                if (lstliability[0].Claim_Reopen_Date.ToString() != String.Empty)
+                    txtDateClaimReopened.Text = Convert.ToDateTime(lstliability[0].Claim_Reopen_Date.ToString()).ToShortDateString();
+
+
+                if (lstliability[0].FK_Entity != null)
+                    dwEntity.SelectedIndex = dwEntity.Items.IndexOf(dwEntity.Items.FindByValue(lstliability[0].FK_Entity.ToString()));
+
+                if (lstliability[0].Date_To_Carrier.ToString() != String.Empty)
+                    txtlblDateReportedtoCarrier.Text = Convert.ToDateTime(lstliability[0].Date_To_Carrier.ToString()).ToShortDateString();
+
+                if (lstliability[0].FK_Carrier != null)
+                    txtpolicyid.Text = lstliability[0].FK_Carrier.ToString();
+
+
+                if (lstliability[0].Date_Of_Loss.ToString() != String.Empty)
+                    txtDateofLoss.Text = Convert.ToDateTime(lstliability[0].Date_Of_Loss.ToString()).ToShortDateString();
+
+                if (lstliability[0].Time_Of_Loss != String.Empty)
+                    txtTimeofLoss.Text = lstliability[0].Time_Of_Loss;
+
+                if (lstliability[0].TPA_Name != String.Empty)
+                    txtTPAName.Text = lstliability[0].TPA_Name;
+
+
+                //if (lstliability[0].Policy_Number_Claim != String.Empty)
+                //    txtPolicyNo.Text = lstliability[0].Policy_Number_Claim;
+
+
+                if (lstliability[0].Legal == "Y")
+                    rbtnDoesClimant.SelectedIndex = 0;
+                else if (lstliability[0].Legal == "N")
+                    rbtnDoesClimant.SelectedIndex = 1;
+
+                //if (lstliability[0].Effective_Policy_Date.ToString() != String.Empty)
+                //    txtPolicyEffecDate.Text = Convert.ToDateTime(lstliability[0].Effective_Policy_Date.ToString()).ToShortDateString();
+
+                //if (lstliability[0].Expiration_Policy_Date.ToString() != String.Empty)
+                //    txtPolicyExpDate.Text = Convert.ToDateTime(lstliability[0].Expiration_Policy_Date.ToString()).ToShortDateString();
+
+                //Liability Coverage
+                lstGeneral = objGeneral.GetLiabilityCoverageById(lstliability[0].FK_Liability_Coverage.Value);
+
+                if (lstGeneral[0].PK_Liability_Coverage == 1)
+                {
+                    rbtnPremises.Checked = true;
+                    lblIPremises.Text = lstGeneral[0].FLD_Coverage_Desc;
+                }
+                else if (lstGeneral[0].PK_Liability_Coverage == 2)
+                {
+                    rbtnProducts.Checked = true;
+                    lblIProducts.Text = lstGeneral[0].FLD_Coverage_Desc;
+                }
+                else if (lstGeneral[0].PK_Liability_Coverage == 3)
+                {
+                    rbtnCompOp.Checked = true;
+                    lblICompOn.Text = lstGeneral[0].FLD_Coverage_Desc;
+                }
+
+
+                if (lstliability[0].FK_Claimant_id == 1)
+                {
+                    lstemp = objliability.GetEmployee_ByID(Liabilityid, Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+
+                    txtFirstName.Text = lstemp[0].First_Name;
+                    txtLastName.Text = lstemp[0].Last_Name;
+                }
+
+                if (lstliability[0].FK_Claimant_id == 2)
+                {
+                    lstClimant = objliability.GetCliamant_ByID(Liabilityid, Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+
+                    txtFirstName.Text = lstClimant[0].Cliamant_First_Name;
+                    txtLastName.Text = lstClimant[0].Cliamant_First_Name;
+                }
+
+                if (lstliability[0].FK_Claimant_id == 3)
+                {
+                    lstDriver = objliability.GetDriver_ByID(Liabilityid, Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+
+                    txtFirstName.Text = lstDriver[0].Driver_First_Name;
+                    txtLastName.Text = lstDriver[0].Driver_Last_Name;
+                }
+
+                lstcarrier = objliability.GetCarrier_ByID(Liabilityid, Convert.ToInt32(lstliability[0].FK_Carrier));
+
+                if (lstcarrier.Count != 0)
+                {
+                    txtCarrierName.Text = lstcarrier[0].Carrier;
+
+                    if (lstcarrier[0].Effective_Policy_Date.ToString() != String.Empty)
+                        txtPolicyEffecDate.Text = Convert.ToDateTime(lstcarrier[0].Effective_Policy_Date.ToString()).ToShortDateString();
+
+                    if (lstcarrier[0].Expiration_Policy_Date.ToString() != String.Empty)
+                        txtPolicyExpDate.Text = Convert.ToDateTime(lstcarrier[0].Expiration_Policy_Date.ToString()).ToShortDateString();
+
+                    if (lstcarrier[0].Policy_Number_Claim != String.Empty)
+                        txtPolicyNo.Text = lstcarrier[0].Policy_Number_Claim;
+                }
+
+            }
+
+
+            if (lstLossLocation.Count != 0)
+            {
+                //Loss Location
+
+                if (lstLossLocation[0].Address1 != String.Empty)
+                    txtAdd1.Text = lstLossLocation[0].Address1;
+
+                if (lstLossLocation[0].Address2 != String.Empty)
+                    txtAdd2.Text = lstLossLocation[0].Address2;
+
+                if (lstLossLocation[0].City != String.Empty)
+                    txtCity.Text = lstLossLocation[0].City;
+
+                if (lstLossLocation[0].Zip != String.Empty)
+                    txtZip.Text = lstLossLocation[0].Zip;
+
+                if (lstLossLocation[0].FK_State > 0)
+                    dwState.SelectedIndex = dwState.Items.IndexOf(dwState.Items.FindByValue(lstLossLocation[0].FK_State.ToString()));
+
+
+                if (lstLossLocation[0].County != String.Empty)
+                    dwCounty.SelectedIndex = dwState.Items.IndexOf(dwCounty.Items.FindByText(lstLossLocation[0].County.ToString()));
+
+                if (lstLossLocation[0].Accident_In_Company == "Y")
+                    rbtnDidAccOccur.SelectedIndex = 0;
+                else if (lstLossLocation[0].Accident_In_Company == "N")
+                    rbtnDidAccOccur.SelectedIndex = 1;
+            }
+
+            if (lstLossInfoG.Count != 0)
+            {
+
+                //Loss Information
+                if (lstLossInfoG[0].Desc_Loss != String.Empty)
+                    txtfullDescOfLOss.Text = lstLossInfoG[0].Desc_Loss;
+            }
+            //            
+            //Claimant Info.
+            if (lstliability[0].FK_Claimant_id == 1)
+            {
+                List<RIMS_Base.cEmployee> lstEmpt;
+                objEmp = new RIMS_Base.Biz.cEmployee();
+                lstEmpt = objEmp.GetEmployeeByID(Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+                if (lstEmpt[0].Employee_Address_1 != string.Empty)
+                    txtClaimantAdd1.Text = lstEmpt[0].Employee_Address_1;
+                if (lstEmpt[0].Employee_Address_2 != string.Empty)
+                    txtClaimantAdd2.Text = lstEmpt[0].Employee_Address_2;
+                if (lstEmpt[0].Employee_City != string.Empty)
+                    txtClaimantCity.Text = lstEmpt[0].Employee_City;
+                if (lstEmpt[0].StateName != string.Empty)
+                    lblvweClaimantState.Text = lstEmpt[0].StateName;
+                if (lstEmpt[0].Employee_Zip_Code != string.Empty)
+                    txtClaimantZip.Text = lstEmpt[0].Employee_Zip_Code;
+                if (lstEmpt[0].Employee_Home_Phone != string.Empty)
+                    txtHomeTeleNo.Text = lstEmpt[0].Employee_Home_Phone;
+                if (lstEmpt[0].Employee_Cell_Phone != string.Empty)
+                    txtCellTeleNo.Text = lstEmpt[0].Employee_Cell_Phone;
+
+            }
+
+            if (lstliability[0].FK_Claimant_id == 2)
+            {
+                List<RIMS_Base.CClaimant> lstClaimantt;
+                objClaimant = new RIMS_Base.Biz.CClaimant();
+                lstClaimantt = objClaimant.GetClaimantByID(Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+                if (lstClaimantt[0].Claimant_Address_1 != string.Empty)
+                    txtClaimantAdd1.Text = lstClaimantt[0].Claimant_Address_1;
+                if (lstClaimantt[0].Claimant_Address_2 != string.Empty)
+                    txtClaimantAdd2.Text = lstClaimantt[0].Claimant_Address_2;
+                if (lstClaimantt[0].Claimant_City != string.Empty)
+                    txtClaimantCity.Text = lstClaimantt[0].Claimant_City;
+                if (lstClaimantt[0].Claimant_State != null)
+                    txtClaimantState.Text = lstClaimantt[0].Claimant_State;
+                if (lstClaimantt[0].Claimant_Zip_Code != string.Empty)
+                    txtClaimantZip.Text = lstClaimantt[0].Claimant_Zip_Code;
+                if (lstClaimantt[0].Claimant_Home_Phone != string.Empty)
+                    txtHomeTeleNo.Text = lstClaimantt[0].Claimant_Home_Phone;
+                if (lstClaimantt[0].Claimant_Cell_Phone != string.Empty)
+                    txtCellTeleNo.Text = lstClaimantt[0].Claimant_Cell_Phone;
+
+            }
+
+            if (lstliability[0].FK_Claimant_id == 3)
+            {
+                List<RIMS_Base.CPropertyDriver> lstProDrivert;
+                objProDriver = new RIMS_Base.Biz.CPropertyDriver();
+                lstProDrivert = objProDriver.GetPropertyDriverByID(Convert.ToInt32(lstliability[0].Fk_ECD_Id));
+                if (lstProDrivert[0].Address_1 != string.Empty)
+                    txtClaimantAdd1.Text = lstProDrivert[0].Address_1;
+                if (lstProDrivert[0].Address_2 != string.Empty)
+                    txtClaimantAdd2.Text = lstProDrivert[0].Address_2;
+                if (lstProDrivert[0].City != string.Empty)
+                    txtClaimantCity.Text = lstProDrivert[0].City;
+                if (lstProDrivert[0].StateName != string.Empty)
+                    lblvweClaimantState.Text = lstProDrivert[0].StateName;
+                if (lstProDrivert[0].Zip_Code != string.Empty)
+                    txtClaimantZip.Text = lstProDrivert[0].Zip_Code;
+                if (lstProDrivert[0].Home_Telephone != string.Empty)
+                    txtHomeTeleNo.Text = lstProDrivert[0].Home_Telephone;
+                if (lstProDrivert[0].Cell_Phone != string.Empty)
+                    txtCellTeleNo.Text = lstProDrivert[0].Cell_Phone;
+
+            }
+            //Bodily Injury
+
+            if (lstBodyInjury.Count != 0)
+            {
+                if (lstBodyInjury[0].Desc_Injury != string.Empty)
+                    txtDescInjury.Text = lstBodyInjury[0].Desc_Injury;
+                if (lstBodyInjury[0].Name_Of_Facility != string.Empty)
+                    txtFacilityName.Text = lstBodyInjury[0].Name_Of_Facility;
+                if (lstBodyInjury[0].Address_1 != string.Empty)
+                    txtBodyAdd1.Text = lstBodyInjury[0].Address_1;
+                if (lstBodyInjury[0].Address_2 != string.Empty)
+                    txtBodyAdd2.Text = lstBodyInjury[0].Address_2;
+                if (lstBodyInjury[0].City != string.Empty)
+                    txtBodyCity.Text = lstBodyInjury[0].City;
+                if (lstBodyInjury[0].FK_State > 0)
+                    dwBodyState.SelectedIndex = dwBodyState.Items.IndexOf(dwBodyState.Items.FindByValue(lstBodyInjury[0].FK_State.ToString()));
+                if (lstBodyInjury[0].ZipCode != string.Empty)
+                    txtBodyZip.Text = lstBodyInjury[0].ZipCode;
+                if (lstBodyInjury[0].TelePhone != string.Empty)
+                    txtBodyTeleNo.Text = lstBodyInjury[0].TelePhone;
+                if (lstBodyInjury[0].Facsimile != string.Empty)
+                    txtFacsimile.Text = lstBodyInjury[0].Facsimile;
+                if (lstBodyInjury[0].Cost_Of_Treatment != null)
+                    txtEstimated.Text = lstBodyInjury[0].Cost_Of_Treatment.ToString();
+                if (lstBodyInjury[0].Medical_Bill_Received == "Y")
+                    rbtnlBillRec.SelectedIndex = 0;
+                else if (lstBodyInjury[0].Medical_Bill_Received == "N")
+                    rbtnlBillRec.SelectedIndex = 1;
+
+            }
+            //Property Damage
+            if (lstProDamage.Count != 0)
+            {
+                if (lstProDamage[0].Property_Owner == "Y")
+                    rbtnProOwner.SelectedIndex = 0;
+                else if (lstProDamage[0].Property_Owner == "N")
+                    rbtnProOwner.SelectedIndex = 1;
+
+                if (lstProDamage[0].Name != string.Empty)
+                    txtOwnerName.Text = lstProDamage[0].Name;
+                if (lstProDamage[0].Address1 != string.Empty)
+                    txtOwnerAdd1.Text = lstProDamage[0].Address1;
+                if (lstProDamage[0].Address2 != string.Empty)
+                    txtOwnerAdd2.Text = lstProDamage[0].Address2;
+                if (lstProDamage[0].City != string.Empty)
+                    txtOwnerCity.Text = lstProDamage[0].City;
+                if (lstProDamage[0].FK_State > 0)
+                    dwOwnerState.SelectedIndex = dwOwnerState.Items.IndexOf(dwOwnerState.Items.FindByValue(lstProDamage[0].FK_State.ToString()));
+                if (lstProDamage[0].Zipcode != string.Empty)
+                    txtOwnerZip.Text = lstProDamage[0].Zipcode;
+                if (lstProDamage[0].Home_TeleNo != string.Empty)
+                    txtOwnerHomeNo.Text = lstProDamage[0].Home_TeleNo;
+                if (lstProDamage[0].Work_TeleNo != string.Empty)
+                    txtOwnerWorkNo.Text = lstProDamage[0].Work_TeleNo;
+                if (lstProDamage[0].Cell_TeleNo != string.Empty)
+                    txtOwnerCellNo.Text = lstProDamage[0].Cell_TeleNo;
+                if (lstProDamage[0].Email != string.Empty)
+                    txtOwnerEmail.Text = lstProDamage[0].Email;
+                if (lstProDamage[0].Desc_Of_Damage != string.Empty)
+                    txtOwnerDescDamage.Text = lstProDamage[0].Desc_Of_Damage;
+                if (lstProDamage[0].Cost_Of_Damage != null)
+                    txtCostProDamage.Text = lstProDamage[0].Cost_Of_Damage.ToString();
+                if (lstProDamage[0].Copy_Estimated_Received == "Y")
+                    rbtnlEstimate.SelectedIndex = 0;
+                else if (lstProDamage[0].Copy_Estimated_Received == "N")
+                    rbtnlEstimate.SelectedIndex = 1;
+
+            }
+            //Settlement
+            if (lstSettlement.Count != 0)
+            {
+                if (lstSettlement[0].Settlement_Date_Offered.ToString() != String.Empty)
+                    txtSettlementOff.Text = Convert.ToDateTime(lstSettlement[0].Settlement_Date_Offered.ToString()).ToShortDateString();//lstSettlement[0].Settlement_Date_Offered.ToShortDateString();
+                if (lstSettlement[0].Amnt_Of_Settlement != null)
+                    txtAmtSettlement.Text = lstSettlement[0].Amnt_Of_Settlement.ToString();
+                if (lstSettlement[0].Release_Date.ToString() != String.Empty)
+                    txtReleaseDate.Text = Convert.ToDateTime(lstSettlement[0].Release_Date.ToString()).ToShortDateString();//lstSettlement[0].Release_Date.ToShortDateString();
+                if (lstSettlement[0].Settlement_ChkMail_Date.ToString() != String.Empty)
+                    txtSettlementDate.Text = Convert.ToDateTime(lstSettlement[0].Settlement_ChkMail_Date.ToString()).ToShortDateString();//lstSettlement[0].Settlement_ChkMail_Date.ToShortDateString();
+            }
+
+            if (lstRepresent.Count != 0)
+            {
+
+                //Claim Representative
+
+
+                if (lstRepresent[0].FairPoint_Name != String.Empty)
+                    txtname.Text = lstRepresent[0].FairPoint_Name;
+
+                if (lstRepresent[0].Telephone != String.Empty)
+                    txtTelephone.Text = lstRepresent[0].Telephone;
+
+                if (lstRepresent[0].Email != String.Empty)
+                    txtEMail.Text = lstRepresent[0].Email;
+            }
+            DispalayCheckRegisterData(lstliability[0].Claim_Number, "Edit");
+            lstAttachment = BindAttachmentDetails();
+            if (lstAttachment.Count > 0)
+            {
+                gvAttachmentDetails.DataSource = lstAttachment;
+                gvAttachmentDetails.DataBind();
+                //dispTagName.Value = "dvAttachDetails";
+                btnRemove.Visible = true;
+                btnMail.Visible = true;
+            }
+            else
+            {
+                btnRemove.Visible = false;
+                btnMail.Visible = false;
+            }
+
+        }
+
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+
+
+    }
+
+    public static string sendMail(string from, string to, string cc, string bcc, string subject, string body)
+    {
+        if (!AppConfig.AllowMailSending)
+            return "";
+        // Mail initialization
+        System.Web.Mail.MailMessage mailMsg = new System.Web.Mail.MailMessage();
+        mailMsg.From = "Erims2<" + from + ">";
+        mailMsg.To = to;
+        mailMsg.Cc = cc;
+        mailMsg.Bcc = bcc;
+        mailMsg.Subject = subject;
+        mailMsg.BodyFormat = System.Web.Mail.MailFormat.Html;
+        mailMsg.Body = body;
+
+
+
+        mailMsg.Priority = System.Web.Mail.MailPriority.Normal;
+        // Smtp configuration
+        System.Web.Mail.SmtpMail.SmtpServer = "smtp.gmail.com";
+        // - smtp.gmail.com use smtp authentication
+        mailMsg.Fields.Add("http://schemas.microsoft.com/cdo/configuration/smtpauthenticate", "1");
+        mailMsg.Fields.Add("http://schemas.microsoft.com/cdo/configuration/sendusername", from);
+        //Password for From mail account.
+        //m_strSMTPpwd = DecryptPassword(System.Configuration.ConfigurationManager.AppSettings["SMTPPwd"]);
+        mailMsg.Fields.Add("http://schemas.microsoft.com/cdo/configuration/sendpassword", System.Configuration.ConfigurationManager.AppSettings["SMTPPwd"]);
+        // - smtp.gmail.com use port 465 or 587 ifmisBugs@astegic.com/ifmisbugs
+        mailMsg.Fields.Add("http://schemas.microsoft.com/cdo/configuration/smtpserverport", "465");
+        // - smtp.gmail.com use STARTTLS (some call this SSL)
+        mailMsg.Fields.Add("http://schemas.microsoft.com/cdo/configuration/smtpusessl", "true");
+        // try to send Mail
+        try
+        {
+            System.Web.Mail.SmtpMail.Send(mailMsg);
+            return "";
+        }
+        catch (Exception ex)
+        {
+            return ex.Message;
+        }
+    }
+
+    #region Attachment
+    private void UploadDocuments()
+    {
+        try
+        {
+            m_strPath = Server.MapPath(ConfigurationManager.AppSettings["UploadPath"]);
+
+            if (!(Directory.Exists(m_strPath + "\\" + m_strFolderName)))
+            {
+                Directory.CreateDirectory(m_strPath + "\\" + m_strFolderName);
+            }
+            m_strFileName = GetCustomFileName() + uplCommon.FileName.ToString();
+            m_strPath = m_strPath + "\\" + m_strFolderName + "\\" + m_strFileName;
+            uplCommon.SaveAs(m_strPath);
+
+        }
+        catch (Exception ex)
+        {
+
+            throw ex;
+        }
+    }
+
+    private string GetCustomFileName()
+    {
+        try
+        {
+            m_strCustomFileName = System.DateTime.Now.ToString("MMddyyhhmmss");
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return m_strCustomFileName;
+    }
+    /// <summary>
+    /// Insert Attachment in Database.
+    /// </summary>
+    /// <returns>Integer</returns>
+    private int AddAttachment()
+    {
+        try
+        {
+            InsertData();
+            UploadDocuments();
+            m_objAttachment = new RIMS_Base.Biz.CAttachment();
+            m_objAttachment.Attachment_Table = "Liability_Claim";
+            m_objAttachment.Foreign_Key = Convert.ToInt32(ViewState["PK_Liability_Claim"].ToString());
+            m_objAttachment.FK_Attachment_Type = 1;// Convert.ToInt32(this.ddlAttachType.SelectedValue);
+            //  Convert.ToInt32(ddlAttachType.SelectedValue);
+            m_objAttachment.Attachment_Description = txtAttachDesc.Text.Replace("'", "''");
+            m_objAttachment.Attachment_Name = m_strFileName;
+            m_objAttachment.Updated_By = "1";
+            m_objAttachment.Update_Date = System.DateTime.Now.Date;
+            Attach_Retval = m_objAttachment.InsertUpdateAttachment(m_objAttachment);
+
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return Attach_Retval;
+    }
+
+    private List<RIMS_Base.CAttachment> BindAttachmentDetails()
+    {
+        try
+        {
+            m_objAttachment = new RIMS_Base.Biz.CAttachment();
+            lstAttachment = new List<RIMS_Base.CAttachment>();
+            if (ViewState["PK_Liability_Claim"] != null && ViewState["PK_Liability_Claim"].ToString() != "")
+                lstAttachment = m_objAttachment.GetAll(0, Convert.ToInt32(ViewState["PK_Liability_Claim"].ToString()), "Liability_Claim");
+
+            return lstAttachment;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+
+        }
+    }
+
+    private void ViewAllFromSearchGrid()
+    {
+        dvAttachDetails.Style["display"] = "none";
+        divfirst.Style["display"] = "none";
+        divsecond.Style["display"] = "none";
+        divthird.Style["display"] = "none";
+        divfour.Style["display"] = "none";
+        divfive.Style["display"] = "none";
+        divsix.Style["display"] = "none";
+        divseven.Style["display"] = "none";
+        diveight.Style["display"] = "none";
+        divnine.Style["display"] = "none";
+        divten.Style["display"] = "none";
+        divview.Style["display"] = "block";
+
+        LeftDiv.Style["display"] = "none";
+        divbtn.Style["display"] = "none";
+        mainContent.Style["display"] = "none";
+        Div1.Style.Add("display", "block");
+        dvDisable.Style.Add("display", "none");
+        //btnViewBack.Visible = false;
+        //btnBack.Visible = true;
+
+        ViewData();
+
+    }
+    #endregion
+
+    // --- Display Check Register Information
+    private void DispalayCheckRegisterData(string claimNo, string view)
+    {
+        m_objClaimReservesInfo = new RIMS_Base.Biz.CCheckWriting();
+        lstClaimReservesInfo = new List<RIMS_Base.CCheckWriting>();
+        lstClaimReservesInfo = m_objClaimReservesInfo.GetClaimInfoByClaimNo(claimNo);
+        ViewState["TableName"] = lstClaimReservesInfo[0].TableName.ToString();
+        ViewState["TableFK"] = lstClaimReservesInfo[0].TableFK.ToString();
+        objCheckRegister = new RIMS_Base.Biz.CCheckRegister();
+        if (ViewState["TableFK"] != null && ViewState["TableName"] != null)
+        {
+            // Commented by Mayuri on  04-Mar-2008
+            lstCheckRegister = objCheckRegister.GetCheckRegisterByID(Convert.ToDecimal(ViewState["TableFK"].ToString()), ViewState["TableName"].ToString());
+            // Commented by Alpesh on  03-Mar-2008
+            //lstCheckRegister = objCheckRegister.GetCheckRegisterByID(Convert.ToDecimal(Session["WorkerCompID"].ToString()), ViewState["TableName"].ToString());
+
+        }
+        if (view == "Edit")
+        {
+            if (lstCheckRegister.Count != 0)
+            {
+                tblDetail.Style["display"] = "block";
+                if (lstCheckRegister[0].Indemnity_Incurred != null)
+                    lblIndemIncurred.Text = lstCheckRegister[0].Indemnity_Incurred.ToString();
+                else
+                    lblIndemIncurred.Text = "0.0";
+                if (lstCheckRegister[0].Indemnity_Paid != null)
+                    lblIndemPaid.Text = lstCheckRegister[0].Indemnity_Paid.ToString();
+                else
+                    lblIndemPaid.Text = "0.0";
+                //if (lstCheckRegister[0].Indemnity_Outstanding != null)
+                if (lstCheckRegister[0].Indemnity_Incurred != null && lstCheckRegister[0].Indemnity_Paid != null)
+                {
+                    decimal? Temp = lstCheckRegister[0].Indemnity_Incurred - lstCheckRegister[0].Indemnity_Paid;
+                    lblIndemOutStanding.Text = Temp.ToString();
+                }
+                else if (lstCheckRegister[0].Indemnity_Incurred != null && lstCheckRegister[0].Indemnity_Paid == null)
+                {
+                    lblIndemOutStanding.Text = lstCheckRegister[0].Indemnity_Incurred.ToString();
+                }
+                else if (lstCheckRegister[0].Indemnity_Incurred == null && lstCheckRegister[0].Indemnity_Paid == null)
+                {
+                    lblIndemOutStanding.Text = "0.0";
+                }
+                //if (lstCheckRegister[0].Indemnity_Current_Month != null)
+                //    lblIndemCurrentMonth.Text = lstCheckRegister[0].Indemnity_Current_Month.ToString();
+                //else
+                //    lblIndemCurrentMonth.Text = "0.0";
+                if (lstCheckRegister[0].Medical_Incurred != null)
+                    lblMediIncured.Text = lstCheckRegister[0].Medical_Incurred.ToString();
+                else
+                    lblMediIncured.Text = "0.0";
+                if (lstCheckRegister[0].Medical_Paid != null)
+                    lblMediPaid.Text = lstCheckRegister[0].Medical_Paid.ToString();
+                else
+                    lblMediPaid.Text = "0.0";
+                //if (lstCheckRegister[0].Medical_Outstanding != null)
+                if (lstCheckRegister[0].Medical_Incurred != null && lstCheckRegister[0].Medical_Paid != null)
+                {
+                    decimal? Temp = lstCheckRegister[0].Medical_Incurred - lstCheckRegister[0].Medical_Paid;
+                    lblMediOutStand.Text = Temp.ToString();
+                }
+                else if (lstCheckRegister[0].Medical_Incurred != null && lstCheckRegister[0].Medical_Paid == null)
+                {
+                    lblMediOutStand.Text = lstCheckRegister[0].Medical_Incurred.ToString();
+                }
+                else if (lstCheckRegister[0].Medical_Incurred == null && lstCheckRegister[0].Medical_Paid == null)
+                {
+                    lblMediOutStand.Text = "0.0";
+                }
+                //if (lstCheckRegister[0].Medical_Current_Month != null)
+                //    lblMediCurrentMonth.Text = lstCheckRegister[0].Medical_Current_Month.ToString();
+                //else
+                //    lblMediCurrentMonth.Text = "0.0";
+                if (lstCheckRegister[0].Expense_Incurred != null)
+                    lblExpIncurred.Text = lstCheckRegister[0].Expense_Incurred.ToString();
+                else
+                    lblExpIncurred.Text = "0.0";
+                if (lstCheckRegister[0].Expense_Paid != null)
+                    lblExpIndemPaid.Text = lstCheckRegister[0].Expense_Paid.ToString();
+                else
+                    lblExpIndemPaid.Text = "0.0";
+                //if (lstCheckRegister[0].Expense_Outstanding != null)
+                if (lstCheckRegister[0].Expense_Incurred != null && lstCheckRegister[0].Expense_Paid != null)
+                {
+                    decimal? Temp = lstCheckRegister[0].Expense_Incurred - lstCheckRegister[0].Expense_Paid;
+                    lblExpOutStand.Text = Temp.ToString();
+                }
+                else if (lstCheckRegister[0].Expense_Incurred != null && lstCheckRegister[0].Expense_Paid == null)
+                {
+                    lblExpOutStand.Text = lstCheckRegister[0].Expense_Incurred.ToString();
+                }
+                else if (lstCheckRegister[0].Expense_Incurred == null && lstCheckRegister[0].Expense_Paid == null)
+                {
+                    lblExpOutStand.Text = "0.0";
+                }
+                //if (lstCheckRegister[0].Expense_Current_Month != null)
+                //    lblExpCurrentMonth.Text = lstCheckRegister[0].Expense_Current_Month.ToString();
+                //else
+                //    lblExpCurrentMonth.Text = "0.0";
+            }
+            else
+            {
+                tblDetail.Style["display"] = "none";
+                tblNoData.Style["display"] = "block";
+            }
+        }
+        else if (view == "View")
+        {
+            if (lstCheckRegister.Count != 0)
+            {
+                tblvwFDetail.Style["display"] = "block";
+                if (lstCheckRegister[0].Indemnity_Incurred != null)
+                    lblvwIndemIncurred.Text = lstCheckRegister[0].Indemnity_Incurred.ToString();
+                else
+                    lblvwIndemIncurred.Text = "0.0";
+                if (lstCheckRegister[0].Indemnity_Paid != null)
+                    lblvwIndemPaid.Text = lstCheckRegister[0].Indemnity_Paid.ToString();
+                else
+                    lblvwIndemPaid.Text = "0.0";
+                //if (lstCheckRegister[0].Indemnity_Outstanding != null)
+                if (lstCheckRegister[0].Indemnity_Incurred != null && lstCheckRegister[0].Indemnity_Paid != null)
+                {
+                    decimal? Temp = lstCheckRegister[0].Indemnity_Incurred - lstCheckRegister[0].Indemnity_Paid;
+                    lblvwIndemOutStanding.Text = Temp.ToString();
+                }
+                else if (lstCheckRegister[0].Indemnity_Incurred != null && lstCheckRegister[0].Indemnity_Paid == null)
+                {
+                    lblvwIndemOutStanding.Text = lstCheckRegister[0].Indemnity_Incurred.ToString();
+                }
+                else if (lstCheckRegister[0].Indemnity_Incurred == null && lstCheckRegister[0].Indemnity_Paid == null)
+                {
+                    lblvwIndemOutStanding.Text = "0.0";
+                }
+                //if (lstCheckRegister[0].Indemnity_Current_Month != null)
+                //    lblvwIndemCurrentMonth.Text = lstCheckRegister[0].Indemnity_Current_Month.ToString();
+                //else
+                //    lblvwIndemCurrentMonth.Text = "0.0";
+                if (lstCheckRegister[0].Medical_Incurred != null)
+                    lblvwMediIncured.Text = lstCheckRegister[0].Medical_Incurred.ToString();
+                else
+                    lblvwMediIncured.Text = "0.0";
+                if (lstCheckRegister[0].Medical_Paid != null)
+                    lblvwMediPaid.Text = lstCheckRegister[0].Medical_Paid.ToString();
+                else
+                    lblvwMediPaid.Text = "0.0";
+                //if (lstCheckRegister[0].Medical_Outstanding != null)
+                if (lstCheckRegister[0].Medical_Incurred != null && lstCheckRegister[0].Medical_Paid != null)
+                {
+                    decimal? Temp = lstCheckRegister[0].Medical_Incurred - lstCheckRegister[0].Medical_Paid;
+                    lblvwMediOutStand.Text = Temp.ToString();
+                }
+                else if (lstCheckRegister[0].Medical_Incurred != null && lstCheckRegister[0].Medical_Paid == null)
+                {
+                    lblvwMediOutStand.Text = lstCheckRegister[0].Medical_Incurred.ToString();
+                }
+                else if (lstCheckRegister[0].Medical_Incurred == null && lstCheckRegister[0].Medical_Paid == null)
+                {
+                    lblvwMediOutStand.Text = "0.0";
+                }
+                //if (lstCheckRegister[0].Medical_Current_Month != null)
+                //    lblMediCurrentMonth.Text = lstCheckRegister[0].Medical_Current_Month.ToString();
+                //else
+                //    lblMediCurrentMonth.Text = "0.0";
+                if (lstCheckRegister[0].Expense_Incurred != null)
+                    lblvwExpIncurred.Text = lstCheckRegister[0].Expense_Incurred.ToString();
+                else
+                    lblvwExpIncurred.Text = "0.0";
+                if (lstCheckRegister[0].Expense_Paid != null)
+                    lblvwExpIndemPaid.Text = lstCheckRegister[0].Expense_Paid.ToString();
+                else
+                    lblvwExpIndemPaid.Text = "0.0";
+                //if (lstCheckRegister[0].Expense_Outstanding != null)
+                if (lstCheckRegister[0].Expense_Incurred != null && lstCheckRegister[0].Expense_Paid != null)
+                {
+                    decimal? Temp = lstCheckRegister[0].Expense_Incurred - lstCheckRegister[0].Expense_Paid;
+                    lblvwExpOutStand.Text = Temp.ToString();
+                }
+                else if (lstCheckRegister[0].Expense_Incurred != null && lstCheckRegister[0].Expense_Paid == null)
+                {
+                    lblvwExpOutStand.Text = lstCheckRegister[0].Expense_Incurred.ToString();
+                }
+                else if (lstCheckRegister[0].Expense_Incurred == null && lstCheckRegister[0].Expense_Paid == null)
+                {
+                    lblvwExpOutStand.Text = "0.0";
+                }
+                //if (lstCheckRegister[0].Expense_Current_Month != null)
+                //    lblvwExpCurrentMonth.Text = lstCheckRegister[0].Expense_Current_Month.ToString();
+                //else
+                //    lblvwExpCurrentMonth.Text = "0.0";
+            }
+            else
+            {
+                tblvwFDetail.Style["display"] = "none";
+                tblvwFNoData.Style["display"] = "block";
+            }
+        }
+    }
+    #endregion
+
+    protected void dwState_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            if (dwState.SelectedIndex == 0)
+            {
+                dwState.Items.Clear();
+                m_lstCommon = new ListItem("------------Select------------", "0");
+                dwCounty.Items.Insert(0, m_lstCommon);
+
+            }
+            else
+            {
+                DataSet m_dsCommon = new DataSet();
+                m_objCounty = new RIMS_Base.Biz.CGeneral();
+                m_dsCommon = m_objCounty.GetCountyByState(dwState.SelectedItem.Text);
+                dwCounty.DataSource = m_dsCommon.Tables[0].DefaultView;
+                dwCounty.DataTextField = m_dsCommon.Tables[0].Columns["FLD_county"].ToString();
+                dwCounty.DataValueField = m_dsCommon.Tables[0].Columns["FLD_county"].ToString();
+                dwCounty.DataBind();
+                m_lstCommon = new ListItem("------------Select------------", "0");
+                dwCounty.Items.Insert(0, m_lstCommon);
+
+            }
+            divthird.Style["display"] = "block";
+            divfirst.Style["display"] = "none";
+            divsecond.Style["display"] = "none";
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
+}

@@ -1,0 +1,1 @@
+﻿<%@ WebService Language="C#" CodeBehind="SonicInspectioniPhone.asmx.cs" Class="SonicInspectioniPhone.Service1" %>

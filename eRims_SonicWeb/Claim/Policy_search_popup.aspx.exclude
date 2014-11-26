@@ -1,0 +1,131 @@
+<%@ Page Language="C#" StylesheetTheme ="Default" AutoEventWireup="true" CodeFile="Policy_search_popup.aspx.cs" Inherits="Liability_Policy_search_popup" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>Risk Insurance Management System</title>
+    <script type="text/javascript">
+    
+    
+    
+     function fillPayto(arg1,arg2,arg3,arg4,arg5)
+    {   
+     
+        window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtCarrierName').value = arg1;
+        window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtPolicyNo').value = arg2;
+        window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtPolicyEffecDate').value = arg3;
+        window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtPolicyExpDate').value = arg4;
+        window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtpolicyid').value = arg5;
+        self.close();
+    }
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server">
+   <div>
+    <table  width="100%" style="border: 1pt; border-color: #7f7f7f; border-style: solid;text-align:left;">
+                <tr>
+                    <td class="ghc" style="font-family: Tahoma; font-size: 11pt; font-weight: bold;"
+                        align="left" colspan="2">
+                        Policy
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 50%;">
+                        &nbsp;
+                    </td>
+                    <td style="width: 50%;" align="right">
+                        <table width="80%">
+                            <tr>
+                                <td class="lc">
+                                    <strong> Search </strong> 
+                                </td>
+                                <td class="ic">
+                                    <asp:DropDownList ID="ddlSearch" runat="server" SkinID="dropGen">
+                                        <asp:ListItem Value="Policy_Number">Policy No</asp:ListItem>
+                                        <asp:ListItem Value="Policy_Year">Policy Year</asp:ListItem>
+                                        <asp:ListItem Value="Carrier">Policy Carrier</asp:ListItem>
+                                    </asp:DropDownList></td>
+                                    <td class="ic">
+                                    <asp:TextBox ID = "txtsearch" runat="server" ></asp:TextBox></td>
+                                     <td class="ic">
+                                    <asp:Button ID="btnSearch" runat="server" Text="Search" OnClick="btnSearch_Click1"/></td>
+                                    </tr>
+                                    
+                                                           
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <asp:GridView ID="gvEmployeeDetails" runat="server" AutoGenerateColumns="false" DataKeyNames="PK_Policy_Id"
+                            Width="100%" AllowPaging="True" AllowSorting="True" OnRowCreated="gvEmployeeDetails_RowCreated" PageSize="10"
+                          OnPageIndexChanging="gvEmployeeDetails_PageIndexChanging"  OnSorting="gvEmployeeDetails_Sorting" OnRowDataBound="gvEmployeeDetails_RowDataBound">
+                            <Columns>
+                                <asp:TemplateField HeaderText="Policy Number"  Visible="false">
+                                    <ItemTemplate>
+                                     <asp:LinkButton ID="lblpkid"  runat="server" CommandArgument='<% #Eval("PK_Policy_Id") %>'
+                                      Text='<% #Eval("PK_Policy_Id") %>' CssClass="acher"></asp:LinkButton>
+                                 <%--   <asp:Label ID="lblpkid"  runat="server" Text='<%#Eval("PK_Policy_Id")%>'></asp:Label>--%>
+                                    </ItemTemplate>
+                                    </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Policy Type" SortExpression="PolicyType" >
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="lbtnpolicytype"  runat="server" CommandArgument='<% #Eval("PolicyType") %>'
+                                            Text='<% #Eval("PolicyType") %>' CssClass="acher"></asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Policy Number" SortExpression="Policy_Number">
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="lbtnpolicyno" runat="server" CommandArgument='<% #Eval("Policy_Number") %>'
+                                            Text='<% #Eval("Policy_Number") %>' CssClass="acher"></asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                
+                                <asp:TemplateField HeaderText="Policy Year"  SortExpression="Policy_Year" >
+                                    <ItemTemplate >
+                                        <asp:LinkButton ID="lbtnpolicystatus" runat="server" CommandArgument='<% #Eval("Policy_Year") %>'
+                                            Text='<% #Eval("Policy_Year") %>' CssClass="acher"></asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                
+                                 <asp:TemplateField HeaderText="Policy Carrier" SortExpression="Carrier"  >
+                                    <ItemTemplate >
+                                        <asp:LinkButton ID="lbtncarrier" runat="server" CommandArgument='<% #Eval("Carrier") %>'
+                                            Text='<% #Eval("Carrier") %>' CssClass="acher"></asp:LinkButton>
+                                    </ItemTemplate>
+                                    
+                                </asp:TemplateField>
+                                
+                                  <asp:TemplateField HeaderText="Policy Begin Date" SortExpression="Policy_Begin_Date"  >
+                                    <ItemTemplate >
+                                        <asp:LinkButton ID="lbtnBeginDt" runat="server" CommandArgument='  <%#DataBinder.Eval(Container.DataItem, "Policy_Begin_Date", "{0:MM/dd/yyyy}")%>'
+                                            Text='  <%#DataBinder.Eval(Container.DataItem, "Policy_Begin_Date", "{0:MM/dd/yyyy}")%>' CssClass="acher"></asp:LinkButton>
+                                    </ItemTemplate>
+                                  
+                                </asp:TemplateField>
+                                
+                                  <asp:TemplateField HeaderText="Policy Expiration Date" SortExpression="Policy_Expiration_Date"  >
+                                    <ItemTemplate >
+                                        <asp:LinkButton ID="lbtnExpDt" runat="server" CommandArgument='<%#DataBinder.Eval(Container.DataItem, "Policy_Expiration_Date", "{0:MM/dd/yyyy}")%>'
+                                            Text='<%#DataBinder.Eval(Container.DataItem, "Policy_Expiration_Date", "{0:MM/dd/yyyy}")%>' CssClass="acher"></asp:LinkButton>
+                                    </ItemTemplate>
+                                    
+                                </asp:TemplateField>
+                              
+                                                              
+                            </Columns>
+                            <EmptyDataRowStyle ForeColor="#7f7f7f" HorizontalAlign="Center" />
+                            <EmptyDataTemplate>
+                                Currently There Is No Policy.
+                            </EmptyDataTemplate>
+                            <PagerSettings Visible="true" />
+                        </asp:GridView>
+                    </td>
+                </tr>
+            </table>
+    </div>
+    </form>
+</body>
+</html>

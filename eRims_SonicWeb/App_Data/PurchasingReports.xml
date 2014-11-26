@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Reports>
+	<Report Name="Service Contract Detail Report" Description="Service Contract Detail" PageURL="ExecutiveRisk/RptBordereau.aspx"/>
+	<Report Name="Lease/Rental Agreement Detail" Description="Lease/Rental Agreement Detail" PageURL="ExecutiveRisk/RptNotif_Bordereau.aspx"/>
+	<Report Name="Asset Detail" Description="Asset Detail " PageURL="SONIC/Purchasing/RptPurchasingAssetReport.aspx"/>
+	<Report Name="Service Contract Abstract" Description="Service Contract Abstract " PageURL="ExecutiveRisk/RptReportableClaims.aspx"/>
+	
+</Reports>

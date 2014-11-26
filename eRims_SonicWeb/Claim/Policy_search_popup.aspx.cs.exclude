@@ -1,0 +1,302 @@
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Collections.Generic;
+
+public partial class Liability_Policy_search_popup : System.Web.UI.Page
+{
+    #region Public Variables
+   // public RIMS_Base.Biz.CPolicy m_objpolicy;
+   // List<RIMS_Base.CPolicy> lstpolicy = null;
+    DataSet dstSearch;
+    RIMS_Base.Biz.CFCIPolicy objFCIPolicy;
+    string strSortExp = String.Empty;
+    #endregion
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+
+            gvEmployeeDetails.PageSize = 10;
+            gvEmployeeDetails.DataSource = BindSearchDetails();
+            gvEmployeeDetails.DataBind();
+
+        }
+
+    }
+    #region Event Handlers
+    protected void btnSearch_Click1(object sender, EventArgs e)
+    {
+
+        try
+        {
+            //m_objpolicy = new RIMS_Base.Biz.CPolicy();
+            //lstpolicy = new List<RIMS_Base.CPolicy>();
+
+            dstSearch = new DataSet();
+            objFCIPolicy = new RIMS_Base.Biz.CFCIPolicy();
+
+            dstSearch = objFCIPolicy.GetPolicy_Popup_Search(ddlSearch.SelectedValue, txtsearch.Text.Trim());
+            gvEmployeeDetails.DataSource = dstSearch;
+            gvEmployeeDetails.DataBind();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
+    protected void gvEmployeeDetails_Sorting(object sender, GridViewSortEventArgs e)
+    {
+       
+           if (ViewState["sortDirection"] == null)
+            ViewState["sortDirection"] = SortDirection.Ascending;
+        else
+        {
+            if (((SortDirection)ViewState["sortDirection"]) == SortDirection.Ascending)
+                ViewState["sortDirection"] = SortDirection.Descending;
+            else
+                ViewState["sortDirection"] = SortDirection.Ascending;
+        }
+        ViewState["SortExp"] = strSortExp = e.SortExpression;
+
+        BindSearchDetails();
+        DataView dvView = new DataView();
+        dvView = dstSearch.Tables[0].DefaultView;
+
+        if (ViewState["SortExp"] != null && ViewState["sortDirection"] != null)
+        {
+            if (ViewState["sortDirection"].ToString() == "Descending")
+                dvView.Sort = ViewState["SortExp"].ToString() + " Desc";
+            if (ViewState["sortDirection"].ToString() == "Ascending")
+                dvView.Sort = ViewState["SortExp"].ToString() + " Asc";
+        }
+        else
+        {
+            dvView.Sort = "Type" + " Asc";
+        }
+
+        gvEmployeeDetails.DataSource = dvView;
+        gvEmployeeDetails.DataBind();
+    }
+    protected void gvEmployeeDetails_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+
+
+
+                LinkButton lbtnTempid = new LinkButton();
+                LinkButton lbtnTemppolicyNo = new LinkButton();
+                LinkButton lbtnTempPolicytype = new LinkButton();
+                LinkButton lbtnTempPolicyStatus = new LinkButton();
+                LinkButton lbtnTempPolicyCarrier = new LinkButton();
+                LinkButton lbtnTempExpDate  = new LinkButton();
+                LinkButton lbtnTempBegDate = new LinkButton();
+
+
+
+                lbtnTempid = ((LinkButton)(e.Row.FindControl("lblpkid")));
+                lbtnTemppolicyNo = ((LinkButton)(e.Row.FindControl("lbtnpolicyno")));
+                lbtnTempPolicytype = ((LinkButton)(e.Row.FindControl("lbtnpolicytype")));
+                lbtnTempPolicyStatus = ((LinkButton)(e.Row.FindControl("lbtnpolicystatus")));
+                lbtnTempPolicyCarrier = ((LinkButton)(e.Row.FindControl("lbtncarrier")));
+                lbtnTempExpDate = ((LinkButton)(e.Row.FindControl("lbtnExpDt")));
+                lbtnTempBegDate = ((LinkButton)(e.Row.FindControl("lbtnBeginDt")));
+                
+
+
+
+                //Label lblTemp = new Label();
+                //lblTemp = ((Label)(e.Row.FindControl("lblpkid")));
+                //// Session["empid"] = lbtnTempid.CommandArgument.ToString();
+                ((LinkButton)(e.Row.FindControl("lblpkid"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempPolicyCarrier.CommandArgument.ToString()
+                    + "','" + lbtnTemppolicyNo.CommandArgument.ToString()
+                    + "','" + lbtnTempBegDate.CommandArgument.ToString()
+                    + "','" + lbtnTempExpDate.CommandArgument.ToString()
+                    + "','" + lbtnTempid.CommandArgument.ToString()
+                  + "');");
+                ((LinkButton)(e.Row.FindControl("lbtnpolicyno"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempPolicyCarrier.CommandArgument.ToString()
+                    + "','" + lbtnTemppolicyNo.CommandArgument.ToString()
+                    + "','" + lbtnTempBegDate.CommandArgument.ToString()
+                    + "','" + lbtnTempExpDate.CommandArgument.ToString()
+                    + "','" + lbtnTempid.CommandArgument.ToString()
+                  + "');");
+                ((LinkButton)(e.Row.FindControl("lbtnpolicytype"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempPolicyCarrier.CommandArgument.ToString()
+                    + "','" + lbtnTemppolicyNo.CommandArgument.ToString()
+                    + "','" + lbtnTempBegDate.CommandArgument.ToString()
+                    + "','" + lbtnTempExpDate.CommandArgument.ToString()
+                    + "','" + lbtnTempid.CommandArgument.ToString()
+                  + "');");
+                ((LinkButton)(e.Row.FindControl("lbtnpolicystatus"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempPolicyCarrier.CommandArgument.ToString()
+                    + "','" + lbtnTemppolicyNo.CommandArgument.ToString()
+                    + "','" + lbtnTempBegDate.CommandArgument.ToString()
+                    + "','" + lbtnTempExpDate.CommandArgument.ToString()
+                    + "','" + lbtnTempid.CommandArgument.ToString()
+                  + "');");
+                ((LinkButton)(e.Row.FindControl("lbtncarrier"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempPolicyCarrier.CommandArgument.ToString()
+                    + "','" + lbtnTemppolicyNo.CommandArgument.ToString()
+                    + "','" + lbtnTempBegDate.CommandArgument.ToString()
+                    + "','" + lbtnTempExpDate.CommandArgument.ToString()
+                    + "','" + lbtnTempid.CommandArgument.ToString()
+                  + "');");
+                ((LinkButton)(e.Row.FindControl("lbtnExpDt"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempPolicyCarrier.CommandArgument.ToString()
+                    + "','" + lbtnTemppolicyNo.CommandArgument.ToString()
+                    + "','" + lbtnTempBegDate.CommandArgument.ToString()
+                    + "','" + lbtnTempExpDate.CommandArgument.ToString()
+                    + "','" + lbtnTempid.CommandArgument.ToString()
+                  + "');");
+
+                ((LinkButton)(e.Row.FindControl("lbtnBeginDt"))).Attributes.Add("onclick", "fillPayto('" + lbtnTempPolicyCarrier.CommandArgument.ToString()
+                 + "','" + lbtnTemppolicyNo.CommandArgument.ToString()
+                 + "','" + lbtnTempBegDate.CommandArgument.ToString()
+                 + "','" + lbtnTempExpDate.CommandArgument.ToString()
+                 + "','" + lbtnTempid.CommandArgument.ToString()
+               + "');");
+
+
+            }
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+
+    }
+    protected void gvEmployeeDetails_RowCreated(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.Header)
+        {
+            if (String.Empty != strSortExp)
+            {
+                AddSortImage(e.Row);
+            }
+            else
+            {
+                Image sortImage = new Image();
+                sortImage.ImageUrl = "~/Images/up-arrow.gif";
+                sortImage.AlternateText = "Descending Order";
+                e.Row.Cells[2].Controls.Add(sortImage);
+            }
+        }
+    }
+    private int GetSortColumnIndex(string strSortExp)
+    {
+        int nRet = 0;
+        // Iterate through the Columns collection to determine the index
+        // of the column being sorted.
+        foreach (DataControlField field in gvEmployeeDetails.Columns)
+        {
+            if (field.SortExpression.ToString() == ViewState["SortExp"].ToString())
+            {
+                nRet = gvEmployeeDetails.Columns.IndexOf(field);
+            }
+        }
+        return nRet;
+    }
+    private void AddSortImage(GridViewRow headerRow)
+    {
+
+        Int32 iCol = GetSortColumnIndex(strSortExp);
+        if (-1 == iCol)
+        {
+            return;
+        }
+        // Create the sorting image based on the sort direction.
+        Image sortImage = new Image();
+
+        if (SortDirection.Ascending.ToString() == ViewState["sortDirection"].ToString())
+        {
+            sortImage.ImageUrl = "~/Images/up-arrow.gif";
+            sortImage.AlternateText = "Descending Order";
+        }
+        else
+        {
+            sortImage.ImageUrl = "~/Images/down-arrow.gif";
+            sortImage.AlternateText = "Ascending Order";
+        }
+
+        // Add the image to the appropriate header cell.
+        headerRow.Cells[iCol].Controls.Add(sortImage);
+    }
+    protected void gvEmployeeDetails_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+
+        gvEmployeeDetails.PageIndex = e.NewPageIndex;
+        gvEmployeeDetails.DataSource = BindSearchDetails();
+        gvEmployeeDetails.DataBind();
+    }
+
+    #endregion
+    #region Private Methods
+    /// <summary>
+    /// Get the All Employee's Details
+    /// </summary>
+    //private List<RIMS_Base.CPolicy > BindEmpDetails()
+    //{
+    //    try
+    //    {
+    //        m_objpolicy = new RIMS_Base.Biz.CPolicy ();
+    //        lstpolicy = new List<RIMS_Base.CPolicy >();
+    //        lstpolicy = null;
+    //        if (txtsearch.Text != string.Empty)
+    //        {
+    //            lstpolicy = m_objpolicy.Get_Search_Data(ddlSearch.SelectedValue, txtsearch.Text.Trim());
+    //        }
+    //        else
+    //        {
+    //            lstpolicy = m_objpolicy.GetAll();
+    //        }
+    //        return lstpolicy;
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        throw ex;
+    //    }
+    //    finally
+    //    {
+
+    //    }
+    //}
+
+
+
+    protected DataSet BindSearchDetails()
+    {
+        dstSearch = new DataSet();
+        objFCIPolicy = new RIMS_Base.Biz.CFCIPolicy();
+        decimal FK_Policy_Type = -1;
+        string Carrier = String.Empty;
+        //Int32 Policy_Year = -1;
+        //if (ddlPolicyType.SelectedIndex != 0)
+        //    FK_Policy_Type = Convert.ToDecimal(ddlPolicyType.SelectedItem.Value);
+        //Carrier = txtCarrier.Text;
+        //if (txtPolicyYear.Text != String.Empty)
+        //    Policy_Year = Convert.ToInt32(txtPolicyYear.Text);
+
+        //dstSearch = objFCIPolicy.GetPolicySearch(FK_Policy_Type, Carrier, Policy_Year);
+
+        if (txtsearch.Text != string.Empty)
+        {
+            dstSearch = objFCIPolicy.GetPolicy_Popup_Search(ddlSearch.SelectedValue, txtsearch.Text.Trim());
+        }
+        else
+        {
+            dstSearch = objFCIPolicy.GetAll();
+        }
+
+
+        return dstSearch;
+    }
+    #endregion
+}

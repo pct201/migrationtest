@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AdHocReportField>
+  <Field Title="Classification" TableName="LU_Classification" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"> ></Field>
+  <Field Title="Event Type" TableName="LU_Event_Type" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
+  <Field Title="Event Description" TableName="LU_Event_Description" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
+  <Field Title="Company Location" TableName="LU_Location" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
+  <Field Title="Company State" TableName="lu_State" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
+  <Field Title="Alarm Type" TableName="LU_Alarm_Type" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
+  <Field Title="Camera Type" TableName="LU_Camera_Type" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
+  <Field Title="Action Type" TableName="LU_Action_Type" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
+  <Field Title="Actions" TableName="LU_Alarm_Action" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
+  <Field Title="Alarm Person" TableName="LU_Alarm_Person" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
+  <Field Title="Alarm Vehicle" TableName="LU_Alarm_Vehicle" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
+  <Field Title="Alarm Environmental" TableName="LU_Alarm_Environmental" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
+  <Field Title="Client Caused" TableName="LU_Client_Caused" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
+  <Field Title="Equipment Malfunction" TableName="LU_Equipment_Malfunction" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
+  <Field Title="Company" TableName="LU_Company" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
+  <Field Title="State" TableName="lu_State" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
+  <Field Title="Alarm Company" TableName="LU_Company" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
+  <Field Title="Alarm Company Country" TableName="Country" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
+  <Field Title="Is Sonic Event" TableName="" Type="drpYesNoString" HasCode="N" Field_Name=""></Field>
+  <Field Title="Location" TableName="LU_Location" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
+</AdHocReportField>

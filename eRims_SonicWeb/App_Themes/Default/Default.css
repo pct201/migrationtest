@@ -1,0 +1,751 @@
+﻿body
+{
+	font: 100% Verdana;
+	background: white;
+	margin: 0; /* it's good practice to zero the margin and padding of the body element to account for differing browser defaults */
+	padding: 0;
+	text-align: center; /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
+	color: #000000;
+}
+
+.style #container
+{
+	width: 999px; /* this will create a container 80% of the browser width */
+	background: #FFFFFF;
+	margin: 0 auto; /* the auto margins (in conjunction with a width) center the page */
+	border: 1px solid #000000;
+	text-align: left; /* this overrides the text-align: center on the body element. */
+}
+
+.style #top1
+{
+	background: #9a9a9a;
+	height: 8px;
+}
+
+
+.disbled
+{
+	color: #a0a0a0;
+	border: 1pt solid #a0a0a0;
+}
+
+.style #top2
+{
+	background: #266591;
+	height: 8px;
+}
+
+.style #header
+{
+	background: #ffffff;
+	background-image: url(images/header.jpg);
+	background-repeat: no-repeat;
+	height: 50px;
+	padding-right: 10px;
+	vertical-align: middle;
+	text-align: right;
+}
+
+.style #menu
+{
+	background: #276692;
+	border-bottom: 1px;
+	border-bottom-color: #293139;
+	border-bottom-style: solid;
+	border-top: 1px;
+	border-top-color: #293139;
+	border-top-style: solid;
+	height: 18px;
+}
+
+.style #submenu
+{
+	background: #ffffff;
+	border-bottom: 1px;
+	border-bottom-color: #293139;
+	border-bottom-style: solid;
+	height: 30px;
+	padding-top: 2px;
+	vertical-align: bottom;
+}
+.style #blank
+{
+	background: #ffffff;
+	height: 18px;
+}
+
+
+.header_text
+{
+	text-align: right;
+	font-size: 11px;
+	vertical-align: bottom;
+	padding-top: 25px;
+}
+.style #header h1
+{
+	margin: 0; /* zeroing the margin of the last element in the #header div will avoid margin collapse - an unexplainable space between divs. If the div has a border around it, this is not necessary as that also avoids the margin collapse */
+	padding: 10px 0; /* using padding instead of margin will allow you to keep the element away from the edges of the div */
+}
+
+/* Tips for sidebar1:
+1. Since we are working in relative units, it's best not to use padding on the sidebar. It will be added to the overall width for standards compliant browsers creating an unknown actual width. 
+2. Since em units are used for the sidebar value, be aware that its width will vary with different default text sizes.
+3. Space between the side of the div and the elements within it can be created by placing a left and right margin on those elements as seen in the ".style #sidebar1 p" rule.
+*/
+.style #sidebar1
+{
+	float: left;
+	width: 226px; /* since this element is floated, a width must be given */
+	background: #ffffff; /* the background color will be displayed for the length of the content in the column, but no further */
+	padding: 15px 0; /* top and bottom padding create visual space within this div  */
+	border: #7f7f7f solid 1px;
+	margin-left: 25px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	height: 300px;
+}
+.style #sidebar1 h3, .style #sidebar1 p
+{
+	margin-left: 10px; /* the left and right margin should be given to every element that will be placed in the side columns */
+	margin-right: 10px;
+}
+
+/* Tips for mainContent:
+1. The space between the mainContent and sidebar1 is created with the left margin on the mainContent div.  No matter how much content the sidebar1 div contains, the column space will remain. You can remove this left margin if you want the #mainContent div's text to fill the #sidebar1 space when the content in #sidebar1 ends.
+2. Be aware it is possible to cause float drop (the dropping of the non-floated mainContent area below the sidebar) if an element wider than it can contain is placed within the mainContent div. WIth a hybrid layout (percentage-based overall width with em-based sidebar), it may not be possible to calculate the exact width available. If the user's text size is larger than average, you will have a wider sidebar div and thus, less room in the mainContent div. You should be aware of this limitation - especially if the client is adding content with Contribute.
+3. In the Internet Explorer Conditional Comment below, the zoom property is used to give the mainContent "hasLayout." This may help avoid several IE-specific bugs.
+*/
+
+
+.style #heading
+{
+	margin: 10px 20px 0 275px; /* the right margin can be given in percentages or pixels. It creates the space down the right side of the page. */
+	border: #7f7f7f solid 1px;
+	vertical-align: middle;
+	background-color: #9a9a9a;
+	padding-left: 5px;
+	height: 32px;
+	font-size: 12px;
+	font-weight: bold;
+	color: #f5f5f5;
+	text-decoration: none;
+}
+.style #mainContent
+{
+	margin: 0px 20px 10px 275px; /* the right margin can be given in percentages or pixels. It creates the space down the right side of the page. */
+	border: #7f7f7f solid 1px;
+	vertical-align: top;
+}
+.style #footer
+{
+	padding: 0 15px; /* this padding matches the left alignment of the elements in the divs that appear above it. */
+	background: #ffffff;
+	border-top: #9a9a9a solid 7px;
+	font-size: 11px;
+	text-align: right;
+	margin-bottom: 0px;
+}
+.style #footer p
+{
+	margin: 0; /* zeroing the margins of the first element in the footer will avoid the possibility of margin collapse - a space between divs */
+	padding: 10px 0; /* padding on this element will create space, just as the the margin would have, without the margin collapse issue */
+}
+
+.menu_text
+{
+	font-family: Calibri;
+	font-size: 11px;
+	font-weight: bold;
+	color: #ffffff;
+}
+
+.style #mainContent #form
+{
+	font-size: 11px;
+}
+
+.main_menu:link
+{
+	font-size: 10px;
+	font-weight: bold;
+	color: #333333;
+	text-decoration: none;
+}
+
+.main_menu:visited
+{
+	font-size: 10px;
+	font-weight: bold;
+	color: #333333;
+	text-decoration: none;
+}
+
+.main_menu:hover
+{
+	font-size: 10px;
+	font-weight: bold;
+	color: #999999;
+	text-decoration: none;
+}
+
+.left_menu_active
+{
+	font-size: 11px;
+	font-weight: bold;
+	color: #266591;
+	text-decoration: none;
+}
+.left_menu:link
+{
+	font-size: 11px;
+	font-weight: bold;
+	color: #6f6c6c;
+	text-decoration: none;
+}
+
+.left_menu:visited
+{
+	font-size: 11px;
+	font-weight: bold;
+	color: #6f6c6c;
+	text-decoration: none;
+}
+
+.left_menu:hover
+{
+	font-size: 11px;
+	font-weight: bold;
+	color: #999999;
+	text-decoration: none;
+}
+
+
+.menu_text_link:link
+{
+	font-family: tahoma;
+	font-size: 11px;
+	font-weight: bold;
+	color: #ffffff;
+	padding-left: 3px;
+	text-decoration: none;
+}
+
+.menu_text_link:visited
+{
+	font-family: tahoma;
+	font-size: 11px;
+	font-weight: bold;
+	color: #ffffff;
+	padding-left: 3px;
+	text-decoration: none;
+}
+
+.menu_text_link:hover
+{
+	font-family: tahoma;
+	font-size: 11px;
+	font-weight: bold;
+	color: #CCCCCC;
+	padding-left: 3px;
+	text-decoration: none;
+}
+
+
+.top_link:link
+{
+	font-family: tahoma;
+	font-size: 11px;
+	color: #495058;
+	padding-left: 3px;
+	text-decoration: none;
+}
+
+.top_link:visited
+{
+	font-family: tahoma;
+	font-size: 11px;
+	color: #495058;
+	padding-left: 3px;
+	text-decoration: none;
+}
+
+.top_link:hover
+{
+	font-family: tahoma;
+	font-size: 11px;
+	color: #006699;
+	padding-left: 3px;
+	text-decoration: none;
+}
+
+.active_tab
+{
+	background-image: url(images/active_btn.jpg);
+	background-repeat: no-repeat;
+	width: 110px;
+	height: 29px;
+	font-size: 10px;
+	font-weight: bold;
+	color: #e7e5e5;
+	text-decoration: none;
+	padding-bottom: 5px;
+}
+
+.normal_tab
+{
+	background-image: url(images/normal_btn.jpg);
+	background-repeat: no-repeat;
+	width: 110px;
+	height: 29px;
+	padding-bottom: 5px;
+}
+
+
+/* Miscellaneous classes for reuse */
+.fltrt
+{
+	/* this class can be used to float an element right in your page. The floated element must precede the element it should be next to on the page. */
+	float: right;
+	margin-left: 8px;
+}
+.fltlft
+{
+	/* this class can be used to float an element left in your page */
+	float: left;
+	margin-right: 8px;
+}
+.clearfloat
+{
+	/* this class should be placed on a div or break element and should be the final element before the close of a container that should fully contain a float */
+	clear: both;
+	height: 0;
+	font-size: 1px;
+	line-height: 0px;
+}
+/*Alpesh Added*/
+.ghc
+{
+	margin: 10px 20px 0 275px; /* the right margin can be given in percentages or pixels. It creates the space down the right side of the page. */
+	border: #7f7f7f solid 1px;
+	vertical-align: middle;
+	background-color: #9a9a9a;
+	padding-left: 5px;
+	height: 18px;
+	font-size: 12px;
+	font-weight: bold;
+	color: #f5f5f5;
+	text-decoration: none;
+}
+.lc
+{
+	/*Label in Cell*/
+	font-size: 11px;
+	font-weight: normal;
+}
+.ic
+{
+	/*Input Cell*/
+	font-size: 11px;
+	font-weight: normal;
+}
+.btn
+{
+	font-weight: bold; /*background-color: #fff; 	border: solid 1px #7f7f7f;*/
+	color: Navy;
+	height: 23px;
+}
+.mf
+{
+	/* mendatory Field */
+	padding-left: 3px;
+	color: red;
+}
+.pg
+{
+	/* mendatory Field */
+	color: red;
+	font-weight: bolder;
+	font-size: 9pt;
+	text-align: center;
+}
+
+.error
+{
+	/* mendatory Field */
+	color: red;
+	font-weight: bolder;
+	font-size: 9pt;
+	text-align: center;
+}
+
+.gh
+{
+	margin: 10px 20px 0 275px; /* the right margin can be given in percentages or pixels. It creates the space down the right side of the page. */
+	border: #7f7f7f solid 1px;
+	vertical-align: middle;
+	background-color: white;
+	padding-left: 5px;
+	height: 18px;
+	font-size: 14px;
+	font-weight: bold;
+	color: gray;
+	text-decoration: none;
+}
+.lblText
+{
+	font-size: 10pt;
+}
+
+.acher
+{
+	font-size: 11px;
+	font-weight: normal;
+	text-decoration: none;
+	font-family: Verdana;
+	color: #333333;
+}
+.acher:hover
+{
+	font-size: 11px;
+	font-weight: normal;
+	text-decoration: none;
+	font-family: Verdana;
+	color: #333333;
+}
+.acher:active
+{
+	font-size: 11px;
+	font-weight: normal;
+	text-decoration: none;
+	font-family: Verdana;
+	color: #333333;
+}
+.acher:visited
+{
+	font-size: 11px;
+	font-weight: normal;
+	text-decoration: none;
+	font-family: Verdana;
+	color: #333333;
+}
+
+
+.GridHeader
+{
+	border-top-width: 1px;
+	border-left-width: 1px;
+	border-left-color: #333333;
+	border-bottom-width: 1px;
+	border-bottom-color: Red;
+	border-top-color: #333333;
+	background-color: #e3e3e3; /*#006699; */
+	border-right-width: 1px;
+	border-right-color: #333333;
+	font-size: 12px;
+	font-weight: bold;
+	color: #4b4b4b;
+	font-family: "Arial Unicode MS" ,Arial;
+	text-align: left;
+}
+.GridItem
+{
+	border-top-width: 1px;
+	border-left-width: 1px;
+	border-left-color: #333333;
+	border-bottom-width: 1px;
+	border-bottom-color: #333333;
+	border-top-color: #333333;
+	background-color: #ffffff;
+	border-right-width: 1px;
+	border-right-color: #333333;
+	font-family: "Arial Unicode MS" ,Arial;
+	font-size: 12px;
+	vertical-align: top;
+}
+
+.GridAlternateItem
+{
+	border-top-width: 1px;
+	border-left-width: 1px;
+	border-left-color: #333333;
+	border-bottom-width: 1px;
+	border-bottom-color: #333333;
+	border-top-color: #333333;
+	background-color: #dee7ee;
+	border-right-width: 1px;
+	border-right-color: #333333;
+	font-family: "Arial Unicode MS" ,Arial;
+	font-size: 12px;
+	vertical-align: top;
+}
+
+/*used for inner grid */
+.tblGrid
+{
+	background-color: #ffffff;
+}
+.emptyrow
+{
+	background-color: #F2F2F2;
+}
+.headerrowSmall
+{
+	font-weight: bold;
+	font-size: 11px;
+	color: #669966;
+	font-family: verdana;
+}
+.readOnlyTextBox
+{
+	background-color: Transparent;
+	border: 0;
+	font-family: Tahoma;
+	font-size: 8.3pt;
+	color: #666666;
+}
+.textAttachment
+{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.UpdatePanelloading
+{
+	font-weight: bold;
+	font-size: 12px;
+	background-color: Black;
+	width: 100%;
+	height: 100%;
+	filter: alpha (opacity=50);
+	opacity: .50;
+	margin: 0;
+	padding: 0;
+	left: 0;
+	top: 0;
+	text-align: center;
+	vertical-align: middle;
+	position: absolute;
+	color: #ffffff;
+}
+
+.LoadingText
+{
+	font-family: Tahoma;
+	font-size: 14;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-align: center;
+	vertical-align: middle;
+}
+A.SelectedNode:link
+{
+	color: #0051EE;
+	text-decoration: underlined;
+	font-size: 8pt;
+	font-family: MS Sans Serif;
+	font-weight: bold;
+}
+A.SelectedNode:visited
+{
+	color: #0051EE;
+	text-decoration: underlined;
+	font-size: 8pt;
+	font-family: MS Sans Serif;
+	font-weight: bold;
+}
+A.SelectedNode:hover
+{
+	color: #0051EE;
+	text-decoration: underlined;
+	font-size: 8pt;
+	font-family: MS Sans Serif;
+	font-weight: bold;
+}
+A.SelectedNode:active
+{
+	color: #0051EE;
+	text-decoration: underlined;
+	font-size: 8pt;
+	font-family: MS Sans Serif;
+	font-weight: bold;
+}
+
+.leftMenu a:link
+{
+	font-size: 11px;
+	font-weight: bold;
+	color: #6f6c6c;
+	text-decoration: none;
+}
+
+.leftmenu_active:hover
+{
+	font-size: 11px;
+	font-weight: bold;
+	color: #266591;
+	text-decoration: none;
+}
+
+.leftmenu a:active
+{
+	font-size: 11px;
+	font-weight: bold;
+	color: #000033;
+	text-decoration: none;
+}
+
+.leftmenu a:link
+{
+	font-size: 11px;
+	font-weight: bold;
+	color: #6f6c6c;
+	text-decoration: none;
+}
+
+.leftmenu a:visited
+{
+	font-size: 11px;
+	font-weight: bold;
+	color: #6f6c6c;
+	text-decoration: none;
+}
+
+.leftmenu a:hover
+{
+	font-size: 11px;
+	font-weight: bold;
+	color: #999999;
+	text-decoration: none;
+}
+
+/*******************/
+
+.modalBackground
+{
+	background-color: Gray;
+	filter: alpha(opacity=70);
+	opacity: 0.7;
+}
+
+.modalPopup
+{
+	background-color: #ffffdd;
+	border-width: 3px;
+	border-style: solid;
+	border-color: Gray;
+	padding: 3px;
+	width: 250px;
+}
+
+/****************************/
+
+
+a.FirstReport:link
+{
+	font-size: 11px;
+	font-weight: bold;
+	color: white;
+	text-decoration: none;
+}
+
+a.FirstReport:hover
+{
+	font-size: 11px;
+	font-weight: bold;
+	color: maroon;
+	text-decoration: none;
+}
+
+a.FirstReport:active
+{
+	font-size: 11px;
+	font-weight: bold;
+	color: #000033;
+	text-decoration: none;
+}
+
+a.FirstReport:visited
+{
+	font-size: 11px;
+	font-weight: bold;
+	color: #6f6c6c;
+	text-decoration: none;
+}
+.cols
+{
+	border-right: black 1px solid;
+	border-top: black 1px solid;
+	border-left: black 1px solid;
+	border-bottom: black 1px solid;
+	vertical-align: top;
+}
+.TextClip
+{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.BorderWhite
+{
+	border-right: #ffffff 1px solid;
+	border-top: #ffffff 1px solid;
+	border-left: #ffffff 1px solid;
+	border-bottom: #ffffff 1px solid;
+}
+.borderDarkBlue
+{
+	border-right: #5f779c 1px solid;
+	border-top: #5f779c 1px solid;
+	border-left: #5f779c 1px solid;
+	border-bottom: #5f779c 1px solid;
+}
+.blueTr
+{
+	font-size: 10px;
+	background-image: url(../../images/TableHeader.gif);
+	background-repeat: repeat-x;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	background-color: #8ab2d7;
+}
+.textBoldLight
+{
+	font-weight: bold;
+	font-size: 8pt;
+	color: #ffffff;
+	font-family: Verdana;
+}
+.buttonGeneral
+{
+	
+	background-position: left top;	
+	height: 22px;
+	background-repeat: no-repeat;
+	border-style: outset ;
+	color: Navy;	
+	font-weight :bold ;
+	cursor:pointer;
+	
+}
+
+.monboxbg
+{
+	background: url(../../images/monboxbg.gif) repeat-x bottom;
+	height: 23px;
+}
+.calPnum
+{
+	width: 16px;
+	height: 14px;
+	border: 1px solid #A4A4A4;
+	padding-bottom: 2px;
+	text-align: center;
+	background-color: #FFFFFF;
+}
+.gen-chart-render {
+	text-align: center;
+	padding: 0;
+	margin: 0;
+}
