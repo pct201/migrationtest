@@ -62,7 +62,7 @@
 										<table cellspacing="1" cellpadding="3" width="100%" border="0">
 											<tbody>
 												<tr>
-													<td style="width: 15%" align="left">Sedgwick Claim Office <span class="mf">*</span></td>
+													<td style="width: 16%" align="left">Sedgwick Claim Office <span class="mf">*</span></td>
 													<td style="width: 4%" align="center">: </td>
 													<td style="width: 32%" align="left">
 														<asp:DropDownList ID="ddlSedgwickClaimOffice" runat="server" SkinID="ddlExposure">
@@ -72,10 +72,10 @@
 													</td>
 													<td style="width: 18%" align="left"></td>
 													<td style="width: 4%" align="center"></td>
-													<td style="width: 28%" align="left"></td>
+													<td style="width: 26%" align="left"></td>
 												</tr>
 												<tr>
-													<td align="left">Claim Review Period </td>
+													<td align="left" style="font-weight:bold">Claim Review Period </td>
 													<td align="center"></td>
 													<td align="left"></td>
 													<td></td>

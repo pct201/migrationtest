@@ -70,7 +70,7 @@ public class clsGeneral : System.Web.UI.Page
     /// <summary>
     /// string array used to get table name depending on the table array.
     /// </summary>
-    public static string[] TableNames = { "WC_FR", "AL_FR", "DPD_FR", "Property_FR", "PL_FR", "Executive_Risk", "Executive_Risk_Carrier", "Defense_Attorney", "Plaintiff_Attorney", "Executive_Risk_Expenses", "Investigator_Notes", "Executive_Risk_Contacts", "WCClaim", "ALClaim", "PLClaim", "DPDClaim", "PropertyClaim", "Purchasing_Asset", "Purchasing_Service_Contract", "Purchasing_LR_Agreement", "RE_Information", "Policy", "Policy_Features", "Additional_Insured", "Automobile_Liability_Policies", "Insurance_Companies", "General_Liability_Policies", "Property_Policies", "Risk_Profile", "Producers", "WC_Policies", "Certificates_of_Insurance", "COI_Liquor_Policies", "Location", "Letter_History", "Owners", "Professional_Liability_Policies", "Excess_Liability_Policies", "Copies", "Insureds", "Franchise", "CRM_Customer", "CRM_Non_Customer","Investigation" };
+    public static string[] TableNames = { "WC_FR", "AL_FR", "DPD_FR", "Property_FR", "PL_FR", "Executive_Risk", "Executive_Risk_Carrier", "Defense_Attorney", "Plaintiff_Attorney", "Executive_Risk_Expenses", "Investigator_Notes", "Executive_Risk_Contacts", "WCClaim", "ALClaim", "PLClaim", "DPDClaim", "PropertyClaim", "Purchasing_Asset", "Purchasing_Service_Contract", "Purchasing_LR_Agreement", "RE_Information", "Policy", "Policy_Features", "Additional_Insured", "Automobile_Liability_Policies", "Insurance_Companies", "General_Liability_Policies", "Property_Policies", "Risk_Profile", "Producers", "WC_Policies", "Certificates_of_Insurance", "COI_Liquor_Policies", "Location", "Letter_History", "Owners", "Professional_Liability_Policies", "Excess_Liability_Policies", "Copies", "Insureds", "Franchise", "CRM_Customer", "CRM_Non_Customer", "Investigation" };
 
     public static string[] ExposureTableNames = { "Property_Building", "Property_Ownership_SubLease", "Property_Assessment", "Inspection", "Inspection_Responses", "SLT_Safety_Walk_Attachments" };
 
@@ -1731,7 +1731,7 @@ public class clsGeneral : System.Web.UI.Page
 
     public static void FormatYesNoToDisplayForEdit(RadioButtonList objRdo, string objVal)
     {
-        if (objVal == null || objVal == "")            
+        if (objVal == null || objVal == "")
             objRdo.ClearSelection();
         else
             objRdo.SelectedValue = objVal;
@@ -2068,6 +2068,50 @@ public class clsGeneral : System.Web.UI.Page
             sb.AppendFormat("{0}", Environment.NewLine);
         }
 
+        HttpContext.Current.Response.AppendHeader("content-disposition", "attachment; filename=" + fileName + ".xls");
+        HttpContext.Current.Response.ContentType = "Application/x-msexcel";
+        HttpContext.Current.Response.Clear();
+        HttpContext.Current.Response.Write(sb.ToString());
+        HttpContext.Current.Response.End();
+    }
+
+    public static void ExportDataSedgwick(DataTable dt, string fileName, string SedgwickOffice, string Year, string Quarter)
+    {
+        System.Text.StringBuilder sb = new StringBuilder();
+
+        sb.Append("<table width=100><tr><td style='font-weight: bold;'>Sedgwick Field Office</td><td align=right>");
+        sb.Append(SedgwickOffice);
+        sb.Append("</td></tr><tr><td style='font-weight: bold;'>Year<td>");
+        sb.Append(Year);
+        sb.Append("</td></tr><tr><td style='font-weight: bold;'>Quarter<td>");
+        sb.Append(Quarter);
+        sb.Append("</td></tr><tr><td></td></tr><br style='mso-data-placement:same-cell;' /></table><table border='1'><tr>");
+
+
+        //sb.Append("<table border='1'><tr>");
+        // include headers
+
+        foreach (DataColumn td in dt.Columns)
+            sb.Append("<th>" + td.ColumnName + "</th>");
+        sb.Append("</tr>");
+        // new line
+        //sb.AppendFormat("{0}", Environment.NewLine);
+
+        // include data
+        foreach (DataRow dr in dt.Rows)
+        {
+            sb.Append("<tr>");
+            foreach (DataColumn td in dt.Columns)
+            {
+                if (td.DataType != typeof(DateTime))
+                    sb.Append("<td>" + ((dr[td.ColumnName] != DBNull.Value) ? dr[td.ColumnName].ToString() : string.Empty) + "</td>");
+                else
+                    sb.Append("<td>" + ((dr[td.ColumnName] != DBNull.Value) ? clsGeneral.FormatDBNullDateToDisplay_Claim(dr[td.ColumnName].ToString()) : string.Empty) + "</td>");
+            }
+            sb.Append("</tr>");
+            //sb.AppendFormat("{0}", Environment.NewLine);
+        }
+        sb.Append("</table>");
         HttpContext.Current.Response.AppendHeader("content-disposition", "attachment; filename=" + fileName + ".xls");
         HttpContext.Current.Response.ContentType = "Application/x-msexcel";
         HttpContext.Current.Response.Clear();
@@ -3051,7 +3095,7 @@ public class clsGeneral : System.Web.UI.Page
         //Response.End();
     }
 
-    public static string GenerateWordFromFileAndReplaceText(string inputFileName,string strPath, string strFileName, Hashtable htKeyValue)
+    public static string GenerateWordFromFileAndReplaceText(string inputFileName, string strPath, string strFileName, Hashtable htKeyValue)
     {
         string strLisenceFile = HttpContext.Current.Server.MapPath(HttpContext.Current.Request.ApplicationPath) + "\\" + ("Bin") + "\\Aspose.Words.lic";
 
@@ -3104,7 +3148,7 @@ public class clsGeneral : System.Web.UI.Page
         removePageBreaks(ref doc);
         doc.MailMerge.DeleteFields();
         //doc.Save(@"D:\Share\1.doc", Aspose.Words.Saving.SaveOptions.CreateSaveOptions(SaveFormat.Doc));
-                
+
         // set path.
         if (!strPath.EndsWith("\\"))
         {
@@ -3124,7 +3168,7 @@ public class clsGeneral : System.Web.UI.Page
 
         doc.Save(strFulleName, Aspose.Words.SaveFormat.Doc);
 
-        return strFulleName;        
+        return strFulleName;
     }
     private static void removePageBreaks(ref Document doc)
     {

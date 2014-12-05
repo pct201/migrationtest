@@ -85,7 +85,9 @@ public partial class Controls_SonicClaimNotes_AdjusterNotes : System.Web.UI.User
         if (IsMailVisible && CurrentClaimType == ClaimType.AL && gvNotesList.Rows.Count == 0)
         {
             btnView.Visible = false;
-            btnPrint.Visible = false;            
+            btnPrint.Visible = false;
+            SortBy = "Data_Entry_Date";
+            SortOrder = "DESC";
             gvNotesList.DataBind();
         }
         
@@ -144,6 +146,10 @@ public partial class Controls_SonicClaimNotes_AdjusterNotes : System.Web.UI.User
         if (SortBy != string.Empty && SortOrder != string.Empty)
         {
             strDateOrder = SortBy + ' ' + SortOrder;
+        }
+        else
+        {
+            strDateOrder = "Data_Entry_Date DESC";
         }
 
         if (btnShowAPEVNotes.Text == "Show All" && btnShowAPEVNotes.Visible)
@@ -404,13 +410,13 @@ public partial class Controls_SonicClaimNotes_AdjusterNotes : System.Web.UI.User
         SortBy = string.Empty;
         SortOrder = string.Empty;
 
-        if (btnShowAPEVNotes.Text == "Show AP/EV Notes Only")
+        if (btnShowAPEVNotes.Text == "Show Specific Notes Only")
         {
             btnShowAPEVNotes.Text = "Show All";
         }
         else
         {
-            btnShowAPEVNotes.Text = "Show AP/EV Notes Only";
+            btnShowAPEVNotes.Text = "Show Specific Notes Only";
         }
         BindGridNotes(ClaimNumber);
     }

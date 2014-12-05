@@ -23,7 +23,7 @@ namespace BAL
 		private DateTime? _Actual_Date;
 		private string _Updated_By;
 		private DateTime? _Update_Date;
-
+        private string _Completed;
 		#endregion
 
 		#region Public Property
@@ -117,7 +117,14 @@ namespace BAL
 			get { return _Update_Date; }
 			set { _Update_Date = value; }
 		}
-
+        /// <summary>
+        /// Gets or sets the Completed value.
+        /// </summary>
+        public string Completed
+        {
+            get { return _Completed; }
+            set { _Completed = value; }
+        }
 
 		#endregion
 
@@ -251,6 +258,7 @@ namespace BAL
 				db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
 			
 			db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
+            db.AddInParameter(dbCommand, "Completed", DbType.String, this._Completed);
 
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -338,6 +346,7 @@ namespace BAL
 				db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
 			
 			db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
+            db.AddInParameter(dbCommand, "Completed", DbType.String, this._Completed);
 
 			db.ExecuteNonQuery(dbCommand);
 		}

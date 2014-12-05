@@ -602,6 +602,12 @@ public partial class SONIC_Sedgwick_ClaimSummary : clsBasePage
             Image imgPlus = (Image)e.Row.FindControl("imgPlus");
             ASP.controls_notes_notes_ascx txtActionItem = (ASP.controls_notes_notes_ascx)e.Row.FindControl("txtActionItem");
             HiddenField hdnPK_Sedgwick_Claim_Action_Plan = (HiddenField)e.Row.FindControl("hdnPK_Sedgwick_Claim_Action_Plan");
+            HiddenField hdnCompleted = (HiddenField)e.Row.FindControl("hdnCompleted");
+            RadioButtonList rdoCompleted = (RadioButtonList)e.Row.FindControl("rdoCompleted");
+            if (hdnCompleted != null && rdoCompleted != null)
+            {
+                rdoCompleted.SelectedValue = hdnCompleted.Value;
+            }
 
             if (App_Access == AccessType.View_Only)
             {
@@ -730,7 +736,8 @@ public partial class SONIC_Sedgwick_ClaimSummary : clsBasePage
                 DropDownList ddlRLCM_Sedgwick = Gridrow.FindControl("ddlRLCM_Sedgwick") as DropDownList;
                 HiddenField hdnPK_Sedgwick_Claim_Action_Plan = Gridrow.FindControl("hdnPK_Sedgwick_Claim_Action_Plan") as HiddenField;
                 TextBox txtTargetDate = Gridrow.FindControl("txtTargetDate") as TextBox;
-                TextBox txtActualDate = Gridrow.FindControl("txtActualDate") as TextBox;
+                //TextBox txtActualDate = Gridrow.FindControl("txtActualDate") as TextBox;
+                HiddenField hdnCompleted = Gridrow.FindControl("hdnCompleted") as HiddenField;
                 //TextBox txtActionItem = Gridrow.FindControl("txtActionItem") as TextBox;
                 ASP.controls_notes_notes_ascx txtActionItem = (ASP.controls_notes_notes_ascx)Gridrow.FindControl("txtActionItem");
 
@@ -739,9 +746,10 @@ public partial class SONIC_Sedgwick_ClaimSummary : clsBasePage
                 dr[2] = txtActionItem.Text; //gvr.Cells[2].Text;
                 if (txtTargetDate.Text != "")
                     dr[3] = txtTargetDate.Text;
-                if (txtActualDate.Text != "")
-                    dr[4] = txtActualDate.Text;
-
+                //if (txtActualDate.Text != "")
+                //    dr[4] = txtActualDate.Text;
+                if (!string.IsNullOrEmpty(hdnCompleted.Value))
+                    dr[5] = hdnCompleted.Value;
                 dt.Rows.Add(dr); // add grid values in to row and add row to the blank table
             }
 
@@ -774,6 +782,7 @@ public partial class SONIC_Sedgwick_ClaimSummary : clsBasePage
             HiddenField hdnPK_Sedgwick_Claim_Action_Plan = gvr.FindControl("hdnPK_Sedgwick_Claim_Action_Plan") as HiddenField;
             TextBox txtTargetDate = gvr.FindControl("txtTargetDate") as TextBox;
             TextBox txtActualDate = gvr.FindControl("txtActualDate") as TextBox;
+            HiddenField hdnCompleted = gvr.FindControl("hdnCompleted") as HiddenField;
             //TextBox txtActionItem = gvr.FindControl("txtActionItem") as TextBox;
             ASP.controls_notes_notes_ascx txtActionItem = (ASP.controls_notes_notes_ascx)gvr.FindControl("txtActionItem");
 
@@ -782,9 +791,10 @@ public partial class SONIC_Sedgwick_ClaimSummary : clsBasePage
             dr[2] = txtActionItem.Text; //gvr.Cells[2].Text;
             if (txtTargetDate.Text != "")
                 dr[3] = txtTargetDate.Text;
-            if (txtActualDate.Text != "")
-                dr[4] = txtActualDate.Text;
-
+            //if (txtActualDate.Text != "")
+            //    dr[4] = txtActualDate.Text;
+            if (!string.IsNullOrEmpty(hdnCompleted.Value))
+                dr[5] = hdnCompleted.Value;
             dt.Rows.Add(dr); // add grid values in to row and add row to the blank table
         }
         if (gv_NestedChild.Rows.Count < 6)
@@ -810,7 +820,7 @@ public partial class SONIC_Sedgwick_ClaimSummary : clsBasePage
         table.Columns.Add("Action_Item", typeof(string));
         table.Columns.Add("Target_Date", typeof(DateTime)).AllowDBNull = true;
         table.Columns.Add("Actual_Date", typeof(DateTime)).AllowDBNull = true;
-
+        table.Columns.Add("Completed", typeof(string));
         return table;
     }
 
@@ -1066,12 +1076,16 @@ public partial class SONIC_Sedgwick_ClaimSummary : clsBasePage
             TextBox txtTargetDate = (TextBox)ActionPlanrow.FindControl("txtTargetDate");
             // TextBox txtActionItem = (TextBox)ActionPlanrow.FindControl("txtActionItem");
             ASP.controls_notes_notes_ascx txtActionItem = (ASP.controls_notes_notes_ascx)ActionPlanrow.FindControl("txtActionItem");
-            TextBox txtActualDate = (TextBox)ActionPlanrow.FindControl("txtActualDate");
+            //Commented below line on 12/01/2014 - Bugtracker # 3007
+            //TextBox txtActualDate = (TextBox)ActionPlanrow.FindControl("txtActualDate");
+            RadioButtonList rdoCompleted = (RadioButtonList)ActionPlanrow.FindControl("rdoCompleted");
             HiddenField hdnPK_Sedgwick_Claim_Action_Plan = (HiddenField)ActionPlanrow.FindControl("hdnPK_Sedgwick_Claim_Action_Plan");
 
             Sedgwick_Claim_Action_Plan objCAP = new Sedgwick_Claim_Action_Plan();
 
-            objCAP.Actual_Date = clsGeneral.FormatNullDateToStore(txtActualDate.Text);
+            //objCAP.Actual_Date = clsGeneral.FormatNullDateToStore(txtActualDate.Text);
+            if (!string.IsNullOrEmpty(rdoCompleted.SelectedValue))
+                objCAP.Completed = rdoCompleted.SelectedValue;
             objCAP.Target_Date = clsGeneral.FormatNullDateToStore(txtTargetDate.Text);
             objCAP.RLCM_Sedgwick = ddlRLCM_Sedgwick.SelectedValue.ToString();
             objCAP.Action_Item = txtActionItem.Text.ToString();

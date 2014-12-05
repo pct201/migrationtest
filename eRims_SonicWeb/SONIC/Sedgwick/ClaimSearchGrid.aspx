@@ -159,22 +159,22 @@
                                 AutoGenerateColumns="false" Width="100%" AllowSorting="True" OnRowCreated="gvClaimReviewGroupSearchGrid_RowCreated"
                                 OnSorting="gvClaimReviewGroupSearchGrid_Sorting" OnRowCommand="gvClaimReviewGroupSearchGrid_RowCommand">
                                 <Columns>
-                                    <asp:TemplateField HeaderText="Sedgwick Field Office">
+                                    <asp:TemplateField HeaderText="Sedgwick Field Office" Visible="false">
                                         <ItemStyle HorizontalAlign="Left" Width="15%" />
                                         <ItemTemplate>
                                             <%= lblSedgwickOffice.Text%>
                                         </ItemTemplate>
                                     </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="Year" >
+                                    <asp:TemplateField HeaderText="Year" Visible="false">
                                         <ItemStyle HorizontalAlign="Left" Width="15%" />
                                         <ItemTemplate>
-                                            <%#Eval("RLCM")%>
+                                            <%= lblYear.Text %>
                                         </ItemTemplate>
                                     </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="Quarter">
+                                    <asp:TemplateField HeaderText="Quarter" Visible="false">
                                         <ItemStyle HorizontalAlign="Left" Width="15%" />
                                         <ItemTemplate>
-                                            <%#Eval("RLCM")%>
+                                            <%= lblQuarter.Text%>
                                         </ItemTemplate>
                                     </asp:TemplateField>
 

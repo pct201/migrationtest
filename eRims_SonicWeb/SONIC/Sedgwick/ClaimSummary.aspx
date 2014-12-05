@@ -924,7 +924,7 @@
                                                         <td width="26%">
                                                             <asp:Label ID="lblCalimNUmber_Review" runat="server"></asp:Label>
                                                         </td>
-                                                        <td width="20%">Associate Name&nbsp;<span id="Span64" style="color: Red; display: none;" runat="server">*</span> </td>                                                            
+                                                        <td width="20%">Associate Name&nbsp;<span id="Span64" style="color: Red; display: none;" runat="server">*</span> </td>
                                                         <td width="4%" align="center">: </td>
                                                         <td width="26%">
                                                             <asp:TextBox ID="txtAssociateName" runat="server" Enabled="false"></asp:TextBox>
@@ -936,21 +936,21 @@
                                                         <td>
                                                             <asp:TextBox ID="txtLocationDBA_Review" runat="server" Enabled="false"></asp:TextBox>
                                                         </td>
-                                                        <td >Date of Injury&nbsp; </td>
+                                                        <td>Date of Injury&nbsp; </td>
                                                         <td align="center">: </td>
-                                                        <td >
+                                                        <td>
                                                             <asp:TextBox ID="txtDateOfInjury" runat="server" Enabled="false"></asp:TextBox>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td  valign="top">Job Title&nbsp; </td>
-                                                        <td  valign="top" align="center">: </td>
-                                                        <td >
+                                                        <td valign="top">Job Title&nbsp; </td>
+                                                        <td valign="top" align="center">: </td>
+                                                        <td>
                                                             <asp:TextBox ID="txtJobTitle_Review" runat="server" Enabled="false"></asp:TextBox>
                                                         </td>
                                                         <td valign="top">Date of Last Review&nbsp;<span id="Span69" style="color: Red; display: none" runat="server">*</span> </td>
                                                         <td valign="top" align="center">: </td>
-                                                        <td >
+                                                        <td>
                                                             <asp:TextBox ID="txtDateOfLastReview" runat="server" SkinID="txtDate"></asp:TextBox>
                                                             <cc1:CalendarExtender ID="calDateOfLastReview" runat="server" Format="MM/dd/yyyy"
                                                                 TargetControlID="txtDateOfLastReview">
@@ -958,22 +958,22 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td  valign="top">Sedgwick Field Office&nbsp; </td>
-                                                        <td  valign="top" align="center">: </td>
-                                                        <td >
+                                                        <td valign="top">Sedgwick Field Office&nbsp; </td>
+                                                        <td valign="top" align="center">: </td>
+                                                        <td>
                                                             <asp:TextBox ID="txtSedgwickFieldOffice" runat="server" Enabled="false"></asp:TextBox>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td  valign="top">Adjuster&nbsp;<span id="Span65" style="color: Red; display: none" runat="server">*</span></td>                                                        
-                                                        <td  valign="top" align="center">: </td>
-                                                        <td >
+                                                        <td valign="top">Adjuster&nbsp;<span id="Span65" style="color: Red; display: none" runat="server">*</span></td>
+                                                        <td valign="top" align="center">: </td>
+                                                        <td>
                                                             <asp:TextBox ID="txtAdjuster" runat="server" MaxLength="100"></asp:TextBox>
                                                             <%-- <asp:RequiredFieldValidator ID="rfvtxtAdjuster" runat="server" ControlToValidate="txtAdjuster"
                                                                 Display="None" ValidationGroup="vsWCClaimGroup" ErrorMessage="Please enter Adjuster"></asp:RequiredFieldValidator>--%>
                                                         </td>
-                                                        <td>Sedgwick Team Leader&nbsp;<span id="Span66" style="color: Red; display: none" runat="server">*</span></td>                                                        
-                                                        <td align="center" >: </td>
+                                                        <td>Sedgwick Team Leader&nbsp;<span id="Span66" style="color: Red; display: none" runat="server">*</span></td>
+                                                        <td align="center">: </td>
                                                         <td>
                                                             <asp:TextBox ID="txtSedgwickTeamLeader" runat="server" MaxLength="100"></asp:TextBox>
                                                             <%-- <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtSedgwickTeamLeader"
@@ -981,7 +981,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td valign="top">Date of File Review&nbsp;<span id="Span67" style="color: Red; display: none" runat="server">*</span> </td>                                                            
+                                                        <td valign="top">Date of File Review&nbsp;<span id="Span67" style="color: Red; display: none" runat="server">*</span> </td>
                                                         <td valign="top" align="center">: </td>
                                                         <td>
                                                             <asp:TextBox ID="txtDateOfFileReview" runat="server" SkinID="txtDate"></asp:TextBox>
@@ -1301,13 +1301,15 @@
                                                                     </cc1:CalendarExtender>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
-                                                            <asp:TemplateField HeaderText="Actual Date" HeaderStyle-HorizontalAlign="Center">
+                                                            <asp:TemplateField HeaderText="Completed Action Item (Y/N)?" HeaderStyle-HorizontalAlign="Center">
                                                                 <ItemStyle HorizontalAlign="Center" Width="12%" />
                                                                 <ItemTemplate>
-                                                                    <asp:TextBox ID="txtActualDate" runat="server" MaxLength="10" SkinID="txtdate" Width="80px"
+                                                                    <%--<asp:TextBox ID="txtActualDate" runat="server" MaxLength="10" SkinID="txtdate" Width="80px"
                                                                         Text='<%# clsGeneral.FormatDBNullDateToDisplay_Claim(Eval("Actual_Date"))%>'></asp:TextBox>
                                                                     <cc1:CalendarExtender ID="calActualDate" runat="server" Format="MM/dd/yyyy" TargetControlID="txtActualDate">
-                                                                    </cc1:CalendarExtender>
+                                                                    </cc1:CalendarExtender>--%>
+                                                                    <asp:RadioButtonList ID="rdoCompleted" runat="server" SkinID="YNTypeNullSelection"></asp:RadioButtonList>
+                                                                    <asp:HiddenField ID="hdnCompleted" runat="server" Value='<%#Eval("Completed") %>' />
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center">
@@ -1496,13 +1498,15 @@
                                                                     </cc1:CalendarExtender>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
-                                                            <asp:TemplateField HeaderText="Actual Date" HeaderStyle-HorizontalAlign="Center">
+                                                            <asp:TemplateField HeaderText="Completed Action Item (Y/N)?" HeaderStyle-HorizontalAlign="Center">
                                                                 <ItemStyle HorizontalAlign="Center" Width="12%" />
                                                                 <ItemTemplate>
-                                                                    <asp:TextBox ID="txtActualDate" runat="server" MaxLength="10" SkinID="txtdate" Width="80px"
+                                                                    <%--<asp:TextBox ID="txtActualDate" runat="server" MaxLength="10" SkinID="txtdate" Width="80px"
                                                                         Text='<%# clsGeneral.FormatDBNullDateToDisplay_Claim(Eval("Actual_Date"))%>'></asp:TextBox>
                                                                     <cc1:CalendarExtender ID="calActualDate" runat="server" Format="MM/dd/yyyy" TargetControlID="txtActualDate">
-                                                                    </cc1:CalendarExtender>
+                                                                    </cc1:CalendarExtender>--%>
+                                                                    <asp:RadioButtonList ID="rdoCompleted" runat="server" SkinID="YNTypeNullSelection"></asp:RadioButtonList>
+                                                                    <asp:HiddenField ID="hdnCompleted" runat="server" Value='<%eval("Completed") %>' />
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center">
@@ -1687,13 +1691,15 @@
                                                                     </cc1:CalendarExtender>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
-                                                            <asp:TemplateField HeaderText="Actual Date" HeaderStyle-HorizontalAlign="Center">
+                                                            <asp:TemplateField HeaderText="Completed Action Item (Y/N)?" HeaderStyle-HorizontalAlign="Center">
                                                                 <ItemStyle HorizontalAlign="Center" Width="12%" />
                                                                 <ItemTemplate>
-                                                                    <asp:TextBox ID="txtActualDate" runat="server" MaxLength="10" SkinID="txtdate" Width="80px"
+                                                                    <%--<asp:TextBox ID="txtActualDate" runat="server" MaxLength="10" SkinID="txtdate" Width="80px"
                                                                         Text='<%# clsGeneral.FormatDBNullDateToDisplay_Claim(Eval("Actual_Date"))%>'></asp:TextBox>
                                                                     <cc1:CalendarExtender ID="calActualDate" runat="server" Format="MM/dd/yyyy" TargetControlID="txtActualDate">
-                                                                    </cc1:CalendarExtender>
+                                                                    </cc1:CalendarExtender>--%>
+                                                                    <asp:RadioButtonList ID="rdoCompleted" runat="server" SkinID="YNTypeNullSelection"></asp:RadioButtonList>
+                                                                    <asp:HiddenField ID="hdnCompleted" runat="server" Value='<%#Eval("Completed") %>' />
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center">
@@ -1878,13 +1884,11 @@
                                                                     </cc1:CalendarExtender>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
-                                                            <asp:TemplateField HeaderText="Actual Date" HeaderStyle-HorizontalAlign="Center">
+                                                            <asp:TemplateField HeaderText="Completed Action Item (Y/N)?" HeaderStyle-HorizontalAlign="Center">
                                                                 <ItemStyle HorizontalAlign="Center" Width="12%" />
                                                                 <ItemTemplate>
-                                                                    <asp:TextBox ID="txtActualDate" runat="server" MaxLength="10" SkinID="txtdate" Width="80px"
-                                                                        Text='<%# clsGeneral.FormatDBNullDateToDisplay_Claim(Eval("Actual_Date"))%>'></asp:TextBox>
-                                                                    <cc1:CalendarExtender ID="calActualDate" runat="server" Format="MM/dd/yyyy" TargetControlID="txtActualDate">
-                                                                    </cc1:CalendarExtender>
+                                                                    <asp:RadioButtonList ID="rdoCompleted" runat="server" SkinID="YNTypeNullSelection"></asp:RadioButtonList>
+                                                                    <asp:HiddenField ID="hdnCompleted" runat="server" Value='<%#Eval("Completed") %>' />
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center">
@@ -2069,13 +2073,15 @@
                                                                     </cc1:CalendarExtender>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
-                                                            <asp:TemplateField HeaderText="Actual Date" HeaderStyle-HorizontalAlign="Center">
+                                                            <asp:TemplateField HeaderText="Completed Action Item (Y/N)?" HeaderStyle-HorizontalAlign="Center">
                                                                 <ItemStyle HorizontalAlign="Center" Width="12%" />
                                                                 <ItemTemplate>
-                                                                    <asp:TextBox ID="txtActualDate" runat="server" MaxLength="10" SkinID="txtdate" Width="80px"
+                                                                    <%--<asp:TextBox ID="txtActualDate" runat="server" MaxLength="10" SkinID="txtdate" Width="80px"
                                                                         Text='<%# clsGeneral.FormatDBNullDateToDisplay_Claim(Eval("Actual_Date"))%>'></asp:TextBox>
                                                                     <cc1:CalendarExtender ID="calActualDate" runat="server" Format="MM/dd/yyyy" TargetControlID="txtActualDate">
-                                                                    </cc1:CalendarExtender>
+                                                                    </cc1:CalendarExtender>--%>
+                                                                    <asp:RadioButtonList ID="rdoCompleted" runat="server" SkinID="YNTypeNullSelection"></asp:RadioButtonList>
+                                                                    <asp:HiddenField ID="hdnCompleted" runat="server" Value='<%#Eval("Completed") %>' />
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center">
@@ -2328,13 +2334,15 @@
                                                                     </cc1:CalendarExtender>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
-                                                            <asp:TemplateField HeaderText="Actual Date" HeaderStyle-HorizontalAlign="Center">
+                                                            <asp:TemplateField HeaderText="Completed Action Item (Y/N)?" HeaderStyle-HorizontalAlign="Center">
                                                                 <ItemStyle HorizontalAlign="Center" Width="12%" />
                                                                 <ItemTemplate>
-                                                                    <asp:TextBox ID="txtActualDate" runat="server" MaxLength="10" SkinID="txtdate" Width="80px"
+                                                                    <%--<asp:TextBox ID="txtActualDate" runat="server" MaxLength="10" SkinID="txtdate" Width="80px"
                                                                         Text='<%# clsGeneral.FormatDBNullDateToDisplay_Claim(Eval("Actual_Date"))%>'></asp:TextBox>
                                                                     <cc1:CalendarExtender ID="calActualDate" runat="server" Format="MM/dd/yyyy" TargetControlID="txtActualDate">
-                                                                    </cc1:CalendarExtender>
+                                                                    </cc1:CalendarExtender>--%>
+                                                                    <asp:RadioButtonList ID="rdoCompleted" runat="server" SkinID="YNTypeNullSelection"></asp:RadioButtonList>
+                                                                    <asp:HiddenField ID="hdnCompleted" runat="server" Value='<%#Eval("Completed") %>' />
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center">
@@ -2519,13 +2527,15 @@
                                                                     </cc1:CalendarExtender>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
-                                                            <asp:TemplateField HeaderText="Actual Date" HeaderStyle-HorizontalAlign="Center">
+                                                            <asp:TemplateField HeaderText="Completed Action Item (Y/N)?" HeaderStyle-HorizontalAlign="Center">
                                                                 <ItemStyle HorizontalAlign="Center" Width="12%" />
                                                                 <ItemTemplate>
-                                                                    <asp:TextBox ID="txtActualDate" runat="server" MaxLength="10" SkinID="txtdate" Width="80px"
+                                                                    <%--<asp:TextBox ID="txtActualDate" runat="server" MaxLength="10" SkinID="txtdate" Width="80px"
                                                                         Text='<%# clsGeneral.FormatDBNullDateToDisplay_Claim(Eval("Actual_Date"))%>'></asp:TextBox>
                                                                     <cc1:CalendarExtender ID="calActualDate" runat="server" Format="MM/dd/yyyy" TargetControlID="txtActualDate">
-                                                                    </cc1:CalendarExtender>
+                                                                    </cc1:CalendarExtender>--%>
+                                                                    <asp:RadioButtonList ID="rdoCompleted" runat="server" SkinID="YNTypeNullSelection"></asp:RadioButtonList>
+                                                                    <asp:HiddenField ID="hdnCompleted" runat="server" Value='<%#Eval("Completed") %>' />
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center">
