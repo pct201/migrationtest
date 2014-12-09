@@ -244,6 +244,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         set { ViewState["Actual_Meeting_Date"] = value; }
     }
 
+    private bool IsUserInAdministrativeGroup
+    {
+        get { if (ViewState["UserGroup"] != null)return Convert.ToBoolean(ViewState["UserGroup"]); else return false; }
+        set { ViewState["UserGroup"] = value; }
+    }
 
     #region Incident Review
     public string Year
@@ -343,6 +348,19 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                     // Bind Controls
                     BindDetailsForEdit();
                     SetValidations();
+                    //if (App_Access != AccessType.Administrative_Access && UserAccessType != AccessType.Administrative_Access)
+                    //{
+                    //    gvMeeting.Columns[gvMeeting.Columns.Count - 1].Visible = false;
+                    //}
+                    DataSet dtTemp = Security.SelectGroupByUserID(Convert.ToDecimal(clsSession.UserID));
+                    if (dtTemp != null && dtTemp.Tables.Count > 0 && dtTemp.Tables[0].Rows.Count > 0)
+                    {
+                        DataRow[] drTmpRows = dtTemp.Tables[0].Select(" Group_Name = 'Administrative' ");
+                        if (drTmpRows.Length > 0)
+                            IsUserInAdministrativeGroup = true;
+                        else
+                            IsUserInAdministrativeGroup = false;
+                    }
                 }
                 if (meetingIsEditable != true)
                 {
@@ -4244,26 +4262,41 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
     }
 
-    //protected void gvMeeting_RowDataBound(object sender, GridViewRowEventArgs e)
-    //{
-    //    if (e.Row.RowType == DataControlRowType.DataRow)
-    //    {
-    //        string Total_Points = "", SLT_Score = "";
-    //        decimal Schedule_id = Convert.ToDecimal(DataBinder.Eval(e.Row.DataItem, "PK_SLT_Meeting_Schedule"));
-    //        DataTable dtScore = SLT_Meeting.Get_SLT_Meeting_Scores(FK_LU_Location_ID, Schedule_id).Tables[0];
-    //        if (dtScore.Rows.Count > 0)
-    //        {
-    //            Total_Points = dtScore.Rows[0]["Score"].ToString();
-    //            SLT_Score = dtScore.Rows[0]["Score_Desc"].ToString();
-    //            ((Label)(e.Row.FindControl("lblSLT_RLCM_SCORE"))).Text = Total_Points + " (" + SLT_Score + ")";
-    //        }
-    //        else
-    //        {
-    //            ((Label)(e.Row.FindControl("lblSLT_RLCM_SCORE"))).Text = "";
-    //        }
+    protected void gvMeeting_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            //string Total_Points = "", SLT_Score = "";
+            //decimal Schedule_id = Convert.ToDecimal(DataBinder.Eval(e.Row.DataItem, "PK_SLT_Meeting_Schedule"));
+            //DataTable dtScore = SLT_Meeting.Get_SLT_Meeting_Scores(FK_LU_Location_ID, Schedule_id).Tables[0];
+            //if (dtScore.Rows.Count > 0)
+            //{
+            //    Total_Points = dtScore.Rows[0]["Score"].ToString();
+            //    SLT_Score = dtScore.Rows[0]["Score_Desc"].ToString();
+            //    ((Label)(e.Row.FindControl("lblSLT_RLCM_SCORE"))).Text = Total_Points + " (" + SLT_Score + ")";
+            //}
+            //else
+            //{
+            //    ((Label)(e.Row.FindControl("lblSLT_RLCM_SCORE"))).Text = "";
+            //}
 
-    //    }
-    //}
+            if (IsUserInAdministrativeGroup || UserAccessType == AccessType.Administrative_Access)
+            {
+                e.Row.Cells[gvMeeting.Columns.Count - 1].Visible = true;
+            }
+            else
+            { e.Row.Cells[gvMeeting.Columns.Count - 1].Visible = false; }
+        }
+        else if (e.Row.RowType == DataControlRowType.Header)
+        {
+            if (IsUserInAdministrativeGroup || UserAccessType == AccessType.Administrative_Access)
+            {
+                e.Row.Cells[gvMeeting.Columns.Count - 1].Visible = true;
+            }
+            else
+            { e.Row.Cells[gvMeeting.Columns.Count - 1].Visible = false; }
+        }
+    }
     //protected void gvMeetingView_RowDataBound(object sender, GridViewRowEventArgs e)
     //{
     //    if (e.Row.RowType == DataControlRowType.DataRow)

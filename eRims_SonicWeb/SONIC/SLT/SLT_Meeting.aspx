@@ -1185,7 +1185,7 @@ function DisableButton()
                                                         <td align="left" valign="top">
                                                             <asp:GridView ID="gvMeeting" runat="server" Width="100%" AutoGenerateColumns="false"
                                                                 PageSize="10" AllowPaging="true" OnPageIndexChanging="gvMeeting_PageIndexChanging"
-                                                                OnRowCommand="gvMeeting_RowCommand">
+                                                                OnRowCommand="gvMeeting_RowCommand" OnRowDataBound="gvMeeting_RowDataBound">
                                                                 <Columns>
                                                                     <asp:TemplateField>
                                                                         <ItemStyle Width="5%" />
