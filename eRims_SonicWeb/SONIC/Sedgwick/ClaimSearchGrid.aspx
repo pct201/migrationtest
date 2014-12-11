@@ -255,10 +255,15 @@
         <tr>
             <td class="Spacer" style="height: 20px;"></td>
         </tr>
+        <tr>
+            <td class="groupHeaderBar" align="right" style="padding-right:10px;">
+                <asp:LinkButton ID="lnkOpenActionItems" runat="server" OnClick="lnkOpenActionItems_Click" Font-Size="10px"
+                     Text="Export To Excel"></asp:LinkButton>
+            </td>
+        </tr>
         <tr style="background-color: #606060; font-family: Tahoma; color: white; font-size: 10pt; font-weight: bold; ">
             <td style="padding: 5px;">Previous Claim Review Worksheets with Open Action Plan Items
-                <span style="color: white;font-family:Verdana; padding-left:48%;" ><asp:LinkButton ID="lnkOpenActionItems" ForeColor="White"  runat="server" OnClick="lnkOpenActionItems_Click" Font-Size="10px"
-                     Text="Export To Excel"></asp:LinkButton></span> 
+                <%--<span style="color: white;font-family:Verdana; padding-left:52%;" ></span> --%>
             </td>
         </tr>
         <tr>

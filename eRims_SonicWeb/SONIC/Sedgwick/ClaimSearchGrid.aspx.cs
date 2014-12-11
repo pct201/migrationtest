@@ -488,9 +488,9 @@ public partial class SONIC_Sedgwick_ClaimSearchGrid : clsBasePage
             dtTemp.Columns.Remove("State_PK_Id");
             dtTemp.Columns.Remove("PK_Sedgwick_Claim_Review");
             dtTemp.Columns.Remove("IsEnable");
-            
 
-            clsGeneral.ExportDataSedgwick(dtTemp, "Claim_Review_Worksheet_Group", lblSedgwickOffice.Text,lblYear.Text,lblQuarter.Text);
+
+            clsGeneral.ExportDataSedgwick(dtTemp, "Open_Action_Plan_Items", lblSedgwickOffice.Text, lblYear.Text, lblQuarter.Text);
         }
 
     }
