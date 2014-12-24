@@ -966,7 +966,7 @@
                                                                         :
                                                                     </td>
                                                                     <td class="ic">
-                                                                        $<asp:TextBox ID="txtPreOccLimit" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                                        $<asp:TextBox ID="txtPreOccLimit" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat_New(this,',','.',20,event))"
                                                                             OnBlur="CheckNumericVal(this);"></asp:TextBox>
                                                                     </td>
                                                                     <td class="lc">
@@ -976,7 +976,7 @@
                                                                         :
                                                                     </td>
                                                                     <td class="ic">
-                                                                        $<asp:TextBox ID="txtAggLimit" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                                        $<asp:TextBox ID="txtAggLimit" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat_New(this,',','.',15,event))"
                                                                             OnBlur="CheckNumericVal(this);"></asp:TextBox>
                                                                     </td>
                                                                 </tr>
@@ -1594,7 +1594,7 @@
                                                                     </td>
                                                                     <td class="ic">
                                                                         $<asp:TextBox ID="txtPreOccLimit" runat="server" SkinID="txtAmt" Text='<%# clsGeneral.GetStringValue(Eval("Per_Occurrence_Limit")) %>'
-                                                                            onKeyPress="return(currencyFormat(this,',','.',event))" OnBlur="CheckNumericVal(this);"></asp:TextBox>
+                                                                            onKeyPress="return(currencyFormat_New(this,',','.',20,event))" OnBlur="CheckNumericVal(this);"></asp:TextBox>
                                                                     </td>
                                                                     <td class="lc">
                                                                         Aggregate Limit&nbsp;<span id="Span18" style="color: Red; display: none;" runat="server">*</span>
@@ -1604,7 +1604,7 @@
                                                                     </td>
                                                                     <td class="ic">
                                                                         $<asp:TextBox ID="txtAggLimit" runat="server" SkinID="txtAmt" Text='<%# clsGeneral.GetStringValue(Eval("Aggregate_Limit")) %>'
-                                                                            onKeyPress="return(currencyFormat(this,',','.',event))" OnBlur="CheckNumericVal(this);"></asp:TextBox>
+                                                                            onKeyPress="return(currencyFormat_New(this,',','.',15,event))" OnBlur="CheckNumericVal(this);"></asp:TextBox>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
