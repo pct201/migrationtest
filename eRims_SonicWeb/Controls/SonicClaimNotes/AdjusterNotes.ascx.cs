@@ -17,7 +17,8 @@ public partial class Controls_SonicClaimNotes_AdjusterNotes : System.Web.UI.User
     {
         AL = 1,
         PL = 2,
-        WC = 3
+        WC = 3,
+        DPD = 4
     }
 
     #endregion
@@ -90,7 +91,7 @@ public partial class Controls_SonicClaimNotes_AdjusterNotes : System.Web.UI.User
             SortOrder = "DESC";
             gvNotesList.DataBind();
         }
-        
+
         if (CurrentClaimType == ClaimType.WC)
         {
             btnShowAPEVNotes.Visible = true;
@@ -181,6 +182,8 @@ public partial class Controls_SonicClaimNotes_AdjusterNotes : System.Web.UI.User
             dtClaim = PL_ClaimInfo.SelectByPK(ClaimID).Tables[0];
         else if (CurrentClaimType == ClaimType.WC)
             dtClaim = WC_ClaimInfo.SelectByPK(ClaimID).Tables[0];
+        else if (CurrentClaimType == ClaimType.DPD)
+            dtClaim = DPD_ClaimInfo.SelectByPK(ClaimID).Tables[0];
 
         DataTable dtNotes = Claims_Adjustor_Notes.SelectByPK(strPKs).Tables[0];
         StringBuilder sbHTML = new StringBuilder();
@@ -211,7 +214,7 @@ public partial class Controls_SonicClaimNotes_AdjusterNotes : System.Web.UI.User
         sbHTML.Append("<td align='left' " + strTDWhite + ">" + Convert.ToString(dtClaim.Rows[0]["Origin_Claim_Number"]) + "</td>");
         sbHTML.Append("<td align='left' " + strTDWhite + ">" + Convert.ToString(dtClaim.Rows[0]["dba1"]) + "</td>");
         sbHTML.Append("<td align='left' " + strTDWhite + ">" + Convert.ToString(dtClaim.Rows[0]["Employee_Name"]) + "</td>");
-        sbHTML.Append("<td align='left' " + strTDWhite.TrimEnd('\'') + "border-right:black 1px solid;'>" + clsGeneral.FormatDBNullDateToDisplay(dtClaim.Rows[0]["Date_Of_Accident"]) + "</td>");
+        sbHTML.Append("<td align='left' " + strTDWhite.TrimEnd('\'') + "border-right:black 1px solid;'>" + clsGeneral.FormatDBNullDateToDisplay(dtClaim.Rows[0]["Date_Of_Loss"]) + "</td>");
         sbHTML.Append("</tr>");
         sbHTML.Append("</table>");
         sbHTML.Append("<br />");
@@ -454,7 +457,24 @@ public partial class Controls_SonicClaimNotes_AdjusterNotes : System.Web.UI.User
 
     protected void btnMailNotes_Click(object sender, EventArgs e)
     {
+        string tab = string.Empty;
         string strPKs = "";
+        if (CurrentClaimType == ClaimType.AL)
+        {
+            tab = "AL";
+        }
+        else if (CurrentClaimType == ClaimType.DPD)
+        {
+            tab = "DPD";
+        }
+        else if (CurrentClaimType == ClaimType.PL)
+        {
+            tab = "PL";
+        }
+        else if (CurrentClaimType == ClaimType.WC)
+        {
+            tab = "WC";
+        }
         foreach (RepeaterItem rptItem in rptNotes.Items)
         {
             if (((CheckBox)rptItem.FindControl("chkRptNotesSelect")).Checked)
@@ -463,7 +483,7 @@ public partial class Controls_SonicClaimNotes_AdjusterNotes : System.Web.UI.User
         strPKs = strPKs.TrimEnd(',');
         if (strPKs != "")
         {
-            ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "OpenMailPopUp('" + strPKs + "','" + CurrentClaimType + "','" + ClaimID + "');", true);
+            ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "OpenMailPopUp('" + tab + "','" + strPKs + "','" + CurrentClaimType.ToString()+"Claim" + "','" + ClaimID + "');", true);
         }
         else
         {

@@ -733,20 +733,62 @@ namespace ERIMS.DAL
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("DPD_ClaimsSelectByPK");
 
-            db.AddInParameter(dbCommand, "PK_DPD_Claims_ID", DbType.Int64, pK_DPD_Claims_ID);
+            db.AddInParameter(dbCommand, "PK_DPD_Claims", DbType.Int64, pK_DPD_Claims_ID);
 
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet SelectViewClaim(Int64 pK_DPD_Claims_ID)
+        public static DataSet SelectViewClaim(Int64 pK_DPD_Claims)
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("DPD_ViewClaim");
+            DbCommand dbCommand = db.GetStoredProcCommand("DPD_ViewClaimNew");
 
-            db.AddInParameter(dbCommand, "PK_DPD_Claims_ID", DbType.Int64, pK_DPD_Claims_ID);
+            db.AddInParameter(dbCommand, "PK_DPD_Claims", DbType.Int64, pK_DPD_Claims);
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        public static DataSet SelectViewClaimAddresses(Int64 pK_DPD_Claims)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("DPD_ViewClaimAddresses");
+
+            db.AddInParameter(dbCommand, "PK_DPD_Claims", DbType.Int64, pK_DPD_Claims);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        public static DataSet SelectViewClaimAddressesByPK(Int64 pK_DPD_Claims)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("DPD_SelectClaimAddressesByPK");
+
+            db.AddInParameter(dbCommand, "PK_DPD_Addresses_ID", DbType.Int64, pK_DPD_Claims);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        public static DataSet SelectViewClaimIncidentsByPK(Int64 pK_DPD_Claims)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("DPD_SelectClaimIncidentsByPK");
+
+            db.AddInParameter(dbCommand, "PK_DPD_Claims", DbType.Int64, pK_DPD_Claims);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        public static DataSet SelectViewClaimDetailsByPK(Int64 pK_DPD_Claims)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("DPD_SelectClaimDetailsByPK");
+
+            db.AddInParameter(dbCommand, "PK_DPD_Claims", DbType.Int64, pK_DPD_Claims);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+
         #endregion
     }
 }

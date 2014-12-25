@@ -71,7 +71,7 @@ public partial class SONIC_Exposures_Asset_Protection_SendMail : System.Web.UI.P
 
                         if (FK_Table_Name.ToLower() == clsGeneral.Claim_Tables.DPDClaim.ToString().ToLower())
                         {
-                            strClaimNumber = Convert.ToString(dtClaim.Rows[0]["Claim_Number"]);
+                            strClaimNumber = Convert.ToString(dtClaim.Rows[0]["Origin_Claim_Number"]);
                             strDateOfIncident = clsGeneral.FormatDBNullDateToDisplay(dtClaim.Rows[0]["Date_Of_Loss"]);
                         }
                         else if (FK_Table_Name.ToLower() == clsGeneral.Claim_Tables.PropertyClaim.ToString().ToLower())

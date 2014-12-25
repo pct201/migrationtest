@@ -10,9 +10,9 @@
     TagPrefix="uc" %>
 <%@ Register Src="~/Controls/ClaimAttachment/AttachmentDetails.ascx" TagName="CtlAttachmentDetail"
     TagPrefix="uc" %>
-<%@ Register Src="~/Controls/SonicClaimNotes/SonicNotes.ascx" TagName="ctrlSonicNotes"
+<%@ Register Src="~/Controls/SonicClaimNotes/AdjusterNotes.ascx" TagName="CtrlAdjusterNotes"
     TagPrefix="uc" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+<asp:content id="Content1" contentplaceholderid="ContentPlaceHolder1" runat="Server">
     <script type="text/javascript" language="javascript">
         var currIndex = 1;
         function ExpandNotes(bExpand, imgPlusId, imgMinusId, txtId) {
@@ -36,52 +36,44 @@
             currIndex = index;
             SetMenuStyle(index);
             if (index == 1) {
-                document.getElementById("<%=pnlLocationContact.ClientID%>").style.display = "block";
-                document.getElementById("<%=pnlLossInformation.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlComments.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlAttachment.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlSonicNotes.ClientID%>").style.display = "none";
-                document.getElementById("btnPrev").style.display = "none";
-                document.getElementById("btnNext").style.display = "block";
+                //Set Claim Information Screen Visible
+                SetPanelByIndex("block", "none", "none", "none", "none", "none", "block");
             }
             if (index == 2) {
-                document.getElementById("<%=pnlLocationContact.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlLossInformation.ClientID%>").style.display = "block";
-                document.getElementById("<%=pnlComments.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlAttachment.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlSonicNotes.ClientID%>").style.display = "none";
-                document.getElementById("btnPrev").style.display = "block";
-                document.getElementById("btnNext").style.display = "block";
+                //Set Addresses Screen Visible
+                SetPanelByIndex("none", "block", "none", "none", "none", "block", "block");
+
             }
             if (index == 3) {
-                document.getElementById("<%=pnlLocationContact.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlLossInformation.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlComments.ClientID%>").style.display = "block";
-                document.getElementById("<%=pnlAttachment.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlSonicNotes.ClientID%>").style.display = "none";
-                document.getElementById("btnPrev").style.display = "block";
-                document.getElementById("btnNext").style.display = "block";
+                //Set Incidents Screen Visible
+                SetPanelByIndex("none", "none", "block", "none", "none", "block", "block");
+
             }
             if (index == 4) {
-                document.getElementById("<%=pnlLocationContact.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlLossInformation.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlComments.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlSonicNotes.ClientID%>").style.display = "block";
-                document.getElementById("<%=pnlAttachment.ClientID%>").style.display = "none";
+                //Set Details Screen Visible
+                SetPanelByIndex("none", "none", "none", "block", "none", "block", "block");
 
-                document.getElementById("btnPrev").style.display = "block";
-                document.getElementById("btnNext").style.display = "block";
             }
             if (index == 5) {
-                document.getElementById("<%=pnlLocationContact.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlLossInformation.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlComments.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlAttachment.ClientID%>").style.display = "block";
-                document.getElementById("<%=pnlSonicNotes.ClientID%>").style.display = "none";
-                document.getElementById("btnPrev").style.display = "block";
-                document.getElementById("btnNext").style.display = "none";
+                //Set Notes Screen Visible
+                SetPanelByIndex("none", "none", "none", "none", "block", "block", "none");
+
             }
         }
+
+        //Enable-Disable zx Screen and Previous/Next Button as per Click
+        function SetPanelByIndex(ClaimInfo, Addresses, Incidents, Details, Notes, btnPrev, btnNext) {
+
+            document.getElementById("<%=pnlClaimInformation.ClientID%>").style.display = ClaimInfo;
+            document.getElementById("<%=pnlAddresses.ClientID%>").style.display = Addresses;
+            document.getElementById("<%=pnlIncidents.ClientID%>").style.display = Incidents;
+            document.getElementById("<%=pnlDetails.ClientID%>").style.display = Details;
+            document.getElementById("<%=pnlNotes.ClientID%>").style.display = Notes;
+
+            document.getElementById("btnPrev").style.display = btnPrev;
+            document.getElementById("btnNext").style.display = btnNext;
+        }
+
         function SetMenuStyle(index) {
             var i;
             for (i = 1; i <= 5; i++) {
@@ -193,7 +185,6 @@
                         <td class="Spacer" style="height: 15px;" colspan="2">
                         </td>
                     </tr>
-                    <tr>
                         <td class="leftMenu">
                             <table cellpadding="0" cellspacing="0">
                                 <tr>
@@ -205,27 +196,27 @@
                                         <table cellpadding="5" cellspacing="0" border="0" width="100%">
                                             <tr>
                                                 <td>
-                                                    <span id="WCMenu1" href="#" onclick="javascript:ShowPanel('1');">Location/Contact</span>
+                                                    <span id="WCMenu1" href="#" onclick="javascript:ShowPanel('1');">Claim Information</span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <span id="WCMenu2" href="#" onclick="javascript:ShowPanel('2');">Loss Information</span>
+                                                    <span id="WCMenu2" href="#" onclick="javascript:ShowPanel('2');">Addresses</span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <span id="WCMenu3" href="#" onclick="javascript:ShowPanel('3');">Comments </span>
+                                                    <span id="WCMenu3" href="#" onclick="javascript:ShowPanel('3');">Incidents </span>
+                                                </td>
+                                            </tr>                                            
+                                            <tr>
+                                                <td>
+                                                    <span id="WCMenu4" href="#" onclick="javascript:ShowPanel('4');">Details </span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <span id="WCMenu4" href="#" onclick="javascript:ShowPanel('4');">Sonic Notes</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <span id="WCMenu5" href="#" onclick="javascript:ShowPanel('5');">Attachment </span>
+                                                    <span id="WCMenu5" href="#" onclick="javascript:ShowPanel('5');">Notes</span>
                                                 </td>
                                             </tr>
                                         </table>
@@ -268,115 +259,145 @@
                                     </td>
                                     <td width="794px" valign="top" class="dvContainer">
                                         <div id="dvView" runat="server" style="width: 100%;">
-                                            <asp:Panel ID="pnlLocationContact" runat="server" Width="100%">
+                                            <asp:Panel ID="pnlClaimInformation" runat="server" Width="100%">
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                     <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>
+                                                    <tr>
                                                         <td align="left" width="20%">
-                                                            Date of Update
+                                                            Date of Loss
                                                         </td>
                                                         <td align="center" width="4%">
                                                             :
                                                         </td>
                                                         <td align="left" width="26%">
-                                                            <asp:Label runat="server" ID="lblDateofUpdate" />
+                                                            <asp:Label runat="server" ID="lblDateofLoss" />
                                                         </td>
                                                         <td align="left" width="20%">
-                                                            Data Source
+                                                            Time of Loss
                                                         </td>
                                                         <td align="center" width="4%">
                                                             :
                                                         </td>
                                                         <td align="left" width="26%">
-                                                            <asp:Label runat="server" ID="lblDataSource" />
+                                                            <asp:Label runat="server" ID="lblTimeofLoss" />
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td align="left">
-                                                            Location RM Number
+                                                            Description of Loss
                                                         </td>
                                                         <td align="center">
                                                             :
                                                         </td>
                                                         <td align="left">
-                                                            <asp:Label runat="server" ID="lblLocationRMNumber" />
+                                                            <asp:Label runat="server" ID="lblDescriptionofLoss" />
                                                         </td>
                                                         <td align="left">
-                                                            Claim Number
+                                                            Line Type
                                                         </td>
                                                         <td align="center">
                                                             :
                                                         </td>
                                                         <td align="left">
-                                                            <asp:Label runat="server" ID="lblClaimNumberAgain" />
+                                                            <asp:Label runat="server" ID="lblLineType" />
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td align="left">
-                                                            <b>Loss Location if Different</b>
+                                                            Claim Type
                                                         </td>
                                                         <td align="center">
+                                                            :
                                                         </td>
                                                         <td align="left">
+                                                            <asp:Label runat="server" ID="lblClaimType" />
                                                         </td>
                                                         <td align="left">
-                                                            <b>Contact Information</b>
+                                                            Claim Sub-Type
                                                         </td>
                                                         <td align="center">
+                                                            :
                                                         </td>
                                                         <td align="left">
+                                                            <asp:Label runat="server" ID="lblClaimSubType" />
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td align="left">
-                                                            Address1
+                                                            Claim Status
                                                         </td>
                                                         <td align="center">
                                                             :
                                                         </td>
                                                         <td align="left">
-                                                            <asp:Label runat="server" ID="lblAddress1" />
+                                                            <asp:Label runat="server" ID="lblClaimStatus" />
                                                         </td>
                                                         <td align="left">
-                                                            Location DBA
+                                                            Claim Sub-Status
                                                         </td>
                                                         <td align="center">
                                                             :
                                                         </td>
                                                         <td align="left">
-                                                            <asp:Label runat="server" ID="lblLocationDBAAgain" />
+                                                            <asp:Label runat="server" ID="lblClaimSubStatus" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr> 
+                                                    <tr>
+                                                        <td align="left">
+                                                            Date Reported To Sonic
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblDateReportedtoSonic" />
+                                                        </td>
+                                                        <%--<td align="left">
+                                                            Date Closed
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="Label4" />
+                                                        </td>--%>
+                                                    </tr>                                                   
+                                                    <tr>
+                                                        <td align="left">
+                                                            Date Opened
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblDateOpened" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Date Closed
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblDateClosed" />
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td align="left">
-                                                            Address 2
+                                                            Date ReOpened
                                                         </td>
                                                         <td align="center">
                                                             :
                                                         </td>
                                                         <td align="left">
-                                                            <asp:Label runat="server" ID="lblAddress2" />
+                                                            <asp:Label runat="server" ID="lblDateReOpened" />
                                                         </td>
-                                                        <td align="left">
-                                                            Name
-                                                        </td>
-                                                        <td align="center">
-                                                            :
-                                                        </td>
-                                                        <td align="left">
-                                                            <asp:Label runat="server" ID="lblEmployeeName" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left">
-                                                            City
-                                                        </td>
-                                                        <td align="center">
-                                                            :
-                                                        </td>
-                                                        <td align="left">
-                                                            <asp:Label runat="server" ID="lblCity" />
-                                                        </td>
-                                                        <td align="left">
+                                                       <%-- <td align="left">
                                                             Address1
                                                         </td>
                                                         <td align="center">
@@ -384,11 +405,14 @@
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label runat="server" ID="lblEmployeeAddress1" />
-                                                        </td>
+                                                        </td>--%>
                                                     </tr>
                                                     <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>                                              
+                                                    <tr>
                                                         <td align="left">
-                                                            State
+                                                            State of Accident
                                                         </td>
                                                         <td align="center">
                                                             :
@@ -396,19 +420,39 @@
                                                         <td align="left">
                                                             <asp:Label runat="server" ID="lblState" />
                                                         </td>
-                                                        <td align="left">
-                                                            Address 2
+                                                        <%--<td align="left">
+                                                            Loss Location Address
                                                         </td>
                                                         <td align="center">
                                                             :
                                                         </td>
                                                         <td align="left">
-                                                            <asp:Label runat="server" ID="lblEmployeeAddress2" />
+                                                            <asp:Label runat="server" ID="lblLossLocationAddress" />
+                                                        </td>--%>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Loss Location Address
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblLossLocationAddress" />
+                                                        </td>                                                        
+                                                        <td align="left">
+                                                            Loss Location City
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblCity" />
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td align="left">
-                                                            Zip
+                                                            Loss Location Zip Code
                                                         </td>
                                                         <td align="center">
                                                             :
@@ -416,8 +460,131 @@
                                                         <td align="left">
                                                             <asp:Label runat="server" ID="lblZip" />
                                                         </td>
+                                                        <%--<td align="left">
+                                                            State
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
                                                         <td align="left">
-                                                            City
+                                                            <asp:Label runat="server" ID="lblEmployeeState" />
+                                                        </td>--%>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>     
+                                                    <tr>
+                                                        <td align="left">
+                                                            VIN
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblVIN" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Vehicle Make
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblVehicleMake" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Vehicle Model
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblVehicleModel" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Vehicle Year
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblVehicleYear" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Driver Name
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblDriverName" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Claimant Telephone Number
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblClaimantTelephoneNumber" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Claimant First Name
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblClaimantFirstName" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Claimant Last Name
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblClaimantLastName" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Employee Name
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblEmployeeName" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Employee Address
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblEmployeeAddress" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Employee City
                                                         </td>
                                                         <td align="center">
                                                             :
@@ -425,16 +592,8 @@
                                                         <td align="left">
                                                             <asp:Label runat="server" ID="lblEmployeeCity" />
                                                         </td>
-                                                    </tr>
-                                                    <tr>
                                                         <td align="left">
-                                                        </td>
-                                                        <td align="center">
-                                                        </td>
-                                                        <td align="left">
-                                                        </td>
-                                                        <td align="left">
-                                                            State
+                                                            Employee State
                                                         </td>
                                                         <td align="center">
                                                             :
@@ -445,16 +604,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td align="left">
-                                                            Accident on Company Property Y/N
-                                                        </td>
-                                                        <td align="center">
-                                                            :
-                                                        </td>
-                                                        <td align="left">
-                                                            <asp:Label runat="server" ID="lblAccidentonCompanyProperty" />
-                                                        </td>
-                                                        <td align="left">
-                                                            Zip
+                                                            Employee Zip Code
                                                         </td>
                                                         <td align="center">
                                                             :
@@ -462,969 +612,666 @@
                                                         <td align="left">
                                                             <asp:Label runat="server" ID="lblEmployeeZip" />
                                                         </td>
-                                                    </tr>
-                                                    <tr>
                                                         <td align="left">
-                                                            Date of Loss
+                                                            Employee Gender
                                                         </td>
                                                         <td align="center">
                                                             :
                                                         </td>
                                                         <td align="left">
-                                                            <asp:Label runat="server" ID="lblDateofLoss" />
-                                                        </td>
-                                                        <td align="left">
-                                                            Time to Contact
-                                                        </td>
-                                                        <td align="center">
-                                                            :
-                                                        </td>
-                                                        <td align="left">
-                                                            <asp:Label runat="server" ID="lblTimetoContact" />
+                                                            <asp:Label runat="server" ID="lblEmployeeGender" />
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td align="left">
-                                                            Time of Loss
+                                                            Employee SSN
                                                         </td>
                                                         <td align="center">
                                                             :
                                                         </td>
                                                         <td align="left">
-                                                            <asp:Label runat="server" ID="lblTimeofLoss" />
+                                                            <asp:Label runat="server" ID="lblEmployeeSSN" />
                                                         </td>
                                                         <td align="left">
-                                                            Telephone Number 1
+                                                            Employee Marital Status
                                                         </td>
                                                         <td align="center">
                                                             :
                                                         </td>
                                                         <td align="left">
-                                                            <asp:Label runat="server" ID="lblEmployeeWorkPhone" />
+                                                            <asp:Label runat="server" ID="lblEmployeeMaritalStatus" />
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td align="left">
-                                                            Date Reported to Sonic
+                                                            Employee Date of Birth
                                                         </td>
                                                         <td align="center">
                                                             :
                                                         </td>
                                                         <td align="left">
-                                                            <asp:Label runat="server" ID="lblDateReportedtoSonic" />
+                                                            <asp:Label runat="server" ID="lblEmployeeDOB" />
                                                         </td>
-                                                        <td align="left">
-                                                            Telephone Number 2
+                                                        <%--<td align="left">
+                                                            Claimant Last Name
                                                         </td>
                                                         <td align="center">
                                                             :
                                                         </td>
                                                         <td align="left">
-                                                            <asp:Label runat="server" ID="lblEmployeeCellPhone" />
+                                                            <asp:Label runat="server" ID="Label11" />
+                                                        </td>--%>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            State of Accident
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblStateofAccident" />
+                                                        </td>
+                                                        <td align="left">
+                                                            State of Jurisdiction
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblStateofJurisdiction" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Date Reported to Insurer
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblDateReportedtoInsurer" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Date Entered
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblDateEntered" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Coverage Code
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblCoverageCode" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Line of Coverage
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblLineofCoverage" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Date Suit Filed
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblDateSuitFiled" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Litigation Y/N
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblLitigationYN" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            SRS Policy Number
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblSRSPolicyNumber" />
+                                                        </td>
+                                                        <%--<td align="left">
+                                                            Policy Effective Date
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblPolicyEffectiveDate" />
+                                                        </td>--%>
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td align="left">
+                                                            Policy Effective Date
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblPolicyEffectiveDate" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Policy Expiration Date
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblPolicyExpirationDate" />
+                                                        </td>                                                        
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Loss Gross Paid
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblLossGrossPaid" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Loss Net Recovered
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblLossNetRecovered" />
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td align="left">
-                                                        </td>
-                                                        <td align="center">
-                                                        </td>
-                                                        <td align="left">
-                                                        </td>
-                                                        <td align="left">
-                                                            Fax
+                                                            Loss Incurred
                                                         </td>
                                                         <td align="center">
                                                             :
                                                         </td>
                                                         <td align="left">
-                                                            <asp:Label runat="server" ID="lblFax" />
+                                                            <asp:Label runat="server" ID="lblLossIncurred" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Loss Outstanding
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblLossOutstanding" />
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td align="left">
-                                                        </td>
-                                                        <td align="center">
-                                                        </td>
-                                                        <td align="left">
-                                                        </td>
-                                                        <td align="left">
-                                                            Email address
+                                                            Expense Gross Paid
                                                         </td>
                                                         <td align="center">
                                                             :
                                                         </td>
                                                         <td align="left">
-                                                            <asp:Label runat="server" ID="lblEmployeeEmail" />
+                                                            <asp:Label runat="server" ID="lblExpenseGrossPaid" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Expense Net Recovered
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblExpenseNetRecovered" />
                                                         </td>
                                                     </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Expense Incurred
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblExpenseIncurred" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Expense Outstanding
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblExpenseOutstanding" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Medical Gross Paid
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblMedicalGrossPaid" />
+                                                        </td>
+                                                        <td align="left">
+                                                        </td>
+                                                        <td align="center">                                                            
+                                                        </td>
+                                                        <td align="left">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Accident City/Town
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblAccidentCityTown" />
+                                                        </td>
+                                                        <td align="left">
+                                                        </td>
+                                                        <td align="center">
+                                                        </td>
+                                                        <td align="left">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Claims Made Indicator
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblClaimsMadeIndicator" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Claims Made Date
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblClaimsMadeDate" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Retroactive Date
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblRetroactiveDate" />
+                                                        </td>
+                                                        <td align="left">
+                                                        </td>
+                                                        <td align="center">
+                                                        </td>
+                                                        <td align="left">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Cause of Injury Code
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblCauseofInjuryCode" />
+                                                        </td>
+                                                        <td align="left">
+                                                        </td>
+                                                        <td align="center">
+                                                        </td>
+                                                        <td align="left">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Driver Age
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblDriverAge" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Driver Gender
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblDriverGender" />
+                                                        </td>
+                                                    </tr>
+                                                   <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>
+                                                     <tr>
+                                                        <td align="left">
+                                                            Adjustor Code
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblAdjustorCode" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Date Updated
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblDateUpdated" />
+                                                        </td>
+                                                    </tr>
+                                                    
                                                 </table>
                                             </asp:Panel>
-                                            <asp:Panel ID="pnlLossInformation" runat="server" Width="100%">
-                                                <asp:UpdatePanel runat="server" ID="udpLoss">
-                                                    <ContentTemplate>
-                                                        <table cellspacing="1" cellpadding="3" width="100%" border="0">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td align="left" width="20%">
-                                                                        <b>Theft</b>
-                                                                    </td>
-                                                                    <td align="center" width="4%">
-                                                                    </td>
-                                                                    <td align="left" width="26%">
-                                                                    </td>
-                                                                    <td align="left" width="20%">
-                                                                        <b>Partial Theft</b>
-                                                                    </td>
-                                                                    <td align="center" width="4%">
-                                                                    </td>
-                                                                    <td align="left" width="26%">
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left">
-                                                                        Make
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblTheftMake" runat="server"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        Number of Vehicles Damaged
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblPartialTheftNumberofVehiclesDamaged" runat="server"></asp:Label>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left">
-                                                                        Model
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblTheftModel" runat="server"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        Total Estimate of Damages
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblParialTheftDamageEstimate" runat="server"></asp:Label>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left">
-                                                                        Year
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblTheftYear" runat="server"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <b>Vandalism</b>
-                                                                    </td>
-                                                                    <td align="center">
-                                                                    </td>
-                                                                    <td align="left">
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left">
-                                                                        VIN
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblTheftVIN" runat="server"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        Number of Vehicles Damaged
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblVandalismNumberofVehiclesDamaged" runat="server" __designer:wfdid="w4"></asp:Label>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left">
-                                                                        Invoice Value
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblVehicleInvoiceValue" runat="server"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        Total Estimate of Damages
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblVandalismTotalEstimateofDamages" runat="server" __designer:wfdid="w5"></asp:Label>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left">
-                                                                        Vehicle Recoverd Y/N
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblVehicleRecovered" runat="server"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <b>Hail</b>
-                                                                    </td>
-                                                                    <td align="center">
-                                                                    </td>
-                                                                    <td align="left">
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left">
-                                                                        Damage Amount
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblTheftVehicleDamageAmount" runat="server"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        Number of Vehicles Damaged
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblHailNumberOfVehiclesDamaged" runat="server" __designer:wfdid="w6"></asp:Label>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left">
-                                                                        Dealer wishes to Take possesiion Y/N
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblTheftDealershipWishToTakePossession" runat="server"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        Total Estimate of Damages
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblHailDamageEstimate" runat="server" __designer:wfdid="w7"></asp:Label>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" colspan="3">
-                                                                        <asp:Label ID="lblTitleMVADamage" runat="server" Text="<b>MVA Damage (Single Vehicle)</b>"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <b>Flood</b>
-                                                                    </td>
-                                                                    <td align="center">
-                                                                    </td>
-                                                                    <td align="left">
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left">
-                                                                    </td>
-                                                                    <td align="center">
-                                                                    </td>
-                                                                    <td align="left">
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        Number of Vehicles Damaged
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblFloodNumberOfVehiclesDamaged" runat="server"></asp:Label>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblTitleMake" runat="server" Text="Make"></asp:Label>
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        <asp:Label ID="lblMidMake" runat="server" Text=":"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblDPDClaimsVehicleMake" runat="server"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        Total Estimate of Damages
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        <asp:Label ID="Label1" runat="server" Text=":"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblFloodDamageEstimate" runat="server"></asp:Label>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblTitleModel" runat="server" Text="Model"></asp:Label>
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        <asp:Label ID="lblMidModel" runat="server" Text=":"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblDPDClaimsVehicleModel" runat="server"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <b>Fire</b>
-                                                                    </td>
-                                                                    <td align="center">
-                                                                    </td>
-                                                                    <td align="left">
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblTitleYear" runat="server" Text="Year"></asp:Label>
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        <asp:Label ID="lblMidYear" runat="server" Text=":"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblDPDClaimsVehicleYear" runat="server"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        Number of Vehicles Damaged
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblFireNumberOfVehiclesDamaged" runat="server" __designer:wfdid="w8"></asp:Label>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblTitleVIN" runat="server" Text="VIN"></asp:Label>
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        <asp:Label ID="lblMidVIN" runat="server" Text=":"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblDPDClaimsVehicleVIN" runat="server"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        Total Estimate of Damages
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblFireDamageEstimate" runat="server" __designer:wfdid="w9"></asp:Label>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblTitleDamageAmount" runat="server" Text="Damage Amount"></asp:Label>
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        <asp:Label ID="lblMidDamageAmount" runat="server" Text=":"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblDPDClaimsVehicleDamageEstimate" runat="server"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <b>Wind</b>
-                                                                    </td>
-                                                                    <td align="center">
-                                                                    </td>
-                                                                    <td align="left">
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblTitleDrivenbyAssociate" runat="server" Text="Vehicle Driven by Associate Y/N"></asp:Label>
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        <asp:Label ID="lblMidDrivenbyAssociate" runat="server" Text=":"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblDPDClaimsVehicleDrivenByAssociate" runat="server"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        Number of Vehicles Damaged
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblWindNumberOfVehiclesDamaged" runat="server" __designer:wfdid="w10"></asp:Label>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblTitleDrivenbyCustomer" runat="server" Text="Vehicle Driven by Customer Y/N"></asp:Label>
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        <asp:Label ID="lblMidDrivenbyCustomer" runat="server" Text=":"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblDPDClaimsVehicleDrivenByCustomer" runat="server"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        Total Estimate of Damages
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblWindDamageEstimate" runat="server" __designer:wfdid="w11"></asp:Label>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left">
-                                                                        Loss Description
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left">
-                                                                    </td>
-                                                                    <td align="left">
-                                                                    </td>
-                                                                    <td align="center">
-                                                                    </td>
-                                                                    <td align="left">
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" colspan="6">
-                                                                        <%--  <asp:TextBox ID="txtMVASingleLossDescription" runat="server" Width="100%" ReadOnly="true"
-                                                                    Rows="4" TextMode="MultiLine"></asp:TextBox>--%>
-                                                                        <uc:ctrlMultiLineTextBox ID="txtMVASingleLossDescription" runat="server" MaxLength="4000"
-                                                                            ControlType="Label" Width="790" />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left">
-                                                                        Police Were Notified Y/N
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblMVASinglePoliceNotified" runat="server"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                    </td>
-                                                                    <td align="center">
-                                                                    </td>
-                                                                    <td align="left">
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left">
-                                                                        Police Report Number
-                                                                    </td>
-                                                                    <td align="center">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left">
-                                                                        <asp:Label ID="lblMVASinglePoliceReportNumber" runat="server"></asp:Label>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                    </td>
-                                                                    <td align="center">
-                                                                    </td>
-                                                                    <td align="left">
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td colspan="6">
-                                                                        <table id="tblMultipleDamage" cellspacing="0" cellpadding="0" width="100%" runat="server">
-                                                                            <%--<tbody>--%>
-                                                                                <tr>
-                                                                                    <td align="left" colspan="3">
-                                                                                        <b>MVA Damage (Multiple Vehicle)</b>
-                                                                                    </td>
-                                                                                    <td align="left">
-                                                                                    </td>
-                                                                                    <td align="center">
-                                                                                    </td>
-                                                                                    <td align="left">
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td align="left" colspan="3">
-                                                                                        Click for detail<br />
-                                                                                        <div style="overflow-y: scroll; overflow-x: hidden; width: 99%; height: 100px; border: solid 1px #000000;"
-                                                                                            id="divMVADamageList">
-                                                                                            <asp:GridView ID="gvWCTransList" runat="server" Width="98%" AutoGenerateColumns="False"
-                                                                                                OnRowCommand="gvWCTransList_RowCommand">
-                                                                                                <HeaderStyle HorizontalAlign="center" />
-                                                                                                <RowStyle HorizontalAlign="center" />
-                                                                                                <Columns>
-                                                                                                    <asp:TemplateField HeaderText="Make">
-                                                                                                        <ItemStyle Width="20%" />
-                                                                                                        <ItemTemplate>
-                                                                                                            <asp:LinkButton runat="server" Text='<%#Eval("Make")%>' ID="lnkWCTransListMake" CommandName="ViewWCTransList"
-                                                                                                                CommandArgument='<%#Container.DataItemIndex%>' />
-                                                                                                        </ItemTemplate>
-                                                                                                    </asp:TemplateField>
-                                                                                                    <asp:TemplateField HeaderText="Model">
-                                                                                                        <ItemTemplate>
-                                                                                                            <asp:Label runat="server" ID="lblWCTransListModel" Text='<%#Eval("Model") %>' />
-                                                                                                        </ItemTemplate>
-                                                                                                    </asp:TemplateField>
-                                                                                                    <asp:TemplateField HeaderText="Year">
-                                                                                                        <ItemTemplate>
-                                                                                                            <asp:Label runat="server" ID="lblWCTransListYear" Text='<%#Eval("Year") %>' />
-                                                                                                        </ItemTemplate>
-                                                                                                    </asp:TemplateField>
-                                                                                                    <asp:TemplateField HeaderText="VIN">
-                                                                                                        <ItemTemplate>
-                                                                                                            <asp:Label runat="server" ID="lblWCTransListVIN" Text='<%#Eval("VIN#") %>' />
-                                                                                                        </ItemTemplate>
-                                                                                                    </asp:TemplateField>
-                                                                                                    <asp:TemplateField HeaderText="Damage Estimate">
-                                                                                                        <ItemTemplate>
-                                                                                                            $
-                                                                                                            <asp:Label runat="server" ID="lblWCTransListDamageEstimate" Text='<%#Eval("Damage_Estimate","{0:N2}") %>' />
-                                                                                                        </ItemTemplate>
-                                                                                                    </asp:TemplateField>
-                                                                                                    <asp:TemplateField Visible="false">
-                                                                                                        <ItemTemplate>
-                                                                                                            <asp:Label runat="server" ID="lblWCTransListDrivenByAssociate" Text='<%#Eval("Driven_By_Associate") %>' />
-                                                                                                            <asp:Label runat="server" ID="lblWCTransListVehicleDrivenByCustomer" Text='<%#Eval("Vehicle_Driven_By_Customer") %>' />
-                                                                                                            <asp:Label runat="server" ID="lblWCTransListPoliceNotified" Text='<%#Eval("Police_Notified") %>' />
-                                                                                                            <asp:Label runat="server" ID="lblWCTransListPoliceReportNumber" Text='<%#Eval("Police_Report_Number") %>' />
-                                                                                                            <asp:Label runat="server" ID="lblWCTransListInvoiceAmount" Text='<%#Eval("Invoice_Value") %>' />
-                                                                                                            <asp:Label runat="server" ID="lblWCTransListVehicleRecovered" Text='<%#Eval("Vehicle_Recovered") %>' />
-                                                                                                            <asp:Label runat="server" ID="lblWCTransListDealershipWishToTakePossession" Text='<%#Eval("Dealership_Wish_To_Take_Possession") %>' />
-                                                                                                            <asp:Label runat="server" ID="lblWCTransListAssociateCited" Text='<%#Eval("Associate_Cited") %>' />
-                                                                                                            <asp:Label runat="server" ID="lblWCTransListLossDescription" Text='<%#Eval("Loss_Description") %>' />
-                                                                                                            <asp:Label runat="server" ID="lblWCTransListDescriptionOfCitation" Text='<%#Eval("Description_Of_Citation") %>' />
-                                                                                                        </ItemTemplate>
-                                                                                                    </asp:TemplateField>
-                                                                                                </Columns>
-                                                                                                <EmptyDataTemplate>
-                                                                                                    <table cellpadding="4" cellspacing="0" width="100%">
-                                                                                                        <tr>
-                                                                                                            <td width="100%" align="center" style="border: 1px solid #cccccc;">
-                                                                                                                <asp:Label ID="lblEmptyHeaderGridMessage" runat="server" Text="No Record Found"></asp:Label>
-                                                                                                            </td>
-                                                                                                        </tr>
-                                                                                                    </table>
-                                                                                                </EmptyDataTemplate>
-                                                                                            </asp:GridView>
-                                                                                        </div>
-                                                                                        <asp:Panel ID="pnlMVADamageDetail" runat="server" Width="100%" Visible="false">
-                                                                                            <table cellpadding="3" cellspacing="1" border="0" width="100%">
-                                                                                                <tr>
-                                                                                                    <td width="26%" align="left">
-                                                                                                        Make
-                                                                                                    </td>
-                                                                                                    <td width="4%" align="center">
-                                                                                                        :
-                                                                                                    </td>
-                                                                                                    <td width="70%" align="left">
-                                                                                                        <asp:Label runat="server" ID="lblWCTransMake" />
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td align="left">
-                                                                                                        Model
-                                                                                                    </td>
-                                                                                                    <td align="center">
-                                                                                                        :
-                                                                                                    </td>
-                                                                                                    <td align="left">
-                                                                                                        <asp:Label runat="server" ID="lblWCTransModel" />
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td align="left">
-                                                                                                        Year
-                                                                                                    </td>
-                                                                                                    <td align="center">
-                                                                                                        :
-                                                                                                    </td>
-                                                                                                    <td align="left">
-                                                                                                        <asp:Label runat="server" ID="lblWCTransYear" />
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td align="left">
-                                                                                                        VIN
-                                                                                                    </td>
-                                                                                                    <td align="center">
-                                                                                                        :
-                                                                                                    </td>
-                                                                                                    <td align="left">
-                                                                                                        <asp:Label runat="server" ID="lblWCTransVIN" />
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td align="left">
-                                                                                                        Damage Amount
-                                                                                                    </td>
-                                                                                                    <td align="center">
-                                                                                                        :
-                                                                                                    </td>
-                                                                                                    <td align="left">
-                                                                                                        <asp:Label runat="server" ID="lblWCTransDamageAmount" />
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td align="left">
-                                                                                                        Vehicle Driven By Associate Y/N
-                                                                                                    </td>
-                                                                                                    <td align="center">
-                                                                                                        :
-                                                                                                    </td>
-                                                                                                    <td align="left">
-                                                                                                        <asp:Label runat="server" ID="lblWCTransDrivenByAssociate" />
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td align="left">
-                                                                                                        Associate was cited for a violation Y/N
-                                                                                                    </td>
-                                                                                                    <td align="center">
-                                                                                                        :
-                                                                                                    </td>
-                                                                                                    <td align="left">
-                                                                                                        <asp:Label runat="server" ID="lblWCTransAssociateCited" />
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td align="left">
-                                                                                                        Description of Citation
-                                                                                                    </td>
-                                                                                                    <td align="center">
-                                                                                                        :
-                                                                                                    </td>
-                                                                                                    <td align="left">
-                                                                                                        <asp:Label runat="server" ID="lblWCTransDescriptionOfCitation" />
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td align="left">
-                                                                                                        Vehicle Driven by Customer Y/N
-                                                                                                    </td>
-                                                                                                    <td align="center">
-                                                                                                        :
-                                                                                                    </td>
-                                                                                                    <td align="left">
-                                                                                                        <asp:Label runat="server" ID="lblWCTransDrivenbyCustomer" />
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td align="left">
-                                                                                                        Loss Description
-                                                                                                    </td>
-                                                                                                    <td align="center">
-                                                                                                        :
-                                                                                                    </td>
-                                                                                                    <td align="left">
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td align="left" colspan="3">
-                                                                                                        <uc:ctrlMultiLineTextBox ID="txtWCTransLossDescription" runat="server" MaxLength="4000"
-                                                                                                            ControlType="Label" Width="790" />
-                                                                                                        <%--<asp:TextBox TextMode="MultiLine" Width="100%" Rows="4" ID="txtWCTransLossDescription"
-                                                                                                    runat="server" ReadOnly="true" />--%>
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td align="left">
-                                                                                                        Police Were Notified Y/N
-                                                                                                    </td>
-                                                                                                    <td align="center">
-                                                                                                        :
-                                                                                                    </td>
-                                                                                                    <td align="left">
-                                                                                                        <asp:Label runat="server" ID="lblWCTransPoliceNotified" />
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td align="left">
-                                                                                                        Police Report Number
-                                                                                                    </td>
-                                                                                                    <td align="center">
-                                                                                                        :
-                                                                                                    </td>
-                                                                                                    <td align="left">
-                                                                                                        <asp:Label runat="server" ID="lblWCTransPoliceReportNumber" />
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                            </table>
-                                                                                        </asp:Panel>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            <%--</tbody>--%>
-                                                                        </table>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" colspan="3">
-                                                                        <b>Fraud</b>
-                                                                    </td>
-                                                                    <td align="left">
-                                                                    </td>
-                                                                    <td align="center">
-                                                                    </td>
-                                                                    <td align="left">
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" colspan="6">
-                                                                        Click for detail<br />
-                                                                        <div style="overflow-y: scroll; overflow-x: hidden; width: 99%; height: 100px; border: solid 1px #000000"
-                                                                            id="divFraudList">
-                                                                            <asp:GridView ID="gvFraudList" runat="server" Width="98%" AutoGenerateColumns="False"
-                                                                                OnRowCommand="gvFraudList_RowCommand" OnRowDataBound="gvFraudList_RowDataBound">
-                                                                                <HeaderStyle HorizontalAlign="center" />
-                                                                                <RowStyle HorizontalAlign="center" />
-                                                                                <Columns>
-                                                                                    <asp:TemplateField HeaderText="Make">
-                                                                                        <ItemStyle Width="20%" />
-                                                                                        <ItemTemplate>
-                                                                                            <asp:LinkButton runat="server" Text='<%#Eval("Make")%>' ID="lnkFraudListMake" CommandName="View"
-                                                                                                CommandArgument='<%#Container.DataItemIndex%>' />
-                                                                                        </ItemTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                    <asp:TemplateField HeaderText="Model">
-                                                                                        <ItemTemplate>
-                                                                                            <asp:Label runat="server" ID="lblFraudListModel" Text='<%#Eval("Model") %>' />
-                                                                                        </ItemTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                    <asp:TemplateField HeaderText="Year">
-                                                                                        <ItemTemplate>
-                                                                                            <asp:Label runat="server" ID="lblFraudListYear" Text='<%#Eval("Year") %>' />
-                                                                                        </ItemTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                    <asp:TemplateField HeaderText="VIN">
-                                                                                        <ItemTemplate>
-                                                                                            <asp:Label runat="server" ID="lblFraudListVIN" Text='<%#Eval("VIN#") %>' />
-                                                                                        </ItemTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                    <asp:TemplateField HeaderText="Invoice Value">
-                                                                                        <ItemTemplate>
-                                                                                            $
-                                                                                            <asp:Label runat="server" ID="lblFraudListDamageEstimate" Text='<%#Eval("Invoice_Value","{0:N2}") %>' />
-                                                                                        </ItemTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                    <asp:TemplateField HeaderText="Recovered?">
-                                                                                        <ItemTemplate>
-                                                                                            <asp:Label runat="server" ID="lblFraudListVehicleRecovered" Text='<%# Eval("Vehicle_Recovered") %>' />
-                                                                                        </ItemTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                    <asp:TemplateField Visible="false">
-                                                                                        <ItemTemplate>
-                                                                                            <asp:Label runat="server" ID="lblFraudListAssociateCited" Text='<%#Eval("Associate_Cited") %>' />
-                                                                                            <asp:Label runat="server" ID="lblFraudListDrivenByAssociate" Text='<%#Eval("Driven_By_Associate") %>' />
-                                                                                            <asp:Label runat="server" ID="lblFraudListVehicleDrivenByCustomer" Text='<%#Eval("Vehicle_Driven_By_Customer") %>' />
-                                                                                            <asp:Label runat="server" ID="lblFraudListPoliceNotified" Text='<%#Eval("Police_Notified") %>' />
-                                                                                            <asp:Label runat="server" ID="lblFraudListPoliceReportNumber" Text='<%#Eval("Police_Report_Number") %>' />
-                                                                                            <asp:Label runat="server" ID="lblFraudListInvoiceAmount" Text='<%#Eval("Invoice_Value") %>' />
-                                                                                            <asp:Label runat="server" ID="lblFraudListDealershipWishToTakePossession" Text='<%#Eval("Dealership_Wish_To_Take_Possession") %>' />
-                                                                                            <asp:Label runat="server" ID="lblLossDescription" Text='<%#Eval("Loss_Description") %>' />
-                                                                                        </ItemTemplate>
-                                                                                    </asp:TemplateField>
-                                                                                </Columns>
-                                                                                <EmptyDataTemplate>
-                                                                                    <table cellpadding="4" cellspacing="0" width="100%">
-                                                                                        <tr>
-                                                                                            <td width="100%" align="center" style="border: 1px solid #cccccc;">
-                                                                                                <asp:Label ID="lblEmptyHeaderGridMessage" runat="server" Text="No Record Found"></asp:Label>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </table>
-                                                                                </EmptyDataTemplate>
-                                                                            </asp:GridView>
-                                                                        </div>
-                                                                        <asp:Panel ID="pnlFraudDetail" runat="server" Width="100%" Visible="false">
-                                                                            <table cellpadding="3" cellspacing="1" border="0" width="100%">
-                                                                                <tr>
-                                                                                    <td width="26%" align="left">
-                                                                                        Make
-                                                                                    </td>
-                                                                                    <td width="4%" align="center">
-                                                                                        :
-                                                                                    </td>
-                                                                                    <td width="70%" align="left">
-                                                                                        <asp:Label runat="server" ID="lblFraudMake" />
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td align="left">
-                                                                                        Model
-                                                                                    </td>
-                                                                                    <td align="center">
-                                                                                        :
-                                                                                    </td>
-                                                                                    <td align="left">
-                                                                                        <asp:Label runat="server" ID="lblFraudModel" />
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td align="left">
-                                                                                        Year
-                                                                                    </td>
-                                                                                    <td align="center">
-                                                                                        :
-                                                                                    </td>
-                                                                                    <td align="left">
-                                                                                        <asp:Label runat="server" ID="lblFraudYear" />
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td align="left">
-                                                                                        VIN
-                                                                                    </td>
-                                                                                    <td align="center">
-                                                                                        :
-                                                                                    </td>
-                                                                                    <td align="left">
-                                                                                        <asp:Label runat="server" ID="lblFraudVIN" />
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td align="left">
-                                                                                        Vehicle Invoice Amount
-                                                                                    </td>
-                                                                                    <td align="center">
-                                                                                        :
-                                                                                    </td>
-                                                                                    <td align="left">
-                                                                                        <asp:Label runat="server" ID="lblFraudInvoiceAmount" />
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td align="left">
-                                                                                        Vehicle Recovered Y/N
-                                                                                    </td>
-                                                                                    <td align="center">
-                                                                                        :
-                                                                                    </td>
-                                                                                    <td align="left">
-                                                                                        <asp:Label runat="server" ID="lblFraudVehicleRecovered" />
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td align="left">
-                                                                                        ADealership Wishes to Take Possession Y/N
-                                                                                    </td>
-                                                                                    <td align="center">
-                                                                                        :
-                                                                                    </td>
-                                                                                    <td align="left">
-                                                                                        <asp:Label runat="server" ID="lblFraudDealershipWishToTakePossession" />
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td align="left">
-                                                                                        Loss Description
-                                                                                    </td>
-                                                                                    <td align="center">
-                                                                                        :
-                                                                                    </td>
-                                                                                    <td align="left">
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td align="left" colspan="3">
-                                                                                        <uc:ctrlMultiLineTextBox ID="txtLossDescription" runat="server" MaxLength="4000"
-                                                                                            ControlType="Label" Width="790" />
-                                                                                        <%--<asp:TextBox TextMode="MultiLine" Width="100%" Rows="4" ID="txtLossDescription" runat="server"
-                                                                                    ReadOnly="true" />--%>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td align="left">
-                                                                                        Police Were Notified Y/N
-                                                                                    </td>
-                                                                                    <td align="center">
-                                                                                        :
-                                                                                    </td>
-                                                                                    <td align="left">
-                                                                                        <asp:Label runat="server" ID="lblPoliceNotified" />
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td align="left">
-                                                                                        Police Report Number
-                                                                                    </td>
-                                                                                    <td align="center">
-                                                                                        :
-                                                                                    </td>
-                                                                                    <td align="left">
-                                                                                        <asp:Label runat="server" ID="lblPoliceReportNumber" />
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </table>
-                                                                        </asp:Panel>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </ContentTemplate>
-                                                </asp:UpdatePanel>
-                                            </asp:Panel>
-                                            <asp:Panel ID="pnlComments" runat="server" Width="100%">
+                                            <asp:Panel ID="pnlAddresses" runat="server" Width="100%" >
+                                              <asp:Panel id="pnlAddressesGrid" runat="server"  >
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                     <tr>
+                                                        <td valign="top" style="width: 15%">
+                                                            DPD Address Grid                                                           
+                                                        </td>
+                                                        <td align="center" valign="top" style="width: 3%">
+                                                            :
+                                                        </td>
+                                                        <td style="margin-left: 40px" style="width: 650px">
+                                                            <asp:GridView ID="gvAddress" runat="server" AutoGenerateColumns="false" Width="100%" OnRowCommand="gvAddress_RowCommand" OnRowDataBound="gvAddress_RowDataBound">
+                                                                <EmptyDataRowStyle ForeColor="#7f7f7f" HorizontalAlign="Center" />
+                                                                <EmptyDataTemplate>
+                                                                    <asp:Label ID="lblEmptyEmergencyMessage" runat="server" Text="No Record Found"></asp:Label>
+                                                                </EmptyDataTemplate>
+                                                                <Columns>                                                                   
+                                                                    <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top" 
+                                                                        HeaderText="Last Name">
+                                                                        <ItemStyle Width="20%" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lblLastName" runat="server" Text='<%# Eval("Last_Name") %>'
+                                                                                CommandName="EditRecord" CommandArgument='<%#Eval("PK_DPD_Claims_Addresses") %>' ></asp:LinkButton>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                   <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top" 
+                                                                        HeaderText="First Name">
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lblFirstName" runat="server" Text='<%# Eval("First_Name") %>'
+                                                                                CommandName="EditRecord" CommandArgument='<%#Eval("PK_DPD_Claims_Addresses") %>' ></asp:LinkButton>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top" 
+                                                                        HeaderText="Address">
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lblAddress" runat="server" Text='<%# Eval("Address_1") %>' 
+                                                                                CommandName="EditRecord" CommandArgument='<%#Eval("PK_DPD_Claims_Addresses") %>'></asp:LinkButton>                                                                                                                                                                
+                                                                            <%--<asp:LinkButton ID="lblAddress2" runat="server" Text='<%# Eval("Address_2") %>' 
+                                                                                CommandName="EditRecord" CommandArgument='<%#Eval("PK_DPD_Claims_Addresses") %>'></asp:LinkButton> 
+                                                                            <asp:LinkButton ID="lblCity" runat="server" Text='<%# Eval("City") %>'
+                                                                                CommandName="EditRecord" CommandArgument='<%#Eval("PK_DPD_Claims_Addresses") %>'></asp:LinkButton>--%>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top" 
+                                                                        HeaderText="Phone">
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lblPhone" runat="server" Text='<%# Eval("Phone_Number") %>'
+                                                                                CommandName="EditRecord" CommandArgument='<%#Eval("PK_DPD_Claims_Addresses") %>' ></asp:LinkButton>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                            </asp:GridView>
+                                                        </td>
+                                                    </tr>                                                                  
+                                                    <tr>
+                                                        <td>
+                                                            &nbsp;
+                                                        </td>
+                                                    </tr>                                                   
+                                                    <tr>
+                                                        <td>
+                                                            &nbsp;
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                               </asp:Panel>
+                                                 <asp:Panel id="pnlAddressesView" runat="server" Visible="false" Width="100%">
+                                                <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                    <tr>
+                                                        <td height="12px">
+                                                        </td>
+                                                    </tr>                                                                                               
+                                                    <tr>
                                                         <td align="left" width="20%">
-                                                            Comments:
+                                                            Address Number
                                                         </td>
                                                         <td align="center" width="4%">
+                                                            :
                                                         </td>
                                                         <td align="left" width="26%">
+                                                            <asp:Label runat="server" ID="lblAddressNumber" />
+                                                        </td>          
+                                                        <td align="left" width="20%">&nbsp;</td>   
+                                                        <td align="center" width="4%">&nbsp;</td>   
+                                                        <td align="left" width="26%">&nbsp;</td>   
+                                                       
+                                                    <tr>
+                                                        <td height="12px" colspan="6"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            First Name
                                                         </td>
-                                                        <td align="left" width="20%">
+                                                        <td align="center">
+                                                            :
                                                         </td>
-                                                        <td align="center" width="4%">
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblAddressFirstName" />
                                                         </td>
-                                                        <td align="left" width="26%">
+                                                        <td align="left">
+                                                            Last Name
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblAddressLastName" />
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" colspan="6" style="height: 150px; vertical-align: top;">
-                                                            <%--<asp:TextBox runat="server" Rows="4" TextMode="MultiLine" Width="100%" ID=""
-                                                                ReadOnly="true" />--%>
-                                                            <uc:ctrlMultiLineTextBox ID="txtComments" runat="server" MaxLength="4000" ControlType="Label"
-                                                                Width="790" />
+                                                        <td align="left">
+                                                            Address
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblAddress1" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Address 2
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblAddress2" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            City
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblAddressCity" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Phone Number
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblAddressPhoneNumber" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Fax Number
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblFaxNumber" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Email Address
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblEmailAddress" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6" align="center" style="padding-right:150px;">
+                                                            <asp:button runat="server" id ="btnBackToGrid" Text="Back" OnClick="btnBackToGrid_Click" />
+                                                        </td>
+
+                                                    </tr>
+                                                     <tr>
+                                                        <td colspan="5"></td>
+                                                    </tr>
+                                                </table>
+
+                                            </asp:Panel>
+                                             </asp:Panel>
+                                               
+                                            <asp:Panel ID="pnlIncidents" runat="server" Width="100%">
+                                                <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                    <tr>
+                                                        <td valign="top" style="width: 15%">
+                                                            DPD Incidents Grid                                                           
+                                                        </td>
+                                                        <td align="center" valign="top" style="width: 3%">
+                                                            :
+                                                        </td>
+                                                        <td style="margin-left: 40px" style="width: 650px">
+                                                            <asp:GridView ID="gvDPDIncidentsGrid" runat="server" AutoGenerateColumns="false" Width="100%">
+                                                                <EmptyDataRowStyle ForeColor="#7f7f7f" HorizontalAlign="Center" />
+                                                                <EmptyDataTemplate>
+                                                                    <asp:Label ID="Label1" runat="server" Text="No Record Found"></asp:Label>
+                                                                </EmptyDataTemplate>
+                                                                <Columns>                                                                   
+                                                                    <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top" 
+                                                                        HeaderText="Field Number">
+                                                                        <ItemTemplate >
+                                                                            <asp:Label ID="lblFieldNumber" runat="server" Text='<%# Eval("field_Number") %>'
+                                                                                 Width="80px"></asp:Label>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                   <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top"
+                                                                        HeaderText="Incident Category">
+                                                                        <ItemTemplate>
+                                                                            <asp:Label ID="lblDPDIncidentCategory" runat="server" Text='<%# Eval("Incident_Category") %>'
+                                                                                 Width="160px"></asp:Label>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top"
+                                                                        HeaderText="Incident Data">
+                                                                        <ItemTemplate>
+                                                                            <asp:Label ID="lblIncidentCategory" runat="server" Text='<%# Eval("Incident_Data") %>'
+                                                                                 Width=""></asp:Label>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>                                                                   
+                                                                </Columns>
+                                                            </asp:GridView>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            &nbsp;
+                                                        </td>
+                                                    </tr>
+                                                   
+                                                    <tr>
+                                                        <td>
+                                                            &nbsp;
                                                         </td>
                                                     </tr>
                                                 </table>
                                             </asp:Panel>
-                                            <asp:Panel ID="pnlSonicNotes" runat="server" Style="display: none;">
+                                            <asp:Panel ID="pnlNotes" runat="server" Style="display: none;">
                                                 <table border="0" cellpadding="1" cellspacing="0" width="100%">
                                                     <tr>
                                                         <td width="100%" align="left">
-                                                            <uc:ctrlSonicNotes ID="ctrlSonicNotes" runat="server" IsAddVisible="true" />
+                                                            <uc:CtrlAdjusterNotes ID="ucAdjusterNotes" runat="server" CurrentClaimType="DPD" />
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -1475,7 +1322,7 @@
                                                                         HeaderText="Notes">
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lbtNotes" runat="server" Text='<%# Eval("Note") %>' CommandName="EditRecord"
-                                                                                CommandArgument='<%#Eval("PK_Claim_Notes") %>' Width="310px" CssClass="TextClip"></asp:LinkButton>
+                                                                                CommandArgument='<%#Eval("PK_Claim_Notes") %>' Width="312px" CssClass="TextClip"></asp:LinkButton>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top"
@@ -1509,16 +1356,750 @@
                                                     </tr>
                                                 </table>--%>
                                             </asp:Panel>
-                                            <asp:Panel ID="pnlAttachment" runat="server">
+                                            <asp:Panel ID="pnlDetails" runat="server">
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                     <tr>
-                                                        <td>
-                                                            <uc:CtlAttachment ID="CtrlAttachment_Cliam" runat="server" />
+                                                        <td height="12px"></td>                                               
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" width="20%">
+                                                            Contact Name
+                                                        </td>
+                                                        <td align="center" width="4%">
+                                                            :
+                                                        </td>
+                                                        <td align="left" width="26%">
+                                                            <asp:Label runat="server" ID="lblContactName" />
+                                                        </td>
+                                                        <td align="left" width="20%">
+                                                            Contact Home Phone
+                                                        </td>
+                                                        <td align="center" width="4%">
+                                                            :
+                                                        </td>
+                                                        <td align="left" width="26%">
+                                                            <asp:Label runat="server" ID="lblContactHomePhone" />
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <uc:CtlAttachmentDetail ID="CtlAttachDetail_Cliam" runat="server" IntAttachmentPanel="4" />
+                                                        <td align="left">
+                                                            Report Number
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblReportNumber" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Loss Damage Estimate
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblLossDamageEstimate" />
+                                                        </td>
                                                     </tr>
+                                                    <tr>
+                                                        <td height="12px"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Owner/Manufacturer Name
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblOwnerManufacturerName" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Owner/Manufacturer Home Phone
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblOwnerManufacturerHomePhone" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Owner/Manufacturer Address
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblOwnerManufacturerAddress" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Owner/Manufacturer Address 2
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblOwnerManufacturerAddress2" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>                                                    
+                                                    <tr>
+                                                        <td align="left">
+                                                            Owner/Manufacturer City
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblOwnerManufacturerCity" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Owner/Manufacturer State
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblOwnerManufacturerState" />
+                                                        </td>
+                                                    </tr>                                                   
+                                                    <tr>
+                                                        <td align="left">
+                                                            Owner/Manufacturer Zip Code
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblOwnerManufacturerZipCode" />
+                                                        </td>
+                                                        <%--<td align="left">
+                                                            Owner/Manufacturer State
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="Label3" />
+                                                        </td>--%>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>
+                                                     <tr>
+                                                        <td align="left">
+                                                            Vehicle Damage Description
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblVehicleDamageDescription" />
+                                                        </td>
+                                                       <%-- <td align="left">
+                                                            Address1
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblEmployeeAddress1" />
+                                                        </td>--%>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>                                              
+                                                    <tr>
+                                                        <td align="left">
+                                                            Other Vehicle Damage Estimate
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblOtherVehicleDamageEstimate" />
+                                                        </td>
+                                                        <%--<td align="left">
+                                                            Loss Location Address
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblLossLocationAddress" />
+                                                        </td>--%>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Other Vehicle Owner Name
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblOtherVehicleOwnerName" />
+                                                        </td>                                                        
+                                                        <td align="left">
+                                                            Other Vehicle Owner Address
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblOtherVehicleOwnerAddress" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Other Vehicle Driver Address
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblOtherVehicleDriverAddress" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Other Vehicle Driver Address 2
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblOtherVehicleDriverAddress2" />
+                                                        </td>
+                                                    </tr>                                                        
+                                                    <tr>
+                                                        <td align="left">
+                                                            Other Vehicle Driver Phone Number
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblOtherVehicleDriverPhoneNumber" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Other Vehicle Driver Work Phone
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblOtherVehicleDriverWorkPhone" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Other Vehicle Driver’s License Number
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblOtherVehicleDriverLicenseNumber" />
+                                                        </td>
+                                                        <%--<td align="left">
+                                                            Vehicle Year
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="Label20" />
+                                                        </td>--%>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            First Party Vehicle Type
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblFirstPartyVehicleType" />
+                                                        </td>
+                                                        <td align="left">
+                                                            First Party Vehicle Drivable
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblFirstPartyVehicleDrivable" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            First Party Vehicle Address
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblFirstPartyVehicleAddress" />
+                                                        </td>
+                                                        <td align="left">
+                                                            First Party Vehicle Address 2
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblFirstPartyVehicleAddress2" />
+                                                        </td>
+                                                    </tr>                                                    
+                                                    <tr>
+                                                        <td align="left">
+                                                            First Party Vehicle City
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblFirstPartyVehicleCity" />
+                                                        </td>
+                                                        <td align="left">
+                                                            First Party Vehicle State
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblFirstPartyVehicleState" />
+                                                        </td>
+                                                    </tr>                                                   
+                                                    <tr>
+                                                        <td align="left">
+                                                            Frist Party Vehicle Zip Code
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblFristPartyVehicleZipCode" />
+                                                        </td>
+                                                        <%--<td align="left">
+                                                            Employee Address
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="Label26" />
+                                                        </td>--%>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            First Party Citations Issued
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblFirstPartyCitationsIssued" />
+                                                        </td>
+                                                        <td align="left">
+                                                            First Party Citations Issued By
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblFirstPartyCitationsIssuedBy" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            First Party Citation Number
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblFirstPartyCitationNumber" />
+                                                        </td>
+                                                        <%--<td align="left">
+                                                            Employee Gender
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="Label30" />
+                                                        </td>--%>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="12px"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Description of Property Damage
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblDescriptionofPropertyDamage" />
+                                                        </td>
+                                                        <%--<td align="left">
+                                                            Employee Marital Status
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="Label32" />
+                                                        </td>--%>
+                                                    </tr>
+                                                     <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Any Vehicles Towed
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblAnyVehiclesTowed" />
+                                                        </td>
+                                                        <td align="left">
+                                                            When to Contact
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblWhentoContact" />
+                                                        </td>
+                                                    </tr>                                                    
+                                                    <tr>
+                                                        <td align="left">
+                                                            Reported By
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblReportedBy" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Insured Vehicle Location
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblInsuredVehicleLocation" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Third Party Insurance Company
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyInsuranceCompany" />
+                                                        </td>
+                                                        <td align="left">
+                                                           Third Party Insurance Policy Number
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyInsurancePolicyNumber" />
+                                                        </td>
+                                                    </tr>                                                    
+                                                    <tr>
+                                                        <td align="left">
+                                                            Third Party Claim Number
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyClaimNumber" />
+                                                        </td>
+                                                        <%--<td align="left">
+                                                            Line of Coverage
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="Label39" />
+                                                        </td>--%>
+                                                    </tr>                                                    
+                                                    <tr>
+                                                        <td align="left">
+                                                            Third Party Driver’s Name
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyDriverName" />
+                                                        </td>
+                                                        <%--<td align="left">
+                                                            Litigation Y/N
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="Label41" />
+                                                        </td>--%>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Third Party Driver Address
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyDriverAddress" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Third Party Driver Address 2
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyDriverAddress2" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Third Party Driver City
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyDriverCity" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Third Party Driver State
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyDriverState" />
+                                                        </td>                                                        
+                                                    </tr>                                                    
+                                                    <tr>
+                                                        <td align="left">
+                                                            Third Party Postal Code
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyPostalCode" />
+                                                        </td>
+                                                        <%--<td align="left">
+                                                            Loss Net Recovered
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="Label46" />
+                                                        </td>--%>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Third Party Driver Home Phone
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyDriverHomePhone" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Third Party Driver Work Phone
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyDriverWorkPhone" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Third Party Driver’s License Number
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyDriverLicenseNumber" />
+                                                        </td>
+                                                        <%--<td align="left">
+                                                            Expense Net Recovered
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="Label50" />
+                                                        </td>--%>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Third Party Vehicle Year
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyVehicleYear" />
+                                                        </td>
+                                                      <td align="left">
+                                                            Third Party Vehicle Make
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyVehicleMake" />
+                                                        </td>
+                                                    </tr>
+                                                    
+                                                    <tr>
+                                                        <td align="left">
+                                                            Third Party Vehicle Model
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyVehicleModel" />
+                                                        </td>
+                                                        <td align="left">Third Party Vehicle License Plate Number
+                                                        </td>
+                                                        <td align="center">
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyVehicleLicensePlateNumber" />
+                                                        </td>
+                                                    </tr>
+                                                    
+                                                    <tr>
+                                                        <td align="left">
+                                                            Third Party Vehicle VIN
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyVehicleVIN" />
+                                                        </td>
+                                                        <td align="left">
+                                                            Third Party Vehicle Damage Description
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyVehicleDamageDescription" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Third Party Vehicle Citation Issued
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyVehicleCitationIssued" />
+                                                        </td>
+                                                        <td align="left">Third Party Vehicle Citation Number
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyVehicleCitationNumber" />
+                                                        </td>
+                                                    </tr>                                                    
+                                                    <tr>
+                                                        <td align="left">
+                                                            Third Party Vehicle Driver Wearing Seatbelt
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyVehicleDriverWearingSeatbelt" />
+                                                        </td>
+                                                        <td align="left">Third Party Driver Injury Description
+                                                        </td>
+                                                        <td align="center">
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyDriverInjuryDescription" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            Third Party Vehicle Driver Owns Vehicle
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyVehicleDriverOwnsVehicle" />
+                                                        </td>
+                                                        <td align="left">
+                                                           Third Party Vehicle Did Passenger Seek Medical Attention
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblThirdPartyVehicleDidPassengerSeekMedicalAttention" />
+                                                        </td>
+                                                    </tr>
+                                                   <tr>
+                                                        <td height="12px"></td>                                               
+                                                    </tr>
+                                                     <tr>
+                                                        <td align="left">
+                                                            Authority Contacted
+                                                        </td>
+                                                        <td align="center">
+                                                            :
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:Label runat="server" ID="lblAuthorityContacted" />
+                                                        </td>                                                        
+                                                    </tr>
+                                                    
                                                 </table>
                                             </asp:Panel>
                                         </div>
@@ -1528,16 +2109,17 @@
                         </td>
                     </tr>
                     <tr>
+                        <td></td>
                         <td>
                             <table cellpadding="5" cellspacing="1" border="0" width="100%">
                                 <tr>
                                     <td align="right" width="50%">
                                         <input type="button" id="btnPrev" value="Previous" style="display: none; font-weight: bold;
-                                            color: #000080;" onclick="javascript:ShowPrevNext(-1);" />
+                                            color: #000080;" onclick="javascript: ShowPrevNext(-1);" />
                                     </td>
                                     <td align="left" width="50%">
                                         <input type="button" id="btnNext" style="font-weight: bold; color: #000080;" value="Next"
-                                            onclick="javascript:ShowPrevNext(1);" />
+                                            onclick="javascript: ShowPrevNext(1);" />
                                     </td>
                                 </tr>
                             </table>
@@ -1547,4 +2129,4 @@
             </td>
         </tr>
     </table>
-</asp:Content>
+</asp:content>

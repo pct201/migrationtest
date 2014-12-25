@@ -69,8 +69,8 @@
             document.getElementById(headerChkID).checked = false;
     }
 
-    function OpenMailPopUp(strPKs, FK_Table_Name, FK_Claim) {
-        var oWnd = window.open('<%=AppConfig.SiteURL%>SONIC/Exposures/Asset_Protection_SendMail.aspx?Tab=AL&PK_Fields=' + strPKs + '&Table_Name=' + FK_Table_Name + '&Claim_ID=' + FK_Claim, "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=600,height=300");
+    function OpenMailPopUp(tab, strPKs, FK_Table_Name, FK_Claim) {
+        var oWnd = window.open('<%=AppConfig.SiteURL%>SONIC/Exposures/Asset_Protection_SendMail.aspx?Tab=' + tab +'&PK_Fields=' + strPKs + '&Table_Name=' + FK_Table_Name+ '&Claim_ID=' + FK_Claim, "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=600,height=300");
         oWnd.moveTo(450, 300);
         return false;
     }

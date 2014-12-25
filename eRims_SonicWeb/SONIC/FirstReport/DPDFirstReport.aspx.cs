@@ -526,71 +526,74 @@ public partial class SONIC_DPDFirstReport : clsBasePage
             DataSet dsFRWInfo = First_Report_Wizard.GetInfoByWizardID(First_Report_Wizard_ID, First_Report_Wizard.Tables.DPD_FR, PK_DPD_FR_ID);
 
             DataTable dtFRWInfo = dsFRWInfo.Tables[0];
-            DataRow drFRWInfo = dtFRWInfo.Rows[0];
-            #region Fill Location Information Controls
-            //if value is not null than select value in dropdown
-            if (drFRWInfo["Sonic_Location_Code"] != null)
+            if (dtFRWInfo.Rows.Count > 0)
             {
-                ListItem lstRLN = new ListItem();
-                lstRLN = ddlLocationNumber.Items.FindByText(drFRWInfo["Sonic_Location_Code"].ToString());
-                //check List Item if not null than select = true
-                if (lstRLN != null)
+                DataRow drFRWInfo = dtFRWInfo.Rows[0];
+                #region Fill Location Information Controls
+                //if value is not null than select value in dropdown
+                if (drFRWInfo["Sonic_Location_Code"] != null)
                 {
-                    lstRLN.Selected = true;
+                    ListItem lstRLN = new ListItem();
+                    lstRLN = ddlLocationNumber.Items.FindByText(drFRWInfo["Sonic_Location_Code"].ToString());
+                    //check List Item if not null than select = true
+                    if (lstRLN != null)
+                    {
+                        lstRLN.Selected = true;
+                    }
                 }
-            }
-            //select value from Location d/b/a Dropdown
-            if (drFRWInfo["dba"] != null)
-            {
-                ListItem lstdba = new ListItem();
-                lstdba = ddlLocationdba.Items.FindByText(drFRWInfo["dba"].ToString());
-                //check listitem if not null than list item selected = true
-                if (lstdba != null)
+                //select value from Location d/b/a Dropdown
+                if (drFRWInfo["dba"] != null)
                 {
-                    lstdba.Selected = true;
+                    ListItem lstdba = new ListItem();
+                    lstdba = ddlLocationdba.Items.FindByText(drFRWInfo["dba"].ToString());
+                    //check listitem if not null than list item selected = true
+                    if (lstdba != null)
+                    {
+                        lstdba.Selected = true;
+                    }
                 }
-            }
-            //select value from Location f/k/a Dropdown
-            if (drFRWInfo["FK_Location_ID"] != null)
-            {
-                //Fill Location FKA Dropdown
-                ComboHelper.FillLocationfka(new DropDownList[] { ddlLocationfka }, (drFRWInfo["FK_Location_ID"] != null) ? Convert.ToInt32(drFRWInfo["FK_Location_ID"]) : 0, true);
-            }
-            //select value from Location Legal Entity Dropdown
-            if (drFRWInfo["legal_entity"] != null)
-            {
-                ListItem lstLE = new ListItem();
-                lstLE = ddlLegalEntity.Items.FindByText(drFRWInfo["legal_entity"].ToString().Trim());
-                //check list item if not null than list item selected = true
-                if (lstLE != null)
+                //select value from Location f/k/a Dropdown
+                if (drFRWInfo["FK_Location_ID"] != null)
                 {
-                    lstLE.Selected = true;
+                    //Fill Location FKA Dropdown
+                    ComboHelper.FillLocationfka(new DropDownList[] { ddlLocationfka }, (drFRWInfo["FK_Location_ID"] != null) ? Convert.ToInt32(drFRWInfo["FK_Location_ID"]) : 0, true);
                 }
+                //select value from Location Legal Entity Dropdown
+                if (drFRWInfo["legal_entity"] != null)
+                {
+                    ListItem lstLE = new ListItem();
+                    lstLE = ddlLegalEntity.Items.FindByText(drFRWInfo["legal_entity"].ToString().Trim());
+                    //check list item if not null than list item selected = true
+                    if (lstLE != null)
+                    {
+                        lstLE.Selected = true;
+                    }
+                }
+
+                //set address1,address2,city,state,ZipCOde Values
+                txtLocationAddress1.Text = (drFRWInfo["Address_1"] != null) ? Convert.ToString(drFRWInfo["Address_1"]) : "";
+                txtLocationAddress2.Text = (drFRWInfo["Address_2"] != null) ? Convert.ToString(drFRWInfo["Address_2"]) : "";
+                txtLocationCity.Text = (drFRWInfo["City"] != null) ? Convert.ToString(drFRWInfo["City"]) : "";
+                txtLocationState.Text = new State(!string.IsNullOrEmpty(Convert.ToString(drFRWInfo["State"])) ? Convert.ToDecimal(drFRWInfo["State"]) : 0).FLD_state;
+                txtLocationZipCode.Text = (drFRWInfo["Zip_Code"] != null) ? Convert.ToString(drFRWInfo["Zip_Code"]) : "";
+
+                #endregion
+
+                #region Fill Contact Information Controls
+                txtdba.Text = (drFRWInfo["dba"] != null) ? Convert.ToString(drFRWInfo["dba"]) : "";
+                txtContactName.Text = (drFRWInfo["EmployeeName"] != null) ? Convert.ToString(drFRWInfo["EmployeeName"]) : "";
+                txtContact_Best_Time.Text = (drFRWInfo["Contact_Best_Time"] != null) ? Convert.ToString(drFRWInfo["Contact_Best_Time"]) : "";
+                txtAddress_1.Text = (drFRWInfo["Address_1"] != null) ? Convert.ToString(drFRWInfo["Address_1"]) : "";
+                txtAddress_2.Text = (drFRWInfo["Address_2"] != null) ? Convert.ToString(drFRWInfo["Address_2"]) : "";
+                txtWork_Phone.Text = (drFRWInfo["TelephoneNumber1"] != null) ? Convert.ToString(drFRWInfo["TelephoneNumber1"]) : "";
+                txtEmployee_Cell_Phone.Text = (drFRWInfo["TelephoneNumber2"] != null) ? Convert.ToString(drFRWInfo["TelephoneNumber2"]) : "";
+                txtCity.Text = (drFRWInfo["City"] != null) ? Convert.ToString(drFRWInfo["City"]) : "";
+                txtZip_Code.Text = (drFRWInfo["Zip_Code"] != null) ? Convert.ToString(drFRWInfo["Zip_Code"]) : "";
+                txtState.Text = new State(!string.IsNullOrEmpty(Convert.ToString(drFRWInfo["State"])) ? Convert.ToDecimal(drFRWInfo["State"]) : 0).FLD_state;
+                txtEmployee_Fax.Text = (drFRWInfo["Contact_Fax"] != null) ? Convert.ToString(drFRWInfo["Contact_Fax"]) : "";
+                txtEmail.Text = (drFRWInfo["FRWEmail"] != null) ? Convert.ToString(drFRWInfo["FRWEmail"]) : "";
+                #endregion
             }
-
-            //set address1,address2,city,state,ZipCOde Values
-            txtLocationAddress1.Text = (drFRWInfo["Address_1"] != null) ? Convert.ToString(drFRWInfo["Address_1"]) : "";
-            txtLocationAddress2.Text = (drFRWInfo["Address_2"] != null) ? Convert.ToString(drFRWInfo["Address_2"]) : "";
-            txtLocationCity.Text = (drFRWInfo["City"] != null) ? Convert.ToString(drFRWInfo["City"]) : "";
-            txtLocationState.Text = new State(!string.IsNullOrEmpty(Convert.ToString(drFRWInfo["State"])) ? Convert.ToDecimal(drFRWInfo["State"]) : 0).FLD_state;
-            txtLocationZipCode.Text = (drFRWInfo["Zip_Code"] != null) ? Convert.ToString(drFRWInfo["Zip_Code"]) : "";
-
-            #endregion
-
-            #region Fill Contact Information Controls
-            txtdba.Text = (drFRWInfo["dba"] != null) ? Convert.ToString(drFRWInfo["dba"]) : "";
-            txtContactName.Text = (drFRWInfo["EmployeeName"] != null) ? Convert.ToString(drFRWInfo["EmployeeName"]) : "";
-            txtContact_Best_Time.Text = (drFRWInfo["Contact_Best_Time"] != null) ? Convert.ToString(drFRWInfo["Contact_Best_Time"]) : "";
-            txtAddress_1.Text = (drFRWInfo["Address_1"] != null) ? Convert.ToString(drFRWInfo["Address_1"]) : "";
-            txtAddress_2.Text = (drFRWInfo["Address_2"] != null) ? Convert.ToString(drFRWInfo["Address_2"]) : "";
-            txtWork_Phone.Text = (drFRWInfo["TelephoneNumber1"] != null) ? Convert.ToString(drFRWInfo["TelephoneNumber1"]) : "";
-            txtEmployee_Cell_Phone.Text = (drFRWInfo["TelephoneNumber2"] != null) ? Convert.ToString(drFRWInfo["TelephoneNumber2"]) : "";
-            txtCity.Text = (drFRWInfo["City"] != null) ? Convert.ToString(drFRWInfo["City"]) : "";
-            txtZip_Code.Text = (drFRWInfo["Zip_Code"] != null) ? Convert.ToString(drFRWInfo["Zip_Code"]) : "";
-            txtState.Text = new State(!string.IsNullOrEmpty(Convert.ToString(drFRWInfo["State"])) ? Convert.ToDecimal(drFRWInfo["State"]) : 0).FLD_state;
-            txtEmployee_Fax.Text = (drFRWInfo["Contact_Fax"] != null) ? Convert.ToString(drFRWInfo["Contact_Fax"]) : "";
-            txtEmail.Text = (drFRWInfo["FRWEmail"] != null) ? Convert.ToString(drFRWInfo["FRWEmail"]) : "";
-            #endregion
 
             //used to Disable all Controls
             DisableEnableControls(false);
@@ -5436,135 +5439,138 @@ public partial class SONIC_DPDFirstReport : clsBasePage
 
             DataSet dsFRWInfo = First_Report_Wizard.GetInfoByWizardID(First_Report_Wizard_ID, First_Report_Wizard.Tables.DPD_FR, PK_DPD_FR_ID);
             DataTable dtFRWInfo = dsFRWInfo.Tables[0];
-            DataRow drFRWInfo = dtFRWInfo.Rows[0];
-            #region Fill Location Information Controls
-            //select value from Location Number Dropdown
-            if (drFRWInfo["Sonic_Location_Code"] != null)
+            if (dtFRWInfo.Rows.Count > 0)
             {
-                ListItem lst = new ListItem();
-                lst = ddlLocationNumber.Items.FindByText(drFRWInfo["Sonic_Location_Code"].ToString());
-                //check list item if not null than list item selected = true
-                if (lst != null)
+                DataRow drFRWInfo = dtFRWInfo.Rows[0];
+                #region Fill Location Information Controls
+                //select value from Location Number Dropdown
+                if (drFRWInfo["Sonic_Location_Code"] != null)
                 {
-                    lst.Selected = true;
+                    ListItem lst = new ListItem();
+                    lst = ddlLocationNumber.Items.FindByText(drFRWInfo["Sonic_Location_Code"].ToString());
+                    //check list item if not null than list item selected = true
+                    if (lst != null)
+                    {
+                        lst.Selected = true;
+                    }
                 }
-            }
-            //select value from Location d/b/a Dropdown
-            if (drFRWInfo["dba"] != null)
-            {
-                ListItem lst = new ListItem();
-                lst = ddlLocationdba.Items.FindByText(drFRWInfo["dba"].ToString());
-                //check list item if not null than list item selected = true
-                if (lst != null)
+                //select value from Location d/b/a Dropdown
+                if (drFRWInfo["dba"] != null)
                 {
-                    lst.Selected = true;
+                    ListItem lst = new ListItem();
+                    lst = ddlLocationdba.Items.FindByText(drFRWInfo["dba"].ToString());
+                    //check list item if not null than list item selected = true
+                    if (lst != null)
+                    {
+                        lst.Selected = true;
+                    }
                 }
-            }
-            //select value from Location f/k/a Dropdown
-            if (drFRWInfo["FK_Location_ID"] != null)
-            {
-                //Fill Location FKA Dropdown
-                ComboHelper.FillLocationfka(new DropDownList[] { ddlLocationfka }, (drFRWInfo["FK_Location_ID"] != null) ? Convert.ToInt32(drFRWInfo["FK_Location_ID"]) : 0, true);
-            }
-            //select value from Location Legal Entity Dropdown
-            if (drFRWInfo["legal_entity"] != null)
-            {
-                ListItem lst = new ListItem();
-                lst = ddlLegalEntity.Items.FindByText(drFRWInfo["legal_entity"].ToString());
-                //check list item if not null than list item selected = true
-                if (lst != null)
+                //select value from Location f/k/a Dropdown
+                if (drFRWInfo["FK_Location_ID"] != null)
                 {
-                    lst.Selected = true;
+                    //Fill Location FKA Dropdown
+                    ComboHelper.FillLocationfka(new DropDownList[] { ddlLocationfka }, (drFRWInfo["FK_Location_ID"] != null) ? Convert.ToInt32(drFRWInfo["FK_Location_ID"]) : 0, true);
                 }
+                //select value from Location Legal Entity Dropdown
+                if (drFRWInfo["legal_entity"] != null)
+                {
+                    ListItem lst = new ListItem();
+                    lst = ddlLegalEntity.Items.FindByText(drFRWInfo["legal_entity"].ToString());
+                    //check list item if not null than list item selected = true
+                    if (lst != null)
+                    {
+                        lst.Selected = true;
+                    }
+                }
+
+                //set address1,address2,city,state,ZipCOde Values
+                txtLocationAddress1.Text = (drFRWInfo["Address_1"] != null) ? Convert.ToString(drFRWInfo["Address_1"]) : "";
+                txtLocationAddress2.Text = (drFRWInfo["Address_2"] != null) ? Convert.ToString(drFRWInfo["Address_2"]) : "";
+                txtLocationCity.Text = (drFRWInfo["City"] != null) ? Convert.ToString(drFRWInfo["City"]) : "";
+                txtLocationState.Text = new State(!string.IsNullOrEmpty(Convert.ToString(drFRWInfo["State"])) ? Convert.ToDecimal(drFRWInfo["State"]) : 0).FLD_state;
+                txtLocationZipCode.Text = (drFRWInfo["Zip_Code"] != null) ? Convert.ToString(drFRWInfo["Zip_Code"]) : "";
+
+                #endregion
+
+                #region Fill Contact Information Controls
+                txtdba.Text = (drFRWInfo["dba"] != null) ? Convert.ToString(drFRWInfo["dba"]) : "";
+                txtContactName.Text = (drFRWInfo["EmployeeName"] != null) ? Convert.ToString(drFRWInfo["EmployeeName"]) : "";
+                txtContact_Best_Time.Text = (drFRWInfo["Contact_Best_Time"] != null) ? Convert.ToString(drFRWInfo["Contact_Best_Time"]) : "";
+                txtAddress_1.Text = (drFRWInfo["Address_1"] != null) ? Convert.ToString(drFRWInfo["Address_1"]) : "";
+                txtAddress_2.Text = (drFRWInfo["Address_2"] != null) ? Convert.ToString(drFRWInfo["Address_2"]) : "";
+                txtWork_Phone.Text = (drFRWInfo["TelephoneNumber1"] != null) ? Convert.ToString(drFRWInfo["TelephoneNumber1"]) : "";
+                txtEmployee_Cell_Phone.Text = (drFRWInfo["TelephoneNumber2"] != null) ? Convert.ToString(drFRWInfo["TelephoneNumber2"]) : "";
+                txtCity.Text = (drFRWInfo["City"] != null) ? Convert.ToString(drFRWInfo["City"]) : "";
+                txtZip_Code.Text = (drFRWInfo["Zip_Code"] != null) ? Convert.ToString(drFRWInfo["Zip_Code"]) : "";
+                txtState.Text = new State(!string.IsNullOrEmpty(Convert.ToString(drFRWInfo["State"])) ? Convert.ToDecimal(drFRWInfo["State"]) : 0).FLD_state;
+                txtEmployee_Fax.Text = (drFRWInfo["Contact_Fax"] != null) ? Convert.ToString(drFRWInfo["Contact_Fax"]) : "";
+                txtEmail.Text = (drFRWInfo["FRWEmail"] != null) ? Convert.ToString(drFRWInfo["FRWEmail"]) : "";
+                #endregion
+
+                #region Fill Loss Location information id Different Section
+                txtLoss_Address_1.Text = objDPD_FR.Loss_Address_1;
+                txtLoss_Address_2.Text = objDPD_FR.Loss_Address_2;
+                rdoOn_Company_Property.SelectedValue = (objDPD_FR.On_Company_Property == true) ? "Y" : "N";
+                txtDate_Of_Loss.Text = clsGeneral.FormatDateToDisplay(objDPD_FR.Date_Of_Loss);
+                txtLossDate_Of_Loss.Text = clsGeneral.FormatDateToDisplay(objDPD_FR.Date_Of_Loss);
+                txtTime_of_Loss.Text = objDPD_FR.Time_of_Loss;
+                txtLoss_City.Text = objDPD_FR.Loss_City;
+                //used to check Is string is null or Emplty if false than select value of Dropdown.
+                if (!string.IsNullOrEmpty(objDPD_FR.Loss_State))
+                {
+                    ListItem lstLossSate = new ListItem();
+                    lstLossSate = ddlLoss_State.Items.FindByValue(objDPD_FR.Loss_State.ToString());
+                    //check list item if not null than list item selected = true
+                    if (lstLossSate != null)
+                        lstLossSate.Selected = true;
+                }
+                txtLoss_ZipCode.Text = objDPD_FR.Loss_ZipCode;
+                txtDate_Reported_To_Sonic.Text = clsGeneral.FormatDateToDisplay(objDPD_FR.Date_Reported_To_Sonic);
+                #endregion
+                //used to Disable all Controls
+                DisableEnableControls(false);
+                #region Fill Loss Information Controls [Edit Mode]
+
+                lstCauseOfLoss.Items[7].Selected = objDPD_FR.Theft;
+                lstCauseOfLoss.Items[6].Selected = objDPD_FR.Partial_Theft;
+                lstCauseOfLoss.Items[8].Selected = objDPD_FR.Vandalism;
+                lstCauseOfLoss.Items[5].Selected = objDPD_FR.MVA_Single;
+                lstCauseOfLoss.Items[4].Selected = objDPD_FR.MVA_Multiple;
+                lstCauseOfLoss.Items[3].Selected = objDPD_FR.Hail;
+                lstCauseOfLoss.Items[1].Selected = objDPD_FR.Flood;
+                lstCauseOfLoss.Items[0].Selected = objDPD_FR.Fire;
+                lstCauseOfLoss.Items[9].Selected = objDPD_FR.Wind;
+                lstCauseOfLoss.Items[2].Selected = objDPD_FR.Fraud;
+
+                DataTable dtVehicle = DPD_FR_Vehicle.SelectByIncidentType(PK_DPD_FR_ID, "");
+
+                if (dtVehicle != null && dtVehicle.Rows.Count > 0)
+                {
+                    BindVehicleGrid();
+                    lstCauseOfLoss.Style["display"] = "none";
+                    ViewState["MODEADD"] = "N";
+                    btnEditVehicles.Visible = true;
+                }
+                else
+                {
+                    ViewState["MODEADD"] = "Y";
+                }
+                //    lstCauseOfLoss_SelectedIndexChanged(null, null);
+
+
+                #endregion
+
+                #region Fill Witness Information [Edit Mode]
+                //Bind Witness Grid
+                BindWitness();
+                #endregion
+
+                #region Fill Comments and Atachments
+                txtComments.Text = objDPD_FR.Comments;
+                CtrlAttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.DPD_FR, PK_DPD_FR_ID, true, 4);
+                CtrlAttachDetails.Bind();
+                #endregion
             }
-
-            //set address1,address2,city,state,ZipCOde Values
-            txtLocationAddress1.Text = (drFRWInfo["Address_1"] != null) ? Convert.ToString(drFRWInfo["Address_1"]) : "";
-            txtLocationAddress2.Text = (drFRWInfo["Address_2"] != null) ? Convert.ToString(drFRWInfo["Address_2"]) : "";
-            txtLocationCity.Text = (drFRWInfo["City"] != null) ? Convert.ToString(drFRWInfo["City"]) : "";
-            txtLocationState.Text = new State(!string.IsNullOrEmpty(Convert.ToString(drFRWInfo["State"])) ? Convert.ToDecimal(drFRWInfo["State"]) : 0).FLD_state;
-            txtLocationZipCode.Text = (drFRWInfo["Zip_Code"] != null) ? Convert.ToString(drFRWInfo["Zip_Code"]) : "";
-
-            #endregion
-
-            #region Fill Contact Information Controls
-            txtdba.Text = (drFRWInfo["dba"] != null) ? Convert.ToString(drFRWInfo["dba"]) : "";
-            txtContactName.Text = (drFRWInfo["EmployeeName"] != null) ? Convert.ToString(drFRWInfo["EmployeeName"]) : "";
-            txtContact_Best_Time.Text = (drFRWInfo["Contact_Best_Time"] != null) ? Convert.ToString(drFRWInfo["Contact_Best_Time"]) : "";
-            txtAddress_1.Text = (drFRWInfo["Address_1"] != null) ? Convert.ToString(drFRWInfo["Address_1"]) : "";
-            txtAddress_2.Text = (drFRWInfo["Address_2"] != null) ? Convert.ToString(drFRWInfo["Address_2"]) : "";
-            txtWork_Phone.Text = (drFRWInfo["TelephoneNumber1"] != null) ? Convert.ToString(drFRWInfo["TelephoneNumber1"]) : "";
-            txtEmployee_Cell_Phone.Text = (drFRWInfo["TelephoneNumber2"] != null) ? Convert.ToString(drFRWInfo["TelephoneNumber2"]) : "";
-            txtCity.Text = (drFRWInfo["City"] != null) ? Convert.ToString(drFRWInfo["City"]) : "";
-            txtZip_Code.Text = (drFRWInfo["Zip_Code"] != null) ? Convert.ToString(drFRWInfo["Zip_Code"]) : "";
-            txtState.Text = new State(!string.IsNullOrEmpty(Convert.ToString(drFRWInfo["State"])) ? Convert.ToDecimal(drFRWInfo["State"]) : 0).FLD_state;
-            txtEmployee_Fax.Text = (drFRWInfo["Contact_Fax"] != null) ? Convert.ToString(drFRWInfo["Contact_Fax"]) : "";
-            txtEmail.Text = (drFRWInfo["FRWEmail"] != null) ? Convert.ToString(drFRWInfo["FRWEmail"]) : "";
-            #endregion
-
-            #region Fill Loss Location information id Different Section
-            txtLoss_Address_1.Text = objDPD_FR.Loss_Address_1;
-            txtLoss_Address_2.Text = objDPD_FR.Loss_Address_2;
-            rdoOn_Company_Property.SelectedValue = (objDPD_FR.On_Company_Property == true) ? "Y" : "N";
-            txtDate_Of_Loss.Text = clsGeneral.FormatDateToDisplay(objDPD_FR.Date_Of_Loss);
-            txtLossDate_Of_Loss.Text = clsGeneral.FormatDateToDisplay(objDPD_FR.Date_Of_Loss);
-            txtTime_of_Loss.Text = objDPD_FR.Time_of_Loss;
-            txtLoss_City.Text = objDPD_FR.Loss_City;
-            //used to check Is string is null or Emplty if false than select value of Dropdown.
-            if (!string.IsNullOrEmpty(objDPD_FR.Loss_State))
-            {
-                ListItem lstLossSate = new ListItem();
-                lstLossSate = ddlLoss_State.Items.FindByValue(objDPD_FR.Loss_State.ToString());
-                //check list item if not null than list item selected = true
-                if (lstLossSate != null)
-                    lstLossSate.Selected = true;
-            }
-            txtLoss_ZipCode.Text = objDPD_FR.Loss_ZipCode;
-            txtDate_Reported_To_Sonic.Text = clsGeneral.FormatDateToDisplay(objDPD_FR.Date_Reported_To_Sonic);
-            #endregion
-            //used to Disable all Controls
-            DisableEnableControls(false);
-            #region Fill Loss Information Controls [Edit Mode]
-
-            lstCauseOfLoss.Items[7].Selected = objDPD_FR.Theft;
-            lstCauseOfLoss.Items[6].Selected = objDPD_FR.Partial_Theft;
-            lstCauseOfLoss.Items[8].Selected = objDPD_FR.Vandalism;
-            lstCauseOfLoss.Items[5].Selected = objDPD_FR.MVA_Single;
-            lstCauseOfLoss.Items[4].Selected = objDPD_FR.MVA_Multiple;
-            lstCauseOfLoss.Items[3].Selected = objDPD_FR.Hail;
-            lstCauseOfLoss.Items[1].Selected = objDPD_FR.Flood;
-            lstCauseOfLoss.Items[0].Selected = objDPD_FR.Fire;
-            lstCauseOfLoss.Items[9].Selected = objDPD_FR.Wind;
-            lstCauseOfLoss.Items[2].Selected = objDPD_FR.Fraud;
-
-            DataTable dtVehicle = DPD_FR_Vehicle.SelectByIncidentType(PK_DPD_FR_ID, "");
-
-            if (dtVehicle != null && dtVehicle.Rows.Count > 0)
-            {
-                BindVehicleGrid();
-                lstCauseOfLoss.Style["display"] = "none";
-                ViewState["MODEADD"] = "N";
-                btnEditVehicles.Visible = true;
-            }
-            else
-            {
-                ViewState["MODEADD"] = "Y";
-            }
-            //    lstCauseOfLoss_SelectedIndexChanged(null, null);
-
-
-            #endregion
-
-            #region Fill Witness Information [Edit Mode]
-            //Bind Witness Grid
-            BindWitness();
-            #endregion
-
-            #region Fill Comments and Atachments
-            txtComments.Text = objDPD_FR.Comments;
-            CtrlAttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.DPD_FR, PK_DPD_FR_ID, true, 4);
-            CtrlAttachDetails.Bind();
-            #endregion
         }
         else
         {
