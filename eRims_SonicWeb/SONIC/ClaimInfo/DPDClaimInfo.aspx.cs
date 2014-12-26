@@ -55,6 +55,7 @@ public partial class SONIC_DPDClaimInfo : clsBasePage
     protected void Page_Load(object sender, EventArgs e)
     {
         //Set Tab selection
+        //Session.Remove(clsSession.AllowedTab);
         ClaimTab.SetSelectedTab(Controls_ClaimTab_ClaimTab.Tab.DPD);
         //CtrlAttachment_Cliam.btnHandler += new Controls_ClaimAttachment_Attachment.OnButtonClick(Upload_File);
         //used to check Page Post Back Event
@@ -246,7 +247,6 @@ public partial class SONIC_DPDClaimInfo : clsBasePage
             lblPolicyEffectiveDate.Text = drDPD_Claims["Policy_Effective_Date"] == DBNull.Value ? "" : clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drDPD_Claims["Policy_Effective_Date"].ToString()));
             lblPolicyExpirationDate.Text = drDPD_Claims["Policy_Expiration_Date"] == DBNull.Value ? "" : clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drDPD_Claims["Policy_Expiration_Date"].ToString()));
             lblLossGrossPaid.Text = drDPD_Claims["Loss_Gross_Paid"] == DBNull.Value ? "" : String.Format("$ {0:N2}", Convert.ToDecimal(drDPD_Claims["Loss_Gross_Paid"]));
-            //lblLossGrossPaid.Text = Convert.ToString(Convert.ToDecimal(drDPD_Claims["Loss_Gross_Paid"]));
             lblLossNetRecovered.Text = drDPD_Claims["Loss_Net_Recovered"] == DBNull.Value ? "" : String.Format("$ {0:N2}", Convert.ToDecimal(drDPD_Claims["Loss_Net_Recovered"]));
             lblLossIncurred.Text = drDPD_Claims["Loss_Incurred"] == DBNull.Value ? "" : String.Format("$ {0:N2}", Convert.ToDecimal(drDPD_Claims["Loss_Incurred"]));
             lblLossOutstanding.Text = drDPD_Claims["Loss_Outstanding"] == DBNull.Value ? "" : String.Format("$ {0:N2}", Convert.ToDecimal(drDPD_Claims["Loss_Outstanding"]));
@@ -367,40 +367,26 @@ public partial class SONIC_DPDClaimInfo : clsBasePage
     #endregion
 
 
-    protected void gvAddress_RowCommand(object sender, GridViewCommandEventArgs e)
-    {
-        if (e.CommandName == "EditRecord")
+    #region " Grid Events"
+        protected void gvAddress_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            if (!string.IsNullOrEmpty(Convert.ToString(e.CommandArgument)))
+            if (e.CommandName == "EditRecord")
             {
-                decimal _pk_Address_ID = clsGeneral.GetDecimal(Convert.ToString(e.CommandArgument));
-                if (_pk_Address_ID > 0)
+                if (!string.IsNullOrEmpty(Convert.ToString(e.CommandArgument)))
                 {
-                    FillAddressDetails(_pk_Address_ID);
-                    string str = "<script>javascript:ShowPanel('2');</script>";
-                    Page.ClientScript.RegisterStartupScript(this.GetType(), "Script", str, false);
-                    pnlAddressesGrid.Visible = false;
-                    pnlAddressesView.Visible = true;                  
-                    
+                    decimal _pk_Address_ID = clsGeneral.GetDecimal(Convert.ToString(e.CommandArgument));
+                    if (_pk_Address_ID > 0)
+                    {
+                        FillAddressDetails(_pk_Address_ID);
+                        string str = "<script>javascript:ShowPanel('2');</script>";
+                        Page.ClientScript.RegisterStartupScript(this.GetType(), "Script", str, false);
+                        pnlAddressesGrid.Visible = false;
+                        pnlAddressesView.Visible = true;
+
+                    }
                 }
             }
-        }
-    }
-    protected void gvAddress_RowDataBound(object sender, GridViewRowEventArgs e)
-    {
-        //if (e.Row.RowType == DataControlRowType.DataRow)
-        //{
-        //    if (!string.IsNullOrEmpty(Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Address_1"))) && !string.IsNullOrEmpty(Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Address_2"))))
-        //    {
-        //        ((Label)e.Row.FindControl("lblAddress")).Text = Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Address_1")) + "<br />"
-        //        ((Label)e.Row.FindControl("lblAddress2")).Text = Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Address_2")) + "<br />";
-        //        ((Label)e.Row.FindControl("lblCity")).Text = Convert.ToString(DataBinder.Eval(e.Row.DataItem, "City"));
-        //    }
-        //}
-
-    }
-
-
-
+        }  
+    #endregion
 }
 

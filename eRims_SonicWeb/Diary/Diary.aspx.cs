@@ -718,6 +718,30 @@ public partial class Diary_Diary : clsBasePage
     //    return objDiary.Get_FRWizardID(Table_Name); 
     //}
 
+    private void SetTab(String ClaimType)
+    {
+        String AllowTab = "";
+        switch (ClaimType.ToUpper())
+        {
+            case "WC":
+                AllowTab = "1";
+                break;
+            case "AL":
+                AllowTab = "2";
+                break;
+            case "DPD":
+                AllowTab = "3";
+                break;
+            case "PROPERTY":
+                AllowTab = "4";
+                break;
+            case "PL":
+                AllowTab = "5";
+                break;
+        }
+        clsSession.AllowedTab = AllowTab;
+    }
+
     #endregion
 
     #region Grid's All types of Events
@@ -813,6 +837,7 @@ public partial class Diary_Diary : clsBasePage
             }
             else if (e.CommandName == "Redirect")
             {
+                string Claim_Type = string.Empty;
                 int idModule = 0;
                 int Wz_Id = 0;
                 string strIdFkTable = string.Empty;
@@ -827,6 +852,36 @@ public partial class Diary_Diary : clsBasePage
                 Wz_Id = Convert.ToInt32(hdnFrWizardId.Value);
                 strIdFkTable = Encryption.Encrypt(hdnidFkTable.Value);
                 strLocation = Encryption.Encrypt(e.CommandArgument.ToString());
+
+
+                if (hdnidModule.Value == "10" || hdnidModule.Value == "4")
+                {
+                    Claim_Type = "dpd";
+                }
+                else if (hdnidModule.Value == "11" || hdnidModule.Value == "5")
+                {
+                    Claim_Type = "pl";
+                }
+                else if (hdnidModule.Value == "12" || hdnidModule.Value == "6")
+                {
+                    Claim_Type = "property";
+                }
+                else if (hdnidModule.Value == "7" || hdnidModule.Value == "8" || hdnidModule.Value == "1" || hdnidModule.Value == "2")
+                {
+                    Claim_Type = "wc";
+                }
+                else if (hdnidModule.Value == "9" || hdnidModule.Value == "3")
+                {
+                    Claim_Type = "AL";
+                }
+
+                else
+                {
+                    Claim_Type = string.Empty;
+                }
+
+                SetTab(Claim_Type);
+
 
                 if (lnkIdentificatoin != null)
                 {

@@ -1038,7 +1038,7 @@
                                                             :
                                                         </td>
                                                         <td style="margin-left: 40px" style="width: 650px">
-                                                            <asp:GridView ID="gvAddress" runat="server" AutoGenerateColumns="false" Width="100%" OnRowCommand="gvAddress_RowCommand" OnRowDataBound="gvAddress_RowDataBound">
+                                                            <asp:GridView ID="gvAddress" runat="server" AutoGenerateColumns="false" Width="100%" OnRowCommand="gvAddress_RowCommand" >
                                                                 <EmptyDataRowStyle ForeColor="#7f7f7f" HorizontalAlign="Center" />
                                                                 <EmptyDataTemplate>
                                                                     <asp:Label ID="lblEmptyEmergencyMessage" runat="server" Text="No Record Found"></asp:Label>
