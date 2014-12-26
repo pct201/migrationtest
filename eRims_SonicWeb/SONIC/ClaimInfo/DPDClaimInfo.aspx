@@ -1187,7 +1187,7 @@
                                                             <asp:Label runat="server" ID="lblFaxNumber" />
                                                         </td>
                                                         <td align="left">
-                                                            Email Address
+                                                            E-Mail Address
                                                         </td>
                                                         <td align="center">
                                                             :
