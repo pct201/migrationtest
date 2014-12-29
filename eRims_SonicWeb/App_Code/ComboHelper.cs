@@ -1939,6 +1939,52 @@ public class ComboHelper
         }
     }
 
+    /// <summary>
+    /// Used to bind Market Dropdowns
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillMarket(DropDownList[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = clsLU_Market.SelectActiveMarkets();
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Market";
+            ddlToFill.DataValueField = "PK_LU_Market";
+            ddlToFill.DataSource = dsData;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Used tp bind Market from LU_Market Table
+    /// </summary>
+    /// <param name="ListBox">ListBox Lists</param>
+    /// <param name="addSelectAsFirstElement">Require to add "--Select--" as a first element of dropdown</param>
+    public static void FillMarketListBox(ListBox[] LstBox, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.clsLU_Market.SelectActiveMarkets();
+        foreach (ListBox lstToFill in LstBox)
+        {
+            lstToFill.Items.Clear();
+            lstToFill.DataTextField = "Market";
+            lstToFill.DataValueField = "PK_LU_Market";
+            lstToFill.DataSource = dsData;
+            lstToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                lstToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
     public static void FillRlcmListBox(ListBox[] LstBox, bool booladdSelectAsFirstElement)
     {
         DataSet dsData = ERIMS.DAL.LU_Location.GetAllRlcm();
@@ -2155,6 +2201,30 @@ public class ComboHelper
             if (booladdSelectAsFirstElement)
             {
                 ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Fill Payroll codes listbox
+    /// </summary>
+    /// <param name="lstBox"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillPayrollCodesListbox(ListBox[] lstBox, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.Employee.SelectPayrollCodes();
+
+        foreach (ListBox lstToFill in lstBox)
+        {
+            lstToFill.Items.Clear();
+            lstToFill.DataTextField = "FK_Cost_Center";
+            lstToFill.DataValueField = "FK_Cost_Center";
+            lstToFill.DataSource = dsData;
+            lstToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                lstToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
             }
         }
     }
