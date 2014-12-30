@@ -5604,7 +5604,8 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         if (drpFK_Employee.SelectedValue != "0")
         {
             Employee objEmployee = new Employee(Convert.ToDecimal(drpFK_Employee.SelectedValue));
-            txtMember_Email.Text = objEmployee.Email;
+            if (!string.IsNullOrEmpty(objEmployee.Email))
+                txtMember_Email.Text = objEmployee.Email.Trim();
         }
         else
             txtMember_Email.Text = string.Empty;
