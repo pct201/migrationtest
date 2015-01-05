@@ -36,9 +36,18 @@
                     return false;
             }
         }
-        function CheckNumericVal(Ctl) {
+        function CheckNumericVal(Ctl,length) {
             if (Ctl.value == "" || isNaN(Number(Ctl.value.replace(/,/g, '')) * 1) == true)
                 Ctl.innerText = "";
+            else {
+                var len1 = Ctl.value.split(".")[0].replace(/,/g, '').length;
+                if (len1 > length - 2) {
+                    alert("Length is exceeded.");
+                    Ctl.innerText = "";
+                }
+                else
+                    Ctl.innerText = formatCurrency_New(Ctl.value);
+            }
         }
         //check Date Validation
         function CheckDate(sender, args) {
@@ -137,7 +146,7 @@
                                         bEmpty = true;
                                 }
                                 else if (ctrl.id == 'ctl00_ContentPlaceHolder1_fvPolicyDetails_ddlType') {
-                                   var rdb = document.getElementById('ctl00_ContentPlaceHolder1_fvPolicyDetails_rdoFinancial_Security_Required_0');
+                                    var rdb = document.getElementById('ctl00_ContentPlaceHolder1_fvPolicyDetails_rdoFinancial_Security_Required_0');
                                     //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
                                     if (rdb.checked)
                                         bEmpty = true;
@@ -231,12 +240,10 @@
         <div>
             <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
                 HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
-                EnableClientScript="true" ValidationGroup="vsErrorGroup" CssClass="errormessage">
-            </asp:ValidationSummary>
+                EnableClientScript="true" ValidationGroup="vsErrorGroup" CssClass="errormessage"></asp:ValidationSummary>
             <asp:ValidationSummary ID="vsAttchments" runat="server" ShowSummary="false" ShowMessageBox="true"
                 HeaderText="Verify the following fields in Comments/Attachment Panel:" BorderWidth="1"
-                BorderColor="DimGray" ValidationGroup="AddAttachment" CssClass="errormessage">
-            </asp:ValidationSummary>
+                BorderColor="DimGray" ValidationGroup="AddAttachment" CssClass="errormessage"></asp:ValidationSummary>
             <asp:CustomValidator ID="cvErrorMsg" runat="server" ErrorMessage="" EnableClientScript="true"
                 ValidationGroup="vsErrorGroup" Display="None"></asp:CustomValidator>
         </div>
@@ -245,8 +252,7 @@
         </div>
         <table width="100%">
             <tr>
-                <td>
-                </td>
+                <td></td>
             </tr>
             <tr>
                 <td>
@@ -258,15 +264,12 @@
                                         <asp:FormView ID="fvPolicyDetails" runat="server" Width="100%" OnDataBound="fvPolicyDetails_DataBound"
                                             DefaultMode="Edit">
                                             <ItemTemplate>
-                                                <table width="100%" style="border: 1pt; border-color: #7f7f7f; border-style: solid;
-                                                    text-align: left;">
+                                                <table width="100%" style="border: 1pt; border-color: #7f7f7f; border-style: solid; text-align: left;">
                                                     <tr>
                                                         <td colspan="2">
-                                                            <table cellspacing="1" width="100%" style="background-color: #7f7f7f; color: White;
-                                                                font-weight: Bolder; font-family: Tahoma; font-size: 10pt; text-align: left;">
+                                                            <table cellspacing="1" width="100%" style="background-color: #7f7f7f; color: White; font-weight: Bolder; font-family: Tahoma; font-size: 10pt; text-align: left;">
                                                                 <tr>
-                                                                    <td class="ghc">
-                                                                        Policy
+                                                                    <td class="ghc">Policy
                                                                         <asp:Label ID="lblPolicyDetailsId" runat="server" Text='<%#Eval("Pk_Policy_Id")%>'
                                                                             Height="0px" Width="0px" Visible="false"></asp:Label>
                                                                     </td>
@@ -278,385 +281,296 @@
                                                         <td colspan="2">
                                                             <table width="100%" style="text-align: left;">
                                                                 <tr>
-                                                                    <td class="lc" style="width: 23%;">
-                                                                        Program
+                                                                    <td class="lc" style="width: 23%;">Program
                                                                     </td>
-                                                                    <td class="lc" style="width: 2%;">
-                                                                        :
+                                                                    <td class="lc" style="width: 2%;">:
                                                                     </td>
                                                                     <td class="ic" style="width: 25%;">
                                                                         <asp:Label ID="lblProgram" runat="server" Text='<%# Eval("Program") %>'></asp:Label>
                                                                     </td>
-                                                                    <td class="lc" style="width: 23%;">
-                                                                        Policy Type
+                                                                    <td class="lc" style="width: 23%;">Policy Type
                                                                     </td>
-                                                                    <td class="lc" style="width: 2%;">
-                                                                        :
+                                                                    <td class="lc" style="width: 2%;">:
                                                                     </td>
                                                                     <td class="ic" style="width: 25%;">
                                                                         <asp:Label ID="lblPolType" runat="server" Text='<%# Eval("PolicyType") %>'></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Insurance Carrier
+                                                                    <td class="lc">Insurance Carrier
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:Label ID="lblCarrier" runat="server" Text='<%# Eval("Carrier") %>'></asp:Label>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Underwriter
+                                                                    <td class="lc">Underwriter
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:Label ID="lblUnderWriter" runat="server" Text='<%# Eval("Underwriter") %>'></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        TPA
+                                                                    <td class="lc">TPA
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:Label ID="lblTPA" runat="server" Text='<%# Eval("TPA") %>'></asp:Label>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Policy Number
+                                                                    <td class="lc">Policy Number
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="lc">
                                                                         <asp:Label ID="lblPolNo" runat="server" Text='<%# Eval("Policy_Number") %>'></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Policy Effective Date
+                                                                    <td class="lc">Policy Effective Date
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:Label ID="lblDtPolBegin" runat="server" Text='<%#clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Policy_Begin_Date")))%>'></asp:Label>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Policy Expiration Date
+                                                                    <td class="lc">Policy Expiration Date
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:Label ID="lblDtPolExp" runat="server" Text='<%#clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Policy_Expiration_Date")))%>'></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Policy Year
+                                                                    <td class="lc">Policy Year
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:Label ID="lblPolYear" runat="server" Text='<%# Eval("Policy_Year") %>'></asp:Label>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Location
+                                                                    <td class="lc">Location
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:Label ID="lblPolEntity" runat="server" Text='<%# Eval("Location") %>'></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Annual Premium
+                                                                    <td class="lc">Annual Premium
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:Label ID="lblAnnPremium" runat="server" Text='<%# Eval("Annual_Premium") %>'></asp:Label>
+                                                                    <td class="ic">$<asp:Label ID="lblAnnPremium" runat="server" Text='<%# Eval("Annual_Premium") %>'></asp:Label>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Surplus Lines Fees
+                                                                    <td class="lc">Surplus Lines Fees
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:Label ID="lblSLF" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Surplus_Lines_Fees")) %>'></asp:Label>
+                                                                    <td class="ic">$<asp:Label ID="lblSLF" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Surplus_Lines_Fees")) %>'></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Deductible ?
+                                                                    <td class="lc">Deductible ?
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:Label ID="lblDeductible" runat="server" Text='<%# (Eval("Deductible").ToString() == "N" ? "No" : Eval("Deductible").ToString() == "Y" ? "Yes" : "")%>'></asp:Label>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Deductible Amount
+                                                                    <td class="lc">Deductible Amount
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:Label ID="lblDedAmount" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Deductible_Amount")) %>'></asp:Label>
+                                                                    <td class="ic">$<asp:Label ID="lblDedAmount" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Deductible_Amount")) %>'></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Coverage Form
+                                                                    <td class="lc">Coverage Form
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:Label ID="lblCovForm" runat="server" Text='<%# Eval("Coverage_Form").ToString() == "O" ? "Occurence" : Eval("Coverage_Form").ToString() == "C" ? "Claims Made" : "" %>'></asp:Label>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Store Deductible
+                                                                    <td class="lc">Store Deductible
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:Label ID="lblStore_Deductible" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Store_Deductible")) %>'></asp:Label>
+                                                                    <td class="ic">$<asp:Label ID="lblStore_Deductible" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Store_Deductible")) %>'></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Per Occurrence Limit
+                                                                    <td class="lc">Per Occurrence Limit
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:Label ID="lblPreOccLimit" runat="server" Text='<%# Eval("Per_Occurrence_Limit") %>'></asp:Label>
+                                                                    <td class="ic">$<asp:Label ID="lblPreOccLimit" runat="server" Text='<%# Eval("Per_Occurrence_Limit") %>'></asp:Label>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Aggregate Limit
+                                                                    <td class="lc">Aggregate Limit
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:Label ID="lblAggLimit" runat="server" Text='<%# Eval("Aggregate_Limit") %>'></asp:Label>
+                                                                    <td class="ic">$<asp:Label ID="lblAggLimit" runat="server" Text='<%# Eval("Aggregate_Limit") %>'></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Layered Program?
+                                                                    <td class="lc">Layered Program?
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:Label ID="lblLayerProg" runat="server" Text='<%# (Eval("Layered_Program").ToString() == "N" ? "No" : Eval("Layered_Program").ToString() == "Y" ? "Yes" : "")%>'></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        If Layered, Layer Number
+                                                                    <td class="lc">If Layered, Layer Number
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:Label ID="lblLayerNo" runat="server" Text='<%# Eval("PolicyLayer") %>'></asp:Label>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Underlying Limit
+                                                                    <td class="lc">Underlying Limit
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:Label ID="lblUnderlying" runat="server" Text='<%# Eval("Underlying_Limit") %>'></asp:Label>
+                                                                    <td class="ic">$<asp:Label ID="lblUnderlying" runat="server" Text='<%# Eval("Underlying_Limit") %>'></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Quota Share ?
+                                                                    <td class="lc">Quota Share ?
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:Label ID="lblQuota" runat="server" Text='<%# (Eval("Quota_Share").ToString() == "N" ? "No" : Eval("Quota_Share").ToString() == "Y" ? "Yes" : "") %>'></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Share Percentage
+                                                                    <td class="lc">Share Percentage
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:Label ID="Label1" runat="server" Text='<%# Eval("Share_Precentage") %>'></asp:Label>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Share Limit
+                                                                    <td class="lc">Share Limit
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:Label ID="lblShareLimit" runat="server" Text='<%# Eval("Share_Limit") %>'></asp:Label>
+                                                                    <td class="ic">$<asp:Label ID="lblShareLimit" runat="server" Text='<%# Eval("Share_Limit") %>'></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Retroactive
+                                                                    <td class="lc">Retroactive
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:Label ID="lblRetro" runat="server" Text='<%# (Eval("Retroactive").ToString() == "N" ? "No" : Eval("Retroactive").ToString() == "Y" ? "Yes" : "") %>'></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Financial Security Required?
+                                                                    <td class="lc">Financial Security Required?
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:Label ID="lblFinancial_Security_Required" runat="server" Text='<%# (Eval("Financial_Security_Required").ToString() == "N" ? "No" : Eval("Financial_Security_Required").ToString() == "Y" ? "Yes" : "") %>'></asp:Label>
                                                                 </tr>
                                                                 <tr id="trFSR" runat="server" style="display: block;">
-                                                                    <td class="lc">
-                                                                        Type
+                                                                    <td class="lc">Type
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:Label runat="server" ID="lblType" Text='<%# Eval("FK_Financial_Security_Type") %>'></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Original Amount
+                                                                    <td class="lc">Original Amount
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:Label ID="lblOriginal_Amount" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Original_Amount")) %>'></asp:Label>
+                                                                    <td class="ic">$<asp:Label ID="lblOriginal_Amount" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Original_Amount")) %>'></asp:Label>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Original Amount Date
+                                                                    <td class="lc">Original Amount Date
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:Label ID="lblOriginal_Amount_Date" runat="server" Text='<%# clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Original_Amount_Date")))%>'></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Change Amount 1
+                                                                    <td class="lc">Change Amount 1
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:Label ID="lblChange_Amount_1" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Change_Amount_1")) %>'></asp:Label>
+                                                                    <td class="ic">$<asp:Label ID="lblChange_Amount_1" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Change_Amount_1")) %>'></asp:Label>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Change Amount Date 1
+                                                                    <td class="lc">Change Amount Date 1
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:Label ID="lblChange_Amount_1_Date" runat="server" Text='<%#clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Change_Amount_1_Date")))%>'></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Change Amount 2
+                                                                    <td class="lc">Change Amount 2
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:Label ID="lblChange_Amount_2" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Change_Amount_2")) %>'></asp:Label>
+                                                                    <td class="ic">$<asp:Label ID="lblChange_Amount_2" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Change_Amount_2")) %>'></asp:Label>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Change Amount Date 2
+                                                                    <td class="lc">Change Amount Date 2
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:Label ID="lblChange_Amount_2_Date" runat="server" Text='<%#clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Change_Amount_2_Date")))%>'></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Change Amount 3
+                                                                    <td class="lc">Change Amount 3
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:Label ID="lblChange_Amount_3" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Change_Amount_3")) %>'></asp:Label>
+                                                                    <td class="ic">$<asp:Label ID="lblChange_Amount_3" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Change_Amount_3")) %>'></asp:Label>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Change Amount Date 3
+                                                                    <td class="lc">Change Amount Date 3
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:Label ID="lblChange_Amount_3_Date" runat="server" Text='<%#clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Change_Amount_3_Date")))%>'></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Change Amount 4
+                                                                    <td class="lc">Change Amount 4
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:Label ID="lblChange_Amount_4" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Change_Amount_4")) %>'></asp:Label>
+                                                                    <td class="ic">$<asp:Label ID="lblChange_Amount_4" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Change_Amount_4")) %>'></asp:Label>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Change Amount Date 4
+                                                                    <td class="lc">Change Amount Date 4
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:Label ID="lblChange_Amount_4_Date" runat="server" Text='<%#clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Change_Amount_4_Date")))%>'></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc" valign="top">
-                                                                        Policy Notes
+                                                                    <td class="lc" valign="top">Policy Notes
                                                                     </td>
-                                                                    <td class="lc" valign="top">
-                                                                        :
+                                                                    <td class="lc" valign="top">:
                                                                     </td>
                                                                     <td class="ic" colspan="4">
                                                                         <uc:ctrlMultiLineTextBox runat="server" ID="lblPolicy_Notes" ControlType="Label"
@@ -665,30 +579,25 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td colspan="6">
-                                                                        <table cellspacing="1" width="100%" style="background-color: #7f7f7f; color: White;
-                                                                            font-weight: Bolder; font-family: Tahoma; font-size: 10pt; text-align: left;">
+                                                                        <table cellspacing="1" width="100%" style="background-color: #7f7f7f; color: White; font-weight: Bolder; font-family: Tahoma; font-size: 10pt; text-align: left;">
                                                                             <tr>
-                                                                                <td class="ghc">
-                                                                                    Policy Features
+                                                                                <td class="ghc">Policy Features
                                                                                 </td>
                                                                             </tr>
                                                                         </table>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Policy Features
+                                                                    <td class="lc">Policy Features
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="lc" colspan="4">
                                                                         <asp:GridView ID="gvFeatures" runat="server" AutoGenerateColumns="false" DataKeyNames=""
                                                                             Width="100%" AllowPaging="false" AllowSorting="True" OnSorting="gvFeatures_Sorting"
                                                                             OnRowCreated="gvFeatures_RowCreated" OnRowCommand="gvFeatures_RowCommand">
                                                                             <Columns>
-                                                                                <asp:BoundField DataField="Feature" HeaderText="Feature" SortExpression="Feature">
-                                                                                </asp:BoundField>
+                                                                                <asp:BoundField DataField="Feature" HeaderText="Feature" SortExpression="Feature"></asp:BoundField>
                                                                                 <%--<asp:BoundField DataField="Limit" HeaderText="Limit" SortExpression="Limit"></asp:BoundField>--%>
                                                                                 <asp:TemplateField HeaderText="Limit" SortExpression="Limit">
                                                                                     <ItemTemplate>
@@ -733,15 +642,12 @@
                                                 </table>
                                             </ItemTemplate>
                                             <InsertItemTemplate>
-                                                <table width="100%" style="border: 1pt; border-color: #7f7f7f; border-style: solid;
-                                                    text-align: left;">
+                                                <table width="100%" style="border: 1pt; border-color: #7f7f7f; border-style: solid; text-align: left;">
                                                     <tr>
                                                         <td colspan="2">
-                                                            <table cellspacing="1" width="100%" style="background-color: #7f7f7f; color: White;
-                                                                font-weight: Bolder; font-family: Tahoma; font-size: 10pt; text-align: left;">
+                                                            <table cellspacing="1" width="100%" style="background-color: #7f7f7f; color: White; font-weight: Bolder; font-family: Tahoma; font-size: 10pt; text-align: left;">
                                                                 <tr>
-                                                                    <td class="ghc">
-                                                                        Policy
+                                                                    <td class="ghc">Policy
                                                                         <asp:Label ID="lblPolicyDetailsId" runat="server" Text='<%#Eval("Pk_Policy_Id")%>'
                                                                             Height="0px" Width="0px" Visible="false"></asp:Label>
                                                                     </td>
@@ -753,74 +659,60 @@
                                                         <td colspan="2">
                                                             <table width="100%" style="text-align: left;">
                                                                 <tr>
-                                                                    <td class="lc" style="width: 23%;">
-                                                                        Program&nbsp;<span id="Span1" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc" style="width: 23%;">Program&nbsp;<span id="Span1" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc" style="width: 2%;">
-                                                                        :
+                                                                    <td class="lc" style="width: 2%;">:
                                                                     </td>
                                                                     <td class="ic" style="width: 25%;">
                                                                         <asp:DropDownList ID="ddlProgram" runat="server" AutoPostBack="true" Width="157px"
                                                                             SkinID="dropGen" OnSelectedIndexChanged="ddlProgram_SelectedIndexChanged">
                                                                         </asp:DropDownList>
                                                                     </td>
-                                                                    <td class="lc" style="width: 23%;">
-                                                                        Policy Type&nbsp;<span id="Span2" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc" style="width: 23%;">Policy Type&nbsp;<span id="Span2" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc" style="width: 2%;">
-                                                                        :
+                                                                    <td class="lc" style="width: 2%;">:
                                                                     </td>
                                                                     <td class="ic" style="width: 25%;">
                                                                         <asp:DropDownList ID="ddlPolType" runat="server" SkinID="dropGen" Width="225px">
-                                                                        </asp:DropDownList>                                                                       
+                                                                        </asp:DropDownList>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Insurance Carrier&nbsp;<span id="Span3" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Insurance Carrier&nbsp;<span id="Span3" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox ID="txtCarrier" runat="server" MaxLength="50"></asp:TextBox>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Underwriter&nbsp;<span id="Span4" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Underwriter&nbsp;<span id="Span4" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox ID="txtUnderWriter" runat="server" MaxLength="50"></asp:TextBox>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        TPA&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">TPA&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox runat="server" ID="txtTPA" MaxLength="75"></asp:TextBox>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Policy Number&nbsp;<span id="Span6" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Policy Number&nbsp;<span id="Span6" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="lc">
-                                                                        :
-                                                                    </td>
-                                                                    <td class="lc">
-                                                                        <asp:TextBox ID="txtPolNo" runat="server" MaxLength="30"></asp:TextBox>                                                                        
+                                                                        <asp:TextBox ID="txtPolNo" runat="server" MaxLength="30"></asp:TextBox>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Policy Effective Date&nbsp;<span id="Span7" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Policy Effective Date&nbsp;<span id="Span7" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox ID="txtDtPolBegin" runat="server" SkinID="txtDate"></asp:TextBox>
@@ -831,17 +723,15 @@
                                                                             DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true"
                                                                             OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtDtPolBegin"
                                                                             CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
-                                                                        </cc1:MaskedEditExtender>                                                                       
+                                                                        </cc1:MaskedEditExtender>
                                                                         <asp:CustomValidator ID="cvDtPolBegin" runat="server" ControlToValidate="txtDtPolBegin"
                                                                             ValidationGroup="vsErrorGroup" ClientValidationFunction="CheckDate" ErrorMessage="Policy Effective Date is not valid."
                                                                             Display="None" SetFocusOnError="true">
                                                                         </asp:CustomValidator>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Policy Expiration Date&nbsp;<span id="Span8" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Policy Expiration Date&nbsp;<span id="Span8" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox ID="txtDtPolExp" runat="server" SkinID="txtDate"></asp:TextBox>
@@ -852,7 +742,7 @@
                                                                             DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true"
                                                                             OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtDtPolExp"
                                                                             CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
-                                                                        </cc1:MaskedEditExtender>                                                                      
+                                                                        </cc1:MaskedEditExtender>
                                                                         <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="txtDtPolExp"
                                                                             ValidationGroup="vsErrorGroup" ErrorMessage="Policy Expiry Date Must Be Greater Than or Equal to Policy Effective Date."
                                                                             Type="Date" Operator="GreaterThanEqual" ControlToCompare="txtDtPolBegin" Display="none">
@@ -864,11 +754,9 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Policy Year&nbsp;<span id="Span9" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Policy Year&nbsp;<span id="Span9" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox ID="txtPolYear" runat="server" onkeypress="return numberOnly(event);"
@@ -877,11 +765,9 @@
                                                                             Display="none" SetFocusOnError="true" ErrorMessage="Policy Year is Invalid."
                                                                             ValidationExpression="[\d]{4}" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Location&nbsp;<span id="Span10" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Location&nbsp;<span id="Span10" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:DropDownList ID="ddlLocation" runat="server" SkinID="dropGen" Width="225px">
@@ -889,33 +775,25 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Annual Premium&nbsp;<span id="Span11" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Annual Premium&nbsp;<span id="Span11" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtPolAnnPremium" SkinID="txtAmt" runat="server" onKeyPress="return(currencyFormat(this,',','.',event))"
-                                                                            OnBlur="CheckNumericVal(this);"></asp:TextBox>                                                                     
+                                                                    <td class="ic">$<asp:TextBox ID="txtPolAnnPremium" SkinID="txtAmt" runat="server" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                                        OnBlur="CheckNumericVal(this,10);"></asp:TextBox>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Surplus Lines Fees&nbsp;<span id="Span12" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Surplus Lines Fees&nbsp;<span id="Span12" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtSLF" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
-                                                                            OnBlur="CheckNumericVal(this);"></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtSLF" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                                        OnBlur="CheckNumericVal(this,10);"></asp:TextBox>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Deductible ?&nbsp;<span id="Span13" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Deductible ?&nbsp;<span id="Span13" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:RadioButtonList ID="rblDeductible" runat="server">
@@ -923,23 +801,18 @@
                                                                             <asp:ListItem Text="No" Value="N" Selected="true"></asp:ListItem>
                                                                         </asp:RadioButtonList>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Deductible Amount&nbsp;<span id="Span14" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Deductible Amount&nbsp;<span id="Span14" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtDedAmt" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
-                                                                            OnBlur="CheckNumericVal(this);"></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtDedAmt" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                                        OnBlur="CheckNumericVal(this,10);"></asp:TextBox>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Coverage Form&nbsp;<span id="Span15" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Coverage Form&nbsp;<span id="Span15" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:RadioButtonList ID="rdbCF" runat="server">
@@ -947,45 +820,34 @@
                                                                             <asp:ListItem Text="Claims Made" Value="C"></asp:ListItem>
                                                                         </asp:RadioButtonList>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Store Deductible&nbsp;<span id="Span16" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Store Deductible&nbsp;<span id="Span16" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtStore_Deductible" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
-                                                                            OnBlur="CheckNumericVal(this);"></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtStore_Deductible" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                                        OnBlur="CheckNumericVal(this,10);"></asp:TextBox>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Per Occurrence Limit&nbsp;<span id="Span17" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Per Occurrence Limit&nbsp;<span id="Span17" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtPreOccLimit" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat_New(this,',','.',20,event))"
-                                                                            OnBlur="CheckNumericVal(this);"></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtPreOccLimit" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat_New(this,',','.',20,event))"
+                                                                        OnBlur="CheckNumericVal(this,20);"></asp:TextBox>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Aggregate Limit&nbsp;<span id="Span18" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Aggregate Limit&nbsp;<span id="Span18" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtAggLimit" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat_New(this,',','.',15,event))"
-                                                                            OnBlur="CheckNumericVal(this);"></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtAggLimit" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat_New(this,',','.',15,event))"
+                                                                        OnBlur="CheckNumericVal(this,15);"></asp:TextBox>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Layered Program?&nbsp;<span id="Span19" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Layered Program?&nbsp;<span id="Span19" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:RadioButtonList ID="rdbLayer" runat="server" onclick="javascript:return LayerChange();">
@@ -995,34 +857,27 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        If Layered, Layer Number&nbsp;<span id="Span20" style="color: Red; display: none;"
-                                                                            runat="server">*</span>
+                                                                    <td class="lc">If Layered, Layer Number&nbsp;<span id="Span20" style="color: Red; display: none;"
+                                                                        runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:DropDownList ID="ddlLayerNo" runat="server" SkinID="dropGen" Width="157px">
                                                                         </asp:DropDownList>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Underlying Limit&nbsp;<span id="Span21" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Underlying Limit&nbsp;<span id="Span21" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtUnderlying" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
-                                                                            OnBlur="CheckNumericVal(this);"></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtUnderlying" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                                        OnBlur="CheckNumericVal(this,10);"></asp:TextBox>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Quota Share ?&nbsp;<span id="Span22" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Quota Share ?&nbsp;<span id="Span22" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:RadioButtonList ID="rdbQuota" runat="server" onclick="javascript:return QuotaChange();">
@@ -1032,11 +887,9 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Share Percentage&nbsp;<span id="Span23" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Share Percentage&nbsp;<span id="Span23" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox ID="txtSharePC" runat="server" MaxLength="5" onkeypress="return numberOnly(event);"></asp:TextBox>
@@ -1049,23 +902,18 @@
                                                                             <asp:TextBox ID="txtCmp" runat="Server" Text="100"></asp:TextBox>
                                                                         </div>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Share Limit&nbsp;<span id="Span24" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Share Limit&nbsp;<span id="Span24" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtShareLimit" SkinID="txtAmt" runat="server" onKeyPress="return(currencyFormat(this,',','.',event))"
-                                                                            OnBlur="CheckNumericVal(this);"></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtShareLimit" SkinID="txtAmt" runat="server" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                                        OnBlur="CheckNumericVal(this,10);"></asp:TextBox>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Retroactive&nbsp;<span id="Span25" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Retroactive&nbsp;<span id="Span25" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic" colspan="4">
                                                                         <asp:RadioButtonList ID="rdbRetro" runat="server">
@@ -1074,12 +922,10 @@
                                                                         </asp:RadioButtonList>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Financial Security Required?&nbsp;<span id="Span26" style="color: Red; display: none;"
-                                                                            runat="server">*</span>
+                                                                    <td class="lc">Financial Security Required?&nbsp;<span id="Span26" style="color: Red; display: none;"
+                                                                        runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic" colspan="4">
                                                                         <asp:RadioButtonList ID="rdoFinancial_Security_Required" runat="server">
@@ -1088,12 +934,10 @@
                                                                         </asp:RadioButtonList>
                                                                 </tr>
                                                                 <tr id="trFSR" runat="server" style="display: none;">
-                                                                    <td class="lc">
-                                                                        Type&nbsp;<span id="Span38" style="color: Red; display: none;"
-                                                                            runat="server">*</span>
+                                                                    <td class="lc">Type&nbsp;<span id="Span38" style="color: Red; display: none;"
+                                                                        runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic" colspan="4">
                                                                         <asp:DropDownList runat="server" ID="ddlType" SkinID="dropGen" Width="157px">
@@ -1105,21 +949,16 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Original Amount&nbsp;<span id="Span27" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Original Amount&nbsp;<span id="Span27" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtOriginal_Amount" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
-                                                                            OnBlur="CheckNumericVal(this);"></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtOriginal_Amount" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                                        OnBlur="CheckNumericVal(this,10);"></asp:TextBox>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Original Amount Date&nbsp;<span id="Span28" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Original Amount Date&nbsp;<span id="Span28" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox ID="txtOriginal_Amount_Date" runat="server" SkinID="txtDate"></asp:TextBox>
@@ -1138,21 +977,16 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Change Amount 1&nbsp;<span id="Span29" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Change Amount 1&nbsp;<span id="Span29" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtChange_Amount_1" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
-                                                                            OnBlur="CheckNumericVal(this);"></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtChange_Amount_1" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                                        OnBlur="CheckNumericVal(this,10);"></asp:TextBox>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Change Amount Date 1&nbsp;<span id="Span30" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Change Amount Date 1&nbsp;<span id="Span30" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox ID="txtChange_Amount_1_Date" runat="server" SkinID="txtDate"></asp:TextBox>
@@ -1171,21 +1005,16 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Change Amount 2&nbsp;<span id="Span31" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Change Amount 2&nbsp;<span id="Span31" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtChange_Amount_2" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
-                                                                            OnBlur="CheckNumericVal(this);"></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtChange_Amount_2" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                                        OnBlur="CheckNumericVal(this,10);"></asp:TextBox>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Change Amount Date 2&nbsp;<span id="Span32" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Change Amount Date 2&nbsp;<span id="Span32" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox ID="txtChange_Amount_2_Date" runat="server" SkinID="txtDate"></asp:TextBox>
@@ -1204,21 +1033,16 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Change Amount 3&nbsp;<span id="Span33" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Change Amount 3&nbsp;<span id="Span33" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtChange_Amount_3" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
-                                                                            OnBlur="CheckNumericVal(this);"></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtChange_Amount_3" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                                        OnBlur="CheckNumericVal(this,10);"></asp:TextBox>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Change Amount Date 3&nbsp;<span id="Span34" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Change Amount Date 3&nbsp;<span id="Span34" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox ID="txtChange_Amount_3_Date" runat="server" SkinID="txtDate"></asp:TextBox>
@@ -1237,21 +1061,16 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Change Amount 4&nbsp;<span id="Span35" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Change Amount 4&nbsp;<span id="Span35" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtChange_Amount_4" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
-                                                                            OnBlur="CheckNumericVal(this);"></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtChange_Amount_4" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                                        OnBlur="CheckNumericVal(this,10);"></asp:TextBox>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Change Amount Date 4&nbsp;<span id="Span36" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Change Amount Date 4&nbsp;<span id="Span36" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox ID="txtChange_Amount_4_Date" runat="server" SkinID="txtDate"></asp:TextBox>
@@ -1270,48 +1089,41 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc" valign="top">
-                                                                        Policy Notes&nbsp;<span id="Span37" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc" valign="top">Policy Notes&nbsp;<span id="Span37" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc" valign="top">
-                                                                        :
+                                                                    <td class="lc" valign="top">:
                                                                     </td>
-                                                                    <td class="ic" colspan="4" >
+                                                                    <td class="ic" colspan="4">
                                                                         <uc:ctrlMultiLineTextBox runat="server" ID="txtPolicy_Notes" ControlType="TextBox" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td colspan="6">
-                                                                        <table cellspacing="1" width="100%" style="background-color: #7f7f7f; color: White;
-                                                                            font-weight: Bolder; font-family: Tahoma; font-size: 10pt; text-align: left;">
+                                                                        <table cellspacing="1" width="100%" style="background-color: #7f7f7f; color: White; font-weight: Bolder; font-family: Tahoma; font-size: 10pt; text-align: left;">
                                                                             <tr>
-                                                                                <td class="ghc">
-                                                                                    Policy Features
+                                                                                <td class="ghc">Policy Features
                                                                                 </td>
                                                                             </tr>
                                                                         </table>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Policy Features </br>
+                                                                    <td class="lc">Policy Features </br>
                                                                         <asp:LinkButton ID="lnkPF" runat="server" Text="--Add--" OnClick="lnkPF_Click" ValidationGroup="vsErrorGroup"></asp:LinkButton>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="lc"  colspan="4">
+                                                                    <td class="lc" colspan="4">
                                                                         <asp:GridView ID="gvFeatures" runat="server" AutoGenerateColumns="false" DataKeyNames=""
                                                                             Width="100%" AllowPaging="false" AllowSorting="True" OnRowCommand="gvFeatures_RowCommand"
                                                                             OnSorting="gvFeatures_Sorting" OnRowCreated="gvFeatures_RowCreated">
                                                                             <Columns>
-                                                                                <asp:BoundField DataField="Feature" HeaderText="Feature" SortExpression="Feature">
-                                                                                </asp:BoundField>                                                                               
+                                                                                <asp:BoundField DataField="Feature" HeaderText="Feature" SortExpression="Feature"></asp:BoundField>
                                                                                 <asp:TemplateField HeaderText="Limit" SortExpression="Limit">
                                                                                     <ItemTemplate>
                                                                                         <asp:Label runat="server" ID="lblLimit" Text='<%# clsGeneral.GetStringValue(Eval("Limit")) %>'></asp:Label>
                                                                                     </ItemTemplate>
-                                                                                </asp:TemplateField>                                                                             
+                                                                                </asp:TemplateField>
                                                                                 <asp:TemplateField HeaderText="Deductible" SortExpression="Deductible">
                                                                                     <ItemTemplate>
                                                                                         <asp:Label runat="server" ID="lblDeductible" Text='<%# clsGeneral.GetStringValue(Eval("Deductible")) %>'></asp:Label>
@@ -1355,20 +1167,17 @@
                                                                     </td>
                                                                 </tr>
                                                             </table>
-                                                            </td>
-                                                            </tr>
-                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
                                             </InsertItemTemplate>
                                             <EditItemTemplate>
-                                                <table width="100%" style="border: 1pt; border-color: #7f7f7f; border-style: solid;
-                                                    text-align: left;">
+                                                <table width="100%" style="border: 1pt; border-color: #7f7f7f; border-style: solid; text-align: left;">
                                                     <tr>
                                                         <td colspan="2">
-                                                            <table cellspacing="1" width="100%" style="background-color: #7f7f7f; color: White;
-                                                                font-weight: Bolder; font-family: Tahoma; font-size: 10pt; text-align: left;">
+                                                            <table cellspacing="1" width="100%" style="background-color: #7f7f7f; color: White; font-weight: Bolder; font-family: Tahoma; font-size: 10pt; text-align: left;">
                                                                 <tr>
-                                                                    <td class="ghc">
-                                                                        Policy
+                                                                    <td class="ghc">Policy
                                                                         <asp:Label ID="lblPolicyDetailsId" runat="server" Text='<%#Eval("Pk_Policy_Id")%>'
                                                                             Height="0px" Width="0px" Visible="false"></asp:Label>
                                                                     </td>
@@ -1380,74 +1189,60 @@
                                                         <td colspan="2">
                                                             <table width="100%" style="text-align: left;">
                                                                 <tr>
-                                                                    <td class="lc" style="width: 23%;">
-                                                                        Program&nbsp;<span id="Span1" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc" style="width: 23%;">Program&nbsp;<span id="Span1" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc" style="width: 2%;">
-                                                                        :
+                                                                    <td class="lc" style="width: 2%;">:
                                                                     </td>
                                                                     <td class="lc" style="width: 25%;">
                                                                         <asp:DropDownList runat="server" ID="ddlProgram" AutoPostBack="true" SkinID="dropGen"
                                                                             Width="157px" OnSelectedIndexChanged="ddlProgram_SelectedIndexChanged">
                                                                         </asp:DropDownList>
                                                                     </td>
-                                                                    <td class="lc" style="width: 23%;">
-                                                                        Policy Type&nbsp;<span id="Span2" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc" style="width: 23%;">Policy Type&nbsp;<span id="Span2" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc" style="width: 2%;">
-                                                                        :
+                                                                    <td class="lc" style="width: 2%;">:
                                                                     </td>
                                                                     <td class="ic" style="width: 25%;">
                                                                         <asp:DropDownList ID="ddlPolType" runat="server" Width="225px" SkinID="dropGen">
-                                                                        </asp:DropDownList>                                                                       
+                                                                        </asp:DropDownList>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Insurance Carrier&nbsp;<span id="Span3" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Insurance Carrier&nbsp;<span id="Span3" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox ID="txtCarrier" runat="server" MaxLength="50" Text='<%# Eval("Carrier") %>'></asp:TextBox>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Underwriter&nbsp;<span id="Span4" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Underwriter&nbsp;<span id="Span4" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox ID="txtUnderWriter" runat="server" MaxLength="50" Text='<%# Eval("UnderWriter") %>'></asp:TextBox>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        TPA&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">TPA&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox runat="server" ID="txtTPA" MaxLength="75" Text='<%# Eval("TPA") %>'></asp:TextBox>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Policy Number&nbsp;<span id="Span6" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Policy Number&nbsp;<span id="Span6" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="lc">
-                                                                        :
-                                                                    </td>
-                                                                    <td class="lc">
-                                                                        <asp:TextBox ID="txtPolNo" runat="server" MaxLength="30" Text='<%# Eval("Policy_Number") %>'></asp:TextBox>                                                                      
+                                                                        <asp:TextBox ID="txtPolNo" runat="server" MaxLength="30" Text='<%# Eval("Policy_Number") %>'></asp:TextBox>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Policy Effective Date&nbsp;<span id="Span7" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Policy Effective Date&nbsp;<span id="Span7" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox ID="txtDtPolBegin" runat="server" SkinID="txtDate" Text='<%# clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Policy_Begin_Date"))) %>'></asp:TextBox>
@@ -1458,17 +1253,15 @@
                                                                             DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true"
                                                                             OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtDtPolBegin"
                                                                             CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
-                                                                        </cc1:MaskedEditExtender>                                                                      
+                                                                        </cc1:MaskedEditExtender>
                                                                         <asp:CustomValidator ID="cvDtPolBegin" runat="server" ControlToValidate="txtDtPolBegin"
                                                                             ValidationGroup="vsErrorGroup" ClientValidationFunction="CheckDate" ErrorMessage="Policy Effective Date is not valid."
                                                                             Display="None">
                                                                         </asp:CustomValidator>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Policy Expiration Date&nbsp;<span id="Span8" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Policy Expiration Date&nbsp;<span id="Span8" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox ID="txtDtPolExp" runat="server" SkinID="txtDate" Text='<%# clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Policy_Expiration_Date"))) %>'></asp:TextBox>
@@ -1479,7 +1272,7 @@
                                                                             DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true"
                                                                             OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtDtPolExp"
                                                                             CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
-                                                                        </cc1:MaskedEditExtender>                                                                      
+                                                                        </cc1:MaskedEditExtender>
                                                                         <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="txtDtPolExp"
                                                                             ValidationGroup="vsErrorGroup" ErrorMessage="Policy Expiry Date Must Be Greater Than or Equal to Policy Effective Date."
                                                                             Type="Date" Operator="GreaterThanEqual" ControlToCompare="txtDtPolBegin" Display="none">
@@ -1491,11 +1284,9 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Policy Year&nbsp;<span id="Span9" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Policy Year&nbsp;<span id="Span9" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox ID="txtPolYear" runat="server" onkeypress="return numberOnly(event);"
@@ -1504,11 +1295,9 @@
                                                                             Display="none" SetFocusOnError="true" ErrorMessage="Policy Year is Invalid."
                                                                             ValidationExpression="[\d]{4}" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Location&nbsp;<span id="Span10" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Location&nbsp;<span id="Span10" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:DropDownList ID="ddlLocation" runat="server" SkinID="dropGen" Width="225px">
@@ -1516,33 +1305,25 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Annual Premium&nbsp;<span id="Span11" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Annual Premium&nbsp;<span id="Span11" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtPolAnnPremium" SkinID="txtAmt" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Annual_Premium")) %>'
-                                                                            onKeyPress="return(currencyFormat(this,',','.',event))" OnBlur="CheckNumericVal(this);"></asp:TextBox>                                                                     
+                                                                    <td class="ic">$<asp:TextBox ID="txtPolAnnPremium" SkinID="txtAmt" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Annual_Premium")) %>'
+                                                                        onKeyPress="return(currencyFormat(this,',','.',event))" OnBlur="CheckNumericVal(this,10);"></asp:TextBox>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Surplus Lines Fees&nbsp;<span id="Span12" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Surplus Lines Fees&nbsp;<span id="Span12" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtSLF" runat="server" SkinID="txtAmt" Text='<%# clsGeneral.GetStringValue(Eval("Surplus_Lines_Fees")) %>'
-                                                                            onKeyPress="return(currencyFormat(this,',','.',event))" OnBlur="CheckNumericVal(this);"></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtSLF" runat="server" SkinID="txtAmt" Text='<%# clsGeneral.GetStringValue(Eval("Surplus_Lines_Fees")) %>'
+                                                                        onKeyPress="return(currencyFormat(this,',','.',event))" OnBlur="CheckNumericVal(this,10);"></asp:TextBox>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Deductible ?&nbsp;<span id="Span13" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Deductible ?&nbsp;<span id="Span13" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:RadioButtonList ID="rblDeductible" runat="server">
@@ -1550,23 +1331,18 @@
                                                                             <asp:ListItem Text="No" Value="N" Selected="true"></asp:ListItem>
                                                                         </asp:RadioButtonList>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Deductible Amount&nbsp;<span id="Span14" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Deductible Amount&nbsp;<span id="Span14" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtDedAmt" runat="server" SkinID="txtAmt" Text='<%# clsGeneral.GetStringValue(Eval("Deductible_Amount")) %>'
-                                                                            onKeyPress="return(currencyFormat(this,',','.',event))" OnBlur="CheckNumericVal(this);"></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtDedAmt" runat="server" SkinID="txtAmt" Text='<%# clsGeneral.GetStringValue(Eval("Deductible_Amount")) %>'
+                                                                        onKeyPress="return(currencyFormat(this,',','.',event))" OnBlur="CheckNumericVal(this,10);"></asp:TextBox>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Coverage Form&nbsp;<span id="Span15" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Coverage Form&nbsp;<span id="Span15" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:RadioButtonList ID="rdbCF" runat="server">
@@ -1574,45 +1350,34 @@
                                                                             <asp:ListItem Text="Claims Made" Value="C"></asp:ListItem>
                                                                         </asp:RadioButtonList>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Store Deductible&nbsp;<span id="Span16" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Store Deductible&nbsp;<span id="Span16" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtStore_Deductible" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
-                                                                            OnBlur="CheckNumericVal(this);" Text='<%# clsGeneral.GetStringValue(Eval("Store_Deductible")) %>'></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtStore_Deductible" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                                        OnBlur="CheckNumericVal(this,10);" Text='<%# clsGeneral.GetStringValue(Eval("Store_Deductible")) %>'></asp:TextBox>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Per Occurrence Limit&nbsp;<span id="Span17" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Per Occurrence Limit&nbsp;<span id="Span17" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtPreOccLimit" runat="server" SkinID="txtAmt" Text='<%# clsGeneral.GetStringValue(Eval("Per_Occurrence_Limit")) %>'
-                                                                            onKeyPress="return(currencyFormat_New(this,',','.',20,event))" OnBlur="CheckNumericVal(this);"></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtPreOccLimit" runat="server" SkinID="txtAmt" Text='<%# clsGeneral.GetStringValue(Eval("Per_Occurrence_Limit")) %>'
+                                                                        onKeyPress="return(currencyFormat_New(this,',','.',20,event))" OnBlur="CheckNumericVal(this,20);"></asp:TextBox>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Aggregate Limit&nbsp;<span id="Span18" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Aggregate Limit&nbsp;<span id="Span18" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtAggLimit" runat="server" SkinID="txtAmt" Text='<%# clsGeneral.GetStringValue(Eval("Aggregate_Limit")) %>'
-                                                                            onKeyPress="return(currencyFormat_New(this,',','.',15,event))" OnBlur="CheckNumericVal(this);"></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtAggLimit" runat="server" SkinID="txtAmt" Text='<%# clsGeneral.GetStringValue(Eval("Aggregate_Limit")) %>'
+                                                                        onKeyPress="return(currencyFormat_New(this,',','.',15,event))" OnBlur="CheckNumericVal(this,15);"></asp:TextBox>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Layered Program?&nbsp;<span id="Span19" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Layered Program?&nbsp;<span id="Span19" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:RadioButtonList ID="rdbLayer" runat="server" onclick="javascript:return LayerChange();">
@@ -1622,34 +1387,27 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        If Layered, Layer Number&nbsp;<span id="Span20" style="color: Red; display: none;"
-                                                                            runat="server">*</span>
+                                                                    <td class="lc">If Layered, Layer Number&nbsp;<span id="Span20" style="color: Red; display: none;"
+                                                                        runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:DropDownList ID="ddlLayerNo" runat="server" SkinID="dropGen" Width="157px">
                                                                         </asp:DropDownList>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Underlying Limit&nbsp;<span id="Span21" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Underlying Limit&nbsp;<span id="Span21" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtUnderlying" SkinID="txtAmt" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Underlying_Limit")) %>'
-                                                                            onKeyPress="return(currencyFormat(this,',','.',event))" OnBlur="CheckNumericVal(this);"></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtUnderlying" SkinID="txtAmt" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Underlying_Limit")) %>'
+                                                                        onKeyPress="return(currencyFormat(this,',','.',event))" OnBlur="CheckNumericVal(this,10);"></asp:TextBox>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Quota Share ?&nbsp;<span id="Span22" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Quota Share ?&nbsp;<span id="Span22" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:RadioButtonList ID="rdbQuota" runat="server" onclick="javascript:return QuotaChange();">
@@ -1659,11 +1417,9 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Share Percentage&nbsp;<span id="Span23" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Share Percentage&nbsp;<span id="Span23" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox ID="txtSharePC" runat="server" MaxLength="5" Text='<%# Eval("Share_Precentage") %>'
@@ -1676,23 +1432,18 @@
                                                                             <asp:TextBox ID="txtCmp" runat="Server" Text="100"></asp:TextBox>
                                                                         </div>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Share Limit&nbsp;<span id="Span24" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Share Limit&nbsp;<span id="Span24" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtShareLimit" SkinID="txtAmt" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Share_Limit")) %>'
-                                                                            onKeyPress="return(currencyFormat(this,',','.',event))" OnBlur="CheckNumericVal(this);"></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtShareLimit" SkinID="txtAmt" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Share_Limit")) %>'
+                                                                        onKeyPress="return(currencyFormat(this,',','.',event))" OnBlur="CheckNumericVal(this,10);"></asp:TextBox>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Retroactive&nbsp;<span id="Span25" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Retroactive&nbsp;<span id="Span25" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:RadioButtonList ID="rdbRetro" runat="server">
@@ -1701,12 +1452,10 @@
                                                                         </asp:RadioButtonList>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Financial Security Required?&nbsp;<span id="Span26" style="color: Red; display: none;"
-                                                                            runat="server">*</span>
+                                                                    <td class="lc">Financial Security Required?&nbsp;<span id="Span26" style="color: Red; display: none;"
+                                                                        runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic" colspan="4">
                                                                         <asp:RadioButtonList ID="rdoFinancial_Security_Required" runat="server">
@@ -1715,12 +1464,10 @@
                                                                         </asp:RadioButtonList>
                                                                 </tr>
                                                                 <tr id="trFSR" runat="server" style="display: none;">
-                                                                    <td class="lc">
-                                                                        Type&nbsp;<span id="Span38" style="color: Red; display: none;"
-                                                                            runat="server">*</span>
+                                                                    <td class="lc">Type&nbsp;<span id="Span38" style="color: Red; display: none;"
+                                                                        runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic" colspan="4">
                                                                         <asp:DropDownList runat="server" ID="ddlType" SkinID="dropGen" Width="157px">
@@ -1732,21 +1479,16 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Original Amount&nbsp;<span id="Span27" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Original Amount&nbsp;<span id="Span27" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtOriginal_Amount" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Original_Amount")) %>'
-                                                                            SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))" OnBlur="CheckNumericVal(this);"></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtOriginal_Amount" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Original_Amount")) %>'
+                                                                        SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))" OnBlur="CheckNumericVal(this,10);"></asp:TextBox>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Original Amount Date&nbsp;<span id="Span28" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Original Amount Date&nbsp;<span id="Span28" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox ID="txtOriginal_Amount_Date" runat="server" SkinID="txtDate" Text='<%# clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Original_Amount_Date"))) %>'></asp:TextBox>
@@ -1765,21 +1507,16 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Change Amount 1&nbsp;<span id="Span29" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Change Amount 1&nbsp;<span id="Span29" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtChange_Amount_1" runat="server" SkinID="txtAmt" Text='<%# clsGeneral.GetStringValue(Eval("Change_Amount_1")) %>'
-                                                                            onKeyPress="return(currencyFormat(this,',','.',event))" OnBlur="CheckNumericVal(this);"></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtChange_Amount_1" runat="server" SkinID="txtAmt" Text='<%# clsGeneral.GetStringValue(Eval("Change_Amount_1")) %>'
+                                                                        onKeyPress="return(currencyFormat(this,',','.',event))" OnBlur="CheckNumericVal(this,10);"></asp:TextBox>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Change Amount Date 1&nbsp;<span id="Span30" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Change Amount Date 1&nbsp;<span id="Span30" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox ID="txtChange_Amount_1_Date" runat="server" SkinID="txtDate" Text='<%# clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Change_Amount_1_Date"))) %>'></asp:TextBox>
@@ -1798,21 +1535,16 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Change Amount 2&nbsp;<span id="Span31" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Change Amount 2&nbsp;<span id="Span31" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtChange_Amount_2" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Change_Amount_2")) %>'
-                                                                            SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))" OnBlur="CheckNumericVal(this);"></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtChange_Amount_2" runat="server" Text='<%# clsGeneral.GetStringValue(Eval("Change_Amount_2")) %>'
+                                                                        SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))" OnBlur="CheckNumericVal(this,10);"></asp:TextBox>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Change Amount Date 2&nbsp;<span id="Span32" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Change Amount Date 2&nbsp;<span id="Span32" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox ID="txtChange_Amount_2_Date" runat="server" SkinID="txtDate" Text='<%# clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Change_Amount_2_Date"))) %>'></asp:TextBox>
@@ -1831,21 +1563,16 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Change Amount 3&nbsp;<span id="Span33" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Change Amount 3&nbsp;<span id="Span33" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtChange_Amount_3" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
-                                                                            OnBlur="CheckNumericVal(this);" Text='<%# clsGeneral.GetStringValue(Eval("Change_Amount_3")) %>'></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtChange_Amount_3" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                                        OnBlur="CheckNumericVal(this,10);" Text='<%# clsGeneral.GetStringValue(Eval("Change_Amount_3")) %>'></asp:TextBox>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Change Amount Date 3&nbsp;<span id="Span34" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Change Amount Date 3&nbsp;<span id="Span34" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox ID="txtChange_Amount_3_Date" runat="server" SkinID="txtDate" Text='<%# clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Change_Amount_3_Date"))) %>'></asp:TextBox>
@@ -1864,21 +1591,16 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Change Amount 4&nbsp;<span id="Span35" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Change Amount 4&nbsp;<span id="Span35" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
-                                                                    <td class="ic">
-                                                                        $<asp:TextBox ID="txtChange_Amount_4" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
-                                                                            OnBlur="CheckNumericVal(this);" Text='<%# clsGeneral.GetStringValue(Eval("Change_Amount_4")) %>'></asp:TextBox>
+                                                                    <td class="ic">$<asp:TextBox ID="txtChange_Amount_4" runat="server" SkinID="txtAmt" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                                                        OnBlur="CheckNumericVal(this,10);" Text='<%# clsGeneral.GetStringValue(Eval("Change_Amount_4")) %>'></asp:TextBox>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        Change Amount Date 4&nbsp;<span id="Span36" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc">Change Amount Date 4&nbsp;<span id="Span36" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="ic">
                                                                         <asp:TextBox ID="txtChange_Amount_4_Date" runat="server" SkinID="txtDate" Text='<%# clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Change_Amount_4_Date"))) %>'></asp:TextBox>
@@ -1897,11 +1619,9 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc" valign="top">
-                                                                        Policy Notes&nbsp;<span id="Span37" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td class="lc" valign="top">Policy Notes&nbsp;<span id="Span37" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td class="lc" valign="top">
-                                                                        :
+                                                                    <td class="lc" valign="top">:
                                                                     </td>
                                                                     <td class="ic" colspan="4" style="width: 75%">
                                                                         <uc:ctrlMultiLineTextBox runat="server" ID="txtPolicy_Notes" ControlType="TextBox"
@@ -1910,31 +1630,26 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td colspan="6">
-                                                                        <table cellspacing="1" width="100%" style="background-color: #7f7f7f; color: White;
-                                                                            font-weight: Bolder; font-family: Tahoma; font-size: 10pt; text-align: left;">
+                                                                        <table cellspacing="1" width="100%" style="background-color: #7f7f7f; color: White; font-weight: Bolder; font-family: Tahoma; font-size: 10pt; text-align: left;">
                                                                             <tr>
-                                                                                <td class="ghc">
-                                                                                    Policy Features
+                                                                                <td class="ghc">Policy Features
                                                                                 </td>
                                                                             </tr>
                                                                         </table>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="lc">
-                                                                        Policy Features </br>
+                                                                    <td class="lc">Policy Features </br>
                                                                         <asp:LinkButton ID="lnkPF" runat="server" Text="--Add--" OnClick="lnkPF_Click" ValidationGroup="vsErrorGroup"></asp:LinkButton>
                                                                     </td>
-                                                                    <td class="lc">
-                                                                        :
+                                                                    <td class="lc">:
                                                                     </td>
                                                                     <td class="lc" colspan="4">
                                                                         <asp:GridView ID="gvFeatures" runat="server" AutoGenerateColumns="false" DataKeyNames=""
                                                                             Width="100%" AllowPaging="false" AllowSorting="True" OnRowCommand="gvFeatures_RowCommand"
                                                                             OnSorting="gvFeatures_Sorting" OnRowCreated="gvFeatures_RowCreated">
                                                                             <Columns>
-                                                                                <asp:BoundField DataField="Feature" HeaderText="Feature" SortExpression="Feature">
-                                                                                </asp:BoundField>
+                                                                                <asp:BoundField DataField="Feature" HeaderText="Feature" SortExpression="Feature"></asp:BoundField>
                                                                                 <%--<asp:BoundField DataField="Limit" HeaderText="Limit" SortExpression="Limit"></asp:BoundField>--%>
                                                                                 <asp:TemplateField HeaderText="Limit" SortExpression="Limit">
                                                                                     <ItemTemplate>
