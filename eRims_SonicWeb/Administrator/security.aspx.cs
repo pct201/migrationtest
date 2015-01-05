@@ -470,6 +470,8 @@ public partial class Administrator_security : clsBasePage
                 }
             }
         }
+
+        BindDocumentFolderSecurity();
     }
 
     protected void chkRights_SelectedIndexChanged(object sender, EventArgs e)
@@ -491,6 +493,8 @@ public partial class Administrator_security : clsBasePage
             }
         }
         else { btnSave.Enabled = true; }
+
+        BindDocumentFolderSecurity();
     }
 
     #endregion
@@ -786,6 +790,8 @@ public partial class Administrator_security : clsBasePage
         //{
         //    EnableDisableAdminAccessFields(true);
         //}
+
+        BindDocumentFolderSecurity();
     }
 
     /// <summary>
@@ -1078,6 +1084,65 @@ public partial class Administrator_security : clsBasePage
 
         tdRegion.Style["display"] = "";
         //trReportType.Style["display"] = "none";
+    }
+
+    /// <summary>
+    /// Add Items into Folder Security List
+    /// </summary>
+    private void BindDocumentFolderSecurity()
+    {
+        if (chkGroup.Items.FindByText("Administrative").Selected == true)
+        {
+            lstFolderSecurity.Items.Clear();
+            lstFolderSecurity.Items.Add(new ListItem("All Folders", "0"));
+            lstFolderSecurity.Items[0].Selected = true;
+        }
+        else
+        {
+            string[] strSelectedItems = new string[1000];
+            int k = 0;
+            strSelectedItems[0] = "";
+            foreach (ListItem Li in lstFolderSecurity.Items)
+            {
+                if (Li.Selected)
+                {
+                    strSelectedItems[k] = Li.Value;
+                    k++;
+                }
+            }
+
+            lstFolderSecurity.Items.Clear();
+            string strModule = "";
+            foreach (ListItem lst in chkRights.Items)
+            {
+                if (lst.Selected)
+                {
+                    DataSet dsRights = Right.SelectByPK(Convert.ToInt32(lst.Value));
+                    if (dsRights.Tables[0].Rows.Count > 0)
+                    {
+                        string strModuleID = dsRights.Tables[0].Rows[0]["Module_ID"].ToString(); 
+                        if (!strModule.Contains("'" + strModuleID + "'"))
+                        {
+                            DataSet dsFolderSecurity = clsAttachment_Rights.SelectByModuleID(Convert.ToDecimal(strModuleID));
+                            foreach (DataRow dr in dsFolderSecurity.Tables[0].Rows)
+                            {
+                                lstFolderSecurity.Items.Add(new ListItem(dr["Right_Name"].ToString(), dr["PK_Attachment_Rights"].ToString()));
+                            }
+                            strModule = strModule + "'" + strModuleID + "' ";
+                        }
+                    }
+                }
+            }
+
+            foreach (ListItem Li in lstFolderSecurity.Items)
+            {
+                for (int i = 0; i < strSelectedItems.Length; i++)
+                {
+                    if (Li.Value == strSelectedItems[i])
+                        Li.Selected = true;
+                }
+            }
+        }
     }
 
     //private void SetUserRights(string strUserGroup)

@@ -726,6 +726,7 @@
                         </table>
                     </td>
                 </tr>
+                 
             </table>
         </div>
         <div runat="server" id="DivViewSecurity">
@@ -955,9 +956,37 @@
                         </table>
                     </td>
                 </tr>
+               
             </table>
         </div>
         <br />
+         <asp:UpdatePanel runat="server" ID="UpdatePanel2">
+            <ContentTemplate>
+                <table cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        <td width="100%">
+                            <table cellpadding="3" cellspacing="0" width="100%" id="tblDocumentFolder" runat="server">
+                                <tr>
+                                    <td style="width: 12%; padding-left: 10px" align="left" valign="top">
+                                        Document Folder Security
+                                    </td>
+                                    <td style="width: 4%" align="center" valign="top">
+                                        :
+                                    </td>
+                                    <td colspan="4" align="left" width="34%">
+                                        <asp:ListBox ID="lstFolderSecurity" runat="server" SelectionMode="Multiple" Width="280px"
+                                            Height="130px"></asp:ListBox>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        
+                    </tr>
+                </table>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+        <br />
+
         <table width="100%" cellpadding="3" cellspacing="1" border="0">
             <tr>
                 <td align="center">
