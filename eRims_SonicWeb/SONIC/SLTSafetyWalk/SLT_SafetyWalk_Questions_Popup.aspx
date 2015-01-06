@@ -367,7 +367,7 @@
                                         </tr>
                                         <tr>
                                             <td style="height: 24px" align="center">
-                                                <asp:HiddenField ID="hdnNextOpenQueID" runat="server" />
+                                                <asp:HiddenField ID="hdnNextOpenQueID" runat="server" Value="0" />
                                                 <asp:Button ID="btnSave"  runat="server"  OnClientClick="DisableButton(this);" UseSubmitBehavior="false" OnClick="btnSave_Click" Text="Save" CausesValidation="true" ToolTip="Save"></asp:Button>&nbsp;&nbsp;&nbsp;<%--OnClientClick="javascript:return DisableButton(this);" --%>
                                                 <asp:Button ID="btnSaveAndNext" OnClick="btnSaveAndNext_Click" runat="server" 
                                                     CausesValidation="true" Text="Save & Next" OnClientClick="DisableButtonSaveandNext(this);" UseSubmitBehavior="false"></asp:Button>&nbsp;&nbsp;&nbsp;

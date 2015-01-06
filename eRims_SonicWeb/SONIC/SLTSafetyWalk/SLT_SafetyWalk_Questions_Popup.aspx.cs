@@ -168,7 +168,7 @@ public partial class SONIC_SLTSafetyWalk_SLT_SafetyWalk_Questions_Popup : clsBas
     {
         ComboHelper.FillSLT_DepartmentObserved(new ListBox[] { lstDepartmentsView });
 
-        DataSet dsSLTMembers = SLT_Members.SLT_MembersSelectByFk(PK_SLT_Meeting, 0,PK_SLT_Meeting_Schedule);
+        DataSet dsSLTMembers = SLT_Members.SLT_MembersSelectByFk(PK_SLT_Meeting, 0, PK_SLT_Meeting_Schedule);
         if (dsSLTMembers != null)
         {
             DataTable dtSLTMembers = dsSLTMembers.Tables[0];
@@ -878,7 +878,7 @@ public partial class SONIC_SLTSafetyWalk_SLT_SafetyWalk_Questions_Popup : clsBas
                 if (GetSelectedItemString(lstDepartments, false) != "")
                     objdepartmnt.Insert(PK_SLT_Safety_Walk_Responses, GetSelectedItemString(lstDepartments, false));
 
-                if (hdnNextOpenQueID.Value != "0")
+                if (!string.IsNullOrEmpty(hdnNextOpenQueID.Value) && hdnNextOpenQueID.Value != "0")
                     Response.Redirect("SLT_SafetyWalk_Questions_Popup.aspx?id=" + Encryption.Encrypt(Convert.ToString(hdnNextOpenQueID.Value)) + "&FK_SLTID= " + FK_SLT_Safety_Walk + "&Year=" + Encryption.Encrypt(Convert.ToString(Year)) + "&Month=" + Encryption.Encrypt(Convert.ToString(Month)) + "&PK_SLT_Meeting=" + PK_SLT_Meeting.ToString() + "&PK_MSID=" + PK_SLT_Meeting_Schedule + "&AM_date=" + Actual_Meeting_Date + "&op=" + StrOperation, true);
                 else
                     Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:SaveRecord();", true);
@@ -982,10 +982,10 @@ public partial class SONIC_SLTSafetyWalk_SLT_SafetyWalk_Questions_Popup : clsBas
                         trAttachmentFA.Visible = true;
                     }
                     else
-                    { 
+                    {
                         pnlAttachment2.Visible = true;
-                        trAttachmentFA2.Visible = true;                    
-                    }                    
+                        trAttachmentFA2.Visible = true;
+                    }
                     //Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ReloadParent();", true);                    
                 }
                 else
