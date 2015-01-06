@@ -391,6 +391,7 @@ public partial class Administrator_security : clsBasePage
         BindGrid(ctrlPageProperty.CurrentPage, ctrlPageProperty.PageSize);
         btnCancel_Click(sender, e);
         //}
+        SaveAssocAttachmentRights();
     }
 
     /// <summary>
@@ -1085,6 +1086,25 @@ public partial class Administrator_security : clsBasePage
         tdRegion.Style["display"] = "";
         //trReportType.Style["display"] = "none";
     }
+
+    /// <summary>
+    /// Save selected Items from Folder Security List
+    /// </summary>
+    private void SaveAssocAttachmentRights()
+    {
+        clsAssoc_Attachment_Rights.DeleteByFK(PK_Security_ID);
+        foreach (ListItem lst in lstFolderSecurity.Items)
+        {
+            if (lst.Selected)
+            {
+                clsAssoc_Attachment_Rights objAssoc_Attachment_Rights = new clsAssoc_Attachment_Rights();
+                objAssoc_Attachment_Rights.FK_Attachment_Right = Convert.ToDecimal(lst.Value);
+                objAssoc_Attachment_Rights.FK_User_ID = PK_Security_ID;
+                objAssoc_Attachment_Rights.Insert();
+            }
+        }
+    }
+
 
     /// <summary>
     /// Add Items into Folder Security List
