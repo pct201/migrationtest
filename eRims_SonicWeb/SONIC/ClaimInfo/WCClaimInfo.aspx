@@ -1292,7 +1292,7 @@
                                                             <asp:TextBox ID="txtDateRestrictedWorkEnd" runat="server" MaxLength="10" SkinID="txtdate"
                                                                 Width="120px"></asp:TextBox>
                                                             <img onmouseover="javascript:this.style.cursor='hand';" onclick="return showCalendar('<%=txtDateRestrictedWorkEnd.ClientID %>', 'mm/dd/y',OnChangeFunction);"
-                                                                alt="Date Restricted Work Began" src="../../Images/iconPicDate.gif" align="middle" /><br />
+                                                                alt="Date Restricted Work Ended" src="../../Images/iconPicDate.gif" align="middle" /><br />
                                                             <asp:CustomValidator ID="CustomValidator2" runat="server" ControlToValidate="txtDateRestrictedWorkEnd"
                                                                 ValidationGroup="vsWCClaimGroup" ClientValidationFunction="CheckDate" ErrorMessage="Date Restricted Work Ended is not valid."
                                                                 Display="None">

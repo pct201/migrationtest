@@ -236,7 +236,7 @@ public partial class SONIC_WCClaimInfo : clsBasePage
     /// <param name="e"></param>
     protected void btnSaveWCClaim_Click(object sender, EventArgs e)
     {
-        WC_ClaimInfo.UpdateRestrictedDates(PK_WC_CI_ID, clsGeneral.FormatNullDateToStore(txtDateRestrictedWorkBegan.Text.Trim()), clsGeneral.FormatNullDateToStore(txtDateRestrictedWorkBegan.Text.Trim()));
+        WC_ClaimInfo.UpdateRestrictedDates(PK_WC_CI_ID, clsGeneral.FormatNullDateToStore(txtDateRestrictedWorkBegan.Text.Trim()), clsGeneral.FormatNullDateToStore(txtDateRestrictedWorkEnd.Text.Trim()));
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Claim Identification data has been saved.');ShowPanel(1);", true);
     }
 
