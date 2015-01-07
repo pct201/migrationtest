@@ -102,7 +102,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
         dtRegion.Columns.Add(new DataColumn("Score", typeof(decimal)));
         dtRegion.Columns.Add(new DataColumn("Performance", typeof(string)));
-        
+
         DataTable dtAverage = new DataTable();
         dtAverage.Columns.Add(new DataColumn("Score", typeof(decimal)));
 
@@ -199,20 +199,20 @@ public partial class ScorecardByLocation : System.Web.UI.Page
                 dtRegion.Rows[_iRow]["Performance"] = "Spectator";
                 dtRegion.Rows[_iRow]["Score"] = _intScore;
             }
-            
+
         }
 
         // for new version
         string strWidth = dtRegion.Rows.Count > 25 ? "950" : "800";
         strChartXML.Append("<chart caption='Aggregate Performance for Region " + Region + "' xAxisName='Location' yAxisName='Level' useRoundEdges='1' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='240' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0' baseFont='Verdana' baseFontColor='6f6c6c' baseFontSize='10'>");
-        
+
         // Set Lable
         for (int i = 0; i < dtRegion.Rows.Count; i++)
         {
             //strlink = Server.UrlEncode("JavaScript:OpenPopupForAggreage(\"" + Region + "\",\"" + dtRegion.Rows[i]["DBA"].ToString() + "\",\"" + dtRegion.Rows[i]["Sonic_Location_Code"].ToString() + "\",\"" + Year.ToString() + "\",\"1\");").Replace("'", "%26apos;");            
             //strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}'/>", Server.UrlEncode(dtRegion.Rows[i][0].ToString()).Replace("'", "%26apos;"), dtRegion.Rows[i][2].ToString(), strlink);            
             strlink = Server.UrlEncode("JavaScript:OpenPopupForAggreage(\"" + dtRegion.Rows[i]["Region"].ToString() + "\",\"" + dtRegion.Rows[i]["DBA"].ToString() + "\",\"" + dtRegion.Rows[i]["Sonic_Location_Code"].ToString() + "\",\"" + Year.ToString() + "\",\"1\");").Replace("'", "%26apos;");
-            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}'/>", dtRegion.Rows[i][0].ToString().Replace("'", "&apos;"), dtRegion.Rows[i][3].ToString(), strlink);            
+            strChartXML.AppendFormat("<set label='{0}' value='{1}' link='{2}'/>", dtRegion.Rows[i][0].ToString().Replace("'", "&apos;"), dtRegion.Rows[i][3].ToString(), strlink);
         }
 
         Average = 0;
@@ -236,14 +236,16 @@ public partial class ScorecardByLocation : System.Web.UI.Page
 
         if (Region == "Western Region")
         {
-            DataSet dsSCA = Charts.GetFacilityInspectionByLocation(Year, "SCA"); 
+            DataSet dsSCA = Charts.GetFacilityInspectionByLocation(Year, "SCA");
             dtReport.Merge(dsSCA.Tables[0]);
             dtReport.DefaultView.Sort = "DBA";
             dtReport = dtReport.DefaultView.ToTable();
-            decimal decAvg = decimal.Parse(Convert.ToString(dsSCA.Tables[1].Rows[0][0]));
+            decimal decAvg = 0;
+            if (dsSCA.Tables[1].Rows.Count > 0 && !string.IsNullOrEmpty(dsSCA.Tables[1].Rows[0][0].ToString()))
+                decAvg = decimal.Parse(Convert.ToString(dsSCA.Tables[1].Rows[0][0]));
             Average = (Average + decAvg) / 2.0M;
         }
-        
+
 
         //strChartXML.Append("<chart caption='Facility Inspection for Region " + Region + "' xAxisName='Location' yAxisName='Level' useRoundEdges='1' showValues='0' formatNumberScale='0' showBorder='0' rotateYAxisName='0' showYAxisValues='0' yAxisMinValue='0' yAxisMaxValue='6' labelDisplay='ROTATE' maxColWidth='40' slantLabels='0' use3DLighting='1' divLineAlpha='0'>");
         // for new version
@@ -283,7 +285,9 @@ public partial class ScorecardByLocation : System.Web.UI.Page
             dtReport.Merge(dsSCA.Tables[0]);
             dtReport.DefaultView.Sort = "DBA";
             dtReport = dtReport.DefaultView.ToTable();
-            decimal decAvg = decimal.Parse(Convert.ToString(dsSCA.Tables[1].Rows[0][0]));
+            decimal decAvg = 0;
+            if (dsSCA.Tables[1].Rows.Count > 0 && !string.IsNullOrEmpty(dsSCA.Tables[1].Rows[0][0].ToString()))
+                decAvg = decimal.Parse(Convert.ToString(dsSCA.Tables[1].Rows[0][0]));
             Average = (Average + decAvg) / 2.0M;
         }
 
@@ -324,7 +328,9 @@ public partial class ScorecardByLocation : System.Web.UI.Page
             dtReport.Merge(dsSCA.Tables[0]);
             dtReport.DefaultView.Sort = "DBA";
             dtReport = dtReport.DefaultView.ToTable();
-            decimal decAvg = decimal.Parse(Convert.ToString(dsSCA.Tables[1].Rows[0][0]));
+            decimal decAvg = 0;
+            if (dsSCA.Tables[1].Rows.Count > 0 && !string.IsNullOrEmpty(dsSCA.Tables[1].Rows[0][0].ToString()))
+                decAvg = decimal.Parse(Convert.ToString(dsSCA.Tables[1].Rows[0][0]));
             Average = (Average + decAvg) / 2.0M;
         }
 
@@ -361,7 +367,9 @@ public partial class ScorecardByLocation : System.Web.UI.Page
             dtReport.Merge(dsSCA.Tables[0]);
             dtReport.DefaultView.Sort = "DBA";
             dtReport = dtReport.DefaultView.ToTable();
-            decimal decAvg = decimal.Parse(Convert.ToString(dsSCA.Tables[1].Rows[0][0]));
+            decimal decAvg = 0;
+            if (dsSCA.Tables[1].Rows.Count > 0 && !string.IsNullOrEmpty(dsSCA.Tables[1].Rows[0][0].ToString()))
+                decAvg = decimal.Parse(Convert.ToString(dsSCA.Tables[1].Rows[0][0]));
             Average = (Average + decAvg) / 2.0M;
         }
 
@@ -397,7 +405,9 @@ public partial class ScorecardByLocation : System.Web.UI.Page
             dtReport.Merge(dsSCA.Tables[0]);
             dtReport.DefaultView.Sort = "DBA";
             dtReport = dtReport.DefaultView.ToTable();
-            decimal decAvg = decimal.Parse(Convert.ToString(dsSCA.Tables[1].Rows[0][0]));
+            decimal decAvg = 0;
+            if (dsSCA.Tables[1].Rows.Count > 0 && !string.IsNullOrEmpty(dsSCA.Tables[1].Rows[0][0].ToString()))
+                decAvg = decimal.Parse(Convert.ToString(dsSCA.Tables[1].Rows[0][0]));
             Average = (Average + decAvg) / 2.0M;
         }
 
@@ -433,7 +443,9 @@ public partial class ScorecardByLocation : System.Web.UI.Page
             dtReport.Merge(dsSCA.Tables[0]);
             dtReport.DefaultView.Sort = "DBA";
             dtReport = dtReport.DefaultView.ToTable();
-            decimal decAvg = decimal.Parse(Convert.ToString(dsSCA.Tables[1].Rows[0][0]));
+            decimal decAvg = 0;
+            if (dsSCA.Tables[1].Rows.Count > 0 && !string.IsNullOrEmpty(dsSCA.Tables[1].Rows[0][0].ToString()))
+                decAvg = decimal.Parse(Convert.ToString(dsSCA.Tables[1].Rows[0][0]));
             Average = (Average + decAvg) / 2.0M;
         }
 
@@ -467,7 +479,7 @@ public partial class ScorecardByLocation : System.Web.UI.Page
             decimal decAvg;
             if (decimal.TryParse(Request.QueryString["CompAvg"], out decAvg))
                 decCompAverage = decAvg;
-        }   
+        }
 
         // set Tread Lines
         strChartXML.Append("<trendLines>");
