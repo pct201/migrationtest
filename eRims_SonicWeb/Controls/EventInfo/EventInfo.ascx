@@ -15,7 +15,7 @@
             PL First Report #
         </td>
         <td  style="width:20%">
-            Prop First Report #
+            Property First Report #
         </td>
     </tr>
     <tr style="background-color: White;" valign="top" align="left">
