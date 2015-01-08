@@ -5,6 +5,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using System.Web.UI.HtmlControls;
+using ERIMS.DAL;
 
 public partial class Event_PopupFirstReport : System.Web.UI.Page
 {
@@ -47,10 +48,28 @@ public partial class Event_PopupFirstReport : System.Web.UI.Page
         decimal FRNumber;
         FRNumber = txtFirstReportNumber.Text.Trim() == string.Empty ? 0 : Convert.ToDecimal(txtFirstReportNumber.Text);
 
+        string Regional = string.Empty;
+        Nullable<decimal> CurrentEmployee = new Security(Convert.ToDecimal(clsSession.UserID)).Employee_Id;
+        DataSet dsRegion = Regional_Access.SelectBySecurityID(Convert.ToInt32(clsSession.UserID));
+        if (dsRegion.Tables[0].Rows.Count > 0)
+        {
+            foreach (DataRow drRegion in dsRegion.Tables[0].Rows)
+            {
+                Regional += drRegion["Region"].ToString() + ",";
+            }
+        }
+        else
+            Regional = string.Empty;
+
+        if (CurrentEmployee.ToString() != string.Empty && CurrentEmployee.ToString() != "0")
+            CurrentEmployee = Convert.ToDecimal(CurrentEmployee);
+        else
+            CurrentEmployee = 0;
+
         //check FirstName Textbox and last name textbox empty or not
         if (ddlSonicDBA.SelectedIndex > 0)
         {
-            DataSet dsFRNumber = ERIMS.DAL.First_Report_Wizard.SearchFirstReportsForEvent(Convert.ToDecimal(ddlSonicDBA.SelectedValue), FRNumber, ClaimType);
+            DataSet dsFRNumber = ERIMS.DAL.First_Report_Wizard.SearchFirstReportsForEvent(Convert.ToDecimal(ddlSonicDBA.SelectedValue), FRNumber, ClaimType, Regional.ToString().TrimEnd(Convert.ToChar(",")), CurrentEmployee);
             if (dsFRNumber.Tables.Count > 0)
             {
                 gvFRNumber.DataSource = dsFRNumber.Tables[0];
@@ -59,7 +78,7 @@ public partial class Event_PopupFirstReport : System.Web.UI.Page
         }
         else
         {
-            DataSet dsFRNumber = ERIMS.DAL.First_Report_Wizard.SearchFirstReportsForEvent(0, FRNumber, ClaimType);
+            DataSet dsFRNumber = ERIMS.DAL.First_Report_Wizard.SearchFirstReportsForEvent(0, FRNumber, ClaimType, Regional.ToString().TrimEnd(Convert.ToChar(",")), CurrentEmployee);
             if (dsFRNumber.Tables.Count > 0)
             {
                 gvFRNumber.DataSource = dsFRNumber.Tables[0];
