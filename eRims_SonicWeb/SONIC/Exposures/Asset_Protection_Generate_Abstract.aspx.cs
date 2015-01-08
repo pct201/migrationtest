@@ -2160,7 +2160,7 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
                 htFindAndReplace.Add("[Location_Zip]", dtDPD_FROIs_Detail.Rows[0]["Present_Zip"].ToString());
                 htFindAndReplace.Add("[Invoice_Value]", clsGeneral.GetStringValue(dtDPD_FROIs_Detail.Rows[0]["Invoice_Value"]));
                 htFindAndReplace.Add("[Loss_Description]", dtDPD_FROIs_Detail.Rows[0]["Loss_Description"].ToString());
-                htFindAndReplace.Add("[Associated_Claim_Number]", dtDPD_FROIs_Detail.Rows[0]["Claim_Number"].ToString());
+                htFindAndReplace.Add("[Associated_Claim_Number]", dtDPD_FROIs_Detail.Rows[0]["Origin_Claim_Number"].ToString());
 
 
 
@@ -2334,7 +2334,7 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
                 htFindAndReplace.Add("[Financial_Loss]", clsGeneral.GetStringValue(dtDPD_FROIs_Detail.Rows[0]["Financial_Loss"]));
                 htFindAndReplace.Add("[Recovery]", clsGeneral.GetStringValue(dtDPD_FROIs_Detail.Rows[0]["Recovery"]));
                 htFindAndReplace.Add("[Item_Status]", dtDPD_FROIs_Detail.Rows[0]["Item_Status"].ToString() == "O" ? "Open" : "Close");
-                htFindAndReplace.Add("[Claim_Number]", clsGeneral.GetStringValue(dtDPD_FROIs_Detail.Rows[0]["Claim_Number"]));
+                htFindAndReplace.Add("[Claim_Number]", clsGeneral.GetStringValue(dtDPD_FROIs_Detail.Rows[0]["Origin_Claim_Number"]));
 
                 #region "DPD Witness"
 

@@ -940,7 +940,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             txtFinancial_Loss.Text = dtDPD_FROIs_Detail.Rows[0]["Financial_Loss"].ToString() != "" ? clsGeneral.GetStringValue(dtDPD_FROIs_Detail.Rows[0]["Financial_Loss"].ToString()) : "";
             txtRecovery.Text = dtDPD_FROIs_Detail.Rows[0]["Recovery"].ToString() != "" ? clsGeneral.GetStringValue(dtDPD_FROIs_Detail.Rows[0]["Recovery"].ToString()) : "";
             drpItem_Status.SelectedValue = dtDPD_FROIs_Detail.Rows[0]["Item_Status"].ToString() == "O" ? "1" : dtDPD_FROIs_Detail.Rows[0]["Item_Status"].ToString() == "C" ? "2" : "0";
-            lblDPDClaim_Number.Text = dtDPD_FROIs_Detail.Rows[0]["Claim_Number"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Claim_Number"].ToString() : "";
+            lblDPDClaim_Number.Text = dtDPD_FROIs_Detail.Rows[0]["Origin_Claim_Number"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Origin_Claim_Number"].ToString() : "";
         }
     }
 
@@ -1021,7 +1021,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             lblFinancial_Loss.Text = dtDPD_FROIs_Detail.Rows[0]["Financial_Loss"].ToString() != "" ? clsGeneral.GetStringValue(dtDPD_FROIs_Detail.Rows[0]["Financial_Loss"].ToString()) : "";
             lblRecovery.Text = dtDPD_FROIs_Detail.Rows[0]["Recovery"].ToString() != "" ? clsGeneral.GetStringValue(dtDPD_FROIs_Detail.Rows[0]["Recovery"].ToString()) : "";
             lblItem_Status.Text = dtDPD_FROIs_Detail.Rows[0]["Item_Status"].ToString() == "O" ? "Open" : dtDPD_FROIs_Detail.Rows[0]["Item_Status"].ToString() == "C" ? "Close" : "";
-            lblDPDClaim_NumberView.Text = dtDPD_FROIs_Detail.Rows[0]["Claim_Number"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Claim_Number"].ToString() : "";
+            lblDPDClaim_NumberView.Text = dtDPD_FROIs_Detail.Rows[0]["Origin_Claim_Number"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Origin_Claim_Number"].ToString() : "";
         }
     }
 
