@@ -5432,7 +5432,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 tmp_PK_SLT_Meeting_Schedule = PK_SLT_Meeting_Schedule;
             if (e.CommandName == "ObservationOpen")
             {
-                DataSet dsQuestions = LU_SLT_Safety_Walk_Focus_Area.SelectByMonthAndYear(DateTime.Now.Year, strMonthName, 0, PK_SLT_Meeting_Schedule);
+                DataSet dsQuestions = LU_SLT_Safety_Walk_Focus_Area.SelectByMonthAndYear(clsGeneral.GetInt(strYear), strMonthName, 0, PK_SLT_Meeting_Schedule);
                 if (dsQuestions != null)
                 {
                     if (dsQuestions.Tables.Count > 0)

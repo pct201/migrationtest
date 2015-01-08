@@ -197,6 +197,10 @@ public partial class SONIC_SLTSafetyWalk_SLT_SafetyWalk_Questions_Popup : clsBas
                 ddlSLTMember.DataSource = dtSLTMembers;
                 ddlSLTMember.DataBind();
             }
+            else
+            {
+                ddlSLTMember.Items.Insert(0, new ListItem("-- Select --", "0"));
+            }
         }
     }
     public void BindControls()
