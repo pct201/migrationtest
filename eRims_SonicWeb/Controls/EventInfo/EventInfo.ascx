@@ -12,10 +12,10 @@
             DPD First Report #
         </td>
         <td style="width:20%">
-            PD First Report #
+            PL First Report #
         </td>
         <td  style="width:20%">
-            PL First Report #
+            Prop First Report #
         </td>
     </tr>
     <tr style="background-color: White;" valign="top" align="left">
