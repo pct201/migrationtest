@@ -2,7 +2,7 @@
 <script type="text/javascript" src="<%=AppConfig.SiteURL%>/JavaScript/Validator.js"></script>
 <script type="text/javascript">
     function ShowMailPage(m_strAttIds) {
-        var oWnd = window.open("<%=AppConfig.SiteURL%>ClaimAttachmenrMail.aspx?AttIds=" + m_strAttIds, "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=600,height=300");
+        var oWnd = window.open("<%=AppConfig.SiteURL%>EventAttachmentMail.aspx?AttIds=" + m_strAttIds, "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=600,height=300");
         oWnd.moveTo(460, 180);
         return false;
     }
@@ -84,7 +84,7 @@
                     <asp:TemplateField HeaderText="Documents from Select Folders" SortExpression="Attachment_Description">
                         <ItemTemplate>
                             <asp:LinkButton ID="lnkDocName" runat="server" Text='<%# Convert.ToString(Eval("Attachment_Description")) %>' />
-                            <input type="hidden" id="hdnID" runat="server" value='<%#Eval("PK_Attachment")%>' />
+                            <input type="hidden" id="hdnID" runat="server" value='<%#Eval("PK_Attachment_Event")%>' />
                             <input type="hidden" id="hdnFileName" runat="server" value='<%#Eval("Attachment_Name") %>' />
                         </ItemTemplate>
                     </asp:TemplateField>
@@ -104,11 +104,11 @@
                         <ItemStyle Width="13%" />
                         <ItemTemplate>
                             <asp:LinkButton ID="lnkEdit" runat="server" Text="Edit" CommandName="EditAttachment"
-                                CommandArgument='<%# Eval("PK_Attachment")%>' />&nbsp;
+                                CommandArgument='<%# Eval("PK_Attachment_Event")%>' />&nbsp;
                             <asp:LinkButton ID="lnkView" runat="server" Text="View" CommandName="ViewAttachment"
-                                CommandArgument='<%# Eval("PK_Attachment")%>' />&nbsp;
+                                CommandArgument='<%# Eval("PK_Attachment_Event")%>' />&nbsp;
                             <asp:LinkButton ID="lnkDelete" runat="server" Text="Delete" CommandName="DeleteAttachment"
-                                CommandArgument='<%# Eval("PK_Attachment") + ":" + Eval("Attachment_Name") %>'
+                                CommandArgument='<%# Eval("PK_Attachment_Event") + ":" + Eval("Attachment_Name") %>'
                                 OnClientClick="return confirm('Are you sure to delete the attachment?')" />
                         </ItemTemplate>
                     </asp:TemplateField>

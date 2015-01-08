@@ -250,16 +250,16 @@ public partial class Controls_Attachments_AttachmentEvent : System.Web.UI.UserCo
             btnViewPDF.Visible = false; //(dtAttachment.Rows.Count > 0);
             btnEmail.Visible = dtAttachment.Rows.Count > 0;
             // show/hide the edit, view, delete linkbutton in grid as per the user rights
-            foreach (GridViewRow gRow in gvFiles.Rows)
-            {
-                bool bView = Convert.ToBoolean(Convert.ToInt32(((HtmlInputHidden)gRow.FindControl("hdnView")).Value));
-                bool bEdit = Convert.ToBoolean(Convert.ToInt32(((HtmlInputHidden)gRow.FindControl("hdnEdit")).Value));
-                bool bAdd = Convert.ToBoolean(Convert.ToInt32(((HtmlInputHidden)gRow.FindControl("hdnAdd")).Value));
-                bool bDelete = Convert.ToBoolean(Convert.ToInt32(((HtmlInputHidden)gRow.FindControl("hdnDelete")).Value));
-                ((LinkButton)gRow.FindControl("lnkEdit")).Visible = !ReadOnly && (bDelete || bAdd || bEdit);
-                ((LinkButton)gRow.FindControl("lnkView")).Visible = ReadOnly || (bDelete || bAdd || bEdit || bView);
-                ((LinkButton)gRow.FindControl("lnkDelete")).Visible = !ReadOnly && bDelete;
-            }
+            //foreach (GridViewRow gRow in gvFiles.Rows)
+            //{
+            //    bool bView = Convert.ToBoolean(Convert.ToInt32(((HtmlInputHidden)gRow.FindControl("hdnView")).Value));
+            //    bool bEdit = Convert.ToBoolean(Convert.ToInt32(((HtmlInputHidden)gRow.FindControl("hdnEdit")).Value));
+            //    bool bAdd = Convert.ToBoolean(Convert.ToInt32(((HtmlInputHidden)gRow.FindControl("hdnAdd")).Value));
+            //    bool bDelete = Convert.ToBoolean(Convert.ToInt32(((HtmlInputHidden)gRow.FindControl("hdnDelete")).Value));
+            //    ((LinkButton)gRow.FindControl("lnkEdit")).Visible = !ReadOnly && (bDelete || bAdd || bEdit);
+            //    ((LinkButton)gRow.FindControl("lnkView")).Visible = ReadOnly || (bDelete || bAdd || bEdit || bView);
+            //    ((LinkButton)gRow.FindControl("lnkDelete")).Visible = !ReadOnly && bDelete;
+            //}
             gvFiles.Columns[5].Visible = !ReadOnly;
             SetControlsByAccess();
         }
@@ -355,7 +355,7 @@ public partial class Controls_Attachments_AttachmentEvent : System.Web.UI.UserCo
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
             LinkButton lnkDocName = (LinkButton)e.Row.FindControl("lnkDocName");
-            string strURL = AppConfig.SiteURL + "/Download.aspx?ID=" + Encryption.Encrypt(DataBinder.Eval(e.Row.DataItem, "PK_Attachment").ToString()) + "&claimtbl=1";
+            string strURL = AppConfig.SiteURL + "/Download.aspx?ID=" + Encryption.Encrypt(DataBinder.Eval(e.Row.DataItem, "PK_Attachment_Event").ToString()) + "&claimtbl=44";
             lnkDocName.OnClientClick = "javascript:return openWindow('" + strURL + "');";
             //((LinkButton)e.Row.FindControl("lnkEdit")).Style.Add("display", "none");
             //((LinkButton)e.Row.FindControl("lnkView")).Style.Add("display", "none");

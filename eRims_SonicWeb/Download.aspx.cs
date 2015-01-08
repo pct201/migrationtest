@@ -15,7 +15,7 @@ public partial class Download : System.Web.UI.Page
         {
             // Check if Attachment ID is passed or not and Session is not expire.
 
-
+           
             if (!string.IsNullOrEmpty(Request.QueryString["fname"]))
             {
 
@@ -96,6 +96,63 @@ public partial class Download : System.Web.UI.Page
                 HttpContext.Current.Response.Flush();
                 //HttpContext.Current.ApplicationInstance.CompleteRequest();
                 HttpContext.Current.Response.End();
+            }
+            else if (!string.IsNullOrEmpty(clsSession.UserID) && !string.IsNullOrEmpty(Request.QueryString["ID"]))//For event
+            {
+                decimal _Pk_ID;
+                string strFilePath = string.Empty, strFileName = string.Empty, strUserFileName = string.Empty;
+
+                if (decimal.TryParse(Encryption.Decrypt(Convert.ToString(Request.QueryString["ID"])), out _Pk_ID))
+                {
+                    try
+                    {
+                        // Create Attachment objects
+                        clsAttachment_Event objAttachment = new clsAttachment_Event(_Pk_ID);
+
+                        if (!string.IsNullOrEmpty(Request.QueryString["claimtbl"]))
+                        {
+                            strFilePath = AppConfig.DocumentsPath + "Attach";
+                            strUserFileName = objAttachment.Attachment_Description;
+                        }
+                        //else if (!string.IsNullOrEmpty(Request.QueryString["tbl"]))
+                        //{
+                        //    foreach (clsGeneral.Tables tbl in Enum.GetValues(typeof(clsGeneral.Tables)))
+                        //    {
+                        //        if (tbl.ToString() == Request.QueryString["tbl"].ToString())
+                        //        {
+                        //            strFilePath = clsGeneral.GetAttachmentDocPath(tbl.ToString());
+                        //            break;
+                        //        }
+                        //    }
+                        //    strUserFileName = objAttachment.Attachment_Name.Substring(12);
+                        //}
+
+                        // Append "\" if not 
+                        if (!strFilePath.EndsWith("\\"))
+                            strFilePath = strFilePath + "\\";
+
+                        strFileName = strFilePath + objAttachment.Attachment_Name;
+                        System.IO.FileInfo file = new System.IO.FileInfo(strFileName);
+                        // Transfer File
+                        HttpContext.Current.Response.Clear();
+                        HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", strUserFileName));
+                        HttpContext.Current.Response.AddHeader("Content-Length", file.Length.ToString());
+                        HttpContext.Current.Response.ContentType = "application/octet-stream";//ReturnExtension(clsGeneral.GetExtension(objAttachment.Attachment_Name));
+                        HttpContext.Current.Response.TransmitFile(strFileName);
+                        HttpContext.Current.Response.Flush();
+                        //HttpContext.Current.ApplicationInstance.CompleteRequest();
+                        HttpContext.Current.Response.End();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.Message;
+                        //throw ex;
+                    }
+                    finally
+                    {
+                    }
+                }
             }
         }
     }
