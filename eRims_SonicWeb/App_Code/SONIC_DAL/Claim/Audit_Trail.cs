@@ -174,6 +174,15 @@ public class Audit_Trail
         return db.ExecuteDataSet(dbCommand);
     }
 
+    public static DataSet GetEvent_AuditTrail_New(decimal PK_Event)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("Event_Audit_View_New");
+        db.AddInParameter(dbCommand, "PK_Event", DbType.Decimal, PK_Event);
+        dbCommand.CommandTimeout = 10000;
+        return db.ExecuteDataSet(dbCommand);
+    }
+
     public static DataSet GetManagement_AuditTrail(decimal PK_Management)
     {
         Database db = DatabaseFactory.CreateDatabase();

@@ -129,7 +129,9 @@ public class clsGeneral : System.Web.UI.Page
         Franchise = 40,
         CRM_Customer = 41,
         CRM_Non_Customer = 42,
-        Investigation = 43
+        Investigation = 43,
+
+        Event = 44
     }
 
     public enum Claim_Tables : int

@@ -50,7 +50,11 @@
           <siteMapNode url="SONIC/CRM/CRMSearch.aspx?typ=2" title="Non-Customer" description="" />
         </siteMapNode>
       </siteMapNode>
-      <siteMapNode url="Event/EventSearch.aspx" title="ACI Event Search" description="" roles=""></siteMapNode>
+      <!--<siteMapNode url="Event/EventSearch.aspx" title="ACI Event Search" description="" roles=""></siteMapNode>
+      <siteMapNode url="Management/ManagementSearch.aspx" title="ACI Management" description="" roles=""></siteMapNode>-->
+    </siteMapNode>
+    <siteMapNode url="" title="ACI"  description="" roles="">
+      <siteMapNode url="Event/EventSearch_New.aspx" title="ACI Event Search" description="" roles=""></siteMapNode>
       <siteMapNode url="Management/ManagementSearch.aspx" title="ACI Management" description="" roles=""></siteMapNode>
     </siteMapNode>
     <siteMapNode url="" title="Reports"  description="" roles="">
@@ -125,6 +129,7 @@
       <siteMapNode url="Administrator/RecipientList.aspx" title="Recipient List"  description="" roles="" />
       <siteMapNode url="Administrator/ReportScheduleList.aspx" title ="Report Schedule List" description="" roles="" />
       <siteMapNode url="Administrator/DeleteFirstReport.aspx" title ="Delete First Report" description="" roles="" />
+      <siteMapNode url="Administrator/AttachmentFolders.aspx" title ="Document Folder Maintenance" description="Document Folder Maintenance" roles=""/>
       <siteMapNode url="" title="Lookup Table Maintenance"  description="" roles="">
         <siteMapNode url="" title="Asset Protection" description="">
           <siteMapNode url="Administrator/LU_AP_Cap_Index_Risk_Category.aspx" title="Cap Index menu selection" description=""></siteMapNode>

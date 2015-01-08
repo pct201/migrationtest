@@ -465,6 +465,23 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// GEt Search Result
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SearchFirstReportsForEvent(decimal LocationNumber, decimal FirstReportNumber, string ClaimType)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("SearchFirstReportsForEvent");
+
+            db.AddInParameter(dbCommand, "@LocationNumber", DbType.Decimal, LocationNumber);
+            db.AddInParameter(dbCommand, "@FirstReportNumber", DbType.Decimal, FirstReportNumber);
+            db.AddInParameter(dbCommand, "@ClaimType", DbType.String, ClaimType);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
         #endregion
     }
 }

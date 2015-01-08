@@ -51,7 +51,7 @@
         var pgURL = '<%=Request.Url.ToString()%>';
         var Location = '<%=Request.QueryString["loc"]%>';
         if (index == 1)
-            window.location.href = 'EventSearch.aspx?Event=1&loc=' + Location;
+            window.location.href = 'EventSearch_New.aspx?Event=1&loc=' + Location;
         else
             OpenPage(Incident_ID, Event_ID, Alarm_ID, isSearch, Location);
     }

@@ -23,7 +23,7 @@ public partial class Controls_IncidentTab_IncidentTab : System.Web.UI.UserContro
         if (Convert.ToString(Request.Url).Contains("Event/Event.aspx"))
             tab2.Visible = tab4.Visible= false;
         else
-            tab2.Visible = tab4.Visible = true;
+            tab2.Visible = tab4.Visible = false;
     }
 
     public void SetSelectedTab(Tab tabIndex)
