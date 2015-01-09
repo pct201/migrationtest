@@ -18,6 +18,7 @@ namespace ERIMS.DAL
 		private string _Report_Interval;
 		private int? _Year;
 		private string _Region;
+        private decimal? _Market;
 
 		#endregion
 
@@ -68,6 +69,15 @@ namespace ERIMS.DAL
 			set { _Region = value; }
 		}
 
+        /// <summary>
+        /// Gets or sets the Market value.
+        /// </summary>
+        public decimal? Market
+        {
+            get { return _Market; }
+            set { _Market = value; }
+        }
+
 
 		#endregion
 
@@ -84,7 +94,7 @@ namespace ERIMS.DAL
 			this._Report_Interval = null;
 			this._Year = null;
 			this._Region = null;
-
+            this._Market = null;
 		}
 
 		#endregion
@@ -126,6 +136,11 @@ namespace ERIMS.DAL
 				else
 					this._Region = (string)drTatva_RptIncidentInvestigationSchedule["Region"];
 
+                if (drTatva_RptIncidentInvestigationSchedule["Market"] == DBNull.Value)
+                    this._Market = null;
+                else
+                    this._Market = (decimal?)drTatva_RptIncidentInvestigationSchedule["Market"];
+
 			}
 			else
 			{
@@ -134,6 +149,7 @@ namespace ERIMS.DAL
 				this._Report_Interval = null;
 				this._Year = null;
 				this._Region = null;
+                this._Market = null;
 			}
 
 		}
@@ -164,6 +180,8 @@ namespace ERIMS.DAL
 				db.AddInParameter(dbCommand, "Region", DbType.String, DBNull.Value);
 			else
 				db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
+
+            db.AddInParameter(dbCommand, "Market", DbType.Decimal, this._Market);
 
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -221,6 +239,8 @@ namespace ERIMS.DAL
 				db.AddInParameter(dbCommand, "Region", DbType.String, DBNull.Value);
 			else
 				db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
+
+            db.AddInParameter(dbCommand, "Market", DbType.Decimal, this._Market);
 
 			db.ExecuteNonQuery(dbCommand);
 		}

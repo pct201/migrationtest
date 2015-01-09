@@ -16,6 +16,7 @@ namespace ERIMS.DAL
         private decimal? _PK_ID;
         private decimal? _FK_Schedule;
         private string _Region;
+        private string _Market;
         private string _LeaseType;
         private DateTime? _LCDFrom_Date;
         private DateTime? _LCDTo_Date;
@@ -51,6 +52,15 @@ namespace ERIMS.DAL
         {
             get { return _Region; }
             set { _Region = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Market value.
+        /// </summary>
+        public string Market
+        {
+            get { return _Market; }
+            set { _Market = value; }
         }
 
         /// <summary>
@@ -116,6 +126,7 @@ namespace ERIMS.DAL
             this._PK_ID = null;
             this._FK_Schedule = null;
             this._Region = null;
+            this._Market = null;
             this._LeaseType = null;
             this._LCDFrom_Date = null;
             this._LCDTo_Date = null;
@@ -153,6 +164,11 @@ namespace ERIMS.DAL
                 else
                     this._Region = (string)drTatva_RptRealEstateSchedule["Region"];
 
+                if (drTatva_RptRealEstateSchedule["Market"] == DBNull.Value)
+                    this._Market = null;
+                else
+                    this._Market = (string)drTatva_RptRealEstateSchedule["Market"];
+
                 if (drTatva_RptRealEstateSchedule["LeaseType"] == DBNull.Value)
                     this._LeaseType = null;
                 else
@@ -184,6 +200,7 @@ namespace ERIMS.DAL
                 this._PK_ID = null;
                 this._FK_Schedule = null;
                 this._Region = null;
+                this._Market = null;
                 this._LeaseType = null;
                 this._LCDFrom_Date = null;
                 this._LCDTo_Date = null;
@@ -211,6 +228,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Region", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
+
+            if (string.IsNullOrEmpty(this._Market))
+                db.AddInParameter(dbCommand, "Market", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Market", DbType.String, this._Market);
 
             if (string.IsNullOrEmpty(this._LeaseType))
                 db.AddInParameter(dbCommand, "LeaseType", DbType.String, DBNull.Value);
@@ -274,6 +296,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Region", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
+
+            if (string.IsNullOrEmpty(this._Market))
+                db.AddInParameter(dbCommand, "Market", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Market", DbType.String, this._Market);
 
             if (string.IsNullOrEmpty(this._LeaseType))
                 db.AddInParameter(dbCommand, "LeaseType", DbType.String, DBNull.Value);

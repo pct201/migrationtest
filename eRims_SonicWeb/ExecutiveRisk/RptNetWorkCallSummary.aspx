@@ -84,6 +84,17 @@
                             <asp:DropDownList ID="drpRegion" runat="server" SkinID="ddlSONIC" />
                         </td>
                     </tr>
+                     <tr>
+                        <td align="left">
+                            Market
+                        </td>
+                        <td align="center">
+                            :
+                        </td>
+                        <td align="left">
+                            <asp:DropDownList ID="ddlMarket" runat="server" SkinID="ddlSONIC" />
+                        </td>
+                    </tr>
                     <tr>
                         <td colspan="2">
                             &nbsp;

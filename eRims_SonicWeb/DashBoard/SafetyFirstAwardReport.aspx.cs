@@ -21,6 +21,7 @@ public partial class DashBoard_SafetyFirstAwardReport : System.Web.UI.Page
         {
             // get regions for user having access to and bind the regions list box
             ComboHelper.FillRegionListBox(new ListBox[] { lstLocation }, false);
+            ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
             FillYear();
             lstLocation.Focus();
         }
@@ -48,6 +49,7 @@ public partial class DashBoard_SafetyFirstAwardReport : System.Web.UI.Page
     {
         trGrid.Visible = false;
         lstLocation.ClearSelection();
+        lstMarket.ClearSelection();
         ddlYear.SelectedIndex = 0;
     }
 
@@ -116,7 +118,16 @@ public partial class DashBoard_SafetyFirstAwardReport : System.Web.UI.Page
         }
         strRegion = strRegion.TrimEnd(',');
 
-        gvSafetyFirstAwardReport.DataSource = Report.GetSafertyFirstAwardReport(strRegion, Convert.ToInt32(ddlYear.SelectedValue));
+        string strMarket = "";
+
+        foreach (ListItem li in lstMarket.Items)
+        {
+            if (li.Selected)
+                strMarket = strMarket + "" + li.Value + ",";
+        }
+        strMarket = strMarket.TrimEnd(',');
+
+        gvSafetyFirstAwardReport.DataSource = Report.GetSafertyFirstAwardReport(strRegion, strMarket, Convert.ToInt32(ddlYear.SelectedValue));
         gvSafetyFirstAwardReport.DataBind();
 
         trGrid.Visible = true;

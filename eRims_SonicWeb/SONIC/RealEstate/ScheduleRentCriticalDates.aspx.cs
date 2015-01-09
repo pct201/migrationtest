@@ -62,7 +62,7 @@ public partial class SONIC_RealEstate_ScheduleRentCriticalDates : clsBasePage
     protected void btnSave_Click(object sender, EventArgs e)
     {
         Tatva_RptRealEstateSchedule obj = new Tatva_RptRealEstateSchedule();
-        string strRegion = string.Empty, strStatus = string.Empty ;
+        string strRegion = string.Empty, strStatus = string.Empty, strMarket = string.Empty ;
 
         // set values
         if (txtLCDateFrom.Text.Trim() != string.Empty)
@@ -85,6 +85,14 @@ public partial class SONIC_RealEstate_ScheduleRentCriticalDates : clsBasePage
         }
         strRegion = strRegion.TrimEnd(',');
 
+        // get selected Markets
+        foreach (ListItem li in lstMarket.Items)
+        {
+            if (li.Selected)
+                strMarket = strMarket + li.Value + ",";
+        }
+        strMarket = strMarket.TrimEnd(',');
+
         foreach (ListItem li in lstBuildingStatus.Items)
         {
             if (li.Selected)
@@ -95,6 +103,10 @@ public partial class SONIC_RealEstate_ScheduleRentCriticalDates : clsBasePage
         // set region
         if (!string.IsNullOrEmpty(strRegion))
             obj.Region = strRegion;
+
+        // set Market
+        if (!string.IsNullOrEmpty(strMarket))
+            obj.Market = strMarket;
 
       
         obj.FK_Report = PK_ReportID;
@@ -122,6 +134,10 @@ public partial class SONIC_RealEstate_ScheduleRentCriticalDates : clsBasePage
     {
         //Region
         ComboHelper.FillRegionListBox(new ListBox[] { ddlRegion }, false);
+
+        //Display Market..
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
+
 
         // check if display listbox or Drop Down
         

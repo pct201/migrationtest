@@ -39,6 +39,9 @@ public partial class SONIC_ClaimInfo_ScheduleFinancialSummary : System.Web.UI.Pa
             drpRecipientList.DataBind();
             drpRecipientList.Items.Insert(0, new ListItem("--Select--", "0"));
             ds.Dispose();
+
+            //Bind Market Dropdown
+            ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
         }
     }
 
@@ -50,6 +53,7 @@ public partial class SONIC_ClaimInfo_ScheduleFinancialSummary : System.Web.UI.Pa
             string strYear = "";
             string strClaimType = "";
             string strRegion = "";
+            string strMarket = string.Empty;
             
 
             // get selected years
@@ -76,10 +80,19 @@ public partial class SONIC_ClaimInfo_ScheduleFinancialSummary : System.Web.UI.Pa
             }
             strRegion = strRegion.TrimEnd(',');
 
+            // get selected Markets
+            foreach (ListItem itmMarket in lstMarket.Items)
+            {
+                if (itmMarket.Selected)
+                    strMarket = strMarket + "" + itmMarket.Value + ",";
+            }
+            strMarket = strMarket.TrimEnd(',');
+
             //Report Filters
             obj.Accident_Year = strYear;
             obj.Claim_Type = strClaimType;
             obj.Region = strRegion;
+            obj.Market = strMarket;
             obj.Prior_Valuation_Date = Convert.ToDateTime(txtValuationDate.Text);
 
             //Report Schedule Details

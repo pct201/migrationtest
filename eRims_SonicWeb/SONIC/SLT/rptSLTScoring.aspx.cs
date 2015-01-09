@@ -15,6 +15,7 @@ public partial class SONIC_SLT_rptSLTScoring : clsBasePage
         {
             BindRegion();
             BindYear();
+            ComboHelper.FillMarket(new DropDownList[] { ddlMarket }, true);
         }
     }
     #region "Controls Events"
@@ -41,6 +42,7 @@ public partial class SONIC_SLT_rptSLTScoring : clsBasePage
     {
         // load the page again to clear selection
         drpRegions.SelectedIndex = 0;
+        ddlMarket.SelectedIndex = 0;
         drpYear.SelectedIndex = 0;
     }
 
@@ -121,10 +123,16 @@ public partial class SONIC_SLT_rptSLTScoring : clsBasePage
     /// <returns>return stringbuilder objects contans report in HTML format</returns>
     private System.Text.StringBuilder GenerageMonthlyReport()
     {
-        string strRegion = "";
+        string strRegion ;
         // get selected regions
         strRegion = Convert.ToString(drpRegions.SelectedValue);
-        DataSet dsReport = SLT_Meeting.GetSLT_ScoringReport(strRegion, Convert.ToInt32(drpYear.SelectedValue));
+        string strMarket = string.Empty;
+        if (Convert.ToInt32(ddlMarket.SelectedValue) > 0)
+            strMarket = Convert.ToString(ddlMarket.SelectedValue);
+        else
+            strMarket = null;
+
+        DataSet dsReport = SLT_Meeting.GetSLT_ScoringReport(strRegion, strMarket, Convert.ToInt32(drpYear.SelectedValue));
 
         // get data tables from dataset
         DataTable dtRegions = dsReport.Tables[0];

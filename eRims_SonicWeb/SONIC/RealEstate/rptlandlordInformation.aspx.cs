@@ -31,6 +31,9 @@ public partial class SONIC_RealEstate_rptlandlordInformation : clsBasePage
             // Bind Drop down
             ComboHelper.FillRegionListBox(new ListBox[] { ddlRegion }, false);
 
+            //Bind Market Dropdown
+            ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
+
             // set focus to first field
             ddlRegion.Focus();
         }
@@ -170,7 +173,7 @@ public partial class SONIC_RealEstate_rptlandlordInformation : clsBasePage
     protected void btnShowReport_Click(object sender, EventArgs e)
     {
         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
-        string strRegion = string.Empty, strLeaseType = string.Empty, strLocationStatus = string.Empty; 
+        string strRegion = string.Empty, strLeaseType = string.Empty, strLocationStatus = string.Empty, strMarket = string.Empty; 
         DataSet dsResult;
 
         // set filter Criteria
@@ -201,8 +204,16 @@ public partial class SONIC_RealEstate_rptlandlordInformation : clsBasePage
         }
         strLocationStatus = strLocationStatus.TrimEnd(',');
 
+        foreach(ListItem li in lstMarket.Items)
+        {
+            if (li.Selected)
+                strMarket = strMarket + "" + li.Value + ",";
+        }
+
+        strMarket = strMarket.TrimEnd(',');
+
         // get report result from database
-        dsResult = Report.GetLandlordInfoReport(strRegion, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo, strLocationStatus);
+        dsResult = Report.GetLandlordInfoReport(strRegion, strMarket, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo, strLocationStatus);
         dtDetails = dsResult.Tables[0];
         // set scrollbar propery
         dvReport.Style[HtmlTextWriterStyle.OverflowX] = (dsResult.Tables[0].Rows.Count > 0) ? "scroll;" : "hidden;";

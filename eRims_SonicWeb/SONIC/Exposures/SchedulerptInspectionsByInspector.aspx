@@ -71,6 +71,18 @@
                                 AutoPostBack="false" Width="220px" Rows="5"></asp:ListBox>
                         </td>
                     </tr>
+                     <tr>
+                        <td align="left" valign="top">
+                            Market
+                        </td>
+                        <td width="2%" align="center" valign="top">
+                            :
+                        </td>
+                        <td align="left">
+                           <asp:ListBox ID="lstMarket" runat="server" SelectionMode="Multiple" ToolTip="Select Market"
+                                AutoPostBack="false" Width="220px" Rows="5"></asp:ListBox>
+                        </td>
+                    </tr>                     
                     <tr>
                         <td align="left" valign="top">
                             Location D/B/A

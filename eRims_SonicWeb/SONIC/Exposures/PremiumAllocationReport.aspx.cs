@@ -15,6 +15,7 @@ public partial class SONIC_Exposures_PremiumAllocationReport : clsBasePage
         if (!IsPostBack)
         {
             ComboHelper.FillRegion(new DropDownList[] { drpRegion }, true);
+            ComboHelper.FillMarket(new DropDownList[] { drpMarket }, true);
             ComboHelper.FillState(new DropDownList[] { drpState }, 0, true);
             ComboHelper.FillLocationdba(new DropDownList[] { drpLocation }, 0, true);
         }
@@ -41,6 +42,7 @@ public partial class SONIC_Exposures_PremiumAllocationReport : clsBasePage
     {
         txtYear.Text = "";
         drpRegion.SelectedIndex = 0;
+        drpMarket.SelectedIndex = 0;
         drpState.SelectedIndex = 0;
         drpLocation.SelectedIndex = 0;
     }
@@ -104,14 +106,16 @@ public partial class SONIC_Exposures_PremiumAllocationReport : clsBasePage
         decimal? PK_State = null;
         decimal? Location = null;
         string region = "";
+        decimal? Market = null;
 
         if (txtYear.Text != string.Empty) year = Convert.ToInt32(txtYear.Text);
         if (drpRegion.SelectedIndex > 0) region = Convert.ToString(drpRegion.SelectedValue);
+        if (drpMarket.SelectedIndex > 0) Market = Convert.ToDecimal(drpMarket.SelectedValue);
         if (drpState.SelectedIndex > 0) PK_State = Convert.ToDecimal(drpState.SelectedValue);
         if (drpLocation.SelectedIndex > 0) Location = Convert.ToDecimal(drpLocation.SelectedValue);
 
 
-        DataSet dsReport = clsPA_Screen_Fields.rptSonic_Premium_Allocation(year, region, PK_State, Location);
+        DataSet dsReport = clsPA_Screen_Fields.rptSonic_Premium_Allocation(year, region, Market, PK_State, Location);
 
         DataTable dtReport = dsReport.Tables[0];
 

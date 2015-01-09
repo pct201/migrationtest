@@ -46,6 +46,18 @@
                                         </asp:listbox>
                                     </td>
                                 </tr>
+                                 <tr valign="top" align="left">
+                                    <td>
+                                        Market
+                                    </td>
+                                    <td align="right">
+                                        :
+                                    </td>
+                                    <td>
+                                        <asp:listbox id="lstMarket" runat="server" rows="4" selectionmode="Multiple" width="300px">
+                                        </asp:listbox>
+                                    </td>
+                                </tr>
                                 <tr valign="top" align="left">
                                     <td style="width: 10%;">
                                         Location

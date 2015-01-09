@@ -173,7 +173,7 @@ public partial class SONIC_RealEstate_rptMasterDealership : clsBasePage
     protected void btnShowReport_Click(object sender, EventArgs e)
     {
         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
-        string strRegion = string.Empty, strLocationStatus = string.Empty;
+        string strRegion = string.Empty, strLocationStatus = string.Empty, strMarket = string.Empty;
         DataSet dsResult;
         strTime = "";
         // set filter Criteria
@@ -197,6 +197,14 @@ public partial class SONIC_RealEstate_rptMasterDealership : clsBasePage
         }
         strRegion = strRegion.TrimEnd(',');
 
+        // get selected Markets
+        foreach (ListItem li in lstMarket.Items)
+        {
+            if (li.Selected)
+                strMarket = strMarket + "" + li.Value + ",";
+        }
+        strMarket = strMarket.TrimEnd(',');
+
         foreach (ListItem li in lstBuildingStatus.Items)
         {
             if (li.Selected)
@@ -205,7 +213,7 @@ public partial class SONIC_RealEstate_rptMasterDealership : clsBasePage
         strLocationStatus = strLocationStatus.TrimEnd(',');
 
         // get report result from database
-        dsResult = Report.GetMasterDealershipByRegion(strRegion, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo, strLocationStatus);
+        dsResult = Report.GetMasterDealershipByRegion(strRegion, strMarket, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo, strLocationStatus);
         dtDetails = dsResult.Tables[0];
         // set scrollbar propery
         dvReport.Style[HtmlTextWriterStyle.OverflowX] = (dsResult.Tables[0].Rows.Count > 0) ? "scroll;" : "hidden;";
@@ -267,6 +275,9 @@ public partial class SONIC_RealEstate_rptMasterDealership : clsBasePage
     {
         // fill Region drop down
         ComboHelper.FillRegionListBox(new ListBox[] { ddlRegion }, false);
+
+        //Bind Market Dropdown
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
     }
 
     #endregion

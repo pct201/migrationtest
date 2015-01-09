@@ -16,6 +16,7 @@ public class Tatva_RptSubLeaseReportSchedule : Tatva_ReportSchedule
         private decimal? _PK_ID;
         private decimal? _FK_Schedule;
         private string _Location;
+        private string _Market;
         private string _LeaseType;
         private DateTime? _LCDFrom_Date;
         private DateTime? _LCDTo_Date;
@@ -52,6 +53,15 @@ public class Tatva_RptSubLeaseReportSchedule : Tatva_ReportSchedule
         {
             get { return _Location; }
             set { _Location = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Region value.
+        /// </summary>
+        public string Market
+        {
+            get { return _Market; }
+            set { _Market = value; }
         }
 
         /// <summary>
@@ -117,6 +127,7 @@ public class Tatva_RptSubLeaseReportSchedule : Tatva_ReportSchedule
             this._PK_ID = null;
             this._FK_Schedule = null;
             this._Location = null;
+            this._Market = null;
             this._LeaseType = null;
             this._LCDFrom_Date = null;
             this._LCDTo_Date = null;
@@ -154,6 +165,11 @@ public class Tatva_RptSubLeaseReportSchedule : Tatva_ReportSchedule
                 else
                     this._Location = (string)drTatva_RptRealEstateSchedule["Region"];
 
+                if (drTatva_RptRealEstateSchedule["Market"] == DBNull.Value)
+                    this._Market = null;
+                else
+                    this._Market = (string)drTatva_RptRealEstateSchedule["Market"];
+
                 if (drTatva_RptRealEstateSchedule["LeaseType"] == DBNull.Value)
                     this._LeaseType = null;
                 else
@@ -185,6 +201,7 @@ public class Tatva_RptSubLeaseReportSchedule : Tatva_ReportSchedule
                 this._PK_ID = null;
                 this._FK_Schedule = null;
                 this._Location = null;
+                this._Market = null;
                 this._LeaseType = null;
                 this._LCDFrom_Date = null;
                 this._LCDTo_Date = null;
@@ -212,6 +229,11 @@ public class Tatva_RptSubLeaseReportSchedule : Tatva_ReportSchedule
                 db.AddInParameter(dbCommand, "Location", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Location", DbType.String, this._Location);
+
+            if (string.IsNullOrEmpty(this._Market))
+                db.AddInParameter(dbCommand, "Market", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Market", DbType.String, this._Market);
 
             if (string.IsNullOrEmpty(this._LeaseType))
                 db.AddInParameter(dbCommand, "LeaseType", DbType.String, DBNull.Value);
@@ -275,6 +297,11 @@ public class Tatva_RptSubLeaseReportSchedule : Tatva_ReportSchedule
                 db.AddInParameter(dbCommand, "Location", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Location", DbType.String, this._Location);
+
+            if (string.IsNullOrEmpty(this._Market))
+                db.AddInParameter(dbCommand, "Market", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Market", DbType.String, this._Market);
 
             if (string.IsNullOrEmpty(this._LeaseType))
                 db.AddInParameter(dbCommand, "LeaseType", DbType.String, DBNull.Value);

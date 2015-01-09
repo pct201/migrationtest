@@ -44,6 +44,21 @@
                             </asp:DropDownList>
                         </td>
                     </tr>
+                     <tr valign="top" align="left">
+                        <td style="width: 15%;">
+                            Market
+                        </td>
+                        <td align="right" style="width: 2%;">
+                            :
+                        </td>
+                        <td style="width: 24%;" >
+                            <asp:DropDownList ID="ddlMarket" runat="server">
+                            </asp:DropDownList>
+                        </td>
+                         <td  >&nbsp;</td>
+                         <td >&nbsp;</td>
+                         <td >&nbsp;</td>
+                    </tr>
                     <tr valign="top" align="left">
                         <td>
                             Sonic Location Code
@@ -76,6 +91,8 @@
                         <td align="left" valign="top">
                             <asp:RadioButtonList ID="rblShowOnDashboard" runat="server" SkinID="YesNoType">
                             </asp:RadioButtonList>
+                        </td>
+                         <td style="width: 5%;" rowspan="3">
                         </td>
                         <td>
                             Active

@@ -33,6 +33,9 @@ public partial class ExecutiveRisk_ScheduleLitigationSummary : clsBasePage
             drpRecipientList.DataBind();
             drpRecipientList.Items.Insert(0, new ListItem("--Select--", "0"));
             ds.Dispose();
+
+            //Display Market
+            ComboHelper.FillMarket(new DropDownList[] {ddlMarket}, true);
         }
     }
 
@@ -55,6 +58,11 @@ public partial class ExecutiveRisk_ScheduleLitigationSummary : clsBasePage
             obj.Recurring_Type = Convert.ToDecimal(drpRecurringPeriod.SelectedValue);
             obj.FK_Security_ID = Convert.ToDecimal(clsSession.UserID);
             obj.Fk_RecipientList = Convert.ToDecimal(drpRecipientList.SelectedValue);
+
+            if (Convert.ToDecimal(ddlMarket.SelectedValue) == 0)
+                obj.Market = null;
+            else
+                obj.Market = Convert.ToDecimal(ddlMarket.SelectedValue); 
 
             //Insert Report Schedule
             int intID = obj.Insert();

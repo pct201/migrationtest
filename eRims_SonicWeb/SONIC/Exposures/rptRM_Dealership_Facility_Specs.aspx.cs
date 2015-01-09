@@ -36,6 +36,9 @@ public partial class SONIC_Exposures_rptRM_Dealership_Facility_Specs : clsBasePa
             lstBrand.DataTextField = "Fld_Desc";
             lstBrand.DataValueField = "PK_LU_Franchise_Brand";
             lstBrand.DataBind();
+
+            //Bind Market Dropdown
+            ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
         }
     }
     #endregion
@@ -61,16 +64,18 @@ public partial class SONIC_Exposures_rptRM_Dealership_Facility_Specs : clsBasePa
     protected void btnShowReport_Click(object sender, EventArgs e)
     {
         string strRegion = "";
+        string strMarket = "";
         string strStatus = "";
         string strOwnership = "";
         string strBrand = "";
         // get selected regions
         strRegion = GetCommaSeparatedValues(lstRegions);
+        strMarket = GetCommaSeparatedValues(lstMarket);
         strStatus = GetCommaSeparatedValues(ddlStatus);
         strOwnership = GetCommaSeparatedValues(lstOwnership);
         strBrand = GetCommaSeparatedValues(lstBrand);
         // get report data for selected values
-        DataSet dsReport = clsExposuresReports.GetrptRM_Dealership_Facility_Specs(strRegion, strStatus, strOwnership, strBrand);
+        DataSet dsReport = clsExposuresReports.GetrptRM_Dealership_Facility_Specs(strRegion, strStatus, strOwnership, strBrand, strMarket);
 
         // get data tables from dataset
         DataTable dtRegions = dsReport.Tables[0];
@@ -116,16 +121,18 @@ public partial class SONIC_Exposures_rptRM_Dealership_Facility_Specs : clsBasePa
         System.IO.StringWriter stringWrite = new System.IO.StringWriter();
         System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
         string strRegion = "";
+        string strMarket = "";
         string strStatus = "";
         string strOwnership = "";
         string strBrand = "";
         // get selected regions
         strRegion = GetCommaSeparatedValues(lstRegions);
+        strMarket = GetCommaSeparatedValues(lstMarket);
         strStatus = GetCommaSeparatedValues(ddlStatus);
         strOwnership = GetCommaSeparatedValues(lstOwnership);
         strBrand = GetCommaSeparatedValues(lstBrand);
         // get report data for selected values
-        DataTable dtReport = clsExposuresReports.GetrptRM_Dealership_Facility_Specs(strRegion, strStatus, strOwnership, strBrand).Tables[0];
+        DataTable dtReport = clsExposuresReports.GetrptRM_Dealership_Facility_Specs(strRegion, strMarket, strStatus, strOwnership, strBrand).Tables[0];
         //Add Header HTML
         strHTML.Append("<table  cellpadding='0' cellspacing='0' width='100%' border='1'>");
         strHTML.Append("<tr align='right' valign='bottom' style='font-weight: bold;'>");
@@ -211,6 +218,7 @@ public partial class SONIC_Exposures_rptRM_Dealership_Facility_Specs : clsBasePa
     {
         // load the page again to clear selection
         lstRegions.ClearSelection();
+        lstMarket.ClearSelection();
         ddlStatus.ClearSelection();
         lstBrand.ClearSelection();
         lstOwnership.ClearSelection();

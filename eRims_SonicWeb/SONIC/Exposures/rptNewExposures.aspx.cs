@@ -29,6 +29,9 @@ public partial class SONIC_Exposures_rptNewExposures : clsBasePage
             lstRegions.DataTextField = "region";
             lstRegions.DataValueField = "region";
             lstRegions.DataBind();
+
+            //Bind Market Dropdown
+            ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
         }
     }
     #endregion
@@ -55,12 +58,13 @@ public partial class SONIC_Exposures_rptNewExposures : clsBasePage
     {
         string strRegion = "";
         string strStatus = "";
+        string strMarket = "";
         // get selected regions
         strRegion = GetCommaSeparatedValues(lstRegions);
         strStatus = GetCommaSeparatedValues(ddlStatus);
-
+        strMarket = GetCommaSeparatedValues(lstMarket);
         // get report data for selected values
-        DataSet dsReport = clsExposuresReports.GetNewExposuresreport(strRegion, strStatus);
+        DataSet dsReport = clsExposuresReports.GetNewExposuresreport(strRegion, strStatus, strMarket);
 
         // get data tables from dataset
         DataTable dtRegions = dsReport.Tables[0];
@@ -137,6 +141,7 @@ public partial class SONIC_Exposures_rptNewExposures : clsBasePage
     {
         // load the page again to clear selection
         lstRegions.ClearSelection();
+        lstMarket.ClearSelection();
         ddlStatus.ClearSelection();
     }
 

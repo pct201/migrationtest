@@ -55,6 +55,9 @@ public partial class SONIC_ClaimInfo_rptFinancialSummary : clsBasePage
             lstRegions.DataTextField = "region";
             lstRegions.DataValueField = "region";
             lstRegions.DataBind();
+
+            //Bind Market Dropdown
+            ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
             
         }
 
@@ -73,6 +76,7 @@ public partial class SONIC_ClaimInfo_rptFinancialSummary : clsBasePage
         string strYear = "";
         string strClaimType = "";
         string strRegion = "";
+        string strMarket = string.Empty;
         DateTime dtValuation = txtValuationDate.Text != "" ? Convert.ToDateTime(txtValuationDate.Text) : DateTime.Now;
 
         // get selected years
@@ -99,8 +103,16 @@ public partial class SONIC_ClaimInfo_rptFinancialSummary : clsBasePage
         }
         strRegion = strRegion.TrimEnd(',');
 
+        // get selected Markets
+        foreach (ListItem itmMarket in lstMarket.Items)
+        {
+            if (itmMarket.Selected)
+                strMarket = strMarket + "'" + itmMarket.Value + "',";
+        }
+        strMarket = strMarket.TrimEnd(',');
+
         // get data for financial summary report for selected values
-        DataSet dsReport = clsClaimReports.GetFinancialSummaryData(strYear, strClaimType, strRegion, dtValuation);
+        DataSet dsReport = clsClaimReports.GetFinancialSummaryData(strYear, strClaimType, strRegion, strMarket, dtValuation);
 
         // get datatbles from dataset
         dtYears = dsReport.Tables[0];

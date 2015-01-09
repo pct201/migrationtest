@@ -133,6 +133,17 @@
                     </td>
                 </tr>
                 <tr>
+                    <td align="left" class="lc" valign="top">
+                        Market
+                    </td>
+                    <td align="right" class="lc" valign="top">
+                        :
+                    </td>
+                    <td align="left" class="lc">
+                        <asp:ListBox ID="lstMarket" runat="server" Width="180px" SelectionMode="Multiple"></asp:ListBox>
+                    </td>                    
+                </tr>
+                <tr>
                     <td align="left" class="lc">
                         State
                     </td>

@@ -57,6 +57,10 @@ public partial class SONIC_Purchasing_ScheduleAssetSummaryReport : clsBasePage
             drpRecipientList.DataBind();
             drpRecipientList.Items.Insert(0, new ListItem("--Select--", "0"));
             ds.Dispose();
+
+            //Display Market..
+            ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
+
         }
     }
 
@@ -68,6 +72,7 @@ public partial class SONIC_Purchasing_ScheduleAssetSummaryReport : clsBasePage
 
             //Report Filters
             string strRegion = "";
+            string strMarket = "";
             string strLocation = "";
             string strType = "";
             string strManufacturer = "";
@@ -82,6 +87,13 @@ public partial class SONIC_Purchasing_ScheduleAssetSummaryReport : clsBasePage
             }
             strRegion = strRegion.TrimEnd(',');
 
+            foreach (ListItem itmMarket in lstMarket.Items)
+            {
+                if (itmMarket.Selected)
+                    strMarket = strMarket + itmMarket.Value + ",";
+            }
+            strMarket = strMarket.TrimEnd(',');
+            
             foreach (ListItem itmLocation in lstLocation.Items)
             {
                 if (itmLocation.Selected)
@@ -104,6 +116,7 @@ public partial class SONIC_Purchasing_ScheduleAssetSummaryReport : clsBasePage
             strManufacturer = strManufacturer.TrimEnd(',');
 
             obj.Region = strRegion;
+            obj.Market = strMarket;
             obj.Location = strLocation;
             obj.Type = strType;
             obj.Manufacutrer = strManufacturer;

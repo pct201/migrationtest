@@ -40,6 +40,9 @@ public partial class SONIC_Exposures_rptInspectionLagTime : clsBasePage
         lstRegions.DataValueField = "region";
         lstRegions.DataBind();
 
+        //Bind Market Dropdown
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
+
         ComboHelper.FillLocationdbaOnlyListBox(new ListBox[] { lstLocationDBA }, 0, false,false);
 
         DataTable dt_Inspection_Area = clsLU_Inspection_Area.SelectAll().Tables[0];
@@ -90,18 +93,20 @@ public partial class SONIC_Exposures_rptInspectionLagTime : clsBasePage
         trResult.Visible = true;
 
         string strRegion = "";
+        string strMarket = "";
         string strDba = "";
         string strInspectorName = "";
         string strInspectionArea = "";
         string strLagTimeDays = "";
         // get selected regions
         strRegion = GetCommaSeparatedValues(lstRegions);
+        strMarket = GetCommaSeparatedValues(lstMarket);
         strDba = GetCommaSeparatedValues(lstLocationDBA);
         strInspectionArea = GetCommaSeparatedValues(lstInspectionArea);
         strInspectorName = txtInspectorName.Text.Trim().Replace("'", "''");
         strLagTimeDays = GetCommaSeparatedValues(lstLagTimeDays);
         // get report data for selected values
-        DataSet dsReport = clsExposuresReports.GetInspectionLagTime(strRegion, strDba, strInspectionArea, strInspectorName, clsGeneral.FormatNullDateToStore(txtInspectionDateFrom.Text), clsGeneral.FormatNullDateToStore(txtInspectionDateTo.Text), strLagTimeDays);
+        DataSet dsReport = clsExposuresReports.GetInspectionLagTime(strRegion, strMarket, strDba, strInspectionArea, strInspectorName, clsGeneral.FormatNullDateToStore(txtInspectionDateFrom.Text), clsGeneral.FormatNullDateToStore(txtInspectionDateTo.Text), strLagTimeDays);
 
         // get data tables from dataset
         DataTable dtRegions = dsReport.Tables[0];
@@ -124,6 +129,7 @@ public partial class SONIC_Exposures_rptInspectionLagTime : clsBasePage
     {
         // load the page again to clear selection
         lstRegions.ClearSelection();
+        lstMarket.ClearSelection();
         lstLocationDBA.ClearSelection();
         lstInspectionArea.ClearSelection();
         txtInspectionDateFrom.Text = "";

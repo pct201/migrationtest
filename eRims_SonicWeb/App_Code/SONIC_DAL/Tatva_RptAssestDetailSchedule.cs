@@ -19,6 +19,7 @@ namespace ERIMS.DAL
         private string _Location;
         private string _Type;
         private string _Manufacutrer;
+        private string _Market;
 
         #endregion
 
@@ -55,6 +56,14 @@ namespace ERIMS.DAL
             set { _Region = value; }
         }
 
+        /// <summary> 
+        /// Gets or sets the Market value.
+        /// </summary>
+        public string Market
+        {
+            get { return _Market; }
+            set { _Market = value; }
+        }
 
         /// <summary> 
         /// Gets or sets the Location value.
@@ -104,6 +113,7 @@ namespace ERIMS.DAL
             this._Location = "";
             this._Type = "";
             this._Manufacutrer = "";
+            this._Market = "";
 
         }
 
@@ -125,6 +135,7 @@ namespace ERIMS.DAL
                 this._PK_ID = drTatva_RptAssestDetailSchedule["PK_ID"] != DBNull.Value ? Convert.ToDecimal(drTatva_RptAssestDetailSchedule["PK_ID"]) : 0;
                 this._FK_Schedule = drTatva_RptAssestDetailSchedule["FK_Schedule"] != DBNull.Value ? Convert.ToDecimal(drTatva_RptAssestDetailSchedule["FK_Schedule"]) : 0;
                 this._Region = Convert.ToString(drTatva_RptAssestDetailSchedule["Region"]);
+                this._Market = Convert.ToString(drTatva_RptAssestDetailSchedule["Market"]);
                 this._Location = Convert.ToString(drTatva_RptAssestDetailSchedule["Location"]);
                 this._Type = Convert.ToString(drTatva_RptAssestDetailSchedule["Type"]);
                 this._Manufacutrer = Convert.ToString(drTatva_RptAssestDetailSchedule["Manufacutrer"]);
@@ -137,6 +148,7 @@ namespace ERIMS.DAL
                 this._PK_ID = -1;
                 this._FK_Schedule = -1;
                 this._Region = "";
+                this._Market = "";
                 this._Location = "";
                 this._Type = "";
                 this._Manufacutrer = "";
@@ -164,6 +176,7 @@ namespace ERIMS.DAL
 
 			db.AddInParameter(dbCommand, "FK_Schedule", DbType.Decimal, this._FK_Schedule);
 			db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
+            db.AddInParameter(dbCommand, "Market", DbType.String, this._Market);
 			db.AddInParameter(dbCommand, "Location", DbType.String, this._Location);
 			db.AddInParameter(dbCommand, "Type", DbType.String, this._Type);
 			db.AddInParameter(dbCommand, "Manufacutrer", DbType.String, this._Manufacutrer);
@@ -211,6 +224,7 @@ namespace ERIMS.DAL
 			db.AddInParameter(dbCommand, "PK_ID", DbType.Decimal, this._PK_ID);
 			db.AddInParameter(dbCommand, "FK_Schedule", DbType.Decimal, this._FK_Schedule);
 			db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
+            db.AddInParameter(dbCommand, "Market", DbType.String, this._Market);
 			db.AddInParameter(dbCommand, "Location", DbType.String, this._Location);
 			db.AddInParameter(dbCommand, "Type", DbType.String, this._Type);
 			db.AddInParameter(dbCommand, "Manufacutrer", DbType.String, this._Manufacutrer);

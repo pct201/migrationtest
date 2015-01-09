@@ -41,6 +41,9 @@ public partial class SONIC_ClaimInfo_rptEmployerLagSummary :clsBasePage
             lstRegions.DataTextField = "region";
             lstRegions.DataValueField = "region";
             lstRegions.DataBind();
+
+            //Bind Market Dropdown
+            ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
         }
     }
     #endregion
@@ -55,6 +58,7 @@ public partial class SONIC_ClaimInfo_rptEmployerLagSummary :clsBasePage
     protected void btnShowReport_Click(object sender, EventArgs e)
     {
         string strRegion = "";
+        string strMarket = "";
 
         // get selected regions
         foreach (ListItem itmRegion in lstRegions.Items)
@@ -64,8 +68,16 @@ public partial class SONIC_ClaimInfo_rptEmployerLagSummary :clsBasePage
         }
         strRegion = strRegion.TrimEnd(',');
 
+        // get selected Markets
+        foreach (ListItem itmMarket in lstMarket.Items)
+        {
+            if (itmMarket.Selected)
+                strMarket = strMarket + itmMarket.Value + ",";
+        }
+        strMarket = strMarket.TrimEnd(',');
+
         // get report data for selected values
-        DataSet dsReport = clsClaimReports.GetEmployerLagSummaryData(Convert.ToDateTime(txtLossFromDate.Text), Convert.ToDateTime(txtLossToDate.Text), strRegion);
+        DataSet dsReport = clsClaimReports.GetEmployerLagSummaryData(Convert.ToDateTime(txtLossFromDate.Text), Convert.ToDateTime(txtLossToDate.Text), strRegion, strMarket);
 
         // get data tables from dataset
         dtRegions = dsReport.Tables[0];

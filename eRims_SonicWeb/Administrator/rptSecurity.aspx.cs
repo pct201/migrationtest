@@ -62,6 +62,9 @@ public partial class Administrator_rptSecurity : clsBasePage
         drpRegion.DataValueField = "Region";
         drpRegion.DataSource = dsUser.Tables[0].DefaultView;
         drpRegion.DataBind();
+
+        //Fill Market
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
     }
 
 
@@ -78,10 +81,15 @@ public partial class Administrator_rptSecurity : clsBasePage
         string strregion = "'" + Request.Form[drpRegion.UniqueID] + "'";
         if (strregion == "''")
             strregion = null;
+
+        string strMarket = "" + Request.Form[lstMarket.UniqueID] + "";
+        if (strMarket == "''")
+            strMarket = null;
+
         string strLocation = Request.Form[drpLocation.UniqueID];
 
         //DataSet dsLogAudit = Login_Logout.SearchSecurityReport(strSecurity, strregion,strLocation);
-        DataSet dsLogAudit = Report.SearchSecurityReport(strSecurity, strregion, strLocation);
+        DataSet dsLogAudit = Report.SearchSecurityReport(strSecurity, strregion, strMarket, strLocation);
         StringBuilder strReport = new StringBuilder();
         if ((dsLogAudit != null) && (dsLogAudit.Tables.Count > 0) && (dsLogAudit.Tables[0].Rows.Count > 0))
         {

@@ -207,6 +207,10 @@ public partial class SONIC_FirstReport_RptAllocationYTDChargeReport : clsBasePag
         lstYear.DataTextField = "WCYear";
         lstYear.DataValueField = "WCYear";
         lstYear.DataBind();
+
+        //Fill Market
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
+        
     }
 
     #endregion

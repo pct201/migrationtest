@@ -276,11 +276,12 @@ namespace ERIMS.DAL
             db.ExecuteNonQuery(dbCommand);
         }
 
-        public static DataSet GetSLT_ScoringReport(string strRegion, int intYear)
+        public static DataSet GetSLT_ScoringReport(string strRegion,string strMarket, int intYear)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptSLT_Scoring");
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "Year", DbType.Int32, intYear);
             db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, Convert.ToDecimal(clsSession.UserID));
 

@@ -77,6 +77,7 @@ public partial class SONIC_Exposures_rpt_d_b_a_MainReport : clsBasePage
     protected void btnShowReport_Click(object sender, EventArgs e)
     {
         string strRegion = "";
+        string strMarket = "";
         string strState = "";
         string strLocationCode = "";
         string strRLCM = "";
@@ -86,6 +87,11 @@ public partial class SONIC_Exposures_rpt_d_b_a_MainReport : clsBasePage
         // get selected regions
         if (ddlRegion.SelectedIndex != 0)
             strRegion = ddlRegion.SelectedValue;
+
+        // get selected mARKET
+        if (ddlMarket.SelectedIndex != 0)
+            strMarket = ddlMarket.SelectedValue;
+
         if (ddlState.SelectedIndex != 0)
             strState = ddlState.SelectedValue;
         if (ddlSonicLocationCode.SelectedIndex != 0)
@@ -96,7 +102,7 @@ public partial class SONIC_Exposures_rpt_d_b_a_MainReport : clsBasePage
         strShowOnDashboard = rblShowOnDashboard.SelectedValue;
 
         //get report data for selected values
-        DataSet dsReport = clsExposuresReports.Getrpt_d_b_a_Main_Report(strRegion, strState, strRLCM, strLocationCode, strActive, strShowOnDashboard);
+        DataSet dsReport = clsExposuresReports.Getrpt_d_b_a_Main_Report(strRegion,strMarket, strState, strRLCM, strLocationCode, strActive, strShowOnDashboard);
 
         // get data tables from dataset
         DataTable dtRegions = dsReport.Tables[0];
@@ -145,6 +151,7 @@ public partial class SONIC_Exposures_rpt_d_b_a_MainReport : clsBasePage
     {
         // Fill Region
         ComboHelper.FillRegion(new DropDownList[] { ddlRegion }, true);
+        ComboHelper.FillMarket(new DropDownList[] { ddlMarket }, true);
         ComboHelper.FillStateFromLU_Location(new DropDownList[] { ddlState }, 0, true);
 
         DataTable dtRLCM = Employee.SelectRLCM_Emp().Tables[1];

@@ -68,6 +68,30 @@
                                 AutoPostBack="false" Width="166px" Height="140px"></asp:ListBox>
                         </td>
                     </tr>
+                    <tr>
+                        <td width="12%" align="left" valign="top">
+                            Market
+                        </td>
+                        <td width="2%" align="center" valign="top">
+                            :
+                        </td>
+                        <td align="left" width="34%">
+                            <asp:ListBox ID="lstMarket" runat="server" SelectionMode="Multiple" ToolTip="Select Market"
+                                 Width="166px" Height="140px"></asp:ListBox>
+                        </td>
+                        <td width="4%">
+                            &nbsp;
+                        </td>
+                        <td width="12%" align="left" valign="top">
+                            &nbsp;
+                        </td>
+                        <td width="2%" align="center" valign="top">
+                             &nbsp;
+                        </td>
+                        <td align="left" width="34%">
+                             &nbsp;
+                        </td>
+                    </tr>
                     <tr valign="top" align="left">
                         <td>
                             LCD From

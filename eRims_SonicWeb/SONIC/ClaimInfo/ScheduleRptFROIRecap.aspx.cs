@@ -28,6 +28,7 @@ public partial class SONIC_ClaimInfo_ScheduleRptFROIRecap : System.Web.UI.Page
     private void BindDropDown()
     {
         ComboHelper.FillRegionListBox(new ListBox[] { lstRegions }, false);
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
         ComboHelper.FillLocationdba(new ListBox[] { lstRMLocationNumber }, 0, false);
 
         //Display Recipient List 
@@ -69,6 +70,15 @@ public partial class SONIC_ClaimInfo_ScheduleRptFROIRecap : System.Web.UI.Page
         }
         strRegion = strRegion.TrimEnd(',');
 
+        string strMarket = "";
+        // get selected Markets
+        foreach (ListItem itmMarket in lstMarket.Items)
+        {
+            if (itmMarket.Selected)
+                strMarket = strMarket + "" + itmMarket.Value + ",";
+        }
+        strMarket = strMarket.TrimEnd(',');
+
         string strDBA = "";
         // get selected regions
         foreach (ListItem itmdba in lstRMLocationNumber.Items)
@@ -99,6 +109,7 @@ public partial class SONIC_ClaimInfo_ScheduleRptFROIRecap : System.Web.UI.Page
 
         //Report Filters
         objFROIRecapSchedule.Region = strRegion;
+        objFROIRecapSchedule.Market = strMarket;
         objFROIRecapSchedule.DBA = strDBA;
         objFROIRecapSchedule.First_Report_Category = strCategory;
         objFROIRecapSchedule.Inspection_Date_From = IncidentBeginDate;

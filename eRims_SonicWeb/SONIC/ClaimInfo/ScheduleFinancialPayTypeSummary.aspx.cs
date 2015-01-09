@@ -31,6 +31,9 @@ public partial class SONIC_ClaimInfo_ScheduleFinancialPayTypeSummary : System.We
             lstRegions.DataValueField = "region";
             lstRegions.DataBind();
 
+            //Bind Market Dropdown
+            ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
+
             //Display Recipient List 
             DataSet ds = Report.GetRecipientList();
             ds.Tables[0].DefaultView.Sort = "ListName";
@@ -50,6 +53,7 @@ public partial class SONIC_ClaimInfo_ScheduleFinancialPayTypeSummary : System.We
             Tatva_RptFinancialPayTypeSchedule obj = new Tatva_RptFinancialPayTypeSchedule();
             string strYear = "";
             string strRegion = "";
+            string strMarket = "";
 
 
             // get selected years
@@ -68,9 +72,18 @@ public partial class SONIC_ClaimInfo_ScheduleFinancialPayTypeSummary : System.We
             }
             strRegion = strRegion.TrimEnd(',');
 
+            // get selected Markets
+            foreach (ListItem itmMarket in lstMarket.Items)
+            {
+                if (itmMarket.Selected)
+                    strMarket = strMarket + itmMarket.Value + ",";
+            }
+            strMarket = strMarket.TrimEnd(',');
+
             //Report Filters
             obj.Accident_Year = strYear;            
             obj.Region = strRegion;
+            obj.Market = strMarket;
             obj.Prior_Valuation_Date = Convert.ToDateTime(txtValuationDate.Text);
 
             //Report Schedule Details

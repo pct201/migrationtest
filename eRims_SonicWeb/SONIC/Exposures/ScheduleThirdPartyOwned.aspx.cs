@@ -30,6 +30,9 @@ public partial class SONIC_Exposures_ScheduleThirdPartyOwned : System.Web.UI.Pag
             drpRecipientList.DataBind();
             drpRecipientList.Items.Insert(0, new ListItem("--Select--", "0"));
             ds.Dispose();
+
+            //Display Market..
+            ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
         }
     }
     protected void btnSave_Click(object sender, EventArgs e)
@@ -38,9 +41,11 @@ public partial class SONIC_Exposures_ScheduleThirdPartyOwned : System.Web.UI.Pag
         {
             Tatva_RptPropertyStatementofValuesSchedule obj = new Tatva_RptPropertyStatementofValuesSchedule();
             string strRegion = GetCommaSeparatedValues(lstRegions);
+            string strMarket = GetCommaSeparatedValues(lstMarket);
 
             //Report Filters
             obj.Region = strRegion;
+            obj.Market = strMarket;
             obj.Status = GetCommaSeparatedValues(ddlStatus);
             //obj.Ownership = GetCommaSeparatedValues(drpOwnership);
 

@@ -2243,7 +2243,7 @@ namespace ERIMS.DAL
             db.ExecuteNonQuery(dbCommand);
         }
 
-        public static DataSet GetSonicCauseCodeReclassification_Report(string strRegion, string strDBA, DateTime? DateofInjury_From, DateTime? DateofInjury_To, decimal? FirstReportNumber, decimal? IncidentInvestigationNumber,string strCliamNumber)
+        public static DataSet GetSonicCauseCodeReclassification_Report(string strRegion, string strMarket, string strDBA, DateTime? DateofInjury_From, DateTime? DateofInjury_To, decimal? FirstReportNumber, decimal? IncidentInvestigationNumber,string strCliamNumber)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptWCSonicCauseCodeReclassificationReport");
@@ -2251,6 +2251,9 @@ namespace ERIMS.DAL
 
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
 
             if (!string.IsNullOrEmpty(strDBA))
                 db.AddInParameter(dbCommand, "Location", DbType.String, strDBA);

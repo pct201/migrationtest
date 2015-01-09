@@ -75,6 +75,18 @@
                             </asp:ListBox>
                         </td>
                     </tr>
+                     <tr valign="top" align="left">
+                        <td>
+                            Market
+                        </td>
+                        <td align="right">
+                            :
+                        </td>
+                        <td>
+                            <asp:ListBox ID="lstMarket" runat="server" SelectionMode="Multiple" Width="250px">
+                            </asp:ListBox>
+                        </td>
+                    </tr>
                     <tr valign="top" align="left">
                         <td style="width: 25%;">
                             LCD From

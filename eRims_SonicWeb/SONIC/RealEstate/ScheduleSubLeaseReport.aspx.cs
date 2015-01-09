@@ -64,7 +64,7 @@ public partial class SONIC_RealEstate_ScheduleSubLeaseReport : clsBasePage
     protected void btnSave_Click(object sender, EventArgs e)
     {
         Tatva_RptSubLeaseReportSchedule obj = new Tatva_RptSubLeaseReportSchedule();
-        string strRegion = string.Empty, strLeaseType = string.Empty;
+        string strRegion = string.Empty, strLeaseType = string.Empty, strMarket = string.Empty;
 
         // set values
         if (txtLCDateFrom.Text.Trim() != string.Empty)
@@ -86,6 +86,15 @@ public partial class SONIC_RealEstate_ScheduleSubLeaseReport : clsBasePage
                 strRegion = strRegion + "'" + li.Value + "',";
         }
         strRegion = strRegion.TrimEnd(',');
+
+        // get selected Markets
+        foreach (ListItem li in lstMarket.Items)
+        {
+            if (li.Selected)
+                strMarket = strMarket + "" + li.Value + ",";
+        }
+        strMarket = strMarket.TrimEnd(',');
+
         string strStatus = "";
         foreach (ListItem li in lstBuildingStatus.Items)
         {
@@ -98,6 +107,10 @@ public partial class SONIC_RealEstate_ScheduleSubLeaseReport : clsBasePage
         // set region
         if (!string.IsNullOrEmpty(strRegion))
             obj.Location = strRegion;
+
+        // set Market
+        if (!string.IsNullOrEmpty(strMarket))
+            obj.Market = strMarket;
 
         // set lease type
         if (!string.IsNullOrEmpty(strLeaseType))
@@ -126,6 +139,11 @@ public partial class SONIC_RealEstate_ScheduleSubLeaseReport : clsBasePage
     private void BindDropDownList()
     {
         ComboHelper.FillRegionListBox(new ListBox[] { lstLocation }, false);
+
+        //Display Market..
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
+
+
         Report.BindRecipientList(ref drpRecipientList);
     }
 }

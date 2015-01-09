@@ -46,6 +46,21 @@
                                 SetFocusOnError="false" Enabled="false"></asp:RequiredFieldValidator>
                         </td>
                     </tr>
+                     <tr>
+                        <td width="30%" align="left" valign="top">
+                            Market
+                        </td>
+                        <td width="2%" align="center" valign="top">
+                            :
+                        </td>
+                        <td align="left">
+                            <asp:ListBox ID="lstMarket" runat="server" SelectionMode="Multiple" ToolTip="Select Market"
+                                AutoPostBack="false" Width="166px"></asp:ListBox>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Please Select Market"
+                                Font-Bold="true" Display="none" Text="*" ControlToValidate="lstRegions" ValidationGroup="vsErrorGroup"
+                                SetFocusOnError="false" Enabled="false"></asp:RequiredFieldValidator>
+                        </td>
+                    </tr>
                     <tr>
                         <td width="30%" align="left" valign="top">
                             Location

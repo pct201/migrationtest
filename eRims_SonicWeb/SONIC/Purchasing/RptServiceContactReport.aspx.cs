@@ -34,6 +34,11 @@ public partial class SONIC_Purchasing_RptServiceContactReport : clsBasePage
             lstRegions.DataValueField = "region";
             lstRegions.DataBind();
 
+
+            //Fill Location 
+            ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
+
+
             // Fill Location by Employee        
             Nullable<decimal> CurrentEmployee = new Security(Convert.ToDecimal(clsSession.UserID)).Employee_Id;
             if (CurrentEmployee.ToString() != string.Empty && CurrentEmployee.ToString() != "0")
@@ -89,6 +94,7 @@ public partial class SONIC_Purchasing_RptServiceContactReport : clsBasePage
     protected void btnGenerateReport_Click(object sender, EventArgs e)
     {
         string strRegion = "";
+        string strMarket = "";
         string strLocaiton = "";
         string strServiceContract = "";
         string strServiceType = "";
@@ -101,6 +107,14 @@ public partial class SONIC_Purchasing_RptServiceContactReport : clsBasePage
                 strRegion = strRegion + "'" + itmRegion.Value + "',";
         }
         strRegion = strRegion.TrimEnd(',');
+
+        // get selected Markets
+        foreach (ListItem itmMarket in lstMarket.Items)
+        {
+            if (itmMarket.Selected)
+                strMarket = strMarket + "" + itmMarket.Value + ",";
+        }
+        strMarket = strMarket.TrimEnd(',');
 
         // get selected Locations
         foreach (ListItem itmLocation in lstLocation.Items)
@@ -134,7 +148,7 @@ public partial class SONIC_Purchasing_RptServiceContactReport : clsBasePage
         Nullable<DateTime> End_From_Date = clsGeneral.FormatNullDateToStore(txtEndDateFromDate.Text);
 
         // get data for financial summary report for selected values
-        DataSet dsReport = clsPurchaseReport.GetService_Contract_Detail_Report(strRegion, strLocaiton, strServiceContract, strServiceType, Start_To_Date, Start_From_Date, End_To_Date, End_From_Date);
+        DataSet dsReport = clsPurchaseReport.GetService_Contract_Detail_Report(strRegion, strMarket, strLocaiton, strServiceContract, strServiceType, Start_To_Date, Start_From_Date, End_To_Date, End_From_Date);
 
         dtDetails = dsReport.Tables[0];
         dtSupplierTotals = dsReport.Tables[1];

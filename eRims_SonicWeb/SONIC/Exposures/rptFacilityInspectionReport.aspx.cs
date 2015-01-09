@@ -21,6 +21,9 @@ public partial class SONIC_Exposures_rptFacilityInspectionReport : clsBasePage
             BindYear();
             drpReportInterval.Focus();
 
+            //Bind Market Dropdown
+            ComboHelper.FillMarket(new DropDownList[] { ddlMarket }, true);
+
         }
     }
     #region "Controls Events"
@@ -37,6 +40,10 @@ public partial class SONIC_Exposures_rptFacilityInspectionReport : clsBasePage
         string strRegion = "";
         // get selected regions
         strRegion = Convert.ToString(drpRegions.SelectedValue);
+
+        string strMarket = string.Empty;
+        // get selected Market
+        strMarket = Convert.ToString(ddlMarket.SelectedValue);
         if (strReportInterval.ToLower().ToString() == "monthly")
         {
             lblReport.Text = GenerageMonthlyReport().ToString();
@@ -61,6 +68,7 @@ public partial class SONIC_Exposures_rptFacilityInspectionReport : clsBasePage
     {
         // load the page again to clear selection
         drpRegions.SelectedIndex = 0;
+        ddlMarket.SelectedIndex = 0;
         drpYear.SelectedIndex = 0;
         drpReportInterval.SelectedIndex = 0;
     }
@@ -148,7 +156,8 @@ public partial class SONIC_Exposures_rptFacilityInspectionReport : clsBasePage
         string strRegion = "";
         // get selected regions
         strRegion = Convert.ToString(drpRegions.SelectedValue);
-        DataSet dsReport = clsExposuresReports.GetFacilityInspectionReport(strRegion, Convert.ToInt32(drpYear.SelectedValue), strReportInterval);
+
+        DataSet dsReport = clsExposuresReports.GetFacilityInspectionReport(strRegion, ddlMarket.SelectedValue, Convert.ToInt32(drpYear.SelectedValue), strReportInterval);
 
         // get data tables from dataset
         DataTable dtRegions = dsReport.Tables[0];
@@ -243,7 +252,7 @@ public partial class SONIC_Exposures_rptFacilityInspectionReport : clsBasePage
         string strRegion = "";
         // get selected regions
         strRegion = Convert.ToString(drpRegions.SelectedValue);
-        DataSet dsReport = clsExposuresReports.GetFacilityInspectionReport(strRegion, Convert.ToInt32(drpYear.SelectedValue), strReportInterval);
+        DataSet dsReport = clsExposuresReports.GetFacilityInspectionReport(strRegion, ddlMarket.SelectedValue, Convert.ToInt32(drpYear.SelectedValue), strReportInterval);
 
         // get data tables from dataset
         DataTable dtRegions = dsReport.Tables[0];
@@ -320,7 +329,7 @@ public partial class SONIC_Exposures_rptFacilityInspectionReport : clsBasePage
         string strRegion = "";
         // get selected regions
         strRegion = Convert.ToString(drpRegions.SelectedValue);
-        DataSet dsReport = clsExposuresReports.GetFacilityInspectionReport(strRegion, Convert.ToInt32(drpYear.SelectedValue), strReportInterval);
+        DataSet dsReport = clsExposuresReports.GetFacilityInspectionReport(strRegion, ddlMarket.SelectedValue, Convert.ToInt32(drpYear.SelectedValue), strReportInterval);
 
         // get data tables from dataset
         DataTable dtRegions = dsReport.Tables[0];

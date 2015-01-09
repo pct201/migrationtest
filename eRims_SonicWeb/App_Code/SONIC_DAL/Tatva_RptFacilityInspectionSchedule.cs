@@ -15,6 +15,7 @@ namespace ERIMS.DAL
 
 		private decimal? _PK_ID;
 		private decimal? _FK_Schedule;
+        private decimal? _Market;
 		private string _Report_Interval;
 		private int? _Year;
 		private string _Region;
@@ -68,7 +69,14 @@ namespace ERIMS.DAL
 			set { _Region = value; }
 		}
 
-
+        /// <summary>
+        /// Gets or sets the Market value.
+        /// </summary>
+        public decimal? Market
+        {
+            get { return _Market; }
+            set { _Market = value; }
+        }
 		#endregion
 
 		#region Default Constructors
@@ -84,6 +92,7 @@ namespace ERIMS.DAL
 			this._Report_Interval = null;
 			this._Year = null;
 			this._Region = null;
+            this._Market = null;
 
 		}
 
@@ -110,6 +119,11 @@ namespace ERIMS.DAL
 					this._FK_Schedule = null;
 				else
 					this._FK_Schedule = (decimal?)drTatva_RptFacilityInspectionSchedule["FK_Schedule"];
+
+                if (drTatva_RptFacilityInspectionSchedule["Market"] == DBNull.Value)
+                    this._Market = null;
+                else
+                    this._Market = (decimal?)drTatva_RptFacilityInspectionSchedule["Market"];
 
 				if (drTatva_RptFacilityInspectionSchedule["Report_Interval"] == DBNull.Value)
 					this._Report_Interval = null;
@@ -164,6 +178,8 @@ namespace ERIMS.DAL
 				db.AddInParameter(dbCommand, "Region", DbType.String, DBNull.Value);
 			else
 				db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
+
+            db.AddInParameter(dbCommand, "Market", DbType.Decimal, this._Market);
 
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -221,6 +237,8 @@ namespace ERIMS.DAL
 				db.AddInParameter(dbCommand, "Region", DbType.String, DBNull.Value);
 			else
 				db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
+
+            db.AddInParameter(dbCommand, "Market", DbType.Decimal, this._Market);
 
 			db.ExecuteNonQuery(dbCommand);
 		}

@@ -82,6 +82,21 @@
                                 AutoPostBack="false" Width="220px"></asp:ListBox>
                         </td>
                     </tr>
+                     <tr>
+                        <td align="left" valign="top">
+                            Market
+                        </td>
+                        <td align="center" valign="top">
+                            :
+                        </td>
+                        <td align="left">
+                            <asp:ListBox ID="lstMarket" runat="server" SelectionMode="Multiple" ToolTip="Select Market"
+                                AutoPostBack="false" Width="220px"></asp:ListBox>
+                        </td>
+                        <td align="center" colspan="4" valign="top">
+                            &nbsp;
+                        </td>                        
+                    </tr>
                     <tr>
                         <td valign="top" align="left" width="20%">
                             Dates of Incident From

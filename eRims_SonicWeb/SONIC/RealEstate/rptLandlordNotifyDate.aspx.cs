@@ -181,7 +181,7 @@ public partial class SONIC_RealEstate_rptLandlordNotifyDate : clsBasePage
     protected void btnShowReport_Click(object sender, EventArgs e)
     {
         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
-        string strRegion = string.Empty, strLocationStatus = string.Empty; ;
+        string strRegion = string.Empty, strLocationStatus = string.Empty, strMarket = string.Empty ; 
         DataSet dsResult;
 
         if (txtLCDateFrom.Text.Trim() != string.Empty)
@@ -204,6 +204,14 @@ public partial class SONIC_RealEstate_rptLandlordNotifyDate : clsBasePage
         }
         strRegion = strRegion.TrimEnd(',');
 
+        //get selected Market
+        foreach (ListItem li in lstMarket.Items)
+        {
+            if (li.Selected)
+                strMarket = strMarket + "" + li.Value + ",";   
+        }
+        strMarket = strMarket.TrimEnd(',');
+
         strTime = "";
 
         foreach (ListItem li in lstBuildingStatus.Items)
@@ -214,7 +222,7 @@ public partial class SONIC_RealEstate_rptLandlordNotifyDate : clsBasePage
         strLocationStatus = strLocationStatus.TrimEnd(',');
 
         // get report result from database
-        dsResult = Report.GetLandlordNotificationReport(strRegion, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo, strLocationStatus);
+        dsResult = Report.GetLandlordNotificationReport(strRegion,strMarket, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo, strLocationStatus);
 
         // get the location(dba) list
         dtDBA = dsResult.Tables[0];
@@ -278,6 +286,9 @@ public partial class SONIC_RealEstate_rptLandlordNotifyDate : clsBasePage
     {
         // Fill Region
         ComboHelper.FillRegionListBox(new ListBox[] { ddlRegion }, false);
+
+        //Bind Market Dropdown
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
     }
 
     #endregion

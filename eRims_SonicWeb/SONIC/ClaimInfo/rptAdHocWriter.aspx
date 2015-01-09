@@ -816,6 +816,21 @@
                                     </td>
                                 </tr>
                             </table>
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td width="50%">
+                                        <strong style="color: #666666;">Coverage State :
+                                            <asp:CheckBox ID="chkCoverageState" runat="server" />
+                                            Select/Deselect All</strong><br />
+                                        <asp:ListBox ID="lstCoverageState" SelectionMode="Multiple" runat="server" Width="350px"></asp:ListBox>
+                                    </td>
+                                    <td width="50%">
+                                        <strong style="color: #666666;">Market :
+                                            <asp:CheckBox ID="chkMarket" runat="server" />Select/Deselect All</strong><br />
+                                        <asp:ListBox ID="lstMarket" SelectionMode="Multiple" runat="server" Width="350px"></asp:ListBox>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
                     <tr>
@@ -825,12 +840,7 @@
                         <td>
                             <table width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
-                                    <td width="50%">
-                                        <strong style="color: #666666;">Coverage State :
-                                            <asp:CheckBox ID="chkCoverageState" runat="server" />
-                                            Select/Deselect All</strong><br />
-                                        <asp:ListBox ID="lstCoverageState" SelectionMode="Multiple" runat="server" Width="350px"></asp:ListBox>
-                                    </td>
+                                    
                                     <td width="50%">
                                         <asp:Panel ID="pnlNOI" runat="server" Width="100%">
                                             <strong style="color: #666666;">Nature of Injury :

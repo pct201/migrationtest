@@ -540,7 +540,7 @@ namespace ERIMS.DAL
         /// select by serach criteria
         /// </summary>
         /// <returns></returns>
-        public static DataSet Purchasing_Asset_Search(Nullable<DateTime> dtStartDateFrom, Nullable<DateTime> dtStartDateTo, string Region, decimal FK_LU_Location_Id, decimal FK_LU_Dealership_Department,
+        public static DataSet Purchasing_Asset_Search(Nullable<DateTime> dtStartDateFrom, Nullable<DateTime> dtStartDateTo, string Region, string Market, decimal FK_LU_Location_Id, decimal FK_LU_Dealership_Department,
             string Type, string Manufacturer,string strOrderBy, string strOrder, int intPageNo, int intPageSize)
         {
             Database db = DatabaseFactory.CreateDatabase();
@@ -548,6 +548,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "dtStartDateFrom", DbType.DateTime, dtStartDateFrom);
             db.AddInParameter(dbCommand, "dtStartDateTo", DbType.DateTime, dtStartDateTo);
             db.AddInParameter(dbCommand, "Region", DbType.String, Region);
+            db.AddInParameter(dbCommand, "Market", DbType.String, Market);
             db.AddInParameter(dbCommand, "FK_LU_Location_Id", DbType.Decimal, FK_LU_Location_Id);
             db.AddInParameter(dbCommand, "FK_LU_Dealership_Department", DbType.Decimal, FK_LU_Dealership_Department);
             db.AddInParameter(dbCommand, "Type", DbType.String, Type);
@@ -602,13 +603,14 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
        // public static DataSet Get_Purchase_Report(int FK_LU_Location_Id,string Type,string strRegion,string Manufacturer)
-        public static DataSet Get_Purchase_Report(string strRegion, string Manufacturer, string Type, string Location)
+        public static DataSet Get_Purchase_Report(string strRegion, string strMarket, string Manufacturer, string Type, string Location)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Purchasing_Asset_Report");
 
             //db.AddInParameter(dbCommand, "FK_LU_Location_Id", DbType.Int32, FK_LU_Location_Id);
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "Manufacturer", DbType.String, Manufacturer);
             db.AddInParameter(dbCommand, "Type", DbType.String, Type);        
             db.AddInParameter(dbCommand, "Location", DbType.String, Location);

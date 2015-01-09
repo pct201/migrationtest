@@ -55,6 +55,9 @@ public partial class SONIC_ClaimInfo_rptFinancialPayTypeSummary : clsBasePage
             lstRegions.DataTextField = "region";
             lstRegions.DataValueField = "region";
             lstRegions.DataBind();
+
+            //Bind Market Dropdown
+            ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
         }
     }
     #endregion
@@ -70,6 +73,7 @@ public partial class SONIC_ClaimInfo_rptFinancialPayTypeSummary : clsBasePage
     {
         string strYear = "";        
         string strRegion = "";
+        string strMarket = string.Empty;
         DateTime dtValuation = txtValuationDate.Text != "" ? Convert.ToDateTime(txtValuationDate.Text) : DateTime.Now;
 
         // get selected years
@@ -88,8 +92,16 @@ public partial class SONIC_ClaimInfo_rptFinancialPayTypeSummary : clsBasePage
         }
         strRegion = strRegion.TrimEnd(',');
 
+        // get selected Markets
+        foreach (ListItem itmMarket in lstMarket.Items)
+        {
+            if (itmMarket.Selected)
+                strMarket = strMarket + itmMarket.Value + ",";
+        }
+        strMarket = strMarket.TrimEnd(',');
+
         // get data for financial pay type summary report for selected values
-        DataSet dsReport = clsClaimReports.GetFinancialPayTypeSummaryData(strYear, strRegion, dtValuation);
+        DataSet dsReport = clsClaimReports.GetFinancialPayTypeSummaryData(strYear, strRegion, strMarket, dtValuation);
 
         // get datatbles from dataset
         dtYears = dsReport.Tables[0];

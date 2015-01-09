@@ -16,6 +16,7 @@ namespace ERIMS.DAL
 		private decimal? _PK_ID;
 		private decimal? _FK_Schedule;
 		private string _Region;
+        private string _Market;
 		private string _DBA;
 		private DateTime? _Inspection_Date_From;
 		private DateTime? _Inspection_Date_To;
@@ -51,6 +52,15 @@ namespace ERIMS.DAL
 			get { return _Region; }
 			set { _Region = value; }
 		}
+
+        /// <summary>
+        /// Gets or sets the Market value.
+        /// </summary>
+        public string Market
+        {
+            get { return _Market; }
+            set { _Market = value; }
+        }
 
 		/// <summary>
 		/// Gets or sets the DBA value.
@@ -142,6 +152,11 @@ namespace ERIMS.DAL
 				else
 					this._Region = (string)drTatva_rptFROIRecapSchedule["Region"];
 
+                if (drTatva_rptFROIRecapSchedule["Market"] == DBNull.Value)
+                    this._Market = null;
+                else
+                    this._Market = (string)drTatva_rptFROIRecapSchedule["Market"];
+
 				if (drTatva_rptFROIRecapSchedule["DBA"] == DBNull.Value)
 					this._DBA = null;
 				else
@@ -185,7 +200,12 @@ namespace ERIMS.DAL
 				db.AddInParameter(dbCommand, "Region", DbType.String, DBNull.Value);
 			else
 				db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
-			
+
+            if (string.IsNullOrEmpty(this._Market))
+                db.AddInParameter(dbCommand, "Market", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Market", DbType.String, this._Market);
+
 			if (string.IsNullOrEmpty(this._DBA))
 				db.AddInParameter(dbCommand, "DBA", DbType.String, DBNull.Value);
 			else
@@ -249,6 +269,11 @@ namespace ERIMS.DAL
 				db.AddInParameter(dbCommand, "Region", DbType.String, DBNull.Value);
 			else
 				db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
+
+            if (string.IsNullOrEmpty(this._Market))
+                db.AddInParameter(dbCommand, "Market", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Market", DbType.String, this._Market);
 			
 			if (string.IsNullOrEmpty(this._DBA))
 				db.AddInParameter(dbCommand, "DBA", DbType.String, DBNull.Value);

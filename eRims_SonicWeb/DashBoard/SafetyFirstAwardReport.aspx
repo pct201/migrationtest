@@ -43,6 +43,18 @@
                                 Rows="5"></asp:ListBox>
                         </td>
                     </tr>
+                    <tr>
+                        <td align="right" valign="top" width="25%">
+                            Market
+                        </td>
+                        <td align="center" valign="top" width="5%">
+                            :&nbsp;
+                        </td>
+                        <td align="left" width="65%">
+                            <asp:ListBox ID="lstMarket" runat="server" SelectionMode="Multiple" Width="250px"
+                                Rows="5"></asp:ListBox>
+                        </td>
+                    </tr>
                 </table>
             </td>
         </tr>

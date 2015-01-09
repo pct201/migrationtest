@@ -296,6 +296,8 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
         txtPriorToDate.Text = string.Empty;
         ddlState.SelectedIndex = 0;
         lstRegion.ClearSelection();
+        lstMarket.ClearSelection();
+        lstRLCM.ClearSelection();
     }
 
     protected void btnBack_Click(object sender, EventArgs e)
@@ -1408,6 +1410,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
     {
         ComboHelper.FillState(new DropDownList[] { ddlState }, 0, true);
         ComboHelper.FillRegionListBox(new ListBox[] { lstRegion }, false);
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
         ComboHelper.FillRlcmListBox(new ListBox[] { lstRLCM }, false);
     }
 

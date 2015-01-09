@@ -33,6 +33,9 @@ public partial class SONIC_ClaimInfo_ScheduleInsurerLagSummary : System.Web.UI.P
             drpRecipientList.DataBind();
             drpRecipientList.Items.Insert(0, new ListItem("--Select--", "0"));
             ds.Dispose();
+
+            //Bind Market Dropdown
+            ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);			
         }
     }
 
@@ -51,8 +54,19 @@ public partial class SONIC_ClaimInfo_ScheduleInsurerLagSummary : System.Web.UI.P
             }
             strRegion = strRegion.TrimEnd(',');
 
+            string strMarket = "";
+
+            // get selected Markets
+            foreach (ListItem itmMarket in lstMarket.Items)
+            {
+                if (itmMarket.Selected)
+                    strMarket = strMarket + itmMarket.Value + ",";
+            }
+            strMarket = strMarket.TrimEnd(',');
+
             //Report Filters
             obj.Region = strRegion;
+            obj.Market = strMarket;
             obj.From_Date_Of_Loss = Convert.ToDateTime(txtLossFromDate.Text);
             obj.To_Date_Of_Loss = Convert.ToDateTime(txtLossToDate.Text);
 

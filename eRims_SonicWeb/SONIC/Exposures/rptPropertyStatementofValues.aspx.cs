@@ -58,6 +58,9 @@ public partial class SONIC_Exposures_rptPropertyStatementofValues : clsBasePage
             lstRegions.DataTextField = "region";
             lstRegions.DataValueField = "region";
             lstRegions.DataBind();
+
+            //Bind Market Dropdown
+            ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
         }
     }
 
@@ -92,15 +95,17 @@ public partial class SONIC_Exposures_rptPropertyStatementofValues : clsBasePage
     protected void btnShowReport_Click(object sender, EventArgs e)
     {
         string strRegion = "";
+        string strMarket = string.Empty;
         string strStatus = "";
         string strOwnership = "";
         // get selected regions
         strRegion = GetCommaSeparatedValues(lstRegions);
+        strMarket = GetCommaSeparatedValues(lstMarket);
         strStatus = GetCommaSeparatedValues(ddlStatus);
         strOwnership = GetCommaSeparatedValues(drpOwnership);
 
         // get report data for selected values
-        DataSet dsReport = clsExposuresReports.GetPropertyStatementofValues(strRegion, strStatus, strOwnership, clsGeneral.FormatNullDateToStore(txtPropertyValuationDateFrom.Text), clsGeneral.FormatNullDateToStore(txtPropertyValuationDateTo.Text));
+        DataSet dsReport = clsExposuresReports.GetPropertyStatementofValues(strRegion, strMarket, strStatus, strOwnership, clsGeneral.FormatNullDateToStore(txtPropertyValuationDateFrom.Text), clsGeneral.FormatNullDateToStore(txtPropertyValuationDateTo.Text));
 
         // get data tables from dataset
         DataTable dtRegions = dsReport.Tables[0];
@@ -186,7 +191,7 @@ public partial class SONIC_Exposures_rptPropertyStatementofValues : clsBasePage
         //    dvGrid.Style["overflow"] = "hidden";
         //}
 
-        DataSet dsReport_NEW = clsExposuresReports.GetPropertyStatementofValues_NEW(strRegion, strStatus, strOwnership, clsGeneral.FormatNullDateToStore(txtPropertyValuationDateFrom.Text), clsGeneral.FormatNullDateToStore(txtPropertyValuationDateTo.Text));
+        DataSet dsReport_NEW = clsExposuresReports.GetPropertyStatementofValues_NEW(strRegion, strMarket, strStatus, strOwnership, clsGeneral.FormatNullDateToStore(txtPropertyValuationDateFrom.Text), clsGeneral.FormatNullDateToStore(txtPropertyValuationDateTo.Text));
 
         dtInsuranceField_NEW = dsReport_NEW.Tables[1];
         ViewState["dtHeader"] = dsReport_NEW.Tables[2];
@@ -202,24 +207,28 @@ public partial class SONIC_Exposures_rptPropertyStatementofValues : clsBasePage
         gvDescription_New.DataBind();
 
         DataTable dtTemp = dsReport_NEW.Tables[0].Clone();
-        dtTemp.ImportRow(dsReport_NEW.Tables[0].Rows[dsReport_NEW.Tables[0].Rows.Count - 1]);
-        
 
-        for (int i = 1; i <= 25; i++)
+        if (dsReport_NEW.Tables[0].Rows.Count > 0)
         {
-            DataRow[] drtemp = dtInsuranceField_NEW.Select("Item_Number = '" + i.ToString() + "'");
-            if (drtemp == null || drtemp.Length == 0)
+            dtTemp.ImportRow(dsReport_NEW.Tables[0].Rows[dsReport_NEW.Tables[0].Rows.Count - 1]);
+
+
+            for (int i = 1; i <= 25; i++)
             {
-                gvDescription_New.Columns[item_ColumnIndexStart + i].Visible = false;
-                dtTemp.Columns.Remove("Item_" + i);
+                DataRow[] drtemp = dtInsuranceField_NEW.Select("Item_Number = '" + i.ToString() + "'");
+                if (drtemp == null || drtemp.Length == 0)
+                {
+                    gvDescription_New.Columns[item_ColumnIndexStart + i].Visible = false;
+                    dtTemp.Columns.Remove("Item_" + i);
+                }
+                else
+                {
+                    gvDescription_New.HeaderRow.Cells[item_ColumnIndexStart + i].Text = drtemp[0]["Item_Descriptor"].ToString();
+                    gvDescription_New.Columns[item_ColumnIndexStart + i].HeaderText = drtemp[0]["Item_Descriptor"].ToString();
+                }
             }
-            else
-            {
-                gvDescription_New.HeaderRow.Cells[item_ColumnIndexStart + i].Text = drtemp[0]["Item_Descriptor"].ToString();
-                gvDescription_New.Columns[item_ColumnIndexStart + i].HeaderText = drtemp[0]["Item_Descriptor"].ToString();
-            }
+            ViewState["LastRow"] = dtTemp;
         }
-        ViewState["LastRow"] = dtTemp;
     }
 
     /// <summary>
@@ -375,6 +384,7 @@ public partial class SONIC_Exposures_rptPropertyStatementofValues : clsBasePage
     {
         // load the page again to clear selection
         lstRegions.ClearSelection();
+        lstMarket.ClearSelection();
         ddlStatus.ClearSelection();
         drpOwnership.ClearSelection();
         txtPropertyValuationDateFrom.Text = "";

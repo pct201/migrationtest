@@ -44,6 +44,15 @@ public partial class SONIC_ClaimInfo_rptRiskManagementWorksheet : clsBasePage
         }
         strRegion = strRegion.TrimEnd(',');
 
+        string strMarket = "";
+        // get selected Markets
+        foreach (ListItem itmMarket in lstMarket.Items)
+        {
+            if (itmMarket.Selected)
+                strMarket = strMarket + "" + itmMarket.Value + ",";
+        }
+        strMarket = strMarket.TrimEnd(',');
+
         string strDBA = "";
         // get selected regions
         foreach (ListItem itmdba in lstDBAs.Items)
@@ -89,7 +98,7 @@ public partial class SONIC_ClaimInfo_rptRiskManagementWorksheet : clsBasePage
         else if (strClaimStatus != "")
             strClaimStatus = " (" + strClaimStatus + ")";
 
-        DataSet dsReport = clsClaimReports.GetRiskManagementWorksheet(strRegion, strDBA, clsGeneral.FormatNullDateToStore(txtLossFromDate.Text), clsGeneral.FormatNullDateToStore(txtLossToDate.Text), strBodyParts, strClaimStatus);
+        DataSet dsReport = clsClaimReports.GetRiskManagementWorksheet(strRegion, strMarket, strDBA, clsGeneral.FormatNullDateToStore(txtLossFromDate.Text), clsGeneral.FormatNullDateToStore(txtLossToDate.Text), strBodyParts, strClaimStatus);
 
         gvReport.DataSource = dsReport.Tables[0];
         gvReport.DataBind();
@@ -118,6 +127,7 @@ public partial class SONIC_ClaimInfo_rptRiskManagementWorksheet : clsBasePage
     protected void btnClearCriteria_Click(object sender, EventArgs e)
     {
         lstRegions.ClearSelection();
+        lstMarket.ClearSelection();
         lstDBAs.ClearSelection();
         lstClaimStatus.ClearSelection();
         lstPartofBody.ClearSelection();
@@ -164,7 +174,10 @@ public partial class SONIC_ClaimInfo_rptRiskManagementWorksheet : clsBasePage
         lstPartofBody.DataTextField = "Description";
         lstPartofBody.DataValueField = "Code";
         lstPartofBody.DataSource = dtData;
-        lstPartofBody.DataBind();       
+        lstPartofBody.DataBind();
+
+        //Bind Market Dropdown
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
     }
 
     /// <summary>

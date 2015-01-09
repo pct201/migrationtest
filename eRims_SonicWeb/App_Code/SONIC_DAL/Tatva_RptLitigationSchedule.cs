@@ -19,6 +19,7 @@ namespace ERIMS.DAL
         private DateTime _Start_Date;
         private DateTime _End_Date;
         private string _Region;
+        private decimal? _Market;
 
         #endregion
 
@@ -75,6 +76,14 @@ namespace ERIMS.DAL
             set { _Region = value; }
         }
 
+        /// <summary> 
+        /// Gets or sets the Market value.
+        /// </summary>
+        public decimal? Market
+        {
+            get { return _Market; }
+            set { _Market = value; }
+        }
 
 
         #endregion
@@ -95,6 +104,7 @@ namespace ERIMS.DAL
             this._Start_Date = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
             this._End_Date = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
             this._Region = "";
+            this._Market = null;
 
         }
 
@@ -118,6 +128,7 @@ namespace ERIMS.DAL
                 this._Start_Date = drTatva_RptLitigationSchedule["Start_Date"] != DBNull.Value ? Convert.ToDateTime(drTatva_RptLitigationSchedule["Start_Date"]) : (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
                 this._End_Date = drTatva_RptLitigationSchedule["End_Date"] != DBNull.Value ? Convert.ToDateTime(drTatva_RptLitigationSchedule["End_Date"]) : (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
                 this._Region = Convert.ToString(drTatva_RptLitigationSchedule["Region"]);
+                this._FK_Schedule = drTatva_RptLitigationSchedule["Market"] != DBNull.Value ? Convert.ToDecimal(drTatva_RptLitigationSchedule["Market"]) : 0;
 
             }
 
@@ -129,6 +140,7 @@ namespace ERIMS.DAL
                 this._Start_Date = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
                 this._End_Date = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
                 this._Region = "";
+                this._Market = null;
 
             }
 
@@ -155,6 +167,7 @@ namespace ERIMS.DAL
 			db.AddInParameter(dbCommand, "Start_Date", DbType.DateTime, this._Start_Date);
 			db.AddInParameter(dbCommand, "End_Date", DbType.DateTime, this._End_Date);
 			db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
+            db.AddInParameter(dbCommand, "Market", DbType.Decimal, this._Market);
 
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -201,6 +214,7 @@ namespace ERIMS.DAL
 			db.AddInParameter(dbCommand, "Start_Date", DbType.DateTime, this._Start_Date);
 			db.AddInParameter(dbCommand, "End_Date", DbType.DateTime, this._End_Date);
 			db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
+            db.AddInParameter(dbCommand, "Market", DbType.Decimal, this._Market);
 
 			db.ExecuteNonQuery(dbCommand);
 		}

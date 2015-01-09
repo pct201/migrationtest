@@ -335,7 +335,7 @@ namespace ERIMS.DAL
 
         #region "Real Estate Report"
 
-        public static DataSet GetLeaseTermReport(string strRegion, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
+        public static DataSet GetLeaseTermReport(string strRegion,string strMarket, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptLeaseTerm");
@@ -344,6 +344,9 @@ namespace ERIMS.DAL
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
 
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+
             if (!string.IsNullOrEmpty(strLeaseType))
                 db.AddInParameter(dbCommand, "LeaseType", DbType.String, strLeaseType);
 
@@ -362,7 +365,7 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetSubspacesByLocation(string strRegion, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
+        public static DataSet GetSubspacesByLocation(string strRegion, string strMarket, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptSubspacesByLocation");
@@ -371,6 +374,10 @@ namespace ERIMS.DAL
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
 
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+
+
             if (!string.IsNullOrEmpty(strLeaseType))
                 db.AddInParameter(dbCommand, "LeaseType", DbType.String, strLeaseType);
 
@@ -389,7 +396,7 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetMasterDealershipByRegion(string strRegion, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo, string strLocation_Status)
+        public static DataSet GetMasterDealershipByRegion(string strRegion, string strMarket, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo, string strLocation_Status)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptMasterDealershipByRegion");
@@ -397,6 +404,9 @@ namespace ERIMS.DAL
 
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
 
             if (dtLCDFrom != null)
                 db.AddInParameter(dbCommand, "LCD_From", DbType.DateTime, dtLCDFrom);
@@ -417,7 +427,7 @@ namespace ERIMS.DAL
         }
 
 
-        public static DataSet GetRentableAreaByExpirationDate(string strRegion, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
+        public static DataSet GetRentableAreaByExpirationDate(string strRegion, string strMarket, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptRentableAreaByExpirationDate");
@@ -427,6 +437,9 @@ namespace ERIMS.DAL
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
 
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+
             if (!string.IsNullOrEmpty(strLeaseType))
                 db.AddInParameter(dbCommand, "LeaseType", DbType.String, strLeaseType);
 
@@ -445,7 +458,7 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetLeasesWithSecurityDeposits(string strRegion, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
+        public static DataSet GetLeasesWithSecurityDeposits(string strRegion,string strMarket, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptLeasesWithSecurityDeposits");
@@ -454,6 +467,9 @@ namespace ERIMS.DAL
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
 
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+
             if (!string.IsNullOrEmpty(strLeaseType))
                 db.AddInParameter(dbCommand, "LeaseType", DbType.String, strLeaseType);
 
@@ -472,7 +488,7 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetLandlordReport(string strRegion, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
+        public static DataSet GetLandlordReport(string strRegion, string strMarket, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptLandlord");
@@ -480,6 +496,9 @@ namespace ERIMS.DAL
 
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
 
             if (!string.IsNullOrEmpty(strLeaseType))
                 db.AddInParameter(dbCommand, "LeaseType", DbType.String, strLeaseType);
@@ -522,12 +541,13 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetLeaseDetailReport(string strRegion, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo, string strOrder)
+        public static DataSet GetLeaseDetailReport(string strRegion, string strMarket, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo, string strOrder)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Lease_Detail_Report");
 
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "Lease_Type", DbType.String, strLeaseType);
             db.AddInParameter(dbCommand, "LCD_From", DbType.DateTime, dtLCDFrom);
             db.AddInParameter(dbCommand, "LCD_To", DbType.DateTime, dtLCDTo);
@@ -555,7 +575,7 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetMaintenanceAndRepairItems(string strRegion, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
+        public static DataSet GetMaintenanceAndRepairItems(string strRegion, string strMarket, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptREMaintenanceAndRepair");
@@ -563,6 +583,9 @@ namespace ERIMS.DAL
 
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
 
             if (!string.IsNullOrEmpty(strLeaseType))
                 db.AddInParameter(dbCommand, "LeaseType", DbType.String, strLeaseType);
@@ -582,7 +605,7 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetMonthlyExpenseByLocation(string strRegion, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
+        public static DataSet GetMonthlyExpenseByLocation(string strRegion, string strMarket, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptMonthlyExpenseByLocation");
@@ -590,6 +613,9 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Curr_Date", DbType.DateTime, System.DateTime.Today);
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
 
             if (!string.IsNullOrEmpty(strLeaseType))
                 db.AddInParameter(dbCommand, "LeaseType", DbType.String, strLeaseType);
@@ -626,7 +652,7 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetCriticalDatesReport(string strRegion, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo, string strLocation_Status, string strReportName)
+        public static DataSet GetCriticalDatesReport(string strRegion,string strMarket, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo, string strLocation_Status, string strReportName)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptCriticalDates");
@@ -634,6 +660,9 @@ namespace ERIMS.DAL
 
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
 
             if (dtLCDFrom != null)
                 db.AddInParameter(dbCommand, "LCD_From", DbType.DateTime, dtLCDFrom);
@@ -656,13 +685,16 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetLandlordInfoReport(string strRegion, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo, string strLocation_Status)
+        public static DataSet GetLandlordInfoReport(string strRegion, string strMarket, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo, string strLocation_Status)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptlandlordInfo");
 
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
 
             if (dtLCDFrom != null)
                 db.AddInParameter(dbCommand, "LCD_From", DbType.DateTime, dtLCDFrom);
@@ -681,7 +713,7 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetSubLeaseReportCOI(string strDBA, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo, string strStatus)
+        public static DataSet GetSubLeaseReportCOI(string strDBA, string strMarket, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo, string strStatus)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptSubLeaseReportCOI");
@@ -689,6 +721,11 @@ namespace ERIMS.DAL
 
             if (!string.IsNullOrEmpty(strDBA))
                 db.AddInParameter(dbCommand, "DBA", DbType.String, strDBA);
+
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+            else
+                db.AddInParameter(dbCommand, "Market", DbType.String, DBNull.Value);
 
             if (dtLCDFrom != null)
                 db.AddInParameter(dbCommand, "LCD_From", DbType.DateTime, dtLCDFrom);
@@ -708,7 +745,7 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet getrptLocationsLeasePolicyDates(int SubleaseAgreement,string strRegion,string strLocation,string strBuildingStatus,int InsuredActive)
+        public static DataSet getrptLocationsLeasePolicyDates(int SubleaseAgreement,string strRegion, string strMarket, string strLocation,string strBuildingStatus,int InsuredActive)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptLocations_Lease_Policy_Dates_New");
@@ -719,6 +756,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
             else
                 db.AddInParameter(dbCommand, "Region", DbType.String, DBNull.Value);
+
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+            else
+                db.AddInParameter(dbCommand, "Market", DbType.String, DBNull.Value);
 
             if (!string.IsNullOrEmpty(strLocation))
                 db.AddInParameter(dbCommand, "FK_Lu_Location_Id", DbType.String, strLocation);
@@ -735,14 +777,18 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetSubLeaseReport(string strDBA, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo, string strStatus)
+        public static DataSet GetSubLeaseReport(string strDBA, string strMarket, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo, string strStatus)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptSubLeaseReport");
-
-
+            
             if (!string.IsNullOrEmpty(strDBA))
                 db.AddInParameter(dbCommand, "DBA", DbType.String, strDBA);
+
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+            else
+                db.AddInParameter(dbCommand, "Market", DbType.String, DBNull.Value);
 
             if (dtLCDFrom != null)
                 db.AddInParameter(dbCommand, "LCD_From", DbType.DateTime, dtLCDFrom);
@@ -762,7 +808,7 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetLandlordNotificationReport(string strRegion, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo, string strLocation_Status)
+        public static DataSet GetLandlordNotificationReport(string strRegion,string strMarket, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo, string strLocation_Status)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptLandlordNotificationReportDates");
@@ -770,6 +816,9 @@ namespace ERIMS.DAL
 
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
 
             if (dtLCDFrom != null)
                 db.AddInParameter(dbCommand, "LCD_From", DbType.DateTime, dtLCDFrom);
@@ -834,23 +883,25 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetSafertyFirstAwardReport(string strRegion, int Year)
+        public static DataSet GetSafertyFirstAwardReport(string strRegion,string strMarket, int Year)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("SafertyFirstAwardReport");
 
             db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, Convert.ToDecimal(clsSession.UserID));
             db.AddInParameter(dbCommand, "Regions", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);
 
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetIncidentInvestigationReport(string strRegion, int intYear, string strInterval)
+        public static DataSet GetIncidentInvestigationReport(string strRegion, string strMarket, int intYear, string strInterval)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptIncidentInvestigation");
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "Year", DbType.Int32, intYear);
             db.AddInParameter(dbCommand, "strInterval", DbType.String, strInterval);
             db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, Convert.ToDecimal(clsSession.UserID));
@@ -858,11 +909,12 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetIncidentReductionReport(string strRegion, int intYear, string strInterval)
+        public static DataSet GetIncidentReductionReport(string strRegion, string strMarket, int intYear, string strInterval)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptIncidentReduction");
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "Year", DbType.Int32, intYear);
             db.AddInParameter(dbCommand, "strInterval", DbType.String, strInterval);
             db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, Convert.ToDecimal(clsSession.UserID));
@@ -870,11 +922,12 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetWCClaimManagementReport(string strRegion, int intYear, string strInterval)
+        public static DataSet GetWCClaimManagementReport(string strRegion, string strMarket, int intYear, string strInterval)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptWCClaimManagement");
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "Year", DbType.Int32, intYear);
             db.AddInParameter(dbCommand, "strInterval", DbType.String, strInterval);
             db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, Convert.ToDecimal(clsSession.UserID));
@@ -884,21 +937,26 @@ namespace ERIMS.DAL
 
         #endregion
 
-        public static DataSet SearchSecurityReport(string pK_Security_ID, string Region, string pk_Location_Id)
+        public static DataSet SearchSecurityReport(string pK_Security_ID, string Region, string Market, string pk_Location_Id)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Security_Report");
-
-
 
             if (string.IsNullOrEmpty(pK_Security_ID))
                 db.AddInParameter(dbCommand, "PK_Security_ID", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "PK_Security_ID", DbType.String, pK_Security_ID);
+
             if (string.IsNullOrEmpty(Region))
                 db.AddInParameter(dbCommand, "Region", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Region", DbType.String, Region);
+
+            if (string.IsNullOrEmpty(Market))
+                db.AddInParameter(dbCommand, "Market", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Market", DbType.String, Market);
+
             if (string.IsNullOrEmpty(pk_Location_Id))
                 db.AddInParameter(dbCommand, "PK_LU_Location_ID", DbType.String, DBNull.Value);
             else

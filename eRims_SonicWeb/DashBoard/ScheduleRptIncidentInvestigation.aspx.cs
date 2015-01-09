@@ -40,6 +40,10 @@ public partial class ScheduleRptIncidentInvestigation : System.Web.UI.Page
             ds.Dispose();
 
             drpReportInterval.Focus();
+
+            //display Market
+
+            ComboHelper.FillMarket(new DropDownList[] { ddlMarket }, true);
         }
     }
 
@@ -51,6 +55,11 @@ public partial class ScheduleRptIncidentInvestigation : System.Web.UI.Page
             
             //Report Filters
             obj.Region = drpRegion.SelectedValue;
+
+            if (ddlMarket.SelectedValue == "0")
+                obj.Market = null;
+            else
+                obj.Market = Convert.ToDecimal(ddlMarket.SelectedValue);
             obj.Year = Convert.ToInt32(drpYear.SelectedValue);
             obj.Report_Interval = drpReportInterval.SelectedValue;
 

@@ -39,6 +39,8 @@ public partial class SONIC_Exposures_ScheduleRptFacilityInspection : System.Web.
             drpRecipientList.Items.Insert(0, new ListItem("--Select--", "0"));
             ds.Dispose();
 
+            ComboHelper.FillMarket(new DropDownList[] { ddlMarket }, true);
+
             drpReportInterval.Focus();
         }
     }
@@ -51,6 +53,11 @@ public partial class SONIC_Exposures_ScheduleRptFacilityInspection : System.Web.
             
             //Report Filters
             obj.Region = drpRegion.SelectedValue;
+
+            if (ddlMarket.SelectedValue == "0")
+                obj.Market = null;
+            else
+                obj.Market = Convert.ToDecimal(ddlMarket.SelectedValue);
             obj.Year = Convert.ToInt32(drpYear.SelectedValue);
             obj.Report_Interval = drpReportInterval.SelectedValue;
 

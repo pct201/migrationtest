@@ -41,6 +41,7 @@ public partial class SONIC_Exposures_SchedulerptInspectionsByInspector : System.
             
             //Report Filters
             obj.Region = GetCommaSeparatedValues(lstRegions);
+            obj.Market = GetCommaSeparatedValues(lstMarket);
             obj.DBA = GetCommaSeparatedValues(lstLocationDBA);
             obj.Inspector_Name = txtInspectorName.Text.Trim().Replace("'", "''");
             obj.Inspection_Date_From = clsGeneral.FormatNullDateToStore(txtInspectionDateFrom.Text);
@@ -95,6 +96,10 @@ public partial class SONIC_Exposures_SchedulerptInspectionsByInspector : System.
         drpRecipientList.DataBind();
         drpRecipientList.Items.Insert(0, new ListItem("--Select--", "0"));
         ds.Dispose();
+
+        //Display Market..
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
+		
     }
 
     /// <summary>

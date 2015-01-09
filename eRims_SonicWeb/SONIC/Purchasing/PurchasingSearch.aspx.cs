@@ -223,6 +223,7 @@ public partial class SONIC_Purchasing_PurchasingSearch : clsBasePage
         }
         ddlDealership.SelectedIndex = 0;
         ddlRegion.SelectedIndex = 0;
+        ddlMarket.SelectedIndex = 0;
         ddlSearchType.SelectedIndex = 0;
         ddlServiceContractType.SelectedIndex = 0;
         ddlLeaseEquipmentType.SelectedIndex = 0;
@@ -271,6 +272,10 @@ public partial class SONIC_Purchasing_PurchasingSearch : clsBasePage
         ddlRegion.DataValueField = "region";
         ddlRegion.DataBind();
         ddlRegion.Items.Insert(0, new ListItem("--All--", ""));
+
+        //Market
+        //Bind Market Dropdown
+        ComboHelper.FillMarket(new DropDownList[] { ddlMarket }, true);
 
         //Dealership 
         BindDealershipDropdown();
@@ -409,12 +414,29 @@ public partial class SONIC_Purchasing_PurchasingSearch : clsBasePage
             }
         }
         strRegion = strRegion.TrimEnd(',');
+
+        string strMarket = "";
+        if (ddlMarket.SelectedIndex > 0)
+        {
+            strMarket = "" + ddlMarket.SelectedValue.ToString().Trim() + "";
+        }
+        //else
+        //{
+        //    int i = 0;
+        //    foreach (ListItem lstMarket in ddlMarket.Items)
+        //    {
+        //        if (i > 0) strMarket = strMarket + "'" + lstMarket.Value + "',";
+        //        i++;
+        //    }
+        //}
+        //strMarket = strMarket.TrimEnd(',');
+
         DataSet dsSearchResult = null;
         if (ddlSearchType.SelectedIndex == 1)
         {
             gvAsset.Visible = true;
 
-            dsSearchResult = Purchasing_Asset.Purchasing_Asset_Search(clsGeneral.FormatNullDateToStore(txtStartDateFrom.Text.Trim()), clsGeneral.FormatNullDateToStore(txtStartDateTo.Text.Trim()), strRegion, Convert.ToDecimal(ddlDealership.SelectedValue),
+            dsSearchResult = Purchasing_Asset.Purchasing_Asset_Search(clsGeneral.FormatNullDateToStore(txtStartDateFrom.Text.Trim()), clsGeneral.FormatNullDateToStore(txtStartDateTo.Text.Trim()), strRegion, strMarket, Convert.ToDecimal(ddlDealership.SelectedValue),
               Convert.ToDecimal(ddlDealershipDepartment.SelectedValue), txtAssetType.Text.Trim().Replace("'", "''"), txtManufacturer.Text.Trim().Replace("'", "''"), SortBy + strSecOrder, SortOrder, PageNumber, PageSize);
             gvAsset.DataSource = dsSearchResult.Tables[0];
             gvAsset.DataBind();

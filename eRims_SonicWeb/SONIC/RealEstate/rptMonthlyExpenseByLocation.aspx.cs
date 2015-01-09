@@ -48,7 +48,7 @@ public partial class SONIC_RealEstate_rptMonthlyExpenseByLocation : clsBasePage
     protected void btnShowReport_Click(object sender, EventArgs e)
     {
         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
-        string strRegion = string.Empty, strLeaseType = string.Empty;
+        string strRegion = string.Empty, strLeaseType = string.Empty, strMarket = string.Empty;
         DataSet dsResult;
 
         if (txtLCDateFrom.Text.Trim() != string.Empty)
@@ -71,6 +71,15 @@ public partial class SONIC_RealEstate_rptMonthlyExpenseByLocation : clsBasePage
         }
         strRegion = strRegion.TrimEnd(',');
 
+        //get selected Market
+        foreach (ListItem li in lstMarket.Items)
+        {
+            if (li.Selected)
+                strMarket = strMarket + "'" + li.Value + "',";
+        }
+        strMarket = strMarket.TrimEnd(',');
+
+
         // get selected regions
         foreach (ListItem li in ddlLeaseType.Items)
         {
@@ -80,7 +89,7 @@ public partial class SONIC_RealEstate_rptMonthlyExpenseByLocation : clsBasePage
         strLeaseType = strLeaseType.TrimEnd(',');
 
         // get report result from database
-        dsResult = Report.GetMonthlyExpenseByLocation(strRegion, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
+        dsResult = Report.GetMonthlyExpenseByLocation(strRegion, strMarket, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
         dtDetails = dsResult.Tables[0];
         dtLocationDtl = dsResult.Tables[1];
 
@@ -218,6 +227,9 @@ public partial class SONIC_RealEstate_rptMonthlyExpenseByLocation : clsBasePage
     {
         //Region
         ComboHelper.FillRegionListBox(new ListBox[] { ddlRegion }, false);
+
+        //Bind Market Dropdown
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
 
         //Lease Type
         ComboHelper.FillLeaseTypeListBox(new ListBox[] { ddlLeaseType }, false);

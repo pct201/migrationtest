@@ -130,6 +130,17 @@
                             <td align="left">
                             </td>
                             <td align="left">
+                                Market</td>
+                            <td align="center">
+                                :</td>
+                            <td align="left">
+                                <asp:DropDownList ID="ddlMarket" runat="server" SkinID="ddlSONIC" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">
+                            </td>
+                            <td align="left">
                                 Scheduled Date<span class="mf">*</span>
                             </td>
                             <td align="right">

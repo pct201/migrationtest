@@ -45,6 +45,7 @@ public partial class SONIC_Purchasing_RptPurchasingAssetReport : clsBasePage
     protected void btnGenerateReport_Click(object sender, EventArgs e)
     {
         string strRegion = "";
+        string strMarket = "";
         string strLocation = "";
         string strType = "";
         string strManufacturer = "";
@@ -58,6 +59,13 @@ public partial class SONIC_Purchasing_RptPurchasingAssetReport : clsBasePage
                 strRegion = strRegion + "'" + itmRegion.Value + "',";
         }
         strRegion = strRegion.TrimEnd(',');
+
+        foreach (ListItem itmMarket in lstMarket.Items)
+        {
+            if (itmMarket.Selected)
+                strMarket = strMarket + "" + itmMarket.Value + ",";
+        }
+        strMarket = strMarket.TrimEnd(',');
 
         foreach (ListItem itmLocation in lstLocation.Items)
         {
@@ -83,7 +91,7 @@ public partial class SONIC_Purchasing_RptPurchasingAssetReport : clsBasePage
         // get result records from database for the report
         //DataSet dsReport = Purchasing_Asset.Get_Purchase_Report(Convert.ToInt32(drpLocation.SelectedValue),drpType.SelectedValue,drpRegion.SelectedValue,drpManufacturer.SelectedValue);
         //DataSet dsReport = Purchasing_Asset.Get_Purchase_Report(lstRegion.SelectedValue, lstManufacturer.SelectedValue, lstType.SelectedValue, lstLocation.SelectedValue);
-        DataSet dsReport = Purchasing_Asset.Get_Purchase_Report(strRegion, strManufacturer, strType, strLocation);
+        DataSet dsReport = Purchasing_Asset.Get_Purchase_Report(strRegion, strMarket, strManufacturer, strType, strLocation);
 
         // get data tables from result dataset
         dtClaimData = dsReport.Tables[0];
@@ -269,6 +277,9 @@ public partial class SONIC_Purchasing_RptPurchasingAssetReport : clsBasePage
         lstManufacturer.DataTextField = "Fld_Desc";
         lstManufacturer.DataValueField = "FK_LU_Manufacturer";
         lstManufacturer.DataBind();
+
+        //Fill Market
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
 
     }
 

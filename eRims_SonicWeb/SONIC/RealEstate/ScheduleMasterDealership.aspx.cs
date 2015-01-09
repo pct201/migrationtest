@@ -63,7 +63,7 @@ public partial class SONIC_RealEstate_ScheduleMasterDealership : clsBasePage
     protected void btnSave_Click(object sender, EventArgs e)
     {
         Tatva_RptRealEstateSchedule obj = new Tatva_RptRealEstateSchedule();
-        string strRegion = string.Empty, strLeaseType = string.Empty;
+        string strRegion = string.Empty, strLeaseType = string.Empty, strMarket = string.Empty;
 
         // set values
         if (txtLCDateFrom.Text.Trim() != string.Empty)
@@ -86,11 +86,23 @@ public partial class SONIC_RealEstate_ScheduleMasterDealership : clsBasePage
         }
         strRegion = strRegion.TrimEnd(',');
 
+        // get selected Markets
+        foreach (ListItem li in lstMarket.Items)
+        {
+            if (li.Selected)
+                strMarket = strMarket + "'" + li.Value + "',";
+        }
+        strMarket = strMarket.TrimEnd(',');
+
     
 
         // set region
         if (!string.IsNullOrEmpty(strRegion))
             obj.Region = strRegion;
+
+        // set region
+        if (!string.IsNullOrEmpty(strMarket))
+            obj.Market = strMarket;
 
         // set lease type
         if (!string.IsNullOrEmpty(strLeaseType))
@@ -123,6 +135,10 @@ public partial class SONIC_RealEstate_ScheduleMasterDealership : clsBasePage
 
         //Display Recipient List 
         Report.BindRecipientList(ref drpRecipientList);
+
+        //Display Market..
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
+
 
     }
 }

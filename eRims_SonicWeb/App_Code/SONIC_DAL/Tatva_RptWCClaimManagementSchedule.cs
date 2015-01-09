@@ -18,6 +18,7 @@ namespace ERIMS.DAL
 		private string _Report_Interval;
 		private int? _Year;
 		private string _Region;
+        private decimal? _Market;
 
 		#endregion
 
@@ -68,6 +69,14 @@ namespace ERIMS.DAL
 			set { _Region = value; }
 		}
 
+        /// <summary>
+        /// Gets or sets the Market value.
+        /// </summary>
+        public decimal? Market
+        {
+            get { return _Market; }
+            set { _Market = value; }
+        }
 
 		#endregion
 
@@ -165,6 +174,8 @@ namespace ERIMS.DAL
 			else
 				db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
 
+            db.AddInParameter(dbCommand, "Market", DbType.Decimal, this.Market);
+
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -221,6 +232,8 @@ namespace ERIMS.DAL
 				db.AddInParameter(dbCommand, "Region", DbType.String, DBNull.Value);
 			else
 				db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
+
+            db.AddInParameter(dbCommand, "Market", DbType.Decimal, this._Market);
 
 			db.ExecuteNonQuery(dbCommand);
 		}

@@ -48,6 +48,9 @@ public partial class SONIC_Exposures_rptInspectionsByInspector : clsBasePage
         lstInspectionArea.DataTextField = "Fld_Desc";
         lstInspectionArea.DataValueField = "PK_LU_Inspection_Area";
         lstInspectionArea.DataBind();
+
+        //Bind Market Dropdown
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
     }
 
     /// <summary>
@@ -90,17 +93,19 @@ public partial class SONIC_Exposures_rptInspectionsByInspector : clsBasePage
         trResult.Visible = true;
 
         string strRegion = "";
+        string strMarket = "";
         string strDba = "";
         string strInspectorName = "";
         string strInspectionArea = "";
         // get selected regions
         strRegion = GetCommaSeparatedValues(lstRegions);
+        strMarket = GetCommaSeparatedValues(lstMarket);
         strDba = GetCommaSeparatedValues(lstLocationDBA);
         strInspectionArea = GetCommaSeparatedValues(lstInspectionArea);
         strInspectorName = txtInspectorName.Text.Trim().Replace("'", "''");
 
         // get report data for selected values
-        DataSet dsReport = clsExposuresReports.GetInspectionsByInspector(strRegion, strDba, strInspectionArea, strInspectorName, clsGeneral.FormatNullDateToStore(txtInspectionDateFrom.Text), clsGeneral.FormatNullDateToStore(txtInspectionDateTo.Text));
+        DataSet dsReport = clsExposuresReports.GetInspectionsByInspector(strRegion, strMarket, strDba, strInspectionArea, strInspectorName, clsGeneral.FormatNullDateToStore(txtInspectionDateFrom.Text), clsGeneral.FormatNullDateToStore(txtInspectionDateTo.Text));
 
         // get data tables from dataset
         DataTable dtRegions = dsReport.Tables[0];
@@ -123,7 +128,7 @@ public partial class SONIC_Exposures_rptInspectionsByInspector : clsBasePage
     {
         // load the page again to clear selection
         lstRegions.ClearSelection();
-        lstLocationDBA.ClearSelection();
+        lstMarket.ClearSelection();     
         lstInspectionArea.ClearSelection();
         txtInspectionDateFrom.Text = "";
         txtInspectionDateTo.Text = "";

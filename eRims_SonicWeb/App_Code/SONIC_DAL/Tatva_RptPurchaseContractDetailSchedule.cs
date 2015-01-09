@@ -16,6 +16,7 @@ namespace ERIMS.DAL
         private decimal _PK_ID;
         private decimal _FK_Schedule;
         private string _Region;
+        private string _Market;
         private string _Location;
         private string _ServiceContract;
         private string _ServiceType;
@@ -56,6 +57,15 @@ namespace ERIMS.DAL
         {
             get { return _Region; }
             set { _Region = value; }
+        }
+
+        /// <summary> 
+        /// Gets or sets the Market value.
+        /// </summary>
+        public string Market
+        {
+            get { return _Market; }
+            set { _Market = value; }
         }
 
 
@@ -142,6 +152,7 @@ namespace ERIMS.DAL
             this._PK_ID = -1;
             this._FK_Schedule = -1;
             this._Region = "";
+            this._Market = string.Empty;
             this._Location = "";
             this._ServiceContract = "";
             this._ServiceType = "";
@@ -167,6 +178,7 @@ namespace ERIMS.DAL
                 this._PK_ID = drTatva_RptPurchaseContractDetailSchedule["PK_ID"] != DBNull.Value ? Convert.ToDecimal(drTatva_RptPurchaseContractDetailSchedule["PK_ID"]) : 0;
                 this._FK_Schedule = drTatva_RptPurchaseContractDetailSchedule["FK_Schedule"] != DBNull.Value ? Convert.ToDecimal(drTatva_RptPurchaseContractDetailSchedule["FK_Schedule"]) : 0;
                 this._Region = Convert.ToString(drTatva_RptPurchaseContractDetailSchedule["Region"]);
+                this._Market = Convert.ToString(drTatva_RptPurchaseContractDetailSchedule["Market"]);
                 this._Location = Convert.ToString(drTatva_RptPurchaseContractDetailSchedule["Location"]);
                 this._ServiceContract = Convert.ToString(drTatva_RptPurchaseContractDetailSchedule["ServiceContract"]);
                 this._ServiceType = Convert.ToString(drTatva_RptPurchaseContractDetailSchedule["ServiceType"]);
@@ -183,6 +195,7 @@ namespace ERIMS.DAL
                 this._PK_ID = -1;
                 this._FK_Schedule = -1;
                 this._Region = "";
+                this._Market = string.Empty;
                 this._Location = "";
                 this._ServiceContract = "";
                 this._ServiceType = "";
@@ -210,6 +223,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "FK_Schedule", DbType.Decimal, this._FK_Schedule);
             db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
+            db.AddInParameter(dbCommand, "Market", DbType.String, this._Market);
             db.AddInParameter(dbCommand, "Location", DbType.String, this._Location);
             db.AddInParameter(dbCommand, "ServiceContract", DbType.String, this._ServiceContract);
             db.AddInParameter(dbCommand, "ServiceType", DbType.String, this._ServiceType);
@@ -261,6 +275,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "PK_ID", DbType.Decimal, this._PK_ID);
             db.AddInParameter(dbCommand, "FK_Schedule", DbType.Decimal, this._FK_Schedule);
             db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
+            db.AddInParameter(dbCommand, "Market", DbType.String, this._Market);
             db.AddInParameter(dbCommand, "Location", DbType.String, this._Location);
             db.AddInParameter(dbCommand, "ServiceContract", DbType.String, this._ServiceContract);
             db.AddInParameter(dbCommand, "ServiceType", DbType.String, this._ServiceType);

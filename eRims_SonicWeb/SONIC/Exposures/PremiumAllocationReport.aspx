@@ -60,6 +60,18 @@
                     </tr>
                     <tr>
                         <td align="left" valign="top" width="28%">
+                            Market
+                        </td>
+                        <td width="2%" align="center" valign="top">
+                            :
+                        </td>
+                        <td align="left" width="70%">
+                             <asp:DropDownList ID="drpMarket" runat="server" style="width:250px;">
+                            </asp:DropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top" width="28%">
                             State
                         </td>
                         <td width="2%" align="center" valign="top">

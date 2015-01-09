@@ -47,6 +47,15 @@ public partial class SONIC_ClaimInfo_ScheduleRiskManagementWorksheet : System.We
             }
             strRegion = strRegion.TrimEnd(',');
 
+            string strMarket = "";
+            // get selected Markets
+            foreach (ListItem itmMarket in lstMarket.Items)
+            {
+                if (itmMarket.Selected)
+                    strMarket = strMarket + "" + itmMarket.Value + ",";
+            }
+            strMarket = strMarket.TrimEnd(',');
+
             string strDBA = "";
             // get selected regions
             foreach (ListItem itmdba in lstDBAs.Items)
@@ -120,6 +129,7 @@ public partial class SONIC_ClaimInfo_ScheduleRiskManagementWorksheet : System.We
             strCaimStatusSelected = strCaimStatusSelected.TrimEnd(',');
 
             objSchedule.Region = strRegion;
+            objSchedule.Market = strMarket;
             objSchedule.DBA = strDBA;
             objSchedule.FK_Part_of_Body = strBodyParts;
             objSchedule.Claim_Status = strClaimStatus;
@@ -190,6 +200,10 @@ public partial class SONIC_ClaimInfo_ScheduleRiskManagementWorksheet : System.We
         drpRecipientList.DataBind();
         drpRecipientList.Items.Insert(0, new ListItem("--Select--", "0"));
         ds.Dispose();
+
+        //Bind Market Dropdown
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
+			
     }
 
     #endregion

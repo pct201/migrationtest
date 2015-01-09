@@ -492,12 +492,13 @@ namespace ERIMS.DAL
         /// Generate Report For Premium Allocation.
         /// </summary>
         /// <returns>DataSet</returns>
-        public static DataSet rptSonic_Premium_Allocation(int? Year, string Region, decimal? State, decimal? Location)
+        public static DataSet rptSonic_Premium_Allocation(int? Year, string Region, decimal? Market, decimal? State, decimal? Location)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptSonic_Premium_Allocation");
             db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);
             db.AddInParameter(dbCommand, "Region", DbType.String, Region);
+            db.AddInParameter(dbCommand, "Market", DbType.Decimal, Market);
             db.AddInParameter(dbCommand, "State", DbType.Decimal, State);
             db.AddInParameter(dbCommand, "Location", DbType.Decimal, Location);
             return db.ExecuteDataSet(dbCommand);

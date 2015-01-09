@@ -1946,6 +1946,7 @@ public class ComboHelper
     /// <param name="booladdSelectAsFirstElement"></param>
     public static void FillMarket(DropDownList[] dropDowns, bool booladdSelectAsFirstElement)
     {
+        string SELECT_STRING = "--All Markets--";
         DataSet dsData = clsLU_Market.SelectActiveMarkets();
         foreach (DropDownList ddlToFill in dropDowns)
         {

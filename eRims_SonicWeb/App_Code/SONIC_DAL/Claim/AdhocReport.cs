@@ -39,6 +39,7 @@ namespace ERIMS.DAL
         private DateTime? _ClaimPaymentEndDate;
         private string _Location;
         private string _Region;
+        private string _Market;
         private string _CoverageState;
         private string _BodyPart;
         private string _Cause;
@@ -370,6 +371,15 @@ namespace ERIMS.DAL
         {
             get { return _Region; }
             set { _Region = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Market value.
+        /// </summary>
+        public string Market
+        {
+            get { return _Market; }
+            set { _Market = value; }
         }
 
         /// <summary>
@@ -1149,6 +1159,7 @@ namespace ERIMS.DAL
             this._ClaimPaymentEndDate = null;
             this._Location = null;
             this._Region = null;
+            this._Market = null;
             this._CoverageState = null;
             this._BodyPart = null;
             this._Cause = null;
@@ -1378,6 +1389,11 @@ namespace ERIMS.DAL
                     this._Region = null;
                 else
                     this._Region = (string)drAdhocReport["Region"];
+
+                if (drAdhocReport["Market"] == DBNull.Value)
+                    this._Market = null;
+                else
+                    this._Market = (string)drAdhocReport["Market"];
 
                 if (drAdhocReport["CoverageState"] == DBNull.Value)
                     this._CoverageState = null;
@@ -2022,6 +2038,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Region", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
+
+            if (string.IsNullOrEmpty(this._Market))
+                db.AddInParameter(dbCommand, "Market", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Market", DbType.String, this._Market);
 
             if (string.IsNullOrEmpty(this._CoverageState))
                 db.AddInParameter(dbCommand, "CoverageState", DbType.String, DBNull.Value);

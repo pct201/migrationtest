@@ -94,6 +94,25 @@
                         </td>
                     </tr>
                     <tr>
+                    <td align="left">
+                    </td>
+                    <td width="28%" align="left" valign="top">
+                        Market
+                    </td>
+                    <td width="2%" align="center" valign="top">
+                        :
+                    </td>
+                    <td align="left" class="style1">
+                        <asp:ListBox ID="lstMarket" runat="server" SelectionMode="Multiple" ToolTip="Select Market"
+                            AutoPostBack="false" Width="166px"></asp:ListBox>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Please Select Market"
+                            Font-Bold="true" Display="none" Text="*" ControlToValidate="lstMarket" ValidationGroup="vsErrorGroup"
+                            SetFocusOnError="false" Enabled="false"></asp:RequiredFieldValidator>
+                    </td>
+                    <td align="left">
+                    </td>
+                </tr>
+                    <tr>
                         <td align="left">
                         </td>
                         <td align="left" valign="top">

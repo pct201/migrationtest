@@ -35,6 +35,10 @@ public partial class SONIC_Exposures_SchedulerptRM_Dealership_Facility_spec : Sy
             lstBrand.DataTextField = "Fld_Desc";
             lstBrand.DataValueField = "PK_LU_Franchise_Brand";
             lstBrand.DataBind();
+
+            //Display Market..
+            ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
+		
         }
     }
     protected void btnSave_Click(object sender, EventArgs e)
@@ -43,9 +47,11 @@ public partial class SONIC_Exposures_SchedulerptRM_Dealership_Facility_spec : Sy
         {
             clsTatva_RptRM_Dealership_Facility_specsSchedule obj = new clsTatva_RptRM_Dealership_Facility_specsSchedule();
             string strRegion = GetCommaSeparatedValues(lstRegions);
+            string strMarket = GetCommaSeparatedValues(lstMarket);
 
             //Report Filters
             obj.Region = strRegion;
+            obj.Market = strMarket;
             obj.Status = GetCommaSeparatedValues(ddlStatus);
             obj.Ownership = GetCommaSeparatedValues(lstOwnership);
             obj.Brand = GetCommaSeparatedValues(lstBrand);

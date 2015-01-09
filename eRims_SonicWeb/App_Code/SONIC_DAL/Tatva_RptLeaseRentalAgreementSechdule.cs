@@ -15,6 +15,7 @@ namespace ERIMS.DAL
         private decimal _PK_ID;
         private decimal _FK_Schedule;
         private string _Region;
+        private string _Market;
         private string _Location;
         private string _EquipmentType;
         private string _LeaseRentalType;
@@ -55,6 +56,15 @@ namespace ERIMS.DAL
         {
             get { return _Region; }
             set { _Region = value; }
+        }
+
+        /// <summary> 
+        /// Gets or sets the Market value.
+        /// </summary>
+        public string Market
+        {
+            get { return _Market; }
+            set { _Market = value; }
         }
 
 
@@ -136,6 +146,7 @@ namespace ERIMS.DAL
             this._PK_ID = -1;
             this._FK_Schedule = -1;
             this._Region = "";
+            this._Market = string.Empty;
             this._Location = "";
             this._EquipmentType = "";
             this._LeaseRentalType = "";
@@ -164,6 +175,7 @@ namespace ERIMS.DAL
                 this._PK_ID = drTatva_RptLeaseRentalAgreementSechdule["PK_ID"] != DBNull.Value ? Convert.ToDecimal(drTatva_RptLeaseRentalAgreementSechdule["PK_ID"]) : 0;
                 this._FK_Schedule = drTatva_RptLeaseRentalAgreementSechdule["FK_Schedule"] != DBNull.Value ? Convert.ToDecimal(drTatva_RptLeaseRentalAgreementSechdule["FK_Schedule"]) : 0;
                 this._Region = Convert.ToString(drTatva_RptLeaseRentalAgreementSechdule["Region"]);
+                this._Market = Convert.ToString(drTatva_RptLeaseRentalAgreementSechdule["Market"]);
                 this._Location = Convert.ToString(drTatva_RptLeaseRentalAgreementSechdule["Location"]);
                 this._EquipmentType = Convert.ToString(drTatva_RptLeaseRentalAgreementSechdule["EquipmentType"]);
                 this._LeaseRentalType = Convert.ToString(drTatva_RptLeaseRentalAgreementSechdule["LeaseRentalType"]);
@@ -180,6 +192,7 @@ namespace ERIMS.DAL
                 this._PK_ID = -1;
                 this._FK_Schedule = -1;
                 this._Region = "";
+                this._Market = string.Empty;
                 this._Location = "";
                 this._EquipmentType = "";
                 this._LeaseRentalType = "";
@@ -209,6 +222,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "FK_Schedule", DbType.Decimal, this._FK_Schedule);
             db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
+            db.AddInParameter(dbCommand, "Market", DbType.String, this._Market);
             db.AddInParameter(dbCommand, "Location", DbType.String, this._Location);
             db.AddInParameter(dbCommand, "EquipmentType", DbType.String, this._EquipmentType);
             db.AddInParameter(dbCommand, "LeaseRentalType", DbType.String, this._LeaseRentalType);
@@ -260,6 +274,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "PK_ID", DbType.Decimal, this._PK_ID);
             db.AddInParameter(dbCommand, "FK_Schedule", DbType.Decimal, this._FK_Schedule);
             db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
+            db.AddInParameter(dbCommand, "Market", DbType.String, this._Market);
             db.AddInParameter(dbCommand, "Location", DbType.String, this._Location);
             db.AddInParameter(dbCommand, "EquipmentType", DbType.String, this._EquipmentType);
             db.AddInParameter(dbCommand, "LeaseRentalType", DbType.String, this._LeaseRentalType);

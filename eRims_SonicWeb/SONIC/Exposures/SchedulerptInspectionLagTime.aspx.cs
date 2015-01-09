@@ -41,6 +41,7 @@ public partial class SONIC_Exposures_SchedulerptInspectionLagTime : System.Web.U
             
             //Report Filters
             obj.Region = GetCommaSeparatedValues(lstRegions);
+            obj.Market = GetCommaSeparatedValues(lstMarket);
             obj.DBA = GetCommaSeparatedValues(lstLocationDBA);
             obj.InspectionArea = GetCommaSeparatedValues(lstInspectionArea);
             obj.LagDayOption = GetCommaSeparatedValues(lstLagTimeDays);
@@ -105,6 +106,10 @@ public partial class SONIC_Exposures_SchedulerptInspectionLagTime : System.Web.U
         lstInspectionArea.DataTextField = "Fld_Desc";
         lstInspectionArea.DataValueField = "PK_LU_Inspection_Area";
         lstInspectionArea.DataBind();
+
+        //Display Market..
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
+
     }
 
     /// <summary>

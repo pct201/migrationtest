@@ -60,7 +60,7 @@ public partial class SONIC_RealEstate_rptSubleaseReport : System.Web.UI.Page
     {
 
         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
-        string strRegion = string.Empty, strLocationStatus = string.Empty; ;
+        string strRegion = string.Empty, strLocationStatus = string.Empty, strMarket = string.Empty; 
         DataSet dsReport;
 
         if (txtLCDateFrom.Text.Trim() != string.Empty)
@@ -83,6 +83,14 @@ public partial class SONIC_RealEstate_rptSubleaseReport : System.Web.UI.Page
         }
         strRegion = strRegion.TrimEnd(',');
 
+        // get selected Market
+        foreach (ListItem li in lstMarket.Items)
+        {
+            if (li.Selected)
+                strMarket = strMarket + "" + li.Value + ",";
+        }
+        strMarket = strMarket.TrimEnd(',');
+
         string strStatus = "";
         foreach (ListItem li in lstBuildingStatus.Items)
         {
@@ -92,7 +100,7 @@ public partial class SONIC_RealEstate_rptSubleaseReport : System.Web.UI.Page
         strStatus = strStatus.TrimEnd(',');
 
         // get report result from database
-        dsReport = Report.GetSubLeaseReport(strRegion, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo, strStatus);
+        dsReport = Report.GetSubLeaseReport(strRegion, strMarket, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo, strStatus);
 
                 
         // get data tables from dataset
@@ -170,6 +178,7 @@ public partial class SONIC_RealEstate_rptSubleaseReport : System.Web.UI.Page
     {
         // load the page again to clear selection
         lstLocation.ClearSelection();
+        lstMarket.ClearSelection();
         txtLCDateFrom.Text = "";
         txtLCDateTo.Text = "";
         txtLEDateFrom.Text = "";
@@ -207,7 +216,9 @@ public partial class SONIC_RealEstate_rptSubleaseReport : System.Web.UI.Page
     private void BindDropDownList()
     {
         ComboHelper.FillRegionListBox(new ListBox[] { lstLocation }, false);
-        
+       
+        //Bind Market Dropdown
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
     }
 
     #endregion

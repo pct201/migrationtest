@@ -59,7 +59,7 @@ public partial class SONIC_FirstReport_RptSonicCauseCodeReclassification : clsBa
     {
 
         DateTime? dtInjuryDateFrom = null, dtInjuryDateEnd = null;
-        string strRegion = string.Empty, strLocationStatus = string.Empty, strDBA = string.Empty ,strClaimnumber = string.Empty;
+        string strRegion = string.Empty, strMarket = string.Empty, strLocationStatus = string.Empty, strDBA = string.Empty ,strClaimnumber = string.Empty;
         decimal? decFirsrRepot = null, decIncidentNumber = null;
         if(txtFirstReportNumber.Text!="")
            decFirsrRepot = Convert.ToDecimal(txtFirstReportNumber.Text);
@@ -91,8 +91,16 @@ public partial class SONIC_FirstReport_RptSonicCauseCodeReclassification : clsBa
         }
         strRegion = strRegion.TrimEnd(',');
 
+        // get selected Markets
+        foreach (ListItem li in lstMarket.Items)
+        {
+            if (li.Selected)
+                strMarket = strMarket + "" + li.Value + ",";
+        }
+        strMarket = strMarket.TrimEnd(',');
 
-        DataSet dsReport = WC_ClaimInfo.GetSonicCauseCodeReclassification_Report(strRegion, strDBA, dtInjuryDateFrom, dtInjuryDateEnd, decFirsrRepot, decIncidentNumber, strClaimnumber);
+
+        DataSet dsReport = WC_ClaimInfo.GetSonicCauseCodeReclassification_Report(strRegion, strMarket, strDBA, dtInjuryDateFrom, dtInjuryDateEnd, decFirsrRepot, decIncidentNumber, strClaimnumber);
     
 
         // get data tables from dataset
@@ -183,6 +191,7 @@ public partial class SONIC_FirstReport_RptSonicCauseCodeReclassification : clsBa
         // load the page again to clear selection
         lstLocation.ClearSelection();
         lstRegion.ClearSelection();
+        lstMarket.ClearSelection();
         txtInjuryDateFrom.Text = "";
         txtInjuryDateEnd.Text = "";
         txtFirstReportNumber.Text = "";
@@ -255,6 +264,9 @@ public partial class SONIC_FirstReport_RptSonicCauseCodeReclassification : clsBa
         lstRegion.DataTextField = "region";
         lstRegion.DataValueField = "region";
         lstRegion.DataBind();
+
+        //Fill Market
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
     }
 
     #endregion

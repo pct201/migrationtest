@@ -25,6 +25,9 @@ public partial class SONIC_ClaimInfo_ScheduleEmployerLagSummary : System.Web.UI.
             lstRegions.DataValueField = "region";
             lstRegions.DataBind();
 
+            //Bind Market Dropdown
+            ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
+
             //Display Recipient List 
             DataSet ds = Report.GetRecipientList();
             ds.Tables[0].DefaultView.Sort = "ListName";
@@ -52,8 +55,18 @@ public partial class SONIC_ClaimInfo_ScheduleEmployerLagSummary : System.Web.UI.
             }
             strRegion = strRegion.TrimEnd(',');
 
+            // get selected Markets
+            string strMarket = string.Empty;
+            foreach (ListItem itmMarket in lstMarket.Items)
+            {
+                if (itmMarket.Selected)
+                    strMarket = strMarket + "" + itmMarket.Value + ",";
+            }
+            strMarket = strMarket.TrimEnd(',');
+
             //Report Filters
             obj.Region = strRegion;
+            obj.Market = strMarket;
             obj.From_Date_Of_Loss = Convert.ToDateTime(txtLossFromDate.Text);
             obj.To_Date_Of_Loss = Convert.ToDateTime(txtLossToDate.Text);
 

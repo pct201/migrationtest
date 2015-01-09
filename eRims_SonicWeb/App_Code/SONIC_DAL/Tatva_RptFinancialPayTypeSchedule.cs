@@ -16,6 +16,7 @@ namespace ERIMS.DAL
         private decimal _FK_Schedule;
         private string _Accident_Year;
         private string _Region;
+        private string _Market;
         private DateTime _Prior_Valuation_Date;
 
         #endregion
@@ -62,6 +63,15 @@ namespace ERIMS.DAL
             set { _Region = value; }
         }
 
+        /// <summary> 
+        /// Gets or sets the Market value.
+        /// </summary>
+        public string Market
+        {
+            get { return _Market; }
+            set { _Market = value; }
+        }
+
 
         /// <summary> 
         /// Gets or sets the Prior_Valuation_Date value.
@@ -88,6 +98,7 @@ namespace ERIMS.DAL
             this._FK_Schedule = -1;
             this._Accident_Year = "";
             this._Region = "";
+            this._Market = "";
             this._Prior_Valuation_Date = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
 
         }
@@ -111,6 +122,7 @@ namespace ERIMS.DAL
                 this._FK_Schedule = drTatva_RptFinancialPayTypeSchedule["FK_Schedule"] != DBNull.Value ? Convert.ToDecimal(drTatva_RptFinancialPayTypeSchedule["FK_Schedule"]) : 0;
                 this._Accident_Year = Convert.ToString(drTatva_RptFinancialPayTypeSchedule["Accident_Year"]);
                 this._Region = Convert.ToString(drTatva_RptFinancialPayTypeSchedule["Region"]);
+                this._Market = Convert.ToString(drTatva_RptFinancialPayTypeSchedule["Market"]);
                 this._Prior_Valuation_Date = drTatva_RptFinancialPayTypeSchedule["Prior_Valuation_Date"] != DBNull.Value ? Convert.ToDateTime(drTatva_RptFinancialPayTypeSchedule["Prior_Valuation_Date"]) : (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
 
             }
@@ -122,6 +134,7 @@ namespace ERIMS.DAL
                 this._FK_Schedule = -1;
                 this._Accident_Year = "";
                 this._Region = "";
+                this._Market = "";
                 this._Prior_Valuation_Date = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
 
             }
@@ -146,6 +159,7 @@ namespace ERIMS.DAL
 			db.AddInParameter(dbCommand, "FK_Schedule", DbType.Decimal, this._FK_Schedule);
 			db.AddInParameter(dbCommand, "Accident_Year", DbType.String, this._Accident_Year);
 			db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
+            db.AddInParameter(dbCommand, "Market", DbType.String, this._Market);
 			db.AddInParameter(dbCommand, "Prior_Valuation_Date", DbType.DateTime, this._Prior_Valuation_Date);
 
 			// Execute the query and return the new identity value
@@ -192,6 +206,7 @@ namespace ERIMS.DAL
 			db.AddInParameter(dbCommand, "FK_Schedule", DbType.Decimal, this._FK_Schedule);
 			db.AddInParameter(dbCommand, "Accident_Year", DbType.String, this._Accident_Year);
 			db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
+            db.AddInParameter(dbCommand, "Market", DbType.String, this._Market);
 			db.AddInParameter(dbCommand, "Prior_Valuation_Date", DbType.DateTime, this._Prior_Valuation_Date);
 
 			db.ExecuteNonQuery(dbCommand);

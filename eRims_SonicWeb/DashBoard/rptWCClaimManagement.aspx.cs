@@ -19,6 +19,10 @@ public partial class rptWCClaimManagement : clsBasePage
         {
             BindRegion();
             BindYear();
+            
+            //Bind Market Dropdown
+            ComboHelper.FillMarket(new DropDownList[] { ddlMarket }, true);
+
             drpReportInterval.Focus();
 
         }
@@ -61,6 +65,7 @@ public partial class rptWCClaimManagement : clsBasePage
     {
         // load the page again to clear selection
         drpRegions.SelectedIndex = 0;
+        ddlMarket.SelectedIndex = 0;
         drpYear.SelectedIndex = 0;
         drpReportInterval.SelectedIndex = 0;
     }
@@ -147,7 +152,12 @@ public partial class rptWCClaimManagement : clsBasePage
         string strRegion = "";
         // get selected regions
         strRegion = Convert.ToString(drpRegions.SelectedValue);
-        DataSet dsReport = Report.GetWCClaimManagementReport(strRegion, Convert.ToInt32(drpYear.SelectedValue), strReportInterval);
+
+        string strMarket = "";
+        // get selected Markets
+        strMarket = Convert.ToString(ddlMarket.SelectedValue);
+
+        DataSet dsReport = Report.GetWCClaimManagementReport(strRegion, strMarket, Convert.ToInt32(drpYear.SelectedValue), strReportInterval);
 
         // get data tables from dataset
         DataTable dtRegions = dsReport.Tables[0];
@@ -242,7 +252,13 @@ public partial class rptWCClaimManagement : clsBasePage
         string strRegion = "";
         // get selected regions
         strRegion = Convert.ToString(drpRegions.SelectedValue);
-        DataSet dsReport = Report.GetWCClaimManagementReport(strRegion, Convert.ToInt32(drpYear.SelectedValue), strReportInterval);
+
+        string strMarket = "";
+        // get selected Markets
+        strMarket = Convert.ToString(ddlMarket.SelectedValue);
+
+
+        DataSet dsReport = Report.GetWCClaimManagementReport(strRegion, strMarket, Convert.ToInt32(drpYear.SelectedValue), strReportInterval);
 
         // get data tables from dataset
         DataTable dtRegions = dsReport.Tables[0];
@@ -319,7 +335,13 @@ public partial class rptWCClaimManagement : clsBasePage
         string strRegion = "";
         // get selected regions
         strRegion = Convert.ToString(drpRegions.SelectedValue);
-        DataSet dsReport = Report.GetWCClaimManagementReport(strRegion, Convert.ToInt32(drpYear.SelectedValue), strReportInterval);
+
+        string strMarket = "";
+        // get selected Markets
+        strMarket = Convert.ToString(ddlMarket.SelectedValue);
+
+
+        DataSet dsReport = Report.GetWCClaimManagementReport(strRegion, strMarket, Convert.ToInt32(drpYear.SelectedValue), strReportInterval);
 
         // get data tables from dataset
         DataTable dtRegions = dsReport.Tables[0];

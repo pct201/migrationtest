@@ -59,7 +59,8 @@ public partial class SONIC_RealEstate_rptMaintenance : clsBasePage
 
             // get the data for current DBA record
             DataTable dt = dtReport;
-            dt.DefaultView.RowFilter = "DBA='" + DataBinder.Eval(e.Row.DataItem, "DBA").ToString() + "'";
+            string str = Convert.ToString(DataBinder.Eval(e.Row.DataItem, "DBA"));
+            dt.DefaultView.RowFilter = "DBA='" + str.Replace("'", "''") + "'";
             dt = dt.DefaultView.ToTable();
 
             // bind grid view
@@ -153,7 +154,7 @@ public partial class SONIC_RealEstate_rptMaintenance : clsBasePage
     protected void btnShowReport_Click(object sender, EventArgs e)
     {
         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
-        string strRegion = string.Empty, strLeaseType = string.Empty;
+        string strRegion = string.Empty, strLeaseType = string.Empty, strMarket = string.Empty;
         DataSet dsResult;
 
         if (txtLCDateFrom.Text.Trim() != string.Empty)
@@ -176,6 +177,14 @@ public partial class SONIC_RealEstate_rptMaintenance : clsBasePage
         }
         strRegion = strRegion.TrimEnd(',');
 
+        // get selected Markets
+        foreach (ListItem li in lstMarket.Items)
+        {
+            if (li.Selected)
+                strMarket = strMarket + "" + li.Value + ",";
+        }
+        strMarket = strMarket.TrimEnd(',');
+
         // get selected regions
         foreach (ListItem li in ddlLeaseType.Items)
         {
@@ -187,7 +196,7 @@ public partial class SONIC_RealEstate_rptMaintenance : clsBasePage
         strTime = "";
 
         // get report result from database
-        dsResult = Report.GetMaintenanceAndRepairItems(strRegion, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
+        dsResult = Report.GetMaintenanceAndRepairItems(strRegion, strMarket, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
 
         dtDBA = dsResult.Tables[0];
         dtReport = dsResult.Tables[1];
@@ -245,6 +254,9 @@ public partial class SONIC_RealEstate_rptMaintenance : clsBasePage
     {
         //Region
         ComboHelper.FillRegionListBox(new ListBox[] { ddlRegion }, false);
+
+        //Bind Market Dropdown
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
 
         //Lease Type
         ComboHelper.FillLeaseTypeListBox(new ListBox[] { ddlLeaseType }, false);

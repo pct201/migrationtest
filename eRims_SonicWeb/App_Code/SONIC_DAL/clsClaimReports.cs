@@ -30,62 +30,68 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetFinancialSummaryData(string strYear, string strClaimType, string strRegion, DateTime valuation_date)
+        public static DataSet GetFinancialSummaryData(string strYear, string strClaimType, string strRegion, string strMarket, DateTime valuation_date)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptFinancialSummary");
             db.AddInParameter(dbCommand, "year", DbType.String, strYear);
             db.AddInParameter(dbCommand, "claim_type", DbType.String, strClaimType);
             db.AddInParameter(dbCommand, "region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "valuation_date", DbType.DateTime, valuation_date);
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetFinancialPayTypeSummaryData(string strYear, string strRegion, DateTime valuation_date)
+        public static DataSet GetFinancialPayTypeSummaryData(string strYear, string strRegion, string strMarket, DateTime valuation_date)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptFinancialPayTypeSummary");
             db.AddInParameter(dbCommand, "year", DbType.String, strYear);
             db.AddInParameter(dbCommand, "region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "valuation_date", DbType.DateTime, valuation_date);
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetEmployerLagSummaryData(DateTime dtFrom, DateTime dtTo, string strRegion)
+        public static DataSet GetEmployerLagSummaryData(DateTime dtFrom, DateTime dtTo, string strRegion, string strMarket)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptEmployerLagSummary");
             db.AddInParameter(dbCommand, "From_Date", DbType.DateTime, dtFrom);
             db.AddInParameter(dbCommand, "To_Date", DbType.DateTime, dtTo);
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetInsurerLagSummaryData(DateTime dtFrom, DateTime dtTo, string strRegion)
+        public static DataSet GetInsurerLagSummaryData(DateTime dtFrom, DateTime dtTo, string strRegion, string strMarket)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptInsurerLagSummary");
             db.AddInParameter(dbCommand, "From_Date", DbType.DateTime, dtFrom);
             db.AddInParameter(dbCommand, "To_Date", DbType.DateTime, dtTo);
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             return db.ExecuteDataSet(dbCommand);
         }
-        public static DataSet GetCompletionLagSummaryData(DateTime dtFrom, DateTime dtTo, string strRegion)
+        public static DataSet GetCompletionLagSummaryData(DateTime dtFrom, DateTime dtTo, string strRegion, string strMarket)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptCompletionLagSummary");
             db.AddInParameter(dbCommand, "From_Date", DbType.DateTime, dtFrom);
             db.AddInParameter(dbCommand, "To_Date", DbType.DateTime, dtTo);
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             return db.ExecuteDataSet(dbCommand);
         }
-        public static DataSet GetTPALagSummaryData(DateTime dtFrom, DateTime dtTo, string strRegion)
+        public static DataSet GetTPALagSummaryData(DateTime dtFrom, DateTime dtTo, string strRegion, string strMarket)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptTPALagSummary");
             db.AddInParameter(dbCommand, "From_Date", DbType.DateTime, dtFrom);
             db.AddInParameter(dbCommand, "To_Date", DbType.DateTime, dtTo);
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             return db.ExecuteDataSet(dbCommand);
         }
         public static DataSet GetFrequencyAnalysisData(DateTime dtFrom, DateTime dtTo, string strClaimType)
@@ -193,12 +199,13 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetRiskManagementWorksheet(string strRegion, string strDBA, DateTime? dtIncidentFrom, DateTime? dtIncidentTo, string strBodyParts, string strClaimStatus)
+        public static DataSet GetRiskManagementWorksheet(string strRegion, string strMarket, string strDBA, DateTime? dtIncidentFrom, DateTime? dtIncidentTo, string strBodyParts, string strClaimStatus)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptRiskManagementWorkSheet");
 
             db.AddInParameter(dbCommand, "region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "dba", DbType.String, strDBA);
             db.AddInParameter(dbCommand, "From_Date", DbType.DateTime, dtIncidentFrom);
             db.AddInParameter(dbCommand, "To_Date", DbType.DateTime, dtIncidentTo);
@@ -217,12 +224,13 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetFroiRecapReport(string strRegion, string LocationDBA, DateTime? IncidentBeginDate, DateTime? IncidentEndDate, string FirstReportCategory)
+        public static DataSet GetFroiRecapReport(string strRegion, string strMarket, string LocationDBA, DateTime? IncidentBeginDate, DateTime? IncidentEndDate, string FirstReportCategory)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptFROIRecapReport");
             dbCommand.CommandTimeout = 1000;
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "LocaionDBA", DbType.String, LocationDBA);
             db.AddInParameter(dbCommand, "IncidentBeginDate", DbType.DateTime, IncidentBeginDate);
             db.AddInParameter(dbCommand, "IncidentEndDate", DbType.DateTime, IncidentEndDate);

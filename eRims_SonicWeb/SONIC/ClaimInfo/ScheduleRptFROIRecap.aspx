@@ -64,6 +64,14 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td align="left" valign="top" width="24%">Market<span class="mf">*</span>
+                                </td>
+                                <td width="2%" align="center" valign="top">:</td>
+                                <td align="left">
+                                    <asp:ListBox ID="lstMarket" runat="server" SelectionMode="Multiple" ToolTip="Select Market" Width="250px" ></asp:ListBox>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td align="left" valign="top">Sonic Location Code<span class="mf">*</span>
                                 </td>
                                 <td width="2%" align="center" valign="top">:</td>

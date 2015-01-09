@@ -64,6 +64,9 @@ public partial class ERReports_NetWorkCallSummary : clsBasePage
             drpRegion.DataBind();
             drpRegion.Items.Insert(0, new ListItem("--All--", ""));
 
+            //Fill Market Dropdownlist
+            ComboHelper.FillMarket(new DropDownList[] {ddlMarket}, true);
+
             // hide the export link
             lnkExport.Visible = false;
         }
@@ -93,7 +96,7 @@ public partial class ERReports_NetWorkCallSummary : clsBasePage
         End_Date = clsGeneral.FormatDateToStore(txtEndDate);
 
         // get result records from database for the report
-        DataSet dsReport = ERReports.Get_Network_Call_Summary_Report(Start_Date, End_Date, drpRegion.SelectedValue);
+        DataSet dsReport = ERReports.Get_Network_Call_Summary_Report(Start_Date, End_Date, drpRegion.SelectedValue, ddlMarket.SelectedValue);
 
         // get data tables from result dataset
         dtClaimData = dsReport.Tables[0];

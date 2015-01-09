@@ -130,7 +130,8 @@ public partial class SONIC_RealEstate_rptLandlord : clsBasePage
 
             // get the data for current DBA record
             DataTable dt = dtReport;
-            dt.DefaultView.RowFilter = "DBA='" + DataBinder.Eval(e.Row.DataItem, "DBA").ToString() + "'";
+            string str = Convert.ToString(DataBinder.Eval(e.Row.DataItem, "DBA"));
+            dt.DefaultView.RowFilter = "DBA='" + str.Replace("'","''") + "'";
             dt = dt.DefaultView.ToTable();
 
             // bind sub grid view
@@ -157,7 +158,7 @@ public partial class SONIC_RealEstate_rptLandlord : clsBasePage
     protected void btnShowReport_Click(object sender, EventArgs e)
     {
         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
-        string strRegion = string.Empty, strLeaseType = string.Empty;
+        string strRegion = string.Empty, strLeaseType = string.Empty, strMarket = string.Empty;
         DataSet dsResult;
 
         if (txtLCDateFrom.Text.Trim() != string.Empty)
@@ -180,6 +181,15 @@ public partial class SONIC_RealEstate_rptLandlord : clsBasePage
         }
         strRegion = strRegion.TrimEnd(',');
 
+        //get selected Market
+        foreach (ListItem li in lstMarket.Items)
+        {
+            if (li.Selected)
+                strMarket = strMarket + "" + li.Value + ",";
+        }
+
+        strMarket = strMarket.TrimEnd(',');
+
         // get selected regions
         foreach (ListItem li in ddlLeaseType.Items)
         {
@@ -191,7 +201,7 @@ public partial class SONIC_RealEstate_rptLandlord : clsBasePage
         strTime = "";
 
         // get report result from database
-        dsResult = Report.GetLandlordReport(strRegion, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
+        dsResult = Report.GetLandlordReport(strRegion, strMarket, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
 
         // get the location(dba) list
         dtDBA = dsResult.Tables[0];
@@ -259,6 +269,9 @@ public partial class SONIC_RealEstate_rptLandlord : clsBasePage
 
         //Lease Type
         ComboHelper.FillLeaseTypeListBox(new ListBox[] { ddlLeaseType }, false);
+
+        //Bind Market Dropdown
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
 
     }
 

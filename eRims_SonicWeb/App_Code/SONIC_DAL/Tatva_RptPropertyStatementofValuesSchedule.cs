@@ -19,6 +19,7 @@ namespace ERIMS.DAL
         private string _Ownership;
         private DateTime? _Property_Valuation_Date_FROM;
         private DateTime? _Property_Valuation_Date_To;
+        private string _Market;
 
         #endregion
 
@@ -88,6 +89,15 @@ namespace ERIMS.DAL
             set { _Property_Valuation_Date_To = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the Market value.
+        /// </summary>
+        public string Market
+        {
+            get { return _Market; }
+            set { _Market = value; }
+        }
+
         #endregion
 
         #region Default Constructors
@@ -104,6 +114,7 @@ namespace ERIMS.DAL
             this._Status = null;
             this._Property_Valuation_Date_To = null;
             this._Property_Valuation_Date_FROM = null;
+            this._Market = null;
         }
 
         #endregion
@@ -154,6 +165,11 @@ namespace ERIMS.DAL
                     this._Property_Valuation_Date_To = null;
                 else
                     this._Property_Valuation_Date_To = (DateTime)drTatva_RptPropertyStatementofValuesSchedule["Property_Valuation_Date_To"];
+
+                if (drTatva_RptPropertyStatementofValuesSchedule["Market"] == DBNull.Value)
+                    this._Market = null;
+                else
+                    this._Market = (string)drTatva_RptPropertyStatementofValuesSchedule["Market"];
             }
             else
             {
@@ -164,6 +180,7 @@ namespace ERIMS.DAL
                 this._Status = null;
                 this._Property_Valuation_Date_To = null;
                 this._Property_Valuation_Date_FROM = null;
+                this._Market = null;
             }
         }
 
@@ -200,6 +217,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Property_Valuation_Date_FROM", DbType.String, this._Property_Valuation_Date_FROM);
             
                 db.AddInParameter(dbCommand, "Property_Valuation_Date_To", DbType.String, this._Property_Valuation_Date_To);
+
+            if (string.IsNullOrEmpty(this._Market))
+                db.AddInParameter(dbCommand, "Market", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Market", DbType.String, this._Market);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -264,6 +286,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Property_Valuation_Date_FROM", DbType.String, this._Property_Valuation_Date_FROM);
             
                 db.AddInParameter(dbCommand, "Property_Valuation_Date_To", DbType.String, this._Property_Valuation_Date_To);
+
+            if (string.IsNullOrEmpty(this._Market))
+                db.AddInParameter(dbCommand, "Market", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Market", DbType.String, this._Market);
 
             db.ExecuteNonQuery(dbCommand);
         }

@@ -15,6 +15,7 @@ namespace ERIMS.DAL
         private decimal _PK_ID;
         private decimal _FK_Schedule;
         private string _Region;
+        private string _Market;
         private DateTime _From_Date_Of_Loss;
         private DateTime _To_Date_Of_Loss;
 
@@ -50,6 +51,15 @@ namespace ERIMS.DAL
         {
             get { return _Region; }
             set { _Region = value; }
+        }
+
+        /// <summary> 
+        /// Gets or sets the Market value.
+        /// </summary>
+        public string Market
+        {
+            get { return _Market; }
+            set { _Market = value; }
         }
 
 
@@ -89,6 +99,7 @@ namespace ERIMS.DAL
             this._PK_ID = -1;
             this._FK_Schedule = -1;
             this._Region = "";
+            this._Market = "";
             this._From_Date_Of_Loss = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
             this._To_Date_Of_Loss = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
 
@@ -112,6 +123,7 @@ namespace ERIMS.DAL
                 this._PK_ID = drTatva_RptEmployerLagSummarySchedule["PK_ID"] != DBNull.Value ? Convert.ToDecimal(drTatva_RptEmployerLagSummarySchedule["PK_ID"]) : 0;
                 this._FK_Schedule = drTatva_RptEmployerLagSummarySchedule["FK_Schedule"] != DBNull.Value ? Convert.ToDecimal(drTatva_RptEmployerLagSummarySchedule["FK_Schedule"]) : 0;
                 this._Region = Convert.ToString(drTatva_RptEmployerLagSummarySchedule["Region"]);
+                this._Market = Convert.ToString(drTatva_RptEmployerLagSummarySchedule["Market"]);
                 this._From_Date_Of_Loss = drTatva_RptEmployerLagSummarySchedule["From_Date_Of_Loss"] != DBNull.Value ? Convert.ToDateTime(drTatva_RptEmployerLagSummarySchedule["From_Date_Of_Loss"]) : (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
                 this._To_Date_Of_Loss = drTatva_RptEmployerLagSummarySchedule["To_Date_Of_Loss"] != DBNull.Value ? Convert.ToDateTime(drTatva_RptEmployerLagSummarySchedule["To_Date_Of_Loss"]) : (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
 
@@ -123,6 +135,7 @@ namespace ERIMS.DAL
                 this._PK_ID = -1;
                 this._FK_Schedule = -1;
                 this._Region = "";
+                this._Market = "";
                 this._From_Date_Of_Loss = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
                 this._To_Date_Of_Loss = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
 
@@ -147,6 +160,7 @@ namespace ERIMS.DAL
 
 			db.AddInParameter(dbCommand, "FK_Schedule", DbType.Decimal, this._FK_Schedule);
 			db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
+            db.AddInParameter(dbCommand, "Market", DbType.String, this._Market);
 			db.AddInParameter(dbCommand, "From_Date_Of_Loss", DbType.DateTime, this._From_Date_Of_Loss);
 			db.AddInParameter(dbCommand, "To_Date_Of_Loss", DbType.DateTime, this._To_Date_Of_Loss);
 
@@ -193,6 +207,7 @@ namespace ERIMS.DAL
 			db.AddInParameter(dbCommand, "PK_ID", DbType.Decimal, this._PK_ID);
 			db.AddInParameter(dbCommand, "FK_Schedule", DbType.Decimal, this._FK_Schedule);
 			db.AddInParameter(dbCommand, "Region", DbType.String, this._Region);
+            db.AddInParameter(dbCommand, "Market", DbType.String, this._Market);
 			db.AddInParameter(dbCommand, "From_Date_Of_Loss", DbType.DateTime, this._From_Date_Of_Loss);
 			db.AddInParameter(dbCommand, "To_Date_Of_Loss", DbType.DateTime, this._To_Date_Of_Loss);
 

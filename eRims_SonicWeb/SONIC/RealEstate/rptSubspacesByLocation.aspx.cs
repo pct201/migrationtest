@@ -159,7 +159,7 @@ public partial class SONIC_RealEstate_rptSubspacesByLocation : clsBasePage
     protected void btnShowReport_Click(object sender, EventArgs e)
     {
         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
-        string strRegion = string.Empty, strLeaseType = string.Empty;
+        string strRegion = string.Empty, strLeaseType = string.Empty, strMarket = string.Empty;
         DataSet dsResult;
 
         // set filter Criteria
@@ -183,6 +183,14 @@ public partial class SONIC_RealEstate_rptSubspacesByLocation : clsBasePage
         }
         strRegion = strRegion.TrimEnd(',');
 
+        // get selected Markets
+        foreach (ListItem li in lstMarket.Items)
+        {
+            if (li.Selected)
+                strMarket = strMarket + "'" + li.Value + "',";
+        }
+        strMarket = strMarket.TrimEnd(',');
+
         // get selected regions
         foreach (ListItem li in ddlLeaseType.Items)
         {
@@ -192,7 +200,7 @@ public partial class SONIC_RealEstate_rptSubspacesByLocation : clsBasePage
         strLeaseType = strLeaseType.TrimEnd(',');
 
         // get report result from database
-        dsResult = Report.GetSubspacesByLocation(strRegion, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
+        dsResult = Report.GetSubspacesByLocation(strRegion,strMarket,strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
         dtDetails = dsResult.Tables[0];
         // set scrollbar propery
         dvReport.Style[HtmlTextWriterStyle.OverflowX] = (dsResult.Tables[0].Rows.Count > 0) ? "scroll;" : "hidden;";
@@ -240,6 +248,9 @@ public partial class SONIC_RealEstate_rptSubspacesByLocation : clsBasePage
     {
         // fill Region drop down
         ComboHelper.FillRegionListBox(new ListBox[] { ddlRegion }, false);
+
+        //Bind Market Dropdown
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
 
         //Lease Type
         ComboHelper.FillLeaseTypeListBox(new ListBox[] { ddlLeaseType }, false);

@@ -71,6 +71,27 @@
                         </td>
                     </tr>
                     <tr>
+                        <td align="left" valign="top" width="15%">
+                            Market
+                        </td>
+                        <td align="center" valign="top" width="2%">
+                            :
+                        </td>
+                        <td align="left" valign="top" width="33%">
+                            <asp:ListBox ID="lstMarket" runat="server" SelectionMode="Multiple" ToolTip="Select Market"
+                                AutoPostBack="false" Width="220px" Rows="5"></asp:ListBox>
+                        </td>
+                        <td align="left" valign="top" width="15%">
+                            &nbsp;
+                        </td>
+                        <td align="center" valign="top" width="2%">
+                            &nbsp;
+                        </td>
+                        <td align="left" valign="top" width="33%">
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
                         <td align="left" valign="top">
                             Inspector Name
                         </td>

@@ -63,6 +63,7 @@ public partial class SONIC_ClaimInfo_rptAdHocWriter : clsBasePage
         chkLocation.Attributes.Add("onclick", "javascript:CheckALL(this,'" + lstLocation.ClientID + "');");
         chkClaimStatus.Attributes.Add("onclick", "javascript:CheckALL(this,'" + lstClaimStatus.ClientID + "');");
         chkRegion.Attributes.Add("onclick", "javascript:CheckALL(this,'" + lstRegion.ClientID + "');");
+        chkMarket.Attributes.Add("onclick", "javascript:CheckALL(this,'" + lstMarket.ClientID + "');");
         chkSelUnSelFields.Attributes.Add("onclick", "javascript:CheckALL(this,'" + lstOutputFields.ClientID + "');");
         chkSonicCauseCode.Attributes.Add("onclick", "javascript:CheckALL(this,'" + lstSonicCauseCode.ClientID + "');");
         chkClaimSubStatus.Attributes.Add("onclick", "javascript:CheckALL(this,'" + lstClaimSubStatus.ClientID + "');");
@@ -80,6 +81,8 @@ public partial class SONIC_ClaimInfo_rptAdHocWriter : clsBasePage
             SetDefaults();
             ShowReportCriteria();
             BindReports();
+            //Fill Market
+            ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
         }
         else
         {
@@ -248,6 +251,7 @@ public partial class SONIC_ClaimInfo_rptAdHocWriter : clsBasePage
         objAdhocReport.CoverageState = Request.Form[lstCoverageState.UniqueID];
         objAdhocReport.Location = Request.Form[lstLocation.UniqueID];
         objAdhocReport.Region = Request.Form[lstRegion.UniqueID];
+        objAdhocReport.Market = Request.Form[lstMarket.UniqueID];
         objAdhocReport.BodyPart = Request.Form[lstBodyPart.UniqueID];
         objAdhocReport.Cause = Request.Form[lstCause.UniqueID];
         objAdhocReport.NatureOfInjury = Request.Form[lstNatureofInjury.UniqueID];
@@ -1496,6 +1500,7 @@ public partial class SONIC_ClaimInfo_rptAdHocWriter : clsBasePage
         chkCoverageState.Checked = false;
         chkLocation.Checked = false;
         chkRegion.Checked = false;
+        chkMarket.Checked = false;
         chkNatureofInjury.Checked = false;
         chkSonicCauseCode.Checked = false;
 
@@ -1574,7 +1579,6 @@ public partial class SONIC_ClaimInfo_rptAdHocWriter : clsBasePage
         img2.Visible = false;
         lbl1.Text = rdbCommon.SelectedItem.Text + " Date:";
     }
-
 
     /// <summary>
     /// reset Amount criteria to default value
@@ -1734,6 +1738,8 @@ public partial class SONIC_ClaimInfo_rptAdHocWriter : clsBasePage
             BinListData(objAdhocReport.BodyPart, lstBodyPart);
         if (!String.IsNullOrEmpty(objAdhocReport.Region))
             BinListData(objAdhocReport.Region, lstRegion);
+        if (!String.IsNullOrEmpty(objAdhocReport.Market))
+            BinListData(objAdhocReport.Market, lstMarket);
         if (!String.IsNullOrEmpty(objAdhocReport.ClaimSubStaus))
             BinListData(objAdhocReport.ClaimSubStaus, lstClaimSubStatus);
         if (!String.IsNullOrEmpty(objAdhocReport.Cause))

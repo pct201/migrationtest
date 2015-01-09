@@ -25,7 +25,7 @@ public partial class COIReports_rptLocationsLeaseandPolicyDates : clsBasePage
 
     private void BindGrid()
     {
-        string strRegion = string.Empty, strLocationStatus = string.Empty,strLocation = string.Empty;
+        string strRegion = string.Empty, strLocationStatus = string.Empty,strLocation = string.Empty, strMarket = string.Empty;
 
         foreach (ListItem li in lstLocation.Items)
         {
@@ -41,6 +41,13 @@ public partial class COIReports_rptLocationsLeaseandPolicyDates : clsBasePage
                 strRegion = strRegion + "'" + li.Value + "',";
         }
         strRegion = strRegion.TrimEnd(',');
+
+        foreach (ListItem li in lstMarket.Items)
+        {
+            if (li.Selected)
+                strMarket = strMarket + "" + li.Value + ",";
+        }
+        strMarket = strMarket.TrimEnd(',');
 
 
         string strStatus = "";
@@ -61,7 +68,7 @@ public partial class COIReports_rptLocationsLeaseandPolicyDates : clsBasePage
 
 
         DataSet Ds = new DataSet();
-        Ds = Report.getrptLocationsLeasePolicyDates(Convert.ToInt16(rdbSubleaseAgreement.SelectedValue),strRegion,strLocation,strStatus, Convert.ToInt16(rdbInsuredActive.SelectedValue));
+        Ds = Report.getrptLocationsLeasePolicyDates(Convert.ToInt16(rdbSubleaseAgreement.SelectedValue),strRegion, strMarket, strLocation,strStatus, Convert.ToInt16(rdbInsuredActive.SelectedValue));
 
         if (Ds != null && Ds.Tables[0].Rows.Count > 0)
         {
@@ -105,6 +112,7 @@ public partial class COIReports_rptLocationsLeaseandPolicyDates : clsBasePage
     private void BindDropDownList()
     {
         ComboHelper.FillRegionListBox(new ListBox[] { lstRegion }, false);
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
         ComboHelper.FillLocationdba(new ListBox[] { lstLocation },0, false);
     }
 
@@ -121,6 +129,7 @@ public partial class COIReports_rptLocationsLeaseandPolicyDates : clsBasePage
     {   
         lstBuildingStatus.ClearSelection();
         lstRegion.ClearSelection();
+        lstMarket.ClearSelection();
         lstLocation.Items.Clear();
         ComboHelper.FillLocationdba(new ListBox[] { lstLocation }, 0, false);
     }

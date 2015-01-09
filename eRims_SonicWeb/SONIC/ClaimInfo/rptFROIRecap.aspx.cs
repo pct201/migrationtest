@@ -28,6 +28,7 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
     private void BindDropDown()
     {
         ComboHelper.FillRegionListBox(new ListBox[] { lstRegions }, false);
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
         ComboHelper.FillLocationdba(new ListBox[] { lstRMLocationNumber }, 0, false);
     }
 
@@ -58,6 +59,15 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
                 strRegion = strRegion + "'" + itmRegion.Value + "',";
         }
         strRegion = strRegion.TrimEnd(',');
+
+        string strMarket = "";
+        // get selected Markets
+        foreach (ListItem itmMarket in lstMarket.Items)
+        {
+            if (itmMarket.Selected)
+                strMarket = strMarket + "" + itmMarket.Value + ",";
+        }
+        strMarket = strMarket.TrimEnd(',');
 
         string strDBA = "";
         // get selected regions
@@ -111,7 +121,7 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
             lblIncidentBeginDate.Text = string.Empty;
             lblIncidentEndDate.Text = string.Empty;
         }
-        DataSet ds = clsClaimReports.GetFroiRecapReport(strRegion, strDBA, IncidentBeginDate, IncidentEndDate, strCategory);
+        DataSet ds = clsClaimReports.GetFroiRecapReport(strRegion, strMarket, strDBA, IncidentBeginDate, IncidentEndDate, strCategory);
         Session["dsFROIRecap"]= ds;
         for (int i = 0; i < ds.Tables.Count; i = i + 2)
         {

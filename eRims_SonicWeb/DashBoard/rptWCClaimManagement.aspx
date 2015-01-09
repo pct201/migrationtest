@@ -14,7 +14,7 @@
 
     <script type="text/javascript" language="javascript" src="../../JavaScript/Validator.js"></script>
 
-    <script language="javascript" type="text/javascript">
+    <script language="javascript" type="text/javascript">\
         function showAudit(divHeader, divGrid) {
             var divheight, i;
 
@@ -90,6 +90,18 @@
                         </td>
                         <td align="left" width="70%">
                             <asp:DropDownList ID="drpRegions" runat="server" SkinID="dropGen" Width="200px">
+                            </asp:DropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top" width="28%">
+                            Market
+                        </td>
+                        <td width="2%" align="center" valign="top">
+                            :
+                        </td>
+                        <td align="left" width="70%">
+                            <asp:DropDownList ID="ddlMarket" runat="server" SkinID="dropGen" Width="200px">
                             </asp:DropDownList>
                         </td>
                     </tr>

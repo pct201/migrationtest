@@ -70,6 +70,9 @@ public partial class SONIC_RealEstate_rptLeaseDetailReport : clsBasePage
     {
         ComboHelper.FillRegionListBox(new ListBox[] { lstRegion }, false);
 
+        //Bind Market Dropdown
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
+
         //Lease Type
         ComboHelper.FillLeaseTypeListBox(new ListBox[] { lstLeaseType }, false);
     }
@@ -80,7 +83,7 @@ public partial class SONIC_RealEstate_rptLeaseDetailReport : clsBasePage
     private void BindGrid()
     {
         //initialize the local variables
-        string strRegion = "";
+        string strRegion = "", strMarket = string.Empty;
         string strLeaseType = "";
         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
 
@@ -91,6 +94,15 @@ public partial class SONIC_RealEstate_rptLeaseDetailReport : clsBasePage
                 strRegion = strRegion + "'" + itmRegion.Value.Replace("'", "''") + "',";
         }
         strRegion = strRegion.TrimEnd(',');
+
+        //get selected Market
+        foreach (ListItem li in lstMarket.Items)
+        {
+            if (li.Selected)
+                strMarket = strMarket + "" + li.Value + ",";
+        }
+
+        strMarket = strMarket.TrimEnd(',');
 
         // get selected Status
         foreach (ListItem itmLeaseType in lstLeaseType.Items)
@@ -114,7 +126,7 @@ public partial class SONIC_RealEstate_rptLeaseDetailReport : clsBasePage
 
 
         //Get the all Unique records for Selected group (default - last name -sort) by search criteria
-        DataSet dsRegion = Report.GetLeaseDetailReport(strRegion, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo, _SortRegion);
+        DataSet dsRegion = Report.GetLeaseDetailReport(strRegion, strMarket, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo, _SortRegion);
 
         //bind thr Group grid
         gvRegion.DataSource = dsRegion.Tables[0];
@@ -203,6 +215,7 @@ public partial class SONIC_RealEstate_rptLeaseDetailReport : clsBasePage
     {
         //clear all selected item in listbox
         lstRegion.ClearSelection();
+        lstMarket.ClearSelection();
         lstLeaseType.ClearSelection();
         txtLCDateFrom.Text = "";
         txtLCDateTo.Text = "";

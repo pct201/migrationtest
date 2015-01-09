@@ -60,6 +60,10 @@ public partial class SONIC_Purchasing_ScheduleLeaseRentalAgreementReport : clsBa
             drpRecipientList.DataBind();
             drpRecipientList.Items.Insert(0, new ListItem("--Select--", "0"));
             ds.Dispose();
+
+            //Display Market..
+            ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
+
         }
     }
 
@@ -71,6 +75,7 @@ public partial class SONIC_Purchasing_ScheduleLeaseRentalAgreementReport : clsBa
 
             //Report Filters
             string strRegion = "";
+            string strMarket = string.Empty;
             string strLocaiton = "";
             string strEquipmentType = "";
             string strLRType = "";
@@ -83,6 +88,14 @@ public partial class SONIC_Purchasing_ScheduleLeaseRentalAgreementReport : clsBa
                     strRegion = strRegion + "'" + itmRegion.Value + "',";
             }
             strRegion = strRegion.TrimEnd(',');
+
+            // get selected Markets
+            foreach (ListItem itmMarket in lstMarket.Items)
+            {
+                if (itmMarket.Selected)
+                    strMarket = strMarket +  itmMarket.Value + ",";
+            }
+            strMarket = strMarket.TrimEnd(',');
 
             // get selected Locations
             foreach (ListItem itmLocation in lstLocation.Items)
@@ -116,6 +129,7 @@ public partial class SONIC_Purchasing_ScheduleLeaseRentalAgreementReport : clsBa
             Nullable<DateTime> End_From_Date = clsGeneral.FormatNullDateToStore(txtEndDateFromDate.Text);
 
             obj.Region = strRegion;
+            obj.Market = strMarket;
             obj.Location = strLocaiton;
             obj.EquipmentType = strEquipmentType;
             obj.LeaseRentalType = strLRType;

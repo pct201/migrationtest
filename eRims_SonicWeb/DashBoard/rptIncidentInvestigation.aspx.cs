@@ -18,6 +18,9 @@ public partial class rptIncidentInvestigation : clsBasePage
         if (!Page.IsPostBack)
         {
             BindRegion();
+
+            ComboHelper.FillMarket(new DropDownList[] {ddlMarket}, true);
+
             BindYear();
             drpReportInterval.Focus();
         }
@@ -61,6 +64,7 @@ public partial class rptIncidentInvestigation : clsBasePage
     {
         // load the page again to clear selection
         drpRegions.SelectedIndex = 0;
+        ddlMarket.SelectedIndex = 0;
         drpYear.SelectedIndex = 0;
         drpReportInterval.SelectedIndex = 0;
     }
@@ -147,7 +151,12 @@ public partial class rptIncidentInvestigation : clsBasePage
         string strRegion = "";
         // get selected regions
         strRegion = Convert.ToString(drpRegions.SelectedValue);
-        DataSet dsReport = Report.GetIncidentInvestigationReport(strRegion, Convert.ToInt32(drpYear.SelectedValue), strReportInterval);
+
+        string strMarket = null;
+        // get selected Market
+        strMarket = Convert.ToString(ddlMarket.SelectedValue);
+
+        DataSet dsReport = Report.GetIncidentInvestigationReport(strRegion, strMarket, Convert.ToInt32(drpYear.SelectedValue), strReportInterval);
 
         // get data tables from dataset
         DataTable dtRegions = dsReport.Tables[0];
@@ -242,7 +251,10 @@ public partial class rptIncidentInvestigation : clsBasePage
         string strRegion = "";
         // get selected regions
         strRegion = Convert.ToString(drpRegions.SelectedValue);
-        DataSet dsReport = Report.GetIncidentInvestigationReport(strRegion, Convert.ToInt32(drpYear.SelectedValue), strReportInterval);
+        string strMarket = "";
+        // get selected Market
+        strRegion = Convert.ToString(ddlMarket.SelectedValue);
+        DataSet dsReport = Report.GetIncidentInvestigationReport(strRegion, strMarket, Convert.ToInt32(drpYear.SelectedValue), strReportInterval);
 
         // get data tables from dataset
         DataTable dtRegions = dsReport.Tables[0];
@@ -319,7 +331,10 @@ public partial class rptIncidentInvestigation : clsBasePage
         string strRegion = "";
         // get selected regions
         strRegion = Convert.ToString(drpRegions.SelectedValue);
-        DataSet dsReport = Report.GetIncidentInvestigationReport(strRegion, Convert.ToInt32(drpYear.SelectedValue), strReportInterval);
+        string strMarket = "";
+        // get selected regions
+        strMarket = Convert.ToString(ddlMarket.SelectedValue);
+        DataSet dsReport = Report.GetIncidentInvestigationReport(strRegion, strMarket, Convert.ToInt32(drpYear.SelectedValue), strReportInterval);
 
         // get data tables from dataset
         DataTable dtRegions = dsReport.Tables[0];

@@ -17,13 +17,15 @@ public class clsExposuresReports
 
     #region Report
 
-    public static DataSet GetPropertyStatementofValues(string strRegion, string strStatus, string strOwnership, DateTime? dtPropertyValuationDateFrom, DateTime? dtPropertyValuationDateTo)
+    public static DataSet GetPropertyStatementofValues(string strRegion, string strMarket, string strStatus, string strOwnership, DateTime? dtPropertyValuationDateFrom, DateTime? dtPropertyValuationDateTo)
     {
         Database db = DatabaseFactory.CreateDatabase();
         DbCommand dbCommand = db.GetStoredProcCommand("rptPropertyStatementofValues");
 
         if (strRegion != string.Empty)
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+        if (strMarket != string.Empty)
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
         if (strStatus != string.Empty)
             db.AddInParameter(dbCommand, "Status", DbType.String, strStatus);
         if (strOwnership != string.Empty)
@@ -33,13 +35,15 @@ public class clsExposuresReports
 
         return db.ExecuteDataSet(dbCommand);
     }
-    public static DataSet GetPropertyStatementofValues_NEW(string strRegion, string strStatus, string strOwnership, DateTime? dtPropertyValuationDateFrom, DateTime? dtPropertyValuationDateTo)
+    public static DataSet GetPropertyStatementofValues_NEW(string strRegion, string strMarket, string strStatus, string strOwnership, DateTime? dtPropertyValuationDateFrom, DateTime? dtPropertyValuationDateTo)
     {
         Database db = DatabaseFactory.CreateDatabase();
         DbCommand dbCommand = db.GetStoredProcCommand("rptPropertyStatementofValues_NEW");
 
         if (strRegion != string.Empty)
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+        if (strMarket != string.Empty)
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
         if (strStatus != string.Empty)
             db.AddInParameter(dbCommand, "Status", DbType.String, strStatus);
         if (strOwnership != string.Empty)
@@ -50,12 +54,13 @@ public class clsExposuresReports
         return db.ExecuteDataSet(dbCommand);
     }
 
-    public static DataSet GetInspectionsByInspector(string strRegion, string strDBA, string strInspectionArea, string strInspectorName, DateTime? dtInspectionDateFrom, DateTime? dtInspectionDateTo)
+    public static DataSet GetInspectionsByInspector(string strRegion, string strMarket, string strDBA, string strInspectionArea, string strInspectorName, DateTime? dtInspectionDateFrom, DateTime? dtInspectionDateTo)
     {
         Database db = DatabaseFactory.CreateDatabase();
         DbCommand dbCommand = db.GetStoredProcCommand("rptInspectionsByInspector");
 
         db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+        db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
         db.AddInParameter(dbCommand, "Inspector_Name", DbType.String, strInspectorName);
         db.AddInParameter(dbCommand, "DBA", DbType.String, strDBA);
         db.AddInParameter(dbCommand, "InspectionArea", DbType.String, strInspectionArea);
@@ -65,12 +70,13 @@ public class clsExposuresReports
         return db.ExecuteDataSet(dbCommand);
     }
 
-    public static DataSet GetInspectionLagTime(string strRegion, string strDBA, string strInspectionArea, string strInspectorName, DateTime? dtInspectionDateFrom, DateTime? dtInspectionDateTo, string strLagDayOption)
+    public static DataSet GetInspectionLagTime(string strRegion, string strMarket, string strDBA, string strInspectionArea, string strInspectorName, DateTime? dtInspectionDateFrom, DateTime? dtInspectionDateTo, string strLagDayOption)
     {
         Database db = DatabaseFactory.CreateDatabase();
         DbCommand dbCommand = db.GetStoredProcCommand("rptInspectionLagTime");
 
         db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+        db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
         db.AddInParameter(dbCommand, "Inspector_Name", DbType.String, strInspectorName);
         db.AddInParameter(dbCommand, "DBA", DbType.String, strDBA);
         db.AddInParameter(dbCommand, "InspectionArea", DbType.String, strInspectionArea);
@@ -80,12 +86,14 @@ public class clsExposuresReports
         return db.ExecuteDataSet(dbCommand);
     }
 
-    public static DataSet GetNewExposuresreport(string strRegion, string strStatus)
+    public static DataSet GetNewExposuresreport(string strRegion, string strStatus, string strMarket)
     {
         Database db = DatabaseFactory.CreateDatabase();
         DbCommand dbCommand = db.GetStoredProcCommand("rptNEWExposuresreport");
         if (strRegion != string.Empty)
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+        if (strMarket != string.Empty)
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
         if (strStatus != string.Empty)
             db.AddInParameter(dbCommand, "Status", DbType.String, strStatus);
 
@@ -93,11 +101,12 @@ public class clsExposuresReports
 
         return db.ExecuteDataSet(dbCommand);
     }
-    public static DataSet GetFacilityInspectionReport(string strRegion, int intYear, string strInterval)
+    public static DataSet GetFacilityInspectionReport(string strRegion,string strMarket, int intYear, string strInterval)
     {
         Database db = DatabaseFactory.CreateDatabase();
         DbCommand dbCommand = db.GetStoredProcCommand("rptFacilityInspection");
         db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+        db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
         db.AddInParameter(dbCommand, "Year", DbType.Int32, intYear);
         db.AddInParameter(dbCommand, "strInterval", DbType.String, strInterval);
         db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, Convert.ToDecimal(clsSession.UserID));
@@ -115,13 +124,15 @@ public class clsExposuresReports
 
         return db.ExecuteDataSet(dbCommand);
     }
-    public static DataSet GetrptRM_Dealership_Facility_Specs(string strRegion, string strStatus, string strOwnership, string strBrand)
+    public static DataSet GetrptRM_Dealership_Facility_Specs(string strRegion, string strStatus, string strOwnership, string strBrand, string strMarket)
     {
         Database db = DatabaseFactory.CreateDatabase();
         DbCommand dbCommand = db.GetStoredProcCommand("rptRM_Dealership_Facility_Specs");
 
         if (strRegion != string.Empty)
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+        if (strMarket != string.Empty)
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
         if (strStatus != string.Empty)
             db.AddInParameter(dbCommand, "Status", DbType.String, strStatus);
         if (strOwnership != string.Empty)
@@ -132,13 +143,15 @@ public class clsExposuresReports
         return db.ExecuteDataSet(dbCommand);
     }
 
-    public static DataSet Getrpt_d_b_a_Main_Report(string strRegion, string strState, string strRLCM, string strLocationCode, string strActive, string strShowOnDashboard)
+    public static DataSet Getrpt_d_b_a_Main_Report(string strRegion, string strMarket, string strState, string strRLCM, string strLocationCode, string strActive, string strShowOnDashboard)
     {
         Database db = DatabaseFactory.CreateDatabase();
         DbCommand dbCommand = db.GetStoredProcCommand("rpt_d_b_a_Main_Report");
 
         if (strRegion != string.Empty)
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+        if (strMarket != string.Empty)
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
         if (strState != string.Empty)
             db.AddInParameter(dbCommand, "State", DbType.String, strState);
         if (strRLCM != string.Empty)

@@ -103,7 +103,18 @@
                         <td align="left">
                             <asp:DropDownList ID="drpRegion" runat="server" AutoPostBack="false" SkinID="dropGen" Width="200px" />
                         </td>
-                    </tr>                   
+                    </tr>       
+                    <tr>
+                        <td align="left" valign="top">
+                            Market
+                        </td>
+                        <td width="2%" align="center" valign="top">
+                            :
+                        </td>
+                        <td align="left">
+                            <asp:DropDownList ID="ddlMarket" runat="server" AutoPostBack="false" SkinID="dropGen" Width="200px" />
+                        </td>
+                    </tr>            
                     <tr>
                         <td align="left">
                             Scheduled Date<span class="mf">*</span>

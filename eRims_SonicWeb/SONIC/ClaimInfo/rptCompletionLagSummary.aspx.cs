@@ -43,6 +43,9 @@ public partial class SONIC_ClaimInfo_rptCompletionLagSummary : clsBasePage
             lstRegions.DataTextField = "region";
             lstRegions.DataValueField = "region";
             lstRegions.DataBind();
+
+            //Bind Market Dropdown
+            ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
         }
     }
     #endregion
@@ -65,8 +68,18 @@ public partial class SONIC_ClaimInfo_rptCompletionLagSummary : clsBasePage
         }
         strRegion = strRegion.TrimEnd(',');
 
+        string strMarket = "";
+
+        // get selected Markets
+        foreach (ListItem itmMarket in lstMarket.Items)
+        {
+            if (itmMarket.Selected)
+                strMarket = strMarket + itmMarket.Value + ",";
+        }
+        strMarket = strMarket.TrimEnd(',');
+
         // get report data for selected values
-        DataSet dsReport = clsClaimReports.GetCompletionLagSummaryData(Convert.ToDateTime(txtLossFromDate.Text), Convert.ToDateTime(txtLossToDate.Text), strRegion);
+        DataSet dsReport = clsClaimReports.GetCompletionLagSummaryData(Convert.ToDateTime(txtLossFromDate.Text), Convert.ToDateTime(txtLossToDate.Text), strRegion, strMarket);
 
         // get data tables from dataset
         dtRegions = dsReport.Tables[0];
