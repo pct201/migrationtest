@@ -97,6 +97,18 @@ public partial class Event_Event_New : clsBasePage
     }
 
     /// <summary>
+    /// Denotes Closed Event
+    /// </summary>
+    public bool Is_Closed_Event
+    {
+        get
+        {
+            return Convert.ToBoolean(ViewState["Is_Closed_Event"]);
+        }
+        set { ViewState["Is_Closed_Event"] = value; }
+    }
+
+    /// <summary>
     /// Denotes the operation whether edit or view
     /// </summary>
     public string StrOperation
@@ -156,7 +168,7 @@ public partial class Event_Event_New : clsBasePage
                 //    Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc"); //Redirect To the Incident Selection page
                 //ucIncidentInfo.Visible = false;
                 //ucIncidentInfo.FillIncidentInformation(FK_Incident, 0, 0);
-                SetEditViewRights();
+                SetEditViewRights(false);
                 ucEventInfo.Visible = false;
                 ucEventInfo.FillEventInformation(PK_Event);
 
@@ -576,8 +588,7 @@ public partial class Event_Event_New : clsBasePage
         btnSave.Visible = true;
         btnBack.Visible = false;
         ucAttachment.ReadOnly = false;
-        SetEditViewRights();
-
+       
         clsEvent objEvent = new clsEvent(PK_Event);
 
         Is_Sonic_Event = objEvent.Sonic_Event == "Y" ? true : false;
@@ -598,6 +609,7 @@ public partial class Event_Event_New : clsBasePage
             rdoStatus.SelectedValue = Convert.ToString(objEvent.Status);
         txtDate_Closed.Text = clsGeneral.FormatDBNullDateToDisplay(objEvent.Date_Closed);
 
+        clsGeneral.SetDropdownValue(ddlLocation_Sonic, objEvent.FK_LU_Location, true);
         txtEvent_Start_Date_Sonic.Text = clsGeneral.FormatDBNullDateToDisplay(objEvent.Event_Start_Date);
         txtEvent_Number_Sonic.Text = objEvent.Event_Number;
         if (objEvent.Monitoring_Hours != null)
@@ -636,11 +648,19 @@ public partial class Event_Event_New : clsBasePage
         if (objEvent.Financial_Loss != null)
             txtFinancial_Loss.Text = clsGeneral.GetStringValue(objEvent.Financial_Loss);
 
+        if (objEvent.Status != null && Convert.ToString(objEvent.Status) == "C")
+        {
+            Is_Closed_Event = true;
+            SetEditViewRights(true);
+        }
+        else
+        {
+            Is_Closed_Event = false;
+            SetEditViewRights(false);
+        }
 
         if (PK_Event > 0)
         {
-            clsGeneral.SetDropdownValue(ddlLocation, objEvent.FK_LU_Location, true);
-
             DataSet dsEventType = clsEvent_Link_LU_Event_Type.SelectByFK_Event(PK_Event);
 
             if (dsEventType.Tables.Count > 0 && dsEventType.Tables[0].Rows.Count > 0)
@@ -706,7 +726,7 @@ public partial class Event_Event_New : clsBasePage
     /// </summary>
     private void BindDropDownList()
     {
-        ComboHelper.FillLocation(new DropDownList[] { ddlLocation }, true);
+        ComboHelper.FillLocation(new DropDownList[] { ddlLocation,ddlLocation_Sonic }, true);
         BindReapterEventType();
         BindReapterEventTypeSonic();
         BindReapterInvest_Images();
@@ -719,8 +739,7 @@ public partial class Event_Event_New : clsBasePage
     {
         clsEvent objEvent = new clsEvent();
         objEvent.PK_Event = PK_Event;
-        if (ddlLocation.SelectedIndex > 0)
-            objEvent.FK_LU_Location = Convert.ToDecimal(ddlLocation.SelectedValue);
+        
         objEvent.ACI_EventID = Convert.ToString(txtACI_EventID.Text);
 
         objEvent.Sonic_Event = Is_Sonic_Event == true ? "Y" : "N";
@@ -733,6 +752,8 @@ public partial class Event_Event_New : clsBasePage
             objEvent.Officer_Name = Convert.ToString(txtOfficer_Name.Text);
             objEvent.Officer_Phone = Convert.ToString(txtOfficer_Phone.Text);
             objEvent.Police_Report_Number = Convert.ToString(txtPolice_Report_Number.Text);
+            if (ddlLocation.SelectedIndex > 0)
+                objEvent.FK_LU_Location = Convert.ToDecimal(ddlLocation.SelectedValue);
         }
         objEvent.Status = rdoStatus.SelectedValue;
         objEvent.Date_Closed = clsGeneral.FormatNullDateToStore(txtDate_Closed.Text);
@@ -748,6 +769,8 @@ public partial class Event_Event_New : clsBasePage
             objEvent.Officer_Name = Convert.ToString(txtOfficer_Name_Sonic.Text);
             objEvent.Officer_Phone = Convert.ToString(txtOfficer_Phone_Sonic.Text);
             objEvent.Police_Report_Number = Convert.ToString(txtPolice_Report_Number_Sonic.Text);
+            if (ddlLocation_Sonic.SelectedIndex > 0)
+                objEvent.FK_LU_Location = Convert.ToDecimal(ddlLocation_Sonic.SelectedValue);
         }
 
         objEvent.Monitoring_Hours = rdoMonitoring_Hours_Sonic.SelectedValue;
@@ -928,7 +951,7 @@ public partial class Event_Event_New : clsBasePage
     private void BindReapterEventType()
     {
         DataSet dsData = clsLU_Event_Type.SelectAll();
-        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y'";
 
         rptEventType.DataSource = dsData.Tables[0].DefaultView.ToTable();
         rptEventType.DataBind();
@@ -938,7 +961,7 @@ public partial class Event_Event_New : clsBasePage
     private void BindReapterEventTypeSonic()
     {
         DataSet dsData = clsLU_Event_Type.SelectAll();
-        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y'";
 
         rptEventTypeSonic.DataSource = dsData.Tables[0].DefaultView.ToTable();
         rptEventTypeSonic.DataBind();
@@ -992,7 +1015,7 @@ public partial class Event_Event_New : clsBasePage
 
             if (!string.IsNullOrEmpty(ImagesCol1.ImageUrl) && File.Exists(AppConfig.DocumentsPath + "Attach\\" + ImagesCol1.ImageUrl))
             {
-                ImagesCol1.ImageUrl = AppConfig.SiteURL + "Documents/Attach/" + ImagesCol1.ImageUrl;
+                ImagesCol1.ImageUrl = AppConfig.SiteURL + "Documents/Attach/" + clsGeneral.Encode_Url(ImagesCol1.ImageUrl);
             }
             else
             {
@@ -1003,7 +1026,7 @@ public partial class Event_Event_New : clsBasePage
 
             if (!string.IsNullOrEmpty(ImagesCol2.ImageUrl) && File.Exists(AppConfig.DocumentsPath + "Attach\\" + ImagesCol2.ImageUrl))
             {
-                ImagesCol2.ImageUrl = AppConfig.SiteURL + "Documents/Attach/" + ImagesCol2.ImageUrl;
+                ImagesCol2.ImageUrl = AppConfig.SiteURL + "Documents/Attach/" + clsGeneral.Encode_Url(ImagesCol2.ImageUrl);
             }
             else
             {
@@ -1021,7 +1044,7 @@ public partial class Event_Event_New : clsBasePage
         }
     }
 
-    private void SetEditViewRights()
+    private void SetEditViewRights(bool Is_Closed)
     {
         bool Is_Enable = false;
 
@@ -1078,6 +1101,46 @@ public partial class Event_Event_New : clsBasePage
         //txtSonic_Contact_Email.Enabled = Is_Enable;
         //lnkAddEvent_CameraNew_Sonic.Visible = Is_Enable;
         //lnkAddSonicNotesNew.Visible = Is_Enable;
+
+        if (Is_Closed)
+        {
+            rdoStatus.Enabled = false;
+            txtDate_Closed.Enabled = false;
+            imgDate_Closed.Visible = false;
+            ddlLocation_Sonic.Enabled = false;
+            txtEvent_Start_Date_Sonic.Enabled = false;
+            imgEvent_Start_Date_Sonic.Visible = false;
+            txtEvent_Number_Sonic.Enabled = false;
+            rdoMonitoring_Hours_Sonic.Enabled = false;
+            txtSonic_Notes.Attributes.Add("class", "readOnlyTextBox");
+            lnkAddEvent_CameraNew_Sonic.Visible = false;
+            foreach (RepeaterItem rpt in rptEventTypeSonic.Items)
+            {
+                CheckBox chkEvent = (CheckBox)rpt.FindControl("chkEventTypeSonic");
+                chkEvent.Enabled = false;
+
+                TextBox txtDesc = (TextBox)rpt.FindControl("txtEventDesciptionSonic");
+                txtDesc.Enabled = false;
+            }
+            rdoPolice_Called_Sonic.Enabled = false;
+            txtAgency_name_Sonic.Enabled = false;
+            txtOfficer_Phone_Sonic.Enabled = false;
+            txtOfficer_Name_Sonic.Enabled = false;
+            txtPolice_Report_Number_Sonic.Enabled = false;
+            txtBadge_Number_Sonic.Enabled = false;
+            txtSonic_Contact_Name.Enabled = false;
+            txtSonic_Contact_Phone.Enabled = false;
+            txtSonic_Contact_Email.Enabled = false;
+            lnkAddSonicNotesNew.Visible = false;
+            lnkAddFK_AL_FR.Visible = false;
+            lnkAddFK_DPD_FR.Visible = false;
+            lnkAddFK_PL_FR.Visible = false;
+            lnkAddFK_Property_FR.Visible = false;
+            txtFinancial_Loss.Enabled = false;
+            ucAttachment.ReadOnly = true;
+            btnSave.Visible = false;
+
+        }
 
 
     }

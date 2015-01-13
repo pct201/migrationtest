@@ -82,6 +82,7 @@ public partial class Event_EventSearch_New : clsBasePage
             if (!string.IsNullOrEmpty(Convert.ToString(Request.QueryString["loc"])))//Any events added from Exposure link will set Event.[Sonic_Event] =’Yes’ Issue Mail Sub: ACI - Sonic bugs
             {
                 clsGeneral.SetDropdownValue(drpLocation, Encryption.Decrypt(Convert.ToString(Request.QueryString["loc"])), true);
+                rdoStatus_Sonic.SelectedValue = "A";
                 btnSearch_Click(null, null);
             }
         }

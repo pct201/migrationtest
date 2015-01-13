@@ -35,16 +35,21 @@
 
         function checkLengthSonic() 
         {
-              var oObject = document.getElementById('ctl00_ContentPlaceHolder1_txtSonic_Notes_txtNote') 
-              if (oObject.value.length < 50)
-              {
-                  alert("Please enter minimum 50 Characters for Notes.");
-                  return false;
-              }
-              else
-              {
-                  return true;            
-              }              
+            if (Page_ClientValidate("vsErrorGroup"))
+            {
+                var oObject = document.getElementById('ctl00_ContentPlaceHolder1_txtSonic_Notes_txtNote') 
+                if (oObject.value.length < 50)
+                {
+                    alert("Please enter minimum 50 Characters for Notes.");
+                    return false;
+                }
+                else
+                {
+                    return true;            
+                }        
+            }
+            else
+                return false;
         }
 
         function valSaveEvent() 
@@ -639,7 +644,7 @@
                                                                             </asp:LinkButton>
                                                                             &nbsp;&nbsp;&nbsp;
                                                                             <asp:LinkButton ID="lnkRemove" runat="server" Text="Delete" CommandArgument='<%#Eval("PK_Event_Camera") %>'
-                                                                                CommandName="RemoveEventCamera" OnClientClick="return confirm('Are you sure to remove ACI Note record?');"
+                                                                                CommandName="RemoveEventCamera" OnClientClick="return confirm('Are you sure to remove Event Camera record?');"
                                                                                 CausesValidation="false" Visible="false" />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
@@ -734,8 +739,8 @@
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:RadioButtonList ID="rdoPolice_Called" runat="server">
-                                                                <asp:ListItem Text="Yes" Value="Y" Selected="True"></asp:ListItem>
-                                                                <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                <asp:ListItem Text="No" Value="N" Selected="True"></asp:ListItem>
                                                             </asp:RadioButtonList>
                                                         </td>
                                                         <td align="left" width="18%" valign="top">
@@ -969,7 +974,7 @@
                                                                                         Height="80px" Width="350px" />
                                                                                 </td>
                                                                                 <td width="50%" align="right" valign="top">
-                                                                                    <asp:Image ID="imgInvest_Images2" runat="server" ImageUrl='<%#Eval("InvestigationImgCol2") %>'
+                                                                                    <asp:Image ID="imgInvest_Images2" runat="server" ImageUrl='<%# Eval("InvestigationImgCol2") %>'
                                                                                         Height="80px" Width="350px" />
                                                                                 </td>
                                                                             </tr>
@@ -1027,6 +1032,27 @@
                                                 <div class="bandHeaderRow">
                                                     Sonic Reported Event (SRE)</div>
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                    <tr>
+                                                        <td align="left" width="18%" valign="top">
+                                                            Location
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">
+                                                            :
+                                                        </td>
+                                                        <td align="left" width="28%" valign="top">
+                                                            <asp:DropDownList ID="ddlLocation_Sonic" runat="server" Width="175px">
+                                                            </asp:DropDownList>
+                                                        </td>
+                                                        <td align="left" width="18%" valign="top">
+                                                            &nbsp;
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">
+                                                            &nbsp;
+                                                        </td>
+                                                        <td align="left" width="28%" valign="top">
+                                                            &nbsp;
+                                                        </td>
+                                                    </tr>
                                                     <tr>
                                                         <td align="left" width="18%" valign="top">
                                                             Date of Event
@@ -1087,7 +1113,7 @@
                                                             :
                                                         </td>
                                                         <td align="left" valign="top" colspan="4">
-                                                            <uc:ctrlMultiLineTextBox ID="txtSource_Of_Information" runat="server" />
+                                                            <uc:ctrlMultiLineTextBox ID="txtSource_Of_Information" runat="server" MaxLength="100" />
                                                         </td>
                                                     </tr>
                                                     <tr runat="server" id="trEvent_Camera_Sonic" style="display: none;">
@@ -1228,12 +1254,12 @@
                                                                         <ItemStyle Width="10%" HorizontalAlign="Center" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton runat="server" ID="lnkEdit" Text=" Edit " CommandName="EditRecord"
-                                                                                CommandArgument='<%#Eval("PK_Event_Camera") %>'>
+                                                                                CommandArgument='<%#Eval("PK_Event_Camera") %>' Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>'>
                                                                             </asp:LinkButton>
                                                                             &nbsp;&nbsp;&nbsp;
                                                                             <asp:LinkButton ID="lnkRemove" runat="server" Text="Delete" CommandArgument='<%#Eval("PK_Event_Camera") %>'
-                                                                                CommandName="RemoveEventCamera" OnClientClick="return confirm('Are you sure to remove ACI Note record?');"
-                                                                                CausesValidation="false" />
+                                                                                CommandName="RemoveEventCamera" OnClientClick="return confirm('Are you sure to remove Event Camera record?');"
+                                                                                CausesValidation="false" Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                 </Columns>
@@ -1302,8 +1328,8 @@
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:RadioButtonList ID="rdoPolice_Called_Sonic" runat="server">
-                                                                <asp:ListItem Text="Yes" Value="Y" Selected="True"></asp:ListItem>
-                                                                <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                <asp:ListItem Text="No" Value="N" Selected="True"></asp:ListItem>
                                                             </asp:RadioButtonList>
                                                         </td>
                                                         <td align="left" width="18%" valign="top">
@@ -1593,12 +1619,12 @@
                                                                         <ItemStyle Width="10%" HorizontalAlign="Center" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton runat="server" ID="lnkEdit" Text=" Edit " CommandName="EditRecord"
-                                                                                CommandArgument='<%#Eval("PK_Sonic_Event_Notes") %>' Visible="false">
+                                                                                CommandArgument='<%#Eval("PK_Sonic_Event_Notes") %>' Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>' >
                                                                             </asp:LinkButton>
                                                                             &nbsp;&nbsp;&nbsp;
                                                                             <asp:LinkButton ID="lnkRemove" runat="server" Text="Delete" CommandArgument='<%#Eval("PK_Sonic_Event_Notes") %>'
                                                                                 CommandName="RemoveACINote" OnClientClick="return confirm('Are you sure to remove Sonic Note record?');"
-                                                                                CausesValidation="false" Visible="false" />
+                                                                                CausesValidation="false" Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                 </Columns>
@@ -1722,7 +1748,7 @@
                                                         </td>
                                                         <td align="left" valign="top" colspan="4">
                                                              <asp:TextBox ID="txtFK_Property_FR" runat="server" Width="170px" Enabled="false"></asp:TextBox>&nbsp;&nbsp;
-                                                            <asp:LinkButton Style="display: inline" ID="lnkFK_Property_FR" runat="server" Text="Add" OnClientClick="return OpenFRNumber('Property');"></asp:LinkButton>
+                                                            <asp:LinkButton Style="display: inline" ID="lnkAddFK_Property_FR" runat="server" Text="Add" OnClientClick="return OpenFRNumber('Property');"></asp:LinkButton>
                                                             <asp:HiddenField ID="hdnFK_Property_FR" runat="server" />
                                                         </td>
                                                     </tr>
@@ -1756,7 +1782,7 @@
                                                             :
                                                         </td>
                                                         <td align="left" valign="top" colspan="4">
-                                                            <asp:TextBox ID="txtFinancial_Loss" runat="server" Width="160px" onpaste="return false"
+                                                            $<asp:TextBox ID="txtFinancial_Loss" runat="server" Width="160px" onpaste="return false"
                                                                 onkeypress="return FormatNumber(event,this.id,11,false);" />
                                                         </td>
                                                     </tr>

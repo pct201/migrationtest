@@ -793,6 +793,8 @@ public partial class Administrator_security : clsBasePage
         //}
 
         BindDocumentFolderSecurity();
+        SelectDocumentFolderSecurity();
+
     }
 
     /// <summary>
@@ -964,6 +966,9 @@ public partial class Administrator_security : clsBasePage
         }
         BindFROIeMailRecipientsView();
         BindSecurityLocationView();
+
+        BindDocumentFolderSecurity();
+        SelectDocumentFolderSecurityView();
     }
 
     /// <summary>
@@ -1160,6 +1165,64 @@ public partial class Administrator_security : clsBasePage
                 {
                     if (Li.Value == strSelectedItems[i])
                         Li.Selected = true;
+                }
+            }
+        }
+    }
+
+    /////select Items from Folder Security List/////
+    private void SelectDocumentFolderSecurity()
+    {
+        // clear previous selection
+        lstFolderSecurity.ClearSelection();
+
+        DataSet dsAssoc_Attachment_Rights = clsAssoc_Attachment_Rights.SelectByFK(PK_Security_ID);
+        foreach (DataRow dr in dsAssoc_Attachment_Rights.Tables[0].Rows)
+        {
+            foreach (ListItem lst in lstFolderSecurity.Items)
+            {
+                if (lst.Value == dr["FK_Attachment_Right"].ToString())
+                {
+                    lst.Selected = true;
+                }
+            }
+        }
+    }
+
+    ///select Items from Folder Security List/////
+
+    private void SelectDocumentFolderSecurityView()
+    {
+        lstFolderSecurity.Items.Clear();
+        string strModule = "";
+        foreach (ListItem lst in chkRightsView.Items)
+        {
+            if (lst.Selected)
+            {
+                DataSet dsRights = Right.SelectByPK(Convert.ToInt32(lst.Value));
+                if (dsRights.Tables[0].Rows.Count > 0)
+                {
+                    string strModuleID = dsRights.Tables[0].Rows[0]["Module_ID"].ToString(); //Assoc_User_Right.SelectModuleIDByAssocUserRightID(Convert.ToInt32(lst.Value)).ToString();
+                    if (!strModule.Contains("'" + strModuleID + "'"))
+                    {
+                        DataSet dsFolderSecurity = clsAttachment_Rights.SelectByModuleID(Convert.ToDecimal(strModuleID));
+                        foreach (DataRow dr in dsFolderSecurity.Tables[0].Rows)
+                        {
+                            lstFolderSecurity.Items.Add(new ListItem(dr["Right_Name"].ToString(), dr["PK_Attachment_Rights"].ToString()));
+                        }
+                        strModule = strModule + "'" + strModuleID + "' ";
+                    }
+                }
+            }
+        }
+        DataSet dsAssoc_Attachment_Rights = clsAssoc_Attachment_Rights.SelectByFK(PK_Security_ID);
+        foreach (DataRow dr in dsAssoc_Attachment_Rights.Tables[0].Rows)
+        {
+            foreach (ListItem lst in lstFolderSecurity.Items)
+            {
+                if (lst.Value == dr["FK_Attachment_Right"].ToString())
+                {
+                    lst.Selected = true;
                 }
             }
         }

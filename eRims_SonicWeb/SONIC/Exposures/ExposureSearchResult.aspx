@@ -169,11 +169,11 @@
                                         <ItemStyle HorizontalAlign="Left" Width="75px" />
                                         <ItemTemplate>
                                             <%--<a href='../CalAtlantic/EventSearch.aspx?loc=<%#Encryption.Encrypt(Eval("PK_LU_Location_ID").ToString())%>'>--%>
-                                            <a href='../../Event/EventSearch.aspx?loc=<%#Encryption.Encrypt(Eval("PK_ACI_LU_Location").ToString())%>'>
+                                            <a href='../../Event/EventSearch_New.aspx?loc=<%#Encryption.Encrypt(Eval("PK_ACI_LU_Location").ToString())%>'>
                                                 View
                                             </a>
                                             <%--Add 'Add' Link for ACI Event as per client's request Bug ID = 2701 And Mail Sub: ACI - Sonic bugs--%>
-                                            /<a href='../../Event/Event.aspx?mode=add&loc=<%#Encryption.Encrypt(Eval("PK_ACI_LU_Location").ToString())%>'>
+                                            /<a href='../../Event/Event_New.aspx?mode=add&loc=<%#Encryption.Encrypt(Eval("PK_ACI_LU_Location").ToString())%>'>
                                                 Add
                                             </a>
                                         </ItemTemplate>

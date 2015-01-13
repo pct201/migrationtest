@@ -96,13 +96,16 @@
                                     <span style="display: inline-block; width: 150px;">Monitoring Hours</span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 150px;">Sonic Name</span>
+                                    <span style="display: inline-block; width: 150px;">Sonic Contact Name</span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 150px;">Sonic Email</span>
+                                    <span style="display: inline-block; width: 150px;">Sonic Contact Email</span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 150px;">Sonic Phone</span>
+                                    <span style="display: inline-block; width: 150px;">Sonic Contact Phone</span>
+                                </th>
+                                <th class="cols">
+                                    <span style="display: inline-block; width: 150px;">Financial Loss</span>
                                 </th>
                                 <th class="cols">
                                     <span style="display: inline-block; width: 150px;">Updated By</span>
@@ -236,6 +239,12 @@
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
                                     <asp:Label ID="lblSonic_Contact_Phone" runat="server" Text='<%#Eval("Sonic_Contact_Phone")%>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Financial_Loss">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblFinancial_Loss" runat="server" Text='<%#clsGeneral.GetStringValue(Eval("Financial_Loss"))%>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Updated_By">

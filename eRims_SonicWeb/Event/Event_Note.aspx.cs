@@ -70,7 +70,7 @@ public partial class Event_Event_Note : System.Web.UI.Page
             clsACI_Event_Notes objNotes = new clsACI_Event_Notes(PK_Notes);
             lblNote.Text = objNotes.Note;
             lblNoteDate.Text = clsGeneral.FormatDBNullDateToDisplay(objNotes.Note_Date);
-            lblNoteType.Text = "ACI Event Note";
+            lblNoteType.Text = "Acadian Note";
         }
         else
         {
