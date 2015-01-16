@@ -10,7 +10,7 @@
             <HeaderStyle CssClass="PropertyInfoBG" />
             <ItemStyle BackColor="White" />
             <ItemTemplate>
-                <asp:Label ID="lblRMLocationNumber" runat="server" Text='<%#Eval("RM_Location_Number")%>'></asp:Label>
+                <asp:Label ID="lblRMLocationNumber" runat="server" Text='<%#Eval("Sonic_Location_Code")%>'></asp:Label>
             </ItemTemplate>
         </asp:TemplateField>
         <asp:TemplateField HeaderText="Sonic Location d/b/a">
