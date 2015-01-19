@@ -302,7 +302,52 @@
             GB_showCenter('FR Number', '<%=AppConfig.SiteURL%>Event/PopupFirstReport.aspx?ftype='+FRtype, 500, 650, '');
             return false;
         }
-                 
+
+        function setAgencyNameSonic()
+        {
+            var agencyname =  document.getElementById("<%=txtAgency_name.ClientID%>").value;
+            var agencynameSonic = document.getElementById("<%=txtAgency_name_Sonic.ClientID%>");
+            agencynameSonic.value = agencyname;
+        }
+        function setOfficerNameSonic()
+        {
+            var Officername =  document.getElementById("<%=txtOfficer_Name.ClientID%>").value;
+            var OfficernameSonic = document.getElementById("<%=txtOfficer_Name_Sonic.ClientID%>");
+            OfficernameSonic.value = Officername;
+        }
+              
+        function setPhoneSonic()
+        {
+            var PhoneNumber =  document.getElementById("<%=txtOfficer_Phone.ClientID%>").value;
+            var PhoneNumberSonic = document.getElementById("<%=txtOfficer_Phone_Sonic.ClientID%>");
+            PhoneNumberSonic.value = PhoneNumber;
+        }
+
+        function setPoliceReportSonic()
+        {
+            var PoliceReport =  document.getElementById("<%=txtPolice_Report_Number.ClientID%>").value;
+            var PoliceReportSonic = document.getElementById("<%=txtPolice_Report_Number_Sonic.ClientID%>");
+            PoliceReportSonic.value = PoliceReport;
+        }
+
+        function setPolicecalledSonic()
+        {
+            var rdopolice = document.getElementById("<%=rdoPolice_Called.ClientID%>");
+            var rdo = document.getElementById(rdopolice.id + "_0");
+
+            var rdopoliceSonic = document.getElementById("<%=rdoPolice_Called_Sonic.ClientID%>");
+            var rdoSonicYes = document.getElementById(rdopoliceSonic.id + "_0");
+            var rdoSonicNo = document.getElementById(rdopoliceSonic.id + "_1");
+
+            if (rdo.checked)
+            {
+                rdoSonicYes.checked = true;
+            }
+            else
+                rdoSonicNo.checked = true;
+            
+        }
+              
 
     </script>
     <link href="<%=AppConfig.SiteURL%>greybox/gb_styles.css" rel="stylesheet" type="text/css" />
@@ -382,6 +427,7 @@
                                             Event</span>
                                     </td>
                                 </tr>
+                                
                                 <tr>
                                     <td align="left" width="100%">
                                         <span id="Menu2" onclick="javascript:ShowPanel(2);" class="LeftMenuStatic">Acadian Investigations</span>
@@ -393,7 +439,7 @@
                                             Event</span>
                                     </td>
                                 </tr>
-                                     <tr>
+                                <tr>
                                     <td align="left" width="100%">
                                         <span id="Menu4" onclick="javascript:ShowPanel(4);" class="LeftMenuStatic">Insurance Type Claim</span>
                                     </td>
@@ -442,7 +488,7 @@
                                                             :
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
-                                                            <asp:TextBox ID="txtACI_EventID" runat="server" MaxLength="100" Width="170px"></asp:TextBox>
+                                                            <asp:TextBox ID="txtACI_EventID" runat="server" MaxLength="30" Width="170px"></asp:TextBox>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -716,6 +762,15 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
+                                                        <td align="left" valign="top">Event Image
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top" colspan="4">
+                                                            <asp:Image ID="ImgEvent_Image" runat="server" Height="200" Width="200" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
                                                         <td colspan="6">
                                                             &nbsp;
                                                         </td>
@@ -738,7 +793,7 @@
                                                             :
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
-                                                            <asp:RadioButtonList ID="rdoPolice_Called" runat="server">
+                                                            <asp:RadioButtonList ID="rdoPolice_Called" runat="server" onclick=" return setPolicecalledSonic();">
                                                                 <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
                                                                 <asp:ListItem Text="No" Value="N" Selected="True"></asp:ListItem>
                                                             </asp:RadioButtonList>
@@ -784,7 +839,7 @@
                                                                         :
                                                                     </td>
                                                                     <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtAgency_name" runat="server" MaxLength="60" Width="170px"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtAgency_name" runat="server" MaxLength="60" Width="170px" onblur="setAgencyNameSonic();"></asp:TextBox>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -795,7 +850,7 @@
                                                                         :
                                                                     </td>
                                                                     <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtOfficer_Name" runat="server" MaxLength="60" Width="170px"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtOfficer_Name" runat="server" MaxLength="60" Width="170px" onblur="setOfficerNameSonic();"></asp:TextBox>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -806,7 +861,7 @@
                                                                         :
                                                                     </td>
                                                                     <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtOfficer_Phone" runat="server" MaxLength="12" Width="170px" SkinID="txtPhone"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtOfficer_Phone" runat="server" MaxLength="12" Width="170px" SkinID="txtPhone" onblur="setPhoneSonic();"></asp:TextBox>
                                                                         <asp:RegularExpressionValidator ID="revtxtOfficer_Phone" ControlToValidate="txtOfficer_Phone"
                                                                             runat="server" SetFocusOnError="true" ErrorMessage="[Acadian Investigations] / Please Enter Agency Phone # in XXX-XXX-XXXX format"
                                                                             Display="none" ValidationGroup="vsErrorGroup" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
@@ -820,7 +875,7 @@
                                                                         :
                                                                     </td>
                                                                     <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtPolice_Report_Number" runat="server" MaxLength="30" Width="170px"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtPolice_Report_Number" runat="server" MaxLength="30" Width="170px" onblur="setPoliceReportSonic();"></asp:TextBox>
                                                                     </td>
                                                                 </tr>
                                                             </table>
@@ -921,12 +976,12 @@
                                                                         <ItemStyle Width="10%" HorizontalAlign="Center" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton runat="server" ID="lnkEdit" Text=" Edit " CommandName="EditRecord"
-                                                                                CommandArgument='<%#Eval("PK_ACI_Event_Notes") %>' Visible="false">
+                                                                                CommandArgument='<%#Eval("PK_ACI_Event_Notes") %>' Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>'>
                                                                             </asp:LinkButton>
                                                                             &nbsp;&nbsp;&nbsp;
                                                                             <asp:LinkButton ID="lnkRemove" runat="server" Text="Delete" CommandArgument='<%#Eval("PK_ACI_Event_Notes") %>'
-                                                                                CommandName="RemoveACINote" OnClientClick="return confirm('Are you sure to remove ACI Note record?');"
-                                                                                CausesValidation="false" Visible="false" />
+                                                                                CommandName="RemoveACINote" OnClientClick="return confirm('Are you sure to remove Acadian Note record?');"
+                                                                                CausesValidation="false" Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                 </Columns>
@@ -967,14 +1022,17 @@
                                                             <div style="width: 95%; border: 3px solid;">
                                                                 <asp:Repeater ID="rptInvest_Images" runat="server" OnItemDataBound="rptInvestImages_ItemDataBound">
                                                                     <ItemTemplate>
-                                                                        <table cellpadding="4" cellspacing="0" width="95%">
+                                                                         <table cellpadding="0" cellspacing="0" width="95%">
                                                                             <tr>
-                                                                                <td width="50%" align="left" valign="top">
-                                                                                    <asp:Image ID="imgInvest_Images1" runat="server" ImageUrl='<%#Eval("InvestigationImgCol1") %>'
+                                                                                <td valign="top">
+                                                                                    <asp:Image ID="imgInvest_Images1" runat="server" ImageUrl='<%#Eval("InvestigationImgCol1") %>' BorderWidth="1px" BorderStyle="Solid" BorderColor="Black"
                                                                                         Height="80px" Width="350px" />
                                                                                 </td>
-                                                                                <td width="50%" align="right" valign="top">
-                                                                                    <asp:Image ID="imgInvest_Images2" runat="server" ImageUrl='<%# Eval("InvestigationImgCol2") %>'
+                                                                            </tr>
+                                                                            <tr>
+
+                                                                                <td valign="top">
+                                                                                    <asp:Image ID="imgInvest_Images2" runat="server" ImageUrl='<%#Eval("InvestigationImgCol2") %>' BorderWidth="1px" BorderStyle="Solid" BorderColor="Black"
                                                                                         Height="80px" Width="350px" />
                                                                                 </td>
                                                                             </tr>

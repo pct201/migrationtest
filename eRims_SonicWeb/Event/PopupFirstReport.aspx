@@ -10,25 +10,25 @@
             function ClosePopup(FRNumber, hdnPK, type) {
                 if (type == "AL")
                 {
-                    parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_txtFK_AL_FR').value = FRNumber;
+                    parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_txtFK_AL_FR').value = 'AL-'+FRNumber;
                     parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_hdnFK_AL_FR').value = hdnPK;
                     parent.parent.GB_hide();
 
                 }
                 else if (type == "DPD") {
-                    parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_txtFK_DPD_FR').value = FRNumber;
+                    parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_txtFK_DPD_FR').value = 'DPD-'+FRNumber;
                     parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_hdnFK_DPD_FR').value = hdnPK;
                     parent.parent.GB_hide();
 
                 }
                 else if (type == "PL") {
-                    parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_txtFK_PL_FR').value = FRNumber;
+                    parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_txtFK_PL_FR').value = 'PL-'+FRNumber;
                     parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_hdnFK_PL_FR').value = hdnPK;
                     parent.parent.GB_hide();
 
                 }
                 else if (type == "Property") {
-                    parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_txtFK_Property_FR').value = FRNumber;
+                    parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_txtFK_Property_FR').value = 'Prop-'+FRNumber;
                     parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_hdnFK_Property_FR').value = hdnPK;
                     parent.parent.GB_hide();
 

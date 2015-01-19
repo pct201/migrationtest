@@ -3,12 +3,21 @@
 <%@ Register Src="~/Controls/Navigation/Navigation.ascx" TagName="ctrlPaging" TagPrefix="uc" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="uc" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<script type="text/javascript" language="javascript" src="../JavaScript/Calendar_new.js"></script>
+<script type="text/javascript" language="javascript" src="../JavaScript/calendar-en.js"></script>
+<script type="text/javascript" language="javascript" src="../JavaScript/Calendar.js"></script>
+<script type="text/javascript" language="javascript" src="../JavaScript/Validator.js"></script>
+<script type="text/javascript" language="javascript" src="../JavaScript/jquery-1.5.min.js"></script>
+<script type="text/javascript" language="javascript" src="../JavaScript/jquery.maskedinput.js"></script>
+<script type="text/javascript" language="javascript" src="../JavaScript/Date_Validation.js"></script>
 <script language="javascript" type="text/javascript">
     function ConfirmDelete() {
         return confirm("Are you sure that you want to delete the selected information and all of its subordinate data (if exists)?");
     }
     </script>
-   
+   <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
+        HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
+        ValidationGroup="vsErrorGroup" CssClass="errormessage"></asp:ValidationSummary>
     <asp:Panel ID="pnlSearchFilter" runat="server" Width="100%" DefaultButton="btnSearch">
         <table width="100%" cellpadding="0" cellspacing="0">
             <tr>
@@ -80,7 +89,57 @@
                                 <asp:DropDownList ID="drpLocation" runat="server" Width="175px" SkinID="dropGen">
                                 </asp:DropDownList>
                             </td>
-                            <td colspan="3">
+                            <td align="left" width="16%" valign="top">
+                                ACI Event ID
+                            </td>
+                            <td align="center" width="2%" valign="top">
+                                :
+                            </td>
+                            <td align="left" valign="top" width="32%">
+                                <asp:TextBox ID="txtACI_EventID" runat="server" MaxLength="30" Width="170px"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" valign="top">
+                                Event Date
+                            </td>
+                            <td align="center" valign="top">
+                                :
+                            </td>
+                            <td align="left" valign="top">
+                                <asp:TextBox ID="txtEvent_Date_From" runat="server" Width="150px" SkinID="txtDate"
+                                    MaxLength="10"></asp:TextBox>
+                                <img onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtEvent_Date_From', 'mm/dd/y');"
+                                    onmouseover="javascript:this.style.cursor='hand';" alt="" src="../Images/iconPicDate.gif"
+                                    align="middle" id="img3" />
+                                <br />
+                                <asp:RegularExpressionValidator ID="revtxtEvent_Date" runat="server" ControlToValidate="txtEvent_Date_From"
+                                    ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"
+                                    ErrorMessage="Event Date is Not Valid Date" Display="none" ValidationGroup="vsErrorGroup"
+                                    SetFocusOnError="true">
+                                </asp:RegularExpressionValidator>
+                            </td>
+                            <td align="left" valign="top">
+                                To
+                            </td>
+                            <td align="center" valign="top">
+                                :
+                            </td>
+                            <td align="left" valign="top">
+                                <asp:TextBox ID="txtEvent_Date_To" runat="server" Width="150px" SkinID="txtDate"
+                                    MaxLength="10"></asp:TextBox>
+                                <img onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtEvent_Date_To', 'mm/dd/y');"
+                                    onmouseover="javascript:this.style.cursor='hand';" alt="" src="../Images/iconPicDate.gif"
+                                    align="middle" id="img4" />
+                                <br />
+                                <asp:RegularExpressionValidator ID="revtxtEvent_Date_To" runat="server" ControlToValidate="txtEvent_Date_To"
+                                    ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"
+                                    ErrorMessage="To Event Date is Not Valid Date" Display="none"
+                                    ValidationGroup="vsErrorGroup" SetFocusOnError="true">
+                                </asp:RegularExpressionValidator>
+                                <asp:CompareValidator ID="cmptxtEvent_Date_To" runat="server" ControlToValidate="txtEvent_Date_To"
+                                    ControlToCompare="txtEvent_Date_From" ValidationGroup="vsErrorGroup"
+                                    Display="None" Type="Date" Operator="GreaterThanEqual" ErrorMessage="Event Date To must be greater than or equal to from date" />
                             </td>
                         </tr>
                         <tr>
@@ -110,7 +169,7 @@
             </tr>
             <tr>
                 <td align="center">
-                    <asp:Button runat="server" ID="btnSearch" Text="Search" 
+                    <asp:Button runat="server" ID="btnSearch" Text="Search" ValidationGroup="vsErrorGroup"
                         OnClick="btnSearch_Click"  />
                     &nbsp;&nbsp;
                     <asp:Button runat="server" ID="btnAdd" Text=" Add New " OnClick="btnAdd_Click" />
@@ -200,6 +259,13 @@
                                                 <ItemStyle Width="100px" />
                                                 <ItemTemplate>
                                                     <%# Eval("Event_Number")%>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="ACI Event ID" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
+                                                SortExpression="ACI_EventID">
+                                                <ItemStyle Width="150px" />
+                                                <ItemTemplate>
+                                                    <%# Eval("ACI_EventID")%>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Event Date" HeaderStyle-HorizontalAlign="Left"

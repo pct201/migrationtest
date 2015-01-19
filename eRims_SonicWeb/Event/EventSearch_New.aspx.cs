@@ -157,7 +157,8 @@ public partial class Event_EventSearch_New : clsBasePage
 
         decimal? decLocation = 0, decEventType = 0;
 
-        string strEventNumber = null, strCameraNumber = null, strCameraName = null, strStatus = null; ;
+        string strEventNumber = null, strCameraNumber = null, strCameraName = null, strStatus = null, strACIEventID = null;
+        DateTime? EventDateFrom = null, EventDateTo = null;
 
         strEventNumber = Convert.ToString(drCriteria["strEventNumber"]);
         strCameraNumber = Convert.ToString(drCriteria["strCameraNumber"]);
@@ -166,11 +167,16 @@ public partial class Event_EventSearch_New : clsBasePage
 
         if (Convert.ToDecimal(drCriteria["decLocation"]) != 0) decLocation = Convert.ToDecimal(drCriteria["decLocation"]);
         if (Convert.ToDecimal(drCriteria["decEventType"]) != 0) decEventType = Convert.ToDecimal(drCriteria["decEventType"]);
+        
+        strACIEventID = Convert.ToString(drCriteria["strACIEventID"]);
+        EventDateFrom = clsGeneral.FormatNullDateToStore(Convert.ToString(drCriteria["EventDateFrom"]));
+        EventDateTo = clsGeneral.FormatNullDateToStore(Convert.ToString(drCriteria["EventDateTo"]));
+
 
         #endregion
 
         // selects records depending on paging criteria and search values.
-        DataSet dsEvent = clsEvent.EventSearch_New(strEventNumber, strCameraNumber, decLocation, decEventType, strCameraName, strStatus, _SortBy, _SortOrder, 1, ctrlPageProperty.TotalRecords);
+        DataSet dsEvent = clsEvent.EventSearch_New(strEventNumber, strCameraNumber, decLocation, decEventType, strCameraName, strStatus, strACIEventID, EventDateFrom, EventDateTo, _SortBy, _SortOrder, 1, ctrlPageProperty.TotalRecords);
         DataTable dtEvent = dsEvent.Tables[0];
 
         ExportToSpreadsheet(dtEvent, "EventSearch.xls");
@@ -220,7 +226,8 @@ public partial class Event_EventSearch_New : clsBasePage
 
         decimal? decLocation = 0, decEventType = 0;
 
-        string strEventNumber = null, strCameraNumber = null, strCameraName = null, strStatus = null;
+        string strEventNumber = null, strCameraNumber = null, strCameraName = null, strStatus = null, strACIEventID = null;
+        DateTime? EventDateFrom = null, EventDateTo = null;
 
         if (drpLocation.SelectedIndex > 0) decLocation = Convert.ToDecimal(drpLocation.SelectedValue);
         if (drpEventType.SelectedIndex > 0) decEventType = Convert.ToDecimal(drpEventType.SelectedValue);
@@ -228,11 +235,14 @@ public partial class Event_EventSearch_New : clsBasePage
         if (!string.IsNullOrEmpty(txtCameraNumber.Text)) strCameraNumber = txtCameraNumber.Text.Trim().Replace("'", "''");
         if (!string.IsNullOrEmpty(txtCameraName.Text)) strCameraName = txtCameraName.Text.Trim().Replace("'", "''");
         strStatus = rdoStatus_Sonic.SelectedValue;
+        if (!string.IsNullOrEmpty(txtACI_EventID.Text)) strACIEventID = txtACI_EventID.Text.Trim().Replace("'", "''");
+        if (!string.IsNullOrEmpty(txtEvent_Date_From.Text)) EventDateFrom = Convert.ToDateTime(txtEvent_Date_From.Text);
+        if (!string.IsNullOrEmpty(txtEvent_Date_To.Text)) EventDateTo = Convert.ToDateTime(txtEvent_Date_To.Text);
 
         #endregion
 
         // selects records depending on paging criteria and search values.
-        DataSet dsEvent = clsEvent.EventSearch_New(strEventNumber, strCameraNumber, decLocation, decEventType, strCameraName, strStatus, _SortBy, _SortOrder, PageNumber, PageSize);
+        DataSet dsEvent = clsEvent.EventSearch_New(strEventNumber, strCameraNumber, decLocation, decEventType, strCameraName, strStatus, strACIEventID, EventDateFrom, EventDateTo, _SortBy, _SortOrder, PageNumber, PageSize);
         DataTable dtEvent = dsEvent.Tables[0];
 
         // set values for paging control,so it shows values as needed.
@@ -271,6 +281,10 @@ public partial class Event_EventSearch_New : clsBasePage
         dtCriteria.Columns.Add("decLocation", typeof(decimal));
         dtCriteria.Columns.Add("decEventType", typeof(decimal));
         dtCriteria.Columns.Add("strStatus", typeof(string));
+
+        dtCriteria.Columns.Add("strACIEventID", typeof(string));
+        dtCriteria.Columns.Add("EventDateFrom", typeof(string));
+        dtCriteria.Columns.Add("EventDateTo", typeof(string));
        
         DataRow drCriteria = dtCriteria.NewRow();
         drCriteria["strEventNumber"] = strEventNumber;
@@ -280,6 +294,9 @@ public partial class Event_EventSearch_New : clsBasePage
         drCriteria["decEventType"] = decEventType;
         drCriteria["strCameraName"] = strCameraName;
         drCriteria["strStatus"] = strStatus;
+        drCriteria["strACIEventID"] = strACIEventID;
+        drCriteria["EventDateFrom"] = EventDateFrom;
+        drCriteria["EventDateTo"] = EventDateTo;
         dtCriteria.Rows.Add(drCriteria);
         Session["EventCriteria"] = dtCriteria;
 
@@ -300,7 +317,8 @@ public partial class Event_EventSearch_New : clsBasePage
 
        decimal? decLocation = 0, decEventType = 0;
 
-       string strEventNumber = null, strCameraNumber = null, strCameraName = null, strStatus = null; ;
+       string strEventNumber = null, strCameraNumber = null, strCameraName = null, strStatus = null, strACIEventID = null;
+       DateTime? EventDateFrom = null, EventDateTo = null;
 
         strEventNumber = Convert.ToString(drCriteria["strEventNumber"]);
         strCameraNumber = Convert.ToString(drCriteria["strCameraNumber"]);
@@ -309,12 +327,16 @@ public partial class Event_EventSearch_New : clsBasePage
 
         if (Convert.ToDecimal(drCriteria["decLocation"]) != 0) decLocation = Convert.ToDecimal(drCriteria["decLocation"]);
         if (Convert.ToDecimal(drCriteria["decEventType"]) != 0) decEventType = Convert.ToDecimal(drCriteria["decEventType"]);
+
+        strACIEventID = Convert.ToString(drCriteria["strACIEventID"]);
+        EventDateFrom = clsGeneral.FormatNullDateToStore(Convert.ToString(drCriteria["EventDateFrom"]));
+        EventDateTo = clsGeneral.FormatNullDateToStore(Convert.ToString(drCriteria["EventDateTo"]));
         
         #endregion
 
         #region "Bind Grid"
 
-        DataSet dsEvent = clsEvent.EventSearch_New(strEventNumber, strCameraNumber, decLocation, decEventType, strCameraName, strStatus, _SortBy, _SortOrder, PageNumber, PageSize);
+        DataSet dsEvent = clsEvent.EventSearch_New(strEventNumber, strCameraNumber, decLocation, decEventType, strCameraName, strStatus, strACIEventID, EventDateFrom, EventDateTo, _SortBy, _SortOrder, PageNumber, PageSize);
         
         DataTable dtEvent = dsEvent.Tables[0];
 
@@ -428,6 +450,7 @@ public partial class Event_EventSearch_New : clsBasePage
         strHTML.Append("<tr align='right' valign='bottom' style='font-weight: bold;'>");
 
         strHTML.Append("<td align='left'>Event Number</td>");
+        strHTML.Append("<td align='left'>ACI Event ID</td>");
         strHTML.Append("<td align='left'>Event Start Date</td>");
         strHTML.Append("<td align='left'>DBA</td>");
         strHTML.Append("<td align='left'>Location Code</td>");
@@ -441,6 +464,7 @@ public partial class Event_EventSearch_New : clsBasePage
             {
                 strHTML.Append("<tr align='left'>");
                 strHTML.Append("<td>" + Convert.ToString(dtEvent.Rows[i]["Event_Number"]) + "</td>");
+                strHTML.Append("<td>" + Convert.ToString(dtEvent.Rows[i]["ACI_EventID"]) + "</td>");
                 strHTML.Append("<td>" + clsGeneral.FormatDBNullDateToDisplay(dtEvent.Rows[i]["Event_Start_Date"]) + "</td>");
                 strHTML.Append("<td>" + Convert.ToString(dtEvent.Rows[i]["FK_LU_Location"]) + "</td>");
                 strHTML.Append("<td>" + Convert.ToString(dtEvent.Rows[i]["Location_Code"]) + "</td>");

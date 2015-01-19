@@ -159,6 +159,11 @@ public partial class Event_Event_New : clsBasePage
                 //ucIncidentInfo.FillIncidentInformation(FK_Incident, PK_Event, 0);
                 ucEventInfo.Visible = true;
                 ucEventInfo.FillEventInformation(PK_Event);
+
+                if (Is_Sonic_Event)
+                {
+                    hdnPanel.Value = "3";
+                }
             }
             else
             {
@@ -599,6 +604,30 @@ public partial class Event_Event_New : clsBasePage
         txtInvestigator_Name.Text = objEvent.Investigator_Name;
         txtInvestigator_Email.Text = objEvent.Investigator_Email;
         txtInvestigator_Phone.Text = objEvent.Investigator_Phone;
+
+        #region Event Image
+        string _strSiteURL;
+        _strSiteURL = String.Concat(HttpContext.Current.Request.Url.Scheme + "://", HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.ApplicationPath);
+        if (!_strSiteURL.EndsWith("/")) _strSiteURL = String.Concat(_strSiteURL, "/");
+
+
+        //_strSiteURL = _strSiteURL.Replace("localhost", "192.168.0.118");
+        string AttachmentDocPath = "Documents/EventImage";
+        string DocPath = string.Concat(_strSiteURL, AttachmentDocPath) + "/";
+
+        if (!string.IsNullOrEmpty(objEvent.Event_Image) && File.Exists(Server.MapPath("..\\") + AttachmentDocPath + "/" + objEvent.Event_Image))
+        {
+            ImgEvent_Image.Style["display"] = "";
+            ImgEvent_Image.ImageUrl = Convert.ToString(AppConfig.SiteURL + AttachmentDocPath + "/" + objEvent.Event_Image);
+            //ImgEvent_Image.ImageUrl = Convert.ToString(AppConfig.ImageURL + objEvent.Event_Image);
+        }
+        else
+            ImgEvent_Image.Style["display"] = "none";
+
+        #endregion
+
+        
+
         if (objEvent.Police_Called != null)
             rdoPolice_Called.SelectedValue = Convert.ToString(objEvent.Police_Called);
         txtAgency_name.Text = objEvent.Agency_name;
@@ -632,10 +661,22 @@ public partial class Event_Event_New : clsBasePage
 
         if (dsFR.Tables.Count > 0 && dsFR.Tables[0].Rows.Count > 0)
         {
-            txtFK_AL_FR.Text = dsFR.Tables[0].Rows[0]["AL_FR_Number"].ToString();
-            txtFK_DPD_FR.Text = dsFR.Tables[0].Rows[0]["DPD_FR_Number"].ToString();
-            txtFK_PL_FR.Text = dsFR.Tables[0].Rows[0]["PL_FR_Number"].ToString();
-            txtFK_Property_FR.Text = dsFR.Tables[0].Rows[0]["Prop_FR_Number"].ToString();
+            txtFK_AL_FR.Text = "";
+            txtFK_DPD_FR.Text = "";
+            txtFK_PL_FR.Text = "";
+            txtFK_Property_FR.Text = "";
+
+            if (!string.IsNullOrEmpty(dsFR.Tables[0].Rows[0]["AL_FR_Number"].ToString()))
+                txtFK_AL_FR.Text = "AL-" + dsFR.Tables[0].Rows[0]["AL_FR_Number"].ToString();
+          
+            if (!string.IsNullOrEmpty(dsFR.Tables[0].Rows[0]["DPD_FR_Number"].ToString()))
+                txtFK_DPD_FR.Text = "DPD-" + dsFR.Tables[0].Rows[0]["DPD_FR_Number"].ToString();
+
+            if (!string.IsNullOrEmpty(dsFR.Tables[0].Rows[0]["PL_FR_Number"].ToString()))
+                txtFK_PL_FR.Text = "PL-" + dsFR.Tables[0].Rows[0]["PL_FR_Number"].ToString();
+
+            if (!string.IsNullOrEmpty(dsFR.Tables[0].Rows[0]["Prop_FR_Number"].ToString()))
+                txtFK_Property_FR.Text = "Prop-" + dsFR.Tables[0].Rows[0]["Prop_FR_Number"].ToString();
         }
 
         hdnFK_AL_FR.Value = Convert.ToString(objEvent.FK_AL_FR);
@@ -1015,7 +1056,34 @@ public partial class Event_Event_New : clsBasePage
 
             if (!string.IsNullOrEmpty(ImagesCol1.ImageUrl) && File.Exists(AppConfig.DocumentsPath + "Attach\\" + ImagesCol1.ImageUrl))
             {
+                System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(AppConfig.SitePath + "Documents\\Attach\\" + ImagesCol1.ImageUrl);
+
                 ImagesCol1.ImageUrl = AppConfig.SiteURL + "Documents/Attach/" + clsGeneral.Encode_Url(ImagesCol1.ImageUrl);
+
+                //ImagesCol1.Height = (int)(bmp.Height * 0.8);
+                //ImagesCol1.Width = (int)(bmp.Width * 0.8);
+                //if (ImagesCol1.Width.Value >= 750)
+                //{
+                //    ImagesCol1.Height = (int)(bmp.Height * 0.5);
+                //    ImagesCol1.Width = (int)(bmp.Width * 0.5);
+                //}
+
+                int originalWidth = bmp.Width;
+                int originalHeight = bmp.Height;
+
+                float ratioX = (float)700 / (float)originalWidth;
+                float ratioY = (float)300 / (float)originalHeight;
+                float ratio = Math.Min(ratioX, ratioY);
+
+                // New width and height based on aspect ratio
+                int newWidth = (int)(originalWidth * ratio);
+                int newHeight = (int)(originalHeight * ratio);
+
+                ImagesCol1.Height = newHeight;
+                ImagesCol1.Width = newWidth;
+
+                bmp.Dispose();
+                ImagesCol1.Dispose();
             }
             else
             {
@@ -1026,7 +1094,26 @@ public partial class Event_Event_New : clsBasePage
 
             if (!string.IsNullOrEmpty(ImagesCol2.ImageUrl) && File.Exists(AppConfig.DocumentsPath + "Attach\\" + ImagesCol2.ImageUrl))
             {
+                System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(AppConfig.SitePath + "Documents/Attach/" + ImagesCol2.ImageUrl);
+
                 ImagesCol2.ImageUrl = AppConfig.SiteURL + "Documents/Attach/" + clsGeneral.Encode_Url(ImagesCol2.ImageUrl);
+
+                int originalWidth = bmp.Width;
+                int originalHeight = bmp.Height;
+
+                float ratioX = (float)700 / (float)originalWidth;
+                float ratioY = (float)300 / (float)originalHeight;
+                float ratio = Math.Min(ratioX, ratioY);
+
+                // New width and height based on aspect ratio
+                int newWidth = (int)(originalWidth * ratio);
+                int newHeight = (int)(originalHeight * ratio);
+
+                ImagesCol2.Height = newHeight;
+                ImagesCol2.Width = newWidth;
+
+                bmp.Dispose();
+                ImagesCol2.Dispose();
             }
             else
             {
@@ -1066,12 +1153,12 @@ public partial class Event_Event_New : clsBasePage
         txtInvestigator_Phone.Enabled = Is_Enable;
         
 
-        rdoPolice_Called.Enabled = Is_Enable;
-        txtAgency_name.Enabled = Is_Enable;
-        txtOfficer_Name.Enabled = Is_Enable;
-        txtOfficer_Phone.Enabled = Is_Enable;
-        txtPolice_Report_Number.Enabled = Is_Enable;
-        lnkAddACINotesNew.Visible = Is_Enable;
+        //rdoPolice_Called.Enabled = Is_Enable;
+        //txtAgency_name.Enabled = Is_Enable;
+        //txtOfficer_Name.Enabled = Is_Enable;
+        //txtOfficer_Phone.Enabled = Is_Enable;
+        //txtPolice_Report_Number.Enabled = Is_Enable;
+        //lnkAddACINotesNew.Visible = Is_Enable;
         //rdoStatus.Enabled = Is_Enable;
         //txtDate_Closed.Enabled = Is_Enable;
         //trStatus.Style["display"] = "none";
@@ -1104,6 +1191,12 @@ public partial class Event_Event_New : clsBasePage
 
         if (Is_Closed)
         {
+            rdoPolice_Called.Enabled = false;
+            txtAgency_name.Enabled = false;
+            txtOfficer_Name.Enabled = false;
+            txtOfficer_Phone.Enabled = false;
+            txtPolice_Report_Number.Enabled = false;
+            lnkAddACINotesNew.Visible = false;
             rdoStatus.Enabled = false;
             txtDate_Closed.Enabled = false;
             imgDate_Closed.Visible = false;
