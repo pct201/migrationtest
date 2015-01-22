@@ -53,7 +53,7 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet SearchByPaging(decimal? fK_LU_State, string strRegion, decimal? PK_LU_Location_DBA_ID, string strOrderBy, string strOrder, int intPageNo, int intPageSize)
+        public static DataSet SearchByPaging(decimal? fK_LU_State, string strRegion, decimal? Market, decimal? PK_LU_Location_DBA_ID, string strOrderBy, string strOrder, int intPageNo, int intPageSize)
         {
             string strConnection = System.Configuration.ConfigurationManager.ConnectionStrings["SONICConn"].ToString();
             DbProviderFactory factory = System.Data.Common.DbProviderFactories.GetFactory("System.Data.SqlClient");
@@ -62,6 +62,7 @@ namespace ERIMS.DAL
          
             db.AddInParameter(dbCommand, "FK_LU_State", DbType.Decimal, fK_LU_State);
             db.AddInParameter(dbCommand, "FK_Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.Decimal, Market);
             db.AddInParameter(dbCommand, "FK_DBA", DbType.Decimal, PK_LU_Location_DBA_ID);
             db.AddInParameter(dbCommand, "strOrderBy", DbType.String, strOrderBy);
             db.AddInParameter(dbCommand, "strOrder", DbType.String, strOrder);
