@@ -202,6 +202,7 @@ public partial class COI_PopUpInsuredName : System.Web.UI.Page
         DataTable dtRegion = clsGetInsuredName_SONIC.GetRegionList().Tables[0];
         BindRegion(dtRegion);
         SetDropDownToolTip(new DropDownList[] { drpRegion });
+        ComboHelper.FillMarket(new DropDownList[] { drpMarket }, true);
         //Location 
         drpLocation.Items.Clear();
         DataTable dtLocationName = clsGetInsuredName_SONIC.GetLu_Location_DBA_List().Tables[0];
@@ -267,10 +268,12 @@ public partial class COI_PopUpInsuredName : System.Web.UI.Page
         decimal? decDBA = null;
         decimal? decState = null;
         string strRegion = (drpRegion.SelectedIndex > 0) ? drpRegion.SelectedValue : "";
+        decimal? decMarket = null;
+        if (drpMarket.SelectedIndex > 0) decMarket = Convert.ToDecimal(drpMarket.SelectedValue);
         if (drpLocation.SelectedIndex > 0) decDBA = Convert.ToDecimal(drpLocation.SelectedValue);
         if (drpState.SelectedIndex > 0) decState = Convert.ToDecimal(drpState.SelectedValue);
         // get result records matching search criteria
-        DataSet dsInsuredName = clsGetInsuredName_SONIC.SearchByPaging(decState, strRegion, decDBA, _SortBy, _SortOrder, PageNumber, PageSize);
+        DataSet dsInsuredName = clsGetInsuredName_SONIC.SearchByPaging(decState, strRegion,decMarket, decDBA, _SortBy, _SortOrder, PageNumber, PageSize);
 
         // set values for paging control,so it shows values as needed.
         ctrlPageProperty.TotalRecords = (dsInsuredName.Tables.Count >= 1) ? Convert.ToInt32(dsInsuredName.Tables[1].Rows[0][0]) : 0;

@@ -201,6 +201,15 @@
                                         <asp:Label ID="lblRegion" runat="server"></asp:Label>
                                     </td>
                                 </tr>
+                                 <tr>
+                                    <td width="15%">Market(s)
+                                    </td>
+                                    <td width="2%">:
+                                    </td>
+                                    <td>
+                                        <asp:Label ID="lblMarket" runat="server"></asp:Label>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td width="15%">Location(s)
                                     </td>

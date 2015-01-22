@@ -61,13 +61,16 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
         strRegion = strRegion.TrimEnd(',');
 
         string strMarket = "";
+        string strMarketText = "";
         // get selected Markets
         foreach (ListItem itmMarket in lstMarket.Items)
         {
             if (itmMarket.Selected)
                 strMarket = strMarket + "" + itmMarket.Value + ",";
+                strMarketText = strMarketText + "" + itmMarket.Text + ",";
         }
         strMarket = strMarket.TrimEnd(',');
+        strMarketText = strMarketText.TrimEnd(',');
 
         string strDBA = "";
         // get selected regions
@@ -101,6 +104,11 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
             lblRegion.Text = "All";
         else
             lblRegion.Text = strRegion.Replace("'", "");
+
+        if (string.IsNullOrEmpty(strMarket))
+            lblMarket.Text = "All";
+        else
+            lblMarket.Text = strMarketText;
 
         if (string.IsNullOrEmpty(strDBA))
             lblLocationDBA.Text = "All";
@@ -262,6 +270,9 @@ public partial class SONIC_ClaimInfo_rptFROIRecap : clsBasePage
             strHTML.Append("</td> </tr>");
             strHTML.Append("<tr> <td colspan='11'>");
             strHTML.Append("Region   : " + lblRegion.Text);
+            strHTML.Append("</td> </tr>");
+            strHTML.Append("<tr> <td colspan='11'>");
+            strHTML.Append("Market   : " + lblMarket.Text);
             strHTML.Append("</td> </tr>");
             strHTML.Append("<tr> <td colspan='11'>");
             strHTML.Append("Location D/B/A   : " + lblLocationDBA.Text);

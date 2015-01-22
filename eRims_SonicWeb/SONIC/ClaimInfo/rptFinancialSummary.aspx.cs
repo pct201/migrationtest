@@ -107,7 +107,7 @@ public partial class SONIC_ClaimInfo_rptFinancialSummary : clsBasePage
         foreach (ListItem itmMarket in lstMarket.Items)
         {
             if (itmMarket.Selected)
-                strMarket = strMarket + "'" + itmMarket.Value + "',";
+                strMarket = strMarket +  itmMarket.Value + ",";
         }
         strMarket = strMarket.TrimEnd(',');
 
