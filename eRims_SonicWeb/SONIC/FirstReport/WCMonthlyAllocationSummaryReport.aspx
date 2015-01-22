@@ -194,7 +194,7 @@
                                 <HeaderStyle HorizontalAlign="right" />
                                 <ItemStyle HorizontalAlign="Right" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblJAN" runat="server" Text='<%# "$" + clsGeneral.GetStringValue(Eval("Total"))%>'
+                                    <asp:Label ID="lblTotal" runat="server" Text='<%# "$" + clsGeneral.GetStringValue(Eval("Total"))%>'
                                         Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>

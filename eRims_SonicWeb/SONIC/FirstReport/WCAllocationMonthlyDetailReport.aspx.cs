@@ -20,7 +20,7 @@ using ERIMS.DAL;
 
 public partial class SONIC_FirstReport_WCAllocationMonthlyDetailReport : clsBasePage
 {
-    DataTable dtRegionTotals, dtDetails, dtGrandTotal;
+    DataTable dtRegionTotals, dtDetails, dtGrandTotal, dtMarketTotal;
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -50,8 +50,15 @@ public partial class SONIC_FirstReport_WCAllocationMonthlyDetailReport : clsBase
         ((HtmlTable)gvRegion.FooterRow.FindControl("tblFooter")).Border = 1;
         foreach (GridViewRow gRow in gvRegion.Rows)
         {
-            GridView gvDetail = (GridView)gRow.FindControl("gvReport");
-            gvDetail.GridLines = GridLines.Both;
+            GridView gvReport_Market = (GridView)gRow.FindControl("gvReport_Market");
+
+            gvReport_Market.GridLines = GridLines.Both;
+
+            foreach (GridViewRow g1Row in gvReport_Market.Rows)
+            {
+                GridView gvDetail = (GridView)g1Row.FindControl("gvReport");
+                gvDetail.GridLines = GridLines.Both;
+            }
         }
         GridViewExportUtil.ExportGrid("WCAllocationDetailsReport.xls", gvRegion);
 
@@ -78,8 +85,9 @@ public partial class SONIC_FirstReport_WCAllocationMonthlyDetailReport : clsBase
         DataSet dsReport = WC_Allocation_Charges.WCAllocationMonthlyDetailReport(Convert.ToInt32(ddlMonth.SelectedValue), Convert.ToInt32(ddlYear.SelectedValue));
 
         dtDetails = dsReport.Tables[0];
-        dtRegionTotals = dsReport.Tables[1];
-        dtGrandTotal = dsReport.Tables[2];
+        dtMarketTotal = dsReport.Tables[1];
+        dtRegionTotals = dsReport.Tables[2];
+        dtGrandTotal = dsReport.Tables[3];
 
         gvRegion.DataSource = dtRegionTotals;
         gvRegion.DataBind();
@@ -125,7 +133,7 @@ public partial class SONIC_FirstReport_WCAllocationMonthlyDetailReport : clsBase
             Cell.HorizontalAlign = HorizontalAlign.Center;
             Cell.Text = "<table width='100%' cellspacing=0 cellpadding=0><tr><td width='100%'>" +
                             "<table width='100%' style='font-weight: bold;' cellspacing=0 cellpadding=0>" +
-                                "<tr><td width='100%' align='center' colspan='16'>WC Allocation Monthly Detail Report </td></tr></table>" +
+                                "<tr><td width='100%' align='center' >WC Allocation Monthly Detail Report </td></tr></table>" +
                             "</td></tr></table>";
             // add cell in row
             gRow.Cells.Add(Cell);
@@ -145,18 +153,56 @@ public partial class SONIC_FirstReport_WCAllocationMonthlyDetailReport : clsBase
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
-            
+
             string strRegion = Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Region"));
-            DataView dvDetails = dtDetails.DefaultView;
+            DataView dvDetails = dtMarketTotal.DefaultView;
             // filter data table for region 
             dvDetails.RowFilter = "Region = '" + strRegion + "'";
+
+            // bind grid
+            GridView gvReport_Market = (GridView)e.Row.FindControl("gvReport_Market");
+            gvReport_Market.DataSource = dvDetails.ToTable();
+            gvReport_Market.DataBind();
+
+            DataRow[] dr = dtRegionTotals.Select("Region= '" + strRegion + "'");
+
+            if (dr.Length > 0)
+            {
+                //if (dtGrandTotal.Rows.Count > 0)
+                {
+                    DataRow drTotal = dr[0];
+                    ((Label)gvReport_Market.FooterRow.FindControl("lblReportLag")).Text = String.Format("{0:N0}", drTotal["Report_Lag"]); ;
+                    ((Label)gvReport_Market.FooterRow.FindControl("lblClaimCharge")).Text = String.Format("{0:C2}", drTotal["Initial_Charge"]);
+                    ((Label)gvReport_Market.FooterRow.FindControl("lblPenaltyCharge")).Text = String.Format("{0:C2}", drTotal["Lag_Charge"]);
+                    ((Label)gvReport_Market.FooterRow.FindControl("lblPerformanceCredit")).Text = String.Format("{0:C2}", drTotal["Lag_Credit"]);
+                    ((Label)gvReport_Market.FooterRow.FindControl("lblClosedCredit")).Text = String.Format("{0:C2}", drTotal["Early_Close_Credit"]);
+                    ((Label)gvReport_Market.FooterRow.FindControl("lblReopenedCharge")).Text = String.Format("{0:C2}", drTotal["Reopen_Charge"]);
+                    ((Label)gvReport_Market.FooterRow.FindControl("lblTotalCharge")).Text = String.Format("{0:C2}", drTotal["Total_Charge"]);
+                    ((Label)gvReport_Market.FooterRow.FindControl("lblNurseTriageCredit")).Text = String.Format("{0:C2}", drTotal["Nurse_Triage_Credit"]);
+                    ((Label)gvReport_Market.FooterRow.FindControl("lblIncidentInvestigationCredit")).Text = String.Format("{0:C2}", drTotal["Incident_Investigation_Credit"]);
+
+                }
+            }
+        }
+    }
+
+    protected void gvReport_Market_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+
+            string strRegion = Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Region"));
+            string strMarket = Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Market"));
+            DataView dvDetails = dtDetails.DefaultView;
+            // filter data table for region 
+            dvDetails.RowFilter = "Region = '" + strRegion + "' And Market = '" + strMarket + "'";
 
             // bind grid
             GridView gvReport = (GridView)e.Row.FindControl("gvReport");
             gvReport.DataSource = dvDetails.ToTable();
             gvReport.DataBind();
 
-            DataRow[] dr = dtRegionTotals.Select("Region= '" + strRegion + "'");
+            DataRow[] dr = dtMarketTotal.Select("Region= '" + strRegion + "' And Market = '" + strMarket + "'");
 
             // Check if datarow exists for Region wise total
             if (dr.Length > 0)

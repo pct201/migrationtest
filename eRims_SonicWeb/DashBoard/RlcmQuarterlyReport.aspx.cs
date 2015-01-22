@@ -15,7 +15,8 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
 
     string _strRegions = string.Empty;
     string _strRlcms = string.Empty;
- 
+    string _strMarket = string.Empty;
+
     /// <summary>
     /// User id
     /// </summary>
@@ -86,12 +87,12 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
         {
             //if (idState == 0)
             //{
-                _strRegions = MakeCommaSeperatedRegion(false);
-                if (_strRegions != string.Empty)
-                {
-                    _strRegions = _strRegions.Remove(_strRegions.LastIndexOf(","));
-                }                
-                return _strRegions;
+            _strRegions = MakeCommaSeperatedRegion(false);
+            if (_strRegions != string.Empty)
+            {
+                _strRegions = _strRegions.Remove(_strRegions.LastIndexOf(","));
+            }
+            return _strRegions;
             //}
             //else { return string.Empty; }
         }
@@ -103,15 +104,29 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
         {
             //if (idState == 0)
             //{
-                _strRegions = MakeCommaSeperatedRegion(true);
-                if (_strRegions != string.Empty)
-                {
-                    _strRegions = _strRegions.Remove(_strRegions.LastIndexOf(","));
-                }
-                return _strRegions;
+            _strRegions = MakeCommaSeperatedRegion(true);
+            if (_strRegions != string.Empty)
+            {
+                _strRegions = _strRegions.Remove(_strRegions.LastIndexOf(","));
+            }
+            return _strRegions;
             //}
             //else { return string.Empty; }
         }
+    }
+
+    private string MarketAll
+    {
+        get
+        {
+            _strMarket = MakeCommaSeperatedMarket(true);
+            if (_strMarket != string.Empty)
+            {
+                _strMarket = _strMarket.Remove(_strMarket.LastIndexOf(","));
+            }
+            return _strMarket;
+        }
+
     }
 
     private string Rlcms
@@ -120,17 +135,17 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
         {
             //if (idState == 0)
             //{
-                _strRlcms = MakeCommaSeperatedRlcm();
-                if (_strRlcms != string.Empty)
-                {
-                    _strRlcms = _strRlcms.Remove(_strRlcms.LastIndexOf(","));
-                }                
-                return _strRlcms;
+            _strRlcms = MakeCommaSeperatedRlcm();
+            if (_strRlcms != string.Empty)
+            {
+                _strRlcms = _strRlcms.Remove(_strRlcms.LastIndexOf(","));
+            }
+            return _strRlcms;
             //}
             //else { return string.Empty; }
         }
     }
-    
+
     private bool SLT
     {
         get
@@ -187,7 +202,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
             ViewState["SonicUniversity"] = value;
         }
     }
-    
+
     private bool Investigation
     {
         get
@@ -249,7 +264,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
         ResetGrid();
         pnlCriteria.Visible = false;
         pnlReport.Visible = true;
-                
+
         cpeSLTScoring.Collapsed = true;
         cpeSLTScoring.ClientState = "true";
         cpeFacility.Collapsed = true;
@@ -263,16 +278,17 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
 
         string strRegions = string.Empty;
         string strRlcm = string.Empty;
-
+        string strMarket = string.Empty;
         strRlcm = Rlcms;
 
         //if (strRlcm == string.Empty && !(idState>0))
         //{
         strRegions = RegionsAll;
         //}
-        
+        strMarket = MarketAll;
+
         DataSet ds = new DataSet();
-        ds = Charts.RLCMQuarterlyPerformanceReport(Pk_SecurityId, strRegions, idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate, strRlcm);
+        ds = Charts.RLCMQuarterlyPerformanceReport(Pk_SecurityId, strRegions, strMarket, idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate, strRlcm);
 
         if (ds.Tables.Count > 0)
         {
@@ -498,15 +514,16 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
             SLT = true;
             string strRegions = string.Empty;
             string strRlcm = string.Empty;
-
+            string strMarket = string.Empty;
             strRlcm = Rlcms;
 
             //if (strRlcm == string.Empty && !(idState > 0))
             //{
             strRegions = RegionsAll;
             //}
+            strMarket = MarketAll;
 
-            Ds = Charts.RLCMQuarterlyPerformanceReportGrid(Pk_SecurityId, strRegions, idState, CurrentFromDate, CurrentToDate,strRlcm);
+            Ds = Charts.RLCMQuarterlyPerformanceReportGrid(Pk_SecurityId, strRegions, strMarket, idState, CurrentFromDate, CurrentToDate, strRlcm);
             if (Ds != null && Ds.Tables.Count > 0)
             {
 
@@ -574,15 +591,17 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
 
             string strRegions = string.Empty;
             string strRlcm = string.Empty;
-
+            string strMarket = string.Empty;
             strRlcm = Rlcms;
 
             //if (strRlcm == string.Empty && !(idState > 0))
             //{
-                strRegions = RegionsAll;
+            strRegions = RegionsAll;
             //}
 
-            Ds = Charts.RLCMFacilityInspections(Pk_SecurityId, strRegions, idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate,strRlcm);
+            strMarket = MarketAll;
+
+            Ds = Charts.RLCMFacilityInspections(Pk_SecurityId, strRegions, strMarket, idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate, strRlcm);
 
             if (Ds != null && Ds.Tables[0].Rows.Count > 0)
             {
@@ -612,6 +631,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
 
             string strRegions = string.Empty;
             string strRlcm = string.Empty;
+            string strMarket = string.Empty;
 
             strRlcm = Rlcms;
 
@@ -619,8 +639,8 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
             //{
             strRegions = RegionsAll;
             //}
-
-            Ds = Charts.RLCMIncidentInvestigation(Pk_SecurityId, strRegions, idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate,strRlcm);
+            strMarket = MarketAll;
+            Ds = Charts.RLCMIncidentInvestigation(Pk_SecurityId, strRegions, strMarket, idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate, strRlcm);
 
             if (Ds != null && Ds.Tables[0].Rows.Count > 0)
             {
@@ -656,6 +676,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
 
             string strRegions = string.Empty;
             string strRlcm = string.Empty;
+            string strMarket = string.Empty;
 
             strRlcm = Rlcms;
 
@@ -663,8 +684,9 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
             //{
             strRegions = RegionsAll;
             //}
+            strMarket = MarketAll;
 
-            Ds = Charts.RLCMSonicUniversityTraining(Pk_SecurityId, strRegions, idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate,strRlcm);
+            Ds = Charts.RLCMSonicUniversityTraining(Pk_SecurityId, strRegions, strMarket,idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate, strRlcm);
 
             if (Ds != null && Ds.Tables[0].Rows.Count > 0)
             {
@@ -700,6 +722,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
             Wc = true;
             string strRegions = string.Empty;
             string strRlcm = string.Empty;
+            string strMarket = string.Empty;
 
             strRlcm = Rlcms;
 
@@ -707,8 +730,9 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
             //{
             strRegions = RegionsAll;
             //}
+            strMarket = MarketAll;
 
-            Ds = Charts.RLCMWcClaimManagement(Pk_SecurityId, strRegions, idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate,strRlcm);
+            Ds = Charts.RLCMWcClaimManagement(Pk_SecurityId, strRegions, strMarket,idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate, strRlcm);
 
             if (Ds != null && Ds.Tables[0].Rows.Count > 0)
             {
@@ -777,7 +801,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
             }
         }
     }
-    
+
     protected void gvRLCMSLTParticipation_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
@@ -833,14 +857,14 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
             string DaysOpenPre = string.Empty;
             string DaysOpenCurr = string.Empty;
 
-            PercentagePre = clsGeneral.FormatNumber((DataBinder.Eval(e.Row.DataItem, "PercentageCurrentYear")),0)+ "/" + clsGeneral.FormatNumber((DataBinder.Eval(e.Row.DataItem, "PercentageCurrentYearRunningTotal")), 0);
-            PercentageCurr = clsGeneral.FormatNumber(DataBinder.Eval(e.Row.DataItem, "PercentagePriorYear"),0) + "/" + clsGeneral.FormatNumber(DataBinder.Eval(e.Row.DataItem, "PercentagePriorYearRunningTotal"), 0);
-            DefPrior = clsGeneral.FormatNumber(DataBinder.Eval(e.Row.DataItem, "TotalDeficienciesCurrentYear"),0) + "/" + clsGeneral.FormatNumber(DataBinder.Eval(e.Row.DataItem, "TotalDeficienciesCurrentYearRunningTotal"), 0);
-            DefCurr = clsGeneral.FormatNumber(DataBinder.Eval(e.Row.DataItem, "TotalDeficienciesPriorYear"),0) + "/" + clsGeneral.FormatNumber(DataBinder.Eval(e.Row.DataItem, "TotalDeficienciesPriorYearRunningTotal"), 0);
-            DaysOpenPre = clsGeneral.FormatNumber(DataBinder.Eval(e.Row.DataItem, "AvgNoofDaysCurrentYear"),0) + "/" + clsGeneral.FormatNumber(DataBinder.Eval(e.Row.DataItem, "AvgNoofDaysCurrentYearRunningTotal"),0);
-            DaysOpenCurr = clsGeneral.FormatNumber(DataBinder.Eval(e.Row.DataItem, "AvgNoofDaysPriorYear"),0) + "/" + clsGeneral.FormatNumber(DataBinder.Eval(e.Row.DataItem, "AvgNoofDaysPPriorYearRunningTotal"), 0);
+            PercentagePre = clsGeneral.FormatNumber((DataBinder.Eval(e.Row.DataItem, "PercentageCurrentYear")), 0) + "/" + clsGeneral.FormatNumber((DataBinder.Eval(e.Row.DataItem, "PercentageCurrentYearRunningTotal")), 0);
+            PercentageCurr = clsGeneral.FormatNumber(DataBinder.Eval(e.Row.DataItem, "PercentagePriorYear"), 0) + "/" + clsGeneral.FormatNumber(DataBinder.Eval(e.Row.DataItem, "PercentagePriorYearRunningTotal"), 0);
+            DefPrior = clsGeneral.FormatNumber(DataBinder.Eval(e.Row.DataItem, "TotalDeficienciesCurrentYear"), 0) + "/" + clsGeneral.FormatNumber(DataBinder.Eval(e.Row.DataItem, "TotalDeficienciesCurrentYearRunningTotal"), 0);
+            DefCurr = clsGeneral.FormatNumber(DataBinder.Eval(e.Row.DataItem, "TotalDeficienciesPriorYear"), 0) + "/" + clsGeneral.FormatNumber(DataBinder.Eval(e.Row.DataItem, "TotalDeficienciesPriorYearRunningTotal"), 0);
+            DaysOpenPre = clsGeneral.FormatNumber(DataBinder.Eval(e.Row.DataItem, "AvgNoofDaysCurrentYear"), 0) + "/" + clsGeneral.FormatNumber(DataBinder.Eval(e.Row.DataItem, "AvgNoofDaysCurrentYearRunningTotal"), 0);
+            DaysOpenCurr = clsGeneral.FormatNumber(DataBinder.Eval(e.Row.DataItem, "AvgNoofDaysPriorYear"), 0) + "/" + clsGeneral.FormatNumber(DataBinder.Eval(e.Row.DataItem, "AvgNoofDaysPPriorYearRunningTotal"), 0);
 
-            lblPercentagePre.Text = PercentagePre == "/" ? "" :  PercentagePre;
+            lblPercentagePre.Text = PercentagePre == "/" ? "" : PercentagePre;
             lblPercentageCurr.Text = PercentageCurr == "/" ? "" : PercentageCurr;
             lblDefPrior.Text = DefPrior == "/" ? "" : DefPrior;
             lblDefCurr.Text = DefCurr == "/" ? "" : DefCurr;
@@ -919,7 +943,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
         strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Current Points</Data></Cell>");
         strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Date of Last Meeting Scored</Data></Cell>");
         strHTML.Append("</Row>");
-       
+
 
 
         if (gvSLTScoring.Rows.Count > 0)
@@ -932,7 +956,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
                 { strStyleId = "s62"; }
 
                 strHTML.Append("<Row>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblRegion")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblRegion")).Text + "</Data></Cell>");
                 strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lbldba")).Text + "</Data></Cell>");
                 strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblRanking")).Text + "</Data></Cell>");
                 strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblSLT_Score")).Text + "</Data></Cell>");
@@ -1138,19 +1162,19 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
                 { strStyleId = "BoldColumn"; }
                 else
                 { strStyleId = "s62"; }
-                
+
                 strHTML.Append("<Row>");
                 strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + Row.Cells[0].Text + "</Data></Cell>");
                 strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lbldba")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + Row.Cells[2].Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblPercentagePre")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblPercentageCurr")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblDefPrior")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblDefCurr")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblDaysOpenPre")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblDaysOpenCurr")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + Row.Cells[9].Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + Row.Cells[10].Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + Row.Cells[2].Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblPercentagePre")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblPercentageCurr")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblDefPrior")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblDefCurr")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblDaysOpenPre")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblDaysOpenCurr")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + Row.Cells[9].Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + Row.Cells[10].Text + "</Data></Cell>");
                 strHTML.Append("</Row>");
             }
         }
@@ -1208,17 +1232,17 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
                 { strStyleId = "s62"; }
 
                 strHTML.Append("<Row>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblRegion")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lbldba")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblQuarter")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblTo_Be_Trained_Prev")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblTo_Be_Trained_Curr")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblTotal_Trained_Prev")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblTotal_Trained_Curr")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblScore_Prev")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblScore_Curr")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblRun_Score_Prev")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblRun_Score_Curr")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblRegion")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lbldba")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblQuarter")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblTo_Be_Trained_Prev")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblTo_Be_Trained_Curr")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblTotal_Trained_Prev")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblTotal_Trained_Curr")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblScore_Prev")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblScore_Curr")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblRun_Score_Prev")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblRun_Score_Curr")).Text + "</Data></Cell>");
                 strHTML.Append("</Row>");
             }
         }
@@ -1270,17 +1294,17 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
                 { strStyleId = "s62"; }
 
                 strHTML.Append("<Row>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblRegion")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lbldba")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblQuarter")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblScore_Prev_Year")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblScore_Curr_Year")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblRun_Score_Prev_Year")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblRun_Score_Curr_Year")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblLagTime_Prev_Year")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblLagTime_Curr_Year")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblRun_LagTime_Prev_Year")).Text + "</Data></Cell>");
-                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId  + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblRun_LagTime_Curr_Year")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblRegion")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lbldba")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblQuarter")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblScore_Prev_Year")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblScore_Curr_Year")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblRun_Score_Prev_Year")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblRun_Score_Curr_Year")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblLagTime_Prev_Year")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblLagTime_Curr_Year")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblRun_LagTime_Prev_Year")).Text + "</Data></Cell>");
+                strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lblRun_LagTime_Curr_Year")).Text + "</Data></Cell>");
                 strHTML.Append("</Row>");
             }
         }
@@ -1337,7 +1361,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
                     if (i == 1)
                         strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + ((Label)Row.FindControl("lbldba")).Text + "</Data></Cell>");
                     else
-                       strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + Row.Cells[i].Text + "</Data></Cell>");
+                        strHTML.Append("<Cell ss:StyleID=\"" + strStyleId + "\"><Data ss:Type=\"String\">" + Row.Cells[i].Text + "</Data></Cell>");
                 }
                 strHTML.Append("</Row>");
             }
@@ -1376,7 +1400,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
         SonicUniversity = false;
         FacilityInspection = false;
         Investigation = false;
-        Wc = false;        
+        Wc = false;
 
         gvSLTScoring.DataSource = null;
         gvSLTScoring.DataBind();
@@ -1389,7 +1413,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
 
         gvRLCMLagTime.DataSource = null;
         gvRLCMLagTime.DataBind();
-                
+
         gvFacilityInspection.DataSource = null;
         gvFacilityInspection.DataBind();
 
@@ -1440,6 +1464,29 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
         }
 
         return strRegions;
+    }
+
+    private string MakeCommaSeperatedMarket(bool isAll)
+    {
+        string strMarket = string.Empty;
+
+        foreach (ListItem Li in lstMarket.Items)
+        {
+            if (Li.Selected)
+            {
+                strMarket = strMarket + "" + Li.Value.Replace("'", "''") + ",";
+            }
+        }
+
+        if (strMarket == string.Empty && isAll)
+        {
+            foreach (ListItem Li in lstMarket.Items)
+            {
+                strMarket = strMarket + "" + Li.Value.Replace("'", "''") + ",";
+            }
+        }
+
+        return strMarket;
     }
 
     /// <summary>
@@ -1526,7 +1573,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
             ToolTip = Convert.ToDecimal(dt.Rows[i]["ToolTip_Previous"]);
             //strLink = Server.UrlEncode("javascript:TotalCasesByMonth(" + i.ToString() + "," + (DateTime.Now.Year - 1).ToString() + ");").Replace("'", "%26apos;").Replace("&", "%26");
             strLink = string.Empty;
-            strChartXML.Append("<set value='" + Score.ToString() + "'  link='" + strLink + "' toolText='" + ToolTip.ToString()+ "' />");
+            strChartXML.Append("<set value='" + Score.ToString() + "'  link='" + strLink + "' toolText='" + ToolTip.ToString() + "' />");
 
             Score = 0;
         }
@@ -1562,7 +1609,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
 
         StringBuilder sbChart = new StringBuilder();
         //sbChart.Append(InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/MSColumn2D.swf?ChartNoDataText=No data to display for:" + dt.Rows[0]["region"].ToString().Replace(" ", "").Replace("-", "") + "", "", strChartXML.ToString(), dt.Rows[0]["region"].ToString().Replace(" ", "").Replace("-", ""), "98%", "300", false, true));
-        sbChart.Append(InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/MSColumn2D.swf?ChartNoDataText=No data to display for:" + dt.Rows[0]["region"].ToString().Replace(" ", "").Replace("-", "") + "", "", strChartXML.ToString(), dt.Rows[0]["region"].ToString().Replace(" ", "").Replace("-", "").Replace("/",""), "98%", "300", false, true));
+        sbChart.Append(InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/MSColumn2D.swf?ChartNoDataText=No data to display for:" + dt.Rows[0]["region"].ToString().Replace(" ", "").Replace("-", "") + "", "", strChartXML.ToString(), dt.Rows[0]["region"].ToString().Replace(" ", "").Replace("-", "").Replace("/", ""), "98%", "300", false, true));
         return sbChart.ToString();
     }
 

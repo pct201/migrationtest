@@ -227,7 +227,7 @@
                                         ValidationGroup="vsErrorGroup" SetFocusOnError="true" InitialValue="0"  ControlToValidate="drpRegion"
                                         Display="None"></asp:RequiredFieldValidator>
                                 </td>
-                                <td align="left">
+                                <%--<td align="left">
                                     ADP DMS <span style="color: Red">*</span>
                                 </td>
                                 <td align="center">
@@ -239,17 +239,33 @@
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" ErrorMessage="Please Enter ADP DMS"
                                         ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToValidate="txtAdpDms"
                                         Display="None"></asp:RequiredFieldValidator>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td align="left" style="padding-left: 5px;">
-                                    Location Description
+                                </td>--%>
+                                <td align="left">
+                                    Payroll Codes <span style="color: Red">*</span>
                                 </td>
                                 <td align="center">
                                     :
                                 </td>
                                 <td align="left">
-                                    <asp:TextBox ID="txtLocationDesc" runat="server" Width="170px" MaxLength="50" />
+                                    <asp:ListBox ID="lstPayrollCodes" runat="server" Width="170px" SelectionMode="Multiple"></asp:ListBox>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator6" runat="server" ErrorMessage="Please select Payroll code"
+                                        ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToValidate="lstPayrollCodes"
+                                        Display="None"></asp:RequiredFieldValidator>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left" style="padding-left: 5px;">
+                                    Market<span style="color: Red">*</span>
+                                </td>
+                                <td align="center">
+                                    :
+                                </td>
+                                <td align="left">                                 
+                                    <asp:DropDownList ID="drpLU_Market" Width="150px" runat="server">
+                                    </asp:DropDownList>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator10" runat="server" ErrorMessage="Please Enter Market"
+                                        ValidationGroup="vsErrorGroup" SetFocusOnError="true" InitialValue="0"  ControlToValidate="drpLU_Market"
+                                        Display="None"></asp:RequiredFieldValidator>
                                 </td>
                                 <td align="left">
                                     Sonic Location Code<span style="color: Red">*</span>
@@ -266,14 +282,16 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td align="left" style="padding-left: 5px;">RLCM<span style="color: Red">*</span></td>
-                                <td align="center">:</td>
-                                <td align="left">
-                                    <asp:DropDownList ID="drpRLCM" runat="server" Width="170px" />
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server" ErrorMessage="Please select RLCM Employee"
-                                        ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToValidate="drpRLCM" InitialValue="0"
-                                        Display="None"></asp:RequiredFieldValidator>
+                                <td align="left" style="padding-left: 5px;">
+                                    Location Description
                                 </td>
+                                <td align="center">
+                                    :
+                                </td>
+                                <td align="left">
+                                    <asp:TextBox ID="txtLocationDesc" runat="server" Width="170px" MaxLength="50" />
+                                </td>
+                                
                                 <td align="left">
                                     Show On Dashboard
                                 </td>
@@ -283,6 +301,14 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td align="left" style="padding-left: 5px;">RLCM<span style="color: Red">*</span></td>
+                                <td align="center">:</td>
+                                <td align="left">
+                                    <asp:DropDownList ID="drpRLCM" runat="server" Width="170px" />
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator8" runat="server" ErrorMessage="Please select RLCM Employee"
+                                        ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToValidate="drpRLCM" InitialValue="0"
+                                        Display="None"></asp:RequiredFieldValidator>
+                                </td>
                                 <td align="left" style="padding-left: 5px;">
                                     Active
                                 </td>
@@ -456,13 +482,13 @@
                             </tr>
                             <tr>
                                 <td align="left" style="padding-left: 5px;">
-                                    Location Description
+                                    Market<span style="color: Red">*</span>
                                 </td>
                                 <td align="center">
                                     :
                                 </td>
                                 <td align="left">
-                                    <asp:Label ID="lblLocationDescription" runat="server" Text=""></asp:Label>
+                                    <asp:Label ID="lblLU_Market" runat="server" Text=""></asp:Label>
                                 </td>
                                 <td align="left">
                                     Sonic Location Code<span style="color: Red">*</span>
@@ -476,14 +502,15 @@
                             </tr>
                             <tr>
                                 <td align="left" style="padding-left: 5px;">
-                                    RLCM
+                                    Location Description
                                 </td>
                                 <td align="center">
                                     :
                                 </td>
                                 <td align="left">
-                                    <asp:Label ID="lblRLCM" runat="server" Text=""></asp:Label>
+                                    <asp:Label ID="lblLocationDescription" runat="server" Text=""></asp:Label>
                                 </td>
+                                
                                 <td align="left">
                                     Show On Dashboard
                                 </td>
@@ -498,6 +525,15 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td align="left" style="padding-left: 5px;">
+                                    RLCM
+                                </td>
+                                <td align="center">
+                                    :
+                                </td>
+                                <td align="left">
+                                    <asp:Label ID="lblRLCM" runat="server" Text=""></asp:Label>
+                                </td>
                                 <td align="left" style="padding-left: 5px;">
                                     Active
                                 </td>

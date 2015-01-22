@@ -190,6 +190,9 @@
           <siteMapNode url="Administrator/TypeOfAllegation.aspx" title="Type of Allegation" description=""></siteMapNode>
           <siteMapNode url="Administrator/TypeOfClaim.aspx" title="Type of Claim" description=""></siteMapNode>
         </siteMapNode>
+        <siteMapNode url="" title="Exposures" description="">
+          <siteMapNode url="Administrator/LU_Market.aspx" title="Market" description=""></siteMapNode>
+        </siteMapNode>
         <siteMapNode url="" title="First Reports" description="">
           <siteMapNode url="Administrator/IncidentInvolvementType.aspx" title="Incident Involvement Type" description=""></siteMapNode>
         </siteMapNode>

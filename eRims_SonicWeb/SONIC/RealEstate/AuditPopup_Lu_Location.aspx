@@ -106,6 +106,9 @@
                                     <span style="display: inline-block; width: 150px;">Region</span>
                                 </th>
                                 <th class="cols">
+                                    <span style="display: inline-block; width: 150px;">Market</span>
+                                </th>
+                                <th class="cols">
                                     <span style="display: inline-block; width: 150px;">Sonic Location Code</span>
                                 </th>
                                 <th class="cols">
@@ -238,6 +241,12 @@
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
                                     <asp:Label ID="lblRegion" runat="server" Text='<%#Eval("Region")%>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Region" ItemStyle-Width="150px">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblRegion" runat="server" Text='<%#Eval("Market")%>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Sonic_Location_Code" ItemStyle-Width="150px">

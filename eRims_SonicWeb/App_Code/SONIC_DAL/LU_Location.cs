@@ -48,6 +48,8 @@ namespace ERIMS.DAL
         private string _Active;
         private string _Show_On_Dashboard;
         private decimal? _FK_Employee_Id;
+        private decimal? _FK_LU_Market;
+        private string _Payroll_Codes;
         #endregion
 
         #region Properties
@@ -245,6 +247,18 @@ namespace ERIMS.DAL
             set { _FK_Employee_Id = value; }
         }
 
+        public decimal? FK_LU_Market
+        {
+            get { return _FK_LU_Market; }
+            set { _FK_LU_Market = value; }
+        }
+
+        public string Payroll_Codes
+        {
+            get { return _Payroll_Codes; }
+            set { _Payroll_Codes = value; }
+        }
+
         #endregion
 
         #region Constructors
@@ -310,6 +324,7 @@ namespace ERIMS.DAL
                 this._Active = drLU_Location["Active"] != DBNull.Value ? Convert.ToString(drLU_Location["Active"]) : "Y";
                 this._Show_On_Dashboard = Convert.ToString(drLU_Location["Show_On_Dashboard"]);
                 if (drLU_Location["FK_Employee_Id"] != DBNull.Value) this._FK_Employee_Id = Convert.ToDecimal(drLU_Location["FK_Employee_Id"]);
+                this._FK_LU_Market = drLU_Location["FK_LU_Market"] != DBNull.Value ? Convert.ToDecimal(drLU_Location["FK_LU_Market"]) : 0;
             }
 
             else
@@ -335,6 +350,7 @@ namespace ERIMS.DAL
                 this._Active = "Y";
                 this._Show_On_Dashboard = "";
                 this._FK_Employee_Id = null;
+                this._FK_LU_Market = null;
             }
         }
 
@@ -436,6 +452,9 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "FK_Employee_Id", DbType.Decimal, this._FK_Employee_Id);
             else
                 db.AddInParameter(dbCommand, "FK_Employee_Id", DbType.Decimal, DBNull.Value);
+
+            db.AddInParameter(dbCommand, "FK_LU_Market", DbType.Decimal, this._FK_LU_Market);
+
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -680,6 +699,8 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "FK_Employee_Id", DbType.Decimal, this._FK_Employee_Id);
             else
                 db.AddInParameter(dbCommand, "FK_Employee_Id", DbType.Decimal, DBNull.Value);
+
+            db.AddInParameter(dbCommand, "FK_LU_Market", DbType.Decimal, this._FK_LU_Market);
             db.ExecuteNonQuery(dbCommand);
         }
 
@@ -819,6 +840,27 @@ namespace ERIMS.DAL
             DbCommand dbCommand = db.GetStoredProcCommand("SelectAllLocation");
             dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
+        }
+
+        public static DataSet SelectPayrollByLocation(decimal pK_LU_Location_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Lu_Location_SelectPayrollByLocation");
+
+            db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Decimal, pK_LU_Location_ID);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        public void InsertUpdatePayrollByLocation()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_Location_InsertUpdatePayroll");
+
+            db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Decimal, this._PK_LU_Location_ID);
+            db.AddInParameter(dbCommand, "Payroll_Codes", DbType.String, this._Payroll_Codes);
+            
+            db.ExecuteNonQuery(dbCommand);
         }
         #endregion
     }

@@ -82,6 +82,8 @@ public partial class SONIC_RealEstate_DealershipDBA_Pupup : clsBasePage
         drpCounty.Items.Insert(0, new ListItem("--Select--", "0"));
 
         ComboHelper.FillRegion(new DropDownList[] { drpRegion }, true);
+        ComboHelper.FillMarket(new DropDownList[] { drpLU_Market }, true,false);
+        ComboHelper.FillPayrollCodesListbox(new ListBox[] { lstPayrollCodes }, false);
         DataTable dtRLCM = Employee.SelectRLCM_Emp().Tables[0];
         drpRLCM.DataSource = dtRLCM;
         drpRLCM.DataTextField = "Employee";
@@ -113,12 +115,24 @@ public partial class SONIC_RealEstate_DealershipDBA_Pupup : clsBasePage
             txtWebSite.Text = objLocation.Web_site;
             txtRIMNumber.Text = objLocation.RM_Location_Number;
             drpRegion.SelectedValue = objLocation.Region;
-            txtAdpDms.Text = objLocation.ADP_DMS;
+            //txtAdpDms.Text = objLocation.ADP_DMS;
             txtLocationDesc.Text = objLocation.Location_Description;
             txtSonicLocationCode.Text = Convert.ToString(objLocation.Sonic_Location_Code);
             rdbActive.SelectedValue = objLocation.Active;
             rdoShowOnDashboard.SelectedValue = objLocation.Show_On_Dashboard;
             if (objLocation.FK_Employee_Id != null) drpRLCM.SelectedValue = objLocation.FK_Employee_Id.ToString();
+            if (objLocation.FK_LU_Market != null) drpLU_Market.SelectedValue = objLocation.FK_LU_Market.ToString();
+
+            DataSet dsPayroll = LU_Location.SelectPayrollByLocation(_PK_LU_Location);
+            if (dsPayroll != null && dsPayroll.Tables.Count > 0 && dsPayroll.Tables[0].Rows.Count > 0)
+            {
+                lstPayrollCodes.ClearSelection();
+                foreach (DataRow dr in dsPayroll.Tables[0].Rows)
+                {
+                    if (lstPayrollCodes.Items.FindByValue(dr["Payroll_Code"].ToString()) != null)
+                        lstPayrollCodes.Items.FindByValue(dr["Payroll_Code"].ToString()).Selected = true;
+                }
+            }
         }
         else
         {
@@ -158,6 +172,12 @@ public partial class SONIC_RealEstate_DealershipDBA_Pupup : clsBasePage
                 Employee objEmp = new Employee((decimal)objLocation.FK_Employee_Id);
                 lblRLCM.Text = objEmp.Last_Name + ", " + objEmp.First_Name;
             }
+            if (objLocation.FK_LU_Market != null)
+            {
+                clsLU_Market objEmp = new clsLU_Market((decimal)objLocation.FK_LU_Market);
+                lblLU_Market.Text = objEmp.Market;
+            }
+
         }
         else
         {
@@ -198,13 +218,30 @@ public partial class SONIC_RealEstate_DealershipDBA_Pupup : clsBasePage
         objLocation.Year_of_Acquisition = Convert.ToString(txtYearofAquisition.Text);
         objLocation.Web_site = Convert.ToString(txtWebSite.Text);
         objLocation.RM_Location_Number = Convert.ToString(txtRIMNumber.Text);
-        objLocation.ADP_DMS = Convert.ToString(txtAdpDms.Text.Replace(",", ""));
+        //objLocation.ADP_DMS = Convert.ToString(txtAdpDms.Text.Replace(",", ""));
         objLocation.Location_Description = Convert.ToString(txtLocationDesc.Text);
         objLocation.Sonic_Location_Code = Convert.ToInt32(txtSonicLocationCode.Text);
         objLocation.Active = rdbActive.SelectedValue;
         objLocation.Region = Convert.ToString(drpRegion.SelectedValue);
         objLocation.Show_On_Dashboard = rdoShowOnDashboard.SelectedValue;
         if (drpRLCM.SelectedIndex > 0) objLocation.FK_Employee_Id = Convert.ToDecimal(drpRLCM.SelectedValue);
+        objLocation.FK_LU_Market = Convert.ToDecimal(drpLU_Market.SelectedValue);
+    }
+
+    private void InsertPayroll()
+    {
+        string _PayrollCodes = string.Empty;
+        int[] payrollIndices = lstPayrollCodes.GetSelectedIndices();
+        if (payrollIndices != null && payrollIndices.Length > 0)
+        {
+            foreach (int currentIndex in payrollIndices)
+                _PayrollCodes += lstPayrollCodes.Items[currentIndex].Value + ",";
+        }
+        _PayrollCodes = _PayrollCodes.TrimEnd(',');
+        LU_Location objLU_Location = new LU_Location();
+        objLU_Location.PK_LU_Location_ID = _PK_LU_Location;
+        objLU_Location.Payroll_Codes = _PayrollCodes;
+        objLU_Location.InsertUpdatePayrollByLocation();
     }
 
     #endregion
@@ -235,9 +272,9 @@ public partial class SONIC_RealEstate_DealershipDBA_Pupup : clsBasePage
         }
         else
         {
-            objLocation.Insert();
+            _PK_LU_Location = objLocation.Insert();
         }
-
+        InsertPayroll();
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:parent.parent.location.href=parent.parent.location.href", true);
     }
 

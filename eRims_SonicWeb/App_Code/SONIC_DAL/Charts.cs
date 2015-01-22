@@ -30,7 +30,7 @@ public class Charts
     {
         Database db = DatabaseFactory.CreateDatabase();
         DbCommand dbCommand = db.GetStoredProcCommand("Chart_FacilityInspectionByRegion");
-        dbCommand.CommandTimeout = 1000; 
+        dbCommand.CommandTimeout = 1000;
 
         db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);
         db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, clsSession.UserID);
@@ -48,7 +48,7 @@ public class Charts
         db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
         db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, clsSession.UserID);
         return db.ExecuteDataSet(dbCommand);
-    }     
+    }
 
     public static DataSet GetFacilityInspectionDetail(int Year, string DBA, string Sonic_Location_Code)
     {
@@ -243,26 +243,27 @@ public class Charts
     /// <param name="PreviousFromDate">previous year from date</param>
     /// <param name="PreviousToDate">previous year to date</param>
     /// <returns></returns>
-    public static DataSet RLCMQuarterlyPerformanceReport(decimal pk_Security_ID, string Regions, int idState, DateTime FromDate, DateTime ToDate, DateTime PreviousFromDate, DateTime PreviousToDate,string Rlcms)
+    public static DataSet RLCMQuarterlyPerformanceReport(decimal pk_Security_ID, string Regions, string Markets, int idState, DateTime FromDate, DateTime ToDate, DateTime PreviousFromDate, DateTime PreviousToDate, string Rlcms)
     {
         Database db = DatabaseFactory.CreateDatabase();
         DbCommand dbCommand = db.GetStoredProcCommand("RLCM_Quarterly_Performance");
 
-        dbCommand.CommandTimeout = 1000; 
+        dbCommand.CommandTimeout = 1000;
         db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, pk_Security_ID);
         db.AddInParameter(dbCommand, "Regions", DbType.String, Regions);
+        db.AddInParameter(dbCommand, "Markets", DbType.String, Markets);
         db.AddInParameter(dbCommand, "idState", DbType.Int32, idState);
         db.AddInParameter(dbCommand, "FromDate", DbType.DateTime, FromDate);
         db.AddInParameter(dbCommand, "ToDate", DbType.DateTime, ToDate);
         db.AddInParameter(dbCommand, "PreviousFromDate", DbType.DateTime, PreviousFromDate);
         db.AddInParameter(dbCommand, "PreviousToDate", DbType.DateTime, PreviousToDate);
         db.AddInParameter(dbCommand, "Rlcms", DbType.String, Rlcms);
-                
+
         return db.ExecuteDataSet(dbCommand);
 
     }
 
-    public static DataSet RLCMQuarterlyPerformanceReportGrid(decimal pk_Security_ID, string Regions, int idState, DateTime FromDate, DateTime ToDate, string Rlcms)
+    public static DataSet RLCMQuarterlyPerformanceReportGrid(decimal pk_Security_ID, string Regions, string Markets, int idState, DateTime FromDate, DateTime ToDate, string Rlcms)
     {
         Database db = DatabaseFactory.CreateDatabase();
         DbCommand dbCommand = db.GetStoredProcCommand("rptQuarterlyPerformanceSLT");
@@ -270,7 +271,8 @@ public class Charts
         dbCommand.CommandTimeout = 1000;
         db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, pk_Security_ID);
         db.AddInParameter(dbCommand, "idState", DbType.Int32, idState);
-        db.AddInParameter(dbCommand, "Regions", DbType.String, Regions);        
+        db.AddInParameter(dbCommand, "Regions", DbType.String, Regions);
+        db.AddInParameter(dbCommand, "Markets", DbType.String, Markets);
         db.AddInParameter(dbCommand, "From_Date", DbType.DateTime, FromDate);
         db.AddInParameter(dbCommand, "To_Date", DbType.DateTime, ToDate);
         db.AddInParameter(dbCommand, "Rlcms", DbType.String, Rlcms);
@@ -281,7 +283,7 @@ public class Charts
     }
 
 
-    public static DataSet RLCMFacilityInspections(decimal pk_Security_ID, string Regions, int idState, DateTime FromDate, DateTime ToDate, DateTime PreviousFromDate, DateTime PreviousToDate, string Rlcms)
+    public static DataSet RLCMFacilityInspections(decimal pk_Security_ID, string Regions, string Markets, int idState, DateTime FromDate, DateTime ToDate, DateTime PreviousFromDate, DateTime PreviousToDate, string Rlcms)
     {
         try
         {
@@ -291,6 +293,7 @@ public class Charts
             dbCommand.CommandTimeout = 1000;
             db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, pk_Security_ID);
             db.AddInParameter(dbCommand, "Regions", DbType.String, Regions);
+            db.AddInParameter(dbCommand, "Markets", DbType.String, Markets);
             db.AddInParameter(dbCommand, "idState", DbType.Int32, idState);
             db.AddInParameter(dbCommand, "FromDate", DbType.DateTime, FromDate);
             db.AddInParameter(dbCommand, "ToDate", DbType.DateTime, ToDate);
@@ -301,13 +304,13 @@ public class Charts
             return db.ExecuteDataSet(dbCommand);
         }
         catch (Exception ex)
-        {            
+        {
             throw;
         }
         return null;
     }
 
-    public static DataSet RLCMSonicUniversityTraining(decimal pk_Security_ID, string Regions, int idState, DateTime FromDate, DateTime ToDate, DateTime PreviousFromDate, DateTime PreviousToDate, string Rlcms)
+    public static DataSet RLCMSonicUniversityTraining(decimal pk_Security_ID, string Regions, string Markets, int idState, DateTime FromDate, DateTime ToDate, DateTime PreviousFromDate, DateTime PreviousToDate, string Rlcms)
     {
         Database db = DatabaseFactory.CreateDatabase();
         DbCommand dbCommand = db.GetStoredProcCommand("rptQuarterlyPerformanceSabaTraining");
@@ -316,6 +319,7 @@ public class Charts
         db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, pk_Security_ID);
         db.AddInParameter(dbCommand, "idState", DbType.Int32, idState);
         db.AddInParameter(dbCommand, "Regions", DbType.String, Regions);
+        db.AddInParameter(dbCommand, "Markets", DbType.String, Markets);
         db.AddInParameter(dbCommand, "PrevYearFrom_Date", DbType.DateTime, PreviousFromDate);
         db.AddInParameter(dbCommand, "PrevYearTo_Date", DbType.DateTime, PreviousToDate);
         db.AddInParameter(dbCommand, "CurrYearFrom_Date", DbType.DateTime, FromDate);
@@ -324,7 +328,7 @@ public class Charts
         return db.ExecuteDataSet(dbCommand);
     }
 
-    public static DataSet RLCMWcClaimManagement(decimal pk_Security_ID, string Regions, int idState, DateTime FromDate, DateTime ToDate, DateTime PreviousFromDate, DateTime PreviousToDate, string Rlcms)
+    public static DataSet RLCMWcClaimManagement(decimal pk_Security_ID, string Regions, string Markets, int idState, DateTime FromDate, DateTime ToDate, DateTime PreviousFromDate, DateTime PreviousToDate, string Rlcms)
     {
         Database db = DatabaseFactory.CreateDatabase();
         DbCommand dbCommand = db.GetStoredProcCommand("rptQuarterlyPerformWCIncident");
@@ -333,6 +337,7 @@ public class Charts
         db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, pk_Security_ID);
         db.AddInParameter(dbCommand, "idState", DbType.Int32, idState);
         db.AddInParameter(dbCommand, "Regions", DbType.String, Regions);
+        db.AddInParameter(dbCommand, "Markets", DbType.String, Markets);
         db.AddInParameter(dbCommand, "PrevYearFrom_Date", DbType.DateTime, PreviousFromDate);
         db.AddInParameter(dbCommand, "PrevYearTo_Date", DbType.DateTime, PreviousToDate);
         db.AddInParameter(dbCommand, "CurrYearFrom_Date", DbType.DateTime, FromDate);
@@ -342,7 +347,7 @@ public class Charts
         return db.ExecuteDataSet(dbCommand);
     }
 
-    public static DataSet RLCMIncidentInvestigation(decimal pk_Security_ID, string Regions, int idState, DateTime FromDate, DateTime ToDate, DateTime PreviousFromDate, DateTime PreviousToDate, string Rlcms)
+    public static DataSet RLCMIncidentInvestigation(decimal pk_Security_ID, string Regions, string Markets, int idState, DateTime FromDate, DateTime ToDate, DateTime PreviousFromDate, DateTime PreviousToDate, string Rlcms)
     {
         Database db = DatabaseFactory.CreateDatabase();
         DbCommand dbCommand = db.GetStoredProcCommand("rptQuarterlyPerformInvestigation");
@@ -351,6 +356,7 @@ public class Charts
         db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, pk_Security_ID);
         db.AddInParameter(dbCommand, "idState", DbType.Int32, idState);
         db.AddInParameter(dbCommand, "Regions", DbType.String, Regions);
+        db.AddInParameter(dbCommand, "Markets", DbType.String, Markets);
         db.AddInParameter(dbCommand, "PrevYearFrom_Date", DbType.DateTime, PreviousFromDate);
         db.AddInParameter(dbCommand, "PrevYearTo_Date", DbType.DateTime, PreviousToDate);
         db.AddInParameter(dbCommand, "CurrYearFrom_Date", DbType.DateTime, FromDate);

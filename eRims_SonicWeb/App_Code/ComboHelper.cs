@@ -1963,6 +1963,29 @@ public class ComboHelper
         }
     }
 
+    public static void FillMarket(DropDownList[] dropDowns, bool booladdSelectAsFirstElement, bool isAll)
+    {
+        string SELECT_STRING = string.Empty;
+        if(isAll)
+        SELECT_STRING = "--All Markets--";
+        else
+            SELECT_STRING = "-- Select --";
+        DataSet dsData = clsLU_Market.SelectActiveMarkets();
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Market";
+            ddlToFill.DataValueField = "PK_LU_Market";
+            ddlToFill.DataSource = dsData;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
     /// <summary>
     /// Used tp bind Market from LU_Market Table
     /// </summary>
@@ -2002,7 +2025,7 @@ public class ComboHelper
                 lstToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
             }
         }
-    
+
     }
 
     /// <summary>
@@ -4406,7 +4429,7 @@ public class ComboHelper
                 //    ddlToFill.DataSource = dtClaimNumber;
                 //    ddlToFill.DataBind();
                 //}
-               
+
                 //check require to add "-- select --" at first item of dropdown.
                 if (booladdSelectAsFirstElement)
                 {
@@ -4576,7 +4599,7 @@ public class ComboHelper
             {
                 DataTable dtAssociate = dsAssociate.Tables[0];
                 // bind the grid.
-                ddlToFill.Items.Clear();                
+                ddlToFill.Items.Clear();
                 dtAssociate = dtAssociate.DefaultView.ToTable();
                 ddlToFill.DataTextField = "EmpName";
                 ddlToFill.DataValueField = "Employee_Id";
@@ -4613,7 +4636,7 @@ public class ComboHelper
                 }
             }
         }
-        
+
     }
 
     public static void FillClaimantNumberFormOhioWCClaim(DropDownList[] dropDowns, bool booladdSelectAsFirstElement)
@@ -4831,7 +4854,7 @@ public class ComboHelper
 
     public static void FillLocationByACIUser(DropDownList[] dropDownList, decimal Security_Id, bool p)
     {
-        DataSet dsData = clsSecurity_ACI_LU_Location.SelectByUser(Security_Id,false);
+        DataSet dsData = clsSecurity_ACI_LU_Location.SelectByUser(Security_Id, false);
         dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
         foreach (DropDownList ddlToFill in dropDownList)
         {
