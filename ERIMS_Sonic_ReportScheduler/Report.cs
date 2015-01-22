@@ -38,11 +38,11 @@ namespace ERIMS_Sonic_ReportScheduler
             db.AddInParameter(dbCommand, "StartDate", DbType.DateTime, dtStartDate);
             db.AddInParameter(dbCommand, "EndDate", DbType.DateTime, dtEndDate);
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet Get_Notification_Bordereau_Report(DateTime dtStartDate, DateTime dtEndDate, string strRegion)
+        public static DataSet Get_Notification_Bordereau_Report(DateTime dtStartDate, DateTime dtEndDate, string strRegion, string strMarket)
         {
             SqlDatabase db = new SqlDatabase(strConn);
             DbCommand dbCommand = db.GetStoredProcCommand("ER_Claim_Notification_Bordereau_Report");
@@ -50,11 +50,12 @@ namespace ERIMS_Sonic_ReportScheduler
             db.AddInParameter(dbCommand, "StartDate", DbType.DateTime, dtStartDate);
             db.AddInParameter(dbCommand, "EndDate", DbType.DateTime, dtEndDate);
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
-
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet Get_Litigation_Summary_Report(DateTime dtStartDate, DateTime dtEndDate, string strRegion)
+        public static DataSet Get_Litigation_Summary_Report(DateTime dtStartDate, DateTime dtEndDate, string strRegion, string strMarket)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("ER_Litigation_Summary_Report");
@@ -62,7 +63,8 @@ namespace ERIMS_Sonic_ReportScheduler
             db.AddInParameter(dbCommand, "StartDate", DbType.DateTime, dtStartDate);
             db.AddInParameter(dbCommand, "EndDate", DbType.DateTime, dtEndDate);
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
-
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -70,10 +72,11 @@ namespace ERIMS_Sonic_ReportScheduler
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("ER_Reportable_Claims_Report");
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet Get_Network_Call_Summary_Report(DateTime dtStartDate, DateTime dtEndDate, string strRegion)
+        public static DataSet Get_Network_Call_Summary_Report(DateTime dtStartDate, DateTime dtEndDate, string strRegion, string strMarket)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("ER_Network_Call_Summary_Report");
@@ -81,7 +84,8 @@ namespace ERIMS_Sonic_ReportScheduler
             db.AddInParameter(dbCommand, "StartDate", DbType.DateTime, dtStartDate);
             db.AddInParameter(dbCommand, "EndDate", DbType.DateTime, dtEndDate);
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
-
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -93,7 +97,7 @@ namespace ERIMS_Sonic_ReportScheduler
             db.AddInParameter(dbCommand, "Year", DbType.Int32, intYear);
             db.AddInParameter(dbCommand, "Month", DbType.Int32, intMonth);
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -105,7 +109,7 @@ namespace ERIMS_Sonic_ReportScheduler
             db.AddInParameter(dbCommand, "Year", DbType.Decimal, Year);
             db.AddInParameter(dbCommand, "Month", DbType.Decimal, Month);
             db.AddInParameter(dbCommand, "PK_LU_Location_ID", DbType.Decimal, PK_LU_Location_ID);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -115,66 +119,78 @@ namespace ERIMS_Sonic_ReportScheduler
             DbCommand dbCommand = db.GetStoredProcCommand("WCAllocationLocationSummaryReport");
 
             db.AddInParameter(dbCommand, "Year", DbType.Decimal, Year);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetFinancialSummaryData(string strYear, string strClaimType, string strRegion, DateTime valuation_date)
+        public static DataSet GetFinancialSummaryData(string strYear, string strClaimType, string strRegion, string strMarket, DateTime valuation_date)
         {
             SqlDatabase db = new SqlDatabase(strConn);
             DbCommand dbCommand = db.GetStoredProcCommand("rptFinancialSummary");
             db.AddInParameter(dbCommand, "year", DbType.String, strYear);
             db.AddInParameter(dbCommand, "claim_type", DbType.String, strClaimType);
             db.AddInParameter(dbCommand, "region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "valuation_date", DbType.DateTime, valuation_date);
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetFinancialPayTypeSummaryData(string strYear, string strRegion, DateTime valuation_date)
+        public static DataSet GetFinancialPayTypeSummaryData(string strYear, string strRegion, string strMarket, DateTime valuation_date)
         {
             SqlDatabase db = new SqlDatabase(strConn);
             DbCommand dbCommand = db.GetStoredProcCommand("rptFinancialPayTypeSummary");
             db.AddInParameter(dbCommand, "year", DbType.String, strYear);
             db.AddInParameter(dbCommand, "region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "valuation_date", DbType.DateTime, valuation_date);
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetEmployerLagSummaryData(DateTime dtFrom, DateTime dtTo, string strRegion)
+        public static DataSet GetEmployerLagSummaryData(DateTime dtFrom, DateTime dtTo, string strRegion, string strMarket)
         {
             SqlDatabase db = new SqlDatabase(strConn);
             DbCommand dbCommand = db.GetStoredProcCommand("rptEmployerLagSummary");
             db.AddInParameter(dbCommand, "From_Date", DbType.DateTime, dtFrom);
             db.AddInParameter(dbCommand, "To_Date", DbType.DateTime, dtTo);
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetInsurerLagSummaryData(DateTime dtFrom, DateTime dtTo, string strRegion)
+        public static DataSet GetInsurerLagSummaryData(DateTime dtFrom, DateTime dtTo, string strRegion, string strMarket)
         {
             SqlDatabase db = new SqlDatabase(strConn);
             DbCommand dbCommand = db.GetStoredProcCommand("rptInsurerLagSummary");
             db.AddInParameter(dbCommand, "From_Date", DbType.DateTime, dtFrom);
             db.AddInParameter(dbCommand, "To_Date", DbType.DateTime, dtTo);
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
-        public static DataSet GetCompletionLagSummaryData(DateTime dtFrom, DateTime dtTo, string strRegion)
+        public static DataSet GetCompletionLagSummaryData(DateTime dtFrom, DateTime dtTo, string strRegion, string strMarket)
         {
             SqlDatabase db = new SqlDatabase(strConn);
             DbCommand dbCommand = db.GetStoredProcCommand("rptCompletionLagSummary");
             db.AddInParameter(dbCommand, "From_Date", DbType.DateTime, dtFrom);
             db.AddInParameter(dbCommand, "To_Date", DbType.DateTime, dtTo);
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
-        public static DataSet GetTPALagSummaryData(DateTime dtFrom, DateTime dtTo, string strRegion)
+        public static DataSet GetTPALagSummaryData(DateTime dtFrom, DateTime dtTo, string strRegion, string strMarket)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptTPALagSummary");
             db.AddInParameter(dbCommand, "From_Date", DbType.DateTime, dtFrom);
             db.AddInParameter(dbCommand, "To_Date", DbType.DateTime, dtTo);
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
         public static DataSet GetFrequencyAnalysisData(DateTime dtFrom, DateTime dtTo, string strClaimType, Decimal pK_Security_ID)
@@ -185,6 +201,7 @@ namespace ERIMS_Sonic_ReportScheduler
             db.AddInParameter(dbCommand, "ToDate", DbType.DateTime, dtTo);
             db.AddInParameter(dbCommand, "claim_type", DbType.String, strClaimType);
             db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Int32, pK_Security_ID);
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
         public static DataSet GetWCCauseAnalysisData(DateTime dtFrom, DateTime dtTo, Decimal pK_Security_ID)
@@ -194,6 +211,7 @@ namespace ERIMS_Sonic_ReportScheduler
             db.AddInParameter(dbCommand, "FromDate", DbType.DateTime, dtFrom);
             db.AddInParameter(dbCommand, "ToDate", DbType.DateTime, dtTo);
             db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Int32, pK_Security_ID);
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
         public static DataSet GetLossLimitationData(DateTime LossFromDate1, DateTime LossToDate1, decimal LossLimit1,
@@ -217,7 +235,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
             db.AddInParameter(dbCommand, "claim_type", DbType.String, strClaimType);
             db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Int32, pK_Security_ID);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -228,6 +246,7 @@ namespace ERIMS_Sonic_ReportScheduler
             db.AddInParameter(dbCommand, "Accident_Year", DbType.String, Accident_Year);
             db.AddInParameter(dbCommand, "Claim_Type", DbType.String, Claim_Type);
             db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Int32, pK_Security_ID);
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -241,6 +260,7 @@ namespace ERIMS_Sonic_ReportScheduler
             db.AddInParameter(dbCommand, "Accident_En_Date", DbType.DateTime, Accident_En_Date);
             db.AddInParameter(dbCommand, "Claim_Type", DbType.String, strClaimType);
             db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Int32, pK_Security_ID);
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -253,6 +273,7 @@ namespace ERIMS_Sonic_ReportScheduler
             db.AddInParameter(dbCommand, "Claim_Type", DbType.String, strClaimType);
             db.AddInParameter(dbCommand, "year", DbType.String, strYears);
             db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Int32, pK_Security_ID);
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -276,7 +297,7 @@ namespace ERIMS_Sonic_ReportScheduler
             db.AddInParameter(dbCommand, "dt_LossFrom3", DbType.DateTime, dtLossFrom3);
             db.AddInParameter(dbCommand, "dt_LossTo3", DbType.DateTime, dtLossTo3);
             db.AddInParameter(dbCommand, "PK_Security_Id", DbType.Decimal, pK_Security_ID);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
         /// <summary>
@@ -292,7 +313,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
             db.AddInParameter(dbCommand, "month", DbType.Int32, month);
             db.AddInParameter(dbCommand, "year", DbType.Int32, year);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -302,15 +323,16 @@ namespace ERIMS_Sonic_ReportScheduler
             DbCommand dbCommand = db.GetStoredProcCommand("WCMonthlyAllocationSummaryReport");
 
             db.AddInParameter(dbCommand, "year", DbType.Int32, year);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetService_Contract_Detail_Report(string strRegion, string strLocation, string strServiceContract, string strServiceType, Nullable<DateTime> dtStartToDate, Nullable<DateTime> dtStartFromDate, Nullable<DateTime> dtEndToDate, Nullable<DateTime> dtEndFromDate)
+        public static DataSet GetService_Contract_Detail_Report(string strRegion, string strMarket, string strLocation, string strServiceContract, string strServiceType, Nullable<DateTime> dtStartToDate, Nullable<DateTime> dtStartFromDate, Nullable<DateTime> dtEndToDate, Nullable<DateTime> dtEndFromDate)
         {
             SqlDatabase db = new SqlDatabase(strConn);
             DbCommand dbCommand = db.GetStoredProcCommand("Purchase_Service_Contract_Detail_Report");
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "Location", DbType.String, strLocation);
             db.AddInParameter(dbCommand, "ServiceContract", DbType.String, strServiceContract);
             db.AddInParameter(dbCommand, "ServiceType", DbType.String, strServiceType);
@@ -318,15 +340,16 @@ namespace ERIMS_Sonic_ReportScheduler
             db.AddInParameter(dbCommand, "StartFromDate", DbType.DateTime, dtStartFromDate);
             db.AddInParameter(dbCommand, "EndToDate", DbType.DateTime, dtEndToDate);
             db.AddInParameter(dbCommand, "EndFromDate", DbType.DateTime, dtEndFromDate);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetLease_Rental_Detail_Report(string strRegion, string strLocation, string strEquipmentType, string strLeaseRentalType, Nullable<DateTime> dtStartToDate, Nullable<DateTime> dtStartFromDate, Nullable<DateTime> dtEndToDate, Nullable<DateTime> dtEndFromDate)
+        public static DataSet GetLease_Rental_Detail_Report(string strRegion, string strMarket, string strLocation, string strEquipmentType, string strLeaseRentalType, Nullable<DateTime> dtStartToDate, Nullable<DateTime> dtStartFromDate, Nullable<DateTime> dtEndToDate, Nullable<DateTime> dtEndFromDate)
         {
             SqlDatabase db = new SqlDatabase(strConn);
             DbCommand dbCommand = db.GetStoredProcCommand("Purchase_Rental_Lease_Detail_Report");
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "Location", DbType.String, strLocation);
             db.AddInParameter(dbCommand, "EquipmentType", DbType.String, strEquipmentType);
             db.AddInParameter(dbCommand, "LeaseRentalType", DbType.String, strLeaseRentalType);
@@ -334,20 +357,22 @@ namespace ERIMS_Sonic_ReportScheduler
             db.AddInParameter(dbCommand, "StartFromDate", DbType.DateTime, dtStartFromDate);
             db.AddInParameter(dbCommand, "EndToDate", DbType.DateTime, dtEndToDate);
             db.AddInParameter(dbCommand, "EndFromDate", DbType.DateTime, dtEndFromDate);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
         // public static DataSet Get_Purchase_Report(int FK_LU_Location_Id,string Type,string strRegion,string Manufacturer)
-        public static DataSet Get_Purchase_Report(string strRegion, string Manufacturer, string Type, string Location)
+        public static DataSet Get_Purchase_Report(string strRegion, string strMarket, string Manufacturer, string Type, string Location)
         {
             SqlDatabase db = new SqlDatabase(strConn);
             DbCommand dbCommand = db.GetStoredProcCommand("Purchasing_Asset_Report");
 
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "Manufacturer", DbType.String, Manufacturer);
             db.AddInParameter(dbCommand, "Type", DbType.String, Type);
             db.AddInParameter(dbCommand, "Location", DbType.String, Location);
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -362,7 +387,7 @@ namespace ERIMS_Sonic_ReportScheduler
             DbCommand dbCommand = db.GetStoredProcCommand("LU_ManufacturerSelectByPK");
 
             db.AddInParameter(dbCommand, "PK_LU_Manufacturer", DbType.Decimal, pK_LU_Manufacturer);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
         /// <summary>
@@ -376,7 +401,7 @@ namespace ERIMS_Sonic_ReportScheduler
         /// <param name="IncidentInvestigationNumber"></param>
         /// <param name="strCliamNumber"></param>
         /// <returns></returns>
-        public static DataSet GetSonicCauseCodeReclassification_Report(string strRegion, string strDBA, DateTime? DateofInjury_From, DateTime? DateofInjury_To, decimal? FirstReportNumber, decimal? IncidentInvestigationNumber, string strCliamNumber)
+        public static DataSet GetSonicCauseCodeReclassification_Report(string strRegion, string strMarket, string strDBA, DateTime? DateofInjury_From, DateTime? DateofInjury_To, decimal? FirstReportNumber, decimal? IncidentInvestigationNumber, string strCliamNumber)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptWCSonicCauseCodeReclassificationReport");
@@ -384,6 +409,9 @@ namespace ERIMS_Sonic_ReportScheduler
 
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
 
             if (!string.IsNullOrEmpty(strDBA))
                 db.AddInParameter(dbCommand, "Location", DbType.String, strDBA);
@@ -399,21 +427,22 @@ namespace ERIMS_Sonic_ReportScheduler
 
             if (!string.IsNullOrEmpty(strCliamNumber))
                 db.AddInParameter(dbCommand, "ClaimNumber", DbType.String, strCliamNumber);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetFroiRecapReport(string strRegion, string LocationDBA, DateTime? IncidentBeginDate, DateTime? IncidentEndDate, string FirstReportCategory)
+        public static DataSet GetFroiRecapReport(string strRegion, string strMarket, string LocationDBA, DateTime? IncidentBeginDate, DateTime? IncidentEndDate, string FirstReportCategory)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptFROIRecapReport");
             dbCommand.CommandTimeout = 1000;
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "LocaionDBA", DbType.String, LocationDBA);
             db.AddInParameter(dbCommand, "IncidentBeginDate", DbType.DateTime, IncidentBeginDate);
             db.AddInParameter(dbCommand, "IncidentEndDate", DbType.DateTime, IncidentEndDate);
             db.AddInParameter(dbCommand, "FirstReportCategory", DbType.String, FirstReportCategory);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
         #endregion
@@ -431,19 +460,20 @@ namespace ERIMS_Sonic_ReportScheduler
         /// <param name="dtLEDTo"></param>
         /// <param name="strOrder"></param>
         /// <returns></returns>
-        public static DataSet GetLeaseDetailReport(string strRegion, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo, string strOrder)
+        public static DataSet GetLeaseDetailReport(string strRegion, string strMarket, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo, string strOrder)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Lease_Detail_Report");
 
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "Lease_Type", DbType.String, strLeaseType);
             db.AddInParameter(dbCommand, "LCD_From", DbType.DateTime, dtLCDFrom);
             db.AddInParameter(dbCommand, "LCD_To", DbType.DateTime, dtLCDTo);
             db.AddInParameter(dbCommand, "LED_From", DbType.DateTime, dtLEDFrom);
             db.AddInParameter(dbCommand, "LED_To", DbType.DateTime, dtLEDTo);
             db.AddInParameter(dbCommand, "strorder", DbType.String, strOrder);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -463,7 +493,6 @@ namespace ERIMS_Sonic_ReportScheduler
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Lease_Detail_Report_SubDetails");
 
-
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
             db.AddInParameter(dbCommand, "Lease_Type", DbType.String, strLeaseType);
             db.AddInParameter(dbCommand, "LCD_From", DbType.DateTime, dtLCDFrom);
@@ -471,7 +500,7 @@ namespace ERIMS_Sonic_ReportScheduler
             db.AddInParameter(dbCommand, "LED_From", DbType.DateTime, dtLEDFrom);
             db.AddInParameter(dbCommand, "LED_To", DbType.DateTime, dtLEDTo);
             db.AddInParameter(dbCommand, "strorder", DbType.String, strOrder);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -494,17 +523,20 @@ namespace ERIMS_Sonic_ReportScheduler
 
             if (!string.IsNullOrEmpty(EscalationType))
                 db.AddInParameter(dbCommand, "EscalationType", DbType.String, EscalationType);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetLeaseTermReport(string strRegion, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
+        public static DataSet GetLeaseTermReport(string strRegion, string strMarket, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptLeaseTerm");
 
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
 
             if (!string.IsNullOrEmpty(strLeaseType))
                 db.AddInParameter(dbCommand, "LeaseType", DbType.String, strLeaseType);
@@ -520,17 +552,20 @@ namespace ERIMS_Sonic_ReportScheduler
 
             if (dtLEDTo != null)
                 db.AddInParameter(dbCommand, "LED_To", DbType.DateTime, dtLEDTo);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetMasterDealership(string strRegion, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
+        public static DataSet GetMasterDealership(string strRegion, string strMarket, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptMasterDealershipByRegion");
 
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
 
             if (dtLCDFrom != null)
                 db.AddInParameter(dbCommand, "LCD_From", DbType.DateTime, dtLCDFrom);
@@ -543,11 +578,11 @@ namespace ERIMS_Sonic_ReportScheduler
 
             if (dtLEDTo != null)
                 db.AddInParameter(dbCommand, "LED_To", DbType.DateTime, dtLEDTo);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetSubspacesByLocation(string strRegion, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
+        public static DataSet GetSubspacesByLocation(string strRegion, string strMarket, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptSubspacesByLocation");
@@ -556,6 +591,9 @@ namespace ERIMS_Sonic_ReportScheduler
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
 
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+
             if (!string.IsNullOrEmpty(strLeaseType))
                 db.AddInParameter(dbCommand, "LeaseType", DbType.String, strLeaseType);
 
@@ -570,11 +608,11 @@ namespace ERIMS_Sonic_ReportScheduler
 
             if (dtLEDTo != null)
                 db.AddInParameter(dbCommand, "LED_To", DbType.DateTime, dtLEDTo);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetRentableAreaByExpirationDate(string strRegion, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
+        public static DataSet GetRentableAreaByExpirationDate(string strRegion, string strMarket, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptRentableAreaByExpirationDate");
@@ -584,6 +622,9 @@ namespace ERIMS_Sonic_ReportScheduler
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
 
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+
             if (!string.IsNullOrEmpty(strLeaseType))
                 db.AddInParameter(dbCommand, "LeaseType", DbType.String, strLeaseType);
 
@@ -598,11 +639,11 @@ namespace ERIMS_Sonic_ReportScheduler
 
             if (dtLEDTo != null)
                 db.AddInParameter(dbCommand, "LED_To", DbType.DateTime, dtLEDTo);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetMonthlyExpenseByLocation(string strRegion, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
+        public static DataSet GetMonthlyExpenseByLocation(string strRegion, string strMarket, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptMonthlyExpenseByLocation");
@@ -611,6 +652,9 @@ namespace ERIMS_Sonic_ReportScheduler
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
 
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+
             if (!string.IsNullOrEmpty(strLeaseType))
                 db.AddInParameter(dbCommand, "LeaseType", DbType.String, strLeaseType);
 
@@ -625,11 +669,11 @@ namespace ERIMS_Sonic_ReportScheduler
 
             if (dtLEDTo != null)
                 db.AddInParameter(dbCommand, "LED_To", DbType.DateTime, dtLEDTo);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetLeasesWithSecurityDeposits(string strRegion, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
+        public static DataSet GetLeasesWithSecurityDeposits(string strRegion, string strMarket, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptLeasesWithSecurityDeposits");
@@ -638,6 +682,9 @@ namespace ERIMS_Sonic_ReportScheduler
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
 
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+
             if (!string.IsNullOrEmpty(strLeaseType))
                 db.AddInParameter(dbCommand, "LeaseType", DbType.String, strLeaseType);
 
@@ -652,11 +699,11 @@ namespace ERIMS_Sonic_ReportScheduler
 
             if (dtLEDTo != null)
                 db.AddInParameter(dbCommand, "LED_To", DbType.DateTime, dtLEDTo);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetLandlordReport(string strRegion, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
+        public static DataSet GetLandlordReport(string strRegion, string strMarket, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptLandlord");
@@ -665,6 +712,9 @@ namespace ERIMS_Sonic_ReportScheduler
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
 
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+
             if (!string.IsNullOrEmpty(strLeaseType))
                 db.AddInParameter(dbCommand, "LeaseType", DbType.String, strLeaseType);
 
@@ -679,11 +729,11 @@ namespace ERIMS_Sonic_ReportScheduler
 
             if (dtLEDTo != null)
                 db.AddInParameter(dbCommand, "LED_To", DbType.DateTime, dtLEDTo);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetMaintenanceAndRepairItems(string strRegion, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
+        public static DataSet GetMaintenanceAndRepairItems(string strRegion, string strMarket, string strLeaseType, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptREMaintenanceAndRepair");
@@ -692,6 +742,9 @@ namespace ERIMS_Sonic_ReportScheduler
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
 
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+
             if (!string.IsNullOrEmpty(strLeaseType))
                 db.AddInParameter(dbCommand, "LeaseType", DbType.String, strLeaseType);
 
@@ -706,7 +759,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
             if (dtLEDTo != null)
                 db.AddInParameter(dbCommand, "LED_To", DbType.DateTime, dtLEDTo);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -717,23 +770,26 @@ namespace ERIMS_Sonic_ReportScheduler
 
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "region", DbType.String, strRegion);
-
+            
             if (!string.IsNullOrEmpty(strLocation))
                 db.AddInParameter(dbCommand, "location", DbType.String, strLocation);
 
             if (!string.IsNullOrEmpty(strYear))
                 db.AddInParameter(dbCommand, "Accident_year", DbType.String, strYear);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetLandlordInfoReport(string strRegion, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
+        public static DataSet GetLandlordInfoReport(string strRegion, string strMarket, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptlandlordInfo");
 
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
 
             if (dtLCDFrom != null)
                 db.AddInParameter(dbCommand, "LCD_From", DbType.DateTime, dtLCDFrom);
@@ -746,11 +802,11 @@ namespace ERIMS_Sonic_ReportScheduler
 
             if (dtLEDTo != null)
                 db.AddInParameter(dbCommand, "LED_To", DbType.DateTime, dtLEDTo);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetCriticalDatesReport(string strRegion, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo, string strLocation_Status, string strReportName)
+        public static DataSet GetCriticalDatesReport(string strRegion, string strMarket, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo, string strLocation_Status, string strReportName)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptCriticalDates");
@@ -758,6 +814,9 @@ namespace ERIMS_Sonic_ReportScheduler
 
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
 
             if (dtLCDFrom != null)
                 db.AddInParameter(dbCommand, "LCD_From", DbType.DateTime, dtLCDFrom);
@@ -776,10 +835,10 @@ namespace ERIMS_Sonic_ReportScheduler
 
             if (!string.IsNullOrEmpty(strReportName))
                 db.AddInParameter(dbCommand, "strReportName", DbType.String, strReportName);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
-        public static DataSet GetLandlordNotificationReport(string strRegion, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo, string strLocation_Status)
+        public static DataSet GetLandlordNotificationReport(string strRegion, string strMarket, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo, string strLocation_Status)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptLandlordNotificationReportDates");
@@ -787,6 +846,9 @@ namespace ERIMS_Sonic_ReportScheduler
 
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
 
             if (dtLCDFrom != null)
                 db.AddInParameter(dbCommand, "LCD_From", DbType.DateTime, dtLCDFrom);
@@ -802,10 +864,10 @@ namespace ERIMS_Sonic_ReportScheduler
 
             if (!string.IsNullOrEmpty(strLocation_Status))
                 db.AddInParameter(dbCommand, "Location_Status", DbType.String, strLocation_Status);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
-        public static DataSet GetSubLeaseReport(string strDBA, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo, decimal FK_Security_Id, string strStatus)
+        public static DataSet GetSubLeaseReport(string strDBA, string strMarket, DateTime? dtLCDFrom, DateTime? dtLCDTo, DateTime? dtLEDFrom, DateTime? dtLEDTo, decimal FK_Security_Id, string strStatus)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptSubLeaseReport");
@@ -813,6 +875,9 @@ namespace ERIMS_Sonic_ReportScheduler
 
             if (!string.IsNullOrEmpty(strDBA))
                 db.AddInParameter(dbCommand, "DBA", DbType.String, strDBA);
+
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
 
             if (dtLCDFrom != null)
                 db.AddInParameter(dbCommand, "LCD_From", DbType.DateTime, dtLCDFrom);
@@ -827,6 +892,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 db.AddInParameter(dbCommand, "LED_To", DbType.DateTime, dtLEDTo);
             db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, FK_Security_Id);
             db.AddInParameter(dbCommand, "Status", DbType.String, strStatus);
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -835,6 +901,7 @@ namespace ERIMS_Sonic_ReportScheduler
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("RE_BuildingSelectByRE");
             db.AddInParameter(dbCommand, "FK_RE_Information", DbType.Decimal, fK_RE_Information);
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
         #endregion
@@ -847,7 +914,7 @@ namespace ERIMS_Sonic_ReportScheduler
             DbCommand dbCommand = db.GetStoredProcCommand("Tatva_ReportScheduleSelectByScheduled_Date");
 
             db.AddInParameter(dbCommand, "Scheduled_Date", DbType.DateTime, dtSchduleDate);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand).Tables[0];
         }
 
@@ -857,7 +924,7 @@ namespace ERIMS_Sonic_ReportScheduler
             DbCommand dbCommand = db.GetStoredProcCommand("Tatva_RecipientListMatrixSelectWithRecipientList");
 
             db.AddInParameter(dbCommand, "FK_RecipientList", DbType.Decimal, fK_RecipientList);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
         public static DataSet SelectSecurityByPK(decimal pK_Security_ID)
@@ -866,7 +933,7 @@ namespace ERIMS_Sonic_ReportScheduler
             DbCommand dbCommand = db.GetStoredProcCommand("Get_SecrityUser");
 
             db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, pK_Security_ID);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -876,7 +943,7 @@ namespace ERIMS_Sonic_ReportScheduler
             DbCommand dbCommand = db.GetStoredProcCommand("Tatva_ReportScheduleSelectByPK");
 
             db.AddInParameter(dbCommand, "PK_Schedule", DbType.Decimal, pK_Schedule);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -889,7 +956,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
             db.AddInParameter(dbCommand, "FK_Schedule", DbType.Decimal, pK_Schedule_ID);
             db.AddInParameter(dbCommand, "PK_ReportID", DbType.Decimal, pK_ReportID);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
         /// <summary>
@@ -902,7 +969,21 @@ namespace ERIMS_Sonic_ReportScheduler
             DbCommand dbCommand = db.GetStoredProcCommand("LU_LocationSelectByPK");
 
             db.AddInParameter(dbCommand, "PK_LU_Location_ID", DbType.Decimal, pK_LU_Location_ID);
+            dbCommand.CommandTimeout = 1000;
+            return db.ExecuteDataSet(dbCommand);
+        }
 
+        /// <summary>
+        /// Selects a single record from the LU_Market table by a primary key.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectMarketInfoById(decimal pK_LU_Market_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_MarketSelectByPK");
+
+            db.AddInParameter(dbCommand, "PK_LU_Market", DbType.Decimal, pK_LU_Market_ID);
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -912,7 +993,7 @@ namespace ERIMS_Sonic_ReportScheduler
             DbCommand dbCommand = db.GetStoredProcCommand("GetLeaseTypeList");
 
             db.AddInParameter(dbCommand, "strLeaseType", DbType.String, strLeaseType);
-
+            dbCommand.CommandTimeout = 1000;
             return Convert.ToString(db.ExecuteScalar(dbCommand));
         }
 
@@ -955,84 +1036,93 @@ namespace ERIMS_Sonic_ReportScheduler
 
         #region Exposures Reports
 
-        public static DataSet GetPropertyStatementofValues(string strRegion, string strStatus, string strOwnership, DateTime? dtPropertyValuationDateFrom, DateTime? dtPropertyValuationDateTo)
+        public static DataSet GetPropertyStatementofValues(string strRegion, string strMarket, string strStatus, string strOwnership, DateTime? dtPropertyValuationDateFrom, DateTime? dtPropertyValuationDateTo)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptPropertyStatementofValues");
 
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "Status", DbType.String, strStatus);
             db.AddInParameter(dbCommand, "Ownership", DbType.String, strOwnership);
             db.AddInParameter(dbCommand, "PropertyValuationDateFrom", DbType.DateTime, dtPropertyValuationDateFrom);
             db.AddInParameter(dbCommand, "PropertyValuationDateTo", DbType.DateTime, dtPropertyValuationDateTo);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetNewExposuresreport(string strRegion, string strStatus, decimal FK_Security_Id)
+        public static DataSet GetNewExposuresreport(string strRegion, string strMarket, string strStatus, decimal FK_Security_Id)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptNEWExposuresreport");
             if (strRegion != string.Empty)
                 db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            if (strMarket != string.Empty)
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             if (strStatus != string.Empty)
                 db.AddInParameter(dbCommand, "Status", DbType.String, strStatus);
             db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, FK_Security_Id);
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
-        public static DataSet GetFacilityInspectionReport(string strRegion, int intYear, string strInterval, decimal FK_Security_Id)
+        public static DataSet GetFacilityInspectionReport(string strRegion, string strMarket, int intYear, string strInterval, decimal FK_Security_Id)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptFacilityInspection");
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "Year", DbType.Int32, intYear);
             db.AddInParameter(dbCommand, "strInterval", DbType.String, strInterval);
             db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, FK_Security_Id);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetInspectionsByInspector(string strRegion, string strDBA, string strInspectorName, DateTime? dtInspectionDateFrom, DateTime? dtInspectionDateTo)
+        public static DataSet GetInspectionsByInspector(string strRegion, string strMarket, string strDBA, string strInspectorName, DateTime? dtInspectionDateFrom, DateTime? dtInspectionDateTo)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptInspectionsByInspector");
 
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "Inspector_Name", DbType.String, strInspectorName);
             db.AddInParameter(dbCommand, "DBA", DbType.String, strDBA);
             db.AddInParameter(dbCommand, "Inspection_From", DbType.DateTime, dtInspectionDateFrom);
             db.AddInParameter(dbCommand, "Inspection_To", DbType.DateTime, dtInspectionDateTo);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetRiskManagementWorksheet(string strRegion, string strDBA, DateTime? dtIncidentFrom, DateTime? dtIncidentTo, string strBodyParts, string strClaimStatus)
+        public static DataSet GetRiskManagementWorksheet(string strRegion, string strMarket, string strDBA, DateTime? dtIncidentFrom, DateTime? dtIncidentTo, string strBodyParts, string strClaimStatus)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptRiskManagementWorkSheet");
 
             db.AddInParameter(dbCommand, "region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "dba", DbType.String, strDBA);
             db.AddInParameter(dbCommand, "From_Date", DbType.DateTime, dtIncidentFrom);
             db.AddInParameter(dbCommand, "To_Date", DbType.DateTime, dtIncidentTo);
             db.AddInParameter(dbCommand, "FK_Part_of_Body_Code", DbType.String, strBodyParts);
             db.AddInParameter(dbCommand, "Claim_Status", DbType.String, strClaimStatus);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetInspectionLagTime(string strRegion, string strDBA, string strInspectionArea, string strInspectorName, DateTime? dtInspectionDateFrom, DateTime? dtInspectionDateTo, string strLagDayOption)
+        public static DataSet GetInspectionLagTime(string strRegion, string strMarket, string strDBA, string strInspectionArea, string strInspectorName, DateTime? dtInspectionDateFrom, DateTime? dtInspectionDateTo, string strLagDayOption)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptInspectionLagTime");
 
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "Inspector_Name", DbType.String, strInspectorName);
             db.AddInParameter(dbCommand, "DBA", DbType.String, strDBA);
             db.AddInParameter(dbCommand, "InspectionArea", DbType.String, strInspectionArea);
             db.AddInParameter(dbCommand, "Inspection_From", DbType.DateTime, dtInspectionDateFrom);
             db.AddInParameter(dbCommand, "Inspection_To", DbType.DateTime, dtInspectionDateTo);
             db.AddInParameter(dbCommand, "LagDayOption", DbType.String, strLagDayOption);
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -1048,6 +1138,7 @@ namespace ERIMS_Sonic_ReportScheduler
             db.AddInParameter(dbCommand, "Policy_Year", DbType.Int32, intPolicy_Year);
             db.AddInParameter(dbCommand, "ProgramID", DbType.String, strProgramIDs);
             db.AddInParameter(dbCommand, "PolicyType", DbType.String, strPolicyTypes);
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -1090,7 +1181,7 @@ namespace ERIMS_Sonic_ReportScheduler
             DbCommand dbCommand = db.GetStoredProcCommand("rptCustomerIncidentSummary");
             db.AddInParameter(dbCommand, "Year", DbType.String, intYear.ToString());
             db.AddInParameter(dbCommand, "strFK_LU_Location", DbType.String, strFK_LU_Location);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -1100,7 +1191,7 @@ namespace ERIMS_Sonic_ReportScheduler
             DbCommand dbCommand = db.GetStoredProcCommand("rptNonCustomerInquiry");
             db.AddInParameter(dbCommand, "Year", DbType.String, intYear.ToString());
             db.AddInParameter(dbCommand, "strFK_LU_Location", DbType.String, strFK_LU_Location);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -1122,7 +1213,7 @@ namespace ERIMS_Sonic_ReportScheduler
             db.AddInParameter(dbCommand, "PK_LU_Location_IDs", DbType.String, strFK_LU_Location_IDs);
 
             DataSet ds = db.ExecuteDataSet(dbCommand);
-
+            dbCommand.CommandTimeout = 1000;
             return Convert.ToString(ds.Tables[0].Rows[0][0]);
         }
 
@@ -1130,50 +1221,54 @@ namespace ERIMS_Sonic_ReportScheduler
 
         #region " Dashboard Reports "
 
-        public static DataSet GetIncidentInvestigationReport(string strRegion, int intYear, string strInterval, decimal FK_Security_Id)
+        public static DataSet GetIncidentInvestigationReport(string strRegion, string strMarket, int intYear, string strInterval, decimal FK_Security_Id)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptIncidentInvestigation");
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "Year", DbType.Int32, intYear);
             db.AddInParameter(dbCommand, "strInterval", DbType.String, strInterval);
             db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, FK_Security_Id);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetIncidentReductionReport(string strRegion, int intYear, string strInterval, decimal FK_Security_Id)
+        public static DataSet GetIncidentReductionReport(string strRegion, string strMarket, int intYear, string strInterval, decimal FK_Security_Id)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptIncidentReduction");
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "Year", DbType.Int32, intYear);
             db.AddInParameter(dbCommand, "strInterval", DbType.String, strInterval);
             db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, FK_Security_Id);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetWCClaimManagementReport(string strRegion, int intYear, string strInterval, decimal FK_Security_Id)
+        public static DataSet GetWCClaimManagementReport(string strRegion, string strMarket, int intYear, string strInterval, decimal FK_Security_Id)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptWCClaimManagement");
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "Year", DbType.Int32, intYear);
             db.AddInParameter(dbCommand, "strInterval", DbType.String, strInterval);
             db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, FK_Security_Id);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
-        public static DataSet GetSafertyFirstAwardReport(string strRegion, int Year, decimal FK_Security_Id)
+        public static DataSet GetSafertyFirstAwardReport(string strRegion, string strMarket, int Year, decimal FK_Security_Id)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("SafertyFirstAwardReport");
 
             db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal,FK_Security_Id);
             db.AddInParameter(dbCommand, "Regions", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);
-
+            dbCommand.CommandTimeout = 1000;
             return db.ExecuteDataSet(dbCommand);
         }
 
