@@ -97,7 +97,10 @@ public class clsBasePage : System.Web.UI.Page
             if (strModule == "SLTSafetyWalk/")
             {
                 strModule = "SLT/";
-            }            
+            }
+
+            if (strModule == "Management/")
+                strModule = "ACI Management/";
 
             string strUrl = HttpContext.Current.Request.Url.ToString();
             //strUrl = strUrl.Replace("localhost","192.168.0.80");
@@ -148,14 +151,12 @@ public class clsBasePage : System.Web.UI.Page
                     }
                     App_Access = AccessType.View_Only;
                 }
-                    
-                    
-                
-
+                 
                 if (strModule == "COIReports/")
                     strModule = "COI/";
                 if (strModule == "Pollution/")
                     strModule = "Exposures/";
+
                 for (int iCount = 0; iCount < dsRight.Tables[0].Rows.Count; iCount++)
                 {
                     //get the module name from url and complare with database value
@@ -412,6 +413,25 @@ public class clsBasePage : System.Web.UI.Page
                             //    }
                             //}
                         }
+                        else if (strModule == "ACI Management/")
+                        {
+                            if (boolAccessSet == false)
+                            {
+                                boolAccessSet = true;
+
+                                DataRow[] drView = dsRight.Tables[0].Select("RightType_ID=2 and ModuleName='ACI Management'");
+                                if (drView != null && drView.Length > 0)
+                                {
+                                    App_Access = AccessType.View_Only;
+                                }
+
+                                DataRow[] drAdmin = dsRight.Tables[0].Select("RightType_ID=1 and ModuleName='ACI Management'");
+                                if (drAdmin != null && drAdmin.Length > 0)
+                                {
+                                    App_Access = AccessType.Administrative_Access;
+                                }
+                            }
+                        }
                         else
                         {
                             //check once right is set for the module and also check current right is administrative.
@@ -467,6 +487,11 @@ public class clsBasePage : System.Web.UI.Page
             }
 
             else if (strModule == "SLT/" && !boolAccessSet)
+            {
+                Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc");
+            }
+
+            else if (strModule == "ACI Management/" && !boolAccessSet)
             {
                 Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc");
             }

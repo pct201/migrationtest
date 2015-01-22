@@ -1005,6 +1005,147 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
+                                                        <td colspan="6" class="spacer" style="height: 5px">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6" class="spacer" style="height: 5px">
+                                                            <div class="bandHeaderRow">
+                                                                Sonic Notes</div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr runat="server" id="trSonicNotes" style="display: none;">
+                                                        <td colspan="6">
+                                                            <table width="100%">
+                                                                <tr>
+                                                                    <td align="left" valign="top">
+                                                                        <b>Sonic Notes Grid </b>
+                                                                    </td>
+                                                                    <td align="center" valign="top" colspan="5">
+                                                                        &nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <%--<td align="left" valign="top" width="19%">Date
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="2%">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" style="padding-left: 5px;">
+                                                                        <asp:TextBox ID="txtACI_Notes_Date" runat="server" SkinID="txtDate" MaxLength="12" autocomplete="off"
+                                                                            onpaste="return false"></asp:TextBox>
+                                                                        <img alt="Report Date" onclick="return showCalendar('<%= txtACI_Notes_Date.ClientID %>', 'mm/dd/y');"
+                                                                            onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
+                                                                            align="middle" />
+                                                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ValidationGroup="vsErrorGroup"
+                                                                            Display="none" ErrorMessage="[ACI Notes Grid]/Date Sonic is not a valid date"
+                                                                            SetFocusOnError="true" ControlToValidate="txtDate_Sent" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
+                                                                        <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToCompare="txtCurrentDate"
+                                                                            ControlToValidate="txtACI_Notes_Date" Display="None" Text="*" ErrorMessage="[ACI Notes Grid]/Date should not be greater than current date."
+                                                                            Operator="LessThanEqual" Type="Date" ValidationGroup="vsErrorGroup"></asp:CompareValidator>
+                                                                    </td>--%>
+                                                                    <td align="left" valign="top" width="19%">
+                                                                        Note
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="2%">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" valign="top" style="padding-left: 5px;">
+                                                                        <uc:ctrlMultiLineTextBox ID="txtSonic_Notes" runat="server" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left">
+                                                                    </td>
+                                                                    <td align="center">
+                                                                    </td>
+                                                                    <td align="left" colspan="4">
+                                                                        <asp:Button ID="btnSonicNotesAdd" OnClick="btnSonicNotesAdd_Click" runat="server"
+                                                                            ValidationGroup="vsErrorGroup" OnClientClick="javascript:return checkLengthSonic();"
+                                                                            Text="Add" Width="70px"></asp:Button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                        <asp:Button ID="btnSonicNotesCancel" OnClick="btnSonicNotesCancel_Click" runat="server"
+                                                                            Text="Cancel" Width="70px"></asp:Button>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            &nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr runat="server" id="trSonicNotesGrid">
+                                                        <td align="left" valign="top">
+                                                            Sonic Notes Grid
+                                                        </td>
+                                                        <td align="center" valign="top">
+                                                            :
+                                                        </td>
+                                                        <td align="left" valign="top" colspan="4">
+                                                            <asp:GridView ID="gvSonic_Notes" runat="server" Width="100%" AutoGenerateColumns="false"
+                                                                PageSize="6" EnableViewState="true" AllowPaging="true" OnRowCommand="gvSonic_Notes_RowCommand"
+                                                                OnPageIndexChanging="gvSonic_Notes_PageIndexChanging">
+                                                                <Columns>
+                                                                    <asp:TemplateField>
+                                                                        <ItemStyle Width="1%" />
+                                                                        <ItemTemplate>
+                                                                            <asp:HiddenField ID="hdnPK_Sonic_Event_Notes" runat="server" Value='<%# Eval("PK_Sonic_Event_Notes") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Note Date">
+                                                                        <ItemStyle Width="10%" />
+                                                                        <ItemTemplate>
+                                                                            <a href="javascript:function(){return false};" onclick="AciNotePopup('<%#Eval("PK_Sonic_Event_Notes") %>','SONIC');">
+                                                                                <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Note_Date")) %></a>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="User">
+                                                                        <ItemStyle Width="15%" />
+                                                                        <ItemTemplate>
+                                                                            <a href="javascript:function(){return false};" onclick="AciNotePopup('<%#Eval("PK_Sonic_Event_Notes") %>','SONIC');">
+                                                                                <%# Eval("Updated_by_Name")%></a>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Notes">
+                                                                        <ItemStyle Width="45%" />
+                                                                        <ItemTemplate>
+                                                                            <a href="javascript:function(){return false};" onclick="AciNotePopup('<%#Eval("PK_Sonic_Event_Notes") %>','SONIC');">
+                                                                                <%# Eval("Note") %></a>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
+                                                                        <ItemStyle Width="10%" HorizontalAlign="Center" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton runat="server" ID="lnkEdit" Text=" Edit " CommandName="EditRecord"
+                                                                                CommandArgument='<%#Eval("PK_Sonic_Event_Notes") %>' Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>' >
+                                                                            </asp:LinkButton>
+                                                                            &nbsp;&nbsp;&nbsp;
+                                                                            <asp:LinkButton ID="lnkRemove" runat="server" Text="Delete" CommandArgument='<%#Eval("PK_Sonic_Event_Notes") %>'
+                                                                                CommandName="RemoveACINote" OnClientClick="return confirm('Are you sure to remove Sonic Note record?');"
+                                                                                CausesValidation="false" Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                                <EmptyDataTemplate>
+                                                                    <table cellpadding="4" cellspacing="0" width="100%">
+                                                                        <tr>
+                                                                            <td width="100%" align="center" style="border: 1px solid #cccccc;">
+                                                                                <asp:Label ID="lblEmptyHeaderGridMessage" runat="server" Text="No Record Found"></asp:Label>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </EmptyDataTemplate>
+                                                            </asp:GridView>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="padding-bottom: 5px;">
+                                                            <asp:LinkButton Style="display: inline" ID="lnkAddSonicNotesNew" OnClick="lnkAddSonicNotesNew_Click"
+                                                                runat="server" Text="Add New"></asp:LinkButton>&nbsp;&nbsp;&nbsp;
+                                                            <asp:LinkButton Style="display: none" ID="lnkSonicNotesCancel" runat="server" Text="Cancel"></asp:LinkButton>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
                                                         <td colspan="6">
                                                             &nbsp;
                                                         </td>
@@ -1564,147 +1705,7 @@
                                                             </table>
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td colspan="6" class="spacer" style="height: 5px">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="6" class="spacer" style="height: 5px">
-                                                            <div class="bandHeaderRow">
-                                                                Sonic Notes</div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr runat="server" id="trSonicNotes" style="display: none;">
-                                                        <td colspan="6">
-                                                            <table width="100%">
-                                                                <tr>
-                                                                    <td align="left" valign="top">
-                                                                        <b>Sonic Notes Grid </b>
-                                                                    </td>
-                                                                    <td align="center" valign="top" colspan="5">
-                                                                        &nbsp;
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <%--<td align="left" valign="top" width="19%">Date
-                                                                    </td>
-                                                                    <td align="center" valign="top" width="2%">:
-                                                                    </td>
-                                                                    <td align="left" valign="top" style="padding-left: 5px;">
-                                                                        <asp:TextBox ID="txtACI_Notes_Date" runat="server" SkinID="txtDate" MaxLength="12" autocomplete="off"
-                                                                            onpaste="return false"></asp:TextBox>
-                                                                        <img alt="Report Date" onclick="return showCalendar('<%= txtACI_Notes_Date.ClientID %>', 'mm/dd/y');"
-                                                                            onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
-                                                                            align="middle" />
-                                                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ValidationGroup="vsErrorGroup"
-                                                                            Display="none" ErrorMessage="[ACI Notes Grid]/Date Sonic is not a valid date"
-                                                                            SetFocusOnError="true" ControlToValidate="txtDate_Sent" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
-                                                                        <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToCompare="txtCurrentDate"
-                                                                            ControlToValidate="txtACI_Notes_Date" Display="None" Text="*" ErrorMessage="[ACI Notes Grid]/Date should not be greater than current date."
-                                                                            Operator="LessThanEqual" Type="Date" ValidationGroup="vsErrorGroup"></asp:CompareValidator>
-                                                                    </td>--%>
-                                                                    <td align="left" valign="top" width="19%">
-                                                                        Note
-                                                                    </td>
-                                                                    <td align="center" valign="top" width="2%">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" valign="top" style="padding-left: 5px;">
-                                                                        <uc:ctrlMultiLineTextBox ID="txtSonic_Notes" runat="server" />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left">
-                                                                    </td>
-                                                                    <td align="center">
-                                                                    </td>
-                                                                    <td align="left" colspan="4">
-                                                                        <asp:Button ID="btnSonicNotesAdd" OnClick="btnSonicNotesAdd_Click" runat="server"
-                                                                            ValidationGroup="vsErrorGroup" OnClientClick="javascript:return checkLengthSonic();"
-                                                                            Text="Add" Width="70px"></asp:Button>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                        <asp:Button ID="btnSonicNotesCancel" OnClick="btnSonicNotesCancel_Click" runat="server"
-                                                                            Text="Cancel" Width="70px"></asp:Button>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="6">
-                                                            &nbsp;
-                                                        </td>
-                                                    </tr>
-                                                    <tr runat="server" id="trSonicNotesGrid">
-                                                        <td align="left" valign="top">
-                                                            Sonic Notes Grid
-                                                        </td>
-                                                        <td align="center" valign="top">
-                                                            :
-                                                        </td>
-                                                        <td align="left" valign="top" colspan="4">
-                                                            <asp:GridView ID="gvSonic_Notes" runat="server" Width="100%" AutoGenerateColumns="false"
-                                                                PageSize="6" EnableViewState="true" AllowPaging="true" OnRowCommand="gvSonic_Notes_RowCommand"
-                                                                OnPageIndexChanging="gvSonic_Notes_PageIndexChanging">
-                                                                <Columns>
-                                                                    <asp:TemplateField>
-                                                                        <ItemStyle Width="1%" />
-                                                                        <ItemTemplate>
-                                                                            <asp:HiddenField ID="hdnPK_Sonic_Event_Notes" runat="server" Value='<%# Eval("PK_Sonic_Event_Notes") %>' />
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Note Date">
-                                                                        <ItemStyle Width="10%" />
-                                                                        <ItemTemplate>
-                                                                            <a href="javascript:function(){return false};" onclick="AciNotePopup('<%#Eval("PK_Sonic_Event_Notes") %>','SONIC');">
-                                                                                <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Note_Date")) %></a>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="User">
-                                                                        <ItemStyle Width="15%" />
-                                                                        <ItemTemplate>
-                                                                            <a href="javascript:function(){return false};" onclick="AciNotePopup('<%#Eval("PK_Sonic_Event_Notes") %>','SONIC');">
-                                                                                <%# Eval("Updated_by_Name")%></a>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Notes">
-                                                                        <ItemStyle Width="45%" />
-                                                                        <ItemTemplate>
-                                                                            <a href="javascript:function(){return false};" onclick="AciNotePopup('<%#Eval("PK_Sonic_Event_Notes") %>','SONIC');">
-                                                                                <%# Eval("Note") %></a>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
-                                                                        <ItemStyle Width="10%" HorizontalAlign="Center" />
-                                                                        <ItemTemplate>
-                                                                            <asp:LinkButton runat="server" ID="lnkEdit" Text=" Edit " CommandName="EditRecord"
-                                                                                CommandArgument='<%#Eval("PK_Sonic_Event_Notes") %>' Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>' >
-                                                                            </asp:LinkButton>
-                                                                            &nbsp;&nbsp;&nbsp;
-                                                                            <asp:LinkButton ID="lnkRemove" runat="server" Text="Delete" CommandArgument='<%#Eval("PK_Sonic_Event_Notes") %>'
-                                                                                CommandName="RemoveACINote" OnClientClick="return confirm('Are you sure to remove Sonic Note record?');"
-                                                                                CausesValidation="false" Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>' />
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                </Columns>
-                                                                <EmptyDataTemplate>
-                                                                    <table cellpadding="4" cellspacing="0" width="100%">
-                                                                        <tr>
-                                                                            <td width="100%" align="center" style="border: 1px solid #cccccc;">
-                                                                                <asp:Label ID="lblEmptyHeaderGridMessage" runat="server" Text="No Record Found"></asp:Label>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </EmptyDataTemplate>
-                                                            </asp:GridView>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="padding-bottom: 5px;">
-                                                            <asp:LinkButton Style="display: inline" ID="lnkAddSonicNotesNew" OnClick="lnkAddSonicNotesNew_Click"
-                                                                runat="server" Text="Add New"></asp:LinkButton>&nbsp;&nbsp;&nbsp;
-                                                            <asp:LinkButton Style="display: none" ID="lnkSonicNotesCancel" runat="server" Text="Cancel"></asp:LinkButton>
-                                                        </td>
-                                                    </tr>
+                                                    
                                                     <%--<tr>
                                                         <td align="left" width="18%" valign="top">
                                                             Status

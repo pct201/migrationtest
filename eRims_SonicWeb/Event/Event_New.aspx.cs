@@ -227,6 +227,7 @@ public partial class Event_Event_New : clsBasePage
         trEvent_CameraGrid.Style.Add("display", "none");
         trEvent_Camera.Style.Add("display", "");
         btnEvent_CameraCancel.Style.Add("display", "inline");
+        btnEvent_CameraAdd.Text = "Add";
         txtCamera_Name.Text = string.Empty;
         txtCamera_Number.Text = string.Empty;
         txtEvent_Time_From.Text = string.Empty;
@@ -296,6 +297,7 @@ public partial class Event_Event_New : clsBasePage
         btnACINotesCancel.Style.Add("display", "inline");
         //txtACI_Notes_Date.Text = string.Empty;
         txtACI_Notes.Text = string.Empty;
+        btnACINotesAdd.Text = "Add";
         //((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtACI_Notes_Date);
     }
 
@@ -357,6 +359,7 @@ public partial class Event_Event_New : clsBasePage
         trEvent_CameraGrid_Sonic.Style.Add("display", "none");
         trEvent_Camera_Sonic.Style.Add("display", "");
         btnEvent_CameraSonicCancel.Style.Add("display", "inline");
+        btnEvent_CameraAdd_Sonic.Text = "Add";
         txtCamera_Name_Sonic.Text = string.Empty;
         txtCamera_Number_Sonic.Text = string.Empty;
         txtEvent_Time_From_Sonic.Text = string.Empty;
@@ -426,6 +429,7 @@ public partial class Event_Event_New : clsBasePage
         btnSonicNotesCancel.Style.Add("display", "inline");
         //txtACI_Notes_Date.Text = string.Empty;
         txtSonic_Notes.Text = string.Empty;
+        btnSonicNotesAdd.Text = "Add";
         //((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtACI_Notes_Date);
     }
 
@@ -1413,7 +1417,7 @@ public partial class Event_Event_New : clsBasePage
             clsSonic_Event_Notes.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
 
             BindSonicNoteGrid();
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);", true);
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
             #endregion
         }
         else if (e.CommandName == "ViewNote")
@@ -1449,7 +1453,7 @@ public partial class Event_Event_New : clsBasePage
     {
         gvSonic_Notes.PageIndex = e.NewPageIndex; //Page new index call
         BindSonicNoteGrid();
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);", true);
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
     }
 
     #endregion

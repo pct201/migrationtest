@@ -144,13 +144,40 @@
                         </tr>
                         <tr>
                             <td align="left" valign="top">
+                                Reported By
+                            </td>
+                             <td align="center" valign="top">
+                                 :
+                            </td>
+                             <td align="left" valign="top">
+                                 <asp:RadioButtonList ID="rdoSonic_Event" runat="server"  Width="80%">
+                                    <asp:ListItem Text="Sonic" Value="Y"></asp:ListItem>
+                                    <asp:ListItem Text="Acadian" Value="N"></asp:ListItem>
+                                    <asp:ListItem Text="All" Value="A" Selected="True"></asp:ListItem>
+                                </asp:RadioButtonList>
+                            </td>
+                            <td align="left" valign="top">
+                                Is Actionable
+                            </td>
+                            <td align="center" valign="top">
+                                 :
+                            </td>
+                             <td align="left" valign="top">
+                                 <asp:RadioButtonList ID="rdoIs_Actionable" runat="server">
+                                    <asp:ListItem Text="Yes" Value="Y" Selected="True"></asp:ListItem>
+                                    <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                </asp:RadioButtonList>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" valign="top">
                                 Actionable Event to be Included in Grid
                             </td>
                              <td align="left" valign="top">
                                  :
                             </td>
                              <td align="left" valign="top">
-                                 <asp:RadioButtonList ID="rdoStatus_Sonic" runat="server" Width="100%">
+                                 <asp:RadioButtonList ID="rdoStatus_Sonic" runat="server" Width="80%">
                                     <asp:ListItem Text="Open" Value="O" Selected="True"></asp:ListItem>
                                     <asp:ListItem Text="Closed" Value="C"></asp:ListItem>
                                     <asp:ListItem Text="All" Value="A"></asp:ListItem>

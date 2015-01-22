@@ -87,6 +87,10 @@ public partial class Management_Management : clsBasePage
             }
             else
             {
+                // Check User Rights
+                if (App_Access == AccessType.View_Only)
+                    Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc");
+
                 BindDropDown();
                 drpClientIssue.ClearSelection();
                 drpClientIssue.SelectedValue = "Y";
@@ -249,6 +253,7 @@ public partial class Management_Management : clsBasePage
         btnEdit.Visible = true;
         btnSave.Visible = false;
         btnViewAudit.Visible = true;
+        btnEdit.Visible = (App_Access != AccessType.View_Only);
 
         clsManagement objRecord = new clsManagement(PK_Management);
         if (PK_Management > 0)

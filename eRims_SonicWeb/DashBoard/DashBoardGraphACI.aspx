@@ -76,7 +76,8 @@
                                             &nbsp; &nbsp;<b> Month</b> : &nbsp; &nbsp;
                                              <asp:DropDownList AutoPostBack="true" OnSelectedIndexChanged="ddlMonth_SelectedIndexChanged"
                                 ID="ddlMonth" runat="server" Width="100px" SkinID="dropGen">
-                                <asp:ListItem Text="January" Value="1" Selected="True" />
+                                <asp:ListItem Text="---Select---" Value="0" Selected="True" />
+                                <asp:ListItem Text="January" Value="1" />
                                 <asp:ListItem Text="February" Value="2" />
                                 <asp:ListItem Text="March" Value="3" />
                                 <asp:ListItem Text="April" Value="4" />

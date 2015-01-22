@@ -60,6 +60,8 @@ public partial class Management_ManagementSearch : clsBasePage
             _SortBy = "Camera_Number";
             _SortOrder = "asc";
 
+            btnAdd.Visible = (App_Access != AccessType.View_Only);
+
             if (!string.IsNullOrEmpty(Request["criteria"]))
             {
                 if (Session["ManagementCriteria"] != null)
@@ -479,8 +481,8 @@ public partial class Management_ManagementSearch : clsBasePage
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
-            //((LinkButton)e.Row.Cells[0].FindControl("btnEdit")).Visible = (App_Access != AccessType.View);
-            //((LinkButton)e.Row.Cells[0].FindControl("btnDelete")).Visible = (App_Access == AccessType.Delete || App_Access == AccessType.Administrative_Access);
+            ((LinkButton)e.Row.Cells[0].FindControl("btnEdit")).Visible = (App_Access != AccessType.View_Only);
+            ((LinkButton)e.Row.Cells[0].FindControl("btnDelete")).Visible = (App_Access == AccessType.Administrative_Access);
             //((LinkButton)e.Row.Cells[0].FindControl("lnkAddTo")).Visible = (App_Access != AccessType.View);
         }
     }
@@ -563,7 +565,9 @@ public partial class Management_ManagementSearch : clsBasePage
         pnlSearchResult.Visible = false;
         pnlSearchFilter.Visible = true;
         rdbTaskComplete.ClearSelection();
+
         // Check User Rights
+        btnAdd.Visible = App_Access == AccessType.Administrative_Access;
         drpLocation.Focus();
 
     }

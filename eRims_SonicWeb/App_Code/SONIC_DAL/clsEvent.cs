@@ -2322,7 +2322,7 @@ namespace ERIMS.DAL
         /// <param name="intPageSize"></param>
         /// <returns></returns>
         public static DataSet EventSearch_New(string EventNumber, string CameraNumber, decimal? FK_LU_Location, decimal? FK_LU_Event_Type, string CameraName, string Actionable_Event_Status,
-                                                     string ACI_EventID, DateTime? Event_Date_From, DateTime? Event_Date_To, string strOrderBy, string strOrder, int intPageNo, int intPageSize)
+                                                     string ACI_EventID, DateTime? Event_Date_From, DateTime? Event_Date_To, string Sonic_Event, string Is_Actionable, string strOrderBy, string strOrder, int intPageNo, int intPageSize)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("EventSearch_New");
@@ -2336,6 +2336,8 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "ACI_EventID", DbType.String, ACI_EventID);
             db.AddInParameter(dbCommand, "Event_Date_From", DbType.DateTime, Event_Date_From);
             db.AddInParameter(dbCommand, "Event_Date_To", DbType.DateTime, Event_Date_To);
+            db.AddInParameter(dbCommand, "Sonic_Event", DbType.String, Sonic_Event);
+            db.AddInParameter(dbCommand, "Is_Actionable", DbType.String, Is_Actionable);
             db.AddInParameter(dbCommand, "strOrderBy", DbType.String, strOrderBy);
             db.AddInParameter(dbCommand, "strOrder", DbType.String, strOrder);
             db.AddInParameter(dbCommand, "intPageNo", DbType.Int32, intPageNo);
