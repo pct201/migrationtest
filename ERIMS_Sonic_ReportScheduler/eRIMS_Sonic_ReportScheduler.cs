@@ -500,6 +500,11 @@ namespace ERIMS_Sonic_ReportScheduler
         private StringBuilder GetDashboardReportText(DataRow drReportSchedule, DataTable dtFilter, decimal FK_Security_Id, DashboardReport objRptDashboard)
         {
             string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+            string strMarket = null;
+            if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+            {
+                strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+            }
             string strYear = Convert.ToString(dtFilter.Rows[0]["Year"]).Trim();
             string strReportInterval = Convert.ToString(dtFilter.Rows[0]["Report_Interval"]).Trim();
 
@@ -532,6 +537,21 @@ namespace ERIMS_Sonic_ReportScheduler
 
             #region "Report Title"
 
+            //Retrieve Market Values
+            string strMarketString = string.Empty;
+            if (string.IsNullOrEmpty(strMarket))
+            {
+                strMarketString = "All Market";
+            }
+            else
+            {
+                string[] strMar = strMarket.Split(Convert.ToChar(","));
+                for (int i = 0; i < strMar.Length; i++)
+                {
+                    strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                }
+                strMarketString = strMarketString.TrimEnd(',');
+            }
 
             //Add Report Title and Schedule Date
             strHTML.Append("<br />");
@@ -557,6 +577,9 @@ namespace ERIMS_Sonic_ReportScheduler
             strHTML.Append("Region   : " + strRegion);
             strHTML.Append("</td> </tr>");
             strHTML.Append("<tr> <td colspan='8'>");
+            strHTML.Append("Market        : " + strMarketString);
+            strHTML.Append("</td> </tr>");
+            strHTML.Append("<tr> <td colspan='8'>");
             strHTML.Append("</td></tr></table> ");
 
             #endregion
@@ -566,13 +589,13 @@ namespace ERIMS_Sonic_ReportScheduler
             DataSet dsReport = null;
 
             if (objRptDashboard == DashboardReport.Facility_Inspection)
-                dsReport = Report.GetFacilityInspectionReport(strRegion, Convert.ToInt32(strYear), strReportInterval, FK_Security_Id);
+                dsReport = Report.GetFacilityInspectionReport(strRegion, strMarket, Convert.ToInt32(strYear), strReportInterval, FK_Security_Id);
             else if (objRptDashboard == DashboardReport.Incident_Investigation)
-                dsReport = Report.GetIncidentInvestigationReport(strRegion, Convert.ToInt32(strYear), strReportInterval, FK_Security_Id);
+                dsReport = Report.GetIncidentInvestigationReport(strRegion, strMarket, Convert.ToInt32(strYear), strReportInterval, FK_Security_Id);
             else if (objRptDashboard == DashboardReport.Incident_Reduction)
-                dsReport = Report.GetIncidentReductionReport(strRegion, Convert.ToInt32(strYear), strReportInterval, FK_Security_Id);
+                dsReport = Report.GetIncidentReductionReport(strRegion, strMarket, Convert.ToInt32(strYear), strReportInterval, FK_Security_Id);
             else if (objRptDashboard == DashboardReport.WC_Claim_Management)
-                dsReport = Report.GetWCClaimManagementReport(strRegion, Convert.ToInt32(strYear), strReportInterval, FK_Security_Id);
+                dsReport = Report.GetWCClaimManagementReport(strRegion, strMarket, Convert.ToInt32(strYear), strReportInterval, FK_Security_Id);
 
             if (strReportInterval.ToString() == "Monthly")
             {
@@ -820,10 +843,15 @@ namespace ERIMS_Sonic_ReportScheduler
                         String strPolicy_Year = dtFilter.Rows[0]["Accident_Year"].ToString();
                         String strClaim_Type = dtFilter.Rows[0]["Claim_Type"].ToString();
                         string strRegion = dtFilter.Rows[0]["Region"].ToString();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         string strValuationDate = Convert.ToDateTime(dtFilter.Rows[0]["Prior_Valuation_Date"]).ToString(DateDisplayFormat);
 
                         //Get the report data
-                        DataSet dsReport = Report.GetFinancialSummaryData(strPolicy_Year, strClaim_Type, strRegion, Convert.ToDateTime(strValuationDate));
+                        DataSet dsReport = Report.GetFinancialSummaryData(strPolicy_Year, strClaim_Type, strRegion, strMarket, Convert.ToDateTime(strValuationDate));
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -831,6 +859,22 @@ namespace ERIMS_Sonic_ReportScheduler
                         System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                         #region "Header"
+
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
 
                         //Add Report Title and Schedule Date
                         strHTML.Append("<br />");
@@ -853,6 +897,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br />");
                         strHTML.Append("Regions              : " + strRegion.Replace("'", ""));
                         strHTML.Append("<br />");
+                        strHTML.Append("Market        : " + strMarketString);
+                        strHTML.Append("<br /><br />");
                         strHTML.Append("Prior Valuation Date : " + strValuationDate);
                         strHTML.Append("<br /><br />");
 
@@ -1011,10 +1057,15 @@ namespace ERIMS_Sonic_ReportScheduler
                         //Set all filters to a variable as per report type
                         String strPolicy_Year = dtFilter.Rows[0]["Accident_Year"].ToString();
                         string strRegion = dtFilter.Rows[0]["Region"].ToString();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         string strValuationDate = Convert.ToDateTime(dtFilter.Rows[0]["Prior_Valuation_Date"]).ToString(DateDisplayFormat);
 
                         //Get the report data
-                        DataSet dsReport = Report.GetFinancialPayTypeSummaryData(strPolicy_Year, strRegion, Convert.ToDateTime(strValuationDate));
+                        DataSet dsReport = Report.GetFinancialPayTypeSummaryData(strPolicy_Year, strRegion, strMarket, Convert.ToDateTime(strValuationDate));
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -1022,6 +1073,23 @@ namespace ERIMS_Sonic_ReportScheduler
                         System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                         #region " Header "
+
+
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
 
                         //Add Report Title and Schedule Date
                         strHTML.Append("<br />");
@@ -1042,6 +1110,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br />");
                         strHTML.Append("Regions              : " + strRegion.Replace("'", ""));
                         strHTML.Append("<br />");
+                        strHTML.Append("Market        : " + strMarketString);
+                        strHTML.Append("<br /><br />");
                         strHTML.Append("Prior Valuation Date : " + strValuationDate);
                         strHTML.Append("<br /><br />");
 
@@ -1260,11 +1330,16 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         //Set all filters to a variable as per report type
                         String strRegions = dtFilter.Rows[0]["Region"].ToString();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         DateTime date_of_loss_from = Convert.ToDateTime(dtFilter.Rows[0]["From_Date_Of_Loss"].ToString());
                         DateTime date_of_loss_to = Convert.ToDateTime(dtFilter.Rows[0]["To_Date_Of_Loss"].ToString());
 
                         //Get the report data
-                        DataSet dsReport = Report.GetEmployerLagSummaryData(date_of_loss_from, date_of_loss_to, strRegions);
+                        DataSet dsReport = Report.GetEmployerLagSummaryData(date_of_loss_from, date_of_loss_to, strRegions, strMarket);
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -1272,6 +1347,22 @@ namespace ERIMS_Sonic_ReportScheduler
                         System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                         #region " Header "
+
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
 
                         //Add Report Title and Schedule Date
                         strHTML.Append("<br />");
@@ -1290,6 +1381,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Regions :" + strRegions.Replace("'", ""));
                         strHTML.Append("<br />");
+                        strHTML.Append("Market        : " + strMarketString);
+                        strHTML.Append("<br /><br />");
                         strHTML.Append("Date Of Loss : From : " + date_of_loss_from.ToString(DateDisplayFormat) + " &nbsp;&nbsp&nbsp;&nbsp; To : " + date_of_loss_to.ToString(DateDisplayFormat));
                         strHTML.Append("<br /><br />");
 
@@ -1375,7 +1468,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Lag Summary, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Lag Summary : 3, " + ex.Message);
             }
         }
 
@@ -1407,11 +1500,16 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         //Set all filters to a variable as per report type
                         String strRegions = dtFilter.Rows[0]["Region"].ToString();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         DateTime date_of_loss_from = Convert.ToDateTime(dtFilter.Rows[0]["From_Date_Of_Loss"].ToString());
                         DateTime date_of_loss_to = Convert.ToDateTime(dtFilter.Rows[0]["To_Date_Of_Loss"].ToString());
 
                         //Get the report data
-                        DataSet dsReport = Report.GetInsurerLagSummaryData(date_of_loss_from, date_of_loss_to, strRegions);
+                        DataSet dsReport = Report.GetInsurerLagSummaryData(date_of_loss_from, date_of_loss_to, strRegions, strMarket);
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -1419,6 +1517,22 @@ namespace ERIMS_Sonic_ReportScheduler
                         System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                         #region " Header "
+
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
 
                         //Add Report Title and Schedule Date
                         strHTML.Append("<br />");
@@ -1437,6 +1551,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Regions :" + strRegions.Replace("'", ""));
                         strHTML.Append("<br />");
+                        strHTML.Append("Market        : " + strMarketString);
+                        strHTML.Append("<br /><br />");
                         strHTML.Append("Date Of Loss : From : " + date_of_loss_from.ToString(DateDisplayFormat) + " &nbsp;&nbsp&nbsp;&nbsp; To : " + date_of_loss_to.ToString(DateDisplayFormat));
                         strHTML.Append("<br /><br />");
 
@@ -1520,7 +1636,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Lag Summary, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Lag Summary : 4, " + ex.Message);
             }
         }
 
@@ -1552,11 +1668,16 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         //Set all filters to a variable as per report type
                         String strRegions = dtFilter.Rows[0]["Region"].ToString();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         DateTime date_of_loss_from = Convert.ToDateTime(dtFilter.Rows[0]["From_Date_Of_Loss"].ToString());
                         DateTime date_of_loss_to = Convert.ToDateTime(dtFilter.Rows[0]["To_Date_Of_Loss"].ToString());
 
                         //Get the report data
-                        DataSet dsReport = Report.GetCompletionLagSummaryData(date_of_loss_from, date_of_loss_to, strRegions);
+                        DataSet dsReport = Report.GetCompletionLagSummaryData(date_of_loss_from, date_of_loss_to, strRegions, strMarket);
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -1564,6 +1685,22 @@ namespace ERIMS_Sonic_ReportScheduler
                         System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                         #region " Header "
+
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
 
                         //Add Report Title and Schedule Date
                         strHTML.Append("<br />");
@@ -1582,6 +1719,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Regions :" + strRegions.Replace("'", ""));
                         strHTML.Append("<br />");
+                        strHTML.Append("Market        : " + strMarketString);
+                        strHTML.Append("<br /><br />");
                         strHTML.Append("Date Of Loss : From : " + date_of_loss_from.ToString(DateDisplayFormat) + " &nbsp;&nbsp&nbsp;&nbsp; To : " + date_of_loss_to.ToString(DateDisplayFormat));
                         strHTML.Append("<br /><br />");
 
@@ -1665,7 +1804,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Lag Summary, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Lag Summary : 5, " + ex.Message);
             }
         }
 
@@ -2460,11 +2599,16 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         //Set all filters to a variable as per report type
                         String strRegions = dtFilter.Rows[0]["Region"].ToString();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         DateTime date_of_loss_from = Convert.ToDateTime(dtFilter.Rows[0]["From_Date_Of_Loss"].ToString());
                         DateTime date_of_loss_to = Convert.ToDateTime(dtFilter.Rows[0]["To_Date_Of_Loss"].ToString());
 
                         //Get the report data
-                        DataSet dsReport = Report.GetTPALagSummaryData(date_of_loss_from, date_of_loss_to, strRegions);
+                        DataSet dsReport = Report.GetTPALagSummaryData(date_of_loss_from, date_of_loss_to, strRegions, strMarket);
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -2472,6 +2616,22 @@ namespace ERIMS_Sonic_ReportScheduler
                         System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                         #region " Header "
+
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
 
                         //Add Report Title and Schedule Date
                         strHTML.Append("<br />");
@@ -2490,6 +2650,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Regions :" + strRegions.Replace("'", ""));
                         strHTML.Append("<br />");
+                        strHTML.Append("Market        : " + strMarketString);
+                        strHTML.Append("<br /><br />");
                         strHTML.Append("Date Of Loss : From : " + date_of_loss_from.ToString(DateDisplayFormat) + " &nbsp;&nbsp&nbsp;&nbsp; To : " + date_of_loss_to.ToString(DateDisplayFormat));
                         strHTML.Append("<br /><br />");
 
@@ -2576,7 +2738,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry("ERROR in Lag Summary, " + ex.Message);
+                EventLog.WriteEntry("ERROR in Lag Summary : 11, " + ex.Message);
             }
         }
 
@@ -3282,14 +3444,19 @@ namespace ERIMS_Sonic_ReportScheduler
                         strFirstName = dtUser.Rows[0]["FIRST_NAME"].ToString();
                         strLastName = dtUser.Rows[0]["LAST_NAME"].ToString();
                         strMailFrom = dtUser.Rows[0]["Email"].ToString();
-
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         // get start date
                         DateTime Start_Date = Convert.ToDateTime(dtFilter.Rows[0]["Start_Date"]);
                         // get end date
                         DateTime End_Date = Convert.ToDateTime(dtFilter.Rows[0]["End_Date"]);
 
+
                         // get result records from database for the report
-                        DataSet dsReport = Report.Get_Notification_Bordereau_Report(Start_Date, End_Date, Convert.ToString(dtFilter.Rows[0]["Region"]));
+                        DataSet dsReport = Report.Get_Notification_Bordereau_Report(Start_Date, End_Date, Convert.ToString(dtFilter.Rows[0]["Region"]), strMarket);
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -3297,6 +3464,22 @@ namespace ERIMS_Sonic_ReportScheduler
                         System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                         #region "Header"
+
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
 
                         //Add Report Title and Schedule Date
                         strHTML.Append("<span style=\"font-family:Calibri;\">");
@@ -3317,6 +3500,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("Date Claim Opened Between " + Start_Date.ToString(DateDisplayFormat) + " and " + End_Date.ToString(DateDisplayFormat));
                         strHTML.Append("<br />");
                         strHTML.Append("Regions              : " + (string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Region"])) ? "All" : dtFilter.Rows[0]["Region"].ToString()));
+                        strHTML.Append("<br /><br />");
+                        strHTML.Append("Market        : " + strMarketString);
                         strHTML.Append("<br /><br />");
                         strHTML.Append("</span>");
 
@@ -3460,14 +3645,18 @@ namespace ERIMS_Sonic_ReportScheduler
                         strFirstName = dtUser.Rows[0]["FIRST_NAME"].ToString();
                         strLastName = dtUser.Rows[0]["LAST_NAME"].ToString();
                         strMailFrom = dtUser.Rows[0]["Email"].ToString();
-
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         // get start date
                         DateTime Start_Date = Convert.ToDateTime(dtFilter.Rows[0]["Start_Date"]);
                         // get end date
                         DateTime End_Date = Convert.ToDateTime(dtFilter.Rows[0]["End_Date"]);
 
                         // get result records from database for the report
-                        DataSet dsReport = Report.Get_Litigation_Summary_Report(Start_Date, End_Date, Convert.ToString(dtFilter.Rows[0]["Region"]));
+                        DataSet dsReport = Report.Get_Litigation_Summary_Report(Start_Date, End_Date, Convert.ToString(dtFilter.Rows[0]["Region"]),strMarket);
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -3475,6 +3664,22 @@ namespace ERIMS_Sonic_ReportScheduler
                         System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                         #region "Header"
+
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
 
                         //Add Report Title and Schedule Date
                         strHTML.Append("<span style=\"font-family:Calibri;\">");
@@ -3495,6 +3700,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("Date Claim Opened Between " + Start_Date.ToString(DateDisplayFormat) + " and " + End_Date.ToString(DateDisplayFormat));
                         strHTML.Append("<br />");
                         strHTML.Append("Regions              : " + (string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Region"])) ? "All" : dtFilter.Rows[0]["Region"].ToString()));
+                        strHTML.Append("<br /><br />");
+                        strHTML.Append("Market        : " + strMarketString);
                         strHTML.Append("<br /><br />");
                         strHTML.Append("</span>");
 
@@ -3840,14 +4047,18 @@ namespace ERIMS_Sonic_ReportScheduler
                         strFirstName = dtUser.Rows[0]["FIRST_NAME"].ToString();
                         strLastName = dtUser.Rows[0]["LAST_NAME"].ToString();
                         strMailFrom = dtUser.Rows[0]["Email"].ToString();
-
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         // get start date
                         DateTime Start_Date = Convert.ToDateTime(dtFilter.Rows[0]["Start_Date"]);
                         // get end date
                         DateTime End_Date = Convert.ToDateTime(dtFilter.Rows[0]["End_Date"]);
 
                         // get result records from database for the report
-                        DataSet dsReport = Report.Get_Network_Call_Summary_Report(Start_Date, End_Date, Convert.ToString(dtFilter.Rows[0]["Region"]));
+                        DataSet dsReport = Report.Get_Network_Call_Summary_Report(Start_Date, End_Date, Convert.ToString(dtFilter.Rows[0]["Region"]),strMarket);
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -3855,6 +4066,22 @@ namespace ERIMS_Sonic_ReportScheduler
                         System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                         #region "Header"
+
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
 
                         //Add Report Title and Schedule Date
                         strHTML.Append("<span style=\"font-family:Calibri;\">");
@@ -3870,11 +4097,13 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         //Add Report Filter Criteria 
                         strHTML.Append("<br /><br />");
-                        strHTML.Append("<b>Report Filters </b>");
+                        strHTML.Append("<b>Report Filters </b>");                       
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Date Claim Opened Between " + Start_Date.ToString(DateDisplayFormat) + " and " + End_Date.ToString(DateDisplayFormat));
                         strHTML.Append("<br />");
                         strHTML.Append("Regions              : " + (string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Region"])) ? "All" : dtFilter.Rows[0]["Region"].ToString()));
+                        strHTML.Append("<br />");
+                        strHTML.Append("Markets        : " + strMarketString);
                         strHTML.Append("<br /><br />");
                         strHTML.Append("</span>");
 
@@ -4953,6 +5182,11 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         // get start date
                         string strRegion = dtFilter.Rows[0]["Region"].ToString();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         string strLocation = dtFilter.Rows[0]["Location"].ToString();
                         string strServiceContract = dtFilter.Rows[0]["ServiceContract"].ToString();
                         string strServiceType = dtFilter.Rows[0]["ServiceType"].ToString();
@@ -4969,8 +5203,9 @@ namespace ERIMS_Sonic_ReportScheduler
                             EndToDate = Convert.ToDateTime(dtFilter.Rows[0]["EndToDate"].ToString());
                         if (dtFilter.Rows[0]["EndFromDate"] != null && dtFilter.Rows[0]["EndFromDate"] != DBNull.Value)
                             EndFromDate = Convert.ToDateTime(dtFilter.Rows[0]["EndFromDate"].ToString());
+                       
                         // get result records from database for the report
-                        DataSet dsReport = Report.GetService_Contract_Detail_Report(strRegion, strLocation, strServiceContract, strServiceType, StartToDate, StartFromDate, EndToDate, EndFromDate);
+                        DataSet dsReport = Report.GetService_Contract_Detail_Report(strRegion, strMarket, strLocation, strServiceContract, strServiceType, StartToDate, StartFromDate, EndToDate, EndFromDate);
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -4979,6 +5214,21 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         #region "Header"
 
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
                         //Add Report Title and Schedule Date
                         strHTML.Append("<span style=\"font-family:Calibri;\">");
                         strHTML.Append("<br />");
@@ -5146,6 +5396,11 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         // get start date
                         string strRegion = dtFilter.Rows[0]["Region"].ToString();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         string strLocation = dtFilter.Rows[0]["Location"].ToString();
                         string strEquipmentType = dtFilter.Rows[0]["EquipmentType"].ToString();
                         string strLeaseRentalType = dtFilter.Rows[0]["LeaseRentalType"].ToString();
@@ -5165,7 +5420,7 @@ namespace ERIMS_Sonic_ReportScheduler
                             EndFromDate = Convert.ToDateTime(dtFilter.Rows[0]["EndFromDate"].ToString());
 
                         // get result records from database for the report
-                        DataSet dsReport = Report.GetLease_Rental_Detail_Report(strRegion, strLocation, strEquipmentType, strLeaseRentalType, StartToDate, StartFromDate, EndToDate, EndFromDate);
+                        DataSet dsReport = Report.GetLease_Rental_Detail_Report(strRegion, strMarket, strLocation, strEquipmentType, strLeaseRentalType, StartToDate, StartFromDate, EndToDate, EndFromDate);
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -5192,6 +5447,24 @@ namespace ERIMS_Sonic_ReportScheduler
                         {
                             strLocationString += Report.SelectLocationInfoById(Convert.ToDecimal(strLoc[i].ToString())).Tables[0].Rows[0]["dba"].ToString() + ",";
                         }
+                        strLocationString = strLocationString.TrimEnd(',');
+
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
+
                         //foreach (string strl in strLoc)
                         //{
                         //    strLocationString += Report.SelectLocationInfoById(Convert.ToDecimal(strl.ToString())).Tables[0].Rows[0]["dba"].ToString() + ",";
@@ -5204,6 +5477,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("Region        : " + strRegion.Trim(Convert.ToChar("'")).Replace("','", "<b>,</b>").ToString());
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Location        : " + strLocationString);
+                        strHTML.Append("<br /><br />");
+                        strHTML.Append("Market        : " + strMarketString);
                         //strHTML.Append("Location        : " + strLocation.Replace("/", "_").Replace("'", "_").Replace("-","_").Replace(".","_").Replace("&","_").Replace(" ","_"));
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Equipment Type        : " + strEquipmentType.Trim(Convert.ToChar("'")).Replace("','", "<b>,</b>").ToString());
@@ -5356,12 +5631,17 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         // get Region
                         string strRegion = dtFilter.Rows[0]["Region"].ToString();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         string strManufacturer = dtFilter.Rows[0]["Manufacutrer"].ToString();
                         string strLocation = dtFilter.Rows[0]["Location"].ToString();
                         string strType = dtFilter.Rows[0]["Type"].ToString();
 
                         // get result records from database for the report
-                        DataSet dsReport = Report.Get_Purchase_Report(strRegion, strManufacturer, strType, strLocation);
+                        DataSet dsReport = Report.Get_Purchase_Report(strRegion, strMarket, strManufacturer, strType, strLocation);
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -5384,6 +5664,23 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         #region "Header"
 
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
+
+
                         //Add Report Title and Schedule Date
                         strHTML.Append("<span style=\"font-family:Calibri;\">");
                         strHTML.Append("<br />");
@@ -5401,6 +5698,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<b>Report Filters </b>");
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Regions              : " + strRegion.TrimStart(Convert.ToChar(",")).Replace("'", ""));
+                        strHTML.Append("<br /><br />");                        
+                        strHTML.Append("Market        : " + strMarketString);
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Location          : " + strLocationString);
                         strHTML.Append("<br />");
@@ -5560,6 +5859,11 @@ namespace ERIMS_Sonic_ReportScheduler
                         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
 
                         string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         string strLeaseType = Convert.ToString(dtFilter.Rows[0]["LeaseType"]).Trim();
 
 
@@ -5577,7 +5881,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
 
                         //Get the all Unique records for Selected group (default - last name -sort) by search criteria
-                        DataSet dsGroup = Report.GetLeaseDetailReport(strRegion, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo, "asc");
+                        DataSet dsGroup = Report.GetLeaseDetailReport(strRegion, strMarket, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo, "asc");
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder lstLeaseType = new StringBuilder();
@@ -5585,6 +5889,22 @@ namespace ERIMS_Sonic_ReportScheduler
                         System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                         #region "Search Criteria"
+
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
 
                         //Add Report Title and Schedule Date
                         lstLeaseType.Append("<br />");
@@ -5603,6 +5923,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         lstLeaseType.Append("<br /><br />");
                         lstLeaseType.Append("Region        : " + strRegion.Replace("'", ""));
                         lstLeaseType.Append("<br />");
+                        lstLeaseType.Append("Market        : " + strMarketString);
+                        lstLeaseType.Append("<br /><br />");
                         lstLeaseType.Append("Lease Type    : " + Report.GetLeaseTypeList(strLeaseType));
                         lstLeaseType.Append("<br />");
                         lstLeaseType.Append("LCD From      : " + FormatDBNullDateToDisplay(dtLCDFrom));
@@ -5933,6 +6255,11 @@ namespace ERIMS_Sonic_ReportScheduler
                         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
 
                         string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         string strLeaseType = Convert.ToString(dtFilter.Rows[0]["LeaseType"]).Trim();
 
                         if (dtFilter.Rows[0]["LCDFrom_Date"] != DBNull.Value)
@@ -5948,7 +6275,7 @@ namespace ERIMS_Sonic_ReportScheduler
                             dtLEDTo = Convert.ToDateTime(dtFilter.Rows[0]["LEDTo_Date"]);
 
                         //Get the all Unique records for Selected group (default - last name -sort) by search criteria
-                        DataSet dsResult = Report.GetLeaseTermReport(strRegion, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
+                        DataSet dsResult = Report.GetLeaseTermReport(strRegion, strMarket, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -5956,6 +6283,22 @@ namespace ERIMS_Sonic_ReportScheduler
                         System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                         #region "Search Criteria"
+
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
 
                         //Add Report Title and Schedule Date
                         strHTML.Append("<br />");
@@ -5974,6 +6317,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Region        : " + strRegion.Replace("'", ""));
                         strHTML.Append("<br />");
+                        strHTML.Append("Market        : " + strMarketString);
+                        strHTML.Append("<br /><br />");
                         strHTML.Append("Lease Type    : " + Report.GetLeaseTypeList(strLeaseType));
                         strHTML.Append("<br />");
                         strHTML.Append("LCD From      : " + FormatDBNullDateToDisplay(dtLCDFrom));
@@ -6088,6 +6433,11 @@ namespace ERIMS_Sonic_ReportScheduler
                         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
 
                         string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         string strLeaseType = Convert.ToString(dtFilter.Rows[0]["LeaseType"]).Trim();
 
                         if (dtFilter.Rows[0]["LCDFrom_Date"] != DBNull.Value)
@@ -6103,7 +6453,7 @@ namespace ERIMS_Sonic_ReportScheduler
                             dtLEDTo = Convert.ToDateTime(dtFilter.Rows[0]["LEDTo_Date"]);
 
                         //Get the all Unique records for Selected group (default - last name -sort) by search criteria
-                        DataSet dsResult = Report.GetSubspacesByLocation(strRegion, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
+                        DataSet dsResult = Report.GetSubspacesByLocation(strRegion, strMarket, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -6111,6 +6461,22 @@ namespace ERIMS_Sonic_ReportScheduler
                         System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                         #region "Report Criteria"
+
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
 
                         //Add Report Title and Schedule Date
                         strHTML.Append("<br />");
@@ -6129,6 +6495,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Region        : " + strRegion.Replace("'", ""));
                         strHTML.Append("<br />");
+                        strHTML.Append("Market        : " + strMarketString);
+                        strHTML.Append("<br /><br />");
                         strHTML.Append("Lease Type    : " + Report.GetLeaseTypeList(strLeaseType));
                         strHTML.Append("<br />");
                         strHTML.Append("LCD From      : " + FormatDBNullDateToDisplay(dtLCDFrom));
@@ -6276,6 +6644,11 @@ namespace ERIMS_Sonic_ReportScheduler
                         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
 
                         string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         string strLeaseType = Convert.ToString(dtFilter.Rows[0]["LeaseType"]).Trim();
 
                         if (dtFilter.Rows[0]["LCDFrom_Date"] != DBNull.Value)
@@ -6291,7 +6664,7 @@ namespace ERIMS_Sonic_ReportScheduler
                             dtLEDTo = Convert.ToDateTime(dtFilter.Rows[0]["LEDTo_Date"]);
 
                         //Get the all Unique records for Selected group (default - last name -sort) by search criteria
-                        DataSet dsResult = Report.GetRentableAreaByExpirationDate(strRegion, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
+                        DataSet dsResult = Report.GetRentableAreaByExpirationDate(strRegion, strMarket, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -6299,6 +6672,22 @@ namespace ERIMS_Sonic_ReportScheduler
                         System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                         #region "Search Criteria"
+
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
 
                         //Add Report Title and Schedule Date
                         strHTML.Append("<br />");
@@ -6317,6 +6706,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Region        : " + strRegion.Replace("'", ""));
                         strHTML.Append("<br />");
+                        strHTML.Append("Market        : " + strMarketString);
+                        strHTML.Append("<br /><br />");
                         strHTML.Append("Lease Type    : " + Report.GetLeaseTypeList(strLeaseType));
                         strHTML.Append("<br />");
                         strHTML.Append("LCD From      : " + FormatDBNullDateToDisplay(dtLCDFrom));
@@ -6422,6 +6813,11 @@ namespace ERIMS_Sonic_ReportScheduler
                         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
 
                         string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         string strLeaseType = Convert.ToString(dtFilter.Rows[0]["LeaseType"]).Trim();
 
                         if (dtFilter.Rows[0]["LCDFrom_Date"] != DBNull.Value)
@@ -6437,7 +6833,7 @@ namespace ERIMS_Sonic_ReportScheduler
                             dtLEDTo = Convert.ToDateTime(dtFilter.Rows[0]["LEDTo_Date"]);
 
                         //Get the all Unique records for Selected group (default - last name -sort) by search criteria
-                        DataSet dsResult = Report.GetMonthlyExpenseByLocation(strRegion, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
+                        DataSet dsResult = Report.GetMonthlyExpenseByLocation(strRegion, strMarket, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -6445,6 +6841,22 @@ namespace ERIMS_Sonic_ReportScheduler
                         System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                         #region "Report Criteria"
+
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
 
                         //Add Report Title and Schedule Date
                         strHTML.Append("<br />");
@@ -6463,6 +6875,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Region        : " + strRegion.Replace("'", ""));
                         strHTML.Append("<br />");
+                        strHTML.Append("Market        : " + strMarketString);
+                        strHTML.Append("<br /><br />");
                         strHTML.Append("Lease Type    : " + Report.GetLeaseTypeList(strLeaseType));
                         strHTML.Append("<br />");
                         strHTML.Append("LCD From      : " + FormatDBNullDateToDisplay(dtLCDFrom));
@@ -6647,6 +7061,11 @@ namespace ERIMS_Sonic_ReportScheduler
                         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
 
                         string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         string strLeaseType = Convert.ToString(dtFilter.Rows[0]["LeaseType"]).Trim();
 
 
@@ -6671,6 +7090,22 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         #region "Search Criteria"
 
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
+
                         //Add Report Title and Schedule Date
                         strHTML.Append("<br />");
                         strHTML.Append("<b>Report Title : Leases With Security Deposits</b>");
@@ -6688,6 +7123,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Region        : " + strRegion.Replace("'", ""));
                         strHTML.Append("<br />");
+                        strHTML.Append("Market        : " + strMarketString);
+                        strHTML.Append("<br /><br />");
                         strHTML.Append("Lease Type    : " + Report.GetLeaseTypeList(strLeaseType));
                         strHTML.Append("<br />");
                         strHTML.Append("LCD From      : " + FormatDBNullDateToDisplay(dtLCDFrom));
@@ -6734,7 +7171,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
 
                         //get the all Employee records by search criteria by group
-                        DataSet dsDetails = Report.GetLeasesWithSecurityDeposits(strRegion, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
+                        DataSet dsDetails = Report.GetLeasesWithSecurityDeposits(strRegion, strMarket, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
 
                         if (dsDetails != null && dsDetails.Tables.Count > 0 && dsDetails.Tables[0].Rows.Count > 0)
                         {
@@ -6856,6 +7293,11 @@ namespace ERIMS_Sonic_ReportScheduler
                         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
 
                         string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         string strLeaseType = Convert.ToString(dtFilter.Rows[0]["LeaseType"]).Trim();
 
 
@@ -6878,6 +7320,23 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         #region "Search Criteria"
 
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
+
+
                         //Add Report Title and Schedule Date
                         strHTML.Append("<br />");
                         strHTML.Append("<b>Report Title : Landlord Report</b>");
@@ -6895,6 +7354,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Region        : " + strRegion.Replace("'", ""));
                         strHTML.Append("<br />");
+                        strHTML.Append("Market        : " + strMarketString);
+                        strHTML.Append("<br /><br />");
                         strHTML.Append("Lease Type    : " + Report.GetLeaseTypeList(strLeaseType));
                         strHTML.Append("<br />");
                         strHTML.Append("LCD From      : " + FormatDBNullDateToDisplay(dtLCDFrom));
@@ -6939,7 +7400,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
 
                         //get the all Employee records by search criteria by group
-                        DataSet dsDetails = Report.GetLandlordReport(strRegion, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
+                        DataSet dsDetails = Report.GetLandlordReport(strRegion, strMarket, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
 
                         if (dsDetails != null && dsDetails.Tables.Count > 0 && dsDetails.Tables[0].Rows.Count > 0)
                         {
@@ -7058,6 +7519,11 @@ namespace ERIMS_Sonic_ReportScheduler
                         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
 
                         string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         string strLeaseType = Convert.ToString(dtFilter.Rows[0]["LeaseType"]).Trim();
 
 
@@ -7080,6 +7546,22 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         #region "Search Criteria"
 
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
+
                         //Add Report Title and Schedule Date
                         strHTML.Append("<br />");
                         strHTML.Append("<b>Report Title : Maintenance and Repair Items Report</b>");
@@ -7097,6 +7579,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Region        : " + strRegion.Replace("'", ""));
                         strHTML.Append("<br />");
+                        strHTML.Append("Market        : " + strMarketString);
+                        strHTML.Append("<br /><br />");
                         strHTML.Append("Lease Type    : " + Report.GetLeaseTypeList(strLeaseType));
                         strHTML.Append("<br />");
                         strHTML.Append("LCD From      : " + FormatDBNullDateToDisplay(dtLCDFrom));
@@ -7138,7 +7622,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
 
                         //get the all Employee records by search criteria by group
-                        DataSet dsDetails = Report.GetMaintenanceAndRepairItems(strRegion, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
+                        DataSet dsDetails = Report.GetMaintenanceAndRepairItems(strRegion, strMarket, strLeaseType, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
 
                         if (dsDetails != null && dsDetails.Tables.Count > 0 && dsDetails.Tables[0].Rows.Count > 0)
                         {
@@ -7237,14 +7721,15 @@ namespace ERIMS_Sonic_ReportScheduler
                     DataTable dtUser = Report.SelectSecurityByPK(FK_Security_Id).Tables[0];
 
                     String strFirstName, strLastName, strMailFrom;
-                    strFirstName = strLastName = strMailFrom = "";
+                    strFirstName = strLastName = strMailFrom  = "";
                     if (dtUser.Rows.Count > 0)
                     {
                         strFirstName = Convert.ToString(dtUser.Rows[0]["FIRST_NAME"]).Trim();
                         strLastName = Convert.ToString(dtUser.Rows[0]["LAST_NAME"]).Trim();
                         strMailFrom = Convert.ToString(dtUser.Rows[0]["Email"]).Trim();
 
-                        string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+                        string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();                        
+                      
                         string strLocation = Convert.ToString(dtFilter.Rows[0]["Location"]).Trim();
                         string strYear = Convert.ToString(dtFilter.Rows[0]["Year"]).Trim();
 
@@ -7257,7 +7742,9 @@ namespace ERIMS_Sonic_ReportScheduler
                         System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                         #region "Report Title"
+                        //Retrieve Market Values
 
+                      
                         //Add Report Title and Schedule Date
                         strHTML.Append("<br />");
                         strHTML.Append("<b>Report Title : Workers Comp Allocation YTD Charge Report </b>");
@@ -7436,6 +7923,11 @@ namespace ERIMS_Sonic_ReportScheduler
                         strMailFrom = Convert.ToString(dtUser.Rows[0]["Email"]).Trim();
 
                         string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         string strStatus = Convert.ToString(dtFilter.Rows[0]["Status"]).Trim();
                         string strOwnership = Convert.ToString(dtFilter.Rows[0]["Ownership"]).Trim();
                         DateTime? dtPropertyValuationDateFrom = null;
@@ -7446,7 +7938,7 @@ namespace ERIMS_Sonic_ReportScheduler
                             dtPropertyValuationDateTo = Convert.ToDateTime(dtFilter.Rows[0]["Property_Valuation_Date_To"]);
 
                         //Get the all Unique records for Selected group (default - last name -sort) by search criteria
-                        DataSet dsResult = Report.GetPropertyStatementofValues(strRegion, strStatus, strOwnership, dtPropertyValuationDateFrom, dtPropertyValuationDateTo);
+                        DataSet dsResult = Report.GetPropertyStatementofValues(strRegion, strMarket, strStatus, strOwnership, dtPropertyValuationDateFrom, dtPropertyValuationDateTo);
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -7454,6 +7946,22 @@ namespace ERIMS_Sonic_ReportScheduler
                         System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                         #region "Report Title"
+
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
 
                         //Add Report Title and Schedule Date
                         strHTML.Append("<br />");
@@ -7471,6 +7979,9 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<b>Report Filters </b>");
                         strHTML.Append("<br /><table> <tr> <td colspan='8'>");
                         strHTML.Append("Region   : " + strRegion);
+                        strHTML.Append("</td> </tr>");
+                        strHTML.Append("<br /><table> <tr> <td colspan='8'>");
+                        strHTML.Append("Market        : " + strMarketString);
                         strHTML.Append("</td> </tr>");
                         strHTML.Append("<tr> <td colspan='8'>");
                         strHTML.Append("Location Status   : " + strStatus);
@@ -7834,6 +8345,11 @@ namespace ERIMS_Sonic_ReportScheduler
                         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
 
                         string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         string strLeaseType = Convert.ToString(dtFilter.Rows[0]["LeaseType"]).Trim();
                         string strStatus = Convert.ToString(dtFilter.Rows[0]["Status"]).Trim();
 
@@ -7856,6 +8372,22 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         #region "Search Criteria"
 
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
+
                         //Add Report Title and Schedule Date
                         strHTML.Append("<br />");
                         strHTML.Append("<b>Report Title : Lease Report</b>");
@@ -7873,6 +8405,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Region        : " + strRegion.Replace("'", ""));
                         strHTML.Append("<br />");
+                        strHTML.Append("Market        : " + strMarketString);
+                        strHTML.Append("<br /><br />");
                         strHTML.Append("LCD From      : " + FormatDBNullDateToDisplay(dtLCDFrom));
                         strHTML.Append("<br />");
                         strHTML.Append("LCD To        : " + FormatDBNullDateToDisplay(dtLCDTo));
@@ -7930,7 +8464,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
 
                         //get the all Employee records by search criteria by group
-                        DataSet dsDetails = Report.GetCriticalDatesReport(strRegion, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo, strStatus, "");
+                        DataSet dsDetails = Report.GetCriticalDatesReport(strRegion, strMarket, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo, strStatus, "");
 
                         if (dsDetails != null && dsDetails.Tables.Count > 0 && dsDetails.Tables[0].Rows.Count > 0)
                         {
@@ -8075,6 +8609,11 @@ namespace ERIMS_Sonic_ReportScheduler
                         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
 
                         string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         string strLeaseType = Convert.ToString(dtFilter.Rows[0]["LeaseType"]).Trim();
 
                         if (dtFilter.Rows[0]["LCDFrom_Date"] != DBNull.Value)
@@ -8090,7 +8629,7 @@ namespace ERIMS_Sonic_ReportScheduler
                             dtLEDTo = Convert.ToDateTime(dtFilter.Rows[0]["LEDTo_Date"]);
 
                         //Get the all Unique records for Selected group (default - last name -sort) by search criteria
-                        DataSet dsResult = Report.GetMasterDealership(strRegion, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
+                        DataSet dsResult = Report.GetMasterDealership(strRegion, strMarket, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -8098,6 +8637,22 @@ namespace ERIMS_Sonic_ReportScheduler
                         System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                         #region "Report Criteria"
+
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
 
                         //Add Report Title and Schedule Date
                         strHTML.Append("<br />");
@@ -8115,7 +8670,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<b>Report Filters </b>");
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Region        : " + strRegion.Replace("'", ""));
-
+                        strHTML.Append("<br />");
+                        strHTML.Append("Market        : " + strMarketString);
                         strHTML.Append("<br />");
                         strHTML.Append("LCD From      : " + FormatDBNullDateToDisplay(dtLCDFrom));
                         strHTML.Append("<br />");
@@ -8299,6 +8855,11 @@ namespace ERIMS_Sonic_ReportScheduler
                         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
 
                         string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
 
                         if (dtFilter.Rows[0]["LCDFrom_Date"] != DBNull.Value)
                             dtLCDFrom = Convert.ToDateTime(dtFilter.Rows[0]["LCDFrom_Date"]);
@@ -8313,7 +8874,7 @@ namespace ERIMS_Sonic_ReportScheduler
                             dtLEDTo = Convert.ToDateTime(dtFilter.Rows[0]["LEDTo_Date"]);
 
                         //Get the all Unique records for Selected group (default - last name -sort) by search criteria
-                        DataSet dsResult = Report.GetLandlordInfoReport(strRegion, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
+                        DataSet dsResult = Report.GetLandlordInfoReport(strRegion, strMarket, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo);
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -8321,6 +8882,22 @@ namespace ERIMS_Sonic_ReportScheduler
                         System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                         #region "Report Criteria"
+
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
 
                         //Add Report Title and Schedule Date
                         strHTML.Append("<br />");
@@ -8339,6 +8916,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Region        : " + strRegion.Replace("'", ""));
                         strHTML.Append("<br />");
+                        strHTML.Append("Market        : " + strMarketString);
+                        strHTML.Append("<br /><br />");
                         strHTML.Append("LCD From      : " + FormatDBNullDateToDisplay(dtLCDFrom));
                         strHTML.Append("<br />");
                         strHTML.Append("LCD To        : " + FormatDBNullDateToDisplay(dtLCDTo));
@@ -8670,10 +9249,15 @@ namespace ERIMS_Sonic_ReportScheduler
                     strMailFrom = Convert.ToString(dtUser.Rows[0]["Email"]).Trim();
                 }
                 string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+                string strMarket = null;
+                if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                {
+                    strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                }
                 string strStatus = Convert.ToString(dtFilter.Rows[0]["Status"]).Trim();
 
                 //Get the all Unique records for Selected group (default - last name -sort) by search criteria
-                DataSet dsResult = Report.GetNewExposuresreport(strRegion, strStatus, FK_Security_Id);
+                DataSet dsResult = Report.GetNewExposuresreport(strRegion, strMarket, strStatus, FK_Security_Id);
 
                 //Create HTML for the report and wirte into HTML Write object
                 StringBuilder strHTML = new StringBuilder();
@@ -8681,6 +9265,22 @@ namespace ERIMS_Sonic_ReportScheduler
                 System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                 #region "Report Title"
+
+                //Retrieve Market Values
+                string strMarketString = string.Empty;
+                if (string.IsNullOrEmpty(strMarket))
+                {
+                    strMarketString = "All Market";
+                }
+                else
+                {
+                    string[] strMar = strMarket.Split(Convert.ToChar(","));
+                    for (int i = 0; i < strMar.Length; i++)
+                    {
+                        strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                    }
+                    strMarketString = strMarketString.TrimEnd(',');
+                }
 
                 //Add Report Title and Schedule Date
                 strHTML.Append("<br />");
@@ -8699,6 +9299,8 @@ namespace ERIMS_Sonic_ReportScheduler
                 strHTML.Append("<br /><table> <tr> <td colspan='8'>");
                 strHTML.Append("Region   : " + strRegion);
                 strHTML.Append("</td> </tr>");
+                strHTML.Append("Market        : " + strMarketString);
+                strHTML.Append("<br /><br />");
                 strHTML.Append("<tr> <td colspan='8'>");
                 strHTML.Append("Location Status   : " + strStatus);
                 strHTML.Append("</td> </tr>");
@@ -8831,6 +9433,11 @@ namespace ERIMS_Sonic_ReportScheduler
                     strMailFrom = Convert.ToString(dtUser.Rows[0]["Email"]).Trim();
                 }
                 string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+                string strMarket = null;
+                if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                {
+                  strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                }
                 string strYear = Convert.ToString(dtFilter.Rows[0]["Year"]).Trim();
                 string strReportInterval = Convert.ToString(dtFilter.Rows[0]["Report_Interval"]).Trim();
 
@@ -8840,6 +9447,22 @@ namespace ERIMS_Sonic_ReportScheduler
                 System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                 #region "Report Title"
+
+                //Retrieve Market Values
+                string strMarketString = string.Empty;
+                if (string.IsNullOrEmpty(strMarket))
+                {
+                    strMarketString = "All Market";
+                }
+                else
+                {
+                    string[] strMar = strMarket.Split(Convert.ToChar(","));
+                    for (int i = 0; i < strMar.Length; i++)
+                    {
+                        strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                    }
+                    strMarketString = strMarketString.TrimEnd(',');
+                }
 
                 //Add Report Title and Schedule Date
                 strHTML.Append("<br />");
@@ -8874,7 +9497,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
                 if (strReportInterval.ToString() == "Monthly")
                 {
-                    DataSet dsReport = Report.GetFacilityInspectionReport(strRegion, Convert.ToInt32(strYear), strReportInterval, FK_Security_Id);
+                    DataSet dsReport = Report.GetFacilityInspectionReport(strRegion, strMarket, Convert.ToInt32(strYear), strReportInterval, FK_Security_Id);
                     if (dsReport != null && dsReport.Tables.Count > 0 && dsReport.Tables[0].Rows.Count > 0)
                     {
                         // get data tables from dataset
@@ -8946,7 +9569,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 }
                 else if (strReportInterval.ToString() == "Quarterly")
                 {
-                    DataSet dsReport = Report.GetFacilityInspectionReport(strRegion, Convert.ToInt32(strYear), strReportInterval, FK_Security_Id);
+                    DataSet dsReport = Report.GetFacilityInspectionReport(strRegion, strMarket, Convert.ToInt32(strYear), strReportInterval, FK_Security_Id);
                     if (dsReport != null && dsReport.Tables.Count > 0 && dsReport.Tables[0].Rows.Count > 0)
                     {
                         DataTable dtRegions = dsReport.Tables[0];
@@ -8999,7 +9622,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 }
                 else if (strReportInterval.ToString() == "Annually")
                 {
-                    DataSet dsReport = Report.GetFacilityInspectionReport(strRegion, Convert.ToInt32(strYear), strReportInterval, FK_Security_Id);
+                    DataSet dsReport = Report.GetFacilityInspectionReport(strRegion, strMarket, Convert.ToInt32(strYear), strReportInterval, FK_Security_Id);
                     if (dsReport != null && dsReport.Tables.Count > 0 && dsReport.Tables[0].Rows.Count > 0)
                     {
                         DataTable dtRegions = dsReport.Tables[0];
@@ -9617,6 +10240,11 @@ namespace ERIMS_Sonic_ReportScheduler
                         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
 
                         string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         string strLeaseType = Convert.ToString(dtFilter.Rows[0]["LeaseType"]).Trim();
                         strStatus = Convert.ToString(dtFilter.Rows[0]["Status"]).Trim();
 
@@ -9640,6 +10268,22 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         #region "Search Criteria"
 
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
+
                         //Add Report Title and Schedule Date
                         strHTML.Append("<br />");
                         strHTML.Append("<b>Report Title : Critical Dates Report</b>");
@@ -9657,6 +10301,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Region        : " + strRegion.Replace("'", ""));
                         strHTML.Append("<br />");
+                        strHTML.Append("Market        : " + strMarketString);
+                        strHTML.Append("<br /><br />");
                         strHTML.Append("LCD From      : " + FormatDBNullDateToDisplay(dtLCDFrom));
                         strHTML.Append("<br />");
                         strHTML.Append("LCD To        : " + FormatDBNullDateToDisplay(dtLCDTo));
@@ -9711,7 +10357,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
 
                         //get the all Employee records by search criteria by group
-                        DataSet dsDetails = Report.GetCriticalDatesReport(strRegion, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo, strStatus, "CriticalDates");
+                        DataSet dsDetails = Report.GetCriticalDatesReport(strRegion, strMarket, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo, strStatus, "CriticalDates");
 
                         if (dsDetails != null && dsDetails.Tables.Count > 0 && dsDetails.Tables[0].Rows.Count > 0)
                         {
@@ -9847,6 +10493,11 @@ namespace ERIMS_Sonic_ReportScheduler
                     strMailFrom = Convert.ToString(dtUser.Rows[0]["Email"]).Trim();
                 }
                 string strRegion = Convert.ToString(dtFilter.Rows[0]["Location"]).Trim();
+                string strMarket = null;
+                if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                {
+                    strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                }
                 string strStatus = Convert.ToString(dtFilter.Rows[0]["Status"]).Trim();
                 //Set all filters to a variable as per report type
                 DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
@@ -9863,7 +10514,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 if (Convert.ToString(dtFilter.Rows[0]["LEDTo_Date"]) != string.Empty && dtFilter.Rows[0]["LEDTo_Date"] != DBNull.Value)
                     dtLEDTo = Convert.ToDateTime(dtFilter.Rows[0]["LEDTo_Date"]);
 
-                DataSet dsResult = Report.GetSubLeaseReport(strRegion, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo, FK_Security_Id, strStatus);
+                DataSet dsResult = Report.GetSubLeaseReport(strRegion, strMarket, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo, FK_Security_Id, strStatus);
 
 
                 //Create HTML for the report and wirte into HTML Write object
@@ -9872,6 +10523,22 @@ namespace ERIMS_Sonic_ReportScheduler
                 System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                 #region "Report Title"
+
+                //Retrieve Market Values
+                string strMarketString = string.Empty;
+                if (string.IsNullOrEmpty(strMarket))
+                {
+                    strMarketString = "All Market";
+                }
+                else
+                {
+                    string[] strMar = strMarket.Split(Convert.ToChar(","));
+                    for (int i = 0; i < strMar.Length; i++)
+                    {
+                        strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                    }
+                    strMarketString = strMarketString.TrimEnd(',');
+                }
 
                 //Add Report Title and Schedule Date
                 strHTML.Append("<br />");
@@ -9890,6 +10557,9 @@ namespace ERIMS_Sonic_ReportScheduler
                 strHTML.Append("<br /><table> <tr> <td colspan='8'>");
                 strHTML.Append("Region : " + (string.IsNullOrEmpty(strRegion) ? "" : strRegion.Replace("'", "")));
                 // strHTML.Append("Location DBA   : " + strRegion);
+                strHTML.Append("</td> </tr>");
+                strHTML.Append("<br /><table> <tr> <td colspan='8'>");
+                strHTML.Append("Market        : " + strMarketString);
                 strHTML.Append("</td> </tr>");
                 strHTML.Append("<br />");
                 strHTML.Append("LCD From      : " + FormatDBNullDateToDisplay(dtLCDFrom));
@@ -10014,6 +10684,11 @@ namespace ERIMS_Sonic_ReportScheduler
 
 
                         strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         strDBA = Convert.ToString(dtFilter.Rows[0]["Location"]).Trim();
                         strClaimnumber = Convert.ToString(dtFilter.Rows[0]["ClaimNumber"]).Trim();
 
@@ -10036,6 +10711,22 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         #region "Search Criteria"
 
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
+
                         //Add Report Title and Schedule Date
                         strHTML.Append("<br />");
                         strHTML.Append("<b>Report Title : Sonic Cause Code Reclassification Report</b>");
@@ -10053,6 +10744,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Region        : " + strRegion.Replace("'", ""));
                         strHTML.Append("<br />");
+                        strHTML.Append("Market        : " + strMarketString);
+                        strHTML.Append("<br /><br />");
                         strHTML.Append("Location : " + (string.IsNullOrEmpty(strDBA) ? "" : GetCommaValueFromTable(Report.getLocationByIds(strDBA).Tables[0], "DBA")));
                         strHTML.Append("<br />");
                         strHTML.Append("Date of Injury Begin      : " + FormatDBNullDateToDisplay(dtInjuryDateFrom));
@@ -10107,7 +10800,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("</td></tr>");
 
 
-                        DataSet dsDetails = Report.GetSonicCauseCodeReclassification_Report(strRegion, strDBA, dtInjuryDateFrom, dtInjuryDateEnd, decFirsrRepot, decIncidentNumber, strClaimnumber);
+                        DataSet dsDetails = Report.GetSonicCauseCodeReclassification_Report(strRegion, strMarket, strDBA, dtInjuryDateFrom, dtInjuryDateEnd, decFirsrRepot, decIncidentNumber, strClaimnumber);
 
                         if (dsDetails != null && dsDetails.Tables.Count > 0 && dsDetails.Tables[0].Rows.Count > 0)
                         {
@@ -10230,13 +10923,33 @@ namespace ERIMS_Sonic_ReportScheduler
 
                 string strYear = Convert.ToString(dtFilter.Rows[0]["Year"]).Trim();
                 string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]);
-
+                string strMarket = null;
+                if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                {
+                    strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                }
                 //Create HTML for the report and wirte into HTML Write object
                 StringBuilder strHTML = new StringBuilder();
                 System.IO.StringWriter stringWrite = new System.IO.StringWriter();
                 System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                 #region "Report Title"
+
+                //Retrieve Market Values
+                string strMarketString = string.Empty;
+                if (string.IsNullOrEmpty(strMarket))
+                {
+                    strMarketString = "All Market";
+                }
+                else
+                {
+                    string[] strMar = strMarket.Split(Convert.ToChar(","));
+                    for (int i = 0; i < strMar.Length; i++)
+                    {
+                        strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                    }
+                    strMarketString = strMarketString.TrimEnd(',');
+                }
 
                 //Add Report Title and Schedule Date
                 strHTML.Append("<br />");
@@ -10257,7 +10970,9 @@ namespace ERIMS_Sonic_ReportScheduler
                 strHTML.Append("Year   : " + strYear);
                 strHTML.Append("</td> </tr>");
                 strHTML.Append("<tr> <td colspan='8'>");
-                strHTML.Append("Region   : " + strRegion);
+                strHTML.Append("Region   : " + strRegion);                
+                strHTML.Append("<tr> <td colspan='8'>");
+                strHTML.Append("Market        : " + strMarketString);
                 strHTML.Append("</td> </tr>");
                 strHTML.Append("<tr> <td colspan='8'>");
                 strHTML.Append("</td></tr></table> ");
@@ -10296,7 +11011,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 strHTML.Append("</td></tr>");
 
 
-                DataSet dsReport = Report.GetSafertyFirstAwardReport(strRegion, Convert.ToInt32(strYear), FK_Security_Id);
+                DataSet dsReport = Report.GetSafertyFirstAwardReport(strRegion, strMarket, Convert.ToInt32(strYear), FK_Security_Id);
 
                 if (dsReport != null && dsReport.Tables.Count > 0 && dsReport.Tables[0].Rows.Count > 0)
                 {
@@ -10375,6 +11090,11 @@ namespace ERIMS_Sonic_ReportScheduler
                         DateTime? dtLCDFrom = null, dtLCDTo = null, dtLEDFrom = null, dtLEDTo = null;
 
                         string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+                        string strMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                        }
                         string strLeaseType = Convert.ToString(dtFilter.Rows[0]["LeaseType"]).Trim();
                         strStatus = Convert.ToString(dtFilter.Rows[0]["Status"]).Trim();
 
@@ -10398,6 +11118,22 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         #region "Search Criteria"
 
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
+
                         //Add Report Title and Schedule Date
                         strHTML.Append("<br />");
                         strHTML.Append("<b>Report Title : Landlord Notification Report</b>");
@@ -10414,6 +11150,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<b>Report Filters </b>");
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Region        : " + strRegion.Replace("'", ""));
+                        strHTML.Append("Market        : " + strMarketString);
+                        strHTML.Append("<br /><br />");
                         strHTML.Append("<br />");
                         strHTML.Append("LCD From      : " + FormatDBNullDateToDisplay(dtLCDFrom));
                         strHTML.Append("<br />");
@@ -10469,7 +11207,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
 
                         //get the all Employee records by search criteria by group
-                        DataSet dsDetails = Report.GetLandlordNotificationReport(strRegion, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo, strStatus);
+                        DataSet dsDetails = Report.GetLandlordNotificationReport(strRegion, strMarket, dtLCDFrom, dtLCDTo, dtLEDFrom, dtLEDTo, strStatus);
 
                         if (dsDetails != null && dsDetails.Tables.Count > 0 && dsDetails.Tables[0].Rows.Count > 0)
                         {
@@ -10605,6 +11343,11 @@ namespace ERIMS_Sonic_ReportScheduler
                     strMailFrom = Convert.ToString(dtUser.Rows[0]["Email"]).Trim();
                 }
                 string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+                string strMarket = null;
+                if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                {
+                    strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                }
                 string strDBA = Convert.ToString(dtFilter.Rows[0]["DBA"]).Trim();
                 string strInspector = Convert.ToString(dtFilter.Rows[0]["Inspector_Name"]).Trim();
                 DateTime? dtInspection_Date_From;
@@ -10619,7 +11362,7 @@ namespace ERIMS_Sonic_ReportScheduler
                     dtInspection_Date_To = null;
 
                 //Get the all Unique records for Selected group (default - last name -sort) by search criteria
-                DataSet dsResult = Report.GetInspectionsByInspector(strRegion, strDBA, strInspector, dtInspection_Date_From, dtInspection_Date_To);
+                DataSet dsResult = Report.GetInspectionsByInspector(strRegion, strMarket, strDBA, strInspector, dtInspection_Date_From, dtInspection_Date_To);
 
                 //Create HTML for the report and wirte into HTML Write object
                 StringBuilder strHTML = new StringBuilder();
@@ -10627,6 +11370,22 @@ namespace ERIMS_Sonic_ReportScheduler
                 System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                 #region "Report Title"
+
+                //Retrieve Market Values
+                string strMarketString = string.Empty;
+                if (string.IsNullOrEmpty(strMarket))
+                {
+                    strMarketString = "All Market";
+                }
+                else
+                {
+                    string[] strMar = strMarket.Split(Convert.ToChar(","));
+                    for (int i = 0; i < strMar.Length; i++)
+                    {
+                        strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                    }
+                    strMarketString = strMarketString.TrimEnd(',');
+                }
 
                 //Add Report Title and Schedule Date
                 strHTML.Append("<br />");
@@ -10644,6 +11403,9 @@ namespace ERIMS_Sonic_ReportScheduler
                 strHTML.Append("<b>Report Filters </b>");
                 strHTML.Append("<br /><table> <tr> <td colspan='8'>");
                 strHTML.Append("Region   : " + strRegion);
+                strHTML.Append("</td> </tr>");
+                strHTML.Append("<br /><table> <tr> <td colspan='8'>");
+                strHTML.Append("Market        : " + strMarketString);
                 strHTML.Append("</td> </tr>");
                 strHTML.Append("<tr> <td colspan='8'>");
                 strHTML.Append("Location D/B/A   : " + strDBA);
@@ -10739,6 +11501,11 @@ namespace ERIMS_Sonic_ReportScheduler
                 }
 
                 string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+                string strMarket = null;
+                if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                {
+                    strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                }
                 string strDBA = Convert.ToString(dtFilter.Rows[0]["DBA"]).Trim();
                 string strBodyPart = Convert.ToString(dtFilter.Rows[0]["FK_Part_of_Body"]).Trim();
                 string strClaimStatus = Convert.ToString(dtFilter.Rows[0]["Claim_Status"]).Trim();
@@ -10756,7 +11523,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 else
                     dtIncident_Date_To = null;
 
-                DataSet dsResult = Report.GetRiskManagementWorksheet(strRegion, strDBA, dtIncident_Date_From, dtIncident_Date_To, strBodyPart, strClaimStatus);
+                DataSet dsResult = Report.GetRiskManagementWorksheet(strRegion, strMarket, strDBA, dtIncident_Date_From, dtIncident_Date_To, strBodyPart, strClaimStatus);
 
                 //Create HTML for the report and wirte into HTML Write object
                 StringBuilder strHTML = new StringBuilder();
@@ -10764,6 +11531,22 @@ namespace ERIMS_Sonic_ReportScheduler
                 System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                  #region "Report Title"
+
+                //Retrieve Market Values
+                string strMarketString = string.Empty;
+                if (string.IsNullOrEmpty(strMarket))
+                {
+                    strMarketString = "All Market";
+                }
+                else
+                {
+                    string[] strMar = strMarket.Split(Convert.ToChar(","));
+                    for (int i = 0; i < strMar.Length; i++)
+                    {
+                        strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                    }
+                    strMarketString = strMarketString.TrimEnd(',');
+                }
 
                 //Add Report Title and Schedule Date
                 strHTML.Append("<br />");
@@ -10781,6 +11564,9 @@ namespace ERIMS_Sonic_ReportScheduler
                 strHTML.Append("<b>Report Filters </b>");
                 strHTML.Append("<br /><table> <tr> <td colspan='11'>");
                 strHTML.Append("Region   : " + strRegion.Replace("'",""));
+                strHTML.Append("</td> </tr>");
+                strHTML.Append("<br /><table> <tr> <td colspan='11'>");
+                strHTML.Append("Market        : " + strMarketString);
                 strHTML.Append("</td> </tr>");
                 strHTML.Append("<tr> <td colspan='11'>");
                 strHTML.Append("Location D/B/A   : " + strDBAList);
@@ -10913,6 +11699,11 @@ namespace ERIMS_Sonic_ReportScheduler
                     strMailFrom = Convert.ToString(dtUser.Rows[0]["Email"]).Trim();
                 }
                 string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+                string strMarket = null;
+                if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                {
+                    strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                }
                 string strDBA = Convert.ToString(dtFilter.Rows[0]["DBA"]).Trim();
                 string strInspector = Convert.ToString(dtFilter.Rows[0]["Inspector_Name"]).Trim();
                 string strInspectionArea = Convert.ToString(dtFilter.Rows[0]["InspectionArea"]).Trim();
@@ -10930,7 +11721,7 @@ namespace ERIMS_Sonic_ReportScheduler
                     dtInspection_Date_To = null;
 
                 //Get the all Unique records for Selected group (default - last name -sort) by search criteria
-                DataSet dsResult = Report.GetInspectionLagTime(strRegion, strDBA, strInspectionArea, strInspector, dtInspection_Date_From, dtInspection_Date_To, strLagDayOption);
+                DataSet dsResult = Report.GetInspectionLagTime(strRegion, strMarket, strDBA, strInspectionArea, strInspector, dtInspection_Date_From, dtInspection_Date_To, strLagDayOption);
 
                 //Create HTML for the report and wirte into HTML Write object
                 StringBuilder strHTML = new StringBuilder();
@@ -10938,6 +11729,22 @@ namespace ERIMS_Sonic_ReportScheduler
                 System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                 #region "Report Title"
+
+                //Retrieve Market Values
+                string strMarketString = string.Empty;
+                if (string.IsNullOrEmpty(strMarket))
+                {
+                    strMarketString = "All Market";
+                }
+                else
+                {
+                    string[] strMar = strMarket.Split(Convert.ToChar(","));
+                    for (int i = 0; i < strMar.Length; i++)
+                    {
+                        strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                    }
+                    strMarketString = strMarketString.TrimEnd(',');
+                }
 
                 //Add Report Title and Schedule Date
                 strHTML.Append("<br />");
@@ -10955,6 +11762,9 @@ namespace ERIMS_Sonic_ReportScheduler
                 strHTML.Append("<b>Report Filters </b>");
                 strHTML.Append("<br /><table> <tr> <td colspan='8'>");
                 strHTML.Append("Region   : " + strRegion);
+                strHTML.Append("</td> </tr>");
+                strHTML.Append("<br /><table> <tr> <td colspan='8'>");
+                strHTML.Append("Market        : " + strMarketString);
                 strHTML.Append("</td> </tr>");
                 strHTML.Append("<tr> <td colspan='8'>");
                 strHTML.Append("Location D/B/A   : " + ((!string.IsNullOrEmpty(strDBA)) ? Report.GetCommaSeperatedDescFromVal("LU_Location", "dba", "PK_LU_Location_ID", strDBA) : ""));
@@ -11109,6 +11919,11 @@ namespace ERIMS_Sonic_ReportScheduler
                     }
 
                     string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+                    string strMarket = null;
+                    if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                    {
+                        strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                    }
                     string strDBA = Convert.ToString(dtFilter.Rows[0]["DBA"]).Trim();
                     string strCategory = Convert.ToString(dtFilter.Rows[0]["First_Report_Category"]).Trim();
 
@@ -11124,13 +11939,29 @@ namespace ERIMS_Sonic_ReportScheduler
                     else
                         dtIncident_Date_To = null;
 
-                    DataSet dsResult = Report.GetFroiRecapReport(strRegion, strDBA, dtIncident_Date_From, dtIncident_Date_To, strCategory);
+                    DataSet dsResult = Report.GetFroiRecapReport(strRegion, strMarket, strDBA, dtIncident_Date_From, dtIncident_Date_To, strCategory);
 
                     StringBuilder strHTML = new StringBuilder();
                     System.IO.StringWriter stringWrite = new System.IO.StringWriter();
                     System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                     #region "Report Title"
+
+                    //Retrieve Market Values
+                    string strMarketString = string.Empty;
+                    if (string.IsNullOrEmpty(strMarket))
+                    {
+                        strMarketString = "All Market";
+                    }
+                    else
+                    {
+                        string[] strMar = strMarket.Split(Convert.ToChar(","));
+                        for (int i = 0; i < strMar.Length; i++)
+                        {
+                            strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                        }
+                        strMarketString = strMarketString.TrimEnd(',');
+                    }
 
                     //Add Report Title and Schedule Date
                     strHTML.Append("<br />");
@@ -11148,6 +11979,9 @@ namespace ERIMS_Sonic_ReportScheduler
                     strHTML.Append("<b>Report Filters </b>");
                     strHTML.Append("<br /><table> <tr> <td colspan='11'>");
                     strHTML.Append("Region   : " + strRegion.Replace("'", ""));
+                    strHTML.Append("</td> </tr>");
+                    strHTML.Append("<br /><table> <tr> <td colspan='11'>");
+                    strHTML.Append("Market        : " + strMarketString);
                     strHTML.Append("</td> </tr>");
                     strHTML.Append("<tr> <td colspan='11'>");
                     strHTML.Append("Location D/B/A   : " + strDBA.Replace("'", ""));
