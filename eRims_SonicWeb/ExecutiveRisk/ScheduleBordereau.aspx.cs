@@ -16,6 +16,7 @@ public partial class ExecutiveRisk_ScheduleBordereau : clsBasePage
         // when page is loaded first time
         if (!IsPostBack)
         {
+
             // Get regions from database and bind region dropdown
             DataTable dtRegion = LU_Location.GetRegionList().Tables[0];
             drpRegion.DataSource = dtRegion;
@@ -23,6 +24,9 @@ public partial class ExecutiveRisk_ScheduleBordereau : clsBasePage
             drpRegion.DataValueField = "region";
             drpRegion.DataBind();
             drpRegion.Items.Insert(0, new ListItem("--All--", ""));
+
+            //Fill Market
+            ComboHelper.FillMarket(new DropDownList[] { ddlMarket }, true);
 
             //Display Recipient List 
             DataSet ds = Report.GetRecipientList();
@@ -33,6 +37,8 @@ public partial class ExecutiveRisk_ScheduleBordereau : clsBasePage
             drpRecipientList.DataBind();
             drpRecipientList.Items.Insert(0, new ListItem("--Select--", "0"));
             ds.Dispose();
+
+ 
         }
     }
 
@@ -46,6 +52,7 @@ public partial class ExecutiveRisk_ScheduleBordereau : clsBasePage
             obj.Start_Date = Convert.ToDateTime(txtStartDate.Text);
             obj.End_Date = Convert.ToDateTime(txtEndDate.Text);
             obj.Region = drpRegion.SelectedValue;
+            obj.Market = Convert.ToDecimal(ddlMarket.SelectedValue);
 
             //Report Schedule Details
             obj.FK_Report = Convert.ToDecimal(Request.QueryString["PK_ReportID"]);

@@ -17,7 +17,7 @@ namespace ERIMS.DAL
             //
         }
 
-        public static DataSet Get_Bordereau_Report(DateTime dtStartDate,DateTime dtEndDate,string strRegion)
+        public static DataSet Get_Bordereau_Report(DateTime dtStartDate,DateTime dtEndDate,string strRegion, decimal? decMarket)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("ER_Bordereau_Report");
@@ -25,6 +25,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "StartDate", DbType.DateTime, dtStartDate);
             db.AddInParameter(dbCommand, "EndDate", DbType.DateTime, dtEndDate);
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, decMarket);
 
             return db.ExecuteDataSet(dbCommand);     
         }

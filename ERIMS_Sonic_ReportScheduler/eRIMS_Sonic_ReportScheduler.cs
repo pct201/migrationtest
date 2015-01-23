@@ -3157,8 +3157,15 @@ namespace ERIMS_Sonic_ReportScheduler
                         // get end date
                         DateTime End_Date = Convert.ToDateTime(dtFilter.Rows[0]["End_Date"]);
 
+                        string strMarket = null;
+                        decimal? decMarket = null;
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                        {
+                            decMarket = Convert.ToDecimal(dtFilter.Rows[0]["Market"]);
+                        }
+
                         // get result records from database for the report
-                        DataSet dsReport = Report.Get_Bordereau_Report(Start_Date, End_Date, Convert.ToString(dtFilter.Rows[0]["Region"]));
+                        DataSet dsReport = Report.Get_Bordereau_Report(Start_Date, End_Date, Convert.ToString(dtFilter.Rows[0]["Region"]), decMarket);
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -3166,6 +3173,22 @@ namespace ERIMS_Sonic_ReportScheduler
                         System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
                         #region "Header"
+
+                        //Retrieve Market Values
+                        string strMarketString = string.Empty;
+                        if (string.IsNullOrEmpty(strMarket))
+                        {
+                            strMarketString = "All Market";
+                        }
+                        else
+                        {
+                            string[] strMar = strMarket.Split(Convert.ToChar(","));
+                            for (int i = 0; i < strMar.Length; i++)
+                            {
+                                strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                            }
+                            strMarketString = strMarketString.TrimEnd(',');
+                        }
 
                         //Add Report Title and Schedule Date
                         strHTML.Append("<span style=\"font-family:Calibri;\">");
@@ -3186,6 +3209,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("Date Claim Opened Between " + Start_Date.ToString(DateDisplayFormat) + " and " + End_Date.ToString(DateDisplayFormat));
                         strHTML.Append("<br />");
                         strHTML.Append("Regions              : " + (string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Region"])) ? "All" : dtFilter.Rows[0]["Region"].ToString()));
+                        strHTML.Append("<br />");
+                        strHTML.Append("Markets              : " + strMarketString );
                         strHTML.Append("<br /><br />");
                         strHTML.Append("</span>");
 

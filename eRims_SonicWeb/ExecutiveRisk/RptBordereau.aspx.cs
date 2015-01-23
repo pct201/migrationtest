@@ -65,6 +65,9 @@ public partial class ERReports_Bordereau : clsBasePage
             drpRegion.DataBind();
             drpRegion.Items.Insert(0, new ListItem("--All--", ""));
 
+            //Fill Market
+            ComboHelper.FillMarket(new DropDownList[] { ddlMarket }, true);
+
             // hide the export link
             lnkExport.Visible = false;
         }
@@ -93,9 +96,13 @@ public partial class ERReports_Bordereau : clsBasePage
         Start_Date = clsGeneral.FormatDateToStore(txtStartDate);
         // get end date
         End_Date = clsGeneral.FormatDateToStore(txtEndDate);
+        
+        decimal? decMarket = null;
+        if (ddlMarket.SelectedIndex > 0)
+            decMarket = Convert.ToDecimal(ddlMarket.SelectedValue);
 
         // get result records from database for the report
-        DataSet dsReport = ERReports.Get_Bordereau_Report(Start_Date, End_Date, drpRegion.SelectedValue);
+        DataSet dsReport = ERReports.Get_Bordereau_Report(Start_Date, End_Date, drpRegion.SelectedValue, decMarket);
 
         // get data tables from result dataset
         dtClaimData = dsReport.Tables[0];

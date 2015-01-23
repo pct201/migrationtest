@@ -606,7 +606,7 @@ namespace ERIMS.DAL
         /// </summary>
         /// <returns></returns>
         public static DataSet Purchasing_LRAgreementSearch(Nullable<DateTime> dtStartDateFrom, Nullable<DateTime> dtStartDateTo, Nullable<DateTime> dtEndDateFrom, Nullable<DateTime> dtEndDateTo,
-            string Region, decimal FK_LU_Location_Id, decimal FK_LU_Equipment_Type, decimal FK_LU_Dealership_Department, string Supplier, string strOrderBy, string strOrder, int intPageNo, int intPageSize, bool? bIsUserAdmin, string strIsCorporateUser)
+            string Region, string Market, decimal FK_LU_Location_Id, decimal FK_LU_Equipment_Type, decimal FK_LU_Dealership_Department, string Supplier, string strOrderBy, string strOrder, int intPageNo, int intPageSize, bool? bIsUserAdmin, string strIsCorporateUser)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Purchasing_LR_Agreement_Search");
@@ -615,6 +615,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "dtEndDateFrom", DbType.DateTime, dtEndDateFrom);
             db.AddInParameter(dbCommand, "dtEndDateTo", DbType.DateTime, dtEndDateTo);
             db.AddInParameter(dbCommand, "Region", DbType.String, Region);
+            db.AddInParameter(dbCommand, "Market", DbType.String, Market);
             db.AddInParameter(dbCommand, "FK_LU_Location_Id", DbType.Decimal, FK_LU_Location_Id);
             db.AddInParameter(dbCommand, "FK_LU_Equipment_Type", DbType.Decimal, FK_LU_Equipment_Type);
             db.AddInParameter(dbCommand, "FK_LU_Dealership_Department", DbType.Decimal, FK_LU_Dealership_Department);

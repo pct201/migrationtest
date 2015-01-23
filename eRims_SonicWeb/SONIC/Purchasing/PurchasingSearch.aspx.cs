@@ -461,7 +461,7 @@ public partial class SONIC_Purchasing_PurchasingSearch : clsBasePage
             bool? bIsUserAdmin = (App_Access == AccessType.Administrative_Access);
             
             dsSearchResult = Purchasing_LR_Agreement.Purchasing_LRAgreementSearch(clsGeneral.FormatNullDateToStore(txtStartDateFrom.Text.Trim()), clsGeneral.FormatNullDateToStore(txtStartDateTo.Text.Trim()),
-              clsGeneral.FormatNullDateToStore(txtExpirationDateFrom.Text.Trim()), clsGeneral.FormatNullDateToStore(txtExpirationDateTo.Text.Trim()), strRegion, Convert.ToDecimal(ddlDealership.SelectedValue),
+              clsGeneral.FormatNullDateToStore(txtExpirationDateFrom.Text.Trim()), clsGeneral.FormatNullDateToStore(txtExpirationDateTo.Text.Trim()), strRegion, strMarket, Convert.ToDecimal(ddlDealership.SelectedValue),
               Convert.ToDecimal(ddlLeaseEquipmentType.SelectedValue), Convert.ToDecimal(ddlDealershipDepartment.SelectedValue), txtSupplier.Text.Trim().Replace("'", "''"), SortBy + strSecOrder, SortOrder, PageNumber, PageSize, bIsUserAdmin, IsCorporateUser);
             gvLRAgreement.DataSource = dsSearchResult.Tables[0];
             gvLRAgreement.DataBind();
@@ -484,7 +484,7 @@ public partial class SONIC_Purchasing_PurchasingSearch : clsBasePage
             gvServiceContract.Visible = true;
 
             dsSearchResult = PurchasingServiceContract.Purchasing_ServiceContractSearch(clsGeneral.FormatNullDateToStore(txtStartDateFrom.Text.Trim()), clsGeneral.FormatNullDateToStore(txtStartDateTo.Text.Trim()),
-               clsGeneral.FormatNullDateToStore(txtExpirationDateFrom.Text.Trim()), clsGeneral.FormatNullDateToStore(txtExpirationDateTo.Text.Trim()), strRegion, Convert.ToDecimal(ddlDealership.SelectedValue),
+               clsGeneral.FormatNullDateToStore(txtExpirationDateFrom.Text.Trim()), clsGeneral.FormatNullDateToStore(txtExpirationDateTo.Text.Trim()), strRegion, strMarket, Convert.ToDecimal(ddlDealership.SelectedValue),
                Convert.ToDecimal(ddlServiceContractType.SelectedValue), Convert.ToDecimal(ddlDealershipDepartment.SelectedValue), txtSupplier.Text.Trim().Replace("'", "''"), txtServiceType.Text.Trim().Replace("'", "''"), SortBy + strSecOrder, SortOrder, PageNumber, PageSize, IsCorporateUser);
             gvServiceContract.DataSource = dsSearchResult.Tables[0];
             gvServiceContract.DataBind();
