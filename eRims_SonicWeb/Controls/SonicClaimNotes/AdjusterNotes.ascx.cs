@@ -156,9 +156,9 @@ public partial class Controls_SonicClaimNotes_AdjusterNotes : System.Web.UI.User
         if (btnShowAPEVNotes.Text == "Show All" && btnShowAPEVNotes.Visible)
         {
             isShowAPEVNotesOnly = true;
-        }        
+        }
 
-        DataSet dsNotes = Claims_Adjustor_Notes.SelectBySourceUniqueClaimNumber(strClaimNumber, CurrentPage, PageSize, strDateOrder,isShowAPEVNotesOnly);
+        DataSet dsNotes = Claims_Adjustor_Notes.SelectBySourceUniqueClaimNumber(strClaimNumber, CurrentPage, PageSize, strDateOrder, isShowAPEVNotesOnly);
         //DataSet dsNotes = Claims_Adjustor_Notes.SelectBySourceUniqueClaimNumber(strClaimNumber, CurrentPage, PageSize);
 
         DataTable dtNotes = dsNotes.Tables[0];
@@ -214,7 +214,10 @@ public partial class Controls_SonicClaimNotes_AdjusterNotes : System.Web.UI.User
         sbHTML.Append("<td align='left' " + strTDWhite + ">" + Convert.ToString(dtClaim.Rows[0]["Origin_Claim_Number"]) + "</td>");
         sbHTML.Append("<td align='left' " + strTDWhite + ">" + Convert.ToString(dtClaim.Rows[0]["dba1"]) + "</td>");
         sbHTML.Append("<td align='left' " + strTDWhite + ">" + Convert.ToString(dtClaim.Rows[0]["Employee_Name"]) + "</td>");
-        sbHTML.Append("<td align='left' " + strTDWhite.TrimEnd('\'') + "border-right:black 1px solid;'>" + clsGeneral.FormatDBNullDateToDisplay(dtClaim.Rows[0]["Date_Of_Loss"]) + "</td>");
+        if (CurrentClaimType == ClaimType.DPD)
+            sbHTML.Append("<td align='left' " + strTDWhite.TrimEnd('\'') + "border-right:black 1px solid;'>" + clsGeneral.FormatDBNullDateToDisplay(dtClaim.Rows[0]["Date_Of_Loss"]) + "</td>");
+        else
+            sbHTML.Append("<td align='left' " + strTDWhite.TrimEnd('\'') + "border-right:black 1px solid;'>" + clsGeneral.FormatDBNullDateToDisplay(dtClaim.Rows[0]["Date_Of_Accident"]) + "</td>");
         sbHTML.Append("</tr>");
         sbHTML.Append("</table>");
         sbHTML.Append("<br />");
@@ -483,7 +486,7 @@ public partial class Controls_SonicClaimNotes_AdjusterNotes : System.Web.UI.User
         strPKs = strPKs.TrimEnd(',');
         if (strPKs != "")
         {
-            ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "OpenMailPopUp('" + tab + "','" + strPKs + "','" + CurrentClaimType.ToString()+"Claim" + "','" + ClaimID + "');", true);
+            ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "OpenMailPopUp('" + tab + "','" + strPKs + "','" + CurrentClaimType.ToString() + "Claim" + "','" + ClaimID + "');", true);
         }
         else
         {
