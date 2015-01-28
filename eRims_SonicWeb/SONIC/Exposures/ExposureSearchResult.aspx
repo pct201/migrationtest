@@ -165,7 +165,7 @@
                                             </a>
                                         </ItemTemplate>
                                     </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="ACI"> <%--Change Header text from Cal Atlantic to ACI as per client's request Bug ID = 2552--%>
+                                    <asp:TemplateField HeaderText="ACI" visible= "false"> <%--Change Header text from Cal Atlantic to ACI as per client's request Bug ID = 2552--%>
                                         <ItemStyle HorizontalAlign="Left" Width="75px" />
                                         <ItemTemplate>
                                             <%--<a href='../CalAtlantic/EventSearch.aspx?loc=<%#Encryption.Encrypt(Eval("PK_LU_Location_ID").ToString())%>'>--%>
