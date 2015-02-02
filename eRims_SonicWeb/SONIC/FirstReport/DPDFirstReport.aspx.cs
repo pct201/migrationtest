@@ -6223,7 +6223,7 @@ public partial class SONIC_DPDFirstReport : clsBasePage
         SonicInfo.SONICLocationdba = new LU_Location(objDPD_FR.FK_Loss_Location).dba.ToString();
         SonicInfo.DateOfIncident = clsGeneral.FormatDateToDisplay(objDPD_FR.Date_Of_Loss);
 
-        DataTable dtClaimInfo = WC_ClaimInfo.Select_Claim_Number(PK_DPD_FR_ID, "DPD");
+        DataTable dtClaimInfo = WC_ClaimInfo.Select_Claim_Number(Convert.ToInt32(objDPD_FR.DPD_FR_Number), "DPD");
         if (dtClaimInfo.Rows.Count > 0)
         {
 
