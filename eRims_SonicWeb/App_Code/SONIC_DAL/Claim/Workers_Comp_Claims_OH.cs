@@ -288,40 +288,40 @@ namespace ERIMS.DAL
             if (dtWorkers_Comp_Claims_OH.Rows.Count == 1)
             {
                 DataRow drWorkers_Comp_Claims_OH = dtWorkers_Comp_Claims_OH.Rows[0];
-                if (drWorkers_Comp_Claims_OH["PK_Workers_Comp_Claims_OH_Id"] == DBNull.Value)
+                if (drWorkers_Comp_Claims_OH["PK_Workers_Comp_Claims_OH"] == DBNull.Value)
                     this._PK_Workers_Comp_Claims_OH_Id = null;
                 else
-                    this._PK_Workers_Comp_Claims_OH_Id = (decimal?)drWorkers_Comp_Claims_OH["PK_Workers_Comp_Claims_OH_Id"];
+                    this._PK_Workers_Comp_Claims_OH_Id = (decimal?)drWorkers_Comp_Claims_OH["PK_Workers_Comp_Claims_OH"];
 
                 if (drWorkers_Comp_Claims_OH["FK_WC_RD_Id"] == DBNull.Value)
                     this._FK_WC_RD_Id = null;
                 else
                     this._FK_WC_RD_Id = (decimal?)drWorkers_Comp_Claims_OH["FK_WC_RD_Id"];
 
-                if (drWorkers_Comp_Claims_OH["Claim_Number"] == DBNull.Value)
+                if (drWorkers_Comp_Claims_OH["Origin_Claim_Number"] == DBNull.Value)
                     this._Claim_Number = null;
                 else
-                    this._Claim_Number = (string)drWorkers_Comp_Claims_OH["Claim_Number"];
+                    this._Claim_Number = (string)drWorkers_Comp_Claims_OH["Origin_Claim_Number"];
 
-                if (drWorkers_Comp_Claims_OH["Date_Entered"] == DBNull.Value)
+                if (drWorkers_Comp_Claims_OH["Date_Claim_Opened"] == DBNull.Value)
                     this._Date_Entered = null;
                 else
-                    this._Date_Entered = (DateTime?)drWorkers_Comp_Claims_OH["Date_Entered"];
+                    this._Date_Entered = (DateTime?)drWorkers_Comp_Claims_OH["Date_Claim_Opened"];
 
-                if (drWorkers_Comp_Claims_OH["Date_Closed"] == DBNull.Value)
+                if (drWorkers_Comp_Claims_OH["Date_Claim_Closed"] == DBNull.Value)
                     this._Date_Closed = null;
                 else
-                    this._Date_Closed = (DateTime?)drWorkers_Comp_Claims_OH["Date_Closed"];
+                    this._Date_Closed = (DateTime?)drWorkers_Comp_Claims_OH["Date_Claim_Closed"];
 
-                if (drWorkers_Comp_Claims_OH["Date_Reopened"] == DBNull.Value)
+                if (drWorkers_Comp_Claims_OH["Date_Claim_Reopened"] == DBNull.Value)
                     this._Date_Reopened = null;
                 else
-                    this._Date_Reopened = (DateTime?)drWorkers_Comp_Claims_OH["Date_Reopened"];
-                
-                if (drWorkers_Comp_Claims_OH["Active_InActive"] == DBNull.Value)
+                    this._Date_Reopened = (DateTime?)drWorkers_Comp_Claims_OH["Date_Claim_Reopened"];
+
+                if (drWorkers_Comp_Claims_OH["Claim_Status"] == DBNull.Value)
                     this._Active_InActive = null;
                 else
-                    this._Active_InActive = Convert.ToString(drWorkers_Comp_Claims_OH["Active_InActive"]);
+                    this._Active_InActive = Convert.ToString(drWorkers_Comp_Claims_OH["Claim_Status"]);
 
                 if (drWorkers_Comp_Claims_OH["Date_Of_Incident"] == DBNull.Value)
                     this._Date_Of_Incident = null;

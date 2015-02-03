@@ -4650,8 +4650,8 @@ public class ComboHelper
                 // bind the grid.
                 ddlToFill.Items.Clear();
                 dtClaimInfo = dtClaimInfo.DefaultView.ToTable();
-                ddlToFill.DataTextField = "Claim_Number";
-                ddlToFill.DataValueField = "Claim_Number";
+                ddlToFill.DataTextField = "Origin_Claim_Number";
+                ddlToFill.DataValueField = "Origin_Claim_Number";
                 ddlToFill.DataSource = dtClaimInfo;
                 ddlToFill.DataBind();
 
