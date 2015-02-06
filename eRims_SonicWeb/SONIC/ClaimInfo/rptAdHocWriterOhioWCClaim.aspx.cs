@@ -49,11 +49,11 @@ public partial class SONIC_ClaimInfo_rptAdHocWriterOhioWCClaim : clsBasePage
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        
-        
-        chkLocation.Attributes.Add("onclick", "javascript:CheckALL(this,'" + lstLocation.ClientID + "');");        
+
+
+        chkLocation.Attributes.Add("onclick", "javascript:CheckALL(this,'" + lstLocation.ClientID + "');");
         chkSelUnSelFields.Attributes.Add("onclick", "javascript:CheckALL(this,'" + lstOutputFields.ClientID + "');");
-        
+
 
         btnSubmit.Attributes.Add("onclick", "return Validate('S');");
         btnExportExcel.Attributes.Add("onclick", "return Validate('E');");
@@ -70,6 +70,7 @@ public partial class SONIC_ClaimInfo_rptAdHocWriterOhioWCClaim : clsBasePage
             SetDefaults();
             ShowReportCriteria();
             BindReports();
+            ComboHelper.FillGetClaimStatusList(new DropDownList[] { ddlStatus }, true);
         }
         else
         {
@@ -91,7 +92,7 @@ public partial class SONIC_ClaimInfo_rptAdHocWriterOhioWCClaim : clsBasePage
     #endregion
 
     #region Control Events
-       
+
 
     /// <summary>
     /// Handle Save report Click event 
@@ -169,7 +170,7 @@ public partial class SONIC_ClaimInfo_rptAdHocWriterOhioWCClaim : clsBasePage
         if (txtDate_Incident_To.Text != string.Empty)
             objAdhocReport.DOIEnd = Convert.ToDateTime(txtDate_Incident_To.Text);
 
-       
+
 
         objAdhocReport.ClaimReserveCriteria = lstClaimReOpened.SelectedValue;
         if (txtDateOfClaimReopenedFrom.Text != string.Empty)
@@ -181,61 +182,61 @@ public partial class SONIC_ClaimInfo_rptAdHocWriterOhioWCClaim : clsBasePage
 
         objAdhocReport.Location = Request.Form[lstLocation.UniqueID];
         objAdhocReport.OStatus = ddlStatus.SelectedValue;
-        objAdhocReport.MPCriteria = rdbLstMP.SelectedValue;
-        if (txtMP1.Text != string.Empty)
-            objAdhocReport.MPStartAmount = Convert.ToDecimal(txtMP1.Text);
-        if (txtMP2.Text != string.Empty)
-            objAdhocReport.MPEndAmount = Convert.ToDecimal(txtMP2.Text);
+        //objAdhocReport.MPCriteria = rdbLstMP.SelectedValue;
+        //if (txtMP1.Text != string.Empty)
+        //    objAdhocReport.MPStartAmount = Convert.ToDecimal(txtMP1.Text);
+        //if (txtMP2.Text != string.Empty)
+        //    objAdhocReport.MPEndAmount = Convert.ToDecimal(txtMP2.Text);
 
-        objAdhocReport.TCompCriteria = rdbLstComp.SelectedValue;
-        if (txtTotalComp1.Text != string.Empty)
-            objAdhocReport.TCompStartAmount = Convert.ToDecimal(txtTotalComp1.Text);
-        if (txtTotalComp2.Text != string.Empty)
-            objAdhocReport.TCompEndAmount = Convert.ToDecimal(txtTotalComp2.Text);
-        
-        objAdhocReport.TReserveCriteria = rdbLstTotalReserve.SelectedValue;
-        if (txtTotalRes1.Text != string.Empty)
-            objAdhocReport.TReserveStartAmount = Convert.ToDecimal(txtTotalRes1.Text);
-        if (txtTotalRes2.Text != string.Empty)
-            objAdhocReport.TReserveEndAmount = Convert.ToDecimal(txtTotalRes2.Text);
+        //objAdhocReport.TCompCriteria = rdbLstComp.SelectedValue;
+        //if (txtTotalComp1.Text != string.Empty)
+        //    objAdhocReport.TCompStartAmount = Convert.ToDecimal(txtTotalComp1.Text);
+        //if (txtTotalComp2.Text != string.Empty)
+        //    objAdhocReport.TCompEndAmount = Convert.ToDecimal(txtTotalComp2.Text);
 
-        objAdhocReport.UCostCriteria = rdbLstUnlimitedCost.SelectedValue;
-        if (txtUnlimitedCost1.Text != string.Empty)
-            objAdhocReport.UCostStartAmount = Convert.ToDecimal(txtUnlimitedCost1.Text);
-        if (txtUnlimitedCost2.Text != string.Empty)
-            objAdhocReport.UCostEndAmount = Convert.ToDecimal(txtUnlimitedCost2.Text);
+        //objAdhocReport.TReserveCriteria = rdbLstTotalReserve.SelectedValue;
+        //if (txtTotalRes1.Text != string.Empty)
+        //    objAdhocReport.TReserveStartAmount = Convert.ToDecimal(txtTotalRes1.Text);
+        //if (txtTotalRes2.Text != string.Empty)
+        //    objAdhocReport.TReserveEndAmount = Convert.ToDecimal(txtTotalRes2.Text);
 
-        objAdhocReport.LMVCriteria = rdbLstLimitedToMV.SelectedValue;
-        if (txtLimitedToMV1.Text != string.Empty)
-            objAdhocReport.LMVStartAmount = Convert.ToDecimal(txtLimitedToMV1.Text);
-        if (txtLimitedToMV2.Text != string.Empty)
-            objAdhocReport.LMVEndAmount = Convert.ToDecimal(txtLimitedToMV2.Text);
+        //objAdhocReport.UCostCriteria = rdbLstUnlimitedCost.SelectedValue;
+        //if (txtUnlimitedCost1.Text != string.Empty)
+        //    objAdhocReport.UCostStartAmount = Convert.ToDecimal(txtUnlimitedCost1.Text);
+        //if (txtUnlimitedCost2.Text != string.Empty)
+        //    objAdhocReport.UCostEndAmount = Convert.ToDecimal(txtUnlimitedCost2.Text);
 
-        objAdhocReport.HCPCriteria = rdbLstHCP.SelectedValue;
-        if (txtHCP1.Text != string.Empty)
-            objAdhocReport.HCPStartAmount = Convert.ToDecimal(txtHCP1.Text);
-        if (txtHCP2.Text != string.Empty)
-            objAdhocReport.HCPEndAmount = Convert.ToDecimal(txtHCP2.Text);
+        //objAdhocReport.LMVCriteria = rdbLstLimitedToMV.SelectedValue;
+        //if (txtLimitedToMV1.Text != string.Empty)
+        //    objAdhocReport.LMVStartAmount = Convert.ToDecimal(txtLimitedToMV1.Text);
+        //if (txtLimitedToMV2.Text != string.Empty)
+        //    objAdhocReport.LMVEndAmount = Convert.ToDecimal(txtLimitedToMV2.Text);
 
-        objAdhocReport.HCRCriteria = rdbLstHCRelief.SelectedValue;
-        if (txtHCRelief1.Text != string.Empty)
-            objAdhocReport.HCRStartAmount = Convert.ToDecimal(txtHCRelief1.Text);
-        if (txtHCRelief2.Text != string.Empty)
-            objAdhocReport.HCREndAmount = Convert.ToDecimal(txtHCRelief2.Text);
+        //objAdhocReport.HCPCriteria = rdbLstHCP.SelectedValue;
+        //if (txtHCP1.Text != string.Empty)
+        //    objAdhocReport.HCPStartAmount = Convert.ToDecimal(txtHCP1.Text);
+        //if (txtHCP2.Text != string.Empty)
+        //    objAdhocReport.HCPEndAmount = Convert.ToDecimal(txtHCP2.Text);
 
-        objAdhocReport.SColledtedCriteria = rdbLstCollected.SelectedValue;
-        if (txtCollected1.Text != string.Empty)
-            objAdhocReport.SColledtedStartAmount = Convert.ToDecimal(txtCollected1.Text);
-        if (txtCollected2.Text != string.Empty)
-            objAdhocReport.SColledtedEndAmount = Convert.ToDecimal(txtCollected2.Text);
+        //objAdhocReport.HCRCriteria = rdbLstHCRelief.SelectedValue;
+        //if (txtHCRelief1.Text != string.Empty)
+        //    objAdhocReport.HCRStartAmount = Convert.ToDecimal(txtHCRelief1.Text);
+        //if (txtHCRelief2.Text != string.Empty)
+        //    objAdhocReport.HCREndAmount = Convert.ToDecimal(txtHCRelief2.Text);
 
-        objAdhocReport.TChargedCriteria = rdbLstTotalCharged.SelectedValue;
+        //objAdhocReport.SColledtedCriteria = rdbLstCollected.SelectedValue;
+        //if (txtCollected1.Text != string.Empty)
+        //    objAdhocReport.SColledtedStartAmount = Convert.ToDecimal(txtCollected1.Text);
+        //if (txtCollected2.Text != string.Empty)
+        //    objAdhocReport.SColledtedEndAmount = Convert.ToDecimal(txtCollected2.Text);
+
+        objAdhocReport.TTotalPaidCriteria = rdbLstTotalCharged.SelectedValue;
         if (txtTotalCharged1.Text != string.Empty)
-            objAdhocReport.TChargedStartAmount = Convert.ToDecimal(txtTotalCharged1.Text);
+            objAdhocReport.TTotalPaidStartAmount = Convert.ToDecimal(txtTotalCharged1.Text);
         if (txtTotalCharged2.Text != string.Empty)
-            objAdhocReport.TChargedEndAmount = Convert.ToDecimal(txtTotalCharged2.Text);
-        
-       
+            objAdhocReport.TTotalPaidEndAmount = Convert.ToDecimal(txtTotalCharged2.Text);
+
+
         //objAdhocReport.AL_Claim_Origin = Convert.ToString(strgetClaimorgin);
         objAdhocReport.SortFields = strOrderBy;
         objAdhocReport.OutputFields = strShowFields;
@@ -247,7 +248,7 @@ public partial class SONIC_ClaimInfo_rptAdHocWriterOhioWCClaim : clsBasePage
         objAdhocReport.ReportName = txtReportName.Text.Trim();
         objAdhocReport.ReportId = hdnReportId.Value == string.Empty ? 0 : Convert.ToInt32(hdnReportId.Value);
         objAdhocReport.UpdatedDate = DateTime.Now;
-      
+
 
         hdnReportId.Value = objAdhocReport.InsertUpdate().ToString();
 
@@ -369,82 +370,82 @@ public partial class SONIC_ClaimInfo_rptAdHocWriterOhioWCClaim : clsBasePage
         if (txtDateofClaimReopenedTo.Text != string.Empty)
             objAdhocReport.ClaimReserveEndDate = Convert.ToDateTime(txtDateofClaimReopenedTo.Text);
 
-        
+
 
         objAdhocReport.Location = Request.Form[lstLocation.UniqueID];
         objAdhocReport.OStatus = ddlStatus.SelectedValue;
-        
-        objAdhocReport.MPCriteria = rdbLstMP.SelectedValue;
-        if (txtMP1.Text != string.Empty)
-            objAdhocReport.MPStartAmount = Convert.ToDecimal(txtMP1.Text);
-        if (txtMP2.Text != string.Empty)
-            objAdhocReport.MPEndAmount = Convert.ToDecimal(txtMP2.Text);
 
-        objAdhocReport.TCompCriteria= rdbLstComp.SelectedValue;
-        if (txtTotalComp1.Text != string.Empty)
-            objAdhocReport.TCompStartAmount = Convert.ToDecimal(txtTotalComp1.Text);
-        if (txtTotalComp2.Text != string.Empty)
-            objAdhocReport.TCompEndAmount = Convert.ToDecimal(txtTotalComp2.Text);
+        //objAdhocReport.MPCriteria = rdbLstMP.SelectedValue;
+        //if (txtMP1.Text != string.Empty)
+        //    objAdhocReport.MPStartAmount = Convert.ToDecimal(txtMP1.Text);
+        //if (txtMP2.Text != string.Empty)
+        //    objAdhocReport.MPEndAmount = Convert.ToDecimal(txtMP2.Text);
 
-        objAdhocReport.TReserveCriteria = rdbLstTotalReserve.SelectedValue;
-        if (txtTotalRes1.Text != string.Empty)
-            objAdhocReport.TReserveStartAmount = Convert.ToDecimal(txtTotalRes1.Text);
-        if (txtTotalRes2.Text != string.Empty)
-            objAdhocReport.TReserveEndAmount = Convert.ToDecimal(txtTotalRes2.Text);
+        //objAdhocReport.TCompCriteria= rdbLstComp.SelectedValue;
+        //if (txtTotalComp1.Text != string.Empty)
+        //    objAdhocReport.TCompStartAmount = Convert.ToDecimal(txtTotalComp1.Text);
+        //if (txtTotalComp2.Text != string.Empty)
+        //    objAdhocReport.TCompEndAmount = Convert.ToDecimal(txtTotalComp2.Text);
 
-        objAdhocReport.UCostCriteria = rdbLstUnlimitedCost.SelectedValue;
-        if (txtUnlimitedCost1.Text != string.Empty)
-            objAdhocReport.UCostStartAmount = Convert.ToDecimal(txtUnlimitedCost1.Text);
-        if (txtUnlimitedCost2.Text != string.Empty)
-            objAdhocReport.UCostEndAmount = Convert.ToDecimal(txtUnlimitedCost2.Text);
+        //objAdhocReport.TReserveCriteria = rdbLstTotalReserve.SelectedValue;
+        //if (txtTotalRes1.Text != string.Empty)
+        //    objAdhocReport.TReserveStartAmount = Convert.ToDecimal(txtTotalRes1.Text);
+        //if (txtTotalRes2.Text != string.Empty)
+        //    objAdhocReport.TReserveEndAmount = Convert.ToDecimal(txtTotalRes2.Text);
 
-        objAdhocReport.LMVCriteria = rdbLstLimitedToMV.SelectedValue;
-        if (txtLimitedToMV1.Text != string.Empty)
-            objAdhocReport.LMVStartAmount = Convert.ToDecimal(txtLimitedToMV1.Text);
-        if (txtLimitedToMV2.Text != string.Empty)
-            objAdhocReport.LMVEndAmount = Convert.ToDecimal(txtLimitedToMV2.Text);
+        //objAdhocReport.UCostCriteria = rdbLstUnlimitedCost.SelectedValue;
+        //if (txtUnlimitedCost1.Text != string.Empty)
+        //    objAdhocReport.UCostStartAmount = Convert.ToDecimal(txtUnlimitedCost1.Text);
+        //if (txtUnlimitedCost2.Text != string.Empty)
+        //    objAdhocReport.UCostEndAmount = Convert.ToDecimal(txtUnlimitedCost2.Text);
 
-        objAdhocReport.HCPCriteria = rdbLstHCP.SelectedValue;
-        if (txtHCP1.Text != string.Empty)
-            objAdhocReport.HCPStartAmount = Convert.ToDecimal(txtHCP1.Text);
-        if (txtHCP2.Text != string.Empty)
-            objAdhocReport.HCPEndAmount = Convert.ToDecimal(txtHCP2.Text);
-        
+        //objAdhocReport.LMVCriteria = rdbLstLimitedToMV.SelectedValue;
+        //if (txtLimitedToMV1.Text != string.Empty)
+        //    objAdhocReport.LMVStartAmount = Convert.ToDecimal(txtLimitedToMV1.Text);
+        //if (txtLimitedToMV2.Text != string.Empty)
+        //    objAdhocReport.LMVEndAmount = Convert.ToDecimal(txtLimitedToMV2.Text);
 
-        objAdhocReport.HCRCriteria = rdbLstHCRelief.SelectedValue;
-        if (txtHCRelief1.Text != string.Empty)
-            objAdhocReport.HCRStartAmount = Convert.ToDecimal(txtHCRelief1.Text);
-        if (txtHCRelief2.Text != string.Empty)
-            objAdhocReport.HCREndAmount = Convert.ToDecimal(txtHCRelief2.Text);
+        //objAdhocReport.HCPCriteria = rdbLstHCP.SelectedValue;
+        //if (txtHCP1.Text != string.Empty)
+        //    objAdhocReport.HCPStartAmount = Convert.ToDecimal(txtHCP1.Text);
+        //if (txtHCP2.Text != string.Empty)
+        //    objAdhocReport.HCPEndAmount = Convert.ToDecimal(txtHCP2.Text);
 
-        objAdhocReport.SColledtedCriteria = rdbLstCollected.SelectedValue;
-        if (txtCollected1.Text != string.Empty)
-            objAdhocReport.SColledtedStartAmount = Convert.ToDecimal(txtCollected1.Text);
-        if (txtCollected2.Text != string.Empty)
-            objAdhocReport.SColledtedEndAmount = Convert.ToDecimal(txtCollected2.Text);
 
-        objAdhocReport.TChargedCriteria = rdbLstTotalCharged.SelectedValue;
+        //objAdhocReport.HCRCriteria = rdbLstHCRelief.SelectedValue;
+        //if (txtHCRelief1.Text != string.Empty)
+        //    objAdhocReport.HCRStartAmount = Convert.ToDecimal(txtHCRelief1.Text);
+        //if (txtHCRelief2.Text != string.Empty)
+        //    objAdhocReport.HCREndAmount = Convert.ToDecimal(txtHCRelief2.Text);
+
+        //objAdhocReport.SColledtedCriteria = rdbLstCollected.SelectedValue;
+        //if (txtCollected1.Text != string.Empty)
+        //    objAdhocReport.SColledtedStartAmount = Convert.ToDecimal(txtCollected1.Text);
+        //if (txtCollected2.Text != string.Empty)
+        //    objAdhocReport.SColledtedEndAmount = Convert.ToDecimal(txtCollected2.Text);
+
+        objAdhocReport.TTotalPaidCriteria = rdbLstTotalCharged.SelectedValue;
         if (txtTotalCharged1.Text != string.Empty)
-            objAdhocReport.TChargedStartAmount = Convert.ToDecimal(txtTotalCharged1.Text);
+            objAdhocReport.TTotalPaidStartAmount = Convert.ToDecimal(txtTotalCharged1.Text);
         if (txtTotalCharged2.Text != string.Empty)
-            objAdhocReport.TChargedEndAmount = Convert.ToDecimal(txtTotalCharged2.Text);
+            objAdhocReport.TTotalPaidEndAmount = Convert.ToDecimal(txtTotalCharged2.Text);
 
-       
+
 
         objAdhocReport.SortFields = strOrderBy;
         objAdhocReport.OutputFields = strShowFields;
         objAdhocReport.ShowGrandTotal = chkGrand.Checked ? "Y" : "N";
         objAdhocReport.ShowSubTotal = "N";
         objAdhocReport.Claim_Type = this.Claim_Type;
-        
+
         //if (rdoALClaimOrigin.SelectedIndex > -1)
         //    objAdhocReport.AL_Claim_Origin = rdoALClaimOrigin.SelectedValue;
 
-        
+
         DataSet dsReport = null;
         dsReport = objAdhocReport.GetWCOhioAdhocReport();
 
-        
+
 
         // Add Total field to array List, So Check if User selects field for grand total
         arColumnList.Add("Total Medical");
@@ -456,7 +457,8 @@ public partial class SONIC_ClaimInfo_rptAdHocWriterOhioWCClaim : clsBasePage
         arColumnList.Add("HC Relief");
         arColumnList.Add("Subrogation Collected");
         arColumnList.Add("Total Charged");
-        
+        arColumnList.Add("Total Paid To Date");
+
 
         DataTable dt = new DataTable();
 
@@ -595,19 +597,32 @@ public partial class SONIC_ClaimInfo_rptAdHocWriterOhioWCClaim : clsBasePage
             // Check field header title if its contains  numerical fiels then format it into 2 point decimal
             for (iCell = 0; iCell < gvAdHoc.HeaderRow.Cells.Count; iCell++)
             {
-                if (arColumnList.Contains(gvAdHoc.HeaderRow.Cells[iCell].Text))
+                if (iCell != gvAdHoc.HeaderRow.Cells.Count)
                 {
-                    // Check if Its don't contains "&nbsp" means empty value
-                    if (!string.IsNullOrEmpty(Server.HtmlDecode(e.Row.Cells[iCell].Text).Trim()))
-                        e.Row.Cells[iCell].Text = string.Format("{0:C}", Convert.ToDouble(e.Row.Cells[iCell].Text));
-                }
 
-                // check header row title if it contains Date value then format date value
-                if (gvAdHoc.HeaderRow.Cells[iCell].Text.Contains("Date"))
-                {
-                    // Check if Its don't contains "&nbsp" means empty value
-                    if (!string.IsNullOrEmpty(Server.HtmlDecode(e.Row.Cells[iCell].Text).Trim()))
-                        e.Row.Cells[iCell].Text = clsGeneral.FormatDBNullDateToDisplay(e.Row.Cells[iCell].Text);
+                    if (arColumnList.Contains(gvAdHoc.HeaderRow.Cells[iCell].Text))
+                    {
+                        // Check if Its don't contains "&nbsp" means empty value
+                        if (!string.IsNullOrEmpty(Server.HtmlDecode(e.Row.Cells[iCell].Text).Trim()))
+                            e.Row.Cells[iCell].Text = string.Format("{0:C}", Convert.ToDouble(e.Row.Cells[iCell].Text));
+                    }
+
+                    // check header row title if it contains Date value then format date value
+                    if (gvAdHoc.HeaderRow.Cells[iCell].Text.Contains("Date"))
+                    {
+                        // Check if Its don't contains "&nbsp" means empty value
+                        if (gvAdHoc.HeaderRow.Cells[iCell].Text == "Total Paid To Date")
+                        {
+                            // Check if Its don't contains "&nbsp" means empty value
+                            //if (!string.IsNullOrEmpty(Server.HtmlDecode(e.Row.Cells[iCell].Text).Trim()))
+                            //    e.Row.Cells[iCell].Text = string.Format("{0:C}", Convert.ToDouble(e.Row.Cells[iCell].Text));
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(Server.HtmlDecode(e.Row.Cells[iCell].Text).Trim()))
+                                e.Row.Cells[iCell].Text = clsGeneral.FormatDBNullDateToDisplay(e.Row.Cells[iCell].Text);
+                        }
+                    }
                 }
             }
         }
@@ -637,165 +652,165 @@ public partial class SONIC_ClaimInfo_rptAdHocWriterOhioWCClaim : clsBasePage
 
     #region Radiobutton Events
 
-    protected void rdbLstMP_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        // check if between filter criteria is selected then display two textbox and change lable text
-        if (rdbLstMP.SelectedValue == "B")
-        {
-            lblMP2.Visible = true;
-            txtMP2.Visible = true;
+    //protected void rdbLstMP_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    // check if between filter criteria is selected then display two textbox and change lable text
+    //    if (rdbLstMP.SelectedValue == "B")
+    //    {
+    //        lblMP2.Visible = true;
+    //        txtMP2.Visible = true;
 
-            lblMP2.Text = "To :$";
-            lblMP1.Text = "From :$";
-        }
-        else
-        {
-            lblMP2.Visible = false;
-            txtMP2.Visible = false;
+    //        lblMP2.Text = "To :$";
+    //        lblMP1.Text = "From :$";
+    //    }
+    //    else
+    //    {
+    //        lblMP2.Visible = false;
+    //        txtMP2.Visible = false;
 
-            lblMP1.Text = rdbLstMP.SelectedItem.Text + ":$";
-        }
-    }
+    //        lblMP1.Text = rdbLstMP.SelectedItem.Text + ":$";
+    //    }
+    //}
 
-    protected void rdbLstComp_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        // check if between filter criteria is selected then display two textbox and change lable text
-        if (rdbLstComp.SelectedValue == "B")
-        {
-            lblTotalComp2.Visible = true;
-            txtTotalComp2.Visible = true;
+    //protected void rdbLstComp_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    // check if between filter criteria is selected then display two textbox and change lable text
+    //    if (rdbLstComp.SelectedValue == "B")
+    //    {
+    //        lblTotalComp2.Visible = true;
+    //        txtTotalComp2.Visible = true;
 
-            lblTotalComp2.Text = "To :$";
-            lblTotalComp1.Text = "From :$";
-        }
-        else
-        {
-            lblTotalComp2.Visible = false;
-            txtTotalComp2.Visible = false;
+    //        lblTotalComp2.Text = "To :$";
+    //        lblTotalComp1.Text = "From :$";
+    //    }
+    //    else
+    //    {
+    //        lblTotalComp2.Visible = false;
+    //        txtTotalComp2.Visible = false;
 
-            lblTotalComp1.Text = rdbLstComp.SelectedItem.Text + ":$";
-        }
-    }
+    //        lblTotalComp1.Text = rdbLstComp.SelectedItem.Text + ":$";
+    //    }
+    //}
 
-    protected void rdbLstTotalReserve_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        // check if between filter criteria is selected then display two textbox and change lable text
-        if (rdbLstTotalReserve.SelectedValue == "B")
-        {
-            lblTotalRes2.Visible = true;
-            txtTotalRes2.Visible = true;
+    //protected void rdbLstTotalReserve_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    // check if between filter criteria is selected then display two textbox and change lable text
+    //    if (rdbLstTotalReserve.SelectedValue == "B")
+    //    {
+    //        lblTotalRes2.Visible = true;
+    //        txtTotalRes2.Visible = true;
 
-            lblTotalRes2.Text = "To :$";
-            lblTotalRes1.Text = "From :$";
-        }
-        else
-        {
-            lblTotalRes2.Visible = false;
-            txtTotalRes2.Visible = false;
+    //        lblTotalRes2.Text = "To :$";
+    //        lblTotalRes1.Text = "From :$";
+    //    }
+    //    else
+    //    {
+    //        lblTotalRes2.Visible = false;
+    //        txtTotalRes2.Visible = false;
 
-            lblTotalRes1.Text = rdbLstTotalReserve.SelectedItem.Text + ":$";
-        }
-    }
+    //        lblTotalRes1.Text = rdbLstTotalReserve.SelectedItem.Text + ":$";
+    //    }
+    //}
 
-    protected void rdbLstUnlimitedCost_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        // check if between filter criteria is selected then display two textbox and change lable text
-        if (rdbLstUnlimitedCost.SelectedValue == "B")
-        {
-            lblUnlimitedCost2.Visible = true;
-            txtUnlimitedCost2.Visible = true;
+    //protected void rdbLstUnlimitedCost_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    // check if between filter criteria is selected then display two textbox and change lable text
+    //    if (rdbLstUnlimitedCost.SelectedValue == "B")
+    //    {
+    //        lblUnlimitedCost2.Visible = true;
+    //        txtUnlimitedCost2.Visible = true;
 
-            lblUnlimitedCost2.Text = "To :$";
-            lblUnlimitedCost1.Text = "From :$";
-        }
-        else
-        {
-            lblUnlimitedCost2.Visible = false;
-            txtUnlimitedCost2.Visible = false;
+    //        lblUnlimitedCost2.Text = "To :$";
+    //        lblUnlimitedCost1.Text = "From :$";
+    //    }
+    //    else
+    //    {
+    //        lblUnlimitedCost2.Visible = false;
+    //        txtUnlimitedCost2.Visible = false;
 
-            lblUnlimitedCost1.Text = rdbLstUnlimitedCost.SelectedItem.Text + ":$";
-        }
-    }
+    //        lblUnlimitedCost1.Text = rdbLstUnlimitedCost.SelectedItem.Text + ":$";
+    //    }
+    //}
 
-    protected void rdbLstLimitedToMV_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        // check if between filter criteria is selected then display two textbox and change lable text
-        if (rdbLstLimitedToMV.SelectedValue == "B")
-        {
-            lblLimitedToMV2.Visible = true;
-            txtLimitedToMV2.Visible = true;
+    //protected void rdbLstLimitedToMV_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    // check if between filter criteria is selected then display two textbox and change lable text
+    //    if (rdbLstLimitedToMV.SelectedValue == "B")
+    //    {
+    //        lblLimitedToMV2.Visible = true;
+    //        txtLimitedToMV2.Visible = true;
 
-            lblLimitedToMV2.Text = "To :$";
-            lblLimitedToMV1.Text = "From :$";
-        }
-        else
-        {
-            lblLimitedToMV2.Visible = false;
-            txtLimitedToMV2.Visible = false;
+    //        lblLimitedToMV2.Text = "To :$";
+    //        lblLimitedToMV1.Text = "From :$";
+    //    }
+    //    else
+    //    {
+    //        lblLimitedToMV2.Visible = false;
+    //        txtLimitedToMV2.Visible = false;
 
-            lblLimitedToMV1.Text = rdbLstLimitedToMV.SelectedItem.Text + ":$";
-        }
-    }
+    //        lblLimitedToMV1.Text = rdbLstLimitedToMV.SelectedItem.Text + ":$";
+    //    }
+    //}
 
-    protected void rdbLstHCP_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        // check if between filter criteria is selected then display two textbox and change lable text
-        if (rdbLstHCP.SelectedValue == "B")
-        {
-            lblHCP2.Visible = true;
-            txtHCP2.Visible = true;
+    //protected void rdbLstHCP_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    // check if between filter criteria is selected then display two textbox and change lable text
+    //    if (rdbLstHCP.SelectedValue == "B")
+    //    {
+    //        lblHCP2.Visible = true;
+    //        txtHCP2.Visible = true;
 
-            lblHCP2.Text = "To :$";
-            lblHCP1.Text = "From :$";
-        }
-        else
-        {
-            lblHCP2.Visible = false;
-            txtHCP2.Visible = false;
+    //        lblHCP2.Text = "To :$";
+    //        lblHCP1.Text = "From :$";
+    //    }
+    //    else
+    //    {
+    //        lblHCP2.Visible = false;
+    //        txtHCP2.Visible = false;
 
-            lblHCP1.Text = rdbLstHCP.SelectedItem.Text + ":$";
-        }
-    }
-    
-    protected void rdbLstHCRelief_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        // check if between filter criteria is selected then display two textbox and change lable text
-        if (rdbLstHCRelief.SelectedValue == "B")
-        {
-            lblHCRelief2.Visible = true;
-            txtHCRelief2.Visible = true;
+    //        lblHCP1.Text = rdbLstHCP.SelectedItem.Text + ":$";
+    //    }
+    //}
 
-            lblHCRelief2.Text = "To :$";
-            lblHCRelief1.Text = "From :$";
-        }
-        else
-        {
-            lblHCRelief2.Visible = false;
-            txtHCRelief2.Visible = false;
+    //protected void rdbLstHCRelief_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    // check if between filter criteria is selected then display two textbox and change lable text
+    //    if (rdbLstHCRelief.SelectedValue == "B")
+    //    {
+    //        lblHCRelief2.Visible = true;
+    //        txtHCRelief2.Visible = true;
 
-            lblHCRelief1.Text = rdbLstHCRelief.SelectedItem.Text + ":$";
-        }
-    }
-    
-    protected void rdbLstCollected_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        // check if between filter criteria is selected then display two textbox and change lable text
-        if (rdbLstCollected.SelectedValue == "B")
-        {
-            lblCollected2.Visible = true;
-            txtCollected2.Visible = true;
+    //        lblHCRelief2.Text = "To :$";
+    //        lblHCRelief1.Text = "From :$";
+    //    }
+    //    else
+    //    {
+    //        lblHCRelief2.Visible = false;
+    //        txtHCRelief2.Visible = false;
 
-            lblCollected2.Text = "To :$";
-            lblCollected1.Text = "From :$";
-        }
-        else
-        {
-            lblCollected2.Visible = false;
-            txtCollected2.Visible = false;
+    //        lblHCRelief1.Text = rdbLstHCRelief.SelectedItem.Text + ":$";
+    //    }
+    //}
 
-            lblCollected1.Text = rdbLstCollected.SelectedItem.Text + ":$";
-        }
-    }
+    //protected void rdbLstCollected_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    // check if between filter criteria is selected then display two textbox and change lable text
+    //    if (rdbLstCollected.SelectedValue == "B")
+    //    {
+    //        lblCollected2.Visible = true;
+    //        txtCollected2.Visible = true;
+
+    //        lblCollected2.Text = "To :$";
+    //        lblCollected1.Text = "From :$";
+    //    }
+    //    else
+    //    {
+    //        lblCollected2.Visible = false;
+    //        txtCollected2.Visible = false;
+
+    //        lblCollected1.Text = rdbLstCollected.SelectedItem.Text + ":$";
+    //    }
+    //}
 
     protected void rdbLstTotalCharged_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -846,7 +861,7 @@ public partial class SONIC_ClaimInfo_rptAdHocWriterOhioWCClaim : clsBasePage
                 SetDateControls(lstClaimReOpened, lblDateOfClaimReopenedFrom, lblDateOfClaimReopenedTo, txtDateOfClaimReopenedFrom, txtDateofClaimReopenedTo, imgDate_ClaimReopend_To);
                 imgDate_ClaimReopend_To.Attributes.Add("onclick", "return showCalendar('" + txtDateofClaimReopenedTo.ClientID + "', 'mm/dd/y','','')");
                 break;
-          
+
             default:
                 break;
         }
@@ -915,65 +930,65 @@ public partial class SONIC_ClaimInfo_rptAdHocWriterOhioWCClaim : clsBasePage
     /// </summary>
     private void SetDefaults()
     {
-        
+
         lblDateEnteredTo.Visible = false;
         txtDate_Entered_To.Visible = false;
         imgDate_Entered_To.Visible = false;
         lblDateEnteredFrom.Text = lstClaimEntered.SelectedItem.Text + " Date:";
-        
+
         lblDateClosedTo.Visible = false;
         txtDateClosedTo.Visible = false;
         imgDate_Closed_To.Visible = false;
         lblDateClosedFrom.Text = lstClaimClosed.SelectedItem.Text + " Date:";
-        
+
         lblDateIncidentTo.Visible = false;
         txtDate_Incident_To.Visible = false;
         imgDate_Incident_To.Visible = false;
         lblDateIncidentFrom.Text = lstClaimIncident.SelectedItem.Text + " Date:";
-                
+
         lblDateOfClaimReopenedTo.Visible = false;
         txtDateofClaimReopenedTo.Visible = false;
         imgDate_ClaimReopend_To.Visible = false;
         lblDateOfClaimReopenedFrom.Text = lstClaimReOpened.SelectedItem.Text + " Date:";
-               
 
-        lblMP2.Visible = false;
-        txtMP2.Visible = false;
-        lblMP1.Text = rdbLstMP.SelectedItem.Text + " :$";
 
-        lblTotalComp2.Visible = false;
-        txtTotalComp2.Visible = false;
-        lblTotalComp1.Text = rdbLstComp.SelectedItem.Text + " :$";
+        //lblMP2.Visible = false;
+        //txtMP2.Visible = false;
+        //lblMP1.Text = rdbLstMP.SelectedItem.Text + " :$";
 
-        lblTotalRes2.Visible = false;
-        txtTotalRes2.Visible = false;
-        lblTotalRes1.Text = rdbLstTotalReserve.SelectedItem.Text + " :$";
+        //lblTotalComp2.Visible = false;
+        //txtTotalComp2.Visible = false;
+        //lblTotalComp1.Text = rdbLstComp.SelectedItem.Text + " :$";
 
-        lblUnlimitedCost2.Visible = false;
-        txtUnlimitedCost2.Visible = false;
-        lblUnlimitedCost1.Text = rdbLstUnlimitedCost.SelectedItem.Text + " :$";
+        //lblTotalRes2.Visible = false;
+        //txtTotalRes2.Visible = false;
+        //lblTotalRes1.Text = rdbLstTotalReserve.SelectedItem.Text + " :$";
 
-        lblLimitedToMV2.Visible = false;
-        txtLimitedToMV2.Visible = false;
-        lblLimitedToMV1.Text = rdbLstLimitedToMV.SelectedItem.Text + " :$";
+        //lblUnlimitedCost2.Visible = false;
+        //txtUnlimitedCost2.Visible = false;
+        //lblUnlimitedCost1.Text = rdbLstUnlimitedCost.SelectedItem.Text + " :$";
 
-        lblHCP2.Visible = false;
-        txtHCP2.Visible = false;
-        lblHCP1.Text = rdbLstHCP.SelectedItem.Text + " :$";
+        //lblLimitedToMV2.Visible = false;
+        //txtLimitedToMV2.Visible = false;
+        //lblLimitedToMV1.Text = rdbLstLimitedToMV.SelectedItem.Text + " :$";
 
-        lblHCRelief2.Visible = false;
-        txtHCRelief2.Visible = false;
-        lblHCRelief1.Text = rdbLstHCRelief.SelectedItem.Text + " :$";
+        //lblHCP2.Visible = false;
+        //txtHCP2.Visible = false;
+        //lblHCP1.Text = rdbLstHCP.SelectedItem.Text + " :$";
 
-        lblCollected2.Visible = false;
-        txtCollected2.Visible = false;
-        lblCollected1.Text = rdbLstCollected.SelectedItem.Text + " :$";
+        //lblHCRelief2.Visible = false;
+        //txtHCRelief2.Visible = false;
+        //lblHCRelief1.Text = rdbLstHCRelief.SelectedItem.Text + " :$";
+
+        //lblCollected2.Visible = false;
+        //txtCollected2.Visible = false;
+        //lblCollected1.Text = rdbLstCollected.SelectedItem.Text + " :$";
 
         lblTotalCharged2.Visible = false;
         txtTotalCharged2.Visible = false;
         lblTotalCharged1.Text = rdbLstTotalCharged.SelectedItem.Text + " :$";
 
-        
+
     }
 
     /// <summary>
@@ -1102,7 +1117,7 @@ public partial class SONIC_ClaimInfo_rptAdHocWriterOhioWCClaim : clsBasePage
 
         chkSelUnSelFields.Checked = false;
         chkGrand.Checked = false;
-        ddlStatus.SelectedIndex= -1;
+        ddlStatus.SelectedIndex = -1;
         //chkNS.Checked = false;
 
 
@@ -1112,29 +1127,29 @@ public partial class SONIC_ClaimInfo_rptAdHocWriterOhioWCClaim : clsBasePage
         UnBindDateData(lstClaimIncident, lblDateIncidentFrom, lblDateIncidentTo, txtDate_Incident_From, txtDate_Incident_To, imgDate_Incident_To);
         //UnBindDateData(lstClaimValued, lblDateValuedFrom, lblDateValuedTo, txtDateValuedFrom, txtDateValuedTo, imgDate_Valued_To);
         UnBindDateData(lstClaimReOpened, lblDateOfClaimReopenedFrom, lblDateOfClaimReopenedTo, txtDateOfClaimReopenedFrom, txtDateofClaimReopenedTo, imgDate_ClaimReopend_To);
-               
+
         lstLocation.SelectedIndex = -1;
-        
+
         // set Amount criteria to Default value        
-        UnBindAmountData(rdbLstMP, lblMP1, lblMP2, txtMP1, txtMP2);
-        UnBindAmountData(rdbLstComp, lblTotalComp1, lblTotalComp2, txtTotalComp1, txtTotalComp2);
-        UnBindAmountData(rdbLstTotalReserve, lblTotalRes1, lblTotalRes2, txtTotalRes1, txtTotalRes2);
-        UnBindAmountData(rdbLstUnlimitedCost, lblUnlimitedCost1, lblUnlimitedCost2, txtUnlimitedCost1, txtUnlimitedCost2);
-        UnBindAmountData(rdbLstLimitedToMV, lblLimitedToMV1, lblLimitedToMV2, txtLimitedToMV1, txtLimitedToMV2);
-        UnBindAmountData(rdbLstHCP, lblHCP1, lblHCP2, txtHCP1, txtHCP2);
-        UnBindAmountData(rdbLstHCRelief, lblHCRelief1, lblHCRelief2, txtHCRelief1, txtHCRelief2);
-        UnBindAmountData(rdbLstCollected, lblCollected1, lblCollected2, txtCollected1, txtCollected2);
+        //UnBindAmountData(rdbLstMP, lblMP1, lblMP2, txtMP1, txtMP2);
+        //UnBindAmountData(rdbLstComp, lblTotalComp1, lblTotalComp2, txtTotalComp1, txtTotalComp2);
+        //UnBindAmountData(rdbLstTotalReserve, lblTotalRes1, lblTotalRes2, txtTotalRes1, txtTotalRes2);
+        //UnBindAmountData(rdbLstUnlimitedCost, lblUnlimitedCost1, lblUnlimitedCost2, txtUnlimitedCost1, txtUnlimitedCost2);
+        //UnBindAmountData(rdbLstLimitedToMV, lblLimitedToMV1, lblLimitedToMV2, txtLimitedToMV1, txtLimitedToMV2);
+        //UnBindAmountData(rdbLstHCP, lblHCP1, lblHCP2, txtHCP1, txtHCP2);
+        //UnBindAmountData(rdbLstHCRelief, lblHCRelief1, lblHCRelief2, txtHCRelief1, txtHCRelief2);
+        //UnBindAmountData(rdbLstCollected, lblCollected1, lblCollected2, txtCollected1, txtCollected2);
         UnBindAmountData(rdbLstTotalCharged, lblTotalCharged1, lblTotalCharged2, txtTotalCharged1, txtTotalCharged2);
-        
+
         lstOutputFields.SelectedIndex = -1;
         lstFirstSort.SelectedIndex = -1;
         lstSecondSort.SelectedIndex = -1;
         lstThirdSort.SelectedIndex = -1;
-        
+
         txtReportName.Text = string.Empty;
         hdnReportName.Value = string.Empty;
         hdnReportId.Value = string.Empty;
-        btnDeleteReport.Enabled = false;        
+        btnDeleteReport.Enabled = false;
         setLocationSelected();
     }
 
@@ -1191,7 +1206,7 @@ public partial class SONIC_ClaimInfo_rptAdHocWriterOhioWCClaim : clsBasePage
         hdnReportName.Value = txtReportName.Text = objAdhocReport.ReportName;
         this.Claim_Type = objAdhocReport.Claim_Type;
 
-       
+
         //Fill Output Fields
         lstOutputFields.DataSource = AdHocReportWriter.SelectOutputFieldsByClaimType(this.Claim_Type);
         lstOutputFields.DataTextField = "AdhocFieldName";
@@ -1256,7 +1271,7 @@ public partial class SONIC_ClaimInfo_rptAdHocWriterOhioWCClaim : clsBasePage
         //if (objAdhocReport.ValueAsOfDateStartDate.ToString() != "1/1/1753 12:00:00 AM" && objAdhocReport.ValueAsOfDateStartDate.ToString() != string.Empty)
         //    txtDateofClaimReopnedFrom.Text = Convert.ToDateTime(objAdhocReport.ValueAsOfDateStartDate).ToShortDateString();
 
-       
+
 
         //Status of Claim
         //if (!String.IsNullOrEmpty(objAdhocReport.OStatus))
@@ -1267,65 +1282,67 @@ public partial class SONIC_ClaimInfo_rptAdHocWriterOhioWCClaim : clsBasePage
         //    cblClaimStatus.Items.FindByValue(objAdhocReport.ROStatus).Selected = true;
 
         //Bind All List Box Control.
-   
+
         if (!String.IsNullOrEmpty(objAdhocReport.Location))
             BinListData(objAdhocReport.Location, lstLocation);
-        
-
-        //Medical Paid 
-        BindAmountData(rdbLstMP, lblMP1, lblMP2, txtMP1, txtMP2,
-                        objAdhocReport.MPCriteria,
-                        objAdhocReport.MPStartAmount,
-                        objAdhocReport.MPEndAmount);
-        //Total Claim
-        BindAmountData(rdbLstComp, lblTotalComp1, lblTotalComp2, txtTotalComp1, txtTotalComp2,
-                        objAdhocReport.TCompCriteria,
-                        objAdhocReport.TCompStartAmount,
-                        objAdhocReport.TCompEndAmount);
-
-        //Total Reserve
-        BindAmountData(rdbLstTotalReserve, lblTotalRes1, lblTotalRes2, txtTotalRes1, txtTotalRes2,
-                        objAdhocReport.TReserveCriteria,
-                        objAdhocReport.TReserveStartAmount,
-                        objAdhocReport.TReserveEndAmount);
-
-        //Unlimited Cost
-        BindAmountData(rdbLstUnlimitedCost, lblUnlimitedCost1, lblUnlimitedCost2, txtUnlimitedCost1, txtUnlimitedCost2,
-                        objAdhocReport.UCostCriteria,
-                        objAdhocReport.UCostStartAmount,
-                        objAdhocReport.UCostEndAmount);
-
-        //Limited to MV
-        BindAmountData(rdbLstLimitedToMV, lblLimitedToMV1, lblLimitedToMV2, txtLimitedToMV1, txtLimitedToMV2,
-                        objAdhocReport.LMVCriteria,
-                        objAdhocReport.LMVStartAmount,
-                        objAdhocReport.LMVEndAmount);
-
-        //HCP Percent
-        BindAmountData(rdbLstHCP, lblHCP1, lblHCP2, txtHCP1, txtHCP2,
-                        objAdhocReport.HCPCriteria,
-                        objAdhocReport.HCPStartAmount,
-                        objAdhocReport.HCPEndAmount);
-
-        //HC Relief
-        BindAmountData(rdbLstHCRelief, lblHCRelief1, lblHCRelief2, txtHCRelief1, txtHCRelief2,
-                        objAdhocReport.HCRCriteria,
-                        objAdhocReport.HCRStartAmount,
-                        objAdhocReport.HCREndAmount);
-
-        //Subrogation Collected
-        BindAmountData(rdbLstCollected, lblCollected1, lblCollected2, txtCollected1, txtCollected2,
-                        objAdhocReport.SColledtedCriteria,
-                        objAdhocReport.SColledtedStartAmount,
-                        objAdhocReport.SColledtedEndAmount);
 
 
-        //Total Out Standing.
-        BindAmountData(rdbLstTotalCharged, lblTotalCharged1, lblTotalCharged2, txtTotalCharged1, txtTotalCharged2,
-                        objAdhocReport.TChargedCriteria,
-                        objAdhocReport.TChargedStartAmount,
-                        objAdhocReport.TChargedEndAmount);
+        ////Medical Paid 
+        //BindAmountData(rdbLstMP, lblMP1, lblMP2, txtMP1, txtMP2,
+        //                objAdhocReport.MPCriteria,
+        //                objAdhocReport.MPStartAmount,
+        //                objAdhocReport.MPEndAmount);
+        ////Total Claim
+        //BindAmountData(rdbLstComp, lblTotalComp1, lblTotalComp2, txtTotalComp1, txtTotalComp2,
+        //                objAdhocReport.TCompCriteria,
+        //                objAdhocReport.TCompStartAmount,
+        //                objAdhocReport.TCompEndAmount);
 
+        ////Total Reserve
+        //BindAmountData(rdbLstTotalReserve, lblTotalRes1, lblTotalRes2, txtTotalRes1, txtTotalRes2,
+        //                objAdhocReport.TReserveCriteria,
+        //                objAdhocReport.TReserveStartAmount,
+        //                objAdhocReport.TReserveEndAmount);
+
+        ////Unlimited Cost
+        //BindAmountData(rdbLstUnlimitedCost, lblUnlimitedCost1, lblUnlimitedCost2, txtUnlimitedCost1, txtUnlimitedCost2,
+        //                objAdhocReport.UCostCriteria,
+        //                objAdhocReport.UCostStartAmount,
+        //                objAdhocReport.UCostEndAmount);
+
+        ////Limited to MV
+        //BindAmountData(rdbLstLimitedToMV, lblLimitedToMV1, lblLimitedToMV2, txtLimitedToMV1, txtLimitedToMV2,
+        //                objAdhocReport.LMVCriteria,
+        //                objAdhocReport.LMVStartAmount,
+        //                objAdhocReport.LMVEndAmount);
+
+        ////HCP Percent
+        //BindAmountData(rdbLstHCP, lblHCP1, lblHCP2, txtHCP1, txtHCP2,
+        //                objAdhocReport.HCPCriteria,
+        //                objAdhocReport.HCPStartAmount,
+        //                objAdhocReport.HCPEndAmount);
+
+        ////HC Relief
+        //BindAmountData(rdbLstHCRelief, lblHCRelief1, lblHCRelief2, txtHCRelief1, txtHCRelief2,
+        //                objAdhocReport.HCRCriteria,
+        //                objAdhocReport.HCRStartAmount,
+        //                objAdhocReport.HCREndAmount);
+
+        ////Subrogation Collected
+        //BindAmountData(rdbLstCollected, lblCollected1, lblCollected2, txtCollected1, txtCollected2,
+        //                objAdhocReport.SColledtedCriteria,
+        //                objAdhocReport.SColledtedStartAmount,
+        //                objAdhocReport.SColledtedEndAmount);
+
+
+        //Total Paid To Date
+        if (!String.IsNullOrEmpty(objAdhocReport.TTotalPaidCriteria))
+        {
+            BindAmountData(rdbLstTotalCharged, lblTotalCharged1, lblTotalCharged2, txtTotalCharged1, txtTotalCharged2,
+                            objAdhocReport.TTotalPaidCriteria,
+                            objAdhocReport.TTotalPaidStartAmount,
+                            objAdhocReport.TTotalPaidEndAmount);
+        }
         ddlStatus.SelectedValue = objAdhocReport.OStatus;
     }
 

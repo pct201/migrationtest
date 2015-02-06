@@ -35,6 +35,11 @@ namespace ERIMS.DAL
         private string _Imported;
         private string _Updated_By;
         private DateTime? _Update_Date;
+        private string _FROI_Number;
+        private string _Sonic_Location_Code;
+        private string _Associate_Name;
+        private DateTime? _Date_Of_First_Transaction;
+        private decimal? _Total_Paid_To_Date;
 
         #endregion
 
@@ -252,6 +257,50 @@ namespace ERIMS.DAL
             set { _Total_Charged = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the FROI_Number value.
+        /// </summary>
+        public string FROI_Number
+        {
+            get { return _FROI_Number; }
+            set { _FROI_Number = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Sonic_Location_Code value.
+        /// </summary>
+        public string Sonic_Location_Code
+        {
+            get { return _Sonic_Location_Code; }
+            set { _Sonic_Location_Code = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Associate_Name value.
+        /// </summary>
+        public string Associate_Name
+        {
+            get { return _Associate_Name; }
+            set { _Associate_Name = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Date_Of_First_Transaction value.
+        /// </summary>
+        public DateTime? Date_Of_First_Transaction
+        {
+            get { return _Date_Of_First_Transaction; }
+            set { _Date_Of_First_Transaction = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Total_Paid_To_Date value.
+        /// </summary>
+        public decimal? Total_Paid_To_Date
+        {
+            get { return _Total_Paid_To_Date; }
+            set { _Total_Paid_To_Date = value; }
+        }
 
         #endregion
 
@@ -271,6 +320,11 @@ namespace ERIMS.DAL
             this._Date_Reopened = null;
             this._Updated_By = null;
             this._Update_Date = null;
+            this._Associate_Name = null;
+            this.FROI_Number = null;
+            this.Sonic_Location_Code = null;
+            this.Date_Of_First_Transaction = null;
+            this.Total_Paid_To_Date = null;
 
         }
 
@@ -399,6 +453,31 @@ namespace ERIMS.DAL
                 else
                     this._Imported = Convert.ToString(drWorkers_Comp_Claims_OH["Imported"]);
 
+                if (drWorkers_Comp_Claims_OH["FROI_Number"] == DBNull.Value)
+                    this._FROI_Number = null;
+                else
+                    this._FROI_Number = (string)drWorkers_Comp_Claims_OH["FROI_Number"];
+
+                if (drWorkers_Comp_Claims_OH["Sonic_Location_Code"] == DBNull.Value)
+                    this._Sonic_Location_Code = null;
+                else
+                    this._Sonic_Location_Code = (string)drWorkers_Comp_Claims_OH["Sonic_Location_Code"];
+
+                if (drWorkers_Comp_Claims_OH["Associate_Name"] == DBNull.Value)
+                    this._Associate_Name = null;
+                else
+                    this._Associate_Name = (string)drWorkers_Comp_Claims_OH["Associate_Name"];
+
+                if (drWorkers_Comp_Claims_OH["Date_Of_First_Transaction"] == DBNull.Value)
+                    this._Date_Of_First_Transaction = null;
+                else
+                    this._Date_Of_First_Transaction = (DateTime?)drWorkers_Comp_Claims_OH["Date_Of_First_Transaction"];
+
+                if (drWorkers_Comp_Claims_OH["Total_Paid_To_Date"] == DBNull.Value)
+                    this._Total_Paid_To_Date = null;
+                else
+                    this._Total_Paid_To_Date = Convert.ToDecimal(drWorkers_Comp_Claims_OH["Total_Paid_To_Date"]);           
+
             }
             else
             {
@@ -410,6 +489,11 @@ namespace ERIMS.DAL
                 this._Date_Reopened = null;
                 this._Updated_By = null;
                 this._Update_Date = null;
+                this._Associate_Name = null;
+                this.FROI_Number = null;
+                this.Sonic_Location_Code = null;
+                this.Date_Of_First_Transaction = null;
+                this.Total_Paid_To_Date = null;
             }
 
         }
@@ -429,17 +513,17 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "FK_WC_RD_Id", DbType.Decimal, this._FK_WC_RD_Id);
 
             if (string.IsNullOrEmpty(this._Claim_Number))
-                db.AddInParameter(dbCommand, "Claim_Number", DbType.String, DBNull.Value);
+                db.AddInParameter(dbCommand, "Origin_Claim_Number", DbType.String, DBNull.Value);
             else
-                db.AddInParameter(dbCommand, "Claim_Number", DbType.String, this._Claim_Number);
+                db.AddInParameter(dbCommand, "Origin_Claim_Number", DbType.String, this._Claim_Number);
 
-            db.AddInParameter(dbCommand, "Date_Entered", DbType.DateTime, this._Date_Entered);
+            db.AddInParameter(dbCommand, "Date_Claim_Opened", DbType.DateTime, this._Date_Entered);
 
-            db.AddInParameter(dbCommand, "Date_Closed", DbType.DateTime, this._Date_Closed);
+            db.AddInParameter(dbCommand, "Date_Claim_Closed", DbType.DateTime, this._Date_Closed);
 
-            db.AddInParameter(dbCommand, "Date_Reopened", DbType.DateTime, this._Date_Reopened);
+            db.AddInParameter(dbCommand, "Date_Claim_Reopened", DbType.DateTime, this._Date_Reopened);
 
-            db.AddInParameter(dbCommand, "Active_InActive", DbType.String, this._Active_InActive);
+            db.AddInParameter(dbCommand, "Claim_Status", DbType.String, this._Active_InActive);
 
             db.AddInParameter(dbCommand, "Date_Of_Incident", DbType.DateTime, this._Date_Of_Incident);
 
@@ -471,6 +555,25 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
 
             db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
+
+            if (string.IsNullOrEmpty(this._FROI_Number))
+                db.AddInParameter(dbCommand, "FROI_Number", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "FROI_Number", DbType.String, this._FROI_Number);
+
+            if (string.IsNullOrEmpty(this._Sonic_Location_Code))
+                db.AddInParameter(dbCommand, "Sonic_Location_Code", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Sonic_Location_Code", DbType.String, this._Sonic_Location_Code);
+
+            if (string.IsNullOrEmpty(this._Associate_Name))
+                db.AddInParameter(dbCommand, "Associate_Name", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Associate_Name", DbType.String, this._Associate_Name);
+
+            db.AddInParameter(dbCommand, "Date_Of_First_Transaction", DbType.DateTime, this._Date_Of_First_Transaction);
+
+            db.AddInParameter(dbCommand, "Total_Paid_To_Date", DbType.Decimal, this._Total_Paid_To_Date);
 
             // Execute the query and return the new identity value
             decimal returnValue = Convert.ToDecimal(db.ExecuteScalar(dbCommand));
@@ -522,13 +625,13 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Claim_Number", DbType.String, this._Claim_Number);
 
-            db.AddInParameter(dbCommand, "Date_Entered", DbType.DateTime, this._Date_Entered);
+            db.AddInParameter(dbCommand, "Date_Claim_Opened", DbType.DateTime, this._Date_Entered);
 
-            db.AddInParameter(dbCommand, "Date_Closed", DbType.DateTime, this._Date_Closed);
+            db.AddInParameter(dbCommand, "Date_Claim_Closed", DbType.DateTime, this._Date_Closed);
 
-            db.AddInParameter(dbCommand, "Date_Reopened", DbType.DateTime, this._Date_Reopened);
+            db.AddInParameter(dbCommand, "Date_Claim_Reopened", DbType.DateTime, this._Date_Reopened);
 
-            db.AddInParameter(dbCommand, "Active_InActive", DbType.String, this._Active_InActive);
+            db.AddInParameter(dbCommand, "Claim_status", DbType.String, this._Active_InActive);
 
             db.AddInParameter(dbCommand, "Date_Of_Incident", DbType.DateTime, this._Date_Of_Incident);
 
@@ -554,12 +657,36 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "Total_Charged", DbType.Decimal, this._Total_Charged);
 
+            			if (string.IsNullOrEmpty(this._Imported))
+				db.AddInParameter(dbCommand, "Imported", DbType.String, DBNull.Value);
+			else
+				db.AddInParameter(dbCommand, "Imported", DbType.String, this._Imported);
+
             if (string.IsNullOrEmpty(this._Updated_By))
                 db.AddInParameter(dbCommand, "Updated_By", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
 
             db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
+
+            if (string.IsNullOrEmpty(this._FROI_Number))
+                db.AddInParameter(dbCommand, "FROI_Number", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "FROI_Number", DbType.String, this._FROI_Number);
+
+            if (string.IsNullOrEmpty(this._Sonic_Location_Code))
+                db.AddInParameter(dbCommand, "Sonic_Location_Code", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Sonic_Location_Code", DbType.String, this._Sonic_Location_Code);
+
+            if (string.IsNullOrEmpty(this._Associate_Name))
+                db.AddInParameter(dbCommand, "Associate_Name", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Associate_Name", DbType.String, this._Associate_Name);
+
+            db.AddInParameter(dbCommand, "Date_Of_First_Transaction", DbType.DateTime, this._Date_Of_First_Transaction);
+
+            db.AddInParameter(dbCommand, "Total_Paid_To_Date", DbType.Decimal, this._Total_Paid_To_Date);
 
             decimal returnValue = Convert.ToDecimal(db.ExecuteScalar(dbCommand));
 
@@ -618,16 +745,17 @@ namespace ERIMS.DAL
             return Convert.ToInt32(dbCommand.Parameters["@PK_Workers_Comp_Claims_ID"].Value);
         }
 
-        public static DataSet GetWorkersCompClaimsBySearchCriteria(decimal LocationNumber, DateTime? Date_of_Accident, decimal First_Report_Number, decimal AssociateName, string Claim_Number, decimal PK_Employee_Id, string Active_Inactive, string strOrderBy, string strOrder, int intPageNo, int intPageSize)
+        public static DataSet GetWorkersCompClaimsBySearchCriteria(decimal LocationNumber, DateTime? Date_of_Accident, decimal First_Report_Number, string AssociateName, string dba, string legal_entity, string Claim_Number, string Active_Inactive, string strOrderBy, string strOrder, int intPageNo, int intPageSize)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("SearchWorkers_Comp_Claims_OH_Information");
             db.AddInParameter(dbCommand, "LocationNumber", DbType.Decimal, LocationNumber);
             db.AddInParameter(dbCommand, "Date_of_Accident", DbType.DateTime, Date_of_Accident);
             db.AddInParameter(dbCommand, "First_Report_Number", DbType.Decimal, First_Report_Number);
-            db.AddInParameter(dbCommand, "AssociateNameID", DbType.Decimal, AssociateName);
+            db.AddInParameter(dbCommand, "AssociateName", DbType.String, AssociateName);
+            db.AddInParameter(dbCommand, "dba", DbType.String, dba);
+            db.AddInParameter(dbCommand, "legal_entity", DbType.String, legal_entity);
             db.AddInParameter(dbCommand, "Claim_Number", DbType.String, Claim_Number);
-            db.AddInParameter(dbCommand, "ClaimantNameID", DbType.Decimal, PK_Employee_Id);
             db.AddInParameter(dbCommand, "Active_Inactive", DbType.String,Active_Inactive);
             db.AddInParameter(dbCommand, "strOrderBy", DbType.String, strOrderBy);
             db.AddInParameter(dbCommand, "strOrder", DbType.String, strOrder);
@@ -641,6 +769,38 @@ namespace ERIMS.DAL
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("GetAssociateList");            
             return db.ExecuteDataSet(dbCommand);
+        }
+
+        public static DataSet GetSonicLocationlegalentityList()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetSonicLocationlegalentityList");
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        public static DataSet GetSonicLocationdbaList()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetSonicLocationdbaList");
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        public static DataSet GetClaimStatusList()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetClaimStatusList");
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        public static int GetSonicLocationCodeFromdba(string dba)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetSonicLocationCodeFromdba");
+            db.AddInParameter(dbCommand, "dba", DbType.String, dba);
+
+            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
+
+            return returnValue;
         }
 
         public static DataSet GetClaimantNameList()

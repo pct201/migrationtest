@@ -130,10 +130,10 @@
                 return false;
             }
 
-            return true;
-        }
-        function MoveItemUp() {
-            var obj = document.getElementById('<%=lstOutputFields.ClientID %>');
+        return true;
+    }
+    function MoveItemUp() {
+        var obj = document.getElementById('<%=lstOutputFields.ClientID %>');
 
             if (obj.selectedIndex > 0) {
                 var newElem = document.createElement("option");
@@ -164,36 +164,38 @@
             }
             return false;
         }
-    
+
     </script>
 
     <script type="text/javascript" language="javascript">
         var ErrMessage;
-        function Validate(Type) {           
+        function Validate(Type) {
             ErrMessage = "";
-            if (document.getElementById("ctl00_ContentPlaceHolder1_txtReportName").value == "") {                
+            if (document.getElementById("ctl00_ContentPlaceHolder1_txtReportName").value == "") {
                 if (Type != 'E')
                     ErrMessage = "- Please Enter Report Name.\n";
             }
-            
+
             DateValidate("lstClaimEntered", "txtDate_Entered_From", "txtDate_Entered_To", "Date Claim Entered", '<%=lblDateEnteredFrom.Text %>');
             DateValidate("lstClaimClosed", "txtDateClosedFrom", "txtDateClosedTo", "Date Claim Close", '<%=lblDateClosedFrom.Text %>');
             DateValidate("lstClaimIncident", "txtDate_Incident_From", "txtDate_Incident_To", "Date of Incident", '<%=lblDateIncidentFrom.Text %>');
             DateValidate("lstClaimReOpened", "txtDateOfClaimReopenedFrom", "txtDateofClaimReopenedTo", "Date Claim Reopened", '<%=lblDateOfClaimReopenedFrom.Text %>');
-                       
-           
 
-            RadioDate("rdbLstMP", "txtMP1", "txtMP2", "Total Medical", "P", '<%=lblMP1.Text %>');
-            RadioDate("rdbLstComp", "txtTotalComp1", "txtTotalComp2", "Total Comp", "P", '<%=lblTotalComp1.Text %>');
-            RadioDate("rdbLstTotalReserve", "txtTotalRes1", "txtTotalRes1", "Total Reserve", "P", '<%=lblTotalRes1.Text %>');
-            RadioDate("rdbLstUnlimitedCost", "txtUnlimitedCost1", "txtUnlimitedCost2", "Unlimited Cost", "P", '<%=lblUnlimitedCost1.Text %>');
-            RadioDate("rdbLstLimitedToMV", "txtLimitedToMV1", "txtLimitedToMV2", "Limited to MV", "P", '<%=lblLimitedToMV1.Text %>');
-            RadioDate("rdbLstHCP", "txtHCP1", "txtHCP2", "HC Percent", "P", '<%=lblHCP1.Text %>');
-            RadioDate("rdbLstHCRelief", "txtHCRelief1", "txtHCRelief2", "HC Relief", "P", '<%=lblHCRelief1.Text %>');
-            RadioDate("rdbLstCollected", "txtCollected1", "txtCollected2", "Subrogation Collected", "P", '<%=lblCollected1.Text %>');
-            RadioDate("rdbLstTotalCharged", "txtTotalCharged1", "txtTotalCharged2", "Total Charged", "P", '<%=lblTotalCharged1.Text %>');
 
-            
+
+            /*
+            RadioDate("rdbLstMP", "txtMP1", "txtMP2", "Total Medical", "P", '<=lblMP1.Text %>');
+            RadioDate("rdbLstComp", "txtTotalComp1", "txtTotalComp2", "Total Comp", "P", '<=lblTotalComp1.Text %>');
+            RadioDate("rdbLstTotalReserve", "txtTotalRes1", "txtTotalRes1", "Total Reserve", "P", '<=lblTotalRes1.Text %>');
+            RadioDate("rdbLstUnlimitedCost", "txtUnlimitedCost1", "txtUnlimitedCost2", "Unlimited Cost", "P", '<=lblUnlimitedCost1.Text %>');
+            RadioDate("rdbLstLimitedToMV", "txtLimitedToMV1", "txtLimitedToMV2", "Limited to MV", "P", '<lblLimitedToMV1.Text %>');
+            RadioDate("rdbLstHCP", "txtHCP1", "txtHCP2", "HC Percent", "P", '<=lblHCP1.Text %>');
+            RadioDate("rdbLstHCRelief", "txtHCRelief1", "txtHCRelief2", "HC Relief", "P", '<=lblHCRelief1.Text %>');
+            RadioDate("rdbLstCollected", "txtCollected1", "txtCollected2", "Subrogation Collected", "P", '<=lblCollected1.Text %>');
+            RadioDate("rdbLstTotalCharged", "txtTotalCharged1", "txtTotalCharged2", "Total Charged", "P", '<=lblTotalCharged1.Text %>');
+            */
+
+
             if (Type == "S") {
                 var i;
                 var lstOutput = document.getElementById('ctl00_ContentPlaceHolder1_lstOutputFields').options;
@@ -202,7 +204,7 @@
                     outf += (outf == "") ? lstOutput.options[i].value : "," + lstOutput.options[i].value;
                 document.getElementById('<%=hdnOutputList.ClientID%>').value = outf;
             }
-            
+
             if (ErrMessage != "") {
                 alert(ErrMessage);
                 return false;
@@ -213,9 +215,9 @@
 
         function RadioDate(objRadio, objText1, objText, FieldName, Type, MsgCtl) {
             var Out, RetVal = true;
-            var obj1 = document.getElementById("ctl00_ContentPlaceHolder1_" + objText1);            
+            var obj1 = document.getElementById("ctl00_ContentPlaceHolder1_" + objText1);
             var obj = document.getElementById("ctl00_ContentPlaceHolder1_" + objText);
-                      
+
             var elmnts = document.getElementsByName("ctl00$ContentPlaceHolder1$" + objRadio);
             for (var m_intCounter = 0; m_intCounter < elmnts.length; m_intCounter++) {
                 if (elmnts[m_intCounter].checked) {
@@ -223,21 +225,21 @@
                     break;
                 }
             }
-            
-            if (Out == "B") {                
+
+            if (Out == "B") {
                 if (trim(obj1.value) == "") {
                     ErrMessage = ErrMessage + "- Please Enter From Amount For " + FieldName + ".\n";
                     RetVal = false;
                 }
             }
-            
-            
+
+
             if (trim(obj1.value) != "")
                 if (!IsNumericNoAlert(RemoveCommas(obj1.value))) {
-                ErrMessage = ErrMessage + "- " + FieldName + ' ' + MsgCtl.replace(':$', '') + " is not a valid number.\n"
-                RetVal = false;
-            }
-            
+                    ErrMessage = ErrMessage + "- " + FieldName + ' ' + MsgCtl.replace(':$', '') + " is not a valid number.\n"
+                    RetVal = false;
+                }
+
 
             if (Out == "B") {
                 if (trim(obj.value) == "") {
@@ -251,9 +253,9 @@
                     }
                 }
 
-                if (RetVal == true) {                                       
-                    if (parseFloat(obj1.value) > parseFloat(obj.value))                         
-                        ErrMessage = ErrMessage + "- To Amount must be Greater Than or Equal To From Amount For " + FieldName + " .\n"                    
+                if (RetVal == true) {
+                    if (parseFloat(obj1.value) > parseFloat(obj.value))
+                        ErrMessage = ErrMessage + "- To Amount must be Greater Than or Equal To From Amount For " + FieldName + " .\n"
                 }
             }
         }
@@ -311,23 +313,21 @@
             }
             return true
         }
-            
+
     </script>
 
     <div>
         <asp:HiddenField ID="hdnOutputList" runat="server" />
         <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
             HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
-            EnableClientScript="true" ValidationGroup="vsErrorGroup" CssClass="errormessage">
-        </asp:ValidationSummary>
+            EnableClientScript="true" ValidationGroup="vsErrorGroup" CssClass="errormessage"></asp:ValidationSummary>
     </div>
     <table width="100%" cellpadding="2" cellspacing="2" class="ic">
         <tr>
-            <td class="ghc" align="left">
-                Ad Hoc Report Writer
+            <td class="ghc" align="left">Ad Hoc Report Writer
             </td>
         </tr>
-       
+
         <tr>
             <td>
                 <table cellpadding="2" cellspacing="1" width="100%" align="center">
@@ -336,7 +336,7 @@
                             <table width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td class="lc" style="width: 15%;">
-                                        <strong style="color: #666666;">Date Claim Entered : </strong>
+                                        <strong style="color: #666666;">Date Claim Opened : </strong>
                                     </td>
                                     <td style="width: 35%;">
                                         <asp:RadioButtonList ID="lstClaimEntered" runat="server" AutoPostBack="true" OnSelectedIndexChanged="rdbLstDate_SelectedIndexChanged">
@@ -417,10 +417,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="padding-top: 5px;">
-                        </td>
+                        <td style="padding-top: 5px;"></td>
                     </tr>
-                    
+
                     <tr>
                         <td colspan="10" width="100%">
                             <table width="100%" cellpadding="0" cellspacing="0">
@@ -440,17 +439,17 @@
                                         <strong style="color: #666666;">Date Claim Reopened : </strong>
                                     </td>
                                     <td style="width: 35%;">
-                                        <asp:radiobuttonlist id="lstClaimReOpened" runat="server" autopostback="true" onselectedindexchanged="rdbLstDate_SelectedIndexChanged">
+                                        <asp:RadioButtonList ID="lstClaimReOpened" runat="server" AutoPostBack="true" OnSelectedIndexChanged="rdbLstDate_SelectedIndexChanged">
                                             <asp:ListItem Text="On" Value="O" Selected="True"></asp:ListItem>
                                             <asp:ListItem Text="Between" Value="B"></asp:ListItem>
                                             <asp:ListItem Text="Before" Value="BF"></asp:ListItem>
                                             <asp:ListItem Text="After" Value="A"></asp:ListItem>
-                                        </asp:radiobuttonlist>
+                                        </asp:RadioButtonList>
                                     </td>
                                 </tr>
                             </table>
                         </td>
-                    </tr>                    
+                    </tr>
                     <tr>
                         <td width="100%">
                             <table width="100%" cellpadding="0" cellspacing="0">
@@ -489,13 +488,13 @@
                                         <img alt="Valued as of Date" onclick="return showCalendar('<%=txtDateOfClaimReopenedFrom.ClientID%>', 'mm/dd/y','','');"
                                             onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
                                             align="middle" />
-                                    </td>                                    
+                                    </td>
                                     <td width="8%" valign="middle">
-                                        <asp:label id="lblDateOfClaimReopenedTo" runat="server" text="Start Date :" forecolor="#666666"
-                                            font-bold="true"></asp:label>
+                                        <asp:Label ID="lblDateOfClaimReopenedTo" runat="server" Text="Start Date :" ForeColor="#666666"
+                                            Font-Bold="true"></asp:Label>
                                     </td>
                                     <td style="width: 9%;">
-                                        <asp:textbox id="txtDateofClaimReopenedTo" runat="server" skinid="txtdate" width="80px" maxlength="10" Height="23px"></asp:textbox>
+                                        <asp:TextBox ID="txtDateofClaimReopenedTo" runat="server" SkinID="txtdate" Width="80px" MaxLength="10" Height="23px"></asp:TextBox>
                                     </td>
                                     <td style="width: 12%;">
                                         <img alt="Valued as of Date" id="imgDate_ClaimReopend_To" runat="server" onclick="return showCalendar('<%=txtDateValuedTo.ClientID%>', 'mm/dd/y','','');"
@@ -506,11 +505,10 @@
                             </table>
                         </td>
                     </tr>
-                   
-                    
+
+
                     <tr>
-                        <td style="padding-top: 5px;">
-                        </td>
+                        <td style="padding-top: 5px;"></td>
                     </tr>
                     <tr>
                         <td>
@@ -519,13 +517,12 @@
                                     <td width="50%">
                                         <strong style="color: #666666;">Location :
                                             <asp:CheckBox ID="chkLocation" runat="server" />Select/Deselect All</strong><br />
-                                        <asp:ListBox ID="lstLocation" SelectionMode="Multiple" runat="server" Width="350px">
-                                        </asp:ListBox>
+                                        <asp:ListBox ID="lstLocation" SelectionMode="Multiple" runat="server" Width="350px"></asp:ListBox>
                                     </td>
                                     <td width="50%" valign="top">
                                         <strong style="color: #666666;">Status :</strong>
                                         <br />
-                                        <asp:DropDownList ID="ddlStatus" runat="server" SkinID="OhioClaimStatus" AppendDataBoundItems="true">                                            
+                                        <asp:DropDownList ID="ddlStatus" runat="server" AppendDataBoundItems="true" SkinID="dropGen">
                                         </asp:DropDownList>
                                     </td>
                                 </tr>
@@ -533,12 +530,11 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="padding-top: 5px;">
-                        </td>
+                        <td style="padding-top: 5px;"></td>
                     </tr>
-                   
-                   
-                    <tr>
+
+
+                    <%--<tr>
                         <td style="padding-top: 5px;">
                             <table width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
@@ -802,36 +798,58 @@
                                 </tr>                                
                             </table>
                         </td>
+                    </tr>--%>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="lc" align="left" style="width: 30%; font-weight: bold;">Total Paid To Date:
+                        </td>
+                        <td class="ic" align="left" style="width: 70%;">
+                            <asp:RadioButtonList ID="rdbLstTotalCharged" runat="server" RepeatDirection="Horizontal" AutoPostBack="true"
+                                OnSelectedIndexChanged="rdbLstTotalCharged_SelectedIndexChanged">
+                                <asp:ListItem Text="Greater Than" Value="G" Selected="True"></asp:ListItem>
+                                <asp:ListItem Text="Between" Value="B"></asp:ListItem>
+                                <asp:ListItem Text="Less Than" Value="L"></asp:ListItem>
+                            </asp:RadioButtonList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="lc" align="left" colspan="2" style="font-weight: bold;">
+                            <asp:Label ID="lblTotalCharged1" runat="server"></asp:Label>
+                            <asp:TextBox ID="txtTotalCharged1" runat="server" ValidationGroup="vsErrorGroup" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                SkinID="txtAmt" MaxLength="15"></asp:TextBox>
+                            <asp:Label ID="lblTotalCharged2" runat="server"></asp:Label>
+                            <asp:TextBox ID="txtTotalCharged2" runat="server" ValidationGroup="vsErrorGroup" onKeyPress="return(currencyFormat(this,',','.',event))"
+                                SkinID="txtAmt" MaxLength="15"></asp:TextBox>
+                        </td>
                     </tr>
                 </table>
             </td>
         </tr>
         <tr>
-            <td class="ghc" align="left">
-                Filter Criteria
+            <td class="ghc" align="left">Filter Criteria
             </td>
         </tr>
         <tr>
             <td>
                 <table width="100%" cellpadding="2" cellspacing="1">
                     <tr>
-                        <td style="width: 25%; color: #666666; font-weight: bold;">
-                            Output Fields
+                        <td style="width: 25%; color: #666666; font-weight: bold;">Output Fields
                         </td>
-                        <td style="width: 25%; color: #666666; font-weight: bold;">
-                            First Level Sorting
+                        <td style="width: 25%; color: #666666; font-weight: bold;">First Level Sorting
                         </td>
-                        <td style="width: 25%; color: #666666; font-weight: bold;">
-                            Second Level Sorting
+                        <td style="width: 25%; color: #666666; font-weight: bold;">Second Level Sorting
                         </td>
-                        <td style="width: 25%; color: #666666; font-weight: bold;">
-                            Third Level Sorting
+                        <td style="width: 25%; color: #666666; font-weight: bold;">Third Level Sorting
                         </td>
                     </tr>
                     <tr>
                         <td valign="top">
-                            <asp:ListBox ID="lstOutputFields" runat="server" SelectionMode="Multiple" Height=" 150px">
-                            </asp:ListBox>
+                            <asp:ListBox ID="lstOutputFields" runat="server" SelectionMode="Multiple" Height=" 150px"></asp:ListBox>
                             <asp:ImageButton ID="imgUp" ImageUrl="~/Images/up-arrow.gif" runat="server" ImageAlign="top"
                                 OnClientClick="return MoveItemUp();" />
                             <asp:ImageButton ID="imgDown" ImageUrl="~/Images/down-arrow.gif" runat="server" ImageAlign="top"
@@ -839,18 +857,15 @@
                         </td>
                         <td class="ic" style="width: 25%" align="left">
                             <asp:ListBox ID="lstFirstSort" runat="server" Height="150px" AutoPostBack="false"
-                                SelectionMode="Single" onclick="javascript:return ListFirst(this.id,this.selectedIndex);">
-                            </asp:ListBox>
+                                SelectionMode="Single" onclick="javascript:return ListFirst(this.id,this.selectedIndex);"></asp:ListBox>
                         </td>
                         <td class="ic" style="width: 25%" align="left">
                             <asp:ListBox ID="lstSecondSort" runat="server" Height="150px" AutoPostBack="false"
-                                SelectionMode="Single" onclick="javascript:return ListSecond(this.id,this.selectedIndex);">
-                            </asp:ListBox>
+                                SelectionMode="Single" onclick="javascript:return ListSecond(this.id,this.selectedIndex);"></asp:ListBox>
                         </td>
                         <td class="ic" style="width: 25%" align="left">
                             <asp:ListBox ID="lstThirdSort" runat="server" Height="150px" AutoPostBack="false"
-                                SelectionMode="Single" onclick="javascript:return ListThird(this.id,this.selectedIndex);">
-                            </asp:ListBox>
+                                SelectionMode="Single" onclick="javascript:return ListThird(this.id,this.selectedIndex);"></asp:ListBox>
                         </td>
                     </tr>
                     <tr>
@@ -866,20 +881,18 @@
                                 <asp:CheckBox ID="chkGrand" runat="server" Text="Include Grand Total in Report" AutoPostBack="false" /></strong>
                         </td>
                     </tr>
-                </table>                
+                </table>
             </td>
         </tr>
         <tr>
-            <td class="ghc" align="left">
-                Saved Reports
+            <td class="ghc" align="left">Saved Reports
             </td>
         </tr>
         <tr>
             <td>
                 <table cellspacing="1" cellpadding="2">
                     <tr>
-                        <td class="lc" align="left" style="width: 30%; font-weight: bold;">
-                            Report Name:
+                        <td class="lc" align="left" style="width: 30%; font-weight: bold;">Report Name:
                         </td>
                         <td class="lc" align="left" style="width: 70%;">
                             <asp:TextBox ID="txtReportName" runat="server" ValidationGroup="vsErrorGroup" MaxLength="200"></asp:TextBox><span
@@ -892,8 +905,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="lc" align="left" style="width: 30%; font-weight: bold;">
-                            Select Report:
+                        <td class="lc" align="left" style="width: 30%; font-weight: bold;">Select Report:
                         </td>
                         <td class="lc" align="left" style="width: 70%;">
                             <asp:DropDownList ID="ddlReports" runat="server" AutoPostBack="True" AppendDataBoundItems="true"

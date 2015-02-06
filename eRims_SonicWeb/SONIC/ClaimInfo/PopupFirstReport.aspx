@@ -46,6 +46,13 @@
                                         Text='<% #Eval("DBA") %>' CssClass="acher"></asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Date Of Incident" SortExpression="Date_Of_Incident" HeaderStyle-HorizontalAlign="Left">
+                                <ItemStyle Width="25%" />
+                                <ItemTemplate>
+                                    <asp:LinkButton ID="lnkDate_Of_Incident" runat="server" CommandArgument='<% #Eval("Date_Of_Incident") %>'
+                                        Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("Date_Of_Incident"))%>' CssClass="acher"></asp:LinkButton>
+                                </ItemTemplate>
+                            </asp:TemplateField>
                         </Columns>
                     </asp:GridView>
                 </td>
@@ -64,11 +71,15 @@
     </div>
 
     <script type="text/javascript">
-        function SelectValue(strPK_WC_FR_ID, strWC_FR_NUMBER,strName,strDBA) {
+
+        function SelectValue(strPK_WC_FR_ID, strWC_FR_NUMBER, strName, strDBA, strDateOfIncident) {
+           
             window.opener.document.getElementById('ctl00_ContentPlaceHolder1_hdnid').value = strPK_WC_FR_ID;
             window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtAssociatedFirstReport').value = strWC_FR_NUMBER;
-            window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtEmployeeName').value = strName;
+            window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtAssociateName').value = strName;
             window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtSonicLocation').value = strDBA;
+            window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtDateofIncident').value = strDateOfIncident;
+            
             self.close();
             return false;
         }

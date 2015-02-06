@@ -4601,9 +4601,81 @@ public class ComboHelper
                 // bind the grid.
                 ddlToFill.Items.Clear();
                 dtAssociate = dtAssociate.DefaultView.ToTable();
-                ddlToFill.DataTextField = "EmpName";
-                ddlToFill.DataValueField = "Employee_Id";
+                ddlToFill.DataTextField = "Associate_Name";
+                ddlToFill.DataValueField = "Associate_Name";
                 ddlToFill.DataSource = dtAssociate;
+                ddlToFill.DataBind();
+
+                if (booladdSelectAsFirstElement)
+                {
+                    ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+                }
+            }
+        }
+    }
+
+    public static void FillGetSonicLocationlegalentityList(DropDownList[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsLegal = Workers_Comp_Claims_OH.GetSonicLocationlegalentityList();
+        if (dsLegal != null)
+        {
+            foreach (DropDownList ddlToFill in dropDowns)
+            {
+                DataTable dtLegal = dsLegal.Tables[0];
+                // bind the grid.
+                ddlToFill.Items.Clear();
+                dtLegal = dtLegal.DefaultView.ToTable();
+                ddlToFill.DataTextField = "legal_entity";
+                ddlToFill.DataValueField = "legal_entity";
+                ddlToFill.DataSource = dtLegal;
+                ddlToFill.DataBind();
+
+                if (booladdSelectAsFirstElement)
+                {
+                    ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+                }
+            }
+        }
+    }
+
+    public static void FillGetSonicLocationdbaList(DropDownList[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsdba = Workers_Comp_Claims_OH.GetSonicLocationdbaList();
+        if (dsdba != null)
+        {
+            foreach (DropDownList ddlToFill in dropDowns)
+            {
+                DataTable dtdba = dsdba.Tables[0];
+                // bind the grid.
+                ddlToFill.Items.Clear();
+                dtdba = dtdba.DefaultView.ToTable();
+                ddlToFill.DataTextField = "dba";
+                ddlToFill.DataValueField = "dba";
+                ddlToFill.DataSource = dtdba;
+                ddlToFill.DataBind();
+
+                if (booladdSelectAsFirstElement)
+                {
+                    ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+                }
+            }
+        }
+    }
+
+    public static void FillGetClaimStatusList(DropDownList[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsdba = Workers_Comp_Claims_OH.GetClaimStatusList();
+        if (dsdba != null)
+        {
+            foreach (DropDownList ddlToFill in dropDowns)
+            {
+                DataTable dtdba = dsdba.Tables[0];
+                // bind the grid.
+                ddlToFill.Items.Clear();
+                dtdba = dtdba.DefaultView.ToTable();
+                ddlToFill.DataTextField = "Claim_Status";
+                ddlToFill.DataValueField = "Claim_Status";
+                ddlToFill.DataSource = dtdba;
                 ddlToFill.DataBind();
 
                 if (booladdSelectAsFirstElement)
@@ -4625,8 +4697,8 @@ public class ComboHelper
                 // bind the grid.
                 ddlToFill.Items.Clear();
                 dtClaimant = dtClaimant.DefaultView.ToTable();
-                ddlToFill.DataTextField = "EmpName";
-                ddlToFill.DataValueField = "Employee_Id";
+                ddlToFill.DataTextField = "Associate_Name";
+                ddlToFill.DataValueField = "PK_Workers_Comp_Claims_OH";
                 ddlToFill.DataSource = dtClaimant;
                 ddlToFill.DataBind();
 

@@ -78,8 +78,8 @@
                                                                 <td style="width: 4%" align="center">:
                                                                 </td>
                                                                 <td style="width: 32%" align="left">
-                                                                    <asp:DropDownList ID="ddlRMLocationNumber" runat="server" AutoPostBack="true" Width="170px"
-                                                                        OnSelectedIndexChanged="ddlRMLocationNumber_SelectedIndexChanged">
+                                                                    <asp:DropDownList ID="ddlRMLocationNumber" runat="server" Width="170px"
+                                                                        >
                                                                     </asp:DropDownList>
                                                                 </td>
                                                                 <td style="width: 18%" align="left">Date of Incident
@@ -127,8 +127,8 @@
                                                                 <td align="center">:
                                                                 </td>
                                                                 <td align="left">
-                                                                    <asp:DropDownList ID="ddlLocationdba" runat="server" AutoPostBack="true" Width="170px"
-                                                                        OnSelectedIndexChanged="ddlLocationdba_SelectedIndexChanged">
+                                                                    <asp:DropDownList ID="ddlLocationdba" runat="server"  Width="170px"
+                                                                        >
                                                                     </asp:DropDownList>
                                                                 </td>
                                                                 <td align="left">Legal Entity
@@ -136,8 +136,8 @@
                                                                 <td align="center">:
                                                                 </td>
                                                                 <td align="left">
-                                                                    <asp:DropDownList ID="ddlLegalEntity" runat="server" AutoPostBack="true" Width="170px"
-                                                                        OnSelectedIndexChanged="ddlLegalEntity_SelectedIndexChanged">
+                                                                    <asp:DropDownList ID="ddlLegalEntity" runat="server"  Width="170px"
+                                                                        >
                                                                     </asp:DropDownList>
                                                                 </td>
                                                             </tr>
@@ -152,27 +152,27 @@
                                                                     <%-- <asp:TextBox ID="txtClaimNumber" runat="server" Width="165px" SkinID="txtGeneral"></asp:TextBox>--%>
                                                                     <%-- <asp:Button ID="btnClaimNumber" runat="server" Text="V" OnClientClick="OpenClaimNumber();" />--%>
                                                                 </td>
-                                                                <td align="left">Claimant Name
+                                                              <%--  <td align="left">Claimant Name
                                                                 </td>
                                                                 <td align="center">:
                                                                 </td>
                                                                 <td align="left">
                                                                     <asp:DropDownList ID="ddlClaimantName" runat="server" Width="170px">
                                                                     </asp:DropDownList>
-                                                                    <%--<asp:Button ID="btnClaimantName" runat="server" Text="V" OnClientClick="OpenClaimantName();" />--%>
-                                                                </td>
+                                                                    <asp:Button ID="btnClaimantName" runat="server" Text="V" OnClientClick="OpenClaimantName();" />
+                                                                </td>--%>
                                                             </tr>
                                                             <tr valign="top">
-                                                                <td align="left">Claims
+                                                                <td align="left">Claim Status
                                                                 </td>
                                                                 <td align="center">:
                                                                 </td>
                                                                 <td align="left">
-                                                                    <asp:RadioButtonList ID="rdoClaim" runat="server" RepeatDirection="Vertical" RepeatColumns="1">
-                                                                        <asp:ListItem Text="Active and Inactive" Value="A,I" Selected="True"></asp:ListItem>
-                                                                        <asp:ListItem Text="Inactive Only" Value="I"></asp:ListItem>
-                                                                        <asp:ListItem Text="Active Only" Value="A"></asp:ListItem>
-                                                                    </asp:RadioButtonList>
+                                                                    <asp:DropDownList ID="ddlClaimStatus" runat="server">
+                                                                      <%--  <asp:ListItem Value="1" Selected="True">Active and Inactive</asp:ListItem>
+                                                                        <asp:ListItem Value="Open" >Inactive Only</asp:ListItem>
+                                                                        <asp:ListItem Value="Closed" >Active Only</asp:ListItem>--%>
+                                                                    </asp:DropDownList>
                                                                 </td>
                                                             </tr>
                                                             <tr>

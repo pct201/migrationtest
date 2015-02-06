@@ -179,18 +179,20 @@ public partial class SONIC_FirstReport_PopupFirstReport : clsBasePage
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                string strPK_WC_FR_ID = "", strWC_FR_NUMBER = "", strEmpName = "", strDBA = "";
+                string strPK_WC_FR_ID = "", strWC_FR_NUMBER = "", strEmpName = "", strDBA = "", strDateOfIncident = "";
 
                 strPK_WC_FR_ID = Convert.ToString(DataBinder.Eval(e.Row.DataItem, "PK_WC_FR_ID"));
                 strWC_FR_NUMBER = Convert.ToString(DataBinder.Eval(e.Row.DataItem, "WC_FR_NUMBER"));
                 strEmpName = Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Name"));
                 strDBA = Convert.ToString(DataBinder.Eval(e.Row.DataItem, "DBA"));
+                strDateOfIncident = Convert.ToString(clsGeneral.FormatDBNullDateToDisplay(DataBinder.Eval(e.Row.DataItem, "Date_Of_Incident")));
 
-                string strJSFunction = "return SelectValue('" + strPK_WC_FR_ID + "','" + strWC_FR_NUMBER + "','" + strEmpName + "','" + strDBA + "');";
+                string strJSFunction = "return SelectValue('" + strPK_WC_FR_ID + "','" + strWC_FR_NUMBER + "','" + strEmpName + "','" + strDBA + "','" + strDateOfIncident + "');";
 
                 ((LinkButton)(e.Row.FindControl("lnkWC_FR_NUMBER"))).Attributes.Add("onclick", strJSFunction);
                 ((LinkButton)(e.Row.FindControl("lnkNAME"))).Attributes.Add("onclick", strJSFunction);
                 ((LinkButton)(e.Row.FindControl("lnkDBA"))).Attributes.Add("onclick", strJSFunction);
+                ((LinkButton)(e.Row.FindControl("lnkDate_Of_Incident"))).Attributes.Add("onclick", strJSFunction);
             }
         }
         catch (Exception ex)

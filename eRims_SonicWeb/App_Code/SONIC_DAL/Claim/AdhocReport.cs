@@ -114,9 +114,12 @@ namespace ERIMS.DAL
         private string _SColledtedCriteria;
         private decimal? _SColledtedStartAmount;
         private decimal? _SColledtedEndAmount;
-        private string _TChargedCriteria;
+        private string _TChargedCriteria;        
         private decimal? _TChargedStartAmount;
         private decimal? _TChargedEndAmount;
+        private string _TTotalPaidCriteria;
+        private decimal? _TTotalPaidStartAmount;
+        private decimal? _TTotalPaidEndAmount;
         private string _LineofCoverage;
         private string _DateRestrictedBeginCriteria;
         private DateTime? _DateRestrictedBeginStartDate;
@@ -1061,6 +1064,33 @@ namespace ERIMS.DAL
         }
 
         /// <summary>
+        ///  Get or Set Total TotalPaid Criteria
+        /// </summary>
+        public string TTotalPaidCriteria
+        {
+            get { return _TTotalPaidCriteria; }
+            set { _TTotalPaidCriteria = value; }
+        }
+
+        /// <summary>
+        /// Get or Set Total TotalPaid start amount
+        /// </summary>
+        public decimal? TTotalPaidStartAmount
+        {
+            get { return _TTotalPaidStartAmount; }
+            set { _TTotalPaidStartAmount = value; }
+        }
+
+        /// <summary>
+        /// Get or Set Total TotalPaid end amount
+        /// </summary>
+        public decimal? TTotalPaidEndAmount
+        {
+            get { return _TTotalPaidEndAmount; }
+            set { _TTotalPaidEndAmount = value; }
+        }
+
+        /// <summary>
         /// Gets or sets the line of coverage
         /// </summary>
         public string LineofCoverage
@@ -1237,6 +1267,9 @@ namespace ERIMS.DAL
             this._TChargedCriteria = null;
             this._TChargedStartAmount = null;
             this._TChargedEndAmount = null;
+            this._TTotalPaidCriteria = null;
+            this._TTotalPaidStartAmount = null;
+            this._TTotalPaidEndAmount = null;
             this._LineofCoverage = null;
             this._DateRestrictedBeginCriteria = null;
             this._DateRestrictedBeginStartDate = null;
@@ -1782,6 +1815,24 @@ namespace ERIMS.DAL
                 else
                     this._TChargedEndAmount = (decimal?)drAdhocReport["TChargedEndAmount"];
 
+                if (drAdhocReport["TTotalPaidCriteria"] == DBNull.Value)
+                    this._TTotalPaidCriteria = null;
+                else
+                    this._TTotalPaidCriteria = (string)drAdhocReport["TTotalPaidCriteria"];
+
+
+                if (drAdhocReport["TTotalPaidStartAmount"] == DBNull.Value)
+                    this._TTotalPaidStartAmount = null;
+                else
+                    this._TTotalPaidStartAmount = (decimal?)drAdhocReport["TTotalPaidStartAmount"];
+
+
+                if (drAdhocReport["TTotalPaidEndAmount"] == DBNull.Value)
+                    this._TTotalPaidEndAmount = null;
+                else
+                    this._TTotalPaidEndAmount = (decimal?)drAdhocReport["TTotalPaidEndAmount"];
+
+
                 if (drAdhocReport["LineofCoverage"] == DBNull.Value)
                     this._LineofCoverage = null;
                 else
@@ -1923,6 +1974,10 @@ namespace ERIMS.DAL
                 this._TChargedCriteria = null;
                 this._TChargedStartAmount = null;
                 this._TChargedEndAmount = null;
+                this._TTotalPaidCriteria = null;
+                this._TTotalPaidStartAmount = null;
+                this._TTotalPaidEndAmount = null;
+
                 this._LineofCoverage = null;
 
                 this._DateRestrictedBeginCriteria = null;
@@ -2278,6 +2333,15 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "TChargedStartAmount", DbType.Decimal, this._TChargedStartAmount);
 
             db.AddInParameter(dbCommand, "TChargedEndAmount", DbType.Decimal, this._TChargedEndAmount);
+
+            if (string.IsNullOrEmpty(this._TTotalPaidCriteria))
+                db.AddInParameter(dbCommand, "TTotalPaidCriteria", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "TTotalPaidCriteria", DbType.String, this._TTotalPaidCriteria);
+
+            db.AddInParameter(dbCommand, "TTotalPaidStartAmount", DbType.Decimal, this._TTotalPaidStartAmount);
+
+            db.AddInParameter(dbCommand, "TTotalPaidEndAmount", DbType.Decimal, this._TTotalPaidEndAmount);
 
             if (string.IsNullOrEmpty(this._LineofCoverage))
                 db.AddInParameter(dbCommand, "LineofCoverage", DbType.String, DBNull.Value);
@@ -2966,12 +3030,17 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "TChargedStartAmount", DbType.Decimal, _TChargedStartAmount);
             db.AddInParameter(dbCommand, "TChargedEndAmount ", DbType.Decimal, _TChargedEndAmount);
 
+            db.AddInParameter(dbCommand, "TTotalPaidCriteria", DbType.String, _TTotalPaidCriteria);
+            db.AddInParameter(dbCommand, "TTotalPaidStartAmount", DbType.Decimal, _TTotalPaidStartAmount);
+            db.AddInParameter(dbCommand, "TTotalPaidEndAmount ", DbType.Decimal, _TTotalPaidEndAmount);
+
             db.AddInParameter(dbCommand, "Location", DbType.String, _Location);
             db.AddInParameter(dbCommand, "Status", DbType.String, _OStatus);
             db.AddInParameter(dbCommand, "OutputFields", DbType.String, _OutputFields);
             db.AddInParameter(dbCommand, "SortFields ", DbType.String, _SortFields);
             
 
+            
             return db.ExecuteDataSet(dbCommand);
         }
 

@@ -45,14 +45,16 @@ public partial class SONIC_ClaimInfo_OhioWCClaimSearch : System.Web.UI.Page
             ComboHelper.FillLocationdba(new DropDownList[] { ddlRMLocationNumber }, 0, true);
             ddlRMLocationNumber.Style.Remove("font-size");
             //fill Location dba Dropdown
-            ComboHelper.FIllLocationdba_LegalEntity(new DropDownList[] { ddlLocationdba, ddlLegalEntity }, 0, true);
+            ComboHelper.FillGetSonicLocationdbaList(new DropDownList[] { ddlLocationdba },true);
 
+            //fill Legal entity Dropdown
+            ComboHelper.FillGetSonicLocationlegalentityList(new DropDownList[] { ddlLegalEntity }, true);
 
             //fill Associate Dropdown
             ComboHelper.FillAssociate(new DropDownList[] { ddlAssociateName }, true);
 
             //fill Claimant Name
-            ComboHelper.FillClaimantNameForOhioWCClaim(new DropDownList[] { ddlClaimantName }, true);
+            //ComboHelper.FillClaimantNameForOhioWCClaim(new DropDownList[] { ddlClaimantName }, true);
 
             //fill Claimant Number
             ComboHelper.FillClaimantNumberFormOhioWCClaim(new DropDownList[] { ddlClaimNumber }, true);
@@ -60,8 +62,22 @@ public partial class SONIC_ClaimInfo_OhioWCClaimSearch : System.Web.UI.Page
             SortBy = "Origin_Claim_Number";
             SortOrder = "Desc";
 
-            pnlSearchOhioWCClaim.Visible = true;
-            pnlSearchResult.Visible = false;
+            ctrlPageClaimInfo.CurrentPage = 1;
+            ctrlPageClaimInfo.PageSize = 10;
+
+            ComboHelper.FillGetClaimStatusList(new DropDownList[] { ddlClaimStatus }, true);
+            if (Session["Search"] == "Y")
+            {
+                pnlSearchOhioWCClaim.Visible = false;
+                pnlSearchResult.Visible = true;
+                BindGrid();
+                Session["Y"] = null;
+            }
+            else
+            {
+                pnlSearchOhioWCClaim.Visible = true;
+                pnlSearchResult.Visible = false;
+            }
         }
     }
 
@@ -130,7 +146,21 @@ public partial class SONIC_ClaimInfo_OhioWCClaimSearch : System.Web.UI.Page
     protected void btnSearchAgain_Click(object sender, EventArgs e)
     {
         pnlSearchOhioWCClaim.Visible = true;
+        ddlRMLocationNumber.SelectedIndex = 0;
+        ddlLocationdba.SelectedIndex = 0;
+        txtIncidentDate.Text = string.Empty;
+        ddlAssociateName.SelectedIndex = 0;
+        txtFirstReportNumber.Text = string.Empty;
+        ddlLocationdba.SelectedIndex = 0;
+        ddlLegalEntity.SelectedIndex = 0;
+        ddlClaimNumber.SelectedIndex = 0;
+        ddlClaimStatus.SelectedIndex = 0;
         pnlSearchResult.Visible = false;
+        Session["OhioClaimCriteria"] = null;
+        SortBy = "Origin_Claim_Number";
+        SortOrder = "Desc";
+        ctrlPageClaimInfo.CurrentPage = 1;
+        ctrlPageClaimInfo.PageSize = 10;
     }
 
     /// <summary>
@@ -148,8 +178,8 @@ public partial class SONIC_ClaimInfo_OhioWCClaimSearch : System.Web.UI.Page
         ddlLocationdba.SelectedIndex = 0;
         ddlLegalEntity.SelectedIndex = 0;
         ddlClaimNumber.SelectedIndex = 0;
-        ddlClaimantName.SelectedIndex = 0;
-        rdoClaim.SelectedIndex = 0;
+        ddlClaimStatus.SelectedIndex = 0;
+        //ddlClaimantName.SelectedIndex = 0;
     }
 
     /// <summary>
@@ -159,6 +189,7 @@ public partial class SONIC_ClaimInfo_OhioWCClaimSearch : System.Web.UI.Page
     /// <param name="e"></param>
     protected void btnAdd_Click(object sender, EventArgs e)
     {
+        Session["OhioClaimSearch"] = null;
         Response.Redirect("OhioWCClaim.aspx");
     }
 
@@ -254,9 +285,9 @@ public partial class SONIC_ClaimInfo_OhioWCClaimSearch : System.Web.UI.Page
             string Claim_Type = (gvClaimInfoSearchGrid.DataKeys[Index].Values["Claim_Type"] != null) ? gvClaimInfoSearchGrid.DataKeys[Index].Values["Claim_Type"].ToString() : "";
             string url = (gvClaimInfoSearchGrid.DataKeys[Index].Values["Url"] != null) ? gvClaimInfoSearchGrid.DataKeys[Index].Values["Url"].ToString() : "";
             string IsImported = (gvClaimInfoSearchGrid.DataKeys[Index].Values["Imported"] != null) ? Convert.ToString(gvClaimInfoSearchGrid.DataKeys[Index].Values["Imported"]) : "";
-            
-            if (IsImported.ToUpper()=="I".ToUpper())
-                Response.Redirect("OhioWCClaim.aspx?id=" + Encryption.Encrypt(PK_ID.ToString()) + "&op=view");
+
+            if (IsImported.ToUpper() == "Y".ToUpper())
+               Response.Redirect("OhioWCClaim.aspx?id=" + Encryption.Encrypt(PK_ID.ToString()) + "&op=view");            
             else
                 Response.Redirect("OhioWCClaim.aspx?id=" + Encryption.Encrypt(PK_ID.ToString()) + "&op=edit");
         }
@@ -273,29 +304,61 @@ public partial class SONIC_ClaimInfo_OhioWCClaimSearch : System.Web.UI.Page
     {
         DataSet objDs = new DataSet();
         DateTime? Date_of_Accident;
-        decimal FirstReportNumber = 0;
-        string Active_Inactive = string.Empty;
+        decimal FirstReportNumber = 0, LocationNumber = 0;
+        string Active_Inactive = string.Empty, AssociateName = string.Empty, dba = string.Empty, legalentity = string.Empty;
+        string ClaimNumber = string.Empty;
 
-        if (!string.IsNullOrEmpty(txtIncidentDate.Text))
-            Date_of_Accident = clsGeneral.FormatDateToStore(txtIncidentDate.Text);
+        if (Session["OhioClaimcriteria"] != null)
+        {
+            DataTable dtcriteria = (DataTable)Session["OhioClaimcriteria"];
+            DataRow drCriteria = dtcriteria.Rows[0];
+
+            LocationNumber = Convert.ToDecimal(drCriteria["LocationNumber"]);
+
+
+            if (Convert.ToString(drCriteria["Date_of_Accident"]) == string.Empty)
+                    Date_of_Accident = null;
+            else
+                    Date_of_Accident = clsGeneral.FormatDBNullDateToDate(drCriteria["Date_of_Accident"]);
+         
+            FirstReportNumber = Convert.ToDecimal(drCriteria["FirstReportNumber"]);
+            if (Convert.ToString(drCriteria["Active_Inactive"]) == string.Empty)
+                Active_Inactive = null;
+            else
+                Active_Inactive = Convert.ToString(drCriteria["Active_Inactive"]);
+            AssociateName = Convert.ToString(drCriteria["AssociateName"]);
+            dba = Convert.ToString(drCriteria["dba"]);
+            legalentity = Convert.ToString(drCriteria["legalentity"]);
+            ClaimNumber = Convert.ToString(drCriteria["ClaimNumber"]);
+            
+            Session["OhioClaimcriteria"] = null;
+        }
+
         else
-            Date_of_Accident = null;
+        {
+            LocationNumber = Convert.ToDecimal(ddlRMLocationNumber.SelectedValue);
 
-        if (!string.IsNullOrEmpty(txtFirstReportNumber.Text))
-            FirstReportNumber = Convert.ToDecimal(txtFirstReportNumber.Text);
+            if (!string.IsNullOrEmpty(txtIncidentDate.Text))
+                Date_of_Accident = clsGeneral.FormatDBNullDateToDate(txtIncidentDate.Text);
+            else
+                Date_of_Accident = null;
 
-        if (rdoClaim.Items[0].Selected == true)
-            Active_Inactive = rdoClaim.Items[0].Value;
-        else if (rdoClaim.Items[1].Selected == true)
-            Active_Inactive = rdoClaim.Items[1].Value;
-        else if (rdoClaim.Items[2].Selected == true)
-            Active_Inactive = rdoClaim.Items[2].Value;
+            if (!string.IsNullOrEmpty(txtFirstReportNumber.Text))
+                FirstReportNumber = Convert.ToDecimal(txtFirstReportNumber.Text);
+
+            AssociateName = ddlAssociateName.SelectedValue;
+            dba = ddlLocationdba.SelectedValue;
+            legalentity = ddlLegalEntity.SelectedValue;
+            ClaimNumber = ddlClaimNumber.SelectedValue;
+            if (ddlClaimStatus.SelectedIndex == 0)
+                Active_Inactive = null;
+            else
+                Active_Inactive = ddlClaimStatus.SelectedValue;
+        }
 
 
-
-        objDs = Workers_Comp_Claims_OH.GetWorkersCompClaimsBySearchCriteria(Convert.ToDecimal(ddlRMLocationNumber.SelectedValue), Date_of_Accident,
-                FirstReportNumber, Convert.ToDecimal(ddlAssociateName.SelectedValue), ddlClaimNumber.SelectedValue,
-                Convert.ToDecimal(ddlClaimantName.SelectedValue), Active_Inactive, SortBy, SortOrder, ctrlPageClaimInfo.CurrentPage, ctrlPageClaimInfo.PageSize);
+        objDs = Workers_Comp_Claims_OH.GetWorkersCompClaimsBySearchCriteria(LocationNumber, Date_of_Accident,
+                FirstReportNumber, AssociateName, dba, legalentity, ClaimNumber, Active_Inactive , SortBy, SortOrder, ctrlPageClaimInfo.CurrentPage, ctrlPageClaimInfo.PageSize);
         if (objDs != null && objDs.Tables.Count > 0)
         {
             DataTable dtFRData = objDs.Tables[0];
@@ -304,11 +367,37 @@ public partial class SONIC_ClaimInfo_OhioWCClaimSearch : System.Web.UI.Page
             ctrlPageClaimInfo.CurrentPage = (objDs.Tables.Count >= 3) ? Convert.ToInt32(objDs.Tables[2].Rows[0][2]) : 0;
             ctrlPageClaimInfo.RecordsToBeDisplayed = dtFRData.Rows.Count;
             ctrlPageClaimInfo.SetPageNumbers();
+           
 
             gvClaimInfoSearchGrid.DataSource = objDs.Tables[0];
             gvClaimInfoSearchGrid.DataBind();
 
             lblNumber.Text = (objDs.Tables.Count >= 3) ? Convert.ToString(objDs.Tables[1].Rows[0][0]) : "0"; //dsClaimInfo.Tables[0].Rows.Count.ToString(); 
+
+            DataTable dtCriteria = new DataTable();
+            dtCriteria.Columns.Add("LocationNumber", typeof(decimal));
+            dtCriteria.Columns.Add("Date_of_Accident", typeof(string));
+            dtCriteria.Columns.Add("FirstReportNumber", typeof(decimal));
+            dtCriteria.Columns.Add("AssociateName", typeof(string));
+            dtCriteria.Columns.Add("dba", typeof(string));
+            dtCriteria.Columns.Add("legalentity", typeof(string));
+            dtCriteria.Columns.Add("ClaimNumber", typeof(string));
+            dtCriteria.Columns.Add("Active_Inactive", typeof(string));
+            
+
+
+            DataRow drCriteria = dtCriteria.NewRow();
+            drCriteria["LocationNumber"] = LocationNumber;
+            drCriteria["Date_of_Accident"] = Date_of_Accident;
+            drCriteria["FirstReportNumber"] = FirstReportNumber;
+            drCriteria["AssociateName"] = AssociateName;
+            drCriteria["dba"] = dba;
+            drCriteria["legalentity"] = legalentity;
+            drCriteria["ClaimNumber"] = ClaimNumber;
+            drCriteria["Active_Inactive"] = Active_Inactive;
+
+            dtCriteria.Rows.Add(drCriteria);
+            Session["OhioClaimcriteria"] = dtCriteria;
         }
         else
         {

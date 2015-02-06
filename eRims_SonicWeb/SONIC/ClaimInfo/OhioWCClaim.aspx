@@ -163,16 +163,23 @@
                                 </td>
                                 <td align="left" valign="top">
                                     <asp:TextBox ID="txtSonicLocation" runat="server" onkeydown="return false;" SkinID="txtDisabled" />
-                                    <asp:Button ID="Button1" runat="server" Text="V" OnClientClick="javascript:return OpenPopupAssociatedFirstReport();" />
+                                    <%--<asp:Button ID="Button1" runat="server" Text="V" OnClientClick="javascript:return OpenPopupAssociatedFirstReport();" />--%>
                                     <asp:HiddenField ID="hdnLocationID" runat="server" />
                                 </td>
-                                <td align="left" valign="top">Employee Name&nbsp;<span id="Span1" style="color: Red; display: none;" runat="server">*</span>
+                                <td align="left" valign="top">Associate Name&nbsp;<span id="Span20" style="color: Red; display: none;" runat="server">*</span>
+                                </td>
+                                <td align="center" valign="top">:
+                                </td>
+                                <td align="left" valign="top">
+                                    <asp:TextBox ID="txtAssociateName" runat="server" onkeydown="return false;" SkinID="txtDisabled" />
+                                </td>
+                                <%--<td align="left" valign="top">Employee Name&nbsp;<span id="Span1" style="color: Red; display: none;" runat="server">*</span>
                                 </td>
                                 <td align="center" valign="top">:
                                 </td>
                                 <td align="left" valign="top">
                                     <asp:TextBox ID="txtEmployeeName" runat="server" onkeydown="return false;" SkinID="txtDisabled" />
-                                </td>
+                                </td>--%>
                             </tr>
                             <tr>
                                 <td align="left" valign="top">Date of Incident<%--&nbsp;<span id="Span20" style="color: Red;" runat="server">*</span>--%>
@@ -180,15 +187,15 @@
                                 <td align="center" valign="top">:
                                 </td>
                                 <td align="left" valign="top">
-                                    <asp:TextBox ID="txtDateofIncident" runat="server" SkinID="txtDate" />
-                                    <img alt="" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtDateofIncident', 'mm/dd/y');"
+                                    <asp:TextBox ID="txtDateofIncident" runat="server" SkinID="Date of Incident" Enabled="false"  />
+                                    <%--<img alt="" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtDateofIncident', 'mm/dd/y');" Enabled="false"
                                         onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
                                         align="middle" /><br />
                                     <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server" ValidationGroup="vsErrorGroup"
                                         Display="none" ErrorMessage="Date of Incident is not a valid date" SetFocusOnError="true"
-                                        ControlToValidate="txtDateofIncident" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
+                                        ControlToValidate="txtDateofIncident" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>--%>
                                 </td>
-                                <td align="left" valign="top">Date Claim Entered&nbsp;<span id="Span4" style="color: Red; display: none;" runat="server">*</span>
+                                <td align="left" valign="top">Date Claim Opened&nbsp;<span id="Span4" style="color: Red; display: none;" runat="server">*</span>
                                 </td>
                                 <td align="center" valign="top">:
                                 </td>
@@ -198,12 +205,12 @@
                                         onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
                                         align="middle" /><br />
                                     <asp:RegularExpressionValidator ID="revPolicy_Date" runat="server" ValidationGroup="vsErrorGroup"
-                                        Display="none" ErrorMessage="Date Claim Entered is not a valid date" SetFocusOnError="true"
+                                        Display="none" ErrorMessage="Date Claim Opened is not a valid date" SetFocusOnError="true"
                                         ControlToValidate="txtDateClaimEntered" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
                                 </td>
                             </tr>
                             <tr>
-                                <td align="left" valign="top">Date Claim Closed&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server">*</span>
+                                <td align="left" valign="top">Date Claim Closed&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server"></span>
                                 </td>
                                 <td align="center" valign="top">:
                                 </td>
@@ -217,7 +224,7 @@
                                         Display="none" ErrorMessage="Date Claim Closed is not a valid date" SetFocusOnError="true"
                                         ControlToValidate="txtDateClaimClosed" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
                                 </td>
-                                <td align="left" valign="top">Date Claim Reopened&nbsp;<span id="Span6" style="color: Red; display: none;" runat="server">*</span>
+                                <td align="left" valign="top">Date Claim Reopened&nbsp;<span id="Span6" style="color: Red; display: none;" runat="server"></span>
                                 </td>
                                 <td align="center" valign="top">:
                                 </td>
@@ -234,23 +241,23 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td align="left" valign="top">Status&nbsp;<span id="Span8" style="color: Red; display: none;" runat="server">*</span>
+                                <td align="left" valign="top">Claim Status&nbsp;<span id="Span8" style="color: Red; display: none;" runat="server">*</span>
                                 </td>
                                 <td align="center" valign="top">:
                                 </td>
                                 <td align="left" valign="top">
-                                    <asp:DropDownList ID="ddlStatus" runat="server" SkinID="OhioClaimStatus">                                      
-                                    </asp:DropDownList>                                    
+                                    <asp:TextBox ID="ddlStatus" runat="server" Maxlength="10">                                      
+                                    </asp:TextBox>                                    
                                 </td>
-                                <td align="left" valign="top">Type&nbsp;<span id="Span9" style="color: Red; display: none;" runat="server">*</span>
+                               <%-- <td align="left" valign="top">Type&nbsp;<span id="Span9" style="color: Red; display: none;" runat="server">*</span>
                                 </td>
                                 <td align="center" valign="top">:
                                 </td>
                                 <td align="left" valign="top">
                                     <asp:TextBox ID="txtType" runat="server"  MaxLength="20" Width="140px" />
-                                </td>
+                                </td>--%>
                             </tr>
-                            <tr>
+<%--                            <tr>
                                 <td align="left" valign="top">Total Medical&nbsp;<span id="Span10" style="color: Red; display: none;" runat="server">*</span>
                                 </td>
                                 <td align="center" valign="top">:
@@ -344,7 +351,30 @@
                                 <td align="left" width="28%" valign="top">
                                     $<asp:TextBox ID="txtTotalCharged" runat="server" SkinID="txtCurrency" />
                                 </td>                               
-                            </tr>                            
+                            </tr>  --%>                            
+                            <tr>
+                                <td align="left" width="18%" valign="top">Date of First Transaction
+                                </td>
+                                <td align="center" width="4%" valign="top">:
+                                </td>
+                                <td align="left" width="28%" valign="top">
+                                    <asp:TextBox ID="txtDateofFirstTransaction" runat="server" SkinID="txtDate" />
+                                    <img alt="" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtDateofFirstTransaction', 'mm/dd/y');"
+                                        onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
+                                        align="middle" /><br />
+                                   <%-- <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server" ValidationGroup="vsErrorGroup"
+                                        Display="none" ErrorMessage="Date Claim Entered is not a valid date" SetFocusOnError="true"
+                                        ControlToValidate="txtDateofFirstTransaction" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>--%>
+                                </td>
+                                <td align="left" width="18%" valign="top">
+                                    Total Paid To Date
+                                </td>
+                                <td align="center" width="4%" valign="top">:                                    
+                                </td>
+                                <td align="left" width="28%" valign="top">                                    
+                                    $<asp:TextBox ID="txtTotalPaid" runat="server" onpaste="return false" SkinID="txtCurrency" />
+                                </td>
+                            </tr>                          
                         </table>
                     </div>
                     <div id="divView" runat="server" style="display: none;">
@@ -373,7 +403,7 @@
                                 <td align="left" valign="top">
                                     <asp:Label ID="lblSonicLocation" runat="server" />
                                 </td>
-                                <td align="left" valign="top">Employee Name&nbsp;<span id="Span24" style="color: Red; display: none;" runat="server">*</span>
+                                <td align="left" valign="top">Associate Name&nbsp;<span id="Span24" style="color: Red; display: none;" runat="server">*</span>
                                 </td>
                                 <td align="center" valign="top">:
                                 </td>
@@ -389,7 +419,7 @@
                                 <td align="left" valign="top">
                                    <asp:Label ID="lblDateOfIncident" runat="server" />
                                 </td>
-                                <td align="left" valign="top">Date Claim Entered&nbsp;<span id="Span26" style="color: Red; display: none;" runat="server">*</span>
+                                <td align="left" valign="top">Date Claim Opened&nbsp;<span id="Span26" style="color: Red; display: none;" runat="server">*</span>
                                 </td>
                                 <td align="center" valign="top">:
                                 </td>
@@ -398,14 +428,14 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td align="left" valign="top">Date Claim Closed&nbsp;<span id="Span27" style="color: Red; display: none;" runat="server">*</span>
+                                <td align="left" valign="top">Date Claim Closed&nbsp;<span id="Span27" style="color: Red; display: none;" runat="server"></span>
                                 </td>
                                 <td align="center" valign="top">:
                                 </td>
                                 <td align="left" valign="top">
                                    <asp:Label ID="lblDateClaimClosed" runat="server" />
                                 </td>
-                                <td align="left" valign="top">Date Claim Reopened&nbsp;<span id="Span28" style="color: Red; display: none;" runat="server">*</span>
+                                <td align="left" valign="top">Date Claim Reopened&nbsp;<span id="Span28" style="color: Red; display: none;" runat="server"></span>
                                 </td>
                                 <td align="center" valign="top">:
                                 </td>
@@ -414,22 +444,22 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td align="left" valign="top">Status&nbsp;<span id="Span29" style="color: Red; display: none;" runat="server">*</span>
+                                <td align="left" valign="top">Claim Status&nbsp;<span id="Span29" style="color: Red; display: none;" runat="server">*</span>
                                 </td>
                                 <td align="center" valign="top">:
                                 </td>
                                 <td align="left" valign="top">
                                     <asp:Label ID="lblStatus" runat="server" />                               
                                 </td>
-                                <td align="left" valign="top">Type&nbsp;<span id="Span30" style="color: Red; display: none;" runat="server">*</span>
+                                <%--<td align="left" valign="top">Type&nbsp;<span id="Span30" style="color: Red; display: none;" runat="server">*</span>
                                 </td>
                                 <td align="center" valign="top">:
                                 </td>
                                 <td align="left" valign="top">
                                     <asp:Label ID="lblType" runat="server" />
-                                </td>
+                                </td>--%>
                             </tr>
-                            <tr>
+                            <%--<tr>
                                 <td align="left" valign="top">Total Medical&nbsp;<span id="Span31" style="color: Red; display: none;" runat="server">*</span>
                                 </td>
                                 <td align="center" valign="top">:
@@ -523,7 +553,24 @@
                                 <td align="left" width="28%" valign="top">
                                     <asp:Label ID="lblTotalCharged" runat="server" />
                                 </td>                               
-                            </tr>                            
+                            </tr> --%>          
+                            <tr>
+                                <td align="left" width="18%" valign="top">
+                                    Date of First Transaction
+                                </td>
+                                <td align="center" width="4%" valign="top">:                                    
+                                </td>
+                                <td align="left" width="28%" valign="top">                                    
+                                     <asp:Label ID="lblDateOfFirstTransaction" runat="server" />
+                                </td>
+                                <td align="left" width="18%" valign="top">Total Paid To Date
+                                </td>
+                                <td align="center" width="4%" valign="top">:
+                                </td>
+                                <td align="left" width="28%" valign="top">
+                                    <asp:Label ID="lblTotalPaidToDate" runat="server" />
+                                </td>                               
+                            </tr>                    
                         </table>
                         <%--<table width="80%">
                             <tr>
