@@ -324,6 +324,15 @@ public class AuditTrail
 
         return db.ExecuteDataSet(dbCommand);
     }
+    public static DataSet GetWC_Allocation_Charges_ByMarket_AuditTrial(decimal PK_WC_Allocation_Charges)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("WC_Allocation_Charges_ByMarket_AuditView");
+
+        db.AddInParameter(dbCommand, "PK_WC_Allocation_Charges_ByMarket", DbType.Decimal, PK_WC_Allocation_Charges);
+
+        return db.ExecuteDataSet(dbCommand);
+    }
 
     #region "Exposure"
 

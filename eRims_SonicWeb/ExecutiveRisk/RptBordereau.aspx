@@ -215,7 +215,6 @@
                                                                         <div>
                                                                             <table runat="server" id="tblPAInfo" style="font-weight: bold; border-collapse: collapse"
                                                                                 cellspacing="0" cellpadding="4" border="0">
-                                                                                <tbody>
                                                                                     <tr valign="top">
                                                                                         <td colspan="4">
                                                                                             Plaintiff Attorney Information
@@ -235,7 +234,6 @@
                                                                                             <span style="display: inline-block; width: 150px">Phone Number</span>
                                                                                         </td>
                                                                                     </tr>
-                                                                                </tbody>
                                                                             </table>
                                                                         </div>
                                                                     </td>

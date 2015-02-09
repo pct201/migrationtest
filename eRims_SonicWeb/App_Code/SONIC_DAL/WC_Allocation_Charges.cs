@@ -386,11 +386,38 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        /// <summary>
+        ///  get record for WC Allocation Monthly Detail Report By Market
+        /// </summary>
+        /// <param name="month"></param>
+        /// <param name="year"></param>
+        /// <returns></returns>
+        public static DataSet WCAllocationMonthlyDetailReport_ByMarket(int month, int year)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("WCAllocationMonthlyDetailReport_ByMarket");
+
+            db.AddInParameter(dbCommand, "month", DbType.Int32, month);
+            db.AddInParameter(dbCommand, "year", DbType.Int32, year);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
         public static DataSet WC_Monthly_Allocation_Summary_Report(decimal year)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("WCMonthlyAllocationSummaryReport");
             
+            db.AddInParameter(dbCommand, "year", DbType.Int32, year);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        public static DataSet WC_Monthly_Allocation_Summary_Report_ByMarket(decimal year)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("WCMonthlyAllocationSummaryReport_ByMarket");
+
             db.AddInParameter(dbCommand, "year", DbType.Int32, year);
 
             return db.ExecuteDataSet(dbCommand);

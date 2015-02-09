@@ -31,6 +31,17 @@
                         </td>
                     </tr>
                     <tr>
+                        <td align="right" style="width: 11%">Run report by
+                        </td>
+                        <td align="center" style="width: 4%">:</td>
+                        <td align="left" style="width: 35%">
+                            <asp:RadioButtonList ID="rdoRunBy" runat="server">
+                                <asp:ListItem Text="Region" Value="Region" Selected="True"></asp:ListItem>
+                                <asp:ListItem Text="Market" Value="Market"></asp:ListItem>
+                            </asp:RadioButtonList>
+                        </td>
+                    </tr>
+                    <tr>
                         <td colspan="6" align="center">
                             <asp:Button runat="server" ID="btnShowReport" Text="Show Report" OnClick="btnShowReport_Click"
                                 ValidationGroup="vsErrorGroup" CausesValidation="true" />
@@ -67,7 +78,7 @@
                             <asp:TemplateField HeaderText="Region">
                                 <ItemStyle HorizontalAlign="Left" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblRegion" runat="server" Text='<%#Eval("Region") %>' Width="95px"></asp:Label>
+                                    <asp:Label ID="lblRegion" runat="server" Text='<%#Eval("ReportType") %>' Width="95px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="JAN">

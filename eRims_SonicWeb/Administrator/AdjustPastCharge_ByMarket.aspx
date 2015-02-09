@@ -1,5 +1,5 @@
-<%@ Page Language="C#" MasterPageFile="~/Default.master" AutoEventWireup="true" CodeFile="AdjustPastCharge.aspx.cs"
-    Inherits="Administrator_AdjustPastCharge" Title="eRIMS Sonic :: Adjust past charges" %>
+<%@ Page Language="C#" MasterPageFile="~/Default.master" AutoEventWireup="true" CodeFile="AdjustPastCharge_ByMarket.aspx.cs"
+    Inherits="Administrator_AdjustPastCharge_ByMarket" Title="eRIMS Sonic :: Adjust past charges" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:ValidationSummary ID="vsSave" runat="server" HeaderText="Please verify following fields:"
@@ -30,7 +30,7 @@
         </tr>
         <tr>
             <td class="bandHeaderRow">
-                <b>&nbsp;Adjust Past Charge By Region</b>
+                <b>&nbsp;Adjust Past Charge By Market</b>
             </td>
         </tr>
         <tr>
@@ -39,18 +39,18 @@
                     <table width="40%" align="left" cellpadding="1" cellspacing="3">
                         <tr>
                             <td style="width: 36%;">
-                                Region<span class="mf">*</span>
+                                Market<span class="mf">*</span>
                             </td>
                             <td style="width: 4%;">
                                 :
                             </td>
                             <td style="width: 70%;">
-                                <asp:DropDownList ID="drpRegion" runat="server" OnSelectedIndexChanged="drpRegion_SelectedIndexChanged"
+                                <asp:DropDownList ID="drpMarket" runat="server" OnSelectedIndexChanged="drpMarket_SelectedIndexChanged"
                                     AutoPostBack="true" AppendDataBoundItems="true">
                                     <asp:ListItem Text="---Select---" Value="0"></asp:ListItem>
                                 </asp:DropDownList>
-                                <asp:RequiredFieldValidator ID="rfvdrpRegion" runat="server" ControlToValidate="drpRegion"
-                                    InitialValue="0" Display="None" ValidationGroup="vsSearch" ErrorMessage="Please select Region"></asp:RequiredFieldValidator>
+                                <asp:RequiredFieldValidator ID="rfvdrpMarket" runat="server" ControlToValidate="drpMarket"
+                                    InitialValue="0" Display="None" ValidationGroup="vsSearch" ErrorMessage="Please select Market"></asp:RequiredFieldValidator>
                             </td>
                         </tr>
                         <tr>
@@ -68,8 +68,8 @@
                                         </asp:DropDownList>
                                     </ContentTemplate>
                                     <Triggers>
-                                        <asp:AsyncPostBackTrigger ControlID="drpRegion" EventName="SelectedIndexChanged" />
-                                        <asp:AsyncPostBackTrigger ControlID="drpRegion" EventName="SelectedIndexChanged" />
+                                        <asp:AsyncPostBackTrigger ControlID="drpMarket" EventName="SelectedIndexChanged" />
+                                        <asp:AsyncPostBackTrigger ControlID="drpMarket" EventName="SelectedIndexChanged" />
                                     </Triggers>
                                 </asp:UpdatePanel>
                                 <asp:RequiredFieldValidator ID="rfvdrpFirstReportNumber" runat="server" ControlToValidate="drpFirstReportNumber"
@@ -135,9 +135,9 @@
                                             <ItemStyle Width="10%" HorizontalAlign="Center" />
                                             <ItemTemplate>
                                                 <asp:LinkButton ID="lblEdit" runat="server" Text="Edit" CommandName="EditRecord"
-                                                    CommandArgument='<%#Eval("PK_WC_Allocation_Charges") %>'></asp:LinkButton>
+                                                    CommandArgument='<%#Eval("PK_WC_Allocation_Charges_ByMarket") %>'></asp:LinkButton>
                                                 &nbsp;
-                                                <asp:LinkButton ID="lblView" runat="server" Text="View" CommandName="View" CommandArgument='<%#Eval("PK_WC_Allocation_Charges") %>'></asp:LinkButton>
+                                                <asp:LinkButton ID="lblView" runat="server" Text="View" CommandName="View" CommandArgument='<%#Eval("PK_WC_Allocation_Charges_ByMarket") %>'></asp:LinkButton>
                                             </ItemTemplate>
                                             <HeaderStyle HorizontalAlign="Center" />
                                         </asp:TemplateField>

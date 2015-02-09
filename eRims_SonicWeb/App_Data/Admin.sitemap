@@ -120,10 +120,17 @@
       <siteMapNode url="Administrator/ChangePassword.aspx" title="Change Password"  description="" roles="" />
       <siteMapNode url="Administrator/Groups.aspx" title="Group"  description="" roles="" />
       <siteMapNode url="Administrator/Rights.aspx" title="Rights"  description="" roles="" />
-      <siteMapNode url="Administrator/WCAllocation.aspx" title="WC Allocation"  description="" roles="" />
+      <siteMapNode url="" title="WC Allocation" description="">
+        <siteMapNode url="Administrator/WCAllocation.aspx" title="WC Allocation By Region"  description="" roles="" />
+        <siteMapNode url="Administrator/WCAllocation_Market.aspx" title="WC Allocation By Market"  description="" roles="" />
+      </siteMapNode>
+
       <siteMapNode url="Administrator/MonthlyAllocationSubmission.aspx" title="Monthly Allocation Submission" description="" roles="" />
       <siteMapNode url="Administrator/PromoteCauseCode.aspx" title="Promote S0 Cause Code"  description="" roles="" />
-      <siteMapNode url="Administrator/AdjustPastCharge.aspx" title="Adjust past charge" description="" roles="" />
+      <siteMapNode url="" title="Adjust Past Charge" description="">
+        <siteMapNode url="Administrator/AdjustPastCharge.aspx" title="Adjust past charge By Region" description="" roles="" />
+        <siteMapNode url="Administrator/AdjustPastCharge_ByMarket.aspx" title="Adjust past charge By Market" description="" roles="" />
+      </siteMapNode>
       <siteMapNode url="SONIC/ClaimInfo/Reconciliation_Report.aspx" title="Reconciliation Report Process" description="Reconciliation Report Process"/>
       <siteMapNode url="Administrator/Recipient.aspx" title="Recipient"  description="" roles="" />
       <siteMapNode url="Administrator/RecipientList.aspx" title="Recipient List"  description="" roles="" />

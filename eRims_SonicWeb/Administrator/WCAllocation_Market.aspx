@@ -1,5 +1,5 @@
-<%@ Page Language="C#" MasterPageFile="~/Default.master" AutoEventWireup="true" CodeFile="WCAllocation.aspx.cs"
-    Inherits="Administrator_WCAllocation" Title="eRIMS Sonic :: WC Allocation" %>
+<%@ Page Language="C#" MasterPageFile="~/Default.master" AutoEventWireup="true" CodeFile="WCAllocation_Market.aspx.cs"
+    Inherits="Administrator_WCAllocation_Market" Title="eRIMS Sonic :: WC Allocation" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
@@ -11,7 +11,7 @@
     <table width="100%" cellpadding="0" cellspacing="0">
         <tr>
             <td class="bandHeaderRow" colspan="4" align="left">
-                WC Allocation By Region
+                WC Allocation By Market
             </td>
         </tr>
         <tr>
@@ -35,7 +35,7 @@
                     <tr>
                         <td style="text-align: left;">
                             <asp:GridView ID="gvworkers_comp_charges" runat="server" AutoGenerateColumns="false" AllowSorting="true"
-                                Width="100%" DataKeyNames="Worker_Comp_id" OnRowDataBound="gvworkers_comp_charges_RowDataBound"
+                                Width="100%" DataKeyNames="Worker_Comp_Market_id" OnRowDataBound="gvworkers_comp_charges_RowDataBound"
                                 OnRowCommand="gvworkers_comp_charges_RowCommand" OnRowCreated="gvworkers_comp_charges_RowCreated"
                                 OnRowEditing="gvworkers_comp_charges_RowEditing" OnRowDeleting="gvworkers_comp_charges_RowDeleting"
                                 OnSorting="gvworkers_comp_charges_Sorting">
@@ -46,10 +46,10 @@
                                             <asp:Label ID="lblYear" runat="server" Text='<%# Eval("Year")%>'></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="Region" SortExpression="Region">
+                                    <asp:TemplateField HeaderText="Market" SortExpression="Market">
                                         <ItemStyle Width="30%" />
                                         <ItemTemplate>
-                                            <asp:Label ID="lblRegion" runat="server" Text='<%# Eval("Region")%>'></asp:Label>
+                                            <asp:Label ID="lblMarket" runat="server" Text='<%# Eval("Market")%>'></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Cause" SortExpression="Cause">
@@ -133,16 +133,16 @@
                                             &nbsp;
                                         </td>
                                         <td align="left">
-                                            Region<span style="color: Red;">*</span>
+                                            Market<span style="color: Red;">*</span>
                                         </td>
                                         <td align="Center">
                                             :
                                         </td>
                                         <td align="left">
-                                            <asp:DropDownList runat="server" ID="ddlRegion" SkinID="ddlSONIC" ValidationGroup="vsErrorGroup">
+                                            <asp:DropDownList runat="server" ID="ddlMarket" SkinID="ddlSONIC" ValidationGroup="vsErrorGroup">
                                             </asp:DropDownList>
-                                            <asp:RequiredFieldValidator ID="rfvRegion" ControlToValidate="ddlRegion" Display="None"
-                                                runat="server" InitialValue="0" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please select Region."></asp:RequiredFieldValidator>
+                                            <asp:RequiredFieldValidator ID="rfvMarket" ControlToValidate="ddlMarket" Display="None"
+                                                runat="server" InitialValue="0" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please select Market."></asp:RequiredFieldValidator>
                                         </td>
                                         <td style="width: 39%">
                                             &nbsp;
@@ -229,13 +229,13 @@
                                             &nbsp;
                                         </td>
                                         <td align="left">
-                                            Region<span style="color: Red;">*</span>
+                                            Market<span style="color: Red;">*</span>
                                         </td>
                                         <td align="Center">
                                             :
                                         </td>
                                         <td align="left">
-                                            <asp:Label runat="server" ID="lblRegion" Width="170px"></asp:Label>
+                                            <asp:Label runat="server" ID="lblMarket" Width="170px"></asp:Label>
                                         </td>
                                         <td style="width: 39%">
                                             &nbsp;

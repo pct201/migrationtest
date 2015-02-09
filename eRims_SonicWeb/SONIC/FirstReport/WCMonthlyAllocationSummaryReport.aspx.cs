@@ -24,7 +24,7 @@ public partial class SONIC_FirstReport_WCMonthlyAllocationSummaryReport : clsBas
         if (!IsPostBack)
         {
             lnkExportToExcel.Visible = false;
-            
+
             // Fill Year DropDown
             DataTable dtYears = WC_FR.SelectDistinctIncidentYear().Tables[0];
             ddlYear.DataSource = dtYears;
@@ -46,7 +46,12 @@ public partial class SONIC_FirstReport_WCMonthlyAllocationSummaryReport : clsBas
         ViewState["Year"] = year.ToString().Substring(2, 2);
 
         // fetch records for report as per year selected
-        DataSet dsResult = WC_Allocation_Charges.WC_Monthly_Allocation_Summary_Report(year);
+        DataSet dsResult = new DataSet();
+        if (rdoRunBy.SelectedValue == "Region")
+            dsResult = WC_Allocation_Charges.WC_Monthly_Allocation_Summary_Report(year);
+        else if (rdoRunBy.SelectedValue == "Market")
+            dsResult = WC_Allocation_Charges.WC_Monthly_Allocation_Summary_Report_ByMarket(year);
+
         DataTable dtResult = dsResult.Tables[0];
         DataRow drResult = dtResult.NewRow();
         drResult[0] = "Total";
@@ -70,6 +75,11 @@ public partial class SONIC_FirstReport_WCMonthlyAllocationSummaryReport : clsBas
         dtResult.Rows.Add(drResult);
         gvworkers_comp_summary.DataSource = dtResult;
         gvworkers_comp_summary.DataBind();
+
+        if (rdoRunBy.SelectedValue == "Market")
+        {
+            gvworkers_comp_summary.HeaderRow.Cells[2].Text = "Market";
+        }
 
         // set Backgroung color and Font Color for each cell in row
         for (int i = 0; i < gvworkers_comp_summary.Rows[gvworkers_comp_summary.Rows.Count - 1].Cells.Count; i++)

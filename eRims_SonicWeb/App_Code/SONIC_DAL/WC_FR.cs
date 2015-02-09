@@ -1716,6 +1716,21 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand).Tables[0];
         }
 
+        /// <summary>
+        /// Select Wc_fr record By Market
+        /// </summary>
+        /// <param name="FK_LU_Market"></param>
+        /// <returns></returns>
+        public static DataTable SelectByMarket(decimal FK_LU_Market)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("WC_FR_SelectByMarket");
+
+            db.AddInParameter(dbCommand, "FK_LU_Market", DbType.String, FK_LU_Market);
+
+            return db.ExecuteDataSet(dbCommand).Tables[0];
+        }
+
         public static System.Web.UI.WebControls.ListItem[] InitialClaimClassificationList()
         {
             System.Web.UI.WebControls.ListItem[] li = new System.Web.UI.WebControls.ListItem[4] ;
