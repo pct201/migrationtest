@@ -72,7 +72,7 @@
                                             <span style="display: inline-block; width: 140px">Claim Number</span>
                                         </th>
                                         <th class="cols">
-                                            <span style="display: inline-block; width: 140px">FROI_Number</span>
+                                            <span style="display: inline-block; width: 140px">FROI Number</span>
                                         </th>
                                         <th class="cols">
                                             <span style="display: inline-block; width: 140px">Sonic Location Code</span>
@@ -81,25 +81,25 @@
                                             <span style="display: inline-block; width: 140px">Associate Name</span>
                                         </th>                                    
                                         <th class="cols">
-                                            <span style="display: inline-block; width: 120px">Date Entered</span>
+                                            <span style="display: inline-block; width: 120px">Date Claim Opened</span>
                                         </th>
                                         <th class="cols">
-                                            <span style="display: inline-block; width: 120px">Date Closed</span>
+                                            <span style="display: inline-block; width: 120px">Date Claim Closed</span>
                                         </th>
                                         <th class="cols">
-                                            <span style="display: inline-block; width: 120px">Date Reopened</span>
+                                            <span style="display: inline-block; width: 120px">Date Claim Reopened</span>
                                         </th>
                                         <th class="cols">
-                                            <span style="display: inline-block; width: 120px">Active_Inactive</span>
+                                            <span style="display: inline-block; width: 120px">Claim Status</span>
                                         </th>
                                         <th class="cols">
-                                            <span style="display: inline-block; width: 160px">Date_Of_First_Transaction</span>
+                                            <span style="display: inline-block; width: 160px">Date Of First Transaction</span>
                                         </th>
                                         <th class="cols">
-                                            <span style="display: inline-block; width: 140px">Total_Paid_To_Date</span>
+                                            <span style="display: inline-block; width: 140px">Total Paid To Date</span>
                                         </th>
                                         <th class="cols">
-                                            <span style="display: inline-block; width: 140px">Date_Of_Incident</span>
+                                            <span style="display: inline-block; width: 140px">Date Of Incident</span>
                                         </th>
                                         <%--<th class="cols">
                                             <span style="display: inline-block; width: 120px">Type</span>

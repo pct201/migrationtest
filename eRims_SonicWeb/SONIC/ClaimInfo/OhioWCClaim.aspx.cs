@@ -107,6 +107,8 @@ public partial class SONIC_FirstReport_OhioWCClaim : clsBasePage
 
         if (txtDateofFirstTransaction.Text != string.Empty)
             objWC_Claim_OH.Date_Of_First_Transaction = clsGeneral.FormatDBNullDateToDate(txtDateofFirstTransaction.Text);
+        else
+            objWC_Claim_OH.Date_Of_First_Transaction = null;
         if (txtDateofIncident.Text != "") objWC_Claim_OH.Date_Of_Incident = clsGeneral.FormatDBNullDateToDate(txtDateofIncident.Text);
         else objWC_Claim_OH.Date_Of_Incident = null;
         if (txtAssociateName.Text != "") objWC_Claim_OH.Associate_Name = txtAssociateName.Text;
