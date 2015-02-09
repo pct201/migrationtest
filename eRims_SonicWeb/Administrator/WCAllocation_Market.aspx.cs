@@ -47,11 +47,11 @@ public partial class Administrator_WCAllocation_Market : clsBasePage
         if (!Page.IsPostBack)
         {
             SortOrder = "asc";
-            SortBy = "Year desc, Market, Cause";
+            SortBy = "Year desc, LM.Market, Cause";
             //Bind WC Allocation Grid
             BindGrid();
             //Fill Region Location
-            ComboHelper.FillMarket(new DropDownList[] { ddlMarket } , true);
+            ComboHelper.FillMarket(new DropDownList[] { ddlMarket } , true,false);
 
         }
     }

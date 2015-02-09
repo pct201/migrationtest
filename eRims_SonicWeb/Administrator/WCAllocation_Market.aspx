@@ -46,7 +46,7 @@
                                             <asp:Label ID="lblYear" runat="server" Text='<%# Eval("Year")%>'></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="Market" SortExpression="Market">
+                                    <asp:TemplateField HeaderText="Market" SortExpression="LM.Market">
                                         <ItemStyle Width="30%" />
                                         <ItemTemplate>
                                             <asp:Label ID="lblMarket" runat="server" Text='<%# Eval("Market")%>'></asp:Label>
