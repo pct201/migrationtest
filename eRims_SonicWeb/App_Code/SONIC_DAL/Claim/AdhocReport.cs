@@ -2458,6 +2458,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "@Location", DbType.String, _Location);
             db.AddInParameter(dbCommand, "@Region", DbType.String, _Region);
+            db.AddInParameter(dbCommand, "@Market", DbType.String, _Market);
             db.AddInParameter(dbCommand, "@CoverageState", DbType.String, _CoverageState);
             db.AddInParameter(dbCommand, "@BodyPart", DbType.String, _BodyPart);
             db.AddInParameter(dbCommand, "@Cause", DbType.String, _Cause);
@@ -2602,6 +2603,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "@Location", DbType.String, _Location);
             db.AddInParameter(dbCommand, "@Region", DbType.String, _Region);
+            db.AddInParameter(dbCommand, "@Market", DbType.String, _Market);
             db.AddInParameter(dbCommand, "@CoverageState", DbType.String, _CoverageState);
             db.AddInParameter(dbCommand, "@BodyPart", DbType.String, _BodyPart);
             db.AddInParameter(dbCommand, "@Cause", DbType.String, _Cause);
@@ -2746,6 +2748,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "@Location", DbType.String, _Location);
             db.AddInParameter(dbCommand, "@Region", DbType.String, _Region);
+            db.AddInParameter(dbCommand, "@Market", DbType.String, _Market);
             db.AddInParameter(dbCommand, "@CoverageState", DbType.String, _CoverageState);
             //db.AddInParameter(dbCommand, "@BodyPart", DbType.String, _BodyPart);
             //db.AddInParameter(dbCommand, "@Cause", DbType.String, _Cause);
@@ -2870,6 +2873,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "@Location", DbType.String, _Location);
             db.AddInParameter(dbCommand, "@Region", DbType.String, _Region);
+            db.AddInParameter(dbCommand, "@Market", DbType.String, _Market);
             db.AddInParameter(dbCommand, "@CoverageState", DbType.String, _CoverageState);
             //db.AddInParameter(dbCommand, "@BodyPart", DbType.String, _BodyPart);
             //db.AddInParameter(dbCommand, "@Cause", DbType.String, _Cause);

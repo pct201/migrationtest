@@ -523,6 +523,9 @@ public partial class SONIC_ClaimInfo_rptAdHocWriter : clsBasePage
         if (Request.Form[lstRegion.UniqueID] != null)
             objAdhocReport.Region = "'" + Request.Form[lstRegion.UniqueID].Replace(",", "','") + "'";
 
+        if (Request.Form[lstMarket.UniqueID] != null)
+            objAdhocReport.Market = "'" + Request.Form[lstMarket.UniqueID].Replace(",", "','") + "'";
+
         if (Request.Form[lstBodyPart.UniqueID] != null)
             objAdhocReport.BodyPart = "'" + Request.Form[lstBodyPart.UniqueID].Replace(",", "','") + "'";
         if (Request.Form[lstCause.UniqueID] != null)
@@ -631,6 +634,7 @@ public partial class SONIC_ClaimInfo_rptAdHocWriter : clsBasePage
         }
         objAdhocReport.AL_Claim_Origin = strgetClaimorgin;
         
+
         objAdhocReport.LineofCoverage = "";
 
         if (rbnAL.Checked == true)
@@ -1525,6 +1529,7 @@ public partial class SONIC_ClaimInfo_rptAdHocWriter : clsBasePage
         lstCoverageState.SelectedIndex = -1;
         lstLocation.SelectedIndex = -1;
         lstRegion.SelectedIndex = -1;
+        lstMarket.SelectedIndex = -1;
         lstBodyPart.SelectedIndex = -1;
         lstCause.SelectedIndex = -1;
         lstNatureofInjury.SelectedIndex = -1;
