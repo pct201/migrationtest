@@ -5,7 +5,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using ERIMS.DAL;
-public partial class SONIC_ClaimInfo_OhioWCClaimSearch : System.Web.UI.Page
+public partial class SONIC_ClaimInfo_OhioWCClaimSearch : clsBasePage
 {
     #region Properties
     /// <summary>
@@ -135,6 +135,7 @@ public partial class SONIC_ClaimInfo_OhioWCClaimSearch : System.Web.UI.Page
     /// <param name="e"></param>
     protected void btnSearch_Click(object sender, EventArgs e)
     {
+        Session["OhioClaimcriteria"] = null;
         BindGrid();
     }
 

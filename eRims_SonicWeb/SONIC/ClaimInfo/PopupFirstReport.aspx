@@ -46,6 +46,13 @@
                                         Text='<% #Eval("DBA") %>' CssClass="acher"></asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Sonic Location Code" SortExpression="Sonic_Location_Code" HeaderStyle-HorizontalAlign="Left" Visible="false">
+                                <ItemStyle Width="25%" />
+                                <ItemTemplate>
+                                    <asp:LinkButton ID="lnkSonic_Location_Code" runat="server" CommandArgument='<% #Eval("Sonic_Location_Code") %>'
+                                        Text='<% #Eval("Sonic_Location_Code") %>' CssClass="acher"></asp:LinkButton>
+                                </ItemTemplate>
+                            </asp:TemplateField>
                              <asp:TemplateField HeaderText="Date Of Incident" SortExpression="Date_Of_Incident" HeaderStyle-HorizontalAlign="Left">
                                 <ItemStyle Width="25%" />
                                 <ItemTemplate>
@@ -72,12 +79,13 @@
 
     <script type="text/javascript">
 
-        function SelectValue(strPK_WC_FR_ID, strWC_FR_NUMBER, strName, strDBA, strDateOfIncident) {
+        function SelectValue(strPK_WC_FR_ID, strWC_FR_NUMBER, strName, strDBA,strSonic_Location_Code ,strDateOfIncident) {
            
             window.opener.document.getElementById('ctl00_ContentPlaceHolder1_hdnid').value = strPK_WC_FR_ID;
             window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtAssociatedFirstReport').value = strWC_FR_NUMBER;
             window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtAssociateName').value = strName;
             window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtSonicLocation').value = strDBA;
+            window.opener.document.getElementById('ctl00_ContentPlaceHolder1_hdnLocationID').value = strSonic_Location_Code;
             window.opener.document.getElementById('ctl00_ContentPlaceHolder1_txtDateofIncident').value = strDateOfIncident;
             
             self.close();

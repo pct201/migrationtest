@@ -141,7 +141,7 @@
                                 <td align="center" width="2%" valign="top">:
                                 </td>
                                 <td align="left" width="28%" valign="top">
-                                    <asp:TextBox ID="txtClaimNumber" runat="server" MaxLength="20" />
+                                    <asp:TextBox ID="txtClaimNumber" runat="server" MaxLength="50" />
                                     <%--<asp:RequiredFieldValidator ID="rfvClaimNumber" runat="server" ControlToValidate="txtClaimNumber" ErrorMessage="Please enter Claim Number" Display="None" ValidationGroup="vsErrorGroup" SetFocusOnError="true"></asp:RequiredFieldValidator>--%>
                                 </td>
                                 <td align="left" width="20%" valign="top">Associated First Report&nbsp;<span id="Span7" style="color: Red; display: none;" runat="server">*</span>

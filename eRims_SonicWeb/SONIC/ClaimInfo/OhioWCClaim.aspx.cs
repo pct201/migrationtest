@@ -33,7 +33,7 @@ public partial class SONIC_FirstReport_OhioWCClaim : clsBasePage
         txtAssociatedFirstReport.Attributes.Add("Text", txtAssociatedFirstReport.Text);
         if (!IsPostBack)
         {
-            if(App_Access != AccessType.Ohio_Claim_Access && App_Access != AccessType.Administrative_Access)
+            if (App_Access != AccessType.Ohio_Claim_Access && App_Access != AccessType.Administrative_Access)
                 Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc");
 
             _strOperation = Request.QueryString["op"] != null ? Request.QueryString["op"].ToString() : "view";
@@ -66,7 +66,7 @@ public partial class SONIC_FirstReport_OhioWCClaim : clsBasePage
                     DataSet dsGroup = Security.SelectGroupByUserID(Convert.ToDecimal(clsSession.UserID));
                     if (dsGroup.Tables[0].Rows.Count <= 0)
                         Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc");
-                    
+
                 }
                 //else if (UserAccessType != AccessType.Administrative_Access)
                 //{
@@ -83,7 +83,7 @@ public partial class SONIC_FirstReport_OhioWCClaim : clsBasePage
     #endregion
 
     #region "Event"
-   
+
     /// <summary>
     /// Save records.
     /// </summary>
@@ -95,33 +95,39 @@ public partial class SONIC_FirstReport_OhioWCClaim : clsBasePage
         else objWC_Claim_OH = new Workers_Comp_Claims_OH();
 
         objWC_Claim_OH.PK_Workers_Comp_Claims_OH_Id = _PK_Workers_Comp_Claims_OH_Id;
-        objWC_Claim_OH.FROI_Number = "WC-" + hdnid.Value;
+        objWC_Claim_OH.FROI_Number = "WC-" + txtAssociatedFirstReport.Text;
         objWC_Claim_OH.Claim_Number = txtClaimNumber.Text;
         if (txtDateClaimEntered.Text != "") objWC_Claim_OH.Date_Entered = Convert.ToDateTime(txtDateClaimEntered.Text);
         else objWC_Claim_OH.Date_Entered = null;
+
         if (txtDateClaimClosed.Text != "") objWC_Claim_OH.Date_Closed = Convert.ToDateTime(txtDateClaimClosed.Text);
         else objWC_Claim_OH.Date_Closed = null;
+
         if (txtDateClaimReopened.Text != "") objWC_Claim_OH.Date_Reopened = Convert.ToDateTime(txtDateClaimReopened.Text);
         else objWC_Claim_OH.Date_Reopened = null;
+
         objWC_Claim_OH.Active_InActive = ddlStatus.Text;
 
         if (txtDateofFirstTransaction.Text != string.Empty)
             objWC_Claim_OH.Date_Of_First_Transaction = clsGeneral.FormatDBNullDateToDate(txtDateofFirstTransaction.Text);
         else
             objWC_Claim_OH.Date_Of_First_Transaction = null;
+
         if (txtDateofIncident.Text != "") objWC_Claim_OH.Date_Of_Incident = clsGeneral.FormatDBNullDateToDate(txtDateofIncident.Text);
         else objWC_Claim_OH.Date_Of_Incident = null;
-        if (txtAssociateName.Text != "") objWC_Claim_OH.Associate_Name = txtAssociateName.Text;
+
+        if (txtAssociateName.Text != "") objWC_Claim_OH.Associate_Name = txtAssociateName.Text; else objWC_Claim_OH.Associate_Name = string.Empty;
+        if (hdnLocationID.Value != "") objWC_Claim_OH.Sonic_Location_Code = hdnLocationID.Value;
 
 
-        System.Data.DataView dvRecord = Workers_Comp_Claims_OH.SelectAssociatedFirstReportByPk(Convert.ToDecimal(hdnid.Value)).Tables[0].DefaultView;
+        //System.Data.DataView dvRecord = Workers_Comp_Claims_OH.SelectAssociatedFirstReportByPk(Convert.ToDecimal(hdnid.Value)).Tables[0].DefaultView;
 
-        if (dvRecord[0]["NAME"].ToString() != "") objWC_Claim_OH.Associate_Name = Convert.ToString(dvRecord[0]["NAME"]);
-        else objWC_Claim_OH.Associate_Name = null;
-        if (dvRecord[0]["dba"].ToString() != "") objWC_Claim_OH.Sonic_Location_Code = Convert.ToString(Workers_Comp_Claims_OH.GetSonicLocationCodeFromdba(Convert.ToString(dvRecord[0]["dba"])));
-        else objWC_Claim_OH.Sonic_Location_Code = null;
-        if (dvRecord[0]["Date_Of_Incident"].ToString() != "") objWC_Claim_OH.Date_Of_Incident = clsGeneral.FormatDBNullDateToDate(dvRecord[0]["Date_Of_Incident"]);
-        else objWC_Claim_OH.Date_Of_Incident = null; 
+        //if (dvRecord[0]["NAME"].ToString() != "") objWC_Claim_OH.Associate_Name = Convert.ToString(dvRecord[0]["NAME"]);
+        //else objWC_Claim_OH.Associate_Name = null;
+        //if (dvRecord[0]["dba"].ToString() != "") objWC_Claim_OH.Sonic_Location_Code = Convert.ToString(Workers_Comp_Claims_OH.GetSonicLocationCodeFromdba(Convert.ToString(dvRecord[0]["dba"])));
+        //else objWC_Claim_OH.Sonic_Location_Code = null;
+        //if (dvRecord[0]["Date_Of_Incident"].ToString() != "") objWC_Claim_OH.Date_Of_Incident = clsGeneral.FormatDBNullDateToDate(dvRecord[0]["Date_Of_Incident"]);
+        //else objWC_Claim_OH.Date_Of_Incident = null; 
 
         //objWC_Claim_OH.Type = txtType.Text;
         //objWC_Claim_OH.Total_Medical = txtTotalMedical.Text != "" ? Convert.ToDecimal(txtTotalMedical.Text) : 0;
@@ -133,7 +139,7 @@ public partial class SONIC_FirstReport_OhioWCClaim : clsBasePage
         //objWC_Claim_OH.HC_Relief = txtHCRelief.Text != "" ? Convert.ToDecimal(txtHCRelief.Text) : 0;
         //objWC_Claim_OH.Subrogation_Collected = txtSubrogationCollected.Text != "" ? Convert.ToDecimal(txtSubrogationCollected.Text) : 0;
         //objWC_Claim_OH.Claim_Activity = txtClaimActivity.Text;
-        objWC_Claim_OH.Total_Paid_To_Date =  txtTotalPaid.Text != "" ? Convert.ToDecimal(txtTotalPaid.Text) : 0;
+        objWC_Claim_OH.Total_Paid_To_Date = txtTotalPaid.Text != "" ? Convert.ToDecimal(txtTotalPaid.Text) : 0;
         objWC_Claim_OH.Updated_By = clsSession.UserName;
         objWC_Claim_OH.Update_Date = DateTime.Now;
 
@@ -145,6 +151,8 @@ public partial class SONIC_FirstReport_OhioWCClaim : clsBasePage
         {
             dcGetID = _PK_Workers_Comp_Claims_OH_Id = objWC_Claim_OH.Insert();
         }
+
+        hdnLocationID.Value = "";
         // If claim number is exist in either table.
         if (dcGetID == -2 || dcGetID == -3)
             Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('The Claim Number cannot be duplicated.');", true);
@@ -152,6 +160,7 @@ public partial class SONIC_FirstReport_OhioWCClaim : clsBasePage
         else if (_strOperation == "add") Response.Redirect("OhioWCClaim.aspx?id=" + Encryption.Encrypt(_PK_Workers_Comp_Claims_OH_Id.ToString()) + "&op=edit");
         else if (_PK_Workers_Comp_Claims_OH_Id > 0) BindDetailsforEdit();//BIND DETAILS AFTER SUCCESFULL INSERT AND UPDATE 
         txtAssociatedFirstReport.Text = txtAssociatedFirstReport.Attributes["Text"];
+
         Session["Search"] = "Y";
         Response.Redirect("OhioWCClaimSearch.aspx");
     }
@@ -191,43 +200,31 @@ public partial class SONIC_FirstReport_OhioWCClaim : clsBasePage
         btnEdit.Visible = false;
         // btnEdit.Visible = (Module_Access_Mode == AccessType.Administrative_Access);
         Workers_Comp_Claims_OH objwc = new Workers_Comp_Claims_OH(_PK_Workers_Comp_Claims_OH_Id);
-        if (Convert.ToDecimal(objwc.FROI_Number.Replace("WC-", "")) > 0)
-        {
-            System.Data.DataView dvRecord = Workers_Comp_Claims_OH.SelectAssociatedFirstReportByPk(Convert.ToDecimal(objwc.FROI_Number.Replace("WC-", ""))).Tables[0].DefaultView;
-            if (dvRecord != null && dvRecord.Count > 0)
-            {
-                lblAssociatedFirstReport.Text = Convert.ToString(dvRecord[0]["WC_FR_NUMBER"]);
-                lblClaimNumber.Text = objwc.Claim_Number;
-                if (objwc.Date_Closed != null) lblDateClaimClosed.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(objwc.Date_Closed));
-                if (objwc.Date_Entered != null) lblDateClaimEntered.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(objwc.Date_Entered));
-                if (objwc.Date_Reopened != null) lblDateClaimReopened.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(objwc.Date_Reopened));
-                lblEmployeeName.Text = Convert.ToString(dvRecord[0]["NAME"]);
-                lblSonicLocation.Text = Convert.ToString(dvRecord[0]["DBA"]);
-                lblDateOfIncident.Text = Convert.ToString(dvRecord[0]["Date_Of_Incident"]);
-                lblStatus.Text = objwc.Active_InActive;
-                //lblType.Text = objwc.Type;
-                //lblTotalMedical.Text = Convert.ToString(objwc.Total_Medical) != "" ? "$" + Convert.ToString(objwc.Total_Medical) : Convert.ToString(objwc.Total_Medical);
-                //lblTotalComp.Text = Convert.ToString(objwc.Total_Comp) != "" ? "$" + Convert.ToString(objwc.Total_Comp) : Convert.ToString(objwc.Total_Comp);
-                //lblTotalReserve.Text =  Convert.ToString(objwc.Total_Reserve) != "" ? "$" + Convert.ToString(objwc.Total_Reserve) :  Convert.ToString(objwc.Total_Reserve);
-                //lblUnlimitedCost.Text = Convert.ToString(objwc.Unlimited_Cost) != "" ? "$" + Convert.ToString(objwc.Unlimited_Cost) : Convert.ToString(objwc.Unlimited_Cost);
-                //lblLimitedToMV.Text = Convert.ToString(objwc.Limited_to_MV) != "" ? "$" + Convert.ToString(objwc.Limited_to_MV) : Convert.ToString(objwc.Limited_to_MV);
-                //lblHCPercent.Text = Convert.ToString(objwc.HC_Percent) != "" ? "$" + Convert.ToString(objwc.HC_Percent) : Convert.ToString(objwc.HC_Percent);
-                //lblHCRelief.Text = Convert.ToString(objwc.HC_Relief) != "" ? "$" + Convert.ToString(objwc.HC_Relief) : Convert.ToString(objwc.HC_Relief);
-                //lblSubCollected.Text = Convert.ToString(objwc.Subrogation_Collected) != "" ? "$" + Convert.ToString(objwc.Subrogation_Collected) : Convert.ToString(objwc.Subrogation_Collected);
-                //lblClaimActivity.Text = Convert.ToString(objwc.Claim_Activity);
-                //lblTotalCharged.Text = Convert.ToString(objwc.Total_Charged) != "" ? "$" + Convert.ToString(objwc.Total_Charged) : Convert.ToString(objwc.Total_Charged);
-                if (objwc.Date_Of_First_Transaction != null) lblDateOfFirstTransaction.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(objwc.Date_Of_First_Transaction));
-                lblTotalPaidToDate.Text = Convert.ToString(objwc.Total_Paid_To_Date) != "" ? "$" + Convert.ToString(objwc.Total_Paid_To_Date) : Convert.ToString(objwc.Total_Paid_To_Date);
-                Session["Search"] = "Y";
-                if (objwc.Imported == "I")
-                    btnEdit.Visible = false;
+        //if (!string.IsNullOrEmpty(objwc.FROI_Number) && Convert.ToDecimal(objwc.FROI_Number.Replace("WC-", "")) > 0)
+        //{
+        //    System.Data.DataView dvRecord = Workers_Comp_Claims_OH.SelectAssociatedFirstReportByPk(Convert.ToDecimal(objwc.FROI_Number.Replace("WC-", ""))).Tables[0].DefaultView;
+        //    if (dvRecord != null && dvRecord.Count > 0)
+        //    {
+        //        lblAssociatedFirstReport.Text = Convert.ToString(dvRecord[0]["WC_FR_NUMBER"]);
+        //    }
+        //}
+        if (!string.IsNullOrEmpty(objwc.FROI_Number))
+            lblAssociatedFirstReport.Text = objwc.FROI_Number.Replace("WC-", "");
+        if (objwc.Date_Closed != null) lblDateClaimClosed.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(objwc.Date_Closed));
+        if (objwc.Date_Entered != null) lblDateClaimEntered.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(objwc.Date_Entered));
+        if (objwc.Date_Reopened != null) lblDateClaimReopened.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(objwc.Date_Reopened));
+        lblEmployeeName.Text = objwc.Associate_Name;
+        lblSonicLocation.Text = objwc.Sonic_Location_Code;
+        if (objwc.Date_Of_Incident != null) lblDateOfIncident.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(objwc.Date_Of_Incident));
+        lblClaimNumber.Text = objwc.Claim_Number;
+        lblStatus.Text = objwc.Active_InActive;
+        if (objwc.Date_Of_First_Transaction != null) lblDateOfFirstTransaction.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(objwc.Date_Of_First_Transaction));
+        lblTotalPaidToDate.Text = Convert.ToString(objwc.Total_Paid_To_Date) != "" ? "$" + Convert.ToString(objwc.Total_Paid_To_Date) : Convert.ToString(objwc.Total_Paid_To_Date);
+        Session["Search"] = "Y";
+        if (objwc.Imported == "I")
+            btnEdit.Visible = false;
 
-                btnAudit.Visible = true;
-
-
-            }
-        }
-
+        btnAudit.Visible = true;
     }
 
     /// <summary>
@@ -241,24 +238,33 @@ public partial class SONIC_FirstReport_OhioWCClaim : clsBasePage
         btnEdit.Visible = false;
 
         Workers_Comp_Claims_OH objwc = new Workers_Comp_Claims_OH(_PK_Workers_Comp_Claims_OH_Id);
-      
-        if (Convert.ToDecimal(objwc.FROI_Number.Replace("WC-", "")) > 0)
+
+        //if (Convert.ToDecimal(objwc.FROI_Number.Replace("WC-", "")) > 0)
         {
-            System.Data.DataView dvRecord = Workers_Comp_Claims_OH.SelectAssociatedFirstReportByPk(Convert.ToDecimal(objwc.FROI_Number.Replace("WC-", ""))).Tables[0].DefaultView;
-            if (dvRecord != null && dvRecord.Count > 0)
+            //System.Data.DataView dvRecord = Workers_Comp_Claims_OH.SelectAssociatedFirstReportByPk(Convert.ToDecimal(objwc.FROI_Number.Replace("WC-", ""))).Tables[0].DefaultView;
+            //if (dvRecord != null && dvRecord.Count > 0)
             {
-                txtAssociatedFirstReport.Text = Convert.ToString(dvRecord[0]["WC_FR_NUMBER"]);
+                if (!string.IsNullOrEmpty(objwc.FROI_Number))
+                    txtAssociatedFirstReport.Text = objwc.FROI_Number.Replace("WC-", "");
+
                 txtClaimNumber.Text = objwc.Claim_Number;
                 if (objwc.Date_Closed != null) txtDateClaimClosed.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(objwc.Date_Closed));
                 if (objwc.Date_Entered != null) txtDateClaimEntered.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(objwc.Date_Entered));
                 if (objwc.Date_Reopened != null) txtDateClaimReopened.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(objwc.Date_Reopened));
                 //txtEmployeeName.Text = Convert.ToString(dvRecord[0]["NAME"]);
-                txtSonicLocation.Text = Convert.ToString(dvRecord[0]["DBA"]);
-                hdnid.Value = Convert.ToString(dvRecord[0]["PK_WC_FR_ID"]);
+                //txtSonicLocation.Text = Convert.ToString(dvRecord[0]["DBA"]);
+                if (!string.IsNullOrEmpty(objwc.Sonic_Location_Code))
+                {
+                    DataSet dt = LU_Location.SelectBySonicLocationCode(Convert.ToInt32(objwc.Sonic_Location_Code));
+                    if (dt != null && dt.Tables.Count > 0 && dt.Tables[0].Rows.Count > 0)
+                        txtSonicLocation.Text = Convert.ToString(dt.Tables[0].Rows[0]["dba"]);
+                    hdnLocationID.Value = objwc.Sonic_Location_Code;
+                }
+                //hdnid.Value = Convert.ToString(dvRecord[0]["PK_WC_FR_ID"]);
                 btnAudit.Visible = true;
                 ddlStatus.Text = objwc.Active_InActive;
-                if (objwc.Associate_Name != null) txtAssociateName.Text = Convert.ToString(dvRecord[0]["NAME"]);
-                if (objwc.Date_Of_Incident != null) txtDateofIncident.Text = Convert.ToString(dvRecord[0]["Date_Of_Incident"]);
+                if (objwc.Associate_Name != null) txtAssociateName.Text = objwc.Associate_Name;
+                if (objwc.Date_Of_Incident != null) txtDateofIncident.Text = clsGeneral.FormatDateToDisplay(objwc.Date_Of_Incident.Value);
                 if (objwc.Total_Paid_To_Date != null) txtTotalPaid.Text = objwc.Total_Paid_To_Date.Value.ToString("N2");
                 if (objwc.Date_Of_First_Transaction != null) txtDateofFirstTransaction.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(objwc.Date_Of_First_Transaction));
                 Session["Search"] = "Y";
@@ -277,7 +283,7 @@ public partial class SONIC_FirstReport_OhioWCClaim : clsBasePage
 
         }
     }
-    
+
     #endregion
 
     #region Dynamic Validations
@@ -327,17 +333,17 @@ public partial class SONIC_FirstReport_OhioWCClaim : clsBasePage
                     Span4.Style["display"] = "inline-block";
                     Span26.Style["display"] = "inline-block";
                     break;
-                //case "Date Claim Closed":
-                //    strCtrlsIDs += ddlStatus.ClientID + ",";
-                //    strMessages += "Please enter Claim Status" + ",";
-                //    Span5.Style["display"] = "inline-block";
-                //    Span27.Style["display"] = "inline-block";
-                //    break;
-                //case "Date Claim Reopened":
-                //    strCtrlsIDs += txtDateClaimReopened.ClientID + ",";
-                //    strMessages += "Please enter Date Claim Reopened" + ",";
-                //    Span6.Style["display"] = "inline-block";
-                //    Span28.Style["display"] = "inline-block";
+                    //case "Date Claim Closed":
+                    //    strCtrlsIDs += ddlStatus.ClientID + ",";
+                    //    strMessages += "Please enter Claim Status" + ",";
+                    //    Span5.Style["display"] = "inline-block";
+                    //    Span27.Style["display"] = "inline-block";
+                    //    break;
+                    //case "Date Claim Reopened":
+                    //    strCtrlsIDs += txtDateClaimReopened.ClientID + ",";
+                    //    strMessages += "Please enter Date Claim Reopened" + ",";
+                    //    Span6.Style["display"] = "inline-block";
+                    //    Span28.Style["display"] = "inline-block";
                     break;
                 case "Claim Status":
                     strCtrlsIDs += ddlStatus.ClientID + ",";
@@ -350,7 +356,7 @@ public partial class SONIC_FirstReport_OhioWCClaim : clsBasePage
         }
         #endregion
 
-              
+
         strCtrlsIDs = strCtrlsIDs.TrimEnd(',');
         strMessages = strMessages.TrimEnd(',');
 
