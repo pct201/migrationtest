@@ -78,7 +78,13 @@
                             <asp:TemplateField HeaderText="Region">
                                 <ItemStyle HorizontalAlign="Left" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblRegion" runat="server" Text='<%#Eval("ReportType") %>' Width="95px"></asp:Label>
+                                    <asp:Label ID="lblRegion" runat="server" Text='<%#Eval("Region") %>' Width="95px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Market">
+                                <ItemStyle HorizontalAlign="Left" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblMarket" runat="server" Text='<%#Eval("Market") %>' Width="95px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="JAN">

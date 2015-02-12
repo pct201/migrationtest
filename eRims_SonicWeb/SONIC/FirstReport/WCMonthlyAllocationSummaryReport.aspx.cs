@@ -56,29 +56,33 @@ public partial class SONIC_FirstReport_WCMonthlyAllocationSummaryReport : clsBas
         DataRow drResult = dtResult.NewRow();
         drResult[0] = "Total";
         // Count Total for each month in header of table 
-        drResult[3] = dtResult.Compute("Sum(JAN)", "");
-        drResult[4] = dtResult.Compute("Sum(FEB)", "");
-        drResult[5] = dtResult.Compute("Sum(MAR)", "");
-        drResult[6] = dtResult.Compute("Sum(APR)", "");
-        drResult[7] = dtResult.Compute("Sum(MAY)", "");
-        drResult[8] = dtResult.Compute("Sum(JUN)", "");
-        drResult[9] = dtResult.Compute("Sum(JUL)", "");
-        drResult[10] = dtResult.Compute("Sum(AUG)", "");
-        drResult[11] = dtResult.Compute("Sum(SEP)", "");
-        drResult[12] = dtResult.Compute("Sum(OCT)", "");
-        drResult[13] = dtResult.Compute("Sum(NOV)", "");
-        drResult[14] = dtResult.Compute("Sum(DEC)", "");
-        drResult[15] = dtResult.Compute("Sum(Next_JAN)", "");
-        drResult[16] = dtResult.Compute("Sum(Next_FEB)", "");
-        drResult[17] = dtResult.Compute("Sum(Next_MAR)", "");
-        drResult[18] = dtResult.Compute("Sum(Total)", "");
+        drResult[4] = dtResult.Compute("Sum(JAN)", "");
+        drResult[5] = dtResult.Compute("Sum(FEB)", "");
+        drResult[6] = dtResult.Compute("Sum(MAR)", "");
+        drResult[7] = dtResult.Compute("Sum(APR)", "");
+        drResult[8] = dtResult.Compute("Sum(MAY)", "");
+        drResult[9] = dtResult.Compute("Sum(JUN)", "");
+        drResult[10] = dtResult.Compute("Sum(JUL)", "");
+        drResult[11] = dtResult.Compute("Sum(AUG)", "");
+        drResult[12] = dtResult.Compute("Sum(SEP)", "");
+        drResult[13] = dtResult.Compute("Sum(OCT)", "");
+        drResult[14] = dtResult.Compute("Sum(NOV)", "");
+        drResult[15] = dtResult.Compute("Sum(DEC)", "");
+        drResult[16] = dtResult.Compute("Sum(Next_JAN)", "");
+        drResult[17] = dtResult.Compute("Sum(Next_FEB)", "");
+        drResult[18] = dtResult.Compute("Sum(Next_MAR)", "");
+        drResult[19] = dtResult.Compute("Sum(Total)", "");
         dtResult.Rows.Add(drResult);
         gvworkers_comp_summary.DataSource = dtResult;
         gvworkers_comp_summary.DataBind();
 
-        if (rdoRunBy.SelectedValue == "Market")
+        if (rdoRunBy.SelectedValue == "Region")
         {
-            gvworkers_comp_summary.HeaderRow.Cells[2].Text = "Market";
+            gvworkers_comp_summary.Columns[3].Visible = false;
+        }
+        else
+        {
+            gvworkers_comp_summary.Columns[3].Visible = true;
         }
 
         // set Backgroung color and Font Color for each cell in row
@@ -124,22 +128,22 @@ public partial class SONIC_FirstReport_WCMonthlyAllocationSummaryReport : clsBas
         {
 
             //row.Cells[2].Text = row.Cells[2].Text + "'" + ViewState["Year"].ToString();
-            row.Cells[3].Text = row.Cells[3].Text + "'" + ViewState["Year"].ToString();
             row.Cells[4].Text = row.Cells[4].Text + "'" + ViewState["Year"].ToString();
             row.Cells[5].Text = row.Cells[5].Text + "'" + ViewState["Year"].ToString();
             row.Cells[6].Text = row.Cells[6].Text + "'" + ViewState["Year"].ToString();
             row.Cells[7].Text = row.Cells[7].Text + "'" + ViewState["Year"].ToString();
             row.Cells[8].Text = row.Cells[8].Text + "'" + ViewState["Year"].ToString();
-            row.Cells[9].Text = row.Cells[9].Text + "'" + ViewState["Year"].ToString();
+            row.Cells[9].Text = row.Cells[8].Text + "'" + ViewState["Year"].ToString();
             row.Cells[10].Text = row.Cells[10].Text + "'" + ViewState["Year"].ToString();
             row.Cells[11].Text = row.Cells[11].Text + "'" + ViewState["Year"].ToString();
             row.Cells[12].Text = row.Cells[12].Text + "'" + ViewState["Year"].ToString();
             row.Cells[13].Text = row.Cells[13].Text + "'" + ViewState["Year"].ToString();
             row.Cells[14].Text = row.Cells[14].Text + "'" + ViewState["Year"].ToString();
-            row.Cells[15].Text = row.Cells[15].Text + "'" + string.Format("{0:D2}", (Convert.ToInt32(ViewState["Year"]) + 1));
+            row.Cells[15].Text = row.Cells[15].Text + "'" + ViewState["Year"].ToString();
             row.Cells[16].Text = row.Cells[16].Text + "'" + string.Format("{0:D2}", (Convert.ToInt32(ViewState["Year"]) + 1));
             row.Cells[17].Text = row.Cells[17].Text + "'" + string.Format("{0:D2}", (Convert.ToInt32(ViewState["Year"]) + 1));
-            row.Cells[18].Text = row.Cells[18].Text + "'" + ViewState["Year"].ToString();
+            row.Cells[18].Text = row.Cells[18].Text + "'" + string.Format("{0:D2}", (Convert.ToInt32(ViewState["Year"]) + 1));
+            row.Cells[19].Text = row.Cells[19].Text + "'" + ViewState["Year"].ToString();
 
         }
 
