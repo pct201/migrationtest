@@ -4810,11 +4810,13 @@ namespace ERIMS_Sonic_ReportScheduler
                         int Year = Convert.ToInt32(dtFilter.Rows[0]["Year"]);
                         // get end date
                         int Month = Convert.ToInt32(dtFilter.Rows[0]["Month"]);
+                        //get run report by name.
+                        string strRun_Report_By = Convert.ToString(dtFilter.Rows[0]["Run_report_by"]);
 
-                        // get result records from database for the report
-                        DataSet dsReport = Report.WCAllocationMonthlyDetailReport(Month, Year);
+                        if (string.IsNullOrEmpty(strRun_Report_By))
+                            strRun_Report_By = "Region";
 
-                        //Create HTML for the report and wirte into HTML Write object
+                        //Create HTML for the report and write into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
                         System.IO.StringWriter stringWrite = new System.IO.StringWriter();
                         System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
@@ -4840,6 +4842,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("Year        : " + Year);
                         strHTML.Append("<br />");
                         strHTML.Append("Month          : " + GetMonthString(Convert.ToInt32(Month)));
+                        strHTML.Append("<br /><br />");
+                        strHTML.Append("Run Report by : " + strRun_Report_By);
                         strHTML.Append("<br /><br />");
                         strHTML.Append("</span>");
 
@@ -4875,125 +4879,299 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("</tr></table>");
                         #endregion
 
-                        DataTable dtReportData = dsReport.Tables[0];
-                        DataTable dtRegion = dsReport.Tables[1];
-                        DataTable dtTotal = dsReport.Tables[2];
+                        // get result records from database for the report
+                        DataSet dsReport = new DataSet(); // Report.WCAllocationMonthlyDetailReport(Month, Year);
 
-                        if (dtRegion.Rows.Count > 0)
+                        if (strRun_Report_By == "Region")
                         {
-                            //Add Report Data Table 
-                            strHTML.Append("<table style='width: 100%;' border='1' align='left' cellpadding='4' cellspacing='0'>");
-                            foreach (DataRow drRegion in dtRegion.Rows)
+                            dsReport = Report.WCAllocationMonthlyDetailReport(Month, Year);
+
+                            DataTable dtReportData = dsReport.Tables[0];
+                            DataTable dtRegion = dsReport.Tables[1];
+                            DataTable dtTotal = dsReport.Tables[2];
+
+                            #region ::Region section::
+
+                            if (dtRegion.Rows.Count > 0)
                             {
-                                strHTML.Append("<tr><td colspan='19' style='font-family:Calibri;'><b>");
-                                strHTML.Append("Region : " + drRegion["Region"].ToString());
-                                strHTML.Append("</b></td></tr>");
-                                strHTML.Append("<tr><td colspan='19'>");
-                                strHTML.Append("<table style='width: 100%;font-family:Calibri;' border='1' align='left' cellpadding='4' cellspacing='0'>");
-                                DataRow[] drDataByRegion = dtReportData.Select("Region='" + drRegion["Region"].ToString() + "'");
-                                foreach (DataRow drData in drDataByRegion)
+                                //Add Report Data Table 
+                                strHTML.Append("<table style='width: 100%;' border='1' align='left' cellpadding='4' cellspacing='0'>");
+                                foreach (DataRow drRegion in dtRegion.Rows)
                                 {
-                                    strHTML.Append("<td  align='left' valign='top'>" + drData["dba"] + "</td>");
-                                    strHTML.Append("<td align='left' valign='top'>" + drData["Sonic_Location_Code"] + "</td>");
-                                    strHTML.Append("<td  align='left' valign='top'>WC-" + drData["WC_FR_Number"] + "</td>");
-                                    strHTML.Append("<td  align='left' valign='top'>" + drData["Origin_Claim_Number"] + "</td>");
-                                    strHTML.Append("<td  align='left' valign='top'>" + drData["Employee_Name"] + "</td>");
-                                    strHTML.Append("<td  align='left' valign='top'>" + drData["Sonic_Cause_Code"] + "</td>");
+                                    strHTML.Append("<tr><td colspan='19' style='font-family:Calibri;'><b>");
+                                    strHTML.Append("Region : " + drRegion["ReportLabel"].ToString());
+                                    strHTML.Append("</b></td></tr>");
+                                    strHTML.Append("<tr><td colspan='19'>");
+                                    strHTML.Append("<table style='width: 100%;font-family:Calibri;' border='1' align='left' cellpadding='4' cellspacing='0'>");
+                                    DataRow[] drDataByRegion = dtReportData.Select("ReportLabel='" + drRegion["ReportLabel"].ToString() + "'");
+                                    foreach (DataRow drData in drDataByRegion)
+                                    {
+                                        strHTML.Append("<td  align='left' valign='top'>" + drData["dba"] + "</td>");
+                                        strHTML.Append("<td align='left' valign='top'>" + drData["Sonic_Location_Code"] + "</td>");
+                                        strHTML.Append("<td  align='left' valign='top'>WC-" + drData["WC_FR_Number"] + "</td>");
+                                        strHTML.Append("<td  align='left' valign='top'>" + drData["Origin_Claim_Number"] + "</td>");
+                                        strHTML.Append("<td  align='left' valign='top'>" + drData["Employee_Name"] + "</td>");
+                                        strHTML.Append("<td  align='left' valign='top'>" + drData["Sonic_Cause_Code"] + "</td>");
 
-                                    if (Convert.ToDateTime(drData["Date_Of_Incident"]) != Convert.ToDateTime(System.Data.SqlTypes.SqlDateTime.MinValue.ToString()))
-                                        strHTML.Append("<td style='width: 8%;' align='left' valign='top'>" + Convert.ToDateTime(drData["Date_Of_Incident"]).ToString(DateDisplayFormat) + "</td>");
-                                    else
-                                        strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                        if (Convert.ToDateTime(drData["Date_Of_Incident"]) != Convert.ToDateTime(System.Data.SqlTypes.SqlDateTime.MinValue.ToString()))
+                                            strHTML.Append("<td style='width: 8%;' align='left' valign='top'>" + Convert.ToDateTime(drData["Date_Of_Incident"]).ToString(DateDisplayFormat) + "</td>");
+                                        else
+                                            strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
 
-                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Initial_Charge"]) + "</td>");
+                                        strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Initial_Charge"]) + "</td>");
 
-                                    if (drData["Initial_Charge_Date"] != DBNull.Value)
-                                        strHTML.Append("<td style='width: 8%;' align='left' valign='top'>" + Convert.ToDateTime(drData["Initial_Charge_Date"]).ToString(DateDisplayFormat) + "</td>");
-                                    else
-                                        strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                        if (drData["Initial_Charge_Date"] != DBNull.Value)
+                                            strHTML.Append("<td style='width: 8%;' align='left' valign='top'>" + Convert.ToDateTime(drData["Initial_Charge_Date"]).ToString(DateDisplayFormat) + "</td>");
+                                        else
+                                            strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
 
-                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'>" + string.Format("{0:N0}", drData["Report_Lag"]) + "</td>");
+                                        strHTML.Append("<td style='width: 8%;' align='right' valign='top'>" + string.Format("{0:N0}", drData["Report_Lag"]) + "</td>");
 
-                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Lag_Credit"]) + "</td>");
-                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Lag_Charge"]) + "</td>");
+                                        strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Lag_Credit"]) + "</td>");
+                                        strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Lag_Charge"]) + "</td>");
 
-                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Nurse_Triage_Credit"]) + "</td>");
-                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Incident_Investigation_Credit"]) + "</td>");
+                                        strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Nurse_Triage_Credit"]) + "</td>");
+                                        strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Incident_Investigation_Credit"]) + "</td>");
 
-                                    if (drData["Early_Close_Credit_Date"] != DBNull.Value)
-                                        strHTML.Append("<td style='width: 8%;' align='left' valign='top'>" + Convert.ToDateTime(drData["Early_Close_Credit_Date"]).ToString(DateDisplayFormat) + "</td>");
-                                    else
-                                        strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                        if (drData["Early_Close_Credit_Date"] != DBNull.Value)
+                                            strHTML.Append("<td style='width: 8%;' align='left' valign='top'>" + Convert.ToDateTime(drData["Early_Close_Credit_Date"]).ToString(DateDisplayFormat) + "</td>");
+                                        else
+                                            strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
 
-                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Early_Close_Credit"]) + "</td>");
+                                        strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Early_Close_Credit"]) + "</td>");
 
-                                    if (drData["Reopen_Charge_Date"] != DBNull.Value)
-                                        strHTML.Append("<td style='width: 8%;' align='left' valign='top'>" + Convert.ToDateTime(drData["Reopen_Charge_Date"]).ToString(DateDisplayFormat) + "</td>");
-                                    else
-                                        strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                        if (drData["Reopen_Charge_Date"] != DBNull.Value)
+                                            strHTML.Append("<td style='width: 8%;' align='left' valign='top'>" + Convert.ToDateTime(drData["Reopen_Charge_Date"]).ToString(DateDisplayFormat) + "</td>");
+                                        else
+                                            strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
 
-                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Reopen_Charge"]) + "</td>");
+                                        strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Reopen_Charge"]) + "</td>");
 
-                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Total_Charge"]) + "</td>");
+                                        strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Total_Charge"]) + "</td>");
+                                        strHTML.Append("</tr>");
+                                    }
+                                    strHTML.Append("<tr style='background-color:#FFFFFF;'>");
+                                    strHTML.Append("<td style='width: 13%;' align='left' valign='top'><b>Total</b></td>");
+                                    strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                    strHTML.Append("<td style='width: 10%;' align='left' valign='top'>&nbsp;</td>");
+                                    strHTML.Append("<td style='width: 13%;' align='left' valign='top'>&nbsp;</td>");
+                                    strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                    strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                    strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drRegion["Initial_Charge"]) + "</b></td>");
+                                    strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>" + string.Format("{0:N0}", drRegion["Report_Lag"]) + "</b></td>");
+                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$" + string.Format("{0:N2}", drRegion["Lag_Credit"]) + "</b></td>");
+                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drRegion["Lag_Charge"]) + "</b></td>");
+
+                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$" + string.Format("{0:N2}", drRegion["Nurse_Triage_Credit"]) + "</b></td>");
+                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drRegion["Incident_Investigation_Credit"]) + "</b></td>");
+                                    strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drRegion["Early_Close_Credit"]) + "</b></td>");
+                                    strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drRegion["Reopen_Charge"]) + "</b></td>");
+                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drRegion["Total_Charge"]) + "</b></td>");
                                     strHTML.Append("</tr>");
+                                    strHTML.Append("</table>");
+                                    strHTML.Append("</td></tr>");
                                 }
-                                strHTML.Append("<tr style='background-color:#FFFFFF;'>");
-                                strHTML.Append("<td style='width: 13%;' align='left' valign='top'><b>Total</b></td>");
+                                strHTML.Append("<tr style='background-color:#507cd1;font-family:Calibri;color:White;'>");
+                                strHTML.Append("<td style='width: 13%;' align='left' valign='top'><b>Grand Total</b></td>");
                                 strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
                                 strHTML.Append("<td style='width: 10%;' align='left' valign='top'>&nbsp;</td>");
                                 strHTML.Append("<td style='width: 13%;' align='left' valign='top'>&nbsp;</td>");
                                 strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
                                 strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
                                 strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
-                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drRegion["Initial_Charge"]) + "</b></td>");
+                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", dtTotal.Rows[0]["Initial_Charge"]) + "</b></td>");
                                 strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
-                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>" + string.Format("{0:N0}", drRegion["Report_Lag"]) + "</b></td>");
-                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$" + string.Format("{0:N2}", drRegion["Lag_Credit"]) + "</b></td>");
-                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drRegion["Lag_Charge"]) + "</b></td>");
+                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>" + string.Format("{0:N0}", dtTotal.Rows[0]["Report_Lag"]) + "</b></td>");
+                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$" + string.Format("{0:N2}", dtTotal.Rows[0]["Lag_Credit"]) + "</b></td>");
+                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", dtTotal.Rows[0]["Lag_Charge"]) + "</b></td>");
 
-                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$" + string.Format("{0:N2}", drRegion["Nurse_Triage_Credit"]) + "</b></td>");
-                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drRegion["Incident_Investigation_Credit"]) + "</b></td>");
+                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", dtTotal.Rows[0]["Nurse_Triage_Credit"]) + "</b></td>");
+                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", dtTotal.Rows[0]["Incident_Investigation_Credit"]) + "</b></td>");
                                 strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
-                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drRegion["Early_Close_Credit"]) + "</b></td>");
+                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", dtTotal.Rows[0]["Early_Close_Credit"]) + "</b></td>");
                                 strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
-                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drRegion["Reopen_Charge"]) + "</b></td>");
-                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drRegion["Total_Charge"]) + "</b></td>");
+                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", dtTotal.Rows[0]["Reopen_Charge"]) + "</b></td>");
+                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", dtTotal.Rows[0]["Total_Charge"]) + "</b></td>");
                                 strHTML.Append("</tr>");
                                 strHTML.Append("</table>");
-                                strHTML.Append("</td></tr>");
+                                //strHTML.Append("</td></tr>");
+                                //strHTML.Append("</table>");
                             }
-                            strHTML.Append("<tr style='background-color:#507cd1;font-family:Calibri;color:White;'>");
-                            strHTML.Append("<td style='width: 13%;' align='left' valign='top'><b>Grand Total</b></td>");
-                            strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
-                            strHTML.Append("<td style='width: 10%;' align='left' valign='top'>&nbsp;</td>");
-                            strHTML.Append("<td style='width: 13%;' align='left' valign='top'>&nbsp;</td>");
-                            strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
-                            strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
-                            strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
-                            strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", dtTotal.Rows[0]["Initial_Charge"]) + "</b></td>");
-                            strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
-                            strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>" + string.Format("{0:N0}", dtTotal.Rows[0]["Report_Lag"]) + "</b></td>");
-                            strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$" + string.Format("{0:N2}", dtTotal.Rows[0]["Lag_Credit"]) + "</b></td>");
-                            strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", dtTotal.Rows[0]["Lag_Charge"]) + "</b></td>");
+                            else
+                            {
+                                //Add No record found line for year
+                                strHTML.Append("<tr><td align='left' colspan='19'>No Record Found!</td></tr>");
+                            } 
 
-                            strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", dtTotal.Rows[0]["Nurse_Triage_Credit"]) + "</b></td>");
-                            strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", dtTotal.Rows[0]["Incident_Investigation_Credit"]) + "</b></td>");
-                            strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
-                            strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", dtTotal.Rows[0]["Early_Close_Credit"]) + "</b></td>");
-                            strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
-                            strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", dtTotal.Rows[0]["Reopen_Charge"]) + "</b></td>");
-                            strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", dtTotal.Rows[0]["Total_Charge"]) + "</b></td>");
-                            strHTML.Append("</tr>");
-                            strHTML.Append("</table>");
-                            strHTML.Append("</td></tr>");
-                            strHTML.Append("</table>");
+                            #endregion
                         }
-                        else
+                        else if (strRun_Report_By == "Market")
                         {
-                            //Add No record found line for year
-                            strHTML.Append("<tr><td align='left' colspan='19'>No Record Found!</td></tr>");
-                        }
+                            dsReport = Report.WCAllocationMonthlyDetailReport_ByMarket(Month, Year);
 
+                            #region ::Region section::
+
+                            DataTable dtDetails = dsReport.Tables[0];
+                            DataTable dtMarketTotal = dsReport.Tables[1];
+                            DataTable dtRegionTotals = dsReport.Tables[2];
+                            DataTable dtGrandTotal = dsReport.Tables[3];
+
+                            if (dtDetails.Rows.Count > 0)
+                            {
+                                //Add Report Data Table 
+                                strHTML.Append("<table style='width: 100%;' border='1' align='left' cellpadding='4' cellspacing='0'>");
+                                foreach (DataRow drRegion in dtRegionTotals.Rows)
+                                {
+                                    strHTML.Append("<tr><td colspan='19' style='font-family:Calibri;'><b>");
+                                    strHTML.Append("Region : " + drRegion["Region"].ToString());
+                                    strHTML.Append("</b></td></tr>");
+
+                                    DataRow[] drDataByRegion = dtMarketTotal.Select("Region='" + drRegion["Region"].ToString() + "'");
+                                    #region ::market section::
+                                    foreach (DataRow drMarket in drDataByRegion)
+                                    {
+                                        strHTML.Append("<tr><td colspan='19' style='font-family:Calibri;'><b>");
+                                        strHTML.Append("Market : " + drMarket["Market"].ToString());
+                                        strHTML.Append("</b></td></tr>");
+                                        strHTML.Append("<tr><td colspan='19'>");
+                                        strHTML.Append("<table style='width: 100%;font-family:Calibri;' border='1' align='left' cellpadding='4' cellspacing='0'>");
+                                        DataRow[] drDataByMarket = dtDetails.Select("Region='" + drMarket["Region"].ToString() + "'" + "AND Market='" + drMarket["Market"].ToString() + "'");
+                                        foreach (DataRow drData in drDataByMarket)
+                                        {
+                                            strHTML.Append("<td  align='left' valign='top'>" + drData["dba"] + "</td>");
+                                            strHTML.Append("<td align='left' valign='top'>" + drData["Sonic_Location_Code"] + "</td>");
+                                            strHTML.Append("<td  align='left' valign='top'>WC-" + drData["WC_FR_Number"] + "</td>");
+                                            strHTML.Append("<td  align='left' valign='top'>" + drData["Origin_Claim_Number"] + "</td>");
+                                            strHTML.Append("<td  align='left' valign='top'>" + drData["Employee_Name"] + "</td>");
+                                            strHTML.Append("<td  align='left' valign='top'>" + drData["Sonic_Cause_Code"] + "</td>");
+
+                                            if (Convert.ToDateTime(drData["Date_Of_Incident"]) != Convert.ToDateTime(System.Data.SqlTypes.SqlDateTime.MinValue.ToString()))
+                                                strHTML.Append("<td style='width: 8%;' align='left' valign='top'>" + Convert.ToDateTime(drData["Date_Of_Incident"]).ToString(DateDisplayFormat) + "</td>");
+                                            else
+                                                strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+
+                                            strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Initial_Charge"]) + "</td>");
+
+                                            if (drData["Initial_Charge_Date"] != DBNull.Value)
+                                                strHTML.Append("<td style='width: 8%;' align='left' valign='top'>" + Convert.ToDateTime(drData["Initial_Charge_Date"]).ToString(DateDisplayFormat) + "</td>");
+                                            else
+                                                strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+
+                                            strHTML.Append("<td style='width: 8%;' align='right' valign='top'>" + string.Format("{0:N0}", drData["Report_Lag"]) + "</td>");
+
+                                            strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Lag_Credit"]) + "</td>");
+                                            strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Lag_Charge"]) + "</td>");
+
+                                            strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Nurse_Triage_Credit"]) + "</td>");
+                                            strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Incident_Investigation_Credit"]) + "</td>");
+
+                                            if (drData["Early_Close_Credit_Date"] != DBNull.Value)
+                                                strHTML.Append("<td style='width: 8%;' align='left' valign='top'>" + Convert.ToDateTime(drData["Early_Close_Credit_Date"]).ToString(DateDisplayFormat) + "</td>");
+                                            else
+                                                strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+
+                                            strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Early_Close_Credit"]) + "</td>");
+
+                                            if (drData["Reopen_Charge_Date"] != DBNull.Value)
+                                                strHTML.Append("<td style='width: 8%;' align='left' valign='top'>" + Convert.ToDateTime(drData["Reopen_Charge_Date"]).ToString(DateDisplayFormat) + "</td>");
+                                            else
+                                                strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+
+                                            strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Reopen_Charge"]) + "</td>");
+
+                                            strHTML.Append("<td style='width: 8%;' align='right' valign='top'>$ " + string.Format("{0:N2}", drData["Total_Charge"]) + "</td>");
+                                            strHTML.Append("</tr>");
+                                        }
+                                        strHTML.Append("<tr style='background-color:#FFFFFF;'>");
+                                        strHTML.Append("<td style='width: 13%;' align='left' valign='top'><b>Totals</b></td>");
+                                        strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                        strHTML.Append("<td style='width: 10%;' align='left' valign='top'>&nbsp;</td>");
+                                        strHTML.Append("<td style='width: 13%;' align='left' valign='top'>&nbsp;</td>");
+                                        strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                        strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                        strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                        strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drMarket["Initial_Charge"]) + "</b></td>");
+                                        strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                        strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>" + string.Format("{0:N0}", drMarket["Report_Lag"]) + "</b></td>");
+                                        strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$" + string.Format("{0:N2}", drMarket["Lag_Credit"]) + "</b></td>");
+                                        strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drMarket["Lag_Charge"]) + "</b></td>");
+
+                                        strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$" + string.Format("{0:N2}", drMarket["Nurse_Triage_Credit"]) + "</b></td>");
+                                        strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drMarket["Incident_Investigation_Credit"]) + "</b></td>");
+                                        strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                        strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drMarket["Early_Close_Credit"]) + "</b></td>");
+                                        strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                        strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drMarket["Reopen_Charge"]) + "</b></td>");
+                                        strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drMarket["Total_Charge"]) + "</b></td>");
+                                        strHTML.Append("</tr>");
+                                        strHTML.Append("</table>");
+                                        strHTML.Append("</td></tr>");
+                                    }
+                                    #endregion
+
+                                    strHTML.Append("<tr style='background-color:#66ccff;'>");
+                                    strHTML.Append("<td style='width: 13%;' align='left' valign='top'><b>Region Total</b></td>");
+                                    strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                    strHTML.Append("<td style='width: 10%;' align='left' valign='top'>&nbsp;</td>");
+                                    strHTML.Append("<td style='width: 13%;' align='left' valign='top'>&nbsp;</td>");
+                                    strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                    strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                    strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drRegion["Initial_Charge"]) + "</b></td>");
+                                    strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>" + string.Format("{0:N0}", drRegion["Report_Lag"]) + "</b></td>");
+                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$" + string.Format("{0:N2}", drRegion["Lag_Credit"]) + "</b></td>");
+                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drRegion["Lag_Charge"]) + "</b></td>");
+
+                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$" + string.Format("{0:N2}", drRegion["Nurse_Triage_Credit"]) + "</b></td>");
+                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drRegion["Incident_Investigation_Credit"]) + "</b></td>");
+                                    strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drRegion["Early_Close_Credit"]) + "</b></td>");
+                                    strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drRegion["Reopen_Charge"]) + "</b></td>");
+                                    strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", drRegion["Total_Charge"]) + "</b></td>");
+                                    strHTML.Append("</tr>");
+                                    //strHTML.Append("</table>");
+                                    //strHTML.Append("</td></tr>");
+                                }
+                                strHTML.Append("<tr style='background-color:#507cd1;font-family:Calibri;color:White;'>");
+                                strHTML.Append("<td style='width: 13%;' align='left' valign='top'><b>Report Grand Total</b></td>");
+                                strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                strHTML.Append("<td style='width: 10%;' align='left' valign='top'>&nbsp;</td>");
+                                strHTML.Append("<td style='width: 13%;' align='left' valign='top'>&nbsp;</td>");
+                                strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", dtGrandTotal.Rows[0]["Initial_Charge"]) + "</b></td>");
+                                strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>" + string.Format("{0:N0}", dtGrandTotal.Rows[0]["Report_Lag"]) + "</b></td>");
+                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$" + string.Format("{0:N2}", dtGrandTotal.Rows[0]["Lag_Credit"]) + "</b></td>");
+                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", dtGrandTotal.Rows[0]["Lag_Charge"]) + "</b></td>");
+
+                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", dtGrandTotal.Rows[0]["Nurse_Triage_Credit"]) + "</b></td>");
+                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", dtGrandTotal.Rows[0]["Incident_Investigation_Credit"]) + "</b></td>");
+                                strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", dtGrandTotal.Rows[0]["Early_Close_Credit"]) + "</b></td>");
+                                strHTML.Append("<td style='width: 8%;' align='left' valign='top'>&nbsp;</td>");
+                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", dtGrandTotal.Rows[0]["Reopen_Charge"]) + "</b></td>");
+                                strHTML.Append("<td style='width: 8%;' align='right' valign='top'><b>$ " + string.Format("{0:N2}", dtGrandTotal.Rows[0]["Total_Charge"]) + "</b></td>");
+                                strHTML.Append("</tr>");
+                                strHTML.Append("</table>");
+                                //strHTML.Append("</td></tr>");
+                                //strHTML.Append("</table>");
+                            }
+                            else
+                            {
+                                //Add No record found line for year
+                                strHTML.Append("<tr><td align='left' colspan='19'>No Record Found!</td></tr>");
+                            }
+
+                            #endregion
+                        }
 
                         //Write HTML in to HtmlWriter
                         htmlWrite.WriteLine(strHTML.ToString());
@@ -5041,10 +5219,20 @@ namespace ERIMS_Sonic_ReportScheduler
                         // get start date
                         Decimal Year = Convert.ToDecimal(dtFilter.Rows[0]["Year"]);
 
-                        // get result records from database for the report
-                        DataSet dsReport = Report.WC_Monthly_Allocation_Summary_Report(Year);
+                        string strRun_Report_By = Convert.ToString(dtFilter.Rows[0]["Run_report_by"]);
 
-                        //Create HTML for the report and wirte into HTML Write object
+                        if (string.IsNullOrEmpty(strRun_Report_By))
+                            strRun_Report_By = "Region";
+
+                        // get result records from database for the report
+                        DataSet dsReport = new DataSet(); ;// Report.WC_Monthly_Allocation_Summary_Report(Year);
+
+                        if (strRun_Report_By == "Region")
+                            dsReport = Report.WC_Monthly_Allocation_Summary_Report(Year);
+                        else if (strRun_Report_By == "Market")
+                            dsReport = Report.WC_Monthly_Allocation_Summary_Report_ByMarket(Year);
+
+                        //Create HTML for the report and write into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
                         System.IO.StringWriter stringWrite = new System.IO.StringWriter();
                         System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
@@ -5067,7 +5255,9 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br /><br />");
                         strHTML.Append("<b>Report Filters </b>");
                         strHTML.Append("<br /><br />");
-                        strHTML.Append("Year        : " + Year);
+                        strHTML.Append("Year          : " + Year);
+                        strHTML.Append("<br /><br />");
+                        strHTML.Append("Run Report by : " + strRun_Report_By);
                         strHTML.Append("<br /><br />");
                         strHTML.Append("</span>");
 
@@ -5076,6 +5266,9 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<tr>");
                         strHTML.Append("<td  align='left' valign='top'>Location</td>");
                         strHTML.Append("<td  align='left' valign='top'>Location<br/>Code</td>");
+                        strHTML.Append("<td  align='left' valign='top'>Region</td>");
+                        if (strRun_Report_By == "Market")
+                            strHTML.Append("<td  align='left' valign='top'>Market</td>");
                         strHTML.Append("<td  align='right' valign='top'>JAN'" + Year.ToString().Substring(2, 2) + "</td>");
                         strHTML.Append("<td  align='right' valign='top'>FEB'" + Year.ToString().Substring(2, 2) + "</td>");
                         strHTML.Append("<td  align='right' valign='top'>MAR'" + Year.ToString().Substring(2, 2) + "</td>");
@@ -5110,6 +5303,9 @@ namespace ERIMS_Sonic_ReportScheduler
                             {
                                 strHTML.Append("<td  align='left' valign='top'>" + drData["dba"] + "</td>");
                                 strHTML.Append("<td  align='left' valign='top'>" + drData["sonic_location_code"] + "</td>");
+                                strHTML.Append("<td  align='left' valign='top'>" + drData["Region"] + "</td>");
+                                if (strRun_Report_By == "Market")
+                                    strHTML.Append("<td  align='left' valign='top'>" + drData["Market"] + "</td>");
                                 strHTML.Append("<td  align='right' valign='top'>$ " + string.Format("{0:N2}", drData["JAN"]) + "</td>");
                                 strHTML.Append("<td  align='right' valign='top'>$ " + string.Format("{0:N2}", drData["FEB"]) + "</td>");
                                 strHTML.Append("<td  align='right' valign='top'>$ " + string.Format("{0:N2}", drData["MAR"]) + "</td>");
@@ -5130,7 +5326,9 @@ namespace ERIMS_Sonic_ReportScheduler
                             }
                             strHTML.Append("<tr style='background-color:#507cd1;font-weight:bold;font-family:Calibri;color:White;'>");
                             strHTML.Append("<td align='left' valign='top'>Total</td>");
-                            strHTML.Append("<td align='left' valign='top'>&nbsp;</td>");
+                            strHTML.Append("<td colspan='2' align='left' valign='top'>&nbsp;</td>");
+                            if (strRun_Report_By == "Market")
+                                strHTML.Append("<td align='left' valign='top'>&nbsp;</td>");
                             strHTML.Append("<td align='right' valign='top'>$ " + string.Format("{0:N2}", dtTotal.Rows[0]["JAN"]) + "</td>");
                             strHTML.Append("<td align='right' valign='top'>$ " + string.Format("{0:N2}", dtTotal.Rows[0]["FEB"]) + "</td>");
                             strHTML.Append("<td align='right' valign='top'>$ " + string.Format("{0:N2}", dtTotal.Rows[0]["MAR"]) + "</td>");

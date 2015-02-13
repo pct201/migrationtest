@@ -16,6 +16,7 @@ namespace ERIMS.DAL
         private decimal? _PK_ID;
         private decimal? _FK_Schedule;
         private int? _Year;
+        private string _Run_report_by;
 
         #endregion
 
@@ -48,6 +49,15 @@ namespace ERIMS.DAL
             set { _Year = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the Run_report_by value.
+        /// </summary>
+        public string Run_report_by
+        {
+            get { return _Run_report_by; }
+            set { _Run_report_by = value; }
+        }
+
 
         #endregion
 
@@ -62,6 +72,7 @@ namespace ERIMS.DAL
             this._PK_ID = null;
             this._FK_Schedule = null;
             this._Year = null;
+            this._Run_report_by = null;
 
         }
 
@@ -94,12 +105,18 @@ namespace ERIMS.DAL
                 else
                     this._Year = (int?)drTatva_RptWCMonthlyAllocationSummaryReport["Year"];
 
+                if (drTatva_RptWCMonthlyAllocationSummaryReport["Run_report_by"] == DBNull.Value)
+                    this._Run_report_by = null;
+                else
+                    this._Run_report_by = (string)drTatva_RptWCMonthlyAllocationSummaryReport["Run_report_by"];
+
             }
             else
             {
                 this._PK_ID = null;
                 this._FK_Schedule = null;
                 this._Year = null;
+                this._Run_report_by = null;
             }
 
         }
@@ -118,6 +135,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "FK_Schedule", DbType.Decimal, this._FK_Schedule);
             db.AddInParameter(dbCommand, "Year", DbType.Int32, this._Year);
+            db.AddInParameter(dbCommand, "Run_report_by", DbType.String, this._Run_report_by);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -165,6 +183,8 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "FK_Schedule", DbType.Decimal, this._FK_Schedule);
 
             db.AddInParameter(dbCommand, "Year", DbType.Int32, this._Year);
+
+            db.AddInParameter(dbCommand, "Run_report_by", DbType.String, this._Run_report_by);
 
             db.ExecuteNonQuery(dbCommand);
         }

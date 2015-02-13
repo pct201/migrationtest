@@ -113,6 +113,19 @@
                             <td align="left">
                             </td>
                         </tr>
+                         <tr>
+                            <td align="left"></td>
+                            <td align="left">Run report by
+                            </td>
+                            <td align="center">:</td>
+                            <td align="left">
+                                <asp:RadioButtonList ID="rdoRunBy" runat="server">
+                                    <asp:ListItem Text="Region" Value="Region" Selected="True"></asp:ListItem>
+                                    <asp:ListItem Text="Market" Value="Market"></asp:ListItem>
+                                </asp:RadioButtonList>
+                            </td>
+                            <td align="left"></td>
+                        </tr>
                         <tr>
                             <td align="left">
                             </td>

@@ -53,7 +53,7 @@ public partial class SONIC_FirstReport_ScheduleWCAllocationMonthlyDetailReport :
             //Report Filters
             obj.Year = ddlYear.SelectedIndex > 0 ? Convert.ToInt32(ddlYear.SelectedValue) : 0;
             obj.Month = ddlMonth.SelectedIndex > 0 ? Convert.ToInt32(ddlMonth.SelectedValue) : 0;
-
+            obj.Run_report_by = rdoRunBy.SelectedValue;
 
             //Report Schedule Details
             obj.FK_Report = Convert.ToDecimal(Request.QueryString["PK_ReportID"]);

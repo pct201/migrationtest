@@ -85,7 +85,7 @@ public partial class SONIC_FirstReport_WCMonthlyAllocationSummaryReport : clsBas
             gvworkers_comp_summary.Columns[3].Visible = true;
         }
 
-        // set Backgroung color and Font Color for each cell in row
+        // set Background color and Font Color for each cell in row
         for (int i = 0; i < gvworkers_comp_summary.Rows[gvworkers_comp_summary.Rows.Count - 1].Cells.Count; i++)
             gvworkers_comp_summary.Rows[gvworkers_comp_summary.Rows.Count - 1].Cells[i].Attributes.Add("style", "background-color:#507cd1;font-weight:bold;color:white;");
 
@@ -115,7 +115,7 @@ public partial class SONIC_FirstReport_WCMonthlyAllocationSummaryReport : clsBas
     }
 
     /// <summary>
-    /// Hanlde row created event of grid view
+    /// Handle row created event of grid view
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -133,7 +133,7 @@ public partial class SONIC_FirstReport_WCMonthlyAllocationSummaryReport : clsBas
             row.Cells[6].Text = row.Cells[6].Text + "'" + ViewState["Year"].ToString();
             row.Cells[7].Text = row.Cells[7].Text + "'" + ViewState["Year"].ToString();
             row.Cells[8].Text = row.Cells[8].Text + "'" + ViewState["Year"].ToString();
-            row.Cells[9].Text = row.Cells[8].Text + "'" + ViewState["Year"].ToString();
+            row.Cells[9].Text = row.Cells[9].Text + "'" + ViewState["Year"].ToString();
             row.Cells[10].Text = row.Cells[10].Text + "'" + ViewState["Year"].ToString();
             row.Cells[11].Text = row.Cells[11].Text + "'" + ViewState["Year"].ToString();
             row.Cells[12].Text = row.Cells[12].Text + "'" + ViewState["Year"].ToString();

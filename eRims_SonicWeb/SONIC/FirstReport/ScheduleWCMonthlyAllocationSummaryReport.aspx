@@ -18,31 +18,27 @@
 <body>
 
     <script type="text/javascript" language="javascript">
-           
-    function CheckScheduleDate(obj,args)
-    {
-        var retVal = true;
-        if(document.getElementById('<%=txtScheduleDate.ClientID %>').value != '')
-        {
-            var dateSelected = new Date(document.getElementById('<%=txtScheduleDate.ClientID %>').value);
-            var dateToday =new Date();
-            if(dateSelected < dateToday)
-            {
-                args.IsValid = false;
-                retVal= false;
+
+        function CheckScheduleDate(obj, args) {
+            var retVal = true;
+            if (document.getElementById('<%=txtScheduleDate.ClientID %>').value != '') {
+                var dateSelected = new Date(document.getElementById('<%=txtScheduleDate.ClientID %>').value);
+                var dateToday = new Date();
+                if (dateSelected < dateToday) {
+                    args.IsValid = false;
+                    retVal = false;
+                }
             }
+            return retVal;
         }
-        return retVal;
-    }
-    
-    function ScheduleSavedConfirm()
-    {
-        if(confirm('Report Scheduled Successfully! Do you want to continue with schedule?'))
-            window.location.href = window.location.href;
-        else
-            window.close();
-    }
-    
+
+        function ScheduleSavedConfirm() {
+            if (confirm('Report Scheduled Successfully! Do you want to continue with schedule?'))
+                window.location.href = window.location.href;
+            else
+                window.close();
+        }
+
     </script>
 
     <form id="form1" runat="server">
@@ -51,13 +47,11 @@
             CssClass="errormessage"></asp:ValidationSummary>
         <table width="100%">
             <tr>
-                <td align="left" class="ghc">
-                    WC Monthly Allocation Summary Report
+                <td align="left" class="ghc">WC Monthly Allocation Summary Report
                 </td>
             </tr>
             <tr>
-                <td class="Spacer" style="height: 15px;">
-                </td>
+                <td class="Spacer" style="height: 15px;"></td>
             </tr>
             <tr>
                 <td align="center">
@@ -69,29 +63,35 @@
                 <td class="dvContent" align="center">
                     <table cellpadding="3" cellspacing="0" border="0" align="center" style="width: 100%">
                         <tr>
-                            <td align="left">
-                            </td>
-                            <td align="left" style="width: 18%">
-                                Year<span style="color: Red;">*</span></td>
-                            <td align="center" style="width: 4%">
-                                :</td>
+                            <td align="left"></td>
+                            <td align="left" style="width: 18%">Year<span style="color: Red;">*</span></td>
+                            <td align="right" style="width: 4%">:</td>
                             <td align="left" style="width: 40%">
                                 <asp:DropDownList runat="Server" ID="ddlYear" SkinID="dropGen" Width="150px">
                                 </asp:DropDownList>
                                 <asp:RequiredFieldValidator ID="rfvYear" ControlToValidate="ddlYear" Display="None"
                                     runat="server" InitialValue="0" Text="*" SetFocusOnError="true" ErrorMessage="Please select Year."></asp:RequiredFieldValidator>
                             </td>
-                            <td align="left">
-                            </td>
+                            <td align="left"></td>
                         </tr>
                         <tr>
-                            <td align="left">
+                            <td align="left"></td>
+                            <td align="left">Run report by
                             </td>
+                            <td align="right">:</td>
                             <td align="left">
-                                Scheduled Date<span class="mf">*</span>
+                                <asp:RadioButtonList ID="rdoRunBy" runat="server">
+                                    <asp:ListItem Text="Region" Value="Region" Selected="True"></asp:ListItem>
+                                    <asp:ListItem Text="Market" Value="Market"></asp:ListItem>
+                                </asp:RadioButtonList>
                             </td>
-                            <td align="right">
-                                :
+                            <td align="left"></td>
+                        </tr>
+                        <tr>
+                            <td align="left"></td>
+                            <td align="left">Scheduled Date<span class="mf">*</span>
+                            </td>
+                            <td align="right">:
                             </td>
                             <td align="left">
                                 <asp:TextBox runat="server" ID="txtScheduleDate" Width="140px" SkinID="txtDate"></asp:TextBox>
@@ -106,17 +106,13 @@
                                     ClientValidationFunction="CheckScheduleDate" Display="None" SetFocusOnError="true"
                                     Text=""></asp:CustomValidator>
                             </td>
-                            <td align="left">
-                            </td>
+                            <td align="left"></td>
                         </tr>
                         <tr>
-                            <td align="left">
+                            <td align="left"></td>
+                            <td align="left">Scheduled End Date<span class="mf">*</span>
                             </td>
-                            <td align="left">
-                                Scheduled End Date<span class="mf">*</span>
-                            </td>
-                            <td align="right">
-                                :
+                            <td align="right">:
                             </td>
                             <td align="left">
                                 <asp:TextBox runat="server" ID="txtScheduleEndDate" Width="140px" SkinID="txtDate"></asp:TextBox>
@@ -132,17 +128,13 @@
                                     SetFocusOnError="true" Type="date" Operator="GreaterThanEqual" />
                                 <asp:CustomValidator ID="CustomValidator1" runat="server" ErrorMessage="Scheduled End Date must greater than current date."
                                     Display="None" SetFocusOnError="true" Text=""></asp:CustomValidator></td>
-                            <td align="left">
-                            </td>
+                            <td align="left"></td>
                         </tr>
                         <tr>
-                            <td align="left">
+                            <td align="left"></td>
+                            <td align="left" width="150">Recurring Period<span class="mf">*</span>
                             </td>
-                            <td align="left" width="150">
-                                Recurring Period<span class="mf">*</span>
-                            </td>
-                            <td align="right">
-                                :
+                            <td align="right">:
                             </td>
                             <td align="left" width="150">
                                 <asp:DropDownList ID="drpRecurringPeriod" runat="server" EnableTheming="True" SkinID="dropGen"
@@ -156,17 +148,13 @@
                                     Font-Bold="true" Display="none" Text="*" ControlToValidate="drpRecurringPeriod"
                                     InitialValue="0" SetFocusOnError="true"></asp:RequiredFieldValidator>
                             </td>
-                            <td align="left">
-                            </td>
+                            <td align="left"></td>
                         </tr>
                         <tr>
-                            <td align="left">
+                            <td align="left"></td>
+                            <td align="left" width="150">Recipient List<span class="mf">*</span>
                             </td>
-                            <td align="left" width="150">
-                                Recipient List<span class="mf">*</span>
-                            </td>
-                            <td align="right">
-                                :
+                            <td align="right">:
                             </td>
                             <td align="left" width="150">
                                 <asp:DropDownList ID="drpRecipientList" runat="server" EnableTheming="True" SkinID="dropGen"
@@ -175,30 +163,24 @@
                                     Font-Bold="true" Display="none" Text="*" ControlToValidate="drpRecipientList"
                                     InitialValue="0" SetFocusOnError="true"></asp:RequiredFieldValidator>
                             </td>
-                            <td align="left">
-                            </td>
+                            <td align="left"></td>
                         </tr>
                         <tr>
-                            <td align="left">
-                            </td>
-                            <td align="left" width="150">
-                            </td>
-                            <td align="right">
-                            </td>
+                            <td align="left"></td>
+                            <td align="left" width="150"></td>
+                            <td align="right"></td>
                             <td align="left" width="150">
                                 <asp:Button ID="btnSave" runat="server" Text="Save" OnClick="btnSave_Click" />
                                 &nbsp;
-                                <input type="button" class="btn" value="Close" onclick="javascript:window.close();" />
+                                <input type="button" class="btn" value="Close" onclick="javascript: window.close();" />
                             </td>
-                            <td align="left">
-                            </td>
+                            <td align="left"></td>
                         </tr>
                     </table>
                 </td>
             </tr>
             <tr>
-                <td align="center" class="dvContent">
-                </td>
+                <td align="center" class="dvContent"></td>
             </tr>
         </table>
     </form>
