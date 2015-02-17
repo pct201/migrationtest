@@ -274,14 +274,14 @@
             $("#<%=txtEstimatedDefenseExpenseDate.ClientID%>").mask("99/99/9999");
             $("#<%=txtActualSettlementDate.ClientID%>").mask("99/99/9999");
             $("#<%=txtActualDefenseExpenseDate.ClientID%>").mask("99/99/9999");
-            $("#<%=txtTelephone.ClientID%>").mask("999-999-9999");  
+            $("#<%=txtTelephone.ClientID%>").mask("999-999-9999");
         });
     </script>
     <script language="javascript" type="text/javascript">
         function CheckTodayDate(sender, args) {
             args.IsValid = (CompareDateLessThanTodayNoAlert(args.Value));
             return args.IsValid;
-        }  
+        }
     </script>
     <div>
         <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
@@ -1660,7 +1660,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td align="left">
-                                                            If Other, please specify
+                                                            If Other, Please Specify
                                                         </td>
                                                         <td align="center">
                                                             :
@@ -1976,7 +1976,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td align="left" width="18%">
-                                                            Primary Deductable
+                                                            Primary Deductible
                                                         </td>
                                                         <td align="center" width="4%">
                                                             :

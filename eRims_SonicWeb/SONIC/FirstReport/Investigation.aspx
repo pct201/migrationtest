@@ -411,14 +411,14 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left">Machine Part was involved
+                                                            <td align="left">Machine Part was Involved
                                                             </td>
                                                             <td align="center">:
                                                             </td>
                                                             <td align="left">
                                                                 <asp:Label ID="lblMachine_Part_InvolvedEdit" runat="server" Width="170px"></asp:Label>
                                                             </td>
-                                                            <td align="left">Machine Part was defective
+                                                            <td align="left">Machine Part was Defective
                                                             </td>
                                                             <td align="center">:
                                                             </td>
@@ -1539,7 +1539,7 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td align="left">To Be Completed by
+                                                                <td align="left">To Be Completed By
                                                                 </td>
                                                                 <td align="center">:
                                                                 </td>

@@ -848,7 +848,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Law Suit Y/N
+                                                        <td>Lawsuit Y/N
                                                         </td>
                                                         <td align="center">:
                                                         </td>
@@ -1523,7 +1523,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">Non Scheduled Idemnity Incurred
+                                                        <td align="left">Non-Scheduled Indemnity Incurred
                                                         </td>
                                                         <td align="center">:
                                                         </td>
@@ -1831,7 +1831,7 @@
                                                         <td>
                                                             <asp:Label ID="lblPreviousTPAIndemnityPaid" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>Claim Subrogration Paid to Date
+                                                        <td>Claim Subrogation Paid to Date
                                                         </td>
                                                         <td align="center">:
                                                         </td>

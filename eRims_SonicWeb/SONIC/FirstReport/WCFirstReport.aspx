@@ -146,8 +146,8 @@
                 CheckValidationMedicalInfo() == true && CheckValidationContactsInfo() == true && CheckComments() == true) {
                 return true;
             }
-            else 
-              return false;
+            else
+                return false;
         }
 
         //check validation for Location Information
@@ -158,7 +158,7 @@
 
             //validate page for passed validation group.
             if (Page_ClientValidate("vsLocationGroup"))
-                return true;            
+                return true;
             else
                 return false;
         }
@@ -176,10 +176,10 @@
                 document.getElementById('<%=txtContactRLCMTelephone1.ClientID%>').value = "";
             if (document.getElementById('<%=txtContactRLCMTelephone2.ClientID%>').value == "___-___-____")
                 document.getElementById('<%=txtContactRLCMTelephone2.ClientID%>').value = "";
-            
+
             //Validate page for passed validation group id
             if (Page_ClientValidate("vsContactsGroup"))
-                return true;            
+                return true;
             else
                 return false;
         }
@@ -201,10 +201,10 @@
                 document.getElementById('<%=txtNext_Doctor_Visit.ClientID%>').value = "";
             if (document.getElementById('<%=txtPhysician_Phone.ClientID%>').value == "___-___-____")
                 document.getElementById('<%=txtPhysician_Phone.ClientID%>').value = "";
-           
+
             // validate page by passed validaiton group id.
-            if (Page_ClientValidate("vsMedicalGroup")) 
-                return true;            
+            if (Page_ClientValidate("vsMedicalGroup"))
+                return true;
             else
                 return false;
 
@@ -266,11 +266,11 @@
             else
                 return false;
         }
-                
-        function CheckComments() { 
+
+        function CheckComments() {
             //Validate Page by passed Validation Group ID
-            if (Page_ClientValidate("vsCommentsGroup")) 
-                return true;            
+            if (Page_ClientValidate("vsCommentsGroup"))
+                return true;
             else
                 return false;
         }
@@ -304,11 +304,11 @@
         function CheckInjuryOccured() {
             ctl = document.getElementById('<%=rdoInjuryOccurredOffsite.ClientID %>');
             rdo = document.getElementById(ctl.id + "_0");
-           
+
             //check radio button checked value
             if (rdo.checked == true) {
                 document.getElementById('<%=trIncidentInjuryOccured.ClientID %>').style.display = "none";
-               
+
             }
             else {
                 document.getElementById('<%=trIncidentInjuryOccured.ClientID %>').style.display = "";
@@ -319,7 +319,7 @@
                     document.getElementById('<%=txtOffsite_City.ClientID %>').value = "";
                     document.getElementById('<%=txtOffsite_zip.ClientID %>').value = "";
                     document.getElementById('<%=ddlOffsite_State.ClientID %>').selectedIndex = 0;
-                }                
+                }
             }
         }
         //set Menu style. accoring to the passed value in Index parameter.
@@ -330,13 +330,13 @@
                 var tb = document.getElementById("WCMenu" + i);
                 if (i == index) {
                     tb.className = "LeftMenuSelected";
-                    tb.onmouseover = function() { this.className = 'LeftMenuSelected'; }
-                    tb.onmouseout = function() { this.className = 'LeftMenuSelected'; }
+                    tb.onmouseover = function () { this.className = 'LeftMenuSelected'; }
+                    tb.onmouseout = function () { this.className = 'LeftMenuSelected'; }
                 }
                 else {
                     tb.className = "LeftMenuStatic";
-                    tb.onmouseover = function() { this.className = 'LeftMenuHover'; }
-                    tb.onmouseout = function() { this.className = 'LeftMenuStatic'; }
+                    tb.onmouseover = function () { this.className = 'LeftMenuHover'; }
+                    tb.onmouseout = function () { this.className = 'LeftMenuStatic'; }
                 }
 
             }
@@ -459,7 +459,7 @@
             }
         }
 
-        function ValidateFieldsAssociate(sender, args) {           
+        function ValidateFieldsAssociate(sender, args) {
             var msg = '';
             var ctrlIDs = document.getElementById('<%=hdnAssociateID.ClientID%>').value.split(',');
             var Messages = document.getElementById('<%=hdnAssociateErrorMsgs.ClientID%>').value.split(',');
@@ -470,7 +470,7 @@
                     var bEmpty = false;
                     var ctrl = document.getElementById(ctrlIDs[i]);
                     switch (ctrl.type) {
-                    
+
                         case "textarea":
                         case "text": if (ctrl.value == '') bEmpty = true; break;
                         case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
@@ -490,7 +490,7 @@
             }
         }
 
-        function ValidateFieldsIncident(sender, args) {          
+        function ValidateFieldsIncident(sender, args) {
             var msg = '';
             var ctrlIDs = document.getElementById('<%=hdnIncidentID.ClientID%>').value.split(',');
             var Messages = document.getElementById('<%=hdnIncidentErrorMsgs.ClientID%>').value.split(',');
@@ -506,23 +506,23 @@
                         case "text":
                             if (ctrl.value == '') {
                                 if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtOffsite_Address1' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtOffsite_Address2' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtOffsite_City' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtOffsite_zip') {
-                                    var rdb = document.getElementById('ctl00_ContentPlaceHolder1_rdoInjuryOccurredOffsite_1');                                                                           
+                                    var rdb = document.getElementById('ctl00_ContentPlaceHolder1_rdoInjuryOccurredOffsite_1');
                                     //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
                                     if (rdb.checked)
                                         bEmpty = true;
-                                } 
+                                }
                                 else
                                     bEmpty = true;
                             } break;
-                       
-                       case "select-one":
+
+                        case "select-one":
                             if (ctrl.selectedIndex == 0) {
                                 if (ctrl.id == 'ctl00_ContentPlaceHolder1_ddlOffsite_State') {
                                     var rdb = document.getElementById('ctl00_ContentPlaceHolder1_rdoInjuryOccurredOffsite_1');
                                     //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
                                     if (rdb.checked)
                                         bEmpty = true;
-                                }                                
+                                }
                                 else
                                     bEmpty = true;
                             }
@@ -560,17 +560,17 @@
                         case "text":
                             if (ctrl.value == '') {
                                 if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtStatus_Out_Of_Work_date') {
-                                    var rdb = document.getElementById('ctl00_ContentPlaceHolder1_rdoStatus_Out_Of_Work');                                  
+                                    var rdb = document.getElementById('ctl00_ContentPlaceHolder1_rdoStatus_Out_Of_Work');
                                     if (rdb.checked)
                                         bEmpty = true;
                                 }
                                 else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtStatus_Return_To_Work_Unrestricted_date') {
-                                    var rdb = document.getElementById('ctl00_ContentPlaceHolder1_rdoStatus_Return_To_Work_Unrestricted');                                   
+                                    var rdb = document.getElementById('ctl00_ContentPlaceHolder1_rdoStatus_Return_To_Work_Unrestricted');
                                     if (rdb.checked)
                                         bEmpty = true;
                                 }
                                 else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtStatus_Return_Tp_Work_Restricted_date') {
-                                    var rdb = document.getElementById('ctl00_ContentPlaceHolder1_rdoStatus_Return_Tp_Work_Restricted');                                   
+                                    var rdb = document.getElementById('ctl00_ContentPlaceHolder1_rdoStatus_Return_Tp_Work_Restricted');
                                     if (rdb.checked)
                                         bEmpty = true;
                                 }
@@ -701,7 +701,7 @@
         function EnableDisable(elementRef) {
             var inputArray = elementRef.getElementsByTagName('input');
             var labelArray2 = elementRef.getElementsByTagName('Label');
-            var rdoCon = document.getElementById('<%=rdoSupervisor_Involved_In_Consultation.ClientID %>'); 
+            var rdoCon = document.getElementById('<%=rdoSupervisor_Involved_In_Consultation.ClientID %>');
             for (var i = 0; i < inputArray.length; i++) {
                 if (inputArray[i].checked) {
                     if (inputArray[i].value == 'Y') {
@@ -1214,7 +1214,7 @@
                                                             <asp:TextBox ID="txtCell_phone" runat="server" Width="170px"></asp:TextBox>
                                                         </td>
                                                         <td align="left">
-                                                            salary
+                                                            Salary
                                                         </td>
                                                         <td align="center">
                                                             :
@@ -1237,7 +1237,7 @@
                                                                 Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
                                                         </td>
                                                         <td align="left">
-                                                            salary Frequency
+                                                            Salary Frequency
                                                         </td>
                                                         <td align="center">
                                                             :
@@ -1342,7 +1342,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td align="left">
-                                                            Involved in Motor vehicle Accident?
+                                                            Involved in Motor Vehicle Accident?
                                                         </td>
                                                         <td align="center">
                                                             :
@@ -2939,7 +2939,7 @@
                                                             <asp:Label ID="lblCell_phone" runat="server"></asp:Label>
                                                         </td>
                                                         <td align="left">
-                                                            salary
+                                                            Salary
                                                         </td>
                                                         <td align="center">
                                                             :
@@ -2959,7 +2959,7 @@
                                                             <asp:Label ID="lblAlternate_Phone_2" runat="server"></asp:Label>
                                                         </td>
                                                         <td align="left">
-                                                            salary Frequency
+                                                            Salary Frequency
                                                         </td>
                                                         <td align="center">
                                                             :
@@ -2979,7 +2979,7 @@
                                                             <asp:Label ID="lblState_of_hire" runat="server"></asp:Label>
                                                         </td>
                                                         <td align="left">
-                                                            Hours worked Per week
+                                                            Hours Worked Per Week
                                                         </td>
                                                         <td align="center">
                                                             :
@@ -2999,7 +2999,7 @@
                                                             &nbsp;
                                                         </td>
                                                         <td align="left">
-                                                            Days worked Per week
+                                                            Days Worked Per Week
                                                         </td>
                                                         <td align="center">
                                                             :
@@ -3052,7 +3052,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td align="left">
-                                                            Involved in Motor vehicle Accident?
+                                                            Involved in Motor Vehicle Accident?
                                                         </td>
                                                         <td align="center">
                                                             :
@@ -3353,7 +3353,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td align="left">
-                                                            Was the claim Questionable?
+                                                            Was the Claim Questionable?
                                                         </td>
                                                         <td align="center">
                                                             :
@@ -3691,7 +3691,7 @@
                                                             :
                                                         </td>
                                                         <td align="left">
-                                                            Returned to Regular Job with no Restrictions :
+                                                            Returned to Regular Job with No Restrictions :
                                                             <asp:Label runat="server" ID="lblStatus_Return_To_Work_Unrestricted" />
                                                         </td>
                                                         <td align="left">

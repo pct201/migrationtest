@@ -63,7 +63,7 @@
 }
 
 function showPanelIncident(id) {
-    
+
     if (id == "ctl00_ContentPlaceHolder1_img1") {
         document.getElementById('<%=trIncidentReview_SubMenu.ClientID%>').style.display = "";
         document.getElementById('<%=img2.ClientID%>').style.display = "";
@@ -221,7 +221,7 @@ function SetMenuStyle(index) {
         }
     }
 }
-function ShowPanel(index) {    
+function ShowPanel(index) {
     var IsEditable = '<%=meetingIsEditable %>';
     SetMenuStyle(index);
     ActiveTabIndex = index;
@@ -439,32 +439,32 @@ function CheckBeforeAddTrainingAttach() {
     var PK = '<%=PK_SLT_Training%>';
     if (PK > 0) {
         var trAttach = document.getElementById('<%=tr_training_Attachment.ClientID%>');
-            trAttach.style.display = "block";
-        }
-        else {
-            alert('Please Add or Select Training Information First');
-        }
+        trAttach.style.display = "block";
     }
-    function openWindowAbstract(strURL) {
-        //oWnd = window.open(strURL, "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=500,height=300");
-        var w = 480, h = 340;
-        if (document.all || document.layers) {
-            w = screen.availWidth;
-            h = screen.availHeight;
-        }
+    else {
+        alert('Please Add or Select Training Information First');
+    }
+}
+function openWindowAbstract(strURL) {
+    //oWnd = window.open(strURL, "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=500,height=300");
+    var w = 480, h = 340;
+    if (document.all || document.layers) {
+        w = screen.availWidth;
+        h = screen.availHeight;
+    }
 
-        var leftPos, topPos;
-        var popW = 200, popH = 200;
-        if (document.all)
-        { leftPos = (w - popW) / 2; topPos = (h - popH) / 2; }
-        else
-        { leftPos = w / 2; topPos = h / 2; }
-        window.open(strURL, "popup", "toolbar=no,menubar=no,scrollbars=yes,resizable=yes,width=" + popW + ",height=" + popH + ",top=" + topPos + ",left=" + leftPos);
-        //oWnd.moveTo(260,180);
-        return false;
-    }
-    function CheckSLT_Member() {
-        var rowscount = document.getElementById('<%=gvSLT_Members.ClientID%>').rows.length;
+    var leftPos, topPos;
+    var popW = 200, popH = 200;
+    if (document.all)
+    { leftPos = (w - popW) / 2; topPos = (h - popH) / 2; }
+    else
+    { leftPos = w / 2; topPos = h / 2; }
+    window.open(strURL, "popup", "toolbar=no,menubar=no,scrollbars=yes,resizable=yes,width=" + popW + ",height=" + popH + ",top=" + topPos + ",left=" + leftPos);
+    //oWnd.moveTo(260,180);
+    return false;
+}
+function CheckSLT_Member() {
+    var rowscount = document.getElementById('<%=gvSLT_Members.ClientID%>').rows.length;
         if (rowscount > 1)
             return true;
         else {
@@ -473,26 +473,25 @@ function CheckBeforeAddTrainingAttach() {
         }
     }
 
-function SetValidationGroup()
-{
-    var Index = document.getElementById("ctl00_ContentPlaceHolder1_hdnPanel2").value;
+    function SetValidationGroup() {
+        var Index = document.getElementById("ctl00_ContentPlaceHolder1_hdnPanel2").value;
         var Schedule_id = '<%=ViewState["PK_SLT_Meeting_Schedule"] %>';
-        var temp_ID = '<%=PK_Temp_Schedule_ID %>';
-        var ValidationGroups;
-        if (Index == 1) {
-            if (document.getElementById("ctl00_ContentPlaceHolder1_tr_SltmembersADD").style.display == "block") {
-                ValidationGroups = "vsErrorSLT_Members";
-            }
-            else
-                return true;
+    var temp_ID = '<%=PK_Temp_Schedule_ID %>';
+    var ValidationGroups;
+    if (Index == 1) {
+        if (document.getElementById("ctl00_ContentPlaceHolder1_tr_SltmembersADD").style.display == "block") {
+            ValidationGroups = "vsErrorSLT_Members";
         }
-        if (Index == 3) ValidationGroups = "vsErrorAttendees";
-        else if (Index != 1 && Index != 8 && Index != 13 && Index != 7 && Index != 3 && Index != 2 && Index != 9 && Index != 14) {
-            if (Schedule_id > 0) {
-                if (Index == 4) ValidationGroups = "vsErrorcallToOrder";
-                else if (Index == 5) ValidationGroups = "vsErrorSafetywalkGroup";
-                else if (Index == 6) {
-                    var id_Q_Ins = '<%=ViewState["PK_SLT_Quarterly_Inspections"] %>';
+        else
+            return true;
+    }
+    if (Index == 3) ValidationGroups = "vsErrorAttendees";
+    else if (Index != 1 && Index != 8 && Index != 13 && Index != 7 && Index != 3 && Index != 2 && Index != 9 && Index != 14) {
+        if (Schedule_id > 0) {
+            if (Index == 4) ValidationGroups = "vsErrorcallToOrder";
+            else if (Index == 5) ValidationGroups = "vsErrorSafetywalkGroup";
+            else if (Index == 6) {
+                var id_Q_Ins = '<%=ViewState["PK_SLT_Quarterly_Inspections"] %>';
                     var id_Q_Res = '<%=ViewState["FK_Inspection_Responses_ID"] %>';
                     if (parseInt(id_Q_Ins) > 0 && parseInt(id_Q_Res) > 0) {
                         ValidationGroups = "vsErrorInspectionGroup";
@@ -631,8 +630,7 @@ jQuery(function ($) {
     $("#<%=txtScheduled_Meeting_Time.ClientID%>").mask("99:99");
 });
 
-function DisableButton()
-{
+function DisableButton() {
     document.getElementById('<%= btnSaveNnextCall.ClientID %>').disabled = true;
     document.getElementById('<%= btnSaveNnextCall.ClientID %>').value = 'Submitting...';
 }
@@ -2153,7 +2151,7 @@ function DisableButton()
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
-                                                                                <td align="left">Date opened
+                                                                                <td align="left">Date Opened
                                                                                 </td>
                                                                                 <td align="center">:
                                                                                 </td>
@@ -2283,7 +2281,7 @@ function DisableButton()
                                                         <td>
                                                             <table cellspacing="1" cellpadding="3" width="100%" border="0">
                                                                 <tr id="trDealership" runat="server" visible="true">
-                                                                    <td align="left" width="19%">DealerShip Playbook Score
+                                                                    <td align="left" width="19%">Dealership Playbook Score
                                                                     </td>
                                                                     <td align="center" width="1%">:&nbsp;&nbsp;
                                                                     </td>
@@ -2599,7 +2597,7 @@ function DisableButton()
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblDate_of_incident" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left" valign="top">Date reported to Sedgwick
+                                                        <td align="left" valign="top">Date Reported to Sedgwick
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -3537,7 +3535,7 @@ function DisableButton()
                                                         <td colspan="6" style="height: 10px;"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" width="18%" valign="top">Meeting held and 100% Participation
+                                                        <td align="left" width="18%" valign="top">Meeting Held and 100% Participation
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
@@ -3556,7 +3554,7 @@ function DisableButton()
                                                         <td colspan="6" style="height: 15px;"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" width="18%" valign="top">Safety Walk conducted and 100% participated
+                                                        <td align="left" width="18%" valign="top">Safety Walk Conducted and 100% Participated
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
@@ -4835,7 +4833,7 @@ function DisableButton()
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
-                                                                                <td align="left">Date opened
+                                                                                <td align="left">Date Opened
                                                                                 </td>
                                                                                 <td align="center">:
                                                                                 </td>
@@ -4957,7 +4955,7 @@ function DisableButton()
                                                         <td>
                                                             <table cellspacing="1" cellpadding="3" width="100%" border="0">
                                                                 <tr id="tr2" runat="server" visible="true">
-                                                                    <td align="left" width="19%">DealerShip Playbook Score
+                                                                    <td align="left" width="19%">Dealership Playbook Score
                                                                     </td>
                                                                     <td align="center" width="1%">:&nbsp;&nbsp;
                                                                     </td>
@@ -5296,7 +5294,7 @@ function DisableButton()
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblIncident_date_view" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left" valign="top">Date reported to Sedgwick
+                                                        <td align="left" valign="top">Date Reported to Sedgwick
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -6034,7 +6032,7 @@ function DisableButton()
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td align="left" width="18%" valign="top">Meeting held and 100% Participation
+                                                    <td align="left" width="18%" valign="top">Meeting Held and 100% Participation
                                                     </td>
                                                     <td align="center" width="4%" valign="top">:
                                                     </td>
@@ -6052,7 +6050,7 @@ function DisableButton()
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td align="left" width="18%" valign="top">Safety Walk conducted and 100% participated
+                                                    <td align="left" width="18%" valign="top">Safety Walk Conducted and 100% Participated
                                                     </td>
                                                     <td align="center" width="4%" valign="top">:
                                                     </td>

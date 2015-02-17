@@ -245,7 +245,7 @@
                         <td>
                         </td>
                         <td align="left">
-                            Worker’s Compensation/Employer’s Liability Policy Number
+                            Workers' Compensation/Employer’s Liability Policy Number
                         </td>
                         <td align="left">
                             :
