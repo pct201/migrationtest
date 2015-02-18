@@ -19,6 +19,27 @@
   
     <script type="text/javascript">
         var GB_ROOT_DIR = '<%=AppConfig.SiteURL%>' + 'greybox/';
+
+        function OpenChooseBuilding(Type, id) {
+            var values = '<%=ViewState["PK_Event"]%>';
+            if (values == '' || values == '0') {
+                alert('Please Save Event Record First');
+                ShowPanel(<%=hdnPanel.Value%>);
+                return false;
+            }
+            else {
+                var ddlLocation_Sonic = document.getElementById("<%=ddlLocation_Sonic.ClientID%>");
+                var ddlLocation_SonicValue = ddlLocation_Sonic.options[ddlLocation_Sonic.selectedIndex].value;
+                GB_showCenter('Building Information', '<%=AppConfig.SiteURL%>Event/BuildingDetailPopUp.aspx?CT_ID=' + Type + '&aci_loc_id=' + ddlLocation_SonicValue + '&event=<%=PK_Event%>', 320, 700, '');
+                ShowPanel(<%=hdnPanel.Value%>);
+                return false;
+            }
+        }
+
+        function ConfirmRemove() {
+            return confirm("Are you sure to remove?");
+        }
+
         function checkLength() 
         {
               var oObject = document.getElementById('ctl00_ContentPlaceHolder1_txtACI_Notes_txtNote') 
@@ -106,7 +127,7 @@
             ShowDialog('<%=AppConfig.SiteURL %>/Event/PopupContact.aspx?ContactType=' + ContactType, PopupWidth_Contact, PopupHeight_Contact);
         }
 
-		function SetMenuStyle(index) {
+        function SetMenuStyle(index) {
         	var i;
 			for (i = 1; i <= 5; i++) {
 				var tb = document.getElementById("Menu" + i);
@@ -163,7 +184,7 @@
             }
         }
 
-		function ShowPanel(index) {
+        function ShowPanel(index) {
             ReportedEventEnableDisable();
             var Is_Sonic_Event = '<%=Is_Sonic_Event%>';
                  if (Is_Sonic_Event != null) {
@@ -430,7 +451,9 @@
                                 
                                 <tr>
                                     <td align="left" width="100%">
-                                        <span id="Menu2" onclick="javascript:ShowPanel(2);" class="LeftMenuStatic">Acadian Investigations</span>
+                                        <span id="Menu2" onclick="javascript:ShowPanel(2);" class="LeftMenuStatic">
+                                            <asp:Label runat="server" ID="lblMenu2" ></asp:Label>
+                                        </span><%--Acadian Investigations--%>
                                     </td>
                                 </tr>
                                 <tr runat="server" id="trSonicReportedEvent">
@@ -500,19 +523,19 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top" colspan="6">
+                                                        <td align="left" valign="top" colspan="3">
                                                             <asp:Repeater ID="rptEventType" runat="server" OnItemDataBound="rptEventType_ItemDataBound">
                                                                 <ItemTemplate>
                                                                     <table cellpadding="4" cellspacing="0" width="100%">
                                                                         <tr>
-                                                                            <td width="50%" align="left" valign="top" colspan="2">
+                                                                            <td width="100%" align="left" valign="top" colspan="2">
                                                                                 <asp:CheckBox ID="chkEventType" runat="server" />
                                                                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                                                                 <asp:Label ID="lblEventType" Text='<%#Eval("Fld_Desc") %>' runat="server"></asp:Label>
                                                                                 <asp:Label ID="lblPK_LU_Event_Type" Text='<%#Eval("PK_LU_Event_Type") %>' runat="server"
                                                                                     Style="display: none;"></asp:Label>
                                                                             </td>
-                                                                            <td width="18%" align="left" valign="top">
+                                                                           <%--<td width="18%" align="left" valign="top">
                                                                                 <asp:TextBox ID="txtEventDesciption" runat="server" MaxLength="100" Width="170px"></asp:TextBox>
                                                                             </td>
                                                                             <td width="4%" align="center" valign="top">
@@ -520,11 +543,14 @@
                                                                             </td>
                                                                             <td width="28%" align="left" valign="top">
                                                                                 &nbsp;
-                                                                            </td>
+                                                                            </td>--%>
                                                                         </tr>
                                                                     </table>
                                                                 </ItemTemplate>
                                                             </asp:Repeater>
+                                                        </td>
+                                                        <td colspan="3" valign="top">
+                                                             <uc:ctrlMultiLineTextBox ID="txtEventDesciption" runat="server" MaxLength="100" Width="450" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -546,6 +572,59 @@
                                                             <asp:CompareValidator ID="cmptxtEventReportDate" runat="server" ControlToCompare="txtCurrentDate"
                                                                 ControlToValidate="txtEvent_Start_Date" Display="None" Text="*" ErrorMessage="[ACI Reported Event]/Date of Event should not be greater than current date."
                                                                 Operator="LessThanEqual" Type="Date" ValidationGroup="vsErrorGroup"></asp:CompareValidator>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            &nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            <asp:GridView ID="gvBuildingEditACI" runat="server" EmptyDataText="No Building Records Found"
+                                                                AutoGenerateColumns="false"  Width="100%" OnRowDataBound="gvBuildingEditACI_RowDataBound"
+                                                                 OnRowCommand="gvBuildingEditACI_RowCommand"  >
+                                                                <Columns>
+                                                                    <asp:TemplateField>
+                                                                        <ItemStyle Width="5%" HorizontalAlign="center" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkViewDetail" runat="server" Text='<%# Container.DataItemIndex + 1 %>' Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>'
+                                                                                CommandName="ViewBuildingDetail" CommandArgument='<%# Eval("FK_LU_Location_ID")%>' ></asp:LinkButton>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Building Number">
+                                                                        <ItemStyle Width="20%" />
+                                                                        <ItemTemplate>
+                                                                            <%# Eval("Building_Number")%>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Address">
+                                                                        <ItemStyle Width="35%" />
+                                                                        <ItemTemplate>
+                                                                            <%# clsGeneral.FormatAddress(Eval("Address_1"),Eval("Address_2"),Eval("City"),Eval("State"),Eval("Zip")) %>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Occupancy">
+                                                                        <ItemStyle Width="40%" />
+                                                                        <ItemTemplate>
+                                                                            <asp:Label ID="lblOccupancy" runat="server" />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField >
+                                                                        <ItemStyle Width="10%" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkEvent_Link_Building" TeID="lnkRemove" OnClientClick="return ConfirmRemove();" CausesValidation="false"
+                                                                                runat="server" CommandName="RemoveEventBuilding" CommandArgument='<%#Eval("PK_Event_Link_Building")%>'
+                                                                                Text="Remove" Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>' ></asp:LinkButton>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                            </asp:GridView>
+                                                        </td>
+                                                    </tr>
+                                                     <tr>
+                                                        <td colspan="6">
+                                                            &nbsp;
                                                         </td>
                                                     </tr>
                                                     <tr runat="server" id="trEvent_Camera" style="display: none;">
@@ -634,12 +713,7 @@
                                                                 </tr>
                                                             </table>
                                                         </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="6">
-                                                            &nbsp;
-                                                        </td>
-                                                    </tr>
+                                                    </tr> 
                                                     <tr runat="server" id="trEvent_CameraGrid">
                                                         <td align="left" valign="top">
                                                             Camera Grid
@@ -779,7 +853,8 @@
                                             </asp:Panel>
                                             <asp:Panel ID="pnl2" runat="server" Style="display: none;" Width="794px">
                                                 <div class="bandHeaderRow">
-                                                    Acadian Investigations</div>
+                                                    <asp:Label ID="lblMenu2Header" runat="server"></asp:Label>
+                                                </div>
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                     <tr>
                                                         <td style="height: 5px" colspan="6">
@@ -861,7 +936,7 @@
                                                                         :
                                                                     </td>
                                                                     <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtOfficer_Phone" runat="server" MaxLength="12" Width="170px" SkinID="txtPhone" onblur="setPhoneSonic();"></asp:TextBox>
+                                                                        <asp:TextBox ID="txtOfficer_Phone" runat="server" autocomplete="off" MaxLength="12" Width="170px" SkinID="txtPhone" onblur="setPhoneSonic();"></asp:TextBox>
                                                                         <asp:RegularExpressionValidator ID="revtxtOfficer_Phone" ControlToValidate="txtOfficer_Phone"
                                                                             runat="server" SetFocusOnError="true" ErrorMessage="[Acadian Investigations] / Please Enter Agency Phone # in XXX-XXX-XXXX format"
                                                                             Display="none" ValidationGroup="vsErrorGroup" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
@@ -1239,7 +1314,7 @@
                                                             :
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
-                                                            <asp:DropDownList ID="ddlLocation_Sonic" runat="server" Width="175px">
+                                                            <asp:DropDownList ID="ddlLocation_Sonic" runat="server" Width="175px" SkinID="dropGen">
                                                             </asp:DropDownList>
                                                         </td>
                                                         <td align="left" width="18%" valign="top">
@@ -1312,7 +1387,62 @@
                                                             :
                                                         </td>
                                                         <td align="left" valign="top" colspan="4">
-                                                            <uc:ctrlMultiLineTextBox ID="txtSource_Of_Information" runat="server" MaxLength="100" />
+                                                            <%--<uc:ctrlMultiLineTextBox ID="txtSource_Of_Information" runat="server" MaxLength="100" />--%>
+                                                            <asp:TextBox ID="txtSource_Of_Information" runat="server" MaxLength="100" Width="170px"></asp:TextBox>
+                                                        </td>
+                                                    </tr>
+                                                     <tr>
+                                                        <td colspan="6">
+                                                            &nbsp;
+                                                            <asp:Button ID="btnhdnReload" runat="server" OnClick="btnhdnReload_Click" Style="display: none;" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            <asp:GridView ID="gvBuildingEdit" runat="server" EmptyDataText="No Building Records Found"
+                                                                AutoGenerateColumns="false"  Width="100%" OnRowDataBound="gvBuildingEdit_RowDataBound"
+                                                                 OnRowCommand="gvBuildingEdit_RowCommand"  >
+                                                                <Columns>
+                                                                    <asp:TemplateField>
+                                                                        <ItemStyle Width="5%" HorizontalAlign="center" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkViewDetail" runat="server" Text='<%# Container.DataItemIndex + 1 %>'
+                                                                                CommandName="ViewBuildingDetail" CommandArgument='<%# Eval("FK_LU_Location_ID")%>' ></asp:LinkButton>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Building Number">
+                                                                        <ItemStyle Width="20%" />
+                                                                        <ItemTemplate>
+                                                                            <%# Eval("Building_Number")%>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Address">
+                                                                        <ItemStyle Width="35%" />
+                                                                        <ItemTemplate>
+                                                                            <%# clsGeneral.FormatAddress(Eval("Address_1"),Eval("Address_2"),Eval("City"),Eval("State"),Eval("Zip")) %>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Occupancy">
+                                                                        <ItemStyle Width="40%" />
+                                                                        <ItemTemplate>
+                                                                            <asp:Label ID="lblOccupancy" runat="server" />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField >
+                                                                        <ItemStyle Width="10%" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkEvent_Link_Building" TeID="lnkRemove" OnClientClick="return ConfirmRemove();" CausesValidation="false"
+                                                                                runat="server" CommandName="RemoveEventBuilding" CommandArgument='<%#Eval("PK_Event_Link_Building")%>'
+                                                                                Text="Remove" Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>' ></asp:LinkButton>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                            </asp:GridView>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="trBuilding_Addlink" runat="server">
+                                                        <td style="padding-bottom: 5px;">
+                                                          <a id="A1" runat="server" href="#" onclick="OpenChooseBuilding(0,0);">--Add--</a>
                                                         </td>
                                                     </tr>
                                                     <tr runat="server" id="trEvent_Camera_Sonic" style="display: none;">
@@ -1491,19 +1621,19 @@
                                                         </td>
                                                     </tr>
                                                     <tr runat="server" id="trrptEventTypeSonic">
-                                                        <td align="left" valign="top" colspan="6">
+                                                        <td align="left" valign="top" colspan="3">
                                                             <asp:Repeater ID="rptEventTypeSonic" runat="server" OnItemDataBound="rptEventTypeSonic_ItemDataBound">
                                                                 <ItemTemplate>
                                                                     <table cellpadding="4" cellspacing="0" width="100%">
                                                                         <tr>
-                                                                            <td width="50%" align="left" valign="top" colspan="2">
+                                                                            <td width="100%" align="left" valign="top" colspan="2">
                                                                                 <asp:CheckBox ID="chkEventTypeSonic" runat="server" />
                                                                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                                                                 <asp:Label ID="lblEventTypeSonic" Text='<%#Eval("Fld_Desc") %>' runat="server"></asp:Label>
                                                                                 <asp:Label ID="lblPK_LU_Event_TypeSonic" Text='<%#Eval("PK_LU_Event_Type") %>' runat="server"
                                                                                     Style="display: none;"></asp:Label>
                                                                             </td>
-                                                                            <td width="18%" align="left" valign="top">
+                                                                          <%--  <td width="18%" align="left" valign="top">
                                                                                 <asp:TextBox ID="txtEventDesciptionSonic" runat="server" MaxLength="100" Width="170px"></asp:TextBox>
                                                                             </td>
                                                                             <td width="4%" align="center" valign="top">
@@ -1511,11 +1641,14 @@
                                                                             </td>
                                                                             <td width="28%" align="left" valign="top">
                                                                                 &nbsp;
-                                                                            </td>
+                                                                            </td>--%>
                                                                         </tr>
                                                                     </table>
                                                                 </ItemTemplate>
                                                             </asp:Repeater>
+                                                        </td>
+                                                        <td colspan="3" valign="top">
+                                                             <uc:ctrlMultiLineTextBox ID="txtEventDesciptionSonic" runat="server" MaxLength="100" Width="450" />
                                                         </td>
                                                     </tr>
                                                     <tr>

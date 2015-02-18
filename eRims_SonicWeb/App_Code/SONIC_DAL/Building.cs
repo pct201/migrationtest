@@ -3098,6 +3098,27 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        public static DataSet SelectByFKEvent(decimal fK_Event)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("BuildingSelectByFKEvent");
+
+            db.AddInParameter(dbCommand, "PK_Event", DbType.Decimal, fK_Event);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        public static DataSet SelectByACILocation(decimal PK_ACI_LU_Location)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("BuildingSelectByACI_LU_Location");
+
+            db.AddInParameter(dbCommand, "PK_ACI_LU_Location", DbType.Decimal, PK_ACI_LU_Location);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+
         public static DataSet BuildingByFKLocation(int fK_LU_Location_ID)
         {
             Database db = DatabaseFactory.CreateDatabase();

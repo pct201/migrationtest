@@ -163,6 +163,12 @@ public partial class Event_Event_New : clsBasePage
                 if (Is_Sonic_Event)
                 {
                     hdnPanel.Value = "3";
+                    lblMenu2.Text = lblMenu2Header.Text = "Sonic Notes";
+                    revtxtOfficer_Phone.ErrorMessage = "[Sonic Notes] / Please Enter Agency Phone # in XXX-XXX-XXXX format";
+                }
+                else
+                {
+                   lblMenu2.Text = lblMenu2Header.Text = "Acadian Investigations";
                 }
             }
             else
@@ -182,14 +188,19 @@ public partial class Event_Event_New : clsBasePage
                 btnBack.Visible = false;
                 BindDropDownList();
                 ucAttachment.ReadOnly = false;
+                BindGridBuilding();
             }
         }
         else
         {
         }
+        if (StrOperation == "add") hdnPanel.Value = "3"; //for Add new click set tab style
         Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(" + hdnPanel.Value + ");", true);
         ucIncident.SetSelectedTab(Controls_IncidentTab_IncidentTab.Tab.Event);
     }
+     #endregion
+
+    #region Events
 
     /// <summary>
     /// Save Button Click Event
@@ -538,6 +549,12 @@ public partial class Event_Event_New : clsBasePage
         Response.Redirect("Event_Initial.aspx?iid=" + Encryption.Encrypt(FK_Incident.ToString()) + "&mode=" + StrOperation, true);
     }
 
+    protected void btnhdnReload_Click(object sender, EventArgs e)
+    {
+        BindGridBuilding();
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + hdnPanel.Value + ");", true);
+    }
+
     #endregion
 
     #region Page Methods
@@ -693,6 +710,7 @@ public partial class Event_Event_New : clsBasePage
         if (objEvent.Financial_Loss != null)
             txtFinancial_Loss.Text = clsGeneral.GetStringValue(objEvent.Financial_Loss);
 
+        
         if (objEvent.Status != null && Convert.ToString(objEvent.Status) == "C")
         {
             Is_Closed_Event = true;
@@ -720,8 +738,8 @@ public partial class Event_Event_New : clsBasePage
                             CheckBox chkEvent = (CheckBox)rptEvent.FindControl("chkEventType");
                             chkEvent.Checked = true;
 
-                            TextBox txtDesc = (TextBox)rptEvent.FindControl("txtEventDesciption");
-                            txtDesc.Text = drEvent_Type["Description"].ToString();
+                            //TextBox txtDesc = (TextBox)rptEvent.FindControl("txtEventDesciption");
+                            //txtDesc.Text = drEvent_Type["Description"].ToString();
                         }
                     }
                 }
@@ -730,6 +748,7 @@ public partial class Event_Event_New : clsBasePage
             BindEvent_CameraGrid();
             BindACINoteGrid();
             BindReapterInvest_Images();
+            BindBuilding_ACI();
 
             if (dsEventType.Tables.Count > 0 && dsEventType.Tables[0].Rows.Count > 0)
             {
@@ -743,15 +762,18 @@ public partial class Event_Event_New : clsBasePage
                             CheckBox chkEvent = (CheckBox)rptEvent.FindControl("chkEventTypeSonic");
                             chkEvent.Checked = true;
 
-                            TextBox txtDesc = (TextBox)rptEvent.FindControl("txtEventDesciptionSonic");
-                            txtDesc.Text = drEvent_Type["Description"].ToString();
+                            //TextBox txtDesc = (TextBox)rptEvent.FindControl("txtEventDesciptionSonic");
+                            //txtDesc.Text = drEvent_Type["Description"].ToString();
                         }
                     }
                 }
             }
 
+            txtEventDesciptionSonic.Text = txtEventDesciption.Text = objEvent.Event_Desc;
+
             BindEvent_Camera_SonicGrid();
             BindSonicNoteGrid();
+            BindGridBuilding();
 
             lblLastModifiedDateTime.Text = objEvent.Update_Date == null ? "" : "Last Modified Date/Time : " + objEvent.Update_Date.Value.ToString("MM/dd/yyyy hh:mm:ss tt") + " ";
         }
@@ -799,6 +821,8 @@ public partial class Event_Event_New : clsBasePage
             objEvent.Police_Report_Number = Convert.ToString(txtPolice_Report_Number.Text);
             if (ddlLocation.SelectedIndex > 0)
                 objEvent.FK_LU_Location = Convert.ToDecimal(ddlLocation.SelectedValue);
+
+            objEvent.Event_Desc = txtEventDesciption.Text.Trim();
         }
         objEvent.Status = rdoStatus.SelectedValue;
         objEvent.Date_Closed = clsGeneral.FormatNullDateToStore(txtDate_Closed.Text);
@@ -816,10 +840,12 @@ public partial class Event_Event_New : clsBasePage
             objEvent.Police_Report_Number = Convert.ToString(txtPolice_Report_Number_Sonic.Text);
             if (ddlLocation_Sonic.SelectedIndex > 0)
                 objEvent.FK_LU_Location = Convert.ToDecimal(ddlLocation_Sonic.SelectedValue);
+
+            objEvent.Event_Desc = txtEventDesciptionSonic.Text.Trim();
         }
 
         objEvent.Monitoring_Hours = rdoMonitoring_Hours_Sonic.SelectedValue;
-        objEvent.Source_Of_Information = txtSource_Of_Information.Text;
+        objEvent.Source_Of_Information = txtSource_Of_Information.Text.Trim();
         objEvent.Sonic_Contact_Name = txtSonic_Contact_Name.Text;
         objEvent.Sonic_Contact_Phone = txtSonic_Contact_Phone.Text;
         objEvent.Sonic_Contact_Email = txtSonic_Contact_Email.Text;
@@ -839,6 +865,7 @@ public partial class Event_Event_New : clsBasePage
         if (txtFinancial_Loss.Text != string.Empty)
             objEvent.Financial_Loss = Convert.ToDecimal(txtFinancial_Loss.Text);
 
+        
         objEvent.Update_Date = DateTime.Now;
         objEvent.Updated_By = clsSession.UserID;
         if (PK_Event > 0)
@@ -864,9 +891,9 @@ public partial class Event_Event_New : clsBasePage
                     if (!string.IsNullOrEmpty(lblType.Text))
                         objEvent_Link_Event_Type.FK_LU_Event_Type = Convert.ToDecimal(lblType.Text);
 
-                    TextBox txtDesc = (TextBox)rpt.FindControl("txtEventDesciption");
-                    if (!string.IsNullOrEmpty(txtDesc.Text))
-                        objEvent_Link_Event_Type.Description = txtDesc.Text;
+                    //TextBox txtDesc = (TextBox)rpt.FindControl("txtEventDesciption");
+                    //if (!string.IsNullOrEmpty(txtDesc.Text))
+                    //    objEvent_Link_Event_Type.Description = txtDesc.Text;
 
                     objEvent_Link_Event_Type.Insert();
                 }
@@ -891,9 +918,9 @@ public partial class Event_Event_New : clsBasePage
                     if (!string.IsNullOrEmpty(lblType.Text))
                         objEvent_Link_Event_Type.FK_LU_Event_Type = Convert.ToDecimal(lblType.Text);
 
-                    TextBox txtDesc = (TextBox)rpt.FindControl("txtEventDesciptionSonic");
-                    if (!string.IsNullOrEmpty(txtDesc.Text))
-                        objEvent_Link_Event_Type.Description = txtDesc.Text;
+                    //TextBox txtDesc = (TextBox)rpt.FindControl("txtEventDesciptionSonic");
+                    //if (!string.IsNullOrEmpty(txtDesc.Text))
+                    //    objEvent_Link_Event_Type.Description = txtDesc.Text;
 
                     objEvent_Link_Event_Type.Insert();
                 }
@@ -931,6 +958,26 @@ public partial class Event_Event_New : clsBasePage
         {
             gvEvent_Camera.DataSource = null;
             gvEvent_Camera.DataBind();
+        }
+
+    }
+
+    /// <summary>
+    /// Bind Building Grid
+    /// </summary>
+    private void BindBuilding_ACI()
+    {
+        DataTable dtBuilding = Building.SelectByFKEvent(PK_Event).Tables[0];
+
+        if (dtBuilding != null)
+        {
+            gvBuildingEditACI.DataSource = dtBuilding;
+            gvBuildingEditACI.DataBind();
+        }
+        else
+        {
+            gvBuildingEditACI.DataSource = null;
+            gvBuildingEditACI.DataBind();
         }
 
     }
@@ -993,6 +1040,26 @@ public partial class Event_Event_New : clsBasePage
 
     }
 
+    /// <summary>
+    ///  Binds Building grid in building information panel
+    /// </summary>
+    private void BindGridBuilding()
+    {
+        DataTable dtBuilding = Building.SelectByFKEvent(PK_Event).Tables[0];
+
+        if (dtBuilding != null )
+        {
+            gvBuildingEdit.DataSource = dtBuilding;
+            gvBuildingEdit.DataBind();
+        }
+        else
+        {
+            gvBuildingEdit.DataSource = null;
+            gvBuildingEdit.DataBind();
+        }
+
+    }
+
     private void BindReapterEventType()
     {
         DataSet dsData = clsLU_Event_Type.SelectAll();
@@ -1028,8 +1095,8 @@ public partial class Event_Event_New : clsBasePage
             CheckBox chkEvent = (CheckBox)rptEvent.FindControl("chkEventType");
             chkEvent.Checked = false;
 
-            TextBox txtDesc = (TextBox)rptEvent.FindControl("txtEventDesciption");
-            txtDesc.Text = string.Empty;
+            //TextBox txtDesc = (TextBox)rptEvent.FindControl("txtEventDesciption");
+            //txtDesc.Text = string.Empty;
         }
 
 
@@ -1038,8 +1105,8 @@ public partial class Event_Event_New : clsBasePage
             CheckBox chkEvent = (CheckBox)rptEvent.FindControl("chkEventTypeSonic");
             chkEvent.Checked = false;
 
-            TextBox txtDesc = (TextBox)rptEvent.FindControl("txtEventDesciptionSonic");
-            txtDesc.Text = string.Empty;
+            //TextBox txtDesc = (TextBox)rptEvent.FindControl("txtEventDesciptionSonic");
+            //txtDesc.Text = string.Empty;
         }
     }
 
@@ -1146,9 +1213,10 @@ public partial class Event_Event_New : clsBasePage
             CheckBox chkEvent = (CheckBox)rpt.FindControl("chkEventType");
             chkEvent.Enabled = Is_Enable;
 
-            TextBox txtDesc = (TextBox)rpt.FindControl("txtEventDesciption");
-            txtDesc.Enabled = Is_Enable;
+            //TextBox txtDesc = (TextBox)rpt.FindControl("txtEventDesciption");
+            //txtDesc.Enabled = Is_Enable;
         }
+        txtEventDesciption.Enable = Is_Enable;
         txtEvent_Start_Date.Enabled = Is_Enable;
         imgEvent_Start_Date.Visible = Is_Enable;
         lnkAddEvent_CameraNew.Visible = Is_Enable;
@@ -1210,15 +1278,18 @@ public partial class Event_Event_New : clsBasePage
             txtEvent_Number_Sonic.Enabled = false;
             rdoMonitoring_Hours_Sonic.Enabled = false;
             txtSonic_Notes.Attributes.Add("class", "readOnlyTextBox");
+            txtSource_Of_Information.Enabled = false;
             lnkAddEvent_CameraNew_Sonic.Visible = false;
             foreach (RepeaterItem rpt in rptEventTypeSonic.Items)
             {
                 CheckBox chkEvent = (CheckBox)rpt.FindControl("chkEventTypeSonic");
                 chkEvent.Enabled = false;
 
-                TextBox txtDesc = (TextBox)rpt.FindControl("txtEventDesciptionSonic");
-                txtDesc.Enabled = false;
+                //TextBox txtDesc = (TextBox)rpt.FindControl("txtEventDesciptionSonic");
+                //txtDesc.Enabled = false;
             }
+            //txtEventDesciptionSonic.Attributes.Add("class", "readOnlyTextBox");
+            txtEventDesciptionSonic.Enable = false;
             rdoPolice_Called_Sonic.Enabled = false;
             txtAgency_name_Sonic.Enabled = false;
             txtOfficer_Phone_Sonic.Enabled = false;
@@ -1236,7 +1307,7 @@ public partial class Event_Event_New : clsBasePage
             txtFinancial_Loss.Enabled = false;
             ucAttachment.ReadOnly = true;
             btnSave.Visible = false;
-
+            trBuilding_Addlink.Visible = false;
         }
 
 
@@ -1456,6 +1527,124 @@ public partial class Event_Event_New : clsBasePage
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
     }
 
+    /// <summary>
+    /// Handles Building grid row data bound event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvBuildingEdit_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        // if row type is data row
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            // get occupancies values bound to the grid
+            Label lblOccupancy = (Label)e.Row.FindControl("lblOccupancy");
+            bool bOccupancy_Sales_New = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Sales_New"));
+            bool bOccupancy_Body_Shop = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Body_Shop"));
+            bool bOccupancy_Parking_Lot = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Parking_Lot"));
+            bool bOccupancy_Sales_Used = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Sales_Used"));
+            bool bOccupancy_Parts = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Parts"));
+            bool bOccupancy_Raw_Land = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Raw_Land"));
+            bool bOccupancy_Service = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Service"));
+            bool bOccupancy_Ofifce = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Ofifce"));
+
+
+            string strOccupancy = ""; // used to set the comma seperated occupancies
+
+            // append occupancy text with comma seperation depending on the values
+            if (bOccupancy_Sales_New) strOccupancy = "Sales - New";
+            if (bOccupancy_Body_Shop) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Body Shop" : "Body Shop";
+            if (bOccupancy_Parking_Lot) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Parking Lot" : "Parking Lot";
+            if (bOccupancy_Sales_Used) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Sales - Used" : "Sales - Used";
+            if (bOccupancy_Parts) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Parts" : "Parts";
+            if (bOccupancy_Raw_Land) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Raw Land" : "Raw Land";
+            if (bOccupancy_Service) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Service" : "Service";
+            if (bOccupancy_Ofifce) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Office" : "Office";
+
+            // set text in occupancy column
+            lblOccupancy.Text = strOccupancy;
+        }
+    }
+
+    /// <summary>
+    /// Handles Building grid row data bound event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvBuildingEditACI_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        // if row type is data row
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            // get occupancies values bound to the grid
+            Label lblOccupancy = (Label)e.Row.FindControl("lblOccupancy");
+            bool bOccupancy_Sales_New = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Sales_New"));
+            bool bOccupancy_Body_Shop = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Body_Shop"));
+            bool bOccupancy_Parking_Lot = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Parking_Lot"));
+            bool bOccupancy_Sales_Used = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Sales_Used"));
+            bool bOccupancy_Parts = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Parts"));
+            bool bOccupancy_Raw_Land = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Raw_Land"));
+            bool bOccupancy_Service = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Service"));
+            bool bOccupancy_Ofifce = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Ofifce"));
+
+
+            string strOccupancy = ""; // used to set the comma seperated occupancies
+
+            // append occupancy text with comma seperation depending on the values
+            if (bOccupancy_Sales_New) strOccupancy = "Sales - New";
+            if (bOccupancy_Body_Shop) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Body Shop" : "Body Shop";
+            if (bOccupancy_Parking_Lot) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Parking Lot" : "Parking Lot";
+            if (bOccupancy_Sales_Used) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Sales - Used" : "Sales - Used";
+            if (bOccupancy_Parts) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Parts" : "Parts";
+            if (bOccupancy_Raw_Land) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Raw Land" : "Raw Land";
+            if (bOccupancy_Service) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Service" : "Service";
+            if (bOccupancy_Ofifce) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Office" : "Office";
+
+            // set text in occupancy column
+            lblOccupancy.Text = strOccupancy;
+        }
+    }
+    /// <summary>
+    /// Handles Building grid rowcommand event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvBuildingEdit_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "ViewBuildingDetail")// if passed command is for viewing building details
+        {
+            // navigate to property page
+            Response.Redirect(AppConfig.SiteURL + "SONIC/Exposures/PropertyView.aspx?loc=" + Encryption.Encrypt(Convert.ToString(e.CommandArgument)) + "&pnl=2", true);
+           
+        }
+        else if (e.CommandName == "RemoveEventBuilding") // if passed command is for removing building details
+        {
+            // delete from Event_Link_Building table
+            clsEvent_Link_Building.DeleteByPK(Convert.ToInt32(e.CommandArgument));
+            BindGridBuilding();
+        }
+    }
+
+    /// <summary>
+    /// Handles Building ACI screen grid rowcommand event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvBuildingEditACI_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "ViewBuildingDetail")// if passed command is for viewing building details
+        {
+            // navigate to property page
+            Response.Redirect(AppConfig.SiteURL + "SONIC/Exposures/PropertyView.aspx?loc=" + Encryption.Encrypt(Convert.ToString(e.CommandArgument)) + "&pnl=2", true);
+
+        }
+        else if (e.CommandName == "RemoveEventBuilding") // if passed command is for removing building details
+        {
+            // delete from Event_Link_Building table
+            clsEvent_Link_Building.DeleteByPK(Convert.ToInt32(e.CommandArgument));
+            BindBuilding_ACI();
+        }
+    }
     #endregion
 
 }

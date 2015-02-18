@@ -87,6 +87,12 @@ public partial class Controls_LongDescription_LongDescription : System.Web.UI.Us
         set { intWidth = value; }
     }
 
+    public bool Enable
+    {
+        set { txtNote.Enabled = value; }
+        get { return txtNote.Enabled; }
+    }
+
     /// <summary>
     /// Sets the css as per the control type enum (label or textbox)
     /// </summary>
