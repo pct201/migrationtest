@@ -6,10 +6,12 @@
 <%@ Register Src="~/Controls/NotesWithSpellCheck/Notes.ascx" TagName="ctrlMultiLineTextBox"
     TagPrefix="uc" %>
 <%@ Register Src="~/Controls/Navigation/Navigation.ascx" TagName="ctrlPaging" TagPrefix="uc" %>
-<%@ Register Src="~/Controls/Attachment_AssetProtection/Attachment.ascx" TagName="ctrlAttachment"
+<%--<%@ Register Src="~/Controls/Attachment_AssetProtection/Attachment.ascx" TagName="ctrlAttachment"
+    TagPrefix="uc" %>--%>
+<%@ Register Src="~/Controls/Attachment_AssetProtection/Attachment_Folder.ascx" TagName="ctrlAttachment"
     TagPrefix="uc" %>
-<%@ Register Src="~/Controls/Attachment_AssetProtection/Attachment_Detail.ascx" TagName="ctrlAttachmentDetail"
-    TagPrefix="uc" %>
+<%--<%@ Register Src="~/Controls/Attachment_AssetProtection/Attachment_Detail.ascx" TagName="ctrlAttachmentDetail"
+    TagPrefix="uc" %>--%>
 <%@ Register Src="~/Controls/SonicClaimNotes/SonicNotes.ascx" TagName="ctrlSonicNotes"
     TagPrefix="uc" %>
 <%@ Register Src="~/Controls/SonicClaimNotes/AdjusterNotes.ascx" TagName="CtrlAdjusterNotes"
@@ -98,13 +100,13 @@
                 else document.getElementById('<%=dvFraudEventSave.ClientID%>').style.display = "none";
                 if (index == 6) {
                     document.getElementById('<%=btnNext.ClientID%>').style.display = "none";
-                    document.getElementById("<%=dvAttachment.ClientID%>").style.display = "block";
+                    
                     document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "block";
                     document.getElementById("<%=btnGenerate_Abstract.ClientID%>").style.display = "none";
                 }
                 else {
                     document.getElementById('<%=btnNext.ClientID%>').style.display = "";
-                    document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
+                    
                     document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";
                     document.getElementById("<%=btnGenerate_Abstract.ClientID%>").style.display = "";
 
@@ -5189,7 +5191,7 @@ function openGenereteAbstract() {
                                                     </tr>
                                                 </table>
                                             </div>
-                                            <div id="dvAttachment" runat="server" style="display: none;">
+                                           <%-- <div id="dvAttachment" runat="server" style="display: none;">
                                                 <table cellpadding="0" cellspacing="0" width="100%" style="height: 230px;">
                                                     <tr>
                                                         <td width="100%">
@@ -5200,7 +5202,7 @@ function openGenereteAbstract() {
                                                         <td class="Spacer" style="height: 20px;"></td>
                                                     </tr>
                                                 </table>
-                                            </div>
+                                            </div>--%>
                                         </div>
                                         <div id="dvView" runat="server" width="794px">
                                             <asp:Panel ID="pnl1View" runat="server" Style="display: none;" Width="794px">
@@ -9413,7 +9415,8 @@ function openGenereteAbstract() {
                                             <table cellpadding="0" cellspacing="0" width="100%" style="height: 250px;">
                                                 <tr>
                                                     <td width="100%" valign="top">
-                                                        <uc:ctrlAttachmentDetail ID="AttachDetails" runat="Server" />
+                                                        <%--<uc:ctrlAttachmentDetail ID="AttachDetails" runat="Server" />--%>
+                                                        <uc:ctrlAttachment ID="Attachments" runat="server" PanelNumber="6" />
                                                     </td>
                                                 </tr>
                                             </table>

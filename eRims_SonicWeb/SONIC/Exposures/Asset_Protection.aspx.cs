@@ -383,6 +383,10 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                     {
                         //btnGenerate_Abstract.Visible = true;
                         btnGenerate_Abstract.Style["display"] = "";
+
+                        Attachments.Location_ID = Convert.ToInt32(LocationID);
+                        Attachments.StrOperation = StrOperation;
+
                         if (StrOperation == "view")
                         {
                             // Bind Controls
@@ -391,7 +395,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                             BindDetailsForView_AL();
                             //BindDetailsForViewForCal_Atlantic();
                             BindDetailsForView_FraudEvents();
-                            AttachDetails.InitializeAttachmentDetails(Convert.ToInt32(LocationID), "FK_LU_Location", "PK_AP_Attachments", false, 6);
+                            //AttachDetails.InitializeAttachmentDetails(Convert.ToInt32(LocationID), "FK_LU_Location", "PK_AP_Attachments", false, 6);
+                            
                         }
                         else
                         {
@@ -403,7 +408,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                             BindDetailsForEdit_AL();
                             //BindDetailsForEditForCal_Atlantic();
                             BindDetailsForEdit_FraudEvents();
-                            AttachDetails.InitializeAttachmentDetails(Convert.ToInt32(LocationID), "FK_LU_Location", "PK_AP_Attachments", true, 6);
+                            //AttachDetails.InitializeAttachmentDetails(Convert.ToInt32(LocationID), "FK_LU_Location", "PK_AP_Attachments", true, 6);
                         }
                     }
                 }
@@ -419,8 +424,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 gvDPD_WitnessesView.DataBind();
                 txtLoss_Description.Enabled = false;
                 BindAP_AL_FROIs_Grid(CtrlPagingAL_FROIs.CurrentPage, CtrlPagingAL_FROIs.PageSize);
-                AttachDetails.Bind();
-                AttachDetails.FindControl("gvAttachment").DataBind();
+                //AttachDetails.Bind();
+                //AttachDetails.FindControl("gvAttachment").DataBind();
                 BindCalAtlanticEventGrid();
                 BindFraudEventGrid();
                 SetValidation();
@@ -2674,8 +2679,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     /// </summary>
     private void BindAttachmentDetails()
     {
-        dvAttachment.Style["display"] = "block";
-        AttachDetails.Bind();
+        //dvAttachment.Style["display"] = "block";
+        //AttachDetails.Bind();
     }
 
     #endregion
@@ -3438,7 +3443,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         {
             // add attachment if any.
             Attachments.Location_ID = Convert.ToInt32(LocationID);
-            Attachments.Add();
+            //Attachments.Add();
             // Bind the attachment detail to view the added attachment
             BindAttachmentDetails();
             // show attachment panel as the page is loaded again

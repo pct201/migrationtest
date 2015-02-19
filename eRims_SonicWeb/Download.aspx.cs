@@ -57,6 +57,18 @@ public partial class Download : System.Web.UI.Page
                         HttpContext.Current.Response.Flush();
                         HttpContext.Current.Response.End();                        
                     }
+                    else if (Request.QueryString["SLT"] == "AP_Docs")
+                    {
+                        string strEPMFileName = Encryption.Decrypt(Request.QueryString["fname"]);
+                        string strEPMFilePath = AppConfig.strAPDocumentPath + strFileName;
+                        // Transfer File
+                        HttpContext.Current.Response.Clear();
+                        HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", strFileName.Substring(12)));
+                        HttpContext.Current.Response.ContentType = "application/octet-stream";
+                        HttpContext.Current.Response.TransmitFile(strEPMFilePath);
+                        HttpContext.Current.Response.Flush();
+                        HttpContext.Current.Response.End();
+                    }
                 }
                 #endregion
                 else
