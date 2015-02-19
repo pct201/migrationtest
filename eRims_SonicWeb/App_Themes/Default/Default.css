@@ -338,6 +338,46 @@
 	color: #f5f5f5;
 	text-decoration: none;
 }
+
+/*Nihir Mandowara Added*/
+
+.assetheader
+{
+	margin: 10px 20px 0 275px; /* the right margin can be given in percentages or pixels. It creates the space down the right side of the page. */
+	vertical-align: middle;
+	background-color: #56A5EC;
+	padding-left: 5px;
+	height: 18px;
+	font-size: 10px;
+	font-weight: bold;
+	color: #f5f5f5;
+	text-decoration: none;
+}
+
+.asset
+{
+	 /* margin: 10px 20px 0 275px;the right margin can be given in percentages or pixels. It creates the space down the right side of the page. */
+	vertical-align: middle;
+	background-color: #CBCBCB;
+	padding-left: 5px;
+	height: 18px;
+	font-size: 10px;
+	color: #000000;
+	text-decoration: none;
+}
+
+.asset2
+{
+	 /* margin: 10px 20px 0 275px;the right margin can be given in percentages or pixels. It creates the space down the right side of the page. */
+	vertical-align: middle;
+	background-color: white;
+	padding-left: 5px;
+	height: 18px;
+	font-size: 10px;
+	color: #000000;
+	text-decoration: none;
+}
+
 .lc
 {
 	/*Label in Cell*/

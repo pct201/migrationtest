@@ -55,6 +55,10 @@ namespace ERIMS.DAL
         private string _Updated_By;
         private DateTime? _Update_Date;
         private decimal? _FK_DPD_FR_Vehicle_ID;
+        private string _Vehicle_Color;
+        private string _Police_Case_Number;
+        private string _Investigating_Police_Department;
+        private string _Vandalism;
 
         #endregion
 
@@ -438,6 +442,43 @@ namespace ERIMS.DAL
             set { _FK_DPD_FR_Vehicle_ID = value; }
         }
 
+       /// <summary>
+        /// Gets or sets the Vehicle_Color value.
+        /// </summary>
+        public string Vehicle_Color
+        {
+            get { return _Vehicle_Color; }
+            set { _Vehicle_Color = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Police_Case_Number value.
+        /// </summary>
+        public string Police_Case_Number
+        {
+            get { return _Police_Case_Number; }
+            set { _Police_Case_Number = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Investigating_Police_Department value.
+        /// </summary>
+        public string Investigating_Police_Department
+        {
+            get { return _Investigating_Police_Department; }
+            set { _Investigating_Police_Department = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Vandalism value.
+        /// </summary>
+        public string Vandalism
+        {
+            get { return _Vandalism; }
+            set { _Vandalism = value; }
+        }
+
+
 
         #endregion
 
@@ -687,6 +728,26 @@ namespace ERIMS.DAL
             else
                 this._FK_DPD_FR_Vehicle_ID = (decimal?)drAP_DPD_FROIs["FK_DPD_FR_Vehicle_ID"];
 
+            if (drAP_DPD_FROIs["Vehicle_Color"] == DBNull.Value)
+                this._Vehicle_Color = null;
+            else
+                this._Vehicle_Color = (string)drAP_DPD_FROIs["Vehicle_Color"];
+
+            if (drAP_DPD_FROIs["Police_Case_Number"] == DBNull.Value)
+                this._Police_Case_Number = null;
+            else
+                this._Police_Case_Number = (string)drAP_DPD_FROIs["Police_Case_Number"];
+
+            if (drAP_DPD_FROIs["Investigating_Police_Department"] == DBNull.Value)
+                this._Investigating_Police_Department = null;
+            else
+                this._Investigating_Police_Department = (string)drAP_DPD_FROIs["Investigating_Police_Department"];
+
+            if (drAP_DPD_FROIs["Vandalism"] == DBNull.Value)
+                this._Vandalism = null;
+            else
+                this._Vandalism = (string)drAP_DPD_FROIs["Vandalism"];
+
 
         }
 
@@ -882,6 +943,26 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
 
             db.AddInParameter(dbCommand, "FK_DPD_FR_Vehicle_ID", DbType.Decimal, this._FK_DPD_FR_Vehicle_ID);
+
+            if (string.IsNullOrEmpty(this._Vehicle_Color))
+                db.AddInParameter(dbCommand, "Vehicle_Color", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Vehicle_Color", DbType.String, this._Vehicle_Color);
+
+            if (string.IsNullOrEmpty(this._Police_Case_Number))
+                db.AddInParameter(dbCommand, "Police_Case_Number", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Police_Case_Number", DbType.String, this._Police_Case_Number);
+
+            if (string.IsNullOrEmpty(this._Investigating_Police_Department))
+                db.AddInParameter(dbCommand, "Investigating_Police_Department", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Investigating_Police_Department", DbType.String, this._Investigating_Police_Department);
+
+            if (string.IsNullOrEmpty(this._Vandalism))
+                db.AddInParameter(dbCommand, "Vandalism", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Vandalism", DbType.String, this._Vandalism);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -1106,6 +1187,26 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
 
             db.AddInParameter(dbCommand, "FK_DPD_FR_Vehicle_ID", DbType.Decimal, this._FK_DPD_FR_Vehicle_ID);
+
+            if (string.IsNullOrEmpty(this._Vehicle_Color))
+                db.AddInParameter(dbCommand, "Vehicle_Color", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Vehicle_Color", DbType.String, this._Vehicle_Color);
+
+            if (string.IsNullOrEmpty(this._Police_Case_Number))
+                db.AddInParameter(dbCommand, "Police_Case_Number", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Police_Case_Number", DbType.String, this._Police_Case_Number);
+
+            if (string.IsNullOrEmpty(this._Investigating_Police_Department))
+                db.AddInParameter(dbCommand, "Investigating_Police_Department", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Investigating_Police_Department", DbType.String, this._Investigating_Police_Department);
+
+            if (string.IsNullOrEmpty(this._Vandalism))
+                db.AddInParameter(dbCommand, "Vandalism", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Vandalism", DbType.String, this._Vandalism);
 
             db.ExecuteNonQuery(dbCommand);
         }

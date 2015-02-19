@@ -57,6 +57,16 @@
             }
         }
 
+
+        function FormatInteger(e) {
+            if (e.keyCode >= 48 && e.keyCode <= 57) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
         function ShowPanel(index) {
             SetMenuStyle(index);
             ActiveTabIndex = index;
@@ -221,26 +231,42 @@ function OpenClaimNotesView(Pk_Claim_Notes, FK_Claim) {
 }
 
 function openAP_Propert_SecurtyPopup() {
-    var winHeight = window.screen.availHeight - 370;
+    var winHeight = window.screen.availHeight - 300;
     var winWidth = window.screen.availWidth - 315;
 
+
     obj = window.open("AuditPopup_AP_Property_Security.aspx?id=" + '<%=ViewState["PK_AP_Property_Security"]%>', 'PopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
-            obj.focus();
-            return false;
-        }
+    obj.focus();
+    return false;
+}
+
+function openAP_Propert_Securty_FinancialPopup() {
+    var winHeight = window.screen.availHeight - 300;
+    var winWidth = window.screen.availWidth - 500;
 
 
-        function openAuditPopup() {
-            var winHeight = window.screen.availHeight - 370;
-            var winWidth = window.screen.availWidth - 315;
+    obj = window.open("AuditPopup_AP_Property_Security_Financials.aspx?id=" + '<%=ViewState["PK_AP_Property_Security"]%>', 'PopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+    obj.focus();
+    return false;
+}
 
-            obj = window.open("Audit_Popup_AP_DPD_FROIs.aspx?id=" + '<%=ViewState["PK_AP_DPD_FROIs"]%>', 'PopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+function openAuditPopup() {
+    var winHeight = window.screen.availHeight - 300;
+    var winWidth = window.screen.availWidth - 315;
+
+    obj = window.open("Audit_Popup_AP_DPD_FROIs.aspx?id=" + '<%=ViewState["PK_AP_DPD_FROIs"]%>', 'PopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
             obj.focus();
             return false;
         }
 
         function openAP_FE_Notes_AuditPopup() {
             var oWnd = window.open("AuditPopup_AP_FE_Notes.aspx?id=" + '<%=ViewState["PK_AP_FE_Notes"]%>', "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=807,height=400");
+    oWnd.moveTo(350, 200);
+    return false;
+}
+
+function openAP_FE_PA_Notes_AuditPopup() {
+    var oWnd = window.open("AuditPopup_AP_FE_PA_Notes.aspx?id=" + '<%=ViewState["PK_AP_FE_PA_Notes"]%>', "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=807,height=400");
             oWnd.moveTo(350, 200);
             return false;
         }
@@ -250,52 +276,52 @@ function openAP_Propert_SecurtyPopup() {
             var winWidth = window.screen.availWidth - 315;
 
             obj = window.open("AuditPopup_AP_Cal_Atlantic.aspx?id=" + '<%=ViewState["PK_AP_Cal_Atlantic"]%>', 'PopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
-            obj.focus();
-            return false;
-        }
+    obj.focus();
+    return false;
+}
 
-        function openFraud_Event_AuditPopup() {
-            var winHeight = window.screen.availHeight - 370;
-            var winWidth = window.screen.availWidth - 315;
+function openFraud_Event_AuditPopup() {
+    var winHeight = window.screen.availHeight - 370;
+    var winWidth = window.screen.availWidth - 315;
 
-            obj = window.open("AuditPopup_AP_Fraud_Events.aspx?id=" + '<%=ViewState["PK_AP_Fraud_Events"]%>', 'PopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
-            obj.focus();
-            return false;
-        }
+    obj = window.open("AuditPopup_AP_Fraud_Events.aspx?id=" + '<%=ViewState["PK_AP_Fraud_Events"]%>', 'PopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=2,menubar=0');
+    obj.focus();
+    return false;
+}
 
-        function openAP_FE_Transaction_AuditPopup() {
-            var oWnd = window.open("AuditPopup_AP_FE_Transactions.aspx?id=" + '<%=ViewState["PK_AP_FE_Transactions"]%>', "Erims", "location=0,status=0,scrollbars=0,menubar=0,resizable=0,toolbar=0,width=1145,height=450");
-            oWnd.moveTo(200, 200);
-            return false;
-        }
+function openAP_FE_Transaction_AuditPopup() {
+    var oWnd = window.open("AuditPopup_AP_FE_Transactions.aspx?id=" + '<%=ViewState["PK_AP_FE_Transactions"]%>', "Erims", "location=0,status=0,scrollbars=0,menubar=0,resizable=0,toolbar=0,width=1145,height=450");
+    oWnd.moveTo(200, 200);
+    return false;
+}
 
-        function AuditPopUp() {
-            var winHeight = window.screen.availHeight - 300;
-            if (window.screen.availHeight == 728) {
-                winHeight = winHeight + 20;
-            }
-            var winWidth = window.screen.availWidth - 200;
-            obj = window.open("AuditPopup_AP_AL_FROIs.aspx?id=" + '<%=ViewState["PK_AP_AL_FROIs"]%>', 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
-            obj.focus();
-            return false;
-        }
+function AuditPopUp() {
+    var winHeight = window.screen.availHeight - 300;
+    if (window.screen.availHeight == 728) {
+        winHeight = winHeight + 20;
+    }
+    var winWidth = window.screen.availWidth - 200;
+    obj = window.open("AuditPopup_AP_AL_FROIs.aspx?id=" + '<%=ViewState["PK_AP_AL_FROIs"]%>', 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+    obj.focus();
+    return false;
+}
 
-        function OpenClaimNotes(PK_Auto_Loss_Claims_ID) {
-            var winHeight = window.screen.availHeight - 200;
-            var winWidth = window.screen.availWidth - 400;
-            obj = window.open("<%=AppConfig.SiteURL%>SONIC/ClaimInfo/ALClaimInfo.aspx?id=" + PK_Auto_Loss_Claims_ID + "&pnl=4", 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
-            obj.focus();
+function OpenClaimNotes(PK_Auto_Loss_Claims_ID) {
+    var winHeight = window.screen.availHeight - 200;
+    var winWidth = window.screen.availWidth - 400;
+    obj = window.open("<%=AppConfig.SiteURL%>SONIC/ClaimInfo/ALClaimInfo.aspx?id=" + PK_Auto_Loss_Claims_ID + "&pnl=4", 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+    obj.focus();
 
-            return false;
-        }
+    return false;
+}
 
-        function openGenereteAbstract() {
+function openGenereteAbstract() {
 
-            var winHeight = window.screen.availHeight - 600;
-            var winWidth = window.screen.availWidth - 1000;
-            var PKID = 0;
-            var VehicleId = 0;
-            if (document.getElementById('<%= hdnPanel.ClientID %>').value == 1) {
+    var winHeight = window.screen.availHeight - 600;
+    var winWidth = window.screen.availWidth - 1000;
+    var PKID = 0;
+    var VehicleId = 0;
+    if (document.getElementById('<%= hdnPanel.ClientID %>').value == 1) {
                 PKID = '<%=ViewState["PK_AP_Property_Security"]%>';
             }
             if (document.getElementById('<%= hdnPanel.ClientID %>').value == 2) {
@@ -826,7 +852,20 @@ function openAP_Propert_SecurtyPopup() {
                                                                     <td align="left" valign="top" width="27%">
                                                                         <asp:CheckBox ID="chkEccOther" runat="server" Text="Other" />
                                                                     </td>
-                                                                    <td align="left" valign="top" width="50%"></td>
+                                                                    <td align="left" valign="top" width="50%">
+                                                                        <table>
+                                                                            <tr>
+                                                                                <td align="left" valign="top">Number of External Cameras&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
+                                                                                </td>
+                                                                                <td align="center" valign="top">:&nbsp;&nbsp;&nbsp;
+                                                                                </td>
+                                                                                <td align="left" valign="top">
+                                                                                    <asp:TextBox ID="txtNumberOfExternalCameras" runat="server" Width="150px" MaxLength="10" SkinID="txtAmt"
+                                                                                        OnkeyPress="return FormatInteger(event);" />
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
                                                                 </tr>
                                                             </table>
                                                         </td>
@@ -932,7 +971,19 @@ function openAP_Propert_SecurtyPopup() {
                                                                     <td align="left" valign="top" width="27%">
                                                                         <asp:CheckBox ID="chkIccOther" runat="server" Text="Other" />
                                                                     </td>
-                                                                    <td align="left" valign="top" width="50%"></td>
+                                                                    <td align="left" valign="top" width="50%">
+                                                                        <table>
+                                                                            <tr>
+                                                                                <td align="left" valign="top">Number of Internal Cameras&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
+                                                                                </td>
+                                                                                <td align="center" valign="top">:&nbsp;&nbsp;&nbsp;
+                                                                                </td>
+                                                                                <td align="left" valign="top">
+                                                                                    <asp:TextBox ID="txtNumberofInternalCameras" runat="server" Width="150px" MaxLength="10" OnkeyPress="return FormatInteger(event);" />
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
                                                                 </tr>
                                                             </table>
                                                         </td>
@@ -1466,7 +1517,7 @@ function openAP_Propert_SecurtyPopup() {
                                                     </tr>
                                                     <tr>
                                                         <td align="left" valign="top" colspan="6">
-                                                            <strong>Access Control</strong>
+                                                            <strong>Access Control Systems</strong>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -1478,8 +1529,11 @@ function openAP_Propert_SecurtyPopup() {
                                                                     <td align="left" valign="top" width="27%">
                                                                         <asp:CheckBox ID="chkACFirstFloorOnly" runat="server" Text="1st Floor Only" />
                                                                     </td>
-                                                                    <td align="left" valign="top" width="50%">
+                                                                    <td align="left" valign="top" width="25%">
                                                                         <asp:CheckBox ID="chkACBusinessArea" runat="server" Text="Business Area" />
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="25%">
+                                                                        <asp:CheckBox ID="chkKeyFobs" runat="server" Text="Key Fobs" />
                                                                     </td>
                                                                 </tr>
                                                             </table>
@@ -1494,8 +1548,11 @@ function openAP_Propert_SecurtyPopup() {
                                                                     <td align="left" valign="top" width="27%">
                                                                         <asp:CheckBox ID="chkACCashier" runat="server" Text="Cashier" />
                                                                     </td>
-                                                                    <td align="left" valign="top" width="50%">
+                                                                    <td align="left" valign="top" width="25%">
                                                                         <asp:CheckBox ID="chkACControlRoom" runat="server" Text="Computer Room" />
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="25%">
+                                                                        <asp:CheckBox ID="chkDoorRestrictions" runat="server" Text="Door Restrictions" />
                                                                     </td>
                                                                 </tr>
                                                             </table>
@@ -1653,7 +1710,7 @@ function openAP_Propert_SecurtyPopup() {
                                                         <td align="left" valign="top"></td>
                                                         <td align="center" valign="top"></td>
                                                         <td align="left" valign="top">
-                                                            <span style="font-weight: bold; text-decoration: underline">Post</span>
+                                                            <span style="font-weight: bold; text-decoration: underline">Post Bollards</span>
                                                         </td>
                                                         <td align="left" valign="top"></td>
                                                         <td align="center" valign="top"></td>
@@ -1707,7 +1764,7 @@ function openAP_Propert_SecurtyPopup() {
                                                     </tr>
                                                     <tr>
                                                         <td align="left" valign="top">
-                                                            <strong>Security Inventory Tracking System </strong>
+                                                            <strong>Key Tracking System </strong>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -1741,7 +1798,7 @@ function openAP_Propert_SecurtyPopup() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Security Inventory Tracking System – Other Description&nbsp;<span id="Span41" style="color: Red; display: none;"
+                                                        <td align="left" valign="top">Other Security Inventory Tracking System&nbsp;<span id="Span41" style="color: Red; display: none;"
                                                             runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top">:
@@ -1770,6 +1827,82 @@ function openAP_Propert_SecurtyPopup() {
                                                         <td align="left" valign="top">
                                                             <asp:DropDownList ID="ddlCap_Index_Risk_Category" runat="server" Width="175px">
                                                             </asp:DropDownList>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Financial Grid<br />
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top" colspan="4">
+                                                            <table width="90%" runat="server" id="tblFinancialGrid">
+                                                                <tr>
+                                                                    <td width="40%" align="left" class="assetheader">Category</td>
+                                                                    <td width="30%" align="left" class="assetheader">Total Capex $</td>
+                                                                    <td width="30%" align="left" class="assetheader">Total Monthly Charge $</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td width="40%" align="left" class="asset">
+                                                                        <asp:Label ID="lblCCTVOnly" runat="server" Text="CCTV Only"></asp:Label></td>
+                                                                    <td width="30%" align="left" class="asset">
+                                                                        <asp:TextBox ID="txtCCTVOnlyTC" runat="server" SkinID="txtCurrency" /></td>
+                                                                    <td width="30%" align="left" class="asset">
+                                                                        <asp:TextBox ID="txtCCTVOnlyTM" runat="server" SkinID="txtCurrency" /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td width="40%" align="left" class="asset2">
+                                                                        <asp:Label ID="lblBurglarAlarms" runat="server" Text="Burglar Alarms"></asp:Label></td>
+                                                                    <td width="30%" align="left" class="asset2">
+                                                                        <asp:TextBox ID="txtBurglarAlarmsTC" runat="server" SkinID="txtCurrency" /></td>
+                                                                    <td width="30%" align="left" class="asset2">
+                                                                        <asp:TextBox ID="txtBurglarAlarmsTM" runat="server" SkinID="txtCurrency" /></td>
+                                                                </tr>                                                               
+                                                                <tr>
+                                                                    <td width="40%" align="left" class="asset">
+                                                                        <asp:Label ID="lblGuardServices" runat="server" Text="Guard Services"></asp:Label></td>
+                                                                    <td width="30%" align="left" class="asset">
+                                                                        <asp:TextBox ID="txtGuardServicesTC" runat="server" SkinID="txtCurrency" /></td>
+                                                                    <td width="30%" align="left" class="asset">
+                                                                        <asp:TextBox ID="txtGuardServicesTM" runat="server" SkinID="txtCurrency" /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td width="40%" align="left" class="asset2">
+                                                                        <asp:Label ID="lblAccessControl" runat="server" Text="Access Control"></asp:Label></td>
+                                                                    <td width="30%" align="left" class="asset2">
+                                                                        <asp:TextBox ID="txtAccessControlTC" runat="server" SkinID="txtCurrency" /></td>
+                                                                    <td width="30%" align="left" class="asset2">
+                                                                        <asp:TextBox ID="txtAccessControlTM" runat="server" SkinID="txtCurrency" /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td width="40%" align="left" class="asset">
+                                                                        <asp:Label ID="lblSecurityInventoryTrackingSystems" runat="server" Text="Security Inventory Tracking Systems"></asp:Label></td>
+                                                                    <td width="30%" align="left" class="asset">
+                                                                        <asp:TextBox ID="txtSecurityInventoryTrackingSystemsTC" runat="server" SkinID="txtCurrency" /></td>
+                                                                    <td width="30%" align="left" class="asset">
+                                                                        <asp:TextBox ID="txtSecurityInventoryTrackingSystemsTM" runat="server" SkinID="txtCurrency" /></td>
+                                                                </tr>
+                                                                 <tr>
+                                                                    <td width="40%" align="left" class="asset2">
+                                                                        <asp:Label ID="lblCategory" runat="server" Text="CCTV and Live Monitoring Services"></asp:Label></td>
+                                                                    <td width="30%" align="left" class="asset2">
+                                                                        <asp:TextBox ID="txtCategoryTC" runat="server" SkinID="txtCurrency" /></td>
+                                                                    <td width="30%" align="left" class="asset2">
+                                                                        <asp:TextBox ID="txtCategoryTM" runat="server" SkinID="txtCurrency" /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="3">&nbsp;</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="3" align="center">
+                                                                        <asp:Button ID="btnSaveFinancialGrid" runat="server" Text="Save" OnClick="btnSaveFinancialGrid_Click" />
+                                                                        &nbsp;
+                                                                        <asp:Button ID="btnCancelFinancialGrid" runat="server" Text="Cancel" OnClick="btnCancelFinancialGrid_Click" />
+                                                                        &nbsp;
+                                                                        <asp:Button ID="btnViewAuditFinancialGrid" runat="server" Text="View Audit Trail" OnClientClick="javascript:return openAP_Propert_Securty_FinancialPopup();" />
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                            <hr>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -2064,6 +2197,16 @@ function openAP_Propert_SecurtyPopup() {
                                                         </td>
                                                     </tr>
                                                     <tr>
+                                                        <td align="left" valign="top">Vehicle Color
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top" colspan="4">
+                                                            <asp:TextBox ID="txtVehicleColor" runat="server" Width="170px"
+                                                                onpaste="return false" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
                                                         <td align="left" valign="top">Location of Vehicle
                                                         </td>
                                                         <td align="center" valign="top">:
@@ -2106,11 +2249,29 @@ function openAP_Propert_SecurtyPopup() {
                                                             <asp:TextBox ID="txtInvoice_Value" runat="server" Width="170px" onkeypress="return currencyFormat(this,',','.',event);"
                                                                 onpaste="return false" SkinID="txtDisabled" />
                                                         </td>
+                                                        <td align="left" valign="top">Police Case Number
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:TextBox ID="txtPoliceCaseNumber" runat="server" Width="170px"
+                                                                onpaste="return false" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
                                                         <td align="left" valign="top">&nbsp;
                                                         </td>
                                                         <td align="center" valign="top">&nbsp;
                                                         </td>
                                                         <td align="left" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="left" valign="top" width="22%">Investigating Police Department
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:TextBox ID="txtInvestigatingPoliceDepartment" runat="server" Width="170px" MaxLength="100"
+                                                                onpaste="return false" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -2306,6 +2467,9 @@ function openAP_Propert_SecurtyPopup() {
                                                                     <td valign="top">
                                                                         <asp:CheckBox ID="chkWeather_Related_DamageLoss" Text="Weather Related Damage/Loss"
                                                                             runat="server" />
+                                                                    </td>
+                                                                    <td valign="top">
+                                                                        <asp:CheckBox ID="chkVandalism" Text="Vandalism" runat="server" />
                                                                     </td>
                                                                     <td valign="top">
                                                                         <asp:CheckBox ID="chkOther_Describe" Text="Other - Describe" runat="server" />
@@ -2718,7 +2882,9 @@ function openAP_Propert_SecurtyPopup() {
                                                 </table>
                                                 <table cellpadding="1" cellspacing="0" width="100%">
                                                     <div class="bandHeaderRow">
-                                                        Claim Notes
+                                                        <caption>
+                                                            Claim Notes
+                                                        </caption>
                                                     </div>
                                                     <tr>
                                                         <td width="100%" align="left">
@@ -4171,6 +4337,66 @@ function openAP_Propert_SecurtyPopup() {
                                                         </td>
                                                     </tr>
                                                     <tr>
+                                                        <td align="left" valign="top">Notes Grid
+                                                            <br />
+                                                            <asp:LinkButton ID="lnkAddFraudNotesGrid" runat="server" Text="--Add--" OnClick="lnkAddFraudNotesGrid_Click"
+                                                                ValidationGroup="vsErrorFraudEvents" CausesValidation="true"></asp:LinkButton>
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top" colspan="4">
+                                                            <asp:GridView ID="gvFraudEventsNote" runat="server" GridLines="None" CellPadding="4" CellSpacing="0" OnSorting="gvFraudEventsNote_Sorting"
+                                                                AutoGenerateColumns="false" Width="100%" EnableTheming="false" OnRowCommand="gvFraudEventsNote_RowCommand" AllowSorting="true">
+                                                                <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
+                                                                    Font-Size="8pt" />
+                                                                <RowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                <EditRowStyle BackColor="#2461BF" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" Font-Names="Tahoma"
+                                                                    Font-Size="8pt" />
+                                                                <PagerStyle BackColor="#7f7f7f" ForeColor="White" HorizontalAlign="Center" Font-Names="Tahoma"
+                                                                    Font-Size="8pt" />
+                                                                <HeaderStyle BackColor="#7f7f7f" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
+                                                                    Font-Size="8pt" VerticalAlign="Bottom" />
+                                                                <AlternatingRowStyle BackColor="White" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                <EmptyDataRowStyle CssClass="emptyrow" />
+                                                                <Columns>
+                                                                    <asp:TemplateField HeaderText="Date" HeaderStyle-HorizontalAlign="Left" SortExpression="Note_Date">
+                                                                        <ItemStyle Width="20%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkbtnNoteDate" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_AP_FE_PA_Notes") %>'> 
+                                                                            <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Note_Date"))%>
+                                                                            </asp:LinkButton>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Note Text" HeaderStyle-HorizontalAlign="Left">
+                                                                        <ItemStyle Width="" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lblNotes" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_AP_FE_PA_Notes") %>'>
+                                                                                <%# Eval("Note")%>
+                                                                            </asp:LinkButton>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
+                                                                        <ItemStyle Width="10%" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkbtnRemove" runat="server" Text="Remove" OnClientClick="return confirm('Are you Sure to delete this record?');"
+                                                                                CommandName="Remove" CommandArgument='<%# Eval("PK_AP_FE_PA_Notes") %>'>
+                                                                            </asp:LinkButton>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                                <EmptyDataRowStyle ForeColor="#7f7f7f" HorizontalAlign="Center" />
+                                                                <EmptyDataTemplate>
+                                                                    <b>No Record found</b>
+                                                                </EmptyDataTemplate>
+                                                                <PagerSettings Visible="False" />
+                                                            </asp:GridView>
+                                                        </td>
+                                                    </tr>
+
+
+
+                                                    <tr>
                                                         <td align="left" valign="top" colspan="6">
                                                             <div class="bandHeaderRow">
                                                                 NAPM Investigation
@@ -4417,7 +4643,7 @@ function openAP_Propert_SecurtyPopup() {
                                                                     </td>
                                                                     <td align="left" valign="top" width="50%">
                                                                         <asp:CheckBox ID="chkOperasionsNoAdherencetoSonicPolicyandPlaybook" runat="server"
-                                                                            Text="Operasions – No Adherence to Sonic Policy and Playbook" />
+                                                                            Text="Operations – No Adherence to Sonic Policy and Playbook" />
                                                                     </td>
                                                                 </tr>
                                                             </table>
@@ -4446,9 +4672,10 @@ function openAP_Propert_SecurtyPopup() {
                                                             <table width="100%">
                                                                 <tr>
                                                                     <td align="left" valign="top" width="27%">
-                                                                        <asp:CheckBox ID="chkDispositionGameplanOther" runat="server" Text="Other" />
+                                                                        <asp:CheckBox ID="chkMonthlyARControlReview" runat="server" Text="Monthly A/R Control Review" />
                                                                     </td>
-                                                                    <td align="left" valign="top" width="50%"></td>
+                                                                    <td align="left" valign="top" width="50%">
+                                                                        <asp:CheckBox ID="chkDispositionGameplanOther" runat="server" Text="Other" /></td>
                                                                 </tr>
                                                             </table>
                                                         </td>
@@ -4852,11 +5079,19 @@ function openAP_Propert_SecurtyPopup() {
                                                                 <table border="0" align="center" cellpadding="0" cellspacing="5">
                                                                     <tr>
                                                                         <td>
-                                                                            <asp:Button ID="btnNotesGridAdd" runat="server" Text="Save" CausesValidation="true"
+                                                                            <asp:Button ID="btnNotesGridAdd" runat="server" Text="Save" CausesValidation="true" Visible="false"
                                                                                 OnClick="btnNotesGridAdd_Click" ValidationGroup="vsErrorFraudEventsNotes" />
                                                                         </td>
                                                                         <td>
                                                                             <asp:Button ID="btnViewAuditNotesGrid" runat="server" Text="View Audit Trail" OnClientClick="return openAP_FE_Notes_AuditPopup();"
+                                                                                CausesValidation="false" Visible="false" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <asp:Button ID="btnFraudNotesGridAdd" runat="server" Text="Save" CausesValidation="true" Visible="false"
+                                                                                OnClick="btnFraudNotesGridAdd_Click" ValidationGroup="vsErrorFraudEventsNotes" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <asp:Button ID="btnViewFraudAuditNotesGrid" runat="server" Text="View Audit Trail" OnClientClick="return openAP_FE_PA_Notes_AuditPopup();"
                                                                                 CausesValidation="false" Visible="false" />
                                                                         </td>
                                                                         <td>
@@ -5227,7 +5462,19 @@ function openAP_Propert_SecurtyPopup() {
                                                                     <td align="left" valign="top" width="27%">
                                                                         <asp:CheckBox ID="chkEccOtherView" runat="server" Text="Other" Enabled="false" />
                                                                     </td>
-                                                                    <td align="left" valign="top" width="50%"></td>
+                                                                    <td align="left" valign="top" width="50%">
+                                                                        <table>
+                                                                            <tr>
+                                                                                <td align="left" valign="top">Number of External Cameras&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
+                                                                                </td>
+                                                                                <td align="center" valign="top">:&nbsp;&nbsp;&nbsp;
+                                                                                </td>
+                                                                                <td align="left" valign="top">
+                                                                                    <asp:Label ID="lblNumberofExternalCameras" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
                                                                 </tr>
                                                             </table>
                                                         </td>
@@ -5336,7 +5583,19 @@ function openAP_Propert_SecurtyPopup() {
                                                                     <td align="left" valign="top" width="27%">
                                                                         <asp:CheckBox ID="chkIccOtherView" runat="server" Text="Other" Enabled="false" />
                                                                     </td>
-                                                                    <td align="left" valign="top" width="50%"></td>
+                                                                    <td align="left" valign="top" width="50%">
+                                                                        <table>
+                                                                            <tr>
+                                                                                <td align="left" valign="top">Number of Internal Cameras&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
+                                                                                </td>
+                                                                                <td align="center" valign="top">:&nbsp;&nbsp;&nbsp;
+                                                                                </td>
+                                                                                <td align="left" valign="top">
+                                                                                    <asp:Label ID="lblNumberofInternalCameras" runat="server" />
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
                                                                 </tr>
                                                             </table>
                                                         </td>
@@ -5797,7 +6056,7 @@ function openAP_Propert_SecurtyPopup() {
                                                     </tr>
                                                     <tr>
                                                         <td align="left" valign="top" colspan="6">
-                                                            <strong>Access Control</strong>
+                                                            <strong>Access Control Systems</strong>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -5809,8 +6068,11 @@ function openAP_Propert_SecurtyPopup() {
                                                                     <td align="left" valign="top" width="27%">
                                                                         <asp:CheckBox ID="chkACFirstFloorOnlyView" runat="server" Text="1st Floor Only" Enabled="false" />
                                                                     </td>
-                                                                    <td align="left" valign="top" width="50%">
+                                                                    <td align="left" valign="top" width="25%">
                                                                         <asp:CheckBox ID="chkACBusinessAreaView" runat="server" Text="Business Area" Enabled="false" />
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="25%">
+                                                                        <asp:CheckBox ID="chkKeyFobsView" runat="server" Text="Key Fobs" Enabled="false" />
                                                                     </td>
                                                                 </tr>
                                                             </table>
@@ -5825,8 +6087,11 @@ function openAP_Propert_SecurtyPopup() {
                                                                     <td align="left" valign="top" width="27%">
                                                                         <asp:CheckBox ID="chkACCashierView" runat="server" Text="Cashier" Enabled="false" />
                                                                     </td>
-                                                                    <td align="left" valign="top" width="50%">
+                                                                    <td align="left" valign="top" width="25%">
                                                                         <asp:CheckBox ID="chkACControlRoomView" runat="server" Text="Computer Room" Enabled="false" />
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="25%">
+                                                                        <asp:CheckBox ID="chkDoorRestrictionsView" runat="server" Text="Door Restrictions" Enabled="false" />
                                                                     </td>
                                                                 </tr>
                                                             </table>
@@ -5991,7 +6256,7 @@ function openAP_Propert_SecurtyPopup() {
                                                         <td align="left" valign="top"></td>
                                                         <td align="center" valign="top"></td>
                                                         <td align="left" valign="top">
-                                                            <span style="font-weight: bold; text-decoration: underline">Post</span>
+                                                            <span style="font-weight: bold; text-decoration: underline">Post Bollards</span>
                                                         </td>
                                                         <td align="left" valign="top"></td>
                                                         <td align="center" valign="top"></td>
@@ -6047,7 +6312,7 @@ function openAP_Propert_SecurtyPopup() {
                                                     </tr>
                                                     <tr>
                                                         <td align="left" valign="top">
-                                                            <strong>Security Inventory Tracking System </strong>
+                                                            <strong>Key Tracking System </strong>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -6081,7 +6346,7 @@ function openAP_Propert_SecurtyPopup() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Security Inventory Tracking System - Other Description
+                                                        <td align="left" valign="top">Other Security Inventory Tracking System
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -6108,6 +6373,80 @@ function openAP_Propert_SecurtyPopup() {
                                                             <asp:Label ID="lblCap_Index_Risk_Category" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
+
+                                                    <tr>
+                                                        <td align="left" valign="top">Financial Grid<br />
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top" colspan="4">
+                                                            <table width="90%" runat="server" id="Table1">
+                                                                <tr>
+                                                                    <td width="40%" align="left" class="assetheader">Category</td>
+                                                                    <td width="30%" align="left" class="assetheader">Total Capex $</td>
+                                                                    <td width="30%" align="left" class="assetheader">Total Monthly Charge $</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td width="40%" align="left" class="asset">
+                                                                        <asp:Label ID="Label1" runat="server" Text="CCTV Only"></asp:Label></td>
+                                                                    <td width="30%" align="left" class="asset">
+                                                                        <asp:Label ID="lblCCTVOnlyTC" runat="server" /></td>
+                                                                    <td width="30%" align="left" class="asset">
+                                                                        <asp:Label ID="lblCCTVOnlyTM" runat="server" /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td width="40%" align="left" class="asset2">
+                                                                        <asp:Label ID="Label2" runat="server" Text="Burglar Alarms"></asp:Label></td>
+                                                                    <td width="30%" align="left" class="asset2">
+                                                                        <asp:Label ID="lblBurglarAlarmsTC" runat="server" /></td>
+                                                                    <td width="30%" align="left" class="asset2">
+                                                                        <asp:Label ID="lblBurglarAlarmsTM" runat="server" /></td>
+                                                                </tr>                                                                
+                                                                <tr>
+                                                                    <td width="40%" align="left" class="asset">
+                                                                        <asp:Label ID="Label4" runat="server" Text="Guard Services"></asp:Label></td>
+                                                                    <td width="30%" align="left" class="asset">
+                                                                        <asp:Label ID="lblGuardServicesTC" runat="server" /></td>
+                                                                    <td width="30%" align="left" class="asset">
+                                                                        <asp:Label ID="lblGuardServicesTM" runat="server" /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td width="40%" align="left" class="asset2">
+                                                                        <asp:Label ID="Label5" runat="server" Text="Access Control"></asp:Label></td>
+                                                                    <td width="30%" align="left" class="asset2">
+                                                                        <asp:Label ID="lblAccessControlTC" runat="server" /></td>
+                                                                    <td width="30%" align="left" class="asset2">
+                                                                        <asp:Label ID="lblAccessControlTM" runat="server" /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td width="40%" align="left" class="asset">
+                                                                        <asp:Label ID="Label6" runat="server" Text="Security Inventory Tracking Systems"></asp:Label></td>
+                                                                    <td width="30%" align="left" class="asset">
+                                                                        <asp:Label ID="lblSecurityInventoryTrackingSystemsTC" runat="server" SkinID="txtCurrency" /></td>
+                                                                    <td width="30%" align="left" class="asset">
+                                                                        <asp:Label ID="lblSecurityInventoryTrackingSystemsTM" runat="server" SkinID="txtCurrency" /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td width="40%" align="left" class="asset2">
+                                                                        <asp:Label ID="Label3" runat="server" Text="CCTV and Live Monitoring Services"></asp:Label></td>
+                                                                    <td width="30%" align="left" class="asset2">
+                                                                        <asp:Label ID="lblCategoryTC" runat="server" /></td>
+                                                                    <td width="30%" align="left" class="asset2">
+                                                                        <asp:Label ID="lblCategoryTM" runat="server" /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="3">&nbsp;</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="3" align="center">
+                                                                        <asp:Button ID="Button3" runat="server" Text="View Audit Trail" OnClientClick="javascript:return openAP_Propert_Securty_FinancialPopup();" />
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                            <hr />
+                                                        </td>
+                                                    </tr>
+
                                                     <tr>
                                                         <td align="left" valign="top" width="100%" colspan="6">
                                                             <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -6362,6 +6701,15 @@ function openAP_Propert_SecurtyPopup() {
                                                         </td>
                                                     </tr>
                                                     <tr>
+                                                        <td align="left" valign="top">Vehicle Color
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblVehicleColor" runat="server"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
                                                         <td align="left" valign="top">Location of Vehicle
                                                         </td>
                                                         <td align="center" valign="top">:
@@ -6401,11 +6749,24 @@ function openAP_Propert_SecurtyPopup() {
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblInvoice_Value" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left" valign="top">&nbsp;
+                                                        <td align="left" valign="top">Police Case Number
                                                         </td>
-                                                        <td align="center" valign="top">&nbsp;
+                                                        <td align="center" valign="top">:
                                                         </td>
-                                                        <td align="left" valign="top">&nbsp;
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblPoliceCaseNumber" runat="server"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top"></td>
+                                                        <td align="center" valign="top"></td>
+                                                        <td align="left" valign="top"></td>
+                                                        <td align="left" valign="top" width="22%">Investigating Police Department
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblInvestigatingPoliceDepartment" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -6607,6 +6968,9 @@ function openAP_Propert_SecurtyPopup() {
                                                                     <td valign="top">
                                                                         <asp:CheckBox ID="chkWeather_Related_DamageLossView" Text="Weather Related Damage/Loss"
                                                                             runat="server" Enabled="false" />
+                                                                    </td>
+                                                                    <td valign="top">
+                                                                        <asp:CheckBox ID="chkVandalismView" Text="Vandalism" runat="server" Enabled="false" />
                                                                     </td>
                                                                     <td valign="top">
                                                                         <asp:CheckBox ID="chkOther_DescribeView" Text="Other - Describe" runat="server" Enabled="false" />
@@ -6998,7 +7362,9 @@ function openAP_Propert_SecurtyPopup() {
                                                 </table>
                                                 <table cellpadding="1" cellspacing="0" width="100%">
                                                     <div class="bandHeaderRow">
-                                                        Claim Notes
+                                                        <caption>
+                                                            Claim Notes
+                                                        </caption>
                                                     </div>
                                                     <tr>
                                                         <td width="100%" align="left">
@@ -8245,6 +8611,53 @@ function openAP_Propert_SecurtyPopup() {
                                                         </td>
                                                     </tr>
                                                     <tr>
+                                                        <td align="left" valign="top">Notes Grid
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top" colspan="4">
+                                                            <asp:GridView ID="gvNotesGridFraudView" runat="server" GridLines="None" CellPadding="4" OnSorting="gvNotesGridFraudView_Sorting"
+                                                                CellSpacing="0" AutoGenerateColumns="false" Width="100%" EnableTheming="false" AllowSorting="true"
+                                                                OnRowCommand="gvNotesGridFraudView_RowCommand">
+                                                                <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
+                                                                    Font-Size="8pt" />
+                                                                <RowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                <EditRowStyle BackColor="#2461BF" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" Font-Names="Tahoma"
+                                                                    Font-Size="8pt" />
+                                                                <PagerStyle BackColor="#7f7f7f" ForeColor="White" HorizontalAlign="Center" Font-Names="Tahoma"
+                                                                    Font-Size="8pt" />
+                                                                <HeaderStyle BackColor="#7f7f7f" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
+                                                                    Font-Size="8pt" VerticalAlign="Bottom" />
+                                                                <AlternatingRowStyle BackColor="White" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                <EmptyDataRowStyle CssClass="emptyrow" />
+                                                                <Columns>
+                                                                    <asp:TemplateField HeaderText="Date" HeaderStyle-HorizontalAlign="Left" SortExpression="Note_Date">
+                                                                        <ItemStyle Width="100px" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkbtnNoteDateView" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_AP_FE_PA_Notes") %>'> 
+                                                                             <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Note_Date"))%>
+                                                                            </asp:LinkButton>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Note Text" HeaderStyle-HorizontalAlign="Left">
+                                                                        <ItemStyle Width="100px" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lblNotesView" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_AP_FE_PA_Notes") %>'>
+                                                                            <%# Eval("Note")%>
+                                                                            </asp:LinkButton>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                                <EmptyDataRowStyle ForeColor="#7f7f7f" HorizontalAlign="Center" />
+                                                                <EmptyDataTemplate>
+                                                                    <b>No Record found</b>
+                                                                </EmptyDataTemplate>
+                                                                <PagerSettings Visible="False" />
+                                                            </asp:GridView>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
                                                         <td align="left" valign="top" colspan="6">
                                                             <div class="bandHeaderRow">
                                                                 NAPM Investigation
@@ -8498,7 +8911,7 @@ function openAP_Propert_SecurtyPopup() {
                                                                     </td>
                                                                     <td align="left" valign="top" width="50%">
                                                                         <asp:CheckBox ID="chkOperasionsNoAdherencetoSonicPolicyandPlaybookView" runat="server"
-                                                                            Text="Operasions – No Adherence to Sonic Policy and Playbook" Enabled="false" />
+                                                                            Text="Operations – No Adherence to Sonic Policy and Playbook" Enabled="false" />
                                                                     </td>
                                                                 </tr>
                                                             </table>
@@ -8528,9 +8941,11 @@ function openAP_Propert_SecurtyPopup() {
                                                             <table width="100%">
                                                                 <tr>
                                                                     <td align="left" valign="top" width="27%">
+                                                                        <asp:CheckBox ID="chkMonthlyARControlReviewView" runat="server" Text="Monthly A/R Control Review" Enabled="false" />
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="50%">
                                                                         <asp:CheckBox ID="chkDispositionGameplanOtherView" runat="server" Text="Other" Enabled="false" />
                                                                     </td>
-                                                                    <td align="left" valign="top" width="50%"></td>
                                                                 </tr>
                                                             </table>
                                                         </td>
@@ -8911,6 +9326,11 @@ function openAP_Propert_SecurtyPopup() {
                                                                         <td>
                                                                             <asp:Button ID="btnViewAuditNotesGridView" runat="server" Text="View Audit Trail"
                                                                                 OnClientClick="return openAP_FE_Notes_AuditPopup();" CausesValidation="false"
+                                                                                Visible="false" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <asp:Button ID="btnViewAuditNotesFraudGridView" runat="server" Text="View Audit Trail"
+                                                                                OnClientClick="return openAP_FE_PA_Notes_AuditPopup();" CausesValidation="false"
                                                                                 Visible="false" />
                                                                         </td>
                                                                         <td>

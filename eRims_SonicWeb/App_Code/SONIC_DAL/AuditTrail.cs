@@ -1134,5 +1134,19 @@ public class AuditTrail
         return db.ExecuteDataSet(dbCommand);
     }
 
+    /// <summary>
+    /// get all audit records
+    /// </summary>
+    /// <param name="PK_CRM_Customer"></param>
+    /// <returns></returns>
+    public static DataSet GetAP_Property_Security_FinancialsAuditTrail(decimal PK_AP_Property_Security_Financials)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("AP_Property_Security_Financials_AuditView");
+        db.AddInParameter(dbCommand, "FK_AP_Property_Security", DbType.Decimal, PK_AP_Property_Security_Financials);
+        return db.ExecuteDataSet(dbCommand);
+    }
+
+
     #endregion
 }

@@ -3806,6 +3806,32 @@ public class ComboHelper
         }
     }
 
+
+    /// <summary>
+    /// Fill Attachment Type
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillLU_AM_Attachment_Type(DropDownList[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.LU_AM_Attachment_Type.SelectAll().Tables[0];
+        dtData.DefaultView.RowFilter = "Active = 'Y'";
+        dtData.DefaultView.Sort = "Fld_Desc ASC";
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Fld_Desc";
+            ddlToFill.DataValueField = "PK_LU_AM_Attachment_Type";
+            ddlToFill.DataSource = dtData.DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
     public static void FillLU_EPM_Attachment_TypeForEnvironmental(DropDownList[] dropDowns, bool booladdSelectAsFirstElement)
     {
         DataTable dtData = ERIMS.DAL.LU_EPM_Attachment_Type.SelectForEnvironmental().Tables[0];

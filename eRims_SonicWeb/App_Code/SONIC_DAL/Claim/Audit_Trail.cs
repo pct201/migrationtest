@@ -152,6 +152,19 @@ public class Audit_Trail
     /// </summary>
     /// <param name="PK_Case"></param>
     /// <returns></returns>
+    public static DataSet GetAP_FE_PA_Notes_Audit(decimal pK_AP_FE_PA_Notes)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("AP_FE_PA_Notes_Audit_View");
+        db.AddInParameter(dbCommand, "PK_AP_FE_PA_Notes", DbType.Decimal, pK_AP_FE_PA_Notes);
+        return db.ExecuteDataSet(dbCommand);
+    }
+
+    /// <summary>
+    /// get all record from audit table for a passed key
+    /// </summary>
+    /// <param name="PK_Case"></param>
+    /// <returns></returns>
     public static DataSet GetAP_FE_Transactions_Audit(decimal pK_AP_FE_Transactions)
     {
         Database db = DatabaseFactory.CreateDatabase();

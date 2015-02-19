@@ -107,6 +107,7 @@ namespace ERIMS.DAL
         private string _Other_Assignment;
         private string _Other_Associate_Contacted;
         private DateTime? _Date_Other_Assigned;
+        private string _Monthly_AR_Control_Review;
 
         #endregion
 
@@ -958,6 +959,15 @@ namespace ERIMS.DAL
             set { _Date_Other_Assigned = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the Monthly_AR_Control_Review value.
+        /// </summary>
+        public string Monthly_AR_Control_Review
+        {
+            get { return _Monthly_AR_Control_Review; }
+            set { _Monthly_AR_Control_Review = value; }
+        }
+
         #endregion
 
         #region Default Constructors
@@ -1465,7 +1475,11 @@ namespace ERIMS.DAL
                 this._Date_Other_Assigned = null;
             else
                 this._Date_Other_Assigned = (DateTime?)drAP_Fraud_Events["Date_Other_Assigned"];
-            
+
+            if (drAP_Fraud_Events["Monthly_AR_Control_Review"] == DBNull.Value)
+                this._Monthly_AR_Control_Review = null;
+            else
+                this._Monthly_AR_Control_Review = (string)drAP_Fraud_Events["Monthly_AR_Control_Review"];
 
         }
 
@@ -1891,6 +1905,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Other_Associate_Contacted", DbType.String, this._Other_Associate_Contacted);
 
             db.AddInParameter(dbCommand, "Date_Other_Assigned", DbType.DateTime, this._Date_Other_Assigned);
+
+            if (string.IsNullOrEmpty(this._Monthly_AR_Control_Review))
+                db.AddInParameter(dbCommand, "Monthly_AR_Control_Review", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Monthly_AR_Control_Review", DbType.String, this._Monthly_AR_Control_Review);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -2361,6 +2380,12 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Other_Associate_Contacted", DbType.String, this._Other_Associate_Contacted);
 
             db.AddInParameter(dbCommand, "Date_Other_Assigned", DbType.DateTime, this._Date_Other_Assigned);
+
+            if (string.IsNullOrEmpty(this._Monthly_AR_Control_Review))
+                db.AddInParameter(dbCommand, "Monthly_AR_Control_Review", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Monthly_AR_Control_Review", DbType.String, this._Monthly_AR_Control_Review);
+
 
             db.ExecuteNonQuery(dbCommand);
         }

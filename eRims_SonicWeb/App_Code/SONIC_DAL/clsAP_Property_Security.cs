@@ -115,6 +115,10 @@ namespace ERIMS.DAL
         private DateTime? _Update_Date;
         private int? _Cap_Index_Crime_Score;
         private decimal? _Cap_Index_Risk_Cateogory;
+        private int? _ECC_Number_Of_External_Cameras;
+        private int? _ECC_Number_Of_Internal_Cameras;
+        private string _AC_Key_Fobs;
+        private string _AC_Door_Restrictions;
 
         #endregion
 
@@ -318,6 +322,7 @@ namespace ERIMS.DAL
             set { _ECC_Other = value; }
         }
 
+    
         /// <summary>
         /// Gets or sets the Exterior_Camera_Coverage_-_Other_Description value.
         /// </summary>
@@ -1038,6 +1043,42 @@ namespace ERIMS.DAL
             set { _Cap_Index_Risk_Cateogory = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the Cap_Index_Crime_Score value.
+        /// </summary>
+        public int? ECC_Number_Of_External_Cameras
+        {
+            get { return _ECC_Number_Of_External_Cameras; }
+            set { _ECC_Number_Of_External_Cameras = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Cap_Index_Crime_Score value.
+        /// </summary>
+        public int? ECC_Number_Of_Internal_Cameras
+        {
+            get { return _ECC_Number_Of_Internal_Cameras; }
+            set { _ECC_Number_Of_Internal_Cameras = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the AC_Key_Fobs value.
+        /// </summary>
+        public string AC_Key_Fobs
+        {
+            get { return _AC_Key_Fobs; }
+            set { _AC_Key_Fobs = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the AC_Key_Fobs value.
+        /// </summary>
+        public string AC_Door_Restrictions
+        {
+            get { return _AC_Door_Restrictions; }
+            set { _AC_Door_Restrictions = value; }
+        }
+
         #endregion
 
         #region Default Constructors
@@ -1586,6 +1627,26 @@ namespace ERIMS.DAL
                 this._Cap_Index_Risk_Cateogory = null;
             else
                 this._Cap_Index_Risk_Cateogory = (decimal?)drAP_Property_Security["Cap_Index_Risk_Cateogory"];
+
+            if (drAP_Property_Security["ECC_Number_Of_External_Cameras"] == DBNull.Value)
+                this._ECC_Number_Of_External_Cameras = null;
+            else
+                this._ECC_Number_Of_External_Cameras = (int?)drAP_Property_Security["ECC_Number_Of_External_Cameras"];
+
+            if (drAP_Property_Security["ECC_Number_Of_Internal_Cameras"] == DBNull.Value)
+                this._ECC_Number_Of_Internal_Cameras = null;
+            else
+                this._ECC_Number_Of_Internal_Cameras = (int?)drAP_Property_Security["ECC_Number_Of_Internal_Cameras"];
+
+            if (drAP_Property_Security["AC_Key_Fobs"] == DBNull.Value)
+                this._AC_Key_Fobs = null;
+            else
+                this._AC_Key_Fobs = (string)drAP_Property_Security["AC_Key_Fobs"];
+
+            if (drAP_Property_Security["AC_Door_Restrictions"] == DBNull.Value)
+                this._AC_Door_Restrictions = null;
+            else
+                this._AC_Door_Restrictions = (string)drAP_Property_Security["AC_Door_Restrictions"];
         }
 
 
@@ -2084,6 +2145,20 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Cap_Index_Crime_Score", DbType.Int32, this._Cap_Index_Crime_Score);
 
             db.AddInParameter(dbCommand, "Cap_Index_Risk_Cateogory", DbType.Decimal, this._Cap_Index_Risk_Cateogory);
+
+            db.AddInParameter(dbCommand, "ECC_Number_Of_External_Cameras", DbType.Int32, this._ECC_Number_Of_External_Cameras);
+
+            db.AddInParameter(dbCommand, "ECC_Number_Of_Internal_Cameras", DbType.Int32, this._ECC_Number_Of_Internal_Cameras);
+
+            if (string.IsNullOrEmpty(this._AC_Key_Fobs))
+                db.AddInParameter(dbCommand, "AC_Key_Fobs", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "AC_Key_Fobs", DbType.String, this._AC_Key_Fobs);
+
+            if (string.IsNullOrEmpty(this._AC_Door_Restrictions))
+                db.AddInParameter(dbCommand, "AC_Door_Restrictions", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "AC_Door_Restrictions", DbType.String, this._AC_Door_Restrictions);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -2611,6 +2686,20 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Cap_Index_Crime_Score", DbType.Int32, this._Cap_Index_Crime_Score);
 
             db.AddInParameter(dbCommand, "Cap_Index_Risk_Cateogory", DbType.Decimal, this._Cap_Index_Risk_Cateogory);
+
+            db.AddInParameter(dbCommand, "ECC_Number_Of_External_Cameras", DbType.Int32, this._ECC_Number_Of_External_Cameras);
+
+            db.AddInParameter(dbCommand, "ECC_Number_Of_Internal_Cameras", DbType.Int32, this._ECC_Number_Of_Internal_Cameras);
+
+            if (string.IsNullOrEmpty(this._AC_Key_Fobs))
+                db.AddInParameter(dbCommand, "AC_Key_Fobs", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "AC_Key_Fobs", DbType.String, this._AC_Key_Fobs);
+
+            if (string.IsNullOrEmpty(this._AC_Door_Restrictions))
+                db.AddInParameter(dbCommand, "AC_Door_Restrictions", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "AC_Door_Restrictions", DbType.String, this._AC_Door_Restrictions);
 
             db.ExecuteNonQuery(dbCommand);
         }

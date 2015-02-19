@@ -42,7 +42,7 @@
         <tr>
             <td colspan="2">
                 <div style="overflow: hidden; width: 650px;" id="dvHeader" runat="server">
-                    <table cellpadding="4" cellspacing="0" style="width: 7047px; border-collapse: collapse;">
+                    <table cellpadding="4" cellspacing="0" style="width: 600px; border-collapse: collapse;">
                         <tbody>
                             <tr style="background-color: #95B3D7; color: White; font-size: 12px; font-weight: bold;"
                                 align="left">
@@ -172,6 +172,18 @@
                                     <span style="display: inline-block; width: 100px;">Item Status</span>
                                 </th>
                                 <th class="cols">
+                                    <span style="display: inline-block; width: 100px;">Vehicle Color</span>
+                                </th>
+                                <th class="cols">
+                                    <span style="display: inline-block; width: 100px;">Police Case Number</span>
+                                </th>
+                                <th class="cols">
+                                    <span style="display: inline-block; width: 100px;">Investigating Police Department</span>
+                                </th>
+                                <th class="cols">
+                                    <span style="display: inline-block; width: 100px;">Vandalism</span>
+                                </th>
+                                <th class="cols">
                                     <span style="display: inline-block; width: 100px;">Updated By</span>
                                 </th>
                                 <th class="cols">
@@ -181,7 +193,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div style="overflow: scroll; width: 7030px; height: 395px;" id="dvGrid" runat="server">
+                <div style="overflow: scroll; width: 600px; height: 395px;" id="dvGrid" runat="server">
                     <asp:GridView ID="gvAP_DPD_FROIs" runat="server" AutoGenerateColumns="False" CellPadding="4"
                         EnableTheming="True" EmptyDataText="No records found!" ShowHeader="false">
                         <RowStyle HorizontalAlign="Left" VerticalAlign="Top" />
@@ -467,6 +479,32 @@
                                     <asp:Label ID="lblItem_Status" runat="server" Text='<%#Eval("Item_Status1")%>' Width="100px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
+
+                             <asp:TemplateField HeaderText="Vehicle_Color">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblVehicle_Color" runat="server" Text='<%#Eval("Vehicle_Color")%>' Width="100px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Police_Case_Number">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblPolice_Case_Number" runat="server" Text='<%#Eval("Police_Case_Number")%>' Width="100px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Investigating_Police_Department">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblInvestigating_Police_Department" runat="server" Text='<%#Eval("Investigating_Police_Department")%>' Width="100px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Vandalism">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblVandalism" runat="server" Text='<%#clsGeneral.FormatYesNoToDisplay(Eval("Vandalism"))%>' Width="100px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+
                             <asp:TemplateField HeaderText="Updated_By">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>

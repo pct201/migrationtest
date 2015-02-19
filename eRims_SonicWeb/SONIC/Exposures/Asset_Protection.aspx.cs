@@ -166,6 +166,18 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     }
 
     /// <summary>
+    /// Denotes the Notes Primary Key
+    /// </summary>
+    public decimal PK_AP_FE_PA_Notes
+    {
+        get
+        {
+            return clsGeneral.GetInt(ViewState["PK_AP_FE_PA_Notes"]);
+        }
+        set { ViewState["PK_AP_FE_PA_Notes"] = value; }
+    }
+
+    /// <summary>
     /// Denotes the Transaction Primary Key
     /// </summary>
     public decimal PK_AP_FE_Transactions
@@ -267,6 +279,32 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         set { ViewState["_SortOrder_Fraud"] = value; }
     }
 
+    /// <summary>
+    /// Denotes Sort Field to sort all records by
+    /// </summary>
+    private string _SortBy_FraudNotes
+    {
+        get { return (!clsGeneral.IsNull(ViewState["_SortBy_FraudNotes"]) ? ViewState["_SortBy_FraudNotes"].ToString() : string.Empty); }
+        set { ViewState["_SortBy_FraudNotes"] = value; }
+    }
+
+    /// <summary>
+    /// Denotes ascending or descending order
+    /// </summary>
+    private string _SortOrder_FraudNotes
+    {
+        get { return (!clsGeneral.IsNull(ViewState["_SortOrder_FraudNotes"]) ? ViewState["_SortOrder_FraudNotes"].ToString() : string.Empty); }
+        set { ViewState["_SortOrder_FraudNotes"] = value; }
+    }
+
+    private int pK_AP_Property_Security_Financials;
+
+    public int PK_AP_Property_Security_Financials
+    {
+        get { return pK_AP_Property_Security_Financials; }
+        set { pK_AP_Property_Security_Financials = value; }
+    }
+
     #endregion
 
     #region Page Events
@@ -299,6 +337,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             _SortOrder_CalAtlantic = "asc";
             _SortBy_Fraud = "Fraud_Number";
             _SortOrder_Fraud = "asc";
+            _SortBy_FraudNotes = "Note_Date";
+            _SortOrder_FraudNotes = "asc";
 
 
             PK_AP_Property_Security = clsAP_Property_Security.SelectPKPropertySecurityByFKLocation(LocationID);
@@ -314,11 +354,21 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
 
             if (PK_AP_Property_Security == 0)
             {
+
                 StrOperation = "edit";
                 //btnGenerate_Abstract.Visible = false;
                 btnGenerate_Abstract.Style.Add("display", "none");
                 btnReturnto_View_Mode.Visible = false;
                 //btnGenerate_Abstract.Visible = false;
+                txtCCTV_Company_Name.Text = "ACI Protection";
+                txtCCTV_Company_Address_1.Text = "970 Pittsburgh Drive";
+                txtCCTV_Company_Address_2.Text = string.Empty;
+                txtCCTV_Company_City.Text = "Delaware";
+                drpFK_CCTV_Company_State.SelectedValue = "36";
+                txtCCTV_Company_Zip.Text = "43015";
+                txtCCTV_Company_Contact_Name.Text = "Richard Paglieri";
+                txtCCTV_Comapny_Contact_Telephone.Text = "740-368-4177";
+                txtCCTV_Company_Contact_EMail.Text = "rich@aciprotection.com";
             }
 
 
@@ -470,6 +520,10 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         //txtOffDuty_Officer_Hours_Monitored_To.Text = objAP_Property_Security.OffDuty_Officer_Hours_Monitored_To;
         txtAccess_Control_Other_Description.Text = objAP_Property_Security.Access_Control_Other_Description;
         txtSecurity_Inventory_Tracking_System_Other_Description.Text = objAP_Property_Security.Security_Inventory_Tracking_System_Other_Description;
+        txtSecurity_Inventory_Tracking_System_Other_Description.Text = objAP_Property_Security.Security_Inventory_Tracking_System_Other_Description;
+
+        txtNumberOfExternalCameras.Text = Convert.ToString(objAP_Property_Security.ECC_Number_Of_External_Cameras);
+        txtNumberofInternalCameras.Text = Convert.ToString(objAP_Property_Security.ECC_Number_Of_Internal_Cameras);
 
 
         chkACFirstFloorOnly.Checked = objAP_Property_Security.AC_1st_Floor_Only == "Y" ? true : false;
@@ -524,9 +578,15 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         chkZDParts.Checked = objAP_Property_Security.ZD_Parts == "Y" ? true : false;
         chkZDService.Checked = objAP_Property_Security.ZD_Sales == "Y" ? true : false;
         chkZDSalesShowroom.Checked = objAP_Property_Security.ZD_Sales_Showroom == "Y" ? true : false;
+
+        chkKeyFobs.Checked = objAP_Property_Security.AC_Key_Fobs == "Y" ? true : false;
+        chkDoorRestrictions.Checked = objAP_Property_Security.AC_Door_Restrictions == "Y" ? true : false;
+
         if (objAP_Property_Security.Cap_Index_Crime_Score != null)
             txtCap_Index_Crime_Score.Text = Convert.ToString(objAP_Property_Security.Cap_Index_Crime_Score);
         if (objAP_Property_Security.Cap_Index_Risk_Cateogory != null) ddlCap_Index_Risk_Category.SelectedValue = objAP_Property_Security.Cap_Index_Risk_Cateogory.ToString();
+
+        BindFinancialGridforEdit();
 
         if (PK_AP_Property_Security > 0)
         {
@@ -590,6 +650,10 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         lblAccess_Control_Other_Description.Text = objAP_Property_Security.Access_Control_Other_Description;
         lblSecurity_Inventory_Tracking_System_Other_Description.Text = objAP_Property_Security.Security_Inventory_Tracking_System_Other_Description;
 
+        lblNumberofExternalCameras.Text = Convert.ToString(objAP_Property_Security.ECC_Number_Of_External_Cameras);
+        lblNumberofInternalCameras.Text = Convert.ToString(objAP_Property_Security.ECC_Number_Of_Internal_Cameras);
+
+
         chkACFirstFloorOnlyView.Checked = objAP_Property_Security.AC_1st_Floor_Only == "Y" ? true : false;
         chkACBusinessAreaView.Checked = objAP_Property_Security.AC_Business_Area == "Y" ? true : false;
         chkACCashierView.Checked = objAP_Property_Security.AC_Cashier == "Y" ? true : false;
@@ -643,7 +707,11 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         chkZDPartsView.Checked = objAP_Property_Security.ZD_Parts == "Y" ? true : false;
         chkZDServiceView.Checked = objAP_Property_Security.ZD_Sales == "Y" ? true : false;
         chkZDSalesShowroomView.Checked = objAP_Property_Security.ZD_Sales_Showroom == "Y" ? true : false;
-        if(objAP_Property_Security.Cap_Index_Crime_Score != null)
+
+        chkKeyFobsView.Checked = objAP_Property_Security.AC_Key_Fobs == "Y" ? true : false;
+        chkDoorRestrictionsView.Checked = objAP_Property_Security.AC_Door_Restrictions == "Y" ? true : false;
+
+        if (objAP_Property_Security.Cap_Index_Crime_Score != null)
             lblCap_Index_Crime_Score.Text = Convert.ToString(objAP_Property_Security.Cap_Index_Crime_Score);
         if (objAP_Property_Security.Cap_Index_Risk_Cateogory != null)
             lblCap_Index_Risk_Category.Text = new clsLU_AP_Cap_Index_Risk_Category((decimal)objAP_Property_Security.Cap_Index_Risk_Cateogory).Fld_Desc;
@@ -652,6 +720,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         {
             btnProperty_SecurityAuditView.Visible = true;
         }
+
+        BindFinancialGridforView();
 
     }
 
@@ -678,6 +748,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         //objAP_Property_Security.Hours_Monitored_To = txtHours_Monitored_To.Text.Trim();
         objAP_Property_Security.Exterior_Camera_Coverage_Other_Description = txtExterior_Camera_Coverage_Other_Description.Text.Trim();
         objAP_Property_Security.Interior_Camera_Coverage_Other_Description = txtInterior_Camera_Coverage_Other_Description.Text.Trim();
+
         objAP_Property_Security.Buglar_Alarm_System = rdoBuglar_Alarm_System.SelectedValue;
         objAP_Property_Security.Is_System_Active_and_Function_Properly = rdoIs_System_Active_and_Function_Properly.SelectedValue;
         objAP_Property_Security.Burglar_Alarm_Company_Name = txtBurglar_Alarm_Company_Name.Text.Trim();
@@ -763,6 +834,18 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         objAP_Property_Security.ZD_Parts = chkZDParts.Checked ? "Y" : "N";
         objAP_Property_Security.ZD_Sales = chkZDService.Checked ? "Y" : "N";
         objAP_Property_Security.ZD_Sales_Showroom = chkZDSalesShowroom.Checked ? "Y" : "N";
+
+        if (txtNumberOfExternalCameras.Text == string.Empty)
+            objAP_Property_Security.ECC_Number_Of_External_Cameras = null;
+        else
+            objAP_Property_Security.ECC_Number_Of_External_Cameras = Convert.ToInt32(txtNumberOfExternalCameras.Text);
+        if(txtNumberofInternalCameras.Text == string.Empty)
+            objAP_Property_Security.ECC_Number_Of_Internal_Cameras = null;
+        else
+            objAP_Property_Security.ECC_Number_Of_Internal_Cameras = Convert.ToInt32(txtNumberofInternalCameras.Text);
+        objAP_Property_Security.AC_Key_Fobs = chkKeyFobs.Checked ? "Y" : "N";
+        objAP_Property_Security.AC_Door_Restrictions = chkDoorRestrictions.Checked ? "Y" : "N";
+
         if (txtCap_Index_Crime_Score.Text.Trim() != string.Empty)
             objAP_Property_Security.Cap_Index_Crime_Score = Convert.ToInt32(Convert.ToString(txtCap_Index_Crime_Score.Text.Trim()));
         if (ddlCap_Index_Risk_Category.SelectedIndex > 0) objAP_Property_Security.Cap_Index_Risk_Cateogory = Convert.ToDecimal(ddlCap_Index_Risk_Category.SelectedValue);
@@ -941,6 +1024,11 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             txtRecovery.Text = dtDPD_FROIs_Detail.Rows[0]["Recovery"].ToString() != "" ? clsGeneral.GetStringValue(dtDPD_FROIs_Detail.Rows[0]["Recovery"].ToString()) : "";
             drpItem_Status.SelectedValue = dtDPD_FROIs_Detail.Rows[0]["Item_Status"].ToString() == "O" ? "1" : dtDPD_FROIs_Detail.Rows[0]["Item_Status"].ToString() == "C" ? "2" : "0";
             lblDPDClaim_Number.Text = dtDPD_FROIs_Detail.Rows[0]["Origin_Claim_Number"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Origin_Claim_Number"].ToString() : "";
+
+            txtVehicleColor.Text = dtDPD_FROIs_Detail.Rows[0]["Vehicle_Color"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Vehicle_Color"].ToString() : "";
+            txtPoliceCaseNumber.Text = dtDPD_FROIs_Detail.Rows[0]["Police_Case_Number"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Police_Case_Number"].ToString() : "";
+            txtInvestigatingPoliceDepartment.Text = dtDPD_FROIs_Detail.Rows[0]["Investigating_Police_Department"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Investigating_Police_Department"].ToString() : "";
+            chkVandalism.Checked = dtDPD_FROIs_Detail.Rows[0]["Vandalism"].ToString() == "Y" ? true : false;
         }
     }
 
@@ -1022,6 +1110,11 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             lblRecovery.Text = dtDPD_FROIs_Detail.Rows[0]["Recovery"].ToString() != "" ? clsGeneral.GetStringValue(dtDPD_FROIs_Detail.Rows[0]["Recovery"].ToString()) : "";
             lblItem_Status.Text = dtDPD_FROIs_Detail.Rows[0]["Item_Status"].ToString() == "O" ? "Open" : dtDPD_FROIs_Detail.Rows[0]["Item_Status"].ToString() == "C" ? "Close" : "";
             lblDPDClaim_NumberView.Text = dtDPD_FROIs_Detail.Rows[0]["Origin_Claim_Number"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Origin_Claim_Number"].ToString() : "";
+
+            lblVehicleColor.Text = dtDPD_FROIs_Detail.Rows[0]["Vehicle_Color"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Vehicle_Color"].ToString() : "";
+            lblPoliceCaseNumber.Text = dtDPD_FROIs_Detail.Rows[0]["Police_Case_Number"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Police_Case_Number"].ToString() : "";
+            lblInvestigatingPoliceDepartment.Text = dtDPD_FROIs_Detail.Rows[0]["Investigating_Police_Department"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Investigating_Police_Department"].ToString() : "";
+            chkVandalismView.Checked = dtDPD_FROIs_Detail.Rows[0]["Vandalism"].ToString() == "Y" ? true : false;
         }
     }
 
@@ -1666,7 +1759,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                     lblTypeOfEvent.Text = new clsLU_Event_Type(Convert.ToDecimal(dtEvent.Rows[0]["FK_LU_Event_Type"].ToString())).Fld_Desc;
                 else
                     lblTypeOfEvent.Text = "";
-                
+
                 lblEventReportDate.Text = clsGeneral.FormatDBNullDateToDisplay(dtEvent.Rows[0]["Event_Report_Date"].ToString());
                 lblInvestigationReportDate.Text = clsGeneral.FormatDBNullDateToDisplay(dtEvent.Rows[0]["Investigation_Report_Date"].ToString());
                 if (dtEvent.Rows[0]["FK_LU_Event_Description"] != null && Convert.ToString(dtEvent.Rows[0]["FK_LU_Event_Description"]) != "")
@@ -1943,6 +2036,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         chkVendorCollusion.Checked = objAP_Fraud_Events.Vendor_Collusion == "Y" ? true : false;
         chkVendorSchemes.Checked = objAP_Fraud_Events.Vendor_Schemes == "Y" ? true : false;
 
+        chkMonthlyARControlReview.Checked = objAP_Fraud_Events.Monthly_AR_Control_Review == "Y" ? true : false;
+
         if (PK_AP_Fraud_Events > 0)
         {
             btnFruad_EventAudit_Trail.Visible = true;
@@ -1953,6 +2048,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         }
 
         BindNotesGrid();
+        BindFraudNotesGrid();
         BindTransactionGrid();
         BindFinancialMatrix();
     }
@@ -2064,6 +2160,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         chkVendorCollusionView.Checked = objAP_Fraud_Events.Vendor_Collusion == "Y" ? true : false;
         chkVendorSchemesView.Checked = objAP_Fraud_Events.Vendor_Schemes == "Y" ? true : false;
 
+        chkMonthlyARControlReviewView.Checked = objAP_Fraud_Events.Monthly_AR_Control_Review == "Y" ? true : false;
+
         if (PK_AP_Fraud_Events > 0)
         {
             btnFruad_EventAudit_TrailView.Visible = true;
@@ -2074,6 +2172,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         }
 
         BindNotesGrid();
+        BindFraudNotesGrid();
         BindTransactionGrid();
         BindFinancialMatrix();
     }
@@ -2178,6 +2277,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         objAP_Fraud_Events.Vendor_Collusion = chkVendorCollusion.Checked ? "Y" : "N";
         objAP_Fraud_Events.Vendor_Schemes = chkVendorSchemes.Checked ? "Y" : "N";
 
+        objAP_Fraud_Events.Monthly_AR_Control_Review = chkMonthlyARControlReview.Checked ? "Y" : "N";
+
         objAP_Fraud_Events.Update_Date = DateTime.Now;
         objAP_Fraud_Events.Updated_By = clsSession.UserID;
 
@@ -2208,12 +2309,36 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     {
         if (PK_AP_FE_Notes > 0)
         {
+            btnNotesGridAdd.Visible = true;
+            btnFraudNotesGridAdd.Visible = false;
+
             clsAP_FE_Notes objclsAP_FE_Notes = new clsAP_FE_Notes(PK_AP_FE_Notes);
             btnViewAuditNotesGrid.Visible = true;
+            btnViewFraudAuditNotesGrid.Visible = false;
             btnFraudEventSave.Visible = false;
             btnFruad_EventAudit_Trail.Visible = false;
             txtNotesDate.Text = clsGeneral.FormatDBNullDateToDisplay(objclsAP_FE_Notes.Note_Date);
             txtNotesAdd.Text = objclsAP_FE_Notes.Note;
+        }
+    }
+
+    /// <summary>
+    /// Bind Selceted Notes Detail 
+    /// </summary>
+    private void bindNotesFraudDetailForEdit()
+    {
+        if (PK_AP_FE_PA_Notes > 0)
+        {
+            btnNotesGridAdd.Visible = false;
+            btnFraudNotesGridAdd.Visible = true;
+
+            AP_FE_PA_Notes AP_FE_PA_Notes = new AP_FE_PA_Notes(PK_AP_FE_PA_Notes);
+            btnViewAuditNotesGrid.Visible = false;
+            btnViewFraudAuditNotesGrid.Visible = true;
+            btnFraudEventSave.Visible = false;
+            btnFruad_EventAudit_Trail.Visible = false;
+            txtNotesDate.Text = clsGeneral.FormatDBNullDateToDisplay(AP_FE_PA_Notes.Note_Date);
+            txtNotesAdd.Text = AP_FE_PA_Notes.Note;
         }
     }
 
@@ -2226,10 +2351,28 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         {
             clsAP_FE_Notes objclsAP_FE_Notes = new clsAP_FE_Notes(PK_AP_FE_Notes);
             btnViewAuditNotesGridView.Visible = true;
+            btnViewAuditNotesFraudGridView.Visible = false;
             btnFruad_EventAudit_TrailView.Visible = false;
             btnFraudEventSave.Visible = false;
             lblNotesDate.Text = clsGeneral.FormatDBNullDateToDisplay(objclsAP_FE_Notes.Note_Date);
             txtNotesAddView.Text = objclsAP_FE_Notes.Note;
+        }
+    }
+
+    /// <summary>
+    /// Bind Selceted Notes Detail 
+    /// </summary>
+    private void bindNotesDetailFraudForView()
+    {
+        if (PK_AP_FE_PA_Notes > 0)
+        {
+            AP_FE_PA_Notes AP_FE_PA_Notes = new AP_FE_PA_Notes(PK_AP_FE_PA_Notes);
+            btnViewAuditNotesGridView.Visible = false;
+            btnViewAuditNotesFraudGridView.Visible = true;
+            btnFruad_EventAudit_TrailView.Visible = false;
+            btnFraudEventSave.Visible = false;
+            lblNotesDate.Text = clsGeneral.FormatDBNullDateToDisplay(AP_FE_PA_Notes.Note_Date);
+            txtNotesAddView.Text = AP_FE_PA_Notes.Note;
         }
     }
 
@@ -2283,6 +2426,23 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         {
             gvNotesGridView.DataSource = clsAP_FE_Notes.SelectNotesByFKFraudEvent(PK_AP_Fraud_Events).Tables[0];
             gvNotesGridView.DataBind();
+        }
+    }
+
+    /// <summary>
+    /// Bind Notes Grid
+    /// </summary>
+    private void BindFraudNotesGrid()
+    {
+        if (StrOperation != "view")
+        {
+            gvFraudEventsNote.DataSource = AP_FE_PA_Notes.SelectNotesByFKFraudEvent(PK_AP_Fraud_Events, _SortOrder_FraudNotes).Tables[0];
+            gvFraudEventsNote.DataBind();
+        }
+        else
+        {
+            gvNotesGridFraudView.DataSource = AP_FE_PA_Notes.SelectNotesByFKFraudEvent(PK_AP_Fraud_Events, _SortOrder_FraudNotes).Tables[0];
+            gvNotesGridFraudView.DataBind();
         }
     }
 
@@ -2390,7 +2550,9 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         txtNotesAdd.Text = "";
         btnFraudEventSave.Visible = true;
         btnViewAuditNotesGrid.Visible = false;
+        btnViewFraudAuditNotesGrid.Visible = false;
         btnViewAuditNotesGridView.Visible = false;
+        btnViewAuditNotesFraudGridView.Visible = false;
         btnViewAuditTransactionGrid.Visible = false;
         btnViewAuditTransactionGridView.Visible = false;
 
@@ -2802,6 +2964,12 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         ObjAP_DPD_FROIs.Weather_Related_Damage_and_or_Loss = chkWeather_Related_DamageLoss.Checked ? "Y" : "N";
         ObjAP_DPD_FROIs.Other_Describe = chkOther_Describe.Checked ? "Y" : "N";
 
+        if (txtInvestigatingPoliceDepartment.Text != "") ObjAP_DPD_FROIs.Investigating_Police_Department = txtInvestigatingPoliceDepartment.Text;
+        if (txtVehicleColor.Text != "") ObjAP_DPD_FROIs.Vehicle_Color = txtVehicleColor.Text;
+        if (txtPoliceCaseNumber.Text != "") ObjAP_DPD_FROIs.Police_Case_Number = txtPoliceCaseNumber.Text;
+
+        ObjAP_DPD_FROIs.Vandalism = chkVandalism.Checked ? "Y" : "N";
+
         if (txtInvestigation_Finding_Other_Description.Text != "") ObjAP_DPD_FROIs.Investigation_Finding_Other_Description = txtInvestigation_Finding_Other_Description.Text;
         else ObjAP_DPD_FROIs.Investigation_Finding_Other_Description = "";
         if (txtRoot_Cause.Text != "") ObjAP_DPD_FROIs.Root_Cause = txtRoot_Cause.Text;
@@ -3118,7 +3286,11 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     /// <param name="e"></param>
     protected void lnkbtnAddNotesGrid_Click(object sender, EventArgs e)
     {
+        btnNotesGridAdd.Visible = true;
+        btnFraudNotesGridAdd.Visible = false;
+
         FraudEventSaveData();
+
 
         tblMainFraudEvent.Style["display"] = tblMainFraudEventView.Style["display"] = pnlTransactionGridAdd.Style["display"] = pnlNoteGridAddView.Style["display"] = pnlTransactionGridAddView.Style["display"] = "none";
         pnlNoteGridAdd.Style["display"] = "";
@@ -3193,6 +3365,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
 
         //ClearAddGridControl();
         btnViewAuditNotesGrid.Visible = true;
+        btnViewFraudAuditNotesGrid.Visible = false;
         BindNotesGrid();
         ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
     }
@@ -4133,7 +4306,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             #region " set validation control IDs and messages "
             switch (Convert.ToString(drFieldCalAtlantic["Field_Name"]))
             {
-                    //Change Header text from Cal-Atlantic to ACI as per client's request Bug ID = 2552 
+                //Change Header text from Cal-Atlantic to ACI as per client's request Bug ID = 2552 
                 case "Potential Risk ": strCtrlsIDsCalAtlantic += txtPotential_Risk.ClientID + ","; strMessagesCalAtlantic += "Please enter [ACI]/Potential Risk " + ","; Span62.Style["display"] = "inline-block"; break;
                 case "Action Taken": strCtrlsIDsCalAtlantic += txtAction_Taken.ClientID + ","; strMessagesCalAtlantic += "Please enter [ACI]/Action Taken" + ","; Span63.Style["display"] = "inline-block"; break;
                 case "Officer Name": strCtrlsIDsCalAtlantic += txtOfficer_Name.ClientID + ","; strMessagesCalAtlantic += "Please enter [ACI]/Officer Name" + ","; Span64.Style["display"] = "inline-block"; break;
@@ -4272,4 +4445,290 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     }
 
     #endregion
+    protected void btnSaveFinancialGrid_Click(object sender, EventArgs e)
+    {
+        clsAP_Property_Security_Financials objAP_Property_Security_Financial = new clsAP_Property_Security_Financials();
+        decimal decAP_Property_Security_Financial = 0;
+        if (PK_AP_Property_Security > 0) decAP_Property_Security_Financial = PK_AP_Property_Security;
+
+        if (decAP_Property_Security_Financial > 0)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+
+                objAP_Property_Security_Financial.FK_AP_Property_Security = decAP_Property_Security_Financial;
+
+                if (i == 0)
+                {
+                    objAP_Property_Security_Financial.Category = lblCCTVOnly.Text;
+                    objAP_Property_Security_Financial.Total_Capex = clsGeneral.GetDecimalNullableValue(txtCCTVOnlyTC);
+                    objAP_Property_Security_Financial.Total_Monthly_Charge = clsGeneral.GetDecimalNullableValue(txtCCTVOnlyTM);
+                }
+                else if (i == 1)
+                {
+                    objAP_Property_Security_Financial.Category = lblBurglarAlarms.Text;
+                    objAP_Property_Security_Financial.Total_Capex = clsGeneral.GetDecimalNullableValue(txtBurglarAlarmsTC);
+                    objAP_Property_Security_Financial.Total_Monthly_Charge = clsGeneral.GetDecimalNullableValue(txtBurglarAlarmsTM);
+                }
+
+                else if (i == 2)
+                {
+                    objAP_Property_Security_Financial.Category = lblCategory.Text;
+                    objAP_Property_Security_Financial.Total_Capex = clsGeneral.GetDecimalNullableValue(txtCategoryTC);
+                    objAP_Property_Security_Financial.Total_Monthly_Charge = clsGeneral.GetDecimalNullableValue(txtCategoryTM);
+                }
+                else if (i == 3)
+                {
+                    objAP_Property_Security_Financial.Category = lblGuardServices.Text;
+                    objAP_Property_Security_Financial.Total_Capex = clsGeneral.GetDecimalNullableValue(txtGuardServicesTC);
+                    objAP_Property_Security_Financial.Total_Monthly_Charge = clsGeneral.GetDecimalNullableValue(txtGuardServicesTM);
+                }
+                else if (i == 4)
+                {
+                    objAP_Property_Security_Financial.Category = lblAccessControl.Text;
+                    objAP_Property_Security_Financial.Total_Capex = clsGeneral.GetDecimalNullableValue(txtAccessControlTC);
+                    objAP_Property_Security_Financial.Total_Monthly_Charge = clsGeneral.GetDecimalNullableValue(txtAccessControlTM);
+                }
+                else
+                {
+                    objAP_Property_Security_Financial.Category = lblSecurityInventoryTrackingSystems.Text;
+                    objAP_Property_Security_Financial.Total_Capex = clsGeneral.GetDecimalNullableValue(txtSecurityInventoryTrackingSystemsTC);
+                    objAP_Property_Security_Financial.Total_Monthly_Charge = clsGeneral.GetDecimalNullableValue(txtSecurityInventoryTrackingSystemsTM);
+                }
+
+                objAP_Property_Security_Financial.Update_Date = DateTime.Now;
+                objAP_Property_Security_Financial.Updated_By = clsSession.UserID;
+
+                DataSet ds = objAP_Property_Security_Financial.GetAPPropertySecurityFinancialsFromCategory();
+
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    objAP_Property_Security_Financial.PK_AP_Property_Security_Financials = Convert.ToInt32(ds.Tables[0].Rows[0]["PK_AP_Property_Security_Financials"].ToString());
+                    objAP_Property_Security_Financial.Update();
+                }
+                else
+                {
+                    PK_AP_Property_Security_Financials = objAP_Property_Security_Financial.Insert();
+                }
+            }
+        }
+        else
+        {
+            string str = "<script>alert(\"Please Save Property Security Details First.\");</script>";
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "Script", str, false);
+        }
+    
+    }
+
+    private void BindFinancialGridforEdit()
+    {
+        clsAP_Property_Security_Financials objAP_Property_Security_Financial = new clsAP_Property_Security_Financials();
+        decimal decAP_Property_Security_Financial = 0;
+        if (PK_AP_Property_Security > 0) decAP_Property_Security_Financial = PK_AP_Property_Security;
+
+        if (decAP_Property_Security_Financial > 0)
+        {
+          
+                objAP_Property_Security_Financial.FK_AP_Property_Security = decAP_Property_Security_Financial;
+
+                DataSet ds = objAP_Property_Security_Financial.GetAPPropertySecurityFinancialsFromFK();
+                DataTable dt = ds.Tables[0];
+
+                if (dt.Rows.Count > 0)
+                {
+                    if (dt.Rows[0]["Category"].ToString() == "CCTV Only")
+                        txtCCTVOnlyTC.Text = Convert.ToString(dt.Rows[0]["Total_Capex"]);
+                        txtCCTVOnlyTM.Text = Convert.ToString(dt.Rows[0]["Total_Monthly_Charge"]);
+
+                    if (dt.Rows[1]["Category"].ToString() == "Burglar Alarms")
+                        txtBurglarAlarmsTC.Text = Convert.ToString(dt.Rows[1]["Total_Capex"]);
+                        txtBurglarAlarmsTM.Text = Convert.ToString(dt.Rows[1]["Total_Monthly_Charge"]);
+
+                    if (dt.Rows[2]["Category"].ToString() == "Category")
+                        txtCategoryTC.Text = Convert.ToString(dt.Rows[2]["Total_Capex"]);
+                    txtCategoryTM.Text = Convert.ToString(dt.Rows[2]["Total_Monthly_Charge"]);
+
+                    if (dt.Rows[3]["Category"].ToString() == "Guard Services")
+                        txtGuardServicesTC.Text = Convert.ToString(dt.Rows[3]["Total_Capex"]);
+                        txtGuardServicesTM.Text = Convert.ToString(dt.Rows[3]["Total_Monthly_Charge"]);
+
+                    if (dt.Rows[4]["Category"].ToString() == "Access Control")
+                        txtAccessControlTC.Text = Convert.ToString(dt.Rows[4]["Total_Capex"]);
+                        txtAccessControlTM.Text = Convert.ToString(dt.Rows[4]["Total_Monthly_Charge"]);
+
+                    if (dt.Rows[5]["Category"].ToString() == "Security Inventory Tracking Systems")
+                        txtSecurityInventoryTrackingSystemsTC.Text = Convert.ToString(dt.Rows[5]["Total_Capex"]);
+                    txtSecurityInventoryTrackingSystemsTM.Text = Convert.ToString(dt.Rows[5]["Total_Monthly_Charge"]);
+
+                }           
+
+                
+        }
+        
+    }
+
+    private void BindFinancialGridforView()
+    {
+        clsAP_Property_Security_Financials objAP_Property_Security_Financial = new clsAP_Property_Security_Financials();
+        decimal decAP_Property_Security_Financial = 0;
+        if (PK_AP_Property_Security > 0) decAP_Property_Security_Financial = PK_AP_Property_Security;
+
+        if (decAP_Property_Security_Financial > 0)
+        {
+
+            objAP_Property_Security_Financial.FK_AP_Property_Security = decAP_Property_Security_Financial;
+
+            DataSet ds = objAP_Property_Security_Financial.GetAPPropertySecurityFinancialsFromFK();
+            DataTable dt = ds.Tables[0];
+
+            if (dt.Rows.Count > 0)
+            {
+                if (dt.Rows[0]["Category"].ToString() == "CCTV Only")
+                    lblCCTVOnlyTC.Text = Convert.ToString(dt.Rows[0]["Total_Capex"]);
+                    lblCCTVOnlyTM.Text = Convert.ToString(dt.Rows[0]["Total_Monthly_Charge"]);
+
+                if (dt.Rows[1]["Category"].ToString() == "Burglar Alarms")
+                    lblBurglarAlarmsTC.Text = Convert.ToString(dt.Rows[1]["Total_Capex"]);
+                    lblBurglarAlarmsTM.Text = Convert.ToString(dt.Rows[1]["Total_Monthly_Charge"]);
+
+                if (dt.Rows[2]["Category"].ToString() == "Category")
+                    lblCategoryTC.Text = Convert.ToString(dt.Rows[2]["Total_Capex"]);
+                    lblCategoryTM.Text = Convert.ToString(dt.Rows[2]["Total_Monthly_Charge"]);
+
+                if (dt.Rows[3]["Category"].ToString() == "Guard Services")
+                    lblGuardServicesTC.Text = Convert.ToString(dt.Rows[3]["Total_Capex"]);
+                    lblGuardServicesTM.Text = Convert.ToString(dt.Rows[3]["Total_Monthly_Charge"]);
+
+                if (dt.Rows[4]["Category"].ToString() == "Access Control")
+                    lblAccessControlTC.Text = Convert.ToString(dt.Rows[4]["Total_Capex"]);
+                    lblAccessControlTM.Text = Convert.ToString(dt.Rows[4]["Total_Monthly_Charge"]);
+
+                if (dt.Rows[5]["Category"].ToString() == "Security Inventory Tracking Systems")
+                    lblSecurityInventoryTrackingSystemsTC.Text = Convert.ToString(dt.Rows[5]["Total_Capex"]);
+                    lblSecurityInventoryTrackingSystemsTM.Text = Convert.ToString(dt.Rows[5]["Total_Monthly_Charge"]);
+
+            }
+
+
+        }
+
+    }
+
+
+    protected void btnCancelFinancialGrid_Click(object sender, EventArgs e)
+    {
+        txtCCTVOnlyTC.Text = string.Empty;
+        txtCCTVOnlyTM.Text = string.Empty;
+        txtBurglarAlarmsTC.Text = string.Empty;
+        txtBurglarAlarmsTM.Text = string.Empty;
+        txtCategoryTC.Text = string.Empty;
+        txtCategoryTM.Text = string.Empty;
+        txtGuardServicesTC.Text = string.Empty;
+        txtGuardServicesTM.Text = string.Empty;
+        txtAccessControlTC.Text = string.Empty;
+        txtAccessControlTM.Text = string.Empty;
+        txtSecurityInventoryTrackingSystemsTC.Text = string.Empty;
+        txtSecurityInventoryTrackingSystemsTM.Text = string.Empty;
+    }
+    protected void btnViewAuditFinancialGrid_Click(object sender, EventArgs e)
+    {
+
+    }
+
+
+    protected void gvFraudEventsNote_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        int index;
+        if (e.CommandName == "gvEdit")
+        {
+            PK_AP_FE_PA_Notes = Convert.ToDecimal(e.CommandArgument.ToString());
+            if (PK_AP_FE_PA_Notes > 0)
+            {
+                tblMainFraudEvent.Style["display"] = tblMainFraudEventView.Style["display"] = pnlNoteGridAddView.Style["display"] = pnlTransactionGridAdd.Style["display"] = pnlTransactionGridAddView.Style["display"] = "none";
+                pnlNoteGridAdd.Style["display"] = "";
+                bindNotesFraudDetailForEdit();
+            }
+
+        }
+        else if (e.CommandName == "Remove")
+        {
+            index = Convert.ToInt32(e.CommandArgument);
+            AP_FE_PA_Notes.DeleteByPK(index);
+
+            BindFraudNotesGrid();
+        }
+
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
+
+    }
+    protected void lnkAddFraudNotesGrid_Click(object sender, EventArgs e)
+    {
+        btnNotesGridAdd.Visible = false;
+        btnFraudNotesGridAdd.Visible = true;
+
+        tblMainFraudEvent.Style["display"] = tblMainFraudEventView.Style["display"] = pnlTransactionGridAdd.Style["display"] = pnlNoteGridAddView.Style["display"] = pnlTransactionGridAddView.Style["display"] = "none";
+        pnlNoteGridAdd.Style["display"] = "";
+        PK_AP_FE_PA_Notes = 0;
+        btnViewAuditNotesGrid.Visible = false;
+        btnFraudEventSave.Visible = false;
+        btnFruad_EventAudit_Trail.Visible = false;
+        dvFraudEventSave.Style["display"] = "none";
+
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
+    
+    }
+    protected void btnFraudNotesGridAdd_Click(object sender, EventArgs e)
+    {
+        AP_FE_PA_Notes AP_FE_PA_Notes = new AP_FE_PA_Notes();
+
+        AP_FE_PA_Notes.PK_AP_FE_PA_Notes = PK_AP_FE_PA_Notes;
+        AP_FE_PA_Notes.FK_AP_Fraud_Events = PK_AP_Fraud_Events;
+        AP_FE_PA_Notes.Note_Date = clsGeneral.FormatNullDateToStore(txtNotesDate.Text);
+        AP_FE_PA_Notes.Note = txtNotesAdd.Text;
+        AP_FE_PA_Notes.Update_Date = DateTime.Now;
+        AP_FE_PA_Notes.Updated_By = clsSession.UserID;
+
+        if (PK_AP_FE_PA_Notes > 0)
+        {
+            AP_FE_PA_Notes.Update();
+        }
+        else
+        {
+            PK_AP_FE_PA_Notes = AP_FE_PA_Notes.Insert();
+        }
+
+        //ClearAddGridControl();
+        btnViewAuditNotesGrid.Visible = false;
+        btnViewFraudAuditNotesGrid.Visible = true;
+        BindFraudNotesGrid();
+        ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
+    }
+    protected void gvNotesGridFraudView_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "gvEdit")
+        {
+            PK_AP_FE_PA_Notes = Convert.ToDecimal(e.CommandArgument.ToString());
+            if (PK_AP_FE_PA_Notes > 0)
+            {
+                tblMainFraudEvent.Style["display"] = tblMainFraudEventView.Style["display"] = pnlNoteGridAdd.Style["display"] = pnlTransactionGridAdd.Style["display"] = pnlTransactionGridAddView.Style["display"] = "none";
+                pnlNoteGridAddView.Style["display"] = "";
+                bindNotesDetailFraudForView();
+            }
+        }
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
+    }
+    protected void gvFraudEventsNote_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        // update sort field and sort order and bind the grid
+        _SortOrder_FraudNotes = _SortOrder_FraudNotes == "asc" ? "desc" : "asc";
+        //BindFraudEventGrid();
+        BindFraudNotesGrid();
+    }
+    protected void gvNotesGridFraudView_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        // update sort field and sort order and bind the grid
+        _SortOrder_FraudNotes = _SortOrder_FraudNotes == "asc" ? "desc" : "asc";
+        //BindFraudEventGrid();
+        BindFraudNotesGrid();
+    }
 }
