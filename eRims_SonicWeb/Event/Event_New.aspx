@@ -448,18 +448,17 @@
                                             Event</span>
                                     </td>
                                 </tr>
-                                
+                                    <tr runat="server" id="trSonicReportedEvent">
+                                    <td align="left" width="100%">
+                                        <span id="Menu3" onclick="javascript:ShowPanel(3);" class="LeftMenuStatic">Sonic Reported
+                                            Event</span>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td align="left" width="100%">
                                         <span id="Menu2" onclick="javascript:ShowPanel(2);" class="LeftMenuStatic">
                                             <asp:Label runat="server" ID="lblMenu2" ></asp:Label>
                                         </span><%--Acadian Investigations--%>
-                                    </td>
-                                </tr>
-                                <tr runat="server" id="trSonicReportedEvent">
-                                    <td align="left" width="100%">
-                                        <span id="Menu3" onclick="javascript:ShowPanel(3);" class="LeftMenuStatic">Sonic Reported
-                                            Event</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -550,7 +549,7 @@
                                                             </asp:Repeater>
                                                         </td>
                                                         <td colspan="3" valign="top">
-                                                             <uc:ctrlMultiLineTextBox ID="txtEventDesciption" runat="server" MaxLength="100" Width="450" />
+                                                             <uc:ctrlMultiLineTextBox ID="txtEventDesciption" runat="server" Width="450" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -1648,7 +1647,7 @@
                                                             </asp:Repeater>
                                                         </td>
                                                         <td colspan="3" valign="top">
-                                                             <uc:ctrlMultiLineTextBox ID="txtEventDesciptionSonic" runat="server" MaxLength="100" Width="450" />
+                                                             <uc:ctrlMultiLineTextBox ID="txtEventDesciptionSonic" runat="server" Width="450" />
                                                         </td>
                                                     </tr>
                                                     <tr>
