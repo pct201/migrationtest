@@ -844,11 +844,11 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         if (txtNumberOfExternalCameras.Text == string.Empty)
             objAP_Property_Security.ECC_Number_Of_External_Cameras = null;
         else
-            objAP_Property_Security.ECC_Number_Of_External_Cameras = Convert.ToInt32(txtNumberOfExternalCameras.Text);
+            objAP_Property_Security.ECC_Number_Of_External_Cameras = Convert.ToInt32(txtNumberOfExternalCameras.Text.Replace(",",""));
         if (txtNumberofInternalCameras.Text == string.Empty)
             objAP_Property_Security.ECC_Number_Of_Internal_Cameras = null;
         else
-            objAP_Property_Security.ECC_Number_Of_Internal_Cameras = Convert.ToInt32(txtNumberofInternalCameras.Text);
+            objAP_Property_Security.ECC_Number_Of_Internal_Cameras = Convert.ToInt32(txtNumberofInternalCameras.Text.Replace(",", ""));
         objAP_Property_Security.AC_Key_Fobs = chkKeyFobs.Checked ? "Y" : "N";
         objAP_Property_Security.AC_Door_Restrictions = chkDoorRestrictions.Checked ? "Y" : "N";
 

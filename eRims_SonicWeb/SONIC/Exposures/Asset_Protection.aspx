@@ -873,9 +873,9 @@ function openGenereteAbstract() {
                                                                                 </td>
                                                                                 <td align="center" valign="top">:&nbsp;&nbsp;&nbsp;
                                                                                 </td>
-                                                                                <td align="left" valign="top">
-                                                                                    <asp:TextBox ID="txtNumberOfExternalCameras" runat="server" Width="150px" MaxLength="9" SkinID="txtAmt" onpaste="return false" 
-                                                                                        OnkeyPress="return FormatInteger(event);"  />
+                                                                                <td align="left" valign="top"> 
+                                                                                    <asp:TextBox ID="txtNumberOfExternalCameras" runat="server" Width="150px" SkinID="txtAmt" onpaste="return false" Maxlength="9"
+                                                                                        onkeypress="return FormatNumber(event,this.id,11,false,true);"  />
                                                                                 </td>
                                                                             </tr>
                                                                         </table>
@@ -993,7 +993,7 @@ function openGenereteAbstract() {
                                                                                 <td align="center" valign="top">:&nbsp;&nbsp;&nbsp;
                                                                                 </td>
                                                                                 <td align="left" valign="top">
-                                                                                    <asp:TextBox ID="txtNumberofInternalCameras" runat="server" Width="150px" onpaste="return false" MaxLength="9" OnkeyPress="return FormatInteger(event);" onblur="return commaSeparateNumber();" />
+                                                                                    <asp:TextBox ID="txtNumberofInternalCameras" runat="server" Width="150px" onpaste="return false" MaxLength="9" onkeypress="return FormatNumber(event,this.id,11,false,true);"   />
                                                                                 </td>
                                                                             </tr>
                                                                         </table>
