@@ -758,8 +758,8 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             else { htFindAndReplace.Add("[imgIccOther]", ImgUnchecked); }
             htFindAndReplace.Add("[Interior_Camera_Coverage_Other_Description]", objAP_Property_Security.Interior_Camera_Coverage_Other_Description);
 
-            htFindAndReplace.Add("[ECC_Number_Of_External_Cameras]", objAP_Property_Security.ECC_Number_Of_External_Cameras);
-            htFindAndReplace.Add("[ECC_Number_Of_Internal_Cameras]", objAP_Property_Security.ECC_Number_Of_Internal_Cameras);
+            htFindAndReplace.Add("[ECC_Number_Of_External_Cameras]", clsGeneral.FormatCommaSeperatorNumber(objAP_Property_Security.ECC_Number_Of_External_Cameras));
+            htFindAndReplace.Add("[ECC_Number_Of_Internal_Cameras]", clsGeneral.FormatCommaSeperatorNumber(objAP_Property_Security.ECC_Number_Of_Internal_Cameras));
 
             if (objAP_Property_Security.AC_Key_Fobs == "Y")
             {
@@ -1584,7 +1584,7 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
                 htFindAndReplace.Add("[imgEccOther]", ImgChecked);
             }
             else { htFindAndReplace.Add("[imgEccOther]", ImgUnchecked); }
-            htFindAndReplace.Add("[ECC_Number_Of_External_Cameras]", objAP_Property_Security.ECC_Number_Of_External_Cameras);
+            htFindAndReplace.Add("[ECC_Number_Of_External_Cameras]", clsGeneral.FormatCommaSeperatorNumber(objAP_Property_Security.ECC_Number_Of_External_Cameras));
             htFindAndReplace.Add("[Exterior_Camera_Coverage_Desc]", objAP_Property_Security.Exterior_Camera_Coverage_Other_Description);
 
             if (objAP_Property_Security.ICC_Body_Shop == "Y")
@@ -1642,7 +1642,7 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
                 htFindAndReplace.Add("[imgIccOther]", ImgChecked);
             }
             else { htFindAndReplace.Add("[imgIccOther]", ImgUnchecked); }
-            htFindAndReplace.Add("[ECC_Number_Of_Internal_Cameras]", objAP_Property_Security.ECC_Number_Of_Internal_Cameras);
+            htFindAndReplace.Add("[ECC_Number_Of_Internal_Cameras]", clsGeneral.FormatCommaSeperatorNumber(objAP_Property_Security.ECC_Number_Of_Internal_Cameras));
             htFindAndReplace.Add("[Interior_Camera_Coverage_Other_Description]", objAP_Property_Security.Interior_Camera_Coverage_Other_Description);
 
             htFindAndReplace.Add("[Burglar_Alarm_System]", objAP_Property_Security.Buglar_Alarm_System == "Y" ? "Yes" : "No");
@@ -4032,12 +4032,12 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             for (int i = 0; i < dtFinancialGrid.Rows.Count; i++)
             {
                 if (dtFinancialGrid.Rows[i]["Total_Capex"].ToString() != string.Empty)
-                    strTotalCapex = String.Format("{0:N2}", Convert.ToDecimal(dtFinancialGrid.Rows[i]["Total_Capex"]));
+                    strTotalCapex = clsGeneral.FormatCommaSeperatorCurrency(dtFinancialGrid.Rows[i]["Total_Capex"]);
                 else
                     strTotalCapex = string.Empty;
 
                 if (dtFinancialGrid.Rows[i]["Total_Monthly_Charge"].ToString() != string.Empty)
-                    strTotalMonthlyCharge = String.Format("{0:N2}", Convert.ToDecimal(dtFinancialGrid.Rows[i]["Total_Monthly_Charge"]));
+                    strTotalMonthlyCharge = clsGeneral.FormatCommaSeperatorCurrency(dtFinancialGrid.Rows[i]["Total_Monthly_Charge"]);
                 else
                     strTotalMonthlyCharge = string.Empty;
 
