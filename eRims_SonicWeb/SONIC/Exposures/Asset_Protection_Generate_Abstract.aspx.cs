@@ -173,6 +173,14 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
 
 
             clsAP_Property_Security objAP_Property_Security = new clsAP_Property_Security(PK_AP_Property_Security);
+            #region "Financial Grid"
+
+            // get datatable for Location
+            sbHtml = new System.Text.StringBuilder("");
+            GenerateFinancialGrid(sbHtml);
+            strEbdy = strEbdy.Replace("[Financial_Grid]", sbHtml.ToString());
+
+
             strEbdy = strEbdy.Replace("[CCTV_Company_Name]", objAP_Property_Security.CCTV_Company_Name);
             strEbdy = strEbdy.Replace("[CCTV_Company_Address_1]", objAP_Property_Security.CCTV_Company_Address_1);
             strEbdy = strEbdy.Replace("[CCTV_Company_Address_2]", objAP_Property_Security.CCTV_Company_Address_2);
@@ -528,6 +536,10 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
 
             #endregion
 
+
+
+            #endregion
+
             #region "DPD FROIs"
 
             sbHtml = new System.Text.StringBuilder("");
@@ -624,6 +636,14 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
 
 
             clsAP_Property_Security objAP_Property_Security = new clsAP_Property_Security(PK_AP_Property_Security);
+
+            #region "Financial Grid"
+
+            // get datatable for Location
+            sbHtml = new System.Text.StringBuilder("");
+            GenerateFinancialGrid(sbHtml);
+            htFindAndReplace.Add("[Financial_Grid]", sbHtml.ToString());
+
             htFindAndReplace.Add("[CCTV_Company_Name]", objAP_Property_Security.CCTV_Company_Name);
 
             htFindAndReplace.Add("[CCTV_Company_Address_1]", objAP_Property_Security.CCTV_Company_Address_1);
@@ -737,6 +757,21 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             }
             else { htFindAndReplace.Add("[imgIccOther]", ImgUnchecked); }
             htFindAndReplace.Add("[Interior_Camera_Coverage_Other_Description]", objAP_Property_Security.Interior_Camera_Coverage_Other_Description);
+
+            htFindAndReplace.Add("[ECC_Number_Of_External_Cameras]", objAP_Property_Security.ECC_Number_Of_External_Cameras);
+            htFindAndReplace.Add("[ECC_Number_Of_Internal_Cameras]", objAP_Property_Security.ECC_Number_Of_Internal_Cameras);
+
+            if (objAP_Property_Security.AC_Key_Fobs == "Y")
+            {
+                htFindAndReplace.Add("[imgAC_Key_Fobs]", ImgChecked);
+            }
+            else { htFindAndReplace.Add("[imgAC_Key_Fobs]", ImgUnchecked); }
+
+            if (objAP_Property_Security.AC_Door_Restrictions == "Y")
+            {
+                htFindAndReplace.Add("[imgAC_Door_Restrictions]", ImgChecked);
+            }
+            else { htFindAndReplace.Add("[imgAC_Door_Restrictions]", ImgUnchecked); }
 
             htFindAndReplace.Add("[Burglar_Alarm_System]", objAP_Property_Security.Buglar_Alarm_System == "Y" ? "Yes" : "No");
             htFindAndReplace.Add("[Is_System_Active_Functioning]", objAP_Property_Security.Is_System_Active_and_Function_Properly == "Y" ? "Yes" : "No");
@@ -977,6 +1012,10 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             sbHtml = new System.Text.StringBuilder("");
             GenerateLocationGrid(sbHtml);
             htFindAndReplace.Add("[Location_Grid]", sbHtml.ToString());
+
+            #endregion
+
+
 
             #endregion
 
@@ -1545,6 +1584,7 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
                 htFindAndReplace.Add("[imgEccOther]", ImgChecked);
             }
             else { htFindAndReplace.Add("[imgEccOther]", ImgUnchecked); }
+            htFindAndReplace.Add("[ECC_Number_Of_External_Cameras]", objAP_Property_Security.ECC_Number_Of_External_Cameras);
             htFindAndReplace.Add("[Exterior_Camera_Coverage_Desc]", objAP_Property_Security.Exterior_Camera_Coverage_Other_Description);
 
             if (objAP_Property_Security.ICC_Body_Shop == "Y")
@@ -1602,6 +1642,7 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
                 htFindAndReplace.Add("[imgIccOther]", ImgChecked);
             }
             else { htFindAndReplace.Add("[imgIccOther]", ImgUnchecked); }
+            htFindAndReplace.Add("[ECC_Number_Of_Internal_Cameras]", objAP_Property_Security.ECC_Number_Of_Internal_Cameras);
             htFindAndReplace.Add("[Interior_Camera_Coverage_Other_Description]", objAP_Property_Security.Interior_Camera_Coverage_Other_Description);
 
             htFindAndReplace.Add("[Burglar_Alarm_System]", objAP_Property_Security.Buglar_Alarm_System == "Y" ? "Yes" : "No");
@@ -1686,6 +1727,14 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
                 htFindAndReplace.Add("[imgACBusinessArea]", ImgChecked);
             }
             else { htFindAndReplace.Add("[imgACBusinessArea]", ImgUnchecked); }
+
+            if (objAP_Property_Security.AC_Key_Fobs == "Y")
+            {
+                htFindAndReplace.Add("[imgAC_Key_Fobs]", ImgChecked);
+            }
+            else { htFindAndReplace.Add("[imgAC_Key_Fobs]", ImgUnchecked); }
+
+
             if (objAP_Property_Security.AC_Cashier == "Y")
             {
                 htFindAndReplace.Add("[imgACCashier]", ImgChecked);
@@ -1696,6 +1745,14 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
                 htFindAndReplace.Add("[imgACComputer_Room]", ImgChecked);
             }
             else { htFindAndReplace.Add("[imgACComputer_Room]", ImgUnchecked); }
+
+            if (objAP_Property_Security.AC_Door_Restrictions == "Y")
+            {
+                htFindAndReplace.Add("[imgAC_Door_Restrictions]", ImgChecked);
+            }
+            else { htFindAndReplace.Add("[imgAC_Door_Restrictions]", ImgUnchecked); }
+
+
             if (objAP_Property_Security.AC_Controller_Office == "Y")
             {
                 htFindAndReplace.Add("[imgACController_Office]", ImgChecked);
@@ -1842,6 +1899,15 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             sbHtml = new System.Text.StringBuilder("");
             GenerateLocationGrid(sbHtml);
             htFindAndReplace.Add("[Location_Grid]", sbHtml.ToString());
+
+            #endregion
+
+            #region "Financial Grid"
+
+            // get datatable for Location
+            sbHtml = new System.Text.StringBuilder("");
+            GenerateFinancialGrid(sbHtml);
+            htFindAndReplace.Add("[Financial_Grid]", sbHtml.ToString());
 
             #endregion
 
@@ -2144,7 +2210,6 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
 
             if (dtDPD_FROIs_Detail != null && dtDPD_FROIs_Detail.Rows.Count > 0)
             {
-
                 htFindAndReplace.Add("[Incident_Number]", dtDPD_FROIs_Detail.Rows[0]["DPD_FR_Number"].ToString());
                 htFindAndReplace.Add("[Date_of_Loss]", clsGeneral.FormatDBNullDateToDisplay(dtDPD_FROIs_Detail.Rows[0]["Date_Of_Loss"].ToString()));
                 htFindAndReplace.Add("[Time_of_Loss]", dtDPD_FROIs_Detail.Rows[0]["Time_of_Loss"].ToString());
@@ -2161,7 +2226,16 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
                 htFindAndReplace.Add("[Invoice_Value]", clsGeneral.GetStringValue(dtDPD_FROIs_Detail.Rows[0]["Invoice_Value"]));
                 htFindAndReplace.Add("[Loss_Description]", dtDPD_FROIs_Detail.Rows[0]["Loss_Description"].ToString());
                 htFindAndReplace.Add("[Associated_Claim_Number]", dtDPD_FROIs_Detail.Rows[0]["Origin_Claim_Number"].ToString());
+                htFindAndReplace.Add("[Vehicle_Color]", dtDPD_FROIs_Detail.Rows[0]["Vehicle_Color"].ToString());
+                htFindAndReplace.Add("[Police_Case_Number]", dtDPD_FROIs_Detail.Rows[0]["Police_Case_Number"].ToString());
+                htFindAndReplace.Add("[Investigating_Police_Department]", dtDPD_FROIs_Detail.Rows[0]["Investigating_Police_Department"].ToString().Trim());
 
+
+                if (dtDPD_FROIs_Detail.Rows[0]["Vandalism"].ToString() == "Y")
+                {
+                    htFindAndReplace.Add("[Vandalism]", ImgChecked);
+                }
+                else { htFindAndReplace.Add("[Vandalism]", ImgUnchecked); }
 
 
                 if (dtDPD_FROIs_Detail.Rows[0]["Third_Party_Vendor_Related_Theft"].ToString() == "Y")
@@ -2349,6 +2423,7 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
 
             }
         }
+
 
         string strFileName = "Asset Protection Abstract.doc";
 
@@ -3804,8 +3879,13 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             }
             else { htFindAndReplace.Add("[chkVendorSchemesView]", ImgUnchecked); }
 
-
-            #region "Fraud Events Notes Grid"
+            if (objAP_Fraud_Events.Monthly_AR_Control_Review == "Y")
+            {
+                htFindAndReplace.Add("[chkMonthly_AR_Control_ReviewView]", ImgChecked);
+            }
+            else { htFindAndReplace.Add("[chkMonthly_AR_Control_ReviewView]", ImgUnchecked); }
+            
+            #region "Fraud Events Notes Grid "
 
             sbHtml = new System.Text.StringBuilder("");
 
@@ -3813,6 +3893,18 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             DataTable FENotesGrid = clsAP_FE_Notes.SelectNotesByFKFraudEvent(PKID).Tables[0];
             GenerateFraudEventNotes(sbHtml, FENotesGrid);
             htFindAndReplace.Add("[gvNotesGridView]", sbHtml.ToString());
+
+            #endregion
+
+
+            #region "Fraud Events Notes  Grid Partnership"
+
+            sbHtml = new System.Text.StringBuilder("");
+
+            // get datatable for Fraud_Event records
+            DataTable FENotesPropertyGrid = AP_FE_PA_Notes.SelectNotesByFKFraudEvent(PKID, "DESC").Tables[0];
+            GenerateFraudEventNotes(sbHtml, FENotesPropertyGrid);
+            htFindAndReplace.Add("[gvNotesGridPartnershipView]", sbHtml.ToString());
 
             #endregion
 
@@ -3847,7 +3939,7 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             htFindAndReplace.Add("[lblFMOutstandingExpenseView]", clsGeneral.GetStringValue(FEFinancialMatrix.Tables[10].Rows[0][0].ToString()));
             htFindAndReplace.Add("[lblFMOutstandingTotalView]", clsGeneral.GetStringValue(FEFinancialMatrix.Tables[11].Rows[0][0].ToString()));
 
-            #endregion
+            #endregion  
 
         }
 
@@ -3910,6 +4002,51 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             sbHtml.Append("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:15%; align:left;'><span style='font-size: 14px; font-family: Arial;'>" + Convert.ToString(dtLocationInfo.Rows[0]["StateName"]) + "</span></td>");
             sbHtml.Append("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:10%; align:left;'><span style='font-size: 14px; font-family: Arial;'>" + Convert.ToString(dtLocationInfo.Rows[0]["Zip_Code"]) + "</span></td>");
             sbHtml.Append("</tr>");
+        }
+        sbHtml.Append(GetBlankRow(8));
+        sbHtml.Append("</table>");
+    }
+
+    /// <summary>
+    /// General method to generate html grid for TRS
+    /// </summary>
+    /// <param name="sbHtml"></param>
+    /// <param name="dtIncentive"></param>
+    /// <param name="strHeader"></param>
+    private void GenerateFinancialGrid(System.Text.StringBuilder sbHtml)
+    {
+        sbHtml.Append("<table width='100%' cellspacing='0' cellpadding='3' style='padding-bottom:5px;' >");
+        sbHtml.Append("<tr valign='top' align='center'>");
+        sbHtml.Append("<td style='background-color: #95B3D7;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:17%; align:left;' ><span style='font-size: 14px; font-family: Arial;'><b>Category</b></span></td>");
+        sbHtml.Append("<td style='background-color: #95B3D7;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:22%; align:left;' ><span style='font-size: 14px; font-family: Arial;'><b>Total Capex $</b></span></td>");
+        sbHtml.Append("<td style='background-color: #95B3D7;border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:26%; align:left;' ><span style='font-size: 14px; font-family: Arial;'><b>Total Monthly Charge $</b></span></td>");
+        sbHtml.Append("</tr>");
+
+        clsAP_Property_Security_Financials objclsAP_Property_Security_Financials = new clsAP_Property_Security_Financials();
+        objclsAP_Property_Security_Financials.FK_AP_Property_Security = PK_AP_Property_Security;
+        DataSet dsFinancialGrid = objclsAP_Property_Security_Financials.GetAPPropertySecurityFinancialsFromFK();
+        DataTable dtFinancialGrid = dsFinancialGrid.Tables[0];
+        if (dtFinancialGrid != null)
+        {
+            string strTotalCapex, strTotalMonthlyCharge = string.Empty;
+            for (int i = 0; i < dtFinancialGrid.Rows.Count; i++)
+            {
+                if (dtFinancialGrid.Rows[i]["Total_Capex"].ToString() != string.Empty)
+                    strTotalCapex = String.Format("{0:N2}", Convert.ToDecimal(dtFinancialGrid.Rows[i]["Total_Capex"]));
+                else
+                    strTotalCapex = string.Empty;
+
+                if (dtFinancialGrid.Rows[i]["Total_Monthly_Charge"].ToString() != string.Empty)
+                    strTotalMonthlyCharge = String.Format("{0:N2}", Convert.ToDecimal(dtFinancialGrid.Rows[i]["Total_Monthly_Charge"]));
+                else
+                    strTotalMonthlyCharge = string.Empty;
+
+                sbHtml.Append("<tr valign='top' align='center'>");
+                sbHtml.Append("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:17%; align:left;' ><span style='font-size: 14px; font-family: Arial;'> " + Convert.ToString(dtFinancialGrid.Rows[i]["Category"]) + "</span> </td>");
+                sbHtml.Append("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:22%; align:left;' ><span style='font-size: 14px; font-family: Arial;'> " + strTotalCapex + "</span> </td>");
+                sbHtml.Append("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:26%; align:left;' ><span style='font-size: 14px; font-family: Arial;'> " + strTotalMonthlyCharge + "</span></td>");
+                sbHtml.Append("</tr>"); 
+            }            
         }
         sbHtml.Append(GetBlankRow(8));
         sbHtml.Append("</table>");
@@ -4114,8 +4251,8 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
             for (int i = 0; i < dtFENotes.Rows.Count; i++)
             {
                 sbHtml.Append("<tr valign='top' align='center'>");
-                sbHtml.Append("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:15%;' ><span style='font-size: 14px; font-family: Arial;'>" + clsGeneral.FormatDBNullDateToDisplay((dtFENotes.Rows[i]["Note_Date"])) + "</span> </td>");
-                sbHtml.Append("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:75%' ><span style='font-size: 14px; font-family: Arial;'>" + Convert.ToString(dtFENotes.Rows[i]["Note"]) + "</span> </td>");
+                sbHtml.Append("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:15%; word-wrap:normal;word-break:break-all' ><span style='font-size: 14px; font-family: Arial;'>" + clsGeneral.FormatDBNullDateToDisplay((dtFENotes.Rows[i]["Note_Date"])) + "</span> </td>");
+                sbHtml.Append("<td style='border-collapse: collapse;border-style: solid; border-color: Black; border-width: 2px;width:75% word-wrap:normal;word-break:break-all' ><span style='font-size: 14px; font-family: Arial;'>" + Convert.ToString(dtFENotes.Rows[i]["Note"]) + "</span> </td>");
                 sbHtml.Append("</tr>");
             }
         }
@@ -4130,6 +4267,8 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
         sbHtml.Append(GetBlankRow(8));
         sbHtml.Append("</table>");
     }
+
+
 
     /// <summary>
     /// Fraud Event Financial Risk Exposure Grid
@@ -4289,7 +4428,6 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
         sbHtml.Append(GetBlankRow(8));
         sbHtml.Append("</table>");
     }
-
 
     #endregion
 }

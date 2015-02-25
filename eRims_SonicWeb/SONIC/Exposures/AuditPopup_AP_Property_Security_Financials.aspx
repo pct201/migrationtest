@@ -5,6 +5,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
     <title>Asset Protection Module – DPD FROIs</title>
+    <style TYPE="text/css"> 
+    body {overflow: hidden}
+    </style>  
 </head>
 <script language="javascript" type="text/javascript">
     function showAudit(divHeader, divGrid) {
@@ -28,7 +31,7 @@
         s.scrollLeft = f.scrollLeft;
     }
 </script>
-        
+
 <body>
     <form id="form1" runat="server">
     <table width="100%" align="left">
@@ -102,13 +105,13 @@
                             <asp:TemplateField HeaderText="Total_Capex">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblTotal_Capex" runat="server" Text='<%#Eval("Total_Capex")%>' Width="160px" CssClass="TextClip"></asp:Label>
+                                    <asp:Label ID="lblTotal_Capex" runat="server" Text='<%#clsGeneral.FormatCommaSeperatorCurrency(Eval("Total_Capex"))%>' Width="160px"  ></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Total_Monthly_Charge">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblTotal_Monthly_Charge" runat="server" Text='<%#Eval("Total_Monthly_Charge")%>'
+                                    <asp:Label ID="lblTotal_Monthly_Charge" runat="server" Text='<%#clsGeneral.FormatCommaSeperatorCurrency(Eval("Total_Monthly_Charge"))%>'
                                         Width="160px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>                      

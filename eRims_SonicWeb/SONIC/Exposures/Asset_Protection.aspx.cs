@@ -338,7 +338,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             _SortBy_Fraud = "Fraud_Number";
             _SortOrder_Fraud = "asc";
             _SortBy_FraudNotes = "Note_Date";
-            _SortOrder_FraudNotes = "asc";
+            _SortOrder_FraudNotes = "Desc";
 
 
             PK_AP_Property_Security = clsAP_Property_Security.SelectPKPropertySecurityByFKLocation(LocationID);
@@ -436,6 +436,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             // page is get forcibly Postback by "CheckValueChange()" js function when user do changes in data and Wants to redirect on another panel
             // and According to the Current panel's value which is stored in "hdnPanel.Value" Save Button's click event is called and page get redirect 
             // to Selected panel by "eventArgument" value.
+            //_SortOrder_FraudNotes = "Desc";
             string eventTarget = (this.Request["__EVENTTARGET"] == null) ? string.Empty : this.Request["__EVENTTARGET"];
             string eventArgument = (this.Request["__EVENTARGUMENT"] == null) ? string.Empty : this.Request["__EVENTARGUMENT"];
             if (eventTarget == "SaveBeforePanelChange")
@@ -527,8 +528,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         txtSecurity_Inventory_Tracking_System_Other_Description.Text = objAP_Property_Security.Security_Inventory_Tracking_System_Other_Description;
         txtSecurity_Inventory_Tracking_System_Other_Description.Text = objAP_Property_Security.Security_Inventory_Tracking_System_Other_Description;
 
-        txtNumberOfExternalCameras.Text = Convert.ToString(objAP_Property_Security.ECC_Number_Of_External_Cameras);
-        txtNumberofInternalCameras.Text = Convert.ToString(objAP_Property_Security.ECC_Number_Of_Internal_Cameras);
+        txtNumberOfExternalCameras.Text = clsGeneral.FormatCommaSeperatorNumber(objAP_Property_Security.ECC_Number_Of_External_Cameras);
+        txtNumberofInternalCameras.Text = clsGeneral.FormatCommaSeperatorNumber(objAP_Property_Security.ECC_Number_Of_Internal_Cameras); 
 
 
         chkACFirstFloorOnly.Checked = objAP_Property_Security.AC_1st_Floor_Only == "Y" ? true : false;
@@ -655,8 +656,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         lblAccess_Control_Other_Description.Text = objAP_Property_Security.Access_Control_Other_Description;
         lblSecurity_Inventory_Tracking_System_Other_Description.Text = objAP_Property_Security.Security_Inventory_Tracking_System_Other_Description;
 
-        lblNumberofExternalCameras.Text = Convert.ToString(objAP_Property_Security.ECC_Number_Of_External_Cameras);
-        lblNumberofInternalCameras.Text = Convert.ToString(objAP_Property_Security.ECC_Number_Of_Internal_Cameras);
+        lblNumberofExternalCameras.Text = clsGeneral.FormatCommaSeperatorNumber(objAP_Property_Security.ECC_Number_Of_External_Cameras);
+        lblNumberofInternalCameras.Text = clsGeneral.FormatCommaSeperatorNumber(objAP_Property_Security.ECC_Number_Of_Internal_Cameras); 
 
 
         chkACFirstFloorOnlyView.Checked = objAP_Property_Security.AC_1st_Floor_Only == "Y" ? true : false;
@@ -844,7 +845,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             objAP_Property_Security.ECC_Number_Of_External_Cameras = null;
         else
             objAP_Property_Security.ECC_Number_Of_External_Cameras = Convert.ToInt32(txtNumberOfExternalCameras.Text);
-        if(txtNumberofInternalCameras.Text == string.Empty)
+        if (txtNumberofInternalCameras.Text == string.Empty)
             objAP_Property_Security.ECC_Number_Of_Internal_Cameras = null;
         else
             objAP_Property_Security.ECC_Number_Of_Internal_Cameras = Convert.ToInt32(txtNumberofInternalCameras.Text);
@@ -2441,13 +2442,21 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     {
         if (StrOperation != "view")
         {
-            gvFraudEventsNote.DataSource = AP_FE_PA_Notes.SelectNotesByFKFraudEvent(PK_AP_Fraud_Events, _SortOrder_FraudNotes).Tables[0];
-            gvFraudEventsNote.DataBind();
+            if (PK_AP_Fraud_Events > 0)
+            {
+                gvFraudEventsNote.DataSource = AP_FE_PA_Notes.SelectNotesByFKFraudEvent(PK_AP_Fraud_Events, _SortOrder_FraudNotes).Tables[0]; 
+            }
+                gvFraudEventsNote.DataBind();
+            
         }
         else
         {
-            gvNotesGridFraudView.DataSource = AP_FE_PA_Notes.SelectNotesByFKFraudEvent(PK_AP_Fraud_Events, _SortOrder_FraudNotes).Tables[0];
-            gvNotesGridFraudView.DataBind();
+            if (PK_AP_Fraud_Events > 0)
+            {
+                gvNotesGridFraudView.DataSource = AP_FE_PA_Notes.SelectNotesByFKFraudEvent(PK_AP_Fraud_Events, _SortOrder_FraudNotes).Tables[0];
+            }
+                gvNotesGridFraudView.DataBind();
+            
         }
     }
 
@@ -2913,6 +2922,289 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             }
         }
         ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:OnChangeFunction();", true);
+    }
+
+    protected void btnSaveFinancialGrid_Click(object sender, EventArgs e)
+    {
+        clsAP_Property_Security_Financials objAP_Property_Security_Financial = new clsAP_Property_Security_Financials();
+        decimal decAP_Property_Security_Financial = 0;
+        if (PK_AP_Property_Security > 0) decAP_Property_Security_Financial = PK_AP_Property_Security;
+
+        if (decAP_Property_Security_Financial > 0)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+
+                objAP_Property_Security_Financial.FK_AP_Property_Security = decAP_Property_Security_Financial;
+
+                if (i == 0)
+                {
+                    objAP_Property_Security_Financial.Category = lblCCTVOnly.Text;
+                    objAP_Property_Security_Financial.Total_Capex = clsGeneral.GetDecimalNullableValue(txtCCTVOnlyTC);
+                    objAP_Property_Security_Financial.Total_Monthly_Charge = clsGeneral.GetDecimalNullableValue(txtCCTVOnlyTM);
+                }
+                else if (i == 1)
+                {
+                    objAP_Property_Security_Financial.Category = lblBurglarAlarms.Text;
+                    objAP_Property_Security_Financial.Total_Capex = clsGeneral.GetDecimalNullableValue(txtBurglarAlarmsTC);
+                    objAP_Property_Security_Financial.Total_Monthly_Charge = clsGeneral.GetDecimalNullableValue(txtBurglarAlarmsTM);
+                }
+
+                else if (i == 2)
+                {
+                    objAP_Property_Security_Financial.Category = lblGuardServices.Text;
+                    objAP_Property_Security_Financial.Total_Capex = clsGeneral.GetDecimalNullableValue(txtGuardServicesTC);
+                    objAP_Property_Security_Financial.Total_Monthly_Charge = clsGeneral.GetDecimalNullableValue(txtGuardServicesTM);
+                }
+                else if (i == 3)
+                {
+                    objAP_Property_Security_Financial.Category = lblAccessControl.Text;
+                    objAP_Property_Security_Financial.Total_Capex = clsGeneral.GetDecimalNullableValue(txtAccessControlTC);
+                    objAP_Property_Security_Financial.Total_Monthly_Charge = clsGeneral.GetDecimalNullableValue(txtAccessControlTM);
+                }
+                else if (i == 4)
+                {
+                    objAP_Property_Security_Financial.Category = lblSecurityInventoryTrackingSystems.Text;
+                    objAP_Property_Security_Financial.Total_Capex = clsGeneral.GetDecimalNullableValue(txtSecurityInventoryTrackingSystemsTC);
+                    objAP_Property_Security_Financial.Total_Monthly_Charge = clsGeneral.GetDecimalNullableValue(txtSecurityInventoryTrackingSystemsTM);
+                }
+                else
+                {
+                    objAP_Property_Security_Financial.Category = lblCategory.Text;
+                    objAP_Property_Security_Financial.Total_Capex = clsGeneral.GetDecimalNullableValue(txtCategoryTC);
+                    objAP_Property_Security_Financial.Total_Monthly_Charge = clsGeneral.GetDecimalNullableValue(txtCategoryTM);
+                }
+
+                objAP_Property_Security_Financial.Update_Date = DateTime.Now;
+                objAP_Property_Security_Financial.Updated_By = clsSession.UserID;
+
+                DataSet ds = objAP_Property_Security_Financial.GetAPPropertySecurityFinancialsFromCategory();
+
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    objAP_Property_Security_Financial.PK_AP_Property_Security_Financials = Convert.ToInt32(ds.Tables[0].Rows[0]["PK_AP_Property_Security_Financials"].ToString());
+                    objAP_Property_Security_Financial.Update();
+                }
+                else
+                {
+                    PK_AP_Property_Security_Financials = objAP_Property_Security_Financial.Insert();
+                }
+            }
+        }
+        else
+        {
+            string str = "<script>alert(\"Please Save Property Security Details First.\");</script>";
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "Script", str, false);
+        }
+
+    }
+
+    private void BindFinancialGridforEdit()
+    {
+        clsAP_Property_Security_Financials objAP_Property_Security_Financial = new clsAP_Property_Security_Financials();
+        decimal decAP_Property_Security_Financial = 0;
+        if (PK_AP_Property_Security > 0) decAP_Property_Security_Financial = PK_AP_Property_Security;
+
+        if (decAP_Property_Security_Financial > 0)
+        {
+
+            objAP_Property_Security_Financial.FK_AP_Property_Security = decAP_Property_Security_Financial;
+
+            DataSet ds = objAP_Property_Security_Financial.GetAPPropertySecurityFinancialsFromFK();
+            DataTable dt = ds.Tables[0];
+
+            if (dt.Rows.Count > 0)
+            {
+                //if (objwc.Total_Paid_To_Date != null) txtTotalPaid.Text = objwc.Total_Paid_To_Date.Value.ToString("N2");
+                if (dt.Rows[0]["Category"].ToString() == "CCTV Only")
+                {
+                    if (dt.Rows[0]["Total_Capex"].ToString() != string.Empty)
+                        txtCCTVOnlyTC.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[0]["Total_Capex"]);
+                    if (dt.Rows[0]["Total_Monthly_Charge"].ToString() != string.Empty)
+                        txtCCTVOnlyTM.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[0]["Total_Monthly_Charge"]);
+                }
+
+                if (dt.Rows[1]["Category"].ToString() == "Burglar Alarms")
+                {
+                    if (dt.Rows[1]["Total_Capex"].ToString() != string.Empty)
+                        txtBurglarAlarmsTC.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[1]["Total_Capex"]);
+                    if (dt.Rows[1]["Total_Monthly_Charge"].ToString() != string.Empty)
+                        txtBurglarAlarmsTM.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[1]["Total_Monthly_Charge"]);
+                }
+
+                if (dt.Rows[2]["Category"].ToString() == "Guard Services")
+                {
+                    if (dt.Rows[2]["Total_Capex"].ToString() != string.Empty)
+                        txtGuardServicesTC.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[2]["Total_Capex"]);
+                    if (dt.Rows[2]["Total_Monthly_Charge"].ToString() != string.Empty)
+                        txtGuardServicesTM.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[2]["Total_Monthly_Charge"]);
+                }
+
+                if (dt.Rows[3]["Category"].ToString() == "Access Control")
+                {
+                    if (dt.Rows[3]["Total_Capex"].ToString() != string.Empty)
+                        txtAccessControlTC.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[3]["Total_Capex"]);
+                    if (dt.Rows[3]["Total_Monthly_Charge"].ToString() != string.Empty)
+                        txtAccessControlTM.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[3]["Total_Monthly_Charge"]);
+                }
+
+                if (dt.Rows[4]["Category"].ToString() == "Security Inventory Tracking Systems")
+                {
+                    if (dt.Rows[4]["Total_Capex"].ToString() != string.Empty)
+                        txtSecurityInventoryTrackingSystemsTC.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[4]["Total_Capex"]);
+                    if (dt.Rows[4]["Total_Monthly_Charge"].ToString() != string.Empty)
+                        txtSecurityInventoryTrackingSystemsTM.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[4]["Total_Monthly_Charge"]);
+                }
+
+                if (dt.Rows[5]["Category"].ToString() == "CCTV and Live Monitoring Services")
+                {
+                    if (dt.Rows[5]["Total_Capex"].ToString() != string.Empty)
+                        txtCategoryTC.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[5]["Total_Capex"]);
+                    if (dt.Rows[5]["Total_Monthly_Charge"].ToString() != string.Empty)
+                        txtCategoryTM.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[5]["Total_Monthly_Charge"]);
+                }
+            }
+
+        }
+
+    }
+
+    private void BindFinancialGridforView()
+    {
+        clsAP_Property_Security_Financials objAP_Property_Security_Financial = new clsAP_Property_Security_Financials();
+        decimal decAP_Property_Security_Financial = 0;
+        if (PK_AP_Property_Security > 0) decAP_Property_Security_Financial = PK_AP_Property_Security;
+
+        if (decAP_Property_Security_Financial > 0)
+        {
+
+            objAP_Property_Security_Financial.FK_AP_Property_Security = decAP_Property_Security_Financial;
+
+            DataSet ds = objAP_Property_Security_Financial.GetAPPropertySecurityFinancialsFromFK();
+            DataTable dt = ds.Tables[0];
+
+            if (dt.Rows.Count > 0)
+            {
+                if (dt.Rows[0]["Category"].ToString() == "CCTV Only")
+                {
+                    if (dt.Rows[0]["Total_Capex"].ToString() != string.Empty)
+                        lblCCTVOnlyTC.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[0]["Total_Capex"]);
+                    if (dt.Rows[0]["Total_Monthly_Charge"].ToString() != string.Empty)
+                        lblCCTVOnlyTM.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[0]["Total_Monthly_Charge"]);
+                }
+
+                if (dt.Rows[1]["Category"].ToString() == "Burglar Alarms")
+                {
+                    if (dt.Rows[1]["Total_Capex"].ToString() != string.Empty)
+                        lblBurglarAlarmsTC.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[1]["Total_Capex"]);
+                    if (dt.Rows[1]["Total_Monthly_Charge"].ToString() != string.Empty)
+                        lblBurglarAlarmsTM.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[1]["Total_Monthly_Charge"]);
+                }
+
+                if (dt.Rows[2]["Category"].ToString() == "Guard Services")
+                {
+                    if (dt.Rows[2]["Total_Capex"].ToString() != string.Empty)
+                        lblGuardServicesTC.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[2]["Total_Capex"]);
+                    if (dt.Rows[2]["Total_Monthly_Charge"].ToString() != string.Empty)
+                        lblGuardServicesTM.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[2]["Total_Monthly_Charge"]);
+                }
+
+                if (dt.Rows[3]["Category"].ToString() == "Access Control")
+                {
+                    if (dt.Rows[3]["Total_Capex"].ToString() != string.Empty)
+                        lblAccessControlTC.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[3]["Total_Capex"]);
+                    if (dt.Rows[3]["Total_Monthly_Charge"].ToString() != string.Empty)
+                        lblAccessControlTM.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[3]["Total_Monthly_Charge"]);
+                }
+
+                if (dt.Rows[4]["Category"].ToString() == "Security Inventory Tracking Systems")
+                {
+                    if (dt.Rows[4]["Total_Capex"].ToString() != string.Empty)
+                        lblSecurityInventoryTrackingSystemsTC.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[4]["Total_Capex"]);
+                    if (dt.Rows[4]["Total_Monthly_Charge"].ToString() != string.Empty)
+                        lblSecurityInventoryTrackingSystemsTM.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[4]["Total_Monthly_Charge"]);
+                }
+
+
+                if (dt.Rows[5]["Category"].ToString() == "CCTV and Live Monitoring Services")
+                {
+                    if (dt.Rows[5]["Total_Capex"].ToString() != string.Empty)
+                        lblCategoryTC.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[5]["Total_Capex"]);
+                    if (dt.Rows[5]["Total_Monthly_Charge"].ToString() != string.Empty)
+                        lblCategoryTM.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[5]["Total_Monthly_Charge"]);
+                }
+
+            }
+
+
+        }
+
+    }
+
+
+    protected void btnCancelFinancialGrid_Click(object sender, EventArgs e)
+    {
+        txtCCTVOnlyTC.Text = string.Empty;
+        txtCCTVOnlyTM.Text = string.Empty;
+        txtBurglarAlarmsTC.Text = string.Empty;
+        txtBurglarAlarmsTM.Text = string.Empty;
+        txtCategoryTC.Text = string.Empty;
+        txtCategoryTM.Text = string.Empty;
+        txtGuardServicesTC.Text = string.Empty;
+        txtGuardServicesTM.Text = string.Empty;
+        txtAccessControlTC.Text = string.Empty;
+        txtAccessControlTM.Text = string.Empty;
+        txtSecurityInventoryTrackingSystemsTC.Text = string.Empty;
+        txtSecurityInventoryTrackingSystemsTM.Text = string.Empty;
+    }
+    protected void btnViewAuditFinancialGrid_Click(object sender, EventArgs e)
+    {
+
+    }
+
+
+
+    protected void lnkAddFraudNotesGrid_Click(object sender, EventArgs e)
+    {
+        btnNotesGridAdd.Visible = false;
+        btnFraudNotesGridAdd.Visible = true;
+
+        tblMainFraudEvent.Style["display"] = tblMainFraudEventView.Style["display"] = pnlTransactionGridAdd.Style["display"] = pnlNoteGridAddView.Style["display"] = pnlTransactionGridAddView.Style["display"] = "none";
+        pnlNoteGridAdd.Style["display"] = "";
+        PK_AP_FE_PA_Notes = 0;
+        btnViewAuditNotesGrid.Visible = false;
+        btnFraudEventSave.Visible = false;
+        btnFruad_EventAudit_Trail.Visible = false;
+        dvFraudEventSave.Style["display"] = "none";
+
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
+
+    }
+    protected void btnFraudNotesGridAdd_Click(object sender, EventArgs e)
+    {
+        AP_FE_PA_Notes AP_FE_PA_Notes = new AP_FE_PA_Notes();
+
+        AP_FE_PA_Notes.PK_AP_FE_PA_Notes = PK_AP_FE_PA_Notes;
+        AP_FE_PA_Notes.FK_AP_Fraud_Events = PK_AP_Fraud_Events;
+        AP_FE_PA_Notes.Note_Date = clsGeneral.FormatNullDateToStore(txtNotesDate.Text);
+        AP_FE_PA_Notes.Note = txtNotesAdd.Text;
+        AP_FE_PA_Notes.Update_Date = DateTime.Now;
+        AP_FE_PA_Notes.Updated_By = clsSession.UserID;
+
+        if (PK_AP_FE_PA_Notes > 0)
+        {
+            AP_FE_PA_Notes.Update();
+        }
+        else
+        {
+            PK_AP_FE_PA_Notes = AP_FE_PA_Notes.Insert();
+        }
+
+        //ClearAddGridControl();
+        btnViewAuditNotesGrid.Visible = false;
+        btnViewFraudAuditNotesGrid.Visible = true;
+        BindFraudNotesGrid();
+        ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
     }
 
     #endregion
@@ -3503,6 +3795,60 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
 
+
+    protected void gvNotesGridFraudView_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "gvEdit")
+        {
+            PK_AP_FE_PA_Notes = Convert.ToDecimal(e.CommandArgument.ToString());
+            if (PK_AP_FE_PA_Notes > 0)
+            {
+                tblMainFraudEvent.Style["display"] = tblMainFraudEventView.Style["display"] = pnlNoteGridAdd.Style["display"] = pnlTransactionGridAdd.Style["display"] = pnlTransactionGridAddView.Style["display"] = "none";
+                pnlNoteGridAddView.Style["display"] = "";
+                bindNotesDetailFraudForView();
+            }
+        }
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
+    }
+    protected void gvFraudEventsNote_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        // update sort field and sort order and bind the grid
+        _SortOrder_FraudNotes = _SortOrder_FraudNotes == "asc" ? "desc" : "asc";
+        //BindFraudEventGrid();
+        BindFraudNotesGrid();
+    }
+    protected void gvNotesGridFraudView_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        // update sort field and sort order and bind the grid
+        _SortOrder_FraudNotes = _SortOrder_FraudNotes == "asc" ? "desc" : "asc";
+        //BindFraudEventGrid();
+        BindFraudNotesGrid();
+    }
+    protected void gvFraudEventsNote_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        int index;
+        if (e.CommandName == "gvEdit")
+        {
+            PK_AP_FE_PA_Notes = Convert.ToDecimal(e.CommandArgument.ToString());
+            if (PK_AP_FE_PA_Notes > 0)
+            {
+                tblMainFraudEvent.Style["display"] = tblMainFraudEventView.Style["display"] = pnlNoteGridAddView.Style["display"] = pnlTransactionGridAdd.Style["display"] = pnlTransactionGridAddView.Style["display"] = "none";
+                pnlNoteGridAdd.Style["display"] = "";
+                bindNotesFraudDetailForEdit();
+            }
+
+        }
+        else if (e.CommandName == "Remove")
+        {
+            index = Convert.ToInt32(e.CommandArgument);
+            AP_FE_PA_Notes.DeleteByPK(index);
+
+            BindFraudNotesGrid();
+        }
+
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
+
+    }
     #endregion
 
     #region " DPD_FROIs "
@@ -4035,6 +4381,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     {
         if (e.CommandName == "gvEdit")
         {
+            _SortOrder_FraudNotes = "Desc";
             PK_AP_Fraud_Events = Convert.ToDecimal(e.CommandArgument.ToString());
             if (PK_AP_Fraud_Events > 0)
             {
@@ -4103,6 +4450,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
 
         if (e.CommandName == "gvEdit")
         {
+            _SortOrder_FraudNotes = "Desc";
             PK_AP_Fraud_Events = Convert.ToDecimal(e.CommandArgument.ToString());
             if (PK_AP_Fraud_Events > 0)
             {
@@ -4221,6 +4569,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 case "Security Inventory Tracking System – Other Description": strCtrlsIDsProperty_Security += txtSecurity_Inventory_Tracking_System_Other_Description.ClientID + ","; strMessagesProperty_Security += "Please enter [Property Security]/Security Inventory Tracking System – Other Description" + ","; Span41.Style["display"] = "inline-block"; break;
                 case "Cap Index Crime Score": strCtrlsIDsProperty_Security += txtCap_Index_Crime_Score.ClientID + ","; strMessagesProperty_Security += "Please enter [Property Security]/Cap Index Crime Score" + ","; Span141.Style["display"] = "inline-block"; break;
                 case "Cap Index Risk Category": strCtrlsIDsProperty_Security += ddlCap_Index_Risk_Category.ClientID + ","; strMessagesProperty_Security += "Please select [Property Security]/Cap Index Risk Category" + ","; Span142.Style["display"] = "inline-block"; break;
+                case "Number of External Cameras": strCtrlsIDsProperty_Security += txtNumberOfExternalCameras.ClientID + ","; strMessagesProperty_Security += "Please select [Property Security]/Number of External Cameras" + ","; Span143.Style["display"] = "inline-block"; break;
+                case "Number of Internal Cameras": strCtrlsIDsProperty_Security += txtNumberofInternalCameras.ClientID + ","; strMessagesProperty_Security += "Please select [Property Security]/Number of Internal Cameras" + ","; Span144.Style["display"] = "inline-block"; break;
             }
             #endregion
         }
@@ -4255,6 +4605,9 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 case "Financial Loss": strCtrlsIDsDPD_FROIs += txtFinancial_Loss.ClientID + ","; strMessagesDPD_FROIs += "Please enter [DPD FROIs]/Financial Loss" + ","; Span49.Style["display"] = "inline-block"; break;
                 case "Recovery": strCtrlsIDsDPD_FROIs += txtRecovery.ClientID + ","; strMessagesDPD_FROIs += "Please enter [DPD FROIs]/Recovery" + ","; Span50.Style["display"] = "inline-block"; break;
                 case "Item Status": strCtrlsIDsDPD_FROIs += drpItem_Status.ClientID + ","; strMessagesDPD_FROIs += "Please select [DPD FROIs]/Item Status" + ","; Span51.Style["display"] = "inline-block"; break;
+                case "Vehicle Color": strCtrlsIDsDPD_FROIs += txtVehicleColor.ClientID + ","; strMessagesDPD_FROIs += "Please enter [DPD FROIs]/Vehicle Color" + ","; Span145.Style["display"] = "inline-block"; break;
+                case "Police Case Number": strCtrlsIDsDPD_FROIs += txtPoliceCaseNumber.ClientID + ","; strMessagesDPD_FROIs += "Please enter [DPD FROIs]/Police Case Number" + ","; Span146.Style["display"] = "inline-block"; break;
+                case "Investigating Police Department": strCtrlsIDsDPD_FROIs += txtInvestigatingPoliceDepartment.ClientID + ","; strMessagesDPD_FROIs += "Please enter [DPD FROIs]/Investigating Police Department" + ","; Span147.Style["display"] = "inline-block"; break;
             }
             #endregion
         }
@@ -4450,290 +4803,6 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     }
 
     #endregion
-    protected void btnSaveFinancialGrid_Click(object sender, EventArgs e)
-    {
-        clsAP_Property_Security_Financials objAP_Property_Security_Financial = new clsAP_Property_Security_Financials();
-        decimal decAP_Property_Security_Financial = 0;
-        if (PK_AP_Property_Security > 0) decAP_Property_Security_Financial = PK_AP_Property_Security;
+   
 
-        if (decAP_Property_Security_Financial > 0)
-        {
-            for (int i = 0; i < 6; i++)
-            {
-
-                objAP_Property_Security_Financial.FK_AP_Property_Security = decAP_Property_Security_Financial;
-
-                if (i == 0)
-                {
-                    objAP_Property_Security_Financial.Category = lblCCTVOnly.Text;
-                    objAP_Property_Security_Financial.Total_Capex = clsGeneral.GetDecimalNullableValue(txtCCTVOnlyTC);
-                    objAP_Property_Security_Financial.Total_Monthly_Charge = clsGeneral.GetDecimalNullableValue(txtCCTVOnlyTM);
-                }
-                else if (i == 1)
-                {
-                    objAP_Property_Security_Financial.Category = lblBurglarAlarms.Text;
-                    objAP_Property_Security_Financial.Total_Capex = clsGeneral.GetDecimalNullableValue(txtBurglarAlarmsTC);
-                    objAP_Property_Security_Financial.Total_Monthly_Charge = clsGeneral.GetDecimalNullableValue(txtBurglarAlarmsTM);
-                }
-
-                else if (i == 2)
-                {
-                    objAP_Property_Security_Financial.Category = lblCategory.Text;
-                    objAP_Property_Security_Financial.Total_Capex = clsGeneral.GetDecimalNullableValue(txtCategoryTC);
-                    objAP_Property_Security_Financial.Total_Monthly_Charge = clsGeneral.GetDecimalNullableValue(txtCategoryTM);
-                }
-                else if (i == 3)
-                {
-                    objAP_Property_Security_Financial.Category = lblGuardServices.Text;
-                    objAP_Property_Security_Financial.Total_Capex = clsGeneral.GetDecimalNullableValue(txtGuardServicesTC);
-                    objAP_Property_Security_Financial.Total_Monthly_Charge = clsGeneral.GetDecimalNullableValue(txtGuardServicesTM);
-                }
-                else if (i == 4)
-                {
-                    objAP_Property_Security_Financial.Category = lblAccessControl.Text;
-                    objAP_Property_Security_Financial.Total_Capex = clsGeneral.GetDecimalNullableValue(txtAccessControlTC);
-                    objAP_Property_Security_Financial.Total_Monthly_Charge = clsGeneral.GetDecimalNullableValue(txtAccessControlTM);
-                }
-                else
-                {
-                    objAP_Property_Security_Financial.Category = lblSecurityInventoryTrackingSystems.Text;
-                    objAP_Property_Security_Financial.Total_Capex = clsGeneral.GetDecimalNullableValue(txtSecurityInventoryTrackingSystemsTC);
-                    objAP_Property_Security_Financial.Total_Monthly_Charge = clsGeneral.GetDecimalNullableValue(txtSecurityInventoryTrackingSystemsTM);
-                }
-
-                objAP_Property_Security_Financial.Update_Date = DateTime.Now;
-                objAP_Property_Security_Financial.Updated_By = clsSession.UserID;
-
-                DataSet ds = objAP_Property_Security_Financial.GetAPPropertySecurityFinancialsFromCategory();
-
-                if (ds.Tables[0].Rows.Count > 0)
-                {
-                    objAP_Property_Security_Financial.PK_AP_Property_Security_Financials = Convert.ToInt32(ds.Tables[0].Rows[0]["PK_AP_Property_Security_Financials"].ToString());
-                    objAP_Property_Security_Financial.Update();
-                }
-                else
-                {
-                    PK_AP_Property_Security_Financials = objAP_Property_Security_Financial.Insert();
-                }
-            }
-        }
-        else
-        {
-            string str = "<script>alert(\"Please Save Property Security Details First.\");</script>";
-            Page.ClientScript.RegisterStartupScript(this.GetType(), "Script", str, false);
-        }
-    
-    }
-
-    private void BindFinancialGridforEdit()
-    {
-        clsAP_Property_Security_Financials objAP_Property_Security_Financial = new clsAP_Property_Security_Financials();
-        decimal decAP_Property_Security_Financial = 0;
-        if (PK_AP_Property_Security > 0) decAP_Property_Security_Financial = PK_AP_Property_Security;
-
-        if (decAP_Property_Security_Financial > 0)
-        {
-          
-                objAP_Property_Security_Financial.FK_AP_Property_Security = decAP_Property_Security_Financial;
-
-                DataSet ds = objAP_Property_Security_Financial.GetAPPropertySecurityFinancialsFromFK();
-                DataTable dt = ds.Tables[0];
-
-                if (dt.Rows.Count > 0)
-                {
-                    if (dt.Rows[0]["Category"].ToString() == "CCTV Only")
-                        txtCCTVOnlyTC.Text = Convert.ToString(dt.Rows[0]["Total_Capex"]);
-                        txtCCTVOnlyTM.Text = Convert.ToString(dt.Rows[0]["Total_Monthly_Charge"]);
-
-                    if (dt.Rows[1]["Category"].ToString() == "Burglar Alarms")
-                        txtBurglarAlarmsTC.Text = Convert.ToString(dt.Rows[1]["Total_Capex"]);
-                        txtBurglarAlarmsTM.Text = Convert.ToString(dt.Rows[1]["Total_Monthly_Charge"]);
-
-                    if (dt.Rows[2]["Category"].ToString() == "Category")
-                        txtCategoryTC.Text = Convert.ToString(dt.Rows[2]["Total_Capex"]);
-                    txtCategoryTM.Text = Convert.ToString(dt.Rows[2]["Total_Monthly_Charge"]);
-
-                    if (dt.Rows[3]["Category"].ToString() == "Guard Services")
-                        txtGuardServicesTC.Text = Convert.ToString(dt.Rows[3]["Total_Capex"]);
-                        txtGuardServicesTM.Text = Convert.ToString(dt.Rows[3]["Total_Monthly_Charge"]);
-
-                    if (dt.Rows[4]["Category"].ToString() == "Access Control")
-                        txtAccessControlTC.Text = Convert.ToString(dt.Rows[4]["Total_Capex"]);
-                        txtAccessControlTM.Text = Convert.ToString(dt.Rows[4]["Total_Monthly_Charge"]);
-
-                    if (dt.Rows[5]["Category"].ToString() == "Security Inventory Tracking Systems")
-                        txtSecurityInventoryTrackingSystemsTC.Text = Convert.ToString(dt.Rows[5]["Total_Capex"]);
-                    txtSecurityInventoryTrackingSystemsTM.Text = Convert.ToString(dt.Rows[5]["Total_Monthly_Charge"]);
-
-                }           
-
-                
-        }
-        
-    }
-
-    private void BindFinancialGridforView()
-    {
-        clsAP_Property_Security_Financials objAP_Property_Security_Financial = new clsAP_Property_Security_Financials();
-        decimal decAP_Property_Security_Financial = 0;
-        if (PK_AP_Property_Security > 0) decAP_Property_Security_Financial = PK_AP_Property_Security;
-
-        if (decAP_Property_Security_Financial > 0)
-        {
-
-            objAP_Property_Security_Financial.FK_AP_Property_Security = decAP_Property_Security_Financial;
-
-            DataSet ds = objAP_Property_Security_Financial.GetAPPropertySecurityFinancialsFromFK();
-            DataTable dt = ds.Tables[0];
-
-            if (dt.Rows.Count > 0)
-            {
-                if (dt.Rows[0]["Category"].ToString() == "CCTV Only")
-                    lblCCTVOnlyTC.Text = Convert.ToString(dt.Rows[0]["Total_Capex"]);
-                    lblCCTVOnlyTM.Text = Convert.ToString(dt.Rows[0]["Total_Monthly_Charge"]);
-
-                if (dt.Rows[1]["Category"].ToString() == "Burglar Alarms")
-                    lblBurglarAlarmsTC.Text = Convert.ToString(dt.Rows[1]["Total_Capex"]);
-                    lblBurglarAlarmsTM.Text = Convert.ToString(dt.Rows[1]["Total_Monthly_Charge"]);
-
-                if (dt.Rows[2]["Category"].ToString() == "Category")
-                    lblCategoryTC.Text = Convert.ToString(dt.Rows[2]["Total_Capex"]);
-                    lblCategoryTM.Text = Convert.ToString(dt.Rows[2]["Total_Monthly_Charge"]);
-
-                if (dt.Rows[3]["Category"].ToString() == "Guard Services")
-                    lblGuardServicesTC.Text = Convert.ToString(dt.Rows[3]["Total_Capex"]);
-                    lblGuardServicesTM.Text = Convert.ToString(dt.Rows[3]["Total_Monthly_Charge"]);
-
-                if (dt.Rows[4]["Category"].ToString() == "Access Control")
-                    lblAccessControlTC.Text = Convert.ToString(dt.Rows[4]["Total_Capex"]);
-                    lblAccessControlTM.Text = Convert.ToString(dt.Rows[4]["Total_Monthly_Charge"]);
-
-                if (dt.Rows[5]["Category"].ToString() == "Security Inventory Tracking Systems")
-                    lblSecurityInventoryTrackingSystemsTC.Text = Convert.ToString(dt.Rows[5]["Total_Capex"]);
-                    lblSecurityInventoryTrackingSystemsTM.Text = Convert.ToString(dt.Rows[5]["Total_Monthly_Charge"]);
-
-            }
-
-
-        }
-
-    }
-
-
-    protected void btnCancelFinancialGrid_Click(object sender, EventArgs e)
-    {
-        txtCCTVOnlyTC.Text = string.Empty;
-        txtCCTVOnlyTM.Text = string.Empty;
-        txtBurglarAlarmsTC.Text = string.Empty;
-        txtBurglarAlarmsTM.Text = string.Empty;
-        txtCategoryTC.Text = string.Empty;
-        txtCategoryTM.Text = string.Empty;
-        txtGuardServicesTC.Text = string.Empty;
-        txtGuardServicesTM.Text = string.Empty;
-        txtAccessControlTC.Text = string.Empty;
-        txtAccessControlTM.Text = string.Empty;
-        txtSecurityInventoryTrackingSystemsTC.Text = string.Empty;
-        txtSecurityInventoryTrackingSystemsTM.Text = string.Empty;
-    }
-    protected void btnViewAuditFinancialGrid_Click(object sender, EventArgs e)
-    {
-
-    }
-
-
-    protected void gvFraudEventsNote_RowCommand(object sender, GridViewCommandEventArgs e)
-    {
-        int index;
-        if (e.CommandName == "gvEdit")
-        {
-            PK_AP_FE_PA_Notes = Convert.ToDecimal(e.CommandArgument.ToString());
-            if (PK_AP_FE_PA_Notes > 0)
-            {
-                tblMainFraudEvent.Style["display"] = tblMainFraudEventView.Style["display"] = pnlNoteGridAddView.Style["display"] = pnlTransactionGridAdd.Style["display"] = pnlTransactionGridAddView.Style["display"] = "none";
-                pnlNoteGridAdd.Style["display"] = "";
-                bindNotesFraudDetailForEdit();
-            }
-
-        }
-        else if (e.CommandName == "Remove")
-        {
-            index = Convert.ToInt32(e.CommandArgument);
-            AP_FE_PA_Notes.DeleteByPK(index);
-
-            BindFraudNotesGrid();
-        }
-
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
-
-    }
-    protected void lnkAddFraudNotesGrid_Click(object sender, EventArgs e)
-    {
-        btnNotesGridAdd.Visible = false;
-        btnFraudNotesGridAdd.Visible = true;
-
-        tblMainFraudEvent.Style["display"] = tblMainFraudEventView.Style["display"] = pnlTransactionGridAdd.Style["display"] = pnlNoteGridAddView.Style["display"] = pnlTransactionGridAddView.Style["display"] = "none";
-        pnlNoteGridAdd.Style["display"] = "";
-        PK_AP_FE_PA_Notes = 0;
-        btnViewAuditNotesGrid.Visible = false;
-        btnFraudEventSave.Visible = false;
-        btnFruad_EventAudit_Trail.Visible = false;
-        dvFraudEventSave.Style["display"] = "none";
-
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
-    
-    }
-    protected void btnFraudNotesGridAdd_Click(object sender, EventArgs e)
-    {
-        AP_FE_PA_Notes AP_FE_PA_Notes = new AP_FE_PA_Notes();
-
-        AP_FE_PA_Notes.PK_AP_FE_PA_Notes = PK_AP_FE_PA_Notes;
-        AP_FE_PA_Notes.FK_AP_Fraud_Events = PK_AP_Fraud_Events;
-        AP_FE_PA_Notes.Note_Date = clsGeneral.FormatNullDateToStore(txtNotesDate.Text);
-        AP_FE_PA_Notes.Note = txtNotesAdd.Text;
-        AP_FE_PA_Notes.Update_Date = DateTime.Now;
-        AP_FE_PA_Notes.Updated_By = clsSession.UserID;
-
-        if (PK_AP_FE_PA_Notes > 0)
-        {
-            AP_FE_PA_Notes.Update();
-        }
-        else
-        {
-            PK_AP_FE_PA_Notes = AP_FE_PA_Notes.Insert();
-        }
-
-        //ClearAddGridControl();
-        btnViewAuditNotesGrid.Visible = false;
-        btnViewFraudAuditNotesGrid.Visible = true;
-        BindFraudNotesGrid();
-        ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
-    }
-    protected void gvNotesGridFraudView_RowCommand(object sender, GridViewCommandEventArgs e)
-    {
-        if (e.CommandName == "gvEdit")
-        {
-            PK_AP_FE_PA_Notes = Convert.ToDecimal(e.CommandArgument.ToString());
-            if (PK_AP_FE_PA_Notes > 0)
-            {
-                tblMainFraudEvent.Style["display"] = tblMainFraudEventView.Style["display"] = pnlNoteGridAdd.Style["display"] = pnlTransactionGridAdd.Style["display"] = pnlTransactionGridAddView.Style["display"] = "none";
-                pnlNoteGridAddView.Style["display"] = "";
-                bindNotesDetailFraudForView();
-            }
-        }
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
-    }
-    protected void gvFraudEventsNote_Sorting(object sender, GridViewSortEventArgs e)
-    {
-        // update sort field and sort order and bind the grid
-        _SortOrder_FraudNotes = _SortOrder_FraudNotes == "asc" ? "desc" : "asc";
-        //BindFraudEventGrid();
-        BindFraudNotesGrid();
-    }
-    protected void gvNotesGridFraudView_Sorting(object sender, GridViewSortEventArgs e)
-    {
-        // update sort field and sort order and bind the grid
-        _SortOrder_FraudNotes = _SortOrder_FraudNotes == "asc" ? "desc" : "asc";
-        //BindFraudEventGrid();
-        BindFraudNotesGrid();
-    }
 }

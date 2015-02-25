@@ -651,7 +651,7 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
     /// <param name="e"></param>
     protected void drpAmount_F_SelectedIndexChanged(object sender, EventArgs e)
     {
-        bool isDollar = true;
+        bool? isDollar = true;
 
         string strID = ((DropDownList)sender).ID;
 
@@ -670,6 +670,14 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
         if (drpDwn.SelectedItem.Text.ToLower() == "cap index crime score")
         {
             isDollar = false;
+        }
+        else if (drpDwn.SelectedItem.Text == "Exterior Camera Coverage - Number of External Cameras" || drpDwn.SelectedItem.Text == "Interior Camera Coverage - Number of Internal Cameras")
+        {
+            isDollar = null;
+        }
+        else
+        {
+            isDollar = true;
         }
 
         switch (((DropDownList)sender).ID)
@@ -1458,7 +1466,7 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
     /// <param name="txtAmount1_F"></param>
     /// <param name="lblAmountText2_F"></param>
     /// <param name="txtAmount2_F"></param>
-    protected void drpAmount_Changed(bool isDollarSign, DropDownList drpAmount_F, Label lblAmountText1_F, TextBox txtAmount1_F, Label lblAmountText2_F, TextBox txtAmount2_F, CompareValidator cvAmount)
+    protected void drpAmount_Changed(bool? isDollarSign, DropDownList drpAmount_F, Label lblAmountText1_F, TextBox txtAmount1_F, Label lblAmountText2_F, TextBox txtAmount2_F, CompareValidator cvAmount)
     {
         string strAmountValue = drpAmount_F.SelectedValue;
 
@@ -1502,13 +1510,22 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
         txtAmount2_F.Attributes.Remove("onkeypress");
         txtAmount1_F.Attributes.Remove("onblur");
         txtAmount2_F.Attributes.Remove("onblur");
-        if (!isDollarSign)
+        if (isDollarSign == false)
         {
             lblAmountText1_F.Text = lblAmountText1_F.Text.Replace("$", "");
             lblAmountText2_F.Text = lblAmountText2_F.Text.Replace("$", "");
             txtAmount1_F.Attributes.Add("onkeypress", "return FormatInteger(event,this.id);");
             txtAmount2_F.Attributes.Add("onkeypress", "return FormatInteger(event,this.id);");
             txtAmount2_F.MaxLength = txtAmount1_F.MaxLength = 3;
+            cvAmount.ErrorMessage = cvAmount.ErrorMessage.Replace("Amount", "Value");
+        }
+        else if (isDollarSign == null)
+        {
+            lblAmountText1_F.Text = lblAmountText1_F.Text.Replace("$", "");
+            lblAmountText2_F.Text = lblAmountText2_F.Text.Replace("$", "");
+            txtAmount1_F.Attributes.Add("onkeypress", "return FormatInteger(event,this.id);");
+            txtAmount2_F.Attributes.Add("onkeypress", "return FormatInteger(event,this.id);");
+            txtAmount2_F.MaxLength = txtAmount1_F.MaxLength = 9;
             cvAmount.ErrorMessage = cvAmount.ErrorMessage.Replace("Amount", "Value");
         }
         else

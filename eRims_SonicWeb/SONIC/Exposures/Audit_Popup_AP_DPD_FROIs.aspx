@@ -483,25 +483,25 @@
                              <asp:TemplateField HeaderText="Vehicle_Color">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblVehicle_Color" runat="server" Text='<%#Eval("Vehicle_Color")%>' Width="100px"></asp:Label>
+                                    <asp:Label ID="lblVehicle_Color" runat="server" Text='<%#Eval("Vehicle_Color")%>' Width="100px" CssClass="TextClip"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                              <asp:TemplateField HeaderText="Police_Case_Number">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblPolice_Case_Number" runat="server" Text='<%#Eval("Police_Case_Number")%>' Width="100px"></asp:Label>
+                                    <asp:Label ID="lblPolice_Case_Number" runat="server" Text='<%#Eval("Police_Case_Number")%>' Width="100px" CssClass="TextClip"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                              <asp:TemplateField HeaderText="Investigating_Police_Department">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblInvestigating_Police_Department" runat="server" Text='<%#Eval("Investigating_Police_Department")%>' Width="100px"></asp:Label>
+                                    <asp:Label ID="lblInvestigating_Police_Department" runat="server" Text='<%#Eval("Investigating_Police_Department")%>' Width="100px" CssClass="TextClip"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                              <asp:TemplateField HeaderText="Vandalism">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblVandalism" runat="server" Text='<%#clsGeneral.FormatYesNoToDisplay(Eval("Vandalism"))%>' Width="100px"></asp:Label>
+                                    <asp:Label ID="lblVandalism" runat="server" Text='<%#clsGeneral.FormatYesNoToDisplay(Eval("Vandalism"))%>' Width="100px" ></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
 

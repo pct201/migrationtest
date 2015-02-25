@@ -5,13 +5,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>eRIMS Sonic :: AP Fraud Events Audit Trail</title>
+     <style TYPE="text/css"> 
+    body {overflow-X: scroll}
+    </style>  
     <script language="javascript" type="text/javascript">
         function showAudit(divHeader, divGrid) {
             var divheight, i;
 
 
-            divHeader.style.width = window.screen.availWidth - 325 + "px";
-            divGrid.style.width = window.screen.availWidth - 325 + "px";
+            divHeader.style.width = window.screen.availWidth - 320   + "px";
+            divGrid.style.width = window.screen.availWidth - 320 + "px";
 
             divheight = divGrid.style.height;
             i = divheight.indexOf('px');

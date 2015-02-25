@@ -16,14 +16,25 @@
     TagPrefix="uc" %>
 <%@ Register Src="~/Controls/SonicClaimNotes/AdjusterNotes.ascx" TagName="CtrlAdjusterNotes"
     TagPrefix="uc" %>
+
 <asp:Content ContentPlaceHolderID="ContentPlaceHolder1" ID="Content1" runat="server">
     <script type="text/javascript" src="../../JavaScript/JFunctions.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/Calendar_new.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/calendar-en.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/Calendar.js"></script>
+    <script type="text/javascript" language="javascript" src="../../JavaScript/Validator.js"></script>
     <script type="text/javascript">
         var CheckChangeVal = false;
         var ActiveTabIndex = 1;
+
+        function formatCurrencyOnBlur(ctrl) {
+            if (ctrl.value != '') {
+                var val = ctrl.value.replace(",", "").replace(",", "");
+                ctrl.value = formatCurrency(val).replace("$", "");
+            }
+        }
+
+        
         function onNextStep() {
             if (ActiveTabIndex == 6) {
                 return ValSave();
@@ -283,7 +294,7 @@ function openAP_FE_PA_Notes_AuditPopup() {
 }
 
 function openFraud_Event_AuditPopup() {
-    var winHeight = window.screen.availHeight - 370;
+    var winHeight = window.screen.availHeight - 300;
     var winWidth = window.screen.availWidth - 315;
 
     obj = window.open("AuditPopup_AP_Fraud_Events.aspx?id=" + '<%=ViewState["PK_AP_Fraud_Events"]%>', 'PopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=2,menubar=0');
@@ -424,6 +435,7 @@ function openGenereteAbstract() {
                 }
             }
         }
+       
     </script>
     <div>
         <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
@@ -857,13 +869,13 @@ function openGenereteAbstract() {
                                                                     <td align="left" valign="top" width="50%">
                                                                         <table>
                                                                             <tr>
-                                                                                <td align="left" valign="top">Number of External Cameras&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
+                                                                                <td align="left" valign="top">Number of External Cameras&nbsp;<span id="Span143" style="color: Red; display: none;" runat="server">*</span>  
                                                                                 </td>
                                                                                 <td align="center" valign="top">:&nbsp;&nbsp;&nbsp;
                                                                                 </td>
                                                                                 <td align="left" valign="top">
-                                                                                    <asp:TextBox ID="txtNumberOfExternalCameras" runat="server" Width="150px" MaxLength="10" SkinID="txtAmt"
-                                                                                        OnkeyPress="return FormatInteger(event);" />
+                                                                                    <asp:TextBox ID="txtNumberOfExternalCameras" runat="server" Width="150px" MaxLength="9" SkinID="txtAmt" onpaste="return false" 
+                                                                                        OnkeyPress="return FormatInteger(event);"  />
                                                                                 </td>
                                                                             </tr>
                                                                         </table>
@@ -976,12 +988,12 @@ function openGenereteAbstract() {
                                                                     <td align="left" valign="top" width="50%">
                                                                         <table>
                                                                             <tr>
-                                                                                <td align="left" valign="top">Number of Internal Cameras&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
+                                                                                <td align="left" valign="top">Number of Internal Cameras&nbsp;<span id="Span144" style="color: Red; display: none;" runat="server">*</span>      
                                                                                 </td>
                                                                                 <td align="center" valign="top">:&nbsp;&nbsp;&nbsp;
                                                                                 </td>
                                                                                 <td align="left" valign="top">
-                                                                                    <asp:TextBox ID="txtNumberofInternalCameras" runat="server" Width="150px" MaxLength="10" OnkeyPress="return FormatInteger(event);" />
+                                                                                    <asp:TextBox ID="txtNumberofInternalCameras" runat="server" Width="150px" onpaste="return false" MaxLength="9" OnkeyPress="return FormatInteger(event);" onblur="return commaSeparateNumber();" />
                                                                                 </td>
                                                                             </tr>
                                                                         </table>
@@ -1519,7 +1531,7 @@ function openGenereteAbstract() {
                                                     </tr>
                                                     <tr>
                                                         <td align="left" valign="top" colspan="6">
-                                                            <strong>Access Control Systems</strong>
+                                                            <strong>Access Control - Systems</strong>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -1847,49 +1859,49 @@ function openGenereteAbstract() {
                                                                     <td width="40%" align="left" class="asset">
                                                                         <asp:Label ID="lblCCTVOnly" runat="server" Text="CCTV Only"></asp:Label></td>
                                                                     <td width="30%" align="left" class="asset">
-                                                                        <asp:TextBox ID="txtCCTVOnlyTC" runat="server" SkinID="txtCurrency" /></td>
+                                                                        <asp:TextBox ID="txtCCTVOnlyTC" runat="server" SkinID="txtCurrency15"  /></td>
                                                                     <td width="30%" align="left" class="asset">
-                                                                        <asp:TextBox ID="txtCCTVOnlyTM" runat="server" SkinID="txtCurrency" /></td>
+                                                                        <asp:TextBox ID="txtCCTVOnlyTM" runat="server" SkinID="txtCurrency15" /></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td width="40%" align="left" class="asset2">
                                                                         <asp:Label ID="lblBurglarAlarms" runat="server" Text="Burglar Alarms"></asp:Label></td>
                                                                     <td width="30%" align="left" class="asset2">
-                                                                        <asp:TextBox ID="txtBurglarAlarmsTC" runat="server" SkinID="txtCurrency" /></td>
+                                                                        <asp:TextBox ID="txtBurglarAlarmsTC" runat="server" SkinID="txtCurrency15" /></td>
                                                                     <td width="30%" align="left" class="asset2">
-                                                                        <asp:TextBox ID="txtBurglarAlarmsTM" runat="server" SkinID="txtCurrency" /></td>
+                                                                        <asp:TextBox ID="txtBurglarAlarmsTM" runat="server" SkinID="txtCurrency15" /></td>
                                                                 </tr>                                                               
                                                                 <tr>
                                                                     <td width="40%" align="left" class="asset">
                                                                         <asp:Label ID="lblGuardServices" runat="server" Text="Guard Services"></asp:Label></td>
                                                                     <td width="30%" align="left" class="asset">
-                                                                        <asp:TextBox ID="txtGuardServicesTC" runat="server" SkinID="txtCurrency" /></td>
+                                                                        <asp:TextBox ID="txtGuardServicesTC" runat="server" SkinID="txtCurrency15" /></td>
                                                                     <td width="30%" align="left" class="asset">
-                                                                        <asp:TextBox ID="txtGuardServicesTM" runat="server" SkinID="txtCurrency" /></td>
+                                                                        <asp:TextBox ID="txtGuardServicesTM" runat="server" SkinID="txtCurrency15" /></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td width="40%" align="left" class="asset2">
                                                                         <asp:Label ID="lblAccessControl" runat="server" Text="Access Control"></asp:Label></td>
                                                                     <td width="30%" align="left" class="asset2">
-                                                                        <asp:TextBox ID="txtAccessControlTC" runat="server" SkinID="txtCurrency" /></td>
+                                                                        <asp:TextBox ID="txtAccessControlTC" runat="server" SkinID="txtCurrency15" /></td>
                                                                     <td width="30%" align="left" class="asset2">
-                                                                        <asp:TextBox ID="txtAccessControlTM" runat="server" SkinID="txtCurrency" /></td>
+                                                                        <asp:TextBox ID="txtAccessControlTM" runat="server" SkinID="txtCurrency15" /></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td width="40%" align="left" class="asset">
                                                                         <asp:Label ID="lblSecurityInventoryTrackingSystems" runat="server" Text="Security Inventory Tracking Systems"></asp:Label></td>
                                                                     <td width="30%" align="left" class="asset">
-                                                                        <asp:TextBox ID="txtSecurityInventoryTrackingSystemsTC" runat="server" SkinID="txtCurrency" /></td>
+                                                                        <asp:TextBox ID="txtSecurityInventoryTrackingSystemsTC" runat="server" SkinID="txtCurrency15" /></td>
                                                                     <td width="30%" align="left" class="asset">
-                                                                        <asp:TextBox ID="txtSecurityInventoryTrackingSystemsTM" runat="server" SkinID="txtCurrency" /></td>
+                                                                        <asp:TextBox ID="txtSecurityInventoryTrackingSystemsTM" runat="server" SkinID="txtCurrency15" /></td>
                                                                 </tr>
                                                                  <tr>
                                                                     <td width="40%" align="left" class="asset2">
                                                                         <asp:Label ID="lblCategory" runat="server" Text="CCTV and Live Monitoring Services"></asp:Label></td>
                                                                     <td width="30%" align="left" class="asset2">
-                                                                        <asp:TextBox ID="txtCategoryTC" runat="server" SkinID="txtCurrency" /></td>
+                                                                        <asp:TextBox ID="txtCategoryTC" runat="server" SkinID="txtCurrency15" /></td>
                                                                     <td width="30%" align="left" class="asset2">
-                                                                        <asp:TextBox ID="txtCategoryTM" runat="server" SkinID="txtCurrency" /></td>
+                                                                        <asp:TextBox ID="txtCategoryTM" runat="server" SkinID="txtCurrency15" /></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td colspan="3">&nbsp;</td>
@@ -2199,13 +2211,12 @@ function openGenereteAbstract() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Vehicle Color
+                                                        <td align="left" valign="top">Vehicle Color&nbsp;<span id="Span145" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top" colspan="4">
-                                                            <asp:TextBox ID="txtVehicleColor" runat="server" Width="170px"
-                                                                onpaste="return false" />
+                                                            <asp:TextBox ID="txtVehicleColor" runat="server" Width="170px" MaxLength="50"/>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -2251,13 +2262,12 @@ function openGenereteAbstract() {
                                                             <asp:TextBox ID="txtInvoice_Value" runat="server" Width="170px" onkeypress="return currencyFormat(this,',','.',event);"
                                                                 onpaste="return false" SkinID="txtDisabled" />
                                                         </td>
-                                                        <td align="left" valign="top">Police Case Number
+                                                        <td align="left" valign="top">Police Case Number&nbsp;<span id="Span146" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtPoliceCaseNumber" runat="server" Width="170px"
-                                                                onpaste="return false" />
+                                                            <asp:TextBox ID="txtPoliceCaseNumber" runat="server" Width="170px" MaxLength="50" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -2267,13 +2277,12 @@ function openGenereteAbstract() {
                                                         </td>
                                                         <td align="left" valign="top">&nbsp;
                                                         </td>
-                                                        <td align="left" valign="top" width="22%">Investigating Police Department
+                                                        <td align="left" valign="top" width="22%">Investigating Police Department&nbsp;<span id="Span147" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtInvestigatingPoliceDepartment" runat="server" Width="170px" MaxLength="100"
-                                                                onpaste="return false" />
+                                                            <asp:TextBox ID="txtInvestigatingPoliceDepartment" runat="server" Width="170px" MaxLength="100"/>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -4373,7 +4382,7 @@ function openGenereteAbstract() {
                                                                     <asp:TemplateField HeaderText="Note Text" HeaderStyle-HorizontalAlign="Left">
                                                                         <ItemStyle Width="" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
-                                                                            <asp:LinkButton ID="lblNotes" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_AP_FE_PA_Notes") %>'>
+                                                                            <asp:LinkButton ID="lblNotes" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_AP_FE_PA_Notes") %>' CssClass="TextClip" Width="410px">
                                                                                 <%# Eval("Note")%>
                                                                             </asp:LinkButton>
                                                                         </ItemTemplate>
@@ -6392,33 +6401,34 @@ function openGenereteAbstract() {
                                                                     <td width="40%" align="left" class="asset">
                                                                         <asp:Label ID="Label1" runat="server" Text="CCTV Only"></asp:Label></td>
                                                                     <td width="30%" align="left" class="asset">
-                                                                        <asp:Label ID="lblCCTVOnlyTC" runat="server" /></td>
+                                                                        <asp:Label ID="lblCCTVOnlyTC" runat="server"  onkeypress="javascript:return FormatNumber(event,this.id,12,false,false);"
+                                                            onblur="javascript:return formatCurrencyOnBlur(this);" /></td>
                                                                     <td width="30%" align="left" class="asset">
-                                                                        <asp:Label ID="lblCCTVOnlyTM" runat="server" /></td>
+                                                                        <asp:Label ID="lblCCTVOnlyTM" runat="server" SkinID="txtCurrency15" /></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td width="40%" align="left" class="asset2">
                                                                         <asp:Label ID="Label2" runat="server" Text="Burglar Alarms"></asp:Label></td>
                                                                     <td width="30%" align="left" class="asset2">
-                                                                        <asp:Label ID="lblBurglarAlarmsTC" runat="server" /></td>
+                                                                        <asp:Label ID="lblBurglarAlarmsTC" runat="server" SkinID="txtCurrency" /></td>
                                                                     <td width="30%" align="left" class="asset2">
-                                                                        <asp:Label ID="lblBurglarAlarmsTM" runat="server" /></td>
+                                                                        <asp:Label ID="lblBurglarAlarmsTM" runat="server" SkinID="txtCurrency" /></td>
                                                                 </tr>                                                                
                                                                 <tr>
                                                                     <td width="40%" align="left" class="asset">
                                                                         <asp:Label ID="Label4" runat="server" Text="Guard Services"></asp:Label></td>
                                                                     <td width="30%" align="left" class="asset">
-                                                                        <asp:Label ID="lblGuardServicesTC" runat="server" /></td>
+                                                                        <asp:Label ID="lblGuardServicesTC" runat="server" SkinID="txtCurrency" /></td>
                                                                     <td width="30%" align="left" class="asset">
-                                                                        <asp:Label ID="lblGuardServicesTM" runat="server" /></td>
+                                                                        <asp:Label ID="lblGuardServicesTM" runat="server" SkinID="txtCurrency" /></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td width="40%" align="left" class="asset2">
                                                                         <asp:Label ID="Label5" runat="server" Text="Access Control"></asp:Label></td>
                                                                     <td width="30%" align="left" class="asset2">
-                                                                        <asp:Label ID="lblAccessControlTC" runat="server" /></td>
+                                                                        <asp:Label ID="lblAccessControlTC" runat="server" SkinID="txtCurrency" /></td>
                                                                     <td width="30%" align="left" class="asset2">
-                                                                        <asp:Label ID="lblAccessControlTM" runat="server" /></td>
+                                                                        <asp:Label ID="lblAccessControlTM" runat="server" SkinID="txtCurrency" /></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td width="40%" align="left" class="asset">
@@ -6432,9 +6442,9 @@ function openGenereteAbstract() {
                                                                     <td width="40%" align="left" class="asset2">
                                                                         <asp:Label ID="Label3" runat="server" Text="CCTV and Live Monitoring Services"></asp:Label></td>
                                                                     <td width="30%" align="left" class="asset2">
-                                                                        <asp:Label ID="lblCategoryTC" runat="server" /></td>
+                                                                        <asp:Label ID="lblCategoryTC" runat="server" SkinID="txtCurrency" /></td>
                                                                     <td width="30%" align="left" class="asset2">
-                                                                        <asp:Label ID="lblCategoryTM" runat="server" /></td>
+                                                                        <asp:Label ID="lblCategoryTM" runat="server" SkinID="txtCurrency"/></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td colspan="3">&nbsp;</td>
@@ -6708,7 +6718,7 @@ function openGenereteAbstract() {
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:Label ID="lblVehicleColor" runat="server"></asp:Label>
+                                                            <asp:Label ID="lblVehicleColor" runat="server" style="word-wrap:normal; word-break:break-all"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -6756,7 +6766,7 @@ function openGenereteAbstract() {
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:Label ID="lblPoliceCaseNumber" runat="server"></asp:Label>
+                                                            <asp:Label ID="lblPoliceCaseNumber" runat="server" style="word-wrap:normal; word-break:break-all"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -6768,7 +6778,7 @@ function openGenereteAbstract() {
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:Label ID="lblInvestigatingPoliceDepartment" runat="server"></asp:Label>
+                                                            <asp:Label ID="lblInvestigatingPoliceDepartment" runat="server" style="word-wrap:normal; word-break:break-all"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -8645,7 +8655,7 @@ function openGenereteAbstract() {
                                                                     <asp:TemplateField HeaderText="Note Text" HeaderStyle-HorizontalAlign="Left">
                                                                         <ItemStyle Width="100px" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
-                                                                            <asp:LinkButton ID="lblNotesView" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_AP_FE_PA_Notes") %>'>
+                                                                            <asp:LinkButton ID="lblNotesView" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_AP_FE_PA_Notes") %>' Width="410px" CssClass="TextClip">
                                                                             <%# Eval("Note")%>
                                                                             </asp:LinkButton>
                                                                         </ItemTemplate>
@@ -9088,7 +9098,7 @@ function openGenereteAbstract() {
                                                                     <asp:TemplateField HeaderText="Note Text" HeaderStyle-HorizontalAlign="Left" SortExpression="Note">
                                                                         <ItemStyle Width="100px" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
-                                                                            <asp:Label ID="lblNotesView" runat="server" CssClass="TextClip" Width="410px">
+                                                                            <asp:Label ID="lblNotesView" runat="server" Width="410px" CssClass="TextClip" >
                                                                             <%# Eval("Note")%>
                                                                             </asp:Label>
                                                                         </ItemTemplate>

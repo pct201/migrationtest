@@ -408,28 +408,28 @@
                                     <asp:TemplateField HeaderText="CCTV_Company_Name">
                                         <ItemStyle CssClass="cols" />
                                         <ItemTemplate>
-                                            <asp:Label ID="lblCCTV_Company_Name" runat="server" Text='<%#Eval("CCTV_Company_Name")%>'
+                                            <asp:Label ID="lblCCTV_Company_Name" runat="server" Text='<%#Eval("CCTV_Company_Name")%>' style="word-wrap:normal;word-break:break-all"
                                                 Width="160px"></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="CCTV_Company_Address_1">
                                         <ItemStyle CssClass="cols" />
                                         <ItemTemplate>
-                                            <asp:Label ID="lblCCTV_Company_Address_1" runat="server" Text='<%#Eval("CCTV_Company_Address_1")%>'
+                                            <asp:Label ID="lblCCTV_Company_Address_1" runat="server" Text='<%#Eval("CCTV_Company_Address_1")%>' style="word-wrap:normal;word-break:break-all"
                                                 Width="160px"></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="CCTV_Company_Address_2">
                                         <ItemStyle CssClass="cols" />
                                         <ItemTemplate>
-                                            <asp:Label ID="lblCCTV_Company_Address_2" runat="server" Text='<%#Eval("CCTV_Company_Address_2")%>'
+                                            <asp:Label ID="lblCCTV_Company_Address_2" runat="server" Text='<%#Eval("CCTV_Company_Address_2")%>' style="word-wrap:normal;word-break:break-all"
                                                 Width="160px"></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="CCTV_Company_City">
                                         <ItemStyle CssClass="cols" />
                                         <ItemTemplate>
-                                            <asp:Label ID="lblCCTV_Company_City" runat="server" Text='<%#Eval("CCTV_Company_City")%>'
+                                            <asp:Label ID="lblCCTV_Company_City" runat="server" Text='<%#Eval("CCTV_Company_City")%>' style="word-wrap:normal;word-break:break-all"
                                                 Width="160px"></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
@@ -1109,14 +1109,14 @@
                                     <asp:TemplateField HeaderText="ECC_Number_Of_External_Cameras">
                                         <ItemStyle CssClass="cols" />
                                         <ItemTemplate>
-                                            <asp:Label ID="lblECC_Number_Of_External_Cameras" runat="server" Text='<%#Eval("ECC_Number_Of_External_Cameras")%>'
+                                            <asp:Label ID="lblECC_Number_Of_External_Cameras" runat="server" Text='<%#clsGeneral.FormatCommaSeperatorNumber(Eval("ECC_Number_Of_External_Cameras"))%>'
                                                 Width="160px"></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="ECC_Number_Of_Internal_Cameras">
                                         <ItemStyle CssClass="cols" />
                                         <ItemTemplate>
-                                            <asp:Label ID="lblECC_Number_Of_Internal_Cameras" runat="server" Text='<%#Eval("ECC_Number_Of_Internal_Cameras")%>'
+                                            <asp:Label ID="lblECC_Number_Of_Internal_Cameras" runat="server" Text='<%#clsGeneral.FormatCommaSeperatorNumber(Eval("ECC_Number_Of_Internal_Cameras"))%>'
                                                 Width="160px"></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
