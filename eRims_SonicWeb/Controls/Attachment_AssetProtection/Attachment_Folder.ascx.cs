@@ -440,7 +440,7 @@ public partial class Controls_Attachment_AP_Attachment : System.Web.UI.UserContr
                     // if PK is available then update the record
                     if (PK_AM_Attachments > 0)
                     {
-                        objAMAttachment.Attachment_Description = objAMAttachment.Attachment_Filename.Substring(12);
+                        objAMAttachment.Attachment_Description = objAMAttachment.Attachment_Filename.ToString();
                         objAMAttachment.Update();
                     }
                     else
@@ -499,6 +499,8 @@ public partial class Controls_Attachment_AP_Attachment : System.Web.UI.UserContr
             }
         }
         strIDs = strIDs.TrimEnd(',');
+
+        Session["AM_Attachments"] = true;
 
         // if no PDFs selected then show message else show PDFViewer page
         if (pdfCount > 0)

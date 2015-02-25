@@ -248,6 +248,9 @@ public class AppConfig
     private static string _strEPMDocumentPath;
     private static string _strEPMDocumentURL;
 
+    private static string _strAMDocumentPath;
+    private static string _strAMDocumentURL;
+
     private static string _strEPM_AttachmentDocPath;
     private static string _strEPM_AttachmentImageURL;
 
@@ -1173,6 +1176,16 @@ public class AppConfig
         get { return _strEPMDocumentURL; }
     }
 
+    public static string strAMDocumentPath
+    {
+        get { return _strAMDocumentPath; }
+    }
+
+    public static string strAMDocumentURL
+    {
+        get { return _strAMDocumentURL; }
+    }
+
     public static string strEPM_AttachmentDocPath
     {
         get { return _strEPM_AttachmentDocPath; }
@@ -1534,6 +1547,9 @@ public class AppConfig
 
         _strEPMDocumentPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["EPM_Docs"] + "\\");
         _strEPMDocumentURL = string.Concat(SiteURL, AttachmentDocPath, "/", ConfigurationManager.AppSettings["EPM_Docs"] + "/");
+
+        _strAMDocumentPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["AM_Docs"] + "\\");
+        _strAMDocumentURL = string.Concat(SiteURL, AttachmentDocPath, "/", ConfigurationManager.AppSettings["AM_Docs"] + "/");
 
         _strEPM_AttachmentDocPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["EPM_Attachment"] + "\\");
         _strEPM_AttachmentImageURL = string.Concat(SiteURL, AttachmentDocPath, "/", ConfigurationManager.AppSettings["EPM_Attachment"] + "/");

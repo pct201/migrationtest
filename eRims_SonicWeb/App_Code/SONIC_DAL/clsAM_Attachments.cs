@@ -325,5 +325,15 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        public static DataSet GetAttchmentsByID(string PK_EPM_Attachments)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("AM_AttachmentsByAttachmentID");
+
+            db.AddInParameter(dbCommand, "PK_AM_Attachments", DbType.String, PK_EPM_Attachments);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
     }
 }

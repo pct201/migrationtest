@@ -399,7 +399,7 @@
     }
 
     function ShowMailPage(Attach_IDs) {
-        ShowDialog("<%=AppConfig.SiteURL%>SONIC/Exposures/EPM_Attachment_Mail.aspx?Attch_Ids=" + Attach_IDs, 600, 450);
+        ShowDialog("<%=AppConfig.SiteURL%>SONIC/Exposures/AM_Attachment_Mail.aspx?Attch_Ids=" + Attach_IDs, 600, 450);
         return false;
     }
 

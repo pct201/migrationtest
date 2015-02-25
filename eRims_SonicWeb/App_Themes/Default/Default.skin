@@ -116,6 +116,7 @@ Default skin template. The following skins are provided as examples only.
     <asp:ListItem Text="Not Required" Value="R"></asp:ListItem>
 </asp:RadioButtonList>
 <asp:TextBox runat="server" SkinID="txtCurrency"  onkeypress="return FormatNumber(event,this.id,12,false,false);" onpaste="return false;" onblur="formatCurrencyOnBlur(this);" width="133px" />
+<asp:TextBox runat="server" SkinID="txtCurrency15"  onkeypress="return FormatNumber(event,this.id,15,false,false);" onpaste="return false;" onblur="formatCurrencyOnBlur(this);" width="133px" />
 <asp:TextBox runat="server" SkinID="txtPercentage"  onkeypress="return FormatNumber(event,this.id,5,false,false);" onpaste="return false;" onblur="formatCurrencyOnBlur(this);" width="133px" />
 
 <asp:DropDownList runat="server" SkinID="Attachment" CssClass="drpDwnList">

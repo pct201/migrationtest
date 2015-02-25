@@ -1703,6 +1703,24 @@ public class clsGeneral : System.Web.UI.Page
 
     }
 
+    public static string FormatCommaSeperatorNumber(object objVal)
+    {
+        if (objVal == null || objVal == DBNull.Value)
+            return "";
+        else
+            return (String.Format("{0:N0}", Convert.ToDecimal(objVal.ToString())));
+
+    }
+
+    public static string FormatCommaSeperatorCurrency(object objVal)
+    {
+        if (objVal == null || objVal == DBNull.Value)
+            return "";
+        else
+            return (String.Format("{0:N2}", Convert.ToDecimal(objVal.ToString())));
+
+    }
+
     /// <summary>
     /// Used to display No and Yes as per value return from radio button list.
     /// </summary>
