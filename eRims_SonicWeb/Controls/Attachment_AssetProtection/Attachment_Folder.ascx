@@ -405,30 +405,30 @@
 
     function ShowAttachmentSection(intSection) {
 
-        document.getElementById('ctl00_ContentPlaceHolder1_ctrlAttachment_trSection' + (intSection + 1)).style.display = "";
-        document.getElementById('ctl00_ContentPlaceHolder1_ctrlAttachment_lnkAddNew' + intSection).style.display = "none";
+        document.getElementById('ctl00_ContentPlaceHolder1_Attachments_trSection' + (intSection + 1)).style.display = "";
+        document.getElementById('ctl00_ContentPlaceHolder1_Attachments_lnkAddNew' + intSection).style.display = "none";
         //alert(intSection);
         $('#hndCounthtml').val(intSection + 1);
 
         if (intSection > 1) {
             $('#<%=hndCount.ClientID %>').val(intSection + 1);
-            document.getElementById('ctl00_ContentPlaceHolder1_ctrlAttachment_lnkRemove' + intSection).style.display = "none";
+            document.getElementById('ctl00_ContentPlaceHolder1_Attachments_lnkRemove' + intSection).style.display = "none";
         }
     }
 
     function HideAttachmentSection(intSection) {
-        document.getElementById('ctl00_ContentPlaceHolder1_ctrlAttachment_lnkAddNew' + (intSection - 1)).style.display = "";
-        document.getElementById('ctl00_ContentPlaceHolder1_ctrlAttachment_trSection' + intSection).style.display = "none";
+        document.getElementById('ctl00_ContentPlaceHolder1_Attachments_lnkAddNew' + (intSection - 1)).style.display = "";
+        document.getElementById('ctl00_ContentPlaceHolder1_Attachments_trSection' + intSection).style.display = "none";
         $('#hndCounthtml').val($('#hndCounthtml').val() - 1);
 
         if (intSection > 2) {
 
             $('#<%=hndCount.ClientID %>').val(intSection - 1);
-            document.getElementById('ctl00_ContentPlaceHolder1_ctrlAttachment_lnkRemove' + (intSection - 1)).style.display = "";
+            document.getElementById('ctl00_ContentPlaceHolder1_Attachments_lnkRemove' + (intSection - 1)).style.display = "";
         }
-        $('#ctl00_ContentPlaceHolder1_ctrlAttachment_Attachment' + (intSection) + '_txtNewFileName').text('');
-        $('#ctl00_ContentPlaceHolder1_ctrlAttachment_Attachment' + (intSection) + '_txtFilePath').val('');
-        document.getElementById('ctl00_ContentPlaceHolder1_ctrlAttachment_Attachment' + (intSection) + '_drpFolder').selectedIndex = 0;
+        $('#ctl00_ContentPlaceHolder1_Attachments_Attachment' + (intSection) + '_txtNewFileName').text('');
+        $('#ctl00_ContentPlaceHolder1_Attachments_Attachment' + (intSection) + '_txtFilePath').val('');
+        document.getElementById('ctl00_ContentPlaceHolder1_Attachments_Attachment' + (intSection) + '_drpFolder').selectedIndex = 0;
         // document.getElementById('ctl00_ContentPlaceHolder1_ucAttachment_Attachment' + (intSection) + '_fpFile').value = "";
         // alert(document.getElementById('ctl00_ContentPlaceHolder1_ucAttachment_Attachment' + (intSection) + '_fpFile').value);
     }
@@ -447,9 +447,9 @@
 
         if (parseInt(length) > 0) {
             for (i = 1; i <= length; i++) {
-                if ($('#ctl00_ContentPlaceHolder1_ctrlAttachment_Attachment' + i + '_txtNewFileName').val() != "") {
-                    totalFileName = totalFileName + $('#ctl00_ContentPlaceHolder1_ctrlAttachment_Attachment' + i + '_txtNewFileName').val() + "&~&~&";
-                    var FileName = document.getElementById('ctl00_ContentPlaceHolder1_ctrlAttachment_Attachment' + i + '_fpFile').value;
+                if ($('#ctl00_ContentPlaceHolder1_Attachments_Attachment' + i + '_txtNewFileName').val() != "") {
+                    totalFileName = totalFileName + $('#ctl00_ContentPlaceHolder1_Attachments_Attachment' + i + '_txtNewFileName').val() + "&~&~&";
+                    var FileName = document.getElementById('ctl00_ContentPlaceHolder1_Attachments_Attachment' + i + '_fpFile').value;
                     var ext = FileName.lastIndexOf(".");
                     if (ext > 0) {
                         totalFileUploadvalue = totalFileUploadvalue + FileName.substring(FileName.lastIndexOf(".")) + "&~&~&";
@@ -465,8 +465,8 @@
 
         for (j = 1; j <= hndCount; j++) {
 
-            var FolderName = document.getElementById('ctl00_ContentPlaceHolder1_ctrlAttachment_Attachment' + j + '_drpFolder').selectedIndex;
-            var FileName_value = document.getElementById('ctl00_ContentPlaceHolder1_ctrlAttachment_Attachment' + j + '_fpFile').value;
+            var FolderName = document.getElementById('ctl00_ContentPlaceHolder1_Attachments_Attachment' + j + '_drpFolder').selectedIndex;
+            var FileName_value = document.getElementById('ctl00_ContentPlaceHolder1_Attachments_Attachment' + j + '_fpFile').value;
             if (parseInt(FolderName) != 0 && FileName_value != "") {
                 IsFolderSelected = "true";
             }
@@ -488,7 +488,7 @@
     function OnUpdateTreeComlete(result) {
 
         if (result == "") {
-            __doPostBack('ctl00$ContentPlaceHolder1$ctrlAttachment$btnSaveAttachments', '');
+            __doPostBack('ctl00$ContentPlaceHolder1$Attachments$btnSaveAttachments', '');
         }
         else {
             alert(result);
