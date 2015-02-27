@@ -202,7 +202,10 @@ public partial class Exposures_Property : clsBasePage
 
                 // Bind all grids referring to the location
                 BindGridBuilding();
-                BindGridBusinessInterruption();
+
+                //Commented below line for ticket #3132
+                //BindGridBusinessInterruption();
+
                 BindGridAssessment();
                 BindEmergencyContactGrid();
                 BindUtilityContactGrid();
@@ -1975,7 +1978,7 @@ public partial class Exposures_Property : clsBasePage
         objProperty.Zip = txtZip.Text.Trim();
         objProperty.Telephone = txtTelephone.Text.Trim();
         objProperty.Web_site = txtWeb_Site.Text.Trim();
-        objProperty.Valuation_Date = clsGeneral.FormatDateToStore(txtValuation_Date);
+        //objProperty.Valuation_Date = clsGeneral.FormatDateToStore(txtValuation_Date);
         objProperty.Updated_By = Convert.ToDecimal(clsSession.UserID);
         objProperty.Updated_Date = DateTime.Now;
         // save the record depending on the primary key
@@ -2014,7 +2017,7 @@ public partial class Exposures_Property : clsBasePage
         txtZip.Text = objProperty.Zip;
         txtTelephone.Text = objProperty.Telephone;
         txtWeb_Site.Text = objProperty.Web_site;
-        txtValuation_Date.Text = clsGeneral.FormatDateToDisplay(objProperty.Valuation_Date);
+        //txtValuation_Date.Text = clsGeneral.FormatDateToDisplay(objProperty.Valuation_Date);
 
         LU_Location objLocation = new LU_Location(Convert.ToDecimal(FK_LU_Location_ID));
 
@@ -2054,20 +2057,22 @@ public partial class Exposures_Property : clsBasePage
             decimal decInventory_Levels = Convert.ToDecimal(drLimits["Inventory_Levels"]);
             decimal decRS_Means_Building_Value_Total = Convert.ToDecimal(drLimits["RS_Means_Building_Value_Total"]);
 
+            //Commented below Section for ticket #3132
             // set values in finalcial limit section controls
-            lblBuilding_Limit.Text = clsGeneral.GetStringValue(decBuilding_Limit);
-            lblLeasehold_Interests_Limit_Betterment.Text = clsGeneral.GetStringValue(decLeasehold_Interests_Limit_Betterment);
-            lblLeasehold_Interests_Limit_Expansion.Text = clsGeneral.GetStringValue(decLeasehold_Interests_Limit_Expansion);
-            lblAssociate_Tools_Limit.Text = clsGeneral.GetStringValue(decAssociate_Tools_Limit);
-            lblContents_Limit.Text = clsGeneral.GetStringValue(decContents_Limit);
-            lblParts_Limit.Text = clsGeneral.GetStringValue(decParts_Limit);
-            lblBetterment_Date_Complate.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drLimits["Betterment_Date_Complete"]));
-            lblExpansion_Date_Complate.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drLimits["Expansion_Date_Complete"]));
-            lblInventory_Levels.Text = clsGeneral.GetStringValue(decInventory_Levels);
-            lblRS_Means_Building_Value_Total.Text = clsGeneral.GetStringValue(decRS_Means_Building_Value_Total);
-            // count and set the total
-            decimal decTotal = decBuilding_Limit + decLeasehold_Interests_Limit_Betterment + decLeasehold_Interests_Limit_Expansion + decAssociate_Tools_Limit + decContents_Limit + decParts_Limit + decInventory_Levels + decRS_Means_Building_Value_Total;
-            lblCalculated.Text = clsGeneral.GetStringValue(decTotal);
+            //lblBuilding_Limit.Text = clsGeneral.GetStringValue(decBuilding_Limit);
+            //lblLeasehold_Interests_Limit_Betterment.Text = clsGeneral.GetStringValue(decLeasehold_Interests_Limit_Betterment);
+            //lblLeasehold_Interests_Limit_Expansion.Text = clsGeneral.GetStringValue(decLeasehold_Interests_Limit_Expansion);
+            //lblAssociate_Tools_Limit.Text = clsGeneral.GetStringValue(decAssociate_Tools_Limit);
+            //lblContents_Limit.Text = clsGeneral.GetStringValue(decContents_Limit);
+            //lblParts_Limit.Text = clsGeneral.GetStringValue(decParts_Limit);
+            //lblBetterment_Date_Complate.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drLimits["Betterment_Date_Complete"]));
+            //lblExpansion_Date_Complate.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drLimits["Expansion_Date_Complete"]));
+            //lblInventory_Levels.Text = clsGeneral.GetStringValue(decInventory_Levels);
+            //lblRS_Means_Building_Value_Total.Text = clsGeneral.GetStringValue(decRS_Means_Building_Value_Total);
+            //// count and set the total
+            //decimal decTotal = decBuilding_Limit + decLeasehold_Interests_Limit_Betterment + decLeasehold_Interests_Limit_Expansion + decAssociate_Tools_Limit + decContents_Limit + decParts_Limit + decInventory_Levels + decRS_Means_Building_Value_Total;
+            //lblCalculated.Text = clsGeneral.GetStringValue(decTotal);
+            //Commented below Section for ticket #3132
         }
         #endregion
 
@@ -3222,9 +3227,10 @@ public partial class Exposures_Property : clsBasePage
     /// </summary>
     private void BindGridBusinessInterruption()
     {
-        DataTable dtBusinessInterruption = Property_COI.SelectByLocation(FK_LU_Location_ID).Tables[0];
-        gvBusinessInterruption.DataSource = dtBusinessInterruption;
-        gvBusinessInterruption.DataBind();
+        //Commented below Section for ticket #3132
+        //DataTable dtBusinessInterruption = Property_COI.SelectByLocation(FK_LU_Location_ID).Tables[0];
+        //gvBusinessInterruption.DataSource = dtBusinessInterruption;
+        //gvBusinessInterruption.DataBind();
     }
 
     /// <summary>
@@ -3755,7 +3761,7 @@ public partial class Exposures_Property : clsBasePage
                 case "Zip": strCtrlsIDs += txtZip.ClientID + ","; strMessages += "Please enter [Property Cope]/Zip" + ","; Span11.Style["display"] = "inline-block"; break;
                 case "Telephone": strCtrlsIDs += txtTelephone.ClientID + ","; strMessages += "Please enter [Property Cope]/Telephone" + ","; Span6.Style["display"] = "inline-block"; break;
                 case "Web Site": strCtrlsIDs += txtWeb_Site.ClientID + ","; strMessages += "Please enter [Property Cope]/Web Site" + ","; Span8.Style["display"] = "inline-block"; break;
-                case "Valuation Date": strCtrlsIDs += txtValuation_Date.ClientID + ","; strMessages += "Please enter [Property Cope]/Valuation Date" + ","; Span12.Style["display"] = "inline-block"; break;
+                //case "Valuation Date": strCtrlsIDs += txtValuation_Date.ClientID + ","; strMessages += "Please enter [Property Cope]/Valuation Date" + ","; Span12.Style["display"] = "inline-block"; break;
             }
 
             #endregion

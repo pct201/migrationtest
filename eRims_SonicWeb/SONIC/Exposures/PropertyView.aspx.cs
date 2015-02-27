@@ -177,7 +177,10 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
 
                 // bind location information, business interruption and assessment grid
                 BindLocationInformation();
-                BindGridBusinessInterruption();
+
+                //Commented below line for ticket #3132
+                //BindGridBusinessInterruption();
+
                 BindGridAssessment();
                 BindSubLeaseGrid();
                 if (Request.QueryString["build"] != null)
@@ -586,7 +589,7 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
         lblZip.Text = objProperty.Zip;
         lblTelephone.Text = objProperty.Telephone;
         lblWeb_Site.Text = objProperty.Web_site;
-        lblValuation_Date.Text = clsGeneral.FormatDateToDisplay(objProperty.Valuation_Date);
+        //lblValuation_Date.Text = clsGeneral.FormatDateToDisplay(objProperty.Valuation_Date);
 
         #endregion
 
@@ -609,21 +612,23 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
             decimal decInventory_Levels = Convert.ToDecimal(drLimits["Inventory_Levels"]);
             decimal decRS_Means_Building_Value = Convert.ToDecimal(drLimits["RS_Means_Building_Value_Total"]);
 
+            //Commented below Section for ticket #3132 
             // set values in finalcial limit section controls
-            lblBuilding_Limit.Text = clsGeneral.GetStringValue(decBuilding_Limit);
-            lblLeasehold_Interests_Limit_Betterment.Text = clsGeneral.GetStringValue(decLeasehold_Interests_Limit_Betterment);
-            lblLeasehold_Interests_Limit_Expansion.Text = clsGeneral.GetStringValue(decLeasehold_Interests_Limit_Expansion);
-            lblAssociate_Tools_Limit.Text = clsGeneral.GetStringValue(decAssociate_Tools_Limit);
-            lblContents_Limit.Text = clsGeneral.GetStringValue(decContents_Limit);
-            lblParts_Limit.Text = clsGeneral.GetStringValue(decParts_Limit);
-            lblBetterment_Date_Complate.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drLimits["Betterment_Date_Complete"]));
-            lblExpansion_Date_Complate.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drLimits["Expansion_Date_Complete"]));
-            lblInventory_Levels.Text = clsGeneral.GetStringValue(decInventory_Levels);
-            lblRS_Means_Building_Value_Total.Text = clsGeneral.GetStringValue(decRS_Means_Building_Value);
+            //lblBuilding_Limit.Text = clsGeneral.GetStringValue(decBuilding_Limit);
+            //lblLeasehold_Interests_Limit_Betterment.Text = clsGeneral.GetStringValue(decLeasehold_Interests_Limit_Betterment);
+            //lblLeasehold_Interests_Limit_Expansion.Text = clsGeneral.GetStringValue(decLeasehold_Interests_Limit_Expansion);
+            //lblAssociate_Tools_Limit.Text = clsGeneral.GetStringValue(decAssociate_Tools_Limit);
+            //lblContents_Limit.Text = clsGeneral.GetStringValue(decContents_Limit);
+            //lblParts_Limit.Text = clsGeneral.GetStringValue(decParts_Limit);
+            //lblBetterment_Date_Complate.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drLimits["Betterment_Date_Complete"]));
+            //lblExpansion_Date_Complate.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drLimits["Expansion_Date_Complete"]));
+            //lblInventory_Levels.Text = clsGeneral.GetStringValue(decInventory_Levels);
+            //lblRS_Means_Building_Value_Total.Text = clsGeneral.GetStringValue(decRS_Means_Building_Value);
 
-            // count and set the total
-            decimal decTotal = decBuilding_Limit + decLeasehold_Interests_Limit_Betterment + decLeasehold_Interests_Limit_Expansion + decAssociate_Tools_Limit + decContents_Limit + decParts_Limit + decInventory_Levels + decRS_Means_Building_Value;
-            lblCalculated.Text = clsGeneral.GetStringValue(decTotal);
+            //// count and set the total
+            //decimal decTotal = decBuilding_Limit + decLeasehold_Interests_Limit_Betterment + decLeasehold_Interests_Limit_Expansion + decAssociate_Tools_Limit + decContents_Limit + decParts_Limit + decInventory_Levels + decRS_Means_Building_Value;
+            //lblCalculated.Text = clsGeneral.GetStringValue(decTotal);
+            //Commented above Section for ticket #3132
         }
 
         #endregion
@@ -1246,9 +1251,10 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
     /// </summary>
     private void BindGridBusinessInterruption()
     {
-        DataTable dtBusinessInterruption = Property_COI.SelectByLocation(FK_LU_Location_ID).Tables[0];
-        gvBusinessInterruption.DataSource = dtBusinessInterruption;
-        gvBusinessInterruption.DataBind();
+        //Commented above Section for ticket #3132
+        //DataTable dtBusinessInterruption = Property_COI.SelectByLocation(FK_LU_Location_ID).Tables[0];
+        //gvBusinessInterruption.DataSource = dtBusinessInterruption;
+        //gvBusinessInterruption.DataBind();
     }
 
     /// <summary>

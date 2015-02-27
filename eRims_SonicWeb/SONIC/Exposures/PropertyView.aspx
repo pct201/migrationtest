@@ -404,7 +404,8 @@ function ShowAuditPopUp(url) {
                                                                     <asp:Label runat="server" ID="lblZip" Width="170px"></asp:Label>
                                                                 </td>
                                                             </tr>
-                                                            <tr>
+                                                            <!-- Commented Below Section for ticket #3132 -->
+                                                            <%--<tr>
                                                                 <td colspan="6" width="100%">
                                                                     <b>Financial Limits(Summary of all buildings)</b>
                                                                 </td>
@@ -505,6 +506,7 @@ function ShowAuditPopUp(url) {
                                                                     <asp:Label ID="lblRS_Means_Building_Value_Total" runat="server" Width="170px"></asp:Label>
                                                                 </td>
                                                             </tr>
+                                                            
                                                             <tr>
                                                                 <td colspan="6" width="100%">Business Interruption
                                                                 </td>
@@ -544,7 +546,8 @@ function ShowAuditPopUp(url) {
                                                                 <td align="left" valign="top">
                                                                     <asp:Label ID="lblCalculated" runat="server" Width="170px"></asp:Label>
                                                                 </td>
-                                                            </tr>
+                                                            </tr>--%>
+                                                            <!-- Commented above Section for ticket #3132 -->
                                                             <tr>
                                                                 <td valign="top">Saba Training Grid
                                                                 </td>
