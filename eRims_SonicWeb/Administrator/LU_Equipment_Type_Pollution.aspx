@@ -99,8 +99,9 @@
                             &nbsp;
                         </td>
                         <td colspan="2">
-                            <asp:LinkButton Style="display: inline" ID="lnkAddNew" OnClick="lnkAddNew_Click"
-                                runat="server" Text="Add New"></asp:LinkButton>&nbsp;&nbsp;&nbsp;<asp:LinkButton
+                            <%--<asp:LinkButton Style="display: inline" ID="lnkAddNew" OnClick="lnkAddNew_Click"
+                                runat="server" Text="Add New"></asp:LinkButton>&nbsp;&nbsp;&nbsp;--%>
+                            <asp:LinkButton
                                     Style="display: none" ID="lnkCancel" OnClick="lnkCancel_Click" runat="server"
                                     Text="Cancel"></asp:LinkButton>
                         </td>

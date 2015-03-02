@@ -266,7 +266,8 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
                 BindDetailsFor_Equipment_OWS_Edit();
             }
             //Equiptment type 'Hydraulic Lift' is selected then Pass Table Name 'PK_PM_Equipment_Hydraulic_Lift' and return PK_ID from PM_Equipment_Hydraulic_Lift Table
-            else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "hydraulic lift")
+            //Equiptment type 'Alignment Rack' is selected then Pass Table Name 'PK_PM_Equipment_Hydraulic_Lift' and return PK_ID from PM_Equipment_Hydraulic_Lift Table // Ticket # 3142
+            else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "hydraulic lift" || drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "alignment rack")
             {
                 SetValidationsHydraulic();
                 PK_PM_Equipment_Hydraulic_Lift = (decimal)objPM_Equipment.FK_Table_Name;
@@ -1128,7 +1129,8 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
             }
         }
         //Equiptment type 'Hydraulic Lift' is selected then show and hide Panel
-        else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "hydraulic lift")
+        //Equiptment type 'Alignment Rack' is selected then show and hide Panel ticket #3142
+        else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "hydraulic lift" || drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "alignment rack")
         {
             SetValidationsHydraulic();
             dvView.Visible = false;
@@ -1772,7 +1774,8 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
 
         }
         //Equiptment type 'Hydraulic Lift' is selected then Save Data in PM_Equipment_Hydraulic_Lift table
-        else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "hydraulic lift")
+        //Equiptment type 'Alignment Rack' is selected then Save Data in PM_Equipment_Hydraulic_Lift table ticket #3142
+        else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "hydraulic lift" || drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "alignment rack")
         {
             clsPM_Equipment objPM_Equipment = new clsPM_Equipment();
             objPM_Equipment.PK_PM_Equipment = PM_Equipment;
@@ -2050,7 +2053,8 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
             }
         }
         //Equiptment type 'Hydraulic Lift' is selected then Pass Table Name 'PK_PM_Equipment_Hydraulic_Lift' and return PK_ID from PM_Equipment_Hydraulic_Lift Table
-        else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "hydraulic lift")
+        //Equiptment type 'Alignment Rack' is selected then Pass Table Name 'PK_PM_Equipment_Hydraulic_Lift' and return PK_ID from PM_Equipment_Hydraulic_Lift Table
+        else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "hydraulic lift" || drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "alignment rack")
         {
             if (PK_PM_Equipment_Hydraulic_Lift > 0)
             {
