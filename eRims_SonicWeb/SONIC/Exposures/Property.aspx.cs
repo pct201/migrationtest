@@ -158,6 +158,7 @@ public partial class Exposures_Property : clsBasePage
     protected void Page_Load(object sender, EventArgs e)
     {
         SetDynamicInsuranceControl();
+        HiddenItem();
         // Set Tab selection
         Tab.SetSelectedTab(Controls_ExposuresTab_ExposuresTab.Tab.Property);
         //used to check Page Post Back Event
@@ -535,7 +536,8 @@ public partial class Exposures_Property : clsBasePage
         objBuilding.Occupancy_Raw_Land = chkLstOccupancy.Items[5].Selected;
         objBuilding.Occupancy_Service = chkLstOccupancy.Items[6].Selected;
         objBuilding.Occupancy_Ofifce = chkLstOccupancy.Items[7].Selected;
-
+        objBuilding.Occupancy_Car_Wash = chkLstOccupancy.Items[8].Selected;
+        objBuilding.Occupancy_Photo_Booth = chkLstOccupancy.Items[11].Selected;
         objBuilding.Address_1 = txtBuildingAddress_1.Text.Trim();
         objBuilding.Address_2 = txtBuildingAddress_2.Text.Trim();
         objBuilding.City = txtBuilding_City.Text.Trim();
@@ -2249,6 +2251,8 @@ public partial class Exposures_Property : clsBasePage
         chkLstOccupancy.Items[5].Selected = objBuilding.Occupancy_Raw_Land;
         chkLstOccupancy.Items[6].Selected = objBuilding.Occupancy_Service;
         chkLstOccupancy.Items[7].Selected = objBuilding.Occupancy_Ofifce;
+        chkLstOccupancy.Items[8].Selected = objBuilding.Occupancy_Car_Wash;
+        chkLstOccupancy.Items[11].Selected = objBuilding.Occupancy_Photo_Booth;
 
         txtBuildingAddress_1.Text = objBuilding.Address_1;
         txtBuildingAddress_2.Text = objBuilding.Address_2;
@@ -2869,6 +2873,8 @@ public partial class Exposures_Property : clsBasePage
         chkLstOccupancy.Items[5].Selected = false;
         chkLstOccupancy.Items[6].Selected = false;
         chkLstOccupancy.Items[7].Selected = false;
+        chkLstOccupancy.Items[8].Selected = false;
+        chkLstOccupancy.Items[11].Selected = false;
         txtBuildingAddress_1.Text = "";
         txtBuildingAddress_2.Text = "";
         txtBuilding_City.Text = "";
@@ -3724,6 +3730,21 @@ public partial class Exposures_Property : clsBasePage
         }
     }
 
+    #endregion
+
+    #region "Hide Checkbox Buttoon"
+    public void HiddenItem()
+    {
+        foreach (ListItem item in this.chkLstOccupancy.Items)
+        {
+            if (item.Text == "1" || item.Text == "2")
+            {
+                //item.Attributes.CssStyle.Add("visibility", "hidden");
+                // Or you can try to use
+                 item.Attributes.CssStyle.Add("display", "none");
+            }
+        }
+    }
     #endregion
 
     #endregion

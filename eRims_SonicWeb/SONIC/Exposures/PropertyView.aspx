@@ -838,9 +838,23 @@ function ShowAuditPopUp(url) {
                                                                                             <td width="10%" align="left">
                                                                                                 <asp:Label runat="server" ID="lblOccupancyOffice"></asp:Label>
                                                                                             </td>
-                                                                                            <td width="24%" align="left">&nbsp;
+                                                                                            <td width="24%" align="left">Occupancy_Car_Wash
                                                                                             </td>
-                                                                                            <td width="10%" align="left">&nbsp;
+                                                                                            <td width="10%" align="left"><asp:Label runat="server" ID="lblOccupancyCarWash"></asp:Label>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                           <tr>
+                                                                                            <td width="23%" align="left">
+                                                                                            </td>
+                                                                                            <td width="10%" align="left">
+                                                                                            </td>
+                                                                                            <td width="23%" align="left">
+                                                                                            </td>
+                                                                                            <td width="10%" align="left">                                                                                                
+                                                                                            </td>
+                                                                                            <td width="24%" align="left">Occupancy_Photo_Booth
+                                                                                            </td>
+                                                                                            <td width="10%" align="left"><asp:Label runat="server" ID="lblOccupancyPhotoBooth"></asp:Label>
                                                                                             </td>
                                                                                         </tr>
                                                                                     </table>

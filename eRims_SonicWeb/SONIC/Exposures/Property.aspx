@@ -788,7 +788,7 @@ function ValidateFields(sender, args) {
                                                                         <asp:ListItem Text="--SELECT--" Value=""></asp:ListItem>
                                                                         <asp:ListItem Text="Active" Value="Active"></asp:ListItem>
                                                                         <asp:ListItem Text="InActive" Value="Inactive"></asp:ListItem>
-                                                                        <asp:ListItem Text="Disposed" Value="Disposed"></asp:ListItem>
+                                                                        <asp:ListItem Text="Disposed" Value="Disposed"></asp:ListItem>                                                                        
                                                                     </asp:DropDownList>
                                                                 </td>
                                                                 <td align="left" valign="top">Status as of Date &nbsp;<span id="Span2" style="color: Red; display: none;" runat="server">*</span>
@@ -1337,6 +1337,8 @@ function ValidateFields(sender, args) {
                                                                                         <asp:ListItem Text="Active" Value="Active"></asp:ListItem>
                                                                                         <asp:ListItem Text="InActive" Value="Inactive"></asp:ListItem>
                                                                                         <asp:ListItem Text="Disposed" Value="Disposed"></asp:ListItem>
+                                                                                        <asp:ListItem Text="Demolished" Value="Demolished"></asp:ListItem>
+                                                                                        <asp:ListItem Text="Due Diligence" Value="Due Diligence"></asp:ListItem>
                                                                                     </asp:DropDownList>
                                                                                 </td>
                                                                             </tr>
@@ -1391,6 +1393,10 @@ function ValidateFields(sender, args) {
                                                                                         <asp:ListItem Text="Raw Land"></asp:ListItem>
                                                                                         <asp:ListItem Text="Service"></asp:ListItem>
                                                                                         <asp:ListItem Text="Office"></asp:ListItem>
+                                                                                        <asp:ListItem Text="Car Wash"></asp:ListItem>
+                                                                                        <asp:ListItem Text="1" ></asp:ListItem>
+                                                                                        <asp:ListItem Text="2" ></asp:ListItem>
+                                                                                        <asp:ListItem Text="Photo Booth"></asp:ListItem>
                                                                                     </asp:CheckBoxList>
                                                                                 </td>
                                                                             </tr>

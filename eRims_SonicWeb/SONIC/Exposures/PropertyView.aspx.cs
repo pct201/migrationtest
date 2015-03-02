@@ -820,6 +820,8 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
         lblOccupancyRawLand.Text = objBuilding.Occupancy_Raw_Land ? "Yes" : "";
         lblOccupancyService.Text = objBuilding.Occupancy_Service ? "Yes" : "";
         lblOccupancyOffice.Text = objBuilding.Occupancy_Ofifce ? "Yes" : "";
+        lblOccupancyCarWash.Text = objBuilding.Occupancy_Car_Wash ? "Yes" : "";
+        lblOccupancyPhotoBooth.Text = objBuilding.Occupancy_Photo_Booth ? "Yes" : "";
 
         lblBuildingAddress_1.Text = objBuilding.Address_1;
         lblBuildingAddress_2.Text = objBuilding.Address_2;
