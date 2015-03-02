@@ -222,6 +222,15 @@
         <siteMapNode url="" title ="Policy" description="" roles="" >
           <siteMapNode url="Administrator/Policy_Type.aspx" title ="Policy Type" description="" roles="" />
         </siteMapNode>
+        <siteMapNode title ="Property" description="" roles="">
+          <siteMapNode title ="Building " description="" roles="">
+            <siteMapNode url="Administrator/LU_BI_Status.aspx" title ="Building Status" description="" roles="" />
+            <siteMapNode url="Administrator/LU_Cable_Length.aspx" title ="Cable Length" description="" roles="" />
+            <siteMapNode url="Administrator/LU_Phase_Power.aspx" title ="Phase Power" description="" roles="" />
+            <siteMapNode url="Administrator/LU_Power_Service.aspx" title ="Power Service" description="" roles="" />          
+            <siteMapNode url="Administrator/LU_Voltage_Security.aspx" title ="Voltage Security" description="" roles="" />
+          </siteMapNode>          
+        </siteMapNode>
         <siteMapNode url="" title ="Purchasing" description="" roles="" >
           <siteMapNode url="Administrator/DealershipDepartment.aspx" title ="Dealership Department" description="" roles="" />
           <siteMapNode url="Administrator/LeaseRentalEquipmentType.aspx" title ="Lease/Rental Equipment Type" description="" roles="" />

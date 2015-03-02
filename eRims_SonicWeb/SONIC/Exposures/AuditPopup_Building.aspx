@@ -577,6 +577,12 @@
                                         <span style="display: inline-block; width: 300px;">Fire_Comments</span>
                                     </th>
                                     <th class="cols">
+                                        <span style="display: inline-block; width: 150px;">Occupancy_Car_Wash</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 150px;">Occupancy_Photo_Booth</span>
+                                    </th>
+                                    <th class="cols">
                                         <span style="display: inline-block; width: 120px;">Updated_By</span>
                                     </th>
                                     <th class="cols">
@@ -1720,7 +1726,21 @@
                                         <asp:Label ID="lblFire_Comments" runat="server" Text='<%# Eval("Fire_Comments") %>' Width="300px" CssClass="TextClip"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>                                                              
-                                
+                                 <asp:TemplateField HeaderText="Occupancy_Car_Wash">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblOccupancy_Car_Wash" runat="server" Text='<%# clsGeneral.FormatYesNoToDisplayForView(Eval("Occupancy_Car_Wash")) %>'
+                                            Width="150px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Occupancy_Photo_Booth">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblOccupancy_Photo_Booth" runat="server" Text='<%# clsGeneral.FormatYesNoToDisplayForView(Eval("Occupancy_Photo_Booth")) %>'
+                                            Width="150px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
                                 <asp:TemplateField HeaderText="Updated_By">
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>

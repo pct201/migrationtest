@@ -183,6 +183,9 @@ namespace ERIMS.DAL
         private string _Liability;
         private int? _Number_Of_Parking_Spaces;
         private decimal? _Acreage;
+        private bool _Occupancy_Car_Wash;
+        private bool _Occupancy_Photo_Booth;
+
         #endregion
 
         #region Properties
@@ -1851,6 +1854,18 @@ namespace ERIMS.DAL
             get { return _Acreage; }
             set { _Acreage = value; }
         }
+
+        public bool Occupancy_Car_Wash
+        {
+            get { return _Occupancy_Car_Wash; }
+            set { _Occupancy_Car_Wash = value; }
+        }
+
+        public bool Occupancy_Photo_Booth
+        {
+            get { return _Occupancy_Photo_Booth; }
+            set { _Occupancy_Photo_Booth = value; }
+        }
         #endregion
 
         #region Constructors
@@ -2034,6 +2049,8 @@ namespace ERIMS.DAL
             this._Liability = null;
             this._Number_Of_Parking_Spaces = null;
             this._Acreage = null;
+            this._Occupancy_Car_Wash = false;
+            this._Occupancy_Photo_Booth = false;
         }
 
 
@@ -2304,6 +2321,9 @@ namespace ERIMS.DAL
                     this._Acreage = null;
                 else
                     this._Acreage = (decimal?)drBuilding["Acreage"];
+
+                this._Occupancy_Car_Wash = drBuilding["Occupancy_Car_Wash"] != DBNull.Value ? Convert.ToBoolean(drBuilding["Occupancy_Car_Wash"]) : false;
+                this._Occupancy_Photo_Booth = drBuilding["Occupancy_Photo_Booth"] != DBNull.Value ? Convert.ToBoolean(drBuilding["Occupancy_Photo_Booth"]) : false;
             }
             else
             {
@@ -2478,6 +2498,8 @@ namespace ERIMS.DAL
                 this._Liability = null;
                 this._Number_Of_Parking_Spaces = null;
                 this._Acreage = null;
+                this._Occupancy_Car_Wash = false;
+                this._Occupancy_Photo_Booth = false;
             }
         }
 
@@ -2750,6 +2772,8 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Liability", DbType.String, this._Liability);
             db.AddInParameter(dbCommand, "Number_Of_Parking_Spaces", DbType.Int32, this._Number_Of_Parking_Spaces);
             db.AddInParameter(dbCommand, "Acreage", DbType.Decimal, this._Acreage);
+            db.AddInParameter(dbCommand, "Occupancy_Car_Wash", DbType.Boolean, this._Occupancy_Service);
+            db.AddInParameter(dbCommand, "Occupancy_Photo_Booth", DbType.Boolean, this._Occupancy_Service);
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -3072,6 +3096,8 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Liability", DbType.String, this._Liability);
             db.AddInParameter(dbCommand, "Number_Of_Parking_Spaces", DbType.Int32, this._Number_Of_Parking_Spaces);
             db.AddInParameter(dbCommand, "Acreage", DbType.Decimal, this._Acreage);
+            db.AddInParameter(dbCommand, "Occupancy_Car_Wash", DbType.Decimal, this._Occupancy_Car_Wash);
+            db.AddInParameter(dbCommand, "Occupancy_Photo_Booth", DbType.Decimal, this._Occupancy_Photo_Booth);
             db.ExecuteNonQuery(dbCommand);
         }
 

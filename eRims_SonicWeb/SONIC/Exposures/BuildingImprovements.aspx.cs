@@ -195,8 +195,8 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
         Building_Improvements objBuilding_Improvements = new Building_Improvements(PK_Building_Improvements);
 
         // set values in labels using object variables
-        lblImprovement_Description.Text = objBuilding_Improvements.Improvement_Description;
-        lblService_Capacity_Increase.Text = objBuilding_Improvements.Service_Capacity_Increase;
+        //lblImprovement_Description.Text = objBuilding_Improvements.Improvement_Description;
+        //lblService_Capacity_Increase.Text = objBuilding_Improvements.Service_Capacity_Increase;
         lblRevised_Square_Footage_Sales.Text = clsGeneral.GetStringValue(objBuilding_Improvements.Revised_Square_Footage_Sales).Replace(".00", "");
         lblRevised_Square_Footage_Service.Text = clsGeneral.GetStringValue(objBuilding_Improvements.Revised_Square_Footage_Service).Replace(".00", "");
         lblRevised_Square_Footage_Parts.Text = clsGeneral.GetStringValue(objBuilding_Improvements.Revised_Square_Footage_Parts).Replace(".00", "");
@@ -316,4 +316,30 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
         hdnErrorMsgs.Value = strMessages;
     }
     #endregion
+
+
+    /// <summary>
+    /// Bind Notes Grid
+    /// </summary>
+    private void BindFraudNotesGrid()
+    {
+        if (StrOperation != "view")
+        {
+            if (PK_Building_Improvements > 0)
+            {
+                gvFraudEventsNote.DataSource = AP_FE_PA_Notes.SelectNotesByFKFraudEvent(PK_Building_Improvements,"desc").Tables[0];
+            }
+            gvFraudEventsNote.DataBind();
+
+        }
+        else
+        {
+            //if (PK_Building_Improvements > 0)
+            //{
+            //    gvNotesGridFraudView.DataSource = AP_FE_PA_Notes.SelectNotesByFKFraudEvent(PK_AP_Fraud_Events, _SortOrder_FraudNotes).Tables[0];
+            //}
+            //gvNotesGridFraudView.DataBind();
+
+        }
+    }
 }
