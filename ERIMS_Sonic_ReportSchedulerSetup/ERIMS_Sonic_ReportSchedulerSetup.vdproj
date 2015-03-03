@@ -57,6 +57,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_B4AAC9115D3B46AABC24002C6BACD9FB"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_6B378025B57D49B08F628066CB7651D1"
         "MsmSig" = "8:_UNDEFINED"
@@ -232,7 +238,7 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "FrameworkVersion" = "8:2.0.50727       "
+                "FrameworkVersion" = "8:2.0.50727         "
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=76617"
                 }
@@ -333,6 +339,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B4AAC9115D3B46AABC24002C6BACD9FB"
+            {
+            "SourcePath" = "8:..\\ERIMS_Sonic_ReportScheduler\\App_Data\\AdHocReportFields.xml"
+            "TargetName" = "8:AdHocReportFields.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_5010412718C2480FAE8BC8D0350D43E7"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -390,7 +416,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:ERIMS_Sonic_ReportSchedulerSetup"
         "ProductCode" = "8:{C0E62953-DBB8-4870-8D56-6C5CF184E824}"
-        "PackageCode" = "8:{C43B6054-CF2C-4F45-AACD-89F17545C610}"
+        "PackageCode" = "8:{CAD28C6F-0298-4186-88E4-37C3FCC13905}"
         "UpgradeCode" = "8:{97C30599-D11B-4AC6-B3AC-55CC5156D9D0}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

@@ -1065,6 +1065,18 @@ namespace ERIMS_Sonic_ReportScheduler
 
             return strValues;
         }
+
+        public static DataTable LuTableSelectByIDs(string TableName, string Ids, string strDesc)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LuTableSelectByIdsAndDesc");
+
+            db.AddInParameter(dbCommand, "Table_Name", DbType.String, TableName);
+            db.AddInParameter(dbCommand, "Pk_Ids", DbType.String, Ids);
+            db.AddInParameter(dbCommand, "Desc", DbType.String, strDesc);
+
+            return db.ExecuteDataSet(dbCommand).Tables[0];
+        }
         #endregion
 
         #region Exposures Reports

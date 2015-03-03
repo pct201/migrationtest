@@ -19,5 +19,5 @@
   <Field Title="Alarm Company" TableName="LU_Company" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
   <Field Title="Alarm Company Country" TableName="Country" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
   <Field Title="Is Sonic Event" TableName="" Type="drpYesNoString" HasCode="N" Field_Name=""></Field>
-  <Field Title="Location" TableName="LU_Location" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
+  <Field Title="Location" TableName="LU_Location" Type="DropDown" HasCode="Y" Field_Name="dba"></Field>
 </AdHocReportField>

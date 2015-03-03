@@ -506,6 +506,21 @@ namespace ERIMS_DAL
                 else
                     this._FirstGroupByOrder = (string)drAdHocReport["FirstGroupByOrder"];
 
+                if (drAdHocReport["ThirdGroupByOrder"] == DBNull.Value)
+                    this._ThirdGroupByOrder = null;
+                else
+                    this._ThirdGroupByOrder = (string)drAdHocReport["ThirdGroupByOrder"];
+
+                if (drAdHocReport["FourthGroupByOrder"] == DBNull.Value)
+                    this._FourthGroupByOrder = null;
+                else
+                    this._FourthGroupByOrder = (string)drAdHocReport["FourthGroupByOrder"];
+
+                if (drAdHocReport["FifthGroupByOrder"] == DBNull.Value)
+                    this._FifthGroupByOrder = null;
+                else
+                    this._FifthGroupByOrder = (string)drAdHocReport["FifthGroupByOrder"];
+
                 if (drAdHocReport["PriorValuation_RelativeDate"] == DBNull.Value)
                     this._PriorValuation_RelativeDate = null;
                 else

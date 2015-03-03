@@ -338,6 +338,9 @@ namespace ERIMS_Sonic_ReportScheduler
                         case 62:
                             BindFROIRecapReport(dtScheduleReports.Rows[i]);
                             break;
+                        case 63:
+                            BindACI_AdHocReportWriter(dtScheduleReports.Rows[i]);
+                            break;
                         default:
                             break;
                     }
@@ -12536,6 +12539,110 @@ namespace ERIMS_Sonic_ReportScheduler
             }
         }
 
+        //Report 63
+        private void BindACI_AdHocReportWriter(DataRow drReportSchedule)
+        {
+            IDataReader Reader = null;
+            try
+            {
+                decimal pK_Schedule_ID = Convert.ToDecimal(drReportSchedule["PK_Schedule"]);
+                decimal Fk_RecipientList = Convert.ToDecimal(drReportSchedule["Fk_RecipientList"]);
+                decimal FK_Security_Id = Convert.ToDecimal(drReportSchedule["FK_Security_Id"]);
+                string strReportSchedulerName = Convert.ToString(drReportSchedule["ReportSchedulerName"]);
+                //decimal pK_Schedule_ID = 6;
+                //decimal Fk_RecipientList = 2;
+                //decimal FK_Security_Id = 1;
+                //string strReportSchedulerName = "test";
+                //Get Report criteria for the scheduled report
+                DataSet ds = new DataSet();
+                ds = Report.SelectFilterCriteria(63, pK_Schedule_ID);
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
+                {
+                    DataTable dtFilter = ds.Tables[0];
+                    if (dtFilter.Rows.Count > 0)
+                    {
+                        string strCoverageType = string.Empty, strOutPutFields = string.Empty, strFirstGroupBy = string.Empty, strSecGroupBy = string.Empty;
+                        DateTime? dtPriorValuationDate = null;
+
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["PriorValuationDate"])))
+                            dtPriorValuationDate = Convert.ToDateTime(dtFilter.Rows[0]["PriorValuationDate"]);
+
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["PriorValuation_RelativeDate"])))
+                        {
+                            // set Relative Date From criteria
+                            AdHocReportHelper.RaltiveDates RelType = (AdHocReportHelper.RaltiveDates)Enum.Parse(typeof(AdHocReportHelper.RaltiveDates), Convert.ToString(dtFilter.Rows[0]["PriorValuation_RelativeDate"]));
+                            dtPriorValuationDate = AdHocReportHelper.GetRelativeDate(RelType);
+                        }
+
+                        decimal _dcSelectedReport = 0;
+
+                        List<ERIMS_DAL.AdHocFilter> lstFilter = new List<AdHocFilter>();
+
+                        _dcSelectedReport = Convert.ToDecimal(dtFilter.Rows[0]["Pk_AdHocReport"]);
+                        lstFilter = new ERIMS_DAL.AdHocFilter().GetAdHocReportFieldByPk(_dcSelectedReport);
+
+                        ERIMS_DAL.AdHocReport ObjAdHocReport = new ERIMS_DAL.AdHocReport(_dcSelectedReport);
+
+                        strOutPutFields = ObjAdHocReport.OutputFields;
+                        string strFilterIDs = string.Empty;
+                        for (int i = 0; i < lstFilter.Count; i++)
+                        {
+                            AdhocReportFields obj = new AdhocReportFields();
+                            List<AdhocReportFields> lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
+                            strFilterIDs += lstFilter[i].FK_AdHocReportFields + ",";
+                        }
+                        strFilterIDs = strFilterIDs.TrimEnd(',');
+
+                        StringBuilder sbRecord = new StringBuilder();
+                        if (dtFilter.Rows.Count > 0)
+                        {
+                            //Get the recipient from the recipient list 
+                            DataTable dtRecipients = Report.SelectOneRecordWithRecipientList(Fk_RecipientList).Tables[0];
+                            DataRow drFilterCriteria = dtFilter.Rows[0];
+                            //Get the user who has scheduled the report
+                            DataTable dtUser = Report.SelectSecurityByPK(FK_Security_Id).Tables[0];
+
+                            String strFirstName, strLastName, strMailFrom;
+                            strFirstName = strLastName = strMailFrom = "";
+                            if (dtUser.Rows.Count > 0)
+                            {
+                                strFirstName = Convert.ToString(dtUser.Rows[0]["FIRST_NAME"]).Trim();
+                                strLastName = Convert.ToString(dtUser.Rows[0]["LAST_NAME"]).Trim();
+                                strMailFrom = Convert.ToString(dtUser.Rows[0]["Email"]).Trim();
+                            }
+                            //Get Records in Reader
+                            Reader = AdHocReportHelper.GetAdHocReportACI(strOutPutFields, BindGroupBy(ObjAdHocReport), dtPriorValuationDate, GetWhereCondition(lstFilter), BindOrderBy(ObjAdHocReport), strFilterIDs, FK_Security_Id, true);
+                            //Get File path where Records Save.
+                            string strFilePath = BindReport(ref sbRecord, Reader, ObjAdHocReport, lstFilter, strReportSchedulerName);
+
+                            //If records found
+                            if (File.Exists(strFilePath))
+                            {
+                                try
+                                {
+                                    SendMail(strReportSchedulerName, strReportSchedulerName + ".xls", strFirstName, strLastName, strMailFrom, strFilePath, dtRecipients, FK_Security_Id);
+                                    EventLog.WriteEntry("eRIMS_Sonic Scheduled Reports Sent successfully scheduled on " + dtSchduleDate.ToString());
+                                }
+                                catch (Exception ex)
+                                {
+                                    EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message);
+                                }
+                                finally
+                                {
+                                    dtRecipients.Dispose();
+                                    dtUser.Dispose();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message);
+            }
+        }
         #endregion
 
         #region Mail Send Method
@@ -12565,6 +12672,54 @@ namespace ERIMS_Sonic_ReportScheduler
                     mail.Body += "<br /> This is system generated message. Please do not reply.";
                     mail.IsBodyHtml = true;
                     mail.To.Add(new MailAddress(dtRecipients.Rows[i]["Email"].ToString()));
+                    mSmtpClient.Send(mail);
+                    mail.To.Clear();
+                }
+            }
+            catch (Exception ex)
+            {
+                EventLog.WriteEntry("Error in Sending Mail for " + strReportTitle + ", " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Send Mail Function
+        /// </summary>
+        /// <param name="strReportTitle"></param>
+        /// <param name="strFileNameToSave"></param>
+        /// <param name="strFirstName"></param>
+        /// <param name="strLastName"></param>
+        /// <param name="strMailFrom"></param>
+        /// <param name="strFilePath"></param>
+        /// <param name="dtRecipients"></param>
+        /// <param name="FK_Security_Id"></param>
+        private void SendMail(String strReportTitle, String strFileNameToSave, String strFirstName, String strLastName, String strMailFrom, string strFilePath, DataTable dtRecipients, decimal FK_Security_Id)
+        {
+            DataTable dtTemp = null;
+            MemoryStream memorystream = new MemoryStream();
+            //strMailFrom = "kunal.dobaria@server1.com";
+
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress(strMailFrom);
+            mail.Subject = "eRIMS Sonic :: " + strReportTitle;
+            mail.Attachments.Add(new Attachment(strFilePath));
+
+            SmtpClient mSmtpClient = new SmtpClient();
+            mSmtpClient.Port = Convert.ToInt16(System.Configuration.ConfigurationManager.AppSettings.Get("Port"));
+            mSmtpClient.Host = System.Configuration.ConfigurationManager.AppSettings.Get("SMTPServer");
+            mSmtpClient.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["SMTPmail"], ConfigurationManager.AppSettings["SMTPPwd"]);
+            try
+            {
+                dtTemp = dtRecipients.Copy();
+                //dtTemp.DefaultView.RowFilter = "ISNULL(Use_Folder,0) = 0";
+                DataTable dtRecipientMails = dtTemp.DefaultView.ToTable();
+
+                for (int i = 0; i < dtRecipientMails.Rows.Count; i++)
+                {
+                    mail.Body = dtRecipientMails.Rows[i]["FirstName"].ToString() + " " + dtRecipientMails.Rows[i]["LastName"].ToString() + ",<br /><br />Please find the " + strReportTitle + " Attached with this mail.<br /><br /><br />Thank You!<br />" + strFirstName + " " + strLastName;
+                    mail.Body += "<br /><br /> This is system generated message. Please do not reply.";
+                    mail.IsBodyHtml = true;
+                    mail.To.Add(new MailAddress(dtRecipientMails.Rows[i]["Email"].ToString()));
                     mSmtpClient.Send(mail);
                     mail.To.Clear();
                 }
@@ -12661,7 +12816,7 @@ namespace ERIMS_Sonic_ReportScheduler
         /// <param name="dt"></param>
         /// <param name="ColumnName"></param>
         /// <returns></returns>
-        private string GetCommaValueFromTable(DataTable dt, string ColumnName)
+        private static string GetCommaValueFromTable(DataTable dt, string ColumnName)
         {
             string _strValue = string.Empty;
 
@@ -12734,6 +12889,1838 @@ namespace ERIMS_Sonic_ReportScheduler
             else
             {
                 return "";
+            }
+        }
+        #endregion
+
+        #region "ACI Ad-hoc methods"
+
+        /// <summary>
+        /// Bind and return Group By String
+        /// </summary>
+        /// <param name="ObjAdHocReport"></param>
+        /// <returns></returns>
+        private string BindGroupBy(ERIMS_DAL.AdHocReport ObjAdHocReport)
+        {
+            string strGroupBy = string.Empty;
+            AdhocReportFields objReportFields = new AdhocReportFields();
+            List<AdhocReportFields> lstAdhoc = null;
+
+            if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.FirstGroupBy)))
+            {
+                if (ObjAdHocReport.FirstGroupBy == -2)
+                {
+                    strGroupBy = "[Accident Year] " + ObjAdHocReport.FirstGroupByOrder;
+                }
+                else
+                {
+                    lstAdhoc = objReportFields.GetAdHocReportFieldByPk(Convert.ToDecimal(ObjAdHocReport.FirstGroupBy));
+                    strGroupBy = " [" + lstAdhoc[0].Field_Header + "] " + ObjAdHocReport.FirstGroupByOrder;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.SecondGroupBy)))
+            {
+                if (ObjAdHocReport.SecondGroupBy == -3)
+                {
+                    strGroupBy += (string.IsNullOrEmpty(strGroupBy) ? "" : ",") + "Accident Year" + ObjAdHocReport.SecondGroupByOrder;
+                }
+                else
+                {
+                    lstAdhoc = objReportFields.GetAdHocReportFieldByPk(Convert.ToDecimal(ObjAdHocReport.SecondGroupBy));
+                    strGroupBy += (string.IsNullOrEmpty(strGroupBy) ? "" : ",") + " [" + lstAdhoc[0].Field_Header + "] " + ObjAdHocReport.SecondGroupByOrder;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.ThirdGroupBy)))
+            {
+                if (ObjAdHocReport.ThirdGroupBy == -3)
+                {
+                    strGroupBy += (string.IsNullOrEmpty(strGroupBy) ? "" : ",") + "Accident Year" + ObjAdHocReport.ThirdGroupByOrder;
+                }
+                else
+                {
+                    lstAdhoc = objReportFields.GetAdHocReportFieldByPk(Convert.ToDecimal(ObjAdHocReport.ThirdGroupBy));
+                    strGroupBy += (string.IsNullOrEmpty(strGroupBy) ? "" : ",") + " [" + lstAdhoc[0].Field_Header + "] " + ObjAdHocReport.ThirdGroupByOrder;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.FourthGroupBy)))
+            {
+                if (ObjAdHocReport.FourthGroupBy == -3)
+                {
+                    strGroupBy += (string.IsNullOrEmpty(strGroupBy) ? "" : ",") + "Accident Year" + ObjAdHocReport.FourthGroupByOrder;
+                }
+                else
+                {
+                    lstAdhoc = objReportFields.GetAdHocReportFieldByPk(Convert.ToDecimal(ObjAdHocReport.FourthGroupBy));
+                    strGroupBy += (string.IsNullOrEmpty(strGroupBy) ? "" : ",") + " [" + lstAdhoc[0].Field_Header + "] " + ObjAdHocReport.FourthGroupByOrder;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.FifthGroupBy)))
+            {
+                if (ObjAdHocReport.FifthGroupBy == -3)
+                {
+                    strGroupBy += (string.IsNullOrEmpty(strGroupBy) ? "" : ",") + "Accident Year" + ObjAdHocReport.FifthGroupByOrder;
+                }
+                else
+                {
+                    lstAdhoc = objReportFields.GetAdHocReportFieldByPk(Convert.ToDecimal(ObjAdHocReport.FifthGroupBy));
+                    strGroupBy += (string.IsNullOrEmpty(strGroupBy) ? "" : ",") + " [" + lstAdhoc[0].Field_Header + "] " + ObjAdHocReport.FifthGroupByOrder;
+                }
+            }
+
+
+            return strGroupBy;
+        }
+
+        /// <summary>
+        /// Bind and return Order By String
+        /// </summary>
+        /// <param name="ObjAdHocReport"></param>
+        /// <returns></returns>
+        private string BindOrderBy(ERIMS_DAL.AdHocReport ObjAdHocReport)
+        {
+            string strOrderBy = string.Empty;
+            AdhocReportFields objReportFields = new AdhocReportFields();
+            List<AdhocReportFields> lstAdhoc = null;
+            if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.FirstSortBy)))
+            {
+                lstAdhoc = objReportFields.GetAdHocReportFieldByPk(Convert.ToDecimal(ObjAdHocReport.FirstSortBy));
+                strOrderBy = " [" + lstAdhoc[0].Field_Header + "] " + ObjAdHocReport.FirstSortByOrder;
+            }
+            if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.SecondSortBy)))
+            {
+                lstAdhoc = objReportFields.GetAdHocReportFieldByPk(Convert.ToDecimal(ObjAdHocReport.SecondSortBy));
+                strOrderBy += (string.IsNullOrEmpty(strOrderBy) ? "" : ",") + " [" + lstAdhoc[0].Field_Header + "] " + ObjAdHocReport.SecondGroupByOrder;
+            }
+            if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.ThirdSortBy)))
+            {
+                lstAdhoc = objReportFields.GetAdHocReportFieldByPk(Convert.ToDecimal(ObjAdHocReport.ThirdSortBy));
+                strOrderBy += (string.IsNullOrEmpty(strOrderBy) ? "" : ",") + " [" + lstAdhoc[0].Field_Header + "] " + ObjAdHocReport.ThirdSortByOrder;
+            }
+            if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.FourthSortBy)))
+            {
+                lstAdhoc = objReportFields.GetAdHocReportFieldByPk(Convert.ToDecimal(ObjAdHocReport.FourthSortBy));
+                strOrderBy += (string.IsNullOrEmpty(strOrderBy) ? "" : ",") + " [" + lstAdhoc[0].Field_Header + "] " + ObjAdHocReport.FourthSortByOrder;
+            }
+            if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.FifthSortBy)))
+            {
+                lstAdhoc = objReportFields.GetAdHocReportFieldByPk(Convert.ToDecimal(ObjAdHocReport.FifthSortBy));
+                strOrderBy += (string.IsNullOrEmpty(strOrderBy) ? "" : ",") + " [" + lstAdhoc[0].Field_Header + "] " + ObjAdHocReport.FifthSortByOrder;
+            }
+            return strOrderBy;
+        }
+
+        /// <summary>
+        /// Bind Report Data.
+        /// </summary>
+        /// <param name="dsReport">Report Dataset</param>
+        private string BindReport(ref StringBuilder sbRecord, IDataReader Reader, ERIMS_DAL.AdHocReport ObjAdHocReport, List<ERIMS_DAL.AdHocFilter> lstFilter, string strReportSchedulerName)
+        {
+            DataTable dtSchema = null, dtHeader = null;
+            AdhocReportFields objReportFields = new AdhocReportFields();
+            List<AdhocReportFields> lstAdhoc = null;
+            string strPath = string.Empty;
+            Boolean IsGroupBySelected = false;
+
+
+            try
+            {
+                #region "Filter and Title"
+                sbRecord.Append("<br />");
+                sbRecord.Append("<b>Report Title : " + strReportSchedulerName + " </b>");
+                sbRecord.Append("<br /><br />");
+
+                AdhocReportFields obj = new AdhocReportFields();
+                for (int i = 0; i < lstFilter.Count; i++)
+                {
+                    string strConditionVal = string.Empty;
+                    if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    {
+                        string strConditionType = lstFilter[i].ConditionType;
+                        if (Convert.ToBoolean(lstFilter[i].IsNotSelected) == true)
+                            strConditionType = (strConditionType == "1") ? " Not Contains " : (strConditionType == "2" ? " Not Start With " : " Not End With ");
+                        else
+                            strConditionType = (strConditionType == "1") ? " Contains " : (strConditionType == "2" ? " Start With " : " End With ");
+                        strConditionVal = lstFilter[i].ConditionValue;
+                        lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
+                        sbRecord.Append("<b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + lstFilter[i].ConditionValue);
+                    }
+
+                    if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    {
+                        lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
+                        if (Convert.ToBoolean(lstFilter[i].IsNotSelected) == true)
+                            sbRecord.Append("<b>" + lstAdhoc[0].Field_Header + " (Not In)</b>" + " : " + FillFilterDropDown(lstAdhoc[0].Field_Header, lstFilter[i].ConditionValue));
+                        else
+                            sbRecord.Append("<b>" + lstAdhoc[0].Field_Header + " (In)</b>" + " : " + FillFilterDropDown(lstAdhoc[0].Field_Header, lstFilter[i].ConditionValue));
+                    }
+
+                    if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    {
+                        string strConditionType = lstFilter[i].ConditionType;
+                        lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
+                        strConditionType = (strConditionType == "O") ? " On " : (strConditionType == "B" ? " Between " : (strConditionType == "BF" ? "On or Before " : "On or After "));
+
+                        string dtFrom = null, dtTo = null;
+                        if (string.IsNullOrEmpty(lstFilter[i].FromRelativeCriteria))
+                            dtFrom = FormatDBNullDateToDisplay(lstFilter[i].FromDate);
+                        else
+                        {
+                            // set Relative Date From criteria
+                            AdHocReportHelper.RaltiveDates RelType = (AdHocReportHelper.RaltiveDates)Enum.Parse(typeof(AdHocReportHelper.RaltiveDates), lstFilter[i].FromRelativeCriteria);
+                            dtFrom = AdHocReportHelper.GetRelativeDate(RelType).ToString("MM/dd/yyyy");
+                        }
+                        if (string.IsNullOrEmpty(lstFilter[i].ToRelativeCriteria))
+                            dtTo = FormatDBNullDateToDisplay(lstFilter[i].ToDate);
+                        else
+                        {
+                            // set Relative Date To criteria
+                            AdHocReportHelper.RaltiveDates RelType = (AdHocReportHelper.RaltiveDates)Enum.Parse(typeof(AdHocReportHelper.RaltiveDates), lstFilter[i].ToRelativeCriteria);
+                            dtTo = AdHocReportHelper.GetRelativeDate(RelType).ToString("MM/dd/yyyy");
+                        }
+
+                        if (Convert.ToBoolean(lstFilter[i].IsNotSelected) == true)
+                            strConditionType = "Not" + strConditionType;
+
+                        if (strConditionType.Trim() != "Between" && strConditionType.Trim() != "Not Between")
+                            strConditionVal = "<b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + dtFrom;
+                        else
+                            strConditionVal = "<b>" + lstAdhoc[0].Field_Header + " : </b>" + strConditionType + dtFrom + " And " + dtTo;
+
+                        sbRecord.Append(strConditionVal);
+                    }
+                    if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                    {
+                        string strConditionType = lstFilter[i].ConditionType;
+                        lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
+                        strConditionType = (strConditionType == "0") ? " Equal " : (strConditionType == "1" ? " Greater Than " : (strConditionType == "2" ? " Between " : " Less Than "));
+
+                        if (Convert.ToBoolean(lstFilter[i].IsNotSelected) == true)
+                            strConditionType = "Not" + strConditionType;
+
+                        if (strConditionType.Trim() != "Between" && strConditionType.Trim() != "Not Between")
+                            strConditionVal = "<b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + Convert.ToString(lstFilter[i].AmountFrom);
+                        else
+                            strConditionVal = "<b>" + lstAdhoc[0].Field_Header + " : </b>" + strConditionType + Convert.ToString(lstFilter[i].AmountFrom) + " And " + Convert.ToString(lstFilter[i].AmountTo);
+                        sbRecord.Append(strConditionVal);
+                    }
+                    sbRecord.Append("<br />");
+                }
+                sbRecord.Append("<br />");
+                #endregion
+
+                // Check if Any record is exists or not
+                if (Reader.Read())
+                {
+                    string strFirstGroupBy = string.Empty, strSecGroupBy = string.Empty, strThirdGroupBy = null, strFourthGroupBy = null, strFifthGroupBy = null;
+
+                    if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.FirstGroupBy)))
+                    {
+                        if (ObjAdHocReport.FirstGroupBy == -2)
+                            strFirstGroupBy = "Accident Year";
+                        else
+                        {
+                            lstAdhoc = objReportFields.GetAdHocReportFieldByPk(Convert.ToDecimal(ObjAdHocReport.FirstGroupBy));
+                            strFirstGroupBy = lstAdhoc[0].Field_Header;
+                        }
+
+                        IsGroupBySelected = true;
+                    }
+
+                    if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.SecondGroupBy)))
+                    {
+                        if (ObjAdHocReport.SecondGroupBy == -3)
+                            strSecGroupBy = "Accident Year";
+                        else
+                        {
+                            lstAdhoc = objReportFields.GetAdHocReportFieldByPk(Convert.ToDecimal(ObjAdHocReport.SecondGroupBy));
+                            strSecGroupBy = lstAdhoc[0].Field_Header;
+                        }
+
+                        IsGroupBySelected = true;
+                    }
+
+                    if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.ThirdGroupBy)))
+                    {
+                        if (ObjAdHocReport.ThirdGroupBy == -3)
+                            strThirdGroupBy = "Accident Year";
+                        else
+                        {
+                            lstAdhoc = objReportFields.GetAdHocReportFieldByPk(Convert.ToDecimal(ObjAdHocReport.ThirdGroupBy));
+                            strThirdGroupBy = lstAdhoc[0].Field_Header;
+                        }
+
+                        IsGroupBySelected = true;
+                    }
+                    if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.FourthGroupBy)))
+                    {
+                        if (ObjAdHocReport.FourthGroupBy == -3)
+                            strFourthGroupBy = "Accident Year";
+                        else
+                        {
+                            lstAdhoc = objReportFields.GetAdHocReportFieldByPk(Convert.ToDecimal(ObjAdHocReport.FourthGroupBy));
+                            strFourthGroupBy = lstAdhoc[0].Field_Header;
+                        }
+
+                        IsGroupBySelected = true;
+                    }
+                    if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.FifthGroupBy)))
+                    {
+                        if (ObjAdHocReport.FifthGroupBy == -3)
+                            strFifthGroupBy = "Accident Year";
+                        else
+                        {
+                            lstAdhoc = objReportFields.GetAdHocReportFieldByPk(Convert.ToDecimal(ObjAdHocReport.FifthGroupBy));
+                            strFifthGroupBy = lstAdhoc[0].Field_Header;
+                        }
+
+                        IsGroupBySelected = true;
+                    }
+
+                    //iF First Group By is Not  selected then second Group by will be set as first Group By
+                    if (string.IsNullOrEmpty(strFirstGroupBy))
+                    {
+                        strFirstGroupBy = strSecGroupBy;
+                        strSecGroupBy = string.Empty;
+                    }
+
+                    dtSchema = Reader.GetSchemaTable();
+
+                    sbRecord.Append("<table border='1' cellpadding='0' cellspacing='0' width='" + (150 * ObjAdHocReport.OutputFields.Split(',').Length).ToString() + "' style='font-size:10pt'>");
+
+                    #region "Header"
+                    // If reader found a records 
+                    sbRecord.Append("<tr>");
+                    if (IsGroupBySelected)
+                        sbRecord.Append("<td>&nbsp;</td>");
+                    dtHeader = new DataTable();
+                    string strFormatFirstGroupBy = string.Empty, strFormatSecGroupBy = string.Empty, strFormatThirdGroupBy = string.Empty, strFormatFourthGroupBy = string.Empty, strFormatFifthGroupBy = string.Empty;
+                    foreach (DataRow drHeader in dtSchema.Rows)
+                    {
+                        //Remove Group By 
+                        if (strFirstGroupBy != Convert.ToString(drHeader["ColumnName"]) && strSecGroupBy != Convert.ToString(drHeader["ColumnName"]) && strThirdGroupBy != Convert.ToString(drHeader["ColumnName"]) && strFourthGroupBy != Convert.ToString(drHeader["ColumnName"]) && strFifthGroupBy != Convert.ToString(drHeader["ColumnName"]))
+                        {
+                            if (drHeader["ColumnName"].ToString() != "Claim Count")
+                            {
+                                sbRecord.Append("<td><b>" + drHeader["ColumnName"] + "</b></td>");
+                            }
+
+                        }
+
+                        //IF Grand Total Option is Selected.
+                        if (Convert.ToString(ObjAdHocReport.GrandTotal) == "Y" && CheckTotalField(drHeader["ColumnName"].ToString()))
+                            dtHeader.Columns.Add(new DataColumn(drHeader["ColumnName"].ToString(), Type.GetType("System.Decimal")));
+
+                        //Get  Group By Field's Data Type
+                        if (strFirstGroupBy == Convert.ToString(drHeader["ColumnName"]))
+                            strFormatFirstGroupBy = drHeader["DataTypeName"].ToString();
+                        if (strSecGroupBy == Convert.ToString(drHeader["ColumnName"]))
+                            strFormatSecGroupBy = drHeader["DataTypeName"].ToString();
+                        if (strThirdGroupBy == Convert.ToString(drHeader["ColumnName"]))
+                            strFormatThirdGroupBy = drHeader["DataTypeName"].ToString();
+                        if (strFourthGroupBy == Convert.ToString(drHeader["ColumnName"]))
+                            strFormatFourthGroupBy = drHeader["DataTypeName"].ToString();
+                        if (strFifthGroupBy == Convert.ToString(drHeader["ColumnName"]))
+                            strFormatFifthGroupBy = drHeader["DataTypeName"].ToString();
+
+                    }
+                    //When Header have records
+                    if (dtHeader.Columns.Count > 0)
+                    {
+                        DataRow drHerder = dtHeader.NewRow();
+
+                        for (int i = 0; i < dtHeader.Columns.Count; i++)
+                            drHerder[i] = 0;
+
+                        dtHeader.Rows.Add(drHerder);
+                        dtHeader.AcceptChanges();
+                    }
+
+                    sbRecord.Append("</tr>");
+
+                    #endregion
+
+                    strPath = AppDomain.CurrentDomain.BaseDirectory + @"temp\" + strReportSchedulerName + System.DateTime.Now.ToString("MMddyyhhmmss") + ".xls";
+
+                    if (!File.Exists(strPath))
+                    {
+                        if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"temp\"))
+                            Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"temp\");
+                        // Create a file to write to.
+                        //Remove WhiteSpace
+                        sbRecord.Replace("<tr></tr>", "");
+                        File.SetAttributes(AppDomain.CurrentDomain.BaseDirectory, FileAttributes.Normal);
+                        using (StreamWriter sw = File.CreateText(strPath))
+                        {
+                            sw.Write(sbRecord.ToString());
+                            sbRecord = new StringBuilder(string.Empty);
+                        }
+                    }
+
+                    #region "Item Template"
+
+                    DataTable dtSubTotalFirstGroup = dtHeader.Clone();
+                    DataTable dtSubTotalSecondGroup = dtHeader.Clone();
+                    DataTable dtSubTotalThirdGroup = dtHeader.Clone();
+                    DataTable dtSubTotalFourthGroup = dtHeader.Clone();
+                    DataTable dtSubTotalFifthGroup = dtHeader.Clone();
+
+                    string strGroupByValue_1 = string.Empty, strGroupByValue_2 = string.Empty, strNOGroup1 = string.Empty, strNOGroup2 = string.Empty;
+                    string strGroupByValue_3 = string.Empty, strGroupByValue_4 = string.Empty, strNOGroup3 = string.Empty, strNOGroup4 = string.Empty;
+                    string strGroupByValue_5 = string.Empty, strNOGroup5 = string.Empty;
+
+                    do
+                    {
+                        string strFormat = string.Empty;
+
+                        #region "SUBTOTALS"
+
+                        #region Fifth
+                        // print subtotal for 5th group by when the value is changed
+                        if (!string.IsNullOrEmpty(strFifthGroupBy) && !string.IsNullOrEmpty(strGroupByValue_5) && strGroupByValue_5 != Convert.ToString(Reader[strFifthGroupBy]))
+                        {
+                            if (dtSubTotalFifthGroup.Rows.Count > 0)
+                            {
+                                sbRecord.Append("<tr>");
+                                int intCol = 1;
+                                //first column is for sub total when sub total is found
+                                if (dtSchema.Rows.Count > 0)
+                                    sbRecord.Append("<td><b>Sub Total For " + strFifthGroupBy + "</b></td>");
+                                foreach (DataRow drSchema in dtSchema.Rows)
+                                {
+                                    string strColName = Convert.ToString(drSchema["ColumnName"]).ToString();
+
+                                    if (strFirstGroupBy != strColName && strSecGroupBy != strColName && strThirdGroupBy != strColName && strFourthGroupBy != strColName && strFifthGroupBy != strColName)
+                                    {
+                                        if (dtSubTotalFifthGroup.Columns.Contains(Convert.ToString(drSchema["ColumnName"])))
+                                            sbRecord.Append("<td align='right'><b>" + string.Format("{0:c2}", dtSubTotalFifthGroup.Rows[0][Convert.ToString(drSchema["ColumnName"])]) + "</b></td>");
+                                        else
+                                        {
+                                            //if (intCol == 1)
+                                            //    sbRecord.Append("<td><b>Sub Total For " + strFifthGroupBy + "</b></td><td>&nbsp;</td>");
+                                            //else
+                                            //{
+                                            sbRecord.Append("<td>&nbsp;</td>");
+                                            //}
+                                        }
+                                    }
+                                    intCol++;
+                                }
+
+                                sbRecord.Append("</tr>");
+                                dtSubTotalFifthGroup.Clear();
+                            }
+                        }
+                        #endregion
+
+                        #region Fourth
+                        // print subtotal for 4th group by when the value is changed
+                        if (!string.IsNullOrEmpty(strFourthGroupBy) && !string.IsNullOrEmpty(strGroupByValue_4) && strGroupByValue_4 != Convert.ToString(Reader[strFourthGroupBy]))
+                        {
+                            if (dtSubTotalFourthGroup.Rows.Count > 0)
+                            {
+                                sbRecord.Append("<tr>");
+                                int intCol = 1;
+
+                                if (dtSchema.Rows.Count > 0)
+                                    sbRecord.Append("<td><b>Sub Total For " + strFourthGroupBy + "</b></td>");
+                                foreach (DataRow drSchema in dtSchema.Rows)
+                                {
+                                    string strColName = Convert.ToString(drSchema["ColumnName"]).ToString();
+                                    if (strFirstGroupBy != strColName && strSecGroupBy != strColName && strThirdGroupBy != strColName && strFourthGroupBy != strColName && strFifthGroupBy != strColName)
+                                    {
+
+                                        if (dtSubTotalFourthGroup.Columns.Contains(Convert.ToString(drSchema["ColumnName"])))
+                                            sbRecord.Append("<td align='right'><b>" + string.Format("{0:c2}", dtSubTotalFourthGroup.Rows[0][Convert.ToString(drSchema["ColumnName"])]) + "</b></td>");
+                                        else
+                                        {
+                                            //if (intCol == 1)
+                                            //    sbRecord.Append("<td><b>Sub Total For " + strFourthGroupBy + "</b></td><td>&nbsp;</td>");
+                                            //else
+                                            //{
+
+                                            sbRecord.Append("<td>&nbsp;</td>");
+                                            //}
+                                        }
+                                    }
+                                    intCol++;
+                                }
+
+                                sbRecord.Append("</tr>");
+                                dtSubTotalFourthGroup.Clear();
+                            }
+                        }
+                        #endregion
+
+                        #region Third
+                        // print subtotal for 3rd group by when the value is changed
+                        if (!string.IsNullOrEmpty(strThirdGroupBy) && !string.IsNullOrEmpty(strGroupByValue_3) && strGroupByValue_3 != Convert.ToString(Reader[strThirdGroupBy]))
+                        {
+                            if (dtSubTotalThirdGroup.Rows.Count > 0)
+                            {
+                                sbRecord.Append("<tr>");
+                                int intCol = 1;
+                                if (dtSchema.Rows.Count > 0)
+                                    sbRecord.Append("<td><b>Sub Total For " + strThirdGroupBy + "</b></td>");
+                                foreach (DataRow drSchema in dtSchema.Rows)
+                                {
+                                    string strColName = Convert.ToString(drSchema["ColumnName"]).ToString();
+
+                                    if (strFirstGroupBy != strColName && strSecGroupBy != strColName && strThirdGroupBy != strColName && strFourthGroupBy != strColName && strFifthGroupBy != strColName)
+                                    {
+
+                                        if (dtSubTotalThirdGroup.Columns.Contains(Convert.ToString(drSchema["ColumnName"])))
+                                            sbRecord.Append("<td align='right'><b>" + string.Format("{0:c2}", dtSubTotalThirdGroup.Rows[0][Convert.ToString(drSchema["ColumnName"])]) + "</b></td>");
+                                        else
+                                        {
+                                            //if (intCol == 1)
+                                            //    sbRecord.Append("<td><b>Sub Total For " + strThirdGroupBy + "</b></td><td>&nbsp;</td>");
+                                            //else
+                                            //{
+
+                                            sbRecord.Append("<td>&nbsp;</td>");
+                                            //}
+                                        }
+                                    }
+
+                                    intCol++;
+                                }
+
+                                sbRecord.Append("</tr>");
+                                dtSubTotalThirdGroup.Clear();
+                            }
+                        }
+                        #endregion
+
+                        #region Second
+                        // print subtotal for 2nd group by when the value is changed
+                        if (!string.IsNullOrEmpty(strSecGroupBy) && !string.IsNullOrEmpty(strGroupByValue_2) && strGroupByValue_2 != Convert.ToString(Reader[strSecGroupBy]))
+                        {
+                            if (dtSubTotalSecondGroup.Rows.Count > 0)
+                            {
+                                sbRecord.Append("<tr>");
+                                int intCol = 1;
+                                if (dtSchema.Rows.Count > 0)
+                                    sbRecord.Append("<td><b>Sub Total For " + strSecGroupBy + "</b></td>");
+                                foreach (DataRow drSchema in dtSchema.Rows)
+                                {
+                                    string strColName = Convert.ToString(drSchema["ColumnName"]).ToString();
+
+                                    if (strFirstGroupBy != strColName && strSecGroupBy != strColName && strThirdGroupBy != strColName && strFourthGroupBy != strColName && strFifthGroupBy != strColName)
+                                    {
+                                        if (dtSubTotalSecondGroup.Columns.Contains(Convert.ToString(drSchema["ColumnName"])))
+                                            sbRecord.Append("<td align='right'><b>" + string.Format("{0:c2}", dtSubTotalSecondGroup.Rows[0][Convert.ToString(drSchema["ColumnName"])]) + "</b></td>");
+                                        else
+                                        {
+                                            //if (intCol == 1)
+                                            //    sbRecord.Append("<td><b>Sub Total For " + strSecGroupBy + "</b></td><td>&nbsp;</td>");
+                                            //else
+                                            //{
+
+                                            sbRecord.Append("<td>&nbsp;</td>");
+                                            // }
+                                        }
+                                    }
+
+                                    intCol++;
+                                }
+
+                                sbRecord.Append("</tr>");
+                                dtSubTotalSecondGroup.Clear();
+                            }
+                        }
+                        #endregion
+
+                        #region First
+                        // print subtotal for 1st group by when the value is changed
+                        if (!string.IsNullOrEmpty(strFirstGroupBy) && !string.IsNullOrEmpty(strGroupByValue_1) && strGroupByValue_1 != Convert.ToString(Reader[strFirstGroupBy]))
+                        {
+                            if (dtSubTotalFirstGroup.Rows.Count > 0)
+                            {
+                                sbRecord.Append("<tr>");
+                                int intCol = 1;
+                                if (dtSchema.Rows.Count > 0)
+                                    sbRecord.Append("<td><b>Sub Total For " + strFirstGroupBy + "</b></td>");
+                                foreach (DataRow drSchema in dtSchema.Rows)
+                                {
+                                    string strColName = Convert.ToString(drSchema["ColumnName"]).ToString();
+
+                                    if (strFirstGroupBy != strColName && strSecGroupBy != strColName && strThirdGroupBy != strColName && strFourthGroupBy != strColName && strFifthGroupBy != strColName)
+                                    {
+                                        if (dtSubTotalFirstGroup.Columns.Contains(Convert.ToString(drSchema["ColumnName"])))
+                                            sbRecord.Append("<td align='right'><b>" + string.Format("{0:c2}", dtSubTotalFirstGroup.Rows[0][Convert.ToString(drSchema["ColumnName"])]) + "</b></td>");
+                                        else
+                                        {
+                                            //if (intCol == 1)
+                                            //    sbRecord.Append("<td><b>Sub Total For " + strFirstGroupBy + "</b></td><td>&nbsp;</td>");
+                                            //else
+                                            //{
+
+                                            sbRecord.Append("<td>&nbsp;</td>");
+                                            //}
+                                        }
+                                    }
+
+                                    intCol++;
+                                }
+
+                                sbRecord.Append("</tr>");
+                                dtSubTotalFirstGroup.Clear();
+                            }
+                        }
+                        #endregion
+
+                        #endregion
+
+                        #region Group By
+
+                        #region First Group
+                        if (!string.IsNullOrEmpty(strFirstGroupBy))
+                        {
+                            if (strGroupByValue_1 != Convert.ToString(Reader[strFirstGroupBy]))
+                            {
+                                strGroupByValue_1 = Convert.ToString(Reader[strFirstGroupBy]);
+                                if (strFormatFirstGroupBy == "decimal")
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;' align='right'>&nbsp;" + strFirstGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_1) + "</td></tr>");
+                                else if (strFormatFirstGroupBy == "datetime")
+                                {
+                                    // it display only Time
+                                    if (strFirstGroupBy == "Time Theft Reported")
+                                        sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;'>&nbsp;" + strFirstGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strFirstGroupBy]) + "</td></tr>");
+                                    else sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;'>&nbsp;" + strFirstGroupBy + ": " + FormatDBNullDateToDisplay(strGroupByValue_1) + "</td></tr>");
+                                }
+                                else sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;'>&nbsp;" + strFirstGroupBy + ": " + strGroupByValue_1 + "</td></tr>");
+                                //Change Second Group By when First Groupby is Change
+                                strGroupByValue_2 = string.Empty;
+                            }
+                            // it will set No : [First Group By] when it is null
+                            else if ((Reader[strFirstGroupBy] == DBNull.Value || string.IsNullOrEmpty(Convert.ToString(Reader[strFirstGroupBy]))) && strNOGroup1 == string.Empty)
+                            {
+                                strNOGroup1 = "No " + strFirstGroupBy;
+                                sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;' >&nbsp;" + strFirstGroupBy + ": " + strNOGroup1 + "</td></tr>");
+                                // When Group by 1 value find as Null
+                                strNOGroup1 = strFirstGroupBy;
+                                //Change Second Group By when First Groupby is Change
+                                strGroupByValue_2 = string.Empty;
+                            }
+                        }
+                        #endregion
+
+                        #region Second Group By
+                        if (!string.IsNullOrEmpty(strSecGroupBy))
+                        {
+                            if (strGroupByValue_2 != Convert.ToString(Reader[strSecGroupBy]))
+                            {
+                                strGroupByValue_2 = Convert.ToString(Reader[strSecGroupBy]);
+                                if (strFormatSecGroupBy == "decimal")
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' align='right' >&nbsp;" + strSecGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_2) + "</td></tr>");
+                                else if (strFormatSecGroupBy == "datetime")
+                                {
+                                    // it display only Time
+                                    if (strSecGroupBy == "Time Theft Reported")
+                                        sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;'>&nbsp;" + strSecGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strSecGroupBy]) + "</td></tr>");
+                                    else sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' >&nbsp;" + strSecGroupBy + ": " + FormatDBNullDateToDisplay(strGroupByValue_2) + "</td></tr>");
+                                }
+                                else sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' >&nbsp;" + strSecGroupBy + ": " + strGroupByValue_2 + "</td></tr>");
+                            }
+                            else if (Reader[strSecGroupBy] == DBNull.Value && strNOGroup2 == string.Empty)
+                            {
+                                strNOGroup2 = "No " + strSecGroupBy;
+                                sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' >&nbsp;" + strSecGroupBy + ": " + strNOGroup2 + "</td></tr>");
+                                //No Group by assign
+                                strNOGroup2 = strGroupByValue_2;
+                            }
+                        }
+                        #endregion
+
+                        #region Third Group BY
+                        if (!string.IsNullOrEmpty(strThirdGroupBy))
+                        {
+                            if (strGroupByValue_3 != Convert.ToString(Reader[strThirdGroupBy]))
+                            {
+                                strGroupByValue_3 = Convert.ToString(Reader[strThirdGroupBy]);
+                                if (strFormatThirdGroupBy == "decimal")
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' align='right' >&nbsp;" + strThirdGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_3) + "</td></tr>");
+                                else if (strFormatThirdGroupBy == "datetime")
+                                {
+                                    // it display only Time
+                                    if (strThirdGroupBy == "Time Theft Reported")
+                                        sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;'>&nbsp;" + strThirdGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strThirdGroupBy]) + "</td></tr>");
+                                    else sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' >&nbsp;" + strThirdGroupBy + ": " + FormatDBNullDateToDisplay(strGroupByValue_3) + "</td></tr>");
+                                }
+                                else sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' >&nbsp;" + strThirdGroupBy + ": " + strGroupByValue_3 + "</td></tr>");
+                                strGroupByValue_4 = strGroupByValue_5 = null;
+                            }
+                            else if ((Reader[strThirdGroupBy] == DBNull.Value || string.IsNullOrEmpty(Convert.ToString(Reader[strThirdGroupBy]))) && strNOGroup3 == string.Empty)
+                            {
+                                strNOGroup3 = "No " + strThirdGroupBy;
+                                sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' >&nbsp;" + strThirdGroupBy + ": " + strNOGroup3 + "</td></tr>");
+                                // When Group by 3 value find as Null
+                                strNOGroup3 = strThirdGroupBy;
+                                //Change third Group By when 3rd Groupby is Change
+                                strGroupByValue_3 = string.Empty;
+                            }
+                        }
+                        #endregion
+
+                        #region Fourth Group BY
+                        if (!string.IsNullOrEmpty(strFourthGroupBy))
+                        {
+                            if (strGroupByValue_4 != Convert.ToString(Reader[strFourthGroupBy]))
+                            {
+                                strGroupByValue_4 = Convert.ToString(Reader[strFourthGroupBy]);
+                                if (strFormatFourthGroupBy == "decimal")
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: green;' align='right' >&nbsp;" + strFourthGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_4) + "</td></tr>");
+                                else if (strFormatFourthGroupBy == "datetime")
+                                {
+                                    // it display only Time
+                                    if (strFourthGroupBy == "Time Theft Reported")
+                                        sbRecord.Append("<tr><td style='font-weight: bold;color: green;'>&nbsp;" + strFourthGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strFourthGroupBy]) + "</td></tr>");
+                                    else sbRecord.Append("<tr><td style='font-weight: bold;color: green;' >&nbsp;" + strFourthGroupBy + ": " + FormatDBNullDateToDisplay(strGroupByValue_4) + "</td></tr>");
+                                }
+                                else sbRecord.Append("<tr><td style='font-weight: bold;color: green;' >&nbsp;" + strFourthGroupBy + ": " + strGroupByValue_4 + "</td></tr>");
+                                strGroupByValue_5 = null;
+                            }
+                            else if ((Reader[strFourthGroupBy] == DBNull.Value || string.IsNullOrEmpty(Convert.ToString(Reader[strFourthGroupBy]))) && strNOGroup4 == string.Empty)
+                            {
+                                strNOGroup4 = "No " + strFourthGroupBy;
+                                sbRecord.Append("<tr><td style='font-weight: bold;color: green;' >&nbsp;" + strFourthGroupBy + ": " + strNOGroup4 + "</td></tr>");
+                                // When Group by 4 value find as Null
+                                strNOGroup4 = strFourthGroupBy;
+                                //Change Fourth Group By when 4th Groupby is Change
+                                strGroupByValue_4 = string.Empty;
+                            }
+                        }
+                        #endregion
+
+                        #region Fifth Group BY
+                        if (!string.IsNullOrEmpty(strFifthGroupBy))
+                        {
+                            if (strGroupByValue_5 != Convert.ToString(Reader[strFifthGroupBy]))
+                            {
+                                strGroupByValue_5 = Convert.ToString(Reader[strFifthGroupBy]);
+                                if (strFormatFifthGroupBy == "decimal")
+                                    sbRecord.Append("<tr><td style='font-weight: bold;' align='right' >&nbsp;" + strFifthGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_5) + "</td></tr>");
+                                else if (strFormatFifthGroupBy == "datetime")
+                                {
+                                    // it display only Time
+                                    if (strFifthGroupBy == "Time Theft Reported")
+                                        sbRecord.Append("<tr><td style='font-weight: bold;'>&nbsp;" + strFifthGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strFifthGroupBy]) + "</td></tr>");
+                                    else sbRecord.Append("<tr><td style='font-weight: bold;' >&nbsp;" + strFifthGroupBy + ": " + FormatDBNullDateToDisplay(strGroupByValue_5) + "</td></tr>");
+                                }
+                                else sbRecord.Append("<tr><td style='font-weight: bold;' >&nbsp;" + strFifthGroupBy + ": " + strGroupByValue_5 + "</td></tr>");
+                            }
+                            else if ((Reader[strFifthGroupBy] == DBNull.Value || string.IsNullOrEmpty(Convert.ToString(Reader[strFifthGroupBy]))) && strNOGroup5 == string.Empty)
+                            {
+                                strNOGroup5 = "No " + strFifthGroupBy;
+                                sbRecord.Append("<tr><td style='font-weight: bold;' >&nbsp;" + strFifthGroupBy + ": " + strNOGroup5 + "</td></tr>");
+                                // When Group by 5 value find as Null
+                                strNOGroup5 = strFifthGroupBy;
+                                //Change fifth Group By when fifth Groupby is Change
+                                strGroupByValue_5 = string.Empty;
+                            }
+                        }
+                        #endregion
+
+                        #endregion
+
+                        string strColumnName = string.Empty;
+                        sbRecord.Append("<tr>");
+                        if (IsGroupBySelected)
+                            sbRecord.Append("<td>&nbsp;</td>");
+                        ///Print Records
+                        //for (int intColumn = 0; intColumn < Reader.FieldCount - 1; intColumn++)
+                        for (int intColumn = 0; intColumn <= Reader.FieldCount - 1; intColumn++)
+                        {
+                            #region " Count Sub Totals"
+                            #region First : 1st
+                            if (!string.IsNullOrEmpty(strFirstGroupBy) && !string.IsNullOrEmpty(strGroupByValue_1))
+                            {
+                                if (dtSubTotalFirstGroup.Columns.Contains(Reader.GetName(intColumn)) && Convert.ToString(Reader[strFirstGroupBy]) == strGroupByValue_1)
+                                {
+                                    if (dtSubTotalFirstGroup.Rows.Count == 0)
+                                    {
+                                        dtSubTotalFirstGroup.Rows.Add(dtSubTotalFirstGroup.NewRow());
+                                        foreach (DataColumn dcTotal in dtSubTotalFirstGroup.Columns)
+                                            dtSubTotalFirstGroup.Rows[0][dcTotal] = 0;
+                                    }
+                                    decimal decTotal = 0;
+                                    decTotal = Convert.ToDecimal(dtSubTotalFirstGroup.Rows[0][Reader.GetName(intColumn)]);
+                                    decTotal += Reader.IsDBNull(intColumn) ? 0 : Convert.ToDecimal(Reader[intColumn]);
+                                    dtSubTotalFirstGroup.Rows[0][Reader.GetName(intColumn)] = decTotal;
+                                }
+                            }
+                            #endregion
+
+                            #region  second: 2nd
+                            if (!string.IsNullOrEmpty(strSecGroupBy) && !string.IsNullOrEmpty(strGroupByValue_2))
+                            {
+                                if (dtSubTotalSecondGroup.Columns.Contains(Reader.GetName(intColumn)) && Convert.ToString(Reader[strSecGroupBy]) == strGroupByValue_2)
+                                {
+                                    if (dtSubTotalSecondGroup.Rows.Count == 0)
+                                    {
+                                        dtSubTotalSecondGroup.Rows.Add(dtSubTotalSecondGroup.NewRow());
+                                        foreach (DataColumn dcTotal in dtSubTotalSecondGroup.Columns)
+                                            dtSubTotalSecondGroup.Rows[0][dcTotal] = 0;
+                                    }
+                                    decimal decTotal = 0;
+                                    decTotal = Convert.ToDecimal(dtSubTotalSecondGroup.Rows[0][Reader.GetName(intColumn)]);
+                                    decTotal += Reader.IsDBNull(intColumn) ? 0 : Convert.ToDecimal(Reader[intColumn]);
+                                    dtSubTotalSecondGroup.Rows[0][Reader.GetName(intColumn)] = decTotal;
+                                }
+                            }
+                            #endregion
+
+                            #region Third : 3nd
+                            //if (!string.IsNullOrEmpty(strThirdGroupBy) && !string.IsNullOrEmpty(strGroupByValue_3))
+                            if ((strThirdGroupBy != null) && (strGroupByValue_3 != null))
+                            {
+                                if (dtSubTotalThirdGroup.Columns.Contains(Reader.GetName(intColumn)) && Convert.ToString(Reader[strThirdGroupBy]) == strGroupByValue_3)
+                                {
+                                    if (dtSubTotalThirdGroup.Rows.Count == 0)
+                                    {
+                                        dtSubTotalThirdGroup.Rows.Add(dtSubTotalThirdGroup.NewRow());
+                                        foreach (DataColumn dcTotal in dtSubTotalThirdGroup.Columns)
+                                            dtSubTotalThirdGroup.Rows[0][dcTotal] = 0;
+                                    }
+                                    decimal decTotal = 0;
+                                    decTotal = Convert.ToDecimal(dtSubTotalThirdGroup.Rows[0][Reader.GetName(intColumn)]);
+                                    decTotal += Reader.IsDBNull(intColumn) ? 0 : Convert.ToDecimal(Reader[intColumn]);
+                                    dtSubTotalThirdGroup.Rows[0][Reader.GetName(intColumn)] = decTotal;
+                                }
+                            }
+                            #endregion
+
+                            #region Fourth : 4th
+                            //if (!string.IsNullOrEmpty(strFourthGroupBy) && !string.IsNullOrEmpty(strGroupByValue_4))
+                            if ((strFourthGroupBy != null) && (strGroupByValue_4 != null))
+                            {
+                                if (dtSubTotalFourthGroup.Columns.Contains(Reader.GetName(intColumn)) && Convert.ToString(Reader[strFourthGroupBy]) == strGroupByValue_4)
+                                {
+                                    if (dtSubTotalFourthGroup.Rows.Count == 0)
+                                    {
+                                        dtSubTotalFourthGroup.Rows.Add(dtSubTotalFourthGroup.NewRow());
+                                        foreach (DataColumn dcTotal in dtSubTotalFourthGroup.Columns)
+                                            dtSubTotalFourthGroup.Rows[0][dcTotal] = 0;
+                                    }
+                                    decimal decTotal = 0;
+                                    decTotal = Convert.ToDecimal(dtSubTotalFourthGroup.Rows[0][Reader.GetName(intColumn)]);
+                                    decTotal += Reader.IsDBNull(intColumn) ? 0 : Convert.ToDecimal(Reader[intColumn]);
+                                    dtSubTotalFourthGroup.Rows[0][Reader.GetName(intColumn)] = decTotal;
+                                }
+                            }
+                            #endregion
+
+                            #region Fifth : 5th
+                            //if (!string.IsNullOrEmpty(strFifthGroupBy) && !string.IsNullOrEmpty(strGroupByValue_5))
+                            if ((strFifthGroupBy != null) && (strGroupByValue_5 != null))
+                            {
+                                if (dtSubTotalFifthGroup.Columns.Contains(Reader.GetName(intColumn)) && Convert.ToString(Reader[strFifthGroupBy]) == strGroupByValue_5)
+                                {
+                                    if (dtSubTotalFifthGroup.Rows.Count == 0)
+                                    {
+                                        dtSubTotalFifthGroup.Rows.Add(dtSubTotalFifthGroup.NewRow());
+                                        foreach (DataColumn dcTotal in dtSubTotalFifthGroup.Columns)
+                                            dtSubTotalFifthGroup.Rows[0][dcTotal] = 0;
+                                    }
+                                    decimal decTotal = 0;
+                                    decTotal = Convert.ToDecimal(dtSubTotalFifthGroup.Rows[0][Reader.GetName(intColumn)]);
+                                    decTotal += Reader.IsDBNull(intColumn) ? 0 : Convert.ToDecimal(Reader[intColumn]);
+                                    dtSubTotalFifthGroup.Rows[0][Reader.GetName(intColumn)] = decTotal;
+                                }
+                            }
+                            #endregion
+
+                            #endregion
+                            //Remove Group By Column
+                            #region
+                            if (strFirstGroupBy != Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) && strSecGroupBy != Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) && strThirdGroupBy != Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) && strFourthGroupBy != Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) && strFifthGroupBy != Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]))
+                            {
+                                strFormat = dtSchema.Rows[intColumn]["DataTypeName"].ToString();
+
+                                if (strFormat == "decimal")
+                                {
+                                    // If dataType is Numeric but it is not Currency field.
+                                    if (CheckISdisplayCurrencyFormat(dtSchema.Rows[intColumn][0].ToString()))
+                                        sbRecord.Append("<td align='right' >&nbsp;" + string.Format("{0:c2}", Reader[intColumn]) + "</td>");
+                                    else
+                                        sbRecord.Append("<td align='right' >&nbsp;" + Convert.ToString(Reader[intColumn]) + "</td>");
+                                }
+                                else if (strFormat == "datetime")
+                                {
+                                    // it display only Time
+                                    if (Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) == "Time Theft Reported")
+                                        sbRecord.Append("<td >&nbsp;" + string.Format("{0:HH:mm}", Reader[intColumn]) + "</td>");
+                                    else sbRecord.Append("<td >&nbsp;" + string.Format("{0:MM/dd/yyyy}", Reader[intColumn]) + "</td>");
+                                }
+                                else
+                                {
+
+                                    //sbRecord.Append(@"<td style='mso-number-format:\@;'>&nbsp;" + Convert.ToString(Reader[intColumn]) + "</td>");
+                                    sbRecord.Append(@"<td>&nbsp;" + Convert.ToString(Reader[intColumn]) + "</td>");
+                                }
+                            }
+                            #endregion
+
+                        }
+                        #region "Grand Total"
+                        for (int intColumn2 = 0; intColumn2 < Reader.FieldCount; intColumn2++)
+                        {
+                            //IF Grand Total Option is Selected and Have Field for SUM.
+                            if (Convert.ToString(ObjAdHocReport.GrandTotal) == "Y" && dtHeader.Columns.Count > 0)
+                            {
+                                if (dtHeader.Columns.Contains(Reader.GetName(intColumn2)))
+                                {
+                                    decimal decTotal = 0;
+                                    decTotal = Convert.ToDecimal(dtHeader.Rows[0][Reader.GetName(intColumn2)]);
+                                    decTotal += Reader.IsDBNull(intColumn2) ? 0 : Convert.ToDecimal(Reader[intColumn2]);
+                                    dtHeader.Rows[0][Reader.GetName(intColumn2)] = decTotal;
+                                }
+                            }
+                        }
+                        #endregion
+                        sbRecord.Append("</tr>");
+
+
+
+                        using (StreamWriter sw = File.AppendText(strPath))
+                        {
+                            sw.Write(sbRecord);
+                            sbRecord = new StringBuilder(string.Empty);
+                        }
+                    } while (Reader.Read());
+
+                    #region " SUBTOAL FOR Last groups "
+                    if (dtSubTotalFifthGroup.Rows.Count > 0)
+                    {
+                        sbRecord.Append("<tr>");
+                        int intCol = 1;
+                        if (dtSchema.Rows.Count > 0)
+                            sbRecord.Append("<td align='left'><b>Sub Total For " + strFifthGroupBy + "</b></td>");
+                        foreach (DataRow drSchema in dtSchema.Rows)
+                        {
+                            string strColName = Convert.ToString(drSchema["ColumnName"]).ToString();
+                            if (strFirstGroupBy != strColName && strSecGroupBy != strColName && strThirdGroupBy != strColName && strFourthGroupBy != strColName && strFifthGroupBy != strColName)
+                            {
+                                if (dtSubTotalFifthGroup.Columns.Contains(Convert.ToString(drSchema["ColumnName"])))
+                                    sbRecord.Append("<td align='right'><b>" + string.Format("{0:c2}", dtSubTotalFifthGroup.Rows[0][Convert.ToString(drSchema["ColumnName"])]) + "</b></td>");
+                                else
+                                {
+                                    //if (intCol == 1)
+                                    //    sbRecord.Append("<td align='left'><b>Sub Total For " + strFifthGroupBy + "</b></td>");
+                                    //else
+                                    //{
+
+                                    sbRecord.Append("<td>&nbsp;</td>");
+                                    //}
+                                }
+                            }
+                            intCol++;
+                        }
+                        sbRecord.Append("</tr>");
+                        dtSubTotalFifthGroup.Clear();
+                    }
+                    if (dtSubTotalFourthGroup.Rows.Count > 0)
+                    {
+                        sbRecord.Append("<tr>");
+                        int intCol = 1;
+                        if (dtSchema.Rows.Count > 0)
+                            sbRecord.Append("<td align='left'><b>Sub Total For " + strFourthGroupBy + "</b></td>");
+                        foreach (DataRow drSchema in dtSchema.Rows)
+                        {
+                            string strColName = Convert.ToString(drSchema["ColumnName"]).ToString();
+                            if (strFirstGroupBy != strColName && strSecGroupBy != strColName && strThirdGroupBy != strColName && strFourthGroupBy != strColName && strFifthGroupBy != strColName)
+                            {
+                                if (dtSubTotalFourthGroup.Columns.Contains(Convert.ToString(drSchema["ColumnName"])))
+                                    sbRecord.Append("<td align='right'><b>" + string.Format("{0:c2}", dtSubTotalFourthGroup.Rows[0][Convert.ToString(drSchema["ColumnName"])]) + "</b></td>");
+                                else
+                                {
+                                    //if (intCol == 1)
+                                    //    sbRecord.Append("<td align='left'><b>Sub Total For " + strFourthGroupBy + "</b></td>");
+                                    //else
+                                    //{
+
+                                    sbRecord.Append("<td>&nbsp;</td>");
+                                    //}
+                                }
+                            }
+                            intCol++;
+                        }
+                        sbRecord.Append("</tr>");
+                        dtSubTotalFourthGroup.Clear();
+                    }
+                    if (dtSubTotalThirdGroup.Rows.Count > 0)
+                    {
+                        sbRecord.Append("<tr>");
+                        int intCol = 1;
+                        if (dtSchema.Rows.Count > 0)
+                            sbRecord.Append("<td align='left'><b>Sub Total For " + strThirdGroupBy + "</b></td>");
+                        foreach (DataRow drSchema in dtSchema.Rows)
+                        {
+                            string strColName = Convert.ToString(drSchema["ColumnName"]).ToString();
+                            if (strFirstGroupBy != strColName && strSecGroupBy != strColName && strThirdGroupBy != strColName && strFourthGroupBy != strColName && strFifthGroupBy != strColName)
+                            {
+                                if (dtSubTotalThirdGroup.Columns.Contains(Convert.ToString(drSchema["ColumnName"])))
+                                    sbRecord.Append("<td align='right'><b>" + string.Format("{0:c2}", dtSubTotalThirdGroup.Rows[0][Convert.ToString(drSchema["ColumnName"])]) + "</b></td>");
+                                else
+                                {
+                                    //if (intCol == 1)
+                                    //    sbRecord.Append("<td align='left'><b>Sub Total For " + strThirdGroupBy + "</b></td>");
+                                    //else
+                                    //{
+
+                                    sbRecord.Append("<td>&nbsp;</td>");
+                                    //}
+                                }
+                            }
+                            intCol++;
+                        }
+                        sbRecord.Append("</tr>");
+                        dtSubTotalThirdGroup.Clear();
+                    }
+                    if (dtSubTotalSecondGroup.Rows.Count > 0)
+                    {
+                        sbRecord.Append("<tr>");
+                        int intCol = 1;
+                        if (dtSchema.Rows.Count > 0)
+                            sbRecord.Append("<td align='left'><b>Sub Total For " + strSecGroupBy + "</b></td>");
+                        foreach (DataRow drSchema in dtSchema.Rows)
+                        {
+                            string strColName = Convert.ToString(drSchema["ColumnName"]).ToString();
+                            if (strFirstGroupBy != strColName && strSecGroupBy != strColName && strThirdGroupBy != strColName && strFourthGroupBy != strColName && strFifthGroupBy != strColName)
+                            {
+                                if (dtSubTotalSecondGroup.Columns.Contains(Convert.ToString(drSchema["ColumnName"])))
+                                    sbRecord.Append("<td align='right'><b>" + string.Format("{0:c2}", dtSubTotalSecondGroup.Rows[0][Convert.ToString(drSchema["ColumnName"])]) + "</b></td>");
+                                else
+                                {
+                                    //if (intCol == 1)
+                                    //    sbRecord.Append("<td align='left'><b>Sub Total For " + strSecGroupBy + "</b></td>");
+                                    //else
+                                    //{
+                                    sbRecord.Append("<td>&nbsp;</td>");
+                                    //}
+                                }
+                            }
+                            intCol++;
+                        }
+                        sbRecord.Append("</tr>");
+                        dtSubTotalSecondGroup.Clear();
+                    }
+                    if (dtSubTotalFirstGroup.Rows.Count > 0)
+                    {
+                        sbRecord.Append("<tr>");
+                        int intCol = 1;
+                        if (dtSchema.Rows.Count > 0)
+                            sbRecord.Append("<td align='left'><b>Sub Total For " + strFirstGroupBy + "</b></td>");
+                        foreach (DataRow drSchema in dtSchema.Rows)
+                        {
+                            string strColName = Convert.ToString(drSchema["ColumnName"]).ToString();
+                            if (strFirstGroupBy != strColName && strSecGroupBy != strColName && strThirdGroupBy != strColName && strFourthGroupBy != strColName && strFifthGroupBy != strColName)
+                            {
+                                if (dtSubTotalFirstGroup.Columns.Contains(Convert.ToString(drSchema["ColumnName"])))
+                                    sbRecord.Append("<td align='right'><b>" + string.Format("{0:c2}", dtSubTotalFirstGroup.Rows[0][Convert.ToString(drSchema["ColumnName"])]) + "</b></td>");
+                                else
+                                {
+                                    //if (intCol == 1)
+                                    //    sbRecord.Append("<td align='left'><b>Sub Total For " + strFirstGroupBy + "</b></td>");
+                                    //else
+                                    //{
+                                    sbRecord.Append("<td>&nbsp;</td>");
+                                    // }
+                                }
+                            }
+                            intCol++;
+                        }
+                        sbRecord.Append("</tr>");
+                        dtSubTotalFirstGroup.Clear();
+                    }
+
+                    #endregion
+
+                    #endregion
+
+                    //Table End
+                    sbRecord.Append("</table>");
+
+                    #region "Footer Template"
+                    // IF Grand Total Option is Checked and Have record from Transaction Table to SUM
+                    if ((Convert.ToString(ObjAdHocReport.GrandTotal) == "Y") && dtHeader.Columns.Count > 0)
+                    {
+                        string strStyle = "'font-weight: bold;background-color: #507CD1;color: White;'";
+                        sbRecord.Append("<br />");
+                        sbRecord.Append("<table border='1' cellpadding='0' cellspacing='0'><tr align='right'>");
+                        sbRecord.Append("<td style='font-weight: bold;' align='left'>Grand Totals</td>");
+
+                        for (int intColumn = 0; intColumn < dtHeader.Columns.Count; intColumn++)
+                            sbRecord.Append("<td style='font-weight: bold;'>" + Convert.ToString(dtHeader.Columns[intColumn]) + "</td>");
+                        // show Header for claim count
+                        // sbRecord.Append("<td style='font-weight: bold;'>" + Convert.ToString(dtHeader.Columns[0]) + "</td>");
+                        sbRecord.Append("</tr>");
+
+                        sbRecord.Append("<tr align='right'>");
+                        sbRecord.Append("<td style=" + strStyle + ">&nbsp;</td>");
+
+                        //No column Claim count 
+                        for (int intColumn = 0; intColumn < dtHeader.Columns.Count; intColumn++)
+                            sbRecord.Append("<td style=" + strStyle + ">" + string.Format("{0:c2}", dtHeader.Rows[0][intColumn]) + "</td>");
+                        // show value for Claim Count
+                        //sbRecord.Append("<td style=" + strStyle + ">" + dtHeader.Rows[0][dtHeader.Columns.Count - 1] + "</td>");
+                        sbRecord.Append("</tr><table>");
+                    }
+                    #endregion
+                    //Remove White Space.
+                    //sbRecord.Replace("<tr></tr>", "");
+                    using (StreamWriter sw = File.AppendText(strPath))
+                    {
+                        sw.Write(sbRecord);
+                        sbRecord = new StringBuilder(string.Empty);
+                    }
+                }
+                else
+                {
+                    //Remove WhiteSpace
+                    sbRecord.Replace("<tr></tr>", "");
+                    if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"temp\"))
+                        Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"temp\");
+
+                    strPath = AppDomain.CurrentDomain.BaseDirectory + @"temp\" + strReportSchedulerName + System.DateTime.Now.ToString("MMddyyhhmmss") + ".xls";
+                    ///When records are not found.
+                    sbRecord.Append("<table  cellpadding='4' cellspacing='0' Width='100%'>");
+                    sbRecord.Append("<tr>");
+                    sbRecord.Append("<td align='center'>No Record found.</td></tr></table>");
+                    using (StreamWriter sw = File.AppendText(strPath))
+                    {
+                        sw.Write(sbRecord);
+                        sbRecord = new StringBuilder(string.Empty);
+                    }
+                }
+
+                if (!Reader.IsClosed)
+                    Reader.Close();
+
+                return strPath;
+            }
+            catch (Exception ex)
+            {
+                //EventLog.WriteEntry("ERROR in Ad Hoc Report Writer , " + ex.Message);
+                EventLog.WriteEntry("ERROR in ACI Ad Hoc Report Writer , " + ex.Message);
+            }
+            finally
+            {
+                if (Reader != null)
+                {
+                    Reader.Close();
+                    Reader.Dispose();
+                }
+                if (dtSchema != null)
+                    dtSchema.Dispose();
+                if (dtHeader != null)
+                    dtHeader.Dispose();
+            }
+            return strPath;
+        }
+
+
+        /// <summary>
+        /// Check This Header should be display in Currency format.
+        /// </summary>
+        /// <param name="strHeader"></param>
+        /// <returns></returns>
+        private bool CheckISdisplayCurrencyFormat(string strHeader)
+        {
+            //Array contains value have numeric field but should not display with $ sign,
+            string strNumericField = "Operator Length of Service,Other Vehicle VIN";
+            string[] arrNumericField = strNumericField.Split(',');
+
+            // if header is defined numeric filed it return false
+            for (int intI = 0; intI < arrNumericField.Length; intI++)
+            {
+                if (strHeader == arrNumericField[intI])
+                    return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Check Whether it is Grand TOtal FIeld or Not.
+        /// </summary>
+        /// <param name="strColumnName"></param>
+        /// <returns></returns>
+        private bool CheckTotalField(string strColumnName)
+        {
+            if ((strColumnName.Contains("PITO Cost") || strColumnName.Contains("Addon Cost") || strColumnName.Contains("Previous Appraisal BuildingValue") || strColumnName.Contains("Building Value")))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Bind and Return Where Condition
+        /// </summary>
+        /// <param name="lstFilter"></param>
+        /// <returns></returns>
+        private string GetWhereCondition(List<ERIMS_DAL.AdHocFilter> lstFilter)
+        {
+            string strWhere = string.Empty;
+            for (int i = 0; i < lstFilter.Count; i++)
+            {
+                AdhocReportFields obj = new AdhocReportFields();
+                List<AdhocReportFields> lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
+                string strConditionType = lstFilter[i].ConditionType;
+                string strConditionValue = lstFilter[i].ConditionValue;
+                string strField = lstAdhoc[0].WhereField;
+
+                string strCntrolType = lstFilter[i].Fk_ControlType.ToString();
+
+                if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                {
+                    strWhere += BindTextCondition(lstFilter[i].ConditionType, lstFilter[i].ConditionValue, lstAdhoc[0].Field_Name, lstAdhoc[0].Table_Name, Convert.ToBoolean(lstFilter[i].IsNotSelected));
+                }
+                else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList && lstFilter[i].ConditionValue != null)
+                {
+                    strWhere += BindDropDownCondition(lstFilter[i].ConditionType, lstFilter[i].ConditionValue, lstAdhoc[0].WhereField, lstAdhoc[0].Table_Name, Convert.ToBoolean(lstFilter[i].IsNotSelected));
+
+                }
+                else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                {
+                    strWhere += BindDateCondition(lstFilter[i], lstAdhoc[0].Field_Name, lstAdhoc[0].Table_Name, Convert.ToBoolean(lstFilter[i].IsNotSelected));
+                }
+                else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    strWhere += BindAmountCondition(lstFilter[i], lstFilter[i].ConditionType, lstFilter[i].ConditionValue, lstAdhoc[0].Field_Header, lstAdhoc[0].Table_Name, Convert.ToBoolean(lstFilter[i].IsNotSelected));
+                }
+            }
+            return strWhere;
+        }
+
+        /// <summary>
+        /// Bind and Return TextBox Type Condition
+        /// </summary>
+        /// <param name="lstFilter"></param>
+        /// <returns></returns>
+        private string BindTextCondition(string strConditionType, string strConditionValue, string strField, string strTableName, bool IsNotSelected)
+        {
+            string strWhere = string.Empty;
+
+            if (!string.IsNullOrEmpty(strConditionValue))
+            {
+                if (strField.Contains("Date_Theft_Reported"))
+                    strWhere = " And (CONVERT(VARCHAR," + strField + " ,108))";
+                else strWhere = " And [" + strTableName + "]." + strField;
+
+                if (IsNotSelected == true)
+                {
+                    if (strConditionType == "1")
+                        strWhere += " NOT LIKE  '%" + strConditionValue.Trim().Replace("'", "''") + "%' ";
+                    else if (strConditionType == "2")
+                        strWhere += " NOT LIKE '" + strConditionValue.Trim().Replace("'", "''") + "%'";
+                    else if (strConditionType == "3")
+                        strWhere += " NOT LIKE '%" + strConditionValue.Trim().Replace("'", "''") + "'";
+                }
+                else
+                {
+                    if (strConditionType == "1")
+                        strWhere += " LIKE  '%" + strConditionValue.Trim().Replace("'", "''") + "%' ";
+                    else if (strConditionType == "2")
+                        strWhere += " LIKE '" + strConditionValue.Trim().Replace("'", "''") + "%'";
+                    else if (strConditionType == "3")
+                        strWhere += " LIKE '%" + strConditionValue.Trim().Replace("'", "''") + "'";
+                }
+            }
+            return strWhere;
+        }
+
+
+        /// <summary>
+        /// Bind and Return Dropdown Type Condition
+        /// </summary>
+        /// <param name="lstFilter"></param>
+        /// <returns></returns>
+        private string BindDropDownCondition(string strConditionType, string strConditionValue, string strField, string strTableName, bool IsNotSelected)
+        {
+            //string strNewList = string.Empty;
+            string strWhere = string.Empty;
+            //string[] arrwhere = strConditionValue.Split(',');
+
+            if (!string.IsNullOrEmpty(strField) && !string.IsNullOrEmpty(strConditionValue))
+            {
+                //if (IsNotSelected == true)
+                //    strWhere = " And " + strTableName + ".[" + strField + "] NOT IN (" + strConditionValue + ")";
+                //else
+                //    strWhere = " And " + strTableName + ".[" + strField + "] IN (" + strConditionValue + ")";
+                if (IsNotSelected == true)
+                {
+                    if (strConditionValue.Trim().ToUpper() == "Y" || strConditionValue.Trim().ToUpper() == "N" || strConditionValue.Trim().ToUpper() == "Y,N")
+                    {
+                        if (strField == "Is_Actionable")
+                            strWhere = " And ISNULL([" + strTableName + "]." + strField + ",'N') NOT IN ('" + strConditionValue.Replace(",", "','") + "') ";
+                        else
+                            strWhere = " And " + strTableName + ".[" + strField + "] NOT IN ('" + strConditionValue.Replace(",", "','") + "') ";
+                    }
+                    else
+                        strWhere = " And " + strTableName + ".[" + strField + "] NOT IN (" + strConditionValue + ") ";
+                }
+                else if (strConditionValue.Trim().ToUpper() == "Y" || strConditionValue.Trim().ToUpper() == "N" || strConditionValue.Trim().ToUpper() == "Y,N")
+                {
+                    if (strField == "Is_Actionable")
+                        strWhere = " And ISNULL([" + strTableName + "]." + strField + ",'N') IN ('" + strConditionValue.Replace(",", "','") + "') ";
+                    else
+                        strWhere = " And " + strTableName + ".[" + strField + "] IN ('" + strConditionValue.Replace(",", "','") + "') ";
+                }
+                else
+                    strWhere = " And " + strTableName + ".[" + strField + "] IN (" + strConditionValue + ") ";
+            }
+            return strWhere;
+        }
+
+
+        /// <summary>
+        /// Bind and Return DateTime Type Condition
+        /// </summary>
+        /// <param name="lstFilter"></param>
+        /// <returns></returns>
+        private string BindDateCondition(ERIMS_DAL.AdHocFilter objFilter, string strField, string strTableName, bool IsNotSelected)
+        {
+            string strWhere = string.Empty;
+
+            DateTime? dtFrom = null, dtTo = null;
+
+            if (string.IsNullOrEmpty(objFilter.FromRelativeCriteria))
+                dtFrom = FormatNullDateToStore(Convert.ToString(objFilter.FromDate));
+            else
+            {
+                // set Relative Date From criteria
+                AdHocReportHelper.RaltiveDates RelType = (AdHocReportHelper.RaltiveDates)Enum.Parse(typeof(AdHocReportHelper.RaltiveDates), objFilter.FromRelativeCriteria);
+                dtFrom = AdHocReportHelper.GetRelativeDate(RelType);
+            }
+            if (string.IsNullOrEmpty(objFilter.ToRelativeCriteria))
+                dtTo = FormatNullDateToStore(Convert.ToString(objFilter.ToDate));
+            else
+            {
+                // set Relative Date To criteria
+                AdHocReportHelper.RaltiveDates RelType = (AdHocReportHelper.RaltiveDates)Enum.Parse(typeof(AdHocReportHelper.RaltiveDates), objFilter.ToRelativeCriteria);
+                dtTo = AdHocReportHelper.GetRelativeDate(RelType);
+            }
+
+            AdHocReportHelper.DateCriteria DtType = AdHocReportHelper.DateCriteria.On;
+
+            if (objFilter.ConditionType == "On")
+                DtType = AdHocReportHelper.DateCriteria.On;
+            else if (objFilter.ConditionType == "BF")
+                DtType = AdHocReportHelper.DateCriteria.Before;
+            else if (objFilter.ConditionType == "A")
+                DtType = AdHocReportHelper.DateCriteria.After;
+            else if (objFilter.ConditionType == "B")
+                DtType = AdHocReportHelper.DateCriteria.Between;
+
+            if (dtFrom.HasValue)
+                strWhere = AdHocReportHelper.GetDateWhereAbsolute(strTableName + ".[" + strField + "]", dtFrom, dtTo, DtType, IsNotSelected);
+
+            else if (dtTo.HasValue)
+                strWhere = AdHocReportHelper.GetDateWhereAbsolute(strTableName + ".[" + strField + "]", dtFrom, dtTo, DtType, IsNotSelected);
+            return strWhere;
+        }
+
+        /// <summary>
+        /// Bind and Return Amount Type Condition
+        /// </summary>
+        /// <param name="lstFilter"></param>
+        /// <returns></returns>
+        private string BindAmountCondition(ERIMS_DAL.AdHocFilter objFilter, string strConditionType, string strConditionValue, string strField, string strTableName, bool IsNotSelected)
+        {
+            string strWhere = string.Empty;
+            AdHocReportHelper.AmountCriteria AmtType = AdHocReportHelper.AmountCriteria.Equal;
+
+            decimal? dFrom = null;
+            decimal? dTo = null;
+
+            if (!string.IsNullOrEmpty(Convert.ToString(objFilter.AmountFrom)))
+                dFrom = Convert.ToDecimal(objFilter.AmountFrom);
+
+            if (!string.IsNullOrEmpty(Convert.ToString(objFilter.AmountTo)))
+                dTo = Convert.ToDecimal(objFilter.AmountTo);
+
+            if (Convert.ToInt16(objFilter.ConditionType) == (int)AdHocReportHelper.AmountCriteria.Equal)
+                AmtType = AdHocReportHelper.AmountCriteria.Equal;
+            else if (Convert.ToInt16(objFilter.ConditionType) == (int)AdHocReportHelper.AmountCriteria.GreaterThan)
+                AmtType = AdHocReportHelper.AmountCriteria.GreaterThan;
+            else if (Convert.ToInt16(objFilter.ConditionType) == (int)AdHocReportHelper.AmountCriteria.Between)
+                AmtType = AdHocReportHelper.AmountCriteria.Between;
+            else if (Convert.ToInt16(objFilter.ConditionType) == (int)AdHocReportHelper.AmountCriteria.LessThan)
+                AmtType = AdHocReportHelper.AmountCriteria.LessThan;
+
+            if (dFrom.HasValue)
+                strWhere = AdHocReportHelper.GetAmountWhere("[" + strTableName.Trim() + "]", dFrom, dTo, AmtType, IsNotSelected);
+            else if (dTo.HasValue)
+                strWhere = AdHocReportHelper.GetAmountWhere("[" + strTableName.Trim() + "]", dFrom, dTo, AmtType, IsNotSelected);
+
+            return strWhere;
+        }
+
+
+        #region "Generate Sub Row by group by"
+
+        /// <summary>
+        /// Generates HTML text for report rows
+        /// </summary>
+        /// <param name="sbRecorords"></param>
+        /// <param name="dvReCoverage"></param>
+        /// <param name="strOperatingCompany"></param>
+        /// <returns></returns>
+        //private StringBuilder GenerateReportRowsPoinInTIme(StringBuilder sbRecorords, DataView dvReCoverage, string strOperatingCompany)
+        //{
+        //    for (int introws = 0; introws < dvReCoverage.Count; introws++)
+        //    {
+        //        int intRes;
+        //        int intDiv = System.Math.DivRem(introws, 2, out intRes);
+        //        string strRowStyle = "font-size:8pt;font-family:Tahoma;";
+        //        string strAltRowStyle = "font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;";
+
+        //        sbRecorords.Append("<tr   align='right' style='" + ((intRes == 0) ? strRowStyle : strAltRowStyle) + "' >");
+        //        sbRecorords.Append("<td class='cols_'  width='40%' align='left'>" + Convert.ToString(dvReCoverage[introws]["CLAIM_NUMBER"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  width='10%' align='left'>" + FormatDBNullDateToDisplay(dvReCoverage[introws]["Loss_DateTime"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'   width='10%'>Incurred:  </td>");
+        //        sbRecorords.Append("<td class='cols_'   width='10%'>" + string.Format("{0:c2}", dvReCoverage[introws]["InccuredAmt1"]) + " </td>");
+        //        sbRecorords.Append("<td class='cols_'   width='10%'>" + string.Format("{0:c2}", dvReCoverage[introws]["InccuredAmt2"]) + "  </td>");
+        //        sbRecorords.Append("<td class='cols_'   width='10%'  >" + string.Format("{0:c2}", dvReCoverage[introws]["InccuredDiff"]) + " </td>");
+        //        sbRecorords.Append("<td class='cols_'   width='10%'  >" + string.Format("{0:N2}", dvReCoverage[introws]["InccuredDiffPer"]) + " </td>");
+        //        sbRecorords.Append("</tr>");
+
+        //        sbRecorords.Append("<tr align='right' style='" + ((intRes == 0) ? strRowStyle : strAltRowStyle) + "' >");
+        //        sbRecorords.Append("<td class='cols_'  width='40%' align='left'>" + Convert.ToString(dvReCoverage[introws]["CLAIMANT_NAME"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  width='10%' align='left'>" + Convert.ToString(dvReCoverage[introws]["FK_LU_Status"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'   width='10%'>Paid:  </td>");
+        //        sbRecorords.Append("<td class='cols_'   width='10%'>" + string.Format("{0:c2}", dvReCoverage[introws]["PaidAmt1"]) + " </td>");
+        //        sbRecorords.Append("<td class='cols_'   width='10%'>" + string.Format("{0:c2}", dvReCoverage[introws]["PaidAmt2"]) + "  </td>");
+        //        sbRecorords.Append("<td class='cols_'   width='10%'  >" + string.Format("{0:c2}", dvReCoverage[introws]["PaidDiff"]) + " </td>");
+        //        sbRecorords.Append("<td class='cols_'   width='10%'  >" + string.Format("{0:N2}", dvReCoverage[introws]["PaidDiffPer"]) + " </td>");
+        //        sbRecorords.Append("</tr>");
+
+        //        sbRecorords.Append("<tr  valign='top' align='right'  style='" + ((intRes == 0) ? strRowStyle : strAltRowStyle) + "'>");
+        //        sbRecorords.Append("<td  style='border-bottom: #EAEAEA 1px solid' class='cols_' width='40%' align='left'>" + Convert.ToString(dvReCoverage[introws]["Claim_Description"]) + "&nbsp;</td>");
+        //        sbRecorords.Append("<td  style='border-bottom: #EAEAEA 1px solid' class='cols_' width='10%' align='left'>" + Convert.ToString(dvReCoverage[introws]["FK_LU_Coverage"]) + "&nbsp;</td>");
+        //        sbRecorords.Append("<td style='border-bottom: #EAEAEA 1px solid' class='cols_' width='10%'>Outstanding:  </td>");
+        //        sbRecorords.Append("<td style='border-bottom: #EAEAEA 1px solid' class='cols_' width='10%'>" + string.Format("{0:c2}", dvReCoverage[introws]["OUTSTANDING1"]) + " </td>");
+        //        sbRecorords.Append("<td style='border-bottom: #EAEAEA 1px solid' class='cols_' width='10%'>" + string.Format("{0:c2}", dvReCoverage[introws]["OUTSTANDING2"]) + "  </td>");
+        //        sbRecorords.Append("<td style='border-bottom: #EAEAEA 1px solid' class='cols_' width='10%'>" + string.Format("{0:c2}", dvReCoverage[introws]["OUTSTANDINGDiff"]) + " </td>");//Diffrence Plz Change
+        //        sbRecorords.Append("<td style='border-bottom: #EAEAEA 1px solid' class='cols_' width='10%'>" + string.Format("{0:N2}", dvReCoverage[introws]["OutstandingDiffPer"]) + " </td>");//Diffrence Plz Change
+        //        sbRecorords.Append("</tr>");
+        //    }
+        //    return sbRecorords;
+        //}
+
+        /// <summary>
+        /// Get Html Row
+        /// </summary>
+        /// <param name="sbRecorords"></param>
+        /// <param name="dtRecords_Payment"></param>
+        /// <param name="strFirstGroupBy"></param>
+        /// <param name="strSecondGroupBy"></param>
+        /// <returns></returns>
+        //private StringBuilder GenerateReportRows(StringBuilder sbRecorords, DataTable dtRecords_Payment, string strFirstGroupBy, string strSecondGroupBy)
+        //{
+        //    string strFilter = "";
+        //    if (!string.IsNullOrEmpty(strSecondGroupBy))
+        //        strFilter = string.Format("FirstGroupBy = '{0}' and  SecondGroupBy = '{1}' ", strFirstGroupBy, strSecondGroupBy);
+        //    else
+        //        strFilter = string.Format("FirstGroupBy = '{0}'", strFirstGroupBy);
+
+        //    // Find Incurred Amount transaction record
+        //    DataRow[] drRecords_Payment = dtRecords_Payment.Select(strFilter + " And PaymentDetail ='Incurred'");
+
+        //    if (drRecords_Payment.Length > 0)
+        //    {
+        //        sbRecorords.Append("<tr  align='right'>");
+
+        //        sbRecorords.Append("<td class='cols_'  align='left'>Incurred</td>");
+        //        sbRecorords.Append("<td class='cols_' >" + string.Format("{0:C}", drRecords_Payment[0]["Med_BI_Comp"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_' >" + string.Format("{0:C}", drRecords_Payment[0]["Expense"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_' >" + string.Format("{0:C}", drRecords_Payment[0]["Ind_Pd_Coll"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_' >" + string.Format("{0:C}", drRecords_Payment[0]["Legal"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_' >" + string.Format("{0:C}", drRecords_Payment[0]["Other"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_' >" + string.Format("{0:C}", drRecords_Payment[0]["Total"]) + "</td>");
+        //        if (!string.IsNullOrEmpty(strSecondGroupBy))
+        //            sbRecorords.Append("<td class='cols_' >&nbsp;</td>");
+        //        else
+        //            sbRecorords.Append("<td class='cols_' style='font-weight: bold;'  align='center' >" + string.Format("{0:N0}", drRecords_Payment[0]["Claim_Count"]) + "</td>");
+        //        sbRecorords.Append("</tr>");
+
+        //    }
+
+        //    // Find paid Amount transaction record
+        //    drRecords_Payment = dtRecords_Payment.Select(strFilter + " And PaymentDetail ='Paid'");
+        //    if (drRecords_Payment.Length > 0)
+        //    {
+        //        sbRecorords.Append("<tr  align='right'>");
+
+        //        sbRecorords.Append("<td class='cols_'  align='left'>Paid</td>");
+        //        sbRecorords.Append("<td class='cols_' >" + string.Format("{0:C}", drRecords_Payment[0]["Med_BI_Comp"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_' >" + string.Format("{0:C}", drRecords_Payment[0]["Expense"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_' >" + string.Format("{0:C}", drRecords_Payment[0]["Ind_Pd_Coll"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_' >" + string.Format("{0:C}", drRecords_Payment[0]["Legal"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_' >" + string.Format("{0:C}", drRecords_Payment[0]["Other"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_' >" + string.Format("{0:C}", drRecords_Payment[0]["Total"]) + "</td>");//Total Need to be Change
+        //        sbRecorords.Append("<td class='cols_' >&nbsp;</td>");
+
+        //        sbRecorords.Append("</tr>");
+
+        //    }
+
+        //    // Find Total Outstanding Amount transaction record
+        //    drRecords_Payment = dtRecords_Payment.Select(strFilter + " And PaymentDetail ='TOutStanding'");
+        //    if (drRecords_Payment.Length > 0)
+        //    {
+        //        sbRecorords.Append("<tr  align='right'>");
+
+        //        sbRecorords.Append("<td class='cols_'  align='left'>Outstanding</td>");
+        //        sbRecorords.Append("<td class='cols_' >" + string.Format("{0:C}", drRecords_Payment[0]["Med_BI_Comp"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_' >" + string.Format("{0:C}", drRecords_Payment[0]["Expense"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_' >" + string.Format("{0:C}", drRecords_Payment[0]["Ind_Pd_Coll"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_' >" + string.Format("{0:C}", drRecords_Payment[0]["Legal"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_' >" + string.Format("{0:C}", drRecords_Payment[0]["Other"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_' >" + string.Format("{0:C}", drRecords_Payment[0]["Total"]) + "</td>");//Total Need to be Change
+        //        sbRecorords.Append("<td class='cols_' >&nbsp;</td>");
+        //        sbRecorords.Append("</tr>");
+
+        //    }
+        //    return sbRecorords;
+        //}
+
+        /// <summary>
+        /// Generate Sub Row for Three Line Claim Detail Report
+        /// </summary>
+        /// <param name="sbRecorords"></param>
+        /// <param name="dtRecords_Payment"></param>
+        /// <param name="strFirstGroupBy"></param>
+        /// <param name="strSecondGroupBy"></param>
+        /// <returns></returns>
+        //private StringBuilder GenerateReportRowsForThreeLine(StringBuilder sbRecorords, DataTable dtRecords_Payment, string strFirstGroupBy, string strSecondGroupBy)
+        //{
+        //    string strFilter = "";
+        //    if (!string.IsNullOrEmpty(strSecondGroupBy))
+        //        strFilter = string.Format("FirstGroupBy = '{0}' and  SecondGroupBy = '{1}' ", strFirstGroupBy, strSecondGroupBy);
+        //    else
+        //        strFilter = string.Format("FirstGroupBy = '{0}'", strFirstGroupBy);
+
+        //    DataRow[] drRecords_Payment = dtRecords_Payment.Select(strFilter);
+        //    for (int intI4 = 0; intI4 < drRecords_Payment.Length; intI4++)
+        //    {
+        //        int intRes;
+        //        int intDiv = System.Math.DivRem(intI4, 2, out intRes);
+        //        string strRowStyle = "font-size:8pt;font-family:Tahoma;";
+        //        string strAltRowStyle = "font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;";
+
+        //        sbRecorords.Append("<tr  align='right' style='" + ((intRes == 0) ? strRowStyle : strAltRowStyle) + "'>");
+        //        sbRecorords.Append("<td class='cols_'  align='left' valign='top'>" + Convert.ToString(drRecords_Payment[intI4]["Claim_Number"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='left' valign='top'>" + Convert.ToString(drRecords_Payment[intI4]["Driver_Claimant_Name"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  colspan='8' align='left' valign='top'>" + Convert.ToString(drRecords_Payment[intI4]["Coverage"]) + "</td>");
+        //        sbRecorords.Append("</tr>");
+
+        //        sbRecorords.Append("<tr  align='right' style='" + ((intRes == 0) ? strRowStyle : strAltRowStyle) + "'>");
+        //        sbRecorords.Append("<td class='cols_'  align='left' valign='top'>" + Convert.ToString(drRecords_Payment[intI4]["OperatingCompanies"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='left' valign='top'>" + string.Format("{0:MM/dd/yyyy}", drRecords_Payment[intI4]["Loss_DateTime"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='left' valign='top'>" + string.Format("{0:MM/dd/yyyy}", drRecords_Payment[intI4]["Report_Date"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='left' valign='top'>" + Convert.ToString(drRecords_Payment[intI4]["Statuses"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["INC_Med_BI_Comp"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["Inc_Expense"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["INC_Ind_PD_Coll"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["INC_Legal"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["INC_Other"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["TotalIncurred"]) + "</td>");
+        //        sbRecorords.Append("</tr>");
+
+        //        sbRecorords.Append("<tr  align='right' style='" + ((intRes == 0) ? strRowStyle : strAltRowStyle) + "'>");
+        //        sbRecorords.Append("<td class='cols_'  align='left' valign='top'>" + Convert.ToString(drRecords_Payment[intI4]["Claim_Description"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='left' valign='top'>" + Convert.ToString(drRecords_Payment[intI4]["Causes"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='left'>&nbsp;</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='left'>&nbsp;</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["Paid_Med_BI_Comp"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["Paid_Expense"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["Paid_Ind_PD_Coll"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["Paid_Legal"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["Paid_Other"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["TotalPaid"]) + "</td>");
+        //        sbRecorords.Append("</tr>");
+
+        //        sbRecorords.Append("<tr  align='right' style='font-size:8pt;font-family:Tahoma;'>");
+        //        sbRecorords.Append("<td class='cols_' colspan='10' >&nbsp;</td>");
+        //        sbRecorords.Append("</tr>");
+        //    }
+
+        //    return sbRecorords;
+        //}
+
+        /// <summary>
+        /// Get Sum value Return Total 
+        /// </summary>
+        /// <param name="sbRecorords"></param>
+        /// <param name="dtReport"></param>
+        /// <param name="bSubTotal"></param>
+        /// <param name="strSubTotalFor"></param>
+        /// <returns></returns>
+        //private StringBuilder GenerateTotals(StringBuilder sbRecorords, DataTable dtReport, bool bSubTotal, string strSubTotalFor)
+        //{
+        //    ///// Sub Total for the group
+        //    if (dtReport.Rows.Count > 0)
+        //    {
+        //        decimal decIncurred1M = 0, decIncurred2M = 0, decPaid1M = 0, decPaid2M = 0, decOS1M = 0, decOS2m = 0;
+        //        decimal decOut = 0;
+        //        if (decimal.TryParse(Convert.ToString(dtReport.Compute("SUM(InccuredAmt1)", "")), out decOut)) decIncurred1M = decOut;
+        //        decOut = 0;
+        //        if (decimal.TryParse(Convert.ToString(dtReport.Compute("SUM(InccuredAmt2)", "")), out decOut)) decIncurred2M = decOut;
+        //        decOut = 0;
+        //        if (decimal.TryParse(Convert.ToString(dtReport.Compute("SUM(PaidAmt1)", "")), out decOut)) decPaid1M = decOut;
+        //        decOut = 0;
+        //        if (decimal.TryParse(Convert.ToString(dtReport.Compute("SUM(PaidAmt2)", "")), out decOut)) decPaid2M = decOut;
+        //        decOut = 0;
+        //        if (decimal.TryParse(Convert.ToString(dtReport.Compute("SUM(OUTSTANDING1)", "")), out decOut)) decOS1M = decOut;
+        //        decOut = 0;
+        //        if (decimal.TryParse(Convert.ToString(dtReport.Compute("SUM(OUTSTANDING2)", "")), out decOut)) decOS2m = decOut;
+
+        //        string strSubTotalRowStyle = "font-weight:bold";
+        //        string strGrandTotalRowStyle = "font-weight: bold;background-color: #507CD1;color: White;";
+
+        //        sbRecorords.Append("<tr style='" + (bSubTotal ? strSubTotalRowStyle : strGrandTotalRowStyle) + "' valign='top' align='right'>");
+        //        sbRecorords.Append("<td  style='border-bottom: #EAEAEA 1px solid' class='cols_'  width='40%' align='left'>" + (bSubTotal ? ("Sub Total For " + strSubTotalFor + "&nbsp;") : "Grand Totals") + "</td>");
+        //        sbRecorords.Append("<td  style='border-bottom: #EAEAEA 1px solid' class='cols_'  width='10%' align='left'> &nbsp;</td>");
+        //        sbRecorords.Append("<td  style='border-bottom: #EAEAEA 1px solid' class='cols_'   width='10%'> Incurred: </td>");
+        //        sbRecorords.Append("<td  style='border-bottom: #EAEAEA 1px solid' class='cols_'   width='10%'>" + string.Format("{0:c2}", decIncurred1M) + " </td>");
+        //        sbRecorords.Append("<td  style='border-bottom: #EAEAEA 1px solid' class='cols_'   width='10%'>" + string.Format("{0:c2}", decIncurred2M) + "  </td>");
+        //        sbRecorords.Append("<td  style='border-bottom: #EAEAEA 1px solid' class='cols_'   width='10%'  >" + string.Format("{0:c2}", (decIncurred2M - decIncurred1M)) + " </td>");//Diffrence Plz Change
+        //        sbRecorords.Append("<td  style='border-bottom: #EAEAEA 1px solid' class='cols_'   width='10%'  > " + string.Format("{0:c2}", (decIncurred2M > 0) ? string.Format("{0:N2}", ((decIncurred1M / decIncurred2M) * 100)) : "0.00" + " </td>"));//Diffrence Plz Change
+        //        sbRecorords.Append("</tr>");
+        //        sbRecorords.Append("<tr style='" + (bSubTotal ? strSubTotalRowStyle : strGrandTotalRowStyle) + "'   valign='top' align='right'>");
+        //        sbRecorords.Append("<td  style='border-bottom: #EAEAEA 1px solid' class='cols_'  width='40%' align='left'>  &nbsp;</td>");
+        //        sbRecorords.Append("<td  style='border-bottom: #EAEAEA 1px solid' class='cols_'  width='10%' align='left'> &nbsp;</td>");
+        //        sbRecorords.Append("<td  style='border-bottom: #EAEAEA 1px solid' class='cols_'   width='10%'> Paid: </td>");
+        //        sbRecorords.Append("<td  style='border-bottom: #EAEAEA 1px solid' class='cols_'   width='10%'>" + string.Format("{0:c2}", decPaid1M) + " </td>");
+        //        sbRecorords.Append("<td  style='border-bottom: #EAEAEA 1px solid' class='cols_'   width='10%'>" + string.Format("{0:c2}", decPaid2M) + "  </td>");
+        //        sbRecorords.Append("<td  style='border-bottom: #EAEAEA 1px solid' class='cols_'   width='10%'  >" + string.Format("{0:c2}", (decPaid2M - decPaid1M)) + " </td>");//Diffrence Plz Change
+        //        sbRecorords.Append("<td  style='border-bottom: #EAEAEA 1px solid' class='cols_'   width='10%'  > " + string.Format("{0:c2}", (decPaid2M > 0) ? string.Format("{0:N2}", ((decPaid1M / decPaid2M) * 100)) : "0.00" + " </td>"));//Diffrence Plz Change
+        //        sbRecorords.Append("</tr>");
+        //        sbRecorords.Append("<tr style='" + (bSubTotal ? strSubTotalRowStyle : strGrandTotalRowStyle) + "'   valign='top' align='right'>");
+        //        sbRecorords.Append("<td  style='border-bottom: #EAEAEA 1px solid' class='cols_'  width='40%' align='left'>  &nbsp;</td>");
+        //        sbRecorords.Append("<td  style='border-bottom: #EAEAEA 1px solid' class='cols_'  width='10%' align='left'> &nbsp;</td>");
+        //        sbRecorords.Append("<td  style='border-bottom: #EAEAEA 1px solid' class='cols_'   width='10%'> Outstanding: </td>");
+        //        sbRecorords.Append("<td  style='border-bottom: #EAEAEA 1px solid' class='cols_'   width='10%'>" + string.Format("{0:c2}", decOS1M) + " </td>");
+        //        sbRecorords.Append("<td  style='border-bottom: #EAEAEA 1px solid' class='cols_'   width='10%'>" + string.Format("{0:c2}", decOS2m) + "  </td>");
+        //        sbRecorords.Append("<td  style='border-bottom: #EAEAEA 1px solid' class='cols_'   width='10%'  >" + string.Format("{0:c2}", (decOS2m - decOS1M)) + " </td>");//Diffrence Plz Change
+        //        sbRecorords.Append("<td  style='border-bottom: #EAEAEA 1px solid' class='cols_'   width='10%'  > " + string.Format("{0:c2}", (decOS2m > 0) ? string.Format("{0:N2}", ((decOS1M / decOS2m) * 100)) : "0.00" + " </td>"));//Diffrence Plz Change
+        //        sbRecorords.Append("</tr>");
+        //    }
+        //    return sbRecorords;
+        //}
+
+        /// <summary>
+        /// Generate Sub Row for Large Loss Claim Detail Report
+        /// </summary>
+        /// <param name="sbRecorords"></param>
+        /// <param name="dtRecords_Payment"></param>
+        /// <param name="strFirstGroupBy"></param>
+        /// <param name="strSecondGroupBy"></param>
+        /// <returns></returns>
+        //private StringBuilder GenerateReportRowsForLargeLossReport(StringBuilder sbRecorords, DataTable dtRecords_Payment, string strFirstGroupBy, string strSecondGroupBy)
+        //{
+        //    string strFilter = "";
+        //    if (!string.IsNullOrEmpty(strSecondGroupBy))
+        //        strFilter = string.Format("FirstGroupBy = '{0}' and  SecondGroupBy = '{1}' ", strFirstGroupBy, strSecondGroupBy);
+        //    else
+        //        strFilter = string.Format("FirstGroupBy = '{0}'", strFirstGroupBy);
+
+        //    DataRow[] drRecords_Payment = dtRecords_Payment.Select(strFilter);
+        //    for (int intI4 = 0; intI4 < drRecords_Payment.Length; intI4++)
+        //    {
+        //        int intRes;
+        //        int intDiv = System.Math.DivRem(intI4, 2, out intRes);
+        //        string strRowStyle = "font-size:8pt;font-family:Tahoma;";
+        //        string strAltRowStyle = "font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;";
+
+        //        sbRecorords.Append("<tr  align='right' style='" + ((intRes == 0) ? strRowStyle : strAltRowStyle) + "'>");
+        //        sbRecorords.Append("<td class='cols_'  align='left' valign='top'>" + Convert.ToString(drRecords_Payment[intI4]["Claim_Number"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='left' valign='top'>" + Convert.ToString(drRecords_Payment[intI4]["Driver_Claimant_Name"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  colspan='8' align='left' valign='top'>" + Convert.ToString(drRecords_Payment[intI4]["Coverage"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_' >&nbsp;</td>");
+        //        sbRecorords.Append("</tr>");
+
+        //        sbRecorords.Append("<tr  align='right' style='" + ((intRes == 0) ? strRowStyle : strAltRowStyle) + "'>");
+        //        sbRecorords.Append("<td class='cols_'  align='left' valign='top'>" + Convert.ToString(drRecords_Payment[intI4]["OperatingCompanies"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='left' valign='top'>" + string.Format("{0:MM/dd/yyyy}", drRecords_Payment[intI4]["Loss_DateTime"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='left' valign='top'>" + string.Format("{0:MM/dd/yyyy}", drRecords_Payment[intI4]["Report_Date"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='left' valign='top'>" + Convert.ToString(drRecords_Payment[intI4]["Statuses"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["INC_Med_BI_Comp"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["Inc_Expense"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["INC_Ind_PD_Coll"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["INC_Legal"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["INC_Other"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["TotalIncurred"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'> &nbsp;</td>");
+        //        sbRecorords.Append("</tr>");
+
+        //        sbRecorords.Append("<tr  align='right' style='" + ((intRes == 0) ? strRowStyle : strAltRowStyle) + "'>");
+        //        sbRecorords.Append("<td class='cols_'  align='left' valign='top'>" + Convert.ToString(drRecords_Payment[intI4]["Claim_Description"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='left' valign='top'>" + Convert.ToString(drRecords_Payment[intI4]["Causes"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='left'>&nbsp;</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='left'>&nbsp;</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["Paid_Med_BI_Comp"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["Paid_Expense"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["Paid_Ind_PD_Coll"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["Paid_Legal"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["Paid_Other"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  align='right' valign='top'>" + string.Format("{0:C}", drRecords_Payment[intI4]["TotalPaid"]) + "</td>");
+        //        sbRecorords.Append("<td class='cols_'  nowarp='nowarp' align='left' valign='top'>" + Convert.ToString(drRecords_Payment[intI4]["Adjustor_Notes"]) + "</td>");
+        //        sbRecorords.Append("</tr>");
+
+        //        sbRecorords.Append("<tr  align='right' style='font-size:8pt;font-family:Tahoma;'>");
+        //        sbRecorords.Append("<td class='cols_' colspan='11' >&nbsp;</td>");
+        //        sbRecorords.Append("</tr>");
+        //    }
+
+
+        //    return sbRecorords;
+        //}
+
+        #endregion
+
+        /// <summary>
+        /// Format Null Date To Store 
+        /// </summary>
+        /// <param name="strDate"></param>
+        /// <returns></returns>
+        public static Nullable<DateTime> FormatNullDateToStore(string strDate)
+        {
+            if (!String.IsNullOrEmpty(strDate.Trim()))
+            {
+                return Convert.ToDateTime(strDate.Trim());
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Get Date Where Condition
+        /// </summary>
+        /// <param name="strCriteria"></param>
+        /// <param name="FromDate"></param>
+        /// <param name="ToDate"></param>
+        /// <returns></returns>
+        private string GetDateCriteriaForPrint(string strCriteria, DateTime? FromDate, DateTime? ToDate)
+        {
+            string strWhere = string.Empty;
+
+            if (!string.IsNullOrEmpty(strCriteria) && (FromDate.HasValue || ToDate.HasValue))
+            {
+
+                if (strCriteria == "O" && FromDate.HasValue)
+                    strWhere = "<td> <b> On Date : </b><td>" + FromDate.Value.ToString(DateDisplayFormat) + " ";
+                else if (strCriteria == "BF" && FromDate.HasValue)
+                    strWhere = "<td> <b> On or Before Date : </b><td>" + FromDate.Value.ToString(DateDisplayFormat) + " ";
+                else if (strCriteria == "A" && FromDate.HasValue)
+                    strWhere = "<td> <b> On or After Date : </b><td>" + FromDate.Value.ToString(DateDisplayFormat) + " ";
+                else if (strCriteria == "B")
+                {
+                    strWhere = "<td><b> Start Date : </b><td>&nbsp;";
+                    if (FromDate.HasValue)
+                        strWhere += " " + FromDate.Value.ToString(DateDisplayFormat) + " ";
+
+                    strWhere += "<td><b> End Date : </b>";
+                    // if to date is passed and then add and condition for between
+                    if (ToDate.HasValue)
+                        strWhere += "<td>" + ToDate.Value.ToString(DateDisplayFormat) + " ";
+                }
+            }
+
+            return strWhere;
+        }
+
+        /// <summary>
+        /// Fill Filter Value from Dropdown
+        /// </summary>
+        /// <param name="strField_Name"></param>
+        /// <param name="strConValue"></param>
+        /// <returns></returns>
+        public static string FillFilterDropDown(string strField_Name, string strConValue)
+        {
+            try
+            {
+
+                /*
+                 * This function used for Fill drop down For Adhoc Report.
+                 * As Filter come from database directly, We maintain one XML file for Field name and Table Name.
+                 * Some of the drop down are static in system. Like Yes, No ,N/A  values drop down
+                 * In XML file there are one field "Title" which map with "Header" of Adhoc Report Field.
+                 * Same way another property "TableName" which is Actual table name in database.
+                 * "Type" property is used for define static drop down type.
+                 * "HasCode" property define if table has both Description and Code fields
+                 * 
+                 * First of all Find "Title" in XML File. based on that Fill Drop Down 
+                 * If It is static values meand "Type" is not "DropDown" then Add Static Fields to Dropdown
+                 * 
+                 * */
+
+                DataSet dsXML = new System.Data.DataSet();
+                // Read XML Files
+
+                dsXML.ReadXml(AppDomain.CurrentDomain.BaseDirectory + "\\AdHocReportFields.xml");
+                string strTable = string.Empty, strType = string.Empty, strDesc = string.Empty, strRecord = string.Empty;
+                bool IsTableHasCode = true;
+
+                if (dsXML.Tables.Count > 0)
+                {
+                    DataRow[] drFilter = dsXML.Tables[0].Select("Title = '" + strField_Name + "'");
+
+                    if (drFilter.Length > 0)
+                    {
+                        strTable = Convert.ToString(drFilter[0]["TableName"]);
+                        strType = Convert.ToString(drFilter[0]["Type"]);
+                        strDesc = Convert.ToString(drFilter[0]["Field_Name"]);
+                        IsTableHasCode = (Convert.ToString(drFilter[0]["HasCode"]) == "Y");
+                    }
+                }
+                dsXML.Dispose();
+                dsXML = null;
+
+                if (string.Compare(strType, "DropDown", true) == 0)
+                {
+                    if (!string.IsNullOrEmpty(strConValue))
+                        strRecord = GetCommaValueFromTable(Report.LuTableSelectByIDs(strTable, strConValue, strDesc), strDesc);
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(strConValue))
+                    {
+                        string[] arrConditionValue = strConValue.Split(',');
+                        for (int intj = 0; intj < arrConditionValue.Length; intj++)
+                        {
+                            if (arrConditionValue[intj] == "1" || arrConditionValue[intj] == "Y")
+                                strRecord += "Yes,";
+                            else if (arrConditionValue[intj] == "0" || arrConditionValue[intj] == "N")
+                                strRecord += "No,";
+                            else if (arrConditionValue[intj] == "3")
+                            {
+                                if (string.Compare(strTable, "drpTest", true) == 0)
+                                    strRecord += "Time Expired-no test,";
+                                else if (string.Compare(strTable, "drpYesNo9999", true) == 0)
+                                    strRecord += "9999,";
+                                else if (string.Compare(strTable, "drpTest", true) == 0)
+                                    strRecord += "Time Expired-no test,";
+                            }
+                            else
+                                strRecord += strConValue;
+                        }
+                        strRecord = strRecord.TrimEnd(',');
+                    }
+                }
+                return strRecord;
+            }
+            catch (Exception e)
+            {
+                throw e;
             }
         }
         #endregion
