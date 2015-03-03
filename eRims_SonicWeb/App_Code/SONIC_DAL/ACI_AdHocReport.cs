@@ -506,6 +506,21 @@ namespace ERIMS.DAL
                 else
                     this._FirstGroupByOrder = (string)drAdHocReport["FirstGroupByOrder"];
 
+                if (drAdHocReport["ThirdGroupByOrder"] == DBNull.Value)
+                    this._ThirdGroupByOrder = null;
+                else
+                    this._ThirdGroupByOrder = (string)drAdHocReport["ThirdGroupByOrder"];
+
+                if (drAdHocReport["FourthGroupByOrder"] == DBNull.Value)
+                    this._FourthGroupByOrder = null;
+                else
+                    this._FourthGroupByOrder = (string)drAdHocReport["FourthGroupByOrder"];
+
+                if (drAdHocReport["FifthGroupByOrder"] == DBNull.Value)
+                    this._FifthGroupByOrder = null;
+                else
+                    this._FifthGroupByOrder = (string)drAdHocReport["FifthGroupByOrder"];
+
                 if (drAdHocReport["PriorValuation_RelativeDate"] == DBNull.Value)
                     this._PriorValuation_RelativeDate = null;
                 else
@@ -611,7 +626,7 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "FourthSortByOrder", DbType.String, this._FourthSortByOrder);
 
-            db.AddInParameter(dbCommand, "FifthSortBy", DbType.Decimal, this._ThirdSortBy);
+            db.AddInParameter(dbCommand, "FifthSortBy", DbType.Decimal, this._FifthSortBy);
 
             if (string.IsNullOrEmpty(this._FifthSortByOrder))
                 db.AddInParameter(dbCommand, "FifthSortByOrder", DbType.String, DBNull.Value);
