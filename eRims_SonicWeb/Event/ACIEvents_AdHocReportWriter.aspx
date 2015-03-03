@@ -368,7 +368,7 @@
                                         :
                                     </td>
                                     <td width="32%">
-                                        <asp:DropDownList ID="drpGroupByFirst" runat="server" EnableTheming="false" Width="250px"
+                                        <asp:DropDownList ID="drpGroupByFirst" runat="server" Width="250px"
                                             onchange="AskfForLogoff=false;Page_ClientValidate('dummy')">
                                             <asp:ListItem Text="--Select--" Value="0"></asp:ListItem>
                                         </asp:DropDownList>
@@ -562,7 +562,7 @@
                                         :
                                     </td>
                                     <td width="32%">
-                                        <asp:DropDownList ID="drpSortingFirst" runat="server" EnableTheming="false" Width="250px"
+                                        <asp:DropDownList ID="drpSortingFirst" runat="server" Width="250px"
                                             onchange="AskfForLogoff=false;Page_ClientValidate('dummy')">
                                             <asp:ListItem Text="--Select--" Value="0"></asp:ListItem>
                                         </asp:DropDownList>
@@ -803,7 +803,7 @@
                                                     <td width="30%">
                                                         <asp:TextBox ID="txtDate_From1" runat="server" SkinID="txtdate" Width="80px" MaxLength="10"></asp:TextBox>
                                                         <img alt="" id="imgDate_Opened_From1" onclick="return showCalendar('<%=txtDate_From1.ClientID%>', 'mm/dd/y','','');"
-                                                            runat="server" onmouseover="javascript:this.style.cursor='hand';" src='<%=AppConfig.ImageURL %>iconPicDate.gif'
+                                                            runat="server" onmouseover="javascript:this.style.cursor='hand';" src='<%=AppConfig.ImageURL %>/iconPicDate.gif'
                                                             align="middle" />
                                                         <asp:RegularExpressionValidator ID="revtxtDate_From1" runat="server" ValidationGroup="vsErrorGroup"
                                                             Display="none" ErrorMessage="Filter Criteria  1 - On Date is not a valid date"
@@ -817,7 +817,7 @@
                                                     <td style="width: 30%;">
                                                         <asp:TextBox ID="txtDate_To1" runat="server" SkinID="txtdate" Width="80px" MaxLength="10"></asp:TextBox>
                                                         <img alt="" id="imgDate_To1" runat="server" onclick="return showCalendar('<%=txtDate_To1.ClientID%>', 'mm/dd/y','','');"
-                                                            onmouseover="javascript:this.style.cursor='hand';" src='<%=AppConfig.ImageURL %>iconPicDate.gif'
+                                                            onmouseover="javascript:this.style.cursor='hand';" src='<%=AppConfig.ImageURL %>/iconPicDate.gif'
                                                             align="middle" />
                                                         <asp:RegularExpressionValidator ID="revtxtDate_To1" runat="server" ValidationGroup="vsErrorGroup"
                                                             Display="none" ErrorMessage="Filter Criteria  1 - End Date is not a valid date"
@@ -1961,7 +1961,7 @@
                     <asp:Button ID="btnClear" runat="Server" Text="Clear" OnClick="btnClear_Click" ToolTip="Clear" />
                     <asp:Button ID="btnDeleteReport" runat="server" Text="Delete Report" OnClick="btnDeleteReport_Click"
                         ToolTip="Delete Report" OnClientClick="return ConfirmDelete();" Enabled="false" />
-                    <asp:Button ID="btnSchedule" runat="Server" CssClass="btn" Text="Schedule" ValidationGroup="vsErrorGroup" Visible="false"
+                    <asp:Button ID="btnSchedule" runat="Server" CssClass="btn" Text="Schedule" ValidationGroup="vsErrorGroup" 
                         OnClientClick="javascript:OPenSchedulePopup();return false;" ToolTip="Schedule Report" />
                     <asp:HiddenField ID="hdnScheduleID" runat="server" Value="0" />
                     <asp:Button ID="btnHdnScheduling" runat="server" OnClick="btnHdnScheduling_Click" />

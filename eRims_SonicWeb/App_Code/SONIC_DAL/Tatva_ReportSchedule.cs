@@ -234,7 +234,7 @@ namespace ERIMS.DAL
         public decimal New_Update()
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("Tatva_ReportScheduleUpdate_New");
+            DbCommand dbCommand = db.GetStoredProcCommand("Tatva_ReportScheduleUpdate");
 
             db.AddInParameter(dbCommand, "PK_Schedule", DbType.Decimal, this._PK_Schedule);
             db.AddInParameter(dbCommand, "Scheduled_Date", DbType.DateTime, this._Scheduled_Date);

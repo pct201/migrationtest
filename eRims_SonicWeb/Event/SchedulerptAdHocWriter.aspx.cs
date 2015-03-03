@@ -69,7 +69,7 @@ public partial class SchedulerptAdHocWriter : System.Web.UI.Page
 
                 objRptSchedule.Scheduled_Date = Convert.ToDateTime(txtScheduleDate.Text.Trim());
                 objRptSchedule.Schedule_End_Date = Convert.ToDateTime(txtScheduleEndDate.Text.Trim());
-                objRptSchedule.FK_Report = 60;
+                objRptSchedule.FK_Report = 63;
                 objRptSchedule.Fk_RecipientList = Convert.ToDecimal(drpRecipientList.SelectedValue);
                 objRptSchedule.FK_Security_ID = Convert.ToDecimal(clsSession.UserID);
                 objRptSchedule.Recurring_Type = Convert.ToDecimal(drpRecurringPeriod.SelectedValue);

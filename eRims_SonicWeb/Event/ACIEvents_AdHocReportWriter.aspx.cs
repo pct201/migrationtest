@@ -1114,10 +1114,10 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
 
         lblDateFrom1.Text = lstDate1.SelectedItem.Text + " Date:";
 
-        imgDate_To1.Src = imgDate_To2.Src = imgDate_To3.Src = imgDate_To4.Src = imgDate_To5.Src = AppConfig.ImageURL + "iconPicDate.gif";
-        imgDate_To6.Src = imgDate_To7.Src = imgDate_To8.Src = imgDate_To9.Src = imgDate_To10.Src = AppConfig.ImageURL + "iconPicDate.gif";
-        imgDate_Opened_From1.Src = imgDate_Opened_From2.Src = imgDate_Opened_From3.Src = imgDate_Opened_From4.Src = imgDate_Opened_From5.Src = AppConfig.ImageURL + "iconPicDate.gif";
-        imgDate_Opened_From6.Src = imgDate_Opened_From7.Src = imgDate_Opened_From8.Src = imgDate_Opened_From9.Src = imgDate_Opened_From10.Src = AppConfig.ImageURL + "iconPicDate.gif";
+        imgDate_To1.Src = imgDate_To2.Src = imgDate_To3.Src = imgDate_To4.Src = imgDate_To5.Src = AppConfig.ImageURL + "/iconPicDate.gif";
+        imgDate_To6.Src = imgDate_To7.Src = imgDate_To8.Src = imgDate_To9.Src = imgDate_To10.Src = AppConfig.ImageURL + "/iconPicDate.gif";
+        imgDate_Opened_From1.Src = imgDate_Opened_From2.Src = imgDate_Opened_From3.Src = imgDate_Opened_From4.Src = imgDate_Opened_From5.Src = AppConfig.ImageURL + "/iconPicDate.gif";
+        imgDate_Opened_From6.Src = imgDate_Opened_From7.Src = imgDate_Opened_From8.Src = imgDate_Opened_From9.Src = imgDate_Opened_From10.Src = AppConfig.ImageURL + "/iconPicDate.gif";
 
     }
 

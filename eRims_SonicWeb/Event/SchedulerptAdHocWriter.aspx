@@ -57,7 +57,7 @@
                                             <td align="left" width="28%" valign="top">
                                                 <asp:TextBox runat="server" ID="txtScheduleDate" SkinID="txtDate"></asp:TextBox>
                                                 <img onclick="return showCalendar('<%=txtScheduleDate.ClientID %>', 'mm/dd/y');"
-                                                    onmouseover="javascript:this.style.cursor='hand';" src="<%=AppConfig.ImageURL %>iconPicDate.gif"
+                                                    onmouseover="javascript:this.style.cursor='hand';" src="<%=AppConfig.ImageURL %>/iconPicDate.gif"
                                                     align="middle" /><br />
                                                 <asp:RequiredFieldValidator ValidationGroup="vsErrorGroup" ID="RequiredFieldValidator4"
                                                     runat="server" ControlToValidate="txtScheduleDate" ErrorMessage="Schedule Date must not be Blank."
@@ -80,7 +80,7 @@
                                             <td align="left" width="28%" valign="top">
                                                 <asp:TextBox runat="server" ID="txtScheduleEndDate" SkinID="txtDate"></asp:TextBox>
                                                 <img onclick="return showCalendar('<%=txtScheduleEndDate.ClientID %>', 'mm/dd/y');"
-                                                    onmouseover="javascript:this.style.cursor='hand';" src="<%=AppConfig.ImageURL %>iconPicDate.gif"
+                                                    onmouseover="javascript:this.style.cursor='hand';" src="<%=AppConfig.ImageURL %>/iconPicDate.gif"
                                                     align="middle" /><br />
                                                 <asp:RequiredFieldValidator ValidationGroup="vsErrorGroup" ID="RequiredFieldValidator5"
                                                     runat="server" ControlToValidate="txtScheduleEndDate" ErrorMessage="Schedule End Date must not be Blank."
