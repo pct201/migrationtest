@@ -762,7 +762,7 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "FourthSortByOrder", DbType.String, this._FourthSortByOrder);
 
-            db.AddInParameter(dbCommand, "FifthSortBy", DbType.Decimal, this._ThirdSortBy);
+            db.AddInParameter(dbCommand, "FifthSortBy", DbType.Decimal, this._FifthSortBy);
 
             if (string.IsNullOrEmpty(this._FifthSortByOrder))
                 db.AddInParameter(dbCommand, "FifthSortByOrder", DbType.String, DBNull.Value);
