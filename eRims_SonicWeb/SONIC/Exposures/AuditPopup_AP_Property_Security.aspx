@@ -9,20 +9,41 @@
         function showAudit(divHeader, divGrid) {
             var divheight, i;
 
-            divHeader.style.width = window.screen.availWidth - 325 + "px";
-            divGrid.style.width = window.screen.availWidth - 325 + "px";
+            divHeader.style.width = window.screen.availWidth - 225 + "px";
+            divGrid.style.width = window.screen.availWidth - 225 + "px";
 
             divheight = divGrid.style.height;
             i = divheight.indexOf('px');
 
             if (i > -1)
                 divheight = divheight.substring(0, i);
-            if (divheight > (window.screen.availHeight - 450) && divGrid.style.height != "") {
-                divGrid.style.height = window.screen.availHeight - 450;
+            if (divheight > (window.screen.availHeight - 350) && divGrid.style.height != "") {
+                divGrid.style.height = window.screen.availHeight - 350;
             }
         }
 
         function ChangeScrollBar(f, s) {
+            s.scrollTop = f.scrollTop;
+            s.scrollLeft = f.scrollLeft;
+        }
+
+        function showAudit_Financial(divHeader, divGrid) {
+            var divheight, i;
+
+            divHeader.style.width = window.screen.availWidth - 225 + "px";
+            divGrid.style.width = window.screen.availWidth - 225 + "px";
+
+            divheight = divGrid.style.height;
+            i = divheight.indexOf('px');
+
+            if (i > -1)
+                divheight = divheight.substring(0, i);
+            if (divheight > (window.screen.availHeight - 350) && divGrid.style.height != "") {
+                divGrid.style.height = window.screen.availHeight - 350;
+            }
+        }
+
+        function ChangeScrollBar_Financial(f, s) {
             s.scrollTop = f.scrollTop;
             s.scrollLeft = f.scrollLeft;
         }
@@ -48,7 +69,7 @@
         //    s.scrollLeft = f.scrollLeft;
         //}
     </script>
-    
+
 </head>
 <body>
 
@@ -408,28 +429,28 @@
                                     <asp:TemplateField HeaderText="CCTV_Company_Name">
                                         <ItemStyle CssClass="cols" />
                                         <ItemTemplate>
-                                            <asp:Label ID="lblCCTV_Company_Name" runat="server" Text='<%#Eval("CCTV_Company_Name")%>' style="word-wrap:normal;word-break:break-all"
+                                            <asp:Label ID="lblCCTV_Company_Name" runat="server" Text='<%#Eval("CCTV_Company_Name")%>' Style="word-wrap: normal; word-break: break-all"
                                                 Width="160px"></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="CCTV_Company_Address_1">
                                         <ItemStyle CssClass="cols" />
                                         <ItemTemplate>
-                                            <asp:Label ID="lblCCTV_Company_Address_1" runat="server" Text='<%#Eval("CCTV_Company_Address_1")%>' style="word-wrap:normal;word-break:break-all"
+                                            <asp:Label ID="lblCCTV_Company_Address_1" runat="server" Text='<%#Eval("CCTV_Company_Address_1")%>' Style="word-wrap: normal; word-break: break-all"
                                                 Width="160px"></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="CCTV_Company_Address_2">
                                         <ItemStyle CssClass="cols" />
                                         <ItemTemplate>
-                                            <asp:Label ID="lblCCTV_Company_Address_2" runat="server" Text='<%#Eval("CCTV_Company_Address_2")%>' style="word-wrap:normal;word-break:break-all"
+                                            <asp:Label ID="lblCCTV_Company_Address_2" runat="server" Text='<%#Eval("CCTV_Company_Address_2")%>' Style="word-wrap: normal; word-break: break-all"
                                                 Width="160px"></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="CCTV_Company_City">
                                         <ItemStyle CssClass="cols" />
                                         <ItemTemplate>
-                                            <asp:Label ID="lblCCTV_Company_City" runat="server" Text='<%#Eval("CCTV_Company_City")%>' style="word-wrap:normal;word-break:break-all"
+                                            <asp:Label ID="lblCCTV_Company_City" runat="server" Text='<%#Eval("CCTV_Company_City")%>' Style="word-wrap: normal; word-break: break-all"
                                                 Width="160px"></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
@@ -1145,6 +1166,101 @@
                                         <ItemTemplate>
                                             <asp:Label ID="lblUpdate_Date" runat="server" Text='<%#Eval("Update_Date") != DBNull.Value ? clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Update_Date"))) : ""%>'
                                                 Width="100px"></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                </Columns>
+                            </asp:GridView>
+                        </div>
+                        <br />
+                        <br />
+                        <table>
+                            <tr>
+                                <td align="left">
+                                    <asp:Label ID="lblAP_Property_Security_Financials" runat="server" Style="font-weight: bold"></asp:Label>
+                                </td>
+                            </tr>
+                        </table>                                                
+                        <div style="overflow-x: hidden; width: auto;" id="dvHeader" runat="server">
+                            <table cellpadding="4" cellspacing="0" style="width: 600px; border-collapse: collapse;">
+                                <tbody>
+                                    <tr style="background-color: #95B3D7; color: White; font-size: 12px; font-weight: bold;"
+                                        align="left">
+                                        <th class="cols">
+                                            <span style="display: inline-block; width: 160px;">Audit DateTime</span>
+                                        </th>
+                                        <%--<th class="cols">
+                                    <span style="display: inline-block; width: 130px">FK_AP_Property_Security</span>
+                                </th>--%>
+                                        <th class="cols">
+                                            <span style="display: inline-block; width: 200px">Category</span>
+                                        </th>
+                                        <th class="cols">
+                                            <span style="display: inline-block; width: 160px">Total Capex</span>
+                                        </th>
+                                        <th class="cols">
+                                            <span style="display: inline-block; width: 160px">Total Monthly Charge</span>
+                                        </th>
+                                        <th class="cols">
+                                            <span style="display: inline-block; width: 160px;">Updated By</span>
+                                        </th>
+                                        <th class="cols">
+                                            <span style="display: inline-block; width: 117px;">Update Date</span>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="overflow-y: scroll; width: auto; height: 395px;" id="dvGrid" runat="server">
+                            <asp:GridView ID="gvAP_Property_Security_Financials" runat="server" AutoGenerateColumns="False" CellPadding="4"
+                                EnableTheming="True" EmptyDataText="No records found!" ShowHeader="false">
+                                <RowStyle HorizontalAlign="Left" VerticalAlign="Top" />
+                                <Columns>
+                                    <asp:TemplateField HeaderText="Audit_DateTime">
+                                        <ItemStyle CssClass="cols" />
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblAudit_DateTime" runat="server" Text='<%# Convert.ToDateTime(Eval("Audit_DateTime")).ToString("yyyy-MM-dd HH:mm")%>'
+                                                ToolTip='<%# Convert.ToDateTime(Eval("Audit_DateTime")).ToString("yyyy-MM-dd HH:mm")%>'
+                                                Width="160px"></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <%--                            <asp:TemplateField HeaderText="FK_AP_Property_Security">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblFK_AP_Property_Security" runat="server" Text='<%#Eval("FK_AP_Property_Security")%>'
+                                        Width="130px" CssClass="TextClip"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>--%>
+                                    <asp:TemplateField HeaderText="Category">
+                                        <ItemStyle CssClass="cols" />
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblCategory" runat="server" Text='<%#Eval("Category")%>'
+                                                Width="200px" CssClass="TextClip"></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Total_Capex">
+                                        <ItemStyle CssClass="cols" />
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblTotal_Capex" runat="server" Text='<%#clsGeneral.FormatCommaSeperatorCurrency(Eval("Total_Capex"))%>' Width="160px"></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Total_Monthly_Charge">
+                                        <ItemStyle CssClass="cols" />
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblTotal_Monthly_Charge" runat="server" Text='<%#clsGeneral.FormatCommaSeperatorCurrency(Eval("Total_Monthly_Charge"))%>'
+                                                Width="160px"></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Updated_By">
+                                        <ItemStyle CssClass="cols" />
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblUpdated_By" runat="server" Text='<%#Eval("Updated_By")%>' Width="160px"></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Update_Date">
+                                        <ItemStyle CssClass="cols" />
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblUpdate_Date" runat="server" Text='<%#Eval("Update_Date") != DBNull.Value ? clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Update_Date"))) : ""%>'
+                                                Width="117px"></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                 </Columns>

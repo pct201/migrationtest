@@ -35,9 +35,45 @@ public partial class SONIC_Exposures_AuditPopup_AP_Property_Security : System.We
             {
                 //lbltable_Name.Text = (Request.QueryString["id"] + " < - > " + Request.QueryString["Table_Name"]);
                 BindAP_Property_Security_Audit();
+                BindAP_Property_Security_Financial_Audit();
 
             }
         }
+    }
+
+    private void BindAP_Property_Security_Financial_Audit()
+    {
+        DataTable dt = new DataTable();
+
+        // show Case Grid 
+        dvGrid.Visible = true;
+        lbltable_Name.Text = "Asset Protection Module – Property Security Financials";
+
+        // Fill grid with audit table
+        dt = AuditTrail.GetAP_Property_Security_FinancialsAuditTrail(Convert.ToDecimal(Request.QueryString["id"])).Tables[0];
+        gvAP_Property_Security_Financials.DataSource = dt;
+        gvAP_Property_Security_Financials.DataBind();
+
+        // Check if record found or not.
+        if (dt.Rows.Count > 0)
+        {
+            // set Gridview div height and width on client side. 
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), System.DateTime.Now.ToString(), "javacript:showAudit_Financial(" + dvHeader.ClientID + "," + dvGrid.ClientID + ");", true);
+
+            // set Gridview div Scroll bar events so Scroll Header as per grid scroll
+            dvGrid.Attributes.Add("onscroll", "javascript:ChangeScrollBar_Financial(this," + dvHeader.ClientID + ");");
+            dvHeader.Visible = true;
+        }
+        else
+        {
+            // if record not found then hide Header and set width and height so scroll bar not visible.
+            dvGrid.Style["height"] = Unit.Pixel(50).ToString();
+            dvGrid.Style["width"] = "100%";
+            dvGrid.Style["overflow"] = "hidden";
+        }
+
+        dt.Dispose();
+        dt = null;
     }
     #endregion
 
@@ -49,7 +85,7 @@ public partial class SONIC_Exposures_AuditPopup_AP_Property_Security : System.We
     {
         DataTable dt = new DataTable();
         divAP_Property_Security_Audit_Grid.Visible = true;
-        lbltable_Name.Text = "AP Property Security Audit Trail";
+        lblAP_Property_Security_Financials.Text = "AP Property Security Financial Audit Trail";
         // Fill grid with audit table
         dt = Audit_Trail.GetAP_Property_Security_Audit(PK).Tables[0];
         gvAP_Property_Security_Audit.DataSource = dt;
@@ -77,5 +113,6 @@ public partial class SONIC_Exposures_AuditPopup_AP_Property_Security : System.We
         dt.Dispose();
         dt = null;
     }
+
     #endregion
 }

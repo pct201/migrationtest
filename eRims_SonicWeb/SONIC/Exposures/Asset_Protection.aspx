@@ -14,6 +14,8 @@
     TagPrefix="uc" %>--%>
 <%@ Register Src="~/Controls/SonicClaimNotes/SonicNotes.ascx" TagName="ctrlSonicNotes"
     TagPrefix="uc" %>
+<%@ Register Src="~/Controls/SonicClaimNotes/APNotes.ascx" TagName="ctrlAPNotes"
+    TagPrefix="uc" %>
 <%@ Register Src="~/Controls/SonicClaimNotes/AdjusterNotes.ascx" TagName="CtrlAdjusterNotes"
     TagPrefix="uc" %>
 
@@ -36,7 +38,7 @@
 
         
         function onNextStep() {
-            if (ActiveTabIndex == 6) {
+            if (ActiveTabIndex == 5) {
                 return ValSave();
             }
             else {
@@ -55,7 +57,7 @@
 
         function SetMenuStyle(index) {
             var i;
-            for (i = 1; i <= 6; i++) {
+            for (i = 1; i <= 5; i++) {
                 var tb = document.getElementById("Menu" + i);
                 if (i == index) {
                     tb.className = "LeftMenuSelected";
@@ -93,7 +95,7 @@
             }
             else {
                 var i;
-                for (i = 1; i <= 5; i++) {
+                for (i = 1; i <= 4; i++) {
                     document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i).style.display = (i == index) ? "block" : "none";
                     TextChange();
                 }
@@ -105,11 +107,11 @@
                 else { document.getElementById('<%= dvDPD_Save.ClientID %>').style.display = "none"; }
                 if (index == 3) { document.getElementById('<%= dvAL_Save.ClientID %>').style.display = ""; }
                 else { document.getElementById('<%= dvAL_Save.ClientID %>').style.display = "none"; }
-                if (index == 4) { document.getElementById('<%=dvCal_Grid.ClientID%>').style.display = ""; document.getElementById('<%=dvCalAtlanticSave.ClientID%>').style.display = ""; }
-                else { document.getElementById('<%=dvCal_Grid.ClientID%>').style.display = "none"; document.getElementById('<%=dvCalAtlanticSave.ClientID%>').style.display = "none"; }
-                if (index == 5) document.getElementById('<%=dvFraudEventSave.ClientID%>').style.display = "";
+                //if (index == 4) { document.getElementById('<=dvCal_Grid.ClientID%>').style.display = ""; document.getElementById('<=dvCalAtlanticSave.ClientID%>').style.display = ""; }
+                //else { document.getElementById('<%=dvCal_Grid.ClientID%>').style.display = "none"; document.getElementById('<=dvCalAtlanticSave.ClientID%>').style.display = "none"; }
+                if (index == 4) document.getElementById('<%=dvFraudEventSave.ClientID%>').style.display = "";
                 else document.getElementById('<%=dvFraudEventSave.ClientID%>').style.display = "none";
-                if (index == 6) {
+                if (index == 5) {
                     document.getElementById('<%=btnNext.ClientID%>').style.display = "none";
                     
                     document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "block";
@@ -135,13 +137,13 @@
             SetMenuStyle(index);
             document.getElementById('<%=dvView.ClientID%>').style.display = "block";
             var i;
-            for (i = 1; i <= 5; i++) {
+            for (i = 1; i <= 4; i++) {
                 document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i + "View").style.display = (i == index) ? "block" : "none";
             }
 
             if (index == 1) { document.getElementById('<%=btnPrevoius.ClientID%>').style.display = "none"; }
             else { document.getElementById('<%=btnPrevoius.ClientID%>').style.display = ""; }
-            if (index == 6) {
+            if (index == 5) {
                 document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "block";
                 document.getElementById("<%=btnNext.ClientID%>").style.display = "none";
                 document.getElementById("<%=btnGenerate_Abstract.ClientID%>").style.display = "none";
@@ -188,13 +190,13 @@
             else if (Panelid == 3) {
                 document.getElementById('<%= lblPanelDesc.ClientID %>').innerHTML = 'Asset Management – Auto Liability FROIs';
             }
+            <%-- else if (Panelid == 4) {
+                document.getElementById('<%= lblPanelDesc.ClientID %>').innerHTML = 'Asset Management – ACI';Change Header text from Cal Atlantic to ACI as per client's request Bug ID = 2552
+            }--%>
             else if (Panelid == 4) {
-                document.getElementById('<%= lblPanelDesc.ClientID %>').innerHTML = 'Asset Management – ACI';<%--Change Header text from Cal Atlantic to ACI as per client's request Bug ID = 2552--%>
-            }
-            else if (Panelid == 5) {
                 document.getElementById('<%= lblPanelDesc.ClientID %>').innerHTML = 'Asset Management – Fraud Events';
             }
-            else if (Panelid == 6) {
+            else if (Panelid == 5) {
                 document.getElementById('<%= lblPanelDesc.ClientID %>').innerHTML = 'Asset Management – Attachments';
             }
 }
@@ -245,7 +247,7 @@ function OpenClaimNotesView(Pk_Claim_Notes, FK_Claim) {
 
 function openAP_Propert_SecurtyPopup() {
     var winHeight = window.screen.availHeight - 300;
-    var winWidth = window.screen.availWidth - 315;
+    var winWidth = window.screen.availWidth - 200;
 
 
     obj = window.open("AuditPopup_AP_Property_Security.aspx?id=" + '<%=ViewState["PK_AP_Property_Security"]%>', 'PopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
@@ -344,10 +346,10 @@ function openGenereteAbstract() {
             else if (document.getElementById('<%= hdnPanel.ClientID %>').value == 3) {
                 PKID = '<%=ViewState["FK_AL_FR_ID"]%>';
             }
+            //else if (document.getElementById('<%= hdnPanel.ClientID %>').value == 4) {
+            //    PKID = '<=ViewState["PK_AP_Cal_Atlantic"]%>';
+            //}
             else if (document.getElementById('<%= hdnPanel.ClientID %>').value == 4) {
-                PKID = '<%=ViewState["PK_AP_Cal_Atlantic"]%>';
-            }
-            else if (document.getElementById('<%= hdnPanel.ClientID %>').value == 5) {
                 PKID = '<%=ViewState["PK_AP_Fraud_Events"]%>';
             }
 
@@ -555,20 +557,20 @@ function openGenereteAbstract() {
                                             <span id="Menu3" onclick="javascript:CheckValueChange(3,null);" class="LeftMenuStatic">AL FROIs&nbsp;<span id="MenuAsterisk3" runat="server" style="color: Red; display: none">*</span></span>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <%--<tr>
                                         <td align="left" width="100%">
                                             <span id="Menu4" onclick="javascript:CheckValueChange(4,null);" class="LeftMenuStatic">ACI&nbsp;<span id="MenuAsterisk4" runat="server" style="color: Red; display: none">*</span></span>
-                                            <%--Change Header text from Cal Atlantic to ACI as per client's request Bug ID = 2552--%>
+                                            <%--Change Header text from Cal Atlantic to ACI as per client's request Bug ID = 2552
+                                        </td>
+                                    </tr>--%>
+                                    <tr>
+                                        <td align="left" width="100%">
+                                            <span id="Menu4" onclick="javascript:CheckValueChange(4,null);" class="LeftMenuStatic">Fraud Events&nbsp;<span id="MenuAsterisk4" runat="server" style="color: Red; display: none">*</span></span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td align="left" width="100%">
-                                            <span id="Menu5" onclick="javascript:CheckValueChange(5,null);" class="LeftMenuStatic">Fraud Events&nbsp;<span id="MenuAsterisk5" runat="server" style="color: Red; display: none">*</span></span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td align="left" width="100%">
-                                            <span id="Menu6" onclick="javascript:CheckValueChange(6,null);" class="LeftMenuStatic">Attachments</span>
+                                            <span id="Menu5" onclick="javascript:CheckValueChange(5,null);" class="LeftMenuStatic">Attachments</span>
                                         </td>
                                     </tr>
                                 </tr>
@@ -1906,7 +1908,7 @@ function openGenereteAbstract() {
                                                                 <tr>
                                                                     <td colspan="3">&nbsp;</td>
                                                                 </tr>
-                                                                <tr>
+                                                                <%--<tr>
                                                                     <td colspan="3" align="center">
                                                                         <asp:Button ID="btnSaveFinancialGrid" runat="server" Text="Save" OnClick="btnSaveFinancialGrid_Click" />
                                                                         &nbsp;
@@ -1914,9 +1916,9 @@ function openGenereteAbstract() {
                                                                         &nbsp;
                                                                         <asp:Button ID="btnViewAuditFinancialGrid" runat="server" Text="View Audit Trail" OnClientClick="javascript:return openAP_Propert_Securty_FinancialPopup();" />
                                                                     </td>
-                                                                </tr>
+                                                                </tr>--%>
                                                             </table>
-                                                            <hr>
+                                                            <%--<hr>--%>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -2359,7 +2361,7 @@ function openGenereteAbstract() {
                                                 <table border="0" cellpadding="1" cellspacing="0" width="100%">
                                                     <tr>
                                                         <td width="100%" align="left">
-                                                            <uc:ctrlSonicNotes ID="ctrlSonicNotes" runat="server" IsAddVisible="false" StrOperation="edit" />
+                                                            <uc:ctrlAPNotes ID="ctrlAPNotes" runat="server" IsAddVisible="true" StrOperation="edit" />
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -2906,7 +2908,7 @@ function openGenereteAbstract() {
                                                 <table border="0" cellpadding="1" cellspacing="0" width="100%" style="margin-top: -10px;">
                                                     <tr>
                                                         <td width="100%" align="left">
-                                                            <uc:ctrlSonicNotes ID="ctrlSonicNotes_AL" runat="server" IsAddVisible="false" StrOperation="edit" />
+                                                            <uc:ctrlAPNotes ID="ctrlAPNotes_AL" runat="server" IsAddVisible="true" StrOperation="edit" />
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -3271,7 +3273,7 @@ function openGenereteAbstract() {
                                                     </tr>
                                                 </table>
                                             </div>
-                                            <asp:Panel ID="pnl4" runat="server" Style="display: none;" Width="794px">
+                                            <asp:Panel ID="pnl5" runat="server" Style="display: none;" Width="794px">
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                     <tr>
                                                         <td align="left" valign="top" colspan="6">
@@ -3666,7 +3668,7 @@ function openGenereteAbstract() {
                                                     </tr>
                                                 </table>
                                             </div>
-                                            <asp:Panel ID="pnl5" runat="server" Style="display: none;" Width="794px">
+                                            <asp:Panel ID="pnl4" runat="server" Style="display: none;" Width="794px">
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%" id="tblMainFraudEvent"
                                                     runat="server">
                                                     <tr>
@@ -6384,7 +6386,6 @@ function openGenereteAbstract() {
                                                             <asp:Label ID="lblCap_Index_Risk_Category" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
-
                                                     <tr>
                                                         <td align="left" valign="top">Financial Grid<br />
                                                         </td>
@@ -6449,13 +6450,13 @@ function openGenereteAbstract() {
                                                                 <tr>
                                                                     <td colspan="3">&nbsp;</td>
                                                                 </tr>
-                                                                <tr>
+                                                                <%--<tr>
                                                                     <td colspan="3" align="center">
                                                                         <asp:Button ID="Button3" runat="server" Text="View Audit Trail" OnClientClick="javascript:return openAP_Propert_Securty_FinancialPopup();" />
                                                                     </td>
-                                                                </tr>
+                                                                </tr>--%>
                                                             </table>
-                                                            <hr />
+                                                            <%--<hr />--%>
                                                         </td>
                                                     </tr>
 
@@ -6855,7 +6856,7 @@ function openGenereteAbstract() {
                                                 <table border="0" cellpadding="1" cellspacing="0" width="100%">
                                                     <tr>
                                                         <td width="100%" align="left">
-                                                            <uc:ctrlSonicNotes ID="ctrlSonicNotesView" runat="server" IsAddVisible="false" StrOperation="view" />
+                                                            <uc:ctrlAPNotes ID="ctrlAPNotesView" runat="server" IsAddVisible="false" StrOperation="view" />
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -7389,7 +7390,7 @@ function openGenereteAbstract() {
                                                 <table border="0" cellpadding="1" cellspacing="0" width="100%" style="margin-top: -10px;">
                                                     <tr>
                                                         <td width="100%" align="left">
-                                                            <uc:ctrlSonicNotes ID="ctrlSonicNotes_ALView" runat="server" IsAddVisible="false" StrOperation="view" />
+                                                            <uc:ctrlAPNotes ID="ctrlAPNotes_ALView" runat="server" IsAddVisible="false" StrOperation="view" />
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -7636,7 +7637,7 @@ function openGenereteAbstract() {
                                                     </tr>
                                                 </table>
                                             </asp:Panel>
-                                            <asp:Panel ID="pnl4View" runat="server" Style="display: none;" Width="794px">
+                                            <asp:Panel ID="pnl5View" runat="server" Style="display: none;" Width="794px">
                                                 <div class="bandHeaderRow">
                                                     ACI
                                                 </div>
@@ -8084,7 +8085,7 @@ function openGenereteAbstract() {
                                                     </tr>
                                                 </table>
                                             </asp:Panel>
-                                            <asp:Panel ID="pnl5View" runat="server" Style="display: none;" Width="794px">
+                                            <asp:Panel ID="pnl4View" runat="server" Style="display: none;" Width="794px">
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%" id="tblMainFraudEventView"
                                                     runat="server">
                                                     <tr>

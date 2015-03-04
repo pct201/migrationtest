@@ -319,7 +319,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         // Set Tab selection
         Tab.SetSelectedTab(Controls_ExposuresTab_ExposuresTab.Tab.AssetProtection);
         if (!Page.IsPostBack)
-        {
+        {          
             LocationID = clsGeneral.GetQueryStringID(Request.QueryString["loc"]);
             StrOperation = Convert.ToString(Request.QueryString["op"]);
             Session["ExposureLocation"] = LocationID;
@@ -2762,6 +2762,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     protected void btnSave_Click(object sender, EventArgs e)
     {
         PropertySecuritySaveData();
+        FinancialGrid();
     }
 
     /// <summary>
@@ -2924,7 +2925,12 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:OnChangeFunction();", true);
     }
 
-    protected void btnSaveFinancialGrid_Click(object sender, EventArgs e)
+    //protected void btnSaveFinancialGrid_Click(object sender, EventArgs e)
+    //{
+    //    FinancialGrid();
+    //}
+
+    private void FinancialGrid()
     {
         clsAP_Property_Security_Financials objAP_Property_Security_Financial = new clsAP_Property_Security_Financials();
         decimal decAP_Property_Security_Financial = 0;
@@ -2996,7 +3002,6 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             string str = "<script>alert(\"Please Save Property Security Details First.\");</script>";
             Page.ClientScript.RegisterStartupScript(this.GetType(), "Script", str, false);
         }
-
     }
 
     private void BindFinancialGridforEdit()
@@ -3142,21 +3147,21 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     }
 
 
-    protected void btnCancelFinancialGrid_Click(object sender, EventArgs e)
-    {
-        txtCCTVOnlyTC.Text = string.Empty;
-        txtCCTVOnlyTM.Text = string.Empty;
-        txtBurglarAlarmsTC.Text = string.Empty;
-        txtBurglarAlarmsTM.Text = string.Empty;
-        txtCategoryTC.Text = string.Empty;
-        txtCategoryTM.Text = string.Empty;
-        txtGuardServicesTC.Text = string.Empty;
-        txtGuardServicesTM.Text = string.Empty;
-        txtAccessControlTC.Text = string.Empty;
-        txtAccessControlTM.Text = string.Empty;
-        txtSecurityInventoryTrackingSystemsTC.Text = string.Empty;
-        txtSecurityInventoryTrackingSystemsTM.Text = string.Empty;
-    }
+    //protected void btnCancelFinancialGrid_Click(object sender, EventArgs e)
+    //{
+    //    txtCCTVOnlyTC.Text = string.Empty;
+    //    txtCCTVOnlyTM.Text = string.Empty;
+    //    txtBurglarAlarmsTC.Text = string.Empty;
+    //    txtBurglarAlarmsTM.Text = string.Empty;
+    //    txtCategoryTC.Text = string.Empty;
+    //    txtCategoryTM.Text = string.Empty;
+    //    txtGuardServicesTC.Text = string.Empty;
+    //    txtGuardServicesTM.Text = string.Empty;
+    //    txtAccessControlTC.Text = string.Empty;
+    //    txtAccessControlTM.Text = string.Empty;
+    //    txtSecurityInventoryTrackingSystemsTC.Text = string.Empty;
+    //    txtSecurityInventoryTrackingSystemsTM.Text = string.Empty;
+    //}
     protected void btnViewAuditFinancialGrid_Click(object sender, EventArgs e)
     {
 
@@ -3874,19 +3879,19 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
 
             if (StrOperation.ToLower() == "edit")
             {
-                ctrlSonicNotes.Location_ID = Convert.ToInt32(LocationID);
-                ctrlSonicNotes.PK_DPD_Claims_ID = Convert.ToInt32(PK_DPD_Claims_ID);
-                ctrlSonicNotes.CurrentClaimType = clsGeneral.Claim_Tables.DPDClaim.ToString();
-                ctrlSonicNotes.BindGridSonicNotes(PK_DPD_Claims_ID, clsGeneral.Claim_Tables.DPDClaim.ToString());
+                ctrlAPNotes.Location_ID = Convert.ToInt32(LocationID);
+                ctrlAPNotes.PK_DPD_Claims_ID = Convert.ToInt32(PK_DPD_Claims_ID);
+                ctrlAPNotes.CurrentClaimType = "AP_DPD_FROIs";
+                ctrlAPNotes.BindGridSonicNotes(PK_DPD_Claims_ID, "AP_DPD_FROIs");
 
                 BindDetailsForEditForDPD_FROIs();
             }
             else if (StrOperation.ToLower() == "view")
             {
-                ctrlSonicNotesView.Location_ID = Convert.ToInt32(LocationID);
-                ctrlSonicNotesView.PK_DPD_Claims_ID = Convert.ToInt32(PK_DPD_Claims_ID);
-                ctrlSonicNotesView.CurrentClaimType = clsGeneral.Claim_Tables.DPDClaim.ToString();
-                ctrlSonicNotesView.BindGridSonicNotes(PK_DPD_Claims_ID, clsGeneral.Claim_Tables.DPDClaim.ToString());
+                ctrlAPNotesView.Location_ID = Convert.ToInt32(LocationID);
+                ctrlAPNotesView.PK_DPD_Claims_ID = Convert.ToInt32(PK_DPD_Claims_ID);
+                ctrlAPNotesView.CurrentClaimType = "AP_DPD_FROIs";
+                ctrlAPNotesView.BindGridSonicNotes(PK_DPD_Claims_ID, "AP_DPD_FROIs");
 
                 BindDetailsForViewForDPD_FROIs();
             }
@@ -4075,10 +4080,10 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 ucAdjusterNotes.ClaimNumber = Origin_Claim_Number;
                 ucAdjusterNotes.BindGridNotes(Origin_Claim_Number);
 
-                ctrlSonicNotes_AL.Location_ID = Convert.ToInt32(LocationID);
-                ctrlSonicNotes_AL.PK_AL_CI_ID = Convert.ToInt32(PK_Auto_Loss_Claims_ID);
-                ctrlSonicNotes_AL.CurrentClaimType = clsGeneral.Claim_Tables.ALClaim.ToString();
-                ctrlSonicNotes_AL.BindGridSonicNotes(PK_Auto_Loss_Claims_ID, clsGeneral.Claim_Tables.ALClaim.ToString());
+                ctrlAPNotes_AL.Location_ID = Convert.ToInt32(LocationID);
+                ctrlAPNotes_AL.PK_AL_CI_ID = Convert.ToInt32(PK_Auto_Loss_Claims_ID);
+                ctrlAPNotes_AL.CurrentClaimType = "AP_AL_FROIs";
+                ctrlAPNotes_AL.BindGridSonicNotes(PK_Auto_Loss_Claims_ID, "AP_AL_FROIs");
                 BindDetailsForEdit_AL();
                 //BindClaim_NotesGrid_AL();
                 Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);", true);
@@ -4089,10 +4094,10 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 ucAdjusterNotesView.ClaimNumber = Origin_Claim_Number;
                 ucAdjusterNotesView.BindGridNotes(Origin_Claim_Number);
 
-                ctrlSonicNotes_ALView.Location_ID = Convert.ToInt32(LocationID);
-                ctrlSonicNotes_ALView.PK_AL_CI_ID = Convert.ToInt32(PK_Auto_Loss_Claims_ID);
-                ctrlSonicNotes_ALView.CurrentClaimType = clsGeneral.Claim_Tables.ALClaim.ToString();
-                ctrlSonicNotes_ALView.BindGridSonicNotes(PK_Auto_Loss_Claims_ID, clsGeneral.Claim_Tables.ALClaim.ToString());
+                ctrlAPNotes_ALView.Location_ID = Convert.ToInt32(LocationID);
+                ctrlAPNotes_ALView.PK_AL_CI_ID = Convert.ToInt32(PK_Auto_Loss_Claims_ID);
+                ctrlAPNotes_ALView.CurrentClaimType = "AP_AL_FROIs";
+                ctrlAPNotes_ALView.BindGridSonicNotes(PK_Auto_Loss_Claims_ID, "AP_AL_FROIs");
 
                 BindDetailsForView_AL();
                 //BindClaim_NotesGrid_AL();
@@ -4657,7 +4662,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         DataTable dtFieldsCalAtlantic = clsScreen_Validators.SelectByScreen(202).Tables[0];
         dtFieldsCalAtlantic.DefaultView.RowFilter = "IsRequired = '1'";
         dtFieldsCalAtlantic = dtFieldsCalAtlantic.DefaultView.ToTable();
-        MenuAsterisk4.Style["display"] = (dtFieldsCalAtlantic.Select("LeftMenuIndex = 4").Length > 0) ? "inline-block" : "none";
+        //MenuAsterisk4.Style["display"] = (dtFieldsCalAtlantic.Select("LeftMenuIndex = 4").Length > 0) ? "inline-block" : "none";
 
         foreach (DataRow drFieldCalAtlantic in dtFieldsCalAtlantic.Rows)
         {
@@ -4706,7 +4711,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         DataTable dtFieldsFraudEvents = clsScreen_Validators.SelectByScreen(203).Tables[0];
         dtFieldsFraudEvents.DefaultView.RowFilter = "IsRequired = '1'";
         dtFieldsFraudEvents = dtFieldsFraudEvents.DefaultView.ToTable();
-        MenuAsterisk5.Style["display"] = (dtFieldsFraudEvents.Select("LeftMenuIndex = 5").Length > 0) ? "inline-block" : "none";
+        MenuAsterisk4.Style["display"] = (dtFieldsFraudEvents.Select("LeftMenuIndex = 4").Length > 0) ? "inline-block" : "none";
 
         foreach (DataRow drFieldFraudEvents in dtFieldsFraudEvents.Rows)
         {
