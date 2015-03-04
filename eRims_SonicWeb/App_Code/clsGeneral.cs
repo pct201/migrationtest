@@ -140,7 +140,14 @@ public class clsGeneral : System.Web.UI.Page
         ALClaim = 1,
         PLClaim = 2,
         DPDClaim = 3,
-        PropertyClaim = 4
+        PropertyClaim = 4,
+        COIClaim = 5
+    }
+
+    public enum AP_Tables : int
+    {
+        AP_AL_FROIs = 0,
+        AP_DPD_FROIs = 1
     }
 
     public enum Exposure_Tables : int
