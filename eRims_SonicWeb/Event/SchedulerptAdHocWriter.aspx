@@ -107,7 +107,7 @@
                                                 <asp:DropDownList ID="drpRecurringPeriod" runat="server" EnableTheming="True" Width="166px"
                                                     SkinID="dropGen">
                                                     <asp:ListItem Value="0" Text="--Select--"></asp:ListItem>
-                                                    <%--<asp:ListItem Value="4" Text="Daily"></asp:ListItem>--%>
+                                                    <asp:ListItem Value="4" Text="Daily"></asp:ListItem>
                                                     <asp:ListItem Value="1" Text="Weekly"></asp:ListItem>
                                                     <asp:ListItem Value="2" Text="Monthly"></asp:ListItem>
                                                     <asp:ListItem Value="3" Text="Quarterly"></asp:ListItem>
