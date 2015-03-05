@@ -1065,7 +1065,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         }
     }
 
-    //#endregion
+    #endregion
 
     #region Control Events
     /// <summary>
