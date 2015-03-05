@@ -91,7 +91,7 @@
             else if (selected_text == "Oil and Water Separator" || selected_text == "PM_Equipment_OWS") {
                 obj = window.open('AuditPopup_PM_Equipment_OWS.aspx?id=<%=ViewState["PK_PM_Equipment_OWS"]%>', 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
             }
-            else if (selected_text == "Hydraulic Lift" || selected_text == "PM_Equipment_Hydraulic_Lift") {
+            else if (selected_text == "Hydraulic Lift" || selected_text == "PM_Equipment_Hydraulic_Lift" || selected_text == "Alignment Rack") {
                 obj = window.open('AuditPopup_PM_Equipment_Hydraulic_Lift.aspx?id=<%=ViewState["PK_PM_Equipment_Hydraulic_Lift"]%>', 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
             }
             else if (selected_text == "Paint Gun Cleaning Cabinet" || selected_text == "PM_Equipment_PGCC") {
@@ -2031,7 +2031,7 @@
                                                     <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                         <tr>
                                                             <td align="left" valign="top" width="20%">
-                                                                Have Any In-Ground Lifts Been Removed from the Location?
+                                                               Have Any In-Ground <span id="spnInGroundLifts" runat="server">Lifts</span> Been Removed from the Location?
                                                             </td>
                                                             <td align="center" valign="top">
                                                                 :
@@ -2041,7 +2041,7 @@
                                                                 </asp:RadioButtonList>
                                                             </td>
                                                             <td align="left" valign="top" width="30%">
-                                                                If Yes, Is Documentation Related to Lift Removal Attached?
+                                                                If Yes, Is Documentation Related to <span id="spnDocumentation" runat="server">Lift</span> Removal Attached?
                                                             </td>
                                                             <td align="center" valign="top">
                                                                 :
@@ -2053,9 +2053,9 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top" colspan="5">
-                                                                Apply the Installation and Inspection Dates of the First Installed Lift in the Below
-                                                                Grid to all Installed Lifts in the Grid?
+                                                            <td align="left" valign="top" colspan="5">                                                                
+                                                                Apply the Installation and Inspection Dates of the First Installed <span id="spnInstalledLift" runat="server">Lift</span> in the Below
+                                                                Grid to all Installed <span id="spnInstalledLift2" runat="server">Lifts</span> in the Grid?                                                                
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:RadioButtonList ID="rdbUseSameDates" runat="server" SkinID="YesNoType">
@@ -2063,8 +2063,8 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td valign="top">
-                                                                Hydraulic Lift Grid
+                                                            <td valign="top">                                                                
+                                                                <span id="spnLiftGrid" runat="server">Hydraulic Lift</span> Grid                                                                
                                                                 <br />
                                                                 <asp:LinkButton ID="lnkAddHydraulicLift" runat="server" Text="--Add--" OnClick="lnkAddHydraulicLift_Click" />
                                                             </td>
@@ -2073,7 +2073,7 @@
                                                             </td>
                                                             <td colspan="4" valign="top">
                                                                 <asp:GridView ID="gvHydraulicLift" runat="server" Width="90%" AutoGenerateColumns="false"
-                                                                    EnableViewState="true" AllowPaging="true" OnRowCommand="gvHydraulicLift_RowCommand" OnPageIndexChanging="gvHydraulicLift_PageIndexChanging">
+                                                                    EnableViewState="true" AllowPaging="true" OnRowCommand="gvHydraulicLift_RowCommand"  OnPageIndexChanging="gvHydraulicLift_PageIndexChanging">
                                                                     <Columns>
                                                                         <asp:TemplateField HeaderText="Lift Number">
                                                                             <ItemStyle Width="20%" />
@@ -2300,13 +2300,13 @@
                                                         <tr>
                                                             <td colspan="6" valign="top">
                                                                 <div class="bandHeaderRow">
-                                                                    Equipment Type Screen – Hydraulic Lift – Hydraulic Lift Grid Screen
+                                                                    Equipment Type Screen – <span id="spnEquipmentTypeScreen" runat="server">Hydraulic Lift – Hydraulic Lift</span> Grid Screen
                                                                 </div>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td align="left" valign="top">
-                                                                Lift Number&nbsp;<span id="Span103" style="color: Red; display: none;" runat="server">*</span>
+                                                                <span id="spLiftNumber" runat="server">Lift</span> Number&nbsp;<span id="Span103" style="color: Red; display: none;" runat="server">*</span>
                                                             </td>
                                                             <td align="center" valign="top">
                                                                 :
@@ -2316,7 +2316,7 @@
                                                                     onpaste="return false;" runat="server" Width="170px" />
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                Lift Number As of Date&nbsp;<span id="Span104" style="color: Red; display: none;"
+                                                                <span id="spLiftNumberAsOfDate" runat="server">Lift</span> Number As of Date&nbsp;<span id="Span104" style="color: Red; display: none;"
                                                                     runat="server">*</span>
                                                             </td>
                                                             <td align="center" valign="top">
@@ -2327,8 +2327,8 @@
                                                                 <img alt="Lift Number As of Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtAs_Of_Date_Number', 'mm/dd/y');"
                                                                     onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
                                                                     align="middle" />
-                                                                <asp:RegularExpressionValidator ID="revAs_Of_Date_Number" runat="server" ValidationGroup="vsErrorHydraulicLiftGrid"
-                                                                    Display="none" ErrorMessage="[Equipment]/Lift Number As of Date is not a valid date"
+                                                                <asp:RegularExpressionValidator ID="revAs_Of_Date_Number" runat="server" ValidationGroup="vsErrorHydraulicLiftGrid" 
+                                                                    Display="none" 
                                                                     SetFocusOnError="true" ControlToValidate="txtAs_Of_Date_Number" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
                                                             </td>
                                                         </tr>
@@ -3897,7 +3897,18 @@
                                                     <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                         <tr>
                                                             <td align="left" valign="top" width="20%">
-                                                                Have Any In-Ground Lifts Been Removed from the Location?
+                                                                Equipment Type  
+                                                            </td>
+                                                            <td align="center" valign="top">
+                                                                :
+                                                            </td>
+                                                            <td align="left" valign="top" width="20%">
+                                                                <asp:Label ID="lblEquipmentHydraulicLift" runat="server"></asp:Label>
+                                                            </td>                                                           
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top" width="20%">
+                                                                Have Any In-Ground <span id="spnvwInGround" runat="server">Lifts</span> Been Removed from the Location?
                                                             </td>
                                                             <td align="center" valign="top">
                                                                 :
@@ -3906,7 +3917,7 @@
                                                                 <asp:Label ID="lblAny_Inground_Lifts_Been_Removed" runat="server"></asp:Label>
                                                             </td>
                                                             <td align="left" valign="top" width="30%">
-                                                                If Yes, Is Documentation Related to Lift Removal Attached?
+                                                                If Yes, Is Documentation Related to <span id="spnvwDocumentation" runat="server">Lift</span> Removal Attached?
                                                             </td>
                                                             <td align="center" valign="top">
                                                                 :
@@ -3917,8 +3928,8 @@
                                                         </tr>
                                                         <tr>
                                                             <td align="left" valign="top" colspan="5">
-                                                                Apply the Installation and Inspection Dates of the First Installed Lift in the Below
-                                                                Grid to all Installed Lifts in the Grid?
+                                                                Apply the Installation and Inspection Dates of the First Installed <span id="spnvwFirstInstalled" runat="server">Lift</span> in the Below
+                                                                Grid to all Installed <span id="spnvwFirstInstalled2" runat="server">Lifts</span> in the Grid?
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:Label ID="lblUse_Same_Dates" runat="server"></asp:Label>                                                               
@@ -3926,7 +3937,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td valign="top">
-                                                                Hydraulic Lift Grid
+                                                                <span id="spnvwHydraulicLiftGrid" runat="server">Hydraulic Lift</span> Grid
                                                             </td>
                                                             <td align="center" valign="top">
                                                                 :
@@ -3990,13 +4001,13 @@
                                                         <tr>
                                                             <td colspan="6" valign="top">
                                                                 <div class="bandHeaderRow">
-                                                                    Equipment Type Screen – Hydraulic Lift – Hydraulic Lift Grid Screen
+                                                                    Equipment Type Screen – <span id="spnvwEquipmentTypeScreen" runat="server">Hydraulic Lift – Hydraulic Lift</span> Grid Screen
                                                                 </div>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td align="left" width="18%" valign="top">
-                                                                Lift Number
+                                                                <span id="spvwLiftNumber" runat="server">Lift</span> Number
                                                             </td>
                                                             <td align="center" width="4%" valign="top">
                                                                 :
@@ -4005,7 +4016,7 @@
                                                                 <asp:Label ID="lblNumber_Of_Lifts_At_Location" runat="server" Width="150px" />
                                                             </td>
                                                             <td align="left" width="18%" valign="top">
-                                                                Lift Number As of Date&nbsp;<span style="color: Red">*</span>
+                                                                <span id="spvwLiftNumberAsOfDate" runat="server">Lift</span> Number As of Date&nbsp;<span style="color: Red">*</span>
                                                             </td>
                                                             <td align="center" width="4%" valign="top">
                                                                 :

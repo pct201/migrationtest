@@ -152,8 +152,8 @@
         }
 
         function OpenAuditPopUp() {
-            var winHeight = window.screen.availHeight - 400;
-            var winWidth = window.screen.availWidth - 500;
+            var winHeight = window.screen.availHeight - 300;
+            var winWidth = window.screen.availWidth - 315;
 
             obj = window.open('AuditPopup_Pollution.aspx?id=<%=ViewState["PK_PM_Site_Information"]%>', 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
             obj.focus();
@@ -2185,7 +2185,7 @@
                                                             :
                                                         </td>
                                                         <td colspan="4" align="left" valign="top">
-                                                            <asp:GridView ID="gvEquipmentView" runat="server" Width="100%" AutoGenerateColumns="false"
+                                                            <asp:GridView ID="gvEquipmentView" runat="server" Width="100%" AutoGenerateColumns="false" 
                                                                 EmptyDataText="No Record Exists" OnRowCommand="GridView_RowCommand">
                                                                 <Columns>
                                                                     <asp:TemplateField HeaderText="Type">

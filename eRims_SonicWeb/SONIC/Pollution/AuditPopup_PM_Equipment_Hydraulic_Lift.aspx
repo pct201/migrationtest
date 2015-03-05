@@ -54,13 +54,13 @@
                                     <span style="display: inline-block; width: 100px;">Equipment Hydraulic Lift</span>
                                 </th>--%>                                
                                 <th class="cols" align="left">
-                                    <span style="display: inline-block; width: 150px;">Have Any In-Ground Lifts Been Removed from the Location?</span>
+                                    <span style="display: inline-block; width: 150px;">Have Any In-Ground <span id="spnauditRemoved" runat="server">Lifts</span> Been Removed from the Location?</span>
                                 </th>
                                 <th class="cols" align="left">
-                                    <span style="display: inline-block; width: 150px;">If Yes, Is Documentation Related to Lift Removal Attached?</span>
+                                    <span style="display: inline-block; width: 150px;">If Yes, Is Documentation Related to <span id="spnauditRemoval" runat="server">Lift</span> Removal Attached?</span>
                                 </th>
                                  <th class="cols" align="left">
-                                    <span style="display: inline-block; width: 200px;">Apply the Installation and Inspection Dates of the First Installed Lift in the Below Grid to all Installed Lifts in the Grid?</span>
+                                    <span style="display: inline-block; width: 200px;">Apply the Installation and Inspection Dates of the First Installed <span id="spnLiftGrid" runat="server">Lift</span> in the Below Grid to all Installed <span id="spnLiftGrids" runat="server">Lifts</span> in the Grid?</span>
                                 </th>
                                 <th class="cols" align="left">
                                     <span style="display: inline-block; width: 100px;">Updated By</span>

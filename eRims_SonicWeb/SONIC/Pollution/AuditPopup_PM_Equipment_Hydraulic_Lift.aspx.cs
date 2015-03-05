@@ -53,10 +53,13 @@ public partial class SONIC_Pollution_AuditPopup_PM_Equipment_Hydraulic_Lift : Sy
     /// </summary>
     private void BindUtilityProvider_Audit()
     {
+        //Set Lift or Rack as per Equipment Type
+        LiftRack();
+
         DataTable dt = new DataTable();
         // show Case Grid 
         divPM_Equipment_Hydraulic_Lift_Grid.Visible = true;
-        lbltable_Name.Text = "Hydraulic Lift";
+        //lbltable_Name.Text = "Hydraulic Lift";
         // Fill grid with audit table
         dt = clsPM_Equipment_Hydraulic_Lift.GetAuditView(PK).Tables[0];
         gvSIUtilityProvider.DataSource = dt;
@@ -79,7 +82,29 @@ public partial class SONIC_Pollution_AuditPopup_PM_Equipment_Hydraulic_Lift : Sy
             divPM_Equipment_Hydraulic_Lift_Grid.Style["overflow"] = "hidden";
         }
         dt.Dispose();
-        dt = null;
+        dt = null;        
+    }
+
+    //Set Lift or Rack as per Equipment Type method
+    private void LiftRack()
+    {
+        int FK_LU_Equipment_Type = clsPM_Equipment_Hydraulic_Lift.RackLiftSelectByPk(PK);
+        {
+            if (FK_LU_Equipment_Type == 10)
+            {
+                this.Title = "eRIMS Sonic :: Alignment Racks Audit Trail";
+                lbltable_Name.Text = "Alignment Rack";
+                spnauditRemoval.InnerText = spnLiftGrid.InnerText = "Rack";
+                spnauditRemoved.InnerText = spnLiftGrids.InnerText = "Racks";
+            }
+            else
+            {
+                this.Title = "eRIMS Sonic :: Hydraulic Lift Audit Trail";
+                lbltable_Name.Text = "Hydraulic Lift";
+                spnauditRemoval.InnerText = spnLiftGrid.InnerText = "Lift";
+                spnauditRemoved.InnerText = spnLiftGrids.InnerText = "Lifts";
+            }
+        }
     }
 
     #endregion

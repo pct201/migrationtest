@@ -148,7 +148,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void Page_Load(object sender, EventArgs e)
-    {
+    {        
         Tab.SetSelectedTab(Controls_ExposuresTab_ExposuresTab.Tab.Pollution);
         Attachment.btnHandler += new Attachment_Pollution.OnButtonClick(Upload_File);
         if (!Page.IsPostBack)
@@ -197,807 +197,875 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
             // shows the first panel
             Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
         }
-    }
+    }       
     #endregion
 
-    #region Methods
-    /// <summary>
-    /// Bind DropDownList 
-    /// </summary>
-    private void BindDropDown()
-    {
-        ComboHelper.FillPollutionEquiptmentType(new DropDownList[] { drpEquipmentType }, true);
-        ComboHelper.FillTankConstruction(new DropDownList[] { drpFK_Tank_Construction }, true);
-        ComboHelper.FillTankContents(new DropDownList[] { drpFK_Tank_Contents }, true);
-        ComboHelper.FillTankMaterial(new DropDownList[] { drpFK_Tank_Material }, true);
-        ComboHelper.FillSecondaryContainmentType(new DropDownList[] { drpFK_LU_Secondary_Containment_Type }, true);
-    }
-    /// <summary>
-    /// Bind Page Control in Edit Mode
-    /// </summary>
-    private void BindDetailsForEdit()
-    {
-        hdnControlIDsTank.Value = ""; hdnErrorMsgsTank.Value = "";
-        hdnControlIDsSprayBooth.Value = ""; hdnErrorMsgsSprayBooth.Value = "";
-        hdnControlIDsPrepStation.Value = ""; hdnErrorMsgsPrepStation.Value = "";
-        hdnControlIDsOWS.Value = ""; hdnErrorMsgsOWS.Value = "";
-        hdnControlIDsOWSInnerGrid.Value = ""; hdnErrorMsgsOWSInnerGrid.Value = "";
-        hdnControlIDsHydraulicLiftGrid.Value = ""; hdnErrorMsgsHydraulicLiftGrid.Value = "";
-        hdnControlIDsPGCC.Value = ""; hdnErrorMsgsPGCC.Value = "";
+    //#region Methods
+    ///// <summary>
+    ///// Bind DropDownList 
+    ///// </summary>
+    //private void BindDropDown()
+    //{
+    //    ComboHelper.FillPollutionEquiptmentType(new DropDownList[] { drpEquipmentType }, true);
+    //    ComboHelper.FillTankConstruction(new DropDownList[] { drpFK_Tank_Construction }, true);
+    //    ComboHelper.FillTankContents(new DropDownList[] { drpFK_Tank_Contents }, true);
+    //    ComboHelper.FillTankMaterial(new DropDownList[] { drpFK_Tank_Material }, true);
+    //    ComboHelper.FillSecondaryContainmentType(new DropDownList[] { drpFK_LU_Secondary_Containment_Type }, true);
+    //}
+    ///// <summary>
+    ///// Bind Page Control in Edit Mode
+    ///// </summary>
+    //private void BindDetailsForEdit()
+    //{
+    //    hdnControlIDsTank.Value = ""; hdnErrorMsgsTank.Value = "";
+    //    hdnControlIDsSprayBooth.Value = ""; hdnErrorMsgsSprayBooth.Value = "";
+    //    hdnControlIDsPrepStation.Value = ""; hdnErrorMsgsPrepStation.Value = "";
+    //    hdnControlIDsOWS.Value = ""; hdnErrorMsgsOWS.Value = "";
+    //    hdnControlIDsOWSInnerGrid.Value = ""; hdnErrorMsgsOWSInnerGrid.Value = "";
+    //    hdnControlIDsHydraulicLiftGrid.Value = ""; hdnErrorMsgsHydraulicLiftGrid.Value = "";
+    //    hdnControlIDsPGCC.Value = ""; hdnErrorMsgsPGCC.Value = "";
 
-        btnEdit.Visible = false;
-        btnSaveView.Visible = true;
-        btnAuditTrail.Visible = true;
+    //    btnEdit.Visible = false;
+    //    btnSaveView.Visible = true;
+    //    btnAuditTrail.Visible = true;
 
-        clsPM_Equipment objPM_Equipment = new clsPM_Equipment(PM_Equipment);
-        if (objPM_Equipment.FK_LU_Equipment_Type != null)
-            drpEquipmentType.SelectedValue = Convert.ToString(objPM_Equipment.FK_LU_Equipment_Type);
-        else
-            drpEquipmentType.SelectedIndex = 0;
-        AuditTrailText = drpEquipmentType.SelectedItem.Text.ToString();
-        if (PM_Equipment > 0)
-        {
-            //Equiptment type 'Tank' is selected then Pass Table Name 'PM_Equipment_Tank' and return PK_ID from PM_Equipment_Tank Table
-            if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "tank")
-            {
-                SetValidationsTank();
-                PK_PM_Equipment_Tank = (decimal)objPM_Equipment.FK_Table_Name;
-                BindDetailsFor_Equipment_Tank_Edit();
-            }
-            //Equiptment type 'Paint Booth' is selected then Pass Table Name 'PK_PM_Equipment_Spray_Booth' and return PK_ID from PM_Equipment_Spray_Booth Table
-            else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "paint booth")
-            {
-                SetValidationsPaintBooth();
-                PK_PM_Equipment_Spray_Booth = (decimal)objPM_Equipment.FK_Table_Name;
-                BindDetailsFor_Equipment_Spray_Booth_Edit();
-            }
-            //Equiptment type 'Prep Station' is selected then Pass Table Name 'PK_PM_Equipment_Prep_Station' and return PK_ID from PM_Equipment_Spray_Booth Table
-            else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "prep station")
-            {
-                SetValidationsPrepStation();
-                PK_PM_Equipment_Prep_Station = (decimal)objPM_Equipment.FK_Table_Name;
-                BindDetailsFor_Equipment_Prep_Station_Edit();
-            }
-            //Equiptment type 'Oil and Water Separator' is selected then Pass Table Name 'PM_Equipment_Tank' and return PK_ID from PM_Equipment_OWS Table
-            else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "oil and water separator")
-            {
-                SetValidationsOWS();
-                PK_PM_Equipment_OWS = (decimal)objPM_Equipment.FK_Table_Name;
-                BindDetailsFor_Equipment_OWS_Edit();
-            }
-            //Equiptment type 'Hydraulic Lift' is selected then Pass Table Name 'PK_PM_Equipment_Hydraulic_Lift' and return PK_ID from PM_Equipment_Hydraulic_Lift Table
-            //Equiptment type 'Alignment Rack' is selected then Pass Table Name 'PK_PM_Equipment_Hydraulic_Lift' and return PK_ID from PM_Equipment_Hydraulic_Lift Table // Ticket # 3142
-            else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "hydraulic lift" || drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "alignment rack")
-            {
-                SetValidationsHydraulic();
-                PK_PM_Equipment_Hydraulic_Lift = (decimal)objPM_Equipment.FK_Table_Name;
-                BindDetailsFor_Equipment_Hydraulic_Lift_Edit();
-            }
-            //Equiptment type 'Paint Gun Cleaning Cabinet' is selected then Pass Table Name 'PM_Equipment_PGCC' and return PK_ID from PM_Equipment_PGCC Table
-            else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "paint gun cleaning cabinet")
-            {
-                SetValidationsPGCC();
-                PK_PM_Equipment_PGCC = (decimal)objPM_Equipment.FK_Table_Name;
-                BindDetailsFor_Equipment_PGCC_Edit();
-            }
-        }
-    }
-    /// <summary>
-    /// Bind Page Control in View Mode
-    /// </summary>
-    private void BindDetailsForView()
-    {
-        btnEdit.Visible = true;
-        btnSaveView.Visible = false;
-        btnAuditTrail.Visible = true;
+    //    clsPM_Equipment objPM_Equipment = new clsPM_Equipment(PM_Equipment);
+    //    if (objPM_Equipment.FK_LU_Equipment_Type != null)
+    //        drpEquipmentType.SelectedValue = Convert.ToString(objPM_Equipment.FK_LU_Equipment_Type);
+    //    else
+    //        drpEquipmentType.SelectedIndex = 0;
+    //    AuditTrailText = drpEquipmentType.SelectedItem.Text.ToString();
+    //    if (PM_Equipment > 0)
+    //    {
+    //        //Equiptment type 'Tank' is selected then Pass Table Name 'PM_Equipment_Tank' and return PK_ID from PM_Equipment_Tank Table
+    //        if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "tank")
+    //        {
+    //            SetValidationsTank();
+    //            PK_PM_Equipment_Tank = (decimal)objPM_Equipment.FK_Table_Name;
+    //            BindDetailsFor_Equipment_Tank_Edit();
+    //        }
+    //        //Equiptment type 'Paint Booth' is selected then Pass Table Name 'PK_PM_Equipment_Spray_Booth' and return PK_ID from PM_Equipment_Spray_Booth Table
+    //        else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "paint booth")
+    //        {
+    //            SetValidationsPaintBooth();
+    //            PK_PM_Equipment_Spray_Booth = (decimal)objPM_Equipment.FK_Table_Name;
+    //            BindDetailsFor_Equipment_Spray_Booth_Edit();
+    //        }
+    //        //Equiptment type 'Prep Station' is selected then Pass Table Name 'PK_PM_Equipment_Prep_Station' and return PK_ID from PM_Equipment_Spray_Booth Table
+    //        else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "prep station")
+    //        {
+    //            SetValidationsPrepStation();
+    //            PK_PM_Equipment_Prep_Station = (decimal)objPM_Equipment.FK_Table_Name;
+    //            BindDetailsFor_Equipment_Prep_Station_Edit();
+    //        }
+    //        //Equiptment type 'Oil and Water Separator' is selected then Pass Table Name 'PM_Equipment_Tank' and return PK_ID from PM_Equipment_OWS Table
+    //        else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "oil and water separator")
+    //        {
+    //            SetValidationsOWS();
+    //            PK_PM_Equipment_OWS = (decimal)objPM_Equipment.FK_Table_Name;
+    //            BindDetailsFor_Equipment_OWS_Edit();
+    //        }
+    //        //Equiptment type 'Hydraulic Lift' is selected then Pass Table Name 'PK_PM_Equipment_Hydraulic_Lift' and return PK_ID from PM_Equipment_Hydraulic_Lift Table
+    //        //Equiptment type 'Alignment Rack' is selected then Pass Table Name 'PK_PM_Equipment_Hydraulic_Lift' and return PK_ID from PM_Equipment_Hydraulic_Lift Table // Ticket # 3142
+    //        else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "hydraulic lift" || drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "alignment rack")
+    //        {
+    //            SetValidationsHydraulic();
+    //            PK_PM_Equipment_Hydraulic_Lift = (decimal)objPM_Equipment.FK_Table_Name;
+    //            BindDetailsFor_Equipment_Hydraulic_Lift_Edit();
+    //        }
+    //        //Equiptment type 'Paint Gun Cleaning Cabinet' is selected then Pass Table Name 'PM_Equipment_PGCC' and return PK_ID from PM_Equipment_PGCC Table
+    //        else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "paint gun cleaning cabinet")
+    //        {
+    //            SetValidationsPGCC();
+    //            PK_PM_Equipment_PGCC = (decimal)objPM_Equipment.FK_Table_Name;
+    //            BindDetailsFor_Equipment_PGCC_Edit();
+    //        }
+    //    }
+    //}
+    ///// <summary>
+    ///// Bind Page Control in View Mode
+    ///// </summary>
+    //private void BindDetailsForView()
+    //{
+    //    btnEdit.Visible = true;
+    //    btnSaveView.Visible = false;
+    //    btnAuditTrail.Visible = true;
 
-        clsPM_Equipment objPM_Equipment = new clsPM_Equipment(PM_Equipment);
-        PM_Equipment = (decimal)objPM_Equipment.PK_PM_Equipment;
-        string strEquiptmentType = objPM_Equipment.Table_Name;
-        if (strEquiptmentType.ToString() == "PM_Equipment_Tank")
-        {
-            PK_PM_Equipment_Tank = Convert.ToDecimal(objPM_Equipment.FK_Table_Name);
-            BindDetailsFor_Equipment_Tank_View();
-        }
-        else if (strEquiptmentType.ToString() == "PM_Equipment_Spray_Booth")
-        {
-            PK_PM_Equipment_Spray_Booth = Convert.ToDecimal(objPM_Equipment.FK_Table_Name);
-            BindDetailsFor_Equipment_Spray_Booth_View();
-        }
-        else if (strEquiptmentType.ToString() == "PM_Equipment_Prep_Station")
-        {
-            PK_PM_Equipment_Prep_Station = Convert.ToDecimal(objPM_Equipment.FK_Table_Name);
-            BindDetailsFor_Equipment_Prep_Station_View();
-        }
-        else if (strEquiptmentType.ToString() == "PM_Equipment_OWS")
-        {
-            PK_PM_Equipment_OWS = Convert.ToDecimal(objPM_Equipment.FK_Table_Name);
-            BindDetailsFor_Equipment_OWS_View();
-        }
-        else if (strEquiptmentType.ToString() == "PM_Equipment_Hydraulic_Lift")
-        {
-            PK_PM_Equipment_Hydraulic_Lift = Convert.ToDecimal(objPM_Equipment.FK_Table_Name);
-            BindDetailsFor_Equipment_Hydraulic_Lift_View();
-        }
-        else if (strEquiptmentType.ToString() == "PM_Equipment_PGCC")
-        {
-            PK_PM_Equipment_PGCC = Convert.ToDecimal(objPM_Equipment.FK_Table_Name);
-            BindDetailsFor_Equipment_PGCC_View();
-        }
-        AuditTrailText = strEquiptmentType;
-    }
-    /// <summary>
-    /// Bind Tank Page Controls for edit mode
-    /// </summary>
-    private void BindDetailsFor_Equipment_Tank_Edit()
-    {
-        dvView.Visible = false;
-        dvEdit.Visible = true;
-        pnl1.Style["display"] = "block";
+    //    clsPM_Equipment objPM_Equipment = new clsPM_Equipment(PM_Equipment);
+    //    PM_Equipment = (decimal)objPM_Equipment.PK_PM_Equipment;
+    //    string strEquiptmentType = objPM_Equipment.Table_Name;
+    //    if (strEquiptmentType.ToString() == "PM_Equipment_Tank")
+    //    {
+    //        PK_PM_Equipment_Tank = Convert.ToDecimal(objPM_Equipment.FK_Table_Name);
+    //        BindDetailsFor_Equipment_Tank_View();
+    //    }
+    //    else if (strEquiptmentType.ToString() == "PM_Equipment_Spray_Booth")
+    //    {
+    //        PK_PM_Equipment_Spray_Booth = Convert.ToDecimal(objPM_Equipment.FK_Table_Name);
+    //        BindDetailsFor_Equipment_Spray_Booth_View();
+    //    }
+    //    else if (strEquiptmentType.ToString() == "PM_Equipment_Prep_Station")
+    //    {
+    //        PK_PM_Equipment_Prep_Station = Convert.ToDecimal(objPM_Equipment.FK_Table_Name);
+    //        BindDetailsFor_Equipment_Prep_Station_View();
+    //    }
+    //    else if (strEquiptmentType.ToString() == "PM_Equipment_OWS")
+    //    {
+    //        PK_PM_Equipment_OWS = Convert.ToDecimal(objPM_Equipment.FK_Table_Name);
+    //        BindDetailsFor_Equipment_OWS_View();
+    //    }
+    //    else if (strEquiptmentType.ToString() == "PM_Equipment_Hydraulic_Lift")
+    //    {
+    //        PK_PM_Equipment_Hydraulic_Lift = Convert.ToDecimal(objPM_Equipment.FK_Table_Name);
+    //        BindDetailsFor_Equipment_Hydraulic_Lift_View();
+    //    }
+    //    else if (strEquiptmentType.ToString() == "PM_Equipment_PGCC")
+    //    {
+    //        PK_PM_Equipment_PGCC = Convert.ToDecimal(objPM_Equipment.FK_Table_Name);
+    //        BindDetailsFor_Equipment_PGCC_View();
+    //    }
+    //    AuditTrailText = strEquiptmentType;
+    //}
+    ///// <summary>
+    ///// Bind Tank Page Controls for edit mode
+    ///// </summary>
+    //private void BindDetailsFor_Equipment_Tank_Edit()
+    //{
+    //    dvView.Visible = false;
+    //    dvEdit.Visible = true;
+    //    pnl1.Style["display"] = "block";
 
-        pnlTank.Visible = true;
-        pnlSprayBooth.Visible = false;
-        pnlOWS.Visible = false;
-        pnlHydraulicLiftType.Visible = false;
-        pnlPGCC.Visible = false;
+    //    pnlTank.Visible = true;
+    //    pnlSprayBooth.Visible = false;
+    //    pnlOWS.Visible = false;
+    //    pnlHydraulicLiftType.Visible = false;
+    //    pnlPGCC.Visible = false;
 
-        clsPM_Equipment_Tank objPM_Equipment_Tank = new clsPM_Equipment_Tank(PK_PM_Equipment_Tank);
-        if (objPM_Equipment_Tank.PK_PM_Equipment != null)
-            PM_Equipment = (decimal)objPM_Equipment_Tank.PK_PM_Equipment;
-        //lblEquiptmentType.Text = drpEquipmentType.SelectedItem.Text.ToString();
-        txtTankManufacture.Text = Convert.ToString(objPM_Equipment_Tank.Manufacturer);
-        txtDescription.Text = objPM_Equipment_Tank.Description;
-        if (objPM_Equipment_Tank.Ground_Location != null)
-            rdoGround_Location.SelectedValue = objPM_Equipment_Tank.Ground_Location;
-        //else
-        //rdoGround_Location.SelectedValue = "S";
-        txtIdentification.Text = objPM_Equipment_Tank.Identification;
-        if (objPM_Equipment_Tank.FK_Tank_Contents != null) drpFK_Tank_Contents.SelectedValue = objPM_Equipment_Tank.FK_Tank_Contents.ToString();
-        txtContents_Other.Text = objPM_Equipment_Tank.Contents_Other;
-        if (objPM_Equipment_Tank.FK_Tank_Material != null) drpFK_Tank_Material.SelectedValue = objPM_Equipment_Tank.FK_Tank_Material.ToString();
-        txtMaterial_Other.Text = objPM_Equipment_Tank.Material_Other;
-        if (objPM_Equipment_Tank.FK_Tank_Construction != null) drpFK_Tank_Construction.SelectedValue = objPM_Equipment_Tank.FK_Tank_Construction.ToString();
-        txtConstruction_Other.Text = objPM_Equipment_Tank.Construction_Other;
-        txtCapcity.Text = clsGeneral.GetStringValue(objPM_Equipment_Tank.Capcity);
-        txtCertificate_Number.Text = objPM_Equipment_Tank.Certificate_Number;
-        txtInstallation_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Installation_Date);
-        txtInstallation_Firm.Text = objPM_Equipment_Tank.Installation_Firm;
-        txtLast_Maintenance_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Last_Maintenance_Date);
-        txtLast_Revision_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Last_Revision_Date);
-        if (objPM_Equipment_Tank.Tank_In_Use != null)
-            rdoTank_In_Use.SelectedValue = objPM_Equipment_Tank.Tank_In_Use;
-        else
-            rdoTank_In_Use.SelectedValue = "Y";
+    //    clsPM_Equipment_Tank objPM_Equipment_Tank = new clsPM_Equipment_Tank(PK_PM_Equipment_Tank);
+    //    if (objPM_Equipment_Tank.PK_PM_Equipment != null)
+    //        PM_Equipment = (decimal)objPM_Equipment_Tank.PK_PM_Equipment;
+    //    //lblEquiptmentType.Text = drpEquipmentType.SelectedItem.Text.ToString();
+    //    txtTankManufacture.Text = Convert.ToString(objPM_Equipment_Tank.Manufacturer);
+    //    txtDescription.Text = objPM_Equipment_Tank.Description;
+    //    if (objPM_Equipment_Tank.Ground_Location != null)
+    //        rdoGround_Location.SelectedValue = objPM_Equipment_Tank.Ground_Location;
+    //    //else
+    //    //rdoGround_Location.SelectedValue = "S";
+    //    txtIdentification.Text = objPM_Equipment_Tank.Identification;
+    //    if (objPM_Equipment_Tank.FK_Tank_Contents != null) drpFK_Tank_Contents.SelectedValue = objPM_Equipment_Tank.FK_Tank_Contents.ToString();
+    //    txtContents_Other.Text = objPM_Equipment_Tank.Contents_Other;
+    //    if (objPM_Equipment_Tank.FK_Tank_Material != null) drpFK_Tank_Material.SelectedValue = objPM_Equipment_Tank.FK_Tank_Material.ToString();
+    //    txtMaterial_Other.Text = objPM_Equipment_Tank.Material_Other;
+    //    if (objPM_Equipment_Tank.FK_Tank_Construction != null) drpFK_Tank_Construction.SelectedValue = objPM_Equipment_Tank.FK_Tank_Construction.ToString();
+    //    txtConstruction_Other.Text = objPM_Equipment_Tank.Construction_Other;
+    //    txtCapcity.Text = clsGeneral.GetStringValue(objPM_Equipment_Tank.Capcity);
+    //    txtCertificate_Number.Text = objPM_Equipment_Tank.Certificate_Number;
+    //    txtInstallation_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Installation_Date);
+    //    txtInstallation_Firm.Text = objPM_Equipment_Tank.Installation_Firm;
+    //    txtLast_Maintenance_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Last_Maintenance_Date);
+    //    txtLast_Revision_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Last_Revision_Date);
+    //    if (objPM_Equipment_Tank.Tank_In_Use != null)
+    //        rdoTank_In_Use.SelectedValue = objPM_Equipment_Tank.Tank_In_Use;
+    //    else
+    //        rdoTank_In_Use.SelectedValue = "Y";
 
-        if (objPM_Equipment_Tank.UL_Certified != null)
-            rdbULCertified.SelectedValue = objPM_Equipment_Tank.UL_Certified;
-        else
-            rdbULCertified.SelectedValue = "Y";
+    //    if (objPM_Equipment_Tank.UL_Certified != null)
+    //        rdbULCertified.SelectedValue = objPM_Equipment_Tank.UL_Certified;
+    //    else
+    //        rdbULCertified.SelectedValue = "Y";
 
-        if (objPM_Equipment_Tank.Secure_Non_Business != null)
-            rdbSecureNonBusiness.SelectedValue = objPM_Equipment_Tank.Secure_Non_Business;
-        else
-            rdbSecureNonBusiness.SelectedValue = "Y";
+    //    if (objPM_Equipment_Tank.Secure_Non_Business != null)
+    //        rdbSecureNonBusiness.SelectedValue = objPM_Equipment_Tank.Secure_Non_Business;
+    //    else
+    //        rdbSecureNonBusiness.SelectedValue = "Y";
 
-        txtLast_Inspection_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Last_Inspection_Date);
-        txtClosure_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Closure_Date);
-        txtRemoval_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Removal_Date);
-        txtRevised_Removal_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Revised_Removal_Date);
-        txtPermit_Begin_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Permit_Begin_Date);
-        txtPermit_End_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Permit_End_Date);
-        if (objPM_Equipment_Tank.Registration_Required != null)
-            rdoRegistration_Required.SelectedValue = objPM_Equipment_Tank.Registration_Required;
-        else
-            rdoRegistration_Required.SelectedValue = "Y";
-        txtRegistration_Number.Text = objPM_Equipment_Tank.Registration_Number;
-        if (objPM_Equipment_Tank.Leak_Detection_Required != null)
-            rdoLeak_Detection_Required.SelectedValue = objPM_Equipment_Tank.Leak_Detection_Required;
-        else
-            rdoLeak_Detection_Required.SelectedValue = "Y";
-        txtLeak_Detection_Type.Text = objPM_Equipment_Tank.Leak_Detection_Type;
-        if (objPM_Equipment_Tank.Overfill_Protection != null)
-            rdoOverfill_Protection.SelectedValue = objPM_Equipment_Tank.Overfill_Protection;
-        else
-            rdoOverfill_Protection.SelectedValue = "Y";
-        if (objPM_Equipment_Tank.Secondary_Containment_Adequate != null)
-            rdoSecondary_Containment_Adequate.SelectedValue = objPM_Equipment_Tank.Secondary_Containment_Adequate;
-        else
-            rdoSecondary_Containment_Adequate.SelectedValue = "Y";
-        if (objPM_Equipment_Tank.FK_LU_Secondary_Containment_Type != null) drpFK_LU_Secondary_Containment_Type.SelectedValue = objPM_Equipment_Tank.FK_LU_Secondary_Containment_Type.ToString();
-        txtDescription_Other_Reporting_Requirements.Text = objPM_Equipment_Tank.Description_Other_Reporting_Requirements;
-        txtPlan_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Plan_Date);
-        txtPlan_Identification.Text = objPM_Equipment_Tank.Plan_Identification;
-        txtRecommendations.Text = objPM_Equipment_Tank.Recommendations;
-        txtEffective_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Effective_Date);
-        txtExpiration_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Expiration_Date);
-        txtRecordkeeping_Requirements.Text = objPM_Equipment_Tank.Recordkeeping_Requirements;
-        txtRelease_Control_Countermeasures_Plan.Text = objPM_Equipment_Tank.Release_Control_Countermeasures_Plan;
-        txtMaintenance_Vendor.Text = objPM_Equipment_Tank.Maintenance_Vendor;
-        txtVendor_Contact_Name.Text = objPM_Equipment_Tank.Vendor_Contact_Name;
-        txtVendor_Contact_Telephone.Text = objPM_Equipment_Tank.Vendor_Contact_Telephone;
-        txtInsurer.Text = objPM_Equipment_Tank.Insurer;
-        txtCoverage_Start_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Coverage_Start_Date);
-        txtCoverage_End_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Coverage_End_Date);
-        txtMultiple_Event_Total_Coverage.Text = clsGeneral.GetStringValue(objPM_Equipment_Tank.Multiple_Event_Total_Coverage);
-        txtSingle_Event_Coverage.Text = clsGeneral.GetStringValue(objPM_Equipment_Tank.Single_Event_Coverage);
-        txtInspection_Company.Text = objPM_Equipment_Tank.Inspection_Company;
-        txtInspection_Company_Contact_Name.Text = objPM_Equipment_Tank.Inspection_Company_Contact_Name;
-        txtInspection_Company_Contact_Telephone.Text = objPM_Equipment_Tank.Inspection_Company_Contact_Telephone;
-        txtNotes.Text = objPM_Equipment_Tank.Notes;
-        // set attachment details control in read/write mode. so user can add or remove attachment as well.
-        // AttachDetailsTank.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Tank), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
-        // BindTankAttachmentDetaills();
-        AttachDetails.Equipment_Table_Name = "PM_Equipment_Tank";
-        AttachDetails.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Tank), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
-        BindTankAttachmentDetaills();
-    }
-    /// <summary>
-    /// Bind Tank Page Controls for view mode
-    /// </summary>
-    private void BindDetailsFor_Equipment_Tank_View()
-    {
-        dvView.Visible = true;
-        dvEdit.Visible = false;
-        pnlTankview.Style["display"] = "block";
-        pnlSprayBoothTypeview.Style["display"] = "none";
-        pnlOWSTypeview.Style["display"] = "none";
-        pnlHydraulicLiftTypeview.Style["display"] = "none";
-        pnlPGCCview.Style["display"] = "none";
-        clsPM_Equipment_Tank objPM_Equipment_Tank = new clsPM_Equipment_Tank(PK_PM_Equipment_Tank);
-        lblEquiptmentTank.Text = "Tank";
-        lblTankManufacturer.Text = Convert.ToString(objPM_Equipment_Tank.Manufacturer);
-        lblDescription.Text = objPM_Equipment_Tank.Description;
-        lblGround_Location.Text = objPM_Equipment_Tank.Ground_Location == "S" ? "On Surface" : objPM_Equipment_Tank.Ground_Location == "U" ? "Underground" : "";
-        lblIdentification.Text = objPM_Equipment_Tank.Identification;
-        if (objPM_Equipment_Tank.FK_Tank_Contents != null)
-            lblFK_Tank_Contents.Text = new LU_Tank_Contents((decimal)objPM_Equipment_Tank.FK_Tank_Contents).Fld_Desc;
-        lblContents_Other.Text = objPM_Equipment_Tank.Contents_Other;
-        if (objPM_Equipment_Tank.FK_Tank_Material != null)
-            lblFK_Tank_Material.Text = new LU_Tank_Material((decimal)objPM_Equipment_Tank.FK_Tank_Material).Fld_Desc;
-        lblMaterial_Other.Text = objPM_Equipment_Tank.Material_Other;
-        if (objPM_Equipment_Tank.FK_Tank_Construction != null)
-            lblFK_Tank_Construction.Text = new LU_Tank_Construction((decimal)objPM_Equipment_Tank.FK_Tank_Construction).Fld_Desc;
-        lblConstruction_Other.Text = objPM_Equipment_Tank.Construction_Other;
-        lblCapcity.Text = clsGeneral.GetStringValue(objPM_Equipment_Tank.Capcity);
-        lblCertificate_Number.Text = objPM_Equipment_Tank.Certificate_Number;
-        lblInstallation_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Installation_Date);
-        lblInstallation_Firm.Text = objPM_Equipment_Tank.Installation_Firm;
-        lblLast_Maintenance_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Last_Maintenance_Date);
-        lblLast_Revision_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Last_Revision_Date);
-        lblTank_In_Use.Text = objPM_Equipment_Tank.Tank_In_Use == "Y" ? "Yes" : "No";
-        lblULCertified.Text = objPM_Equipment_Tank.UL_Certified == "Y" ? "Yes" : "No";
-        lblSecureNonBusiness.Text = objPM_Equipment_Tank.Secure_Non_Business == "Y" ? "Yes" : "No";
-        lblLast_Inspection_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Last_Inspection_Date);
-        lblClosure_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Closure_Date);
-        lblRemoval_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Removal_Date);
-        lblRevised_Removal_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Revised_Removal_Date);
-        lblPermit_Begin_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Permit_Begin_Date);
-        lblPermit_End_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Permit_End_Date);
-        lblRegistration_Required.Text = objPM_Equipment_Tank.Registration_Required == "Y" ? "Yes" : "No";
-        lblRegistration_Number.Text = objPM_Equipment_Tank.Registration_Number;
-        lblLeak_Detection_Required.Text = objPM_Equipment_Tank.Leak_Detection_Required == "Y" ? "Yes" : "No";
-        lblLeak_Detection_Type.Text = objPM_Equipment_Tank.Leak_Detection_Type;
-        lblOverfill_Protection.Text = objPM_Equipment_Tank.Overfill_Protection == "Y" ? "Yes" : "No";
-        lblSecondary_Containment_Adequate.Text = objPM_Equipment_Tank.Secondary_Containment_Adequate == "Y" ? "Yes" : "No";
-        if (objPM_Equipment_Tank.FK_LU_Secondary_Containment_Type != null)
-            lblFK_LU_Secondary_Containment_Type.Text = new LU_Secondary_Containment_Type((decimal)objPM_Equipment_Tank.FK_LU_Secondary_Containment_Type).Fld_Desc;
-        lblDescription_Other_Reporting_Requirements.Text = objPM_Equipment_Tank.Description_Other_Reporting_Requirements;
-        lblPlan_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Plan_Date);
-        lblPlan_Identification.Text = objPM_Equipment_Tank.Plan_Identification;
-        lblRecommendations.Text = objPM_Equipment_Tank.Recommendations;
-        lblEffective_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Effective_Date);
-        lblExpiration_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Expiration_Date);
-        lblRecordkeeping_Requirements.Text = objPM_Equipment_Tank.Recordkeeping_Requirements;
-        lblRelease_Control_Countermeasures_Plan.Text = objPM_Equipment_Tank.Release_Control_Countermeasures_Plan;
-        lblMaintenance_Vendor.Text = objPM_Equipment_Tank.Maintenance_Vendor;
-        lblVendor_Contact_Name.Text = objPM_Equipment_Tank.Vendor_Contact_Name;
-        lblVendor_Contact_Telephone.Text = objPM_Equipment_Tank.Vendor_Contact_Telephone;
-        lblInsurer.Text = objPM_Equipment_Tank.Insurer;
-        lblCoverage_Start_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Coverage_Start_Date);
-        lblCoverage_End_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Coverage_End_Date);
-        lblMultiple_Event_Total_Coverage.Text = clsGeneral.GetStringValue(objPM_Equipment_Tank.Multiple_Event_Total_Coverage);
-        lblSingle_Event_Coverage.Text = clsGeneral.GetStringValue(objPM_Equipment_Tank.Single_Event_Coverage);
-        lblInspection_Company.Text = objPM_Equipment_Tank.Inspection_Company;
-        lblInspection_Company_Contact_Name.Text = objPM_Equipment_Tank.Inspection_Company_Contact_Name;
-        lblInspection_Company_Contact_Telephone.Text = objPM_Equipment_Tank.Inspection_Company_Contact_Telephone;
-        lblNotes.Text = objPM_Equipment_Tank.Notes;
-        // set attachment details control in readonly mode.
-        //TankAttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Tank), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
-        //BindTankAttachmentDetaills();
-        AttachDetailsView.Equipment_Table_Name = "PM_Equipment_Tank";
-        AttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Tank), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
-        BindTankAttachmentDetaills();
-    }
-    /// <summary>
-    /// Bind Paint Booth Page Controls for edit mode
-    /// </summary>
-    private void BindDetailsFor_Equipment_Spray_Booth_Edit()
-    {
-        dvView.Visible = false;
-        dvEdit.Visible = true;
-        pnl1.Style["display"] = "block";
-
-
-        pnlTank.Visible = false;
-        pnlSprayBooth.Visible = true;
-        pnlOWS.Visible = false;
-        pnlHydraulicLiftType.Visible = false;
-        pnlPGCC.Visible = false;
-
-        clsPM_Equipment_Spray_Booth objPM_Equipment_Spray_Booth = new clsPM_Equipment_Spray_Booth(PK_PM_Equipment_Spray_Booth);
-        if (objPM_Equipment_Spray_Booth.PK_PM_Equipment != null)
-            PM_Equipment = (decimal)objPM_Equipment_Spray_Booth.PK_PM_Equipment;
-        //lblEquiptmentSprayBooth.Text = "Paint Booth";
-        txtSprayBoothDesc.Text = objPM_Equipment_Spray_Booth.Description;
-        txtManufacturer_Name.Text = objPM_Equipment_Spray_Booth.Manufacturer_Name;
-        txtInstallationDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Spray_Booth.Installation_Date);
-        if (objPM_Equipment_Spray_Booth.Configured_For_Water_Borne_Application != null)
-            rdoConfigured_For_Water_Borne_Application.SelectedValue = objPM_Equipment_Spray_Booth.Configured_For_Water_Borne_Application;
-        else
-            rdoConfigured_For_Water_Borne_Application.SelectedValue = "Y";
-        if (objPM_Equipment_Spray_Booth.Direct_Indirect_Burners != null)
-            rdoDirect_Indirect_Burners.SelectedValue = objPM_Equipment_Spray_Booth.Direct_Indirect_Burners;
-        else
-            rdoDirect_Indirect_Burners.SelectedValue = "D";
-        txtBTU_Rating.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.BTU_Rating);
-        txtHeight_In_Feet.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Height_In_Feet);
-        txtWidth_In_Feet.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Width_In_Feet);
-        txtDepth_In_Feet.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Depth_In_Feet);
-        txtFilter_System.Text = objPM_Equipment_Spray_Booth.Filter_System;
-        txtCapture_Efficiency.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Capture_Efficiency);
-        txtControl_Efficiency.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Control_Efficiency);
-        txtStack_Height_In_Feet.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Stack_Height_In_Feet);
-        txtExit_Flow_Rate_CFM.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Exit_Flow_Rate_CFM);
-        txtExit_Temperature_Low.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Exit_Temperature_Low);
-        txtExit_Temperature_High.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Exit_Temperature_High);
-        txtSprayBoothNotes.Text = objPM_Equipment_Spray_Booth.Notes;
-        if (objPM_Equipment_Spray_Booth.Manual_6H_Binder != null)
-            rdbManual6HBinder.SelectedValue = objPM_Equipment_Spray_Booth.Manual_6H_Binder;
-        else
-            rdbManual6HBinder.SelectedValue = "Y";
-        txtCaptureEfficiencyDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Spray_Booth.Capture_Efficieicny_Date);
-        txtControlEfficiencyDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Spray_Booth.Control_Efficiency_Date);
-
-        //AttachDetailsSprayBooth.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Spray_Booth), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
-        //BindSprayBoothAttachmentDetaills();
-        AttachDetails.Equipment_Table_Name = "PM_Equipment_Spray_Booth";
-        AttachDetails.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Spray_Booth), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
-        BindSprayBoothAttachmentDetaills();
-    }
-    /// <summary>
-    /// Bind Paint Booth Page Controls for view mode
-    /// </summary>
-    private void BindDetailsFor_Equipment_Spray_Booth_View()
-    {
-        dvView.Visible = true;
-        dvEdit.Visible = false;
-        pnlTankview.Style["display"] = "none";
-        pnlSprayBoothTypeview.Style["display"] = "block";
-        pnlOWSTypeview.Style["display"] = "none";
-        pnlHydraulicLiftTypeview.Style["display"] = "none";
-        pnlPGCCview.Style["display"] = "none";
-        clsPM_Equipment_Spray_Booth objPM_Equipment_Spray_Booth = new clsPM_Equipment_Spray_Booth(PK_PM_Equipment_Spray_Booth);
-        lblSprayBoothType.Text = "Paint Booth";
-        lblSprayBoothDescription.Text = objPM_Equipment_Spray_Booth.Description;
-        lblManufacturer_Name.Text = objPM_Equipment_Spray_Booth.Manufacturer_Name;
-        lblInstallationDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Spray_Booth.Installation_Date);
-        lblConfigured_For_Water_Borne_Application.Text = objPM_Equipment_Spray_Booth.Configured_For_Water_Borne_Application == "Y" ? "Yes" : "No";
-        lblDirect_Indirect_Burners.Text = objPM_Equipment_Spray_Booth.Direct_Indirect_Burners == "D" ? "Direct" : "Indirect";
-        lblBTU_Rating.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.BTU_Rating);
-        lblHeight_In_Feet.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Height_In_Feet);
-        lblWidth_In_Feet.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Width_In_Feet);
-        lblDepth_In_Feet.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Depth_In_Feet);
-        lblFilter_System.Text = objPM_Equipment_Spray_Booth.Filter_System;
-        lblCapture_Efficiency.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Capture_Efficiency);
-        lblControl_Efficiency.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Control_Efficiency);
-        lblStack_Height_In_Feet.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Stack_Height_In_Feet);
-        lblExit_Flow_Rate_CFM.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Exit_Flow_Rate_CFM);
-        lblExit_Temperature_Low.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Exit_Temperature_Low);
-        lblExit_Temperature_High.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Exit_Temperature_High);
-        lblSprayBoothNotes.Text = objPM_Equipment_Spray_Booth.Notes;
-        lblManual6HBinder.Text = objPM_Equipment_Spray_Booth.Manual_6H_Binder == "N" ? "No" : "Yes";
-        lblCapture_EfficiencyDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Spray_Booth.Capture_Efficieicny_Date);
-        lblControl_EfficiencyDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Spray_Booth.Control_Efficiency_Date);
-
-        //SprayBoothAttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Spray_Booth), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
-        //BindSprayBoothAttachmentDetaills();
-        AttachDetailsView.Equipment_Table_Name = "PM_Equipment_Spray_Booth";
-        AttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Spray_Booth), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
-        BindSprayBoothAttachmentDetaills();
-    }
-    /// <summary>
-    /// Bind Prep Station Page Controls for edit mode
-    /// </summary>
-    private void BindDetailsFor_Equipment_Prep_Station_Edit()
-    {
-        dvView.Visible = false;
-        dvEdit.Visible = true;
-        pnl1.Style["display"] = "block";
+    //    txtLast_Inspection_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Last_Inspection_Date);
+    //    txtClosure_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Closure_Date);
+    //    txtRemoval_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Removal_Date);
+    //    txtRevised_Removal_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Revised_Removal_Date);
+    //    txtPermit_Begin_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Permit_Begin_Date);
+    //    txtPermit_End_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Permit_End_Date);
+    //    if (objPM_Equipment_Tank.Registration_Required != null)
+    //        rdoRegistration_Required.SelectedValue = objPM_Equipment_Tank.Registration_Required;
+    //    else
+    //        rdoRegistration_Required.SelectedValue = "Y";
+    //    txtRegistration_Number.Text = objPM_Equipment_Tank.Registration_Number;
+    //    if (objPM_Equipment_Tank.Leak_Detection_Required != null)
+    //        rdoLeak_Detection_Required.SelectedValue = objPM_Equipment_Tank.Leak_Detection_Required;
+    //    else
+    //        rdoLeak_Detection_Required.SelectedValue = "Y";
+    //    txtLeak_Detection_Type.Text = objPM_Equipment_Tank.Leak_Detection_Type;
+    //    if (objPM_Equipment_Tank.Overfill_Protection != null)
+    //        rdoOverfill_Protection.SelectedValue = objPM_Equipment_Tank.Overfill_Protection;
+    //    else
+    //        rdoOverfill_Protection.SelectedValue = "Y";
+    //    if (objPM_Equipment_Tank.Secondary_Containment_Adequate != null)
+    //        rdoSecondary_Containment_Adequate.SelectedValue = objPM_Equipment_Tank.Secondary_Containment_Adequate;
+    //    else
+    //        rdoSecondary_Containment_Adequate.SelectedValue = "Y";
+    //    if (objPM_Equipment_Tank.FK_LU_Secondary_Containment_Type != null) drpFK_LU_Secondary_Containment_Type.SelectedValue = objPM_Equipment_Tank.FK_LU_Secondary_Containment_Type.ToString();
+    //    txtDescription_Other_Reporting_Requirements.Text = objPM_Equipment_Tank.Description_Other_Reporting_Requirements;
+    //    txtPlan_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Plan_Date);
+    //    txtPlan_Identification.Text = objPM_Equipment_Tank.Plan_Identification;
+    //    txtRecommendations.Text = objPM_Equipment_Tank.Recommendations;
+    //    txtEffective_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Effective_Date);
+    //    txtExpiration_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Expiration_Date);
+    //    txtRecordkeeping_Requirements.Text = objPM_Equipment_Tank.Recordkeeping_Requirements;
+    //    txtRelease_Control_Countermeasures_Plan.Text = objPM_Equipment_Tank.Release_Control_Countermeasures_Plan;
+    //    txtMaintenance_Vendor.Text = objPM_Equipment_Tank.Maintenance_Vendor;
+    //    txtVendor_Contact_Name.Text = objPM_Equipment_Tank.Vendor_Contact_Name;
+    //    txtVendor_Contact_Telephone.Text = objPM_Equipment_Tank.Vendor_Contact_Telephone;
+    //    txtInsurer.Text = objPM_Equipment_Tank.Insurer;
+    //    txtCoverage_Start_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Coverage_Start_Date);
+    //    txtCoverage_End_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Coverage_End_Date);
+    //    txtMultiple_Event_Total_Coverage.Text = clsGeneral.GetStringValue(objPM_Equipment_Tank.Multiple_Event_Total_Coverage);
+    //    txtSingle_Event_Coverage.Text = clsGeneral.GetStringValue(objPM_Equipment_Tank.Single_Event_Coverage);
+    //    txtInspection_Company.Text = objPM_Equipment_Tank.Inspection_Company;
+    //    txtInspection_Company_Contact_Name.Text = objPM_Equipment_Tank.Inspection_Company_Contact_Name;
+    //    txtInspection_Company_Contact_Telephone.Text = objPM_Equipment_Tank.Inspection_Company_Contact_Telephone;
+    //    txtNotes.Text = objPM_Equipment_Tank.Notes;
+    //    // set attachment details control in read/write mode. so user can add or remove attachment as well.
+    //    // AttachDetailsTank.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Tank), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
+    //    // BindTankAttachmentDetaills();
+    //    AttachDetails.Equipment_Table_Name = "PM_Equipment_Tank";
+    //    AttachDetails.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Tank), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
+    //    BindTankAttachmentDetaills();
+    //}
+    ///// <summary>
+    ///// Bind Tank Page Controls for view mode
+    ///// </summary>
+    //private void BindDetailsFor_Equipment_Tank_View()
+    //{
+    //    dvView.Visible = true;
+    //    dvEdit.Visible = false;
+    //    pnlTankview.Style["display"] = "block";
+    //    pnlSprayBoothTypeview.Style["display"] = "none";
+    //    pnlOWSTypeview.Style["display"] = "none";
+    //    pnlHydraulicLiftTypeview.Style["display"] = "none";
+    //    pnlPGCCview.Style["display"] = "none";
+    //    clsPM_Equipment_Tank objPM_Equipment_Tank = new clsPM_Equipment_Tank(PK_PM_Equipment_Tank);
+    //    lblEquiptmentTank.Text = "Tank";
+    //    lblTankManufacturer.Text = Convert.ToString(objPM_Equipment_Tank.Manufacturer);
+    //    lblDescription.Text = objPM_Equipment_Tank.Description;
+    //    lblGround_Location.Text = objPM_Equipment_Tank.Ground_Location == "S" ? "On Surface" : objPM_Equipment_Tank.Ground_Location == "U" ? "Underground" : "";
+    //    lblIdentification.Text = objPM_Equipment_Tank.Identification;
+    //    if (objPM_Equipment_Tank.FK_Tank_Contents != null)
+    //        lblFK_Tank_Contents.Text = new LU_Tank_Contents((decimal)objPM_Equipment_Tank.FK_Tank_Contents).Fld_Desc;
+    //    lblContents_Other.Text = objPM_Equipment_Tank.Contents_Other;
+    //    if (objPM_Equipment_Tank.FK_Tank_Material != null)
+    //        lblFK_Tank_Material.Text = new LU_Tank_Material((decimal)objPM_Equipment_Tank.FK_Tank_Material).Fld_Desc;
+    //    lblMaterial_Other.Text = objPM_Equipment_Tank.Material_Other;
+    //    if (objPM_Equipment_Tank.FK_Tank_Construction != null)
+    //        lblFK_Tank_Construction.Text = new LU_Tank_Construction((decimal)objPM_Equipment_Tank.FK_Tank_Construction).Fld_Desc;
+    //    lblConstruction_Other.Text = objPM_Equipment_Tank.Construction_Other;
+    //    lblCapcity.Text = clsGeneral.GetStringValue(objPM_Equipment_Tank.Capcity);
+    //    lblCertificate_Number.Text = objPM_Equipment_Tank.Certificate_Number;
+    //    lblInstallation_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Installation_Date);
+    //    lblInstallation_Firm.Text = objPM_Equipment_Tank.Installation_Firm;
+    //    lblLast_Maintenance_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Last_Maintenance_Date);
+    //    lblLast_Revision_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Last_Revision_Date);
+    //    lblTank_In_Use.Text = objPM_Equipment_Tank.Tank_In_Use == "Y" ? "Yes" : "No";
+    //    lblULCertified.Text = objPM_Equipment_Tank.UL_Certified == "Y" ? "Yes" : "No";
+    //    lblSecureNonBusiness.Text = objPM_Equipment_Tank.Secure_Non_Business == "Y" ? "Yes" : "No";
+    //    lblLast_Inspection_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Last_Inspection_Date);
+    //    lblClosure_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Closure_Date);
+    //    lblRemoval_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Removal_Date);
+    //    lblRevised_Removal_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Revised_Removal_Date);
+    //    lblPermit_Begin_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Permit_Begin_Date);
+    //    lblPermit_End_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Permit_End_Date);
+    //    lblRegistration_Required.Text = objPM_Equipment_Tank.Registration_Required == "Y" ? "Yes" : "No";
+    //    lblRegistration_Number.Text = objPM_Equipment_Tank.Registration_Number;
+    //    lblLeak_Detection_Required.Text = objPM_Equipment_Tank.Leak_Detection_Required == "Y" ? "Yes" : "No";
+    //    lblLeak_Detection_Type.Text = objPM_Equipment_Tank.Leak_Detection_Type;
+    //    lblOverfill_Protection.Text = objPM_Equipment_Tank.Overfill_Protection == "Y" ? "Yes" : "No";
+    //    lblSecondary_Containment_Adequate.Text = objPM_Equipment_Tank.Secondary_Containment_Adequate == "Y" ? "Yes" : "No";
+    //    if (objPM_Equipment_Tank.FK_LU_Secondary_Containment_Type != null)
+    //        lblFK_LU_Secondary_Containment_Type.Text = new LU_Secondary_Containment_Type((decimal)objPM_Equipment_Tank.FK_LU_Secondary_Containment_Type).Fld_Desc;
+    //    lblDescription_Other_Reporting_Requirements.Text = objPM_Equipment_Tank.Description_Other_Reporting_Requirements;
+    //    lblPlan_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Plan_Date);
+    //    lblPlan_Identification.Text = objPM_Equipment_Tank.Plan_Identification;
+    //    lblRecommendations.Text = objPM_Equipment_Tank.Recommendations;
+    //    lblEffective_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Effective_Date);
+    //    lblExpiration_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Expiration_Date);
+    //    lblRecordkeeping_Requirements.Text = objPM_Equipment_Tank.Recordkeeping_Requirements;
+    //    lblRelease_Control_Countermeasures_Plan.Text = objPM_Equipment_Tank.Release_Control_Countermeasures_Plan;
+    //    lblMaintenance_Vendor.Text = objPM_Equipment_Tank.Maintenance_Vendor;
+    //    lblVendor_Contact_Name.Text = objPM_Equipment_Tank.Vendor_Contact_Name;
+    //    lblVendor_Contact_Telephone.Text = objPM_Equipment_Tank.Vendor_Contact_Telephone;
+    //    lblInsurer.Text = objPM_Equipment_Tank.Insurer;
+    //    lblCoverage_Start_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Coverage_Start_Date);
+    //    lblCoverage_End_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Coverage_End_Date);
+    //    lblMultiple_Event_Total_Coverage.Text = clsGeneral.GetStringValue(objPM_Equipment_Tank.Multiple_Event_Total_Coverage);
+    //    lblSingle_Event_Coverage.Text = clsGeneral.GetStringValue(objPM_Equipment_Tank.Single_Event_Coverage);
+    //    lblInspection_Company.Text = objPM_Equipment_Tank.Inspection_Company;
+    //    lblInspection_Company_Contact_Name.Text = objPM_Equipment_Tank.Inspection_Company_Contact_Name;
+    //    lblInspection_Company_Contact_Telephone.Text = objPM_Equipment_Tank.Inspection_Company_Contact_Telephone;
+    //    lblNotes.Text = objPM_Equipment_Tank.Notes;
+    //    // set attachment details control in readonly mode.
+    //    //TankAttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Tank), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
+    //    //BindTankAttachmentDetaills();
+    //    AttachDetailsView.Equipment_Table_Name = "PM_Equipment_Tank";
+    //    AttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Tank), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
+    //    BindTankAttachmentDetaills();
+    //}
+    ///// <summary>
+    ///// Bind Paint Booth Page Controls for edit mode
+    ///// </summary>
+    //private void BindDetailsFor_Equipment_Spray_Booth_Edit()
+    //{
+    //    dvView.Visible = false;
+    //    dvEdit.Visible = true;
+    //    pnl1.Style["display"] = "block";
 
 
-        pnlTank.Visible = false;
-        pnlPrepStation.Visible = true;
-        pnlOWS.Visible = false;
-        pnlHydraulicLiftType.Visible = false;
-        pnlPGCC.Visible = false;
+    //    pnlTank.Visible = false;
+    //    pnlSprayBooth.Visible = true;
+    //    pnlOWS.Visible = false;
+    //    pnlHydraulicLiftType.Visible = false;
+    //    pnlPGCC.Visible = false;
 
-        clsPM_Equipment_Prep_Station objPM_Equipment_Prep_Station = new clsPM_Equipment_Prep_Station(PK_PM_Equipment_Prep_Station);
-        if (objPM_Equipment_Prep_Station.PK_PM_Equipment != null)
-            PM_Equipment = (decimal)objPM_Equipment_Prep_Station.PK_PM_Equipment;
-        //lblEquiptmentSprayBooth.Text = "Paint Booth";
-        txtPrepStationDesc.Text = objPM_Equipment_Prep_Station.Description;
-        txtManufacturer_Name_PrepStation.Text = objPM_Equipment_Prep_Station.Manufacturer_Name;
-        txtInstallationDate_PrepStation.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Prep_Station.Installation_Date);
-        if (objPM_Equipment_Prep_Station.Configured_For_Water_Borne_Application != null)
-            rdoConfigured_For_Water_Borne_Application_PrepStation.SelectedValue = objPM_Equipment_Prep_Station.Configured_For_Water_Borne_Application;
-        else
-            rdoConfigured_For_Water_Borne_Application_PrepStation.SelectedValue = "Y";
-        if (objPM_Equipment_Prep_Station.Direct_Indirect_Burners != null)
-            rdoDirect_Indirect_Burners_PrepStation.SelectedValue = objPM_Equipment_Prep_Station.Direct_Indirect_Burners;
-        else
-            rdoDirect_Indirect_Burners_PrepStation.SelectedValue = "D";
-        txtBTU_Rating_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.BTU_Rating);
-        txtHeight_In_Feet_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Height_In_Feet);
-        txtWidth_In_Feet_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Width_In_Feet);
-        txtDepth_In_Feet_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Depth_In_Feet);
-        txtFilter_System_PrepStation.Text = objPM_Equipment_Prep_Station.Filter_System;
-        txtCapture_Efficiency_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Capture_Efficiency);
-        txtControl_Efficiency_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Control_Efficiency);
-        txtStack_Height_In_Feet_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Stack_Height_In_Feet);
-        txtExit_Flow_Rate_CFM_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Exit_Flow_Rate_CFM);
-        txtExit_Temperature_Low_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Exit_Temperature_Low);
-        txtExit_Temperature_High_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Exit_Temperature_High);
-        txtPrepStationNotes.Text = objPM_Equipment_Prep_Station.Notes;
-        if (objPM_Equipment_Prep_Station.Manual_6H_Binder != null)
-            rdbManual6HBinder_PrepStation.SelectedValue = objPM_Equipment_Prep_Station.Manual_6H_Binder;
-        else
-            rdbManual6HBinder_PrepStation.SelectedValue = "Y";
-        txtCaptureEfficiencyDate_PrepStation.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Prep_Station.Capture_Efficieicny_Date);
-        txtControlEfficiencyDate_PrepStation.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Prep_Station.Control_Efficiency_Date);
+    //    clsPM_Equipment_Spray_Booth objPM_Equipment_Spray_Booth = new clsPM_Equipment_Spray_Booth(PK_PM_Equipment_Spray_Booth);
+    //    if (objPM_Equipment_Spray_Booth.PK_PM_Equipment != null)
+    //        PM_Equipment = (decimal)objPM_Equipment_Spray_Booth.PK_PM_Equipment;
+    //    //lblEquiptmentSprayBooth.Text = "Paint Booth";
+    //    txtSprayBoothDesc.Text = objPM_Equipment_Spray_Booth.Description;
+    //    txtManufacturer_Name.Text = objPM_Equipment_Spray_Booth.Manufacturer_Name;
+    //    txtInstallationDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Spray_Booth.Installation_Date);
+    //    if (objPM_Equipment_Spray_Booth.Configured_For_Water_Borne_Application != null)
+    //        rdoConfigured_For_Water_Borne_Application.SelectedValue = objPM_Equipment_Spray_Booth.Configured_For_Water_Borne_Application;
+    //    else
+    //        rdoConfigured_For_Water_Borne_Application.SelectedValue = "Y";
+    //    if (objPM_Equipment_Spray_Booth.Direct_Indirect_Burners != null)
+    //        rdoDirect_Indirect_Burners.SelectedValue = objPM_Equipment_Spray_Booth.Direct_Indirect_Burners;
+    //    else
+    //        rdoDirect_Indirect_Burners.SelectedValue = "D";
+    //    txtBTU_Rating.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.BTU_Rating);
+    //    txtHeight_In_Feet.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Height_In_Feet);
+    //    txtWidth_In_Feet.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Width_In_Feet);
+    //    txtDepth_In_Feet.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Depth_In_Feet);
+    //    txtFilter_System.Text = objPM_Equipment_Spray_Booth.Filter_System;
+    //    txtCapture_Efficiency.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Capture_Efficiency);
+    //    txtControl_Efficiency.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Control_Efficiency);
+    //    txtStack_Height_In_Feet.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Stack_Height_In_Feet);
+    //    txtExit_Flow_Rate_CFM.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Exit_Flow_Rate_CFM);
+    //    txtExit_Temperature_Low.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Exit_Temperature_Low);
+    //    txtExit_Temperature_High.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Exit_Temperature_High);
+    //    txtSprayBoothNotes.Text = objPM_Equipment_Spray_Booth.Notes;
+    //    if (objPM_Equipment_Spray_Booth.Manual_6H_Binder != null)
+    //        rdbManual6HBinder.SelectedValue = objPM_Equipment_Spray_Booth.Manual_6H_Binder;
+    //    else
+    //        rdbManual6HBinder.SelectedValue = "Y";
+    //    txtCaptureEfficiencyDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Spray_Booth.Capture_Efficieicny_Date);
+    //    txtControlEfficiencyDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Spray_Booth.Control_Efficiency_Date);
 
-        //AttachDetailsPrepStation.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Prep_Station), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
-        //BindSprayBoothAttachmentDetaills();
-        AttachDetails.Equipment_Table_Name = "PM_Equipment_Prep_Station";
-        AttachDetails.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Prep_Station), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
-        BindPrepStationAttachmentDetaills();
-    }
-    /// <summary>
-    /// Bind Prep Station Page Controls for view mode
-    /// </summary>
-    private void BindDetailsFor_Equipment_Prep_Station_View()
-    {
-        dvView.Visible = true;
-        dvEdit.Visible = false;
-        pnlTankview.Style["display"] = "none";
-        pnlPrepStationTypeview.Style["display"] = "block";
-        pnlOWSTypeview.Style["display"] = "none";
-        pnlHydraulicLiftTypeview.Style["display"] = "none";
-        pnlPGCCview.Style["display"] = "none";
-        clsPM_Equipment_Prep_Station objPM_Equipment_Prep_Station = new clsPM_Equipment_Prep_Station(PK_PM_Equipment_Prep_Station);
-        lblPrepStationType.Text = "Paint Booth";
-        lblPrepStationDescription.Text = objPM_Equipment_Prep_Station.Description;
-        lblManufacturer_Name_PrepStation.Text = objPM_Equipment_Prep_Station.Manufacturer_Name;
-        lblInstallationDate_PrepStation.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Prep_Station.Installation_Date);
-        lblConfigured_For_Water_Borne_Application_PrepStation.Text = objPM_Equipment_Prep_Station.Configured_For_Water_Borne_Application == "Y" ? "Yes" : "No";
-        lblDirect_Indirect_Burners_PrepStation.Text = objPM_Equipment_Prep_Station.Direct_Indirect_Burners == "D" ? "Direct" : "Indirect";
-        lblBTU_Rating_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.BTU_Rating);
-        lblHeight_In_Feet_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Height_In_Feet);
-        lblWidth_In_Feet_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Width_In_Feet);
-        lblDepth_In_Feet_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Depth_In_Feet);
-        lblFilter_System_PrepStation.Text = objPM_Equipment_Prep_Station.Filter_System;
-        lblCapture_Efficiency_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Capture_Efficiency);
-        lblControl_Efficiency_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Control_Efficiency);
-        lblStack_Height_In_Feet_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Stack_Height_In_Feet);
-        lblExit_Flow_Rate_CFM_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Exit_Flow_Rate_CFM);
-        lblExit_Temperature_Low_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Exit_Temperature_Low);
-        lblExit_Temperature_High_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Exit_Temperature_High);
-        lblPrepStationNotes.Text = objPM_Equipment_Prep_Station.Notes;
-        lblManual6HBinder_PrepStation.Text = objPM_Equipment_Prep_Station.Manual_6H_Binder == "N" ? "No" : "Yes";
-        lblCapture_EfficiencyDate_PrepStation.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Prep_Station.Capture_Efficieicny_Date);
-        lblControl_EfficiencyDate_PrepStation.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Prep_Station.Control_Efficiency_Date);
+    //    //AttachDetailsSprayBooth.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Spray_Booth), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
+    //    //BindSprayBoothAttachmentDetaills();
+    //    AttachDetails.Equipment_Table_Name = "PM_Equipment_Spray_Booth";
+    //    AttachDetails.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Spray_Booth), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
+    //    BindSprayBoothAttachmentDetaills();
+    //}
+    ///// <summary>
+    ///// Bind Paint Booth Page Controls for view mode
+    ///// </summary>
+    //private void BindDetailsFor_Equipment_Spray_Booth_View()
+    //{
+    //    dvView.Visible = true;
+    //    dvEdit.Visible = false;
+    //    pnlTankview.Style["display"] = "none";
+    //    pnlSprayBoothTypeview.Style["display"] = "block";
+    //    pnlOWSTypeview.Style["display"] = "none";
+    //    pnlHydraulicLiftTypeview.Style["display"] = "none";
+    //    pnlPGCCview.Style["display"] = "none";
+    //    clsPM_Equipment_Spray_Booth objPM_Equipment_Spray_Booth = new clsPM_Equipment_Spray_Booth(PK_PM_Equipment_Spray_Booth);
+    //    lblSprayBoothType.Text = "Paint Booth";
+    //    lblSprayBoothDescription.Text = objPM_Equipment_Spray_Booth.Description;
+    //    lblManufacturer_Name.Text = objPM_Equipment_Spray_Booth.Manufacturer_Name;
+    //    lblInstallationDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Spray_Booth.Installation_Date);
+    //    lblConfigured_For_Water_Borne_Application.Text = objPM_Equipment_Spray_Booth.Configured_For_Water_Borne_Application == "Y" ? "Yes" : "No";
+    //    lblDirect_Indirect_Burners.Text = objPM_Equipment_Spray_Booth.Direct_Indirect_Burners == "D" ? "Direct" : "Indirect";
+    //    lblBTU_Rating.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.BTU_Rating);
+    //    lblHeight_In_Feet.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Height_In_Feet);
+    //    lblWidth_In_Feet.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Width_In_Feet);
+    //    lblDepth_In_Feet.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Depth_In_Feet);
+    //    lblFilter_System.Text = objPM_Equipment_Spray_Booth.Filter_System;
+    //    lblCapture_Efficiency.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Capture_Efficiency);
+    //    lblControl_Efficiency.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Control_Efficiency);
+    //    lblStack_Height_In_Feet.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Stack_Height_In_Feet);
+    //    lblExit_Flow_Rate_CFM.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Exit_Flow_Rate_CFM);
+    //    lblExit_Temperature_Low.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Exit_Temperature_Low);
+    //    lblExit_Temperature_High.Text = clsGeneral.GetStringValue(objPM_Equipment_Spray_Booth.Exit_Temperature_High);
+    //    lblSprayBoothNotes.Text = objPM_Equipment_Spray_Booth.Notes;
+    //    lblManual6HBinder.Text = objPM_Equipment_Spray_Booth.Manual_6H_Binder == "N" ? "No" : "Yes";
+    //    lblCapture_EfficiencyDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Spray_Booth.Capture_Efficieicny_Date);
+    //    lblControl_EfficiencyDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Spray_Booth.Control_Efficiency_Date);
 
-        //SprayBoothAttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Prep_Station), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
-        //BindSprayBoothAttachmentDetaills();
-        AttachDetailsView.Equipment_Table_Name = "PM_Equipment_Prep_Station";
-        AttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Prep_Station), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
-        BindPrepStationAttachmentDetaills();
-    }
-    /// <summary>
-    /// Bind Hydraulic_Lift Page Controls for edit mode
-    /// </summary>
-    private void BindDetailsFor_Equipment_Hydraulic_Lift_Edit()
-    {
-        dvView.Visible = false;
-        dvEdit.Visible = true;
-        pnl1.Style["display"] = "block";
-
-        pnlTank.Visible = false;
-        pnlSprayBooth.Visible = false;
-        pnlOWS.Visible = false;
-        pnlHydraulicLiftType.Visible = true;
-        pnlPGCC.Visible = false;
-
-        clsPM_Equipment_Hydraulic_Lift objPM_Equipment_Hydraulic_Lift = new clsPM_Equipment_Hydraulic_Lift(PK_PM_Equipment_Hydraulic_Lift);
-        if (objPM_Equipment_Hydraulic_Lift.PK_PM_Equipment != null)
-            PM_Equipment = (decimal)objPM_Equipment_Hydraulic_Lift.PK_PM_Equipment;
-        //lblHydraulicLiftType.Text = "Hydraulic Lift";
-        //txtHydraulicLiftDescription.Text = objPM_Equipment_Hydraulic_Lift.Description;
-        //txtOil_Type.Text = objPM_Equipment_Hydraulic_Lift.Oil_Type;
-        //if (objPM_Equipment_Hydraulic_Lift.Above_Ground != null)
-        //    rdoAbove_Ground.SelectedValue = objPM_Equipment_Hydraulic_Lift.Above_Ground;
-        //else
-        //    rdoAbove_Ground.SelectedValue = "Y";
-        //txtHydraulicLiftManufacture.Text = objPM_Equipment_Hydraulic_Lift.Manufacturer_Name;
-        ////txtIs_Number_Of_Lifts_At_Location.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift.Is_Number_Of_Lifts_At_Location);
-        //txtNumber_Of_Lifts_At_Location.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift.Number_Of_Lifts_At_Location);
-        //txtAs_Of_Date_Number.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Hydraulic_Lift.As_Of_Date_Number);
-        //txtHydraulicLift_Installation_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Hydraulic_Lift.Installation_Date);
-        //txtHydraulicLift_Last_Inspection_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Hydraulic_Lift.Last_Inspection_Date);
-        if (objPM_Equipment_Hydraulic_Lift.Any_Inground_Lifts_Been_Removed != null)
-            rdoAny_Inground_Lifts_Been_Removed.SelectedValue = objPM_Equipment_Hydraulic_Lift.Any_Inground_Lifts_Been_Removed;
-        else
-            rdoAny_Inground_Lifts_Been_Removed.SelectedValue = "Y";
-        if (objPM_Equipment_Hydraulic_Lift.Use_Same_Dates != null)
-            rdbUseSameDates.SelectedValue = objPM_Equipment_Hydraulic_Lift.Use_Same_Dates;
-        else
-            rdbUseSameDates.SelectedValue = "N";
-        if (objPM_Equipment_Hydraulic_Lift.Documentation_Related_To_Removed_Lifts != null)
-            rdoDocumentation_Related_To_Removed_Lifts.SelectedValue = objPM_Equipment_Hydraulic_Lift.Documentation_Related_To_Removed_Lifts;
-        else
-            rdoDocumentation_Related_To_Removed_Lifts.SelectedValue = "Y";
-        BindHydraulicLiftGrid(PK_PM_Equipment_Hydraulic_Lift);
-        //txtHydraulicLiftNotes.Text = objPM_Equipment_Hydraulic_Lift.Notes;
-        // set attachment details control in read/write mode. so user can add or remove attachment as well.
-        AttachDetails.Equipment_Table_Name = "PM_Equipment_Hydraulic_Lift";
-        AttachDetails.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Hydraulic_Lift), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
-        BindHydraulicLiftAttachmentDetaills();
-    }
-    /// <summary>
-    /// Bind Hydraulic_Lift Page Controls for view mode
-    /// </summary>
-    private void BindDetailsFor_Equipment_Hydraulic_Lift_View()
-    {
-        dvView.Visible = true;
-        dvEdit.Visible = false;
-        pnlTankview.Style["display"] = "none";
-        pnlSprayBoothTypeview.Style["display"] = "none";
-        pnlOWSTypeview.Style["display"] = "none";
-        pnlHydraulicLiftTypeview.Style["display"] = "block";
-        pnlPGCCview.Style["display"] = "none";
-        clsPM_Equipment_Hydraulic_Lift objPM_Equipment_Hydraulic_Lift = new clsPM_Equipment_Hydraulic_Lift(PK_PM_Equipment_Hydraulic_Lift);
-        lblUse_Same_Dates.Text = objPM_Equipment_Hydraulic_Lift.Use_Same_Dates == "Y" ? "Yes" : "No";
-        lblAny_Inground_Lifts_Been_Removed.Text = objPM_Equipment_Hydraulic_Lift.Any_Inground_Lifts_Been_Removed == "Y" ? "Yes" : "No";
-        lblDocumentation_Related_To_Removed_Lifts.Text = objPM_Equipment_Hydraulic_Lift.Documentation_Related_To_Removed_Lifts == "Y" ? "Yes" : "No";
-        BindHydraulicLiftGridView(PK_PM_Equipment_Hydraulic_Lift);
-        AttachDetailsView.Equipment_Table_Name = "PM_Equipment_Hydraulic_Lift";
-        AttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Hydraulic_Lift), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
-        BindHydraulicLiftAttachmentDetaills();
-    }
-    /// <summary>
-    /// Bind PGCC Page Controls for edit mode
-    /// </summary>
-    private void BindDetailsFor_Equipment_PGCC_Edit()
-    {
-        dvView.Visible = false;
-        dvEdit.Visible = true;
-        pnl1.Style["display"] = "block";
+    //    //SprayBoothAttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Spray_Booth), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
+    //    //BindSprayBoothAttachmentDetaills();
+    //    AttachDetailsView.Equipment_Table_Name = "PM_Equipment_Spray_Booth";
+    //    AttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Spray_Booth), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
+    //    BindSprayBoothAttachmentDetaills();
+    //}
+    ///// <summary>
+    ///// Bind Prep Station Page Controls for edit mode
+    ///// </summary>
+    //private void BindDetailsFor_Equipment_Prep_Station_Edit()
+    //{
+    //    dvView.Visible = false;
+    //    dvEdit.Visible = true;
+    //    pnl1.Style["display"] = "block";
 
 
-        pnlTank.Visible = false;
-        pnlSprayBooth.Visible = false;
-        pnlOWS.Visible = false;
-        pnlHydraulicLiftType.Visible = false;
-        pnlPGCC.Visible = true;
+    //    pnlTank.Visible = false;
+    //    pnlPrepStation.Visible = true;
+    //    pnlOWS.Visible = false;
+    //    pnlHydraulicLiftType.Visible = false;
+    //    pnlPGCC.Visible = false;
 
-        clsPM_Equipment_PGCC objPM_Equipment_PGCC = new clsPM_Equipment_PGCC(PK_PM_Equipment_PGCC);
-        if (objPM_Equipment_PGCC.PK_PM_Equipment != null)
-            PM_Equipment = (decimal)objPM_Equipment_PGCC.PK_PM_Equipment;
-        //lblPGCCType.Text = "Paint Gun Cleaning Cabinet";
-        txtPGCCDescription.Text = objPM_Equipment_PGCC.Description;
-        txtPGCCManufacturer.Text = objPM_Equipment_PGCC.Manufacturer_Name;
-        txtPGCCInstallation_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_PGCC.Installation_Date);
-        if (objPM_Equipment_PGCC.Water_Borne != null)
-            rdoWater_Borne.SelectedValue = objPM_Equipment_PGCC.Water_Borne;
-        else
-            rdoWater_Borne.SelectedValue = "Y";
-        if (objPM_Equipment_PGCC.Solvent_Based != null)
-            rdoSolvent_Based.SelectedValue = objPM_Equipment_PGCC.Solvent_Based;
-        else
-            rdoSolvent_Based.SelectedValue = "Y";
-        if (objPM_Equipment_PGCC.Combination_Water_Solvent != null)
-            rdoCombination_Water_Solvent.SelectedValue = objPM_Equipment_PGCC.Combination_Water_Solvent;
-        else
-            rdoCombination_Water_Solvent.SelectedValue = "Y";
-        txtPGCCNotes.Text = objPM_Equipment_PGCC.Notes;
+    //    clsPM_Equipment_Prep_Station objPM_Equipment_Prep_Station = new clsPM_Equipment_Prep_Station(PK_PM_Equipment_Prep_Station);
+    //    if (objPM_Equipment_Prep_Station.PK_PM_Equipment != null)
+    //        PM_Equipment = (decimal)objPM_Equipment_Prep_Station.PK_PM_Equipment;
+    //    //lblEquiptmentSprayBooth.Text = "Paint Booth";
+    //    txtPrepStationDesc.Text = objPM_Equipment_Prep_Station.Description;
+    //    txtManufacturer_Name_PrepStation.Text = objPM_Equipment_Prep_Station.Manufacturer_Name;
+    //    txtInstallationDate_PrepStation.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Prep_Station.Installation_Date);
+    //    if (objPM_Equipment_Prep_Station.Configured_For_Water_Borne_Application != null)
+    //        rdoConfigured_For_Water_Borne_Application_PrepStation.SelectedValue = objPM_Equipment_Prep_Station.Configured_For_Water_Borne_Application;
+    //    else
+    //        rdoConfigured_For_Water_Borne_Application_PrepStation.SelectedValue = "Y";
+    //    if (objPM_Equipment_Prep_Station.Direct_Indirect_Burners != null)
+    //        rdoDirect_Indirect_Burners_PrepStation.SelectedValue = objPM_Equipment_Prep_Station.Direct_Indirect_Burners;
+    //    else
+    //        rdoDirect_Indirect_Burners_PrepStation.SelectedValue = "D";
+    //    txtBTU_Rating_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.BTU_Rating);
+    //    txtHeight_In_Feet_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Height_In_Feet);
+    //    txtWidth_In_Feet_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Width_In_Feet);
+    //    txtDepth_In_Feet_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Depth_In_Feet);
+    //    txtFilter_System_PrepStation.Text = objPM_Equipment_Prep_Station.Filter_System;
+    //    txtCapture_Efficiency_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Capture_Efficiency);
+    //    txtControl_Efficiency_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Control_Efficiency);
+    //    txtStack_Height_In_Feet_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Stack_Height_In_Feet);
+    //    txtExit_Flow_Rate_CFM_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Exit_Flow_Rate_CFM);
+    //    txtExit_Temperature_Low_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Exit_Temperature_Low);
+    //    txtExit_Temperature_High_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Exit_Temperature_High);
+    //    txtPrepStationNotes.Text = objPM_Equipment_Prep_Station.Notes;
+    //    if (objPM_Equipment_Prep_Station.Manual_6H_Binder != null)
+    //        rdbManual6HBinder_PrepStation.SelectedValue = objPM_Equipment_Prep_Station.Manual_6H_Binder;
+    //    else
+    //        rdbManual6HBinder_PrepStation.SelectedValue = "Y";
+    //    txtCaptureEfficiencyDate_PrepStation.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Prep_Station.Capture_Efficieicny_Date);
+    //    txtControlEfficiencyDate_PrepStation.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Prep_Station.Control_Efficiency_Date);
 
-        if (objPM_Equipment_PGCC.SixH_Compliant != null)
-            rdbIsCabinet6HComplaint.SelectedValue = objPM_Equipment_PGCC.SixH_Compliant;
-        else
-            rdbIsCabinet6HComplaint.SelectedValue = "Y";
+    //    //AttachDetailsPrepStation.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Prep_Station), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
+    //    //BindSprayBoothAttachmentDetaills();
+    //    AttachDetails.Equipment_Table_Name = "PM_Equipment_Prep_Station";
+    //    AttachDetails.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Prep_Station), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
+    //    BindPrepStationAttachmentDetaills();
+    //}
+    ///// <summary>
+    ///// Bind Prep Station Page Controls for view mode
+    ///// </summary>
+    //private void BindDetailsFor_Equipment_Prep_Station_View()
+    //{
+    //    dvView.Visible = true;
+    //    dvEdit.Visible = false;
+    //    pnlTankview.Style["display"] = "none";
+    //    pnlPrepStationTypeview.Style["display"] = "block";
+    //    pnlOWSTypeview.Style["display"] = "none";
+    //    pnlHydraulicLiftTypeview.Style["display"] = "none";
+    //    pnlPGCCview.Style["display"] = "none";
+    //    clsPM_Equipment_Prep_Station objPM_Equipment_Prep_Station = new clsPM_Equipment_Prep_Station(PK_PM_Equipment_Prep_Station);
+    //    lblPrepStationType.Text = "Paint Booth";
+    //    lblPrepStationDescription.Text = objPM_Equipment_Prep_Station.Description;
+    //    lblManufacturer_Name_PrepStation.Text = objPM_Equipment_Prep_Station.Manufacturer_Name;
+    //    lblInstallationDate_PrepStation.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Prep_Station.Installation_Date);
+    //    lblConfigured_For_Water_Borne_Application_PrepStation.Text = objPM_Equipment_Prep_Station.Configured_For_Water_Borne_Application == "Y" ? "Yes" : "No";
+    //    lblDirect_Indirect_Burners_PrepStation.Text = objPM_Equipment_Prep_Station.Direct_Indirect_Burners == "D" ? "Direct" : "Indirect";
+    //    lblBTU_Rating_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.BTU_Rating);
+    //    lblHeight_In_Feet_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Height_In_Feet);
+    //    lblWidth_In_Feet_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Width_In_Feet);
+    //    lblDepth_In_Feet_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Depth_In_Feet);
+    //    lblFilter_System_PrepStation.Text = objPM_Equipment_Prep_Station.Filter_System;
+    //    lblCapture_Efficiency_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Capture_Efficiency);
+    //    lblControl_Efficiency_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Control_Efficiency);
+    //    lblStack_Height_In_Feet_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Stack_Height_In_Feet);
+    //    lblExit_Flow_Rate_CFM_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Exit_Flow_Rate_CFM);
+    //    lblExit_Temperature_Low_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Exit_Temperature_Low);
+    //    lblExit_Temperature_High_PrepStation.Text = clsGeneral.GetStringValue(objPM_Equipment_Prep_Station.Exit_Temperature_High);
+    //    lblPrepStationNotes.Text = objPM_Equipment_Prep_Station.Notes;
+    //    lblManual6HBinder_PrepStation.Text = objPM_Equipment_Prep_Station.Manual_6H_Binder == "N" ? "No" : "Yes";
+    //    lblCapture_EfficiencyDate_PrepStation.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Prep_Station.Capture_Efficieicny_Date);
+    //    lblControl_EfficiencyDate_PrepStation.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Prep_Station.Control_Efficiency_Date);
 
-        if (objPM_Equipment_PGCC.Manual_6H_Binder != null)
-            rdbManualPaintGunCleaningCabinet6H.SelectedValue = objPM_Equipment_PGCC.Manual_6H_Binder;
-        else
-            rdbManualPaintGunCleaningCabinet6H.SelectedValue = "Y";
+    //    //SprayBoothAttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Prep_Station), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
+    //    //BindSprayBoothAttachmentDetaills();
+    //    AttachDetailsView.Equipment_Table_Name = "PM_Equipment_Prep_Station";
+    //    AttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Prep_Station), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
+    //    BindPrepStationAttachmentDetaills();
+    //}
+    ///// <summary>
+    ///// Bind Hydraulic_Lift Page Controls for edit mode
+    ///// </summary>
+    //private void BindDetailsFor_Equipment_Hydraulic_Lift_Edit()
+    //{
+    //    RackLiftAsPerEventType();        
+    //    dvView.Visible = false;
+    //    dvEdit.Visible = true;
+    //    pnl1.Style["display"] = "block";
 
-        // set attachment details control in read/write mode. so user can add or remove attachment as well.
-        AttachDetails.Equipment_Table_Name = "PM_Equipment_PGCC";
-        AttachDetails.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_PGCC), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
-        BindPGCCAttachmentDetaills();
-    }
-    /// <summary>
-    /// Bind PGCC Page Controls for view mode
-    /// </summary>
-    private void BindDetailsFor_Equipment_PGCC_View()
-    {
-        dvView.Visible = true;
-        dvEdit.Visible = false;
-        pnlTankview.Style["display"] = "none";
-        pnlSprayBoothTypeview.Style["display"] = "none";
-        pnlOWSTypeview.Style["display"] = "none";
-        pnlHydraulicLiftTypeview.Style["display"] = "none";
-        pnlPGCCview.Style["display"] = "block";
-        clsPM_Equipment_PGCC objPM_Equipment_PGCC = new clsPM_Equipment_PGCC(PK_PM_Equipment_PGCC);
-        lblPGCCTypeView.Text = "Paint Gun Cleaning Cabinet";
-        lblPGCCTypeDescription.Text = objPM_Equipment_PGCC.Description;
-        lblPGCCTypeManufacturer.Text = objPM_Equipment_PGCC.Manufacturer_Name;
-        lblPGCCTypeInstallationDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_PGCC.Installation_Date);
-        lblWater_Borne.Text = objPM_Equipment_PGCC.Water_Borne == "Y" ? "Yes" : "No";
-        lblSolvent_Based.Text = objPM_Equipment_PGCC.Solvent_Based == "Y" ? "Yes" : "No";
-        lblCombination_Water_Solvent.Text = objPM_Equipment_PGCC.Combination_Water_Solvent == "Y" ? "Yes" : "No";
-        lblPGCCTypeNotes.Text = objPM_Equipment_PGCC.Notes;
+    //    pnlTank.Visible = false;
+    //    pnlSprayBooth.Visible = false;
+    //    pnlOWS.Visible = false;
+    //    pnlHydraulicLiftType.Visible = true;
+    //    pnlPGCC.Visible = false;
 
-        lblIsCabinet6HComplaint.Text = objPM_Equipment_PGCC.SixH_Compliant == "N" ? "No" : "Yes";
-        lblManualPaintGunCleaningCabinet6H.Text = objPM_Equipment_PGCC.Manual_6H_Binder == "N" ? "No" : "Yes";
+    //    clsPM_Equipment_Hydraulic_Lift objPM_Equipment_Hydraulic_Lift = new clsPM_Equipment_Hydraulic_Lift(PK_PM_Equipment_Hydraulic_Lift);
+    //    if (objPM_Equipment_Hydraulic_Lift.PK_PM_Equipment != null)
+    //        PM_Equipment = (decimal)objPM_Equipment_Hydraulic_Lift.PK_PM_Equipment;
+    //    //lblHydraulicLiftType.Text = "Hydraulic Lift";
+    //    //txtHydraulicLiftDescription.Text = objPM_Equipment_Hydraulic_Lift.Description;
+    //    //txtOil_Type.Text = objPM_Equipment_Hydraulic_Lift.Oil_Type;
+    //    //if (objPM_Equipment_Hydraulic_Lift.Above_Ground != null)
+    //    //    rdoAbove_Ground.SelectedValue = objPM_Equipment_Hydraulic_Lift.Above_Ground;
+    //    //else
+    //    //    rdoAbove_Ground.SelectedValue = "Y";
+    //    //txtHydraulicLiftManufacture.Text = objPM_Equipment_Hydraulic_Lift.Manufacturer_Name;
+    //    ////txtIs_Number_Of_Lifts_At_Location.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift.Is_Number_Of_Lifts_At_Location);
+    //    //txtNumber_Of_Lifts_At_Location.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift.Number_Of_Lifts_At_Location);
+    //    //txtAs_Of_Date_Number.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Hydraulic_Lift.As_Of_Date_Number);
+    //    //txtHydraulicLift_Installation_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Hydraulic_Lift.Installation_Date);
+    //    //txtHydraulicLift_Last_Inspection_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Hydraulic_Lift.Last_Inspection_Date);
+    //    if (objPM_Equipment_Hydraulic_Lift.Any_Inground_Lifts_Been_Removed != null)
+    //        rdoAny_Inground_Lifts_Been_Removed.SelectedValue = objPM_Equipment_Hydraulic_Lift.Any_Inground_Lifts_Been_Removed;
+    //    else
+    //        rdoAny_Inground_Lifts_Been_Removed.SelectedValue = "Y";
+    //    if (objPM_Equipment_Hydraulic_Lift.Use_Same_Dates != null)
+    //        rdbUseSameDates.SelectedValue = objPM_Equipment_Hydraulic_Lift.Use_Same_Dates;
+    //    else
+    //        rdbUseSameDates.SelectedValue = "N";
+    //    if (objPM_Equipment_Hydraulic_Lift.Documentation_Related_To_Removed_Lifts != null)
+    //        rdoDocumentation_Related_To_Removed_Lifts.SelectedValue = objPM_Equipment_Hydraulic_Lift.Documentation_Related_To_Removed_Lifts;
+    //    else
+    //        rdoDocumentation_Related_To_Removed_Lifts.SelectedValue = "Y";
+    //    BindHydraulicLiftGrid(PK_PM_Equipment_Hydraulic_Lift);
+    //    //txtHydraulicLiftNotes.Text = objPM_Equipment_Hydraulic_Lift.Notes;
+    //    // set attachment details control in read/write mode. so user can add or remove attachment as well.
+    //    AttachDetails.Equipment_Table_Name = "PM_Equipment_Hydraulic_Lift";
+    //    AttachDetails.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Hydraulic_Lift), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
+    //    BindHydraulicLiftAttachmentDetaills();
+    //}    
+    ///// <summary>
+    ///// Bind Hydraulic_Lift Page Controls for view mode
+    ///// </summary>
+    //private void BindDetailsFor_Equipment_Hydraulic_Lift_View()
+    //{
+    //    RackLiftAsPerEventType();         
+    //    dvView.Visible = true;
+    //    dvEdit.Visible = false;
+    //    pnlTankview.Style["display"] = "none";
+    //    pnlSprayBoothTypeview.Style["display"] = "none";
+    //    pnlOWSTypeview.Style["display"] = "none";
+    //    pnlHydraulicLiftTypeview.Style["display"] = "block";
+    //    pnlPGCCview.Style["display"] = "none";
+    //    clsPM_Equipment_Hydraulic_Lift objPM_Equipment_Hydraulic_Lift = new clsPM_Equipment_Hydraulic_Lift(PK_PM_Equipment_Hydraulic_Lift);
+    //    lblUse_Same_Dates.Text = objPM_Equipment_Hydraulic_Lift.Use_Same_Dates == "Y" ? "Yes" : "No";
+    //    lblAny_Inground_Lifts_Been_Removed.Text = objPM_Equipment_Hydraulic_Lift.Any_Inground_Lifts_Been_Removed == "Y" ? "Yes" : "No";
+    //    lblDocumentation_Related_To_Removed_Lifts.Text = objPM_Equipment_Hydraulic_Lift.Documentation_Related_To_Removed_Lifts == "Y" ? "Yes" : "No";
+    //    BindHydraulicLiftGridView(PK_PM_Equipment_Hydraulic_Lift);
+    //    AttachDetailsView.Equipment_Table_Name = "PM_Equipment_Hydraulic_Lift";
+    //    AttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Hydraulic_Lift), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
+    //    BindHydraulicLiftAttachmentDetaills();      
+    //}
+    ///// <summary>
+    ///// Bind PGCC Page Controls for edit mode
+    ///// </summary>
+    //private void BindDetailsFor_Equipment_PGCC_Edit()
+    //{
+    //    dvView.Visible = false;
+    //    dvEdit.Visible = true;
+    //    pnl1.Style["display"] = "block";
 
-        //PGCCAttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_PGCC), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
-        //BindPGCCAttachmentDetaills();
-        AttachDetailsView.Equipment_Table_Name = "PM_Equipment_PGCC";
-        AttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_PGCC), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
-        BindPGCCAttachmentDetaills();
-    }
-    /// <summary>
-    /// Bind OWS Page Controls for Edit Mode
-    /// </summary>
-    private void BindDetailsFor_Equipment_OWS_Edit()
-    {
-        dvView.Visible = false;
-        dvEdit.Visible = true;
-        pnl1.Style["display"] = "block";
+
+    //    pnlTank.Visible = false;
+    //    pnlSprayBooth.Visible = false;
+    //    pnlOWS.Visible = false;
+    //    pnlHydraulicLiftType.Visible = false;
+    //    pnlPGCC.Visible = true;
+
+    //    clsPM_Equipment_PGCC objPM_Equipment_PGCC = new clsPM_Equipment_PGCC(PK_PM_Equipment_PGCC);
+    //    if (objPM_Equipment_PGCC.PK_PM_Equipment != null)
+    //        PM_Equipment = (decimal)objPM_Equipment_PGCC.PK_PM_Equipment;
+    //    //lblPGCCType.Text = "Paint Gun Cleaning Cabinet";
+    //    txtPGCCDescription.Text = objPM_Equipment_PGCC.Description;
+    //    txtPGCCManufacturer.Text = objPM_Equipment_PGCC.Manufacturer_Name;
+    //    txtPGCCInstallation_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_PGCC.Installation_Date);
+    //    if (objPM_Equipment_PGCC.Water_Borne != null)
+    //        rdoWater_Borne.SelectedValue = objPM_Equipment_PGCC.Water_Borne;
+    //    else
+    //        rdoWater_Borne.SelectedValue = "Y";
+    //    if (objPM_Equipment_PGCC.Solvent_Based != null)
+    //        rdoSolvent_Based.SelectedValue = objPM_Equipment_PGCC.Solvent_Based;
+    //    else
+    //        rdoSolvent_Based.SelectedValue = "Y";
+    //    if (objPM_Equipment_PGCC.Combination_Water_Solvent != null)
+    //        rdoCombination_Water_Solvent.SelectedValue = objPM_Equipment_PGCC.Combination_Water_Solvent;
+    //    else
+    //        rdoCombination_Water_Solvent.SelectedValue = "Y";
+    //    txtPGCCNotes.Text = objPM_Equipment_PGCC.Notes;
+
+    //    if (objPM_Equipment_PGCC.SixH_Compliant != null)
+    //        rdbIsCabinet6HComplaint.SelectedValue = objPM_Equipment_PGCC.SixH_Compliant;
+    //    else
+    //        rdbIsCabinet6HComplaint.SelectedValue = "Y";
+
+    //    if (objPM_Equipment_PGCC.Manual_6H_Binder != null)
+    //        rdbManualPaintGunCleaningCabinet6H.SelectedValue = objPM_Equipment_PGCC.Manual_6H_Binder;
+    //    else
+    //        rdbManualPaintGunCleaningCabinet6H.SelectedValue = "Y";
+
+    //    // set attachment details control in read/write mode. so user can add or remove attachment as well.
+    //    AttachDetails.Equipment_Table_Name = "PM_Equipment_PGCC";
+    //    AttachDetails.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_PGCC), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
+    //    BindPGCCAttachmentDetaills();
+    //}
+    ///// <summary>
+    ///// Bind PGCC Page Controls for view mode
+    ///// </summary>
+    //private void BindDetailsFor_Equipment_PGCC_View()
+    //{
+    //    dvView.Visible = true;
+    //    dvEdit.Visible = false;
+    //    pnlTankview.Style["display"] = "none";
+    //    pnlSprayBoothTypeview.Style["display"] = "none";
+    //    pnlOWSTypeview.Style["display"] = "none";
+    //    pnlHydraulicLiftTypeview.Style["display"] = "none";
+    //    pnlPGCCview.Style["display"] = "block";
+    //    clsPM_Equipment_PGCC objPM_Equipment_PGCC = new clsPM_Equipment_PGCC(PK_PM_Equipment_PGCC);
+    //    lblPGCCTypeView.Text = "Paint Gun Cleaning Cabinet";
+    //    lblPGCCTypeDescription.Text = objPM_Equipment_PGCC.Description;
+    //    lblPGCCTypeManufacturer.Text = objPM_Equipment_PGCC.Manufacturer_Name;
+    //    lblPGCCTypeInstallationDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_PGCC.Installation_Date);
+    //    lblWater_Borne.Text = objPM_Equipment_PGCC.Water_Borne == "Y" ? "Yes" : "No";
+    //    lblSolvent_Based.Text = objPM_Equipment_PGCC.Solvent_Based == "Y" ? "Yes" : "No";
+    //    lblCombination_Water_Solvent.Text = objPM_Equipment_PGCC.Combination_Water_Solvent == "Y" ? "Yes" : "No";
+    //    lblPGCCTypeNotes.Text = objPM_Equipment_PGCC.Notes;
+
+    //    lblIsCabinet6HComplaint.Text = objPM_Equipment_PGCC.SixH_Compliant == "N" ? "No" : "Yes";
+    //    lblManualPaintGunCleaningCabinet6H.Text = objPM_Equipment_PGCC.Manual_6H_Binder == "N" ? "No" : "Yes";
+
+    //    //PGCCAttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_PGCC), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
+    //    //BindPGCCAttachmentDetaills();
+    //    AttachDetailsView.Equipment_Table_Name = "PM_Equipment_PGCC";
+    //    AttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_PGCC), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
+    //    BindPGCCAttachmentDetaills();
+    //}
+    ///// <summary>
+    ///// Bind OWS Page Controls for Edit Mode
+    ///// </summary>
+    //private void BindDetailsFor_Equipment_OWS_Edit()
+    //{
+    //    dvView.Visible = false;
+    //    dvEdit.Visible = true;
+    //    pnl1.Style["display"] = "block";
 
 
-        pnlTank.Visible = false;
-        pnlSprayBooth.Visible = false;
-        pnlOWS.Visible = true;
-        pnlHydraulicLiftType.Visible = false;
-        pnlPGCC.Visible = false;
+    //    pnlTank.Visible = false;
+    //    pnlSprayBooth.Visible = false;
+    //    pnlOWS.Visible = true;
+    //    pnlHydraulicLiftType.Visible = false;
+    //    pnlPGCC.Visible = false;
 
-        clsPM_Equipment_OWS objPM_Equipment_OWS = new clsPM_Equipment_OWS(PK_PM_Equipment_OWS);
-        if (objPM_Equipment_OWS.PK_PM_Equipment != null)
-            PM_Equipment = (decimal)objPM_Equipment_OWS.PK_PM_Equipment;
-        //lblOWS.Text = "Oil and Water Separator";
-        txtOWSDescription.Text = objPM_Equipment_OWS.Description;
-        txtOWS_Installation_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_OWS.Installation_Date);
-        txtOWSManufacturer_Name.Text = objPM_Equipment_OWS.Manufacturer_Name;
-        txtOWSInspectionCompany.Text = objPM_Equipment_OWS.Inspection_Company;
-        txtInspectionCompanyContactName.Text = objPM_Equipment_OWS.Inspection_Company_Contact_Name;
-        txtOWSTelephone.Text = objPM_Equipment_OWS.Inspection_Company_Contact_Telephone;
-        txtOWSNotes.Text = objPM_Equipment_OWS.Notes;
-        if (objPM_Equipment_OWS.Connected_to_Public_Water_Application != null)
-            rdOWSConnectedtoPublicWater.SelectedValue = objPM_Equipment_OWS.Connected_to_Public_Water_Application;
-        else
-            rdOWSConnectedtoPublicWater.SelectedValue = "Y";
-        BindSludgeGrid(PK_PM_Equipment_OWS);
-        //AttachDetailsOWS.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_OWS), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
-        //BindOWSAttachmentDetaills();
-        AttachDetails.Equipment_Table_Name = "PM_Equipment_OWS";
-        AttachDetails.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_OWS), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
-        BindOWSAttachmentDetaills();
-    }
-    /// <summary>
-    /// Bind OWS Page Controls for view Mode
-    /// </summary>
-    private void BindDetailsFor_Equipment_OWS_View()
-    {
-        dvView.Visible = true;
-        dvEdit.Visible = false;
-        pnlTankview.Style["display"] = "none";
-        pnlSprayBoothTypeview.Style["display"] = "none";
-        pnlOWSTypeview.Style["display"] = "block";
-        pnlHydraulicLiftTypeview.Style["display"] = "none";
-        pnlPGCCview.Style["display"] = "none";
+    //    clsPM_Equipment_OWS objPM_Equipment_OWS = new clsPM_Equipment_OWS(PK_PM_Equipment_OWS);
+    //    if (objPM_Equipment_OWS.PK_PM_Equipment != null)
+    //        PM_Equipment = (decimal)objPM_Equipment_OWS.PK_PM_Equipment;
+    //    //lblOWS.Text = "Oil and Water Separator";
+    //    txtOWSDescription.Text = objPM_Equipment_OWS.Description;
+    //    txtOWS_Installation_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_OWS.Installation_Date);
+    //    txtOWSManufacturer_Name.Text = objPM_Equipment_OWS.Manufacturer_Name;
+    //    txtOWSInspectionCompany.Text = objPM_Equipment_OWS.Inspection_Company;
+    //    txtInspectionCompanyContactName.Text = objPM_Equipment_OWS.Inspection_Company_Contact_Name;
+    //    txtOWSTelephone.Text = objPM_Equipment_OWS.Inspection_Company_Contact_Telephone;
+    //    txtOWSNotes.Text = objPM_Equipment_OWS.Notes;
+    //    if (objPM_Equipment_OWS.Connected_to_Public_Water_Application != null)
+    //        rdOWSConnectedtoPublicWater.SelectedValue = objPM_Equipment_OWS.Connected_to_Public_Water_Application;
+    //    else
+    //        rdOWSConnectedtoPublicWater.SelectedValue = "Y";
+    //    BindSludgeGrid(PK_PM_Equipment_OWS);
+    //    //AttachDetailsOWS.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_OWS), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
+    //    //BindOWSAttachmentDetaills();
+    //    AttachDetails.Equipment_Table_Name = "PM_Equipment_OWS";
+    //    AttachDetails.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_OWS), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
+    //    BindOWSAttachmentDetaills();
+    //}
+    ///// <summary>
+    ///// Bind OWS Page Controls for view Mode
+    ///// </summary>
+    //private void BindDetailsFor_Equipment_OWS_View()
+    //{
+    //    dvView.Visible = true;
+    //    dvEdit.Visible = false;
+    //    pnlTankview.Style["display"] = "none";
+    //    pnlSprayBoothTypeview.Style["display"] = "none";
+    //    pnlOWSTypeview.Style["display"] = "block";
+    //    pnlHydraulicLiftTypeview.Style["display"] = "none";
+    //    pnlPGCCview.Style["display"] = "none";
 
-        clsPM_Equipment_OWS objPM_Equipment_OWS = new clsPM_Equipment_OWS(PK_PM_Equipment_OWS);
-        lblOWSType.Text = "Oil and Water Separator";
-        lblOWSDescription.Text = objPM_Equipment_OWS.Description;
-        lblOWS_Installation_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_OWS.Installation_Date);
-        lblOWSManufacturer.Text = objPM_Equipment_OWS.Manufacturer_Name;
-        lblOWSInspection.Text = objPM_Equipment_OWS.Inspection_Company;
-        lblOWSInspectionCompanyContactName.Text = objPM_Equipment_OWS.Inspection_Company_Contact_Name;
-        lblOWSContactTelephone.Text = objPM_Equipment_OWS.Inspection_Company_Contact_Telephone;
-        lblOWSNotes.Text = objPM_Equipment_OWS.Notes;
-        lblConnectedtoPublicWater.Text = objPM_Equipment_OWS.Connected_to_Public_Water_Application == "Y" ? "Yes" : "No";
-        BindSludgeGridView(PK_PM_Equipment_OWS);
-        //OWSAttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_OWS), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
-        //BindOWSAttachmentDetaills();
-        AttachDetailsView.Equipment_Table_Name = "PM_Equipment_OWS";
-        AttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_OWS), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
-        BindOWSAttachmentDetaills();
-    }
-    /// <summary>
-    /// Save OWS Data
-    /// </summary>
-    private void SaveOWSData()
-    {
-        clsPM_Equipment objPM_Equipment = new clsPM_Equipment();
-        objPM_Equipment.PK_PM_Equipment = PM_Equipment;
-        objPM_Equipment.FK_PM_Site_Information = FK_PM_Site_Information;
-        if (drpEquipmentType.SelectedIndex > 0) objPM_Equipment.FK_LU_Equipment_Type = Convert.ToDecimal(drpEquipmentType.SelectedValue);
-        objPM_Equipment.FK_Table_Name = 0;
-        objPM_Equipment.Table_Name = "PM_Equipment_OWS";
-        PK_PM_Equipment_OWS = objPM_Equipment.InsertUpdate();
+    //    clsPM_Equipment_OWS objPM_Equipment_OWS = new clsPM_Equipment_OWS(PK_PM_Equipment_OWS);
+    //    lblOWSType.Text = "Oil and Water Separator";
+    //    lblOWSDescription.Text = objPM_Equipment_OWS.Description;
+    //    lblOWS_Installation_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_OWS.Installation_Date);
+    //    lblOWSManufacturer.Text = objPM_Equipment_OWS.Manufacturer_Name;
+    //    lblOWSInspection.Text = objPM_Equipment_OWS.Inspection_Company;
+    //    lblOWSInspectionCompanyContactName.Text = objPM_Equipment_OWS.Inspection_Company_Contact_Name;
+    //    lblOWSContactTelephone.Text = objPM_Equipment_OWS.Inspection_Company_Contact_Telephone;
+    //    lblOWSNotes.Text = objPM_Equipment_OWS.Notes;
+    //    lblConnectedtoPublicWater.Text = objPM_Equipment_OWS.Connected_to_Public_Water_Application == "Y" ? "Yes" : "No";
+    //    BindSludgeGridView(PK_PM_Equipment_OWS);
+    //    //OWSAttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_OWS), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
+    //    //BindOWSAttachmentDetaills();
+    //    AttachDetailsView.Equipment_Table_Name = "PM_Equipment_OWS";
+    //    AttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_OWS), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
+    //    BindOWSAttachmentDetaills();
+    //}
+    ///// <summary>
+    ///// Save OWS Data
+    ///// </summary>
+    //private void SaveOWSData()
+    //{
+    //    clsPM_Equipment objPM_Equipment = new clsPM_Equipment();
+    //    objPM_Equipment.PK_PM_Equipment = PM_Equipment;
+    //    objPM_Equipment.FK_PM_Site_Information = FK_PM_Site_Information;
+    //    if (drpEquipmentType.SelectedIndex > 0) objPM_Equipment.FK_LU_Equipment_Type = Convert.ToDecimal(drpEquipmentType.SelectedValue);
+    //    objPM_Equipment.FK_Table_Name = 0;
+    //    objPM_Equipment.Table_Name = "PM_Equipment_OWS";
+    //    PK_PM_Equipment_OWS = objPM_Equipment.InsertUpdate();
 
-        clsPM_Equipment_OWS objPM_Equipment_OWS = new clsPM_Equipment_OWS(PK_PM_Equipment_OWS);
-        if (objPM_Equipment_OWS.PK_PM_Equipment != null)
-            PM_Equipment = (decimal)objPM_Equipment_OWS.PK_PM_Equipment;
-        objPM_Equipment_OWS.PK_PM_Equipment_OWS = PK_PM_Equipment_OWS;
-        objPM_Equipment_OWS.Connected_to_Public_Water_Application = rdOWSConnectedtoPublicWater.SelectedValue;
-        objPM_Equipment_OWS.Description = txtOWSDescription.Text.Trim();
-        objPM_Equipment_OWS.Installation_Date = clsGeneral.FormatNullDateToStore(txtOWS_Installation_Date.Text);
-        objPM_Equipment_OWS.Manufacturer_Name = txtOWSManufacturer_Name.Text.Trim();
-        objPM_Equipment_OWS.Inspection_Company = txtOWSInspectionCompany.Text.Trim();
-        objPM_Equipment_OWS.Inspection_Company_Contact_Name = txtInspectionCompanyContactName.Text.Trim();
-        objPM_Equipment_OWS.Inspection_Company_Contact_Telephone = txtOWSTelephone.Text.Trim();
-        objPM_Equipment_OWS.Notes = txtOWSNotes.Text.Trim();
-        objPM_Equipment_OWS.Update_Date = DateTime.Now;
-        objPM_Equipment_OWS.Updated_By = clsSession.UserID;
-        if (PK_PM_Equipment_OWS > 0)
-            objPM_Equipment_OWS.Update();
-    }
-    /// <summary>
-    /// Save OWS Data
-    /// </summary>
-    private void SaveHydraulicLiftData()
-    {
-        clsPM_Equipment objPM_Equipment = new clsPM_Equipment();
-        objPM_Equipment.PK_PM_Equipment = PM_Equipment;
-        objPM_Equipment.FK_PM_Site_Information = FK_PM_Site_Information;
-        if (drpEquipmentType.SelectedIndex > 0) objPM_Equipment.FK_LU_Equipment_Type = Convert.ToDecimal(drpEquipmentType.SelectedValue);
-        objPM_Equipment.FK_Table_Name = 0;
-        objPM_Equipment.Table_Name = "PM_Equipment_Hydraulic_Lift";
-        PK_PM_Equipment_Hydraulic_Lift = objPM_Equipment.InsertUpdate();
+    //    clsPM_Equipment_OWS objPM_Equipment_OWS = new clsPM_Equipment_OWS(PK_PM_Equipment_OWS);
+    //    if (objPM_Equipment_OWS.PK_PM_Equipment != null)
+    //        PM_Equipment = (decimal)objPM_Equipment_OWS.PK_PM_Equipment;
+    //    objPM_Equipment_OWS.PK_PM_Equipment_OWS = PK_PM_Equipment_OWS;
+    //    objPM_Equipment_OWS.Connected_to_Public_Water_Application = rdOWSConnectedtoPublicWater.SelectedValue;
+    //    objPM_Equipment_OWS.Description = txtOWSDescription.Text.Trim();
+    //    objPM_Equipment_OWS.Installation_Date = clsGeneral.FormatNullDateToStore(txtOWS_Installation_Date.Text);
+    //    objPM_Equipment_OWS.Manufacturer_Name = txtOWSManufacturer_Name.Text.Trim();
+    //    objPM_Equipment_OWS.Inspection_Company = txtOWSInspectionCompany.Text.Trim();
+    //    objPM_Equipment_OWS.Inspection_Company_Contact_Name = txtInspectionCompanyContactName.Text.Trim();
+    //    objPM_Equipment_OWS.Inspection_Company_Contact_Telephone = txtOWSTelephone.Text.Trim();
+    //    objPM_Equipment_OWS.Notes = txtOWSNotes.Text.Trim();
+    //    objPM_Equipment_OWS.Update_Date = DateTime.Now;
+    //    objPM_Equipment_OWS.Updated_By = clsSession.UserID;
+    //    if (PK_PM_Equipment_OWS > 0)
+    //        objPM_Equipment_OWS.Update();
+    //}
+    ///// <summary>
+    ///// Save OWS Data
+    ///// </summary>
+    //private void SaveHydraulicLiftData()
+    //{
+    //    clsPM_Equipment objPM_Equipment = new clsPM_Equipment();
+    //    objPM_Equipment.PK_PM_Equipment = PM_Equipment;
+    //    objPM_Equipment.FK_PM_Site_Information = FK_PM_Site_Information;
+    //    if (drpEquipmentType.SelectedIndex > 0) objPM_Equipment.FK_LU_Equipment_Type = Convert.ToDecimal(drpEquipmentType.SelectedValue);
+    //    objPM_Equipment.FK_Table_Name = 0;
+    //    objPM_Equipment.Table_Name = "PM_Equipment_Hydraulic_Lift";
+    //    PK_PM_Equipment_Hydraulic_Lift = objPM_Equipment.InsertUpdate();
 
-        clsPM_Equipment_Hydraulic_Lift objPM_Equipment_Hydraulic_Lift = new clsPM_Equipment_Hydraulic_Lift(PK_PM_Equipment_Hydraulic_Lift);
-        if (objPM_Equipment_Hydraulic_Lift.PK_PM_Equipment != null)
-            PM_Equipment = (decimal)objPM_Equipment_Hydraulic_Lift.PK_PM_Equipment;
+    //    clsPM_Equipment_Hydraulic_Lift objPM_Equipment_Hydraulic_Lift = new clsPM_Equipment_Hydraulic_Lift(PK_PM_Equipment_Hydraulic_Lift);
+    //    if (objPM_Equipment_Hydraulic_Lift.PK_PM_Equipment != null)
+    //        PM_Equipment = (decimal)objPM_Equipment_Hydraulic_Lift.PK_PM_Equipment;
 
-        objPM_Equipment_Hydraulic_Lift.PK_PM_Equipment_Hydraulic_Lift = PK_PM_Equipment_Hydraulic_Lift;
-        objPM_Equipment_Hydraulic_Lift.Any_Inground_Lifts_Been_Removed = rdoAny_Inground_Lifts_Been_Removed.SelectedValue;
-        objPM_Equipment_Hydraulic_Lift.Documentation_Related_To_Removed_Lifts = rdoDocumentation_Related_To_Removed_Lifts.SelectedValue;
-        objPM_Equipment_Hydraulic_Lift.Update_Date = DateTime.Now;
-        objPM_Equipment_Hydraulic_Lift.Updated_By = clsSession.UserID;
-        objPM_Equipment_Hydraulic_Lift.Use_Same_Dates = Convert.ToString(rdbUseSameDates.SelectedValue);
-        if (PK_PM_Equipment_Hydraulic_Lift > 0)
-            objPM_Equipment_Hydraulic_Lift.Update();
-    }
+    //    objPM_Equipment_Hydraulic_Lift.PK_PM_Equipment_Hydraulic_Lift = PK_PM_Equipment_Hydraulic_Lift;
+    //    objPM_Equipment_Hydraulic_Lift.Any_Inground_Lifts_Been_Removed = rdoAny_Inground_Lifts_Been_Removed.SelectedValue;
+    //    objPM_Equipment_Hydraulic_Lift.Documentation_Related_To_Removed_Lifts = rdoDocumentation_Related_To_Removed_Lifts.SelectedValue;
+    //    objPM_Equipment_Hydraulic_Lift.Update_Date = DateTime.Now;
+    //    objPM_Equipment_Hydraulic_Lift.Updated_By = clsSession.UserID;
+    //    objPM_Equipment_Hydraulic_Lift.Use_Same_Dates = Convert.ToString(rdbUseSameDates.SelectedValue);
+    //    if (PK_PM_Equipment_Hydraulic_Lift > 0)
+    //        objPM_Equipment_Hydraulic_Lift.Update();
+    //}
 
-    private void GetUse_Same_Dates()
-    {
-        if (rdbUseSameDates.SelectedValue == "Y")
-        {
-            bool type = false;
-            if (StrOperation.ToLower() == "edit")
-                type = true;
-            DataSet dsUseSameDates = clsPM_Equipment_Hydraulic_Lift_Grid.Select_UseSameDates_ByFK(PK_PM_Equipment_Hydraulic_Lift, type);
-            if (dsUseSameDates != null && dsUseSameDates.Tables.Count > 0 && dsUseSameDates.Tables[0].Rows.Count > 0)
-            {
-                txtHydraulicLift_Installation_Date.Text = clsGeneral.FormatDBNullDateToDisplay(dsUseSameDates.Tables[0].Rows[0]["Installation_Date"]);
-                txtHydraulicLift_Last_Inspection_Date.Text = clsGeneral.FormatDBNullDateToDisplay(dsUseSameDates.Tables[0].Rows[0]["Last_Inspection_Date"]);
-            }
-        }
-    }
+    //private void GetUse_Same_Dates()
+    //{
+    //    if (rdbUseSameDates.SelectedValue == "Y")
+    //    {
+    //        bool type = false;
+    //        if (StrOperation.ToLower() == "edit")
+    //            type = true;
+    //        DataSet dsUseSameDates = clsPM_Equipment_Hydraulic_Lift_Grid.Select_UseSameDates_ByFK(PK_PM_Equipment_Hydraulic_Lift, type);
+    //        if (dsUseSameDates != null && dsUseSameDates.Tables.Count > 0 && dsUseSameDates.Tables[0].Rows.Count > 0)
+    //        {
+    //            txtHydraulicLift_Installation_Date.Text = clsGeneral.FormatDBNullDateToDisplay(dsUseSameDates.Tables[0].Rows[0]["Installation_Date"]);
+    //            txtHydraulicLift_Last_Inspection_Date.Text = clsGeneral.FormatDBNullDateToDisplay(dsUseSameDates.Tables[0].Rows[0]["Last_Inspection_Date"]);
+    //        }
+    //    }
+    //}
 
-    #endregion
+    ////Select Lift as Label name where Equpment Type is Hydraulick Lift
+    //private void Lift()
+    //{
+    //    spnDocumentation.InnerText = spnInGroundLifts.InnerText = spnInstalledLift.InnerText = spLiftNumber.InnerText = spLiftNumberAsOfDate.InnerText = "Lift";
+    //    spnInstalledLift2.InnerText = "Lifts";
+    //    spnLiftGrid.InnerText = "Hydraulic Lift";
+    //    spnEquipmentTypeScreen.InnerText = "Hydraulic Lift - Hydraulic Lift";
+
+    //    spnvwDocumentation.InnerText = spnvwInGround.InnerText = spnvwFirstInstalled.InnerText = spvwLiftNumber.InnerText = spvwLiftNumberAsOfDate.InnerText = "Lift";
+    //    spnvwFirstInstalled2.InnerText = "Lifts";
+    //    spnvwEquipmentTypeScreen.InnerText = "Hydraulic Lift - Hydraulic Lift";
+    //    spnvwHydraulicLiftGrid.InnerText = "Hydraulic Lift";
+
+    //    lblEquipmentHydraulicLift.Text = "Hydraulic Lift";
+    //}
+
+    ////Select Rack as Label name where Equpment Type is Alignment Rack
+    //private void Rack()
+    //{
+    //    spnDocumentation.InnerText = spnInGroundLifts.InnerText = spnInstalledLift.InnerText = spLiftNumber.InnerText = spLiftNumberAsOfDate.InnerText = "Rack";
+    //    spnInstalledLift2.InnerText = "Racks";
+    //    spnLiftGrid.InnerText = "Alignment Rack";
+    //    spnEquipmentTypeScreen.InnerText = "Alignment Rack - Alignment Rack";
+
+    //    spnvwDocumentation.InnerText = spnvwInGround.InnerText = spnvwFirstInstalled.InnerText = spvwLiftNumber.InnerText = spvwLiftNumberAsOfDate.InnerText = "Rack";
+    //    spnvwFirstInstalled2.InnerText = "Racks";
+    //    spnvwEquipmentTypeScreen.InnerText = "Aligment Rack - Aligment Rack";
+    //    spnvwHydraulicLiftGrid.InnerText = "Alignment Rack";
+
+    //    lblEquipmentHydraulicLift.Text = "Aligment Rack";
+    //}
+
+    ////Set Header name of Grid as Lift  where Equpment Type is Hydraulick Lift
+    //private void LiftGrid()
+    //{
+    //    gvHydraulicLiftView.Columns[0].HeaderText = "Lift";
+    //    gvHydraulicLift.Columns[0].HeaderText = "Lift";
+    //    BindHydraulicLiftGridView(PK_PM_Equipment_Hydraulic_Lift);
+    //    BindHydraulicLiftGrid(PK_PM_Equipment_Hydraulic_Lift);
+    //}
+
+    ////Set Header name of Grid as Rack  where Equpment Type is Hydraulick Lift
+    //private void RackGrid()
+    //{
+    //    gvHydraulicLiftView.Columns[0].HeaderText = "Rack";
+    //    gvHydraulicLift.Columns[0].HeaderText = "Rack";
+    //    BindHydraulicLiftGridView(PK_PM_Equipment_Hydraulic_Lift);
+    //    BindHydraulicLiftGrid(PK_PM_Equipment_Hydraulic_Lift);
+    //}
+
+    ////Call Methods Related to Label Change as where DropDown Selection
+    //private void RackLiftAsPerEventType()
+    //{
+    //    int FK_LU_Equipment_Type = clsPM_Equipment_Hydraulic_Lift.RackLiftSelectByPk(PK_PM_Equipment_Hydraulic_Lift);
+    //    if (FK_LU_Equipment_Type == 10)
+    //    {
+    //        Rack();
+    //        RackGrid();
+    //    }
+    //    else
+    //    {
+    //        Lift();
+    //        LiftGrid();
+    //    }
+    //}
+
+    //#endregion
 
     #region Control Events
     /// <summary>
@@ -1132,6 +1200,17 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         //Equiptment type 'Alignment Rack' is selected then show and hide Panel ticket #3142
         else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "hydraulic lift" || drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "alignment rack")
         {
+            if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "hydraulic lift")
+            {
+                Lift();
+                LiftGrid();
+            }
+            else
+            {
+                Rack();
+                RackGrid();
+            }
+            //RackLift();            
             SetValidationsHydraulic();
             dvView.Visible = false;
             dvEdit.Visible = true;
@@ -1201,6 +1280,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         AuditTrailText = drpEquipmentType.SelectedItem.Text.ToString();
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
+
     /// <summary>
     /// Handle Back Button Click Event
     /// </summary>
@@ -1243,6 +1323,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
     /// <param name="e"></param>
     protected void lnkAddHydraulicLift_Click(object sender, EventArgs e)
     {
+        SetValidationsHydraulic();
         SaveHydraulicLiftData();
         BindHydraulicLiftGrid(PK_PM_Equipment_Hydraulic_Lift);
         PK_PM_Equipment_Hydraulic_Lift_Grid = 0;
@@ -1421,8 +1502,8 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
     /// <summary>
     /// handles Hazard grid Row Command event
     /// </summary>    
-    protected void gvHydraulicLift_RowCommand(object sender, GridViewCommandEventArgs e)
-    {
+    protected void gvHydraulicLift_RowCommand(object sender, GridViewCommandEventArgs e)    
+    {        
         if (e.CommandName == "DeleteRecord")
         {
             decimal decPK = Convert.ToDecimal(e.CommandArgument);
@@ -1453,6 +1534,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
             btnAudit_Hydraulic_Lift.Visible = true;
             tblEquipment.Style["display"] = "none";
             GetUse_Same_Dates();
+            SetValidationsHydraulic();            
             Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);displayHydraulicLift('none');", true);
         }
     }
@@ -1554,6 +1636,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
             pnlHydraulicLiftTypeview.Visible = false;
             pnlHydraulicLifGridViewData.Visible = true;
             btnAuditHydraulicLiftView.Visible = true;
+            Session["LiftRack"] = spLiftNumber.InnerText;            
             Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);viewHydraulicLift('none');", true);
         }
     }
@@ -1777,6 +1860,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         //Equiptment type 'Alignment Rack' is selected then Save Data in PM_Equipment_Hydraulic_Lift table ticket #3142
         else if (drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "hydraulic lift" || drpEquipmentType.SelectedItem.ToString().ToLower().Trim() == "alignment rack")
         {
+            RackLiftAsPerEventType();                
             clsPM_Equipment objPM_Equipment = new clsPM_Equipment();
             objPM_Equipment.PK_PM_Equipment = PM_Equipment;
             objPM_Equipment.FK_PM_Site_Information = FK_PM_Site_Information;
@@ -2309,7 +2393,12 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
     {
         string strCtrlsIDs = "";
         string strMessages = "";
+        string strLiftRack = string.Empty;         
+        if(spLiftNumber.InnerText != null)
+            strLiftRack = spLiftNumber.InnerText;
+        Session["LiftRack"] = strLiftRack;
 
+        revAs_Of_Date_Number.ErrorMessage = "[Equipment]/" + strLiftRack +" Number As of Date is not a valid date";
 
         DataTable dtFields = clsScreen_Validators.SelectByScreen(163).Tables[0];
         dtFields.DefaultView.RowFilter = "IsRequired = '1'";
@@ -2317,12 +2406,12 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
 
 
         foreach (DataRow drField in dtFields.Rows)
-        {
+        {            
             #region " set validation control IDs and messages "
             switch (Convert.ToString(drField["Field_Name"]))
             {
-                case "Lift Number": strCtrlsIDs += txtNumber_Of_Lifts_At_Location.ClientID + ","; strMessages += "Please enter [Equipment]/Lift Number" + ","; Span103.Style["display"] = "inline-block"; break;
-                case "As of Date (Number)": strCtrlsIDs += txtAs_Of_Date_Number.ClientID + ","; strMessages += "Please enter [Equipment]/Lift Number As of Date" + ","; Span104.Style["display"] = "inline-block"; break;
+                case "Lift Number": strCtrlsIDs += txtNumber_Of_Lifts_At_Location.ClientID + ","; strMessages += "Please enter [Equipment]/" + strLiftRack + " Number" + ","; Span103.Style["display"] = "inline-block"; break;
+                case "As of Date (Number)": strCtrlsIDs += txtAs_Of_Date_Number.ClientID + ","; strMessages += "Please enter [Equipment]/" + strLiftRack + " Number As of Date" + ","; Span104.Style["display"] = "inline-block"; break;
                 case "Description": strCtrlsIDs += txtHydraulicLiftDescription.ClientID + ","; strMessages += "Please enter [Equipment]/Description" + ","; Span105.Style["display"] = "inline-block"; break;
                 case "Oil Type": strCtrlsIDs += txtOil_Type.ClientID + ","; strMessages += "Please enter [Equipment]/Oil Type" + ","; Span106.Style["display"] = "inline-block"; break;
                 case "Manufacturer": strCtrlsIDs += txtHydraulicLiftManufacture.ClientID + ","; strMessages += "Please enter [Equipment]/Manufacturer" + ","; Span107.Style["display"] = "inline-block"; break;
@@ -2371,5 +2460,6 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         hdnControlIDsPGCC.Value = strCtrlsIDs;
         hdnErrorMsgsPGCC.Value = strMessages;
     }
-    #endregion
+    #endregion    
+
 }
