@@ -1002,12 +1002,12 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
     //Select Lift as Label name where Equpment Type is Hydraulick Lift
     private void Lift()
     {
-        spnDocumentation.InnerText = spnInGroundLifts.InnerText = spnInstalledLift.InnerText = spLiftNumber.InnerText = spLiftNumberAsOfDate.InnerText = "Lift";
+        spnDocumentation.InnerText = spnInGroundLifts.InnerText = spnInstalledLift.InnerText = spLiftNumber.InnerText = spLiftNumberAsOfDate.InnerText = "Lifts";
         spnInstalledLift2.InnerText = "Lifts";
         spnLiftGrid.InnerText = "Hydraulic Lift";
         spnEquipmentTypeScreen.InnerText = "Hydraulic Lift - Hydraulic Lift";
 
-        spnvwDocumentation.InnerText = spnvwInGround.InnerText = spnvwFirstInstalled.InnerText = spvwLiftNumber.InnerText = spvwLiftNumberAsOfDate.InnerText = "Lift";
+        spnvwDocumentation.InnerText = spnvwInGround.InnerText = spnvwFirstInstalled.InnerText = spvwLiftNumber.InnerText = spvwLiftNumberAsOfDate.InnerText = "Lifts";
         spnvwFirstInstalled2.InnerText = "Lifts";
         spnvwEquipmentTypeScreen.InnerText = "Hydraulic Lift - Hydraulic Lift";
         spnvwHydraulicLiftGrid.InnerText = "Hydraulic Lift";
@@ -1018,12 +1018,12 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
     //Select Rack as Label name where Equpment Type is Alignment Rack
     private void Rack()
     {
-        spnDocumentation.InnerText = spnInGroundLifts.InnerText = spnInstalledLift.InnerText = spLiftNumber.InnerText = spLiftNumberAsOfDate.InnerText = "Rack";
+        spnDocumentation.InnerText = spnInGroundLifts.InnerText = spnInstalledLift.InnerText = spLiftNumber.InnerText = spLiftNumberAsOfDate.InnerText = "Racks";
         spnInstalledLift2.InnerText = "Racks";
         spnLiftGrid.InnerText = "Alignment Rack";
         spnEquipmentTypeScreen.InnerText = "Alignment Rack - Alignment Rack";
 
-        spnvwDocumentation.InnerText = spnvwInGround.InnerText = spnvwFirstInstalled.InnerText = spvwLiftNumber.InnerText = spvwLiftNumberAsOfDate.InnerText = "Rack";
+        spnvwDocumentation.InnerText = spnvwInGround.InnerText = spnvwFirstInstalled.InnerText = spvwLiftNumber.InnerText = spvwLiftNumberAsOfDate.InnerText = "Racks";
         spnvwFirstInstalled2.InnerText = "Racks";
         spnvwEquipmentTypeScreen.InnerText = "Aligment Rack - Aligment Rack";
         spnvwHydraulicLiftGrid.InnerText = "Alignment Rack";
