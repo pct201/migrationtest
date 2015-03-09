@@ -42,6 +42,7 @@
                                 <asp:ListItem Text="First Day of Current Year" Value="FirstDayCurrYear"></asp:ListItem>
                                 <asp:ListItem Text="Last Day of Current Year" Value="LastDayCurrYear"></asp:ListItem>
                                 <asp:ListItem Text="Current Date" Value="CurrentDate"></asp:ListItem>
+                                <asp:ListItem Text="Previous Date" Value="PreviousDate"></asp:ListItem>
                             </asp:RadioButtonList>
                         </td>
                     </tr>

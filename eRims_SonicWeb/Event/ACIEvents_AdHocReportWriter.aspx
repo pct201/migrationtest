@@ -789,7 +789,7 @@
                                             <table>
                                                 <tr>
                                                     <td>
-                                                        <asp:DropDownList Width="106px" ID="lstDate1" runat="server" AutoPostBack="true"
+                                                        <asp:DropDownList Width="106px" ID="lstDate1" EnableTheming="false" runat="server" AutoPostBack="true"
                                                             OnSelectedIndexChanged="rdbLstDate_SelectedIndexChanged">
                                                             <asp:ListItem Text="On" Value="O" Selected="True"></asp:ListItem>
                                                             <asp:ListItem Text="Between" Value="B"></asp:ListItem>
@@ -901,7 +901,7 @@
                                             <table>
                                                 <tr>
                                                     <td>
-                                                        <asp:DropDownList ID="lstDate2" Width="106px" runat="server" AutoPostBack="true"
+                                                        <asp:DropDownList ID="lstDate2" Width="106px"  EnableTheming="false" runat="server" AutoPostBack="true"
                                                             OnSelectedIndexChanged="rdbLstDate_SelectedIndexChanged">
                                                             <asp:ListItem Text="On" Value="O" Selected="True"></asp:ListItem>
                                                             <asp:ListItem Text="Between" Value="B"></asp:ListItem>
@@ -1013,7 +1013,7 @@
                                             <table>
                                                 <tr>
                                                     <td>
-                                                        <asp:DropDownList ID="lstDate3" Width="106px" runat="server" AutoPostBack="true"
+                                                        <asp:DropDownList ID="lstDate3" Width="106px"  EnableTheming="false" runat="server" AutoPostBack="true"
                                                             OnSelectedIndexChanged="rdbLstDate_SelectedIndexChanged">
                                                             <asp:ListItem Text="On" Value="O" Selected="True"></asp:ListItem>
                                                             <asp:ListItem Text="Between" Value="B"></asp:ListItem>
@@ -1125,7 +1125,7 @@
                                             <table>
                                                 <tr>
                                                     <td>
-                                                        <asp:DropDownList ID="lstDate4" Width="106px" runat="server" AutoPostBack="true"
+                                                        <asp:DropDownList ID="lstDate4" Width="106px"  EnableTheming="false" runat="server" AutoPostBack="true"
                                                             OnSelectedIndexChanged="rdbLstDate_SelectedIndexChanged">
                                                             <asp:ListItem Text="On" Value="O" Selected="True"></asp:ListItem>
                                                             <asp:ListItem Text="Between" Value="B"></asp:ListItem>
@@ -1237,7 +1237,7 @@
                                             <table>
                                                 <tr>
                                                     <td>
-                                                        <asp:DropDownList ID="lstDate5" Width="106px" runat="server" AutoPostBack="true"
+                                                        <asp:DropDownList ID="lstDate5" Width="106px"  EnableTheming="false" runat="server" AutoPostBack="true"
                                                             OnSelectedIndexChanged="rdbLstDate_SelectedIndexChanged">
                                                             <asp:ListItem Text="On" Value="O" Selected="True"></asp:ListItem>
                                                             <asp:ListItem Text="Between" Value="B"></asp:ListItem>
@@ -1349,7 +1349,7 @@
                                             <table>
                                                 <tr>
                                                     <td>
-                                                        <asp:DropDownList ID="lstDate6" Width="106px" runat="server" AutoPostBack="true"
+                                                        <asp:DropDownList ID="lstDate6" Width="106px"  EnableTheming="false" runat="server" AutoPostBack="true"
                                                             OnSelectedIndexChanged="rdbLstDate_SelectedIndexChanged">
                                                             <asp:ListItem Text="On" Value="O" Selected="True"></asp:ListItem>
                                                             <asp:ListItem Text="Between" Value="B"></asp:ListItem>
@@ -1461,7 +1461,7 @@
                                             <table>
                                                 <tr>
                                                     <td>
-                                                        <asp:DropDownList ID="lstDate7" Width="106px" runat="server" AutoPostBack="true"
+                                                        <asp:DropDownList ID="lstDate7" Width="106px"  EnableTheming="false" runat="server" AutoPostBack="true"
                                                             OnSelectedIndexChanged="rdbLstDate_SelectedIndexChanged">
                                                             <asp:ListItem Text="On" Value="O" Selected="True"></asp:ListItem>
                                                             <asp:ListItem Text="Between" Value="B"></asp:ListItem>
@@ -1573,7 +1573,7 @@
                                             <table>
                                                 <tr>
                                                     <td>
-                                                        <asp:DropDownList ID="lstDate8" Width="106px" runat="server" AutoPostBack="true"
+                                                        <asp:DropDownList ID="lstDate8" Width="106px" EnableTheming="false" runat="server" AutoPostBack="true"
                                                             OnSelectedIndexChanged="rdbLstDate_SelectedIndexChanged">
                                                             <asp:ListItem Text="On" Value="O" Selected="True"></asp:ListItem>
                                                             <asp:ListItem Text="Between" Value="B"></asp:ListItem>
@@ -1685,7 +1685,7 @@
                                             <table>
                                                 <tr>
                                                     <td>
-                                                        <asp:DropDownList ID="lstDate9" Width="106px" runat="server" AutoPostBack="true"
+                                                        <asp:DropDownList ID="lstDate9" Width="106px"  EnableTheming="false" runat="server" AutoPostBack="true"
                                                             OnSelectedIndexChanged="rdbLstDate_SelectedIndexChanged">
                                                             <asp:ListItem Text="On" Value="O" Selected="True"></asp:ListItem>
                                                             <asp:ListItem Text="Between" Value="B"></asp:ListItem>
@@ -1797,7 +1797,7 @@
                                             <table>
                                                 <tr>
                                                     <td>
-                                                        <asp:DropDownList ID="lstDate10" Width="106px" runat="server" AutoPostBack="true"
+                                                        <asp:DropDownList ID="lstDate10" Width="106px"  EnableTheming="false" runat="server" AutoPostBack="true"
                                                             OnSelectedIndexChanged="rdbLstDate_SelectedIndexChanged">
                                                             <asp:ListItem Text="On" Value="O" Selected="True"></asp:ListItem>
                                                             <asp:ListItem Text="Between" Value="B"></asp:ListItem>
