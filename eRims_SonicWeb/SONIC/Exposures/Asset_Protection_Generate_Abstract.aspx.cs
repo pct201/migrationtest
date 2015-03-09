@@ -135,11 +135,11 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
                 }
                 else if (Panel == 4)
                 {
-                    GenerateHTMLForCalAtlantic();
+                    GenerateHTMLForFraudEvent();
                 }
                 else if (Panel == 5)
                 {
-                    GenerateHTMLForFraudEvent();
+                    //GenerateHTMLForFraudEvent();
                 }
             }
         }
