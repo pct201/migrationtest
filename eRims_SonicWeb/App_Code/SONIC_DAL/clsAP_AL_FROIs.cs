@@ -1140,6 +1140,21 @@ namespace ERIMS.DAL
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="PK_AP_AL_FROIs"></param>
+        /// <returns></returns>
+        public static DataSet GetAL_FROIs_DetailByPK_AP_AL_FROIs(decimal PK_AP_AL_FROIs)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("[AP_AL_FROIs_GetAL_DetailByPK_AP_AL_FROIs]");
+
+            db.AddInParameter(dbCommand, "PK_AP_AL_FROIs", DbType.Decimal, PK_AP_AL_FROIs);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
         /// Get Claim Notes By Pk
         /// </summary>
         /// <param name="PK_DPD_FR_ID"></param>

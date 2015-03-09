@@ -55,7 +55,7 @@
                     <td align="center" valign="top" style="width: 3%">
                         :
                     </td>
-                    <td style="margin-left: 40px" style="width: 650px" align="left">
+                    <td style="margin-left: 40px;width: 650px" align="left">
                         <asp:GridView ID="gvNotes" runat="server" AutoGenerateColumns="false" Width="100%"
                             OnRowCommand="gvNotes_RowCommand">
                             <EmptyDataRowStyle ForeColor="#7f7f7f" HorizontalAlign="Center" />

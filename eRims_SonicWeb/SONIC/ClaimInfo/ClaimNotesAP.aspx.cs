@@ -109,9 +109,13 @@ public partial class ClaimNotesAP : clsBasePage
     /// <param name="e"></param>
     protected void Page_Load(object sender, EventArgs e)
     {
+        Tab.SetSelectedTab(Controls_ExposuresTab_ExposuresTab.Tab.AssetProtection);
         // if page is loaded first time
         if (!Page.IsPostBack)
         {
+            Location_ID = Convert.ToDecimal(Request.QueryString["loc"].ToString());
+            BindHeaderInfo();
+            StrOperation = Convert.ToString(Request.QueryString["op"]);
             txtNote_Date.Focus();
 
             // Check Valid Claim ID is passed or not.
@@ -168,7 +172,7 @@ public partial class ClaimNotesAP : clsBasePage
                 //BindWCClaimInfo();
             }
             else
-                Response.Redirect("ClaimSearch.aspx");
+                Response.Redirect("ExposureSearch.aspx");
 
             if (PK_AP_Notes <= 0)
                 btnLAAudit_View.Visible = false;
@@ -236,7 +240,7 @@ public partial class ClaimNotesAP : clsBasePage
         }
         else
         {
-            Response.Redirect(Request.AppRelativeCurrentExecutionFilePath + "?id=" + Encryption.Encrypt(PK_AP_Notes.ToString()) + "&FK_Claim=" + Encryption.Encrypt(FK_Claim.ToString()) + "&op=view");
+            Response.Redirect(Request.AppRelativeCurrentExecutionFilePath + "?id=" + Encryption.Encrypt(PK_AP_Notes.ToString()) + "&FK_Claim=" + Encryption.Encrypt(FK_Claim.ToString()) + "&op=view&loc=" + Request.QueryString["loc"].ToString());
         }
     }
 
@@ -268,7 +272,7 @@ public partial class ClaimNotesAP : clsBasePage
         }
         else
         {
-            Response.Redirect(Request.AppRelativeCurrentExecutionFilePath + "?id=" + Encryption.Encrypt(PK_AP_Notes.ToString()) + "&FK_Claim=" + Encryption.Encrypt(FK_Claim.ToString()) + "&op=edit");
+            Response.Redirect(Request.AppRelativeCurrentExecutionFilePath + "?id=" + Encryption.Encrypt(PK_AP_Notes.ToString()) + "&FK_Claim=" + Encryption.Encrypt(FK_Claim.ToString()) + "&op=edit&loc=" + Request.QueryString["loc"]);
         }
     }
 
@@ -280,7 +284,7 @@ public partial class ClaimNotesAP : clsBasePage
     protected void btnPrintSelectedNotes_Click(object sender, EventArgs e)
     {
         string strSelected = Encryption.Decrypt(Request.QueryString["viewIDs"]);
-        clsPrintClaimNotes.PrintSelectedSonicNotes(strSelected, FK_Table_Name, (long)FK_Claim);
+        clsPrintClaimNotesAP.PrintSelectedSonicNotes(strSelected, FK_Table_Name, (long)FK_Claim);
     }
     #endregion
 
@@ -291,15 +295,15 @@ public partial class ClaimNotesAP : clsBasePage
     /// </summary>
     private void RedirectToBack()
     {
-        if (!string.IsNullOrEmpty(Request.QueryString["loc"]) && !string.IsNullOrEmpty(Request.QueryString["page"]) && !string.IsNullOrEmpty(Request.QueryString["op"]))
+        if (!string.IsNullOrEmpty(Request.QueryString["loc"]) && !string.IsNullOrEmpty(FK_Table_Name) && !string.IsNullOrEmpty(Request.QueryString["op"]))
         {
-            if (Request.QueryString["page"].ToString() == "AP_AL")
+            if (FK_Table_Name == "AP_AL_FROIs")
             {
-                Response.Redirect(AppConfig.SiteURL + "SONIC/Exposures/Asset_Protection.aspx?loc=" + Request.QueryString["loc"] + "&pnl=3" + "&op=" + Request.QueryString["op"]);
+                Response.Redirect(AppConfig.SiteURL + "SONIC/Exposures/Asset_Protection.aspx?loc=" + Encryption.Encrypt(Request.QueryString["loc"]) + "&pnl=3" + "&op=" + Request.QueryString["op"] + "&Sect=notes");
             }
-            if (Request.QueryString["page"].ToString() == "AP_DPD")
+            if (FK_Table_Name == "AP_DPD_FROIs")
             {
-                Response.Redirect(AppConfig.SiteURL + "SONIC/Exposures/Asset_Protection.aspx?loc=" + Request.QueryString["loc"] + "&pnl=2" + "&op=" + Request.QueryString["op"]);
+                Response.Redirect(AppConfig.SiteURL + "SONIC/Exposures/Asset_Protection.aspx?loc=" + Encryption.Encrypt(Request.QueryString["loc"]) + "&pnl=2" + "&op=" + Request.QueryString["op"] + "&Sect=notes");
             }
         }
         // depending on the FK claim passed in the querystring redirect back to the claim page
@@ -392,6 +396,7 @@ public partial class ClaimNotesAP : clsBasePage
             {
                 FK_Claim = _decFK_Claim;
                 return true;
+
             }
         }
 
@@ -712,4 +717,18 @@ public partial class ClaimNotesAP : clsBasePage
     //    hdnErrorMsgs.Value = strMessages;
     //}
     #endregion
+
+    private void BindHeaderInfo()
+    {
+        DataTable dtLocationInfo = LU_Location.SelectByPK(Location_ID).Tables[0];
+        if (dtLocationInfo != null && dtLocationInfo.Rows.Count > 0)
+        {
+            lblLocation_Number.Text = (dtLocationInfo.Rows[0]["Sonic_Location_Code"].ToString() != "") ? dtLocationInfo.Rows[0]["Sonic_Location_Code"].ToString() : "";
+            lblLocationdba.Text = (dtLocationInfo.Rows[0]["dba"].ToString() != "") ? dtLocationInfo.Rows[0]["dba"].ToString() : "";
+            lblAddress.Text = (dtLocationInfo.Rows[0]["Address"].ToString() != "") ? dtLocationInfo.Rows[0]["Address"].ToString() : "";
+            lblCity.Text = (dtLocationInfo.Rows[0]["City"].ToString() != "") ? dtLocationInfo.Rows[0]["City"].ToString() : "";
+            lblState.Text = (dtLocationInfo.Rows[0]["StateName"].ToString() != "") ? dtLocationInfo.Rows[0]["StateName"].ToString() : "";
+            lblZip.Text = (dtLocationInfo.Rows[0]["Zip_Code"].ToString() != "") ? dtLocationInfo.Rows[0]["Zip_Code"].ToString() : "";
+        }
+    }
 }

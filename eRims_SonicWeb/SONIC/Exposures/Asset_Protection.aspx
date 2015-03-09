@@ -12,8 +12,8 @@
     TagPrefix="uc" %>
 <%--<%@ Register Src="~/Controls/Attachment_AssetProtection/Attachment_Detail.ascx" TagName="ctrlAttachmentDetail"
     TagPrefix="uc" %>--%>
-<%@ Register Src="~/Controls/SonicClaimNotes/SonicNotes.ascx" TagName="ctrlSonicNotes"
-    TagPrefix="uc" %>
+<%--<%@ Register Src="~/Controls/SonicClaimNotes/SonicNotes.ascx" TagName="ctrlSonicNotes"
+    TagPrefix="uc" %>--%>
 <%@ Register Src="~/Controls/SonicClaimNotes/APNotes.ascx" TagName="ctrlAPNotes"
     TagPrefix="uc" %>
 <%@ Register Src="~/Controls/SonicClaimNotes/AdjusterNotes.ascx" TagName="CtrlAdjusterNotes"
@@ -36,7 +36,7 @@
             }
         }
 
-        
+
         function onNextStep() {
             if (ActiveTabIndex == 5) {
                 return ValSave();
@@ -113,13 +113,13 @@
                 else document.getElementById('<%=dvFraudEventSave.ClientID%>').style.display = "none";
                 if (index == 5) {
                     document.getElementById('<%=btnNext.ClientID%>').style.display = "none";
-                    
+
                     document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "block";
                     document.getElementById("<%=btnGenerate_Abstract.ClientID%>").style.display = "none";
                 }
                 else {
                     document.getElementById('<%=btnNext.ClientID%>').style.display = "";
-                    
+
                     document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";
                     document.getElementById("<%=btnGenerate_Abstract.ClientID%>").style.display = "";
 
@@ -270,36 +270,36 @@ function openAuditPopup() {
     var winWidth = window.screen.availWidth - 315;
 
     obj = window.open("Audit_Popup_AP_DPD_FROIs.aspx?id=" + '<%=ViewState["PK_AP_DPD_FROIs"]%>', 'PopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
-            obj.focus();
-            return false;
-        }
-
-        function openAP_FE_Notes_AuditPopup() {
-            var oWnd = window.open("AuditPopup_AP_FE_Notes.aspx?id=" + '<%=ViewState["PK_AP_FE_Notes"]%>', "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=807,height=400");
-    oWnd.moveTo(350, 200);
-    return false;
-}
-
-function openAP_FE_PA_Notes_AuditPopup() {
-    var oWnd = window.open("AuditPopup_AP_FE_PA_Notes.aspx?id=" + '<%=ViewState["PK_AP_FE_PA_Notes"]%>', "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=807,height=400");
-            oWnd.moveTo(350, 200);
-            return false;
-        }
-
-        function openAP_Cal_Atlantic_AuditPopup() {
-            var winHeight = window.screen.availHeight - 370;
-            var winWidth = window.screen.availWidth - 315;
-
-            obj = window.open("AuditPopup_AP_Cal_Atlantic.aspx?id=" + '<%=ViewState["PK_AP_Cal_Atlantic"]%>', 'PopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
     obj.focus();
     return false;
 }
 
-function openFraud_Event_AuditPopup() {
-    var winHeight = window.screen.availHeight - 300;
+function openAP_FE_Notes_AuditPopup() {
+    var oWnd = window.open("AuditPopup_AP_FE_Notes.aspx?id=" + '<%=ViewState["PK_AP_FE_Notes"]%>', "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=807,height=400");
+            oWnd.moveTo(350, 200);
+            return false;
+        }
+
+        function openAP_FE_PA_Notes_AuditPopup() {
+            var oWnd = window.open("AuditPopup_AP_FE_PA_Notes.aspx?id=" + '<%=ViewState["PK_AP_FE_PA_Notes"]%>', "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=807,height=400");
+    oWnd.moveTo(350, 200);
+    return false;
+}
+
+function openAP_Cal_Atlantic_AuditPopup() {
+    var winHeight = window.screen.availHeight - 370;
     var winWidth = window.screen.availWidth - 315;
 
-    obj = window.open("AuditPopup_AP_Fraud_Events.aspx?id=" + '<%=ViewState["PK_AP_Fraud_Events"]%>', 'PopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=2,menubar=0');
+    obj = window.open("AuditPopup_AP_Cal_Atlantic.aspx?id=" + '<%=ViewState["PK_AP_Cal_Atlantic"]%>', 'PopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+            obj.focus();
+            return false;
+        }
+
+        function openFraud_Event_AuditPopup() {
+            var winHeight = window.screen.availHeight - 300;
+            var winWidth = window.screen.availWidth - 315;
+
+            obj = window.open("AuditPopup_AP_Fraud_Events.aspx?id=" + '<%=ViewState["PK_AP_Fraud_Events"]%>', 'PopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=2,menubar=0');
     obj.focus();
     return false;
 }
@@ -337,31 +337,31 @@ function openGenereteAbstract() {
     var PKID = 0;
     var VehicleId = 0;
     if (document.getElementById('<%= hdnPanel.ClientID %>').value == 1) {
-                PKID = '<%=ViewState["PK_AP_Property_Security"]%>';
-            }
-            if (document.getElementById('<%= hdnPanel.ClientID %>').value == 2) {
-                PKID = '<%=ViewState["FK_DPD_FR_ID"]%>';
+        PKID = '<%=ViewState["PK_AP_Property_Security"]%>';
+    }
+    if (document.getElementById('<%= hdnPanel.ClientID %>').value == 2) {
+        PKID = '<%=ViewState["FK_DPD_FR_ID"]%>';
                 VehicleId = '<%=ViewState["FK_DPD_FR_Vehicle_ID"]%>';
             }
             else if (document.getElementById('<%= hdnPanel.ClientID %>').value == 3) {
                 PKID = '<%=ViewState["FK_AL_FR_ID"]%>';
             }
-            //else if (document.getElementById('<%= hdnPanel.ClientID %>').value == 4) {
-            //    PKID = '<=ViewState["PK_AP_Cal_Atlantic"]%>';
-            //}
+                //else if (document.getElementById('<%= hdnPanel.ClientID %>').value == 4) {
+                //    PKID = '<=ViewState["PK_AP_Cal_Atlantic"]%>';
+                //}
             else if (document.getElementById('<%= hdnPanel.ClientID %>').value == 4) {
                 PKID = '<%=ViewState["PK_AP_Fraud_Events"]%>';
             }
 
     obj = window.open("Asset_Protection_Generate_Abstract.aspx?id=" + '<%=ViewState["LocationID"]  %>' + "&ps_id=" + '<%= ViewState["PK_AP_Property_Security"] %>' + "&panel=" + document.getElementById('<%= hdnPanel.ClientID %>').value + "&PKID=" + PKID + "&VID=" + VehicleId, 'PopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
-            obj.focus();
-            return false;
-        }
+    obj.focus();
+    return false;
+}
 
-        function IsValidMonitorTime() {
-            Page_ClientValidate("vsAddPSMonitor");
-            if (Page_IsValid) {
-                var endDay = $("#<%= ddlDayMonitoringEnds.ClientID %> :selected").val();
+function IsValidMonitorTime() {
+    Page_ClientValidate("vsAddPSMonitor");
+    if (Page_IsValid) {
+        var endDay = $("#<%= ddlDayMonitoringEnds.ClientID %> :selected").val();
                 var startDay = $("#<%= ddlDayMonitoringBegins.ClientID %> :selected").val();
 
                 if (endDay < startDay) {
@@ -437,7 +437,7 @@ function openGenereteAbstract() {
                 }
             }
         }
-       
+
     </script>
     <div>
         <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
@@ -547,33 +547,34 @@ function openGenereteAbstract() {
                                     <td align="left" width="100%">
                                         <span id="Menu1" onclick="javascript:CheckValueChange(1,null);" class="LeftMenuStatic">Property Security&nbsp;<span id="MenuAsterisk1" runat="server" style="color: Red; display: none">*</span></span>
                                     </td>
-                                    <tr>
-                                        <td align="left" width="100%">
-                                            <span id="Menu2" onclick="javascript:CheckValueChange(2,null);" class="LeftMenuStatic">DPD FROIs&nbsp;<span id="MenuAsterisk2" runat="server" style="color: Red; display: none">*</span></span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td align="left" width="100%">
-                                            <span id="Menu3" onclick="javascript:CheckValueChange(3,null);" class="LeftMenuStatic">AL FROIs&nbsp;<span id="MenuAsterisk3" runat="server" style="color: Red; display: none">*</span></span>
-                                        </td>
-                                    </tr>
-                                    <%--<tr>
+                                </tr>
+                                <tr>
+                                    <td align="left" width="100%">
+                                        <span id="Menu2" onclick="javascript:CheckValueChange(2,null);" class="LeftMenuStatic">DPD FROIs&nbsp;<span id="MenuAsterisk2" runat="server" style="color: Red; display: none">*</span></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left" width="100%">
+                                        <span id="Menu3" onclick="javascript:CheckValueChange(3,null);" class="LeftMenuStatic">AL FROIs&nbsp;<span id="MenuAsterisk3" runat="server" style="color: Red; display: none">*</span></span>
+                                    </td>
+                                </tr>
+                                <%--<tr>
                                         <td align="left" width="100%">
                                             <span id="Menu4" onclick="javascript:CheckValueChange(4,null);" class="LeftMenuStatic">ACI&nbsp;<span id="MenuAsterisk4" runat="server" style="color: Red; display: none">*</span></span>
                                             <%--Change Header text from Cal Atlantic to ACI as per client's request Bug ID = 2552
                                         </td>
                                     </tr>--%>
-                                    <tr>
-                                        <td align="left" width="100%">
-                                            <span id="Menu4" onclick="javascript:CheckValueChange(4,null);" class="LeftMenuStatic">Fraud Events&nbsp;<span id="MenuAsterisk4" runat="server" style="color: Red; display: none">*</span></span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td align="left" width="100%">
-                                            <span id="Menu5" onclick="javascript:CheckValueChange(5,null);" class="LeftMenuStatic">Attachments</span>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td align="left" width="100%">
+                                        <span id="Menu4" onclick="javascript:CheckValueChange(4,null);" class="LeftMenuStatic">Fraud Events&nbsp;<span id="MenuAsterisk4" runat="server" style="color: Red; display: none">*</span></span>
+                                    </td>
                                 </tr>
+                                <tr>
+                                    <td align="left" width="100%">
+                                        <span id="Menu5" onclick="javascript:CheckValueChange(5,null);" class="LeftMenuStatic">Attachments</span>
+                                    </td>
+                                </tr>
+
                             </table>
                         </td>
                         <td valign="top">
@@ -871,13 +872,13 @@ function openGenereteAbstract() {
                                                                     <td align="left" valign="top" width="50%">
                                                                         <table>
                                                                             <tr>
-                                                                                <td align="left" valign="top">Number of External Cameras&nbsp;<span id="Span143" style="color: Red; display: none;" runat="server">*</span>  
+                                                                                <td align="left" valign="top">Number of External Cameras&nbsp;<span id="Span143" style="color: Red; display: none;" runat="server">*</span>
                                                                                 </td>
                                                                                 <td align="center" valign="top">:&nbsp;&nbsp;&nbsp;
                                                                                 </td>
-                                                                                <td align="left" valign="top"> 
-                                                                                    <asp:TextBox ID="txtNumberOfExternalCameras" runat="server" Width="150px" SkinID="txtAmt" onpaste="return false" Maxlength="9"
-                                                                                        onkeypress="return FormatNumber(event,this.id,11,false,true);"  />
+                                                                                <td align="left" valign="top">
+                                                                                    <asp:TextBox ID="txtNumberOfExternalCameras" runat="server" Width="150px" SkinID="txtAmt" onpaste="return false" MaxLength="9"
+                                                                                        onkeypress="return FormatNumber(event,this.id,11,false,true);" />
                                                                                 </td>
                                                                             </tr>
                                                                         </table>
@@ -990,12 +991,12 @@ function openGenereteAbstract() {
                                                                     <td align="left" valign="top" width="50%">
                                                                         <table>
                                                                             <tr>
-                                                                                <td align="left" valign="top">Number of Internal Cameras&nbsp;<span id="Span144" style="color: Red; display: none;" runat="server">*</span>      
+                                                                                <td align="left" valign="top">Number of Internal Cameras&nbsp;<span id="Span144" style="color: Red; display: none;" runat="server">*</span>
                                                                                 </td>
                                                                                 <td align="center" valign="top">:&nbsp;&nbsp;&nbsp;
                                                                                 </td>
                                                                                 <td align="left" valign="top">
-                                                                                    <asp:TextBox ID="txtNumberofInternalCameras" runat="server" Width="150px" onpaste="return false" MaxLength="9" onkeypress="return FormatNumber(event,this.id,11,false,true);"   />
+                                                                                    <asp:TextBox ID="txtNumberofInternalCameras" runat="server" Width="150px" onpaste="return false" MaxLength="9" onkeypress="return FormatNumber(event,this.id,11,false,true);" />
                                                                                 </td>
                                                                             </tr>
                                                                         </table>
@@ -1861,7 +1862,7 @@ function openGenereteAbstract() {
                                                                     <td width="40%" align="left" class="asset">
                                                                         <asp:Label ID="lblCCTVOnly" runat="server" Text="CCTV Only"></asp:Label></td>
                                                                     <td width="30%" align="left" class="asset">
-                                                                        <asp:TextBox ID="txtCCTVOnlyTC" runat="server" SkinID="txtCurrency15"  /></td>
+                                                                        <asp:TextBox ID="txtCCTVOnlyTC" runat="server" SkinID="txtCurrency15" /></td>
                                                                     <td width="30%" align="left" class="asset">
                                                                         <asp:TextBox ID="txtCCTVOnlyTM" runat="server" SkinID="txtCurrency15" /></td>
                                                                 </tr>
@@ -1872,7 +1873,7 @@ function openGenereteAbstract() {
                                                                         <asp:TextBox ID="txtBurglarAlarmsTC" runat="server" SkinID="txtCurrency15" /></td>
                                                                     <td width="30%" align="left" class="asset2">
                                                                         <asp:TextBox ID="txtBurglarAlarmsTM" runat="server" SkinID="txtCurrency15" /></td>
-                                                                </tr>                                                               
+                                                                </tr>
                                                                 <tr>
                                                                     <td width="40%" align="left" class="asset">
                                                                         <asp:Label ID="lblGuardServices" runat="server" Text="Guard Services"></asp:Label></td>
@@ -1897,7 +1898,7 @@ function openGenereteAbstract() {
                                                                     <td width="30%" align="left" class="asset">
                                                                         <asp:TextBox ID="txtSecurityInventoryTrackingSystemsTM" runat="server" SkinID="txtCurrency15" /></td>
                                                                 </tr>
-                                                                 <tr>
+                                                                <tr>
                                                                     <td width="40%" align="left" class="asset2">
                                                                         <asp:Label ID="lblCategory" runat="server" Text="CCTV and Live Monitoring Services"></asp:Label></td>
                                                                     <td width="30%" align="left" class="asset2">
@@ -2218,7 +2219,7 @@ function openGenereteAbstract() {
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top" colspan="4">
-                                                            <asp:TextBox ID="txtVehicleColor" runat="server" Width="170px" MaxLength="50"/>
+                                                            <asp:TextBox ID="txtVehicleColor" runat="server" Width="170px" MaxLength="50" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -2284,7 +2285,7 @@ function openGenereteAbstract() {
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtInvestigatingPoliceDepartment" runat="server" Width="170px" MaxLength="100"/>
+                                                            <asp:TextBox ID="txtInvestigatingPoliceDepartment" runat="server" Width="170px" MaxLength="100" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -2361,7 +2362,7 @@ function openGenereteAbstract() {
                                                 <table border="0" cellpadding="1" cellspacing="0" width="100%">
                                                     <tr>
                                                         <td width="100%" align="left">
-                                                            <uc:ctrlAPNotes ID="ctrlAPNotes" runat="server" IsAddVisible="true" StrOperation="edit" />
+                                                            <uc:ctrlAPNotes ID="ctrlAPNotes_DPD" runat="server" IsAddVisible="true" StrOperation="edit" />
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -5202,7 +5203,7 @@ function openGenereteAbstract() {
                                                     </tr>
                                                 </table>
                                             </div>
-                                           <%-- <div id="dvAttachment" runat="server" style="display: none;">
+                                            <%-- <div id="dvAttachment" runat="server" style="display: none;">
                                                 <table cellpadding="0" cellspacing="0" width="100%" style="height: 230px;">
                                                     <tr>
                                                         <td width="100%">
@@ -6402,8 +6403,8 @@ function openGenereteAbstract() {
                                                                     <td width="40%" align="left" class="asset">
                                                                         <asp:Label ID="Label1" runat="server" Text="CCTV Only"></asp:Label></td>
                                                                     <td width="30%" align="left" class="asset">
-                                                                        <asp:Label ID="lblCCTVOnlyTC" runat="server"  onkeypress="javascript:return FormatNumber(event,this.id,12,false,false);"
-                                                            onblur="javascript:return formatCurrencyOnBlur(this);" /></td>
+                                                                        <asp:Label ID="lblCCTVOnlyTC" runat="server" onkeypress="javascript:return FormatNumber(event,this.id,12,false,false);"
+                                                                            onblur="javascript:return formatCurrencyOnBlur(this);" /></td>
                                                                     <td width="30%" align="left" class="asset">
                                                                         <asp:Label ID="lblCCTVOnlyTM" runat="server" SkinID="txtCurrency15" /></td>
                                                                 </tr>
@@ -6414,7 +6415,7 @@ function openGenereteAbstract() {
                                                                         <asp:Label ID="lblBurglarAlarmsTC" runat="server" SkinID="txtCurrency" /></td>
                                                                     <td width="30%" align="left" class="asset2">
                                                                         <asp:Label ID="lblBurglarAlarmsTM" runat="server" SkinID="txtCurrency" /></td>
-                                                                </tr>                                                                
+                                                                </tr>
                                                                 <tr>
                                                                     <td width="40%" align="left" class="asset">
                                                                         <asp:Label ID="Label4" runat="server" Text="Guard Services"></asp:Label></td>
@@ -6445,7 +6446,7 @@ function openGenereteAbstract() {
                                                                     <td width="30%" align="left" class="asset2">
                                                                         <asp:Label ID="lblCategoryTC" runat="server" SkinID="txtCurrency" /></td>
                                                                     <td width="30%" align="left" class="asset2">
-                                                                        <asp:Label ID="lblCategoryTM" runat="server" SkinID="txtCurrency"/></td>
+                                                                        <asp:Label ID="lblCategoryTM" runat="server" SkinID="txtCurrency" /></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td colspan="3">&nbsp;</td>
@@ -6719,7 +6720,7 @@ function openGenereteAbstract() {
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:Label ID="lblVehicleColor" runat="server" style="word-wrap:normal; word-break:break-all"></asp:Label>
+                                                            <asp:Label ID="lblVehicleColor" runat="server" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -6767,7 +6768,7 @@ function openGenereteAbstract() {
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:Label ID="lblPoliceCaseNumber" runat="server" style="word-wrap:normal; word-break:break-all"></asp:Label>
+                                                            <asp:Label ID="lblPoliceCaseNumber" runat="server" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -6779,7 +6780,7 @@ function openGenereteAbstract() {
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:Label ID="lblInvestigatingPoliceDepartment" runat="server" style="word-wrap:normal; word-break:break-all"></asp:Label>
+                                                            <asp:Label ID="lblInvestigatingPoliceDepartment" runat="server" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -6856,7 +6857,7 @@ function openGenereteAbstract() {
                                                 <table border="0" cellpadding="1" cellspacing="0" width="100%">
                                                     <tr>
                                                         <td width="100%" align="left">
-                                                            <uc:ctrlAPNotes ID="ctrlAPNotesView" runat="server" IsAddVisible="false" StrOperation="view" />
+                                                            <uc:ctrlAPNotes ID="ctrlAPNotes_DPDView" runat="server" IsAddVisible="false" StrOperation="view" />
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -9099,7 +9100,7 @@ function openGenereteAbstract() {
                                                                     <asp:TemplateField HeaderText="Note Text" HeaderStyle-HorizontalAlign="Left" SortExpression="Note">
                                                                         <ItemStyle Width="100px" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
-                                                                            <asp:Label ID="lblNotesView" runat="server" Width="410px" CssClass="TextClip" >
+                                                                            <asp:Label ID="lblNotesView" runat="server" Width="410px" CssClass="TextClip">
                                                                             <%# Eval("Note")%>
                                                                             </asp:Label>
                                                                         </ItemTemplate>

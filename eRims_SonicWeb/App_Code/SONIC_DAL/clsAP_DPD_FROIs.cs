@@ -1276,6 +1276,21 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="PK_AP_AL_FROIs"></param>
+        /// <returns></returns>
+        public static DataSet GetDPD_FROIs_DetailByPK_AP_DPD_FROIs(decimal PK_AP_DPD_FROIs)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("AP_DPD_FROIs_GetAL_DetailByPK_DPD_AL_FROIs");
+
+            db.AddInParameter(dbCommand, "PK_AP_DPD_FROIs", DbType.Decimal, PK_AP_DPD_FROIs);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
         
     }
 }

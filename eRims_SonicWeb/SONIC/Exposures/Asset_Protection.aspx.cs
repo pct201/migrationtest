@@ -297,12 +297,52 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         set { ViewState["_SortOrder_FraudNotes"] = value; }
     }
 
+    private string Origin_Claim_Number
+    {
+        get { return (!clsGeneral.IsNull(ViewState["Origin_Claim_Number"]) ? ViewState["Origin_Claim_Number"].ToString() : string.Empty); }
+        set { ViewState["Origin_Claim_Number"] = value; }
+    }
+
+
     private int pK_AP_Property_Security_Financials;
 
     public int PK_AP_Property_Security_Financials
     {
         get { return pK_AP_Property_Security_Financials; }
         set { pK_AP_Property_Security_Financials = value; }
+    }
+
+    public decimal PK_Auto_Loss_Claims_ID
+    {
+        get
+        {
+            return clsGeneral.GetInt(ViewState["PK_Auto_Loss_Claims_ID"]);
+        }
+        set { ViewState["PK_Auto_Loss_Claims_ID"] = value; }
+    }
+
+    public decimal AL_RowIndex
+    {
+        get { return Session["AL_RowIndex"] == null ? 0 : clsGeneral.GetInt(Session["AL_RowIndex"]); }
+        set { Session["AL_RowIndex"] = value; }
+    }
+
+    public string AP_AL_FROIs_CommandArgs
+    {
+        get { return (!clsGeneral.IsNull(Session["AP_AL_FROIs_CommandArgs"]) ? Session["AP_AL_FROIs_CommandArgs"].ToString() : string.Empty); }
+        set { Session["AP_AL_FROIs_CommandArgs"] = value; }
+    }
+
+    public decimal DPD_RowIndex
+    {
+        get { return Session["DPD_RowIndex"] == null ? 0 : clsGeneral.GetInt(Session["DPD_RowIndex"]); }
+        set { Session["DPD_RowIndex"] = value; }
+    }
+
+    public string AP_DPD_FROIs_CommandArgs
+    {
+        get { return (!clsGeneral.IsNull(Session["AP_DPD_FROIs_CommandArgs"]) ? Session["AP_DPD_FROIs_CommandArgs"].ToString() : string.Empty); }
+        set { Session["AP_DPD_FROIs_CommandArgs"] = value; }
     }
 
     #endregion
@@ -319,7 +359,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         // Set Tab selection
         Tab.SetSelectedTab(Controls_ExposuresTab_ExposuresTab.Tab.AssetProtection);
         if (!Page.IsPostBack)
-        {          
+        {
             LocationID = clsGeneral.GetQueryStringID(Request.QueryString["loc"]);
             StrOperation = Convert.ToString(Request.QueryString["op"]);
             Session["ExposureLocation"] = LocationID;
@@ -396,7 +436,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                             //BindDetailsForViewForCal_Atlantic();
                             BindDetailsForView_FraudEvents();
                             //AttachDetails.InitializeAttachmentDetails(Convert.ToInt32(LocationID), "FK_LU_Location", "PK_AP_Attachments", false, 6);
-                            
+
                         }
                         else
                         {
@@ -529,7 +569,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         txtSecurity_Inventory_Tracking_System_Other_Description.Text = objAP_Property_Security.Security_Inventory_Tracking_System_Other_Description;
 
         txtNumberOfExternalCameras.Text = clsGeneral.FormatCommaSeperatorNumber(objAP_Property_Security.ECC_Number_Of_External_Cameras);
-        txtNumberofInternalCameras.Text = clsGeneral.FormatCommaSeperatorNumber(objAP_Property_Security.ECC_Number_Of_Internal_Cameras); 
+        txtNumberofInternalCameras.Text = clsGeneral.FormatCommaSeperatorNumber(objAP_Property_Security.ECC_Number_Of_Internal_Cameras);
 
 
         chkACFirstFloorOnly.Checked = objAP_Property_Security.AC_1st_Floor_Only == "Y" ? true : false;
@@ -657,7 +697,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         lblSecurity_Inventory_Tracking_System_Other_Description.Text = objAP_Property_Security.Security_Inventory_Tracking_System_Other_Description;
 
         lblNumberofExternalCameras.Text = clsGeneral.FormatCommaSeperatorNumber(objAP_Property_Security.ECC_Number_Of_External_Cameras);
-        lblNumberofInternalCameras.Text = clsGeneral.FormatCommaSeperatorNumber(objAP_Property_Security.ECC_Number_Of_Internal_Cameras); 
+        lblNumberofInternalCameras.Text = clsGeneral.FormatCommaSeperatorNumber(objAP_Property_Security.ECC_Number_Of_Internal_Cameras);
 
 
         chkACFirstFloorOnlyView.Checked = objAP_Property_Security.AC_1st_Floor_Only == "Y" ? true : false;
@@ -844,7 +884,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         if (txtNumberOfExternalCameras.Text == string.Empty)
             objAP_Property_Security.ECC_Number_Of_External_Cameras = null;
         else
-            objAP_Property_Security.ECC_Number_Of_External_Cameras = Convert.ToInt32(txtNumberOfExternalCameras.Text.Replace(",",""));
+            objAP_Property_Security.ECC_Number_Of_External_Cameras = Convert.ToInt32(txtNumberOfExternalCameras.Text.Replace(",", ""));
         if (txtNumberofInternalCameras.Text == string.Empty)
             objAP_Property_Security.ECC_Number_Of_Internal_Cameras = null;
         else
@@ -957,6 +997,12 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     /// </summary>
     private void BindDetailsForEditForDPD_FROIs()
     {
+        if (FK_DPD_FR_ID == 0)
+            if (Request.QueryString["Sect"] != null && Request.QueryString["Sect"].ToString() == "notes")
+            {
+                FK_DPD_FR_ID = DPD_RowIndex;
+            }
+
         DataTable dtDPD_FROIs_Detail = clsAP_DPD_FROIs.GetDPD_FROIs_DetailByPK(FK_DPD_FR_ID, FK_DPD_FR_Vehicle_ID, PK_AP_DPD_FROIs).Tables[0];
 
         if (dtDPD_FROIs_Detail != null && dtDPD_FROIs_Detail.Rows.Count > 0)
@@ -1035,6 +1081,24 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             txtPoliceCaseNumber.Text = dtDPD_FROIs_Detail.Rows[0]["Police_Case_Number"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Police_Case_Number"].ToString() : "";
             txtInvestigatingPoliceDepartment.Text = dtDPD_FROIs_Detail.Rows[0]["Investigating_Police_Department"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Investigating_Police_Department"].ToString() : "";
             chkVandalism.Checked = dtDPD_FROIs_Detail.Rows[0]["Vandalism"].ToString() == "Y" ? true : false;
+
+            if (!string.IsNullOrEmpty(AP_DPD_FROIs_CommandArgs))
+            {
+                string[] arg = new string[4];
+                arg = AP_DPD_FROIs_CommandArgs.Split(';');
+                FK_DPD_FR_ID = Convert.ToDecimal(arg[0]);
+                PK_AP_DPD_FROIs = Convert.ToDecimal(arg[1]);
+                clsSession.First_Report_Wizard_ID = Convert.ToInt32(arg[2]);
+                FK_DPD_FR_Vehicle_ID = Convert.ToDecimal(arg[3]);
+                PK_DPD_Claims_ID = Convert.ToDecimal(arg[4]);
+            }
+            if (PK_AP_DPD_FROIs > 0)
+            {
+                ctrlAPNotes_DPD.Location_ID = Convert.ToInt32(LocationID);
+                ctrlAPNotes_DPD.PK_DPD_Claims_ID = Convert.ToInt32(PK_DPD_Claims_ID);
+                ctrlAPNotes_DPD.CurrentClaimType = "AP_DPD_FROIs";
+                ctrlAPNotes_DPD.BindGridSonicNotes(PK_AP_DPD_FROIs, "AP_DPD_FROIs");
+            }
         }
     }
 
@@ -1043,6 +1107,25 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     /// </summary>
     private void BindDetailsForViewForDPD_FROIs()
     {
+        if (FK_DPD_FR_ID == 0)
+        {
+            if (Request.QueryString["Sect"] != null && Request.QueryString["Sect"].ToString() == "notes")
+            {
+                FK_DPD_FR_ID = DPD_RowIndex;
+            }
+
+            if (!string.IsNullOrEmpty(AP_DPD_FROIs_CommandArgs))
+            {
+                string[] arg = new string[4];
+                arg = AP_DPD_FROIs_CommandArgs.Split(';');
+                FK_DPD_FR_ID = Convert.ToDecimal(arg[0]);
+                PK_AP_DPD_FROIs = Convert.ToDecimal(arg[1]);
+                clsSession.First_Report_Wizard_ID = Convert.ToInt32(arg[2]);
+                FK_DPD_FR_Vehicle_ID = Convert.ToDecimal(arg[3]);
+                PK_DPD_Claims_ID = Convert.ToDecimal(arg[4]);
+            }
+        }
+
         DataTable dtDPD_FROIs_Detail = clsAP_DPD_FROIs.GetDPD_FROIs_DetailByPK(FK_DPD_FR_ID, FK_DPD_FR_Vehicle_ID, PK_AP_DPD_FROIs).Tables[0];
 
         if (dtDPD_FROIs_Detail != null && dtDPD_FROIs_Detail.Rows.Count > 0)
@@ -1121,6 +1204,15 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             lblPoliceCaseNumber.Text = dtDPD_FROIs_Detail.Rows[0]["Police_Case_Number"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Police_Case_Number"].ToString() : "";
             lblInvestigatingPoliceDepartment.Text = dtDPD_FROIs_Detail.Rows[0]["Investigating_Police_Department"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Investigating_Police_Department"].ToString() : "";
             chkVandalismView.Checked = dtDPD_FROIs_Detail.Rows[0]["Vandalism"].ToString() == "Y" ? true : false;
+
+            
+            if (PK_AP_DPD_FROIs > 0)
+            {
+                ctrlAPNotes_DPDView.Location_ID = Convert.ToInt32(LocationID);
+                ctrlAPNotes_DPDView.PK_DPD_Claims_ID = Convert.ToInt32(PK_DPD_Claims_ID);
+                ctrlAPNotes_DPDView.CurrentClaimType = "AP_DPD_FROIs";
+                ctrlAPNotes_DPDView.BindGridSonicNotes(PK_AP_DPD_FROIs, "AP_DPD_FROIs");
+            }
         }
     }
 
@@ -1211,6 +1303,11 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     /// </summary>
     private void BindDetailsForEdit_AL()
     {
+        if (FK_AL_FR_ID == 0)
+            if (Request.QueryString["Sect"] != null && Request.QueryString["Sect"].ToString() == "notes")
+            {
+                FK_AL_FR_ID = AL_RowIndex;
+            }
         DataTable dtAL_FROIs_Detail = clsAP_AL_FROIs.GetAL_FROIs_DetailByPK(FK_AL_FR_ID).Tables[0];
         if (dtAL_FROIs_Detail != null && dtAL_FROIs_Detail.Rows.Count > 0)
         {
@@ -1322,7 +1419,32 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             drpAL_Item_Status.SelectedValue = Convert.ToString(dtAL_FROIs_Detail.Rows[0]["Item_Status"]) == "O" ? "1" : Convert.ToString(dtAL_FROIs_Detail.Rows[0]["Item_Status"]) == "C" ? "2" : "0";
             #endregion
 
+            #region "Notes"
+            if (!string.IsNullOrEmpty(AP_AL_FROIs_CommandArgs))
+            {
+                string[] arg = new string[4];
+                arg = AP_AL_FROIs_CommandArgs.Split(';');
+                FK_AL_FR_ID = Convert.ToDecimal(arg[0]);
+                PK_AP_AL_FROIs = Convert.ToDecimal(arg[1]);
+                clsSession.First_Report_Wizard_ID = Convert.ToInt32(arg[2]);
+                PK_Auto_Loss_Claims_ID = Convert.ToDecimal(arg[3]);
+                Origin_Claim_Number = Convert.ToString(arg[4]);
+            }
 
+            ucAdjusterNotes.ClaimID = (long)PK_Auto_Loss_Claims_ID;
+            ucAdjusterNotes.ClaimNumber = Origin_Claim_Number;
+            ucAdjusterNotes.BindGridNotes(Origin_Claim_Number);
+
+            if (PK_AP_AL_FROIs > 0)
+            {
+                ctrlAPNotes_AL.Location_ID = Convert.ToInt32(LocationID);
+                ctrlAPNotes_AL.PK_AL_CI_ID = Convert.ToInt32(PK_Auto_Loss_Claims_ID);
+                ctrlAPNotes_AL.CurrentClaimType = "AP_AL_FROIs";
+                ctrlAPNotes_AL.BindGridSonicNotes(PK_AP_AL_FROIs, "AP_AL_FROIs");
+            }
+
+
+            #endregion
         }
 
     }
@@ -1332,6 +1454,12 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     /// </summary>
     private void BindDetailsForView_AL()
     {
+        if (FK_AL_FR_ID == 0)
+            if (Request.QueryString["Sect"] != null && Request.QueryString["Sect"].ToString() == "notes")
+            {
+                FK_AL_FR_ID = AL_RowIndex;
+            }
+
         DataTable dtAL_FROIs_Detail = clsAP_AL_FROIs.GetAL_FROIs_DetailByPK(FK_AL_FR_ID).Tables[0];
         if (dtAL_FROIs_Detail != null && dtAL_FROIs_Detail.Rows.Count > 0)
         {
@@ -1443,7 +1571,35 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             lblAL_Item_Status.Text = Convert.ToString(dtAL_FROIs_Detail.Rows[0]["Item_Status"]) == "O" ? "Open" : Convert.ToString(dtAL_FROIs_Detail.Rows[0]["Item_Status"]) == "C" ? "Close" : "";
             #endregion
 
+            #region "Notes"
+            if (!string.IsNullOrEmpty(AP_AL_FROIs_CommandArgs))
+            {
+                string[] arg = new string[4];
+                arg = AP_AL_FROIs_CommandArgs.Split(';');
+                FK_AL_FR_ID = Convert.ToDecimal(arg[0]);
+                PK_AP_AL_FROIs = Convert.ToDecimal(arg[1]);
+                clsSession.First_Report_Wizard_ID = Convert.ToInt32(arg[2]);
+                PK_Auto_Loss_Claims_ID = Convert.ToDecimal(arg[3]);
+                Origin_Claim_Number = Convert.ToString(arg[4]);
+            }
+
+            ucAdjusterNotesView.ClaimID = (long)PK_Auto_Loss_Claims_ID;
+            ucAdjusterNotesView.ClaimNumber = Origin_Claim_Number;
+            ucAdjusterNotesView.BindGridNotes(Origin_Claim_Number);
+
+            if (PK_AP_AL_FROIs > 0)
+            {
+                ctrlAPNotes_ALView.Location_ID = Convert.ToInt32(LocationID);
+                ctrlAPNotes_ALView.PK_AL_CI_ID = Convert.ToInt32(PK_Auto_Loss_Claims_ID);
+                ctrlAPNotes_ALView.CurrentClaimType = "AP_AL_FROIs";
+                ctrlAPNotes_ALView.BindGridSonicNotes(PK_AP_AL_FROIs, "AP_AL_FROIs");
+            }
+            #endregion
+
+
         }
+
+
     }
 
     /// <summary>
@@ -2444,10 +2600,10 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         {
             if (PK_AP_Fraud_Events > 0)
             {
-                gvFraudEventsNote.DataSource = AP_FE_PA_Notes.SelectNotesByFKFraudEvent(PK_AP_Fraud_Events, _SortOrder_FraudNotes).Tables[0]; 
+                gvFraudEventsNote.DataSource = AP_FE_PA_Notes.SelectNotesByFKFraudEvent(PK_AP_Fraud_Events, _SortOrder_FraudNotes).Tables[0];
             }
-                gvFraudEventsNote.DataBind();
-            
+            gvFraudEventsNote.DataBind();
+
         }
         else
         {
@@ -2455,8 +2611,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             {
                 gvNotesGridFraudView.DataSource = AP_FE_PA_Notes.SelectNotesByFKFraudEvent(PK_AP_Fraud_Events, _SortOrder_FraudNotes).Tables[0];
             }
-                gvNotesGridFraudView.DataBind();
-            
+            gvNotesGridFraudView.DataBind();
+
         }
     }
 
@@ -3875,24 +4031,18 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             FK_DPD_FR_Vehicle_ID = Convert.ToDecimal(arg[3]);
             PK_DPD_Claims_ID = Convert.ToDecimal(arg[4]);
 
+            AP_DPD_FROIs_CommandArgs = e.CommandArgument.ToString();
+            DPD_RowIndex = FK_DPD_FR_ID;
+
             BindWitnessGrid();
 
             if (StrOperation.ToLower() == "edit")
             {
-                ctrlAPNotes.Location_ID = Convert.ToInt32(LocationID);
-                ctrlAPNotes.PK_DPD_Claims_ID = Convert.ToInt32(PK_DPD_Claims_ID);
-                ctrlAPNotes.CurrentClaimType = "AP_DPD_FROIs";
-                ctrlAPNotes.BindGridSonicNotes(PK_DPD_Claims_ID, "AP_DPD_FROIs");
-
                 BindDetailsForEditForDPD_FROIs();
             }
             else if (StrOperation.ToLower() == "view")
             {
-                ctrlAPNotesView.Location_ID = Convert.ToInt32(LocationID);
-                ctrlAPNotesView.PK_DPD_Claims_ID = Convert.ToInt32(PK_DPD_Claims_ID);
-                ctrlAPNotesView.CurrentClaimType = "AP_DPD_FROIs";
-                ctrlAPNotesView.BindGridSonicNotes(PK_DPD_Claims_ID, "AP_DPD_FROIs");
-
+                
                 BindDetailsForViewForDPD_FROIs();
             }
         }
@@ -4071,40 +4221,23 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             FK_AL_FR_ID = Convert.ToDecimal(arg[0]);
             PK_AP_AL_FROIs = Convert.ToDecimal(arg[1]);
             clsSession.First_Report_Wizard_ID = Convert.ToInt32(arg[2]);
-            long PK_Auto_Loss_Claims_ID = Convert.ToInt64(arg[3]);
-            string Origin_Claim_Number = Convert.ToString(arg[4]);
+            PK_Auto_Loss_Claims_ID = Convert.ToDecimal(arg[3]);
+            Origin_Claim_Number = Convert.ToString(arg[4]);
+            AP_AL_FROIs_CommandArgs = e.CommandArgument.ToString();
+            AL_RowIndex = FK_AL_FR_ID;
 
             if (StrOperation.ToLower() != "view")
             {
-                ucAdjusterNotes.ClaimID = PK_Auto_Loss_Claims_ID;
-                ucAdjusterNotes.ClaimNumber = Origin_Claim_Number;
-                ucAdjusterNotes.BindGridNotes(Origin_Claim_Number);
-
-                ctrlAPNotes_AL.Location_ID = Convert.ToInt32(LocationID);
-                ctrlAPNotes_AL.PK_AL_CI_ID = Convert.ToInt32(PK_Auto_Loss_Claims_ID);
-                ctrlAPNotes_AL.CurrentClaimType = "AP_AL_FROIs";
-                ctrlAPNotes_AL.BindGridSonicNotes(PK_Auto_Loss_Claims_ID, "AP_AL_FROIs");
                 BindDetailsForEdit_AL();
                 //BindClaim_NotesGrid_AL();
-                Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);", true);
             }
             else
             {
-                ucAdjusterNotesView.ClaimID = PK_Auto_Loss_Claims_ID;
-                ucAdjusterNotesView.ClaimNumber = Origin_Claim_Number;
-                ucAdjusterNotesView.BindGridNotes(Origin_Claim_Number);
-
-                ctrlAPNotes_ALView.Location_ID = Convert.ToInt32(LocationID);
-                ctrlAPNotes_ALView.PK_AL_CI_ID = Convert.ToInt32(PK_Auto_Loss_Claims_ID);
-                ctrlAPNotes_ALView.CurrentClaimType = "AP_AL_FROIs";
-                ctrlAPNotes_ALView.BindGridSonicNotes(PK_Auto_Loss_Claims_ID, "AP_AL_FROIs");
-
                 BindDetailsForView_AL();
                 //BindClaim_NotesGrid_AL();
-                Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);", true);
             }
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);", true);
         }
-
 
     }
 
@@ -4808,6 +4941,6 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     }
 
     #endregion
-   
+
 
 }

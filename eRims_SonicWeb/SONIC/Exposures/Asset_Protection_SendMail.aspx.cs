@@ -248,6 +248,113 @@ public partial class SONIC_Exposures_Asset_Protection_SendMail : System.Web.UI.P
                         arrAttachments[0] = strAttachment;
                     }
                 }
+                else if (TableName == "APNOTES")
+                {
+                    if (!string.IsNullOrEmpty(Request.QueryString["PK_Fields"]) && !string.IsNullOrEmpty(Request.QueryString["Table_Name"]) && !string.IsNullOrEmpty(Request.QueryString["Claim_ID"]))
+                    {
+                        string PK_Fields = Request.QueryString["PK_Fields"];
+                        string FK_Table_Name = Request.QueryString["Table_Name"];
+                        string Claim_ID = Request.QueryString["Claim_ID"];
+
+                        string[] AttachmentIds = Request.QueryString["PK_Fields"].Split(',');
+                        arrAttachments = new string[AttachmentIds.Length];
+
+                        DataTable dtClaim = null;
+                        if (FK_Table_Name == "AP_AL_FROIs")
+                            dtClaim = clsAP_AL_FROIs.GetAL_FROIs_DetailByPK_AP_AL_FROIs(Convert.ToInt64(Claim_ID)).Tables[0];
+                        else if (FK_Table_Name.ToLower() == clsGeneral.AP_Tables.AP_DPD_FROIs.ToString().ToLower())
+                            dtClaim = clsAP_DPD_FROIs.GetDPD_FROIs_DetailByPK_AP_DPD_FROIs(Convert.ToInt64(Claim_ID)).Tables[0];
+
+
+                        DataTable dtNotes = clsAP_Notes.SelectByIDs(PK_Fields).Tables[0];
+                        StringBuilder sbHTML = new StringBuilder();
+
+                        #region " Generate HTML Text "
+
+                        string strClaimNumber = "";
+                        string strDBA = "";
+                        string strEmployeeName = "";
+                        string strDateOfIncident = "";
+
+
+                        if (FK_Table_Name.ToLower() == clsGeneral.AP_Tables.AP_AL_FROIs.ToString().ToLower())
+                        {
+                            strClaimNumber = Convert.ToString(dtClaim.Rows[0]["AL_FR_Number"]);
+                            strDateOfIncident = clsGeneral.FormatDBNullDateToDisplay(dtClaim.Rows[0]["Date_Of_Loss"]);
+                        }
+                        else if (FK_Table_Name.ToLower() == clsGeneral.AP_Tables.AP_DPD_FROIs.ToString().ToLower())
+                        {
+                            strClaimNumber = Convert.ToString(dtClaim.Rows[0]["DPD_FR_Number"]);
+                            strDateOfIncident = clsGeneral.FormatDBNullDateToDisplay(dtClaim.Rows[0]["Date_Of_Loss"]);
+                        }
+
+                        strDBA = Convert.ToString(dtClaim.Rows[0]["dba"]);
+                        //strEmployeeName = Convert.ToString(dtClaim.Rows[0]["Employee_Name"]);
+
+                        string strTDBlue = "style='background-color:#95B3D7;border-top:black 1px solid;border-left:black 1px solid;'";
+                        string strTDWhite = "style='border-top:black 1px solid;border-left:black 1px solid;border-bottom:black 1px solid;'";
+                        sbHTML.Append("<HTML><Body>");
+                        sbHTML.Append("<b>eRIMS2 Sonic - Selected Asset Protection Notes</b>");
+                        sbHTML.Append("<br /></br />");
+                        sbHTML.Append("<table cellpadding='3' cellspacing='1' border='0' width='100%'>");
+                        sbHTML.Append("<tr>");
+                        sbHTML.Append("<td width='25%' align='left' " + strTDBlue + ">");
+                        sbHTML.Append("<span style='color:white'><b>Incident Number</b></span>");
+                        sbHTML.Append("</td>");
+                        sbHTML.Append("<td width='25%' align='left' " + strTDBlue + ">");
+                        sbHTML.Append("<span style='color:white'><b>Sonic Location d/b/a</b></span>");
+                        sbHTML.Append("</td>");
+                        sbHTML.Append("<td width='25%' align='left' " + strTDBlue.TrimEnd('\'') + "border-right:black 1px solid;'>");
+                        sbHTML.Append("<span style='color:white'><b>Date of Incident</b></span>");
+                        sbHTML.Append("</td>");
+                        sbHTML.Append("</tr>");
+                        sbHTML.Append("<tr>");
+                        sbHTML.Append("<td align='left' " + strTDWhite + ">" + strClaimNumber + "</td>");
+                        sbHTML.Append("<td align='left' " + strTDWhite + ">" + strDBA + "</td>");
+                        sbHTML.Append("<td align='left' " + strTDWhite.TrimEnd('\'') + "border-right:black 1px solid;'>" + strDateOfIncident + "</td>");
+                        sbHTML.Append("</tr>");
+                        sbHTML.Append("</table>");
+                        sbHTML.Append("<br />");
+
+                        sbHTML.Append("<table cellpadding='3' cellspacing='1' width='100%'>");
+                        int i = 0;
+                        foreach (DataRow drClaims_Adjustor_Notes in dtNotes.Rows)
+                        {
+                            sbHTML.Append("<tr>");
+                            sbHTML.Append("<td width='18%' align='left' valign='top'>Date of Note</td>");
+                            sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                            sbHTML.Append("<td align='left' valign='top'>" + clsGeneral.FormatDBNullDateToDisplay(Convert.ToDateTime(drClaims_Adjustor_Notes["Note_Date"])) + "</td>");
+                            sbHTML.Append("</tr>");
+                            sbHTML.Append("<tr>");
+                            sbHTML.Append("<td align='left' valign='top'>Notes</td>");
+                            sbHTML.Append("<td align='center' valign='top'>:</td>");
+                            sbHTML.Append("<td align='left' valign='top'>");
+                            sbHTML.Append(Convert.ToString(drClaims_Adjustor_Notes["Note"]));
+                            sbHTML.Append("</td>");
+                            sbHTML.Append("</tr>");
+
+                            if (i < dtNotes.Rows.Count - 1)
+                            {
+                                sbHTML.Append("<tr style='height:30px'>");
+                                sbHTML.Append("<td colspan='6' style='vertical-align:middle'><hr size='1' color='Black' /></td>");
+                                sbHTML.Append("</tr>");
+                            }
+
+                            i++;
+                        }
+
+                        sbHTML.Append("</table>");
+                        sbHTML.Append("</Body></HTML>");
+
+                        #endregion
+
+                        string strFileName = "Selected Asset Protection Notes.doc";
+                        string strFilepath = clsGeneral.SaveFile(sbHTML.ToString(), AppConfig.strAPDocumentPath, strFileName);
+                        string[] strAttachments = new string[1];
+                        string strAttachment = AppConfig.strAPDocumentPath + strFilepath;
+                        arrAttachments[0] = strAttachment;
+                    }
+                }
                 else
                     ClosePage();
             }

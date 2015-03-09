@@ -16,12 +16,6 @@ public partial class Controls_SonicClaimNotes_APNotes : System.Web.UI.UserContro
         set { ViewState["CurrentClaimType"] = value; }
     }
 
-    public long PK_WC_CI_ID
-    {
-        get { return Convert.ToInt64(ViewState["PK_WC_CI_ID"]); }
-        set { ViewState["PK_WC_CI_ID"] = value; }
-    }
-
     public long PK_AL_CI_ID
     {
         get { return Convert.ToInt64(ViewState["PK_AL_CI_ID"]); }
@@ -58,12 +52,6 @@ public partial class Controls_SonicClaimNotes_APNotes : System.Web.UI.UserContro
         set { ViewState["Location_ID"] = value; }
     }
 
-    public bool IsAddVisible
-    {
-        get { return Convert.ToBoolean(ViewState["IsAddVisible"]); }
-        set { ViewState["IsAddVisible"] = value; }
-    }
-
     public string StrOperation
     {
         get { return Convert.ToString(ViewState["StrOperation"]); }
@@ -80,23 +68,41 @@ public partial class Controls_SonicClaimNotes_APNotes : System.Web.UI.UserContro
         get { return Convert.ToInt32(ViewState["PageSize"]); }
         set { ViewState["PageSize"] = value; }
     }
+
+    public int FK_Table
+    {
+        get { return ViewState["FK_Table"] == null ? 0 : Convert.ToInt32(ViewState["FK_Table"]); }
+        set { ViewState["FK_Table"] = value; }
+    }
+
     #endregion
 
     #region " PageEvents "
     protected void Page_Load(object sender, EventArgs e)
     {
         ctrlPageSonicNotes.GetPage += new Controls_Navigation_Navigation.dlgGetPage(ctrlPageSonicNotes_GetPage);
-        if (IsAddVisible)
+        if (StrOperation == "edit")
         {
-            gvNotes.DataBind();
-            btnNotesAdd.Visible = true;
+            
+            if (FK_Table > 0)
+            {
+                btnNotesAdd.Visible = true;
+                btnView.Visible = true;
+                btnPrint.Visible = true;
+            }
+            else
+            {
+                btnNotesAdd.Visible = false;
+                btnView.Visible = false;
+                btnPrint.Visible = false;
+            }
             gvNotes.Columns[4].Visible = true;
         }
         else
         {
             if (gvNotes.Rows.Count == 0)
             {
-                gvNotes.DataBind();
+                
                 btnView.Visible = false;
                 btnPrint.Visible = false;
             }
@@ -138,22 +144,23 @@ public partial class Controls_SonicClaimNotes_APNotes : System.Web.UI.UserContro
     /// <summary>
     /// Bind Grid Sonic Note
     /// </summary>
-    public void BindGridSonicNotes(decimal FK_Table, string Table_Name)
+    public void BindGridSonicNotes(decimal FK_Table_1, string Table_Name)
     {
         CurrentPage = ctrlPageSonicNotes.CurrentPage;
         PageSize = ctrlPageSonicNotes.PageSize;
 
         long Pk_Claim = 0;
 
-        if (CurrentClaimType == "AP_AL_FROIs")
-        {
-            Pk_Claim = PK_AL_CI_ID;
-        }
-        else if (CurrentClaimType == "AP_DPD_FROIs")
-        {
-            Pk_Claim = PK_DPD_Claims_ID;
-        }
-        
+        //if (CurrentClaimType == "AP_AL_FROIs")
+        //{
+        //    Pk_Claim = PK_AL_CI_ID;
+        //}
+        //else if (CurrentClaimType == "AP_DPD_FROIs")
+        //{
+        //    Pk_Claim = PK_DPD_Claims_ID;
+        //}
+
+        Pk_Claim = (long)FK_Table_1;
 
         DataSet dsNotes = clsAP_Notes.SelectByFK_Table(Pk_Claim, CurrentClaimType, CurrentPage, PageSize);
         DataTable dtNotes = dsNotes.Tables[0];
@@ -166,6 +173,16 @@ public partial class Controls_SonicClaimNotes_APNotes : System.Web.UI.UserContro
 
         btnView.Visible = dtNotes.Rows.Count > 0;
         btnPrint.Visible = dtNotes.Rows.Count > 0;
+        FK_Table = Convert.ToInt32(FK_Table_1);
+        if (FK_Table_1 > 0 && StrOperation == "edit")
+        {
+            btnNotesAdd.Visible = true;
+        }
+        else
+        {
+            btnNotesAdd.Visible = false;
+        }
+
     }
     #endregion
 
@@ -182,12 +199,10 @@ public partial class Controls_SonicClaimNotes_APNotes : System.Web.UI.UserContro
         {
             //Get the Claim Note ID
             clsGeneral.AP_Tables claimtype = (clsGeneral.AP_Tables)(Enum.Parse(typeof(clsGeneral.AP_Tables), CurrentClaimType));
-            if (claimtype == clsGeneral.AP_Tables.AP_AL_FROIs)
-            {
-                if (IsAddVisible)
-                    Response.Redirect(AppConfig.SiteURL + "SONIC/ClaimInfo/ClaimNotesAP.aspx?id=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&FK_Claim=" + Encryption.Encrypt(PK_AL_CI_ID.ToString()) + "&tbl=" + clsGeneral.AP_Tables.AP_AL_FROIs.ToString());
-
-            }
+            //if (claimtype == clsGeneral.AP_Tables.AP_AL_FROIs)
+            //{
+                Response.Redirect(AppConfig.SiteURL + "SONIC/ClaimInfo/ClaimNotesAP.aspx?loc=" + Location_ID + "&id=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&FK_Claim=" + Encryption.Encrypt(FK_Table.ToString()) + "&tbl=" + claimtype.ToString() + "&op=" + StrOperation);
+            //}
         }
         else if (e.CommandName == "Remove")
         {
@@ -196,9 +211,9 @@ public partial class Controls_SonicClaimNotes_APNotes : System.Web.UI.UserContro
             clsGeneral.AP_Tables claimtype = (clsGeneral.AP_Tables)(Enum.Parse(typeof(clsGeneral.AP_Tables), CurrentClaimType));
             if (claimtype == clsGeneral.AP_Tables.AP_AL_FROIs)
             {
-                BindGridSonicNotes(PK_AL_CI_ID, clsGeneral.Claim_Tables.ALClaim.ToString());
+                BindGridSonicNotes(FK_Table, CurrentClaimType);
                 ScriptManager.RegisterStartupScript(this, this.GetType(), System.DateTime.Now.ToString(), "javascrip:ShowPanel(6);", true);
-            }         
+            }
         }
     }
     #endregion
@@ -212,7 +227,7 @@ public partial class Controls_SonicClaimNotes_APNotes : System.Web.UI.UserContro
     protected void btnNotesAdd_Click(object sender, EventArgs e)
     {
 
-        Response.Redirect("..//ClaimInfo//ClaimNotesAP.aspx?FK_Claim=" + Encryption.Encrypt(PK_AL_CI_ID.ToString()) + "&tbl=" + "AP_AL_FROIs");                
+        Response.Redirect("..//ClaimInfo//ClaimNotesAP.aspx?loc=" + Location_ID + "&FK_Claim=" + Encryption.Encrypt(FK_Table.ToString()) + "&tbl=" + CurrentClaimType);
     }
 
     /// <summary>
@@ -229,11 +244,12 @@ public partial class Controls_SonicClaimNotes_APNotes : System.Web.UI.UserContro
                 strPK = strPK + ((HtmlInputHidden)gRow.FindControl("hdnPK")).Value + ",";
         }
         strPK = strPK.TrimEnd(',');
-       if (IsAddVisible)
-              Response.Redirect(AppConfig.SiteURL + "SONIC/ClaimInfo/ClaimNotesAP.aspx?viewIDs=" + Encryption.Encrypt(strPK) + "&FK_Claim=" + Encryption.Encrypt(PK_AL_CI_ID.ToString()) + "&tbl=" + "AP_AL_FROIs");
-       else
-           Response.Redirect(AppConfig.SiteURL + "SONIC/ClaimInfo/ClaimNotesAP.aspx?viewIDs=" + Encryption.Encrypt(strPK) + "&FK_Claim=" + Encryption.Encrypt(PK_AL_CI_ID.ToString()) + "&tbl=" + "AP_AL_FROIs" + "&page=AP_AL" + "&loc=" + Encryption.Encrypt(Location_ID.ToString()) + "&op=" + StrOperation);
-        
+        //if (IsAddVisible)
+        //       Response.Redirect(AppConfig.SiteURL + "SONIC/ClaimInfo/ClaimNotesAP.aspx?viewIDs=" + Encryption.Encrypt(strPK) + "&FK_Claim=" + Encryption.Encrypt(PK_AL_CI_ID.ToString()) + "&tbl=" + "AP_AL_FROIs");
+        //else
+        Response.Redirect(AppConfig.SiteURL + "SONIC/ClaimInfo/ClaimNotesAP.aspx?viewIDs=" + Encryption.Encrypt(strPK) + "&FK_Claim=" + Encryption.Encrypt(FK_Table.ToString()) + "&tbl=" + CurrentClaimType + "&loc=" + Location_ID.ToString() + "&op=" + StrOperation);
+        //Response.Redirect("..//ClaimInfo//ClaimNotesAP.aspx?loc=" + Location_ID + "&FK_Claim=" + Encryption.Encrypt(FK_Table.ToString()) + "&tbl=" + CurrentClaimType);
+
     }
 
     /// <summary>
@@ -250,12 +266,10 @@ public partial class Controls_SonicClaimNotes_APNotes : System.Web.UI.UserContro
                 strPK = strPK + ((HtmlInputHidden)gRow.FindControl("hdnPK")).Value + ",";
         }
         strPK = strPK.TrimEnd(',');
-        clsGeneral.Claim_Tables claimtype = (clsGeneral.Claim_Tables)(Enum.Parse(typeof(clsGeneral.Claim_Tables), CurrentClaimType));
-        if (claimtype == clsGeneral.Claim_Tables.ALClaim)
-        {
-            clsPrintClaimNotes.PrintSelectedSonicNotes(strPK, clsGeneral.Claim_Tables.ALClaim.ToString(), PK_AL_CI_ID);
-        }
-       
+        
+        clsPrintClaimNotesAP.PrintSelectedSonicNotes(strPK, CurrentClaimType, FK_Table);
+        
+
     }
     //protected void GetPage()
     //{
