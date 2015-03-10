@@ -150,6 +150,11 @@ public class clsGeneral : System.Web.UI.Page
         AP_DPD_FROIs = 1
     }
 
+    public enum COIs_Tables : int
+    {
+        COIs = 1,
+    }
+
     public enum Exposure_Tables : int
     {
         Property_Building = 0,

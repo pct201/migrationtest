@@ -57,6 +57,7 @@ namespace ERIMS.DAL
         private string _Compliance_10;
         private decimal _FK_LU_Location_ID;
         private decimal? _Building_TIV;
+        private DateTime _Date_Requested;
         #endregion
 
 
@@ -405,6 +406,16 @@ namespace ERIMS.DAL
             get { return _FK_LU_Location_ID; }
             set { _FK_LU_Location_ID = value; }
         }
+
+        /// <summary> 
+        /// Gets or sets the FK_COI_Insureds value.
+        /// </summary>
+        public DateTime Date_Requested
+        {
+            get { return _Date_Requested; }
+            set { _Date_Requested = value; }
+        }
+
         #endregion
 
 
@@ -461,6 +472,7 @@ namespace ERIMS.DAL
             this._Compliance_09 = "";
             this._Compliance_10 = "";
             this._FK_LU_Location_ID = -1;
+            this._Date_Requested = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
         }
 
 
@@ -479,7 +491,7 @@ namespace ERIMS.DAL
 
                 DataRow drCOIs = dtCOIs.Rows[0];
                 this._PK_COIs = drCOIs["PK_COIs"] != DBNull.Value ? Convert.ToDecimal(drCOIs["PK_COIs"]) : 0;
-                this._Issue_Date = drCOIs["Issue_Date"] != DBNull.Value ? Convert.ToDateTime(drCOIs["Issue_Date"]) : (DateTime) System.Data.SqlTypes.SqlDateTime.MinValue;;
+                this._Issue_Date = drCOIs["Issue_Date"] != DBNull.Value ? Convert.ToDateTime(drCOIs["Issue_Date"]) : (DateTime) System.Data.SqlTypes.SqlDateTime.MinValue;
                 this._FK_COI_Insureds = drCOIs["FK_COI_Insureds"] != DBNull.Value ? Convert.ToDecimal(drCOIs["FK_COI_Insureds"]) : 0;
                 this._FK_COI_Risk_Profile = drCOIs["FK_COI_Risk_Profile"] != DBNull.Value ? Convert.ToDecimal(drCOIs["FK_COI_Risk_Profile"]) : 0;
                 this._Aggregate_Minimum = drCOIs["Aggregate_Minimum"] != DBNull.Value ? Convert.ToDecimal(drCOIs["Aggregate_Minimum"]) : 0;
@@ -521,6 +533,7 @@ namespace ERIMS.DAL
                 this._Compliance_09 = Convert.ToString(drCOIs["Compliance_09"]);
                 this._Compliance_10 = Convert.ToString(drCOIs["Compliance_10"]);
                 this._FK_LU_Location_ID = drCOIs["FK_LU_Location_ID"] != DBNull.Value ? Convert.ToDecimal(drCOIs["FK_LU_Location_ID"]) : 0;
+                this._Date_Requested = drCOIs["Date_Requested"] != DBNull.Value ? Convert.ToDateTime(drCOIs["Date_Requested"]) : (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
                 if (drCOIs["Building_TIV"] != DBNull.Value) this._Building_TIV = Convert.ToDecimal(drCOIs["Building_TIV"]); 
             }
 
@@ -571,7 +584,7 @@ namespace ERIMS.DAL
         /// <param name="update_Date"></param>
         /// <param name="updated_By"></param>
         /// <returns></returns>
-        public static int Insert(DateTime issue_Date, decimal fK_COI_Insureds, decimal fK_COI_Risk_Profile, decimal aggregate_Minimum, decimal umbrella_Minimum, string profle_Notes, string general_Required, string automobile_Required, string excess_Required, string wC_Required, string property_Required, string professional_Required, string liquor_Required, string signed_Certificate_Received, string primary_Provided, decimal cancellation_Notice, string all_Locations, string insured_Name_Same, string replacement_Cost, string endorsement_1, string endorsement_2, string cOI_Active, decimal fK_COI_Signature, string send_By_Email, string leveL_1_Text, string leveL_2_Text, string leveL_3_Text, string leveL_4_Text, DateTime update_Date, string updated_By, string insured_Compliant, string compliance_01, string compliance_02, string compliance_03, string compliance_04, string compliance_05, string compliance_06, string compliance_07, string compliance_08, string compliance_09, string compliance_10, decimal FK_LU_Location_ID, decimal? building_TIV)
+        public static int Insert(DateTime issue_Date, decimal fK_COI_Insureds, decimal fK_COI_Risk_Profile, decimal aggregate_Minimum, decimal umbrella_Minimum, string profle_Notes, string general_Required, string automobile_Required, string excess_Required, string wC_Required, string property_Required, string professional_Required, string liquor_Required, string signed_Certificate_Received, string primary_Provided, decimal cancellation_Notice, string all_Locations, string insured_Name_Same, string replacement_Cost, string endorsement_1, string endorsement_2, string cOI_Active, decimal fK_COI_Signature, string send_By_Email, string leveL_1_Text, string leveL_2_Text, string leveL_3_Text, string leveL_4_Text, DateTime update_Date, string updated_By, string insured_Compliant, string compliance_01, string compliance_02, string compliance_03, string compliance_04, string compliance_05, string compliance_06, string compliance_07, string compliance_08, string compliance_09, string compliance_10, decimal FK_LU_Location_ID, decimal? building_TIV, DateTime Date_Requested)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("COIsInsert");
@@ -623,6 +636,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Compliance_10", DbType.String, compliance_10);
             db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Decimal, FK_LU_Location_ID);
             db.AddInParameter(dbCommand, "Building_TIV", DbType.Decimal, building_TIV);
+            db.AddInParameter(dbCommand, "Date_Requested", DbType.DateTime, Date_Requested);
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -708,7 +722,7 @@ namespace ERIMS.DAL
         /// <param name="leveL_4_Text"></param>
         /// <param name="update_Date"></param>
         /// <param name="updated_By"></param>
-        public static void Update(decimal pK_COIs, DateTime issue_Date, decimal fK_COI_Insureds, decimal fK_COI_Risk_Profile, decimal aggregate_Minimum, decimal umbrella_Minimum, string profle_Notes, string general_Required, string automobile_Required, string excess_Required, string wC_Required, string property_Required, string professional_Required, string liquor_Required, string signed_Certificate_Received, string primary_Provided, decimal cancellation_Notice, string all_Locations, string insured_Name_Same, string replacement_Cost, string endorsement_1, string endorsement_2, string cOI_Active, decimal fK_COI_Signature, string send_By_Email, string leveL_1_Text, string leveL_2_Text, string leveL_3_Text, string leveL_4_Text, DateTime update_Date, string updated_By, string insured_Compliant, string compliance_01, string compliance_02, string compliance_03, string compliance_04, string compliance_05, string compliance_06, string compliance_07, string compliance_08, string compliance_09, string compliance_10, decimal FK_LU_Location_ID, decimal? building_TIV)
+        public static void Update(decimal pK_COIs, DateTime issue_Date, decimal fK_COI_Insureds, decimal fK_COI_Risk_Profile, decimal aggregate_Minimum, decimal umbrella_Minimum, string profle_Notes, string general_Required, string automobile_Required, string excess_Required, string wC_Required, string property_Required, string professional_Required, string liquor_Required, string signed_Certificate_Received, string primary_Provided, decimal cancellation_Notice, string all_Locations, string insured_Name_Same, string replacement_Cost, string endorsement_1, string endorsement_2, string cOI_Active, decimal fK_COI_Signature, string send_By_Email, string leveL_1_Text, string leveL_2_Text, string leveL_3_Text, string leveL_4_Text, DateTime update_Date, string updated_By, string insured_Compliant, string compliance_01, string compliance_02, string compliance_03, string compliance_04, string compliance_05, string compliance_06, string compliance_07, string compliance_08, string compliance_09, string compliance_10, decimal FK_LU_Location_ID, decimal? building_TIV, DateTime? Date_Requested)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("COIsUpdate");
@@ -761,6 +775,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Compliance_10", DbType.String, compliance_10);
             db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Decimal, FK_LU_Location_ID);
             db.AddInParameter(dbCommand, "Building_TIV", DbType.Decimal, building_TIV);
+            db.AddInParameter(dbCommand, "Date_Requested", DbType.DateTime, Date_Requested);
             db.ExecuteNonQuery(dbCommand);
         }
         /// <summary>
@@ -808,7 +823,7 @@ namespace ERIMS.DAL
         /// <returns>The primary key value for newly Inserted record</returns>
         public int Insert()
         {
-            return Insert(_Issue_Date, _FK_COI_Insureds, _FK_COI_Risk_Profile, _Aggregate_Minimum, _Umbrella_Minimum, _Profle_Notes, _General_Required, _Automobile_Required, _Excess_Required, _WC_Required, _Property_Required, _Professional_Required, _Liquor_Required, _Signed_Certificate_Received, _Primary_Provided, _Cancellation_Notice, _All_Locations, _Insured_Name_Same, _Replacement_Cost, _Endorsement_1, _Endorsement_2, _COI_Active, _FK_COI_Signature, _Send_By_Email, _LeveL_1_Text, _LeveL_2_Text, _LeveL_3_Text, _LeveL_4_Text, _Update_Date, _Updated_By, _Insured_Compliant, _Compliance_01, _Compliance_02, _Compliance_03, _Compliance_04, _Compliance_05, _Compliance_06, _Compliance_07, _Compliance_08, _Compliance_09, _Compliance_10, _FK_LU_Location_ID, _Building_TIV);
+            return Insert(_Issue_Date, _FK_COI_Insureds, _FK_COI_Risk_Profile, _Aggregate_Minimum, _Umbrella_Minimum, _Profle_Notes, _General_Required, _Automobile_Required, _Excess_Required, _WC_Required, _Property_Required, _Professional_Required, _Liquor_Required, _Signed_Certificate_Received, _Primary_Provided, _Cancellation_Notice, _All_Locations, _Insured_Name_Same, _Replacement_Cost, _Endorsement_1, _Endorsement_2, _COI_Active, _FK_COI_Signature, _Send_By_Email, _LeveL_1_Text, _LeveL_2_Text, _LeveL_3_Text, _LeveL_4_Text, _Update_Date, _Updated_By, _Insured_Compliant, _Compliance_01, _Compliance_02, _Compliance_03, _Compliance_04, _Compliance_05, _Compliance_06, _Compliance_07, _Compliance_08, _Compliance_09, _Compliance_10, _FK_LU_Location_ID, _Building_TIV, _Date_Requested);
         }
 
         /// <summary>
@@ -816,7 +831,7 @@ namespace ERIMS.DAL
         /// </summary>
         public void Update()
         {
-            Update(_PK_COIs, _Issue_Date, _FK_COI_Insureds, _FK_COI_Risk_Profile, _Aggregate_Minimum, _Umbrella_Minimum, _Profle_Notes, _General_Required, _Automobile_Required, _Excess_Required, _WC_Required, _Property_Required, _Professional_Required, _Liquor_Required, _Signed_Certificate_Received, _Primary_Provided, _Cancellation_Notice, _All_Locations, _Insured_Name_Same, _Replacement_Cost, _Endorsement_1, _Endorsement_2, _COI_Active, _FK_COI_Signature, _Send_By_Email, _LeveL_1_Text, _LeveL_2_Text, _LeveL_3_Text, _LeveL_4_Text, _Update_Date, _Updated_By, _Insured_Compliant, _Compliance_01, _Compliance_02, _Compliance_03, _Compliance_04, _Compliance_05, _Compliance_06, _Compliance_07, _Compliance_08, _Compliance_09, _Compliance_10, _FK_LU_Location_ID, _Building_TIV);
+            Update(_PK_COIs, _Issue_Date, _FK_COI_Insureds, _FK_COI_Risk_Profile, _Aggregate_Minimum, _Umbrella_Minimum, _Profle_Notes, _General_Required, _Automobile_Required, _Excess_Required, _WC_Required, _Property_Required, _Professional_Required, _Liquor_Required, _Signed_Certificate_Received, _Primary_Provided, _Cancellation_Notice, _All_Locations, _Insured_Name_Same, _Replacement_Cost, _Endorsement_1, _Endorsement_2, _COI_Active, _FK_COI_Signature, _Send_By_Email, _LeveL_1_Text, _LeveL_2_Text, _LeveL_3_Text, _LeveL_4_Text, _Update_Date, _Updated_By, _Insured_Compliant, _Compliance_01, _Compliance_02, _Compliance_03, _Compliance_04, _Compliance_05, _Compliance_06, _Compliance_07, _Compliance_08, _Compliance_09, _Compliance_10, _FK_LU_Location_ID, _Building_TIV, _Date_Requested);
         }
 
         /// <summary>

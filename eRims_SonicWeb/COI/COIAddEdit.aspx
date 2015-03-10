@@ -6,9 +6,12 @@
     TagPrefix="uc" %>
 <%@ Register Src="~/Controls/Attachment_COI/AttachmentDetails_COI.ascx" TagName="ctrlAttachmentDetails"
     TagPrefix="uc" %>
+<%@ Register Src="~/Controls/Navigation/Navigation.ascx" TagName="ctrlPaging" TagPrefix="uc" %>
 <%@ Register Src="~/Controls/Notes/Notes.ascx" TagName="ctrlNotes" TagPrefix="uc" %>
+<%@ Register Src="~/Controls/Notes/Notes.ascx" TagName="ctrlMultiLineTextBox" TagPrefix="uc" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <%@ Register Src="~/Controls/COIInfo/COIInfo.ascx" TagName="ctrlCOIInfo" TagPrefix="uc" %>
+<%@ Register Src="~/Controls/SonicClaimNotes/SonicNotes.ascx" TagName="ctrlSonicNotes" TagPrefix="uc" %>
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
     <script type="text/javascript" src="<%=AppConfig.SiteURL%>JavaScript/JFunctions.js"></script>
     <script type="text/javascript" src="<%=AppConfig.SiteURL%>JavaScript/calendar.js"></script>
@@ -91,112 +94,112 @@ function Navigate_URL(PageName) {
         }
         else {
             document.getElementById('<%=hdnPageName.ClientID%>').value = PageName; document.getElementById('<%=btnDummyForSave.ClientID%>').click();
-                    /////__doPostBack('ctl00$ContentPlaceHolder1$btnSave', PageName); 
-                }
-            }
+            /////__doPostBack('ctl00$ContentPlaceHolder1$btnSave', PageName); 
         }
-        // Redirect to Page
-        function RedirectToPage(PageName) {
-            if (PageName.indexOf("?") > 0)
-                window.location.href = PageName + '&coi=<%=PK_COIs_Encrypt%>&op=<%=Request.QueryString["op"]%>';
-            else
-                window.location.href = PageName + '?coi=<%=PK_COIs_Encrypt%>';
+    }
+}
+// Redirect to Page
+function RedirectToPage(PageName) {
+    if (PageName.indexOf("?") > 0)
+        window.location.href = PageName + '&coi=<%=PK_COIs_Encrypt%>&op=<%=Request.QueryString["op"]%>';
+    else
+        window.location.href = PageName + '?coi=<%=PK_COIs_Encrypt%>';
+}
+
+function ConfirmDelete() {
+    return confirm("Are you sure that you want to remove the data that was selected for deletion?");
+}
+
+var currIndex = 1;
+
+function ShowPrevNext(index) {
+    ShowPanel(parseInt(currIndex, 10) + parseInt(index, 10));
+}
+//Set Menu Style on Selection
+function SetMenuStyle(index) {
+
+    var i;
+    for (i = 1; i <= 11; i++) {
+        var tb = document.getElementById("Menu" + i);
+        if (i == index) {
+            tb.className = "LeftMenuSelected";
+            tb.onmouseover = function () { this.className = 'LeftMenuSelected'; }
+            tb.onmouseout = function () { this.className = 'LeftMenuSelected'; }
+        }
+        else {
+            tb.className = "LeftMenuStatic";
+            tb.onmouseover = function () { this.className = 'LeftMenuHover'; }
+            tb.onmouseout = function () { this.className = 'LeftMenuStatic'; }
         }
 
-        function ConfirmDelete() {
-            return confirm("Are you sure that you want to remove the data that was selected for deletion?");
-        }
+    }
+    var prev = document.getElementById('<%=btnPrev.ClientID%>');
+    var next = document.getElementById('<%=btnNext.ClientID%>');
+    if (index == 1) {
+        prev.disabled = true;
+        next.disabled = false;
+    }
+    else if (index == 11) {
+        prev.disabled = false;
+        next.disabled = true;
+    }
+    else {
+        prev.disabled = false;
+        next.disabled = false;
+    }
 
-        var currIndex = 1;
+    var prevview = document.getElementById('<%=btnPreviousView.ClientID%>');
+    var nextview = document.getElementById('<%=btnNextView.ClientID%>');
+    if (index == 1) {
+        prevview.disabled = true;
+        nextview.disabled = false;
+    }
+    else if (index == 11) {
+        prevview.disabled = false;
+        nextview.disabled = true;
+    }
+    else {
+        prevview.disabled = false;
+        nextview.disabled = false;
+    }
+}
+//function CheckGeneralGrid() {
+//    document.getElementById("tblGeneralYes").style.display = "";
+//    document.getElementById("tblGeneralNo").style.display = "None";
+//}
+//function CheckAutomobileGrid() {
+//    document.getElementById("tblAutomobileYes").style.display = "";
+//    document.getElementById("tblAutomobileNo").style.display = "None";
+//}
+//function CheckExcessGrid() {
+//    document.getElementById("tblExcessYes").style.display = "";
+//    document.getElementById("tblExcessNo").style.display = "None";
+//}
+//function CheckWCGrid() {
+//    document.getElementById("tblWCYes").style.display = "";
+//    document.getElementById("tblWCNo").style.display = "None";
+//}
+//function CheckPropertyGrid() {
+//    document.getElementById("tblPropertyYes").style.display = "";
+//    document.getElementById("tblPropertyNo").style.display = "None";
+//}
+//function CheckProfessionalGrid() {
+//    document.getElementById("tblProfessionalYes").style.display = "";
+//    document.getElementById("tblProfessionalNo").style.display = "None";
+//}
+//function CheckLiabilityGrid() {
+//    document.getElementById("tblLiabilityYes").style.display = "";
+//    document.getElementById("tblLiabilityNo").style.display = "None";
+//}
+// Display Selected Panel and Hide other in Edit Mode       
+function ShowPanel(index) {
+    currIndex = index;
+    SetMenuStyle(index);
+    var i;
+    var op = '<%=StrOperation%>';
 
-        function ShowPrevNext(index) {
-            ShowPanel(parseInt(currIndex, 10) + parseInt(index, 10));
-        }
-        //Set Menu Style on Selection
-        function SetMenuStyle(index) {
-
-            var i;
-            for (i = 1; i <= 10; i++) {
-                var tb = document.getElementById("Menu" + i);
-                if (i == index) {
-                    tb.className = "LeftMenuSelected";
-                    tb.onmouseover = function () { this.className = 'LeftMenuSelected'; }
-                    tb.onmouseout = function () { this.className = 'LeftMenuSelected'; }
-                }
-                else {
-                    tb.className = "LeftMenuStatic";
-                    tb.onmouseover = function () { this.className = 'LeftMenuHover'; }
-                    tb.onmouseout = function () { this.className = 'LeftMenuStatic'; }
-                }
-
-            }
-            var prev = document.getElementById('<%=btnPrev.ClientID%>');
-            var next = document.getElementById('<%=btnNext.ClientID%>');
-            if (index == 1) {
-                prev.disabled = true;
-                next.disabled = false;
-            }
-            else if (index == 10) {
-                prev.disabled = false;
-                next.disabled = true;
-            }
-            else {
-                prev.disabled = false;
-                next.disabled = false;
-            }
-
-            var prevview = document.getElementById('<%=btnPreviousView.ClientID%>');
-            var nextview = document.getElementById('<%=btnNextView.ClientID%>');
-            if (index == 1) {
-                prevview.disabled = true;
-                nextview.disabled = false;
-            }
-            else if (index == 10) {
-                prevview.disabled = false;
-                nextview.disabled = true;
-            }
-            else {
-                prevview.disabled = false;
-                nextview.disabled = false;
-            }
-        }
-        //function CheckGeneralGrid() {
-        //    document.getElementById("tblGeneralYes").style.display = "";
-        //    document.getElementById("tblGeneralNo").style.display = "None";
-        //}
-        //function CheckAutomobileGrid() {
-        //    document.getElementById("tblAutomobileYes").style.display = "";
-        //    document.getElementById("tblAutomobileNo").style.display = "None";
-        //}
-        //function CheckExcessGrid() {
-        //    document.getElementById("tblExcessYes").style.display = "";
-        //    document.getElementById("tblExcessNo").style.display = "None";
-        //}
-        //function CheckWCGrid() {
-        //    document.getElementById("tblWCYes").style.display = "";
-        //    document.getElementById("tblWCNo").style.display = "None";
-        //}
-        //function CheckPropertyGrid() {
-        //    document.getElementById("tblPropertyYes").style.display = "";
-        //    document.getElementById("tblPropertyNo").style.display = "None";
-        //}
-        //function CheckProfessionalGrid() {
-        //    document.getElementById("tblProfessionalYes").style.display = "";
-        //    document.getElementById("tblProfessionalNo").style.display = "None";
-        //}
-        //function CheckLiabilityGrid() {
-        //    document.getElementById("tblLiabilityYes").style.display = "";
-        //    document.getElementById("tblLiabilityNo").style.display = "None";
-        //}
-        // Display Selected Panel and Hide other in Edit Mode       
-        function ShowPanel(index) {
-            currIndex = index;
-            SetMenuStyle(index);
-            var i;
-            var op = '<%=StrOperation%>';
-
-            if (op == "view") {
-                document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
+    if (op == "view") {
+        document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
                 ShowPanelView(index);
             }
             else {
@@ -216,113 +219,135 @@ function Navigate_URL(PageName) {
                     }
                     document.getElementById("ctl00_ContentPlaceHolder1_Div1").style.display = "none";
                     document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
+                    document.getElementById("ctl00_ContentPlaceHolder1_Div2").style.display = "none";
 
                 }
                 else {
-
                     for (i = 1; i <= 13; i++) {
                         document.getElementById("ctl00_ContentPlaceHolder1_Panel" + i).style.display = "none";
                     }
-                    document.getElementById("ctl00_ContentPlaceHolder1_Panel1").style.display = "none";
-                    document.getElementById("ctl00_ContentPlaceHolder1_Div1").style.display = "block";
-                    document.getElementById("<%=dvAttachment.ClientID%>").style.display = "block";
+                    if (index == 10) {
+                        document.getElementById("ctl00_ContentPlaceHolder1_Div2").style.display = "block";
+                        document.getElementById("ctl00_ContentPlaceHolder1_Div1").style.display = "none";
+                        document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
+                    }
+                    else if (index == 11) {
+                        document.getElementById("ctl00_ContentPlaceHolder1_Panel1").style.display = "none";
+                        document.getElementById("ctl00_ContentPlaceHolder1_Div2").style.display = "none";
+                        document.getElementById("ctl00_ContentPlaceHolder1_Div1").style.display = "block";
+                        document.getElementById("<%=dvAttachment.ClientID%>").style.display = "block";
 
-                }
+                    }
+
+            }
                 //onSubleaseChange();
-                SetFocusOnFirstControl(index);
-            }
-
+            SetFocusOnFirstControl(index);
         }
 
-        function SetFocusOnFirstControl(index) {
-            switch (index) {
-                case 1:
-                    document.getElementById('ctl00_ContentPlaceHolder1_rdoSubleaseAgreement_0').focus(); break;
-                case 2:
-                    document.getElementById('ctl00_ContentPlaceHolder1_drpRiskProfile').focus(); break;
-                case 3:
-                    document.getElementById('ctl00_ContentPlaceHolder1_rdoSignedRecieved_0').focus(); break;
-                case 4:
-                    document.getElementById('ctl00_ContentPlaceHolder1_rdoCOIActive_0').focus(); break;
-                case 5:
-                    document.getElementById('ctl00_ContentPlaceHolder1_lnkProducersAdd').focus(); break;
-                case 6:
-                    document.getElementById('ctl00_ContentPlaceHolder1_lnkCompaniesAdd').focus(); break;
-                case 7:
-                    document.getElementById('ctl00_ContentPlaceHolder1_rdoGeneralRequired_0').focus(); break;
-                case 8:
-                    document.getElementById('ctl00_ContentPlaceHolder1_lnkOwnersAdd').focus(); break;
-                case 9:
-                    document.getElementById('ctl00_ContentPlaceHolder1_lnkCopiesAdd').focus(); break;
-                case 10:
-                    document.getElementById('ctl00_ContentPlaceHolder1_Attachment_drpAttachType').focus();
-                    break;
-                default:
-                    break;
-            }
+    }
+
+    function SetFocusOnFirstControl(index) {
+        switch (index) {
+            case 1:
+                document.getElementById('ctl00_ContentPlaceHolder1_rdoSubleaseAgreement_0').focus(); break;
+            case 2:
+                document.getElementById('ctl00_ContentPlaceHolder1_drpRiskProfile').focus(); break;
+            case 3:
+                document.getElementById('ctl00_ContentPlaceHolder1_rdoSignedRecieved_0').focus(); break;
+            case 4:
+                document.getElementById('ctl00_ContentPlaceHolder1_rdoCOIActive_0').focus(); break;
+            case 5:
+                document.getElementById('ctl00_ContentPlaceHolder1_lnkProducersAdd').focus(); break;
+            case 6:
+                document.getElementById('ctl00_ContentPlaceHolder1_lnkCompaniesAdd').focus(); break;
+            case 7:
+                document.getElementById('ctl00_ContentPlaceHolder1_rdoGeneralRequired_0').focus(); break;
+            case 8:
+                document.getElementById('ctl00_ContentPlaceHolder1_lnkOwnersAdd').focus(); break;
+            case 9:
+                document.getElementById('ctl00_ContentPlaceHolder1_lnkCopiesAdd').focus(); break;
+            case 10:
+                document.getElementById('ctl00_ContentPlaceHolder1_Attachment_drpAttachType').focus();
+                break;
+            default:
+                break;
         }
+    }
 
-        // Display Selected Panel and Hide other in View Mode          
-        function ShowPanelView(index) {
-            SetMenuStyle(index);
-            document.getElementById('<%=dvView.ClientID%>').style.display = "block";
+    // Display Selected Panel and Hide other in View Mode          
+    function ShowPanelView(index) {
+        SetMenuStyle(index);
+        document.getElementById('<%=dvView.ClientID%>').style.display = "block";
 
-            document.getElementById("<%=dvGrids.ClientID%>").style.display = "block";
+        document.getElementById("<%=dvGrids.ClientID%>").style.display = "block";
 
-            var i;
-            if (index < 10) {
-                for (i = 1; i <= 13; i++) {
+        var i;
+        if (index < 10) {
+            for (i = 1; i <= 13; i++) {
 
-                    document.getElementById("ctl00_ContentPlaceHolder1_Panel" + i).style.display = "none";
-                }
-                document.getElementById("ctl00_ContentPlaceHolder1_Panel" + (4 + index)).style.display = "block";
-
+                document.getElementById("ctl00_ContentPlaceHolder1_Panel" + i).style.display = "none";
             }
-            else {
-                for (i = 1; i <= 13; i++) {
+            document.getElementById("ctl00_ContentPlaceHolder1_Panel" + (4 + index)).style.display = "block";
+            document.getElementById("ctl00_ContentPlaceHolder1_Div1").style.display = "none";
+            document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
+            document.getElementById("ctl00_ContentPlaceHolder1_Div2").style.display = "none";
+        }
+        else {
+            for (i = 1; i <= 13; i++) {
 
-                    document.getElementById("ctl00_ContentPlaceHolder1_Panel" + i).style.display = "none";
-                }
+                document.getElementById("ctl00_ContentPlaceHolder1_Panel" + i).style.display = "none";
+            }
+            if (index == 10) {
+                document.getElementById("ctl00_ContentPlaceHolder1_Div2").style.display = "block";
+                document.getElementById("ctl00_ContentPlaceHolder1_Div1").style.display = "none";
+                document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
+            }
+            else if (index == 11) {
+                document.getElementById("ctl00_ContentPlaceHolder1_Panel1").style.display = "none";
+                document.getElementById("ctl00_ContentPlaceHolder1_Div2").style.display = "none";
+                document.getElementById("ctl00_ContentPlaceHolder1_Div1").style.display = "block";
                 document.getElementById("<%=dvAttachment.ClientID%>").style.display = "block";
+                }
+                //document.getElementById("<=dvAttachment.ClientID%>").style.display = "block";
 
-           }
-       }
+        }
+    }
 
-       function onSubleaseChangePanel() {
+    function onSubleaseChangePanel() {
 
-           var SubleaseYes = document.getElementById("ctl00_ContentPlaceHolder1_rdoSubleaseAgreement_0");
-           var SubleaseNo = document.getElementById("ctl00_ContentPlaceHolder1_rdoSubleaseAgreement_1");
-           var btnInsuredname = document.getElementById('ctl00_ContentPlaceHolder1_btnInsuredName');
-           var ddlDBA = document.getElementById('ctl00_ContentPlaceHolder1_ddlDBA');
-           if (SubleaseYes.checked) {
-               btnInsuredname.disabled = false;
-               ddlDBA.disabled = true;
-           }
-           else if (SubleaseNo.checked) {
-               btnInsuredname.disabled = true;
-               ddlDBA.disabled = false;
-           }
-       }
+        var SubleaseYes = document.getElementById("ctl00_ContentPlaceHolder1_rdoSubleaseAgreement_0");
+        var SubleaseNo = document.getElementById("ctl00_ContentPlaceHolder1_rdoSubleaseAgreement_1");
+        var btnInsuredname = document.getElementById('ctl00_ContentPlaceHolder1_btnInsuredName');
+        var ddlDBA = document.getElementById('ctl00_ContentPlaceHolder1_ddlDBA');
+        if (SubleaseYes.checked) {
+            btnInsuredname.disabled = false;
+            ddlDBA.disabled = true;
+        }
+        else if (SubleaseNo.checked) {
+            btnInsuredname.disabled = true;
+            ddlDBA.disabled = false;
+        }
+    }
 
-       function onSubleaseChange() {
-           var SubleaseYes = document.getElementById("ctl00_ContentPlaceHolder1_rdoSubleaseAgreement_0");
-           var SubleaseNo = document.getElementById("ctl00_ContentPlaceHolder1_rdoSubleaseAgreement_1");
-           var btnInsuredname = document.getElementById('ctl00_ContentPlaceHolder1_btnInsuredName');
-           var ddlDBA = document.getElementById('ctl00_ContentPlaceHolder1_ddlDBA');
-           var txtName = document.getElementById('ctl00_ContentPlaceHolder1_txtName');
-           var txtContactLastName = document.getElementById('ctl00_ContentPlaceHolder1_txtContactLastName');
-           var txtContactFirstName = document.getElementById('ctl00_ContentPlaceHolder1_txtContactFirstName');
-           var txtContactTitle = document.getElementById('ctl00_ContentPlaceHolder1_txtContactTitle');
-           var txtContactPhone = document.getElementById('ctl00_ContentPlaceHolder1_txtContactPhone');
-           var txtContactFax = document.getElementById('ctl00_ContentPlaceHolder1_txtContactFax');
-           var txtContactEmail = document.getElementById('ctl00_ContentPlaceHolder1_txtContactEmail');
-           var drpRegion = document.getElementById('ctl00_ContentPlaceHolder1_drpRegion');
-           var hdnPK_Building_Ownership_ID = document.getElementById('ctl00_ContentPlaceHolder1_hdnPK_Building_Ownership_ID');
-           var txtSublease = document.getElementById('ctl00_ContentPlaceHolder1_txtSubleaseName');
-           var txtLandlord = document.getElementById('ctl00_ContentPlaceHolder1_txtLandlordName');
-           var BuildingGridAdd = document.getElementById('ctl00_ContentPlaceHolder1_lnkAddBuilding');
-           var BuildingGrid = document.getElementById('ctl00_ContentPlaceHolder1_gvBuildingInformation');
-           var op = '<%=StrOperation%>';
+    function onSubleaseChange() {
+        var SubleaseYes = document.getElementById("ctl00_ContentPlaceHolder1_rdoSubleaseAgreement_0");
+        var SubleaseNo = document.getElementById("ctl00_ContentPlaceHolder1_rdoSubleaseAgreement_1");
+        var btnInsuredname = document.getElementById('ctl00_ContentPlaceHolder1_btnInsuredName');
+        var ddlDBA = document.getElementById('ctl00_ContentPlaceHolder1_ddlDBA');
+        var txtName = document.getElementById('ctl00_ContentPlaceHolder1_txtName');
+        var txtContactLastName = document.getElementById('ctl00_ContentPlaceHolder1_txtContactLastName');
+        var txtContactFirstName = document.getElementById('ctl00_ContentPlaceHolder1_txtContactFirstName');
+        var txtContactTitle = document.getElementById('ctl00_ContentPlaceHolder1_txtContactTitle');
+        var txtContactPhone = document.getElementById('ctl00_ContentPlaceHolder1_txtContactPhone');
+        var txtContactFax = document.getElementById('ctl00_ContentPlaceHolder1_txtContactFax');
+        var txtContactEmail = document.getElementById('ctl00_ContentPlaceHolder1_txtContactEmail');
+        var drpRegion = document.getElementById('ctl00_ContentPlaceHolder1_drpRegion');
+        var hdnPK_Building_Ownership_ID = document.getElementById('ctl00_ContentPlaceHolder1_hdnPK_Building_Ownership_ID');
+        var txtSublease = document.getElementById('ctl00_ContentPlaceHolder1_txtSubleaseName');
+        var txtLandlord = document.getElementById('ctl00_ContentPlaceHolder1_txtLandlordName');
+        var BuildingGridAdd = document.getElementById('ctl00_ContentPlaceHolder1_lnkAddBuilding');
+        var BuildingGrid = document.getElementById('ctl00_ContentPlaceHolder1_gvBuildingInformation');
+        var op = '<%=StrOperation%>';
 
             txtName.disabled = SubleaseYes.checked;
             txtContactLastName.disabled = SubleaseYes.checked;
@@ -380,7 +405,7 @@ function Navigate_URL(PageName) {
                 document.getElementById('ctl00_ContentPlaceHolder1_hdnPK_Building_Ownership_ID').value = 0;
                 //Check Span Validation 
                 var ctrlIDs = document.getElementById('<%=hdnControlIDs.ClientID%>').value.split(',');
-                if (document.getElementById('<%=hdnControlIDs.ClientID%>').value != "") {
+               if (document.getElementById('<%=hdnControlIDs.ClientID%>').value != "") {
                     var i = 0;
                     for (i = 0; i < ctrlIDs.length; i++) {
                         var ctrl = document.getElementById(ctrlIDs[i]);
@@ -393,8 +418,8 @@ function Navigate_URL(PageName) {
                                     if (rdb.checked) {
                                         if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtName')
                                             document.getElementById('<%=Span1.ClientID %>').style.display = "";
-                                        else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtContactLastName')
-                                            document.getElementById('<%=Span6.ClientID %>').style.display = "";
+                                       else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtContactLastName')
+                                           document.getElementById('<%=Span6.ClientID %>').style.display = "";
                                         else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtContactFirstName')
                                             document.getElementById('<%=Span8.ClientID %>').style.display = "";
                                         else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtContactTitle')
@@ -523,6 +548,31 @@ function ValidateFields(sender, args) {
         args.IsValid = true;
     }
 }
+    //For Sonic Notes Validation
+    function CheckSelectedSonicNotes(buttonType) {
+        var ctrls = document.getElementsByTagName('input');
+        var i, chkID;
+        var cnt = 0;
+        chkID = "chkSelectSonicNotes";
+        for (i = 0; i < ctrls.length; i++) {
+            if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
+                if (ctrls[i].checked)
+                    cnt++;
+            }
+        }
+
+        if (cnt == 0) {
+            if (buttonType == "View")
+                alert("Please select Note(s) to View");
+            else
+                alert("Please select Note(s) to Print");
+
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
     </script>
     <script type="text/javascript">
         var GB_ROOT_DIR = '<%=AppConfig.SiteURL%>' + 'greybox/';
@@ -539,7 +589,7 @@ function ValidateFields(sender, args) {
                 return false;
             }
         }
-        
+
     </script>
     <link href="<%=AppConfig.SiteURL%>greybox/gb_styles.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="<%=AppConfig.SiteURL%>greybox/AJS.js"></script>
@@ -631,7 +681,12 @@ function ValidateFields(sender, args) {
                         </tr>
                         <tr>
                             <td align="left" width="100%">
-                                <span id="Menu10" onclick="javascript:ShowPanel(10);" class="LeftMenuStatic">Attachment</span>
+                                <span id="Menu10" onclick="javascript:ShowPanel(10);" class="LeftMenuStatic">Notes</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" width="100%">
+                                <span id="Menu11" onclick="javascript:ShowPanel(11);" class="LeftMenuStatic">Attachment</span>
                             </td>
                         </tr>
                         <tr>
@@ -656,13 +711,28 @@ function ValidateFields(sender, args) {
                                                 </td>
                                                 <td align="center">:
                                                 </td>
-                                                <td align="left" colspan="4">
+                                                <td align="left">
                                                     <%--<asp:RadioButtonList ID="rdoSubleaseAgreement" runat="server" SkinID="YesNoType" onclick="javascript:return onSubleaseChange();">
                                                     </asp:RadioButtonList>--%>
                                                     <asp:RadioButtonList ID="rdoSubleaseAgreement" runat="server" SkinID="YesNoType">
                                                     </asp:RadioButtonList>
                                                 </td>
-                                                <td>&nbsp;
+                                                <td></td>
+                                                <td width="23%" align="left" class="lblValignTop">Date Requested&nbsp;<span id="Span3" style="color: Red; display: none; position: absolute"
+                                                    runat="server">*</span>
+                                                </td>
+                                                <td width="2%" align="center" class="lblValignTop">:
+                                                </td>
+                                                <td width="28%" align="left" class="lblValignTop">
+                                                    <asp:TextBox ID="txtDateRequested" runat="server" SkinID="txtdate" MaxLength="10"></asp:TextBox>
+                                                    <img alt="" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtDateRequested', 'mm/dd/y');"
+                                                        onmouseover="javascript:this.style.cursor='hand';" src="<%=AppConfig.SiteURL%>JavaScript/iconPicDate.gif"
+                                                        align="absmiddle" />
+                                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtDateRequested"
+                                                        ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"
+                                                        ErrorMessage="Please Enter Valid [Insured]/Date Requested" Display="none" SetFocusOnError="true"
+                                                        ValidationGroup="vsErrorGroup">
+                                                    </asp:RegularExpressionValidator>
                                                 </td>
                                             </tr>
                                             <tr valign="top">
@@ -740,7 +810,7 @@ function ValidateFields(sender, args) {
                                                     <table cellpadding="1" cellspacing="1" width="100%">
                                                         <tr>
                                                             <td width="15%" align="left" valign="top">Building Grid<br />
-                                                                <asp:LinkButton ID="lnkAddBuilding" runat="server" OnClick="lnkAddBuilding_Click" CausesValidation="false">--Add--</asp:LinkButton>                                                                    
+                                                                <asp:LinkButton ID="lnkAddBuilding" runat="server" OnClick="lnkAddBuilding_Click" CausesValidation="false">--Add--</asp:LinkButton>
                                                             </td>
                                                             <td width="2%" align="center" valign="top">:
                                                             </td>
@@ -753,7 +823,7 @@ function ValidateFields(sender, args) {
                                                                                 <a id="aLinkEdit" href='COIInsuredBuilding.aspx?coi=<%=PK_COIs_Encrypt%>&op=edit&id=<%# Encryption.Encrypt(Eval("Building_Number").ToString())%>'>
                                                                                     <%#Eval("Building_Number")%></a>
                                                                             </ItemTemplate>
-                                                                        </asp:TemplateField>                                                                        
+                                                                        </asp:TemplateField>
                                                                         <asp:TemplateField HeaderText="Address" HeaderStyle-HorizontalAlign="Left">
                                                                             <ItemStyle HorizontalAlign="left" VerticalAlign="Top" />
                                                                             <ItemTemplate>
@@ -993,7 +1063,7 @@ function ValidateFields(sender, args) {
                                                         TabIndex="1">
                                                     </asp:RadioButtonList>
                                                 </td>
-                                               <%-- <td width="1%">&nbsp;
+                                                <%-- <td width="1%">&nbsp;
                                                 </td>--%>
                                                 <td width="29%" align="left" valign="top">Certificate Includes Notice of Cancellation of&nbsp;<span id="Span24" style="color: Red; display: none;"
                                                     runat="server">*</span>
@@ -1189,10 +1259,17 @@ function ValidateFields(sender, args) {
                                                 </td>
                                                 <td align="center">:
                                                 </td>
-                                                <td align="left" colspan="4">
+                                                <td align="left">
                                                     <asp:Label ID="lblSuleaseAgreement" runat="server">   </asp:Label>
                                                 </td>
                                                 <td>&nbsp;
+                                                </td>
+                                                <td width="23%" align="left" class="lblValignTop">Date Requested
+                                                </td>
+                                                <td width="2%" align="center" class="lblValignTop">:
+                                                </td>
+                                                <td width="28%" align="left" class="lblValignTop">
+                                                    <asp:Label ID="lblDateRequested" runat="server" />
                                                 </td>
                                             </tr>
                                             <tr valign="top">
@@ -1484,7 +1561,7 @@ function ValidateFields(sender, args) {
                                                                     <td width="20%" align="left" valign="top">
                                                                         <asp:Label ID="lblIsTurnedOn" runat="server"></asp:Label>
                                                                     </td>
-                                                                   <%-- <td width="2%">&nbsp;
+                                                                    <%-- <td width="2%">&nbsp;
                                                                     </td>--%>
                                                                 </tr>
                                                             </table>
@@ -1791,35 +1868,31 @@ function ValidateFields(sender, args) {
                                                                     </asp:TemplateField>
                                                                 </Columns>
                                                                 <EmptyDataTemplate>
-                                                                    <table cellpadding="4" cellspacing="0" width="100%" style="border-collapse: collapse; font-family: Tahoma; color: #333333; font-size: 8pt; display:none;" runat="server" id="tblGeneralYes">
+                                                                    <table cellpadding="4" cellspacing="0" width="100%" style="border-collapse: collapse; font-family: Tahoma; color: #333333; font-size: 8pt; display: none;" runat="server" id="tblGeneralYes">
                                                                         <%--<tbody>--%>
-                                                                            <tr align="left" style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt; font-weight: bold;">
-                                                                                <th scope="col" width="40%">
-                                                                                    Carrier
-                                                                                </th>
-                                                                                <th scope="col" width="20%">
-                                                                                    Limit
-                                                                                </th>
-                                                                                <th scope="col" width="20%">
-                                                                                    Risk
-                                                                                </th>
-                                                                                <th scope="col" width="20%">
-                                                                                    Remove
-                                                                                </th>
-                                                                            </tr>
-                                                                            <tr style="background-color: #eaeaea; font-family: Tahoma; font-size: 8pt;">
-                                                                                <td align="left">
-                                                                                    <asp:Label ID="lblMsg" runat="server" SkinID="Message" Text="No data has been entered for General Policies"></asp:Label>
-                                                                                </td>
-                                                                                <td></td>
-                                                                                <td align="left">
-                                                                                    <img id="imgRisk" src='..\Images\rdb-red.gif' alt="nodata" /></td>
-                                                                                <td></td>
-                                                                            </tr>
+                                                                        <tr align="left" style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt; font-weight: bold;">
+                                                                            <th scope="col" width="40%">Carrier
+                                                                            </th>
+                                                                            <th scope="col" width="20%">Limit
+                                                                            </th>
+                                                                            <th scope="col" width="20%">Risk
+                                                                            </th>
+                                                                            <th scope="col" width="20%">Remove
+                                                                            </th>
+                                                                        </tr>
+                                                                        <tr style="background-color: #eaeaea; font-family: Tahoma; font-size: 8pt;">
+                                                                            <td align="left">
+                                                                                <asp:Label ID="lblMsg" runat="server" SkinID="Message" Text="No data has been entered for General Policies"></asp:Label>
+                                                                            </td>
+                                                                            <td></td>
+                                                                            <td align="left">
+                                                                                <img id="imgRisk" src='..\Images\rdb-red.gif' alt="nodata" /></td>
+                                                                            <td></td>
+                                                                        </tr>
                                                                         <%--</tbody>--%>
                                                                     </table>
-                                                                    <table cellpadding="0" cellspacing="0" width="100%"  id="tblGeneralNo" runat="server">
-                                                                            <tr>
+                                                                    <table cellpadding="0" cellspacing="0" width="100%" id="tblGeneralNo" runat="server">
+                                                                        <tr>
                                                                             <td align="center">
                                                                                 <asp:Label ID="Label1" runat="server" SkinID="Message" Text="No data has been entered for General Policies"></asp:Label>
                                                                             </td>
@@ -1890,34 +1963,30 @@ function ValidateFields(sender, args) {
                                                                     </asp:TemplateField>
                                                                 </Columns>
                                                                 <EmptyDataTemplate>
-                                                                    <table cellpadding="4" cellspacing="0" width="100%" style="border-collapse: collapse; font-family: Tahoma; color: #333333; font-size: 8pt; display:none;" runat="server" id="tblAutomobileYes">
+                                                                    <table cellpadding="4" cellspacing="0" width="100%" style="border-collapse: collapse; font-family: Tahoma; color: #333333; font-size: 8pt; display: none;" runat="server" id="tblAutomobileYes">
                                                                         <%--<tbody>--%>
-                                                                            <tr align="left" style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt; font-weight: bold;">
-                                                                                <th scope="col" width="40%">
-                                                                                    Carrier
-                                                                                </th>
-                                                                                <th scope="col" width="20%">
-                                                                                    Limit
-                                                                                </th>
-                                                                                <th scope="col" width="20%">
-                                                                                    Risk
-                                                                                </th>
-                                                                                <th scope="col" width="20%">
-                                                                                    Remove
-                                                                                </th>
-                                                                            </tr>
-                                                                            <tr style="background-color: #eaeaea; font-family: Tahoma; font-size: 8pt;">
-                                                                                <td align="left">
-                                                                                    <asp:Label ID="lblMsg" runat="server" SkinID="Message" Text="No data has been entered for Automobile Policies"></asp:Label>
-                                                                                </td>
-                                                                                <td></td>
-                                                                                <td align="left">
-                                                                                    <img id="imgRisk" src='..\Images\rdb-red.gif' alt="nodata" /></td>
-                                                                                <td></td>
-                                                                            </tr>
-                                                                        <%--</tbody>--%>                                                                        
+                                                                        <tr align="left" style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt; font-weight: bold;">
+                                                                            <th scope="col" width="40%">Carrier
+                                                                            </th>
+                                                                            <th scope="col" width="20%">Limit
+                                                                            </th>
+                                                                            <th scope="col" width="20%">Risk
+                                                                            </th>
+                                                                            <th scope="col" width="20%">Remove
+                                                                            </th>
+                                                                        </tr>
+                                                                        <tr style="background-color: #eaeaea; font-family: Tahoma; font-size: 8pt;">
+                                                                            <td align="left">
+                                                                                <asp:Label ID="lblMsg" runat="server" SkinID="Message" Text="No data has been entered for Automobile Policies"></asp:Label>
+                                                                            </td>
+                                                                            <td></td>
+                                                                            <td align="left">
+                                                                                <img id="imgRisk" src='..\Images\rdb-red.gif' alt="nodata" /></td>
+                                                                            <td></td>
+                                                                        </tr>
+                                                                        <%--</tbody>--%>
                                                                     </table>
-                                                                    <table cellpadding="0" cellspacing="0" width="100%"  id="tblAutomobileNo" runat="server">
+                                                                    <table cellpadding="0" cellspacing="0" width="100%" id="tblAutomobileNo" runat="server">
                                                                         <tr>
                                                                             <td align="center">
                                                                                 <asp:Label ID="lblAutomobileMsg" runat="server" SkinID="Message" Text="No data has been entered for Automobile Policies"></asp:Label>
@@ -1989,31 +2058,27 @@ function ValidateFields(sender, args) {
                                                                     </asp:TemplateField>
                                                                 </Columns>
                                                                 <EmptyDataTemplate>
-                                                                    <table cellpadding="4" cellspacing="0" width="100%" style="border-collapse: collapse; font-family: Tahoma; color: #333333; font-size: 8pt; display:none;" id="tblExcessYes" runat="server">
-                                                                         <%--<tbody>--%>
-                                                                            <tr align="left" style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt; font-weight: bold;">
-                                                                                <th scope="col" width="40%">
-                                                                                    Carrier
-                                                                                </th>
-                                                                                <th scope="col" width="20%">
-                                                                                    Limit
-                                                                                </th>
-                                                                                <th scope="col" width="20%">
-                                                                                    Risk
-                                                                                </th>
-                                                                                <th scope="col" width="20%">
-                                                                                    Remove
-                                                                                </th>
-                                                                            </tr>
-                                                                            <tr style="background-color: #eaeaea; font-family: Tahoma; font-size: 8pt;">
-                                                                                <td align="left">
-                                                                                    <asp:Label ID="lblExcessYMsg" runat="server" SkinID="Message" Text="No data has been entered for Excess Policies"></asp:Label>
-                                                                                </td>
-                                                                                <td></td>
-                                                                                <td align="left">
-                                                                                    <img id="imgRisk" src='..\Images\rdb-red.gif' alt="nodata" /></td>
-                                                                                <td></td>
-                                                                            </tr>
+                                                                    <table cellpadding="4" cellspacing="0" width="100%" style="border-collapse: collapse; font-family: Tahoma; color: #333333; font-size: 8pt; display: none;" id="tblExcessYes" runat="server">
+                                                                        <%--<tbody>--%>
+                                                                        <tr align="left" style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt; font-weight: bold;">
+                                                                            <th scope="col" width="40%">Carrier
+                                                                            </th>
+                                                                            <th scope="col" width="20%">Limit
+                                                                            </th>
+                                                                            <th scope="col" width="20%">Risk
+                                                                            </th>
+                                                                            <th scope="col" width="20%">Remove
+                                                                            </th>
+                                                                        </tr>
+                                                                        <tr style="background-color: #eaeaea; font-family: Tahoma; font-size: 8pt;">
+                                                                            <td align="left">
+                                                                                <asp:Label ID="lblExcessYMsg" runat="server" SkinID="Message" Text="No data has been entered for Excess Policies"></asp:Label>
+                                                                            </td>
+                                                                            <td></td>
+                                                                            <td align="left">
+                                                                                <img id="imgRisk" src='..\Images\rdb-red.gif' alt="nodata" /></td>
+                                                                            <td></td>
+                                                                        </tr>
                                                                         <%--</tbody>--%>
                                                                     </table>
                                                                     <table cellpadding="0" cellspacing="0" width="100%" id="tblExcessNo" runat="server">
@@ -2088,33 +2153,28 @@ function ValidateFields(sender, args) {
                                                                     </asp:TemplateField>
                                                                 </Columns>
                                                                 <EmptyDataTemplate>
-                                                                    <table cellpadding="4" cellspacing="0" width="100%" style="border-collapse: collapse; font-family: Tahoma; color: #333333; font-size: 8pt; display:none;" runat="server" id="tblWCYes">
+                                                                    <table cellpadding="4" cellspacing="0" width="100%" style="border-collapse: collapse; font-family: Tahoma; color: #333333; font-size: 8pt; display: none;" runat="server" id="tblWCYes">
                                                                         <%--<tbody>--%>
-                                                                            <tr align="left" style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt; font-weight: bold;">
-                                                                                <th scope="col" width="40%">
-                                                                                    Carrier
-                                                                                </th>
-                                                                                <th scope="col" width="20%">
-                                                                                    Limit
-                                                                                </th>
-                                                                                <th scope="col" width="20%">
-                                                                                    Risk
-                                                                                </th>
-                                                                                <th scope="col" width="20%">
-                                                                                    Remove
-                                                                                </th>
-                                                                            </tr>
-                                                                            <tr style="background-color: #eaeaea; font-family: Tahoma; font-size: 8pt;">
-                                                                                <td align="left">
-                                                                                    <asp:Label ID="lblWCYMsg" runat="server" SkinID="Message" Text="No data has been entered for WC Policies"></asp:Label>
-                                                                                </td>
-                                                                                <td></td>
-                                                                                <td align="left">
-                                                                                    <img id="imgRisk" src='..\Images\rdb-red.gif' alt="nodata" /></td>
-                                                                                <td></td>
-                                                                            </tr>
+                                                                        <tr align="left" style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt; font-weight: bold;">
+                                                                            <th scope="col" width="40%">Carrier
+                                                                            </th>
+                                                                            <th scope="col" width="20%">Limit
+                                                                            </th>
+                                                                            <th scope="col" width="20%">Risk
+                                                                            </th>
+                                                                            <th scope="col" width="20%">Remove
+                                                                            </th>
+                                                                        </tr>
+                                                                        <tr style="background-color: #eaeaea; font-family: Tahoma; font-size: 8pt;">
+                                                                            <td align="left">
+                                                                                <asp:Label ID="lblWCYMsg" runat="server" SkinID="Message" Text="No data has been entered for WC Policies"></asp:Label>
+                                                                            </td>
+                                                                            <td></td>
+                                                                            <td align="left">
+                                                                                <img id="imgRisk" src='..\Images\rdb-red.gif' alt="nodata" /></td>
+                                                                            <td></td>
+                                                                        </tr>
                                                                         <%--</tbody>--%>
-                                                                        
                                                                     </table>
                                                                     <table cellpadding="0" cellspacing="0" width="100%" id="tblWCNo" runat="server">
                                                                         <tr>
@@ -2189,32 +2249,28 @@ function ValidateFields(sender, args) {
                                                                     </asp:TemplateField>
                                                                 </Columns>
                                                                 <EmptyDataTemplate>
-                                                                    <table cellpadding="4" cellspacing="0" width="100%" style="border-collapse: collapse; font-family: Tahoma; color: #333333; font-size: 8pt; display:none;" runat="server" id="tblPropertyYes">
+                                                                    <table cellpadding="4" cellspacing="0" width="100%" style="border-collapse: collapse; font-family: Tahoma; color: #333333; font-size: 8pt; display: none;" runat="server" id="tblPropertyYes">
                                                                         <%--<tbody>--%>
-                                                                            <tr align="left" style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt; font-weight: bold;">
-                                                                                <th scope="col" width="40%">
-                                                                                    Carrier
-                                                                                </th>
-                                                                                <th scope="col" width="20%">
-                                                                                    Limit
-                                                                                </th>
-                                                                                <th scope="col" width="20%">
-                                                                                    Risk
-                                                                                </th>
-                                                                                <th scope="col" width="20%">
-                                                                                    Remove
-                                                                                </th>
-                                                                            </tr>
-                                                                            <tr style="background-color: #eaeaea; font-family: Tahoma; font-size: 8pt;">
-                                                                                <td align="left">
-                                                                                    <asp:Label ID="lblPropertyYMsg" runat="server" SkinID="Message" Text="No data has been entered for Property Policies"></asp:Label>
-                                                                                </td>
-                                                                                <td></td>
-                                                                                <td align="left">
-                                                                                    <img id="imgRisk" src='..\Images\rdb-red.gif' alt="nodata" /></td>
-                                                                                <td></td>
-                                                                            </tr>
-                                                                       <%-- </tbody>--%>                                                                       
+                                                                        <tr align="left" style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt; font-weight: bold;">
+                                                                            <th scope="col" width="40%">Carrier
+                                                                            </th>
+                                                                            <th scope="col" width="20%">Limit
+                                                                            </th>
+                                                                            <th scope="col" width="20%">Risk
+                                                                            </th>
+                                                                            <th scope="col" width="20%">Remove
+                                                                            </th>
+                                                                        </tr>
+                                                                        <tr style="background-color: #eaeaea; font-family: Tahoma; font-size: 8pt;">
+                                                                            <td align="left">
+                                                                                <asp:Label ID="lblPropertyYMsg" runat="server" SkinID="Message" Text="No data has been entered for Property Policies"></asp:Label>
+                                                                            </td>
+                                                                            <td></td>
+                                                                            <td align="left">
+                                                                                <img id="imgRisk" src='..\Images\rdb-red.gif' alt="nodata" /></td>
+                                                                            <td></td>
+                                                                        </tr>
+                                                                        <%-- </tbody>--%>
                                                                     </table>
                                                                     <table cellpadding="0" cellspacing="0" width="100%" id="tblPropertyNo" runat="server">
                                                                         <tr>
@@ -2288,35 +2344,31 @@ function ValidateFields(sender, args) {
                                                                     </asp:TemplateField>
                                                                 </Columns>
                                                                 <EmptyDataTemplate>
-                                                                    <table cellpadding="4" cellspacing="0" width="100%" style="border-collapse: collapse; font-family: Tahoma; color: #333333; font-size: 8pt; display:none;" runat="server" id="tblProfessionalYes">
-                                                                         <%--<tbody>--%>
-                                                                            <tr align="left" style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt; font-weight: bold;">
-                                                                                <th scope="col" width="40%">
-                                                                                    Carrier
-                                                                                </th>
-                                                                                <th scope="col" width="20%">
-                                                                                    Limit
-                                                                                </th>
-                                                                                <th scope="col" width="20%">
-                                                                                    Risk
-                                                                                </th>
-                                                                                <th scope="col" width="20%">
-                                                                                    Remove
-                                                                                </th>
-                                                                            </tr>
-                                                                            <tr style="background-color: #eaeaea; font-family: Tahoma; font-size: 8pt;">
-                                                                                <td align="left">
-                                                                                    <asp:Label ID="lblProfessionalYMsg" runat="server" SkinID="Message" Text="No data has been entered for Professional Policies"></asp:Label>
-                                                                                </td>
-                                                                                <td></td>
-                                                                                <td align="left">
-                                                                                    <img id="imgRisk" src='..\Images\rdb-red.gif' alt="nodata" /></td>
-                                                                                <td></td>
-                                                                            </tr>
-                                                                        <%--</tbody>--%>                                                                      
+                                                                    <table cellpadding="4" cellspacing="0" width="100%" style="border-collapse: collapse; font-family: Tahoma; color: #333333; font-size: 8pt; display: none;" runat="server" id="tblProfessionalYes">
+                                                                        <%--<tbody>--%>
+                                                                        <tr align="left" style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt; font-weight: bold;">
+                                                                            <th scope="col" width="40%">Carrier
+                                                                            </th>
+                                                                            <th scope="col" width="20%">Limit
+                                                                            </th>
+                                                                            <th scope="col" width="20%">Risk
+                                                                            </th>
+                                                                            <th scope="col" width="20%">Remove
+                                                                            </th>
+                                                                        </tr>
+                                                                        <tr style="background-color: #eaeaea; font-family: Tahoma; font-size: 8pt;">
+                                                                            <td align="left">
+                                                                                <asp:Label ID="lblProfessionalYMsg" runat="server" SkinID="Message" Text="No data has been entered for Professional Policies"></asp:Label>
+                                                                            </td>
+                                                                            <td></td>
+                                                                            <td align="left">
+                                                                                <img id="imgRisk" src='..\Images\rdb-red.gif' alt="nodata" /></td>
+                                                                            <td></td>
+                                                                        </tr>
+                                                                        <%--</tbody>--%>
                                                                     </table>
                                                                     <table cellpadding="0" cellspacing="0" width="100%" id="tblProfessionalNo" runat="server">
-                                                                          <tr>
+                                                                        <tr>
                                                                             <td align="center">
                                                                                 <asp:Label ID="lblProfessionalMsg" runat="server" SkinID="Message" Text="No data has been entered for Professional Policies"></asp:Label>
                                                                             </td>
@@ -2387,35 +2439,31 @@ function ValidateFields(sender, args) {
                                                                     </asp:TemplateField>
                                                                 </Columns>
                                                                 <EmptyDataTemplate>
-                                                                    <table cellpadding="4" cellspacing="0" width="100%" style="border-collapse: collapse; font-family: Tahoma; color: #333333; font-size: 8pt; display:none;" runat="server" id="tblLiabilityYes">
+                                                                    <table cellpadding="4" cellspacing="0" width="100%" style="border-collapse: collapse; font-family: Tahoma; color: #333333; font-size: 8pt; display: none;" runat="server" id="tblLiabilityYes">
                                                                         <%--<tbody>--%>
-                                                                            <tr align="left" style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt; font-weight: bold;">
-                                                                                <th scope="col" width="40%">
-                                                                                    Carrier
-                                                                                </th>
-                                                                                <th scope="col" width="20%">
-                                                                                    Limit
-                                                                                </th>
-                                                                                <th scope="col" width="20%">
-                                                                                    Risk
-                                                                                </th>
-                                                                                <th scope="col" width="20%">
-                                                                                    Remove
-                                                                                </th>
-                                                                            </tr>
-                                                                            <tr style="background-color: #eaeaea; font-family: Tahoma; font-size: 8pt;">
-                                                                                <td align="left">
-                                                                                    <asp:Label ID="lblLiabilityYMsg" runat="server" SkinID="Message" Text="No data has been entered for Other Liability Policies"></asp:Label>
-                                                                                </td>
-                                                                                <td></td>
-                                                                                <td align="left">
-                                                                                    <img id="imgRisk" src='..\Images\rdb-red.gif' alt="nodata" /></td>
-                                                                                <td></td>
-                                                                            </tr>
-                                                                        <%--<tbody>--%>                                                                       
+                                                                        <tr align="left" style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt; font-weight: bold;">
+                                                                            <th scope="col" width="40%">Carrier
+                                                                            </th>
+                                                                            <th scope="col" width="20%">Limit
+                                                                            </th>
+                                                                            <th scope="col" width="20%">Risk
+                                                                            </th>
+                                                                            <th scope="col" width="20%">Remove
+                                                                            </th>
+                                                                        </tr>
+                                                                        <tr style="background-color: #eaeaea; font-family: Tahoma; font-size: 8pt;">
+                                                                            <td align="left">
+                                                                                <asp:Label ID="lblLiabilityYMsg" runat="server" SkinID="Message" Text="No data has been entered for Other Liability Policies"></asp:Label>
+                                                                            </td>
+                                                                            <td></td>
+                                                                            <td align="left">
+                                                                                <img id="imgRisk" src='..\Images\rdb-red.gif' alt="nodata" /></td>
+                                                                            <td></td>
+                                                                        </tr>
+                                                                        <%--<tbody>--%>
                                                                     </table>
                                                                     <table cellpadding="0" cellspacing="0" width="100%" id="tblLiabilityNo" runat="server">
-                                                                         <tr>
+                                                                        <tr>
                                                                             <td align="center">
                                                                                 <asp:Label ID="lblLiabilityMsg" runat="server" SkinID="Message" Text="No data has been entered for Other Liability Policies"></asp:Label>
                                                                             </td>
@@ -2569,6 +2617,228 @@ function ValidateFields(sender, args) {
                                         </tr>
                                     </table>
                                 </asp:Panel>
+                                <div id="Div2" runat="server" style="display: none;">
+                                        <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                            <tr>
+                                                <td colspan="3">
+                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                        <tr>
+                                                            <td width="45%"></td>
+                                                            <td valign="top" align="right">
+                                                                <uc:ctrlPaging ID="ctrlPageSonicNotes" runat="server" />
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                            <tr>
+                                                <td valign="top" style="width: 15%">Notes Grid<br />
+                                                    <asp:LinkButton ID="btnNotesAdd" runat="server" ValidationGroup="vsError" Text="--Add--"
+                                                        OnClick="btnNotesAdd_Click"></asp:LinkButton>
+                                                </td>
+                                                <td align="center" valign="top" style="width: 3%">:
+                                                </td>
+                                                <td style="margin-left: 40px" style="width: 650px" align="left">
+                                                    <asp:GridView ID="gvNotes" runat="server" AutoGenerateColumns="false" Width="100%"
+                                                        OnRowCommand="gvNotes_RowCommand">
+                                                        <EmptyDataRowStyle ForeColor="#7f7f7f" HorizontalAlign="Center" />
+                                                        <EmptyDataTemplate>
+                                                            <asp:Label ID="lblEmptyEmergencyMessage" runat="server" Text="No Record Found"></asp:Label>
+                                                        </EmptyDataTemplate>
+                                                        <Columns>
+                                                            <asp:TemplateField ItemStyle-VerticalAlign="Top" ItemStyle-Width="12%">
+                                                                <HeaderTemplate>
+                                                                    <input type="checkbox" id="chkMultiSelectSonicNotes" onclick="SelectDeselectAllSonicNotes(this.checked);" />Select
+                                                                </HeaderTemplate>
+                                                                <ItemTemplate>
+                                                                    <asp:CheckBox ID="chkSelectSonicNotes" runat="server" onclick="SelectDeselectNoteHeader();" />
+                                                                    <input type="hidden" id="hdnPK" runat="server" value='<%#Eval("PK_COI_Notes") %>' />
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top"
+                                                                HeaderText="Note Date">
+                                                                <ItemTemplate>
+                                                                    <asp:LinkButton ID="lbtNote_Date" runat="server" Text='<%# string.Format("{0:MM/dd/yyyy}", Eval("Note_Date")) %>'
+                                                                        CommandName="EditRecord" CommandArgument='<%#Eval("PK_COI_Notes") %>' Width="80px"></asp:LinkButton>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <%-- <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top"
+                                                            HeaderText="User">
+                                                            <ItemTemplate>
+                                                                <asp:LinkButton ID="lbtUser_Name" runat="server" Text='<%# Eval("User_Name") %>'
+                                                                    CommandName="EditRecord" CommandArgument='<%#Eval("PK_COI_Notes") %>' Width="100px"></asp:LinkButton>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>--%>
+                                                            <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top"
+                                                                HeaderText="Notes">
+                                                                <ItemTemplate>
+                                                                    <asp:LinkButton ID="lbtNotes" runat="server" Text='<%# Eval("Note") %>' CommandName="EditRecord"
+                                                                        CommandArgument='<%#Eval("PK_COI_Notes") %>' Width="310px" CssClass="TextClip"></asp:LinkButton>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top"
+                                                                HeaderText="Remove">
+                                                                <ItemTemplate>
+                                                                    <asp:LinkButton ID="lbtDelete" runat="server" Text="Remove" CommandName="Remove"
+                                                                        CommandArgument='<%#Eval("PK_COI_Notes") %>' OnClientClick="javascript:return confirm('Are you sure you want delete selected record?');"
+                                                                        Width="80px"></asp:LinkButton>
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                        </Columns>
+                                                    </asp:GridView>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>&nbsp;
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3" align="center">
+                                                    <asp:Button ID="btnView" runat="server" Text=" View " OnClick="btnView_Click" OnClientClick="return CheckSelectedSonicNotes('View');" />&nbsp;&nbsp;
+                                                            <asp:Button ID="btnPrint" runat="server" Text=" Print " OnClick="btnPrint_Click"
+                                                                OnClientClick="return CheckSelectedSonicNotes('Print');" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>&nbsp;
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                            <tr>
+                                                <td width="5px" class="Spacer">&nbsp;
+                                                </td>
+                                                <td class="dvContainer">
+                                                    <div id="DivEditNotes" runat="server" width="794px" style="display: none">
+                                                        <div class="bandHeaderRow">
+                                                            Notes
+                                                        </div>
+                                                        <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                            <tr>
+                                                                <td align="left" width="18%" valign="top">Date of Note&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server">*</span>
+                                                                </td>
+                                                                <td align="center" width="4%" valign="top">:
+                                                                </td>
+                                                                <td align="left" width="28%" valign="top">
+                                                                    <asp:TextBox ID="txtNote_Date" runat="server" Width="170px" SkinID="txtDate" MaxLength="10"></asp:TextBox>
+                                                                    <img alt="Date of Note" onclick="return showCalendar('<%= txtNote_Date.ClientID %>', 'mm/dd/y');"
+                                                                        onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
+                                                                        align="middle" id="imgtxtNote_Date" />
+                                                                    <asp:RegularExpressionValidator ID="rvtxtNote_Date" runat="server" ControlToValidate="txtNote_Date"
+                                                                        ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"
+                                                                        ErrorMessage="[Notes]/Date of Note is Not Valid Date." Display="none" SetFocusOnError="true">
+                                                                    </asp:RegularExpressionValidator>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" width="18%" valign="top">Notes&nbsp;<span id="Span7" style="color: Red; display: none;" runat="server">*</span>
+                                                                </td>
+                                                                <td align="center" width="4%" valign="top">:
+                                                                </td>
+                                                                <td align="left" width="28%" valign="top">
+                                                                    <uc:ctrlMultiLineTextBox ID="CtrlMultiLineTextBox1" ControlType="TextBox" runat="server" />
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    <div id="DivViewNotes" runat="server" width="794px" style="display: none">
+                                                        <div class="bandHeaderRow">
+                                                            Notes
+                                                        </div>
+                                                        <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                            <tr>
+                                                                <td align="left" width="18%" valign="top">Date of Note
+                                                                </td>
+                                                                <td align="center" width="4%" valign="top">:
+                                                                </td>
+                                                                <td align="left" width="28%" valign="top">
+                                                                    <asp:Label ID="lblNote_Date" runat="server"></asp:Label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" width="18%" valign="top">Notes
+                                                                </td>
+                                                                <td align="center" width="4%" valign="top">:
+                                                                </td>
+                                                                <td align="left" width="28%" valign="top">
+                                                                    <uc:ctrlMultiLineTextBox ID="CtrlMultiLineTextBox2" ControlType="Label" runat="server" />
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    <div id="DivNotesList" runat="server" width="794px" style="display: none">
+                                                        <div class="bandHeaderRow">
+                                                            Notes
+                                                        </div>
+                                                        <table cellpadding="1" cellspacing="1" width="100%">
+                                                            <tr>
+                                                                <td width="100%">
+                                                                    <div style="width: 785px; height: 370px; overflow-x: hidden; overflow-y: scroll;">
+                                                                        <asp:Repeater ID="rptNotes" runat="server">
+                                                                            <ItemTemplate>
+                                                                                <table cellpadding="1" cellspacing="1" width="100%">
+                                                                                    <tr>
+                                                                                        <td align="left" valign="top">
+                                                                                            <table cellpadding="3" cellspacing="1" width="100%">
+                                                                                                <tr>
+                                                                                                    <td width="18%" align="left" valign="top">Date of Note
+                                                                                                    </td>
+                                                                                                    <td width="4%" align="center" valign="top">:
+                                                                                                    </td>
+                                                                                                    <td align="left" valign="top">
+                                                                                                        <%#clsGeneral.FormatDBNullDateToDisplay(Eval("Note_Date"))%>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td align="left" valign="top">Notes
+                                                                                                    </td>
+                                                                                                    <td align="center" valign="top">:
+                                                                                                    </td>
+                                                                                                    <td align="left" valign="top" colspan="4">
+                                                                                                        <uc:ctrlMultiLineTextBox ID="lblNoteText" runat="server" Text='<%# Eval("Note") %>'
+                                                                                                            ControlType="Label" Width="540" />
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </table>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr style="height: 30px">
+                                                                                        <td colspan="2" style="vertical-align: middle;">
+                                                                                            <hr size="1" color="Black" style="width: 758px;" />
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </ItemTemplate>
+                                                                        </asp:Repeater>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>&nbsp;
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="center">
+                                                                    <asp:Button ID="btnPrintSelectedNotes" runat="server" Text=" Print " OnClick="btnPrintSelectedNotes_Click"
+                                                                        CausesValidation="false" />&nbsp;
+                                                        <asp:Button ID="btnCancel" runat="server" Text=" Return " OnClick="btnCancel_Click"
+                                                            CausesValidation="false" />&nbsp;
+                                                        <asp:Button ID="btnMail" runat="server" Text=" Mail " OnClientClick="return OpenMailPopUp();"
+                                                            CausesValidation="false" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>&nbsp;
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                </div>
                             </td>
                         </tr>
                     </table>

@@ -8,6 +8,9 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using ERIMS.DAL;
+using System.Collections.Generic;
+using System.Text;
+
 public partial class Admin_COIAddEdit : clsBasePage
 {
     /// <summary>
@@ -120,6 +123,23 @@ public partial class Admin_COIAddEdit : clsBasePage
         }
     }
 
+    public long Location_ID
+    {
+        get { return Convert.ToInt64(ViewState["Location_ID"]); }
+        set { ViewState["Location_ID"] = value; }
+    }
+
+    public int CurrentPage
+    {
+        get { return Convert.ToInt32(ViewState["CurrentPage"]); }
+        set { ViewState["CurrentPage"] = value; }
+    }
+    public int PageSize
+    {
+        get { return Convert.ToInt32(ViewState["PageSize"]); }
+        set { ViewState["PageSize"] = value; }
+    }
+
     #endregion
 
     #region "Page Events"
@@ -132,6 +152,7 @@ public partial class Admin_COIAddEdit : clsBasePage
     /// <param name="e"></param>
     protected void Page_Load(object sender, EventArgs e)
     {
+        ctrlPageSonicNotes.GetPage += new Controls_Navigation_Navigation.dlgGetPage(ctrlPageSonicNotes_GetPage);
         int width1 = System.Windows.Forms.SystemInformation.VirtualScreen.Width;
         //when first time the page is loaded
         if (!IsPostBack)
@@ -169,7 +190,7 @@ public partial class Admin_COIAddEdit : clsBasePage
 
                         // show all grids
                         dvGrids.Style["Display"] = "block";
-                        _strOperation = Request.QueryString["op"].ToString();
+                        _strOperation = Request.QueryString["op"].ToString().ToLower();
                         // if full access are given to client then 
                         if (strOperation == "view")
                         {
@@ -298,6 +319,10 @@ public partial class Admin_COIAddEdit : clsBasePage
         BindBuildingGrid(); //Add New Function Bind Multiple Building
 
         BindGrid();
+
+        BindGridSonicNotes();
+
+
     }
 
     /// <summary>
@@ -555,6 +580,7 @@ public partial class Admin_COIAddEdit : clsBasePage
         }
         dlComplianceView.DataSource = dtTemp;
         dlComplianceView.DataBind();
+
     }
     /// <summary>
     /// Displays the page in edit mode
@@ -571,6 +597,7 @@ public partial class Admin_COIAddEdit : clsBasePage
         COIs objCOI = new COIs(PK_COIs);
         // set values
         txtIssueDate.Text = clsGeneral.FormatDate(objCOI.Issue_Date);
+        txtDateRequested.Text = clsGeneral.FormatDate(objCOI.Date_Requested);
         drpRiskProfile.SelectedValue = Convert.ToString(objCOI.FK_COI_Risk_Profile);
 
         // set Risk profile ID for getting limits and risk in Limits and Coverage Bands         
@@ -668,6 +695,12 @@ public partial class Admin_COIAddEdit : clsBasePage
         //    ddlDBA.Enabled = false;
         //}
         txtBuilding_TIV.Enabled = objInsured.AllowEditTIV;
+
+        //ctrlSonicNotes.PK_COI_Claims_ID = PK_COIs;
+        //ctrlSonicNotes.CurrentClaimType = clsGeneral.Claim_Tables.COIClaim.ToString();
+        //ctrlSonicNotes.BindGridSonicNotes(PK_COIs, clsGeneral.Claim_Tables.COIClaim.ToString());
+
+
         //if (!objInsured.AllowEditTIV)
         //txtBuilding_TIV.Text = string.Format("{0:N2}", objCOI.Building_TIV);
 
@@ -694,7 +727,8 @@ public partial class Admin_COIAddEdit : clsBasePage
         COIs objCOI = new COIs(PK_COIs);
 
         //set values
-        lblIssueDate.Text = clsGeneral.FormatDate(objCOI.Issue_Date);
+        lblIssueDate.Text = clsGeneral.FormatDate(objCOI.Issue_Date);        
+        lblDateRequested.Text = clsGeneral.FormatDate(objCOI.Date_Requested);
         lblRiskProfile.Text = objCOI.FK_COI_Risk_Profile != null ? new COI_Risk_Profiles(Convert.ToDecimal(objCOI.FK_COI_Risk_Profile)).Name.ToString() : "";
 
         //Bind Compliance Data
@@ -763,6 +797,9 @@ public partial class Admin_COIAddEdit : clsBasePage
         else
             lblSubleaseName.Text = string.Empty;
         lblLandlordName.Text = objOwnership.Landlord_Name;
+        //ctrlSonicNotes.PK_COI_Claims_ID = PK_COIs;
+        //ctrlSonicNotes.CurrentClaimType = clsGeneral.Claim_Tables.COIClaim.ToString();
+        //ctrlSonicNotes.BindGridSonicNotes(PK_COIs, clsGeneral.Claim_Tables.COIClaim.ToString());
         //lblBuilding_TIV.Text = string.Format("{0:N2}", objCOI.Building_TIV);
     }
     #endregion
@@ -793,6 +830,35 @@ public partial class Admin_COIAddEdit : clsBasePage
         objInsured.Contact_Fax = hdntxtContactFax.Value;
         objInsured.Contact_EMail = hdntxtContactEmail.Value;
 
+    }
+
+    /// <summary>
+    /// Bind Grid Sonic Note
+    /// </summary>
+    private void BindGridSonicNotes()
+    {
+        CurrentPage = ctrlPageSonicNotes.CurrentPage;
+        PageSize = ctrlPageSonicNotes.PageSize;
+
+        DataSet dsNotes = clsCOI_Notes.SelectByFK_Table(PK_COIs, CurrentPage, PageSize);
+        DataTable dtNotes = dsNotes.Tables[0];
+        if (gvNotes.Rows.Count == 0)
+        {
+            gvNotes.DataBind();
+            btnView.Visible = false;
+            btnPrint.Visible = false;
+        }
+        ctrlPageSonicNotes.TotalRecords = (dsNotes.Tables.Count >= 2) ? Convert.ToInt32(dsNotes.Tables[1].Rows[0][0]) : 0;
+        ctrlPageSonicNotes.CurrentPage = (dsNotes.Tables.Count >= 2) ? Convert.ToInt32(dsNotes.Tables[1].Rows[0][2]) : 0;
+        ctrlPageSonicNotes.RecordsToBeDisplayed = dsNotes.Tables[0].Rows.Count;
+        ctrlPageSonicNotes.SetPageNumbers();
+        gvNotes.DataSource = dtNotes;
+        gvNotes.DataBind();
+
+
+
+        btnView.Visible = dtNotes.Rows.Count > 0;
+        btnPrint.Visible = dtNotes.Rows.Count > 0;
     }
 
     /// <summary>
@@ -851,6 +917,7 @@ public partial class Admin_COIAddEdit : clsBasePage
         lnkLiquorAdd.Style["Display"] = "none";
         lnkOwnersAdd.Style["Display"] = "none";
         lnkCopiesAdd.Style["Display"] = "none";
+        btnNotesAdd.Style["Display"] = "none";
 
         //Hide radio buttons in grid bands 
         rdoGeneralRequired.Visible = false;
@@ -860,6 +927,69 @@ public partial class Admin_COIAddEdit : clsBasePage
         rdoPropertyRequired.Visible = false;
         rdoProfessionalRequired.Visible = false;
         rdoLiquorRequired.Visible = false;
+    }
+
+
+    /// <summary>
+    /// Grid Notes Row Command Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+
+
+    /// <summary>
+    /// Button Click Event to View
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnView_Click(object sender, EventArgs e)
+    {
+        string strPK = "";
+        foreach (GridViewRow gRow in gvNotes.Rows)
+        {
+            if (((CheckBox)gRow.FindControl("chkSelectSonicNotes")).Checked)
+                strPK = strPK + ((HtmlInputHidden)gRow.FindControl("hdnPK")).Value + ",";
+        }
+        strPK = strPK.TrimEnd(',');
+        Response.Redirect("..\\Sonic\\ClaimInfo\\ClaimNotesCOI.aspx?viewIDs=" + Encryption.Encrypt(strPK) + "&FK_Claim=" + Encryption.Encrypt(PK_COIs.ToString()) + "&tbl=" + "COIs" + "&loc=" + Fk_Lu_Location_Id + "&op=" + Request.QueryString["op"].ToString());
+    }
+
+    /// <summary>
+    /// Button Print Click Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnPrint_Click(object sender, EventArgs e)
+    {
+        string strPK = "";
+        foreach (GridViewRow gRow in gvNotes.Rows)
+        {
+            if (((CheckBox)gRow.FindControl("chkSelectSonicNotes")).Checked)
+                strPK = strPK + ((HtmlInputHidden)gRow.FindControl("hdnPK")).Value + ",";
+        }
+        strPK = strPK.TrimEnd(',');
+        clsPrintClaimNotesCOI.PrintSelectedSonicNotes(strPK, "COIs", PK_COIs);
+    }
+
+
+    protected void btnNotesAdd_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("..\\Sonic\\ClaimInfo\\ClaimNotesCOI.aspx?loc=" + Fk_Lu_Location_Id + "&FK_Claim=" + Encryption.Encrypt(PK_COIs.ToString()) + "&tbl=" + "COIs" + "&op=" + Request.QueryString["op"].ToString());
+    }
+    protected void btnPrintSelectedNotes_Click(object sender, EventArgs e)
+    {
+
+    }
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    protected void ctrlPageSonicNotes_GetPage()
+    {
+        BindGridSonicNotes();
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + 10 + ");", true);
+
     }
 
     #endregion
@@ -886,6 +1016,11 @@ public partial class Admin_COIAddEdit : clsBasePage
         // Get COI details
         if (txtIssueDate.Text != String.Empty)
             objCOI.Issue_Date = Convert.ToDateTime(txtIssueDate.Text);
+        // Get COI details
+        if (txtDateRequested.Text != String.Empty)
+            objCOI.Date_Requested = Convert.ToDateTime(txtDateRequested.Text);
+        else
+            objCOI.Date_Requested = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
         objCOI.FK_COI_Risk_Profile = Convert.ToInt32(drpRiskProfile.SelectedValue);
         objCOI.Profle_Notes = txtProfileNote.Text.Trim();
         objCOI.General_Required = rdoGeneralRequired.SelectedValue;
@@ -904,7 +1039,7 @@ public partial class Admin_COIAddEdit : clsBasePage
         objCOI.COI_Active = rdoCOIActive.SelectedValue;
         objCOI.FK_COI_Signature = (drpSignature.SelectedIndex != 0) ? Convert.ToInt32(drpSignature.SelectedValue) : 0;
         objCOI.Send_By_Email = rdoSendByEmail.SelectedValue;
-
+        
         //Savecompliance text.
         foreach (DataListItem Item in dlComplianceText.Items)
         {
@@ -960,7 +1095,7 @@ public partial class Admin_COIAddEdit : clsBasePage
         objCOI.LeveL_4_Text = txtLevel4Text.Text.Trim();
         objCOI.Update_Date = DateTime.Today;
         objCOI.Updated_By = clsSession.UserName;
-
+        
         // create a new Insured object.
         COI_Insureds objInsured = new COI_Insureds();
 
@@ -993,6 +1128,7 @@ public partial class Admin_COIAddEdit : clsBasePage
         objInsured.Sublease_Agreement = rdoSubleaseAgreement.SelectedValue;
         objInsured.Notes = txtNotes.Text.Trim();
         objInsured.FK_Building_Ownership_ID = Convert.ToDecimal(hdnPK_Building_Ownership_ID.Value);
+        
         // if COI is in update mode
         if (PK_COIs > 0)
         {
@@ -1243,6 +1379,160 @@ public partial class Admin_COIAddEdit : clsBasePage
         }
     }
 
+    protected void grvCertificateTypes_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "RemoveCertiType")
+        {
+            COI_CertificateType_Detail.Delete(Convert.ToDecimal(e.CommandArgument));
+            BindGrid();
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);", true);
+        }
+        if (e.CommandName == "ViewDetail")
+        {
+            string[] arg = new string[2];
+
+            arg = e.CommandArgument.ToString().Split(';');
+            int id = Convert.ToInt32(arg[0]);
+            int Type = Convert.ToInt32(arg[1]);
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:OpenChooseCertiType('" + Type + "','" + id + "');", true);
+        }
+    }
+    protected void btnhdnReload_Click(object sender, EventArgs e)
+    {
+        BindGrid();
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);", true);
+    }
+    protected void gvGeneralPolicies_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.EmptyDataRow)
+        {
+            HtmlTable tblGeneralYes = (HtmlTable)e.Row.FindControl("tblGeneralYes");
+            HtmlTable tblGeneralNo = (HtmlTable)e.Row.FindControl("tblGeneralNo");
+            string IsRequired = strOperation == "view" ? lblGeneralRequired.Text : rdoGeneralRequired.SelectedValue;
+            if (IsRequired == "Y" || IsRequired == "YES")
+            {
+                tblGeneralYes.Style["Display"] = "";
+                tblGeneralNo.Style["Display"] = "none";
+            }
+            else
+            {
+                tblGeneralYes.Style["Display"] = "none";
+                tblGeneralNo.Style["Display"] = "";
+            }
+        }
+    }
+    protected void gvAutomobilePolicies_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.EmptyDataRow)
+        {
+            HtmlTable tblAutomobileYes = (HtmlTable)e.Row.FindControl("tblAutomobileYes");
+            HtmlTable tblAutomobileNo = (HtmlTable)e.Row.FindControl("tblAutomobileNo");
+            string IsRequired = strOperation == "view" ? lblAutoRequired.Text : rdoAutoRequired.SelectedValue;
+            if (IsRequired == "Y" || IsRequired == "YES")
+            {
+                tblAutomobileYes.Style["Display"] = "";
+                tblAutomobileNo.Style["Display"] = "none";
+            }
+            else
+            {
+                tblAutomobileYes.Style["Display"] = "none";
+                tblAutomobileNo.Style["Display"] = "";
+            }
+        }
+    }
+    protected void gvExcessPolicies_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.EmptyDataRow)
+        {
+            HtmlTable tblExcessYes = (HtmlTable)e.Row.FindControl("tblExcessYes");
+            HtmlTable tblExcessNo = (HtmlTable)e.Row.FindControl("tblExcessNo");
+            string IsRequired = strOperation == "view" ? lblExcessRequired.Text : rdoExcessRequired.SelectedValue;
+            if (IsRequired == "Y" || IsRequired == "YES")
+            {
+                tblExcessYes.Style["Display"] = "";
+                tblExcessNo.Style["Display"] = "none";
+            }
+            else
+            {
+                tblExcessYes.Style["Display"] = "none";
+                tblExcessNo.Style["Display"] = "";
+            }
+        }
+    }
+    protected void gvWCPolicies_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.EmptyDataRow)
+        {
+            HtmlTable tblWCYes = (HtmlTable)e.Row.FindControl("tblWCYes");
+            HtmlTable tblWCNo = (HtmlTable)e.Row.FindControl("tblWCNo");
+            string IsRequired = strOperation == "view" ? lblWCRequired.Text : rdoWCRequired.SelectedValue;
+            if (IsRequired == "Y" || IsRequired == "YES")
+            {
+                tblWCYes.Style["Display"] = "";
+                tblWCNo.Style["Display"] = "none";
+            }
+            else
+            {
+                tblWCYes.Style["Display"] = "none";
+                tblWCNo.Style["Display"] = "";
+            }
+        }
+    }
+    protected void gvProfessionalPolicies_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.EmptyDataRow)
+        {
+            HtmlTable tblProfessionalYes = (HtmlTable)e.Row.FindControl("tblProfessionalYes");
+            HtmlTable tblProfessionalNo = (HtmlTable)e.Row.FindControl("tblProfessionalNo");
+            string IsRequired = strOperation == "view" ? lblProfessionalRequired.Text : rdoProfessionalRequired.SelectedValue;
+            if (IsRequired == "Y" || IsRequired == "YES")
+            {
+                tblProfessionalYes.Style["Display"] = "";
+                tblProfessionalNo.Style["Display"] = "none";
+            }
+            else
+            {
+                tblProfessionalYes.Style["Display"] = "none";
+                tblProfessionalNo.Style["Display"] = "";
+            }
+        }
+    }
+    protected void gvLiquorPolicies_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.EmptyDataRow)
+        {
+            HtmlTable tblLiabilityYes = (HtmlTable)e.Row.FindControl("tblLiabilityYes");
+            HtmlTable tblLiabilityNo = (HtmlTable)e.Row.FindControl("tblLiabilityNo");
+            string IsRequired = strOperation == "view" ? lblLiquorRequired.Text : rdoLiquorRequired.SelectedValue;
+            if (IsRequired == "Y" || IsRequired == "YES")
+            {
+                tblLiabilityYes.Style["Display"] = "";
+                tblLiabilityNo.Style["Display"] = "none";
+            }
+            else
+            {
+                tblLiabilityYes.Style["Display"] = "none";
+                tblLiabilityNo.Style["Display"] = "";
+            }
+        }
+    }
+
+    protected void gvNotes_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        //check Command Name
+        if (e.CommandName == "EditRecord")
+        {
+            //Get the Claim Note ID
+            Response.Redirect("..\\Sonic\\ClaimInfo\\ClaimNotesCOI.aspx?id=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&loc=" + Fk_Lu_Location_Id + "&FK_Claim=" + Encryption.Encrypt(PK_COIs.ToString()) + "&tbl=" + "COIs" + "&op=" + Request.QueryString["op"].ToString());
+        }
+        else if (e.CommandName == "Remove")
+        {
+            // Delete record
+            clsCOI_Notes.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
+            BindGridSonicNotes();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), System.DateTime.Now.ToString(), "javascrip:ShowPanel(10);", true);
+        }
+    }
     /// <summary>
     /// Handles Owner Row Command Event
     /// </summary>
@@ -1767,6 +2057,11 @@ public partial class Admin_COIAddEdit : clsBasePage
                     strMessages += "Please enter [Insured]/Notes" + ",";
                     Span20.Style["display"] = "inline-block";
                     break;
+                case "Date Requested":
+                    strCtrlsIDs += txtDateRequested.ClientID + ",";
+                    strMessages += "Please enter [Insured]/Date Requested" + ",";
+                    Span3.Style["display"] = "inline-block";
+                    break;
             }
             #endregion
         }
@@ -1863,143 +2158,6 @@ public partial class Admin_COIAddEdit : clsBasePage
         hdnControlIDs.Value = strCtrlsIDs;
         hdnErrorMsgs.Value = strMessages;
     }
-    #endregion
-
-    protected void grvCertificateTypes_RowCommand(object sender, GridViewCommandEventArgs e)
-    {
-        if (e.CommandName == "RemoveCertiType")
-        {
-            COI_CertificateType_Detail.Delete(Convert.ToDecimal(e.CommandArgument));
-            BindGrid();
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);", true);
-        }
-        if (e.CommandName == "ViewDetail")
-        {
-            string[] arg = new string[2];
-
-            arg = e.CommandArgument.ToString().Split(';');
-            int id = Convert.ToInt32(arg[0]);
-            int Type = Convert.ToInt32(arg[1]);
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:OpenChooseCertiType('" + Type + "','" + id + "');", true);
-        }
-    }
-    protected void btnhdnReload_Click(object sender, EventArgs e)
-    {
-        BindGrid();
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);", true);
-    }
-    protected void gvGeneralPolicies_RowDataBound(object sender, GridViewRowEventArgs e)
-    {
-        if (e.Row.RowType == DataControlRowType.EmptyDataRow)
-        {
-            HtmlTable tblGeneralYes = (HtmlTable)e.Row.FindControl("tblGeneralYes");
-            HtmlTable tblGeneralNo = (HtmlTable)e.Row.FindControl("tblGeneralNo");
-            string IsRequired = strOperation == "view" ? lblGeneralRequired.Text : rdoGeneralRequired.SelectedValue;
-            if (IsRequired == "Y" || IsRequired == "YES")
-            {
-                tblGeneralYes.Style["Display"] = "";
-                tblGeneralNo.Style["Display"] = "none";
-            }
-            else
-            {
-                tblGeneralYes.Style["Display"] = "none";
-                tblGeneralNo.Style["Display"] = "";
-            }
-        }
-    }
-    protected void gvAutomobilePolicies_RowDataBound(object sender, GridViewRowEventArgs e)
-    {
-        if (e.Row.RowType == DataControlRowType.EmptyDataRow)
-        {
-            HtmlTable tblAutomobileYes = (HtmlTable)e.Row.FindControl("tblAutomobileYes");
-            HtmlTable tblAutomobileNo = (HtmlTable)e.Row.FindControl("tblAutomobileNo");
-            string IsRequired = strOperation == "view" ? lblAutoRequired.Text : rdoAutoRequired.SelectedValue;
-            if (IsRequired == "Y" || IsRequired == "YES")
-            {
-                tblAutomobileYes.Style["Display"] = "";
-                tblAutomobileNo.Style["Display"] = "none";
-            }
-            else
-            {
-                tblAutomobileYes.Style["Display"] = "none";
-                tblAutomobileNo.Style["Display"] = "";
-            }
-        }
-    }
-    protected void gvExcessPolicies_RowDataBound(object sender, GridViewRowEventArgs e)
-    {
-        if (e.Row.RowType == DataControlRowType.EmptyDataRow)
-        {
-            HtmlTable tblExcessYes = (HtmlTable)e.Row.FindControl("tblExcessYes");
-            HtmlTable tblExcessNo = (HtmlTable)e.Row.FindControl("tblExcessNo");
-            string IsRequired = strOperation == "view" ? lblExcessRequired.Text : rdoExcessRequired.SelectedValue;
-            if (IsRequired == "Y" || IsRequired == "YES")
-            {
-                tblExcessYes.Style["Display"] = "";
-                tblExcessNo.Style["Display"] = "none";
-            }
-            else
-            {
-                tblExcessYes.Style["Display"] = "none";
-                tblExcessNo.Style["Display"] = "";
-            }
-        }
-    }
-    protected void gvWCPolicies_RowDataBound(object sender, GridViewRowEventArgs e)
-    {
-        if (e.Row.RowType == DataControlRowType.EmptyDataRow)
-        {
-            HtmlTable tblWCYes = (HtmlTable)e.Row.FindControl("tblWCYes");
-            HtmlTable tblWCNo = (HtmlTable)e.Row.FindControl("tblWCNo");
-            string IsRequired = strOperation == "view" ? lblWCRequired.Text : rdoWCRequired.SelectedValue;
-            if (IsRequired == "Y" || IsRequired == "YES")
-            {
-                tblWCYes.Style["Display"] = "";
-                tblWCNo.Style["Display"] = "none";
-            }
-            else
-            {
-                tblWCYes.Style["Display"] = "none";
-                tblWCNo.Style["Display"] = "";
-            }
-        }
-    }
-    protected void gvProfessionalPolicies_RowDataBound(object sender, GridViewRowEventArgs e)
-    {
-        if (e.Row.RowType == DataControlRowType.EmptyDataRow)
-        {
-            HtmlTable tblProfessionalYes = (HtmlTable)e.Row.FindControl("tblProfessionalYes");
-            HtmlTable tblProfessionalNo = (HtmlTable)e.Row.FindControl("tblProfessionalNo");
-            string IsRequired = strOperation == "view" ? lblProfessionalRequired.Text : rdoProfessionalRequired.SelectedValue;
-            if (IsRequired == "Y" || IsRequired == "YES")
-            {
-                tblProfessionalYes.Style["Display"] = "";
-                tblProfessionalNo.Style["Display"] = "none";
-            }
-            else
-            {
-                tblProfessionalYes.Style["Display"] = "none";
-                tblProfessionalNo.Style["Display"] = "";
-            }
-        }
-    }
-    protected void gvLiquorPolicies_RowDataBound(object sender, GridViewRowEventArgs e)
-    {
-        if (e.Row.RowType == DataControlRowType.EmptyDataRow)
-        {
-            HtmlTable tblLiabilityYes = (HtmlTable)e.Row.FindControl("tblLiabilityYes");
-            HtmlTable tblLiabilityNo = (HtmlTable)e.Row.FindControl("tblLiabilityNo");
-            string IsRequired = strOperation == "view" ? lblLiquorRequired.Text : rdoLiquorRequired.SelectedValue;
-            if (IsRequired == "Y" || IsRequired == "YES")
-            {
-                tblLiabilityYes.Style["Display"] = "";
-                tblLiabilityNo.Style["Display"] = "none";
-            }
-            else
-            {
-                tblLiabilityYes.Style["Display"] = "none";
-                tblLiabilityNo.Style["Display"] = "";
-            }
-        }
-    }
+    #endregion   
+   
 }

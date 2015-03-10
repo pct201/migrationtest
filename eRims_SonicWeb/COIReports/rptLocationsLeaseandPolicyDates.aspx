@@ -175,6 +175,8 @@
                                             </td>
                                             <td align="left" width="300px">Lease Expiration Date
                                             </td>
+                                            <td align="left" width="300px">COI Dates
+                                            </td>
                                             <td align="left" width="324px">Limits and Coverage
                                             </td>
                                         </tr>
@@ -215,12 +217,7 @@
                                                 <%--<asp:Label ID="lblSubtenantDBA" runat="server" Text='<%# Eval("Subtenant_DBA") %>'></asp:Label>--%>
                                             </td>
                                             <td align="left" width="300px" class="ReportTable-td" valign="top">
-                                                <table cellpadding="3" cellspacing="3">
-                                                    <tr>
-                                                        <td align="left" valign="top">
-                                                            <asp:Label ID="lblLeaseExpirationDate" runat="server" Text='<%# Eval("Lease_Expiration_Date") %>'></asp:Label>
-                                                        </td>
-                                                    </tr>
+                                                <table cellpadding="3" cellspacing="3">                                                    
                                                     <tr>
                                                         <td align="left" valign="top">
                                                             <table cellpadding="0" cellspacing="0">
@@ -234,6 +231,28 @@
                                                                     <td align="left" valign="top" style="font-weight: bold; margin-left: 15px">Sublease Expiration Date :</td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblSubleaseExpirationDate" runat="server" Text='<%# Eval("Sublease_Expiration_Date") %>'></asp:Label>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td align="left" width="300px" class="ReportTable-td" valign="top">
+                                                <table cellpadding="3" cellspacing="3">                                                    
+                                                    <tr>
+                                                        <td align="left" valign="top">
+                                                            <table cellpadding="0" cellspacing="0">
+                                                                <tr>
+                                                                    <td align="left" style="font-weight: bold; margin-left: 15px" valign="top">Date Requested :</td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblDate_Requested" runat="server" Text='<%# Eval("Date_Requested") %>'></asp:Label>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" style="font-weight: bold; margin-left: 15px">Date Recieved :</td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:Label ID="lblIssue_Date" runat="server" Text='<%# Eval("Issue_Date") %>'></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                             </table>

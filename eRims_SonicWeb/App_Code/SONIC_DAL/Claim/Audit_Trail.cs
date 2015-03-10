@@ -213,4 +213,13 @@ public class Audit_Trail
         dbCommand.CommandTimeout = 10000;
         return db.ExecuteDataSet(dbCommand);
     }
+
+    public static DataSet GetCOI_Notes_AuditTrail(decimal PK_Management)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("COI_Notes_AuditView");
+        db.AddInParameter(dbCommand, "PK_COI_Notes", DbType.Decimal, PK_Management);
+        dbCommand.CommandTimeout = 10000;
+        return db.ExecuteDataSet(dbCommand);
+    }
 }
