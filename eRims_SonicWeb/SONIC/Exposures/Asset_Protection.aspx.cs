@@ -1099,6 +1099,10 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 ctrlAPNotes_DPD.CurrentClaimType = "AP_DPD_FROIs";
                 ctrlAPNotes_DPD.BindGridSonicNotes(PK_AP_DPD_FROIs, "AP_DPD_FROIs");
             }
+            else
+            {
+                ctrlAPNotes_DPD.BindEmptyGrid();
+            }
         }
     }
 
@@ -1205,13 +1209,17 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             lblInvestigatingPoliceDepartment.Text = dtDPD_FROIs_Detail.Rows[0]["Investigating_Police_Department"].ToString() != "" ? dtDPD_FROIs_Detail.Rows[0]["Investigating_Police_Department"].ToString() : "";
             chkVandalismView.Checked = dtDPD_FROIs_Detail.Rows[0]["Vandalism"].ToString() == "Y" ? true : false;
 
-            
+
             if (PK_AP_DPD_FROIs > 0)
             {
                 ctrlAPNotes_DPDView.Location_ID = Convert.ToInt32(LocationID);
                 ctrlAPNotes_DPDView.PK_DPD_Claims_ID = Convert.ToInt32(PK_DPD_Claims_ID);
                 ctrlAPNotes_DPDView.CurrentClaimType = "AP_DPD_FROIs";
                 ctrlAPNotes_DPDView.BindGridSonicNotes(PK_AP_DPD_FROIs, "AP_DPD_FROIs");
+            }
+            else
+            {
+                ctrlAPNotes_DPDView.BindEmptyGrid();
             }
         }
     }
@@ -1442,7 +1450,10 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 ctrlAPNotes_AL.CurrentClaimType = "AP_AL_FROIs";
                 ctrlAPNotes_AL.BindGridSonicNotes(PK_AP_AL_FROIs, "AP_AL_FROIs");
             }
-
+            else
+            {
+                ctrlAPNotes_AL.BindEmptyGrid();
+            }
 
             #endregion
         }
@@ -1593,6 +1604,10 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 ctrlAPNotes_ALView.PK_AL_CI_ID = Convert.ToInt32(PK_Auto_Loss_Claims_ID);
                 ctrlAPNotes_ALView.CurrentClaimType = "AP_AL_FROIs";
                 ctrlAPNotes_ALView.BindGridSonicNotes(PK_AP_AL_FROIs, "AP_AL_FROIs");
+            }
+            else
+            {
+                ctrlAPNotes_ALView.BindEmptyGrid();
             }
             #endregion
 

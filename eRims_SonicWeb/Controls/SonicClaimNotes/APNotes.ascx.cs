@@ -184,6 +184,15 @@ public partial class Controls_SonicClaimNotes_APNotes : System.Web.UI.UserContro
         }
 
     }
+
+    public void BindEmptyGrid()
+    {
+        gvNotes.DataSource = new DataTable();
+        gvNotes.DataBind();
+        btnView.Visible = false;
+        btnPrint.Visible = false;
+        btnNotesAdd.Visible = false;
+    }
     #endregion
 
     #region " GridEvents"
