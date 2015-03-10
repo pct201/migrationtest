@@ -847,11 +847,12 @@ public partial class Admin_COIAddEdit : clsBasePage
             gvNotes.DataBind();
             btnView.Visible = false;
             btnPrint.Visible = false;
-        }
+        }        
         ctrlPageSonicNotes.TotalRecords = (dsNotes.Tables.Count >= 2) ? Convert.ToInt32(dsNotes.Tables[1].Rows[0][0]) : 0;
         ctrlPageSonicNotes.CurrentPage = (dsNotes.Tables.Count >= 2) ? Convert.ToInt32(dsNotes.Tables[1].Rows[0][2]) : 0;
         ctrlPageSonicNotes.RecordsToBeDisplayed = dsNotes.Tables[0].Rows.Count;
         ctrlPageSonicNotes.SetPageNumbers();
+        gvNotes.Columns[3].Visible = (strOperation == "view") ? false : true;
         gvNotes.DataSource = dtNotes;
         gvNotes.DataBind();
 
@@ -920,6 +921,7 @@ public partial class Admin_COIAddEdit : clsBasePage
         btnNotesAdd.Style["Display"] = "none";
 
         //Hide radio buttons in grid bands 
+        
         rdoGeneralRequired.Visible = false;
         rdoAutoRequired.Visible = false;
         rdoExcessRequired.Visible = false;
