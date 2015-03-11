@@ -79,7 +79,10 @@ public partial class SONIC_Exposures_ExposureSearchResult : clsBasePage
             // Bind Grid
             BindGrid(1, 10);
 
-
+            if (Session["AL_RowIndex"] != null) Session["AL_RowIndex"] = null;
+            if (Session["AP_AL_FROIs_CommandArgs"] != null) Session["AP_AL_FROIs_CommandArgs"] = null;
+            if (Session["DPD_RowIndex"] != null) Session["DPD_RowIndex"] = null;
+            if (Session["AP_DPD_FROIs_CommandArgs"] != null) Session["AP_DPD_FROIs_CommandArgs"] = null;
 
         }
     }

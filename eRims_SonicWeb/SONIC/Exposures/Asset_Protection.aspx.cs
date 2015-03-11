@@ -1127,6 +1127,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 clsSession.First_Report_Wizard_ID = Convert.ToInt32(arg[2]);
                 FK_DPD_FR_Vehicle_ID = Convert.ToDecimal(arg[3]);
                 PK_DPD_Claims_ID = Convert.ToDecimal(arg[4]);
+                
             }
         }
 
@@ -3470,6 +3471,22 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         else
             btnDPD_FROIsAudit_Trail.Visible = false;
 
+        if (PK_AP_DPD_FROIs > 0)
+        {
+            ctrlAPNotes_DPD.Location_ID = Convert.ToInt32(LocationID);
+            ctrlAPNotes_DPD.PK_DPD_Claims_ID = Convert.ToInt32(PK_DPD_Claims_ID);
+            ctrlAPNotes_DPD.CurrentClaimType = "AP_DPD_FROIs";
+            ctrlAPNotes_DPD.BindGridSonicNotes(PK_AP_DPD_FROIs, "AP_DPD_FROIs");
+
+            if (!string.IsNullOrEmpty(AP_DPD_FROIs_CommandArgs))
+            {
+                string[] arg = new string[4];
+                arg = AP_DPD_FROIs_CommandArgs.Split(';');
+                arg[1] = Convert.ToString(PK_AP_DPD_FROIs);
+                AP_DPD_FROIs_CommandArgs = string.Join(";", arg);
+            }
+        }
+
         BindAP_DPD_FROIs_Grid(CtrlPagingDPD_FROIs.CurrentPage, CtrlPagingDPD_FROIs.PageSize);
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
     }
@@ -3588,6 +3605,23 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             btnAL_ViewAuditTrail.Visible = true;
         else
             btnAL_ViewAuditTrail.Visible = false;
+
+
+        if (PK_AP_AL_FROIs > 0)
+        {
+            ctrlAPNotes_AL.Location_ID = Convert.ToInt32(LocationID);
+            ctrlAPNotes_AL.PK_AL_CI_ID = Convert.ToInt32(PK_Auto_Loss_Claims_ID);
+            ctrlAPNotes_AL.CurrentClaimType = "AP_AL_FROIs";
+            ctrlAPNotes_AL.BindGridSonicNotes(PK_AP_AL_FROIs, "AP_AL_FROIs");
+
+            if (!string.IsNullOrEmpty(AP_AL_FROIs_CommandArgs))
+            {
+                string[] arg = new string[4];
+                arg = AP_AL_FROIs_CommandArgs.Split(';');
+                arg[1] = Convert.ToString(PK_AP_AL_FROIs);
+                AP_AL_FROIs_CommandArgs = string.Join(";", arg);
+            }
+        }
 
         BindAP_AL_FROIs_Grid(CtrlPagingAL_FROIs.CurrentPage, CtrlPagingAL_FROIs.PageSize);
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);", true);

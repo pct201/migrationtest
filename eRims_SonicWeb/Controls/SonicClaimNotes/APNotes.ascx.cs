@@ -115,11 +115,11 @@ public partial class Controls_SonicClaimNotes_APNotes : System.Web.UI.UserContro
     {
         if (CurrentClaimType == "AP_AL_FROIs")
         {
-            BindGridSonicNotes(PK_AL_CI_ID, CurrentClaimType);
+            BindGridSonicNotes(FK_Table, CurrentClaimType);
         }
         if (CurrentClaimType == "AP_DPD_FROIs")
         {
-            BindGridSonicNotes(PK_DPD_Claims_ID, CurrentClaimType);
+            BindGridSonicNotes(FK_Table, CurrentClaimType);
         }
         //if (CurrentClaimType == "PropertyClaim")
         //{
@@ -280,9 +280,6 @@ public partial class Controls_SonicClaimNotes_APNotes : System.Web.UI.UserContro
         
 
     }
-    //protected void GetPage()
-    //{
-    //    BindGridSonicNotes(PK_WC_CI_ID, clsGeneral.Claim_Tables.WCClaim.ToString(), ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
-    //}
+   
     #endregion
 }
