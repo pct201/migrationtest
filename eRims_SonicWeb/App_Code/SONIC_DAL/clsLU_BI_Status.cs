@@ -160,6 +160,18 @@ namespace ERIMS.DAL
         }
 
         /// <summary>
+        /// Selects all records from the LU_BI_Status table.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectActive()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_BI_Status_SelectActive");
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
         /// Updates a record in the LU_BI_Status table.
         /// </summary>
         public int Update()

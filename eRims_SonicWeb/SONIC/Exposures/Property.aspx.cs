@@ -112,15 +112,6 @@ public partial class Exposures_Property : clsBasePage
     }
 
     /// <summary>
-    /// Denotes PK for Property_Assessment_Concern table
-    /// </summary>
-    private int PK_Property_Assessment_Concern_ID
-    {
-        get { return Convert.ToInt32(ViewState["PK_Property_Assessment_Concern_ID"]); }
-        set { ViewState["PK_Property_Assessment_Concern_ID"] = value; hdnAssessmentConcernID.Value = value.ToString(); }
-    }
-
-    /// <summary>
     /// Denotes PK for Property_Contact table
     /// </summary>
     private int PK_Property_Contact_ID
@@ -163,7 +154,7 @@ public partial class Exposures_Property : clsBasePage
         Tab.SetSelectedTab(Controls_ExposuresTab_ExposuresTab.Tab.Property);
         //used to check Page Post Back Event
         if (!IsPostBack)
-        {   
+        {
             // Check if User has right To Add or Edit 
             if (App_Access == AccessType.View_Only)
             {
@@ -172,7 +163,7 @@ public partial class Exposures_Property : clsBasePage
 
             // bind dropdowns required for adding values
             BindDropDowns();
-            
+
             // check for the location id is passed in querystring
             if (Request.QueryString["loc"] != null)
             {
@@ -183,7 +174,7 @@ public partial class Exposures_Property : clsBasePage
                 }
                 else
                     Response.Redirect("ExposureSearch.aspx");
-                                
+
                 // set opertation for page
                 strOperation = (Request.QueryString["op"] != null) ? "edit" : "";
 
@@ -207,7 +198,7 @@ public partial class Exposures_Property : clsBasePage
                 //Commented below line for ticket #3132
                 //BindGridBusinessInterruption();
 
-                BindGridAssessment();
+
                 BindEmergencyContactGrid();
                 BindUtilityContactGrid();
                 BindOtherContactGrid();
@@ -220,7 +211,7 @@ public partial class Exposures_Property : clsBasePage
                 SetValidationsPropertyCope();
                 SetValidationsBuildingInfo();
                 SetValidationsOwnershipDetails();
-                SetValidationspropertyConditionAssess();
+                //
                 SetValidationsContact();
                 SetValidationsSabaTraining();
                 SetValidationsAdditionalInsureds();
@@ -233,11 +224,16 @@ public partial class Exposures_Property : clsBasePage
                     if (int.TryParse(Encryption.Decrypt(Request.QueryString["build"]), out decID)) PK_Building_ID = decID;
                     {
                         BindBuildingDetails();
-                        
+
                         BindInuranceDetailForEdit(PK_Building_ID);
                     }
                     ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
                 }
+                //else if (Request.QueryString["FK_Property_Cope"] != null)
+                //{
+                    
+                //    ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);", true);
+                //}
                 else
                     ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
             }
@@ -245,6 +241,8 @@ public partial class Exposures_Property : clsBasePage
                 Response.Redirect("ExposureSearch.aspx");
         }
     }
+
+    #endregion
 
     #region "Control Events"
 
@@ -671,7 +669,7 @@ public partial class Exposures_Property : clsBasePage
             objBuilding.Update();
         else
             PK_Building_ID = objBuilding.Insert();
-        
+
         //Insert and update Insurance cope
         InsertUpdateInsuranceCope(PK_Building_ID);
 
@@ -1054,86 +1052,6 @@ public partial class Exposures_Property : clsBasePage
     }
 
     /// <summary>
-    /// Handles Save button click in Property Condition Assessment panel
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void btnAssessmentSave_Click(object sender, EventArgs e)
-    {
-        // create object for Property_Assessment 
-        Property_Assessment objAssessment = new Property_Assessment();
-
-        // set PK and FK
-        objAssessment.PK_Property_Assessment_ID = PK_Property_Assessment_ID;
-        objAssessment.FK_LU_Location_ID = FK_LU_Location_ID;
-
-        // get values from page controls        
-        objAssessment.Date = clsGeneral.FormatDateToStore(txtAssessment_History_Date);
-        objAssessment.Assessor = txtAssessment_History_Assessor.Text.Trim();
-        objAssessment.Contact_Name = txtAssessment_History_Contact_Name.Text.Trim();
-        objAssessment.Address_1 = txtAssessment_History_Address_1.Text.Trim();
-        objAssessment.Address_2 = txtAssessment_History_Address_2.Text.Trim();
-        objAssessment.City = txtAssessment_History_City.Text.Trim();
-        objAssessment.State = ddlAssessment_History_State.SelectedValue;
-        objAssessment.Zip = txtAssessment_History_Zip.Text.Trim();
-        objAssessment.Telephone = txtAssessment_History_Telephone.Text.Trim();
-        objAssessment.Updated_By = Convert.ToDecimal(clsSession.UserID);
-        objAssessment.Updated_Date = DateTime.Now;
-        // insert or update the record as per the primary key available
-        if (PK_Property_Assessment_ID > 0)
-            objAssessment.Update();
-        else
-            objAssessment.Insert();
-
-        // bind assessment grid
-        BindGridAssessment();
-
-        // clear assessment controls and set PK to zero 
-        PK_Property_Assessment_ID = 0;
-        ClearAssessmentControls();
-
-        ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
-    }
-
-    /// <summary>
-    /// Handles Save button click for concerns noted section in Assessment panel
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void btnSaveAssessmentConcern_Click(object sender, EventArgs e)
-    {
-        // create object for Assessment_Concern
-        Property_Assessment_Concern objConcern = new Property_Assessment_Concern();
-
-        // set PK and FK
-        objConcern.PK_Property_Assessment_Concern_ID = PK_Property_Assessment_Concern_ID;
-        objConcern.FK_Property_Assessment_ID = PK_Property_Assessment_ID;
-
-        // get values from page controls
-        objConcern.Item_Description = txtItem_Description.Text.Trim();
-        objConcern.Budgeted_Cost = clsGeneral.GetDecimalNullableValue(txtBudgeted_Cost);
-        objConcern.Actual_Cost = clsGeneral.GetDecimalNullableValue(txtActual_Cost);
-        objConcern.Date_Complete = clsGeneral.FormatDateToStore(txtDate_Complete);
-        objConcern.Comments = txtConcerns_Comments.Text.Trim();
-        objConcern.Updated_By = Convert.ToDecimal(clsSession.UserID);
-        objConcern.Updated_Date = DateTime.Now;
-        // insert or update the Assessment record depending on PK
-        if (PK_Property_Assessment_Concern_ID > 0)
-            objConcern.Update();
-        else
-            objConcern.Insert();
-
-        // set PK to zero and bind the assessment grid
-        PK_Property_Assessment_Concern_ID = 0;
-        BindGridAssessmentConcern();
-
-        // clear the assessment concern controls
-        ClearAssessmentConcernControls();
-
-        ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);", true);
-    }
-
-    /// <summary>
     /// Handles Save and View button click in Contacts panel
     /// </summary>
     /// <param name="sender"></param>
@@ -1285,30 +1203,6 @@ public partial class Exposures_Property : clsBasePage
         //ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "", "javascript:seLocationBuildingNumber('" + strLocationCode + "');", true);
     }
 
-    /// <summary>
-    /// Handles Add new link click in Assessment panel
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void lnkAddNewAssessment_Click(object sender, EventArgs e)
-    {
-        btnViewAuditPropertyAssessment.Visible = false;
-        // re-initialize PK to -1
-        PK_Property_Assessment_ID = -1;
-
-        // clear assessment controls to add new values
-        ClearAssessmentControls();
-        trAssessmentHistory.Style["display"] = "";
-    }
-
-    protected void lnkAddAssessmentConcern_Click(object sender, EventArgs e)
-    {
-        btnViewAuditAssessmentConcern.Visible = false;
-        PK_Property_Assessment_Concern_ID = -1;
-
-        ClearAssessmentConcernControls();
-        trConcernNote.Style["display"] = "";
-    }
 
     /// <summary>
     /// Handles Add New link click in Contacts panel
@@ -1526,74 +1420,6 @@ public partial class Exposures_Property : clsBasePage
     }
 
     /// <summary>
-    /// Handles Assessment grid rowcommand event
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void gvAssessment_RowCommand(object sender, GridViewCommandEventArgs e)
-    {
-        // if passed command is for viewing details
-        if (e.CommandName == "ViewDetails")
-        {
-            // set PK as ID passed in command argument
-            PK_Property_Assessment_ID = Convert.ToInt32(e.CommandArgument);
-
-            // Bind assessment details 
-            BindAssessmentDetails();
-        }
-        else if (e.CommandName == "RemoveAssessment") // if passed command is for removing assessment record
-        {
-            // delete assessment record by ID passed in command argument
-            Property_Assessment.DeleteByPK(Convert.ToInt32(e.CommandArgument));
-
-            // bind assessment grid
-            BindGridAssessment();
-
-            // if PK for assessment is same as ID passed in commad argument
-            if (PK_Property_Assessment_ID == Convert.ToInt32(e.CommandArgument))
-            {
-                // re-initialize PK with default value and clear assessment controls
-                PK_Property_Assessment_ID = -1;
-                ClearAssessmentControls();
-            }
-        }
-    }
-
-    /// <summary>
-    /// Handles Concern Notes rowcommand event
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void gvConcernNotes_RowCommand(object sender, GridViewCommandEventArgs e)
-    {
-        // if passed command is for viewing details
-        if (e.CommandName == "ViewDetails")
-        {
-            // get PK from command argument
-            PK_Property_Assessment_Concern_ID = Convert.ToInt32(e.CommandArgument);
-
-            // bind concern details controls
-            BindAssessmentConcernDetails();
-        }
-        else if (e.CommandName == "RemoveConcern") // if passed command is for removing concern record
-        {
-            // delete concern record by ID passed in command argument
-            Property_Assessment_Concern.DeleteByPK(Convert.ToInt32(e.CommandArgument));
-
-            // bind assessment concern grid
-            BindGridAssessmentConcern();
-
-            // if PK for assessment concern is same as ID passed in command argument
-            if (PK_Property_Assessment_Concern_ID == Convert.ToInt32(e.CommandArgument))
-            {
-                // re-initialize PK to default value and clear assessment controls
-                PK_Property_Assessment_Concern_ID = -1;
-                ClearAssessmentConcernControls();
-            }
-        }
-    }
-
-    /// <summary>
     /// Handles Emergency Contact grid rowcommand event
     /// </summary>
     /// <param name="sender"></param>
@@ -1671,7 +1497,7 @@ public partial class Exposures_Property : clsBasePage
         else if (e.CommandName == "RemoveDetails")
         {
             Building_Improvements.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
-            BindBuildingImprovementGrid();
+            //BindBuildingImprovementGrid();
         }
     }
 
@@ -1851,7 +1677,7 @@ public partial class Exposures_Property : clsBasePage
             // set click attribute to open file on clicking the link
             string strFilePath = Encryption.Encrypt(strFileName).Replace("'", "\\'");
             lnkBuildingAttachFile.Attributes.Add("onclick", "javascript:window.open('" + AppConfig.SiteURL + "/Download.aspx?attachfile=" + strFilePath + "')");
-            
+
         }
     }
 
@@ -1897,7 +1723,7 @@ public partial class Exposures_Property : clsBasePage
             // set click attribute to open file on clicking the link
             string strFilePath = Encryption.Encrypt(strFileName).Replace("'", "\\'");
             lnkLeaseAttachFile.Attributes.Add("onclick", "javascript:window.open('" + AppConfig.SiteURL + "/Download.aspx?attachfile=" + strFilePath + "')");
-            
+
         }
     }
 
@@ -1917,7 +1743,7 @@ public partial class Exposures_Property : clsBasePage
             int intPK = Convert.ToInt32(strArgs[0]);
             string strFileName = strArgs[1];
             Assessment_Attachments.DeleteByPK(intPK);
-            BindGridAssessmentAttachment();
+
 
             // delete file
             string strPath = clsGeneral.GetAttachmentDocPath(clsGeneral.ExposureTableNames[(int)clsGeneral.Exposure_Tables.Property_Assessment]) + strFileName;
@@ -1940,7 +1766,7 @@ public partial class Exposures_Property : clsBasePage
             HtmlAnchor lnkFileName = (HtmlAnchor)e.Row.FindControl("lnkFileName");
             string strFileName = DataBinder.Eval(e.Row.DataItem, "FileName").ToString();
             strFileName = AppConfig.PropertyAssessmentDocPath + strFileName;
-         
+
             // set click attribute to open file on clicking the link
             string strFilePath = Encryption.Encrypt(strFileName).Replace("'", "\\'");
             lnkFileName.Attributes.Add("onclick", "javascript:window.open('" + AppConfig.SiteURL + "/Download.aspx?attachfile=" + strFilePath + "')");
@@ -1999,6 +1825,7 @@ public partial class Exposures_Property : clsBasePage
     private void BindDetailsForEdit()
     {
         btnViewAuditPropertyCOPE.Visible = true;
+
         #region " Property COPE info "
 
         // declare object for Proeprty cope
@@ -2032,11 +1859,10 @@ public partial class Exposures_Property : clsBasePage
         if (objLocation.Active == "N")
         {
             lnkAddNewBuilding.Visible = false;
-            lnkAddNewAssessment.Visible = false;
-            lnkAddNewAssessment.Visible = false;
+            lnkAddNewImprovement.Visible = false;
         }
 
-        
+
 
         #endregion
 
@@ -2372,7 +2198,7 @@ public partial class Exposures_Property : clsBasePage
         if (objBuilding.Number_Of_Parking_Spaces != null) txtNumber_Of_Parking_Spaces.Text = string.Format("{0:N0}", objBuilding.Number_Of_Parking_Spaces);
         if (objBuilding.Acreage != null) txtAcreage.Text = Convert.ToDecimal(objBuilding.Acreage).ToString("N3").Replace("$", "");
         BindBuildingFinancialLimitGrid();
-        BindBuildingImprovementGrid();
+        //BindBuildingImprovementGrid();
         BindBuildingGGKLGrid();
         #endregion
 
@@ -2614,54 +2440,6 @@ public partial class Exposures_Property : clsBasePage
     }
 
     /// <summary>
-    /// Binds Assessment details controls
-    /// </summary>
-    private void BindAssessmentDetails()
-    {
-        btnViewAuditPropertyAssessment.Visible = true;
-        // create object for assessment
-        Property_Assessment objAssessment = new Property_Assessment(PK_Property_Assessment_ID);
-
-        // set values in page controls
-        txtAssessment_History_Date.Text = clsGeneral.FormatDateToDisplay(objAssessment.Date);
-        txtAssessment_History_Assessor.Text = objAssessment.Assessor;
-        txtAssessment_History_Contact_Name.Text = objAssessment.Contact_Name;
-        txtAssessment_History_Address_1.Text = objAssessment.Address_1;
-        txtAssessment_History_Address_2.Text = objAssessment.Address_2;
-        txtAssessment_History_City.Text = objAssessment.City;
-        ddlAssessment_History_State.SelectedValue = objAssessment.State;
-        txtAssessment_History_Zip.Text = objAssessment.Zip;
-        txtAssessment_History_Telephone.Text = objAssessment.Telephone;
-        trAssessmentHistory.Style["display"] = "";
-
-        // bind assessment concern and assessment attachment grid
-        BindGridAssessmentConcern();
-        BindGridAssessmentAttachment();
-
-        ClearAssessmentConcernControls();
-        trConcernNote.Style["display"] = "none";
-        trAssessmentAttachment.Style["display"] = "none";
-    }
-
-    /// <summary>
-    /// Binds assessment concerns details
-    /// </summary>
-    private void BindAssessmentConcernDetails()
-    {
-        btnViewAuditAssessmentConcern.Visible = true;
-        // create object for assessment concern
-        Property_Assessment_Concern objConcern = new Property_Assessment_Concern(PK_Property_Assessment_Concern_ID);
-
-        // set values in assessment controls
-        txtItem_Description.Text = objConcern.Item_Description;
-        txtBudgeted_Cost.Text = clsGeneral.GetStringValue(objConcern.Budgeted_Cost);
-        txtActual_Cost.Text = clsGeneral.GetStringValue(objConcern.Actual_Cost);
-        txtDate_Complete.Text = clsGeneral.FormatDateToDisplay(objConcern.Date_Complete);
-        txtConcerns_Comments.Text = objConcern.Comments;
-        trConcernNote.Style["display"] = "";
-    }
-
-    /// <summary>
     /// Binds Contacts details
     /// </summary>
     private void BindContactsDetails()
@@ -2775,12 +2553,6 @@ public partial class Exposures_Property : clsBasePage
         ddlLoss_Payees_State.DataBind();
         ddlLoss_Payees_State.Items.Insert(0, new ListItem("--SELECT--", ""));
 
-        // Binds assessment history state dropdown in Assessment panel
-        ddlAssessment_History_State.DataSource = dtState;
-        ddlAssessment_History_State.DataTextField = "FLD_state";
-        ddlAssessment_History_State.DataValueField = "FLD_state";
-        ddlAssessment_History_State.DataBind();
-        ddlAssessment_History_State.Items.Insert(0, new ListItem("--SELECT--", ""));
 
         //binds saba training year dropdown
         int _Year;
@@ -2974,7 +2746,7 @@ public partial class Exposures_Property : clsBasePage
 
         BindBuildingFinancialLimitGrid();
         BindGridBuildingAttachments();
-        BindBuildingImprovementGrid();
+        //BindBuildingImprovementGrid();
         BindBuildingGGKLGrid();
 
         if (tblInsurance.Visible == true)
@@ -3157,42 +2929,6 @@ public partial class Exposures_Property : clsBasePage
         trNamedLossPayees.Style["display"] = "none";
     }
 
-    /// <summary>
-    /// Clears Assessment panel controls
-    /// </summary>
-    private void ClearAssessmentControls()
-    {
-        txtAssessment_History_Date.Text = "";
-        txtAssessment_History_Assessor.Text = "";
-        txtAssessment_History_Contact_Name.Text = "";
-        txtAssessment_History_Address_1.Text = "";
-        txtAssessment_History_Address_2.Text = "";
-        txtAssessment_History_City.Text = "";
-        ddlAssessment_History_State.SelectedValue = "";
-        txtAssessment_History_Zip.Text = "";
-        txtAssessment_History_Telephone.Text = "";
-
-        trAssessmentHistory.Style["display"] = "none";
-        trConcernNote.Style["display"] = "none";
-        trAssessmentAttachment.Style["display"] = "none";
-        BindGridAssessmentConcern();
-        BindGridAssessmentAttachment();
-    }
-
-    /// <summary>
-    /// Clears Concern noted section control in Assessment panel
-    /// </summary>
-    private void ClearAssessmentConcernControls()
-    {
-        txtItem_Description.Text = "";
-        txtBudgeted_Cost.Text = "";
-        txtActual_Cost.Text = "";
-        txtDate_Complete.Text = "";
-        txtConcerns_Comments.Text = "";
-
-        trConcernNote.Style["display"] = "none";
-    }
-
     // Clears contacts panel controls
     private void ClearContactDetailsControls()
     {
@@ -3289,35 +3025,6 @@ public partial class Exposures_Property : clsBasePage
         gvPayee.DataBind();
     }
 
-    /// <summary>
-    /// Binds Assessment grid in Assessment panel
-    /// </summary>
-    private void BindGridAssessment()
-    {
-        DataTable dtAssessment = Property_Assessment.SelectByFK(FK_LU_Location_ID).Tables[0];
-        gvAssessment.DataSource = dtAssessment;
-        gvAssessment.DataBind();
-    }
-
-    /// <summary>
-    /// Binds Concern noted grid in Assessment panel
-    /// </summary>
-    private void BindGridAssessmentConcern()
-    {
-        DataTable dtConcern = Property_Assessment_Concern.SelectByFK(PK_Property_Assessment_ID).Tables[0];
-        gvConcernNotes.DataSource = dtConcern;
-        gvConcernNotes.DataBind();
-    }
-
-    /// <summary>
-    /// Binds Assessment attachments grid in assessment panel
-    /// </summary>
-    private void BindGridAssessmentAttachment()
-    {
-        DataTable dtAttachments = Assessment_Attachments.SelectByFK(PK_Property_Assessment_ID).Tables[0];
-        gvAssessmentAttachment.DataSource = dtAttachments;
-        gvAssessmentAttachment.DataBind();
-    }
 
     /// <summary>
     /// Binds Emergency contact grid
@@ -3351,7 +3058,7 @@ public partial class Exposures_Property : clsBasePage
 
     private void BindBuildingImprovementGrid()
     {
-        DataTable dtImprovements = Building_Improvements.SelectByFK(PK_Building_ID).Tables[0];
+        DataTable dtImprovements = Building_Improvements.SelectByFK_Property_Cope(PK_Property_Cope_ID).Tables[0];
         gvBuildingImprovements.DataSource = dtImprovements;
         gvBuildingImprovements.DataBind();
     }
@@ -3507,21 +3214,6 @@ public partial class Exposures_Property : clsBasePage
         }
     }
 
-    /// <summary>
-    /// Uploads Assessment attachment 
-    /// </summary>
-    protected void Upload_Assessment_Attachment()
-    {
-        // set FK for the attachment 
-        AssessmentAttachment.FK_Building_ID = PK_Property_Assessment_ID;
-
-        // add attachment
-        AssessmentAttachment.Add(clsGeneral.Exposure_Tables.Property_Assessment);
-
-        // bind grid attachment to list newly added attachment
-        BindGridAssessmentAttachment();
-        ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "ShowPanel(4);", true);
-    }
     #endregion
 
     #region "Insurance Cope"
@@ -3534,19 +3226,19 @@ public partial class Exposures_Property : clsBasePage
         tblInsurance.Controls.Clear();
 
         if (objDs != null && objDs.Tables.Count > 0 && objDs.Tables[0].Rows.Count > 0)
-        {            
-            HtmlTableRow tr=new HtmlTableRow();
+        {
+            HtmlTableRow tr = new HtmlTableRow();
             HtmlTableCell tc;
             bool blnAddBlanktd = false;
 
             if (objDs.Tables[0].Rows.Count == 1)
                 blnAddBlanktd = true;
 
-            int intCnt=1;
+            int intCnt = 1;
             for (int i = 0; i < objDs.Tables[0].Rows.Count; i++)
             {
-                                
-                if (intCnt==1)
+
+                if (intCnt == 1)
                     tr = new HtmlTableRow();
 
                 if (i % 2 == 1)
@@ -3556,7 +3248,7 @@ public partial class Exposures_Property : clsBasePage
                     tc.Width = "18%";
                     tc.Align = "left";
                     tc.VAlign = "top";
-                     tc.Style.Add("padding-left", "9px");
+                    tc.Style.Add("padding-left", "9px");
                     Label lbl = new Label();
                     lbl.ID = "Lbl_Item_" + Convert.ToString(objDs.Tables[0].Rows[i]["Item_Number"]);
                     //lbl.Width = Unit.Pixel(132);
@@ -3576,10 +3268,10 @@ public partial class Exposures_Property : clsBasePage
                     lbl.Text = Convert.ToString(objDs.Tables[0].Rows[i]["Item_Descriptor"]);
                     tc.Controls.Add(lbl);
                 }
-                
+
                 //tc.InnerHtml = objDs.Tables[0].Rows[i]["Item_Descriptor"].ToString();
 
-                if (Convert.ToString(objDs.Tables[0].Rows[i]["Mandatory"]) == "Y" )
+                if (Convert.ToString(objDs.Tables[0].Rows[i]["Mandatory"]) == "Y")
                 {
                     //tc.InnerHtml = " <span id='span'" + Convert.ToString(objDs.Tables[0].Rows[i]["Item_Number"]) + "' style='color: Red;'>*</span>";
                     Label lbl = new Label();
@@ -3587,7 +3279,7 @@ public partial class Exposures_Property : clsBasePage
 
                     tc.Controls.Add(lbl);
                 }
-                
+
                 tr.Controls.Add(tc);
 
                 tc = new HtmlTableCell();
@@ -3603,7 +3295,7 @@ public partial class Exposures_Property : clsBasePage
                 tr.Controls.Add(tc);
 
                 tc = new HtmlTableCell();
-                
+
                 if (i % 2 == 1)
                 {
                     tc.Width = "28%";
@@ -3616,13 +3308,13 @@ public partial class Exposures_Property : clsBasePage
                 }
                 tc.Align = "left";
                 tc.VAlign = "top";
-               
+
                 TextBox txt = new TextBox();
                 txt.ID = "Item_" + Convert.ToString(objDs.Tables[0].Rows[i]["Item_Number"]);
                 txt.MaxLength = 100;
                 txt.Width = Unit.Pixel(170);
                 tc.Controls.Add(txt);
-                
+
                 if (objDs.Tables[0].Rows[i]["Mandatory"].ToString() == "Y")
                 {
                     RequiredFieldValidator rfv = new RequiredFieldValidator();
@@ -3705,8 +3397,8 @@ public partial class Exposures_Property : clsBasePage
             if (txtField != null)
             {
                 strXml += "<Record>";
-                strXml += "<ItemNo>Item_" + (i+1) + "</ItemNo>";
-                strXml += "<ItemDesc>" + txtField.Text + "</ItemDesc>";             
+                strXml += "<ItemNo>Item_" + (i + 1) + "</ItemNo>";
+                strXml += "<ItemDesc>" + txtField.Text + "</ItemDesc>";
                 strXml += "</Record>";
             }
         }
@@ -3722,10 +3414,10 @@ public partial class Exposures_Property : clsBasePage
             for (int i = 0; i < 25; i++)
             {
                 TextBox txtField = tblInsurance.FindControl("Item_" + (i + 1)) as TextBox;
-                 if (txtField != null)
-                 {
-                     txtField.Text = Convert.ToString(objDs.Tables[0].Rows[0]["Item_" + (i + 1)]);
-                 }
+                if (txtField != null)
+                {
+                    txtField.Text = Convert.ToString(objDs.Tables[0].Rows[0]["Item_" + (i + 1)]);
+                }
             }
         }
     }
@@ -3741,7 +3433,7 @@ public partial class Exposures_Property : clsBasePage
             {
                 //item.Attributes.CssStyle.Add("visibility", "hidden");
                 // Or you can try to use
-                 item.Attributes.CssStyle.Add("display", "none");
+                item.Attributes.CssStyle.Add("display", "none");
             }
         }
     }
@@ -4200,63 +3892,6 @@ public partial class Exposures_Property : clsBasePage
     }
 
     /// <summary>
-    /// Set all Validations-SetValidations property Condition Assessment
-    /// </summary>
-    private void SetValidationspropertyConditionAssess()
-    {
-        string strCtrlsIDs = "";
-        string strMessages = "";
-
-        string strCtrlsIDsConcern = "";
-        string strMessagesConcern = "";
-
-        #region ""
-        DataTable dtFields = clsScreen_Validators.SelectByScreen(56).Tables[0];
-        dtFields.DefaultView.RowFilter = "IsRequired = '1'";
-        dtFields = dtFields.DefaultView.ToTable();
-
-        MenuAsterisk3.Style["display"] = (dtFields.Select("LeftMenuIndex = 3").Length > 0) ? "inline-block" : "none";
-
-        foreach (DataRow drField in dtFields.Rows)
-        {
-            #region " set validation control IDs and messages "
-            switch (Convert.ToString(drField["Field_Name"]))
-            {
-                case "Consultant Performing Assessment": strCtrlsIDs += txtAssessment_History_Assessor.ClientID + ","; strMessages += "Please enter [Property Condition Assessment]/Consultant Performing Assessment" + ","; Span118.Style["display"] = "inline-block"; break;
-                case "Contact Name": strCtrlsIDs += txtAssessment_History_Contact_Name.ClientID + ","; strMessages += "Please enter [Property Condition Assessment]/Contact Name" + ","; Span119.Style["display"] = "inline-block"; break;
-                case "Address 1": strCtrlsIDs += txtAssessment_History_Address_1.ClientID + ","; strMessages += "Please enter [Property Condition Assessment]/Address 1" + ","; Span120.Style["display"] = "inline-block"; break;
-                case "Address 2": strCtrlsIDs += txtAssessment_History_Address_2.ClientID + ","; strMessages += "Please enter [Property Condition Assessment]/Address 2" + ","; Span122.Style["display"] = "inline-block"; break;
-                case "City": strCtrlsIDs += txtAssessment_History_City.ClientID + ","; strMessages += "Please enter [Property Condition Assessment]/City" + ","; Span124.Style["display"] = "inline-block"; break;
-                case "State": strCtrlsIDs += ddlAssessment_History_State.ClientID + ","; strMessages += "Please enter [Property Condition Assessment]/State" + ","; Span125.Style["display"] = "inline-block"; break;
-                case "Zip": strCtrlsIDs += txtAssessment_History_Zip.ClientID + ","; strMessages += "Please enter [Property Condition Assessment]/Zip" + ","; Span126.Style["display"] = "inline-block"; break;
-                case "Telephone": strCtrlsIDs += txtAssessment_History_Telephone.ClientID + ","; strMessages += "Please enter [Property Condition Assessment]/Telephone" + ","; Span121.Style["display"] = "inline-block"; break;
-                case "Date": strCtrlsIDs += txtAssessment_History_Date.ClientID + ","; strMessages += "Please enter [Property Condition Assessment]/Date" + ","; Span123.Style["display"] = "inline-block"; break;
-
-                case "Item Description ": strCtrlsIDsConcern += txtItem_Description.ClientID + ","; strMessagesConcern += "Please enter [Concerns Noted]/Item Description " + ","; Span127.Style["display"] = "inline-block"; break;
-                case "Budgeted Cost ": strCtrlsIDsConcern += txtBudgeted_Cost.ClientID + ","; strMessagesConcern += "Please enter [Concerns Noted]/Budgeted Cost " + ","; Span128.Style["display"] = "inline-block"; break;
-                case "Actual Cost ": strCtrlsIDsConcern += txtActual_Cost.ClientID + ","; strMessagesConcern += "Please enter [Concerns Noted]/Actual Cost " + ","; Span131.Style["display"] = "inline-block"; break;
-                case "Date Complete ": strCtrlsIDsConcern += txtDate_Complete.ClientID + ","; strMessagesConcern += "Please enter [Concerns Noted]/Date Complete " + ","; Span129.Style["display"] = "inline-block"; break;
-                case "Comments": strCtrlsIDsConcern += txtConcerns_Comments.ClientID + ","; strMessagesConcern += "Please enter [Concerns Noted]/Comments" + ","; Span130.Style["display"] = "inline-block"; break;
-            }
-
-            #endregion
-        }
-        #endregion
-
-        strCtrlsIDs = strCtrlsIDs.TrimEnd(',');
-        strMessages = strMessages.TrimEnd(',');
-
-        hdnControlIDsPCA.Value = strCtrlsIDs;
-        hdnErrorMsgsPCA.Value = strMessages;
-
-        strCtrlsIDsConcern = strCtrlsIDsConcern.TrimEnd(',');
-        strMessagesConcern = strMessagesConcern.TrimEnd(',');
-
-        hdnControlIDsConcernNote.Value = strCtrlsIDsConcern;
-        hdnErrorMsgsConcernNote.Value = strMessagesConcern;
-    }
-
-    /// <summary>
     /// Set all Validations-Ownership Details
     /// </summary>
     private void SetValidationsContact()
@@ -4336,6 +3971,18 @@ public partial class Exposures_Property : clsBasePage
 
     #endregion
 
-    #endregion
+    
+
+    
+    /// <summary>
+    /// Handles Add new button click event for Building Improvement grid
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>    
+    
+    protected void lnkAddNewImprovement_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("BuildingImprovements.aspx?FK_Property_Cope=" + Encryption.Encrypt(PK_Property_Cope_ID.ToString()) + "&op=add");
+    }
 }
 

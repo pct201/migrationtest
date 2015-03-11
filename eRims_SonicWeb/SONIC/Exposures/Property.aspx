@@ -59,9 +59,6 @@
             else if (page == 'Property_Assessment') {
                 pageName = "AuditPopup_Property_Assessment.aspx"; ID = document.getElementById('<%=hdnAssessmentID.ClientID%>').value;
             }
-            else if (page == 'Assessment_Concern') {
-                pageName = "AuditPopup_Assessment_Concern.aspx"; ID = document.getElementById('<%=hdnAssessmentConcernID.ClientID%>').value;
-            }
             else if (page == 'Contacts') {
                 pageName = "AuditPopup_Property_Contact.aspx"; ID = document.getElementById('<%=hdnBuildingID.ClientID%>').value;
             }
@@ -100,9 +97,9 @@ function ShowAuditPopUp(url) {
 function ValidateFields(sender, args) {
     var msg = '';
     var ctrlIDs = document.getElementById('<%=hdnControlIDs.ClientID%>').value.split(',');
-            var Messages = document.getElementById('<%=hdnErrorMsgs.ClientID%>').value.split(',');
-            var focusCtrlID = "";
-            if (document.getElementById('<%=hdnControlIDs.ClientID%>').value != "") {
+    var Messages = document.getElementById('<%=hdnErrorMsgs.ClientID%>').value.split(',');
+    var focusCtrlID = "";
+    if (document.getElementById('<%=hdnControlIDs.ClientID%>').value != "") {
                 var i = 0;
                 for (i = 0; i < ctrlIDs.length; i++) {
                     var bEmpty = false;
@@ -662,9 +659,8 @@ function ValidateFields(sender, args) {
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <td align="left" width="100%">
-                                                                                            <span class="LeftMenuStatic" id="PropertyMenu4" onclick="javascript:ShowPanel(4);">Property
-                                                                                                Condition<br />
-                                                                                                Assessment</span> &nbsp;<span id="MenuAsterisk3" runat="server" style="color: Red; display: none">*</span>
+                                                                                            <span class="LeftMenuStatic" id="PropertyMenu4" onclick="javascript:ShowPanel(4);">Building <br />Improvements
+                                                                                            </span>&nbsp;<span id="MenuAsterisk3" runat="server" style="color: Red; display: none">*</span>
                                                                                         </td>
                                                                                     </tr>
                                                                                 </tbody>
@@ -788,7 +784,7 @@ function ValidateFields(sender, args) {
                                                                         <asp:ListItem Text="--SELECT--" Value=""></asp:ListItem>
                                                                         <asp:ListItem Text="Active" Value="Active"></asp:ListItem>
                                                                         <asp:ListItem Text="InActive" Value="Inactive"></asp:ListItem>
-                                                                        <asp:ListItem Text="Disposed" Value="Disposed"></asp:ListItem>                                                                        
+                                                                        <asp:ListItem Text="Disposed" Value="Disposed"></asp:ListItem>
                                                                     </asp:DropDownList>
                                                                 </td>
                                                                 <td align="left" valign="top">Status as of Date &nbsp;<span id="Span2" style="color: Red; display: none;" runat="server">*</span>
@@ -918,8 +914,8 @@ function ValidateFields(sender, args) {
                                                                         ValidationExpression="\b[0-9]{5}-[0-9]{4}\b|\b[0-9]{5}\b" Display="none" />
                                                                 </td>
                                                             </tr>
-                                                             <!-- Commented below Section for ticket #3132 -->
-                                                           <%-- <tr>
+                                                            <!-- Commented below Section for ticket #3132 -->
+                                                            <%-- <tr>
                                                                 <td colspan="6" width="100%">
                                                                     <b>Financial Limits(Summary of all buildings)</b>
                                                                 </td>
@@ -1050,7 +1046,7 @@ function ValidateFields(sender, args) {
                                                                     </asp:GridView>
                                                                 </td>
                                                             </tr>--%>
-                                                             <!-- Commented above Section for ticket #3132 -->
+                                                            <!-- Commented above Section for ticket #3132 -->
                                                             <tr>
                                                                 <td align="left" valign="top">Inventory Levels
                                                                 </td>
@@ -1394,8 +1390,8 @@ function ValidateFields(sender, args) {
                                                                                         <asp:ListItem Text="Service"></asp:ListItem>
                                                                                         <asp:ListItem Text="Office"></asp:ListItem>
                                                                                         <asp:ListItem Text="Car Wash"></asp:ListItem>
-                                                                                        <asp:ListItem Text="1" ></asp:ListItem>
-                                                                                        <asp:ListItem Text="2" ></asp:ListItem>
+                                                                                        <asp:ListItem Text="1"></asp:ListItem>
+                                                                                        <asp:ListItem Text="2"></asp:ListItem>
                                                                                         <asp:ListItem Text="Photo Booth"></asp:ListItem>
                                                                                     </asp:CheckBoxList>
                                                                                 </td>
@@ -3198,65 +3194,6 @@ function ValidateFields(sender, args) {
                                                                 <td class="Spacer" style="height: 8px;"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td align="left" valign="top">Improvements Grid<br />
-                                                                    <asp:LinkButton ID="lnkAddBuildingImprove" runat="server" Text="--Add--" OnClick="lnkAddBuildingImprove_Click" />
-                                                                </td>
-                                                                <td align="center" valign="top">:
-                                                                </td>
-                                                                <td align="left" valign="top" colspan="4">
-                                                                    <asp:GridView ID="gvBuildingImprovements" runat="server" Width="100%" OnRowCommand="gvBuildingImprovements_RowCommand"
-                                                                        EmptyDataText="No Record Found">
-                                                                        <Columns>
-                                                                            <asp:TemplateField HeaderText="Improvement Description">
-                                                                                <ItemStyle Width="18%" />
-                                                                                <ItemTemplate>
-                                                                                    <asp:LinkButton ID="lnkDesc" runat="server" Text='<%#Eval("Improvement_Description")%>'
-                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
-                                                                                </ItemTemplate>
-                                                                            </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Service Capacity Increase">
-                                                                                <ItemStyle Width="18%" />
-                                                                                <ItemTemplate>
-                                                                                    <asp:LinkButton ID="lnkIncrease" runat="server" Text='<%#Eval("Service_Capacity_Increase")%>'
-                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
-                                                                                </ItemTemplate>
-                                                                            </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Total Revised Square Footage">
-                                                                                <ItemStyle Width="18%" />
-                                                                                <ItemTemplate>
-                                                                                    <asp:LinkButton ID="lnkFootage" runat="server" Text='<%#clsGeneral.GetStringValue(Eval("Total_Square_Footage")).Replace(".00","")%>'
-                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
-                                                                                </ItemTemplate>
-                                                                            </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Dollar Value of Improvement">
-                                                                                <ItemStyle Width="18%" />
-                                                                                <ItemTemplate>
-                                                                                    <asp:LinkButton ID="lnkImprovements" runat="server" Text='<%#clsGeneral.GetStringValue(Eval("Improvement_Value"))%>'
-                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
-                                                                                </ItemTemplate>
-                                                                            </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Completion Date">
-                                                                                <ItemStyle Width="18%" />
-                                                                                <ItemTemplate>
-                                                                                    <asp:LinkButton ID="lnkCompletionDate" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("Completion_Date"))%>'
-                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
-                                                                                </ItemTemplate>
-                                                                            </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Remove">
-                                                                                <ItemStyle Width="10%" />
-                                                                                <ItemTemplate>
-                                                                                    <asp:LinkButton ID="lnkRemove" runat="server" Text="Remove" CommandArgument='<%#Eval("PK_Building_Improvements")%>'
-                                                                                        CommandName="RemoveDetails" OnClientClick="return confirm('Are you sure that you want to delete the selected record from the Improvements Grid?');" />
-                                                                                </ItemTemplate>
-                                                                            </asp:TemplateField>
-                                                                        </Columns>
-                                                                    </asp:GridView>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="Spacer" style="height: 8px;"></td>
-                                                            </tr>
-                                                            <tr>
                                                                 <td align="left" colspan="6">
                                                                     <b>Exposure</b>
                                                                 </td>
@@ -4735,54 +4672,64 @@ function ValidateFields(sender, args) {
                                                     </ContentTemplate>
                                                 </asp:UpdatePanel>
                                             </asp:Panel>
-                                            <asp:Panel ID="pnlPropertyCondition" runat="server" Width="100%">
+                                            <asp:Panel ID="pnlBuildingImprovements" runat="server" Width="100%">
                                                 <div class="bandHeaderRow">
-                                                    Property Condition Assessment
+                                                    Building Improvements
                                                 </div>
-                                                <asp:UpdatePanel runat="server" ID="updPropertyConditionAssessment">
+                                                <asp:UpdatePanel runat="server" ID="updBuildingImprovements">
                                                     <ContentTemplate>
                                                         <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                             <tr>
                                                                 <td align="left" colspan="6">
-                                                                    <b>Assessment History<br />
-                                                                        <i>Click to view detail</i></b>
+                                                                    Building Improvements Grid<br />
+                                                                    <b><i>Click to view detail</i></b>
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td align="left" valign="top">
-                                                                    <asp:GridView ID="gvAssessment" runat="server" Width="100%" OnRowCommand="gvAssessment_RowCommand"
-                                                                        EmptyDataText="No Assessment Record Exists">
+                                                                    <asp:GridView ID="gvBuildingImprovements" runat="server" Width="100%" OnRowCommand="gvBuildingImprovements_RowCommand"
+                                                                        EmptyDataText="No Record Found">
                                                                         <Columns>
-                                                                            <asp:TemplateField HeaderText="">
-                                                                                <ItemStyle Width="5%" HorizontalAlign="center" />
+                                                                            <asp:TemplateField HeaderText="Building">
+                                                                                <ItemStyle Width="10%" />
                                                                                 <ItemTemplate>
-                                                                                    <asp:LinkButton ID="lnkViewDetails" CausesValidation="false" runat="server" Text='<%#Container.DataItemIndex + 1 %>'
-                                                                                        CommandArgument='<%# Eval("PK_Property_Assessment_ID") %>' CommandName="ViewDetails" />
+                                                                                    <asp:LinkButton ID="lnkBuilding" runat="server" Text='<%#Eval("Building_Number")%>'
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements_Buildings")%>' CommandName="ShowDetails" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Date">
-                                                                                <ItemStyle Width="20%" />
+                                                                            <asp:TemplateField HeaderText="Project Number">
+                                                                                <ItemStyle Width="15%" />
                                                                                 <ItemTemplate>
-                                                                                    <%#Eval("Date") != DBNull.Value ? clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Date"))) : ""%>
+                                                                                    <asp:LinkButton ID="lnkProjectNumber" runat="server" Text='<%#Eval("Project_Number")%>'
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements_Buildings")%>' CommandName="ShowDetails" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Assessor">
+                                                                            <asp:TemplateField HeaderText="Project Description">
                                                                                 <ItemStyle Width="35%" />
                                                                                 <ItemTemplate>
-                                                                                    <%# Eval("Assessor") %>
+                                                                                    <asp:LinkButton ID="lnkProjectDesc" runat="server" Text='<%#Eval("Project_Description")%>'
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements_Buildings")%>' CommandName="ShowDetails" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Concerns">
-                                                                                <ItemStyle Width="20%" />
+                                                                            <asp:TemplateField HeaderText="Start Date">
+                                                                                <ItemStyle Width="15%" />
                                                                                 <ItemTemplate>
-                                                                                    <%# Convert.ToInt32(Eval("ConcernCount")) > 0 ? "Yes" : "No" %>
+                                                                                    <asp:LinkButton ID="lnkStartDate" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("Start_Date"))%>'
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements_Buildings")%>' CommandName="ShowDetails" />
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Target Date">
+                                                                                <ItemStyle Width="15%" />
+                                                                                <ItemTemplate>
+                                                                                    <asp:LinkButton ID="lnkCompletionDate" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("Target_Completion_Date"))%>'
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements_Buildings")%>' CommandName="ShowDetails" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Remove">
-                                                                                <ItemStyle Width="20%" />
+                                                                                <ItemStyle Width="10%" />
                                                                                 <ItemTemplate>
-                                                                                    <asp:LinkButton ID="LinkButton4" TeID="lnkRemove" OnClientClick="return ConfirmRemove();" CausesValidation="false"
-                                                                                        runat="server" Text="Remove" CommandName="RemoveAssessment" CommandArgument='<%#Eval("PK_Property_Assessment_ID")%>' />
+                                                                                    <asp:LinkButton ID="lnkRemove" runat="server" Text="Remove" CommandArgument='<%#Eval("PK_Building_Improvements_Buildings")%>'
+                                                                                        CommandName="RemoveDetails" OnClientClick="return confirm('Are you sure that you want to delete the selected record from the Improvements Grid?');" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                         </Columns>
@@ -4791,298 +4738,10 @@ function ValidateFields(sender, args) {
                                                             </tr>
                                                             <tr>
                                                                 <td align="left" colspan="6">
-                                                                    <asp:LinkButton ID="lnkAddNewAssessment" runat="server" Text="Add New" OnClick="lnkAddNewAssessment_Click" />
+                                                                    <asp:LinkButton ID="lnkAddNewImprovement" runat="server" Text="Add New" OnClick="lnkAddNewImprovement_Click" />
                                                                     <input type="hidden" id="hdnAssessmentID" runat="server" />
                                                                 </td>
-                                                            </tr>
-                                                            <tr runat="server" id="trAssessmentHistory" style="display: none;">
-                                                                <td colspan="6" align="left">
-                                                                    <table cellpadding="3" cellspacing="1" border="0" width="100%">
-                                                                        <tr>
-                                                                            <td align="left" width="18%" valign="top">Consultant Performing Assessment&nbsp;<span id="Span118" style="color: Red; display: none;"
-                                                                                runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" width="4%" valign="top">:
-                                                                            </td>
-                                                                            <td align="left" width="28%" valign="top">
-                                                                                <asp:TextBox runat="server" ID="txtAssessment_History_Assessor" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                            </td>
-                                                                            <td align="left" width="18%" valign="top">Contact Name&nbsp;<span id="Span119" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" width="4%" valign="top">:
-                                                                            </td>
-                                                                            <td align="left" width="28%" valign="top">
-                                                                                <asp:TextBox runat="server" ID="txtAssessment_History_Contact_Name" Width="170px"
-                                                                                    MaxLength="50"></asp:TextBox>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left" valign="top">Address 1&nbsp;<span id="Span120" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" valign="top">:
-                                                                            </td>
-                                                                            <td align="left" valign="top">
-                                                                                <asp:TextBox runat="server" ID="txtAssessment_History_Address_1" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                            </td>
-                                                                            <td align="left" valign="top">Telephone&nbsp;<span id="Span121" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" valign="top">:
-                                                                            </td>
-                                                                            <td align="left" valign="top">
-                                                                                <asp:TextBox runat="server" ID="txtAssessment_History_Telephone" Width="170px" MaxLength="12"
-                                                                                    onKeyPress="javascript:return FormatPhone(event,this.id);"></asp:TextBox>
-                                                                                <asp:RegularExpressionValidator ID="regAssessment_History_Telephone" ControlToValidate="txtAssessment_History_Telephone"
-                                                                                    SetFocusOnError="true" runat="server" ValidationGroup="vsErrorAssessment" ErrorMessage="Please Enter Telephone Number in xxx-xxx-xxxx format."
-                                                                                    Display="none" Enabled="true" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left" valign="top">Address 2&nbsp;<span id="Span122" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" valign="top">:
-                                                                            </td>
-                                                                            <td align="left" valign="top">
-                                                                                <asp:TextBox runat="server" ID="txtAssessment_History_Address_2" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                            </td>
-                                                                            <td align="left" valign="top">Date&nbsp;<span id="Span123" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" valign="top">:
-                                                                            </td>
-                                                                            <td align="left" valign="top">
-                                                                                <asp:TextBox runat="server" ID="txtAssessment_History_Date" Width="170px" SkinID="txtDate"></asp:TextBox>
-                                                                                <img alt="Status As of Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtAssessment_History_Date', 'mm/dd/y');"
-                                                                                    onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
-                                                                                    align="middle" />
-                                                                                <asp:RangeValidator ID="RangeValidator1" ControlToValidate="txtAssessment_History_Date"
-                                                                                    MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date" ErrorMessage="Assessment History Date is not valid."
-                                                                                    runat="server" SetFocusOnError="true" ValidationGroup="vsErrorAssessment" Display="none" />
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left" valign="top">City&nbsp;<span id="Span124" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" valign="top">:
-                                                                            </td>
-                                                                            <td align="left" valign="top">
-                                                                                <asp:TextBox runat="server" ID="txtAssessment_History_City" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                            </td>
-                                                                            <td align="left" valign="top">&nbsp;
-                                                                            </td>
-                                                                            <td align="left" valign="top">&nbsp;
-                                                                            </td>
-                                                                            <td align="left" valign="top">&nbsp;
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left" valign="top">State&nbsp;<span id="Span125" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" valign="top">:
-                                                                            </td>
-                                                                            <td align="left" valign="top">
-                                                                                <asp:DropDownList runat="server" ID="ddlAssessment_History_State" SkinID="ddlExposure">
-                                                                                </asp:DropDownList>
-                                                                            </td>
-                                                                            <td align="left" valign="top">&nbsp;
-                                                                            </td>
-                                                                            <td align="left" valign="top">&nbsp;
-                                                                            </td>
-                                                                            <td align="left" valign="top">&nbsp;
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left" valign="top">Zip&nbsp;<span id="Span126" style="color: Red; display: none;" runat="server">*</span>
-                                                                            </td>
-                                                                            <td align="center" valign="top">:
-                                                                            </td>
-                                                                            <td align="left" valign="top">
-                                                                                <asp:TextBox runat="server" ID="txtAssessment_History_Zip" Width="170px" MaxLength="10"
-                                                                                    onKeyPress="javascript:return FormatZipCode(event,this.id);"></asp:TextBox>
-                                                                                <asp:RegularExpressionValidator ID="regAssessment_History_Zip" runat="server" ErrorMessage="Zip Code is not valid"
-                                                                                    ValidationGroup="vsErrorAssessment" SetFocusOnError="true" ControlToValidate="txtAssessment_History_Zip"
-                                                                                    ValidationExpression="\b[0-9]{5}-[0-9]{4}\b|\b[0-9]{5}\b" Display="none" />
-                                                                            </td>
-                                                                            <td align="left" valign="top">&nbsp;
-                                                                            </td>
-                                                                            <td align="left" valign="top">&nbsp;
-                                                                            </td>
-                                                                            <td align="left" valign="top">&nbsp;
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left" colspan="6">
-                                                                                <b>Concerns Noted<br />
-                                                                                    <i>Click to view detail</i></b>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left" colspan="6">
-                                                                                <asp:GridView ID="gvConcernNotes" runat="server" Width="100%" OnRowCommand="gvConcernNotes_RowCommand"
-                                                                                    EmptyDataText="No Concern Note Exists">
-                                                                                    <Columns>
-                                                                                        <asp:TemplateField HeaderText="">
-                                                                                            <ItemStyle Width="5%" />
-                                                                                            <ItemTemplate>
-                                                                                                <asp:LinkButton ID="lnkViewDetails" CausesValidation="false" runat="server" Text='<%# Container.DataItemIndex + 1 %>'
-                                                                                                    CommandArgument='<%# Eval("PK_Property_Assessment_Concern_ID") %>' CommandName="ViewDetails" />
-                                                                                            </ItemTemplate>
-                                                                                        </asp:TemplateField>
-                                                                                        <asp:TemplateField HeaderText="Item Description">
-                                                                                            <ItemStyle Width="80%" />
-                                                                                            <ItemTemplate>
-                                                                                                <%# Eval("Item_Description") %>
-                                                                                            </ItemTemplate>
-                                                                                        </asp:TemplateField>
-                                                                                        <asp:TemplateField HeaderText="Remove">
-                                                                                            <ItemStyle Width="15%" />
-                                                                                            <ItemTemplate>
-                                                                                                <asp:LinkButton ID="LinkButton5" TeID="lnkRemove" OnClientClick="return ConfirmRemove();" CausesValidation="false"
-                                                                                                    runat="server" CommandArgument='<%# Eval("PK_Property_Assessment_Concern_ID") %>'
-                                                                                                    CommandName="RemoveConcern" Text="Remove" />
-                                                                                            </ItemTemplate>
-                                                                                        </asp:TemplateField>
-                                                                                    </Columns>
-                                                                                </asp:GridView>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left" colspan="6">
-                                                                                <asp:LinkButton ID="lnkAddAssessmentConcern" runat="server" Text="Add New" OnClientClick="javascript:return CheckConcernsNote();"
-                                                                                    OnClick="lnkAddAssessmentConcern_Click" />
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td colspan="6" align="left" runat="server" id="trConcernNote" style="display: none;">
-                                                                                <table cellpadding="3" cellspacing="1" border="0" width="100%">
-                                                                                    <tr>
-                                                                                        <td align="left" width="18%" valign="top">Item Description&nbsp;<span id="Span127" style="color: Red; display: none;" runat="server">*</span>
-                                                                                        </td>
-                                                                                        <td align="center" width="2%" valign="top">:
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox runat="server" ID="txtItem_Description" Width="170px" MaxLength="250"></asp:TextBox>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td align="left" valign="top">Budgeted Cost&nbsp;<span id="Span128" style="color: Red; display: none;" runat="server">*</span>
-                                                                                        </td>
-                                                                                        <td align="center" valign="top">:
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox runat="server" ID="txtBudgeted_Cost" Width="170px" onpaste="return false"
-                                                                                                onkeypress="return FormatNumber(event,this.id,10,true);"></asp:TextBox>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td align="left" valign="top">Actual Cost&nbsp;<span id="Span131" style="color: Red; display: none;" runat="server">*</span>
-                                                                                        </td>
-                                                                                        <td align="center" valign="top">:
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox runat="server" ID="txtActual_Cost" Width="170px" onpaste="return false"
-                                                                                                onkeypress="return FormatNumber(event,this.id,10,true);"></asp:TextBox>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td align="left" valign="top">Date Complete&nbsp;<span id="Span129" style="color: Red; display: none;" runat="server">*</span>
-                                                                                        </td>
-                                                                                        <td align="center" valign="top">:
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:TextBox runat="server" ID="txtDate_Complete" Width="170px" SkinID="txtDate"></asp:TextBox>
-                                                                                            <img alt="Status As of Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtDate_Complete', 'mm/dd/y');"
-                                                                                                onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
-                                                                                                align="middle" />
-                                                                                            <asp:RangeValidator ID="regDate_Complete" ControlToValidate="txtDate_Complete" MinimumValue="01/01/1753"
-                                                                                                MaximumValue="12/31/9999" Type="Date" ErrorMessage="Date Complete is not valid."
-                                                                                                runat="server" SetFocusOnError="true" ValidationGroup="vsErrorConcern" Display="none" />
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td align="left" valign="top">Comments&nbsp;<span id="Span130" style="color: Red; display: none;" runat="server">*</span>
-                                                                                        </td>
-                                                                                        <td align="center" valign="top">:
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <uc:ctrlMultiLineTextBox runat="server" ID="txtConcerns_Comments" ControlType="TextBox" />
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td colspan="3" align="center">
-                                                                                            <table cellpadding="5" cellspacing="0" width="100%">
-                                                                                                <tr>
-                                                                                                    <td width="30%" valign="top" align="right">
-                                                                                                        <asp:Button ID="btnSaveAssessmentConcern" runat="server" Text="Save" OnClick="btnSaveAssessmentConcern_Click"
-                                                                                                            ValidationGroup="vsErrorConcern" />
-                                                                                                    </td>
-                                                                                                    <td align="left">
-                                                                                                        <asp:Button ID="btnViewAuditAssessmentConcern" runat="server" Text="View Audit Trail"
-                                                                                                            OnClientClick="javascript:return AuditPopUp('Assessment_Concern');" Visible="false" />&nbsp;
-                                                                                                        <input type="hidden" id="hdnAssessmentConcernID" runat="server" />
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                            </table>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </table>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left" colspan="6">
-                                                                                <b>Assessment Attachments<br />
-                                                                                    <i>Click to view detail</i></b>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td colspan="6" width="100%">
-                                                                                <asp:GridView ID="gvAssessmentAttachment" runat="server" Width="100%" OnRowDataBound="gvAssessmentAttachment_RowDataBound"
-                                                                                    OnRowCommand="gvAssessmentAttachment_RowCommand" EmptyDataText="Currently there is no attachment<br/>Please add one or more attachment">
-                                                                                    <Columns>
-                                                                                        <asp:TemplateField HeaderText="File Name">
-                                                                                            <ItemStyle Width="35%" />
-                                                                                            <ItemTemplate>
-                                                                                                <a id="lnkFileName" runat="server" href="#">
-                                                                                                    <%# Eval("FileName").ToString().Substring(12, (Eval("FileName").ToString().Length-1) - 11)%>
-                                                                                                </a>
-                                                                                            </ItemTemplate>
-                                                                                        </asp:TemplateField>
-                                                                                        <asp:TemplateField HeaderText="Type">
-                                                                                            <ItemStyle Width="35%" />
-                                                                                            <ItemTemplate>
-                                                                                                <%# Eval("Type") %>
-                                                                                            </ItemTemplate>
-                                                                                        </asp:TemplateField>
-                                                                                        <asp:TemplateField HeaderText="Remove">
-                                                                                            <ItemStyle Width="30%" />
-                                                                                            <ItemTemplate>
-                                                                                                <asp:LinkButton ID="lnkRemoveAttachment" runat="server" Text="Remove" CommandArgument='<%#Eval("PK_Assessment_Attachments_ID") + ":" + Eval("FileName")%>'
-                                                                                                    CommandName="RemoveAttachment" OnClientClick="return ConfirmRemove();" />
-                                                                                            </ItemTemplate>
-                                                                                        </asp:TemplateField>
-                                                                                    </Columns>
-                                                                                </asp:GridView>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left" colspan="6">
-                                                                                <a href="javascript:ShowHideAssessmentAttachment();">Add New</a>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr id="trAssessmentAttachment" runat="server" style="display: none;">
-                                                                            <td align="left" colspan="6">
-                                                                                <uc:ctrlAttachment runat="server" ID="AssessmentAttachment" OnFileSelection="Upload_Assessment_Attachment" />
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="center" colspan="6">
-                                                                                <asp:Button runat="server" ID="btnAssessmentSave" Text="Save & Next" OnClick="btnAssessmentSave_Click"
-                                                                                    ValidationGroup="vsErrorAssessment" />&nbsp;
-                                                                                <asp:Button ID="btnViewAuditPropertyAssessment" runat="server" Text="View Audit Trail"
-                                                                                    OnClientClick="javascript:return AuditPopUp('Property_Assessment');" Visible="false" />
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </td>
-                                                            </tr>
+                                                            </tr>                                                            
                                                         </table>
                                                     </ContentTemplate>
                                                 </asp:UpdatePanel>
@@ -5423,12 +5082,7 @@ function ValidateFields(sender, args) {
             document.getElementById('ProgressTable').style.height = screen.height + h;
         }
 
-        //used to hide/display Assessment Histroy Controls
-        function AddAssessmentHistory() {
-            document.getElementById('<%=trAssessmentHistory.ClientID %>').style.display = "";
-        }
-
-
+        
         //used to hide/display Named Loss Payees controls
         function checkNamedLossPayees() {
             document.getElementById('<%=btnViewAuditLossPayee.ClientID%>').style.display = "none";
@@ -5656,7 +5310,7 @@ function ValidateFields(sender, args) {
                     document.getElementById("<%=pnlSabaTraining.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlBuildingInformation.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlOwnershipDetails.ClientID%>").style.display = "none";
-                    document.getElementById("<%=pnlPropertyCondition.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlBuildingImprovements.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlContacts.ClientID%>").style.display = "none";
                 }
                 //check if index is 2 than display Building Informaiton Section.
@@ -5665,7 +5319,7 @@ function ValidateFields(sender, args) {
                     document.getElementById("<%=pnlSabaTraining.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlBuildingInformation.ClientID%>").style.display = "";
                     document.getElementById("<%=pnlOwnershipDetails.ClientID%>").style.display = "none";
-                    document.getElementById("<%=pnlPropertyCondition.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlBuildingImprovements.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlContacts.ClientID%>").style.display = "none";
                 }
                 //check if index is 3 than display Owner ship Details Section.
@@ -5674,16 +5328,16 @@ function ValidateFields(sender, args) {
                     document.getElementById("<%=pnlSabaTraining.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlBuildingInformation.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlOwnershipDetails.ClientID%>").style.display = "";
-                    document.getElementById("<%=pnlPropertyCondition.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlBuildingImprovements.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlContacts.ClientID%>").style.display = "none";
                 }
-                //check if index is 4 than display CProperty Condition Section.
+                //check if index is 4 than display Building Improvement Section.
                 if (index == 4) {
                     document.getElementById("<%=pnlPropertyCope.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlSabaTraining.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlBuildingInformation.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlOwnershipDetails.ClientID%>").style.display = "none";
-                    document.getElementById("<%=pnlPropertyCondition.ClientID%>").style.display = "";
+                    document.getElementById("<%=pnlBuildingImprovements.ClientID%>").style.display = "";
                     document.getElementById("<%=pnlContacts.ClientID%>").style.display = "none";
                 }
                 //check if index is 5 than display Contacts Section.
@@ -5692,7 +5346,7 @@ function ValidateFields(sender, args) {
                     document.getElementById("<%=pnlSabaTraining.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlBuildingInformation.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlOwnershipDetails.ClientID%>").style.display = "none";
-                    document.getElementById("<%=pnlPropertyCondition.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlBuildingImprovements.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlContacts.ClientID%>").style.display = "";
                 }
             }
@@ -5822,11 +5476,11 @@ function OpenOrRemoveCOI(bChecked, type) {
         }
         if (type == 'EL') {
             document.getElementById('<%=lnkCOI_EL.ClientID%>').innerHTML = "Add";
-                    document.getElementById('<%=hdnCOI_EL_Date.ClientID%>').value = "";
-                    document.getElementById('<%=lblCOI_EL_Date.ClientID%>').innerHTML = '';
-                }
-                if (type == 'GL') {
-                    document.getElementById('<%=lnkCOI_GL.ClientID%>').innerHTML = "Add";
+            document.getElementById('<%=hdnCOI_EL_Date.ClientID%>').value = "";
+            document.getElementById('<%=lblCOI_EL_Date.ClientID%>').innerHTML = '';
+        }
+        if (type == 'GL') {
+            document.getElementById('<%=lnkCOI_GL.ClientID%>').innerHTML = "Add";
                     document.getElementById('<%=hdnCOI_GL_Date.ClientID%>').value = "";
                     document.getElementById('<%=lblCOI_GL_Date.ClientID%>').innerHTML = '';
                 }
@@ -5886,36 +5540,11 @@ function ShowHideBuildingAttachment() {
 
 function ShowHideLeaseAttachment() {
     document.getElementById('<%=trLeaseAttachment.ClientID%>').style.display = "";
-        }
+}
 
-        function ShowHideAssessmentAttachment() {
-            var assessmentID = document.getElementById('<%=hdnAssessmentID.ClientID%>').value;
-            if (assessmentID > 0)
-                document.getElementById('<%=trAssessmentAttachment.ClientID%>').style.display = "";
-            else
-                alert("Please Enter Assessment History Information First");
-        }
 
-        function CheckBeforeAddBuildingAttach() {
-            var PK = document.getElementById('<%=hdnBuildingID.ClientID%>').value;
-            if (PK > 0)
-                ShowHideBuildingAttachment();
-            else {
-                alert('Please Enter Building Information First');
-            }
-        }
 
-        function CheckConcernsNote() {
-            var assessmentID = document.getElementById('<%=hdnAssessmentID.ClientID%>').value;
-            if (assessmentID > 0) {
-                return true;
-                //document.getElementById('<%=trConcernNote.ClientID %>').style.display="block";        
-            }
-            else {
-                alert("Please Enter Assessment History Information First");
-                return false;
-            }
-        }
+        
 
         function ConfirmRemove() {
             return confirm("Are you sure to remove?");
@@ -5983,49 +5612,49 @@ function OpenPropertyDetailPopup(PK, FK, strOp) {
 
 function ConfirmSave() {
     var isNameAvail = document.getElementById('<%=txtName.ClientID%>').value != "";
-            var isPhoneAvail = document.getElementById('<%=txtPhone.ClientID%>').value != "";
-            var isCellAvail = document.getElementById('<%=txtCell_Phone.ClientID%>').value != "";
-            var isContNameAvail = document.getElementById('<%=txtAfter_Hours_Contact_Name.ClientID%>').value != "";
-            var isContactPhoneAvail = document.getElementById('<%=txtAfter_Hours_Contact_Phone.ClientID%>').value != "";
-            var isContactCellAvail = document.getElementById('<%=txtAfter_Hours_Contact_Cell_Phone.ClientID%>').value != "";
-            var BuildingID = document.getElementById('<%=hdnBuildingID.ClientID%>').value;
+    var isPhoneAvail = document.getElementById('<%=txtPhone.ClientID%>').value != "";
+    var isCellAvail = document.getElementById('<%=txtCell_Phone.ClientID%>').value != "";
+    var isContNameAvail = document.getElementById('<%=txtAfter_Hours_Contact_Name.ClientID%>').value != "";
+    var isContactPhoneAvail = document.getElementById('<%=txtAfter_Hours_Contact_Phone.ClientID%>').value != "";
+    var isContactCellAvail = document.getElementById('<%=txtAfter_Hours_Contact_Cell_Phone.ClientID%>').value != "";
+    var BuildingID = document.getElementById('<%=hdnBuildingID.ClientID%>').value;
 
-            if (isNameAvail || isPhoneAvail || isCellAvail || isContNameAvail || isContactPhoneAvail || isContactCellAvail) {
-                if (BuildingID > 0)
-                    return true;
-                else {
-                    var bConfirm = confirm("The contact details will not be saved until a building information is selected or saved. Are you sure to proceed?");
-                    return bConfirm;
-                }
-            }
-            else
-                return false;
+    if (isNameAvail || isPhoneAvail || isCellAvail || isContNameAvail || isContactPhoneAvail || isContactCellAvail) {
+        if (BuildingID > 0)
+            return true;
+        else {
+            var bConfirm = confirm("The contact details will not be saved until a building information is selected or saved. Are you sure to proceed?");
+            return bConfirm;
         }
+    }
+    else
+        return false;
+}
 
-        function CurrencyFormatted(amount) {
-            var i = parseFloat(amount);
-            if (isNaN(i)) { i = 0.00; }
-            var minus = '';
-            if (i < 0) { minus = '-'; }
-            i = Math.abs(i);
+function CurrencyFormatted(amount) {
+    var i = parseFloat(amount);
+    if (isNaN(i)) { i = 0.00; }
+    var minus = '';
+    if (i < 0) { minus = '-'; }
+    i = Math.abs(i);
 
-            i = parseInt((i + .005) * 100);
+    i = parseInt((i + .005) * 100);
 
-            i = i / 100;
-            s = new String(i);
-            if (s.indexOf('.') < 0) { s += '.00'; }
-            if (s.indexOf('.') == (s.length - 2)) { s += '0'; }
-            s = minus + s;
-            return s;
-        }
+    i = i / 100;
+    s = new String(i);
+    if (s.indexOf('.') < 0) { s += '.00'; }
+    if (s.indexOf('.') == (s.length - 2)) { s += '0'; }
+    s = minus + s;
+    return s;
+}
 
-        function returnConfirm() {
-            return confirm('Are you sure you want to remove the selected data from eRIMS2? Once the data are removed, eRIMS2 does not have functionality to retrieve the data.');
-        }
+function returnConfirm() {
+    return confirm('Are you sure you want to remove the selected data from eRIMS2? Once the data are removed, eRIMS2 does not have functionality to retrieve the data.');
+}
 
-        function GetPercentTrained() {
+function GetPercentTrained() {
 
-            var Number_Of_Employees = document.getElementById('<%=txtNumber_of_Employees.ClientID %>').value;
+    var Number_Of_Employees = document.getElementById('<%=txtNumber_of_Employees.ClientID %>').value;
             var Number_Trained = document.getElementById('<%=txtNumber_of_Employees_To_Date.ClientID%>').value;
 
             if (Number_Of_Employees != "" && Number_Trained != "" && Number(Number_Of_Employees.replace(/,/g, '')) > 0) {

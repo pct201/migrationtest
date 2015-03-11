@@ -45,12 +45,6 @@
             else if (page == 'Loss_Payee') {
                 pageName = "AuditPopup_Additional_Insured.aspx"; ID = document.getElementById('<%=hdnLossPayeeID.ClientID%>').value;
             }
-            else if (page == 'Property_Assessment') {
-                pageName = "AuditPopup_Property_Assessment.aspx"; ID = document.getElementById('<%=hdnAssessmentID.ClientID%>').value;
-            }
-            else if (page == 'Assessment_Concern') {
-                pageName = "AuditPopup_Assessment_Concern.aspx"; ID = document.getElementById('<%=hdnAssessmentConcernID.ClientID%>').value;
-            }
             else if (page == 'Contacts') {
                 pageName = "AuditPopup_Property_Contact.aspx"; ID = document.getElementById('<%=hdnBuildingID.ClientID%>').value;
             }
@@ -168,9 +162,8 @@ function ShowAuditPopUp(url) {
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <td align="left" width="100%">
-                                                                                            <span class="LeftMenuStatic" id="PropertyMenu4" onclick="javascript:ShowPanel(4);">Property
-                                                                                                Condition<br />
-                                                                                                Assessment <span class="mf"></span></span>
+                                                                                            <span class="LeftMenuStatic" id="PropertyMenu4" onclick="javascript:ShowPanel(4);">Building Improvements
+                                                                                                <span class="mf"></span></span>
                                                                                         </td>
                                                                                     </tr>
                                                                                 </tbody>
@@ -840,21 +833,19 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                             <td width="24%" align="left">Occupancy_Car_Wash
                                                                                             </td>
-                                                                                            <td width="10%" align="left"><asp:Label runat="server" ID="lblOccupancyCarWash"></asp:Label>
+                                                                                            <td width="10%" align="left">
+                                                                                                <asp:Label runat="server" ID="lblOccupancyCarWash"></asp:Label>
                                                                                             </td>
                                                                                         </tr>
-                                                                                           <tr>
-                                                                                            <td width="23%" align="left">
-                                                                                            </td>
-                                                                                            <td width="10%" align="left">
-                                                                                            </td>
-                                                                                            <td width="23%" align="left">
-                                                                                            </td>
-                                                                                            <td width="10%" align="left">                                                                                                
-                                                                                            </td>
+                                                                                        <tr>
+                                                                                            <td width="23%" align="left"></td>
+                                                                                            <td width="10%" align="left"></td>
+                                                                                            <td width="23%" align="left"></td>
+                                                                                            <td width="10%" align="left"></td>
                                                                                             <td width="24%" align="left">Occupancy_Photo_Booth
                                                                                             </td>
-                                                                                            <td width="10%" align="left"><asp:Label runat="server" ID="lblOccupancyPhotoBooth"></asp:Label>
+                                                                                            <td width="10%" align="left">
+                                                                                                <asp:Label runat="server" ID="lblOccupancyPhotoBooth"></asp:Label>
                                                                                             </td>
                                                                                         </tr>
                                                                                     </table>
@@ -1530,8 +1521,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td class="Spacer" style="height: 10px;"></td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td>
-                                                                                                &nbsp;
+                                                                                            <td>&nbsp;
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -1544,7 +1534,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblDesign_Densities_for_each_area" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">
                                                                                                 <asp:Label ID="Label53" runat="server" Text="Hydrants located within 500 feet of buildings" Width="130px"></asp:Label>
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">
@@ -1679,7 +1669,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblFireContactName" Width="170px" />
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">
                                                                                                 <asp:Label ID="Label2" runat="server" Text="Vendor Name" Width="130px"></asp:Label>
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">
@@ -1703,7 +1693,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblFireContactExpiration" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">
                                                                                                 <asp:Label ID="Label4" runat="server" Text="Telephone Number" Width="130px"></asp:Label>
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">
@@ -1727,7 +1717,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblFireAddress1" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">
                                                                                                 <asp:Label ID="Label6" runat="server" Text="Alternate Number" Width="130px"></asp:Label>
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">
@@ -1751,7 +1741,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblFireAddress2" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">
                                                                                                 <asp:Label ID="Label22" runat="server" Text="City" Width="130px"></asp:Label>
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">
@@ -1775,7 +1765,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblFireState" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">
                                                                                                 <asp:Label ID="Label24" runat="server" Text="Email" Width="130px"></asp:Label>
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">
@@ -1799,7 +1789,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%" valign="top">
                                                                                                 <asp:Label runat="server" ID="lblFireZipCode"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">
                                                                                                 <asp:Label ID="Label8" runat="server" Text="Comments" Width="130px"></asp:Label>
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%" valign="top">
@@ -1836,7 +1826,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblsecuCam_System" Width="170px" />
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">
                                                                                                 <asp:Label ID="Label20" runat="server" Text="Contact Name" Width="130px"></asp:Label>
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">
@@ -1847,8 +1837,7 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td colspan="6">
-                                                                                                &nbsp;
+                                                                                            <td colspan="6">&nbsp;
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -1859,7 +1848,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblSecuCam_Vendor_Name" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">
                                                                                                 <asp:Label ID="Label55" runat="server" Text="Contract Expiration Date" Width="130px"></asp:Label>
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">:
@@ -1869,8 +1858,7 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td colspan="6">
-                                                                                                &nbsp;
+                                                                                            <td colspan="6">&nbsp;
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -1881,7 +1869,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblSecuCam_Address_1" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">Telephone Number
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">Telephone Number
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">:
                                                                                             </td>
@@ -1890,8 +1878,7 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td colspan="6">
-                                                                                                &nbsp;
+                                                                                            <td colspan="6">&nbsp;
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -1902,7 +1889,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblSecuCam_Address_2" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">Alternate Number
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">Alternate Number
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">:
                                                                                             </td>
@@ -1911,8 +1898,7 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td colspan="6">
-                                                                                                &nbsp;
+                                                                                            <td colspan="6">&nbsp;
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -1923,7 +1909,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblSecuCam_City" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">Email
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">Email
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">:
                                                                                             </td>
@@ -1932,8 +1918,7 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td colspan="6">
-                                                                                                &nbsp;
+                                                                                            <td colspan="6">&nbsp;
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -1944,7 +1929,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%" valign="top">
                                                                                                 <asp:Label runat="server" ID="lblSecuCam_State"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px"> valign="top">Comments
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">valign="top">Comments
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%" valign="top">:
                                                                                             </td>
@@ -1953,8 +1938,7 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td colspan="6">
-                                                                                                &nbsp;
+                                                                                            <td colspan="6">&nbsp;
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -1965,7 +1949,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblSecuCam_Zip" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">&nbsp;
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">&nbsp;
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">&nbsp;
                                                                                             </td>
@@ -1999,7 +1983,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblGuard_System_Name" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">
                                                                                                 <asp:Label ID="Label40" runat="server" Text="Contact Name" Width="130px"></asp:Label>
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">
@@ -2010,8 +1994,7 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td colspan="6">
-                                                                                                &nbsp;
+                                                                                            <td colspan="6">&nbsp;
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -2022,7 +2005,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblGuard_Vendor_Name" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">Contract Expiration Date
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">Contract Expiration Date
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">:
                                                                                             </td>
@@ -2031,8 +2014,7 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td colspan="6">
-                                                                                                &nbsp;
+                                                                                            <td colspan="6">&nbsp;
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -2043,7 +2025,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblGuard_Address_1" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">Telephone Number
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">Telephone Number
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">:
                                                                                             </td>
@@ -2052,8 +2034,7 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td colspan="6">
-                                                                                                &nbsp;
+                                                                                            <td colspan="6">&nbsp;
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -2064,7 +2045,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblGuard_Address_2" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">Alternate Number
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">Alternate Number
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">:
                                                                                             </td>
@@ -2073,8 +2054,7 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td colspan="6">
-                                                                                                &nbsp;
+                                                                                            <td colspan="6">&nbsp;
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -2085,7 +2065,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblGuard_City" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">Email
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">Email
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">:
                                                                                             </td>
@@ -2094,8 +2074,7 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td colspan="6">
-                                                                                                &nbsp;
+                                                                                            <td colspan="6">&nbsp;
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -2106,7 +2085,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%" valign="top">
                                                                                                 <asp:Label runat="server" ID="lblGuard_State"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">Comments
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">Comments
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%" valign="top">:
                                                                                             </td>
@@ -2115,8 +2094,7 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td colspan="6">
-                                                                                                &nbsp;
+                                                                                            <td colspan="6">&nbsp;
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -2127,7 +2105,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblGuard_Zip" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">&nbsp;
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">&nbsp;
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">&nbsp;
                                                                                             </td>
@@ -2161,7 +2139,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblIntru_System_Name" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">
                                                                                                 <asp:Label ID="Label43" runat="server" Text="Contact Name" Width="130px"></asp:Label>
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">
@@ -2172,8 +2150,7 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td colspan="6">
-                                                                                                &nbsp;
+                                                                                            <td colspan="6">&nbsp;
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -2184,7 +2161,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblIntru_Vendor_Name" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">Alarm type
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">Alarm type
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">:
                                                                                             </td>
@@ -2198,8 +2175,7 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td colspan="6">
-                                                                                                &nbsp;
+                                                                                            <td colspan="6">&nbsp;
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -2210,7 +2186,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblIntru_Address_1" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">Contract Expiration Date
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">Contract Expiration Date
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">:
                                                                                             </td>
@@ -2219,8 +2195,7 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td colspan="6">
-                                                                                                &nbsp;
+                                                                                            <td colspan="6">&nbsp;
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -2231,7 +2206,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblIntru_Address_2" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">Telephone Number
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">Telephone Number
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">:
                                                                                             </td>
@@ -2240,8 +2215,7 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td colspan="6">
-                                                                                                &nbsp;
+                                                                                            <td colspan="6">&nbsp;
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -2252,7 +2226,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblIntru_City" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">Alternate Number
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">Alternate Number
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">:
                                                                                             </td>
@@ -2261,8 +2235,7 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td colspan="6">
-                                                                                                &nbsp;
+                                                                                            <td colspan="6">&nbsp;
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -2273,7 +2246,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblIntru_State"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">Email
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">Email
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">:
                                                                                             </td>
@@ -2282,8 +2255,7 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td colspan="6">
-                                                                                                &nbsp;
+                                                                                            <td colspan="6">&nbsp;
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -2294,7 +2266,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%" valign="top">
                                                                                                 <asp:Label runat="server" ID="lblIntru_Zip" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px" valign="top">Comments
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px" valign="top">Comments
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%" valign="top">:
                                                                                             </td>
@@ -2368,7 +2340,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblGenerator_Make" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">
                                                                                                 <asp:Label ID="Label49" runat="server" Text="Model" Width="130px"></asp:Label>
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">
@@ -2379,8 +2351,7 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td colspan="6">
-                                                                                                &nbsp;
+                                                                                            <td colspan="6">&nbsp;
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -2391,7 +2362,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" style="width: 28%">
                                                                                                 <asp:Label runat="server" ID="lblGenerator_Size" Width="170px"></asp:Label>
                                                                                             </td>
-                                                                                            <td align="left" style="width: 18%;padding-left:9px">&nbsp;
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px">&nbsp;
                                                                                             </td>
                                                                                             <td align="center" style="width: 4%">&nbsp;
                                                                                             </td>
@@ -2492,57 +2463,7 @@ function ShowAuditPopUp(url) {
                                                                             <tr>
                                                                                 <td class="Spacer" style="height: 8px;"></td>
                                                                             </tr>
-                                                                            <tr>
-                                                                                <td align="left" valign="top">Improvements Grid
-                                                                                </td>
-                                                                                <td align="center" valign="top">:
-                                                                                </td>
-                                                                                <td align="left" valign="top" colspan="4">
-                                                                                    <asp:GridView ID="gvBuildingImprovements" runat="server" Width="100%" OnRowCommand="gvBuildingImprovements_RowCommand"
-                                                                                        EmptyDataText="No Record Found">
-                                                                                        <Columns>
-                                                                                            <asp:TemplateField HeaderText="Improvement Description">
-                                                                                                <ItemStyle Width="20%" />
-                                                                                                <ItemTemplate>
-                                                                                                    <asp:LinkButton ID="lnkDesc" runat="server" Text='<%#Eval("Improvement_Description")%>'
-                                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
-                                                                                                </ItemTemplate>
-                                                                                            </asp:TemplateField>
-                                                                                            <asp:TemplateField HeaderText="Service Capacity Increase">
-                                                                                                <ItemStyle Width="20%" />
-                                                                                                <ItemTemplate>
-                                                                                                    <asp:LinkButton ID="lnkIncrease" runat="server" Text='<%#Eval("Service_Capacity_Increase")%>'
-                                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
-                                                                                                </ItemTemplate>
-                                                                                            </asp:TemplateField>
-                                                                                            <asp:TemplateField HeaderText="Total Revised Square Footage">
-                                                                                                <ItemStyle Width="20%" />
-                                                                                                <ItemTemplate>
-                                                                                                    <asp:LinkButton ID="lnkFootage" runat="server" Text='<%#clsGeneral.GetStringValue(Eval("Total_Square_Footage")).Replace(".00","")%>'
-                                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
-                                                                                                </ItemTemplate>
-                                                                                            </asp:TemplateField>
-                                                                                            <asp:TemplateField HeaderText="Dollar Value of Improvement">
-                                                                                                <ItemStyle Width="20%" />
-                                                                                                <ItemTemplate>
-                                                                                                    <asp:LinkButton ID="lnkImprovements" runat="server" Text='<%#clsGeneral.GetStringValue(Eval("Improvement_Value"))%>'
-                                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
-                                                                                                </ItemTemplate>
-                                                                                            </asp:TemplateField>
-                                                                                            <asp:TemplateField HeaderText="Completion Date">
-                                                                                                <ItemStyle Width="20%" />
-                                                                                                <ItemTemplate>
-                                                                                                    <asp:LinkButton ID="lnkCompletionDate" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("Completion_Date"))%>'
-                                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
-                                                                                                </ItemTemplate>
-                                                                                            </asp:TemplateField>
-                                                                                        </Columns>
-                                                                                    </asp:GridView>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td class="Spacer" style="height: 8px;"></td>
-                                                                            </tr>
+
                                                                             <tr>
                                                                                 <td align="left" colspan="6">
                                                                                     <b>Exposure</b>
@@ -2693,7 +2614,7 @@ function ShowAuditPopUp(url) {
                                                                             </tr>
                                                                             <tr runat="server" id="trNational_Flood_Policy" style="display: none;">
                                                                                 <td align="left" colspan="6">
-                                                                                    <table cellpadding="0" cellspacing="0" border="0" width="100%"> 
+                                                                                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                                                                         <tr>
                                                                                             <td align="left" style="width: 18%">
                                                                                                 <asp:Label ID="Label56" runat="server" Text="Carrier" Width="146px"></asp:Label>
@@ -2715,8 +2636,7 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td colspan="6">
-                                                                                                &nbsp;
+                                                                                            <td colspan="6">&nbsp;
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -2736,8 +2656,7 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td colspan="6">
-                                                                                                &nbsp;
+                                                                                            <td colspan="6">&nbsp;
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -2757,8 +2676,7 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td colspan="6">
-                                                                                                &nbsp;
+                                                                                            <td colspan="6">&nbsp;
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -3961,296 +3879,60 @@ function ShowAuditPopUp(url) {
                                                     </ContentTemplate>
                                                 </asp:UpdatePanel>
                                             </asp:Panel>
-                                            <asp:Panel ID="pnlPropertyCondition" runat="server" Width="100%">
+                                            <asp:Panel ID="pnlBuildingImprovements" runat="server" Width="100%">
                                                 <div class="bandHeaderRow">
-                                                    Property Condition Assessment
+                                                    Building Improvements
                                                 </div>
-                                                <asp:UpdatePanel runat="server" ID="updPropertyConditionAssessment">
+                                                <asp:UpdatePanel runat="server" ID="updBuildingImprovements">
                                                     <ContentTemplate>
                                                         <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                             <tr>
-                                                                <td align="left" colspan="6">
-                                                                    <b>Assessment History<br />
-                                                                        <i>Click to view detail</i></b>
+                                                                <td align="left" colspan="6">Building Improvements Grid<br />
+                                                                    <b><i>Click to view detail</i></b>
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td align="left" valign="top">
-                                                                    <asp:GridView ID="gvAssessment" runat="server" Width="100%" OnRowCommand="gvAssessment_RowCommand"
-                                                                        EmptyDataText="No Assessment Record Exists">
+                                                                    <asp:GridView ID="gvBuildingImprovements" runat="server" Width="100%" OnRowCommand="gvBuildingImprovements_RowCommand"
+                                                                        EmptyDataText="No Improvement Record Exists">
                                                                         <Columns>
-                                                                            <asp:TemplateField HeaderText="">
-                                                                                <ItemStyle Width="5%" HorizontalAlign="center" />
+                                                                            <asp:TemplateField HeaderText="Building">
+                                                                                <ItemStyle Width="10%" />
                                                                                 <ItemTemplate>
-                                                                                    <asp:LinkButton ID="lnkViewDetails" CausesValidation="false" runat="server" Text='<%#Container.DataItemIndex + 1 %>'
-                                                                                        CommandArgument='<%# Eval("PK_Property_Assessment_ID") %>' CommandName="ViewDetails" />
+                                                                                    <asp:LinkButton ID="lnkBuilding" runat="server" Text='<%#Eval("Building_Number")%>'
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements_Buildings")%>' CommandName="ShowDetails" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Date">
-                                                                                <ItemStyle Width="25%" />
+                                                                            <asp:TemplateField HeaderText="Project Number">
+                                                                                <ItemStyle Width="15%" />
                                                                                 <ItemTemplate>
-                                                                                    <%#Eval("Date") != DBNull.Value ? clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Date"))) : ""%>
+                                                                                    <asp:LinkButton ID="lnkProjectNumber" runat="server" Text='<%#Eval("Project_Number")%>'
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements_Buildings")%>' CommandName="ShowDetails" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Assessor">
-                                                                                <ItemStyle Width="45%" />
+                                                                            <asp:TemplateField HeaderText="Project Description">
+                                                                                <ItemStyle Width="35%" />
                                                                                 <ItemTemplate>
-                                                                                    <%# Eval("Assessor") %>
+                                                                                    <asp:LinkButton ID="lnkProjectDesc" runat="server" Text='<%#Eval("Project_Description")%>'
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements_Buildings")%>' CommandName="ShowDetails" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Concerns">
-                                                                                <ItemStyle Width="25%" />
+                                                                            <asp:TemplateField HeaderText="Start Date">
+                                                                                <ItemStyle Width="15%" />
                                                                                 <ItemTemplate>
-                                                                                    <%# Convert.ToInt32(Eval("ConcernCount")) > 0 ? "Yes" : "No" %>
+                                                                                    <asp:LinkButton ID="lnkStartDate" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("Start_Date"))%>'
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements_Buildings")%>' CommandName="ShowDetails" />
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Target Date">
+                                                                                <ItemStyle Width="15%" />
+                                                                                <ItemTemplate>
+                                                                                    <asp:LinkButton ID="lnkCompletionDate" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("Target_Completion_Date"))%>'
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements_Buildings")%>' CommandName="ShowDetails" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                         </Columns>
                                                                     </asp:GridView>
-                                                                    <input type="hidden" id="hdnAssessmentID" runat="server" />
-                                                                </td>
-                                                            </tr>
-                                                            <tr runat="server" id="trAssessmentHistory" style="display: none;">
-                                                                <td colspan="6" align="left">
-                                                                    <table cellpadding="3" cellspacing="1" border="0" width="100%">
-                                                                        <tr>
-                                                                            <td align="left" width="18%" valign="top">Consultant Performing Assessment
-                                                                            </td>
-                                                                            <td align="center" width="4%" valign="top">:
-                                                                            </td>
-                                                                            <td align="left" width="28%" valign="top">
-                                                                                <asp:Label runat="server" ID="lblAssessment_History_Assessor" Width="170px"></asp:Label>
-                                                                            </td>
-                                                                            <td align="left" width="18%" valign="top">Contact Name
-                                                                            </td>
-                                                                            <td align="center" width="4%" valign="top">:
-                                                                            </td>
-                                                                            <td align="left" width="28%" valign="top">
-                                                                                <asp:Label runat="server" ID="lblAssessment_History_Contact_Name" Width="170px"></asp:Label>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left" valign="top">Address 1
-                                                                            </td>
-                                                                            <td align="center" valign="top">:
-                                                                            </td>
-                                                                            <td align="left" valign="top">
-                                                                                <asp:Label runat="server" ID="lblAssessment_History_Address_1" Width="170px"></asp:Label>
-                                                                            </td>
-                                                                            <td align="left" valign="top">Telephone
-                                                                            </td>
-                                                                            <td align="center" valign="top">:
-                                                                            </td>
-                                                                            <td align="left" valign="top">
-                                                                                <asp:Label runat="server" ID="lblAssessment_History_Telephone" Width="170px"></asp:Label>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left" valign="top">Address 2
-                                                                            </td>
-                                                                            <td align="center" valign="top">:
-                                                                            </td>
-                                                                            <td align="left" valign="top">
-                                                                                <asp:Label runat="server" ID="lblAssessment_History_Address_2" Width="170px"></asp:Label>
-                                                                            </td>
-                                                                            <td align="left" valign="top">Date
-                                                                            </td>
-                                                                            <td align="center" valign="top">:
-                                                                            </td>
-                                                                            <td align="left" valign="top">
-                                                                                <asp:Label runat="server" ID="lblAssessment_History_Date" Width="170px"></asp:Label>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left" valign="top">City
-                                                                            </td>
-                                                                            <td align="center" valign="top">:
-                                                                            </td>
-                                                                            <td align="left" valign="top">
-                                                                                <asp:Label runat="server" ID="lblAssessment_History_City" Width="170px"></asp:Label>
-                                                                            </td>
-                                                                            <td align="left" valign="top">&nbsp;
-                                                                            </td>
-                                                                            <td align="center" valign="top">&nbsp;
-                                                                            </td>
-                                                                            <td align="left" valign="top">&nbsp;
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left" valign="top">State
-                                                                            </td>
-                                                                            <td align="center" valign="top">:
-                                                                            </td>
-                                                                            <td align="left" valign="top">
-                                                                                <asp:Label runat="server" ID="lblAssessment_History_State"></asp:Label>
-                                                                            </td>
-                                                                            <td align="left" valign="top">&nbsp;
-                                                                            </td>
-                                                                            <td align="center" valign="top">&nbsp;
-                                                                            </td>
-                                                                            <td align="left" valign="top">&nbsp;
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left" valign="top">Zip
-                                                                            </td>
-                                                                            <td align="center" valign="top">:
-                                                                            </td>
-                                                                            <td align="left" valign="top">
-                                                                                <asp:Label runat="server" ID="lblAssessment_History_Zip" Width="170px"></asp:Label>
-                                                                            </td>
-                                                                            <td align="left" valign="top">&nbsp;
-                                                                            </td>
-                                                                            <td align="center" valign="top">&nbsp;
-                                                                            </td>
-                                                                            <td align="left" valign="top">&nbsp;
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left" colspan="6">
-                                                                                <b>Concerns Noted<br />
-                                                                                    <i>Click to view detail</i></b>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left" colspan="6">
-                                                                                <asp:GridView ID="gvConcernNotes" runat="server" Width="100%" OnRowCommand="gvConcernNotes_RowCommand"
-                                                                                    EmptyDataText="No Concern Note Exists">
-                                                                                    <Columns>
-                                                                                        <asp:TemplateField HeaderText="">
-                                                                                            <ItemStyle Width="5%" />
-                                                                                            <ItemTemplate>
-                                                                                                <asp:LinkButton ID="lnkViewDetails" CausesValidation="false" runat="server" Text='<%# Container.DataItemIndex + 1 %>'
-                                                                                                    CommandArgument='<%# Eval("PK_Property_Assessment_Concern_ID") %>' CommandName="ViewDetails" />
-                                                                                            </ItemTemplate>
-                                                                                        </asp:TemplateField>
-                                                                                        <asp:TemplateField HeaderText="Item Description">
-                                                                                            <ItemStyle Width="95%" />
-                                                                                            <ItemTemplate>
-                                                                                                <%# Eval("Item_Description") %>
-                                                                                            </ItemTemplate>
-                                                                                        </asp:TemplateField>
-                                                                                    </Columns>
-                                                                                </asp:GridView>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr runat="server" id="trConcernNote" style="display: none;">
-                                                                            <td colspan="6" align="left">
-                                                                                <table cellpadding="3" cellspacing="1" border="0" width="100%">
-                                                                                    <tr>
-                                                                                        <td align="left" width="18%" valign="top">Item Description
-                                                                                        </td>
-                                                                                        <td align="center" width="4%" valign="top">:
-                                                                                        </td>
-                                                                                        <td align="left" width="28%" valign="top">
-                                                                                            <asp:Label runat="server" ID="lblItem_Description" Width="170px"></asp:Label>
-                                                                                        </td>
-                                                                                        <td align="left" width="18%" valign="top">&nbsp;
-                                                                                        </td>
-                                                                                        <td align="center" width="4%" valign="top">&nbsp;
-                                                                                        </td>
-                                                                                        <td align="left" width="28%" valign="top">&nbsp;
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td align="left" valign="top">Budgeted Cost
-                                                                                        </td>
-                                                                                        <td align="center" valign="top">:
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:Label runat="server" ID="lblBudgeted_Cost" Width="170px"></asp:Label>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">&nbsp;
-                                                                                        </td>
-                                                                                        <td align="center" valign="top">&nbsp;
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">&nbsp;
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td align="left" valign="top">Actual Cost
-                                                                                        </td>
-                                                                                        <td align="center" valign="top">:
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:Label runat="server" ID="lblActual_Cost" Width="170px"></asp:Label>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">&nbsp;
-                                                                                        </td>
-                                                                                        <td align="center" valign="top">&nbsp;
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">&nbsp;
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td align="left" valign="top">Date Complete
-                                                                                        </td>
-                                                                                        <td align="center" valign="top">:
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">
-                                                                                            <asp:Label runat="server" ID="lblDate_Complete" Width="170px"></asp:Label>
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">&nbsp;
-                                                                                        </td>
-                                                                                        <td align="center" valign="top">&nbsp;
-                                                                                        </td>
-                                                                                        <td align="left" valign="top">&nbsp;
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td align="left" valign="top">Comments
-                                                                                        </td>
-                                                                                        <td align="center" valign="top">:
-                                                                                        </td>
-                                                                                        <td align="left" colspan="4" valign="top">
-                                                                                            <uc:ctrlMultiLineTextBox runat="server" ID="lblConcerns_Comments" ControlType="Label" />
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td colspan="6" align="center">
-                                                                                            <asp:Button ID="btnViewAuditAssessmentConcern" runat="server" Text="View Audit Trail"
-                                                                                                OnClientClick="javascript:return AuditPopUp('Assessment_Concern');" Visible="false" />&nbsp;
-                                                                                            <input type="hidden" id="hdnAssessmentConcernID" runat="server" />
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </table>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="left" colspan="6">
-                                                                                <b>Assessment Attachments<br />
-                                                                                    <i>Click to view detail</i></b>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td colspan="6" width="100%">
-                                                                                <asp:GridView ID="gvAssessmentAttachment" runat="server" Width="100%" OnRowDataBound="gvAssessmentAttachment_RowDataBound"
-                                                                                    EmptyDataText="Currently there is no attachment<br/>Please add one or more attachment">
-                                                                                    <Columns>
-                                                                                        <asp:TemplateField HeaderText="File Name">
-                                                                                            <ItemStyle Width="50%" />
-                                                                                            <ItemTemplate>
-                                                                                                <a id="lnkFileName" runat="server" href="#">
-                                                                                                    <%# Eval("FileName").ToString().Substring(12, (Eval("FileName").ToString().Length-1) - 11)%>
-                                                                                                </a>
-                                                                                            </ItemTemplate>
-                                                                                        </asp:TemplateField>
-                                                                                        <asp:TemplateField HeaderText="Type">
-                                                                                            <ItemStyle Width="50%" />
-                                                                                            <ItemTemplate>
-                                                                                                <%# Eval("Type") %>
-                                                                                            </ItemTemplate>
-                                                                                        </asp:TemplateField>
-                                                                                    </Columns>
-                                                                                </asp:GridView>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td align="center" colspan="6">
-                                                                                <asp:Button ID="btnViewAuditPropertyAssessment" runat="server" Text="View Audit Trail"
-                                                                                    OnClientClick="javascript:return AuditPopUp('Property_Assessment');" Visible="false" />
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -4551,7 +4233,7 @@ function ShowAuditPopUp(url) {
                     document.getElementById("<%=pnlSabaTraining.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlBuildingInformation.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlOwnershipDetails.ClientID%>").style.display = "none";
-                    document.getElementById("<%=pnlPropertyCondition.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlBuildingImprovements.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlContacts.ClientID%>").style.display = "none";
                 }
                 //check if index is 2 than display Building Informaiton Section.
@@ -4560,7 +4242,7 @@ function ShowAuditPopUp(url) {
                     document.getElementById("<%=pnlSabaTraining.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlBuildingInformation.ClientID%>").style.display = "";
                     document.getElementById("<%=pnlOwnershipDetails.ClientID%>").style.display = "none";
-                    document.getElementById("<%=pnlPropertyCondition.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlBuildingImprovements.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlContacts.ClientID%>").style.display = "none";
                 }
                 //check if index is 3 than display Owner ship Details Section.
@@ -4569,7 +4251,7 @@ function ShowAuditPopUp(url) {
                     document.getElementById("<%=pnlSabaTraining.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlBuildingInformation.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlOwnershipDetails.ClientID%>").style.display = "";
-                    document.getElementById("<%=pnlPropertyCondition.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlBuildingImprovements.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlContacts.ClientID%>").style.display = "none";
                     window.scrollTo(0, 0);
                 }
@@ -4578,7 +4260,7 @@ function ShowAuditPopUp(url) {
                     document.getElementById("<%=pnlPropertyCope.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlBuildingInformation.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlOwnershipDetails.ClientID%>").style.display = "none";
-                    document.getElementById("<%=pnlPropertyCondition.ClientID%>").style.display = "";
+                    document.getElementById("<%=pnlBuildingImprovements.ClientID%>").style.display = "";
                     document.getElementById("<%=pnlContacts.ClientID%>").style.display = "none";
                 }
                 //check if index is 5 than display Contacts Section.
@@ -4587,7 +4269,7 @@ function ShowAuditPopUp(url) {
                     document.getElementById("<%=pnlSabaTraining.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlBuildingInformation.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlOwnershipDetails.ClientID%>").style.display = "none";
-                    document.getElementById("<%=pnlPropertyCondition.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlBuildingImprovements.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlContacts.ClientID%>").style.display = "";
                 }
             }

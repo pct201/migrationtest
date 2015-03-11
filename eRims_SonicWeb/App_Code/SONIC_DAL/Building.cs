@@ -3205,6 +3205,14 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);            
         }
 
+        public static DataSet SelectBuildingForBuildingImprovements()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("SelectBuildingForBuildingImprovements");
+            
+            return db.ExecuteDataSet(dbCommand);
+        }
+
         #endregion
     }
 }

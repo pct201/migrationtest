@@ -98,23 +98,23 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
         set { ViewState["PK_Building_Payee"] = value; hdnLossPayeeID.Value = value.ToString(); }
     }
 
-    /// <summary>
-    /// Denotes PK for Property_Assessment table
-    /// </summary>
-    private int PK_Property_Assessment_ID
-    {
-        get { return Convert.ToInt32(ViewState["PK_Property_Assessment_ID"]); }
-        set { ViewState["PK_Property_Assessment_ID"] = value; hdnAssessmentID.Value = value.ToString(); }
-    }
+    ///// <summary>
+    ///// Denotes PK for Property_Assessment table
+    ///// </summary>
+    //private int PK_Property_Assessment_ID
+    //{
+    //    get { return Convert.ToInt32(ViewState["PK_Property_Assessment_ID"]); }
+    //    set { ViewState["PK_Property_Assessment_ID"] = value; hdnAssessmentID.Value = value.ToString(); }
+    //}
 
-    /// <summary>
-    /// Denotes PK for Property_Assessment_Concern table
-    /// </summary>
-    private int PK_Property_Assessment_Concern_ID
-    {
-        get { return Convert.ToInt32(ViewState["PK_Property_Assessment_Concern_ID"]); }
-        set { ViewState["PK_Property_Assessment_Concern_ID"] = value; hdnAssessmentConcernID.Value = value.ToString(); }
-    }
+    ///// <summary>
+    ///// Denotes PK for Property_Assessment_Concern table
+    ///// </summary>
+    //private int PK_Property_Assessment_Concern_ID
+    //{
+    //    get { return Convert.ToInt32(ViewState["PK_Property_Assessment_Concern_ID"]); }
+    //    set { ViewState["PK_Property_Assessment_Concern_ID"] = value; hdnAssessmentConcernID.Value = value.ToString(); }
+    //}
 
     /// <summary>
     /// Denotes PK for Property_Contact table
@@ -181,7 +181,9 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
                 //Commented below line for ticket #3132
                 //BindGridBusinessInterruption();
 
-                BindGridAssessment();
+                //Commented below line for ticket #3132
+                //BindGridAssessment();
+
                 BindSubLeaseGrid();
                 if (Request.QueryString["build"] != null)
                 {
@@ -214,7 +216,7 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
     }
     #endregion
 
-    #region " Control Events "
+    #region "Control Events"
 
     /// <summary>
     /// Handles Back button click
@@ -382,44 +384,6 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
             BindSubLeaseGrid();
         }
 
-    }
-
-    /// <summary>
-    /// Handles Assessment grid rowcommand event
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void gvAssessment_RowCommand(object sender, GridViewCommandEventArgs e)
-    {
-        // if passed command is for viewing details
-        if (e.CommandName == "ViewDetails")
-        {
-            // set PK as ID passed in command argument
-            PK_Property_Assessment_ID = Convert.ToInt32(e.CommandArgument);
-
-            // Bind assessment details 
-            BindAssessmentDetails();
-            BindGridAssessment();
-        }
-    }
-
-    /// <summary>
-    /// Handles Concern Notes rowcommand event
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void gvConcernNotes_RowCommand(object sender, GridViewCommandEventArgs e)
-    {
-        // if passed command is for viewing details
-        if (e.CommandName == "ViewDetails")
-        {
-            // get PK from command argument
-            PK_Property_Assessment_Concern_ID = Convert.ToInt32(e.CommandArgument);
-
-            // bind concern details controls
-            BindAssessmentConcernDetails();
-            BindGridAssessmentConcern();
-        }
     }
 
     /// <summary>
@@ -634,6 +598,8 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
         #endregion
 
         BindGridBuilding();
+
+        BindBuildingImprovementGrid();
 
         #region " Bind SABA Training Grid"
 
@@ -940,7 +906,7 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
         lblFireComments.Text = objBuilding.Fire_Comments;
 
         BindBuildingFinancilaLimitGrid();
-        BindBuildingImprovementGrid();
+        
         BindBuildingGGKLGrid();
         #endregion
 
@@ -1174,53 +1140,6 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
         }
     }
 
-
-    /// <summary>
-    /// Binds Assessment details controls
-    /// </summary>
-    private void BindAssessmentDetails()
-    {
-        btnViewAuditPropertyAssessment.Visible = true;
-        // create object for assessment
-        Property_Assessment objAssessment = new Property_Assessment(PK_Property_Assessment_ID);
-
-        // set values in page controls
-        lblAssessment_History_Date.Text = clsGeneral.FormatDateToDisplay(objAssessment.Date);
-        lblAssessment_History_Assessor.Text = objAssessment.Assessor;
-        lblAssessment_History_Contact_Name.Text = objAssessment.Contact_Name;
-        lblAssessment_History_Address_1.Text = objAssessment.Address_1;
-        lblAssessment_History_Address_2.Text = objAssessment.Address_2;
-        lblAssessment_History_City.Text = objAssessment.City;
-        lblAssessment_History_State.Text = objAssessment.State;
-        lblAssessment_History_Zip.Text = objAssessment.Zip;
-        lblAssessment_History_Telephone.Text = objAssessment.Telephone;
-        trAssessmentHistory.Style["display"] = "";
-
-        // bind assessment concern and assessment attachment grid
-        BindGridAssessmentConcern();
-        BindGridAssessmentAttachment();
-
-        trConcernNote.Style["display"] = "none";
-    }
-
-    /// <summary>
-    /// Binds assessment concerns details
-    /// </summary>
-    private void BindAssessmentConcernDetails()
-    {
-        btnViewAuditAssessmentConcern.Visible = true;
-        // create object for assessment concern
-        Property_Assessment_Concern objConcern = new Property_Assessment_Concern(PK_Property_Assessment_Concern_ID);
-
-        // set values in assessment controls
-        lblItem_Description.Text = objConcern.Item_Description;
-        lblBudgeted_Cost.Text = clsGeneral.GetStringValue(objConcern.Budgeted_Cost);
-        lblActual_Cost.Text = clsGeneral.GetStringValue(objConcern.Actual_Cost);
-        lblDate_Complete.Text = clsGeneral.FormatDateToDisplay(objConcern.Date_Complete);
-        lblConcerns_Comments.Text = objConcern.Comments;
-        trConcernNote.Style["display"] = "";
-    }
-
     /// <summary>
     /// Binds Contacts details
     /// </summary>
@@ -1309,38 +1228,6 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
         gvPayee.DataBind();
     }
 
-
-
-    /// <summary>
-    /// Binds Assessment grid in Assessment panel
-    /// </summary>
-    private void BindGridAssessment()
-    {
-        DataTable dtAssessment = Property_Assessment.SelectByFK(FK_LU_Location_ID).Tables[0];
-        gvAssessment.DataSource = dtAssessment;
-        gvAssessment.DataBind();
-    }
-
-    /// <summary>
-    /// Binds Concern noted grid in Assessment panel
-    /// </summary>
-    private void BindGridAssessmentConcern()
-    {
-        DataTable dtConcern = Property_Assessment_Concern.SelectByFK(PK_Property_Assessment_ID).Tables[0];
-        gvConcernNotes.DataSource = dtConcern;
-        gvConcernNotes.DataBind();
-    }
-
-    /// <summary>
-    /// Binds Assessment attachments grid in assessment panel
-    /// </summary>
-    private void BindGridAssessmentAttachment()
-    {
-        DataTable dtAttachments = Assessment_Attachments.SelectByFK(PK_Property_Assessment_ID).Tables[0];
-        gvAssessmentAttachment.DataSource = dtAttachments;
-        gvAssessmentAttachment.DataBind();
-    }
-
     /// <summary>
     /// Binds Emergency contact grid
     /// </summary>
@@ -1373,7 +1260,7 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
 
     private void BindBuildingImprovementGrid()
     {
-        DataTable dtImprovements = Building_Improvements.SelectByFK(PK_Building_ID).Tables[0];
+        DataTable dtImprovements = Building_Improvements.SelectByFK_Property_Cope(PK_Property_Cope_ID).Tables[0];
         gvBuildingImprovements.DataSource = dtImprovements;
         gvBuildingImprovements.DataBind();
     }
@@ -1582,4 +1469,6 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
     #endregion
 
     #endregion
+
+    
 }

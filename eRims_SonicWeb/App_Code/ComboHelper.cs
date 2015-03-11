@@ -1966,8 +1966,8 @@ public class ComboHelper
     public static void FillMarket(DropDownList[] dropDowns, bool booladdSelectAsFirstElement, bool isAll)
     {
         string SELECT_STRING = string.Empty;
-        if(isAll)
-        SELECT_STRING = "--All Markets--";
+        if (isAll)
+            SELECT_STRING = "--All Markets--";
         else
             SELECT_STRING = "-- Select --";
         DataSet dsData = clsLU_Market.SelectActiveMarkets();
@@ -4948,8 +4948,6 @@ public class ComboHelper
             dropDowns.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
     }
 
-
-
     public static void FillLocationByACIUser(DropDownList[] dropDownList, decimal Security_Id, bool p)
     {
         DataSet dsData = clsSecurity_ACI_LU_Location.SelectByUser(Security_Id, false);
@@ -4963,6 +4961,44 @@ public class ComboHelper
             ddlToFill.DataBind();
             //check require to add "-- select --" at first item of dropdown.
             if (p)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    public static void FillBuildingForBuildingImprovements(ListBox[] dropDownList, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.Building.SelectBuildingForBuildingImprovements();
+
+        foreach (ListBox ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "BuildingName";
+            ddlToFill.DataValueField = "PK_Building_ID";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    public static void FillBuildingImprovementStatus(DropDownList[] dropDownList, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.clsLU_BI_Status.SelectActive();
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+        foreach (DropDownList ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Fld_Desc";
+            ddlToFill.DataValueField = "PK_LU_BI_Status";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
             {
                 ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
             }

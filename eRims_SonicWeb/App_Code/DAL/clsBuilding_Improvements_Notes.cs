@@ -13,7 +13,8 @@ namespace ERIMS.DAL
 
 		#region Private variables used to hold the property values
 
-		private decimal? _PK_Building_Improvement_Notes;
+		private decimal? _PK_Building_Improvements_Notes;
+        private decimal? _FK_Building_Improvements;
 		private DateTime? _Date_Of_Note;
 		private DateTime? _Update_Date;
 		private string _Note;
@@ -28,8 +29,8 @@ namespace ERIMS.DAL
 		/// </summary>
 		public decimal? PK_Building_Improvement_Notes
 		{
-			get { return _PK_Building_Improvement_Notes; }
-			set { _PK_Building_Improvement_Notes = value; }
+			get { return _PK_Building_Improvements_Notes; }
+			set { _PK_Building_Improvements_Notes = value; }
 		}
 
 		/// <summary>
@@ -68,7 +69,11 @@ namespace ERIMS.DAL
 			set { _Updated_By = value; }
 		}
 
-
+        public decimal? FK_Building_Improvements
+        {
+            get { return _FK_Building_Improvements; }
+            set { _FK_Building_Improvements = value; }
+        }
 		#endregion
 
 		#region Default Constructors
@@ -108,9 +113,14 @@ namespace ERIMS.DAL
 		private void SetValue (DataRow drBuilding_Improvements_Notes) 
 		{
 				if (drBuilding_Improvements_Notes["PK_Building_Improvement_Notes"] == DBNull.Value)
-					this._PK_Building_Improvement_Notes = null;
+					this._PK_Building_Improvements_Notes = null;
 				else
-					this._PK_Building_Improvement_Notes = (decimal?)drBuilding_Improvements_Notes["PK_Building_Improvement_Notes"];
+					this._PK_Building_Improvements_Notes = (decimal?)drBuilding_Improvements_Notes["PK_Building_Improvements_Notes"];
+
+                if (drBuilding_Improvements_Notes["FK_Building_Improvements"] == DBNull.Value)
+                    this._FK_Building_Improvements= null;
+                else
+                    this._FK_Building_Improvements = (decimal?)drBuilding_Improvements_Notes["FK_Building_Improvements"];
 
 				if (drBuilding_Improvements_Notes["Date_Of_Note"] == DBNull.Value)
 					this._Date_Of_Note = null;
@@ -146,7 +156,9 @@ namespace ERIMS.DAL
 			Database db = DatabaseFactory.CreateDatabase();
 			DbCommand dbCommand = db.GetStoredProcCommand("Building_Improvements_NotesInsert");
 
-			
+
+            db.AddInParameter(dbCommand, "FK_Building_Improvements", DbType.Decimal, this._FK_Building_Improvements);
+
 			db.AddInParameter(dbCommand, "Date_Of_Note", DbType.DateTime, this._Date_Of_Note);
 			
 			db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
@@ -171,12 +183,12 @@ namespace ERIMS.DAL
 		/// Selects a single record from the Building_Improvements_Notes table by a primary key.
 		/// </summary>
 		/// <returns>DataSet</returns>
-		private DataSet SelectByPK(decimal pK_Building_Improvement_Notes)
+		private DataSet SelectByPK(decimal pK_Building_Improvements_Notes)
 		{
 			Database db = DatabaseFactory.CreateDatabase();
 			DbCommand dbCommand = db.GetStoredProcCommand("Building_Improvements_NotesSelectByPK");
 
-			db.AddInParameter(dbCommand, "PK_Building_Improvement_Notes", DbType.Decimal, pK_Building_Improvement_Notes);
+            db.AddInParameter(dbCommand, "PK_Building_Improvements_Notes", DbType.Decimal, pK_Building_Improvements_Notes);
 
 			return db.ExecuteDataSet(dbCommand);
 		}
@@ -202,7 +214,9 @@ namespace ERIMS.DAL
 			DbCommand dbCommand = db.GetStoredProcCommand("Building_Improvements_NotesUpdate");
 
 			
-			db.AddInParameter(dbCommand, "PK_Building_Improvement_Notes", DbType.Decimal, this._PK_Building_Improvement_Notes);
+			db.AddInParameter(dbCommand, "PK_Building_Improvement_Notes", DbType.Decimal, this._PK_Building_Improvements_Notes);
+
+            db.AddInParameter(dbCommand, "FK_Building_Improvements", DbType.Decimal, this._FK_Building_Improvements);
 			
 			db.AddInParameter(dbCommand, "Date_Of_Note", DbType.DateTime, this._Date_Of_Note);
 			
@@ -224,12 +238,12 @@ namespace ERIMS.DAL
 		/// <summary>
 		/// Deletes a record from the Building_Improvements_Notes table by a composite primary key.
 		/// </summary>
-		public static void DeleteByPK(decimal pK_Building_Improvement_Notes)
+		public static void DeleteByPK(decimal pK_Building_Improvements_Notes)
 		{
 			Database db = DatabaseFactory.CreateDatabase();
 			DbCommand dbCommand = db.GetStoredProcCommand("Building_Improvements_NotesDeleteByPK");
 
-			db.AddInParameter(dbCommand, "PK_Building_Improvement_Notes", DbType.Decimal, pK_Building_Improvement_Notes);
+			db.AddInParameter(dbCommand, "PK_Building_Improvements_Notes", DbType.Decimal, pK_Building_Improvements_Notes);
 
 			db.ExecuteNonQuery(dbCommand);
 		}
