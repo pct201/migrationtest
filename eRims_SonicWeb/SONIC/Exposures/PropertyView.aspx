@@ -137,8 +137,7 @@ function ShowAuditPopUp(url) {
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <td align="left" width="100%">
-                                                                                            <span class="LeftMenuStatic" id="PropertyMenu2" onclick="javascript:ShowPanel(2);">Building
-                                                                                                Information </span>
+                                                                                            <span class="LeftMenuStatic" id="PropertyMenu2" onclick="javascript:ShowPanel(2);">Building Information</span>
                                                                                         </td>
                                                                                     </tr>
                                                                                 </tbody>
@@ -162,7 +161,7 @@ function ShowAuditPopUp(url) {
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <td align="left" width="100%">
-                                                                                            <span class="LeftMenuStatic" id="PropertyMenu4" onclick="javascript:ShowPanel(4);">Building Improvements
+                                                                                            <span class="LeftMenuStatic" id="PropertyMenu4" onclick="javascript:ShowPanel(4);">Building<br /> Improvements 
                                                                                                 <span class="mf"></span></span>
                                                                                         </td>
                                                                                     </tr>
