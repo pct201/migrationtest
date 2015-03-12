@@ -660,6 +660,19 @@ public partial class Exposures_Property : clsBasePage
 
         #endregion
 
+        #region "Power Requirements"
+        
+        objBuilding.FK_LU_Voltage_Security = Convert.ToDecimal(ddlVoltageSecurity.SelectedValue);
+        objBuilding.FK_LU_Power_Service = Convert.ToDecimal(ddlPowerService.SelectedValue);
+        objBuilding.FK_LU_Phase_Power = Convert.ToDecimal(ddlPhasePower.SelectedValue);
+        objBuilding.FK_LU_Cable_Length = Convert.ToDecimal(ddlRequiredCableLength.SelectedValue);
+
+        objBuilding.Voltage_Security_Other = txtVoltageSecurityOther.Text.Trim();
+        objBuilding.Power_Service_Other = txtPowerServiceOther.Text.Trim();
+        objBuilding.Cable_Length_Other = txtRequiredCableLengthOther.Text.Trim();
+        objBuilding.Total_Amperage_Required = txtTotalAmperageRequired.Text.Trim();
+        
+        #endregion
         #endregion
 
         objBuilding.Updated_By = Convert.ToDecimal(clsSession.UserID);
@@ -1081,6 +1094,19 @@ public partial class Exposures_Property : clsBasePage
                 objContact.After_Hours_Contact_Cell_Phone = txtAfter_Hours_Contact_Cell_Phone.Text.Trim();
                 objContact.Updated_By = Convert.ToDecimal(clsSession.UserID);
                 objContact.Updated_Date = DateTime.Now;
+                objContact.Fire_Alarm_Monitoring_Company_Name = txtCompanyName.Text.Trim();	
+                objContact.Fire_Alarm_Monitoring_Contact_Name = txtContactName.Text.Trim();	
+                objContact.Fire_Alarm_Monitoring_Address = txtAddress.Text.Trim();		
+                objContact.Fire_Alarm_Monitoring_City = txtCity1.Text.Trim();
+                if (ddlContactState.SelectedIndex > 0)
+                    objContact.FK_Fire_Alarm_Monitoring_State = Convert.ToInt32(ddlContactState.SelectedValue);
+                else
+                    objContact.FK_Fire_Alarm_Monitoring_State = 0;
+                objContact.Fire_Alarm_Monitoring_Zip_Code = txtZipCode.Text;		
+                objContact.Fire_Alarm_Monitoring_Telephone = txtTelephone1.Text.Trim();		
+                objContact.Fire_Alarm_Monitoring_Account_Number = txtAccountNumber.Text.Trim();
+                objContact.Fire_Alarm_Monitoring_Monthly_Amount = clsGeneral.GetDecimalNullableValue(txtMonthlyMonitoringAmount);
+                objContact.Fire_Alarm_Monitoring_Control_Panel = txtControlPanel.Text.Trim();
                 // insert or update the contact record depending on primary key
                 if (PK_Property_Contact_ID > 0)
                     objContact.Update();
@@ -2043,6 +2069,30 @@ public partial class Exposures_Property : clsBasePage
             trPropertyDamageLoss.Style["display"] = "";
         }
         txtFloodZone.Text = objBuilding.Flood_Zone;
+        if (objBuilding.FK_LU_Voltage_Security != 0)
+            ddlVoltageSecurity.SelectedValue = Convert.ToString(objBuilding.FK_LU_Voltage_Security);
+        else
+            ddlVoltageSecurity.SelectedValue = "0";
+
+        if (objBuilding.FK_LU_Power_Service != 0)
+            ddlPowerService.SelectedValue = Convert.ToString(objBuilding.FK_LU_Power_Service);
+        else
+            ddlPowerService.SelectedValue = "0";
+
+        if (objBuilding.FK_LU_Phase_Power != 0)
+            ddlPhasePower.SelectedValue = Convert.ToString(objBuilding.FK_LU_Phase_Power);
+        else
+            ddlPhasePower.SelectedValue = "0";
+        if (objBuilding.FK_LU_Cable_Length != 0)
+            ddlRequiredCableLength.SelectedValue = Convert.ToString(objBuilding.FK_LU_Cable_Length);
+        else
+            ddlRequiredCableLength.SelectedValue = "0";
+
+        txtVoltageSecurityOther.Text = objBuilding.Voltage_Security_Other;
+        txtPowerServiceOther.Text = objBuilding.Power_Service_Other;
+        txtRequiredCableLengthOther.Text = objBuilding.Cable_Length_Other;
+        txtTotalAmperageRequired.Text = objBuilding.Total_Amperage_Required;
+
         clsGeneral.FormatYesNoToDisplayForEdit(rdoNational_Flood_Policy, objBuilding.National_Flood_Policy);
         if (objBuilding.National_Flood_Policy == true)
         {
@@ -2456,6 +2506,20 @@ public partial class Exposures_Property : clsBasePage
         txtAfter_Hours_Contact_Phone.Text = objContact.After_Hours_Contact_Phone;
         txtAfter_Hours_Contact_Cell_Phone.Text = objContact.After_Hours_Contact_Cell_Phone;
 
+        txtCompanyName.Text = objContact.Fire_Alarm_Monitoring_Company_Name;
+        txtContactName.Text = objContact.Fire_Alarm_Monitoring_Contact_Name;
+        txtAddress.Text = objContact.Fire_Alarm_Monitoring_Address;
+        txtCity1.Text = objContact.Fire_Alarm_Monitoring_City;
+        if (objContact.FK_Fire_Alarm_Monitoring_State != 0)
+            ddlContactState.SelectedValue = Convert.ToString(objContact.FK_Fire_Alarm_Monitoring_State);
+        else
+            ddlContactState.SelectedIndex = 0;
+        txtZipCode.Text = objContact.Fire_Alarm_Monitoring_Zip_Code;  
+        txtTelephone1.Text = objContact.Fire_Alarm_Monitoring_Telephone;
+        txtAccountNumber.Text  = objContact.Fire_Alarm_Monitoring_Account_Number;
+        txtMonthlyMonitoringAmount.Text = clsGeneral.FormatCommaSeperatorCurrency(objContact.Fire_Alarm_Monitoring_Monthly_Amount);
+        txtControlPanel.Text = objContact.Fire_Alarm_Monitoring_Control_Panel;
+
         // bind emergency, utility and other contact grid
         BindEmergencyContactGrid();
         BindUtilityContactGrid();
@@ -2553,6 +2617,13 @@ public partial class Exposures_Property : clsBasePage
         ddlLoss_Payees_State.DataBind();
         ddlLoss_Payees_State.Items.Insert(0, new ListItem("--SELECT--", ""));
 
+        //binds Contact state dropdown
+        ddlContactState.DataSource = dtState;
+        ddlContactState.DataTextField = "FLD_state";
+        ddlContactState.DataValueField = "PK_ID";
+        ddlContactState.DataBind();
+        ddlContactState.Items.Insert(0, new ListItem("--SELECT--", ""));
+
 
         //binds saba training year dropdown
         int _Year;
@@ -2562,6 +2633,44 @@ public partial class Exposures_Property : clsBasePage
             drpSabaTrainingYear.Items.Add(new ListItem(_Year.ToString(), _Year.ToString()));
 
         drpSabaTrainingYear.SelectedValue = System.DateTime.Now.Year.ToString();
+
+        //Bind Voltage Security dropdown
+        DataSet dsVoltageSecurity = clsLU_Voltage_Security.SelectAll();
+        DataTable dtVoltageSecurity = dsVoltageSecurity.Tables[0];
+        ddlVoltageSecurity.DataSource = dtVoltageSecurity;
+        ddlVoltageSecurity.DataTextField = "Fld_Desc";
+        ddlVoltageSecurity.DataValueField = "PK_LU_Voltage_Security";
+        ddlVoltageSecurity.DataBind();
+        ddlVoltageSecurity.Items.Insert(0, new ListItem("--SELECT--", "0"));
+
+
+        //Bind Phase Power dropdown
+        DataSet dsPhasePower = clsLU_Phase_Power.SelectAll();
+        DataTable dtPhasePower = dsPhasePower.Tables[0];
+        ddlPhasePower.DataSource = dtPhasePower;
+        ddlPhasePower.DataTextField = "Fld_Desc";
+        ddlPhasePower.DataValueField = "PK_LU_Phase_Power";
+        ddlPhasePower.DataBind();
+        ddlPhasePower.Items.Insert(0, new ListItem("--SELECT--", "0"));
+
+
+        //Bind PowerService dropdown
+        DataSet dsPowerService = clsLU_Power_Service.SelectAll();
+        DataTable dtPowerService = dsPowerService.Tables[0];
+        ddlPowerService.DataSource = dtPowerService;
+        ddlPowerService.DataTextField = "Fld_Desc";
+        ddlPowerService.DataValueField = "PK_LU_Power_Service";
+        ddlPowerService.DataBind();
+        ddlPowerService.Items.Insert(0, new ListItem("--SELECT--", "0"));
+
+        //Bind CableLength dropdown
+        DataSet dsRequiredCableLength = clsLU_Cable_Length.SelectAll();
+        DataTable dtRequiredCableLength = dsRequiredCableLength.Tables[0];
+        ddlRequiredCableLength.DataSource = dtRequiredCableLength;
+        ddlRequiredCableLength.DataTextField = "Fld_Desc";
+        ddlRequiredCableLength.DataValueField = "PK_LU_Cable_Length";
+        ddlRequiredCableLength.DataBind();
+        ddlRequiredCableLength.Items.Insert(0, new ListItem("--SELECT--", "0"));
     }
 
     /// <summary>
@@ -3072,9 +3181,9 @@ public partial class Exposures_Property : clsBasePage
 
     private void BindBuildingGGKLGrid()
     {
-        DataTable dtGGKL = Building_GGKL.SelectByFK(PK_Building_ID).Tables[0];
-        gvGGKL.DataSource = dtGGKL;
-        gvGGKL.DataBind();
+        //DataTable dtGGKL = Building_GGKL.SelectByFK(PK_Building_ID).Tables[0];
+        //gvGGKL.DataSource = dtGGKL;
+        //gvGGKL.DataBind();
     }
 
     private void BindSubLeaseGrid()
@@ -3605,8 +3714,15 @@ public partial class Exposures_Property : clsBasePage
                 case "National Flood Policy Policy Limits-Building": strCtrlsIDsBuild += txtFlood_Policy_Limits_Building.ClientID + ","; strMessagesBuild += "Please enter [Building Information]/National Flood Policy Policy Limits-Building" + ","; Span103.Style["display"] = "inline-block"; break;
                 case "Number of Parking Spaces": strCtrlsIDsBuild += txtNumber_Of_Parking_Spaces.ClientID + ","; strMessagesBuild += "Please enter [Building Information]/Number of Parking Spaces" + ","; Span155.Style["display"] = "inline-block"; break;
                 case "Acreage": strCtrlsIDsBuild += txtAcreage.ClientID + ","; strMessagesBuild += "Please enter [Building Information]/Acreage" + ","; Span156.Style["display"] = "inline-block"; break;
-
-            }
+                case "Voltage Security": strCtrlsIDsBuild += ddlVoltageSecurity.ClientID + ","; strMessagesBuild += "Please select [Building Information]/Power Requirements - Voltage Security" + ","; spnVoltageSecurity.Style["display"] = "inline-block"; break;
+                case "Phase Power": strCtrlsIDsBuild += ddlPhasePower.ClientID + ","; strMessagesBuild += "Please select [Building Information]/Power Requirements - Phase Power" + ","; spnPhasePower.Style["display"] = "inline-block"; break;
+                case "Voltage Security Other": strCtrlsIDsBuild += txtVoltageSecurityOther.ClientID + ","; strMessagesBuild += "Please select [Building Information]/Power Requirements - Voltage Security Other" + ","; spnVoltageSecurityOther.Style["display"] = "inline-block"; break;
+                case "Required Cable Length": strCtrlsIDsBuild += ddlRequiredCableLength.ClientID + ","; strMessagesBuild += "Please select [Building Information]/Power Requirements - Cable Length" + ","; spnRequiredCableLength.Style["display"] = "inline-block"; break;
+                case "Power Service": strCtrlsIDsBuild += ddlPowerService.ClientID + ","; strMessagesBuild += "Please select [Building Information]/Power Requirements - Power Service" + ","; spnPowerService.Style["display"] = "inline-block"; break;
+                case "Required Cable Length Other": strCtrlsIDsBuild += txtRequiredCableLengthOther.ClientID + ","; strMessagesBuild += "Please select [Building Information]/Power Requirements - Required Cable Length Other" + ","; spnRequiredCableLengthOther.Style["display"] = "inline-block"; break;
+                case "Power Service Other": strCtrlsIDsBuild += txtPowerServiceOther.ClientID + ","; strMessagesBuild += "Please select [Building Information]/Power Requirements - Power Service Other" + ","; spnPowerServiceOther.Style["display"] = "inline-block"; break;
+                case "Total Amperage Required": strCtrlsIDsBuild += txtTotalAmperageRequired.ClientID + ","; strMessagesBuild += "Please select [Building Information]/Power Requirements - Total Amepred Required" + ","; spnTotalAmperageRequired.Style["display"] = "inline-block"; break;
+                }
 
             #endregion
         }
@@ -3917,6 +4033,16 @@ public partial class Exposures_Property : clsBasePage
                 case "After Hours Contact - Name": strCtrlsIDsContact += txtAfter_Hours_Contact_Name.ClientID + ","; strMessagesContact += "Please enter [Contacts]/After Hours Contact - Name" + ","; Span135.Style["display"] = "inline-block"; break;
                 case "After Hours Contact - Cell Phone": strCtrlsIDsContact += txtAfter_Hours_Contact_Cell_Phone.ClientID + ","; strMessagesContact += "Please enter [Contacts]/After Hours Contact - Cell Phone" + ","; Span136.Style["display"] = "inline-block"; break;
                 case "After Hours Contact - Facility Telephone": strCtrlsIDsContact += txtAfter_Hours_Contact_Phone.ClientID + ","; strMessagesContact += "Please enter [Contacts]/After Hours Contact - Facility Telephone" + ","; Span137.Style["display"] = "inline-block"; break;
+                case "Fire Alarm Monitoring Company - Company Name": strCtrlsIDsContact += txtCompanyName.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Company Name" + ","; spnCompanyName.Style["display"] = "inline-block"; break;
+                case "Fire Alarm Monitoring Company - Contact Name": strCtrlsIDsContact += txtContactName.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Contact Name" + ","; spnContactName.Style["display"] = "inline-block"; break;
+                case "Fire Alarm Monitoring Company - Address": strCtrlsIDsContact += txtAddress.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Address" + ","; spnAddress.Style["display"] = "inline-block"; break;
+                case "Fire Alarm Monitoring Company - City": strCtrlsIDsContact += txtCity1.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - City" + ","; spnCity.Style["display"] = "inline-block"; break;
+                case "Fire Alarm Monitoring Company - State": strCtrlsIDsContact += ddlContactState.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - State" + ","; spnContactState.Style["display"] = "inline-block"; break;
+                case "Fire Alarm Monitoring Company - Zip Code": strCtrlsIDsContact += txtZipCode.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - ZipCode" + ","; spnZipCode.Style["display"] = "inline-block"; break;
+                case "Fire Alarm Monitoring Company - Telephone": strCtrlsIDsContact += txtTelephone1.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Telephone" + ","; spntxtTelephone1.Style["display"] = "inline-block"; break;
+                case "Fire Alarm Monitoring Company - Account Number": strCtrlsIDsContact += txtAccountNumber.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Account Number" + ","; spnAccountNumber.Style["display"] = "inline-block"; break;
+                case "Fire Alarm Monitoring Company - Monthly Monitoring Amount": strCtrlsIDsContact += txtMonthlyMonitoringAmount.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Monthly Monitoring Account" + ","; spnMonthlyMonitoringAmount.Style["display"] = "inline-block"; break;
+                case "Fire Alarm Monitoring Company - Control Panel": strCtrlsIDsContact += txtControlPanel.ClientID + ","; strMessagesContact += "Please enter [Contacts]/Fire Alarm Monitoring Company - Control Panel" + ","; spnControlPanel.Style["display"] = "inline-block"; break;
             }
 
             #endregion

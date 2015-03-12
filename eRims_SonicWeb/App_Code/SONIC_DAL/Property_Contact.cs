@@ -24,6 +24,16 @@ namespace ERIMS.DAL
         private string _email;
         private decimal _Updated_By;
         private DateTime _Updated_Date;
+        private string _Fire_Alarm_Monitoring_Company_Name;
+        private string _Fire_Alarm_Monitoring_Contact_Name;
+        private string _Fire_Alarm_Monitoring_Address;
+        private string _Fire_Alarm_Monitoring_City;
+        private string _Fire_Alarm_Monitoring_Zip_Code;
+        private string _Fire_Alarm_Monitoring_Telephone;
+        private string _Fire_Alarm_Monitoring_Account_Number;
+        private string _Fire_Alarm_Monitoring_Control_Panel;
+        private int _FK_Fire_Alarm_Monitoring_State;
+        private decimal? _Fire_Alarm_Monitoring_Monthly_Amount;
         #endregion
 
 
@@ -156,7 +166,66 @@ namespace ERIMS.DAL
             get { return _Updated_Date; }
             set { _Updated_Date = value; }
         }
+        
+        public string Fire_Alarm_Monitoring_Company_Name
+        {
+            get { return _Fire_Alarm_Monitoring_Company_Name; }
+            set { _Fire_Alarm_Monitoring_Company_Name = value; }
+        }
 
+        public string Fire_Alarm_Monitoring_Contact_Name
+        {
+            get { return _Fire_Alarm_Monitoring_Contact_Name; }
+            set { _Fire_Alarm_Monitoring_Contact_Name = value; }
+        }
+
+        public string Fire_Alarm_Monitoring_Address
+        {
+            get { return _Fire_Alarm_Monitoring_Address; }
+            set { _Fire_Alarm_Monitoring_Address = value; }
+        }
+
+        public string Fire_Alarm_Monitoring_City
+        {
+            get { return _Fire_Alarm_Monitoring_City; }
+            set { _Fire_Alarm_Monitoring_City = value; }
+        }
+
+        public string Fire_Alarm_Monitoring_Zip_Code
+        {
+            get { return _Fire_Alarm_Monitoring_Zip_Code; }
+            set { _Fire_Alarm_Monitoring_Zip_Code = value; }
+        }
+
+        public string Fire_Alarm_Monitoring_Telephone
+        {
+            get { return _Fire_Alarm_Monitoring_Telephone; }
+            set { _Fire_Alarm_Monitoring_Telephone = value; }
+        }
+
+        public string Fire_Alarm_Monitoring_Account_Number
+        {
+            get { return _Fire_Alarm_Monitoring_Account_Number; }
+            set { _Fire_Alarm_Monitoring_Account_Number = value; }
+        }
+
+        public string Fire_Alarm_Monitoring_Control_Panel
+        {
+            get { return _Fire_Alarm_Monitoring_Control_Panel; }
+            set { _Fire_Alarm_Monitoring_Control_Panel = value; }
+        }
+
+        public int FK_Fire_Alarm_Monitoring_State
+        {
+            get { return _FK_Fire_Alarm_Monitoring_State; }
+            set { _FK_Fire_Alarm_Monitoring_State = value; }
+        }
+
+        public decimal? Fire_Alarm_Monitoring_Monthly_Amount
+        {
+            get { return _Fire_Alarm_Monitoring_Monthly_Amount; }
+            set { _Fire_Alarm_Monitoring_Monthly_Amount = value; }
+        }
         #endregion
 
 
@@ -182,6 +251,16 @@ namespace ERIMS.DAL
             this._email = "";
             this._Updated_By = -1;
             this._Updated_Date = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
+            this._Fire_Alarm_Monitoring_Company_Name = "";	
+            this._Fire_Alarm_Monitoring_Contact_Name = "";	
+            this._Fire_Alarm_Monitoring_Address	= "";	
+            this._Fire_Alarm_Monitoring_City = "";
+            this._FK_Fire_Alarm_Monitoring_State = 0;		
+            this._Fire_Alarm_Monitoring_Zip_Code = "";		
+            this._Fire_Alarm_Monitoring_Telephone = "";		
+            this._Fire_Alarm_Monitoring_Account_Number = "";
+            this._Fire_Alarm_Monitoring_Monthly_Amount = null;
+            this._Fire_Alarm_Monitoring_Control_Panel = "";
         }
 
 
@@ -211,6 +290,19 @@ namespace ERIMS.DAL
                 this._email = Convert.ToString(drProperty_Contact["email"]);
                 this._Updated_By = drProperty_Contact["Updated_By"] != DBNull.Value ? Convert.ToDecimal(drProperty_Contact["Updated_By"]) : 0;
                 this._Updated_Date = drProperty_Contact["Updated_Date"] != DBNull.Value ? Convert.ToDateTime(drProperty_Contact["Updated_Date"]) : (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
+                this._Fire_Alarm_Monitoring_Company_Name = Convert.ToString(drProperty_Contact["Fire_Alarm_Monitoring_Company_Name"]);
+                this._Fire_Alarm_Monitoring_Contact_Name = Convert.ToString(drProperty_Contact["Fire_Alarm_Monitoring_Contact_Name"]);
+                this._Fire_Alarm_Monitoring_Address = Convert.ToString(drProperty_Contact["Fire_Alarm_Monitoring_Address"]);
+                this._Fire_Alarm_Monitoring_City = Convert.ToString(drProperty_Contact["Fire_Alarm_Monitoring_City"]);
+                this._Fire_Alarm_Monitoring_Zip_Code = Convert.ToString(drProperty_Contact["Fire_Alarm_Monitoring_Zip_Code"]);
+                this._Fire_Alarm_Monitoring_Telephone = Convert.ToString(drProperty_Contact["Fire_Alarm_Monitoring_Telephone"]);
+                this._Fire_Alarm_Monitoring_Account_Number = Convert.ToString(drProperty_Contact["Fire_Alarm_Monitoring_Account_Number"]);
+                this._Fire_Alarm_Monitoring_Control_Panel = Convert.ToString(drProperty_Contact["Fire_Alarm_Monitoring_Control_Panel"]);
+                this._FK_Fire_Alarm_Monitoring_State = drProperty_Contact["FK_Fire_Alarm_Monitoring_State"] != DBNull.Value ? Convert.ToInt32(drProperty_Contact["FK_Fire_Alarm_Monitoring_State"]) : 0;
+                if (drProperty_Contact["Fire_Alarm_Monitoring_Monthly_Amount"].ToString() != string.Empty)
+                    this._Fire_Alarm_Monitoring_Monthly_Amount = clsGeneral.GetDecimal(drProperty_Contact["Fire_Alarm_Monitoring_Monthly_Amount"]);
+                else
+                    this._Fire_Alarm_Monitoring_Monthly_Amount = null;
             }
             else
             {
@@ -228,6 +320,16 @@ namespace ERIMS.DAL
                 this._email = "";
                 this._Updated_By = -1;
                 this._Updated_Date = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
+                this.Fire_Alarm_Monitoring_Company_Name = "";	
+                this.Fire_Alarm_Monitoring_Contact_Name	= "";
+                this.Fire_Alarm_Monitoring_Address = "";		
+                this.Fire_Alarm_Monitoring_City = "";	        
+                this.FK_Fire_Alarm_Monitoring_State = 0;		
+                this.Fire_Alarm_Monitoring_Zip_Code = "";		
+                this.Fire_Alarm_Monitoring_Telephone = "";		
+                this.Fire_Alarm_Monitoring_Account_Number = "";  
+                this.Fire_Alarm_Monitoring_Monthly_Amount = null;
+                this.Fire_Alarm_Monitoring_Control_Panel = "";	
             }
 
         }
@@ -259,6 +361,16 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "email", DbType.String, this._email);
             db.AddInParameter(dbCommand, "Updated_By", DbType.Decimal, this._Updated_By);
             db.AddInParameter(dbCommand, "Updated_Date", DbType.DateTime, this._Updated_Date);
+            db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Company_Name", DbType.String, this._Fire_Alarm_Monitoring_Company_Name);
+            db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Contact_Name", DbType.String, this._Fire_Alarm_Monitoring_Contact_Name);
+            db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Address", DbType.String, this._Fire_Alarm_Monitoring_Address);
+            db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_City", DbType.String, this._Fire_Alarm_Monitoring_City);
+            db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Zip_Code", DbType.String, this._Fire_Alarm_Monitoring_Zip_Code);
+            db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Telephone", DbType.String, this._Fire_Alarm_Monitoring_Telephone);
+            db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Account_Number", DbType.String, this._Fire_Alarm_Monitoring_Account_Number);
+            db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Control_Panel", DbType.String, this._Fire_Alarm_Monitoring_Control_Panel);
+            db.AddInParameter(dbCommand, "FK_Fire_Alarm_Monitoring_State", DbType.Decimal, this._FK_Fire_Alarm_Monitoring_State);
+            db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Monthly_Amount", DbType.Decimal, this._Fire_Alarm_Monitoring_Monthly_Amount);
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -312,6 +424,16 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "email", DbType.String, this._email);
             db.AddInParameter(dbCommand, "Updated_By", DbType.Decimal, this._Updated_By);
             db.AddInParameter(dbCommand, "Updated_Date", DbType.DateTime, this._Updated_Date);
+            db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Company_Name", DbType.String, this._Fire_Alarm_Monitoring_Company_Name);
+            db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Contact_Name", DbType.String, this._Fire_Alarm_Monitoring_Contact_Name);
+            db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Address", DbType.String, this._Fire_Alarm_Monitoring_Address);
+            db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_City", DbType.String, this._Fire_Alarm_Monitoring_City);
+            db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Zip_Code", DbType.String, this._Fire_Alarm_Monitoring_Zip_Code);
+            db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Telephone", DbType.String, this._Fire_Alarm_Monitoring_Telephone);
+            db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Account_Number", DbType.String, this._Fire_Alarm_Monitoring_Account_Number);
+            db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Control_Panel", DbType.String, this._Fire_Alarm_Monitoring_Control_Panel);
+            db.AddInParameter(dbCommand, "FK_Fire_Alarm_Monitoring_State", DbType.Decimal, this._FK_Fire_Alarm_Monitoring_State);
+            db.AddInParameter(dbCommand, "Fire_Alarm_Monitoring_Monthly_Amount", DbType.Decimal, this._Fire_Alarm_Monitoring_Monthly_Amount);
             db.ExecuteNonQuery(dbCommand);
         }
 
@@ -393,6 +515,6 @@ namespace ERIMS.DAL
 
             return Convert.ToBoolean(dbCommand.Parameters["@bDuplicate"].Value);
         }
-        #endregion
+        #endregion        
     }
 }

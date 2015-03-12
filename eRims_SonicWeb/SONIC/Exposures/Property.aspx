@@ -100,170 +100,170 @@ function ValidateFields(sender, args) {
     var Messages = document.getElementById('<%=hdnErrorMsgs.ClientID%>').value.split(',');
     var focusCtrlID = "";
     if (document.getElementById('<%=hdnControlIDs.ClientID%>').value != "") {
-                var i = 0;
-                for (i = 0; i < ctrlIDs.length; i++) {
-                    var bEmpty = false;
-                    var ctrl = document.getElementById(ctrlIDs[i]);
-                    switch (ctrl.type) {
-                        case "textarea":
-                        case "text":
-                            if (ctrl.value == '') {
-                                if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtDisposal_Type') {
-                                    var ctlVal = document.getElementById('<%=ddlStatus.ClientID %>').options[document.getElementById("<%=ddlStatus.ClientID %>").selectedIndex].value;
-                                    //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
-                                    if (ctlVal == 'Disposed')
-                                        bEmpty = true;
-                                }
-                                else
-                                    bEmpty = true;
-                            }
-                            break;
-                        case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
-                        case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
+        var i = 0;
+        for (i = 0; i < ctrlIDs.length; i++) {
+            var bEmpty = false;
+            var ctrl = document.getElementById(ctrlIDs[i]);
+            switch (ctrl.type) {
+                case "textarea":
+                case "text":
+                    if (ctrl.value == '') {
+                        if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtDisposal_Type') {
+                            var ctlVal = document.getElementById('<%=ddlStatus.ClientID %>').options[document.getElementById("<%=ddlStatus.ClientID %>").selectedIndex].value;
+                            //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
+                            if (ctlVal == 'Disposed')
+                                bEmpty = true;
+                        }
+                        else
+                            bEmpty = true;
                     }
-                    if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
-                    if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
-                }
-                if (msg.length > 0) {
-                    //sender.errormessage = msg;
-                    sender.errormessage = msg;
-                    args.IsValid = false;
-                }
-                else
-                    args.IsValid = true;
+                    break;
+                case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
+                case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
             }
-            else {
-                args.IsValid = true;
-            }
+            if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
+            if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
         }
+        if (msg.length > 0) {
+            //sender.errormessage = msg;
+            sender.errormessage = msg;
+            args.IsValid = false;
+        }
+        else
+            args.IsValid = true;
+    }
+    else {
+        args.IsValid = true;
+    }
+}
 
-        function ValidateFieldsBuildInfo(sender, args) {
-            var msg = '';
-            var ctrlIDs = document.getElementById('<%=hdnControlIDsBuild.ClientID%>').value.split(',');
-            var Messages = document.getElementById('<%=hdnErrorMsgsBuild.ClientID%>').value.split(',');
-            var focusCtrlID = "";
-            if (document.getElementById('<%=hdnControlIDsBuild.ClientID%>').value != "") {
-                var i = 0;
-                for (i = 0; i < ctrlIDs.length; i++) {
-                    var bEmpty = false;
-                    var ctrl = document.getElementById(ctrlIDs[i]);
-                    switch (ctrl.type) {
-                        case "textarea":
-                            if (ctrl.value == '') {
-                                if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtFlood_History_Descr_txtNote') {
-                                    var rdbFlh = document.getElementById('ctl00_ContentPlaceHolder1_rdoPrior_Flood_History_0');
-                                    //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
-                                    if (rdbFlh.checked)
-                                        bEmpty = true;
-                                }
-                                else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtProperty_Loss_Descr_txtNote') {
-                                    var rdbPLoss = document.getElementById('ctl00_ContentPlaceHolder1_rdoProperty_Damage_Losses_in_the_Past_5_years_0');
-                                    //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
-                                    if (rdbPLoss.checked)
-                                        bEmpty = true;
-                                }
-                                else
-                                    bEmpty = true;
-                            }
-                            break;
-                        case "text":
-                            if (ctrl.value == '') {
-                                if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtNeighbor_Occupancy') {
-                                    var rdbBw100 = document.getElementById('ctl00_ContentPlaceHolder1_rdoNeighboring_Buildings_within_100_ft_0');
-                                    //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
-                                    if (rdbBw100.checked)
-                                        bEmpty = true;
-                                }
-                                else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtsecuCam_System' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtSecuCam_Contact_Name' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtSecuCam_Vendor_Name' ||
-                                 ctrl.id == 'ctl00_ContentPlaceHolder1_txtSecuCam_Contact_Expiration_Date' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtSecuCam_Address_1' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtSecuCam_Telephone_Number' ||
-                                 ctrl.id == 'ctl00_ContentPlaceHolder1_txtSecuCam_Address_2' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtSecuCam_Alternate_Number' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtSecuCam_City' ||
-                                 ctrl.id == 'ctl00_ContentPlaceHolder1_txtSecuCam_Email' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtSecuCam_Comments' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtSecuCam_Zip') {
-                                    var rdbSecCam = document.getElementById('ctl00_ContentPlaceHolder1_rdoAlarm_Security_Cameras_0');
-                                    //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
-                                    if (rdbSecCam.checked)
-                                        bEmpty = true;
-                                }
-                                else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_System' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_Contact_Name' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_Vendor_Name' ||
-                                 ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_Contact_Expiration_Date' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_Address_1' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_Telephone_Number' ||
-                                 ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_Address_2' ||
-                                 ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_Alternate_Number' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_City' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_Email' ||
-                                 ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_Comments' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_Zip') {
-                                    var rdbGuardSys = document.getElementById('ctl00_ContentPlaceHolder1_rdoGuard_System_0');
-                                    //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
-                                    if (rdbGuardSys.checked)
-                                        bEmpty = true;
-                                }
-                                else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_System' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_Contact_Name' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_Vendor_Name' ||
-                                 ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_Contact_Expiration_Date' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_Address_1' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_Telephone_Number' ||
-                                 ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_Address_2' ||
-                                 ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_Alternate_Number' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_City' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_Email' ||
-                                 ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_Comments' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_Zip') {
-                                    var rdbInsAlarm = document.getElementById('ctl00_ContentPlaceHolder1_rdoIntru_System_0');
-                                    //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
-                                    if (rdbInsAlarm.checked)
-                                        bEmpty = true;
-                                }
-                                else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtGenerator_Make' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtGenerator_Model' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtGenerator_Size') {
-                                    var rdbGenerator = document.getElementById('ctl00_ContentPlaceHolder1_rdoGenerator_0');
-                                    //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
-                                    if (rdbGenerator.checked)
-                                        bEmpty = true;
-                                }
-                                else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtFlood_Carrier' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtFlood_Policy_Inception_Date' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtFlood_Policy_Number' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtFlood_Policy_Expiration_Date'
-                                 || ctrl.id == 'ctl00_ContentPlaceHolder1_txtFlood_Premium' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtFlood_Deductible' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtFlood_Polciy_Limits_Contents' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtFlood_Policy_Limits_Building') {
-                                    var rdbNFP = document.getElementById('ctl00_ContentPlaceHolder1_rdoNational_Flood_Policy_0');
-                                    //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
-                                    if (rdbNFP.checked)
-                                        bEmpty = true;
-                                }
-                                else
-                                    bEmpty = true;
-                            } break;
-                        case "select-one":
-                            if (ctrl.selectedIndex == 0) {
-                                if (ctrl.id == 'ctl00_ContentPlaceHolder1_ddlSecuCam_State') {
-                                    var rdbSecCam = document.getElementById('ctl00_ContentPlaceHolder1_rdoAlarm_Security_Cameras_0');
-                                    //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
-                                    if (rdbSecCam.checked)
-                                        bEmpty = true;
-                                }
-                                else if (ctrl.id == 'ctl00_ContentPlaceHolder1_ddlGuard_State') {
-                                    var rdbSecCam = document.getElementById('ctl00_ContentPlaceHolder1_rdoGuard_System_0');
-                                    //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
-                                    if (rdbSecCam.checked)
-                                        bEmpty = true;
-                                }
-                                else if (ctrl.id == 'ctl00_ContentPlaceHolder1_ddlIntru_State' || ctrl.id == 'ctl00_ContentPlaceHolder1_ddlIntru_Contact_Alarm_Type') {
-                                    var rdbInsAlarm = document.getElementById('ctl00_ContentPlaceHolder1_rdoIntru_System_0');
-                                    //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
-                                    if (rdbInsAlarm.checked)
-                                        bEmpty = true;
-                                }
-                                else
-                                    bEmpty = true;
-                            }
-                            break;
-                        case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
+function ValidateFieldsBuildInfo(sender, args) {
+    var msg = '';
+    var ctrlIDs = document.getElementById('<%=hdnControlIDsBuild.ClientID%>').value.split(',');
+    var Messages = document.getElementById('<%=hdnErrorMsgsBuild.ClientID%>').value.split(',');
+    var focusCtrlID = "";
+    if (document.getElementById('<%=hdnControlIDsBuild.ClientID%>').value != "") {
+        var i = 0;
+        for (i = 0; i < ctrlIDs.length; i++) {
+            var bEmpty = false;
+            var ctrl = document.getElementById(ctrlIDs[i]);
+            switch (ctrl.type) {
+                case "textarea":
+                    if (ctrl.value == '') {
+                        if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtFlood_History_Descr_txtNote') {
+                            var rdbFlh = document.getElementById('ctl00_ContentPlaceHolder1_rdoPrior_Flood_History_0');
+                            //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
+                            if (rdbFlh.checked)
+                                bEmpty = true;
+                        }
+                        else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtProperty_Loss_Descr_txtNote') {
+                            var rdbPLoss = document.getElementById('ctl00_ContentPlaceHolder1_rdoProperty_Damage_Losses_in_the_Past_5_years_0');
+                            //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
+                            if (rdbPLoss.checked)
+                                bEmpty = true;
+                        }
+                        else
+                            bEmpty = true;
                     }
-                    if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
-                    if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
-                }
-                if (msg.length > 0) {
-                    //sender.errormessage = msg;
-                    sender.errormessage = msg;
-                    args.IsValid = false;
-                }
-                else
-                    args.IsValid = true;
+                    break;
+                case "text":
+                    if (ctrl.value == '') {
+                        if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtNeighbor_Occupancy') {
+                            var rdbBw100 = document.getElementById('ctl00_ContentPlaceHolder1_rdoNeighboring_Buildings_within_100_ft_0');
+                            //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
+                            if (rdbBw100.checked)
+                                bEmpty = true;
+                        }
+                        else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtsecuCam_System' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtSecuCam_Contact_Name' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtSecuCam_Vendor_Name' ||
+                         ctrl.id == 'ctl00_ContentPlaceHolder1_txtSecuCam_Contact_Expiration_Date' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtSecuCam_Address_1' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtSecuCam_Telephone_Number' ||
+                         ctrl.id == 'ctl00_ContentPlaceHolder1_txtSecuCam_Address_2' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtSecuCam_Alternate_Number' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtSecuCam_City' ||
+                         ctrl.id == 'ctl00_ContentPlaceHolder1_txtSecuCam_Email' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtSecuCam_Comments' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtSecuCam_Zip') {
+                            var rdbSecCam = document.getElementById('ctl00_ContentPlaceHolder1_rdoAlarm_Security_Cameras_0');
+                            //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
+                            if (rdbSecCam.checked)
+                                bEmpty = true;
+                        }
+                        else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_System' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_Contact_Name' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_Vendor_Name' ||
+                         ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_Contact_Expiration_Date' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_Address_1' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_Telephone_Number' ||
+                         ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_Address_2' ||
+                         ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_Alternate_Number' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_City' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_Email' ||
+                         ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_Comments' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtGuard_Zip') {
+                            var rdbGuardSys = document.getElementById('ctl00_ContentPlaceHolder1_rdoGuard_System_0');
+                            //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
+                            if (rdbGuardSys.checked)
+                                bEmpty = true;
+                        }
+                        else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_System' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_Contact_Name' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_Vendor_Name' ||
+                         ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_Contact_Expiration_Date' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_Address_1' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_Telephone_Number' ||
+                         ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_Address_2' ||
+                         ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_Alternate_Number' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_City' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_Email' ||
+                         ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_Comments' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtIntru_Zip') {
+                            var rdbInsAlarm = document.getElementById('ctl00_ContentPlaceHolder1_rdoIntru_System_0');
+                            //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
+                            if (rdbInsAlarm.checked)
+                                bEmpty = true;
+                        }
+                        else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtGenerator_Make' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtGenerator_Model' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtGenerator_Size') {
+                            var rdbGenerator = document.getElementById('ctl00_ContentPlaceHolder1_rdoGenerator_0');
+                            //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
+                            if (rdbGenerator.checked)
+                                bEmpty = true;
+                        }
+                        else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtFlood_Carrier' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtFlood_Policy_Inception_Date' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtFlood_Policy_Number' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtFlood_Policy_Expiration_Date'
+                         || ctrl.id == 'ctl00_ContentPlaceHolder1_txtFlood_Premium' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtFlood_Deductible' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtFlood_Polciy_Limits_Contents' || ctrl.id == 'ctl00_ContentPlaceHolder1_txtFlood_Policy_Limits_Building') {
+                            var rdbNFP = document.getElementById('ctl00_ContentPlaceHolder1_rdoNational_Flood_Policy_0');
+                            //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
+                            if (rdbNFP.checked)
+                                bEmpty = true;
+                        }
+                        else
+                            bEmpty = true;
+                    } break;
+                case "select-one":
+                    if (ctrl.selectedIndex == 0) {
+                        if (ctrl.id == 'ctl00_ContentPlaceHolder1_ddlSecuCam_State') {
+                            var rdbSecCam = document.getElementById('ctl00_ContentPlaceHolder1_rdoAlarm_Security_Cameras_0');
+                            //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
+                            if (rdbSecCam.checked)
+                                bEmpty = true;
+                        }
+                        else if (ctrl.id == 'ctl00_ContentPlaceHolder1_ddlGuard_State') {
+                            var rdbSecCam = document.getElementById('ctl00_ContentPlaceHolder1_rdoGuard_System_0');
+                            //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
+                            if (rdbSecCam.checked)
+                                bEmpty = true;
+                        }
+                        else if (ctrl.id == 'ctl00_ContentPlaceHolder1_ddlIntru_State' || ctrl.id == 'ctl00_ContentPlaceHolder1_ddlIntru_Contact_Alarm_Type') {
+                            var rdbInsAlarm = document.getElementById('ctl00_ContentPlaceHolder1_rdoIntru_System_0');
+                            //used to check dropdowns selected value. if it is equal to Disposed than display Disposal type control else hide.
+                            if (rdbInsAlarm.checked)
+                                bEmpty = true;
+                        }
+                        else
+                            bEmpty = true;
+                    }
+                    break;
+                case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
             }
-            else {
-                args.IsValid = true;
-            }
+            if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
+            if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
         }
+        if (msg.length > 0) {
+            //sender.errormessage = msg;
+            sender.errormessage = msg;
+            args.IsValid = false;
+        }
+        else
+            args.IsValid = true;
+    }
+    else {
+        args.IsValid = true;
+    }
+}
 
-        function ValidateFieldsOwnership(sender, args) {
-            var msg = '';
-            var ctrlIDs = document.getElementById('<%=hdnControlIDsOwnership.ClientID%>').value.split(',');
+function ValidateFieldsOwnership(sender, args) {
+    var msg = '';
+    var ctrlIDs = document.getElementById('<%=hdnControlIDsOwnership.ClientID%>').value.split(',');
             var Messages = document.getElementById('<%=hdnErrorMsgsOwnership.ClientID%>').value.split(',');
             var focusCtrlID = "";
             if (document.getElementById('<%=hdnControlIDsOwnership.ClientID%>').value != "") {
@@ -659,7 +659,9 @@ function ValidateFields(sender, args) {
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <td align="left" width="100%">
-                                                                                            <span class="LeftMenuStatic" id="PropertyMenu4" onclick="javascript:ShowPanel(4);">Building <br />Improvements
+                                                                                            <span class="LeftMenuStatic" id="PropertyMenu4" onclick="javascript:ShowPanel(4);">Building
+                                                                                                <br />
+                                                                                                Improvements
                                                                                             </span>&nbsp;<span id="MenuAsterisk3" runat="server" style="color: Red; display: none">*</span>
                                                                                         </td>
                                                                                     </tr>
@@ -3478,6 +3480,104 @@ function ValidateFields(sender, args) {
                                                                 <td class="Spacer" style="height: 10px;"></td>
                                                             </tr>
                                                             <tr>
+                                                                <td align="left" colspan="6">
+                                                                    <b>Power Requirements</b>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="Spacer" style="height: 10px;"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="center" colspan="6">
+                                                                    <table cellpadding="0" cellspacing="0" border="0">
+                                                                        <tr>
+                                                                            <td align="left" style="width: 18%">Voltage Security
+                                                                                <span id="spnVoltageSecurity" style="color: Red; display: none;" runat="server">*</span>
+                                                                            </td>
+                                                                            <td align="center" style="width: 4%">
+                                                                                <asp:Label ID="Label76" runat="server" Text=":" Width="31px"></asp:Label>
+                                                                            </td>
+                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                <asp:DropDownList runat="server" ID="ddlVoltageSecurity" Width="170px" />
+                                                                            </td>
+                                                                            <td align="left" style="width: 18%; padding-left: 9px;">
+                                                                                <asp:Label ID="lblPhasePower" runat="server" Text="Phase Power"></asp:Label>
+                                                                                &nbsp;<span id="spnPhasePower" style="color: Red; display: none;" runat="server">*</span>
+                                                                            </td>
+                                                                            <td align="center" style="width: 4%">
+                                                                                <asp:Label ID="Label78" runat="server" Text=":" Width="31px"></asp:Label>
+                                                                            </td>
+                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                <asp:DropDownList runat="server" ID="ddlPhasePower" Width="170px"></asp:DropDownList>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td height="4"></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td align="left">Voltage Security, Other&nbsp;<span id="spnVoltageSecurityOther" style="color: Red; display: none;"
+                                                                                runat="server">*</span>
+                                                                            </td>
+                                                                            <td align="center">:
+                                                                            </td>
+                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                <asp:TextBox runat="server" ID="txtVoltageSecurityOther" Width="170px" MaxLength="50"></asp:TextBox>
+                                                                            </td>
+                                                                            <td align="left" style="padding-left: 9px;">
+                                                                                <asp:Label ID="lblRequiredCableLength" runat="server" Text="Required Cable Length"></asp:Label>
+                                                                                &nbsp;<span id="spnRequiredCableLength" style="color: Red; display: none;" runat="server">*</span>
+                                                                            </td>
+                                                                            <td align="center">:
+                                                                            </td>
+                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                <asp:DropDownList runat="server" ID="ddlRequiredCableLength" Width="170px"></asp:DropDownList>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td align="left">Power Service&nbsp;<span id="spnPowerService" style="color: Red; display: none;" runat="server">*</span>
+                                                                            </td>
+                                                                            <td align="center">:
+                                                                            </td>
+                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                <asp:DropDownList runat="server" ID="ddlPowerService" Width="170px"></asp:DropDownList>
+                                                                            </td>
+                                                                            <td align="left" style="padding-left: 9px;">
+                                                                                <asp:Label ID="lblRequiredCableLengthOther" runat="server" Text="Required Cable Length, Other"></asp:Label>
+                                                                                &nbsp;<span id="spnRequiredCableLengthOther" style="color: Red; display: none;" runat="server">*</span>
+                                                                            </td>
+                                                                            <td align="center">:
+                                                                            </td>
+                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                <asp:TextBox runat="server" ID="txtRequiredCableLengthOther" Width="170px" MaxLength="50"></asp:TextBox>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td height="4"></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td align="left">Power Service, Other&nbsp;<span id="spnPowerServiceOther" style="color: Red; display: none;" runat="server">*</span>
+                                                                            </td>
+                                                                            <td align="center">:
+                                                                            </td>
+                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                <asp:TextBox runat="server" ID="txtPowerServiceOther" Width="170px" MaxLength="50"></asp:TextBox>
+                                                                            </td>
+                                                                            <td align="left" style="padding-left: 9px;">Total Amperage Required
+                                                                                &nbsp;<span id="spnTotalAmperageRequired" style="color: Red; display: none;" runat="server">*</span>
+                                                                            </td>
+                                                                            <td align="center">:
+                                                                            </td>
+                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                <asp:TextBox runat="server" ID="txtTotalAmperageRequired" Width="170px" MaxLength="50"></asp:TextBox>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="Spacer" style="height: 10px;"></td>
+                                                            </tr>
+                                                            <%--<tr>
                                                                 <td align="left" valign="top">
                                                                     <b>GGKL Renewal Information Grid</b><br />
                                                                     <asp:LinkButton ID="lnkAddNewGGKL" runat="server" Text="--Add--" OnClick="lnkAddNewGGKL_Click" />
@@ -3515,7 +3615,7 @@ function ValidateFields(sender, args) {
                                                             </tr>
                                                             <tr>
                                                                 <td class="Spacer" style="height: 10px;"></td>
-                                                            </tr>
+                                                            </tr>--%>
                                                             <tr>
                                                                 <td align="left" colspan="6">
                                                                     <b>Other Building Attachments</b><br />
@@ -4680,8 +4780,7 @@ function ValidateFields(sender, args) {
                                                     <ContentTemplate>
                                                         <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                             <tr>
-                                                                <td align="left" colspan="6">
-                                                                    Building Improvements Grid<br />
+                                                                <td align="left" colspan="6">Building Improvements Grid<br />
                                                                     <b><i>Click to view detail</i></b>
                                                                 </td>
                                                             </tr>
@@ -4741,7 +4840,7 @@ function ValidateFields(sender, args) {
                                                                     <asp:LinkButton ID="lnkAddNewImprovement" runat="server" Text="Add New" OnClick="lnkAddNewImprovement_Click" />
                                                                     <input type="hidden" id="hdnAssessmentID" runat="server" />
                                                                 </td>
-                                                            </tr>                                                            
+                                                            </tr>
                                                         </table>
                                                     </ContentTemplate>
                                                 </asp:UpdatePanel>
@@ -5005,15 +5104,148 @@ function ValidateFields(sender, args) {
                                                                 </td>
                                                             </tr>
                                                             <tr>
+                                                                <td align="left" colspan="6">
+                                                                    <b>Fire Alarm Monitoring Company</b>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="Spacer" style="height: 10px;"></td>
+                                                            </tr>
+                                                            <tr>
                                                                 <td align="center" colspan="6">
-                                                                    <asp:Button runat="server" ID="btnSaveAndView" Text="Save & View" OnClick="btnSaveAndView_Click"
-                                                                        ValidationGroup="vsErrorContact" CausesValidation="true" />&nbsp;
+                                                                    <table cellpadding="0" cellspacing="0" border="0">
+                                                                        <tr>
+                                                                            <td align="left" style="width: 18%">Company Name
+                                                                                <span id="spnCompanyName" style="color: Red; display: none;" runat="server">*</span>
+                                                                            </td>
+                                                                            <td align="center" style="width: 4%">
+                                                                                <asp:Label ID="Label75" runat="server" Text=":" Width="31px"></asp:Label>
+                                                                            </td>
+                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                <asp:TextBox runat="server" ID="txtCompanyName" Width="170px" MaxLength="75" />
+                                                                            </td>
+                                                                            <td align="left" style="width: 18%; padding-left: 9px;">
+                                                                                <asp:Label ID="Label77" runat="server" Text="Contact Name"></asp:Label>
+                                                                                &nbsp;<span id="spnContactName" style="color: Red; display: none;" runat="server">*</span>
+                                                                            </td>
+                                                                            <td align="center" style="width: 4%">
+                                                                                <asp:Label ID="Label79" runat="server" Text=":" Width="31px"></asp:Label>
+                                                                            </td>
+                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                <asp:TextBox runat="server" ID="txtContactName" Width="170px" MaxLength="75"></asp:TextBox>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td height="4"></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td align="left">Address&nbsp;<span id="spnAddress" style="color: Red; display: none;"
+                                                                                runat="server">*</span>
+                                                                            </td>
+                                                                            <td align="center">:
+                                                                            </td>
+                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                <asp:TextBox runat="server" ID="txtAddress" Width="170px" MaxLength="75"></asp:TextBox>
+                                                                            </td>
+                                                                            <td align="left" style="padding-left: 9px;">
+                                                                                <asp:Label ID="Label80" runat="server" Text="City"></asp:Label>
+                                                                                &nbsp;<span id="spnCity" style="color: Red; display: none;" runat="server">*</span>
+                                                                            </td>
+                                                                            <td align="center">:
+                                                                            </td>
+                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                <asp:TextBox runat="server" ID="txtCity1" Width="170px" MaxLength="75"></asp:TextBox>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td align="left">State&nbsp;<span id="spnContactState" style="color: Red; display: none;" runat="server">*</span>
+                                                                            </td>
+                                                                            <td align="center">:
+                                                                            </td>
+                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                <asp:DropDownList runat="server" ID="ddlContactState" Width="170px"></asp:DropDownList>
+                                                                            </td>
+                                                                            <td align="left" style="padding-left: 9px;">
+                                                                                <asp:Label ID="Label81" runat="server" Text="Zip Code"></asp:Label>
+                                                                                &nbsp;<span id="spnZipCode" style="color: Red; display: none;" runat="server">*</span>
+                                                                            </td>
+                                                                            <td align="center">:
+                                                                            </td>
+                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                <asp:TextBox runat="server" ID="txtZipCode" Width="170px" MaxLength="10" onKeyPress="javascript:return FormatZipCode(event,this.id);" ></asp:TextBox>
+                                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator6" runat="server" ErrorMessage="Please Enter Zip Code in xxxxx-xxxx format."
+                                                                                    ValidationGroup="vsErrorContact" SetFocusOnError="true" ControlToValidate="txtZipCode"
+                                                                                    ValidationExpression="\b[0-9]{5}-[0-9]{4}\b|\b[0-9]{5}\b" Display="none" Enabled="true" />
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td height="4"></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td align="left">Telephone (XXX-XXX-XXXX)&nbsp;<span id="spntxtTelephone1" style="color: Red; display: none;" runat="server">*</span>
+                                                                            </td>
+                                                                            <td align="center">:
+                                                                            </td>
+                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                <asp:TextBox runat="server" ID="txtTelephone1" Width="170px" MaxLength="12" SkinID="txtPhone"></asp:TextBox>
+                                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator5" ControlToValidate="txtTelephone1" ValidationGroup="vsErrorContact"
+                                                                                    SetFocusOnError="true" runat="server" ErrorMessage="Please Enter Telephone Number in xxx-xxx-xxxx format."
+                                                                                    Display="none" Enabled="true" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
+                                                                            </td>
+                                                                            <td align="left" style="padding-left: 9px;"></td>
+                                                                            <td align="center"></td>
+                                                                            <td align="left" style="width: 28%; padding-left: 3px"></td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <td align="left">Account Number&nbsp;<span id="spnAccountNumber" style="color: Red; display: none;" runat="server">*</span>
+                                                                            </td>
+                                                                            <td align="center">:
+                                                                            </td>
+                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                <asp:TextBox runat="server" ID="txtAccountNumber" Width="170px" MaxLength="75"></asp:TextBox>
+                                                                            </td>
+                                                                            <td align="left" style="padding-left: 9px;">Monthly Monitoring Amount<span id="spnMonthlyMonitoringAmount" style="color: Red; display: none;" runat="server">*</span>
+                                                                            </td>
+                                                                            <td align="center">:
+                                                                            </td>
+                                                                            <td align="left" style="width: 28%; padding-left: 3px">$&nbsp;&nbsp;&nbsp;&nbsp;<asp:TextBox runat="server" ID="txtMonthlyMonitoringAmount" Width="170px" MaxLength="13" SkinID="txtCurrency"></asp:TextBox>
+                                                                            </td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <td align="left">Control Panel&nbsp;<span id="spnControlPanel" style="color: Red; display: none;" runat="server">*</span>
+                                                                            </td>
+                                                                            <td align="center">:
+                                                                            </td>
+                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                <asp:TextBox runat="server" ID="txtControlPanel" Width="170px" MaxLength="75"></asp:TextBox>
+                                                                            </td>
+                                                                            <td align="left" style="padding-left: 9px;"></td>
+                                                                            <td align="center"></td>
+                                                                            <td align="left" style="width: 28%; padding-left: 3px"></td>
+                                                                        </tr>
+                                                                        <tr height="10">
+                                                                            <td></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td align="center" colspan="6">
+                                                                                <asp:Button runat="server" ID="btnSaveAndView" Text="Save & View" OnClick="btnSaveAndView_Click"
+                                                                                    ValidationGroup="vsErrorContact" CausesValidation="true" />&nbsp;
                                                                     <asp:Button ID="btnViewAuditContacts" runat="server" Text="View Audit Trail" OnClientClick="javascript:return AuditPopUp('Contacts');"
                                                                         Visible="false" />&nbsp;
                                                                     <input id="hdnContacts" runat="server" type="hidden" />
-                                                                    <asp:Button ID="btnUpdateContactGrids" runat="server" OnClick="btnUpdateContactGrids_Click"
-                                                                        Style="display: none;" CausesValidation="false" />
+                                                                                <asp:Button ID="btnUpdateContactGrids" runat="server" OnClick="btnUpdateContactGrids_Click"
+                                                                                    Style="display: none;" CausesValidation="false" />
+                                                                            </td>
+                                                                        </tr>
+
+
+                                                                    </table>
                                                                 </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="Spacer" style="height: 10px;"></td>
                                                             </tr>
                                                         </table>
                                                     </ContentTemplate>
@@ -5082,7 +5314,7 @@ function ValidateFields(sender, args) {
             document.getElementById('ProgressTable').style.height = screen.height + h;
         }
 
-        
+
         //used to hide/display Named Loss Payees controls
         function checkNamedLossPayees() {
             document.getElementById('<%=btnViewAuditLossPayee.ClientID%>').style.display = "none";
@@ -5481,26 +5713,26 @@ function OpenOrRemoveCOI(bChecked, type) {
         }
         if (type == 'GL') {
             document.getElementById('<%=lnkCOI_GL.ClientID%>').innerHTML = "Add";
-                    document.getElementById('<%=hdnCOI_GL_Date.ClientID%>').value = "";
-                    document.getElementById('<%=lblCOI_GL_Date.ClientID%>').innerHTML = '';
-                }
-                if (type == 'Pollution') {
-                    document.getElementById('<%=lnkCOI_Pollution.ClientID%>').innerHTML = "Add";
-                    document.getElementById('<%=hdnCOI_Pollution_Date.ClientID%>').value = "";
-                    document.getElementById('<%=lblCOI_Pollution_Date.ClientID%>').innerHTML = '';
-                }
-                if (type == 'Property') {
-                    document.getElementById('<%=lnkCOI_Property.ClientID%>').innerHTML = "Add";
-                    document.getElementById('<%=hdnCOI_Property_Date.ClientID%>').value = "";
-                    document.getElementById('<%=lblCOI_Property_Date.ClientID%>').innerHTML = '';
-                }
-                if (type == 'Flood') {
-                    document.getElementById('<%=lnkCOI_Flood.ClientID%>').innerHTML = "Add";
-                    document.getElementById('<%=hdnCOI_Flood_Date.ClientID%>').value = "";
-                    document.getElementById('<%=lblCOI_Flood_Date.ClientID%>').innerHTML = '';
-                }
-                if (type == 'EQ') {
-                    document.getElementById('<%=lnkCOI_EQ.ClientID%>').innerHTML = "Add";
+            document.getElementById('<%=hdnCOI_GL_Date.ClientID%>').value = "";
+            document.getElementById('<%=lblCOI_GL_Date.ClientID%>').innerHTML = '';
+        }
+        if (type == 'Pollution') {
+            document.getElementById('<%=lnkCOI_Pollution.ClientID%>').innerHTML = "Add";
+            document.getElementById('<%=hdnCOI_Pollution_Date.ClientID%>').value = "";
+            document.getElementById('<%=lblCOI_Pollution_Date.ClientID%>').innerHTML = '';
+        }
+        if (type == 'Property') {
+            document.getElementById('<%=lnkCOI_Property.ClientID%>').innerHTML = "Add";
+            document.getElementById('<%=hdnCOI_Property_Date.ClientID%>').value = "";
+            document.getElementById('<%=lblCOI_Property_Date.ClientID%>').innerHTML = '';
+        }
+        if (type == 'Flood') {
+            document.getElementById('<%=lnkCOI_Flood.ClientID%>').innerHTML = "Add";
+            document.getElementById('<%=hdnCOI_Flood_Date.ClientID%>').value = "";
+            document.getElementById('<%=lblCOI_Flood_Date.ClientID%>').innerHTML = '';
+        }
+        if (type == 'EQ') {
+            document.getElementById('<%=lnkCOI_EQ.ClientID%>').innerHTML = "Add";
                     document.getElementById('<%=hdnCOI_EQ_Date.ClientID%>').value = "";
                     document.getElementById('<%=lblCOI_EQ_Date.ClientID%>').innerHTML = '';
                 }
@@ -5544,54 +5776,54 @@ function ShowHideLeaseAttachment() {
 
 
 
-        
 
-        function ConfirmRemove() {
-            return confirm("Are you sure to remove?");
-        }
 
-        function ConfirmSubLeaseRemove() {
-            return confirm("You have selected to remove a Sub-Lease, the associated Sub-Lease record will also be removed from the Lease Module, Subtenant Information grid. Continue?")
-        }
-        function YearValidate(x) {
-            var strErrorInval = "";
-            var strErrorLess = "";
-            strErrorInval = "Year of Built is Invalid.";
-            strErrorLess = "Year of Built should be less than or equal to current year.";
+function ConfirmRemove() {
+    return confirm("Are you sure to remove?");
+}
 
-            var right_now = new Date();
-            var the_year = right_now.getYear();
+function ConfirmSubLeaseRemove() {
+    return confirm("You have selected to remove a Sub-Lease, the associated Sub-Lease record will also be removed from the Lease Module, Subtenant Information grid. Continue?")
+}
+function YearValidate(x) {
+    var strErrorInval = "";
+    var strErrorLess = "";
+    strErrorInval = "Year of Built is Invalid.";
+    strErrorLess = "Year of Built should be less than or equal to current year.";
 
-            var y = document.getElementById(x).value;
-            if (y.length < 4 && y.length > 0) {
-                alert(strErrorInval);
-                document.getElementById(x).select();
-            }
-            if (y != the_year && y > the_year) {
-                alert(strErrorLess);
-                document.getElementById(x).select();
-            }
-        }
+    var right_now = new Date();
+    var the_year = right_now.getYear();
 
-        var pattern = /[0-9]/;
-        function isValid(id) {
-            var keyCode = event.keyCode ? event.keyCode : event.which;
-            var key = String.fromCharCode(keyCode);
-            if (!pattern.test(key)) {
-                event.keyCode = "";
-                return false;
-            }
-        }
+    var y = document.getElementById(x).value;
+    if (y.length < 4 && y.length > 0) {
+        alert(strErrorInval);
+        document.getElementById(x).select();
+    }
+    if (y != the_year && y > the_year) {
+        alert(strErrorLess);
+        document.getElementById(x).select();
+    }
+}
 
-        function ShowHideLimits(bChecked, type) {
-            if (type == 'WC')
-                document.getElementById('<%=tblWCLimit.ClientID%>').style.display = bChecked ? "" : "none";
-            else if (type == 'EL')
-                document.getElementById('<%=tblELLimit.ClientID%>').style.display = bChecked ? "" : "none";
-            else if (type == 'GL')
-                document.getElementById('<%=tblGLLimit.ClientID%>').style.display = bChecked ? "" : "none";
-            else if (type == 'Pollution')
-                document.getElementById('<%=tblPollutionLimit.ClientID%>').style.display = bChecked ? "" : "none";
+var pattern = /[0-9]/;
+function isValid(id) {
+    var keyCode = event.keyCode ? event.keyCode : event.which;
+    var key = String.fromCharCode(keyCode);
+    if (!pattern.test(key)) {
+        event.keyCode = "";
+        return false;
+    }
+}
+
+function ShowHideLimits(bChecked, type) {
+    if (type == 'WC')
+        document.getElementById('<%=tblWCLimit.ClientID%>').style.display = bChecked ? "" : "none";
+    else if (type == 'EL')
+        document.getElementById('<%=tblELLimit.ClientID%>').style.display = bChecked ? "" : "none";
+    else if (type == 'GL')
+        document.getElementById('<%=tblGLLimit.ClientID%>').style.display = bChecked ? "" : "none";
+    else if (type == 'Pollution')
+        document.getElementById('<%=tblPollutionLimit.ClientID%>').style.display = bChecked ? "" : "none";
             else if (type == 'Property')
                 document.getElementById('<%=tblPropertyLimit.ClientID%>').style.display = bChecked ? "" : "none";
             else if (type == 'Flood')
@@ -5655,17 +5887,17 @@ function returnConfirm() {
 function GetPercentTrained() {
 
     var Number_Of_Employees = document.getElementById('<%=txtNumber_of_Employees.ClientID %>').value;
-            var Number_Trained = document.getElementById('<%=txtNumber_of_Employees_To_Date.ClientID%>').value;
+    var Number_Trained = document.getElementById('<%=txtNumber_of_Employees_To_Date.ClientID%>').value;
 
-            if (Number_Of_Employees != "" && Number_Trained != "" && Number(Number_Of_Employees.replace(/,/g, '')) > 0) {
-                var cPercent = ((parseFloat(Number_Trained.replace(/,/g, '')) / parseFloat(Number_Of_Employees.replace(/,/g, '')))) * 100;
-                if (cPercent != NaN)
-                    cPercent = cPercent.toFixed(1);
-                document.getElementById('<%=txtPercent_Employee_to_Date.ClientID%>').value = cPercent;
-            }
-            else {
-                document.getElementById('<%=txtPercent_Employee_to_Date.ClientID%>').value = '100.0';
-            }
-        }
+    if (Number_Of_Employees != "" && Number_Trained != "" && Number(Number_Of_Employees.replace(/,/g, '')) > 0) {
+        var cPercent = ((parseFloat(Number_Trained.replace(/,/g, '')) / parseFloat(Number_Of_Employees.replace(/,/g, '')))) * 100;
+        if (cPercent != NaN)
+            cPercent = cPercent.toFixed(1);
+        document.getElementById('<%=txtPercent_Employee_to_Date.ClientID%>').value = cPercent;
+    }
+    else {
+        document.getElementById('<%=txtPercent_Employee_to_Date.ClientID%>').value = '100.0';
+    }
+}
     </script>
 </asp:Content>

@@ -185,6 +185,14 @@ namespace ERIMS.DAL
         private decimal? _Acreage;
         private bool _Occupancy_Car_Wash;
         private bool _Occupancy_Photo_Booth;
+        private  string _Total_Amperage_Required;
+        private string _Cable_Length_Other;
+        private string _Power_Service_Other;
+        private string _Voltage_Security_Other;
+        private decimal? _FK_LU_Cable_Length;
+        private decimal? _FK_LU_Phase_Power;
+        private decimal? _FK_LU_Power_Service;
+        private decimal? _FK_LU_Voltage_Security;
 
         #endregion
 
@@ -1866,6 +1874,51 @@ namespace ERIMS.DAL
             get { return _Occupancy_Photo_Booth; }
             set { _Occupancy_Photo_Booth = value; }
         }
+        public decimal? FK_LU_Voltage_Security
+        {
+            get { return _FK_LU_Voltage_Security; }
+            set { _FK_LU_Voltage_Security = value; }
+        }
+        public decimal? FK_LU_Power_Service
+        {
+            get { return _FK_LU_Power_Service; }
+            set { _FK_LU_Power_Service = value; }
+        }
+        public decimal? FK_LU_Phase_Power	
+        {
+            get { return _FK_LU_Phase_Power; }
+            set { _FK_LU_Phase_Power = value; }
+        }
+        public decimal? FK_LU_Cable_Length
+        {
+            get { return _FK_LU_Cable_Length; }
+            set { _FK_LU_Cable_Length = value; }
+        }
+
+        public string Voltage_Security_Other
+        {
+            get { return _Voltage_Security_Other; }
+            set { _Voltage_Security_Other = value; }
+        }
+
+        public string Power_Service_Other	
+        {
+            get { return _Power_Service_Other; }
+            set { _Power_Service_Other = value; }
+        }
+
+        public string Cable_Length_Other	
+        {
+            get { return _Cable_Length_Other; }
+            set { _Cable_Length_Other = value; }
+        }
+
+        public string Total_Amperage_Required	
+        {
+            get { return _Total_Amperage_Required; }
+            set { _Total_Amperage_Required = value; }
+        }
+        
         #endregion
 
         #region Constructors
@@ -2051,6 +2104,14 @@ namespace ERIMS.DAL
             this._Acreage = null;
             this._Occupancy_Car_Wash = false;
             this._Occupancy_Photo_Booth = false;
+            this._FK_LU_Voltage_Security = null;	
+            this._Voltage_Security_Other = null;	
+            this._FK_LU_Power_Service = null;	
+            this._Power_Service_Other = null;
+            this._FK_LU_Phase_Power = null;
+            this._FK_LU_Cable_Length = null;	
+            this._Cable_Length_Other = null;
+            this._Total_Amperage_Required = null;	
         }
 
 
@@ -2324,6 +2385,14 @@ namespace ERIMS.DAL
 
                 this._Occupancy_Car_Wash = drBuilding["Occupancy_Car_Wash"] != DBNull.Value ? Convert.ToBoolean(drBuilding["Occupancy_Car_Wash"]) : false;
                 this._Occupancy_Photo_Booth = drBuilding["Occupancy_Photo_Booth"] != DBNull.Value ? Convert.ToBoolean(drBuilding["Occupancy_Photo_Booth"]) : false;
+                this._FK_LU_Voltage_Security = clsGeneral.GetDecimal(drBuilding["FK_LU_Voltage_Security"]);
+                this._FK_LU_Power_Service = clsGeneral.GetDecimal(drBuilding["FK_LU_Power_Service"]);
+                this._FK_LU_Phase_Power = clsGeneral.GetDecimal(drBuilding["FK_LU_Phase_Power"]);
+                this._FK_LU_Cable_Length = clsGeneral.GetDecimal(drBuilding["FK_LU_Cable_Length"]);
+                this._Voltage_Security_Other = Convert.ToString(drBuilding["Voltage_Security_Other"]);
+                this._Power_Service_Other = Convert.ToString(drBuilding["Power_Service_Other"]);
+                this._Cable_Length_Other = Convert.ToString(drBuilding["Cable_Length_Other"]);
+                this._Total_Amperage_Required = Convert.ToString(drBuilding["Total_Amperage_Required"]);
             }
             else
             {
@@ -2500,6 +2569,14 @@ namespace ERIMS.DAL
                 this._Acreage = null;
                 this._Occupancy_Car_Wash = false;
                 this._Occupancy_Photo_Booth = false;
+                this._FK_LU_Voltage_Security = null;
+                this._Voltage_Security_Other = null;
+                this._FK_LU_Power_Service = null;
+                this._Power_Service_Other = null;
+                this._FK_LU_Phase_Power = null;
+                this._FK_LU_Cable_Length = null;
+                this._Cable_Length_Other = null;
+                this._Total_Amperage_Required = null;	
             }
         }
 
@@ -2774,6 +2851,32 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Acreage", DbType.Decimal, this._Acreage);
             db.AddInParameter(dbCommand, "Occupancy_Car_Wash", DbType.Boolean, this._Occupancy_Service);
             db.AddInParameter(dbCommand, "Occupancy_Photo_Booth", DbType.Boolean, this._Occupancy_Service);
+            
+            db.AddInParameter(dbCommand, "FK_LU_Voltage_Security", DbType.Decimal, this._FK_LU_Voltage_Security);
+            db.AddInParameter(dbCommand, "FK_LU_Power_Service", DbType.Decimal, this._FK_LU_Power_Service);
+            db.AddInParameter(dbCommand, "FK_LU_Cable_Length", DbType.Decimal, this._FK_LU_Cable_Length);
+            db.AddInParameter(dbCommand, "FK_LU_Phase_Power", DbType.Decimal, this._FK_LU_Phase_Power);
+            
+
+            if (string.IsNullOrEmpty(this._Voltage_Security_Other))
+                db.AddInParameter(dbCommand, "Voltage_Security_Other", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Voltage_Security_Other", DbType.String, this._Voltage_Security_Other);
+
+            if (string.IsNullOrEmpty(this._Power_Service_Other))
+                db.AddInParameter(dbCommand, "Power_Service_Other", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Power_Service_Other", DbType.String, this._Power_Service_Other);
+
+            if (string.IsNullOrEmpty(this._Cable_Length_Other))
+                db.AddInParameter(dbCommand, "Cable_Length_Other", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Cable_Length_Other", DbType.String, this._Cable_Length_Other);
+
+            if (string.IsNullOrEmpty(this._Total_Amperage_Required))
+                db.AddInParameter(dbCommand, "Total_Amperage_Required", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Total_Amperage_Required", DbType.String, this._Total_Amperage_Required);
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -3098,6 +3201,31 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Acreage", DbType.Decimal, this._Acreage);
             db.AddInParameter(dbCommand, "Occupancy_Car_Wash", DbType.Decimal, this._Occupancy_Car_Wash);
             db.AddInParameter(dbCommand, "Occupancy_Photo_Booth", DbType.Decimal, this._Occupancy_Photo_Booth);
+            
+            db.AddInParameter(dbCommand, "FK_LU_Voltage_Security", DbType.Decimal, this._FK_LU_Voltage_Security);
+            db.AddInParameter(dbCommand, "FK_LU_Power_Service", DbType.Decimal, this._FK_LU_Power_Service);
+            db.AddInParameter(dbCommand, "FK_LU_Phase_Power", DbType.Decimal, this._FK_LU_Phase_Power);
+            db.AddInParameter(dbCommand, "FK_LU_Cable_Length", DbType.Decimal, this._FK_LU_Cable_Length);
+
+            if (string.IsNullOrEmpty(this._Voltage_Security_Other))
+                db.AddInParameter(dbCommand, "Voltage_Security_Other", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Voltage_Security_Other", DbType.String, this._Voltage_Security_Other);
+
+            if (string.IsNullOrEmpty(this._Power_Service_Other))
+                db.AddInParameter(dbCommand, "Power_Service_Other", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Power_Service_Other", DbType.String, this._Power_Service_Other);
+
+            if (string.IsNullOrEmpty(this._Cable_Length_Other))
+                db.AddInParameter(dbCommand, "Cable_Length_Other", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Cable_Length_Other", DbType.String, this._Cable_Length_Other);
+
+            if (string.IsNullOrEmpty(this._Total_Amperage_Required))
+                db.AddInParameter(dbCommand, "Total_Amperage_Required", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Total_Amperage_Required", DbType.String, this._Total_Amperage_Required);
             db.ExecuteNonQuery(dbCommand);
         }
 
@@ -3213,6 +3341,19 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        /// <summary>
+        /// Selects a single record from the Building table by a primary key.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectByPKLookUp(int pK_Building_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("BuildingSelectByPKLookUp");
+
+            db.AddInParameter(dbCommand, "PK_Building_ID", DbType.Int32, pK_Building_ID);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
         #endregion
     }
 }

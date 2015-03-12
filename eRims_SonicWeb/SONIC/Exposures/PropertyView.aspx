@@ -161,7 +161,8 @@ function ShowAuditPopUp(url) {
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <td align="left" width="100%">
-                                                                                            <span class="LeftMenuStatic" id="PropertyMenu4" onclick="javascript:ShowPanel(4);">Building<br /> Improvements 
+                                                                                            <span class="LeftMenuStatic" id="PropertyMenu4" onclick="javascript:ShowPanel(4);">Building<br />
+                                                                                                Improvements 
                                                                                                 <span class="mf"></span></span>
                                                                                         </td>
                                                                                     </tr>
@@ -2701,6 +2702,101 @@ function ShowAuditPopUp(url) {
                                                                                 <td class="Spacer" style="height: 10px;"></td>
                                                                             </tr>
                                                                             <tr>
+                                                                                <td align="left" colspan="6">
+                                                                                    <b>Power Requirements</b>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="Spacer" style="height: 10px;"></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="center" colspan="6">
+                                                                                    <table cellpadding="0" cellspacing="0" border="0">
+                                                                                        <tr>
+                                                                                            <td align="left" style="width: 18%">
+                                                                                                <asp:Label ID="Label60" runat="server" Text="Contact Name" Width="146px">Voltage Security</asp:Label>
+                                                                                            </td>
+                                                                                            <td align="center" style="width: 4%">
+                                                                                                <asp:Label ID="Label61" runat="server" Text=":" Width="31px"></asp:Label>
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                                <asp:Label runat="server" ID="lblVoltageSecurity" Width="170px" />
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 18%; padding-left: 9px;">
+                                                                                                <asp:Label ID="Label62" runat="server" Text="Phase Power" Width="130px"></asp:Label>
+                                                                                            </td>
+                                                                                            <td align="center" style="width: 4%">:
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                                <asp:Label runat="server" ID="lblPhasePower" Width="170px"></asp:Label>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td align="left">
+                                                                                                <asp:Label ID="Label63" runat="server" Text="Contact Name" Width="146px">Voltage Security, Other</asp:Label>
+                                                                                            </td>
+                                                                                            <td align="center">
+                                                                                                <asp:Label ID="Label64" runat="server" Text=":" Width="31px"></asp:Label>
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                                <asp:Label runat="server" ID="lblVoltageSecurityOther" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                                                                            </td>
+                                                                                            <td align="left" style="padding-left: 9px;">
+                                                                                                <asp:Label ID="Label65" runat="server" Text="Contact Name" Width="146px">Required Cable Length</asp:Label>
+                                                                                            </td>
+                                                                                            <td align="center">:
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                                <asp:Label runat="server" ID="lblRequiredCableLength" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td align="left">
+                                                                                                <asp:Label ID="Label67" runat="server" Text="Contact Name" Width="146px">Power Service</asp:Label>
+                                                                                            </td>
+                                                                                            <td align="center">
+                                                                                                <asp:Label ID="Label66" runat="server" Text=":" Width="31px"></asp:Label>
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                                <asp:Label runat="server" ID="lblPowerService" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                                                                            </td>
+                                                                                            <td align="left" style="padding-left: 9px;">
+                                                                                                <asp:Label ID="Label68" runat="server" Text="Contact Name" Width="146px">Required Cable Length, Other</asp:Label>
+                                                                                            </td>
+                                                                                            <td align="center">
+                                                                                                <asp:Label ID="Label69" runat="server" Text=":" Width="31px"></asp:Label>
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                                <asp:Label runat="server" ID="lblRequiredCableLengthOther" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td align="left">
+                                                                                                <asp:Label ID="Label70" runat="server" Text="Contact Name" Width="146px">Power Service, Other</asp:Label>
+                                                                                            </td>
+                                                                                            <td align="center">
+                                                                                                <asp:Label ID="Label71" runat="server" Text=":" Width="31px"></asp:Label>
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                                <asp:Label runat="server" ID="lblPowerServiceOther" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                                                                            </td>
+                                                                                            <td align="left" style="padding-left: 9px;">
+                                                                                                <asp:Label ID="Label72" runat="server" Text="Contact Name" Width="146px">Total Amperage Required</asp:Label>
+                                                                                            </td>
+                                                                                            <td align="center">
+                                                                                                <asp:Label ID="Label73" runat="server" Text=":" Width="31px"></asp:Label>
+                                                                                            </td>
+                                                                                            <td align="left" style="width: 28%; padding-left: 3px">
+                                                                                                <asp:Label runat="server" ID="lblTotalAmperageRequired" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td class="Spacer" style="height: 10px;"></td>
+                                                                            </tr>
+                                                                            <%--<tr>
                                                                                 <td align="left" valign="top">
                                                                                     <b>GGKL Renewal Information Grid</b>
                                                                                 </td>
@@ -2730,7 +2826,7 @@ function ShowAuditPopUp(url) {
                                                                             </tr>
                                                                             <tr>
                                                                                 <td class="Spacer" style="height: 10px;"></td>
-                                                                            </tr>
+                                                                            </tr>--%>
                                                                             <tr>
                                                                                 <td align="left" colspan="6">
                                                                                     <b>Other Building Attachments</b><br />
@@ -4150,6 +4246,102 @@ function ShowAuditPopUp(url) {
                                                                             </asp:TemplateField>
                                                                         </Columns>
                                                                     </asp:GridView>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" style="width: 18%">Company Name                                                                             
+                                                                </td>
+                                                                <td align="center" style="width: 4%">:
+                                                                </td>
+                                                                <td align="left" style="width: 28%; padding-left: 3px">
+                                                                    <asp:Label runat="server" ID="lblCompanyName" Width="170px" style="word-wrap:normal;word-break:break-all" />
+                                                                </td>
+                                                                <td align="left" style="width: 18%; padding-left: 9px;">Contact Name
+                                                                </td>
+                                                                <td align="center" style="width: 4%">:
+                                                                </td>
+                                                                <td align="left" style="width: 28%; padding-left: 3px">
+                                                                    <asp:Label runat="server" ID="lblContactName" Width="170px" style="word-wrap:normal;word-break:break-all"></asp:Label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td height="4"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left">Address                                                                    
+                                                                </td>
+                                                                <td align="center">:</td>
+                                                                <td align="left" style="width: 28%; padding-left: 3px">
+                                                                    <asp:Label runat="server" ID="lblAddress" Width="170px" style="word-wrap:normal;word-break:break-all"></asp:Label>
+                                                                </td>
+                                                                <td align="left" style="width: 18%; padding-left: 9px;">City</td>
+                                                                <td align="center" style="width : 4%">:</td>
+                                                                <td align="left" style="width: 28%; padding-left: 3px">
+                                                                    <asp:Label runat="server" ID="lblCity1" Width="170px" MaxLength="75" style="word-wrap:normal;word-break:break-all"></asp:Label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left">State
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left" style="width: 28%; padding-left: 3px">
+                                                                    <asp:Label runat="server" ID="lblContactState" Width="170px" style="word-wrap:normal;word-break:break-all"></asp:Label>
+                                                                </td>
+                                                                <td align="left" style="padding-left: 9px;">Zip Code
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left" style="width: 28%; padding-left: 3px">
+                                                                    <asp:Label runat="server" ID="lblZipCode" Width="170px" MaxLength="10" style="word-wrap:normal;word-break:break-all" onKeyPress="javascript:return FormatZipCode(event,this.id);"></asp:Label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td height="4"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left">Telephone
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left" style="width: 28%; padding-left: 3px">
+                                                                    <asp:Label runat="server" ID="lblTelephone1" Width="170px" style="word-wrap:normal;word-break:break-all"></asp:Label>
+                                                                </td>
+                                                                <td align="left" style="padding-left: 9px;"></td>
+                                                                <td align="center"></td>
+                                                                <td align="left" style="width: 28%; padding-left: 3px"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left">Account Number
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left" style="width: 28%; padding-left: 3px">
+                                                                    <asp:Label runat="server" ID="lblAccountNumber" Width="170px" style="word-wrap:normal;word-break:break-all"></asp:Label>
+                                                                </td>
+                                                                <td align="left" style="padding-left: 9px;">Monthly Monitoring Amount
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left" style="width: 28%; padding-left: 3px">$  <asp:Label runat="server" ID="lblMonthlyMonitoringAmount" Width="160px" style="word-wrap:normal;word-break:break-all"></asp:Label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left">Control Panel
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left" style="width: 28%; padding-left: 3px">
+                                                                    <asp:Label runat="server" ID="lblControlPanel" Width="170px" style="word-wrap:normal;word-break:break-all"></asp:Label>
+                                                                </td>
+                                                                <td align="left" style="padding-left: 9px;"></td>
+                                                                <td align="center"></td>
+                                                                <td align="left" style="width: 28%; padding-left: 3px"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="center" colspan="6">
+                                                                    <asp:Button ID="Button1" runat="server" Text="View Audit Trail" OnClientClick="javascript:return AuditPopUp('Contacts');"
+                                                                        Visible="false" />&nbsp;
                                                                 </td>
                                                             </tr>
                                                             <tr>

@@ -8,26 +8,23 @@
 </head>
 
 <script language="javascript" type="text/javascript">
-    function showAudit(divHeader,divGrid)
-    {        
-        var divheight,i;
-       
+    function showAudit(divHeader, divGrid) {
+        var divheight, i;
+
         divHeader.style.width = window.screen.availWidth - 225 + "px";
         divGrid.style.width = window.screen.availWidth - 225 + "px";
-        
-        divheight = divGrid.style.height;        
-        i = divheight.indexOf('px');        
-        
-        if(i > -1)        
-            divheight = divheight.substring(0,i);
-        if (divheight > (window.screen.availHeight - 350) && divGrid.style.height != "")
-        {            
+
+        divheight = divGrid.style.height;
+        i = divheight.indexOf('px');
+
+        if (i > -1)
+            divheight = divheight.substring(0, i);
+        if (divheight > (window.screen.availHeight - 350) && divGrid.style.height != "") {
             divGrid.style.height = window.screen.availHeight - 350;
         }
     }
-    
-    function ChangeScrollBar(f,s)
-    {
+
+    function ChangeScrollBar(f, s) {
         s.scrollTop = f.scrollTop;
         s.scrollLeft = f.scrollLeft;
     }
@@ -86,6 +83,36 @@
                                     </th>
                                     <th class="cols">
                                         <span style="display: inline-block; width: 180px;">email</span>
+                                    </th>                                    
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 150px;">Fire Alarm Monitoring Company Name</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 150px;">Fire Alarm Monitoring Contact Name</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 150px;">Fire Alarm Monitoring Address</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 150px;">Fire Alarm Monitoring City</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 150px;">Fire Alarm Monitoring State</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 150px;">Fire Alarm Monitoring Zip Code</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 150px;">Fire Alarm MonitoringTelephone</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 150px;">Fire Alarm Monitoring Account Number</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 150px;">Fire Alarm Monitoring Monthly Amount</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 150px;">Fire Alarm Monitoring Control Panel</span>
                                     </th>
                                     <th class="cols">
                                         <span style="display: inline-block; width: 120px">Updated_By</span>
@@ -179,6 +206,66 @@
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
                                         <asp:Label ID="lblemail" runat="server" Text='<%#Eval("email")%>' Width="180px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Fire_Alarm_Monitoring_Company_Name">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblFire_Alarm_Monitoring_Company_Name" runat="server" Text='<%#Eval("Fire_Alarm_Monitoring_Company_Name")%>' Width="150px" CssClass="TextClip"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Fire_Alarm_Monitoring_Contact_Name">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblFire_Alarm_Monitoring_Contact_Name" runat="server" Text='<%#Eval("Fire_Alarm_Monitoring_Contact_Name")%>' Width="150px" CssClass="TextClip"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Fire_Alarm_Monitoring_Address">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblFire_Alarm_Monitoring_Address" runat="server" Text='<%#Eval("Fire_Alarm_Monitoring_Address")%>' Width="150px" CssClass="TextClip"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Fire_Alarm_Monitoring_City">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblFire_Alarm_Monitoring_City" runat="server" Text='<%#Eval("Fire_Alarm_Monitoring_City")%>' Width="150px" CssClass="TextClip"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="FK_Fire_Alarm_Monitoring_State">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblFK_Fire_Alarm_Monitoring_State" runat="server" Text='<%#Eval("FK_Fire_Alarm_Monitoring_State")%>' Width="150px" CssClass="TextClip"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Fire_Alarm_Monitoring_Zip_Code">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblFire_Alarm_Monitoring_Zip_Code" runat="server" Text='<%#Eval("Fire_Alarm_Monitoring_Zip_Code")%>' Width="150px" CssClass="TextClip"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Fire_Alarm_Monitoring_Telephone">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblFire_Alarm_Monitoring_Telephone" runat="server" Text='<%#Eval("Fire_Alarm_Monitoring_Telephone")%>' Width="150px" CssClass="TextClip"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                   <asp:TemplateField HeaderText="Fire_Alarm_Monitoring_Account_Number">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblFire_Alarm_Monitoring_Account_Number" runat="server" Text='<%#Eval("Fire_Alarm_Monitoring_Account_Number")%>' Width="150px" CssClass="TextClip"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                   <asp:TemplateField HeaderText="Fire_Alarm_Monitoring_Monthly_Amount">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblFire_Alarm_Monitoring_Monthly_Amount" runat="server" Text='<%#Eval("Fire_Alarm_Monitoring_Monthly_Amount")%>' Width="150px" CssClass="TextClip"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                   <asp:TemplateField HeaderText="Fire_Alarm_Monitoring_Control_Panel">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblFire_Alarm_Monitoring_Control_Panel" runat="server" Text='<%#Eval("Fire_Alarm_Monitoring_Control_Panel")%>' Width="150px" CssClass="TextClip"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Updated_By">

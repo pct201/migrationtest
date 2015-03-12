@@ -905,9 +905,23 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
         lblFireEmail.Text = objBuilding.Fire_Email;
         lblFireComments.Text = objBuilding.Fire_Comments;
 
+        DataTable dt = Building.SelectByPKLookUp(PK_Building_ID).Tables[0];
+        DataRow drFKA = dt.Rows[0];
+        lblVoltageSecurity.Text = Convert.ToString(drFKA["FK_LU_Voltage_Security"]);
+        lblPowerService.Text = Convert.ToString(drFKA["FK_LU_Power_Service"]);
+        lblPhasePower.Text = Convert.ToString(drFKA["FK_LU_Phase_Power"]);
+        lblRequiredCableLength.Text = Convert.ToString(drFKA["FK_LU_Cable_Length"]);
+
+        
+
+        lblVoltageSecurityOther.Text = objBuilding.Voltage_Security_Other;
+        lblPowerServiceOther.Text = objBuilding.Power_Service_Other;
+        lblRequiredCableLengthOther.Text = objBuilding.Cable_Length_Other;
+        lblTotalAmperageRequired.Text = objBuilding.Total_Amperage_Required;
+
         BindBuildingFinancilaLimitGrid();
         
-        BindBuildingGGKLGrid();
+        //BindBuildingGGKLGrid();
         #endregion
 
         // bind building attahcment grid
@@ -1149,6 +1163,17 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
         // create object for contact
         Property_Contact objContact = new Property_Contact(PK_Property_Contact_ID);
 
+        DataTable dtState = State.SelectByPK(objContact.FK_Fire_Alarm_Monitoring_State).Tables[0];
+        if (dtState.Rows.Count > 0)
+        {
+            DataRow drFKA = dtState.Rows[0];
+            lblContactState.Text = Convert.ToString(drFKA["Fld_State"]);
+        }
+        else
+        {
+            lblContactState.Text = string.Empty;
+        }
+
         // set values in page controls
         lblName.Text = objContact.Name;
         lblPhone.Text = objContact.Phone;
@@ -1156,6 +1181,16 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
         lblAfter_Hours_Contact_Name.Text = objContact.After_Hours_Contact_Name;
         lblAfter_Hours_Contact_Phone.Text = objContact.After_Hours_Contact_Phone;
         lblAfter_Hours_Contact_Cell_Phone.Text = objContact.After_Hours_Contact_Cell_Phone;
+
+        lblCompanyName.Text = objContact.Fire_Alarm_Monitoring_Company_Name; ;
+        lblContactName.Text = objContact.Fire_Alarm_Monitoring_Contact_Name;
+        lblAddress.Text = objContact.Fire_Alarm_Monitoring_Address;
+        lblCity1.Text = objContact.Fire_Alarm_Monitoring_City;
+        lblZipCode.Text = objContact.Fire_Alarm_Monitoring_Zip_Code;
+        lblTelephone1.Text = objContact.Fire_Alarm_Monitoring_Telephone;
+        lblAccountNumber.Text = objContact.Fire_Alarm_Monitoring_Account_Number;
+        lblMonthlyMonitoringAmount.Text = clsGeneral.FormatCommaSeperatorCurrency(objContact.Fire_Alarm_Monitoring_Monthly_Amount);
+        lblControlPanel.Text = objContact.Fire_Alarm_Monitoring_Control_Panel;
 
         // bind emergency, utility and other contact grid
         BindEmergencyContactGrid();
@@ -1272,12 +1307,12 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
         gvFinancialLimit.DataBind();
     }
 
-    private void BindBuildingGGKLGrid()
-    {
-        DataTable dtGGKL = Building_GGKL.SelectByFK(PK_Building_ID).Tables[0];
-        gvGGKL.DataSource = dtGGKL;
-        gvGGKL.DataBind();
-    }
+    //private void BindBuildingGGKLGrid()
+    //{
+    //    DataTable dtGGKL = Building_GGKL.SelectByFK(PK_Building_ID).Tables[0];
+    //    gvGGKL.DataSource = dtGGKL;
+    //    gvGGKL.DataBind();
+    //}
 
     /// <summary>
     /// Binds Grid For Building Owner Sublease
