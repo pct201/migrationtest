@@ -159,6 +159,18 @@ namespace ERIMS.DAL
 			return db.ExecuteDataSet(dbCommand);
 		}
 
+        /// <summary>
+        /// Selects all records from the LU_Phase_Power table.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectAllByActive()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_Phase_PowerSelectAllByActive");
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
 		/// <summary>
 		/// Updates a record in the LU_Phase_Power table.
 		/// </summary>

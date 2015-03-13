@@ -159,6 +159,18 @@ namespace ERIMS.DAL
 			return db.ExecuteDataSet(dbCommand);
 		}
 
+        /// <summary>
+        /// Selects all records from the LU_Voltage_Security table.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectAllByActive()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_Voltage_SecuritySelectAllByActive");
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
 		/// <summary>
 		/// Updates a record in the LU_Voltage_Security table.
 		/// </summary>

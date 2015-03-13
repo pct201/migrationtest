@@ -1,4 +1,4 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeFile="AuditPopup_Building.aspx.cs"
+ <%@ Page Language="C#" AutoEventWireup="true" CodeFile="AuditPopup_Building.aspx.cs"
     Inherits="SONIC_Exposures_AuditPopup_Building" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -581,6 +581,30 @@
                                     </th>
                                     <th class="cols">
                                         <span style="display: inline-block; width: 150px;">Occupancy_Photo_Booth</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 150px;">LU_Voltage_Security</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 150px;">Voltage_Security_Other</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 150px;">LU_Power_Service</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 150px;">Power_Service_Other</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 150px;">LU_Phase_Power</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 150px;">LU_Cable_Length</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 150px;">Cable_Length_Other</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 160px;">Total_Amperage_Required</span>
                                     </th>
                                     <th class="cols">
                                         <span style="display: inline-block; width: 120px;">Updated_By</span>
@@ -1740,7 +1764,62 @@
                                             Width="150px"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-
+                                <asp:TemplateField HeaderText="FK LU Voltage Security">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblFK_LU_Voltage_Security" runat="server" Text='<%# Eval("FK_LU_Voltage_Security") %>'
+                                            Width="150px" CssClass="TextClip"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                  <asp:TemplateField HeaderText="Voltage_Security_Other">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblVoltage_Security_Other" runat="server" Text='<%# Eval("Voltage_Security_Other") %>'
+                                            Width="150px" CssClass="TextClip"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                  <asp:TemplateField HeaderText="FK_LU_Power_Service">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblFK_LU_Power_Service" runat="server" Text='<%# Eval("FK_LU_Power_Service") %>'
+                                            Width="150px" CssClass="TextClip"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                  <asp:TemplateField HeaderText="Power_Service_Other">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblPower_Service_Other" runat="server" Text='<%# Eval("Power_Service_Other") %>'
+                                            Width="150px" CssClass="TextClip"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                  <asp:TemplateField HeaderText="FK_LU_Phase_Power">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblFK_LU_Phase_Power" runat="server" Text='<%# Eval("FK_LU_Phase_Power") %>'
+                                            Width="150px" CssClass="TextClip"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                  <asp:TemplateField HeaderText="FK_LU_Cable_Length">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblFK_LU_Cable_Length" runat="server" Text='<%# Eval("FK_LU_Cable_Length") %>'
+                                            Width="150px" CssClass="TextClip"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                  <asp:TemplateField HeaderText="Cable_Length_Other">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblCable_Length_Other" runat="server" Text='<%# Eval("Cable_Length_Other") %>'
+                                            Width="150px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                  <asp:TemplateField HeaderText="Total_Amperage_Required">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblTotal_Amperage_Required" runat="server" Text='<%# Eval("Total_Amperage_Required") %>'
+                                            Width="160px" CssClass="TextClip"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Updated_By">
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>

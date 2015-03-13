@@ -2635,40 +2635,40 @@ public partial class Exposures_Property : clsBasePage
         drpSabaTrainingYear.SelectedValue = System.DateTime.Now.Year.ToString();
 
         //Bind Voltage Security dropdown
-        DataSet dsVoltageSecurity = clsLU_Voltage_Security.SelectAll();
+        DataSet dsVoltageSecurity = clsLU_Voltage_Security.SelectAllByActive();
         DataTable dtVoltageSecurity = dsVoltageSecurity.Tables[0];
         ddlVoltageSecurity.DataSource = dtVoltageSecurity;
         ddlVoltageSecurity.DataTextField = "Fld_Desc";
-        ddlVoltageSecurity.DataValueField = "PK_LU_Voltage_Security";
+        ddlVoltageSecurity.DataValueField = "PK_LU_Voltage_Security";        
         ddlVoltageSecurity.DataBind();
         ddlVoltageSecurity.Items.Insert(0, new ListItem("--SELECT--", "0"));
 
 
         //Bind Phase Power dropdown
-        DataSet dsPhasePower = clsLU_Phase_Power.SelectAll();
+        DataSet dsPhasePower = clsLU_Phase_Power.SelectAllByActive();
         DataTable dtPhasePower = dsPhasePower.Tables[0];
         ddlPhasePower.DataSource = dtPhasePower;
         ddlPhasePower.DataTextField = "Fld_Desc";
-        ddlPhasePower.DataValueField = "PK_LU_Phase_Power";
+        ddlPhasePower.DataValueField = "PK_LU_Phase_Power";        
         ddlPhasePower.DataBind();
         ddlPhasePower.Items.Insert(0, new ListItem("--SELECT--", "0"));
 
 
         //Bind PowerService dropdown
-        DataSet dsPowerService = clsLU_Power_Service.SelectAll();
+        DataSet dsPowerService = clsLU_Power_Service.SelectAllByActive();
         DataTable dtPowerService = dsPowerService.Tables[0];
         ddlPowerService.DataSource = dtPowerService;
         ddlPowerService.DataTextField = "Fld_Desc";
-        ddlPowerService.DataValueField = "PK_LU_Power_Service";
+        ddlPowerService.DataValueField = "PK_LU_Power_Service";        
         ddlPowerService.DataBind();
         ddlPowerService.Items.Insert(0, new ListItem("--SELECT--", "0"));
 
         //Bind CableLength dropdown
-        DataSet dsRequiredCableLength = clsLU_Cable_Length.SelectAll();
+        DataSet dsRequiredCableLength = clsLU_Cable_Length.SelectAllByActive();
         DataTable dtRequiredCableLength = dsRequiredCableLength.Tables[0];
         ddlRequiredCableLength.DataSource = dtRequiredCableLength;
         ddlRequiredCableLength.DataTextField = "Fld_Desc";
-        ddlRequiredCableLength.DataValueField = "PK_LU_Cable_Length";
+        ddlRequiredCableLength.DataValueField = "PK_LU_Cable_Length";        
         ddlRequiredCableLength.DataBind();
         ddlRequiredCableLength.Items.Insert(0, new ListItem("--SELECT--", "0"));
     }
@@ -3717,7 +3717,7 @@ public partial class Exposures_Property : clsBasePage
                 case "Voltage Security": strCtrlsIDsBuild += ddlVoltageSecurity.ClientID + ","; strMessagesBuild += "Please select [Building Information]/Power Requirements - Voltage Security" + ","; spnVoltageSecurity.Style["display"] = "inline-block"; break;
                 case "Phase Power": strCtrlsIDsBuild += ddlPhasePower.ClientID + ","; strMessagesBuild += "Please select [Building Information]/Power Requirements - Phase Power" + ","; spnPhasePower.Style["display"] = "inline-block"; break;
                 case "Voltage Security Other": strCtrlsIDsBuild += txtVoltageSecurityOther.ClientID + ","; strMessagesBuild += "Please select [Building Information]/Power Requirements - Voltage Security Other" + ","; spnVoltageSecurityOther.Style["display"] = "inline-block"; break;
-                case "Required Cable Length": strCtrlsIDsBuild += ddlRequiredCableLength.ClientID + ","; strMessagesBuild += "Please select [Building Information]/Power Requirements - Cable Length" + ","; spnRequiredCableLength.Style["display"] = "inline-block"; break;
+                case "Required Cable Length": strCtrlsIDsBuild += ddlRequiredCableLength.ClientID + ","; strMessagesBuild += "Please select [Building Information]/Power Requirements - Required Cable Length" + ","; spnRequiredCableLength.Style["display"] = "inline-block"; break;
                 case "Power Service": strCtrlsIDsBuild += ddlPowerService.ClientID + ","; strMessagesBuild += "Please select [Building Information]/Power Requirements - Power Service" + ","; spnPowerService.Style["display"] = "inline-block"; break;
                 case "Required Cable Length Other": strCtrlsIDsBuild += txtRequiredCableLengthOther.ClientID + ","; strMessagesBuild += "Please select [Building Information]/Power Requirements - Required Cable Length Other" + ","; spnRequiredCableLengthOther.Style["display"] = "inline-block"; break;
                 case "Power Service Other": strCtrlsIDsBuild += txtPowerServiceOther.ClientID + ","; strMessagesBuild += "Please select [Building Information]/Power Requirements - Power Service Other" + ","; spnPowerServiceOther.Style["display"] = "inline-block"; break;

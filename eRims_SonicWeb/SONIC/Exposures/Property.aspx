@@ -3562,8 +3562,7 @@ function ValidateFieldsOwnership(sender, args) {
                                                                             <td align="left" style="width: 28%; padding-left: 3px">
                                                                                 <asp:TextBox runat="server" ID="txtPowerServiceOther" Width="170px" MaxLength="50"></asp:TextBox>
                                                                             </td>
-                                                                            <td align="left" style="padding-left: 9px;">Total Amperage Required
-                                                                                &nbsp;<span id="spnTotalAmperageRequired" style="color: Red; display: none;" runat="server">*</span>
+                                                                            <td align="left" style="padding-left: 9px;">Total Amperage Required<span id="spnTotalAmperageRequired" style="color: Red; display: none;" runat="server">*</span>
                                                                             </td>
                                                                             <td align="center">:
                                                                             </td>
@@ -5103,14 +5102,14 @@ function ValidateFieldsOwnership(sender, args) {
                                                                         Text="Add New" CausesValidation="false" />
                                                                 </td>
                                                             </tr>
+                                                             <tr>
+                                                                <td class="Spacer" style="height: 10px;"></td>
+                                                            </tr>
                                                             <tr>
                                                                 <td align="left" colspan="6">
                                                                     <b>Fire Alarm Monitoring Company</b>
                                                                 </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="Spacer" style="height: 10px;"></td>
-                                                            </tr>
+                                                            </tr>                                                            
                                                             <tr>
                                                                 <td align="center" colspan="6">
                                                                     <table cellpadding="0" cellspacing="0" border="0">
