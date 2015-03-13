@@ -2070,23 +2070,43 @@ public partial class Exposures_Property : clsBasePage
         }
         txtFloodZone.Text = objBuilding.Flood_Zone;
         if (objBuilding.FK_LU_Voltage_Security != 0)
-            ddlVoltageSecurity.SelectedValue = Convert.ToString(objBuilding.FK_LU_Voltage_Security);
-        else
-            ddlVoltageSecurity.SelectedValue = "0";
+        {
+            if (ddlVoltageSecurity.Items.Contains(ddlVoltageSecurity.Items.FindByValue(objBuilding.FK_LU_Voltage_Security.ToString())) == true)
+            {
+                ddlVoltageSecurity.SelectedValue = Convert.ToString(objBuilding.FK_LU_Voltage_Security);
+            }
+            else
+            { 
+                ddlVoltageSecurity.SelectedValue = "0"; 
+            }
+         }
 
         if (objBuilding.FK_LU_Power_Service != 0)
-            ddlPowerService.SelectedValue = Convert.ToString(objBuilding.FK_LU_Power_Service);
-        else
-            ddlPowerService.SelectedValue = "0";
+        {
+            if (ddlPowerService.Items.Contains(ddlPowerService.Items.FindByValue(objBuilding.FK_LU_Power_Service.ToString())))
+            {
+                ddlPowerService.SelectedValue = Convert.ToString(objBuilding.FK_LU_Power_Service);
+            }
+            else
+            {
+                ddlPowerService.SelectedValue = "0"; 
+            }
+        }
 
         if (objBuilding.FK_LU_Phase_Power != 0)
-            ddlPhasePower.SelectedValue = Convert.ToString(objBuilding.FK_LU_Phase_Power);
-        else
-            ddlPhasePower.SelectedValue = "0";
+        {
+            if (ddlPhasePower.Items.Contains(ddlPhasePower.Items.FindByValue(objBuilding.FK_LU_Phase_Power.ToString())))
+                ddlPhasePower.SelectedValue = Convert.ToString(objBuilding.FK_LU_Phase_Power);
+            else
+                ddlPhasePower.SelectedValue = "0";
+        }
         if (objBuilding.FK_LU_Cable_Length != 0)
-            ddlRequiredCableLength.SelectedValue = Convert.ToString(objBuilding.FK_LU_Cable_Length);
-        else
-            ddlRequiredCableLength.SelectedValue = "0";
+        {
+            if(ddlRequiredCableLength.Items.Contains(ddlRequiredCableLength.Items.FindByValue(objBuilding.FK_LU_Cable_Length.ToString())))
+                ddlRequiredCableLength.SelectedValue = Convert.ToString(objBuilding.FK_LU_Cable_Length);
+            else
+                ddlRequiredCableLength.SelectedValue = "0";
+        }
 
         txtVoltageSecurityOther.Text = objBuilding.Voltage_Security_Other;
         txtPowerServiceOther.Text = objBuilding.Power_Service_Other;
