@@ -4008,7 +4008,7 @@ function ShowAuditPopUp(url) {
                                                                                 <ItemStyle Width="35%" />
                                                                                 <ItemTemplate>
                                                                                     <asp:LinkButton ID="lnkProjectDesc" runat="server" Text='<%#Eval("Project_Description")%>'
-                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" CssClass="TextClip" Width="250px" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Start Date" SortExpression="Start_Date">
