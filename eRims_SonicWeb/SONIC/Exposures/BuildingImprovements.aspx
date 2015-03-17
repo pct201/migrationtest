@@ -19,6 +19,8 @@
     <script type="text/javascript" language="javascript" src="../../JavaScript/Validator.js"></script>
 
     <script type="text/javascript">
+
+
         function SetMenuStyle(index) {
             var i;
             for (i = 1; i <= 1; i++) {
@@ -71,11 +73,76 @@
         }
 
         function OpenNotesPopup() {
-            var winHeight = 300;
-            var winWidth = 750;
+            $("#<%=pnlNoteGridAdd.ClientID%>").css("display", "");
+            $("#<%=pnl1.ClientID%>").css("display", "none");
+            $("#Menu1").text("Project Notes");
+            $("#ghcHeader").text("Building Improvements - Project Notes");
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; //January is 0!
+            var yyyy = today.getFullYear();
 
-            obj = window.open("Popup_BuildingImprovementsNotes.aspx?id=" + '<%=PK_Building_Improvements%>', 'NotesPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
-            obj.focus();
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+
+            today = mm + '/' + dd + '/' + yyyy;
+            $("#<%=txtNote_Date.ClientID%>").val(today);
+            return false;
+        }
+
+        function OpenNotesPopupView() {
+            $("#<%=pnlNoteGridView.ClientID%>").css("display", "");
+            $("#<%=pnl1View.ClientID%>").css("display", "none");
+            $("#Menu1").text("Project Notes");
+            $("#ghcHeader").text("Building Improvements - Project Notes");
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; //January is 0!
+            var yyyy = today.getFullYear();
+
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+
+            today = mm + '/' + dd + '/' + yyyy;
+            $("#<%=txtNote_Date.ClientID%>").val(today);
+            return false;
+        }
+
+        function CloseNotesPopUp() {
+            $("#<%=pnlNoteGridAdd.ClientID%>").css("display", "none");
+            $("#<%=pnl1.ClientID%>").css("display", "");
+
+            $("#<%=hdnPK_Building_Improvement_Notes.ClientID%>").val("0");
+            $("#<%=txtProjectNotes.ClientID%>").val("");
+            $("#<%=txtNote_Date.ClientID%>").val("");
+            $("#<%=txtLast_Modified_date.ClientID%>").val("");
+
+            $("#Menu1").text("Building Improvements");
+            $("#ghcHeader").text("Building Improvements");
+            return false;
+        }
+
+        function CloseNotesPopUpView() {
+            $("#<%=pnlNoteGridView.ClientID%>").css("display", "none");
+            $("#<%=pnl1View.ClientID%>").css("display", "");
+
+            $("#<%=hdnPK_Building_Improvement_Notes.ClientID%>").val("0");
+            $("#<%=lblProjectNotes.ClientID%>").val("");
+            $("#<%=lblNote_Date.ClientID%>").val("");
+            $("#<%=lblLast_Modified_date.ClientID%>").val("");
+
+            $("#Menu1").text("Building Improvements");
+            $("#ghcHeader").text("Building Improvements");
             return false;
         }
 
@@ -148,8 +215,8 @@
             var Total = (parseFloat(SubTotal_1) || 0) +
                         (parseFloat(SubTotal_2.replace(/,/g, '')) || 0);
 
-            SubTotal_1 = InsertCommas(SubTotal_1);
-            Total = InsertCommas(Total);
+            SubTotal_1 = InsertCommas(CurrencyFormatted(SubTotal_1));
+            Total = InsertCommas(CurrencyFormatted(Total));
 
             $("#<%=txtSubtotal1.ClientID%>").val(SubTotal_1)
             $("#<%=txtTotalCost.ClientID%>").val(Total)
@@ -173,8 +240,8 @@
             var Total = (parseFloat(SubTotal_2) || 0) +
                         (parseFloat(SubTotal_1.replace(/,/g, '')) || 0);
 
-            SubTotal_2 = InsertCommas(SubTotal_2);
-            Total = InsertCommas(Total)
+            SubTotal_2 = InsertCommas(CurrencyFormatted(SubTotal_2));
+            Total = InsertCommas(CurrencyFormatted(Total))
 
             $("#<%=txtSubtotal2.ClientID%>").val(SubTotal_2)
             $("#<%=txtTotalCost.ClientID%>").val(Total)
@@ -182,7 +249,38 @@
 
         }
 
+        function funStatus(val) {
+            //in val u get dropdown list selected value
+            if (val == "Other - Describe") {
+                $("#<%=txtStatusDescription.ClientID%>").attr("disabled", false);
+                $("#<%=Span16.ClientID%>").css("display", "");
+
+                var statusID = "<%=txtStatusDescription.ClientID%>";
+                var hdnControlIDs = $("#<%=hdnControlIDs.ClientID%>").val() + "," + statusID;
+                var hdnErrorMsgs = $("#<%=hdnErrorMsgs.ClientID%>").val() + ",Please enter Status Description - If Other";
+
+                $("#<%=hdnControlIDs.ClientID%>").val(hdnControlIDs);
+                $("#<%=hdnErrorMsgs.ClientID%>").val(hdnErrorMsgs);
+                //.Value
+            }
+            else {
+                $("#<%=txtStatusDescription.ClientID%>").attr("disabled", true);
+                $("#<%=Span16.ClientID%>").css("display", "none");
+
+                var statusID = ",<%=txtStatusDescription.ClientID%>";
+                var hdnControlIDs = $("#<%=hdnControlIDs.ClientID%>").val();
+                hdnControlIDs = hdnControlIDs.replace(statusID,"");
+                var hdnErrorMsgs = $("#<%=hdnErrorMsgs.ClientID%>").val() + ",Please enter Status Description, If Other";
+                hdnErrorMsgs = hdnErrorMsgs.replace(",Please enter Status Description - If Other", "");
+
+                $("#<%=hdnControlIDs.ClientID%>").val(hdnControlIDs);
+                $("#<%=hdnErrorMsgs.ClientID%>").val(hdnErrorMsgs);
+            }
+        }
+
+
     </script>
+    
 
     <asp:ValidationSummary ID="valInspection" runat="server" ValidationGroup="vsErrorGroup"
         ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following fields"
@@ -215,7 +313,7 @@
             </td>
         </tr>
         <tr>
-            <td class="ghc" align="left">Building Improvements
+            <td class="ghc" align="left" id="ghcHeader">Building Improvements
             </td>
         </tr>
         <tr>
@@ -264,7 +362,7 @@
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
-                                                        <td align="left" valign="top">
+                                                        <td align="left" valign="top" width="28%">
                                                             <asp:TextBox ID="txtProject_Number" Width="170px" runat="server" />
                                                         </td>
                                                         <td align="left" valign="top">Project Start Date &nbsp;<span id="Span11" style="color: Red; display: none;" runat="server">*</span>
@@ -335,7 +433,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Project Status As Of</td>
+                                                        <td align="left" valign="top">Project Status As Of<span id="Span1" style="color: Red; display: none;" runat="server">*</span></td>
                                                         <td align="center" valign="top">:</td>
                                                         <td align="left" valign="top">
                                                             <asp:TextBox ID="txtProjectStatusAsOf" Width="170px" runat="server" SkinID="txtDate"></asp:TextBox>
@@ -358,14 +456,14 @@
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:DropDownList ID="drpFK_LU_BI_Status" runat="server"></asp:DropDownList>
+                                                            <asp:DropDownList ID="drpFK_LU_BI_Status" runat="server" onchange="funStatus(this.options[this.selectedIndex].text);"></asp:DropDownList>
                                                         </td>
                                                         <td align="left" valign="top">Status Description, If Other &nbsp;<span id="Span16" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtStatusDescription" Width="170px" runat="server" SkinID="txtDate"></asp:TextBox>
+                                                            <asp:TextBox ID="txtStatusDescription" Width="170px" runat="server" disabled="disabled"></asp:TextBox>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -375,9 +473,9 @@
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:RadioButtonList runat="server" ID="rdlRevisedSquareFootage" RepeatDirection="Horizontal">
-                                                                <asp:ListItem Text="Add" Value="Add" />
-                                                                <asp:ListItem Text="Reduce" Value="Reduce" />
-                                                                <asp:ListItem Text="No Change" Value="No Change" Selected="True" />
+                                                                <asp:ListItem Text="Add" Value="A" />
+                                                                <asp:ListItem Text="Reduce" Value="R" />
+                                                                <asp:ListItem Text="No Change" Value="N" Selected="True" />
                                                             </asp:RadioButtonList>
                                                         </td>
                                                     </tr>
@@ -434,7 +532,7 @@
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtTotalSquareFootageRevised" runat="server" Width="170px" ReadOnly="true" />
+                                                            <asp:TextBox ID="txtTotalSquareFootageRevised" runat="server" Width="170px" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -519,15 +617,13 @@
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
-                                                        <td align="left" valign="top">$&nbsp;<asp:TextBox ID="txtSubtotal1" runat="server" Width="170px" onpaste="return false"
-                                                            ReadOnly="true" />
+                                                        <td align="left" valign="top">$&nbsp;<asp:TextBox ID="txtSubtotal1" runat="server" Width="170px" onpaste="return false" />
                                                         </td>
                                                         <td align="left" valign="top">Sub-Total&nbsp;<span id="Span31" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
-                                                        <td align="left" valign="top">$&nbsp;<asp:TextBox ID="txtSubtotal2" runat="server" Width="170px" onpaste="return false"
-                                                            ReadOnly="true" />
+                                                        <td align="left" valign="top">$&nbsp;<asp:TextBox ID="txtSubtotal2" runat="server" Width="170px" onpaste="return false" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -538,8 +634,7 @@
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
-                                                        <td align="left" valign="top">$&nbsp;<asp:TextBox ID="txtTotalCost" runat="server" Width="170px" onpaste="return false"
-                                                            ReadOnly="true" />
+                                                        <td align="left" valign="top">$&nbsp;<asp:TextBox ID="txtTotalCost" runat="server" Width="170px" onpaste="return false" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -552,7 +647,7 @@
                                                         </td>
                                                         <td align="left" valign="top" colspan="4">
                                                             <asp:GridView ID="gvProjectNotes" runat="server" GridLines="None" CellPadding="4" CellSpacing="0"
-                                                                AutoGenerateColumns="false" Width="100%" EnableTheming="false" AllowSorting="true">
+                                                                AutoGenerateColumns="false" Width="100%" EnableTheming="false" AllowSorting="true" OnRowCommand="gvProjectNotes_RowCommand">
                                                                 <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
                                                                     Font-Size="8pt" />
                                                                 <RowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-Size="8pt" />
@@ -569,15 +664,15 @@
                                                                     <asp:TemplateField HeaderText="Date" HeaderStyle-HorizontalAlign="Left" SortExpression="Note_Date">
                                                                         <ItemStyle Width="20%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkbtnNoteDate" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_AP_FE_PA_Notes") %>'> 
-                                                                            <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Note_Date"))%>
+                                                                            <asp:LinkButton ID="lnkbtnNoteDate" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_Building_Improvements_Notes") %>'> 
+                                                                            <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Date_Of_Note"))%>
                                                                             </asp:LinkButton>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField HeaderText="Note Text" HeaderStyle-HorizontalAlign="Left">
                                                                         <ItemStyle Width="" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
-                                                                            <asp:LinkButton ID="lblNotes" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_AP_FE_PA_Notes") %>' CssClass="TextClip" Width="410px">
+                                                                            <asp:LinkButton ID="lblNotes" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_Building_Improvements_Notes") %>' CssClass="TextClip" Width="410px">
                                                                                 <%# Eval("Note")%>
                                                                             </asp:LinkButton>
                                                                         </ItemTemplate>
@@ -586,7 +681,7 @@
                                                                         <ItemStyle Width="10%" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkbtnRemove" runat="server" Text="Remove" OnClientClick="return confirm('Are you Sure to delete this record?');"
-                                                                                CommandName="Remove" CommandArgument='<%# Eval("PK_AP_FE_PA_Notes") %>'>
+                                                                                CommandName="Remove" CommandArgument='<%# Eval("PK_Building_Improvements_Notes") %>'>
                                                                             </asp:LinkButton>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
@@ -603,61 +698,42 @@
                                             </asp:Panel>
                                             <asp:Panel ID="pnlNoteGridAdd" runat="server" Width="100%" Style="display: none;">
                                                 <div class="bandHeaderRow">
-                                                    Notes Grid
+                                                    Project Notes
                                                 </div>
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                     <tr>
-                                                        <td align="left" width="21%" valign="top">Date&nbsp;<span id="Span130" style="color: Red; display: none;" runat="server">*</span>
+                                                        <td align="left" width="20%" valign="top">Date of Note&nbsp;
                                                         </td>
-                                                        <td align="center" valign="top">:
+                                                        <td align="center" width="4%" valign="top">:
                                                         </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtNotesDate" runat="server" Width="170px" SkinID="txtDate"></asp:TextBox>
-                                                            <img onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtNotesDate', 'mm/dd/y','','');"
-                                                                onmouseover="javascript:this.style.cursor='hand';" alt="" src="../../Images/iconPicDate.gif"
-                                                                align="middle" />
-                                                            <asp:RegularExpressionValidator ID="revtxtNotesDate" runat="server" ValidationGroup="vsErrorFraudEventsNotes"
-                                                                Display="none" ErrorMessage="Date is not a valid" SetFocusOnError="true" ControlToValidate="txtNotesDate"
-                                                                ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
-                                                            <%--<asp:RangeValidator ID="regtxtNotesDate" ControlToValidate="txtNotesDate"
-                                                                            MinimumValue="01/01/1753" MaximumValue="12/31/2010" Type="Date" ErrorMessage="Date must be valid."
-                                                                            runat="server" SetFocusOnError="true" ValidationGroup="vsErrorNotesAdd" Display="none" />--%>
+                                                        <td align="left" width="24%" valign="top">
+                                                            <asp:TextBox ID="txtNote_Date" runat="server" Width="170px" SkinID="txtDate" MaxLength="10"></asp:TextBox>
+                                                            <%--<img alt="Date of Note" src="../../Images/iconPicDate.gif" align="middle" id="img1" />--%>
                                                         </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top">Note Text&nbsp;<span id="Span125" style="color: Red; display: none;" runat="server">*</span>
+                                                        <td align="left" width="20%" valign="top">Date Last Modified&nbsp;
                                                         </td>
-                                                        <td align="center" valign="top">:
+                                                        <td align="center" width="4%" valign="top">:
                                                         </td>
-                                                        <td align="left" valign="top">
-                                                            <uc:ctrlMultiLineTextBox ID="txtNotesAdd" runat="server" />
+                                                        <td align="left" width="24%" valign="top">
+                                                            <asp:TextBox ID="txtLast_Modified_date" runat="server" Width="170px" SkinID="txtDate" MaxLength="10"></asp:TextBox>
+                                                            <%--<img alt="Date Last Modified" src="../../Images/iconPicDate.gif" align="middle" id="img2" />--%>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="3" align="left" valign="top">
-                                                            <table border="0" align="center" cellpadding="0" cellspacing="5">
-                                                                <tr>
-                                                                    <td>
-                                                                        <asp:Button ID="btnNotesGridAdd" runat="server" Text="Save" CausesValidation="true" Visible="false"
-                                                                            ValidationGroup="vsErrorFraudEventsNotes" />
-                                                                    </td>
-                                                                    <td>
-                                                                        <asp:Button ID="btnViewAuditNotesGrid" runat="server" Text="View Audit Trail" OnClientClick="return openAP_FE_Notes_AuditPopup();"
-                                                                            CausesValidation="false" Visible="false" />
-                                                                    </td>
-                                                                    <td>
-                                                                        <asp:Button ID="btnFraudNotesGridAdd" runat="server" Text="Save" CausesValidation="true" Visible="false"
-                                                                            ValidationGroup="vsErrorFraudEventsNotes" />
-                                                                    </td>
-                                                                    <td>
-                                                                        <asp:Button ID="btnViewFraudAuditNotesGrid" runat="server" Text="View Audit Trail" OnClientClick="return openAP_FE_PA_Notes_AuditPopup();"
-                                                                            CausesValidation="false" Visible="false" />
-                                                                    </td>
-                                                                    <td>
-                                                                        <asp:Button ID="btnBackFraudEvent" runat="server" Text="Back" />
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
+                                                        <td align="left" width="18%" valign="top">Notes&nbsp;<span id="Span2" style="color: Red; display: none;" runat="server">*</span>
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">:
+                                                        </td>
+                                                        <td align="left" width="28%" valign="top" colspan="4">
+                                                            <uc:ctrlMultiLineTextBox ID="txtProjectNotes" ControlType="TextBox" runat="server" />
+                                                            <asp:HiddenField ID="hdnPK_Building_Improvement_Notes" runat="server" Value="0" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6" align="center">
+                                                            <asp:Button ID="btnSaveNotes" runat="server" Text="Save" OnClick="btnSaveNotes_Click" CausesValidation="false" />
+                                                            &nbsp;&nbsp;&nbsp;
+                                                            <asp:Button ID="btnCancel" runat="server" Text="Cancel" OnClientClick="javascript:return CloseNotesPopUp()" />
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -670,24 +746,23 @@
                                                 </div>
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                     <tr>
-                                                        <td align="left" valign="top">Building Number&nbsp;
+                                                        <td align="left" valign="top" width="20%">Building Number&nbsp;
                                                         </td>
-                                                        <td align="center" valign="top">:
+                                                        <td align="center" valign="top" width="2%">:
                                                         </td>
-                                                        <td align="left" valign="top" colspan="4">
-                                                            <asp:Label ID="lblBuildingNumber" runat="server" />
-
+                                                        <td align="left" valign="top" colspan="4" width="78%">
+                                                            <asp:ListBox ID="lstBuildingNumberView" runat="server" SelectionMode="Multiple" Rows="6" Width="600px"></asp:ListBox>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">Project Number&nbsp;
+                                                        <td align="left" valign="top" width="20%">Project Number&nbsp;
                                                         </td>
-                                                        <td align="center" valign="top">:
+                                                        <td align="center" valign="top" width="2%">:
                                                         </td>
-                                                        <td align="left" valign="top">
+                                                        <td align="left" valign="top" width="28%">
                                                             <asp:Label ID="lblProjectNumber" Width="170px" runat="server" />
                                                         </td>
-                                                        <td align="left" valign="top">Project Start Date &nbsp;
+                                                        <td align="left" valign="top" width="20%">Project Start Date &nbsp;
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
@@ -741,7 +816,7 @@
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:RadioButton runat="server" ID="rdbNewBuildView" SkinID="YesNoType" Enabled="false"></asp:RadioButton>
+                                                            <asp:Label ID="lblNewBuildView" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -755,8 +830,7 @@
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:RadioButtonList runat="server" ID="rdbOpenView" Enabled="false" SkinID="YesNoType">
-                                                            </asp:RadioButtonList>
+                                                            <asp:Label ID="lblOpenview" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -781,11 +855,12 @@
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:RadioButtonList runat="server" ID="rdbRevisedSquareFootageView" RepeatDirection="Horizontal" Enabled="false">
+                                                            <%--<asp:RadioButtonList runat="server" ID="rdbRevisedSquareFootageView" RepeatDirection="Horizontal" Enabled="false">
                                                                 <asp:ListItem Text="Add" Value="Add" />
                                                                 <asp:ListItem Text="Reduce" Value="Reduce" />
                                                                 <asp:ListItem Text="No Change" Value="No Change" />
-                                                            </asp:RadioButtonList>
+                                                            </asp:RadioButtonList>--%>
+                                                            <asp:Label ID="lblRevisedSquareFootageView" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -842,22 +917,6 @@
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblTotalSquareFootageRevised" runat="server" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top">Improvement Description&nbsp;
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:Label ID="lblImprovementDescription" runat="server" />
-                                                        </td>
-                                                        <td align="left" valign="top">Service Capacity Increase&nbsp;
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:Label ID="lblServiceCapacityIncrease" runat="server" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -935,13 +994,13 @@
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
-                                                        <td align="left" valign="top">$&nbsp;<asp:Label ID="lblSubtotal" runat="server" />
+                                                        <td align="left" valign="top">$&nbsp;<asp:Label ID="lblSubTotal_1" runat="server" />
                                                         </td>
                                                         <td align="left" valign="top">Subtotal&nbsp;
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
-                                                        <td align="left" valign="top">$&nbsp;<asp:Label ID="lblSubTotal2" runat="server" />
+                                                        <td align="left" valign="top">$&nbsp;<asp:Label ID="lblSubTotal_2" runat="server" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -959,9 +1018,86 @@
                                                         <td align="left" valign="top">Project Notes Grid</td>
                                                         <td align="center" valign="top">:</td>
                                                         <td align="left" valign="top" colspan="4">
-                                                            <asp:GridView ID="gvProjectNotesGridview" runat="server" />
+                                                            <asp:GridView ID="gvProjectNotesview" runat="server" GridLines="None" CellPadding="4" CellSpacing="0"
+                                                                AutoGenerateColumns="false" Width="100%" EnableTheming="false" AllowSorting="true" OnRowCommand="gvProjectNotesGridview_RowCommand">
+                                                                <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
+                                                                    Font-Size="8pt" />
+                                                                <RowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                <EditRowStyle BackColor="#2461BF" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" Font-Names="Tahoma"
+                                                                    Font-Size="8pt" />
+                                                                <PagerStyle BackColor="#7f7f7f" ForeColor="White" HorizontalAlign="Center" Font-Names="Tahoma"
+                                                                    Font-Size="8pt" />
+                                                                <HeaderStyle BackColor="#7f7f7f" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
+                                                                    Font-Size="8pt" VerticalAlign="Bottom" />
+                                                                <AlternatingRowStyle BackColor="White" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                <EmptyDataRowStyle CssClass="emptyrow" />
+                                                                <Columns>
+                                                                    <asp:TemplateField HeaderText="Date" HeaderStyle-HorizontalAlign="Left" SortExpression="Note_Date">
+                                                                        <ItemStyle Width="20%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkbtnNoteDate" runat="server" CommandName="gvView" CausesValidation="false" CommandArgument='<%# Eval("PK_Building_Improvements_Notes") %>'>
+                                                                            <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Date_Of_Note"))%>
+                                                                            </asp:LinkButton>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Note Text" HeaderStyle-HorizontalAlign="Left">
+                                                                        <ItemStyle Width="" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lblNotes" runat="server" CommandName="gvView" CausesValidation="false" CommandArgument='<%# Eval("PK_Building_Improvements_Notes") %>' CssClass="TextClip" Width="410px">
+                                                                                <%# Eval("Note")%>
+                                                                            </asp:LinkButton>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                                <EmptyDataRowStyle ForeColor="#7f7f7f" HorizontalAlign="Center" />
+                                                                <EmptyDataTemplate>
+                                                                    <b>No Record found</b>
+                                                                </EmptyDataTemplate>
+                                                                <PagerSettings Visible="False" />
+                                                            </asp:GridView>
                                                         </td>
-                                                    </tr>                                                    
+                                                    </tr>
+                                                </table>
+                                            </asp:Panel>
+                                            <asp:Panel ID="pnlNoteGridView" runat="server" Width="100%" Style="display: none;">
+                                                <div class="bandHeaderRow">
+                                                    Project Notes
+                                                </div>
+                                                <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                    <tr>
+                                                        <td align="left" width="20%" valign="top">Date of Note&nbsp;
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">:
+                                                        </td>
+                                                        <td align="left" width="24%" valign="top">
+                                                            <asp:Label ID="lblNote_Date" runat="server"></asp:Label>
+                                                            <%--<img alt="Date of Note" src="../../Images/iconPicDate.gif" align="middle" id="img1" />--%>
+                                                        </td>
+                                                        <td align="left" width="20%" valign="top">Date Last Modified&nbsp;
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">:
+                                                        </td>
+                                                        <td align="left" width="24%" valign="top">
+                                                            <asp:Label ID="lblLast_Modified_date" runat="server"></asp:Label>
+                                                            <%--<img alt="Date Last Modified" src="../../Images/iconPicDate.gif" align="middle" id="img2" />--%>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" width="18%" valign="top">Notes&nbsp;<span id="Span3" style="color: Red; display: none;" runat="server">*</span>
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">:
+                                                        </td>
+                                                        <td align="left" width="28%" valign="top" colspan="4">
+                                                            <uc:ctrlMultiLineTextBox ID="lblProjectNotes" ControlType="Label" runat="server" />
+                                                            <asp:HiddenField ID="HiddenField1" runat="server" Value="0" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6" align="center">
+                                                            <asp:Button ID="btnCancelView" runat="server" Text="Back" OnClientClick="javascript:return CloseNotesPopUpView()" />
+                                                        </td>
+                                                    </tr>
                                                 </table>
                                             </asp:Panel>
                                         </div>
@@ -984,7 +1120,7 @@
                                                 CausesValidation="true" ValidationGroup="vsErrorGroup" />
                                         </td>
                                         <td align="left">
-                                            <asp:Button ID="btnRevertReturn" runat="server" Text="Revert & Return" OnClick="btnRevertReturn_Click" />&nbsp;
+                                            <asp:Button ID="btnRevertReturn" runat="server" Text="Revert & Return" OnClick="btnRevertReturn_Click" CausesValidation="false" />&nbsp;
                                             <asp:Button ID="btnViewAudit" runat="server" Text="View Audit Trail" OnClientClick="javascript:return AuditPopUp();" />
                                         </td>
                                     </tr>
@@ -1002,7 +1138,8 @@
                                     </tr>
                                     <tr>
                                         <td align="center" width="100%">
-                                            <asp:Button ID="btnBack" runat="server" Text="Back" OnClick="btnBack_Click" />&nbsp;
+                                            <asp:Button ID="btnEdit" runat="server" Text="Edit" OnClick="btnEdit_Click" CausesValidation="false" />&nbsp;
+                                            <asp:Button ID="btnBack" runat="server" Text="Back" OnClick="btnBack_Click" CausesValidation="false" />&nbsp;
                                             <asp:Button ID="btnViewAudit2" runat="server" Text="View Audit Trail" OnClientClick="javascript:return AuditPopUp();" />
                                         </td>
                                     </tr>

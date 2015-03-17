@@ -285,6 +285,121 @@ namespace ERIMS.DAL
                 else
                     this._Updated_Date = (DateTime?)drBuilding_Improvements["Updated_Date"];
 
+                if (drBuilding_Improvements["Updated_By"] == DBNull.Value)
+                    this._Updated_By = null;
+                else
+                    this._Updated_By = (string)drBuilding_Improvements["Updated_By"];
+
+                if (drBuilding_Improvements["Project_Number"] == DBNull.Value)
+                    this._Project_Number = null;
+                else
+                    this._Project_Number = (string)drBuilding_Improvements["Project_Number"];
+
+                if (drBuilding_Improvements["Start_Date"] == DBNull.Value)
+                    this._Start_Date = null;
+                else
+                    this._Start_Date = (DateTime?)drBuilding_Improvements["Start_Date"];
+
+                if (drBuilding_Improvements["Target_Completion_Date"] == DBNull.Value)
+                    this._Target_Completion_Date = null;
+                else
+                    this._Target_Completion_Date = (DateTime?)drBuilding_Improvements["Target_Completion_Date"];
+
+                if (drBuilding_Improvements["Contact_Name"] == DBNull.Value)
+                    this._Contact_Name = null;
+                else
+                    this._Contact_Name = (string)drBuilding_Improvements["Contact_Name"];
+
+                if (drBuilding_Improvements["New_Build"] == DBNull.Value)
+                    this._New_Build = null;
+                else
+                    this._New_Build = (string)drBuilding_Improvements["New_Build"];
+
+                if (drBuilding_Improvements["Open"] == DBNull.Value)
+                    this._Open = null;
+                else
+                    this._Open = (string)drBuilding_Improvements["Open"];
+
+
+                if (drBuilding_Improvements["Project_Status_As_Of_Date"] == DBNull.Value)
+                    this._Project_Status_As_Of_Date = null;
+                else
+                    this._Project_Status_As_Of_Date = (DateTime?)drBuilding_Improvements["Project_Status_As_Of_Date"];
+
+                if (drBuilding_Improvements["FK_LU_BI_Status"] == DBNull.Value)
+                    this._FK_LU_BI_Status = null;
+                else
+                    this._FK_LU_BI_Status = (decimal?)drBuilding_Improvements["FK_LU_BI_Status"];
+
+                if (drBuilding_Improvements["Status_Other"] == DBNull.Value)
+                    this._Status_Other = null;
+                else
+                    this._Status_Other = (string)drBuilding_Improvements["Status_Other"];
+
+                if (drBuilding_Improvements["Revised_Square_Footage"] == DBNull.Value)
+                    this._Revised_Square_Footage = null;
+                else
+                    this._Revised_Square_Footage = (string)drBuilding_Improvements["Revised_Square_Footage"];
+
+                if (drBuilding_Improvements["Revised_Square_Footage_Service_Lane"] == DBNull.Value)
+                    this._Revised_Square_Footage_Service_Lane = null;
+                else
+                    this._Revised_Square_Footage_Service_Lane = (decimal?)drBuilding_Improvements["Revised_Square_Footage_Service_Lane"];
+
+                if (drBuilding_Improvements["Total_Square_Footage_Revised"] == DBNull.Value)
+                    this._Total_Square_Footage_Revised = null;
+                else
+                    this._Total_Square_Footage_Revised = (decimal?)drBuilding_Improvements["Total_Square_Footage_Revised"];
+
+                if (drBuilding_Improvements["Budget_Construction"] == DBNull.Value)
+                    this._Budget_Construction = null;
+                else
+                    this._Budget_Construction = (decimal?)drBuilding_Improvements["Budget_Construction"];
+
+                if (drBuilding_Improvements["Budget_Land"] == DBNull.Value)
+                    this._Budget_Land = null;
+                else
+                    this._Budget_Land = (decimal?)drBuilding_Improvements["Budget_Land"];
+
+                if (drBuilding_Improvements["Budget_Misc"] == DBNull.Value)
+                    this._Budget_Misc = null;
+                else
+                    this._Budget_Misc = (decimal?)drBuilding_Improvements["Budget_Misc"];
+
+                if (drBuilding_Improvements["Budget_SubTotal_1"] == DBNull.Value)
+                    this._Budget_SubTotal_1 = null;
+                else
+                    this._Budget_SubTotal_1 = (decimal?)drBuilding_Improvements["Budget_SubTotal_1"];
+
+                if (drBuilding_Improvements["Budget_IT"] == DBNull.Value)
+                    this._Budget_IT = null;
+                else
+                    this._Budget_IT = (decimal?)drBuilding_Improvements["Budget_IT"];
+
+                if (drBuilding_Improvements["Budget_Furniture"] == DBNull.Value)
+                    this._Budget_Furniture = null;
+                else
+                    this._Budget_Furniture = (decimal?)drBuilding_Improvements["Budget_Furniture"];
+
+                if (drBuilding_Improvements["Budget_Equipment"] == DBNull.Value)
+                    this._Budget_Equipment = null;
+                else
+                    this._Budget_Equipment = (decimal?)drBuilding_Improvements["Budget_Equipment"];
+
+                if (drBuilding_Improvements["Budget_Signage"] == DBNull.Value)
+                    this._Budget_Signage = null;
+                else
+                    this._Budget_Signage = (decimal?)drBuilding_Improvements["Budget_Signage"];
+
+                if (drBuilding_Improvements["Budget_SubTotal_2"] == DBNull.Value)
+                    this._Budget_SubTotal_2 = null;
+                else
+                    this._Budget_SubTotal_2 = (decimal?)drBuilding_Improvements["Budget_SubTotal_2"];
+
+                if (drBuilding_Improvements["Budget_Total"] == DBNull.Value)
+                    this._Budget_Total = null;
+                else
+                    this._Budget_Total = (decimal?)drBuilding_Improvements["Budget_Total"];
             }
             else
             {
@@ -300,6 +415,28 @@ namespace ERIMS.DAL
                 this._Completion_Date = null;
                 this._Updated_By = null;
                 this._Updated_Date = null;
+                this.Project_Number = null;
+                this.Start_Date = null;
+                this.Target_Completion_Date = null;
+                this.Contact_Name = null;
+                this.New_Build = null;
+                this.Open = null;
+                this.Project_Status_As_Of_Date = null;
+                this.FK_LU_BI_Status = null;
+                this.Status_Other = null;
+                this.Revised_Square_Footage = null;
+                this.Revised_Square_Footage_Service_Lane = null;
+                this.Total_Square_Footage_Revised = null;
+                this.Budget_Construction = null;
+                this.Budget_Land = null;
+                this.Budget_Misc = null;
+                this.Budget_SubTotal_1 = null;
+                this.Budget_IT = null;
+                this.Budget_Furniture = null;
+                this.Budget_Equipment = null;
+                this.Budget_Signage = null;
+                this.Budget_SubTotal_2 = null;
+                this.Budget_Total = null;
             }
 
         }
@@ -454,6 +591,8 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "PK_Building_Improvements", DbType.Decimal, this._PK_Building_Improvements);
 
+            db.AddInParameter(dbCommand, "FK_Building_Ids", DbType.String, this._FK_Building_Ids);
+
             db.AddInParameter(dbCommand, "FK_Property_Cope", DbType.Decimal, this._FK_Property_Cope);
 
             if (string.IsNullOrEmpty(this._Improvement_Description))
@@ -484,6 +623,68 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
 
             db.AddInParameter(dbCommand, "Updated_Date", DbType.DateTime, this._Updated_Date);
+
+            if (string.IsNullOrEmpty(this._Project_Number))
+                db.AddInParameter(dbCommand, "Project_Number", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Project_Number", DbType.String, this._Project_Number);
+
+            db.AddInParameter(dbCommand, "Start_Date", DbType.DateTime, this._Start_Date);
+
+            db.AddInParameter(dbCommand, "Target_Completion_Date", DbType.DateTime, this._Target_Completion_Date);
+
+            if (string.IsNullOrEmpty(this._Contact_Name))
+                db.AddInParameter(dbCommand, "Contact_Name", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Contact_Name", DbType.String, this._Contact_Name);
+
+            if (string.IsNullOrEmpty(this._New_Build))
+                db.AddInParameter(dbCommand, "New_Build", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "New_Build", DbType.String, this._New_Build);
+
+            if (string.IsNullOrEmpty(this._Open))
+                db.AddInParameter(dbCommand, "Open", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Open", DbType.String, this._Open);
+
+            db.AddInParameter(dbCommand, "Project_Status_As_Of_Date", DbType.DateTime, this._Project_Status_As_Of_Date);
+
+            db.AddInParameter(dbCommand, "FK_LU_BI_Status", DbType.Decimal, this._FK_LU_BI_Status);
+
+            if (string.IsNullOrEmpty(this._Status_Other))
+                db.AddInParameter(dbCommand, "Status_Other", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Status_Other", DbType.String, this._Status_Other);
+
+            if (string.IsNullOrEmpty(this._Revised_Square_Footage))
+                db.AddInParameter(dbCommand, "Revised_Square_Footage", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Revised_Square_Footage", DbType.String, this._Revised_Square_Footage);
+
+            db.AddInParameter(dbCommand, "Revised_Square_Footage_Service_Lane", DbType.Decimal, this._Revised_Square_Footage_Service_Lane);
+
+            db.AddInParameter(dbCommand, "Total_Square_Footage_Revised", DbType.Decimal, this._Total_Square_Footage_Revised);
+
+            db.AddInParameter(dbCommand, "Budget_Construction", DbType.Decimal, this._Budget_Construction);
+
+            db.AddInParameter(dbCommand, "Budget_Land", DbType.Decimal, this._Budget_Land);
+
+            db.AddInParameter(dbCommand, "Budget_Misc", DbType.Decimal, this._Budget_Misc);
+
+            db.AddInParameter(dbCommand, "Budget_SubTotal_1", DbType.Decimal, this._Budget_SubTotal_1);
+
+            db.AddInParameter(dbCommand, "Budget_IT", DbType.Decimal, this._Budget_IT);
+
+            db.AddInParameter(dbCommand, "Budget_Furniture", DbType.Decimal, this._Budget_Furniture);
+
+            db.AddInParameter(dbCommand, "Budget_Equipment", DbType.Decimal, this._Budget_Equipment);
+
+            db.AddInParameter(dbCommand, "Budget_Signage", DbType.Decimal, this._Budget_Signage);
+
+            db.AddInParameter(dbCommand, "Budget_SubTotal_2", DbType.Decimal, this._Budget_SubTotal_2);
+
+            db.AddInParameter(dbCommand, "Budget_Total", DbType.Decimal, this._Budget_Total);
 
             db.ExecuteNonQuery(dbCommand);
         }
@@ -521,6 +722,16 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        
+        public static DataSet SelectBuildingByFK_Building_Improvements(decimal FK_Building_Improvements)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Building_ImprovementsSelectBuildingByFK_Building_Improvements");
+
+            db.AddInParameter(dbCommand, "FK_Building_Improvements", DbType.Decimal, FK_Building_Improvements);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+
     }
 }

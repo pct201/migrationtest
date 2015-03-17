@@ -659,10 +659,7 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <td align="left" width="100%">
-                                                                                            <span class="LeftMenuStatic" id="PropertyMenu4" onclick="javascript:ShowPanel(4);">Building
-                                                                                                <br />
-                                                                                                Improvements
-                                                                                            </span>&nbsp;<span id="MenuAsterisk3" runat="server" style="color: Red; display: none">*</span>
+                                                                                            <span class="LeftMenuStatic" id="PropertyMenu4" onclick="javascript:ShowPanel(4);">Building Improvements</span>&nbsp;<span id="MenuAsterisk3" runat="server" style="color: Red; display: none">*</span>
                                                                                         </td>
                                                                                     </tr>
                                                                                 </tbody>
@@ -1333,10 +1330,10 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                     <asp:DropDownList ID="drpLocationStatus" runat="server" SkinID="dropGen" Width="170px">
                                                                                         <asp:ListItem Text="--Select--" Value="" Selected="True"></asp:ListItem>
                                                                                         <asp:ListItem Text="Active" Value="Active"></asp:ListItem>
-                                                                                        <asp:ListItem Text="InActive" Value="Inactive"></asp:ListItem>
-                                                                                        <asp:ListItem Text="Disposed" Value="Disposed"></asp:ListItem>
                                                                                         <asp:ListItem Text="Demolished" Value="Demolished"></asp:ListItem>
+                                                                                        <asp:ListItem Text="Disposed" Value="Disposed"></asp:ListItem>
                                                                                         <asp:ListItem Text="Due Diligence" Value="Due Diligence"></asp:ListItem>
+                                                                                        <asp:ListItem Text="InActive" Value="Inactive"></asp:ListItem>
                                                                                     </asp:DropDownList>
                                                                                 </td>
                                                                             </tr>
@@ -4786,47 +4783,47 @@ function ValidateFieldsOwnership(sender, args) {
                                                             <tr>
                                                                 <td align="left" valign="top">
                                                                     <asp:GridView ID="gvBuildingImprovements" runat="server" Width="100%" OnRowCommand="gvBuildingImprovements_RowCommand"
-                                                                        EmptyDataText="No Record Found">
+                                                                        EmptyDataText="No Record Found" AllowSorting="true" OnSorting="gvBuildingImprovements_Sorting">
                                                                         <Columns>
-                                                                            <asp:TemplateField HeaderText="Building">
+                                                                            <asp:TemplateField HeaderText="Building" SortExpression="Building_Number">
                                                                                 <ItemStyle Width="10%" />
                                                                                 <ItemTemplate>
                                                                                     <asp:LinkButton ID="lnkBuilding" runat="server" Text='<%#Eval("Building_Number")%>'
-                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements_Buildings")%>' CommandName="ShowDetails" />
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Project Number">
+                                                                            <asp:TemplateField HeaderText="Project Number" SortExpression="Project_Number">
                                                                                 <ItemStyle Width="15%" />
                                                                                 <ItemTemplate>
                                                                                     <asp:LinkButton ID="lnkProjectNumber" runat="server" Text='<%#Eval("Project_Number")%>'
-                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements_Buildings")%>' CommandName="ShowDetails" />
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Project Description">
+                                                                            <asp:TemplateField HeaderText="Project Description" SortExpression="Project_Description">
                                                                                 <ItemStyle Width="35%" />
                                                                                 <ItemTemplate>
                                                                                     <asp:LinkButton ID="lnkProjectDesc" runat="server" Text='<%#Eval("Project_Description")%>'
-                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements_Buildings")%>' CommandName="ShowDetails" />
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Start Date">
+                                                                            <asp:TemplateField HeaderText="Start Date" SortExpression="Start_Date">
                                                                                 <ItemStyle Width="15%" />
                                                                                 <ItemTemplate>
                                                                                     <asp:LinkButton ID="lnkStartDate" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("Start_Date"))%>'
-                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements_Buildings")%>' CommandName="ShowDetails" />
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Target Date">
+                                                                            <asp:TemplateField HeaderText="Target Date" SortExpression="Target_Completion_Date">
                                                                                 <ItemStyle Width="15%" />
                                                                                 <ItemTemplate>
                                                                                     <asp:LinkButton ID="lnkCompletionDate" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("Target_Completion_Date"))%>'
-                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements_Buildings")%>' CommandName="ShowDetails" />
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Remove">
                                                                                 <ItemStyle Width="10%" />
                                                                                 <ItemTemplate>
-                                                                                    <asp:LinkButton ID="lnkRemove" runat="server" Text="Remove" CommandArgument='<%#Eval("PK_Building_Improvements_Buildings")%>'
+                                                                                    <asp:LinkButton ID="lnkRemove" runat="server" Text="Remove" CommandArgument='<%#Eval("PK_Building_Improvements")%>'
                                                                                         CommandName="RemoveDetails" OnClientClick="return confirm('Are you sure that you want to delete the selected record from the Improvements Grid?');" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>

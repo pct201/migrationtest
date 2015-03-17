@@ -138,6 +138,18 @@ public partial class Exposures_Property : clsBasePage
         set { ViewState["PK_Property_Cope_Saba_Training"] = value; }
     }
 
+    public string strBuildingImprovementSortBy
+    {
+        get { return Convert.ToString(ViewState["strBuildingImprovementSortBy"]); }
+        set { ViewState["strBuildingImprovementSortBy"] = value; }
+    }
+
+    public string strBuildingImprovementSortOrder
+    {
+        get { return Convert.ToString(ViewState["strBuildingImprovementSortOrder"]); }
+        set { ViewState["strBuildingImprovementSortOrder"] = value; }
+    }
+
     #endregion
 
     #region "Page Events"
@@ -187,7 +199,11 @@ public partial class Exposures_Property : clsBasePage
 
                 // check for PK is available or not
                 if (PK_Property_Cope_ID > 0)
+                {
+                    strBuildingImprovementSortBy = "Project_Number";
+                    strBuildingImprovementSortOrder = "DESC";
                     BindDetailsForEdit();
+                }
 
                 // bind location information
                 BindLocationInformation();
@@ -234,6 +250,8 @@ public partial class Exposures_Property : clsBasePage
                     
                 //    ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);", true);
                 //}
+                else if (Request.QueryString["panel"] != null)//used for Event_New.aspx page
+                    ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);", true);
                 else
                     ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
             }
@@ -1285,6 +1303,16 @@ public partial class Exposures_Property : clsBasePage
             ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);alert('Please Select/Enter Building Information First');", true);
     }
 
+    /// <summary>
+    /// Handles Add new button click event for Building Improvement grid
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>    
+    protected void lnkAddNewImprovement_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("BuildingImprovements.aspx?FK_Property_Cope=" + Encryption.Encrypt(PK_Property_Cope_ID.ToString()) + "&op=add");
+    }
+
     #endregion
 
     #region "GRIDVIEW EVENTS"
@@ -1353,7 +1381,8 @@ public partial class Exposures_Property : clsBasePage
             bool bOccupancy_Raw_Land = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Raw_Land"));
             bool bOccupancy_Service = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Service"));
             bool bOccupancy_Ofifce = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Ofifce"));
-
+            bool bOccupancy_Car_Wash = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Car_Wash"));
+            bool bOccupancy_Photo_Booth = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Photo_Booth"));
 
             string strOccupancy = ""; // used to set the comma seperated occupancies
 
@@ -1366,6 +1395,8 @@ public partial class Exposures_Property : clsBasePage
             if (bOccupancy_Raw_Land) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Raw Land" : "Raw Land";
             if (bOccupancy_Service) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Service" : "Service";
             if (bOccupancy_Ofifce) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Office" : "Office";
+            if (bOccupancy_Car_Wash) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Car Wash" : "Car Wash";
+            if (bOccupancy_Photo_Booth) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Photo Booth" : "Photo Booth";
 
             // set text in occupancy column
             lblOccupancy.Text = strOccupancy;
@@ -1518,13 +1549,20 @@ public partial class Exposures_Property : clsBasePage
     {
         if (e.CommandName == "ShowDetails")
         {
-            Response.Redirect("BuildingImprovements.aspx?build=" + Encryption.Encrypt(PK_Building_ID.ToString()) + "&id=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&op=edit");
+            Response.Redirect("BuildingImprovements.aspx?build=" + Encryption.Encrypt(PK_Building_ID.ToString()) + "&id=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&FK_Property_Cope=" + Encryption.Encrypt(PK_Property_Cope_ID.ToString()) +"&op=edit");
         }
         else if (e.CommandName == "RemoveDetails")
         {
             Building_Improvements.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
-            //BindBuildingImprovementGrid();
+            BindBuildingImprovementGrid();
         }
+    }
+
+    protected void gvBuildingImprovements_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        strBuildingImprovementSortOrder = (strBuildingImprovementSortBy == e.SortExpression) ? (strBuildingImprovementSortOrder == "asc" ? "desc" : "asc") : "asc";
+        strBuildingImprovementSortBy = e.SortExpression;
+        BindBuildingImprovementGrid();
     }
 
     protected void gvFinancialLimit_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -3188,6 +3226,7 @@ public partial class Exposures_Property : clsBasePage
     private void BindBuildingImprovementGrid()
     {
         DataTable dtImprovements = Building_Improvements.SelectByFK_Property_Cope(PK_Property_Cope_ID).Tables[0];
+        dtImprovements.DefaultView.Sort = strBuildingImprovementSortBy + " " + strBuildingImprovementSortOrder;
         gvBuildingImprovements.DataSource = dtImprovements;
         gvBuildingImprovements.DataBind();
     }
@@ -4118,17 +4157,5 @@ public partial class Exposures_Property : clsBasePage
     #endregion
 
     
-
-    
-    /// <summary>
-    /// Handles Add new button click event for Building Improvement grid
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>    
-    
-    protected void lnkAddNewImprovement_Click(object sender, EventArgs e)
-    {
-        Response.Redirect("BuildingImprovements.aspx?FK_Property_Cope=" + Encryption.Encrypt(PK_Property_Cope_ID.ToString()) + "&op=add");
-    }
 }
 

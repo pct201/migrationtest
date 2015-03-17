@@ -99,7 +99,7 @@
                                     <th class="cols">
                                         <span style="display: inline-block; width: 120px">Valuation_Date</span>
                                     </th>
-                                    <th class="cols">
+                                    <%--<th class="cols">
                                         <span style="display: inline-block; width: 224px">Business_Interruption_Salaries</span>
                                     </th>
                                     <th class="cols">
@@ -110,7 +110,7 @@
                                     </th>
                                     <th class="cols">
                                         <span style="display: inline-block; width: 224px">Business_interruption_net_profit</span>
-                                    </th>
+                                    </th>--%>
                                     <th class="cols">
                                         <span style="display: inline-block; width: 120px">Updated_By</span>
                                     </th>
@@ -224,7 +224,7 @@
                                         <asp:Label ID="Valuation_Date" runat="server" Text='<%# clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Valuation_Date"))) %>' Width="120px"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Business_Interruption_Salaries">
+                                <%--<asp:TemplateField HeaderText="Business_Interruption_Salaries">
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
                                         <asp:Label ID="Business_Interruption_Salaries" runat="server" Text='<%# Eval("Business_Interruption_Salaries") %>' Width="224px"></asp:Label>
@@ -247,7 +247,7 @@
                                     <ItemTemplate>
                                         <asp:Label ID="Business_interruption_net_profit" runat="server" Text='<%# Eval("Business_interruption_net_profit") %>' Width="224px"></asp:Label>
                                     </ItemTemplate>
-                                </asp:TemplateField>
+                                </asp:TemplateField>--%>
                                 <asp:TemplateField HeaderText="Updated_By">
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>

@@ -5,247 +5,261 @@ using System.Data.Common;
 
 namespace ERIMS.DAL
 {
-	/// <summary>
-	/// Data access class for Building_Improvements_Notes table.
-	/// </summary>
-	public sealed class clsBuilding_Improvements_Notes
-	{
+    /// <summary>
+    /// Data access class for Building_Improvements_Notes table.
+    /// </summary>
+    public sealed class clsBuilding_Improvements_Notes
+    {
 
-		#region Private variables used to hold the property values
+        #region Private variables used to hold the property values
 
-		private decimal? _PK_Building_Improvements_Notes;
+        private decimal? _PK_Building_Improvements_Notes;
         private decimal? _FK_Building_Improvements;
-		private DateTime? _Date_Of_Note;
-		private DateTime? _Update_Date;
-		private string _Note;
-		private string _Updated_By;
+        private DateTime? _Date_Of_Note;
+        private DateTime? _Update_Date;
+        private string _Note;
+        private string _Updated_By;
 
-		#endregion
+        #endregion
 
-		#region Public Property
+        #region Public Property
 
-		/// <summary>
-		/// Gets or sets the PK_Building_Improvement_Notes value.
-		/// </summary>
-		public decimal? PK_Building_Improvement_Notes
-		{
-			get { return _PK_Building_Improvements_Notes; }
-			set { _PK_Building_Improvements_Notes = value; }
-		}
+        /// <summary>
+        /// Gets or sets the PK_Building_Improvements_Notes value.
+        /// </summary>
+        public decimal? PK_Building_Improvements_Notes
+        {
+            get { return _PK_Building_Improvements_Notes; }
+            set { _PK_Building_Improvements_Notes = value; }
+        }
 
-		/// <summary>
-		/// Gets or sets the Date_Of_Note value.
-		/// </summary>
-		public DateTime? Date_Of_Note
-		{
-			get { return _Date_Of_Note; }
-			set { _Date_Of_Note = value; }
-		}
+        /// <summary>
+        /// Gets or sets the Date_Of_Note value.
+        /// </summary>
+        public DateTime? Date_Of_Note
+        {
+            get { return _Date_Of_Note; }
+            set { _Date_Of_Note = value; }
+        }
 
-		/// <summary>
-		/// Gets or sets the Update_Date value.
-		/// </summary>
-		public DateTime? Update_Date
-		{
-			get { return _Update_Date; }
-			set { _Update_Date = value; }
-		}
+        /// <summary>
+        /// Gets or sets the Update_Date value.
+        /// </summary>
+        public DateTime? Update_Date
+        {
+            get { return _Update_Date; }
+            set { _Update_Date = value; }
+        }
 
-		/// <summary>
-		/// Gets or sets the Note value.
-		/// </summary>
-		public string Note
-		{
-			get { return _Note; }
-			set { _Note = value; }
-		}
+        /// <summary>
+        /// Gets or sets the Note value.
+        /// </summary>
+        public string Note
+        {
+            get { return _Note; }
+            set { _Note = value; }
+        }
 
-		/// <summary>
-		/// Gets or sets the Updated_By value.
-		/// </summary>
-		public string Updated_By
-		{
-			get { return _Updated_By; }
-			set { _Updated_By = value; }
-		}
+        /// <summary>
+        /// Gets or sets the Updated_By value.
+        /// </summary>
+        public string Updated_By
+        {
+            get { return _Updated_By; }
+            set { _Updated_By = value; }
+        }
 
         public decimal? FK_Building_Improvements
         {
             get { return _FK_Building_Improvements; }
             set { _FK_Building_Improvements = value; }
         }
-		#endregion
+        #endregion
 
-		#region Default Constructors
+        #region Default Constructors
 
-		/// <summary>
-		/// Initializes a new instance of the clsBuilding_Improvements_Notes class with default value.
-		/// </summary>
-		public clsBuilding_Improvements_Notes() 
-		{
-
-
-		}
-
-		#endregion
-
-		#region Primary Constructors
-
-		/// <summary>
-		/// Initializes a new instance of the clsBuilding_Improvements_Notes class based on Primary Key.
-		/// </summary>
-		public clsBuilding_Improvements_Notes(decimal pK_Building_Improvement_Notes) 
-		{
-			DataTable dtBuilding_Improvements_Notes = SelectByPK(pK_Building_Improvement_Notes).Tables[0];
-
-			if (dtBuilding_Improvements_Notes.Rows.Count == 1)
-			{
-				 SetValue(dtBuilding_Improvements_Notes.Rows[0]);
-
-			}
-
-		}
+        /// <summary>
+        /// Initializes a new instance of the clsBuilding_Improvements_Notes class with default value.
+        /// </summary>
+        public clsBuilding_Improvements_Notes()
+        {
 
 
-		/// <summary>
-		/// Initializes a new instance of the clsBuilding_Improvements_Notes class based on Datarow passed.
-		/// </summary>
-		private void SetValue (DataRow drBuilding_Improvements_Notes) 
-		{
-				if (drBuilding_Improvements_Notes["PK_Building_Improvement_Notes"] == DBNull.Value)
-					this._PK_Building_Improvements_Notes = null;
-				else
-					this._PK_Building_Improvements_Notes = (decimal?)drBuilding_Improvements_Notes["PK_Building_Improvements_Notes"];
+        }
 
-                if (drBuilding_Improvements_Notes["FK_Building_Improvements"] == DBNull.Value)
-                    this._FK_Building_Improvements= null;
-                else
-                    this._FK_Building_Improvements = (decimal?)drBuilding_Improvements_Notes["FK_Building_Improvements"];
+        #endregion
 
-				if (drBuilding_Improvements_Notes["Date_Of_Note"] == DBNull.Value)
-					this._Date_Of_Note = null;
-				else
-					this._Date_Of_Note = (DateTime?)drBuilding_Improvements_Notes["Date_Of_Note"];
+        #region Primary Constructors
 
-				if (drBuilding_Improvements_Notes["Update_Date"] == DBNull.Value)
-					this._Update_Date = null;
-				else
-					this._Update_Date = (DateTime?)drBuilding_Improvements_Notes["Update_Date"];
+        /// <summary>
+        /// Initializes a new instance of the clsBuilding_Improvements_Notes class based on Primary Key.
+        /// </summary>
+        public clsBuilding_Improvements_Notes(decimal PK_Building_Improvements_Notes)
+        {
+            DataTable dtBuilding_Improvements_Notes = SelectByPK(PK_Building_Improvements_Notes).Tables[0];
 
-				if (drBuilding_Improvements_Notes["Note"] == DBNull.Value)
-					this._Note = null;
-				else
-					this._Note = (string)drBuilding_Improvements_Notes["Note"];
+            if (dtBuilding_Improvements_Notes.Rows.Count == 1)
+            {
+                SetValue(dtBuilding_Improvements_Notes.Rows[0]);
 
-				if (drBuilding_Improvements_Notes["Updated_By"] == DBNull.Value)
-					this._Updated_By = null;
-				else
-					this._Updated_By = (string)drBuilding_Improvements_Notes["Updated_By"];
+            }
+
+        }
 
 
-		}
+        /// <summary>
+        /// Initializes a new instance of the clsBuilding_Improvements_Notes class based on Datarow passed.
+        /// </summary>
+        private void SetValue(DataRow drBuilding_Improvements_Notes)
+        {
+            if (drBuilding_Improvements_Notes["PK_Building_Improvements_Notes"] == DBNull.Value)
+                this._PK_Building_Improvements_Notes = null;
+            else
+                this._PK_Building_Improvements_Notes = (decimal?)drBuilding_Improvements_Notes["PK_Building_Improvements_Notes"];
 
-		#endregion
+            if (drBuilding_Improvements_Notes["FK_Building_Improvements"] == DBNull.Value)
+                this._FK_Building_Improvements = null;
+            else
+                this._FK_Building_Improvements = (decimal?)drBuilding_Improvements_Notes["FK_Building_Improvements"];
 
-		/// <summary>
-		/// Inserts a record into the Building_Improvements_Notes table.
-		/// </summary>
-		/// <returns></returns>
-		public int Insert()
-		{
-			Database db = DatabaseFactory.CreateDatabase();
-			DbCommand dbCommand = db.GetStoredProcCommand("Building_Improvements_NotesInsert");
+            if (drBuilding_Improvements_Notes["Date_Of_Note"] == DBNull.Value)
+                this._Date_Of_Note = null;
+            else
+                this._Date_Of_Note = (DateTime?)drBuilding_Improvements_Notes["Date_Of_Note"];
+
+            if (drBuilding_Improvements_Notes["Update_Date"] == DBNull.Value)
+                this._Update_Date = null;
+            else
+                this._Update_Date = (DateTime?)drBuilding_Improvements_Notes["Update_Date"];
+
+            if (drBuilding_Improvements_Notes["Note"] == DBNull.Value)
+                this._Note = null;
+            else
+                this._Note = (string)drBuilding_Improvements_Notes["Note"];
+
+            if (drBuilding_Improvements_Notes["Updated_By"] == DBNull.Value)
+                this._Updated_By = null;
+            else
+                this._Updated_By = (string)drBuilding_Improvements_Notes["Updated_By"];
+
+
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Inserts a record into the Building_Improvements_Notes table.
+        /// </summary>
+        /// <returns></returns>
+        public int Insert()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Building_Improvements_NotesInsert");
 
 
             db.AddInParameter(dbCommand, "FK_Building_Improvements", DbType.Decimal, this._FK_Building_Improvements);
 
-			db.AddInParameter(dbCommand, "Date_Of_Note", DbType.DateTime, this._Date_Of_Note);
-			
-			db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
-			
-			if (string.IsNullOrEmpty(this._Note))
-				db.AddInParameter(dbCommand, "Note", DbType.String, DBNull.Value);
-			else
-				db.AddInParameter(dbCommand, "Note", DbType.String, this._Note);
-			
-			if (string.IsNullOrEmpty(this._Updated_By))
-				db.AddInParameter(dbCommand, "Updated_By", DbType.String, DBNull.Value);
-			else
-				db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
+            db.AddInParameter(dbCommand, "Date_Of_Note", DbType.DateTime, this._Date_Of_Note);
 
-			// Execute the query and return the new identity value
-			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
+            db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
 
-			return returnValue;
-		}
+            if (string.IsNullOrEmpty(this._Note))
+                db.AddInParameter(dbCommand, "Note", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Note", DbType.String, this._Note);
 
-		/// <summary>
-		/// Selects a single record from the Building_Improvements_Notes table by a primary key.
-		/// </summary>
-		/// <returns>DataSet</returns>
-		private DataSet SelectByPK(decimal pK_Building_Improvements_Notes)
-		{
-			Database db = DatabaseFactory.CreateDatabase();
-			DbCommand dbCommand = db.GetStoredProcCommand("Building_Improvements_NotesSelectByPK");
+            if (string.IsNullOrEmpty(this._Updated_By))
+                db.AddInParameter(dbCommand, "Updated_By", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
+
+            // Execute the query and return the new identity value
+            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
+
+            return returnValue;
+        }
+
+        /// <summary>
+        /// Selects a single record from the Building_Improvements_Notes table by a primary key.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        private DataSet SelectByPK(decimal pK_Building_Improvements_Notes)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Building_Improvements_NotesSelectByPK");
 
             db.AddInParameter(dbCommand, "PK_Building_Improvements_Notes", DbType.Decimal, pK_Building_Improvements_Notes);
 
-			return db.ExecuteDataSet(dbCommand);
-		}
+            return db.ExecuteDataSet(dbCommand);
+        }
 
-		/// <summary>
-		/// Selects all records from the Building_Improvements_Notes table.
-		/// </summary>
-		/// <returns>DataSet</returns>
-		public static DataSet SelectAll()
-		{
-			Database db = DatabaseFactory.CreateDatabase();
-			DbCommand dbCommand = db.GetStoredProcCommand("Building_Improvements_NotesSelectAll");
+        /// <summary>
+        /// Selects all records from the Building_Improvements_Notes table.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectAll()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Building_Improvements_NotesSelectAll");
 
-			return db.ExecuteDataSet(dbCommand);
-		}
+            return db.ExecuteDataSet(dbCommand);
+        }
 
-		/// <summary>
-		/// Updates a record in the Building_Improvements_Notes table.
-		/// </summary>
-		public void Update()
-		{
-			Database db = DatabaseFactory.CreateDatabase();
-			DbCommand dbCommand = db.GetStoredProcCommand("Building_Improvements_NotesUpdate");
+        /// <summary>
+        /// Updates a record in the Building_Improvements_Notes table.
+        /// </summary>
+        public void Update()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Building_Improvements_NotesUpdate");
 
-			
-			db.AddInParameter(dbCommand, "PK_Building_Improvement_Notes", DbType.Decimal, this._PK_Building_Improvements_Notes);
+
+            db.AddInParameter(dbCommand, "PK_Building_Improvements_Notes", DbType.Decimal, this._PK_Building_Improvements_Notes);
 
             db.AddInParameter(dbCommand, "FK_Building_Improvements", DbType.Decimal, this._FK_Building_Improvements);
-			
-			db.AddInParameter(dbCommand, "Date_Of_Note", DbType.DateTime, this._Date_Of_Note);
-			
-			db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
-			
-			if (string.IsNullOrEmpty(this._Note))
-				db.AddInParameter(dbCommand, "Note", DbType.String, DBNull.Value);
-			else
-				db.AddInParameter(dbCommand, "Note", DbType.String, this._Note);
-			
-			if (string.IsNullOrEmpty(this._Updated_By))
-				db.AddInParameter(dbCommand, "Updated_By", DbType.String, DBNull.Value);
-			else
-				db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
 
-			db.ExecuteNonQuery(dbCommand);
-		}
+            db.AddInParameter(dbCommand, "Date_Of_Note", DbType.DateTime, this._Date_Of_Note);
 
-		/// <summary>
-		/// Deletes a record from the Building_Improvements_Notes table by a composite primary key.
-		/// </summary>
-		public static void DeleteByPK(decimal pK_Building_Improvements_Notes)
-		{
-			Database db = DatabaseFactory.CreateDatabase();
-			DbCommand dbCommand = db.GetStoredProcCommand("Building_Improvements_NotesDeleteByPK");
+            db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
 
-			db.AddInParameter(dbCommand, "PK_Building_Improvements_Notes", DbType.Decimal, pK_Building_Improvements_Notes);
+            if (string.IsNullOrEmpty(this._Note))
+                db.AddInParameter(dbCommand, "Note", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Note", DbType.String, this._Note);
 
-			db.ExecuteNonQuery(dbCommand);
-		}
-	}
+            if (string.IsNullOrEmpty(this._Updated_By))
+                db.AddInParameter(dbCommand, "Updated_By", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
+
+            db.ExecuteNonQuery(dbCommand);
+        }
+
+        /// <summary>
+        /// Deletes a record from the Building_Improvements_Notes table by a composite primary key.
+        /// </summary>
+        public static void DeleteByPK(decimal pK_Building_Improvements_Notes)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Building_Improvements_NotesDeleteByPK");
+
+            db.AddInParameter(dbCommand, "PK_Building_Improvements_Notes", DbType.Decimal, pK_Building_Improvements_Notes);
+
+            db.ExecuteNonQuery(dbCommand);
+        }
+
+        /// <summary>
+        /// Selects a all notes record from the Building_Improvements_Notes table by FK_Building_Improvements.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectByFK_Building_Improvements(decimal FK_Building_Improvements)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Building_Improvements_NotesSelectByFK_Building_Improvements");
+
+            db.AddInParameter(dbCommand, "FK_Building_Improvements", DbType.Decimal, FK_Building_Improvements);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+    }
 }

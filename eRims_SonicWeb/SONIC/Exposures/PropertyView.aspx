@@ -161,8 +161,7 @@ function ShowAuditPopUp(url) {
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <td align="left" width="100%">
-                                                                                            <span class="LeftMenuStatic" id="PropertyMenu4" onclick="javascript:ShowPanel(4);">Building<br />
-                                                                                                Improvements 
+                                                                                            <span class="LeftMenuStatic" id="PropertyMenu4" onclick="javascript:ShowPanel(4);">Building Improvements 
                                                                                                 <span class="mf"></span></span>
                                                                                         </td>
                                                                                     </tr>
@@ -831,7 +830,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td width="10%" align="left">
                                                                                                 <asp:Label runat="server" ID="lblOccupancyOffice"></asp:Label>
                                                                                             </td>
-                                                                                            <td width="24%" align="left">Occupancy_Car_Wash
+                                                                                            <td width="24%" align="left">Car Wash
                                                                                             </td>
                                                                                             <td width="10%" align="left">
                                                                                                 <asp:Label runat="server" ID="lblOccupancyCarWash"></asp:Label>
@@ -842,7 +841,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td width="10%" align="left"></td>
                                                                                             <td width="23%" align="left"></td>
                                                                                             <td width="10%" align="left"></td>
-                                                                                            <td width="24%" align="left">Occupancy_Photo_Booth
+                                                                                            <td width="24%" align="left">Photo Booth
                                                                                             </td>
                                                                                             <td width="10%" align="left">
                                                                                                 <asp:Label runat="server" ID="lblOccupancyPhotoBooth"></asp:Label>
@@ -3989,41 +3988,41 @@ function ShowAuditPopUp(url) {
                                                             <tr>
                                                                 <td align="left" valign="top">
                                                                     <asp:GridView ID="gvBuildingImprovements" runat="server" Width="100%" OnRowCommand="gvBuildingImprovements_RowCommand"
-                                                                        EmptyDataText="No Improvement Record Exists">
+                                                                        EmptyDataText="No Improvement Record Exists" AllowSorting="true" OnSorting="gvBuildingImprovements_Sorting">
                                                                         <Columns>
-                                                                            <asp:TemplateField HeaderText="Building">
+                                                                            <asp:TemplateField HeaderText="Building" SortExpression="Building_Number">
                                                                                 <ItemStyle Width="10%" />
                                                                                 <ItemTemplate>
                                                                                     <asp:LinkButton ID="lnkBuilding" runat="server" Text='<%#Eval("Building_Number")%>'
-                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements_Buildings")%>' CommandName="ShowDetails" />
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Project Number">
+                                                                            <asp:TemplateField HeaderText="Project Number" SortExpression="Project_Number">
                                                                                 <ItemStyle Width="15%" />
                                                                                 <ItemTemplate>
                                                                                     <asp:LinkButton ID="lnkProjectNumber" runat="server" Text='<%#Eval("Project_Number")%>'
-                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements_Buildings")%>' CommandName="ShowDetails" />
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Project Description">
+                                                                            <asp:TemplateField HeaderText="Project Description" SortExpression="Project_Description">
                                                                                 <ItemStyle Width="35%" />
                                                                                 <ItemTemplate>
                                                                                     <asp:LinkButton ID="lnkProjectDesc" runat="server" Text='<%#Eval("Project_Description")%>'
-                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements_Buildings")%>' CommandName="ShowDetails" />
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Start Date">
+                                                                            <asp:TemplateField HeaderText="Start Date" SortExpression="Start_Date">
                                                                                 <ItemStyle Width="15%" />
                                                                                 <ItemTemplate>
                                                                                     <asp:LinkButton ID="lnkStartDate" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("Start_Date"))%>'
-                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements_Buildings")%>' CommandName="ShowDetails" />
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Target Date">
+                                                                            <asp:TemplateField HeaderText="Target Date" SortExpression="Target_Completion_Date">
                                                                                 <ItemStyle Width="15%" />
                                                                                 <ItemTemplate>
                                                                                     <asp:LinkButton ID="lnkCompletionDate" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("Target_Completion_Date"))%>'
-                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements_Buildings")%>' CommandName="ShowDetails" />
+                                                                                        CommandArgument='<%#Eval("PK_Building_Improvements")%>' CommandName="ShowDetails" />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                         </Columns>

@@ -223,7 +223,7 @@
           <siteMapNode url="Administrator/Policy_Type.aspx" title ="Policy Type" description="" roles="" />
         </siteMapNode>
         <siteMapNode title ="Property" description="" roles="">
-          <siteMapNode title ="Building " description="" roles="">
+          <siteMapNode title ="Building and Building Improvements" description="" roles="">
             <siteMapNode url="Administrator/LU_BI_Status.aspx" title ="Building Status" description="" roles="" />
             <siteMapNode url="Administrator/LU_Cable_Length.aspx" title ="Cable Length" description="" roles="" />
             <siteMapNode url="Administrator/LU_Phase_Power.aspx" title ="Phase Power" description="" roles="" />

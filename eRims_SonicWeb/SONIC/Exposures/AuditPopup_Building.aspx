@@ -12,8 +12,8 @@
     {        
         var divheight,i;
        
-        divHeader.style.width = window.screen.availWidth - 225 + "px";
-        divGrid.style.width = window.screen.availWidth - 225 + "px";
+        divHeader.style.width = window.screen.availWidth - 230 + "px";
+        divGrid.style.width = window.screen.availWidth - 230 + "px";
         
         divheight = divGrid.style.height;        
         i = divheight.indexOf('px');        
@@ -34,8 +34,8 @@
         var divHeader = document.getElementById("<%=divInsuranceHeader.ClientID %>");
         var divGrid = document.getElementById("<%=divInsuranceGrid.ClientID %>");
 
-        divHeader.style.width = window.screen.availWidth - 225 + "px";
-        divGrid.style.width = window.screen.availWidth - 225 + "px";
+        divHeader.style.width = window.screen.availWidth - 230 + "px";
+        divGrid.style.width = window.screen.availWidth - 230 + "px";
        
         divheight = divGrid.style.height;
         i = divheight.indexOf('px');
@@ -73,8 +73,8 @@
             </tr>
             <tr>
                 <td colspan="2" align="left">
-                    <div style="overflow: hidden; width: 600px;" id="dvHeader" runat="server">
-                        <table cellpadding="4" cellspacing="0" style="width: 600px; border-collapse: collapse;">
+                    <div style="overflow: hidden; width: 590px;" id="dvHeader" runat="server">
+                        <table cellpadding="4" cellspacing="0" style="width: 590px; border-collapse: collapse;">
                             <tbody>
                                 <tr style="background-color: #95B3D7; color: White; font-size: 12px; font-weight: bold;"
                                     align="left">
@@ -616,7 +616,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div style="overflow: scroll; width: 600px; height: 425px;" id="dvGrid" runat="server">                        
+                    <div style="overflow: scroll; width: 590px; height: 425px;" id="dvGrid" runat="server">                        
                         <asp:GridView ID="gvBuilding" runat="server" AutoGenerateColumns="False" CellPadding="4"
                             EnableTheming="True" EmptyDataText="No records found!" ShowHeader="false">
                             <RowStyle HorizontalAlign="Left" VerticalAlign="Top" />
@@ -1839,8 +1839,8 @@
                     <br />
                     <br />                   
                     <asp:Label ID="lblBuildingInsuranceCope" runat="server" style="font-weight:bold"></asp:Label><br /><br />
-                    <div style="overflow: hidden; width: 600px;" id="divInsuranceHeader" runat="server">
-                        <table cellpadding="4" cellspacing="0" style="width: 600px; border-collapse: collapse;">
+                    <div style="overflow: hidden; width: 590px;" id="divInsuranceHeader" runat="server">
+                        <table cellpadding="4" cellspacing="0" style="width: 590px; border-collapse: collapse;">
                             <tbody>
                                 <tr style="background-color: #95B3D7; color: White; font-size: 12px; font-weight: bold;"
                                     align="left">
@@ -1932,13 +1932,13 @@
                                         <span style="display: inline-block; width: 100px;">Updated by</span>
                                     </th>
                                     <th class="cols">
-                                        <span style="display: inline-block; width: 100px;">Updated Date</span>
+                                        <span style="display: inline-block; width: 117px;">Updated Date</span>
                                     </th>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div style="overflow: scroll; width: 600px; height: 425px;" id="divInsuranceGrid" runat="server">
+                    <div style="overflow: scroll; width: 590px; height: 425px;" id="divInsuranceGrid" runat="server">
                         <asp:GridView ID="gvInsurance" runat="server" AutoGenerateColumns="False" CellPadding="4"
                             EnableTheming="True" EmptyDataText="No records found!" ShowHeader="false">
                             <RowStyle HorizontalAlign="Left" VerticalAlign="Top" />
