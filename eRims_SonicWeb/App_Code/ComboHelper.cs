@@ -4277,6 +4277,22 @@ public class ComboHelper
         }
     }
 
+    public static void FillEventByStaus(ListBox[] LstBox, bool booladdSelectAsFirstElement)
+    {
+        foreach (ListBox li in LstBox)
+        {
+            li.Items.Clear();
+            li.Items.Add(new ListItem("Open", "O"));
+            li.Items.Add(new ListItem("Closed", "C"));
+
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                li.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
     /// <summary>
     /// Used to Bind State DropDown
     /// </summary>

@@ -13051,7 +13051,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
                     if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                     {
-                        lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
+                        lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));                      
                         if (Convert.ToBoolean(lstFilter[i].IsNotSelected) == true)
                             sbRecord.Append("<b>" + lstAdhoc[0].Field_Header + " (Not In)</b>" + " : " + FillFilterDropDown(lstAdhoc[0].Field_Header, lstFilter[i].ConditionValue));
                         else
@@ -14032,7 +14032,7 @@ namespace ERIMS_Sonic_ReportScheduler
         private bool CheckISdisplayCurrencyFormat(string strHeader)
         {
             //Array contains value have numeric field but should not display with $ sign,
-            string strNumericField = "Operator Length of Service,Other Vehicle VIN";
+            string strNumericField = "Operator Length of Service,Other Vehicle VIN,Auto Liability - FROI #,DPD - FROI #,Premises Liability - FROI #,Property Damage -FROI #";
             string[] arrNumericField = strNumericField.Split(',');
 
             // if header is defined numeric filed it return false
@@ -14091,7 +14091,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 }
                 else if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.AmountControl)
                 {
-                    strWhere += BindAmountCondition(lstFilter[i], lstFilter[i].ConditionType, lstFilter[i].ConditionValue, lstAdhoc[0].Field_Header, lstAdhoc[0].Table_Name, Convert.ToBoolean(lstFilter[i].IsNotSelected));
+                    strWhere += BindAmountCondition(lstFilter[i], lstFilter[i].ConditionType, lstFilter[i].ConditionValue, lstAdhoc[0].Field_Name, lstAdhoc[0].Table_Name, Convert.ToBoolean(lstFilter[i].IsNotSelected));
                 }
             }
             return strWhere;
@@ -14164,7 +14164,7 @@ namespace ERIMS_Sonic_ReportScheduler
                     else
                         strWhere = " And " + strTableName + ".[" + strField + "] NOT IN (" + strConditionValue + ") ";
                 }
-                else if (strConditionValue.Trim().ToUpper() == "Y" || strConditionValue.Trim().ToUpper() == "N" || strConditionValue.Trim().ToUpper() == "Y,N")
+                else if (strConditionValue.Trim().ToUpper() == "Y" || strConditionValue.Trim().ToUpper() == "N" || strConditionValue.Trim().ToUpper() == "Y,N" || strConditionValue.Trim().ToUpper() == "O" || strConditionValue.Trim().ToUpper() == "C" || strConditionValue.Trim().ToUpper() == "O,C" || strConditionValue.Trim().ToUpper() == "C,O")
                 {
                     if (strField == "Is_Actionable")
                         strWhere = " And ISNULL([" + strTableName + "]." + strField + ",'N') IN ('" + strConditionValue.Replace(",", "','") + "') ";
@@ -14254,7 +14254,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 AmtType = AdHocReportHelper.AmountCriteria.LessThan;
 
             if (dFrom.HasValue)
-                strWhere = AdHocReportHelper.GetAmountWhere("[" + strTableName.Trim() + "]", dFrom, dTo, AmtType, IsNotSelected);
+                strWhere = AdHocReportHelper.GetAmountWhere("[" + strTableName.Trim() + "]" + "." + "[" + strField.Trim() + "]", dFrom, dTo, AmtType, IsNotSelected);
             else if (dTo.HasValue)
                 strWhere = AdHocReportHelper.GetAmountWhere("[" + strTableName.Trim() + "]", dFrom, dTo, AmtType, IsNotSelected);
 
@@ -14701,6 +14701,10 @@ namespace ERIMS_Sonic_ReportScheduler
                                 strRecord += "Yes,";
                             else if (arrConditionValue[intj] == "0" || arrConditionValue[intj] == "N")
                                 strRecord += "No,";
+                            else if (arrConditionValue[intj] == "C")
+                                strRecord += "Close,";
+                            else if (arrConditionValue[intj] == "O")
+                                strRecord += "Open,";
                             else if (arrConditionValue[intj] == "3")
                             {
                                 if (string.Compare(strTable, "drpTest", true) == 0)

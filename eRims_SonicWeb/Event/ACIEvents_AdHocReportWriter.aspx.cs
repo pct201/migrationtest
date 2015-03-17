@@ -1469,6 +1469,11 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     {
                         ComboHelper.FillStateList(new ListBox[] { lst_F }, false);
                     }
+                    else if(lstAdHoc[0].Field_Header == "Status")
+                    {
+                        ComboHelper.FillEventByStaus(new ListBox[] { lst_F }, false);
+                    }
+ 
                     else
                     {
                         AdHocReportHelper.FillFilterDropDown(lstAdHoc[0].Field_Header, new ListBox[] { lst_F }, false, GetSelectedCoverage());
@@ -3188,7 +3193,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter1.Text, Convert.ToInt16(drpText_F1.SelectedItem.Value), chkNotCriteria1.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called");
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status");
                     if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria1.Checked);
                     else
@@ -3215,7 +3220,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter2.Text, Convert.ToInt16(drpText_F2.SelectedItem.Value), chkNotCriteria2.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called");
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status");
                     if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria1.Checked);
                     else
@@ -3241,7 +3246,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter3.Text, Convert.ToInt16(drpText_F3.SelectedItem.Value), chkNotCriteria3.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called");
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status");
                     if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria1.Checked);
                     else
@@ -3266,7 +3271,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter4.Text, Convert.ToInt16(drpText_F4.SelectedItem.Value), chkNotCriteria4.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called");
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status");
                     if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria1.Checked);
                     else
@@ -3290,7 +3295,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter5.Text, Convert.ToInt16(drpText_F5.SelectedItem.Value), chkNotCriteria5.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called");
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status");
                     if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria1.Checked);
                     else
@@ -3316,7 +3321,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter6.Text, Convert.ToInt16(drpText_F6.SelectedItem.Value), chkNotCriteria6.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called");
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status");
                     if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria1.Checked);
                     else
@@ -3340,7 +3345,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter7.Text, Convert.ToInt16(drpText_F7.SelectedItem.Value), chkNotCriteria7.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called");
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status");
                     if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria1.Checked);
                     else
@@ -3365,7 +3370,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter8.Text, Convert.ToInt16(drpText_F8.SelectedItem.Value), chkNotCriteria8.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called");
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status");
                     if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria1.Checked);
                     else
@@ -3391,7 +3396,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter9.Text, Convert.ToInt16(drpText_F9.SelectedItem.Value), chkNotCriteria9.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called");
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status");
                     if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria1.Checked);
                     else
@@ -3416,7 +3421,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter10.Text, Convert.ToInt16(drpText_F10.SelectedItem.Value), chkNotCriteria10.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called");
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status");
                     if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria1.Checked);
                     else
@@ -3785,7 +3790,9 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     #endregion
 
 
+                    //Added Condition to Remove $ sign from Fields which are not needed(Auto Liability - FROI #,DPD - FROI #,Premises Liability - FROI #,Property Damage -FROI #) : #3155
                     //First Group By
+
                     #region First GroupBy
                     if (!string.IsNullOrEmpty(strFirstGroupBy))
                     {
@@ -3796,7 +3803,14 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                             {
                                 decimal decVal;
                                 decimal.TryParse(strGroupByValue_1, out decVal);
+                                if (strFirstGroupBy == "Auto Liability - FROI #" || strFirstGroupBy == "DPD - FROI #" || strFirstGroupBy == "Premises Liability - FROI #" || strFirstGroupBy == "Property Damage -FROI #")
+                                {
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;'>&nbsp;" + strFirstGroupBy + ": " + strGroupByValue_1 + "</td></tr>");
+                                }
+                                else
+                                {
                                 sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;' align='right'>&nbsp;" + strFirstGroupBy + ": " + string.Format("{0:c2}", decVal) + "</td></tr>");
+                                }
                             }
                             else if (strFormatFirstGroupBy == "datetime")
                                 sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;'>&nbsp;" + strFirstGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_1) + "</td></tr>");
@@ -3818,7 +3832,14 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                             {
                                 decimal decVal;
                                 decimal.TryParse(strGroupByValue_2, out decVal);
-                                sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' align='right' >&nbsp;" + strSecGroupBy + ": " + string.Format("{0:c2}", decVal) + "</td></tr>");
+                                if (strSecGroupBy == "Auto Liability - FROI #" || strSecGroupBy == "DPD - FROI #" || strSecGroupBy == "Premises Liability - FROI #" || strSecGroupBy == "Property Damage -FROI #")
+                                {
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;'>&nbsp;" + strSecGroupBy + ": " + strGroupByValue_2 + "</td></tr>");
+                                }
+                                else
+                                {
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' align='right' >&nbsp;" + strSecGroupBy + ": " + string.Format("{0:c2}", decVal) + "</td></tr>");
+                                }
                             }
                             else if (strFormatSecGroupBy == "datetime")
                             {
@@ -3842,7 +3863,14 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                             {
                                 decimal decVal;
                                 decimal.TryParse(strGroupByValue_3, out decVal);
-                                sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' align='right' >&nbsp;" + strThirdGroupBy + ": " + string.Format("{0:c2}", decVal) + "</td></tr>");
+                                if (strThirdGroupBy == "Auto Liability - FROI #" || strThirdGroupBy == "DPD - FROI #" || strThirdGroupBy == "Premises Liability - FROI #" || strThirdGroupBy == "Property Damage -FROI #")
+                                {
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;'>&nbsp;" + strThirdGroupBy + ": " + strGroupByValue_3 + "</td></tr>");
+                                }
+                                else
+                                {
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' align='right' >&nbsp;" + strThirdGroupBy + ": " + string.Format("{0:c2}", decVal) + "</td></tr>");
+                                }
                             }
                             else if (strFormatThirdGroupBy == "datetime")
                             {
@@ -3866,7 +3894,14 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                             {
                                 decimal decVal;
                                 decimal.TryParse(strGroupByValue_4, out decVal);
-                                sbRecord.Append("<tr><td style='font-weight: bold;color: green;' align='right' >&nbsp;" + strFourthGroupBy + ": " + string.Format("{0:c2}", decVal) + "</td></tr>");
+                                if (strFourthGroupBy == "Auto Liability - FROI #" || strFourthGroupBy == "DPD - FROI #" || strFourthGroupBy == "Premises Liability - FROI #" || strFourthGroupBy == "Property Damage -FROI #")
+                                {
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;'>&nbsp;" + strFourthGroupBy + ": " + strGroupByValue_4 + "</td></tr>");
+                                }
+                                else
+                                {
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: green;' align='right' >&nbsp;" + strFourthGroupBy + ": " + string.Format("{0:c2}", decVal) + "</td></tr>");
+                                }
                             }
                             else if (strFormatFourthGroupBy == "datetime")
                             {
@@ -3890,7 +3925,14 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                             {
                                 decimal decVal;
                                 decimal.TryParse(strGroupByValue_5, out decVal);
-                                sbRecord.Append("<tr><td style='font-weight: bold;' align='right' >&nbsp;" + strFifthGroupBy + ": " + string.Format("{0:c2}", decVal) + "</td></tr>");
+                                if (strFifthGroupBy == "Auto Liability - FROI #" || strFifthGroupBy == "DPD - FROI #" || strFifthGroupBy == "Premises Liability - FROI #" || strFifthGroupBy == "Property Damage -FROI #")
+                                {
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;'>&nbsp;" + strFifthGroupBy + ": " + strGroupByValue_5 + "</td></tr>");
+                                }
+                                else
+                                {
+                                    sbRecord.Append("<tr><td style='font-weight: bold;' align='right' >&nbsp;" + strFifthGroupBy + ": " + string.Format("{0:c2}", decVal) + "</td></tr>");
+                                }
                             }
                             else if (strFormatFifthGroupBy == "datetime")
                             {
@@ -4303,7 +4345,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
     private bool CheckISdisplayCurrencyFormat(string strHeader)
     {
         //Array contains value have numeric field but should not display with $ sign,
-        string strNumericField = "Operator Length of Service,Other Vehicle VIN";
+        string strNumericField = "Operator Length of Service,Other Vehicle VIN,Auto Liability - FROI #,DPD - FROI #,Premises Liability - FROI #,Property Damage -FROI #";
         string[] arrNumericField = strNumericField.Split(',');
 
         // if header is defiend numeric filed it return false
@@ -5122,8 +5164,8 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             {
                 if (chkNotCriteria.Checked == true)
                     strWhere = "<b>" + strFilterIds + " (Not In) :</b>  " + GetSelectedItemTextString(lst_F);
-                else
-                    strWhere = "<b>" + strFilterIds + " (In) :</b>  " + GetSelectedItemTextString(lst_F);
+                else                   
+                        strWhere = "<b>" + strFilterIds + " (In) :</b>  " + GetSelectedItemTextString(lst_F);                    
             }
             else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
             {
@@ -5176,7 +5218,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                 strValues = strValues + lstBoxItem.Text.Replace("'", "''") + ", ";
             }
         }
-        return strValues.Trim().TrimEnd(',');
+        return strValues.Trim().TrimEnd(',');        
     }
 
     ///// <summary>
