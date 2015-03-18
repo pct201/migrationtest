@@ -402,6 +402,9 @@
                                         <th class="cols">
                                             <span style="display: inline-block; width: 160px">Door Restrictions</span>
                                         </th>
+                                         <th class="cols">
+                                            <span style="display: inline-block; width: 160px">Total Hours CCTV Monitored Per Week</span>
+                                        </th>
                                         <th class="cols">
                                             <span style="display: inline-block; width: 160px">Updated By</span>
                                         </th>
@@ -716,21 +719,21 @@
                                     <asp:TemplateField HeaderText="Burglar_Alarm_Company_Contact_Name">
                                         <ItemStyle CssClass="cols" />
                                         <ItemTemplate>
-                                            <asp:Label ID="lblBurglar_Alarm_Company_Contact_Name" runat="server" Text='<%#Eval("Burglar_Alarm_Company_Contact_Name")%>'
+                                            <asp:Label ID="lblBurglar_Alarm_Company_Contact_Name" runat="server" CssClass="TextClip" Text='<%#Eval("Burglar_Alarm_Company_Contact_Name")%>'
                                                 Width="160px"></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Burglar_Alarm_Comapny_Contact_Telephone">
                                         <ItemStyle CssClass="cols" />
                                         <ItemTemplate>
-                                            <asp:Label ID="lblBurglar_Alarm_Comapny_Contact_Telephone" runat="server" Text='<%#Eval("Burglar_Alarm_Comapny_Contact_Telephone")%>'
+                                            <asp:Label ID="lblBurglar_Alarm_Comapny_Contact_Telephone" runat="server" CssClass="TextClip" Text='<%#Eval("Burglar_Alarm_Comapny_Contact_Telephone")%>'
                                                 Width="160px"></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Burglar_Alarm_Company_Contact_EMail">
                                         <ItemStyle CssClass="cols" />
                                         <ItemTemplate>
-                                            <asp:Label ID="lblBurglar_Alarm_Company_Contact_EMail" runat="server" Text='<%#Eval("Burglar_Alarm_Company_Contact_EMail")%>'
+                                            <asp:Label ID="lblBurglar_Alarm_Company_Contact_EMail" runat="server" CssClass="TextClip" Text='<%#Eval("Burglar_Alarm_Company_Contact_EMail")%>'
                                                 Width="160px"></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
@@ -744,7 +747,7 @@
                                     <asp:TemplateField HeaderText="ZD_Office">
                                         <ItemStyle CssClass="cols" />
                                         <ItemTemplate>
-                                            <asp:Label ID="lblZD_Office" runat="server" Text='<%#clsGeneral.FormatYesNoToDisplay(Eval("ZD_Office"))%>'
+                                            <asp:Label ID="lblZD_Office" runat="server" Text='<%#clsGeneral.FormatYesNoToDisplay(Eval("ZD_Office"))%>' CssClass="TextClip"
                                                 Width="160px"></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
@@ -1102,7 +1105,7 @@
                                     <asp:TemplateField HeaderText="Cap_Index_Crime_Score">
                                         <ItemStyle CssClass="cols" />
                                         <ItemTemplate>
-                                            <asp:Label ID="lblCap_Index_Crime_Score" runat="server" Text='<%#Eval("Cap_Index_Crime_Score")%>'
+                                            <asp:Label ID="lblCap_Index_Crime_Score" runat="server" Text='<%#Eval("Cap_Index_Crime_Score")%>' CssClass="TextClip"
                                                 Width="160px"></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
@@ -1152,6 +1155,13 @@
                                         <ItemStyle CssClass="cols" />
                                         <ItemTemplate>
                                             <asp:Label ID="lblAC_Door_Restrictions" runat="server" Text='<%#clsGeneral.FormatYesNoToDisplay(Eval("AC_Door_Restrictions"))%>'
+                                                Width="160px"></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Total Hours CCTV Monitored Per Week">
+                                        <ItemStyle CssClass="cols" />
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblTotal_Hours_CCTV_Monitored_Per_Week" runat="server" Text='<%#Eval("Total_Hours_CCTV_Monitored_Per_Week")%>'
                                                 Width="160px"></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
