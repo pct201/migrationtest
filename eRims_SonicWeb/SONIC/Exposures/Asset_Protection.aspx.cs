@@ -894,6 +894,10 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
 
         if (txtCap_Index_Crime_Score.Text.Trim() != string.Empty)
             objAP_Property_Security.Cap_Index_Crime_Score = Convert.ToInt32(Convert.ToString(txtCap_Index_Crime_Score.Text.Trim()));
+
+        if (txttotalHoursMonitoredPerWeek.Text.Trim() != string.Empty)
+            objAP_Property_Security.Total_Hours_CCTV_Monitored_Per_Week = Convert.ToString(txttotalHoursMonitoredPerWeek.Text.Trim());
+
         if (ddlCap_Index_Risk_Category.SelectedIndex > 0) objAP_Property_Security.Cap_Index_Risk_Cateogory = Convert.ToDecimal(ddlCap_Index_Risk_Category.SelectedValue);
         if (objAP_Property_Security.PK_AP_Property_Security > 0)
         {
@@ -926,6 +930,10 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             gvCCTVHoursMonitoringGrid.DataSource = dsMonitoringGrid.Tables[0].DefaultView;
             gvCCTVHoursMonitoringGrid.DataBind();
 
+            //Added due to Issue #3173
+            if(dsMonitoringGrid.Tables[1].Rows.Count > 0)
+                txttotalHoursMonitoredPerWeek.Text = Convert.ToString(dsMonitoringGrid.Tables[1].Rows[0][0]);
+
             //Bind Guard Monitoring Grid
             dsMonitoringGrid.Tables[0].DefaultView.RowFilter = "Grid_Type = 'Guard'";
             gvGuardHoursMonitorGrid.DataSource = dsMonitoringGrid.Tables[0].DefaultView;
@@ -943,6 +951,10 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             dsMonitoringGrid.Tables[0].DefaultView.RowFilter = "Grid_Type = 'CCTV'";
             gvCCTVHoursMonitoringGridView.DataSource = dsMonitoringGrid.Tables[0].DefaultView;
             gvCCTVHoursMonitoringGridView.DataBind();
+
+            //Added due to Issue #3173
+            if (dsMonitoringGrid.Tables[1].Rows.Count > 0)
+                lblTotalHoursCCTVMonitoredPerWeek.Text = Convert.ToString(dsMonitoringGrid.Tables[1].Rows[0][0]);
 
             //Bind Guard Monitoring Grid
             dsMonitoringGrid.Tables[0].DefaultView.RowFilter = "Grid_Type = 'Guard'";
@@ -4992,4 +5004,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     #endregion
 
 
+    protected void gvCCTVHoursMonitoringGrid_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+
+    }
 }

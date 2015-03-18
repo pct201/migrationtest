@@ -119,6 +119,7 @@ namespace ERIMS.DAL
         private int? _ECC_Number_Of_Internal_Cameras;
         private string _AC_Key_Fobs;
         private string _AC_Door_Restrictions;
+        private string _Total_Hours_CCTV_Monitored_Per_Week;
 
         #endregion
 
@@ -1079,6 +1080,13 @@ namespace ERIMS.DAL
             set { _AC_Door_Restrictions = value; }
         }
 
+
+        public string Total_Hours_CCTV_Monitored_Per_Week
+        {
+            get { return _Total_Hours_CCTV_Monitored_Per_Week; }
+            set { _Total_Hours_CCTV_Monitored_Per_Week = value; }
+        }
+
         #endregion
 
         #region Default Constructors
@@ -1647,6 +1655,11 @@ namespace ERIMS.DAL
                 this._AC_Door_Restrictions = null;
             else
                 this._AC_Door_Restrictions = (string)drAP_Property_Security["AC_Door_Restrictions"];
+
+            if (drAP_Property_Security["Total_Hours_CCTV_Monitored_Per_Week"] == DBNull.Value)
+                this._Total_Hours_CCTV_Monitored_Per_Week = null;
+            else
+                this._Total_Hours_CCTV_Monitored_Per_Week = (string)drAP_Property_Security["Total_Hours_CCTV_Monitored_Per_Week"];
         }
 
 
@@ -2159,6 +2172,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "AC_Door_Restrictions", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "AC_Door_Restrictions", DbType.String, this._AC_Door_Restrictions);
+
+            if (string.IsNullOrEmpty(this._Total_Hours_CCTV_Monitored_Per_Week))
+                db.AddInParameter(dbCommand, "Total_Hours_CCTV_Monitored_Per_Week", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Total_Hours_CCTV_Monitored_Per_Week", DbType.String, this._Total_Hours_CCTV_Monitored_Per_Week);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -2700,6 +2718,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "AC_Door_Restrictions", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "AC_Door_Restrictions", DbType.String, this._AC_Door_Restrictions);
+
+            if (string.IsNullOrEmpty(this._Total_Hours_CCTV_Monitored_Per_Week))
+                db.AddInParameter(dbCommand, "Total_Hours_CCTV_Monitored_Per_Week", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Total_Hours_CCTV_Monitored_Per_Week", DbType.String, this._Total_Hours_CCTV_Monitored_Per_Week);
 
             db.ExecuteNonQuery(dbCommand);
         }

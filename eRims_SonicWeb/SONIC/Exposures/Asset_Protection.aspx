@@ -733,9 +733,9 @@ function IsValidMonitorTime() {
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top" colspan="4">
-                                                            <asp:GridView ID="gvCCTVHoursMonitoringGrid" runat="server" GridLines="None" CellPadding="4"
+                                                            <asp:GridView ID="gvCCTVHoursMonitoringGrid" runat="server" GridLines="None" CellPadding="4" DataKeyNames="Hours"
                                                                 CellSpacing="0" AutoGenerateColumns="false" Width="100%" EnableTheming="false"
-                                                                OnRowCommand="gvMonitoingGrid_RowCommand">
+                                                                OnRowCommand="gvMonitoingGrid_RowCommand" OnRowDataBound="gvCCTVHoursMonitoringGrid_RowDataBound">
                                                                 <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
                                                                     Font-Size="8pt" />
                                                                 <RowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-Size="8pt" />
@@ -808,6 +808,22 @@ function IsValidMonitorTime() {
                                                                 </EmptyDataTemplate>
                                                                 <PagerSettings Visible="False" />
                                                             </asp:GridView>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Total Hours CCTV Monitored Per Week
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:TextBox ID="txttotalHoursMonitoredPerWeek" runat="server" SkinID="txtDisabled">
+                                                            </asp:TextBox>
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="center" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -5413,6 +5429,22 @@ function IsValidMonitorTime() {
                                                                 </EmptyDataTemplate>
                                                                 <PagerSettings Visible="False" />
                                                             </asp:GridView>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Total Hours CCTV Monitored Per Week
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblTotalHoursCCTVMonitoredPerWeek" runat="server" >
+                                                            </asp:Label>
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="center" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="left" valign="top">&nbsp;
                                                         </td>
                                                     </tr>
                                                     <tr>
