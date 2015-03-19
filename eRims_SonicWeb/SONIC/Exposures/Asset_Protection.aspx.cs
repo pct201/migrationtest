@@ -632,6 +632,10 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             txtCap_Index_Crime_Score.Text = Convert.ToString(objAP_Property_Security.Cap_Index_Crime_Score);
         if (objAP_Property_Security.Cap_Index_Risk_Cateogory != null) ddlCap_Index_Risk_Category.SelectedValue = objAP_Property_Security.Cap_Index_Risk_Cateogory.ToString();
 
+        //Added due to Issue #3173
+        if (objAP_Property_Security.Total_Hours_CCTV_Monitored_Per_Week != null)
+            txttotalHoursMonitoredPerWeek.Text = Convert.ToString(objAP_Property_Security.Total_Hours_CCTV_Monitored_Per_Week);
+
         BindFinancialGridforEdit();
 
         if (PK_AP_Property_Security > 0)
@@ -761,6 +765,9 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             lblCap_Index_Crime_Score.Text = Convert.ToString(objAP_Property_Security.Cap_Index_Crime_Score);
         if (objAP_Property_Security.Cap_Index_Risk_Cateogory != null)
             lblCap_Index_Risk_Category.Text = new clsLU_AP_Cap_Index_Risk_Category((decimal)objAP_Property_Security.Cap_Index_Risk_Cateogory).Fld_Desc;
+
+        if (objAP_Property_Security.Total_Hours_CCTV_Monitored_Per_Week != null)
+            lblTotalHoursCCTVMonitoredPerWeek.Text = Convert.ToString(objAP_Property_Security.Total_Hours_CCTV_Monitored_Per_Week);
 
         if (PK_AP_Property_Security > 0)
         {
@@ -925,14 +932,15 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         DataSet dsMonitoringGrid = clsAP_Property_Security_Monitor_Grids.SelectAllForMonitoringGrid(PK_AP_Property_Security);
         if (StrOperation != "view")
         {
+
             //Bind CCTV Monitoring Grid
             dsMonitoringGrid.Tables[0].DefaultView.RowFilter = "Grid_Type = 'CCTV'";
             gvCCTVHoursMonitoringGrid.DataSource = dsMonitoringGrid.Tables[0].DefaultView;
             gvCCTVHoursMonitoringGrid.DataBind();
 
             //Added due to Issue #3173
-            if(dsMonitoringGrid.Tables[1].Rows.Count > 0)
-                txttotalHoursMonitoredPerWeek.Text = Convert.ToString(dsMonitoringGrid.Tables[1].Rows[0][0]);
+            //if (dsMonitoringGrid.Tables[1].Rows.Count > 0)
+            //    txttotalHoursMonitoredPerWeek.Text = Convert.ToString(dsMonitoringGrid.Tables[1].Rows[0][0]);
 
             //Bind Guard Monitoring Grid
             dsMonitoringGrid.Tables[0].DefaultView.RowFilter = "Grid_Type = 'Guard'";
@@ -953,8 +961,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             gvCCTVHoursMonitoringGridView.DataBind();
 
             //Added due to Issue #3173
-            if (dsMonitoringGrid.Tables[1].Rows.Count > 0)
-                lblTotalHoursCCTVMonitoredPerWeek.Text = Convert.ToString(dsMonitoringGrid.Tables[1].Rows[0][0]);
+            //if (dsMonitoringGrid.Tables[1].Rows.Count > 0)
+            //    lblTotalHoursCCTVMonitoredPerWeek.Text = Convert.ToString(dsMonitoringGrid.Tables[1].Rows[0][0]);
 
             //Bind Guard Monitoring Grid
             dsMonitoringGrid.Tables[0].DefaultView.RowFilter = "Grid_Type = 'Guard'";
@@ -3051,6 +3059,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
 
         //Bind Grid
         BindPropertySecurityMonitoringGrid();
+        clsAP_Property_Security objPropertySec = new clsAP_Property_Security(PK_AP_Property_Security);
+        txttotalHoursMonitoredPerWeek.Text = objPropertySec.Total_Hours_CCTV_Monitored_Per_Week;
         ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
 
@@ -4012,8 +4022,10 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             clsAP_Property_Security_Monitor_Grids.DeleteByPK(index);
 
             BindPropertySecurityMonitoringGrid();
+            clsAP_Property_Security objPropertySec = new clsAP_Property_Security(PK_AP_Property_Security);
+            txttotalHoursMonitoredPerWeek.Text = objPropertySec.Total_Hours_CCTV_Monitored_Per_Week;
 
-        }
+        }        
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
 
@@ -5004,8 +5016,5 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     #endregion
 
 
-    protected void gvCCTVHoursMonitoringGrid_RowDataBound(object sender, GridViewRowEventArgs e)
-    {
-
-    }
+    
 }

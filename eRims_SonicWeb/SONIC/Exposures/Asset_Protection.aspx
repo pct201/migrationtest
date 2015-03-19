@@ -735,7 +735,7 @@ function IsValidMonitorTime() {
                                                         <td align="left" valign="top" colspan="4">
                                                             <asp:GridView ID="gvCCTVHoursMonitoringGrid" runat="server" GridLines="None" CellPadding="4" DataKeyNames="Hours"
                                                                 CellSpacing="0" AutoGenerateColumns="false" Width="100%" EnableTheming="false"
-                                                                OnRowCommand="gvMonitoingGrid_RowCommand" OnRowDataBound="gvCCTVHoursMonitoringGrid_RowDataBound">
+                                                                OnRowCommand="gvMonitoingGrid_RowCommand" >
                                                                 <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
                                                                     Font-Size="8pt" />
                                                                 <RowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-Size="8pt" />
