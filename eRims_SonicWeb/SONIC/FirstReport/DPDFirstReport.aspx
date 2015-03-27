@@ -1226,13 +1226,13 @@
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <td align="left" valign="top">Loss Description&nbsp;<span id="Span22" style="color: Red; display: none;" runat="server">*</span>
+                                                                            <td align="left" valign="top">In Detail, Explain What Happened&nbsp;<span id="Span22" style="color: Red; display: none;" runat="server">*</span>
                                                                             </td>
                                                                             <td align="center" valign="top">:
                                                                             </td>
                                                                             <td align="left" colspan="4">
                                                                                 <uc:ctrlMultiLineTextBox runat="server" ID="txt_Loss_Description" ControlType="TextBox"
-                                                                                    IsRequired="false" RequiredFieldMessage="Please Enter Loss Description." ValidationGroup="vsVehicleGroup"
+                                                                                    IsRequired="false" RequiredFieldMessage="Please Enter In Detail, Explain What Happened." ValidationGroup="vsVehicleGroup"
                                                                                     SetFocusOnError="true" />
                                                                             </td>
                                                                         </tr>
@@ -2854,7 +2854,7 @@
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <td align="left" valign="top">
-                                                                                            Loss Description
+                                                                                            In Detail, Explain What Happened
                                                                                         </td>
                                                                                         <td align="center" valign="top">
                                                                                             :
@@ -3213,7 +3213,7 @@
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <td align="left" valign="top">
-                                                                                            Loss Description
+                                                                                            In Detail, Explain What Happened
                                                                                         </td>
                                                                                         <td align="center" valign="top">
                                                                                             :
@@ -3431,7 +3431,7 @@
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <td align="left" valign="top">
-                                                                                            Loss Description
+                                                                                            In Detail, Explain What Happened
                                                                                         </td>
                                                                                         <td align="center" valign="top">
                                                                                             :
@@ -3649,7 +3649,7 @@
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <td align="left" valign="top">
-                                                                                            Loss Description
+                                                                                            In Detail, Explain What Happened
                                                                                         </td>
                                                                                         <td align="center" valign="top">
                                                                                             :
@@ -4417,7 +4417,7 @@
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <td align="left" valign="top">
-                                                                                            Loss Description
+                                                                                            In Detail, Explain What Happened
                                                                                         </td>
                                                                                         <td align="center" valign="top">
                                                                                             :
@@ -5144,7 +5144,7 @@
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <td align="left" valign="top">
-                                                                                            Loss Description
+                                                                                            In Detail, Explain What Happened
                                                                                         </td>
                                                                                         <td align="center" valign="top">
                                                                                             :
@@ -5350,7 +5350,7 @@
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <td align="left" valign="top">
-                                                                                            Loss Description
+                                                                                            In Detail, Explain What Happened
                                                                                         </td>
                                                                                         <td align="center" valign="top">
                                                                                             :
@@ -5556,7 +5556,7 @@
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <td align="left" valign="top">
-                                                                                            Loss Description
+                                                                                            In Detail, Explain What Happened
                                                                                         </td>
                                                                                         <td align="center" valign="top">
                                                                                             :
@@ -5762,7 +5762,7 @@
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <td align="left" valign="top">
-                                                                                            Loss Description
+                                                                                            In Detail, Explain What Happened
                                                                                         </td>
                                                                                         <td align="center" valign="top">
                                                                                             :
@@ -5968,7 +5968,7 @@
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <td align="left" valign="top">
-                                                                                            Loss Description
+                                                                                            In Detail, Explain What Happened
                                                                                         </td>
                                                                                         <td align="center" valign="top">
                                                                                             :

@@ -1211,7 +1211,7 @@
                                                             </tr>
                                                             <tr>
                                                                 <td align="left" valign="top">
-                                                                    Description of Loss&nbsp;<span id="Span8" style="color: Red; display: none;" runat="server">*</span>
+                                                                    In Detail, Explain What Happened&nbsp;<span id="Span8" style="color: Red; display: none;" runat="server">*</span>
                                                                 </td>
                                                                 <td align="center" valign="top">
                                                                     :
@@ -2861,7 +2861,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td align="left" valign="top">
-                                                            Description of Loss
+                                                            In Detail, Explain What Happened
                                                         </td>
                                                         <td align="center" valign="top">
                                                             :
