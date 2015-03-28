@@ -7,7 +7,6 @@
 <%@ Register Src="~/Controls/IncidentInfo/IncidentInfo.ascx" TagName="IncidentInfo" TagPrefix="uc" %>
 <%@ Register Src="~/Controls/Attachment_Event/AttachmentEvent.ascx" TagName="Attachment" TagPrefix="uc" %>
 <%@ Register Src="~/Controls/EventInfo/EventInfo.ascx" TagName="EventInfo" TagPrefix="uc" %>
-<%@ Register Src="~/Controls/EventNotes/EventNotes.ascx" TagName="ctrlEventNotes" TagPrefix="uc" %>
 <%@ Register Src="~/Controls/Navigation/Navigation.ascx" TagName="ctrlPaging" TagPrefix="uc" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
