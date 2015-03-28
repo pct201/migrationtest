@@ -63,7 +63,7 @@
 
                 <div id="dvNotesList" runat="server" width="794px" style="display: none">
                 <div class="bandHeaderRow">
-                    Sonic Notes</div>
+                     <asp:Label runat="server" ID="lblListNoteType"></asp:Label></div>
                 <table cellpadding="1" cellspacing="1" width="100%">
                     <tr>
                         <td width="100%">

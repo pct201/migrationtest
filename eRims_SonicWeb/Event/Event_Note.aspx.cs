@@ -55,6 +55,11 @@ public partial class Event_Event_Note : System.Web.UI.Page
         {            
             _Type = Request.QueryString["type"].ToUpper();
 
+            if (_Type.ToLower().Contains("aci"))
+                lblListNoteType.Text = "Acadian Note";
+            else
+                lblListNoteType.Text = "Sonic Event Note";
+
             if (!string.IsNullOrEmpty(Request.QueryString["viewIDs"]))
             {
                 #region " List Notes "
