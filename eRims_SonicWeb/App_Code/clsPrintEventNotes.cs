@@ -62,7 +62,12 @@ public class clsPrintEventNotes
         string strTDBlue = "style='background-color:#95B3D7;border-top:black 1px solid;border-left:black 1px solid;'";
         string strTDWhite = "style='border-top:black 1px solid;border-left:black 1px solid;border-bottom:black 1px solid;'";
         sbHTML.Append("<HTML><Body>");
-        sbHTML.Append("<b>eRIMS2 Sonic - Selected ACI Notes</b>");
+        
+        if(strNote_Type == "ACI")
+            sbHTML.Append("<b>eRIMS2 Sonic - Selected Acadian Notes</b>");
+        else
+            sbHTML.Append("<b>eRIMS2 Sonic - Selected Sonic Notes</b>");
+
         sbHTML.Append("<br /></br />");
         sbHTML.Append("<table cellpadding='3' cellspacing='1' border='0' width='100%'>");
         sbHTML.Append("<tr>");
