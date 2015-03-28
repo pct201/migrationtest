@@ -101,7 +101,7 @@
                 if (buttonType == "View")
                     alert("Please select Note(s) to View");
                 else
-                    alert("Please select Note(s) to Print");
+                    alert("Please select Note(s)");
 
                 return false;
             }
@@ -145,7 +145,7 @@
                 if (buttonType == "View")
                     alert("Please select Note(s) to View");
                 else
-                    alert("Please select Note(s) to Print");
+                    alert("Please select Note(s)");
 
                 return false;
             }

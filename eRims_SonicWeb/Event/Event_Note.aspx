@@ -67,8 +67,8 @@
                 <table cellpadding="1" cellspacing="1" width="100%">
                     <tr>
                         <td width="100%">
-                            <div style="width: 785px; height: 370px; overflow-x: hidden; overflow-y: scroll;">
-                                <asp:Repeater ID="rptNotes" runat="server">
+                            <%--<div style="width: 785px; height: 370px; overflow-x: hidden; overflow-y: scroll;">--%>
+                                <asp:Repeater ID="rptNotes" runat="server" >
                                     <ItemTemplate>
                                         <table cellpadding="1" cellspacing="1" width="100%">
                                             <tr>
@@ -93,22 +93,25 @@
                                                                 :
                                                             </td>
                                                             <td align="left" valign="top" colspan="4">
-                                                                <uc:ctrlMultiLineTextBox ID="lblNoteText" runat="server" Text='<%# Eval("Note") %>'
-                                                                    ControlType="Label" Width="540" />
+                                                                <uc:ctrlMultiLineTextBox ID="lblNoteText" runat="server" Text=' <%# Eval("Note") %>'
+                                                                    ControlType="Label" Width="540" /> 
+                                                               
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="height: 30px">
+                                                            
+                                                            <td colspan="3" style="vertical-align: middle;">
+                                                                <hr size="1" color="Black"  />
                                                             </td>
                                                         </tr>
                                                     </table>
                                                 </td>
                                             </tr>
-                                            <tr style="height: 30px">
-                                                <td colspan="2" style="vertical-align: middle;">
-                                                    <hr size="1" color="Black" style="width: 758px;" />
-                                                </td>
-                                            </tr>
+                                           
                                         </table>
                                     </ItemTemplate>
                                 </asp:Repeater>
-                            </div>
+                           <%-- </div>--%>
                         </td>
                     </tr>
                     <tr>
