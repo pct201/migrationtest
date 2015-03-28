@@ -17,7 +17,7 @@ public partial class Event_Event_Note : System.Web.UI.Page
     }
 
     /// <summary>
-    /// Denotes primary key of table for which diary record is to be managed
+    /// Denotes list of primary key of Event
     /// </summary>
     public string EventNoteIDs
     {
