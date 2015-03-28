@@ -3333,11 +3333,11 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);            
         }
 
-        public static DataSet SelectBuildingForBuildingImprovements()
+        public static DataSet SelectBuildingForBuildingImprovements(int fK_LU_Location_ID)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("SelectBuildingForBuildingImprovements");
-            
+            db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Int32, fK_LU_Location_ID);
             return db.ExecuteDataSet(dbCommand);
         }
 

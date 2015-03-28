@@ -86,6 +86,7 @@ public partial class SONIC_Exposures_PropertyContactDetails : System.Web.UI.Page
             {
                 SetValidationsContact();
                 dvEdit.Style["display"] = "block";
+                ComboHelper.FillPropertyContactType(new DropDownList[] {drpType }, true);
             }
         }
 
@@ -146,6 +147,8 @@ public partial class SONIC_Exposures_PropertyContactDetails : System.Web.UI.Page
     /// </summary>
     private void BindDetailsForEdit()
     {
+        ComboHelper.FillPropertyContactType(new DropDownList[] { drpType }, true);
+
         // create object for property contact
         Property_Contact objContact = new Property_Contact(PK_Property_Contact_ID);
 

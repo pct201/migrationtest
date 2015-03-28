@@ -1046,8 +1046,9 @@ function ValidateFieldsOwnership(sender, args) {
                                                                 </td>
                                                             </tr>--%>
                                                             <!-- Commented above Section for ticket #3132 -->
+							<%--
                                                             <tr>
-                                                                <td align="left" valign="top">Inventory Levels
+                                                                <td align="left" valign="top">Inventory Level
                                                                 </td>
                                                                 <td align="center" valign="top">:
                                                                 </td>
@@ -1062,6 +1063,7 @@ function ValidateFieldsOwnership(sender, args) {
                                                                     <asp:Label ID="lblCalculated" runat="server" Width="170px" ReadOnly="true"></asp:Label>
                                                                 </td>
                                                             </tr>
+							--%>
                                                             <tr>
                                                                 <td align="left" valign="top">Saba Training Grid
                                                                     <br />

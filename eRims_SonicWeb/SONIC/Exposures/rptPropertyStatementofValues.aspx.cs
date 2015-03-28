@@ -94,18 +94,20 @@ public partial class SONIC_Exposures_rptPropertyStatementofValues : clsBasePage
     /// <param name="e"></param>
     protected void btnShowReport_Click(object sender, EventArgs e)
     {
-        string strRegion = "";
+        string strRegion = string.Empty;
         string strMarket = string.Empty;
-        string strStatus = "";
-        string strOwnership = "";
+        string strStatus = string.Empty;
+        string strOwnership = string.Empty;
+        string strBuildingStatus = string.Empty;
         // get selected regions
         strRegion = GetCommaSeparatedValues(lstRegions);
         strMarket = GetCommaSeparatedValues(lstMarket);
         strStatus = GetCommaSeparatedValues(ddlStatus);
+        strBuildingStatus = GetCommaSeparatedValues(ddlBuildingStatus);
         strOwnership = GetCommaSeparatedValues(drpOwnership);
 
         // get report data for selected values
-        DataSet dsReport = clsExposuresReports.GetPropertyStatementofValues(strRegion, strMarket, strStatus, strOwnership, clsGeneral.FormatNullDateToStore(txtPropertyValuationDateFrom.Text), clsGeneral.FormatNullDateToStore(txtPropertyValuationDateTo.Text));
+        DataSet dsReport = clsExposuresReports.GetPropertyStatementofValues(strRegion, strMarket, strStatus, strBuildingStatus, strOwnership, clsGeneral.FormatNullDateToStore(txtPropertyValuationDateFrom.Text), clsGeneral.FormatNullDateToStore(txtPropertyValuationDateTo.Text));
 
         // get data tables from dataset
         DataTable dtRegions = dsReport.Tables[0];
@@ -191,7 +193,7 @@ public partial class SONIC_Exposures_rptPropertyStatementofValues : clsBasePage
         //    dvGrid.Style["overflow"] = "hidden";
         //}
 
-        DataSet dsReport_NEW = clsExposuresReports.GetPropertyStatementofValues_NEW(strRegion, strMarket, strStatus, strOwnership, clsGeneral.FormatNullDateToStore(txtPropertyValuationDateFrom.Text), clsGeneral.FormatNullDateToStore(txtPropertyValuationDateTo.Text));
+        DataSet dsReport_NEW = clsExposuresReports.GetPropertyStatementofValues_NEW(strRegion, strMarket, strStatus, strBuildingStatus, strOwnership, clsGeneral.FormatNullDateToStore(txtPropertyValuationDateFrom.Text), clsGeneral.FormatNullDateToStore(txtPropertyValuationDateTo.Text));
 
         dtInsuranceField_NEW = dsReport_NEW.Tables[1];
         ViewState["dtHeader"] = dsReport_NEW.Tables[2];
@@ -458,7 +460,8 @@ public partial class SONIC_Exposures_rptPropertyStatementofValues : clsBasePage
                 }
                 row.CssClass = "";
                 //row.BackColor = System.Drawing.ColorTranslator.FromHtml("#29658F");
-                gvDescription_New.HeaderRow.Parent.Controls.AddAt(0, row);
+                if (gvDescription_New != null && gvDescription_New.HeaderRow != null)
+                    gvDescription_New.HeaderRow.Parent.Controls.AddAt(0, row);
             }
 
         }

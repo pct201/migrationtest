@@ -79,7 +79,7 @@
           <siteMapNode url="SONIC/Exposures/PremiumAllocation_AddLocation.aspx" title="Add Location" description="Add Location" />
           <siteMapNode url="SONIC/Exposures/PremiumAllocation_RemoveLocation.aspx" title="Remove Location" description="Remove Location" />
           <siteMapNode url="SONIC/Exposures/PremiumAllocation_EditLocation.aspx" title="Edit Location" description="Edit Location" />
-          
+
         </siteMapNode>
         <siteMapNode url="SONIC/Purchasing/RptPurchasingReportList.aspx" title="Purchasing Reports" description="Purchasing Reports" />
         <siteMapNode url="DashBoard/RlcmQuarterlyReport.aspx" title="RLCM Quarterly Performance Report" description="RLCM Quarterly Performance Report"/>
@@ -92,7 +92,7 @@
           <siteMapNode url="Event/ACI_Event_Report.aspx" title="ACI Event Report" description="ACI Event Report"/>
         </siteMapNode>
       </siteMapNode>
-      <siteMapNode url="" title="Ad-Hoc Report Writer" description="">        
+      <siteMapNode url="" title="Ad-Hoc Report Writer" description="">
         <siteMapNode url="SONIC/Exposures/AssetProtection_AdHocReportWriter.aspx" title="Asset Protection" description="Asset Protection"/>
         <siteMapNode url="SONIC/ClaimInfo/rptAdHocWriter.aspx" title="Claims" description="Claims"/>
         <siteMapNode url="SONIC/ClaimInfo/rptAdHocWriterOhioWCClaim.aspx" title="Ohio WC Claims" description="Ohio WC Claims"/>
@@ -226,10 +226,12 @@
           <siteMapNode title ="Building and Building Improvements" description="" roles="">
             <siteMapNode url="Administrator/LU_BI_Status.aspx" title ="Building Status" description="" roles="" />
             <siteMapNode url="Administrator/LU_Cable_Length.aspx" title ="Cable Length" description="" roles="" />
+
             <siteMapNode url="Administrator/LU_Phase_Power.aspx" title ="Phase Power" description="" roles="" />
-            <siteMapNode url="Administrator/LU_Power_Service.aspx" title ="Power Service" description="" roles="" />          
+            <siteMapNode url="Administrator/LU_Power_Service.aspx" title ="Power Service" description="" roles="" />
             <siteMapNode url="Administrator/LU_Voltage_Security.aspx" title ="Voltage Security" description="" roles="" />
-          </siteMapNode>          
+          </siteMapNode>
+          <siteMapNode url="Administrator/LU_Property_Contact_Type.aspx" title ="Contacts" description="" roles="" />
         </siteMapNode>
         <siteMapNode url="" title ="Purchasing" description="" roles="" >
           <siteMapNode url="Administrator/DealershipDepartment.aspx" title ="Dealership Department" description="" roles="" />

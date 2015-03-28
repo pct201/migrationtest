@@ -4983,9 +4983,9 @@ public class ComboHelper
         }
     }
 
-    public static void FillBuildingForBuildingImprovements(ListBox[] dropDownList, bool booladdSelectAsFirstElement)
+    public static void FillBuildingForBuildingImprovements(ListBox[] dropDownList, int fK_LU_Location_ID, bool booladdSelectAsFirstElement)
     {
-        DataSet dsData = ERIMS.DAL.Building.SelectBuildingForBuildingImprovements();
+        DataSet dsData = ERIMS.DAL.Building.SelectBuildingForBuildingImprovements(fK_LU_Location_ID);
 
         foreach (ListBox ddlToFill in dropDownList)
         {
@@ -5011,6 +5011,25 @@ public class ComboHelper
             ddlToFill.Items.Clear();
             ddlToFill.DataTextField = "Fld_Desc";
             ddlToFill.DataValueField = "PK_LU_BI_Status";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    public static void FillPropertyContactType(DropDownList[] dropDownList, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.clsLU_Property_Contact_Type.SelectActive();
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+        foreach (DropDownList ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Fld_Desc";
+            ddlToFill.DataValueField = "Fld_Desc";
             ddlToFill.DataSource = dsData.Tables[0].DefaultView;
             ddlToFill.DataBind();
             //check require to add "-- select --" at first item of dropdown.

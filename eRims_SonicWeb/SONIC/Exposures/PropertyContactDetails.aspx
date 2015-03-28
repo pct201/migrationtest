@@ -82,9 +82,9 @@
                                     <td width="4%" align="center">
                                         :</td>
                                     <td align="left">
-                                        <asp:DropDownList ID="drpType" runat="server" SkinID="default" Width="170px">
+                                        <asp:DropDownList ID="drpType" runat="server" SkinID="default" Width="170px" AppendDataBoundItems="true">
                                             <asp:ListItem Text="--Select--" />
-                                            <asp:ListItem Text="Local Police" />
+                                            <%--<asp:ListItem Text="Local Police" />
                                             <asp:ListItem Text="Fire Department" />
                                             <asp:ListItem Text="County Sherriff" />
                                             <asp:ListItem Text="State Police" />
@@ -97,7 +97,7 @@
                                             <asp:ListItem Text="Gas" />
                                             <asp:ListItem Text="Cleaning" />
                                             <asp:ListItem Text="Connectivity/Internet" />
-                                            <asp:ListItem Text="Other Contact" />
+                                            <asp:ListItem Text="Other Contact" />--%>
                                         </asp:DropDownList>                                       
                                     </td>
                                 </tr>

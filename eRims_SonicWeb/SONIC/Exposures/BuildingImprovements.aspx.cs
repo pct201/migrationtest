@@ -188,7 +188,7 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
         // create object for Building_Improvements record
         Building_Improvements objBuilding_Improvements = new Building_Improvements(PK_Building_Improvements);
 
-        ComboHelper.FillBuildingForBuildingImprovements(new ListBox[] { lstBuildingNumber }, false);
+        ComboHelper.FillBuildingForBuildingImprovements(new ListBox[] { lstBuildingNumber }, clsGeneral.GetInt(Session["ExposureLocation"]), false);
         ComboHelper.FillBuildingImprovementStatus(new DropDownList[] { drpFK_LU_BI_Status }, true);
 
         if (PK_Building_Improvements > 0)
@@ -289,7 +289,8 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
         dvEdit.Style["display"] = "none";
         dvSave.Style["display"] = "none";
 
-        ComboHelper.FillBuildingForBuildingImprovements(new ListBox[] { lstBuildingNumberView }, false);
+        //ComboHelper.FillBuildingForBuildingImprovements(new ListBox[] { lstBuildingNumberView }, false);
+        ComboHelper.FillBuildingForBuildingImprovements(new ListBox[] { lstBuildingNumber }, clsGeneral.GetInt(Session["ExposureLocation"]), false);
 
         DataTable dtBuildings = Building_Improvements.SelectBuildingByFK_Building_Improvements(PK_Building_Improvements).Tables[0];
         if (dtBuildings != null && dtBuildings.Rows.Count > 0)
@@ -648,8 +649,5 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
         hdnErrorMsgs.Value = strMessages;
     }
     #endregion
-
-
-
 
 }

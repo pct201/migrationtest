@@ -17,25 +17,27 @@ public class clsExposuresReports
 
     #region Report
 
-    public static DataSet GetPropertyStatementofValues(string strRegion, string strMarket, string strStatus, string strOwnership, DateTime? dtPropertyValuationDateFrom, DateTime? dtPropertyValuationDateTo)
+    public static DataSet GetPropertyStatementofValues(string strRegion, string strMarket, string strStatus, string strBuildingStatus, string strOwnership, DateTime? dtPropertyValuationDateFrom, DateTime? dtPropertyValuationDateTo)
     {
         Database db = DatabaseFactory.CreateDatabase();
         DbCommand dbCommand = db.GetStoredProcCommand("rptPropertyStatementofValues");
 
-        if (strRegion != string.Empty)
+        if (!string.IsNullOrEmpty(strRegion))
             db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
-        if (strMarket != string.Empty)
+        if (!string.IsNullOrEmpty(strMarket)) 
             db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
-        if (strStatus != string.Empty)
+        if (!string.IsNullOrEmpty(strStatus)) 
             db.AddInParameter(dbCommand, "Status", DbType.String, strStatus);
-        if (strOwnership != string.Empty)
+        if (!string.IsNullOrEmpty(strBuildingStatus))
+            db.AddInParameter(dbCommand, "BuildingStatus", DbType.String, strBuildingStatus);
+        if (!string.IsNullOrEmpty(strOwnership))
             db.AddInParameter(dbCommand, "Ownership", DbType.String, strOwnership);
         db.AddInParameter(dbCommand, "PropertyValuationDateFrom", DbType.DateTime, dtPropertyValuationDateFrom);
         db.AddInParameter(dbCommand, "PropertyValuationDateTo", DbType.DateTime, dtPropertyValuationDateTo);
 
         return db.ExecuteDataSet(dbCommand);
     }
-    public static DataSet GetPropertyStatementofValues_NEW(string strRegion, string strMarket, string strStatus, string strOwnership, DateTime? dtPropertyValuationDateFrom, DateTime? dtPropertyValuationDateTo)
+    public static DataSet GetPropertyStatementofValues_NEW(string strRegion, string strMarket, string strStatus, string strBuildingStatus, string strOwnership, DateTime? dtPropertyValuationDateFrom, DateTime? dtPropertyValuationDateTo)
     {
         Database db = DatabaseFactory.CreateDatabase();
         DbCommand dbCommand = db.GetStoredProcCommand("rptPropertyStatementofValues_NEW");
@@ -46,6 +48,8 @@ public class clsExposuresReports
             db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
         if (strStatus != string.Empty)
             db.AddInParameter(dbCommand, "Status", DbType.String, strStatus);
+        if (strBuildingStatus != string.Empty)
+            db.AddInParameter(dbCommand, "BuildingStatus", DbType.String, strBuildingStatus);
         if (strOwnership != string.Empty)
             db.AddInParameter(dbCommand, "Ownership", DbType.String, strOwnership);
         db.AddInParameter(dbCommand, "PropertyValuationDateFrom", DbType.DateTime, dtPropertyValuationDateFrom);

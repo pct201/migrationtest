@@ -100,7 +100,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="left" valign="top">Location Status
+                        <td align="left" valign="top">Property COPE Status
                         </td>
                         <td width="2%" align="center" valign="top">:
                         </td>
@@ -110,6 +110,22 @@
                                 <asp:ListItem Text="Active" Value="Active"></asp:ListItem>
                                 <asp:ListItem Text="InActive" Value="Inactive"></asp:ListItem>
                                 <asp:ListItem Text="Disposed" Value="Disposed"></asp:ListItem>
+                            </asp:ListBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top">Building Status
+                        </td>
+                        <td width="2%" align="center" valign="top">:
+                        </td>
+                        <td align="left">
+                            <asp:ListBox runat="server" ID="ddlBuildingStatus" SkinID="dropGen" Width="280px" Rows="3"
+                                SelectionMode="Multiple">
+                                <asp:ListItem Text="Active" Value="Active"></asp:ListItem>
+                                <asp:ListItem Text="Demolished" Value="Demolished"></asp:ListItem>
+                                <asp:ListItem Text="Disposed" Value="Disposed"></asp:ListItem>
+                                <asp:ListItem Text="Due Diligence" Value="Due Diligence"></asp:ListItem>
+                                <asp:ListItem Text="InActive" Value="Inactive"></asp:ListItem>
                             </asp:ListBox>
                         </td>
                     </tr>
