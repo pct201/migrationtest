@@ -18,6 +18,21 @@ public partial class Controls_Navigation_Navigation : System.Web.UI.UserControl
     #endregion
 
     #region "Properties"
+    /// <summary>
+    /// if true, No.of record per page start from 10
+    /// </summary>
+    public bool RecordPerPage
+    {
+        get
+        {
+            if (ViewState["RecordPerPage"] == null)
+                return false;
+            else
+                return Convert.ToBoolean(ViewState["RecordPerPage"]);
+        }
+        set { ViewState["RecordPerPage"] = value; }
+    }
+
     public int RecordsToBeDisplayed;
     /// <summary>
     /// Current page to be displayed
@@ -178,7 +193,9 @@ public partial class Controls_Navigation_Navigation : System.Web.UI.UserControl
             increment = increment + 10;
             drpRecords.Items.Add(increment.ToString());
         }
-        drpRecords.Items.Insert(0, "1");
+        if (!RecordPerPage)
+            drpRecords.Items.Insert(0, "1");
+
         //drpRecords.SelectedIndex = 1;
         ListItem lst = drpRecords.Items.FindByText(DefaultPageSize.ToString());
         if (lst != null)

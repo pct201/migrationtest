@@ -17,6 +17,16 @@ public partial class Event_Event_Note : System.Web.UI.Page
     }
 
     /// <summary>
+    /// Denotes primary key of table for which diary record is to be managed
+    /// </summary>
+    public string EventNoteIDs
+    {
+        get { return clsGeneral.IsNull(ViewState["EventNoteIDs"]) ? string.Empty : Convert.ToString(ViewState["EventNoteIDs"]); }
+        set { ViewState["EventNoteIDs"] = value; }
+    }
+
+
+    /// <summary>
     /// Denotes the Foreign Key of Event
     /// </summary>
     public decimal PK_Notes
@@ -37,16 +47,52 @@ public partial class Event_Event_Note : System.Web.UI.Page
 
 
     #endregion
-    #region Page Eveny
+
+    #region Page Event
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {            
             _Type = Request.QueryString["type"].ToUpper();
-            if (FK_Event > 0 && PK_Notes > 0)
+
+            if (!string.IsNullOrEmpty(Request.QueryString["viewIDs"]))
+            {
+                #region " List Notes "
+                EventNoteIDs = Request.QueryString["viewIDs"];
+                
+                // Rebind Grid
+                if (!string.IsNullOrEmpty(_Type) && _Type.ToLower() == "acispecificnote")
+                    rptNotes.DataSource = clsACI_Event_Notes.SelectByIDs(EventNoteIDs);
+                else
+                    rptNotes.DataSource = clsSonic_Event_Notes.SelectByIDs(EventNoteIDs);
+
+                rptNotes.DataBind();
+
+                dvNotesList.Style["display"] = "block";
+                dvView.Style["display"] = "none";
+                //trButtons.Style["display"] = "none";
+
+                #endregion
+            }
+            else if (!string.IsNullOrEmpty(_Type) && _Type.ToLower().Contains("view"))
+            {
+                #region "List of All Notes"
+                if (!string.IsNullOrEmpty(_Type) && _Type.ToLower() == "aciview")
+                    rptNotes.DataSource = clsACI_Event_Notes.SelectByFK_Event(FK_Event, 1, 1000, "Note_Date", "asc");
+                else
+                    rptNotes.DataSource = clsSonic_Event_Notes.SelectByFK_Event(FK_Event);
+
+                rptNotes.DataBind();
+                dvNotesList.Style["display"] = "block";
+                dvView.Style["display"] = "none"; 
+                #endregion
+            }
+            else if (FK_Event > 0 && PK_Notes > 0)
             {
                 BindNoteDetails();
                 BindEventDetail();
+                dvNotesList.Style["display"] = "none";
+                dvView.Style["display"] = "block";
             }
             else
             {
@@ -82,5 +128,18 @@ public partial class Event_Event_Note : System.Web.UI.Page
     }
     #endregion
 
+    #region " Events "
+
+    protected void btnPrintSelectedNotes_Click(object sender, EventArgs e)
+    {
+        if (!string.IsNullOrEmpty(Request.QueryString["viewIDs"]))
+            EventNoteIDs = Request.QueryString["viewIDs"];
+
+        if(_Type.ToLower().Contains("aci"))
+            clsPrintEventNotes.PrintSelectedNotes(EventNoteIDs, FK_Event,"ACI");
+        else
+            clsPrintEventNotes.PrintSelectedNotes(EventNoteIDs, FK_Event, "Sonic");
+    }
     
+    #endregion
 }

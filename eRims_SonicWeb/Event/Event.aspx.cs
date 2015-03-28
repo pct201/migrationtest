@@ -985,7 +985,7 @@ public partial class Event_Event : clsBasePage
     /// </summary>
     private void BindACINoteGrid()
     {
-        DataSet dsACI_Note = clsACI_Event_Notes.SelectByFK_Event(PK_Event);
+        DataSet dsACI_Note = clsACI_Event_Notes.SelectByFK_Event(PK_Event, 1, 100, "Note_Date", "asc");
 
         if (StrOperation.ToLower() == "view")
         {

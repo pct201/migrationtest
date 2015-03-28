@@ -241,5 +241,38 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Selects record from the Sonic_Event_Notes table by FK_Event.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectByFK_Event_WithPaging(decimal FK_Event, int intPageNo, int intPageSize, string strOrderBy, string strOrder)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Sonic_Event_NotesSelectPagingByFK_Event");
+
+            db.AddInParameter(dbCommand, "FK_Event", DbType.Decimal, FK_Event);
+            db.AddInParameter(dbCommand, "intPageNo", DbType.String, intPageNo);
+            db.AddInParameter(dbCommand, "intPageSize", DbType.String, intPageSize);
+            db.AddInParameter(dbCommand, "strOrderBy", DbType.String, strOrderBy);
+            db.AddInParameter(dbCommand, "strOrder", DbType.String, strOrder);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// Selects records from the Sonic_Event_Notes table by a foreign key.
+        /// </summary>
+        /// <param name="pK_Claim_Notes"></param>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectByIDs(string strIDs)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Sonic_NotesSelectByIDs");
+
+            db.AddInParameter(dbCommand, "PK_Sonic_Event_Notes", DbType.String, strIDs);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
     }
 }

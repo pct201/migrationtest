@@ -6,11 +6,31 @@ using System.Web.UI.WebControls;
 using ERIMS.DAL;
 using System.Data;
 using System.IO;
+using System.Web.UI.HtmlControls;
+using System.Text;
+using Aspose.Words;
 
 public partial class Event_Event_New : clsBasePage
 {
     #region Properties
 
+    /// <summary>
+    /// Denotes Sort Field to sort all records by
+    /// </summary>
+    private string SortBy
+    {
+        get { return (!clsGeneral.IsNull(ViewState["SortBy"]) ? ViewState["SortBy"].ToString() : string.Empty); }
+        set { ViewState["SortBy"] = value; }
+    }
+
+    /// <summary>
+    /// Denotes ascending or descending order
+    /// </summary>
+    private string SortOrder
+    {
+        get { return (!clsGeneral.IsNull(ViewState["SortOrder"]) ? ViewState["SortOrder"].ToString() : string.Empty); }
+        set { ViewState["SortOrder"] = value; }
+    }
 
     /// <summary>
     /// Denotes the Primary Key
@@ -162,7 +182,9 @@ public partial class Event_Event_New : clsBasePage
 
                 if (Is_Sonic_Event)
                 {
-                    hdnPanel.Value = "3";
+                    if (Request.QueryString["Notes"] == null)
+                        hdnPanel.Value = "3";
+
                     lblMenu2.Text = lblMenu2Header.Text = "Sonic Notes";
                     revtxtOfficer_Phone.ErrorMessage = "[Sonic Notes] / Please Enter Agency Phone # in XXX-XXX-XXXX format";
                 }
@@ -340,7 +362,7 @@ public partial class Event_Event_New : clsBasePage
         //clear Control
         ClearACINoteControls();
         //Bind Grid Function
-        BindACINoteGrid();
+        BindACINoteGrid(ctrlPageAcadianNotes.CurrentPage,ctrlPageAcadianNotes.PageSize);
         //Cancel CLick
         btnACINotesCancel_Click(null, null);
     }
@@ -473,7 +495,7 @@ public partial class Event_Event_New : clsBasePage
         //clear Control
         ClearSonicNoteControls();
         //Bind Grid Function
-        BindSonicNoteGrid();
+        BindSonicNoteGrid(1,1000);
         //Cancel CLick
         btnSonicNotesCancel_Click(null, null);
     }
@@ -555,9 +577,44 @@ public partial class Event_Event_New : clsBasePage
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + hdnPanel.Value + ");", true);
     }
 
+    /// <summary>
+    /// Print ACI Notes
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnPrint_Click(object sender, EventArgs e)
+    {
+        string strSelected = "";
+        foreach (GridViewRow gRow in gvACI_Notes.Rows)
+        {
+            if (((CheckBox)gRow.FindControl("chkSelectSonicNotes")).Checked)
+                strSelected = strSelected + ((HtmlInputHidden)gRow.FindControl("hdnPK_ACI_Event_Notes")).Value + ",";
+        }
+        strSelected = strSelected.TrimEnd(',');
+        clsPrintEventNotes.PrintSelectedNotes(strSelected, PK_Event,"ACI");
+    }
+
+    /// <summary>
+    /// Print ACI Notes
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnSonicPrint_Click(object sender, EventArgs e)
+    {
+        string strSelected = "";
+        foreach (GridViewRow gRow in gvSonic_Notes.Rows)
+        {
+            if (((CheckBox)gRow.FindControl("chkSelectSonicACINotes")).Checked)
+                strSelected = strSelected + ((HtmlInputHidden)gRow.FindControl("hdnPK_Sonic_Event_Notes")).Value + ",";
+        }
+        strSelected = strSelected.TrimEnd(',');
+        clsPrintEventNotes.PrintSelectedNotes(strSelected, PK_Event,"Sonic");
+    }
     #endregion
 
     #region Page Methods
+
+   
 
     /// Used to Clear the controls
     /// </summary>
@@ -746,7 +803,7 @@ public partial class Event_Event_New : clsBasePage
             }
 
             BindEvent_CameraGrid();
-            BindACINoteGrid();
+            BindACINoteGrid(ctrlPageAcadianNotes.CurrentPage,ctrlPageAcadianNotes.PageSize);
             BindReapterInvest_Images();
             BindBuilding_ACI();
 
@@ -772,8 +829,14 @@ public partial class Event_Event_New : clsBasePage
             txtEventDesciptionSonic.Text = txtEventDesciption.Text = objEvent.Event_Desc;
 
             BindEvent_Camera_SonicGrid();
-            BindSonicNoteGrid();
+            BindSonicNoteGrid(ctrlPageSonicNotes.CurrentPage,ctrlPageSonicNotes.PageSize);
             BindGridBuilding();
+
+            //ctrlEventNotes.PK_Event = PK_Event;
+            //ctrlEventNotes.CurrentEventNoteType = clsGeneral.Event_Note_Tyep.Acadian_Note.ToString();
+            //ctrlEventNotes.BindGridSonicNotes(PK_Event, clsGeneral.Event_Note_Tyep.Acadian_Note.ToString());
+            //ctrlEventNotes.StrOperation = "Edit";
+            //ctrlEventNotes.FK_Incident = FK_Incident;
 
             lblLastModifiedDateTime.Text = objEvent.Update_Date == null ? "" : "Last Modified Date/Time : " + objEvent.Update_Date.Value.ToString("MM/dd/yyyy hh:mm:ss tt") + " ";
         }
@@ -943,6 +1006,22 @@ public partial class Event_Event_New : clsBasePage
 
 
     /// <summary>
+    /// Implement event for Paging control when clicking on Go button
+    /// </summary>
+    protected void GetPage()
+    {
+        BindACINoteGrid(ctrlPageAcadianNotes.CurrentPage, ctrlPageAcadianNotes.PageSize);
+    }
+
+    /// <summary>
+    /// Implement event for Paging control when clicking on Go button
+    /// </summary>
+    protected void GetSonicPage()
+    {
+        BindSonicNoteGrid(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
+    }
+
+    /// <summary>
     /// Bind Event Camera Grid
     /// </summary>
     private void BindEvent_CameraGrid()
@@ -985,38 +1064,55 @@ public partial class Event_Event_New : clsBasePage
     /// <summary>
     /// Bind ACI Notes Grid
     /// </summary>
-    private void BindACINoteGrid()
+    private void BindACINoteGrid(int PageNumber, int PageSize)
     {
-        DataSet dsACI_Note = clsACI_Event_Notes.SelectByFK_Event(PK_Event);
-
-        if (dsACI_Note != null && dsACI_Note.Tables.Count > 0)
+        DataSet dsNotes = clsACI_Event_Notes.SelectByFK_Event(PK_Event, PageNumber, PageSize, SortBy, SortOrder);
+        //DataSet dsNotes = Claim_Notes.SelectByFK_Table(PK_Event, CurrentEventNoteType, CurrentPage, PageSize);
+        DataTable dtNotes = dsNotes.Tables[0];
+        ctrlPageAcadianNotes.TotalRecords = (dsNotes.Tables.Count >= 2) ? Convert.ToInt32(dsNotes.Tables[1].Rows[0][0]) : 0;
+        ctrlPageAcadianNotes.CurrentPage = (dsNotes.Tables.Count >= 2) ? Convert.ToInt32(dsNotes.Tables[1].Rows[0][2]) : 0;
+        ctrlPageAcadianNotes.RecordsToBeDisplayed = dsNotes.Tables[0].Rows.Count;
+        ctrlPageAcadianNotes.SetPageNumbers();
+        if (dsNotes != null && dsNotes.Tables.Count > 0 && dsNotes.Tables[0].Rows.Count > 0)
         {
-            gvACI_Notes.DataSource = dsACI_Note;
+            gvACI_Notes.DataSource = dsNotes;
             gvACI_Notes.DataBind();
+            btnACINoteView.Visible = btnPrint.Visible = btnSpecificNote.Visible = ctrlPageAcadianNotes.Visible = true;
+            dvACINOtes.Style["Height"] = "200px";
         }
         else
         {
             gvACI_Notes.DataSource = null;
             gvACI_Notes.DataBind();
+            btnACINoteView.Visible = btnPrint.Visible = btnSpecificNote.Visible = ctrlPageAcadianNotes.Visible = false;
+            dvACINOtes.Style["Height"] = "31px";
         }
     }
 
     /// <summary>
     /// Bind Sonic Notes Grid
     /// </summary>
-    private void BindSonicNoteGrid()
+    private void BindSonicNoteGrid(int PageNumber, int PageSize)
     {
-        DataSet dsSonic_Note = clsSonic_Event_Notes.SelectByFK_Event(PK_Event);
-
-        if (dsSonic_Note != null && dsSonic_Note.Tables.Count > 0)
+        DataSet dsSonic_Note = clsSonic_Event_Notes.SelectByFK_Event_WithPaging(PK_Event, PageNumber, PageSize, SortBy, SortOrder);
+        DataTable dtNotes = dsSonic_Note.Tables[0];
+        ctrlPageSonicNotes.TotalRecords = (dsSonic_Note.Tables.Count >= 2) ? Convert.ToInt32(dsSonic_Note.Tables[1].Rows[0][0]) : 0;
+        ctrlPageSonicNotes.CurrentPage = (dsSonic_Note.Tables.Count >= 2) ? Convert.ToInt32(dsSonic_Note.Tables[1].Rows[0][2]) : 0;
+        ctrlPageSonicNotes.RecordsToBeDisplayed = dsSonic_Note.Tables[0].Rows.Count;
+        ctrlPageSonicNotes.SetPageNumbers();
+        if (dsSonic_Note != null && dsSonic_Note.Tables.Count > 0 && dsSonic_Note.Tables[0].Rows.Count > 0)
         {
             gvSonic_Notes.DataSource = dsSonic_Note;
             gvSonic_Notes.DataBind();
+            btnSonicNoteView.Visible = btnSonicPrint.Visible = btnSonicSpecificNote.Visible = ctrlPageSonicNotes.Visible = true;
+            dvSonicNOtes.Style["Height"] = "200px";
         }
         else
         {
             gvSonic_Notes.DataSource = null;
             gvSonic_Notes.DataBind();
+            btnSonicNoteView.Visible = btnSonicPrint.Visible = btnSonicSpecificNote.Visible = ctrlPageSonicNotes.Visible = false;
+            dvSonicNOtes.Style["Height"] = "31px";
         }
     }
 
@@ -1435,7 +1531,7 @@ public partial class Event_Event_New : clsBasePage
             #region
             clsACI_Event_Notes.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
 
-            BindACINoteGrid();
+            BindACINoteGrid(ctrlPageAcadianNotes.CurrentPage, ctrlPageAcadianNotes.PageSize);
             Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
             #endregion
         }
@@ -1471,7 +1567,7 @@ public partial class Event_Event_New : clsBasePage
     protected void gvACI_Notes_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         gvACI_Notes.PageIndex = e.NewPageIndex; //Page new index call
-        BindACINoteGrid();
+        BindACINoteGrid(ctrlPageAcadianNotes.CurrentPage, ctrlPageAcadianNotes.PageSize);
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
     }
 
@@ -1487,7 +1583,7 @@ public partial class Event_Event_New : clsBasePage
             #region
             clsSonic_Event_Notes.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
 
-            BindSonicNoteGrid();
+            BindSonicNoteGrid(ctrlPageSonicNotes.CurrentPage,ctrlPageSonicNotes.PageSize);
             Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
             #endregion
         }
@@ -1523,7 +1619,7 @@ public partial class Event_Event_New : clsBasePage
     protected void gvSonic_Notes_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         gvSonic_Notes.PageIndex = e.NewPageIndex; //Page new index call
-        BindSonicNoteGrid();
+        BindSonicNoteGrid(ctrlPageSonicNotes.CurrentPage,ctrlPageSonicNotes.PageSize);
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
     }
 
@@ -1644,6 +1740,32 @@ public partial class Event_Event_New : clsBasePage
             clsEvent_Link_Building.DeleteByPK(Convert.ToInt32(e.CommandArgument));
             BindBuilding_ACI();
         }
+    }
+
+    /// <summary>
+    /// GridView Sorting Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvACI_Notes_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        // update sort field and sort order and bind the grid
+        SortOrder = (SortBy == e.SortExpression) ? (SortOrder == "asc" ? "desc" : "asc") : "asc";
+        SortBy = e.SortExpression;
+        BindACINoteGrid(ctrlPageAcadianNotes.CurrentPage, ctrlPageAcadianNotes.PageSize);
+    }
+
+    /// <summary>
+    /// GridView Sorting Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvSonic_Notes_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        // update sort field and sort order and bind the grid
+        SortOrder = (SortBy == e.SortExpression) ? (SortOrder == "asc" ? "desc" : "asc") : "asc";
+        SortBy = e.SortExpression;
+        BindSonicNoteGrid(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
     }
     #endregion
 

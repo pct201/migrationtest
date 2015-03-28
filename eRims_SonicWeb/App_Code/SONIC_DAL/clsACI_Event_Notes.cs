@@ -213,12 +213,31 @@ namespace ERIMS.DAL
         /// Selects records from the ACI_Event_Notes table by FK_Event.
         /// </summary>
         /// <returns>DataSet</returns>
-        public static DataSet SelectByFK_Event(decimal FK_Event)
+        public static DataSet SelectByFK_Event(decimal FK_Event, int intPageNo, int intPageSize,string strOrderBy, string strOrder)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("ACI_Event_NotesSelectByFK_Event");
 
             db.AddInParameter(dbCommand, "FK_Event", DbType.Decimal, FK_Event);
+            db.AddInParameter(dbCommand, "intPageNo", DbType.String, intPageNo);
+            db.AddInParameter(dbCommand, "intPageSize", DbType.String, intPageSize);
+            db.AddInParameter(dbCommand, "strOrderBy", DbType.String, strOrderBy);
+            db.AddInParameter(dbCommand, "strOrder", DbType.String, strOrder);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// Selects records from the ACI_Event_Notes table by a foreign key.
+        /// </summary>
+        /// <param name="pK_Claim_Notes"></param>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectByIDs(string strIDs)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("ACI_NotesSelectByIDs");
+
+            db.AddInParameter(dbCommand, "PK_ACI_Notes", DbType.String, strIDs);
 
             return db.ExecuteDataSet(dbCommand);
         }
