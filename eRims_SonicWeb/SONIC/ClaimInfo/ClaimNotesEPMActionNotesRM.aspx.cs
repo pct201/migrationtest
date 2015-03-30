@@ -292,7 +292,7 @@ public partial class SONIC_ClaimInfo_ClaimNotesEPMActionNotesRM : System.Web.UI.
         string strPK = "";
         if (ClaimNoteIDs != null)
             strPK = ClaimNoteIDs;
-        clsPrintClaimNotesEPM.PrintSelectedSonicNotes(strPK, (long)FK_Claim);
+        clsPrintClaimNotesEPMActionNotes.PrintSelectedSonicNotes(strPK, (long)FK_Claim);
     }
     #endregion
 
