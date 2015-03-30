@@ -1149,7 +1149,7 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
         ctrlPageSonicNotes.RecordsToBeDisplayed = dsNotes.Tables[0].Rows.Count;
         ctrlPageSonicNotes.SetPageNumbers();
 
-        gvNotes.Columns[3].Visible = (StrOperation == "view") ? false : true;
+        gvNotes.Columns[4].Visible = (StrOperation == "view") ? false : true;
         gvNotes.DataSource = dtNotes;
         gvNotes.DataBind();
         btnView.Visible = dtNotes.Rows.Count > 0;

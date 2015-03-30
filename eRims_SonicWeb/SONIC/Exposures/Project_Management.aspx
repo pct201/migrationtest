@@ -1988,7 +1988,7 @@
                                                                     <asp:LinkButton ID="lbtUser_Name" runat="server" Text='<%# Eval("User_Name") %>'
                                                                         CommandName="EditRecord" CommandArgument='<%#Eval("PK_EPM_Consultant_Notes") %>' Width="100px"></asp:LinkButton>
                                                                 </ItemTemplate>
-                                                            </asp:TemplateField>
+                                                                </asp:TemplateField>
                                                                 <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top"
                                                                     HeaderText="Notes">
                                                                     <ItemTemplate>
