@@ -6,6 +6,7 @@ using System.Web.UI.WebControls;
 using ERIMS.DAL;
 using System.Data;
 using Winnovative.WnvHtmlConvert;
+using System.Web.UI.HtmlControls;
 
 public partial class SONIC_Exposures_Project_Management : clsBasePage
 {
@@ -108,6 +109,17 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
         get { return Convert.ToString(ViewState["strOperation"]); }
         set { ViewState["strOperation"] = value; }
     }
+
+    public int CurrentPage
+    {
+        get { return Convert.ToInt32(ViewState["CurrentPage"]); }
+        set { ViewState["CurrentPage"] = value; }
+    }
+    public int PageSize
+    {
+        get { return Convert.ToInt32(ViewState["PageSize"]); }
+        set { ViewState["PageSize"] = value; }
+    }
     #endregion
 
     #region " Page Load "
@@ -118,32 +130,43 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
     /// <param name="e"></param>
     protected void Page_Load(object sender, EventArgs e)
     {
+        
         // Set Tab selection
         Tab.SetSelectedTab(Controls_ExposuresTab_ExposuresTab.Tab.ProjectManagement);
 
         if (!IsPostBack)
         {
             LocationID = Convert.ToInt32(Encryption.Decrypt(Request.QueryString["loc"].ToString()));
-            PK_EPM_Identification = Convert.ToDecimal(Encryption.Decrypt(Request.QueryString["id"].ToString()));
+            PK_EPM_Identification = Convert.ToDecimal(Encryption.Decrypt(Request.QueryString["id"].ToString()));            
+
+            clsEPM_Action_Notes ObjEPM_Action_Notes = new clsEPM_Action_Notes(Convert.ToInt32(PK_EPM_Identification));
+            if (ObjEPM_Action_Notes.PK_EPM_Action_Notes != null)
+                PK_EPM_Action_Notes = ObjEPM_Action_Notes.PK_EPM_Action_Notes.Value;
+                       
             StrOperation = Request.QueryString["op"].ToString();
             hdnPanel.Value = clsGeneral.GetPanelId(Request.QueryString["pnl"]).ToString();
             CheckValidRequest();
             BindBuildings();
             BindEquipment();
             BindDropDowns();
-            bindProjectCostGrid();
+            bindProjectCostGrid();            
+            BindEPMActionNotes();
             bindProjectMilestoneGrid();
             BindHeaderInfo();
+            BindInvoiceGrid();
+            BindConsultantNotes();
 
             if (StrOperation.ToLower() == "edit")
             {
+
                 BindDetatisForEdit();
                 btnAuditTrail.Style["display"] = "";
                 EnableDisableControls();
+
             }
             else if (StrOperation.ToLower() == "view")
             {
-                BindDetailForView();
+                BindDetailForView();                
                 btnAuditTrail.Style["display"] = "";
             }
             else
@@ -169,13 +192,14 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
                 SaveData();
                 if (PK_EPM_Identification > 0)
                     BindDetatisForEdit();
+                
                 ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + this.Request["__EVENTARGUMENT"] + ");", true);
             }
             else
             {
                 ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + hdnPanel.Value + ");", true);
             }
-        }
+        }       
     }
     #endregion
 
@@ -333,6 +357,11 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
             objclsEPM_Identification.Updated_By = clsSession.UserName;
             objclsEPM_Identification.Update_Date = clsGeneral.FormatDateToStore(DateTime.Now);
             hdnchkBuilding.Value = "";
+
+            if (txtName.Text != "") objclsEPM_Identification.Site_Contact_Name = txtName.Text.Trim();
+            if (txtEmail.Text != "") objclsEPM_Identification.Site_Contact_Email = txtEmail.Text.Trim();
+            if (txtTelephone.Text != "") objclsEPM_Identification.Site_Contact_Telephone = txtTelephone.Text.Trim();
+
 
             if (PK_EPM_Identification > 0)
                 PK_EPM_Identification = objclsEPM_Identification.Update();
@@ -502,6 +531,9 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
                         }
                     }
                 }
+                //Issue #3168
+                btnNotesAdd.Visible = PK_EPM_Consultant > 0;
+
             }
             else
             {
@@ -564,6 +596,9 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
                 }
                 else
                     PK_EPM_Action_Notes = ObjEPM_Action_Notes.Insert();
+
+                //Issue #3168
+                lnkActionNotes.Visible = PK_EPM_Action_Notes > 0;                
             }
             else
             {
@@ -638,6 +673,7 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
     private void BindDetatisForEdit()
     {
         btnReturnto_View_Mode.Visible = true;
+
         #region " Identification "
         clsEPM_Identification objEPM_Identification = new clsEPM_Identification(PK_EPM_Identification);
         objEPM_Identification.PK_EPM_Identification = PK_EPM_Identification;
@@ -655,6 +691,10 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
         else txtPurpose_of_Project_Other_Description.Text = "";
         if (objEPM_Identification.Person_Requesting_Work != null) txtPerson_Requesting_Work.Text = objEPM_Identification.Person_Requesting_Work;
         if (objEPM_Identification.Title_of_Person_Requesting_Work != null) txtTitle_of_Person_RequestingWork.Text = objEPM_Identification.Title_of_Person_Requesting_Work;
+
+        if (objEPM_Identification.Site_Contact_Name != null) txtName.Text = objEPM_Identification.Site_Contact_Name;
+        if (objEPM_Identification.Site_Contact_Telephone != null) txtTelephone.Text = objEPM_Identification.Site_Contact_Telephone;
+        if (objEPM_Identification.Site_Contact_Email != null) txtEmail.Text = objEPM_Identification.Site_Contact_Email;
 
         lblHeaderProject_Number.Text = objEPM_Identification.Project_Number;
         if (objEPM_Identification.FK_LU_EPM_Project_Type != null)
@@ -809,6 +849,10 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
             if (ObjEPM_Action_Notes.Date_Comments_Initially_Entered != null) txtDate_Comments_InitiallyEntered.Text = clsGeneral.FormatDBNullDateToDisplay(ObjEPM_Action_Notes.Date_Comments_Initially_Entered.ToString());
             if (ObjEPM_Action_Notes.Date_Comments_Last_Edited != null) txtDate_Comments_LastEdited.Text = clsGeneral.FormatDBNullDateToDisplay(ObjEPM_Action_Notes.Date_Comments_Last_Edited.ToString());
         }
+
+        //3168
+
+
         #endregion
     }
 
@@ -819,6 +863,7 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
     {
         btnEdit.Visible = true;
         btnSave.Visible = false;
+
 
         #region " Identification "
         clsEPM_Identification objEPM_Identification = new clsEPM_Identification(PK_EPM_Identification);
@@ -841,6 +886,10 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
         if (objEPM_Identification.Other_PurposeOfProject != null) lblPurpose_of_Project_Other_Description.Text = objEPM_Identification.Other_PurposeOfProject;
         if (objEPM_Identification.Person_Requesting_Work != null) lblPerson_Requesting_Work.Text = objEPM_Identification.Person_Requesting_Work;
         if (objEPM_Identification.Title_of_Person_Requesting_Work != null) lblTitle_of_Person_RequestingWork.Text = objEPM_Identification.Title_of_Person_Requesting_Work;
+
+        if (objEPM_Identification.Site_Contact_Telephone != null) lblTelephone.Text = objEPM_Identification.Site_Contact_Telephone;
+        if (objEPM_Identification.Site_Contact_Name != null) lblName.Text = objEPM_Identification.Site_Contact_Name;
+        if (objEPM_Identification.Site_Contact_Email != null) lblEmail.Text = objEPM_Identification.Site_Contact_Email;
 
         lblHeaderProject_Number.Text = objEPM_Identification.Project_Number;
         if (objEPM_Identification.FK_LU_EPM_Project_Type != null)  lblHeaderProject_Type.Text = new LU_EPM_Project_Type((decimal)objEPM_Identification.FK_LU_EPM_Project_Type).Fld_Desc;
@@ -1043,6 +1092,110 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
             txtRequired_Activity_Description.Enabled = false;
         }
     }
+
+    //Added due TO Issue #3168
+
+    private void BindInvoiceGrid()
+    {
+        if (PK_EPM_Identification > 0)
+        {
+            clsEPM_Project_Cost_Invoice objEPM_Project_Cost_Invoice = new clsEPM_Project_Cost_Invoice();
+            DataSet dsInvoice = objEPM_Project_Cost_Invoice.SelectByFK(PK_EPM_Identification);
+            DataTable dtInvoice = dsInvoice.Tables[0];
+            if (dtInvoice.Rows.Count == 0)
+            {
+                gvInvoice.DataBind();
+            }
+
+            gvInvoice.Columns[4].Visible = (StrOperation == "view") ? false : true;
+            lnkAddInvoice.Visible = (StrOperation == "view") ? false : true;
+            gvInvoice.DataSource = dtInvoice;
+            gvInvoice.DataBind();
+        }
+        else
+        {
+            gvInvoice.DataBind();
+            lnkAddInvoice.Visible = false;
+        }
+
+    }
+    private void BindConsultantNotes()
+    {
+        clsEPM_Consultant ObjEPM_Consultant = new clsEPM_Consultant(Convert.ToInt32(PK_EPM_Identification));
+        PK_EPM_Consultant = Convert.ToDecimal(ObjEPM_Consultant.PK_EPM_Consultant);
+
+        if (PK_EPM_Consultant == 0)
+        {
+            btnNotesAdd.Visible = false;
+            btnView.Visible = false;
+            btnPrint.Visible = false;
+        }
+        else
+        {
+            btnNotesAdd.Visible = (StrOperation == "view") ? false : true;
+        }
+        CurrentPage = ctrlPageSonicNotes.CurrentPage;
+        PageSize = ctrlPageSonicNotes.PageSize;
+        DataSet dsNotes = clsEPM_Consultant_Notes.SelectByFK_Table(PK_EPM_Consultant, CurrentPage, PageSize);
+        DataTable dtNotes = dsNotes.Tables[0];
+        if (dtNotes.Rows.Count == 0)
+        {
+            gvNotes.DataBind();
+            btnView.Visible = false;
+            btnPrint.Visible = false;
+        }
+        ctrlPageSonicNotes.TotalRecords = (dsNotes.Tables.Count >= 2) ? Convert.ToInt32(dsNotes.Tables[1].Rows[0][0]) : 0;
+        ctrlPageSonicNotes.CurrentPage = (dsNotes.Tables.Count >= 2) ? Convert.ToInt32(dsNotes.Tables[1].Rows[0][2]) : 0;
+        ctrlPageSonicNotes.RecordsToBeDisplayed = dsNotes.Tables[0].Rows.Count;
+        ctrlPageSonicNotes.SetPageNumbers();
+
+        gvNotes.Columns[3].Visible = (StrOperation == "view") ? false : true;
+        gvNotes.DataSource = dtNotes;
+        gvNotes.DataBind();
+        btnView.Visible = dtNotes.Rows.Count > 0;
+        btnPrint.Visible = dtNotes.Rows.Count > 0;
+    }
+    private void BindEPMActionNotes()
+    {
+        clsEPM_Action_Notes ObjEPM_Action_Notes = new clsEPM_Action_Notes(Convert.ToInt32(PK_EPM_Identification));
+        PK_EPM_Action_Notes = Convert.ToDecimal(ObjEPM_Action_Notes.PK_EPM_Action_Notes);
+
+        CurrentPage = ctrlActionNotes.CurrentPage;
+        PageSize = ctrlActionNotes.PageSize;
+
+        DataSet dsNotes = clsEPM_Action_Notes_RM.SelectByFK_Table(PK_EPM_Action_Notes, CurrentPage, PageSize);
+        DataTable dtNotes = dsNotes.Tables[0];
+        if (dtNotes.Rows.Count == 0)
+        {
+            gvActionNotes.DataBind();
+            btnActionNotesPrint.Visible = false;
+            btnActionNotesView.Visible = false;
+        }
+        ctrlActionNotes.TotalRecords = (dsNotes.Tables.Count >= 2) ? Convert.ToInt32(dsNotes.Tables[1].Rows[0][0]) : 0;
+        ctrlActionNotes.CurrentPage = (dsNotes.Tables.Count >= 2) ? Convert.ToInt32(dsNotes.Tables[1].Rows[0][2]) : 0;
+        ctrlActionNotes.RecordsToBeDisplayed = dsNotes.Tables[0].Rows.Count;
+        ctrlActionNotes.SetPageNumbers();
+
+        gvActionNotes.Columns[4].Visible = (StrOperation == "view") ? false : true;
+        gvActionNotes.DataSource = dtNotes;
+        gvActionNotes.DataBind();
+
+        if (PK_EPM_Action_Notes == 0)
+        {
+            lnkActionNotes.Visible = false;
+            btnActionNotesView.Visible = false;
+            btnActionNotesPrint.Visible = false;
+        }
+        else
+        {
+            lnkActionNotes.Visible = (StrOperation == "view") ? false : true;
+        }
+
+        btnActionNotesPrint.Visible = dtNotes.Rows.Count > 0;
+        btnActionNotesView.Visible = dtNotes.Rows.Count > 0;
+    }
+
+    // End of Issue #3168
     #endregion
 
     #region " Control Events "
@@ -1308,6 +1461,80 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
         else
             Response.Redirect("EPM_Scheduler.aspx?loc=" + Encryption.Encrypt(LocationID.ToString()) + "&id=" + Encryption.Encrypt(PK_EPM_Identification.ToString()) + "&pnl=" + hdnPanel.Value + "&op=view");
     }
+
+
+    //Added due to Issue #3168
+    protected void btnView_Click(object sender, EventArgs e)
+    {
+        string strPK = "";
+        foreach (GridViewRow gRow in gvNotes.Rows)
+        {
+            if (((CheckBox)gRow.FindControl("chkSelectSonicNotes")).Checked)
+                strPK = strPK + ((HtmlInputHidden)gRow.FindControl("hdnPK")).Value + ",";
+        }
+        strPK = strPK.TrimEnd(',');
+
+        Response.Redirect("..\\ClaimInfo\\ClaimNotesEPM.aspx?viewIDs=" + Encryption.Encrypt(strPK) + "&FK_Claim=" + Encryption.Encrypt(PK_EPM_Identification.ToString()) + "&tbl=" + "EPM_Identification" + "&loc=" + LocationID + "&op=" + Request.QueryString["op"].ToString());
+    }
+    protected void btnPrint_Click(object sender, EventArgs e)
+    {
+        string strPK = "";
+        foreach (GridViewRow gRow in gvNotes.Rows)
+        {
+            if (((CheckBox)gRow.FindControl("chkSelectSonicNotes")).Checked)
+                strPK = strPK + ((HtmlInputHidden)gRow.FindControl("hdnPK")).Value + ",";
+        }
+        strPK = strPK.TrimEnd(',');
+
+        clsPrintClaimNotesEPM.PrintSelectedSonicNotes(strPK, (long)PK_EPM_Identification);
+    }
+
+    protected void btnActionNotesPrint_Click(object sender, EventArgs e)
+    {
+        string strPK = "";
+        foreach (GridViewRow gRow in gvActionNotes.Rows)
+        {
+            if (((CheckBox)gRow.FindControl("chkSelectSonicNotes")).Checked)
+                strPK = strPK + ((HtmlInputHidden)gRow.FindControl("hdnPK")).Value + ",";
+        }
+        strPK = strPK.TrimEnd(',');
+
+        clsPrintClaimNotesEPMActionNotes.PrintSelectedSonicNotes(strPK, (long)PK_EPM_Identification);
+    }
+    protected void btnActionNotesView_Click(object sender, EventArgs e)
+    {
+        string strPK = "";
+        foreach (GridViewRow gRow in gvActionNotes.Rows)
+        {
+            if (((CheckBox)gRow.FindControl("chkSelectSonicNotes")).Checked)
+                strPK = strPK + ((HtmlInputHidden)gRow.FindControl("hdnPK")).Value + ",";
+        }
+        strPK = strPK.TrimEnd(',');
+
+        Response.Redirect("..\\ClaimInfo\\ClaimNotesEPMActionNotesRM.aspx?viewIDs=" + Encryption.Encrypt(strPK) + "&FK_Claim=" + Encryption.Encrypt(PK_EPM_Identification.ToString()) + "&tbl=" + "EPM_Identification" + "&loc=" + LocationID + "&op=" + Request.QueryString["op"].ToString());
+    }
+
+    protected void lnkActionNotes_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("..\\ClaimInfo\\ClaimNotesEPMActionNotesRM.aspx?loc=" + LocationID + "&FK_Claim=" + Encryption.Encrypt(PK_EPM_Identification.ToString()) + "&tbl=" + "EPM_Action_Notes_RM" + "&op=" + Request.QueryString["op"].ToString());
+    }
+    protected void lnkAddInvoice_Click(object sender, EventArgs e)
+    {
+        if (PK_EPM_Identification > 0)
+        {
+            Response.Redirect("..\\Exposures\\EPM_Project_Cost_Invoice.aspx?loc=" + LocationID.ToString() + "&Cid=" + Encryption.Encrypt(PK_EPM_Identification.ToString()) + "&id=" + Encryption.Encrypt("0") + "&pnl=" + hdnPanel.Value + "&op=add", true);
+        }
+        else
+        {
+            ClientScript.RegisterClientScriptBlock(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Please Enter Project Identification Details First');", true);
+            ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+        }
+    }
+    protected void btnNotesAdd_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("..\\ClaimInfo\\ClaimNotesEPM.aspx?loc=" + LocationID + "&FK_Claim=" + Encryption.Encrypt(PK_EPM_Identification.ToString()) + "&tbl=" + "EPM_Identification" + "&op=" + Request.QueryString["op"].ToString());
+    }
+    //End of Issue #3168
     #endregion
 
     #region " Grid Events "
@@ -1420,6 +1647,54 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
             ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);", true);
         }
     }
+
+    //Added due to #Issue : 3168
+    protected void gvNotes_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        //check Command Name
+        if (e.CommandName == "EditRecord")
+        {
+            Response.Redirect("..\\ClaimInfo\\ClaimNotesEPM.aspx?id=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&loc=" + LocationID + "&FK_Claim=" + Encryption.Encrypt(PK_EPM_Identification.ToString()) + "&tbl=" + "EPM_Identification" + "&op=" + Request.QueryString["op"].ToString());
+        }
+        else if (e.CommandName == "Remove")
+        {
+            // Delete record
+            clsEPM_Consultant_Notes.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
+            BindConsultantNotes();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), System.DateTime.Now.ToString(), "javascrip:ShowPanel(2);", true);
+        }
+    }
+    protected void gvInvoice_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        //check Command Name
+        if (e.CommandName == "EditRecord")
+        {
+            Response.Redirect("..\\Exposures\\EPM_Project_Cost_Invoice.aspx?loc=" + LocationID.ToString() + "&Cid=" + Encryption.Encrypt(PK_EPM_Identification.ToString()) + "&id=" + Encryption.Encrypt("0") + "&PCInvoice=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&pnl=" + hdnPanel.Value + "&op=" + StrOperation, true);
+        }
+        else if (e.CommandName == "Remove")
+        {
+            // Delete record
+            clsEPM_Project_Cost_Invoice.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
+            BindInvoiceGrid();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), System.DateTime.Now.ToString(), "javascrip:ShowPanel(3);", true);
+        }
+    }
+    protected void gvActionNotes_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        //check Command Name
+        if (e.CommandName == "EditRecord")
+        {
+            Response.Redirect("..\\ClaimInfo\\ClaimNotesEPMActionNotesRM.aspx?id=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&loc=" + LocationID + "&FK_Claim=" + Encryption.Encrypt(PK_EPM_Identification.ToString()) + "&tbl=" + "EPM_Action_Notes_RM" + "&op=" + Request.QueryString["op"].ToString());
+        }
+        else if (e.CommandName == "Remove")
+        {
+            // Delete record
+            clsEPM_Action_Notes_RM.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
+            BindEPMActionNotes();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), System.DateTime.Now.ToString(), "javascrip:ShowPanel(5);", true);
+        }
+    }
+    //End of Issue
     #endregion
 
     #region " Dynamic validations "
@@ -1452,6 +1727,9 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
                 case "Target Area": strCtrlsIDsIdentification += lstTargetArea.ClientID + ","; strMessagesIdentification += "Please select [Identification]/Target Area" + ","; Span8.Style["display"] = "inline-block"; break;
                 case "Purpose of Project": strCtrlsIDsIdentification += lstPurpose_Of_Project.ClientID + ","; strMessagesIdentification += "Please select [Identification]/Purpose of Project" + ","; Span43.Style["display"] = "inline-block"; break;
                 case "Existing Documents": strCtrlsIDsIdentification += lstExistingDocuments.ClientID + ","; strMessagesIdentification += "Please select [Identification]/Existing Documents" + ","; Span44.Style["display"] = "inline-block"; break;
+                case "Name": strCtrlsIDsIdentification += txtName.ClientID + ","; strMessagesIdentification += "Please enter [Identification]/Name" + ","; spnName.Style["display"] = "inline-block"; break;
+                case "Telephone": strCtrlsIDsIdentification += txtTelephone.ClientID + ","; strMessagesIdentification += "Please enter [Identification]/Telephone" + ","; spnTelephone.Style["display"] = "inline-block"; break;
+                case "E-Mail": strCtrlsIDsIdentification += txtEmail.ClientID + ","; strMessagesIdentification += "Please enter [Identification]/Email" + ","; spnEmail.Style["display"] = "inline-block"; break;
             }
             #endregion
         }
@@ -1489,7 +1767,7 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
                 case "RM Notification Date": strCtrlsIDsConsultant += txtRM_Notification_Date.ClientID + ","; strMessagesConsultant += "Please enter [Consultant and Schedule]/RM Notification Date" + ","; Span21.Style["display"] = "inline-block"; break;
                 case "Estimated Project Start Date ": strCtrlsIDsConsultant += txtEstimated_Project_StartDate.ClientID + ","; strMessagesConsultant += "Please enter [Consultant and Schedule]/Estimated Project Start Date " + ","; Span22.Style["display"] = "inline-block"; break;
                 case "Actual Project Start Date": strCtrlsIDsConsultant += txtActual_Project_StartDate.ClientID + ","; strMessagesConsultant += "Please enter [Consultant and Schedule]/Actual Project Start Date" + ","; Span23.Style["display"] = "inline-block"; break;
-                case "Estimated Project Completion Date": strCtrlsIDsConsultant += txtEstimated_Project_CompletionDate.ClientID + ","; strMessagesConsultant += "Please enter [Consultant and Schedule]/Estimated Project Completion Date" + ","; Span24.Style["display"] = "inline-block"; break;
+                case "Project Due Date": strCtrlsIDsConsultant += txtEstimated_Project_CompletionDate.ClientID + ","; strMessagesConsultant += "Please enter [Consultant and Schedule]/Project Due Date" + ","; Span24.Style["display"] = "inline-block"; break;
                 case "Actual Project Completion Date": strCtrlsIDsConsultant += txtActual_Project_CompletionDate.ClientID + ","; strMessagesConsultant += "Please enter [Consultant and Schedule]/Actual Project Completion Date" + ","; Span25.Style["display"] = "inline-block"; break;
             }
             #endregion
@@ -1532,5 +1810,22 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
 
         #endregion
     }
+    #endregion    
+    
+    #region "Set Page size of Notes"
+    protected void ctrlPageSonicNotes_GetPage()
+    {
+        BindConsultantNotes();
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + 2 + ");", true);
+
+    }
+    protected void ctrlPageActionNotes_GetPage()
+    {
+        BindEPMActionNotes();
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + 5 + ");", true);
+
+    }       
     #endregion
+ 
+    
 }

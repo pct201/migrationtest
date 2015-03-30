@@ -1149,7 +1149,7 @@ public partial class EPM_AdHocReportWriter : clsBasePage
                     {
                         ComboHelper.FillEPM_Milestone_Email_List(new ListBox[] { lst_F }, false);
                     }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "Location State".ToLower() || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "Consultant State".ToLower())
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "Location State".ToLower() || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "Consultant State".ToLower() || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "Vendor State".ToLower())
                     {
                         ComboHelper.FillStateList(new ListBox[] { lst_F }, false);
                     }

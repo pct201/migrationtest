@@ -222,4 +222,22 @@ public class Audit_Trail
         dbCommand.CommandTimeout = 10000;
         return db.ExecuteDataSet(dbCommand);
     }
+
+    public static DataSet GetEPM_Notes_AuditTrail(decimal PK_Management)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("EPM_Consultant_Notes_AuditView");
+        db.AddInParameter(dbCommand, "PK_EPM_Consultant_Notes", DbType.Decimal, PK_Management);
+        dbCommand.CommandTimeout = 10000;
+        return db.ExecuteDataSet(dbCommand);
+    }
+
+    public static DataSet GetEPM_Action_Notes_RM_AuditTrail(decimal PK_Management)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("EPM_Action_Notes_RM_AuditView");
+        db.AddInParameter(dbCommand, "PK_EPM_Action_Notes_RM", DbType.Decimal, PK_Management);
+        dbCommand.CommandTimeout = 10000;
+        return db.ExecuteDataSet(dbCommand);
+    }
 }

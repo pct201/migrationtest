@@ -1147,6 +1147,18 @@ public class AuditTrail
         return db.ExecuteDataSet(dbCommand);
     }
 
+    /// <summary>
+    /// get all audit records
+    /// </summary>
+    /// <param name="PK_CRM_Customer"></param>
+    /// <returns></returns>
+    public static DataSet GetProjectCostInvoice_AuditTrial(decimal PK_EPM_Project_Cost)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("ProjectCostInvoice_AuditView");
+        db.AddInParameter(dbCommand, "PK_EPM_Project_Cost_Invoice", DbType.Decimal, PK_EPM_Project_Cost);
+        return db.ExecuteDataSet(dbCommand);
+    }
 
     #endregion
 }

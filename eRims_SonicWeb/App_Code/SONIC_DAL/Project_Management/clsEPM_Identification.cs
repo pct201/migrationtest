@@ -28,6 +28,13 @@ namespace ERIMS.DAL
 
         private string _Person_Requesting_Work;
         private string _Title_of_Person_Requesting_Work;
+
+        private string _Site_Contact_Name;
+        private string _Site_Contact_Telephone;
+        private string _Site_Contact_Email;      
+        
+        
+        
         #endregion
 
         #region Public Property
@@ -157,6 +164,27 @@ namespace ERIMS.DAL
             get { return _Title_of_Person_Requesting_Work; }
             set { _Title_of_Person_Requesting_Work = value; }
         }
+
+        public string Site_Contact_Name
+        {
+            get { return _Site_Contact_Name; }
+            set { _Site_Contact_Name = value; }
+        }
+
+
+        public string Site_Contact_Telephone
+        {
+            get { return _Site_Contact_Telephone; }
+            set { _Site_Contact_Telephone = value; }
+        }
+
+
+
+        public string Site_Contact_Email
+        {
+            get { return _Site_Contact_Email; }
+            set { _Site_Contact_Email = value; }
+        }
         #endregion
 
         #region Default Constructors
@@ -265,6 +293,31 @@ namespace ERIMS.DAL
             else
                 this._Title_of_Person_Requesting_Work = (string)drEPM_Identification["Title_of_Person_Requesting_Work"];
 
+            if (drEPM_Identification["Title_of_Person_Requesting_Work"] == DBNull.Value)
+                this._Title_of_Person_Requesting_Work = null;
+            else
+                this._Title_of_Person_Requesting_Work = (string)drEPM_Identification["Title_of_Person_Requesting_Work"];
+
+            if (drEPM_Identification["Title_of_Person_Requesting_Work"] == DBNull.Value)
+                this._Title_of_Person_Requesting_Work = null;
+            else
+                this._Title_of_Person_Requesting_Work = (string)drEPM_Identification["Title_of_Person_Requesting_Work"];
+
+            if (drEPM_Identification["Site_Contact_Name"] == DBNull.Value)
+                this._Site_Contact_Name = null;
+            else
+                this._Site_Contact_Name = (string)drEPM_Identification["Site_Contact_Name"];
+
+            if (drEPM_Identification["Site_Contact_Telephone"] == DBNull.Value)
+                this._Site_Contact_Telephone = null;
+            else
+                this._Site_Contact_Telephone = (string)drEPM_Identification["Site_Contact_Telephone"];
+
+            if (drEPM_Identification["Site_Contact_Email"] == DBNull.Value)
+                this._Site_Contact_Email = null;
+            else
+                this._Site_Contact_Email = (string)drEPM_Identification["Site_Contact_Email"];
+
         }
 
         #endregion
@@ -329,6 +382,22 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Title_of_Person_Requesting_Work", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Title_of_Person_Requesting_Work", DbType.String, this._Title_of_Person_Requesting_Work);
+
+            if (string.IsNullOrEmpty(this._Site_Contact_Name))
+                db.AddInParameter(dbCommand, "Site_Contact_Name", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Site_Contact_Name", DbType.String, this._Site_Contact_Name);
+
+            if (string.IsNullOrEmpty(this._Site_Contact_Telephone))
+                db.AddInParameter(dbCommand, "Site_Contact_Telephone", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Site_Contact_Telephone", DbType.String, this._Site_Contact_Telephone);
+
+            if (string.IsNullOrEmpty(this._Site_Contact_Email))
+                db.AddInParameter(dbCommand, "Site_Contact_Email", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Site_Contact_Email", DbType.String, this._Site_Contact_Email);
+
 
             // Execute the query and return the new identity value
             decimal returnValue = Convert.ToDecimal(db.ExecuteScalar(dbCommand));
@@ -429,6 +498,20 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Title_of_Person_Requesting_Work", DbType.String, this._Title_of_Person_Requesting_Work);
 
+            if (string.IsNullOrEmpty(this._Site_Contact_Name))
+                db.AddInParameter(dbCommand, "Site_Contact_Name", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Site_Contact_Name", DbType.String, this._Site_Contact_Name);
+
+            if (string.IsNullOrEmpty(this._Site_Contact_Telephone))
+                db.AddInParameter(dbCommand, "Site_Contact_Telephone", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Site_Contact_Telephone", DbType.String, this._Site_Contact_Telephone);
+
+            if (string.IsNullOrEmpty(this._Site_Contact_Email))
+                db.AddInParameter(dbCommand, "Site_Contact_Email", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Site_Contact_Email", DbType.String, this._Site_Contact_Email);
 
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 

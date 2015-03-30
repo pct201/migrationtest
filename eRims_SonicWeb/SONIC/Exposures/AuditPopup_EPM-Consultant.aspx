@@ -92,7 +92,7 @@
                                     <span style="display: inline-block; width: 150px">Actual Project Start Date</span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 200px">Estimated Project Completion Date</span>
+                                    <span style="display: inline-block; width: 200px">Project Due Date</span>
                                 </th>
                                 <th class="cols">
                                     <span style="display: inline-block; width: 200px">Actual Project Completion Date</span>
