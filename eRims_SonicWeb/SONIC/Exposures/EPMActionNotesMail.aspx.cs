@@ -149,7 +149,14 @@ public partial class SONIC_Exposures_EPMActionResultMail : System.Web.UI.Page
                             sbHTML.Append("<tr>");
                             sbHTML.Append("<td width='18%' align='left' valign='top'>Date of Note</td>");
                             sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
-                            sbHTML.Append("<td align='left' valign='top'>" + clsGeneral.FormatDBNullDateToDisplay(Convert.ToDateTime(drClaims_Adjustor_Notes["Note_Date"])) + "</td>");
+                            if (!string.IsNullOrEmpty(drClaims_Adjustor_Notes["Note_Date"].ToString()))
+                            {
+                                sbHTML.Append("<td align='left' valign='top'>" + clsGeneral.FormatDBNullDateToDisplay(clsGeneral.FormatDBNullDateToDate(Convert.ToDateTime(drClaims_Adjustor_Notes["Note_Date"].ToString()))) + "</td>");
+                            }
+                            else
+                            {
+                                sbHTML.Append("<td align='left' valign='top'></td>");
+                            }
                             sbHTML.Append("</tr>");
                             sbHTML.Append("<tr>");
                             sbHTML.Append("<td align='left' valign='top'>Notes</td>");
