@@ -75,6 +75,7 @@ public partial class SONIC_Exposures_EPMMail : System.Web.UI.Page
                         string strState = "";
                         string strSonicLocationNumber = "";
 
+                        if (!string.IsNullOrEmpty(objEPM_Identification.FK_LU_EPM_Project_Type.ToString()))
                         strProjectType = new LU_EPM_Project_Type((decimal)objEPM_Identification.FK_LU_EPM_Project_Type).Fld_Desc;
                         strProjectNumber = objEPM_Identification.Project_Number;
                         strClaimNumber = Convert.ToString(objEPM_Identification.PK_EPM_Identification);
@@ -87,6 +88,8 @@ public partial class SONIC_Exposures_EPMMail : System.Web.UI.Page
                             strSonicLocationNumber = Convert.ToString(objLocation.Sonic_Location_Code);
                         strAddress = Convert.ToString(objLocation.Address_1);
                         strCity = Convert.ToString(objLocation.City);
+
+                        if (!string.IsNullOrEmpty(objLocation.State.ToString()))
                         strState = new State(Convert.ToDecimal(objLocation.State)).FLD_state;
                         strZip = Convert.ToString(objLocation.Zip_Code);
 
@@ -240,7 +243,7 @@ public partial class SONIC_Exposures_EPMMail : System.Web.UI.Page
         }
     }
 
-                        #endregion
+   #endregion
 
     protected void btnSend_Click(object sender, EventArgs e)
     {
