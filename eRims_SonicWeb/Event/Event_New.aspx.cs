@@ -1169,7 +1169,7 @@ public partial class Event_Event_New : clsBasePage
     private void BindReapterEventTypeSonic()
     {
         DataSet dsData = clsLU_Event_Type.SelectAll();
-        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y'";
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y' AND Fld_Desc <> 'Voice Down' ";//#Issue 3190
 
         rptEventTypeSonic.DataSource = dsData.Tables[0].DefaultView.ToTable();
         rptEventTypeSonic.DataBind();
