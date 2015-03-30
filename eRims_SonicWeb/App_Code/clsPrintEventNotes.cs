@@ -105,7 +105,7 @@ public class clsPrintEventNotes
             sbHTML.Append("<tr>");
             sbHTML.Append("<td width='18%' align='left' valign='top'>Date of Note</td>");
             sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
-            sbHTML.Append("<td align='left' valign='top'>" + clsGeneral.FormatDBNullDateToDisplay(Convert.ToDateTime(drAdjustor_Notes["Note_Date"])) + "</td>");
+            sbHTML.Append("<td align='left' valign='top'>" + clsGeneral.FormatDBNullDateToDisplay(drAdjustor_Notes["Note_Date"]) + "</td>");
             sbHTML.Append("</tr>");
             sbHTML.Append("<tr>");
             sbHTML.Append("<td align='left' valign='top'>Notes</td>");
