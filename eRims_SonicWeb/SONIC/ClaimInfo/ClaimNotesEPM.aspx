@@ -143,6 +143,12 @@
                 <asp:Label ID="lblPanelDesc" runat="server" Text="Project Management Screen – Consultant Notes" />
             </td>
         </tr>
+            <tr>
+            <td>
+                <table cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        <td class="Spacer" style="height: 15px;" colspan="2"></td>
+                    </tr>
                     <tr>
                         <td class="leftMenu">
                             <table cellpadding="5" cellspacing="0" width="100%">
