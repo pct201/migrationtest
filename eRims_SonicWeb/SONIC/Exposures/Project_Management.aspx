@@ -58,6 +58,7 @@
 
             document.getElementById('<%= hdnPanel.ClientID %>').value = ActiveTabIndex;
 
+                      
             var op = '<%= ViewState["strOperation"] %>';
             if (op == "view") {
                 document.getElementById('<%= dvEdit.ClientID %>').style.display = "none";
@@ -257,7 +258,7 @@
             }
         }
 
-        //For Sonic Notes Validation
+        //For Consultant Notes Validation
         function CheckSelectedSonicNotes(buttonType) {
             var ctrls = document.getElementsByTagName('input');
             var i, chkID;
@@ -413,7 +414,7 @@
                                     <td align="left" width="100%">
                                         <span id="Menu6" onclick="javascript:CheckValueChange(6,null);" class="LeftMenuStatic">Attachments</span>
                                     </td>
-                                </tr>
+                                </tr>                            
                             </table>
                         </td>
                         <td valign="top">
@@ -1952,7 +1953,7 @@
                                             </table>
                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                 <tr>
-                                                    <td valign="top" style="width: 15%">Notes Grid<br />
+                                                    <td valign="top" style="width: 20%">Consultant Notes Grid<br />
                                                         <asp:LinkButton ID="btnNotesAdd" runat="server" ValidationGroup="vsError" Text="--Add--"
                                                             OnClick="btnNotesAdd_Click"></asp:LinkButton>
                                                     </td>
