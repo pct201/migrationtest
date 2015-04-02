@@ -76,6 +76,9 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             //Hide Hidden Button
             btnHdnScheduling.Style["display"] = "none";
 
+            clsGeneral.SetDropdownValue(drpFilter1, "Is Actionable", false);
+            LoadFilterControlDropDown("Is Actionable", "Y", lst_F1);
+
             if (ReportId > 0 && PK_Schedule > 0 && strMode == "edit")
             {
                 //GetdrpFilterChange();              
