@@ -2900,7 +2900,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     {
         int Location_Id;
         // Check if User has right To Add Equipment or View Equipment
-        if (App_Access == AccessType.View_Only)
+        if (App_Access == AccessType.View_Only & App_Assest_Protection != AccessType.View_Only)
         {
             Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc", true);
         }
