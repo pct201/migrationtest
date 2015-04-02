@@ -360,6 +360,9 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         Tab.SetSelectedTab(Controls_ExposuresTab_ExposuresTab.Tab.AssetProtection);
         if (!Page.IsPostBack)
         {
+            if(App_Access == AccessType.NotAssigned && App_Assest_Protection != AccessType.View_Only)
+                Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc");
+
             LocationID = clsGeneral.GetQueryStringID(Request.QueryString["loc"]);
             StrOperation = Convert.ToString(Request.QueryString["op"]);
             Session["ExposureLocation"] = LocationID;
@@ -773,6 +776,9 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         {
             btnProperty_SecurityAuditView.Visible = true;
         }
+
+        if (App_Assest_Protection == AccessType.View_Only)
+            btnBack.Visible = false;
 
         BindFinancialGridforView();
 
@@ -2938,6 +2944,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             lblZip.Text = (dtLocationInfo.Rows[0]["Zip_Code"].ToString() != "") ? dtLocationInfo.Rows[0]["Zip_Code"].ToString() : "";
         }
     }
+
     #endregion
 
     #endregion

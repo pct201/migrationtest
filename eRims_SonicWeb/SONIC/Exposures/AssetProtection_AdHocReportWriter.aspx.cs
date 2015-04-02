@@ -51,6 +51,8 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
         if (!IsPostBack)
         {
             rdbReportType.SelectedValue = "1";
+            if (App_Assest_Protection == AccessType.View_Only)
+                rdbReportType.Enabled = false;
             SetDefaults();
             ClearAllFilterPanel();
             // Reset Scroll Position

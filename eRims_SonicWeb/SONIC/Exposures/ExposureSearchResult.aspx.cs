@@ -48,6 +48,12 @@ public partial class SONIC_Exposures_ExposureSearchResult : clsBasePage
         set { ViewState["FranchiseAccess"] = value; }
     }
 
+    public AccessType Asset_Protection
+    {
+        get { return (AccessType)Enum.Parse(typeof(AccessType), Convert.ToString(ViewState["Asset_Protection"])); }
+        set { ViewState["Asset_Protection"] = value; }
+    }
+
     #endregion
 
     #region "Control Events"
@@ -58,6 +64,8 @@ public partial class SONIC_Exposures_ExposureSearchResult : clsBasePage
         {
             //get User Access for Franchise module
             FranchiseAccess = AccessType.NotAssigned;
+
+            Asset_Protection = (App_Access == AccessType.Administrative_Access) ? AccessType.Administrative_Access : AccessType.NotAssigned;
             DataSet dsRight = new DataSet();
             dsRight = Security.SelectRightsByUserID(Convert.ToDecimal(clsSession.UserID));
             DataRow[] drView = dsRight.Tables[0].Select("RightType_ID=2 and ModuleName='Franchise'");
@@ -70,6 +78,12 @@ public partial class SONIC_Exposures_ExposureSearchResult : clsBasePage
             if (drAdmin != null && drAdmin.Length > 0)
             {
                 FranchiseAccess = AccessType.Franchise_AddEdit;
+            }
+
+            DataRow[] drView_Asset = dsRight.Tables[0].Select("RightType_ID=2 and ModuleName='Asset Protection'");
+            if (drView_Asset != null && drView_Asset.Length > 0)
+            {
+                Asset_Protection = AccessType.View_Only;
             }
 
             // set the default sort field and sort order

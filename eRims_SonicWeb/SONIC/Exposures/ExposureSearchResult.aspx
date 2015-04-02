@@ -161,7 +161,7 @@
                                         <ItemStyle HorizontalAlign="Left" Width="65px" />
                                         <ItemTemplate>
                                             <a href='Asset_Protection.aspx?loc=<%#Encryption.Encrypt(Eval("PK_LU_Location_ID").ToString())%>'>
-                                                <%# App_Access == AccessType.NotAssigned ? "" : Convert.ToInt32(Eval("AssetProtectionCount")) > 0 ? Eval("Active").ToString() == "N" ? "" : "View" : (App_Access == AccessType.View_Only || Eval("Active").ToString() == "N") ? "" : "Add New"%>
+                                                <%# Asset_Protection == AccessType.NotAssigned ? "" : Convert.ToInt32(Eval("AssetProtectionCount")) > 0 ? Eval("Active").ToString() == "N" ? "" : "View" : (Asset_Protection == AccessType.View_Only || Eval("Active").ToString() == "N") ? "" : "Add New"%>
                                             </a>
                                         </ItemTemplate>
                                     </asp:TemplateField>

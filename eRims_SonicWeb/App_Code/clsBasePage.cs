@@ -20,6 +20,7 @@ public class clsBasePage : System.Web.UI.Page
     public static bool IsUserSystemAdmin;
     public AccessType App_Access;
     public AccessType App_RealEstateAccess;
+    public AccessType App_Assest_Protection;
 
     /// <summary>
     /// get Module Access
@@ -119,6 +120,13 @@ public class clsBasePage : System.Web.UI.Page
             {
                 if (strModule == "Exposures/")
                 {
+                    DataRow[] drView_Assest = dsRight.Tables[0].Select("RightType_ID=2 and ModuleName='Asset Protection'");
+                    if (drView_Assest != null && drView_Assest.Length > 0)
+                    {
+                        if (strModule == "Exposures/")
+                            App_Assest_Protection = AccessType.View_Only;
+                    }
+
                     #region
                     DataRow[] drView = dsRight.Tables[0].Select("RightType_ID=2 and ModuleName='RealEstate'");
                     if (drView != null && drView.Length > 0)

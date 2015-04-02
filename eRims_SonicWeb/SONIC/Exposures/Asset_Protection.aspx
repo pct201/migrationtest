@@ -130,6 +130,13 @@
                 }
             }
 
+            //bug #3192
+            if ('<%=App_Assest_Protection %>' == '<%= AccessType.View_Only%>') {
+                for (i = 2; i <= 5; i++) {
+                    document.getElementById("Menu" + i).style.display = "none";
+                }
+                document.getElementById('<%=btnNext.ClientID%>').style.display = "none";
+        }
 
         }
 
@@ -9816,5 +9823,6 @@ function IsValidMonitorTime() {
             }
             return true;
         }
+
     </script>
 </asp:Content>
