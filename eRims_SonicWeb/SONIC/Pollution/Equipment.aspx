@@ -422,7 +422,7 @@
                 args.IsValid = true;
             }
         }
-        
+       
     </script>
     <table cellpadding="0" cellspacing="0" width="100%">
         <tr>
@@ -1033,7 +1033,68 @@
                                                                 <uc:ctrlMultiLineTextBox ID="txtRecordkeeping_Requirements" runat="server" />
                                                             </td>
                                                         </tr>
+
                                                         <tr>
+                                                            <td align="left" valign="top" style="font-weight:bold;">
+                                                                SPCC&nbsp;
+                                                            </td>
+                                                            <td align="center" valign="top">
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td align="left" valign="top" >
+                                                                SPCC Required&nbsp;
+                                                            </td>
+                                                            <td align="center" valign="top">
+                                                                :
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <asp:RadioButtonList ID="rdoSPCC_Required" runat="server" SkinID="YesNoType">
+                                                                </asp:RadioButtonList>
+                                                            </td>
+                                                        </tr>
+
+                                                         <tr>
+                                                            <td align="left" valign="top">
+                                                                Date Developed&nbsp;<span id="Span32" style="color: Red; display: none;" runat="server">*</span>
+                                                            </td>
+                                                            <td align="center" valign="top">
+                                                                :
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:TextBox ID="txtSPCCDate_Developed" runat="server" Width="150px" SkinID="txtDate" />
+                                                                <img alt="Date Developed" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtSPCCDate_Developed', 'mm/dd/y');"
+                                                                    onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
+                                                                    align="middle" />
+                                                                <asp:RegularExpressionValidator ID="revtxtSPCCDate_Developed" runat="server" ValidationGroup="vsErrorGroupTank"
+                                                                    Display="none" ErrorMessage="[Equipment]/SPCC Date Developed is not a valid date"
+                                                                    SetFocusOnError="true" ControlToValidate="txtSPCCDate_Developed" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                Expiration Date&nbsp;<span id="Span72" style="color: Red; display: none;" runat="server">*</span>
+                                                            </td>
+                                                            <td align="center" valign="top">
+                                                                :
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:TextBox ID="txtSPCCExpiration_Date" runat="server" Width="150px" SkinID="txtDate" />
+                                                                <img alt="Permit End Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtSPCCExpiration_Date', 'mm/dd/y');"
+                                                                    onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
+                                                                    align="middle" />
+                                                                <asp:RegularExpressionValidator ID="revtxtSPCCExpiration_Date" runat="server" ValidationGroup="vsErrorGroupTank"
+                                                                    Display="none" ErrorMessage="[Equipment]/SPCC Expiration Date is not a valid date"
+                                                                    SetFocusOnError="true" ControlToValidate="txtSPCCExpiration_Date" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
+                                                                <asp:CompareValidator ID="CompareValidator4" runat="server" ErrorMessage="[Equipment]/SPCC Expiration Date Should Be Greater Then Or Equal To SPCC Date Developed"
+                                                                    ControlToValidate="txtSPCCExpiration_Date" ControlToCompare="txtSPCCDate_Developed"
+                                                                    SetFocusOnError="true" Operator="GreaterThanEqual" Type="Date" Display="None"
+                                                                    ValidationGroup="vsErrorGroupTank"></asp:CompareValidator>
+                                                            </td>
+                                                        </tr>
+                                                        <%--<tr>
                                                             <td align="left" valign="top">
                                                                 Inadvertent Release Control and Countermeasures Plan&nbsp;<span id="Span32" style="color: Red;
                                                                     display: none;" runat="server">*</span>
@@ -1044,7 +1105,7 @@
                                                             <td align="left" colspan="4" valign="top">
                                                                 <uc:ctrlMultiLineTextBox ID="txtRelease_Control_Countermeasures_Plan" runat="server" />
                                                             </td>
-                                                        </tr>
+                                                        </tr>--%>
                                                         <tr>
                                                             <td align="left" valign="top">
                                                                 Maintenance Vendor&nbsp;<span id="Span33" style="color: Red; display: none;" runat="server">*</span>
@@ -3049,7 +3110,52 @@
                                                                 <uc:ctrlMultiLineTextBox ID="lblRecordkeeping_Requirements" runat="server" ControlType="Label" />
                                                             </td>
                                                         </tr>
+
                                                         <tr>
+                                                            <td align="left" valign="top" style="font-weight:bold;">
+                                                                SPCC&nbsp;
+                                                            </td>
+                                                            <td align="center" valign="top">
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td align="left" valign="top">
+                                                                SPCC Required
+                                                            </td>
+                                                            <td align="center" valign="top">
+                                                                :
+                                                            </td>
+                                                            <td align="left" valign="top" colspan="4">
+                                                                <asp:Label ID="lblSPCC_Required" runat="server"></asp:Label>
+                                                            </td>
+                                                            
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">
+                                                                Date Developed
+                                                            </td>
+                                                            <td align="center" valign="top">
+                                                                :
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblSPCCDate_Developed" runat="server"></asp:Label>
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                Expiration Date
+                                                            </td>
+                                                            <td align="center" valign="top">
+                                                                :
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblSPCCExpiration_Date" runat="server"></asp:Label>
+                                                            </td>
+                                                        </tr>
+
+                                                       <%-- <tr>
                                                             <td align="left" valign="top">
                                                                 Inadvertent Release Control and Countermeasures Plan
                                                             </td>
@@ -3060,7 +3166,7 @@
                                                                 <uc:ctrlMultiLineTextBox ID="lblRelease_Control_Countermeasures_Plan" runat="server"
                                                                     ControlType="Label" />
                                                             </td>
-                                                        </tr>
+                                                        </tr>--%>
                                                         <tr>
                                                             <td align="left" valign="top">
                                                                 Maintenance Vendor

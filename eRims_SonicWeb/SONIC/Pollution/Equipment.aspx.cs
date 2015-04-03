@@ -411,7 +411,13 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         txtEffective_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Effective_Date);
         txtExpiration_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Expiration_Date);
         txtRecordkeeping_Requirements.Text = objPM_Equipment_Tank.Recordkeeping_Requirements;
-        txtRelease_Control_Countermeasures_Plan.Text = objPM_Equipment_Tank.Release_Control_Countermeasures_Plan;
+        //txtRelease_Control_Countermeasures_Plan.Text = objPM_Equipment_Tank.Release_Control_Countermeasures_Plan;            //* :3187 *//
+        if (objPM_Equipment_Tank.SPCC_Required != null)
+            rdoSPCC_Required.SelectedValue = objPM_Equipment_Tank.SPCC_Required;
+        else
+            rdoSPCC_Required.SelectedValue = "Y";
+        txtSPCCDate_Developed.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.SPCCDate_Developed);
+        txtSPCCExpiration_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.SPCCExpiration_Date);
         txtMaintenance_Vendor.Text = objPM_Equipment_Tank.Maintenance_Vendor;
         txtVendor_Contact_Name.Text = objPM_Equipment_Tank.Vendor_Contact_Name;
         txtVendor_Contact_Telephone.Text = objPM_Equipment_Tank.Vendor_Contact_Telephone;
@@ -488,7 +494,10 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         lblEffective_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Effective_Date);
         lblExpiration_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Expiration_Date);
         lblRecordkeeping_Requirements.Text = objPM_Equipment_Tank.Recordkeeping_Requirements;
-        lblRelease_Control_Countermeasures_Plan.Text = objPM_Equipment_Tank.Release_Control_Countermeasures_Plan;
+        //lblRelease_Control_Countermeasures_Plan.Text = objPM_Equipment_Tank.Release_Control_Countermeasures_Plan;    //*  :3187  *//
+        lblSPCC_Required.Text = objPM_Equipment_Tank.SPCC_Required == "Y" ? "Yes" : "No";
+        lblSPCCDate_Developed.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.SPCCDate_Developed);
+        lblSPCCExpiration_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.SPCCExpiration_Date);        
         lblMaintenance_Vendor.Text = objPM_Equipment_Tank.Maintenance_Vendor;
         lblVendor_Contact_Name.Text = objPM_Equipment_Tank.Vendor_Contact_Name;
         lblVendor_Contact_Telephone.Text = objPM_Equipment_Tank.Vendor_Contact_Telephone;
@@ -1726,7 +1735,10 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
             objPM_Equipment_Tank.Effective_Date = clsGeneral.FormatNullDateToStore(txtEffective_Date.Text);
             objPM_Equipment_Tank.Expiration_Date = clsGeneral.FormatNullDateToStore(txtExpiration_Date.Text);
             objPM_Equipment_Tank.Recordkeeping_Requirements = txtRecordkeeping_Requirements.Text.Trim();
-            objPM_Equipment_Tank.Release_Control_Countermeasures_Plan = txtRelease_Control_Countermeasures_Plan.Text.Trim();
+            //objPM_Equipment_Tank.Release_Control_Countermeasures_Plan = txtRelease_Control_Countermeasures_Plan.Text.Trim();      //* :3187 *//
+            objPM_Equipment_Tank.SPCC_Required = rdoSPCC_Required.SelectedValue;
+            objPM_Equipment_Tank.SPCCDate_Developed = clsGeneral.FormatNullDateToStore(txtSPCCDate_Developed.Text);
+            objPM_Equipment_Tank.SPCCExpiration_Date = clsGeneral.FormatNullDateToStore(txtSPCCExpiration_Date.Text);
             objPM_Equipment_Tank.Maintenance_Vendor = txtMaintenance_Vendor.Text.Trim();
             objPM_Equipment_Tank.Vendor_Contact_Name = txtVendor_Contact_Name.Text.Trim();
             objPM_Equipment_Tank.Vendor_Contact_Telephone = txtVendor_Contact_Telephone.Text.Trim();
@@ -2233,7 +2245,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
                 case "Effective Date": strCtrlsIDs += txtEffective_Date.ClientID + ","; strMessages += "Please enter [Equipment]/Effective Date" + ","; Span29.Style["display"] = "inline-block"; break;
                 case "Expiration Date": strCtrlsIDs += txtExpiration_Date.ClientID + ","; strMessages += "Please enter [Equipment]/Expiration Date" + ","; Span30.Style["display"] = "inline-block"; break;
                 case "Record Keeping Requirements": strCtrlsIDs += txtRecordkeeping_Requirements.ClientID + ","; strMessages += "Please enter [Equipment]/Record Keeping Requirements" + ","; Span31.Style["display"] = "inline-block"; break;
-                case "Inadvertent Release Control and Countermeasures Plan": strCtrlsIDs += txtRelease_Control_Countermeasures_Plan.ClientID + ","; strMessages += "Please enter [Equipment]/Inadvertent Release Control and Countermeasures Plan" + ","; Span32.Style["display"] = "inline-block"; break;
+                //case "Inadvertent Release Control and Countermeasures Plan": strCtrlsIDs += txtRelease_Control_Countermeasures_Plan.ClientID + ","; strMessages += "Please enter [Equipment]/Inadvertent Release Control and Countermeasures Plan" + ","; Span32.Style["display"] = "inline-block"; break;    //* :3187 *// 
                 case "Maintenance Vendor": strCtrlsIDs += txtMaintenance_Vendor.ClientID + ","; strMessages += "Please enter [Equipment]/Maintenance Vendor" + ","; Span33.Style["display"] = "inline-block"; break;
                 case "Vendor Contact Name": strCtrlsIDs += txtVendor_Contact_Name.ClientID + ","; strMessages += "Please enter [Equipment]/Vendor Contact Name" + ","; Span34.Style["display"] = "inline-block"; break;
                 case "Vendor Contact Telephone": strCtrlsIDs += txtVendor_Contact_Telephone.ClientID + ","; strMessages += "Please enter [Equipment]/Vendor Contact Telephone" + ","; Span35.Style["display"] = "inline-block"; break;
@@ -2246,6 +2258,8 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
                 case "Inspection Company Contact Name": strCtrlsIDs += txtInspection_Company_Contact_Name.ClientID + ","; strMessages += "Please enter [Equipment]/Inspection Company Contact Name" + ","; Span42.Style["display"] = "inline-block"; break;
                 case "Inspection Company Contact Telephone": strCtrlsIDs += txtInspection_Company_Contact_Telephone.ClientID + ","; strMessages += "Please enter [Equipment]/Inspection Company Contact Telephone" + ","; Span43.Style["display"] = "inline-block"; break;
                 case "Notes": strCtrlsIDs += txtNotes.ClientID + ","; strMessages += "Please enter [Equipment]/Notes" + ","; Span44.Style["display"] = "inline-block"; break;
+                case "SPCC Date Developed": strCtrlsIDs += txtSPCCDate_Developed.ClientID + ","; strMessages += "Please enter [Equipment]/SPCC Date Developed" + ","; Span32.Style["display"] = "inline-block"; break;
+                case "SPCC Expiration Date": strCtrlsIDs += txtSPCCExpiration_Date.ClientID + ","; strMessages += "Please enter [Equipment]/SPCC Expiration Date" + ","; Span72.Style["display"] = "inline-block"; break;
             }
             #endregion
         }
