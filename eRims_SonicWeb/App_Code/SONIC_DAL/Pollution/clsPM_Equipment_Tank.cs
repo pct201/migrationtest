@@ -44,6 +44,9 @@ namespace ERIMS.DAL
 		private DateTime? _Expiration_Date;
 		private string _Recordkeeping_Requirements;
 		private string _Release_Control_Countermeasures_Plan;
+        private string _SPCC_Required;
+        private DateTime? _SPCCDate_Developed;
+        private DateTime? _SPCCExpiration_Date;
 		private string _Maintenance_Vendor;
 		private string _Vendor_Contact_Name;
 		private string _Vendor_Contact_Telephone;
@@ -371,6 +374,36 @@ namespace ERIMS.DAL
 			set { _Release_Control_Countermeasures_Plan = value; }
 		}
 
+        /// <summary>
+        /// Gets or sets the SPCC_Required value.
+        /// </summary>
+
+        public string SPCC_Required 
+        { 
+            get { return _SPCC_Required; }
+            set { _SPCC_Required = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the SPCCDate_Developed value.
+        /// </summary>
+
+        public DateTime? SPCCDate_Developed
+        {
+            get { return _SPCCDate_Developed; }
+            set { _SPCCDate_Developed = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the SPCCExpiration_Date value.
+        /// </summary>
+
+        public DateTime? SPCCExpiration_Date
+        {
+            get { return _SPCCExpiration_Date; }
+            set { _SPCCExpiration_Date = value; }
+        }
+        
 		/// <summary>
 		/// Gets or sets the Maintenance_Vendor value.
 		/// </summary>
@@ -764,6 +797,21 @@ namespace ERIMS.DAL
 				else
 					this._Release_Control_Countermeasures_Plan = (string)drPM_Equipment_Tank["Release_Control_Countermeasures_Plan"];
 
+                if (drPM_Equipment_Tank["SPCC_Required"] == DBNull.Value)
+                    this._SPCC_Required = null;
+                else
+                    this._SPCC_Required = (string)drPM_Equipment_Tank["SPCC_Required"];
+
+                if (drPM_Equipment_Tank["SPCC_Date_Developed"] == DBNull.Value)
+                    this._SPCCDate_Developed = null;
+                else
+                    this._SPCCDate_Developed = (DateTime?)drPM_Equipment_Tank["SPCC_Date_Developed"];
+
+                if (drPM_Equipment_Tank["SPCC_Expiration_Date"] == DBNull.Value)
+                    this._SPCCExpiration_Date = null;
+                else
+                    this._SPCCExpiration_Date = (DateTime?)drPM_Equipment_Tank["SPCC_Expiration_Date"];
+
 				if (drPM_Equipment_Tank["Maintenance_Vendor"] == DBNull.Value)
 					this._Maintenance_Vendor = null;
 				else
@@ -1012,7 +1060,16 @@ namespace ERIMS.DAL
 				db.AddInParameter(dbCommand, "Release_Control_Countermeasures_Plan", DbType.String, DBNull.Value);
 			else
 				db.AddInParameter(dbCommand, "Release_Control_Countermeasures_Plan", DbType.String, this._Release_Control_Countermeasures_Plan);
-			
+
+            db.AddInParameter(dbCommand, "SPCC_Date_Developed", DbType.DateTime, this._SPCCDate_Developed);
+
+            db.AddInParameter(dbCommand, "SPCC_Expiration_Date", DbType.DateTime, this._SPCCExpiration_Date);
+
+            if (string.IsNullOrEmpty(this._SPCC_Required))
+                db.AddInParameter(dbCommand, "SPCC_Required", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "SPCC_Required", DbType.String, this._SPCC_Required);
+
 			if (string.IsNullOrEmpty(this._Maintenance_Vendor))
 				db.AddInParameter(dbCommand, "Maintenance_Vendor", DbType.String, DBNull.Value);
 			else
@@ -1259,7 +1316,16 @@ namespace ERIMS.DAL
 				db.AddInParameter(dbCommand, "Release_Control_Countermeasures_Plan", DbType.String, DBNull.Value);
 			else
 				db.AddInParameter(dbCommand, "Release_Control_Countermeasures_Plan", DbType.String, this._Release_Control_Countermeasures_Plan);
-			
+
+            db.AddInParameter(dbCommand, "SPCC_Date_Developed", DbType.DateTime, this._SPCCDate_Developed);
+
+            db.AddInParameter(dbCommand, "SPCC_Expiration_Date", DbType.DateTime, this._SPCCExpiration_Date);
+
+            if (string.IsNullOrEmpty(this._SPCC_Required))
+                db.AddInParameter(dbCommand, "SPCC_Required", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "SPCC_Required", DbType.String, this._SPCC_Required);
+
 			if (string.IsNullOrEmpty(this._Maintenance_Vendor))
 				db.AddInParameter(dbCommand, "Maintenance_Vendor", DbType.String, DBNull.Value);
 			else
