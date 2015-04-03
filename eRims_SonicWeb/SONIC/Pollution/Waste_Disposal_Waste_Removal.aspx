@@ -286,13 +286,13 @@
                                                                 onpaste="return false" />
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <%--Units--%>
+                                                            EPA ID Number&nbsp;<span id="Span12" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top">
-                                                            <%--:--%>
+                                                            :
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <%--<asp:TextBox ID="txtUnits" runat="server" Width="170px" MaxLength="25" />--%>
+                                                            <asp:TextBox ID="txtEpaIdNumber" runat="server" Width="170px" MaxLength="75" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -521,13 +521,13 @@
                                                             <asp:Label ID="lblAmount_HW_Generated_Per_Month" runat="server"></asp:Label>
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <%--Units--%>
+                                                            EPA ID Number
                                                         </td>
                                                         <td align="center" valign="top">
-                                                            <%--:--%>
+                                                            :
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <%--<asp:Label ID="lblUnits" runat="server"></asp:Label>--%>
+                                                            <asp:Label ID="lblEpaIdNumber" runat="server" style="word-wrap:normal; word-break:break-all;"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>

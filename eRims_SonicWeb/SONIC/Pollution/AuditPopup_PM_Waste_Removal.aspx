@@ -95,6 +95,9 @@
                                     <span style="display: inline-block; width: 180px;">California Business Plan</span>
                                 </th>
                                 <th class="cols" align="left">
+                                    <span style="display: inline-block; width: 120px;">EPA ID Number</span>
+                                </th>
+                                <th class="cols" align="left">
                                     <span style="display: inline-block; width: 120px;">Updated By</span>
                                 </th>
                                 <th class="cols" align="left">
@@ -220,6 +223,12 @@
                                 <ItemTemplate>
                                     <asp:Label ID="lblCalifornia_Business_Plan" runat="server" Text='<%#Eval("California_Business_Plan")%>'
                                         Width="180px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="EPA ID Number">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblEapIdNumber" runat="server" Text='<%#Eval("EPA_ID_Number")%>' Width="120px" style="word-wrap:break-word;"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Updated_By">

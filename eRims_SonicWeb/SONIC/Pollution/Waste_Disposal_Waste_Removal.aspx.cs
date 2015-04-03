@@ -208,7 +208,7 @@ public partial class SONIC_Pollution_Waste_Disposal_Waste_Removal : clsBasePage
         txtCalifornia_Business_Plan.Text = objPM_Waste_Removal.California_Business_Plan;
         if (objPM_Waste_Removal.FK_PM_Site_Information != null) FK_PM_Site_Information = Convert.ToDecimal(objPM_Waste_Removal.FK_PM_Site_Information);
         if (objPM_Waste_Removal.Amount_HW_Generated_Per_Month != null) rdoApply_To_Location.SelectedValue = objPM_Waste_Removal.Apply_To_Location;
-
+        if (objPM_Waste_Removal.EPA_ID_Number != null) txtEpaIdNumber.Text = objPM_Waste_Removal.EPA_ID_Number;
     }
 
 
@@ -234,7 +234,10 @@ public partial class SONIC_Pollution_Waste_Disposal_Waste_Removal : clsBasePage
         if (objPM_Waste_Removal.FK_Receiving_TSDF != null)
             lblFK_Receiving_TSDF.Text = new PM_Receiving_TSDF((decimal)objPM_Waste_Removal.FK_Receiving_TSDF).Receiving_TSDF_Name;
         lblAmount_HW_Generated_Per_Month.Text = string.Format("{0:N2}", objPM_Waste_Removal.Amount_HW_Generated_Per_Month);
-        //lblUnits.Text = objPM_Waste_Removal.Units;
+        if (!string.IsNullOrEmpty(objPM_Waste_Removal.EPA_ID_Number))
+        {
+            lblEpaIdNumber.Text = objPM_Waste_Removal.EPA_ID_Number;
+        }
         lblDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Waste_Removal.Date);
         //lblConstituents_Of_Concern.Text = objPM_Waste_Removal.Constituents_Of_Concern;
         //lblRemoval_Limits.Text = objPM_Waste_Removal.Removal_Limits;
@@ -280,6 +283,8 @@ public partial class SONIC_Pollution_Waste_Disposal_Waste_Removal : clsBasePage
         objPM_Waste_Removal.Updated_By = clsSession.UserID;
         objPM_Waste_Removal.Update_Date = DateTime.Now;
         objPM_Waste_Removal.Apply_To_Location = rdoApply_To_Location.SelectedValue;
+        objPM_Waste_Removal.EPA_ID_Number = txtEpaIdNumber.Text.Trim();
+
         decimal _retVal;
         if (PK_PM_Waste_Removal > 0)
         {
@@ -472,6 +477,11 @@ public partial class SONIC_Pollution_Waste_Disposal_Waste_Removal : clsBasePage
                     strCtrlsIDs += txtCalifornia_Business_Plan.ClientID + ",";
                     strMessages += "Please enter [Hazardous Waste Generator]/California Business Plan" + ",";
                     Span10.Style["display"] = "inline-block";
+                    break;
+                case "EPA ID Number":
+                    strCtrlsIDs += txtEpaIdNumber.ClientID + ",";
+                    strMessages += "Please enter [Hazardous Waste Generator]/EPA ID Number" + ",";
+                    Span12.Style["display"] = "inline-block";
                     break;
             }
             #endregion
