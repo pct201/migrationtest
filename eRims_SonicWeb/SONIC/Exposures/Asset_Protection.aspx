@@ -9467,7 +9467,7 @@ function IsValidMonitorTime() {
                                                 <tr>
                                                     <td width="100%" valign="top">
                                                         <%--<uc:ctrlAttachmentDetail ID="AttachDetails" runat="Server" />--%>
-                                                        <uc:ctrlAttachment ID="Attachments" runat="server" PanelNumber="6" />
+                                                        <uc:ctrlAttachment ID="Attachments" runat="server" PanelNumber="5" />
                                                     </td>
                                                 </tr>
                                             </table>
