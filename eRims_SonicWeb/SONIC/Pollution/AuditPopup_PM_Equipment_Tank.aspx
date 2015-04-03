@@ -206,6 +206,18 @@
                                     <span style="display: inline-block; width: 300px;">Notes</span>
                                 </th>                                
                                 <th class="cols">
+                                    <span style="display: inline-block; width: 100px;">SPCC Required</span>
+                                </th>                                
+
+                                <th class="cols">
+                                    <span style="display: inline-block; width: 117px;">SPCC Date Developed</span>
+                                </th>
+
+                                <th class="cols">
+                                    <span style="display: inline-block; width: 117px;">SPCC Expiration Date</span>
+                                </th>
+
+                                <th class="cols">
                                     <span style="display: inline-block; width: 100px;">Updated By</span>
                                 </th>
                                 <th class="cols">
@@ -584,6 +596,30 @@
                                     <asp:Label ID="lblNotes" runat="server" Text='<%#Eval("Notes")%>' Width="300px" CssClass="TextClip"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
+
+                            <asp:TemplateField HeaderText="SPCC Required">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblSPCC_Required" runat="server" Text='<%#Eval("SPCC_Required")%>' Width="100px" CssClass="TextClip"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+
+                            <asp:TemplateField HeaderText="SPCC Date Developed">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblSPCC_Date_Developed" runat="server" Text='<%#Eval("SPCC_Date_Developed")!= DBNull.Value ? clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("SPCC_Date_Developed"))) : ""%>'
+                                        Width="117px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+
+                            <asp:TemplateField HeaderText="SPCC Expiration Date">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblSPCC_Expiration_Date" runat="server" Text='<%#Eval("SPCC_Expiration_Date")!= DBNull.Value ? clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("SPCC_Expiration_Date"))) : ""%>'
+                                        Width="117px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+
                             <asp:TemplateField HeaderText="Updated_By">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
