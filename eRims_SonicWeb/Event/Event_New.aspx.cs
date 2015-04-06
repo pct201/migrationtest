@@ -679,6 +679,8 @@ public partial class Event_Event_New : clsBasePage
         clsGeneral.SetDropdownValue(ddlLocation, objEvent.FK_LU_Location, true);
         txtACI_EventID.Text = objEvent.ACI_EventID;
         txtEvent_Start_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objEvent.Event_Start_Date);
+        txtEvent_Start_Time.Text = objEvent.Event_Start_Time;
+        txtEvent_End_Time.Text = objEvent.Event_End_Time;
         txtInvestigator_Name.Text = objEvent.Investigator_Name;
         txtInvestigator_Email.Text = objEvent.Investigator_Email;
         txtInvestigator_Phone.Text = objEvent.Investigator_Phone;
@@ -718,6 +720,8 @@ public partial class Event_Event_New : clsBasePage
 
         clsGeneral.SetDropdownValue(ddlLocation_Sonic, objEvent.FK_LU_Location, true);
         txtEvent_Start_Date_Sonic.Text = clsGeneral.FormatDBNullDateToDisplay(objEvent.Event_Start_Date);
+        txtEvent_Start_Time_Sonic.Text = objEvent.Event_Start_Time;
+        txtEvent_End_Time_Sonic.Text = objEvent.Event_End_Time;
         txtEvent_Number_Sonic.Text = objEvent.Event_Number;
         if (objEvent.Monitoring_Hours != null)
             rdoMonitoring_Hours_Sonic.SelectedValue = Convert.ToString(objEvent.Monitoring_Hours);
@@ -877,6 +881,8 @@ public partial class Event_Event_New : clsBasePage
         if (!Is_Sonic_Event)
         {
             objEvent.Event_Start_Date = clsGeneral.FormatNullDateToStore(txtEvent_Start_Date.Text);
+            objEvent.Event_Start_Time = Convert.ToString(txtEvent_Start_Time.Text);
+            objEvent.Event_End_Time = Convert.ToString(txtEvent_End_Time.Text);
             objEvent.Police_Called = rdoPolice_Called.SelectedValue;
             objEvent.Agency_name = Convert.ToString(txtAgency_name.Text);
             objEvent.Officer_Name = Convert.ToString(txtOfficer_Name.Text);
@@ -896,6 +902,8 @@ public partial class Event_Event_New : clsBasePage
         if (Is_Sonic_Event)
         {
             objEvent.Event_Start_Date = clsGeneral.FormatNullDateToStore(txtEvent_Start_Date_Sonic.Text);
+            objEvent.Event_Start_Time = Convert.ToString(txtEvent_Start_Time_Sonic.Text);
+            objEvent.Event_End_Time = Convert.ToString(txtEvent_End_Time_Sonic.Text);
             objEvent.Police_Called = rdoPolice_Called_Sonic.SelectedValue;
             objEvent.Agency_name = Convert.ToString(txtAgency_name_Sonic.Text);
             objEvent.Officer_Name = Convert.ToString(txtOfficer_Name_Sonic.Text);
@@ -1314,6 +1322,8 @@ public partial class Event_Event_New : clsBasePage
         }
         txtEventDesciption.Enable = Is_Enable;
         txtEvent_Start_Date.Enabled = Is_Enable;
+        txtEvent_Start_Time.Enabled = Is_Enable;
+        txtEvent_End_Time.Enabled = Is_Enable;
         imgEvent_Start_Date.Visible = Is_Enable;
         lnkAddEvent_CameraNew.Visible = Is_Enable;
         txtInvestigator_Name.Enabled = Is_Enable;
@@ -1370,6 +1380,8 @@ public partial class Event_Event_New : clsBasePage
             imgDate_Closed.Visible = false;
             ddlLocation_Sonic.Enabled = false;
             txtEvent_Start_Date_Sonic.Enabled = false;
+            txtEvent_Start_Time_Sonic.Enabled = false;
+            txtEvent_End_Time_Sonic.Enabled = false;
             imgEvent_Start_Date_Sonic.Visible = false;
             txtEvent_Number_Sonic.Enabled = false;
             rdoMonitoring_Hours_Sonic.Enabled = false;

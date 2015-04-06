@@ -715,6 +715,42 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
+                                                        <td align="left" valign="top">Event Start Time
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:TextBox ID="txtEvent_Start_Time" runat="server" MaxLength="5" Width="170px" />
+                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" AcceptNegative="Left"
+                                                                DisplayMoney="Left" Mask="99:99" MaskType="Time" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                AcceptAMPM="false" OnInvalidCssClass="MaskedEditError" TargetControlID="txtEvent_Start_Time"
+                                                                CultureName="en-US" AutoComplete="false" ClearMaskOnLostFocus="true">
+                                                            </cc1:MaskedEditExtender>
+                                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtEvent_Start_Time"
+                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                ErrorMessage="[ACI Reported Event]/Invalid Event Start Time" Display="none"
+                                                                ValidationGroup="vsErrorGroup" SetFocusOnError="true">
+                                                            </asp:RegularExpressionValidator>
+                                                        </td>
+                                                        <td align="left" valign="top">Event End Time
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:TextBox ID="txtEvent_End_Time" runat="server" MaxLength="5" Width="170px"  />
+                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender2" runat="server" AcceptNegative="Left"
+                                                                DisplayMoney="Left" Mask="99:99" MaskType="Time" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                AcceptAMPM="false" OnInvalidCssClass="MaskedEditError" TargetControlID="txtEvent_End_Time"
+                                                                CultureName="en-US" AutoComplete="false" ClearMaskOnLostFocus="true">
+                                                            </cc1:MaskedEditExtender>
+                                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="txtEvent_End_Time"
+                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                ErrorMessage="[ACI Reported Event]/Invalid Event End Time" Display="none"
+                                                                ValidationGroup="vsErrorGroup" SetFocusOnError="true">
+                                                            </asp:RegularExpressionValidator>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
                                                         <td colspan="6">&nbsp;
                                                         </td>
                                                     </tr>
@@ -1474,6 +1510,42 @@
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:TextBox ID="txtEvent_Number_Sonic" runat="server" SkinID="txtDisabled" Width="170px"></asp:TextBox>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Event Start Time
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:TextBox ID="txtEvent_Start_Time_Sonic" runat="server"  MaxLength="5" Width="170px" />
+                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender3" runat="server" AcceptNegative="Left"
+                                                                DisplayMoney="Left" Mask="99:99" MaskType="Time" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                AcceptAMPM="false" OnInvalidCssClass="MaskedEditError" TargetControlID="txtEvent_Start_Time_Sonic"
+                                                                CultureName="en-US" AutoComplete="false" ClearMaskOnLostFocus="true">
+                                                            </cc1:MaskedEditExtender>
+                                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server" ControlToValidate="txtEvent_Start_Time_Sonic"
+                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                ErrorMessage="[Sonic Reported Event]/Invalid Event Start Time" Display="none"
+                                                                ValidationGroup="vsErrorGroup" SetFocusOnError="true">
+                                                            </asp:RegularExpressionValidator>
+                                                        </td>
+                                                        <td align="left" valign="top">Event End Time
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:TextBox ID="txtEvent_End_Time_Sonic" runat="server" MaxLength="5" Width="170px" />
+                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender4" runat="server" AcceptNegative="Left"
+                                                                DisplayMoney="Left" Mask="99:99" MaskType="Time" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                AcceptAMPM="false" OnInvalidCssClass="MaskedEditError" TargetControlID="txtEvent_End_Time_Sonic"
+                                                                CultureName="en-US" AutoComplete="false" ClearMaskOnLostFocus="true">
+                                                            </cc1:MaskedEditExtender>
+                                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server" ControlToValidate="txtEvent_End_Time_Sonic"
+                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                ErrorMessage="[Sonic Reported Event]/Invalid Event End Time" Display="none"
+                                                                ValidationGroup="vsErrorGroup" SetFocusOnError="true">
+                                                            </asp:RegularExpressionValidator>
                                                         </td>
                                                     </tr>
                                                     <tr>

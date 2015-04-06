@@ -1652,12 +1652,12 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Event_Image", DbType.String, this._Event_Image);
 
-            if (string.IsNullOrEmpty(this._Event_Image))
+            if (string.IsNullOrEmpty(this._Event_Start_Time))
                 db.AddInParameter(dbCommand, "Event_Start_Time", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Event_Start_Time", DbType.String, this._Event_Start_Time);
 
-            if (string.IsNullOrEmpty(this._Event_Image))
+            if (string.IsNullOrEmpty(this._Event_End_Time))
                 db.AddInParameter(dbCommand, "Event_End_Time", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Event_End_Time", DbType.String, this._Event_End_Time);

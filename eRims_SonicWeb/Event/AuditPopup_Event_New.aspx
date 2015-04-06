@@ -60,6 +60,12 @@
                                     <span style="display: inline-block; width: 150px;">Date of Event</span>
                                 </th>
                                 <th class="cols">
+                                    <span style="display: inline-block; width: 150px;">Event Start Time</span>
+                                </th>
+                                <th class="cols">
+                                    <span style="display: inline-block; width: 150px;">Event End Time</span>
+                                </th>
+                                <th class="cols">
                                     <span style="display: inline-block; width: 150px;">Location</span>
                                 </th>
                                 <th class="cols">
@@ -148,6 +154,18 @@
                                 <ItemTemplate>
                                     <asp:Label ID="lblDate_of_Event" runat="server" Text='<%#Eval("Event_Start_Date") != DBNull.Value ? clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Event_Start_Date"))) : ""%>'
                                         Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Event_Start_Time">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblEvent_Start_Time" runat="server" Text='<%#Eval("Event_Start_Time")%>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Event_End_Time">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblEvent_Start_Time" runat="server" Text='<%#Eval("Event_End_Time")%>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                              <asp:TemplateField HeaderText="Location">

@@ -283,7 +283,7 @@
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Event Number" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
                                                 SortExpression="Event_Number">
-                                                <ItemStyle Width="100px" />
+                                                <ItemStyle Width="150px" />
                                                 <ItemTemplate>
                                                     <%# Eval("Event_Number")%>
                                                 </ItemTemplate>
@@ -311,7 +311,7 @@
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Location Code" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
                                                 SortExpression="Location_Code">
-                                                <ItemStyle Width="100px" />
+                                                <ItemStyle Width="150px" />
                                                 <ItemTemplate>
                                                     <%# Eval("Location_Code")%>
                                                 </ItemTemplate>
@@ -321,6 +321,13 @@
                                                 <ItemStyle Width="150px" />
                                                 <ItemTemplate>
                                                     <%# Eval("Event_Status")%>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Event Type" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
+                                                SortExpression="Event_Type">
+                                                <ItemStyle Width="450px" />
+                                                <ItemTemplate>
+                                                    <%# Eval("Event_Type")%>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                         </Columns>

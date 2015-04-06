@@ -468,6 +468,7 @@ public partial class Event_EventSearch_New : clsBasePage
         strHTML.Append("<td align='left'>DBA</td>");
         strHTML.Append("<td align='left'>Location Code</td>");
         strHTML.Append("<td align='left'>Event Status</td>");
+        strHTML.Append("<td align='left'>Event Type</td>");
 
         strHTML.Append("</tr>");
 
@@ -482,6 +483,7 @@ public partial class Event_EventSearch_New : clsBasePage
                 strHTML.Append("<td>" + Convert.ToString(dtEvent.Rows[i]["FK_LU_Location"]) + "</td>");
                 strHTML.Append("<td>" + Convert.ToString(dtEvent.Rows[i]["Location_Code"]) + "</td>");
                 strHTML.Append("<td>" + Convert.ToString(dtEvent.Rows[i]["Event_Status"]) + "</td>");
+                strHTML.Append("<td>" + Convert.ToString(dtEvent.Rows[i]["Event_Type"]) + "</td>");
                 strHTML.Append("</td></tr>");
             }
         }
