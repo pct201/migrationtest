@@ -3283,7 +3283,7 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet BuildingByFacilityConstructionProjectId(int FK_Facility_Construction_PM)
+        public static DataSet BuildingByFacilityConstructionProjectId(decimal FK_Facility_Construction_PM)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("BuildingSelectByFacilityConstructionProjectId");
