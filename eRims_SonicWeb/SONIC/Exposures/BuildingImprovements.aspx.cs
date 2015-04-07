@@ -290,7 +290,7 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
         dvSave.Style["display"] = "none";
 
         //ComboHelper.FillBuildingForBuildingImprovements(new ListBox[] { lstBuildingNumberView }, false);
-        ComboHelper.FillBuildingForBuildingImprovements(new ListBox[] { lstBuildingNumber }, clsGeneral.GetInt(Session["ExposureLocation"]), false);
+        ComboHelper.FillBuildingForBuildingImprovements(new ListBox[] { lstBuildingNumberView }, clsGeneral.GetInt(Session["ExposureLocation"]), false);
 
         DataTable dtBuildings = Building_Improvements.SelectBuildingByFK_Building_Improvements(PK_Building_Improvements).Tables[0];
         if (dtBuildings != null && dtBuildings.Rows.Count > 0)
