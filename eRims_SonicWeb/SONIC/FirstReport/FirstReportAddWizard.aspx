@@ -144,7 +144,7 @@
                                     <table cellpadding="3" cellspacing="1" width="100%" border="0">
                                         <tr>
                                             <td style="width: 80%">
-                                                Does the incident involve injury to a Sonic Automotive associate?</td>
+                                                Does the incident involve a Sonic Automotive associate?</td>
                                             <td style="width: 20%">
                                                 <asp:RadioButtonList runat="server" ID="rdoInjured_Employee" SkinID="YesNoType">
                                                 </asp:RadioButtonList></td>
