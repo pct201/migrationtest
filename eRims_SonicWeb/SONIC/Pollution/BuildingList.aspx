@@ -13,7 +13,7 @@
                     <table cellpadding="0" cellspacing="0" width="100%">
                         <tr>
                             <td width="45%">
-                                &nbsp;<span class="heading">Environmental Module Building Grid</span><br />
+                                &nbsp;<span class="heading">EHS Module Building Grid</span><br />
                                 &nbsp;<asp:Label ID="lblNumber" runat="server" Text=""></asp:Label>&nbsp;Buildings
                                 Found
                             </td>
@@ -90,9 +90,13 @@
                 </td>
             </tr>
             <tr>
+                <td><table width="100%"><tr>
                 <td align="center">
+                    <asp:Button ID="btnReturntoPM" runat="server" Text="Return to Project Management" OnClick="btnReturntoPM_Click" />&nbsp;                
                     <asp:Button ID="btnBack" runat="server" Text="Back" OnClick="btnBack_Click" />
                 </td>
+                    </tr>
+                </table></td>
             </tr>
             <tr>
                 <td width="100%" class="Spacer" style="height: 10px;">

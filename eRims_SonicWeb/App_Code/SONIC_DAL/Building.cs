@@ -3354,6 +3354,21 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        public static DataSet SelectByPagingBuildingNumber(int fK_LU_Location_ID, string Building_Number, string strOrderBy, string strOrder, int intPageNo, int intPageSize)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Building_SelectByPagingBuildingNumber");
+
+            db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Int32, fK_LU_Location_ID);
+            db.AddInParameter(dbCommand, "Building_Number", DbType.String, Building_Number);
+            db.AddInParameter(dbCommand, "strOrderBy", DbType.String, strOrderBy);
+            db.AddInParameter(dbCommand, "strOrder", DbType.String, strOrder);
+            db.AddInParameter(dbCommand, "intPageNo", DbType.String, intPageNo);
+            db.AddInParameter(dbCommand, "intPageSize", DbType.String, intPageSize);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
         #endregion
     }
 }
