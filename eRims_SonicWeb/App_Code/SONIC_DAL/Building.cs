@@ -3283,15 +3283,15 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet BuildingByFacilityConstructionProjectId(decimal FK_Facility_Construction_PM)
-        {
-            Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("BuildingSelectByFacilityConstructionProjectId");
+        //public static DataSet BuildingByFacilityConstructionProjectId(decimal FK_Facility_Construction_PM)
+        //{
+        //    Database db = DatabaseFactory.CreateDatabase();
+        //    DbCommand dbCommand = db.GetStoredProcCommand("BuildingSelectByFacilityConstructionProjectId");
 
-            db.AddInParameter(dbCommand, "FK_Facility_Construction_PM", DbType.Decimal, FK_Facility_Construction_PM);
+        //    db.AddInParameter(dbCommand, "FK_Facility_Construction_PM", DbType.Decimal, FK_Facility_Construction_PM);
 
-            return db.ExecuteDataSet(dbCommand);
-        }
+        //    return db.ExecuteDataSet(dbCommand);
+        //}
 
         public static DataSet SelectFinancialLimitsByLocation(int fK_LU_Location_ID)
         {
