@@ -3618,10 +3618,10 @@ function ValidateFieldsTank(sender, args) {
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top" colspan="5">Apply the Installation and Inspection Dates of the First Installed <span id="spnvwFirstInstalled" runat="server">Lift</span> in the Below
+                                                            <td align="left" valign="top" colspan="4" width="80%">Apply the Installation and Inspection Dates of the First Installed <span id="spnvwFirstInstalled" runat="server">Lift</span> in the Below
                                                                 Grid to all Installed <span id="spnvwFirstInstalled2" runat="server">Lifts</span> in the Grid?
                                                             </td>
-                                                            <td align="left" valign="top">
+                                                            <td align="left" valign="top" colspan="2" width="20%">
                                                                 <asp:Label ID="lblUse_Same_Dates" runat="server"></asp:Label>
                                                             </td>
                                                         </tr>

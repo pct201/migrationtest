@@ -206,7 +206,7 @@
                 args.IsValid = true;
             }
         }
-    </script>
+    </script>    
     <asp:HiddenField ID="hdPanel" runat="server" Value="1" />
     <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
         HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
@@ -1003,50 +1003,50 @@
                                                             <asp:GridView ID="gvComplainceReportingOSHA" runat="server" Width="100%" AutoGenerateColumns="false"
                                                                 EmptyDataText="No Record Exists" OnRowCommand="gvComplainceReportingOSHA_RowCommand">
                                                                 <Columns>
-                                                                    <asp:TemplateField HeaderText="Date Completed">
-                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                    <asp:TemplateField HeaderText="Date Completed" HeaderStyle-HorizontalAlign="Center" >
+                                                                        <ItemStyle Width="15%" HorizontalAlign="center"  />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkDate_Completed" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("Date_Completed")) %>'
                                                                                 CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Feb 1 Log Posting">
-                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                    <asp:TemplateField HeaderText="Feb 1 Log Posting" HeaderStyle-HorizontalAlign="Center">
+                                                                        <ItemStyle Width="15%" HorizontalAlign="center" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkLog_Posted_Feb_1" runat="server" Text='<%# Eval("Log_Posted_Feb_1").ToString() == "N" ? "No" : "Yes" %>'
                                                                                 CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Number of Osha Recordable">
-                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                    <asp:TemplateField HeaderText="Number of Osha Recordable" HeaderStyle-HorizontalAlign="Center">
+                                                                        <ItemStyle Width="15%" HorizontalAlign="center" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkOSHA_Recordable" runat="server" Text='<%# Eval("OSHA_Recordable").ToString() %>'
                                                                                 CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Number of lost Work Days">
-                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                    <asp:TemplateField HeaderText="Number of lost Work Days" HeaderStyle-HorizontalAlign="Center"> 
+                                                                        <ItemStyle Width="15%" HorizontalAlign="center" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkLost_Work_Days" runat="server" Text='<%# Eval("Lost_Work_Days").ToString() %>'
                                                                                 CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Number of Restricted Work Days">
-                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                    <asp:TemplateField HeaderText="Number of Restricted Work Days" HeaderStyle-HorizontalAlign="Center">
+                                                                        <ItemStyle Width="15%" HorizontalAlign="center" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkRestsricted_Work_Days" runat="server" Text='<%# Eval("Restsricted_Work_Days").ToString() %>'
                                                                                 CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
-                                                                     <asp:TemplateField HeaderText="Total Number of Associates">
-                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                     <asp:TemplateField HeaderText="Total Number of Associates" HeaderStyle-HorizontalAlign="Center">
+                                                                        <ItemStyle Width="15%" HorizontalAlign="center" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkTotal_Associates" runat="server" Text='<%# Eval("Total_Associates").ToString() %>'
                                                                                 CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Remove">
-                                                                        <ItemStyle Width="10%" HorizontalAlign="Left" />
+                                                                    <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center">
+                                                                        <ItemStyle Width="10%" HorizontalAlign="center" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkRemove" runat="server" Text="Remove" CommandName="RemoveDetails"
                                                                                 CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' OnClientClick="return confirm('Are you sure to remove the record?');" />
@@ -1360,11 +1360,11 @@
                                                             </asp:GridView>
                                                         </td>
                                                     </tr>
-                                                    <tr>
+                                                   <%-- <tr>
                                                         <td colspan="6">
                                                             &nbsp;
                                                         </td>
-                                                    </tr>
+                                                    </tr>--%>
                                                     <%--<tr>
                                                         <td align="left" width="14%" valign="top">
                                                             Phase I Grid<br />
@@ -2267,43 +2267,43 @@
                                                             <asp:GridView ID="gvOshaLogGridView" runat="server" Width="100%" AutoGenerateColumns="false"
                                                                 EmptyDataText="No Record Exists" OnRowCommand="gvComplainceReportingOSHA_RowCommand">
                                                                 <Columns>
-                                                                    <asp:TemplateField HeaderText="Date Completed">
-                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                    <asp:TemplateField HeaderText="Date Completed" HeaderStyle-HorizontalAlign="Center">
+                                                                        <ItemStyle Width="15%" HorizontalAlign="center" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkDate_Completed" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("Date_Completed")) %>'
                                                                                 CommandName="ViewDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Feb 1 Log Posting">
-                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                    <asp:TemplateField HeaderText="Feb 1 Log Posting" HeaderStyle-HorizontalAlign="Center">
+                                                                        <ItemStyle Width="15%" HorizontalAlign="center" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkLog_Posted_Feb_1" runat="server" Text='<%# Eval("Log_Posted_Feb_1").ToString() == "N" ? "No" : "Yes" %>'
                                                                                 CommandName="ViewDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Number of Osha Recordable">
-                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                    <asp:TemplateField HeaderText="Number of Osha Recordable" HeaderStyle-HorizontalAlign="Center">
+                                                                        <ItemStyle Width="15%" HorizontalAlign="center" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkOSHA_Recordable" runat="server" Text='<%# Eval("OSHA_Recordable").ToString() %>'
                                                                                 CommandName="ViewDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Number of lost Work Days">
-                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                    <asp:TemplateField HeaderText="Number of lost Work Days" HeaderStyle-HorizontalAlign="Center">
+                                                                        <ItemStyle Width="15%" HorizontalAlign="center" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkLost_Work_Days" runat="server" Text='<%# Eval("Lost_Work_Days").ToString() %>'
                                                                                 CommandName="ViewDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Number of Restricted Work Days">
-                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                    <asp:TemplateField HeaderText="Number of Restricted Work Days" HeaderStyle-HorizontalAlign="Center">
+                                                                        <ItemStyle Width="15%" HorizontalAlign="center" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkRestsricted_Work_Days" runat="server" Text='<%# Eval("Restsricted_Work_Days").ToString() %>'
                                                                                 CommandName="ViewDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
-                                                                     <asp:TemplateField HeaderText="Total Number of Associates">
-                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                     <asp:TemplateField HeaderText="Total Number of Associates" HeaderStyle-HorizontalAlign="Center">
+                                                                        <ItemStyle Width="15%" HorizontalAlign="center" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkTotal_Associates" runat="server" Text='<%# Eval("Total_Associates").ToString() %>'
                                                                                 CommandName="ViewDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
@@ -2634,11 +2634,11 @@
                                                             </asp:GridView>
                                                         </td>
                                                     </tr>--%>
-                                                    <tr>
+                                                  <%--  <tr>
                                                         <td colspan="6">
                                                             &nbsp;
                                                         </td>
-                                                    </tr>
+                                                    </tr>--%>
                                                     <tr>
                                                         <td align="left" width="14%" valign="top">
                                                             Regulatory Inspections Grid
