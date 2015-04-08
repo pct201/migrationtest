@@ -115,7 +115,7 @@
                                             <a href='#' runat="server" id="lnkFranchise" />
                                         </ItemTemplate>
                                     </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="Env.">
+                                    <asp:TemplateField HeaderText="EHS">
                                         <ItemStyle HorizontalAlign="Left" Width="65px" />
                                         <ItemTemplate>
                                             <%--<a href='<%# Convert.ToInt32(Eval("PollutionCount")) > 0 ? AppConfig.SiteURL + "SONIC/Pollution/Pollution.aspx?loc=" + Encryption.Encrypt(Eval("PK_LU_Location_ID").ToString())+"&op=view" : AppConfig.SiteURL + "SONIC/Pollution/Pollution.aspx?loc=" + Encryption.Encrypt(Eval("PK_LU_Location_ID").ToString()) %>'>

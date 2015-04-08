@@ -23,6 +23,42 @@ public partial class SONIC_Pollution_AuditPopup_PM_Equipment_Hydraulic_Lift_Grid
         get { return (!clsGeneral.IsNull(Request.QueryString["id"]) ? Convert.ToInt32(Request.QueryString["id"]) : -1); }
     }
 
+    public string CheckStatus(object myValue)
+    {
+        if (myValue.ToString() == "A")
+        {
+            return "Active";
+        }
+        else if (myValue.ToString() == "N")
+        {
+            return "Non-Active";
+        }
+        else if (myValue.ToString() == "S")
+        {
+            return "Removed";
+        }
+        else
+        {
+            return string.Empty;
+        }        
+    }
+
+    public string CheckLiftNumberReplacementIndicator(object myValue)
+    {
+        if (myValue.ToString() == "Y")
+        {
+            return "YES";
+        }
+        else if (myValue.ToString() == "N")
+        {
+            return "NO";
+        }
+        else 
+        {
+            return "";
+        }
+       
+    }
     #endregion
 
     #region "Page Event"
@@ -96,13 +132,13 @@ public partial class SONIC_Pollution_AuditPopup_PM_Equipment_Hydraulic_Lift_Grid
             {
                 this.Title = "eRIMS Sonic :: Alignment Racks Audit Trail";
                 lbltable_Name.Text = "Alignment Rack";
-
+                spnauditRemoval.InnerText = "Rack";
             }
             else
             {
                 this.Title = "eRIMS Sonic :: Hydraulic Lift Audit Trail";
                 lbltable_Name.Text = "Hydraulic Lift";
-
+                spnauditRemoval.InnerText = "Lift";
             }
         }
         else

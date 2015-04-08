@@ -1160,5 +1160,20 @@ public class AuditTrail
         return db.ExecuteDataSet(dbCommand);
     }
 
+
+    /// <summary>
+    /// Selects a single record from the PM_SI_Utility_Provider table by a primary key.
+    /// </summary>
+    /// <returns>DataSet</returns>
+    public static DataSet GetAuditOSHALogView(decimal pK_PM_Compliance_Reporting_OSHA)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("PM_Complaince_Reporting_OSHA_AuditView");
+
+        db.AddInParameter(dbCommand, "PK_PM_Compliance_Reporting_OSHA", DbType.Decimal, pK_PM_Compliance_Reporting_OSHA);
+
+        return db.ExecuteDataSet(dbCommand);
+    }
+
     #endregion
 }

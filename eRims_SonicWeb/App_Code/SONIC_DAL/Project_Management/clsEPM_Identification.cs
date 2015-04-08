@@ -641,5 +641,21 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "FK_Building", DbType.String, FK_Building);
             return db.ExecuteDataSet(dbCommand);
         }
+
+
+        public static DataSet SelectByBuildingId(decimal Fk_LU_Location, decimal Fk_Building_Id, int intPageNo, int intPageSize, string strOrder, string strOrderBy)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("EPM_IdentificationSelectByBuildingId");
+
+            db.AddInParameter(dbCommand, "Fk_LU_Location", DbType.Decimal, Fk_LU_Location);
+            db.AddInParameter(dbCommand, "Fk_Building_Id", DbType.Decimal, Fk_Building_Id);
+            db.AddInParameter(dbCommand, "intPageNo", DbType.Int32, intPageNo);
+            db.AddInParameter(dbCommand, "intPageSize", DbType.Int32, intPageSize);
+            db.AddInParameter(dbCommand, "strOrder", DbType.String, strOrder);
+            db.AddInParameter(dbCommand, "strOrderBy", DbType.String, strOrderBy);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
     }
 }

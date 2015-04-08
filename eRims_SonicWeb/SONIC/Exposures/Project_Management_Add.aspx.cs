@@ -48,6 +48,8 @@ public partial class SONIC_Exposures_Project_Management_Add : clsBasePage
     {
         if (!IsPostBack)
         {
+            ViewState["PreviousPage"] = Request.UrlReferrer;//Saves the Previous page url in ViewState
+
             // set the default sort field and sort order
             SortBy = "Project_Number";
             SortOrder = "Asc";
@@ -85,7 +87,18 @@ public partial class SONIC_Exposures_Project_Management_Add : clsBasePage
     /// <param name="PageSize"></param>
     private void BindProjectManagenentGrid(int PageNumber, int PageSize)
     {
-        DataSet dsProject_Management = clsEPM_Identification.SelectAll(LocationID, PageNumber, PageSize, SortOrder, SortBy);
+        DataSet dsProject_Management = null;
+        if (Session["EnviroBuilding"] != null && Request.QueryString["Building_Id"] != null)
+        {
+            decimal BuildindId = Convert.ToDecimal(Session["EnviroBuilding"]);
+            dsProject_Management = clsEPM_Identification.SelectByBuildingId(LocationID, BuildindId, PageNumber, PageSize, SortOrder, SortBy);
+            btnBack.Visible = true;            
+        }
+        else
+        {
+            btnBack.Visible = false;
+            dsProject_Management = clsEPM_Identification.SelectAll(LocationID, PageNumber, PageSize, SortOrder, SortBy);
+        }
         DataTable dtProject_Management = dsProject_Management.Tables[0];
         ctrlPageProjects.TotalRecords = (dsProject_Management.Tables.Count >= 2) ? Convert.ToInt32(dsProject_Management.Tables[1].Rows[0][0]) : 0;
         ctrlPageProjects.CurrentPage = (dsProject_Management.Tables.Count >= 2) ? Convert.ToInt32(dsProject_Management.Tables[1].Rows[0][2]) : 0;
@@ -195,8 +208,12 @@ public partial class SONIC_Exposures_Project_Management_Add : clsBasePage
     {
         if (e.CommandName == "ViewProjectManagement")
         {
+            int rowIndex = ((GridViewRow)((LinkButton)e.CommandSource).NamingContainer).RowIndex;
+            string BuildingName = ((LinkButton)gvProjectManagement.Rows[rowIndex].FindControl("lnkBuilding")).Text;
             decimal PK_EPM_Identification = 0;
             PK_EPM_Identification = Convert.ToDecimal(e.CommandArgument);
+            if (!string.IsNullOrEmpty(BuildingName.ToString()))
+            Session["BuildingName"] = BuildingName; 
             Response.Redirect("Project_Management.aspx?loc=" + Request.QueryString["loc"].ToString() + "&id=" + Encryption.Encrypt(PK_EPM_Identification.ToString()) + "&op=view", true);
         }
         else if (e.CommandName == "RemoveProjectManagement")
@@ -247,4 +264,14 @@ public partial class SONIC_Exposures_Project_Management_Add : clsBasePage
         BindProjectManagenentGrid(ctrlPageProjects.CurrentPage, ctrlPageProjects.PageSize);
     }
     #endregion
+
+    protected void btnBack_Click(object sender, EventArgs e)
+    {
+        if (ViewState["PreviousPage"] != null)	//Check if the ViewState 
+        //contains Previous page URL
+        {
+            Response.Redirect(ViewState["PreviousPage"].ToString());//Redirect to 
+            //Previous page by retrieving the PreviousPage Url from ViewState.
+        }
+    }
 }

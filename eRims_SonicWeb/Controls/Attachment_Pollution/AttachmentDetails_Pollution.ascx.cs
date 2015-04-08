@@ -98,6 +98,15 @@ public partial class AttachmentDetails_Pollution : System.Web.UI.UserControl
             gvAttachment.Columns[3].Visible = true;
         else
             gvAttachment.Columns[3].Visible = false;
+
+        if (Table_Name != "PM_Compliance_Reporting_OSHA_Attachments")
+        {
+            gvAttachment.Columns[1].Visible = false;
+        }
+        else
+        {
+            gvAttachment.Columns[1].Visible = true;
+        }
     }
 
     # endregion
@@ -226,13 +235,17 @@ public partial class AttachmentDetails_Pollution : System.Web.UI.UserControl
 
             string strSQL = "";
             strSQL = strSQL + "SELECT " + PK_Field_Name + " AS PK_Attachment_Id,";
-            strSQL = strSQL + "ISNULL(LU_EPM_Attachment_Type.FLD_desc,'General') AS Attachment_Type,";
+            if (clsGeneral.PollutionTableName[(int)AttachmentTable] != "PM_Compliance_Reporting_OSHA_Attachments")
+                strSQL = strSQL + "ISNULL(LU_EPM_Attachment_Type.FLD_desc,'General') AS Attachment_Type,";
+            else
+                strSQL = strSQL + "'1' AS Attachment_Type,";
             strSQL = strSQL + "Description,";
             strSQL = strSQL + "Attachment_Path AS Attachment_Path1,";
             strSQL = strSQL + "SUBSTRING(Attachment_Path,13,LEN(Attachment_Path)-12) AS Attachment_Path,";
             strSQL = strSQL + "Update_Date";
             strSQL = strSQL + " FROM " + clsGeneral.PollutionTableName[(int)AttachmentTable] + Environment.NewLine;
-            strSQL = strSQL + "LEFT JOIN LU_EPM_Attachment_Type ON LU_EPM_Attachment_Type.PK_LU_EPM_Attachment_Type = " + clsGeneral.PollutionTableName[(int)AttachmentTable] + ".FK_Attachment_Type";
+            if (clsGeneral.PollutionTableName[(int)AttachmentTable] != "PM_Compliance_Reporting_OSHA_Attachments")
+                strSQL = strSQL + "LEFT JOIN LU_EPM_Attachment_Type ON LU_EPM_Attachment_Type.PK_LU_EPM_Attachment_Type = " + clsGeneral.PollutionTableName[(int)AttachmentTable] + ".FK_Attachment_Type";
             strSQL = strSQL + " WHERE " + AttachmentFKName + " = " + AttachmentFK;
             if (!string.IsNullOrEmpty(Equipment_Table_Name))
             {

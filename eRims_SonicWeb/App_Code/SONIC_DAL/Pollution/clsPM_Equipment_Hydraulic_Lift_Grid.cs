@@ -26,7 +26,21 @@ namespace ERIMS.DAL
 		private string _Notes;
 		private DateTime? _Removal_Date;
 		private string _Updated_By;
-		private DateTime? _Update_Date;
+		private DateTime? _Update_Date;      
+
+
+        //3187
+        private string _Status;
+        private string _Any_Inground_Lifts_Been_Removed;
+        private string _Documentation_Related_To_Removed_Lifts;        
+        private string _Replacement_Description;
+        private string _Replacement_Oil_Type;
+        private string _Replacement_Above_Ground;
+        private string _Replacement_Manufacturer;
+        private DateTime? _Replacement_Installation_Date;
+        private DateTime? _Replacement_Last_Annual_Inspection;
+        private string _Replacement_Notes;
+        private string _Lift_Number_Replacement_Indicator;
 
 		#endregion
 
@@ -158,7 +172,78 @@ namespace ERIMS.DAL
 			set { _Update_Date = value; }
 		}
 
+        //3187
+        public string Status
+        {
+            get { return _Status; }
+            set { _Status = value; }
+        }
 
+        /// <summary>
+        /// Gets or sets the Any_Inground_Lifts_Been_Removed value.
+        /// </summary>
+        public string Any_Inground_Lifts_Been_Removed
+        {
+            get { return _Any_Inground_Lifts_Been_Removed; }
+            set { _Any_Inground_Lifts_Been_Removed = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Documentation_Related_To_Removed_Lifts value.
+        /// </summary>
+        public string Documentation_Related_To_Removed_Lifts
+        {
+            get { return _Documentation_Related_To_Removed_Lifts; }
+            set { _Documentation_Related_To_Removed_Lifts = value; }
+        }
+
+        public string Replacement_Description
+        {
+            get { return _Replacement_Description; }
+            set { _Replacement_Description = value; }
+        }
+
+        public string Replacement_Oil_Type
+        {
+            get { return _Replacement_Oil_Type; }
+            set { _Replacement_Oil_Type = value; }
+        }
+
+        public string Replacement_Above_Ground
+        {
+            get { return _Replacement_Above_Ground; }
+            set { _Replacement_Above_Ground = value; }
+        }
+
+        public string Replacement_Manufacturer
+        {
+            get { return _Replacement_Manufacturer; }
+            set { _Replacement_Manufacturer = value; }
+        }
+
+        public DateTime? Replacement_Installation_Date
+        {
+            get { return _Replacement_Installation_Date; }
+            set { _Replacement_Installation_Date = value; }
+        }
+
+        public DateTime? Replacement_Last_Annual_Inspection
+        {
+            get { return _Replacement_Last_Annual_Inspection; }
+            set { _Replacement_Last_Annual_Inspection = value; }
+        }
+
+        public string Replacement_Notes
+        {
+            get { return _Replacement_Notes; }
+            set { _Replacement_Notes = value; }
+        }
+
+        public string Lift_Number_Replacement_Indicator
+        {
+            get { return _Lift_Number_Replacement_Indicator; }
+            set { _Lift_Number_Replacement_Indicator = value; }
+        }
 		#endregion
 
 		#region Default Constructors
@@ -268,6 +353,63 @@ namespace ERIMS.DAL
 					this._Update_Date = (DateTime?)drPM_Equipment_Hydraulic_Lift_Grid["Update_Date"];
 
 
+                //3187
+                if (drPM_Equipment_Hydraulic_Lift_Grid["Status"] == DBNull.Value)
+                    this._Status = null;
+                else
+                    this._Status = (string)drPM_Equipment_Hydraulic_Lift_Grid["Status"];
+
+                if (drPM_Equipment_Hydraulic_Lift_Grid["Any_Inground_Lifts_Been_Removed"] == DBNull.Value)
+                    this._Any_Inground_Lifts_Been_Removed = null;
+                else
+                    this._Any_Inground_Lifts_Been_Removed = (string)drPM_Equipment_Hydraulic_Lift_Grid["Any_Inground_Lifts_Been_Removed"];
+
+                if (drPM_Equipment_Hydraulic_Lift_Grid["Documentation_Related_To_Removed_Lifts"] == DBNull.Value)
+                    this._Documentation_Related_To_Removed_Lifts = null;
+                else
+                    this._Documentation_Related_To_Removed_Lifts = (string)drPM_Equipment_Hydraulic_Lift_Grid["Documentation_Related_To_Removed_Lifts"];
+
+                if (drPM_Equipment_Hydraulic_Lift_Grid["Replacement_Description"] == DBNull.Value)
+                    this._Replacement_Description = null;
+                else
+                    this._Replacement_Description = (string)drPM_Equipment_Hydraulic_Lift_Grid["Replacement_Description"];
+
+                if (drPM_Equipment_Hydraulic_Lift_Grid["Replacement_Oil_Type"] == DBNull.Value)
+                    this._Replacement_Oil_Type = null;
+                else
+                    this._Replacement_Oil_Type = (string)drPM_Equipment_Hydraulic_Lift_Grid["Replacement_Oil_Type"];
+
+                if (drPM_Equipment_Hydraulic_Lift_Grid["Replacement_Above_Ground"] == DBNull.Value)
+                    this._Replacement_Above_Ground = null;
+                else
+                    this._Replacement_Above_Ground = (string)drPM_Equipment_Hydraulic_Lift_Grid["Replacement_Above_Ground"];
+
+                if (drPM_Equipment_Hydraulic_Lift_Grid["Replacement_Manufacturer"] == DBNull.Value)
+                    this._Replacement_Manufacturer = null;
+                else
+                    this._Replacement_Manufacturer = (string)drPM_Equipment_Hydraulic_Lift_Grid["Replacement_Manufacturer"];
+
+                if (drPM_Equipment_Hydraulic_Lift_Grid["Replacement_Installation_Date"] == DBNull.Value)
+                    this._Replacement_Installation_Date = null;
+                else
+                    this._Replacement_Installation_Date = (DateTime?)drPM_Equipment_Hydraulic_Lift_Grid["Replacement_Installation_Date"];
+
+                if (drPM_Equipment_Hydraulic_Lift_Grid["Replacement_Last_Annual_Inspection"] == DBNull.Value)
+                    this._Replacement_Last_Annual_Inspection = null;
+                else
+                    this._Replacement_Last_Annual_Inspection = (DateTime?)drPM_Equipment_Hydraulic_Lift_Grid["Replacement_Last_Annual_Inspection"];
+
+                if (drPM_Equipment_Hydraulic_Lift_Grid["Replacement_Notes"] == DBNull.Value)
+                    this._Replacement_Notes = null;
+                else
+                    this._Replacement_Notes = (string)drPM_Equipment_Hydraulic_Lift_Grid["Replacement_Notes"];
+
+                if (drPM_Equipment_Hydraulic_Lift_Grid["Lift_Number_Replacement_Indicator"] == DBNull.Value)
+                    this._Lift_Number_Replacement_Indicator = null;
+                else
+                    this._Lift_Number_Replacement_Indicator = (string)drPM_Equipment_Hydraulic_Lift_Grid["Lift_Number_Replacement_Indicator"];
+
+
 		}
 
 		#endregion
@@ -328,6 +470,58 @@ namespace ERIMS.DAL
 				db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
 			
 			db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
+
+            //3187
+
+            if (string.IsNullOrEmpty(this._Status))
+                db.AddInParameter(dbCommand, "Status", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Status", DbType.String, this._Status);
+
+            if (string.IsNullOrEmpty(this._Any_Inground_Lifts_Been_Removed))
+                db.AddInParameter(dbCommand, "Any_Inground_Lifts_Been_Removed", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Any_Inground_Lifts_Been_Removed", DbType.String, this._Any_Inground_Lifts_Been_Removed);
+
+            if (string.IsNullOrEmpty(this._Documentation_Related_To_Removed_Lifts))
+                db.AddInParameter(dbCommand, "Documentation_Related_To_Removed_Lifts", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Documentation_Related_To_Removed_Lifts", DbType.String, this._Documentation_Related_To_Removed_Lifts);
+
+            if (string.IsNullOrEmpty(this._Replacement_Description))
+                db.AddInParameter(dbCommand, "Replacement_Description", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Replacement_Description", DbType.String, this._Replacement_Description);
+
+            if (string.IsNullOrEmpty(this._Replacement_Oil_Type))
+                db.AddInParameter(dbCommand, "Replacement_Oil_Type", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Replacement_Oil_Type", DbType.String, this._Replacement_Oil_Type);
+
+            if (string.IsNullOrEmpty(this._Replacement_Above_Ground))
+                db.AddInParameter(dbCommand, "Replacement_Above_Ground", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Replacement_Above_Ground", DbType.String, this._Replacement_Above_Ground);
+
+            if (string.IsNullOrEmpty(this._Replacement_Manufacturer))
+                db.AddInParameter(dbCommand, "Replacement_Manufacturer", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Replacement_Manufacturer", DbType.String, this._Replacement_Manufacturer);
+
+            db.AddInParameter(dbCommand, "Replacement_Installation_Date", DbType.DateTime, this._Replacement_Installation_Date);
+
+            db.AddInParameter(dbCommand, "Replacement_Last_Annual_Inspection", DbType.DateTime, this._Replacement_Last_Annual_Inspection);
+
+            if (string.IsNullOrEmpty(this._Replacement_Notes))
+                db.AddInParameter(dbCommand, "Replacement_Notes", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Replacement_Notes", DbType.String, this._Replacement_Notes);
+
+            if (string.IsNullOrEmpty(this._Lift_Number_Replacement_Indicator))
+                db.AddInParameter(dbCommand, "Lift_Number_Replacement_Indicator", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Lift_Number_Replacement_Indicator", DbType.String, this._Lift_Number_Replacement_Indicator);
+
 
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -447,6 +641,56 @@ namespace ERIMS.DAL
 				db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
 			
 			db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
+
+            //3187
+            if (string.IsNullOrEmpty(this._Status))
+                db.AddInParameter(dbCommand, "Status", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Status", DbType.String, this._Status);
+
+            if (string.IsNullOrEmpty(this._Any_Inground_Lifts_Been_Removed))
+                db.AddInParameter(dbCommand, "Any_Inground_Lifts_Been_Removed", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Any_Inground_Lifts_Been_Removed", DbType.String, this._Any_Inground_Lifts_Been_Removed);
+
+            if (string.IsNullOrEmpty(this._Documentation_Related_To_Removed_Lifts))
+                db.AddInParameter(dbCommand, "Documentation_Related_To_Removed_Lifts", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Documentation_Related_To_Removed_Lifts", DbType.String, this._Documentation_Related_To_Removed_Lifts);
+
+            if (string.IsNullOrEmpty(this._Replacement_Description))
+                db.AddInParameter(dbCommand, "Replacement_Description", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Replacement_Description", DbType.String, this._Replacement_Description);
+
+            if (string.IsNullOrEmpty(this._Replacement_Oil_Type))
+                db.AddInParameter(dbCommand, "Replacement_Oil_Type", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Replacement_Oil_Type", DbType.String, this._Replacement_Oil_Type);
+
+            if (string.IsNullOrEmpty(this._Replacement_Above_Ground))
+                db.AddInParameter(dbCommand, "Replacement_Above_Ground", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Replacement_Above_Ground", DbType.String, this._Replacement_Above_Ground);
+
+            if (string.IsNullOrEmpty(this._Replacement_Manufacturer))
+                db.AddInParameter(dbCommand, "Replacement_Manufacturer", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Replacement_Manufacturer", DbType.String, this._Replacement_Manufacturer);
+
+            db.AddInParameter(dbCommand, "Replacement_Installation_Date", DbType.DateTime, this._Replacement_Installation_Date);
+
+            db.AddInParameter(dbCommand, "Replacement_Last_Annual_Inspection", DbType.DateTime, this._Replacement_Last_Annual_Inspection);
+
+            if (string.IsNullOrEmpty(this._Replacement_Notes))
+                db.AddInParameter(dbCommand, "Replacement_Notes", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Replacement_Notes", DbType.String, this._Replacement_Notes);
+
+            if (string.IsNullOrEmpty(this._Lift_Number_Replacement_Indicator))
+                db.AddInParameter(dbCommand, "Lift_Number_Replacement_Indicator", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Lift_Number_Replacement_Indicator", DbType.String, this._Lift_Number_Replacement_Indicator);
 
 			db.ExecuteNonQuery(dbCommand);
 		}

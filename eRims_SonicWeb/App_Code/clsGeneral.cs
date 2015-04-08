@@ -76,7 +76,7 @@ public class clsGeneral : System.Web.UI.Page
 
     public static string[] ClaimTableName = { "WCClaim", "ALClaim", "PLClaim" };
 
-    public static string[] PollutionTableName = { "PM_SI_UP_Attachments", "PM_SI_FI_Attachments", "PM_Permits_Attachments", "PM_CR_CI_Attachments", "PM_CR_PI_Attachments", "PM_Receiving_TSDF_Attachments", "PM_Waste_Hauler_Attachments", "PM_Waste_Removal_Attachments", "PM_Frequency_Attachments", "PM_Phase_I_Attachments", "PM_EPA_Inspection_Attachments", "PM_Remediation_Grid_Attachments", "PM_Violation_Attachments", "PM_Attachments", "PM_Equipment_Attachments", "PM_Equipment_Tank", "PM_Equipment_Spray_Booth", "PM_Equipment_OWS", "PM_Equipment_Hydraulic_Lift", "PM_Equipment_PGCC", "PM_CR_Grids_Attachments" };
+    public static string[] PollutionTableName = { "PM_SI_UP_Attachments", "PM_SI_FI_Attachments", "PM_Permits_Attachments", "PM_CR_CI_Attachments", "PM_CR_PI_Attachments", "PM_Receiving_TSDF_Attachments", "PM_Waste_Hauler_Attachments", "PM_Waste_Removal_Attachments", "PM_Frequency_Attachments", "PM_Phase_I_Attachments", "PM_EPA_Inspection_Attachments", "PM_Remediation_Grid_Attachments", "PM_Violation_Attachments", "PM_Attachments", "PM_Equipment_Attachments", "PM_Equipment_Tank", "PM_Equipment_Spray_Booth", "PM_Equipment_OWS", "PM_Equipment_Hydraulic_Lift", "PM_Equipment_PGCC", "PM_CR_Grids_Attachments", "PM_Compliance_Reporting_OSHA_Attachments" };
 
     public static string[] SLT_TablesNames = { "SLT_Safety_Walk", "SLT_Training" };
 
@@ -214,7 +214,8 @@ public class clsGeneral : System.Web.UI.Page
         PM_Equipment_OWS = 17,
         PM_Equipment_Hydraulic_Lift = 18,
         PM_Equipment_PGCC = 19,
-        PM_CR_Grids_Attachments = 20
+        PM_CR_Grids_Attachments = 20,
+        PM_Compliance_Reporting_OSHA_Attachments = 21
     }
 
     public enum SLT_Tables : int
@@ -466,6 +467,10 @@ public class clsGeneral : System.Web.UI.Page
         else if (tbl == PollutionTableName[(int)clsGeneral.Pollution_Tables.PM_SI_UP_Attachments])
         {
             strUploadPath = AppConfig.PM_SI_UP_AttachmentsDocPath;
+        }
+        else if (tbl == PollutionTableName[(int)clsGeneral.Pollution_Tables.PM_Compliance_Reporting_OSHA_Attachments])
+        {
+            strUploadPath = AppConfig.PM_Compliance_Reporting_OSHA_AttachmentsDocPath;
         }
         else if (tbl == PollutionTableName[(int)clsGeneral.Pollution_Tables.PM_SI_FI_Attachments])
         {
@@ -813,6 +818,10 @@ public class clsGeneral : System.Web.UI.Page
         else if (tbl == PollutionTableName[(int)clsGeneral.Pollution_Tables.PM_SI_UP_Attachments])
         {
             strUploadPath = AppConfig.PM_SI_UP_AttachmentsImageURL;
+        }
+        else if (tbl == PollutionTableName[(int)clsGeneral.Pollution_Tables.PM_Compliance_Reporting_OSHA_Attachments])
+        {
+            strUploadPath = AppConfig.PM_Compliance_Reporting_OSHA_AttachmentsImageURL;
         }
         else if (tbl == PollutionTableName[(int)clsGeneral.Pollution_Tables.PM_SI_FI_Attachments])
         {

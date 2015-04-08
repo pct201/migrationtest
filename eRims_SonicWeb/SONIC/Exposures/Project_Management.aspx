@@ -58,7 +58,15 @@
 
             document.getElementById('<%= hdnPanel.ClientID %>').value = ActiveTabIndex;
 
-                      
+            var loc = '<%=Session["ExposureLocation"]%>';
+            var Building_Id = '<%=Session["BuildingName"]%>';
+            if (index == 7) {
+                if (loc > 0)
+                    loc = '<%=Encryption.Encrypt(Session["ExposureLocation"].ToString()) %>';                
+                window.location.href = '<%=AppConfig.SiteURL%>SONIC/Pollution/BuildingList.aspx?op=view&loc=' + loc + '&PM=' + Building_Id  
+                return;
+            }
+
             var op = '<%= ViewState["strOperation"] %>';
             if (op == "view") {
                 document.getElementById('<%= dvEdit.ClientID %>').style.display = "none";
@@ -412,9 +420,14 @@
                                 </tr>
                                 <tr>
                                     <td align="left" width="100%">
+                                        <span id="Menu7" onclick="javascript:CheckValueChange(7,null);" class="LeftMenuStatic">EHS Link</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left" width="100%">
                                         <span id="Menu6" onclick="javascript:CheckValueChange(6,null);" class="LeftMenuStatic">Attachments</span>
                                     </td>
-                                </tr>                            
+                                </tr>                                
                             </table>
                         </td>
                         <td valign="top">
@@ -1984,11 +1997,11 @@
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
                                                                 <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top"
-                                                                HeaderText="User">
-                                                                <ItemTemplate>
-                                                                    <asp:LinkButton ID="lbtUser_Name" runat="server" Text='<%# Eval("User_Name") %>'
-                                                                        CommandName="EditRecord" CommandArgument='<%#Eval("PK_EPM_Consultant_Notes") %>' Width="100px"></asp:LinkButton>
-                                                                </ItemTemplate>
+                                                                    HeaderText="User">
+                                                                    <ItemTemplate>
+                                                                        <asp:LinkButton ID="lbtUser_Name" runat="server" Text='<%# Eval("User_Name") %>'
+                                                                            CommandName="EditRecord" CommandArgument='<%#Eval("PK_EPM_Consultant_Notes") %>' Width="100px"></asp:LinkButton>
+                                                                    </ItemTemplate>
                                                                 </asp:TemplateField>
                                                                 <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top"
                                                                     HeaderText="Notes">
@@ -2364,14 +2377,14 @@ function CheckOtherPurposeofProject(source, args) {
     for (var i = 0; i < listLength; i++) {
         var lstPurpose_Of_Project_Text = lstPurpose_Of_Project.options[i].innerHTML;
         if (lstPurpose_Of_Project.options[i].selected && lstPurpose_Of_Project_Text == "Other" && document.getElementById('<%= txtPurpose_of_Project_Other_Description.ClientID %>').value.length == 0) {
-                    args.IsValid = false;
-                    return;
-                }
-            }
+            args.IsValid = false;
+            return;
         }
+    }
+}
 
-        function CheckRequiredActivityDescription(source, args) {
-            var drpRequired_Activity = document.getElementById('<%= drpRequired_Activity.ClientID %>');
+function CheckRequiredActivityDescription(source, args) {
+    var drpRequired_Activity = document.getElementById('<%= drpRequired_Activity.ClientID %>');
             var drpRequired_Activity_Text = drpRequired_Activity.options[drpRequired_Activity.selectedIndex].innerHTML;
             if (drpRequired_Activity_Text == "Remediation - Describe" && document.getElementById('<%= txtRequired_Activity_Description.ClientID %>').value.length == 0) {
                 args.IsValid = false;

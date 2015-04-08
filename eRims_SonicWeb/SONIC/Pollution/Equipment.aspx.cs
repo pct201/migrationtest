@@ -139,6 +139,21 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         }
         set { ViewState["AuditTrailText"] = value; }
     }
+
+    private string SortOrder
+    {
+        get { return (!clsGeneral.IsNull(ViewState["SortOrder"]) ? ViewState["SortOrder"].ToString() : string.Empty); }
+        set { ViewState["SortOrder"] = value; }
+    }
+
+    /// <summary>
+    /// Denotes Sort Field to sort all records by
+    /// </summary>
+    private string SortBy
+    {
+        get { return (!clsGeneral.IsNull(ViewState["SortBy"]) ? ViewState["SortBy"].ToString() : string.Empty); }
+        set { ViewState["SortBy"] = value; }
+    }
     #endregion
 
     #region Page Events
@@ -153,6 +168,10 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         Attachment.btnHandler += new Attachment_Pollution.OnButtonClick(Upload_File);
         if (!Page.IsPostBack)
         {
+            //hydraulic lift grid sort fields
+            SortBy = "Lift_Number_Replacement_Indicator";
+            SortOrder = "asc";
+
             BindDropDown();
             drpEquipmentType.Focus();
             StrOperation = Convert.ToString(Request.QueryString["op"]);
@@ -743,18 +762,18 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         //txtAs_Of_Date_Number.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Hydraulic_Lift.As_Of_Date_Number);
         //txtHydraulicLift_Installation_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Hydraulic_Lift.Installation_Date);
         //txtHydraulicLift_Last_Inspection_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Hydraulic_Lift.Last_Inspection_Date);
-        if (objPM_Equipment_Hydraulic_Lift.Any_Inground_Lifts_Been_Removed != null)
-            rdoAny_Inground_Lifts_Been_Removed.SelectedValue = objPM_Equipment_Hydraulic_Lift.Any_Inground_Lifts_Been_Removed;
-        else
-            rdoAny_Inground_Lifts_Been_Removed.SelectedValue = "Y";
+        //if (objPM_Equipment_Hydraulic_Lift.Any_Inground_Lifts_Been_Removed != null)
+        //    rdoAny_Inground_Lifts_Been_Removed.SelectedValue = objPM_Equipment_Hydraulic_Lift.Any_Inground_Lifts_Been_Removed;
+        //else
+        //    rdoAny_Inground_Lifts_Been_Removed.SelectedValue = "Y";
         if (objPM_Equipment_Hydraulic_Lift.Use_Same_Dates != null)
             rdbUseSameDates.SelectedValue = objPM_Equipment_Hydraulic_Lift.Use_Same_Dates;
         else
             rdbUseSameDates.SelectedValue = "N";
-        if (objPM_Equipment_Hydraulic_Lift.Documentation_Related_To_Removed_Lifts != null)
-            rdoDocumentation_Related_To_Removed_Lifts.SelectedValue = objPM_Equipment_Hydraulic_Lift.Documentation_Related_To_Removed_Lifts;
-        else
-            rdoDocumentation_Related_To_Removed_Lifts.SelectedValue = "Y";
+        //if (objPM_Equipment_Hydraulic_Lift.Documentation_Related_To_Removed_Lifts != null)
+        //    rdoDocumentation_Related_To_Removed_Lifts.SelectedValue = objPM_Equipment_Hydraulic_Lift.Documentation_Related_To_Removed_Lifts;
+        //else
+        //    rdoDocumentation_Related_To_Removed_Lifts.SelectedValue = "Y";
         BindHydraulicLiftGrid(PK_PM_Equipment_Hydraulic_Lift);
         //txtHydraulicLiftNotes.Text = objPM_Equipment_Hydraulic_Lift.Notes;
         // set attachment details control in read/write mode. so user can add or remove attachment as well.
@@ -777,8 +796,8 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         pnlPGCCview.Style["display"] = "none";
         clsPM_Equipment_Hydraulic_Lift objPM_Equipment_Hydraulic_Lift = new clsPM_Equipment_Hydraulic_Lift(PK_PM_Equipment_Hydraulic_Lift);
         lblUse_Same_Dates.Text = objPM_Equipment_Hydraulic_Lift.Use_Same_Dates == "Y" ? "Yes" : "No";
-        lblAny_Inground_Lifts_Been_Removed.Text = objPM_Equipment_Hydraulic_Lift.Any_Inground_Lifts_Been_Removed == "Y" ? "Yes" : "No";
-        lblDocumentation_Related_To_Removed_Lifts.Text = objPM_Equipment_Hydraulic_Lift.Documentation_Related_To_Removed_Lifts == "Y" ? "Yes" : "No";
+        //lblAny_Inground_Lifts_Been_Removed.Text = objPM_Equipment_Hydraulic_Lift.Any_Inground_Lifts_Been_Removed == "Y" ? "Yes" : "No";
+        //lblDocumentation_Related_To_Removed_Lifts.Text = objPM_Equipment_Hydraulic_Lift.Documentation_Related_To_Removed_Lifts == "Y" ? "Yes" : "No";
         BindHydraulicLiftGridView(PK_PM_Equipment_Hydraulic_Lift);
         AttachDetailsView.Equipment_Table_Name = "PM_Equipment_Hydraulic_Lift";
         AttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Hydraulic_Lift), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
@@ -983,8 +1002,8 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
             PM_Equipment = (decimal)objPM_Equipment_Hydraulic_Lift.PK_PM_Equipment;
 
         objPM_Equipment_Hydraulic_Lift.PK_PM_Equipment_Hydraulic_Lift = PK_PM_Equipment_Hydraulic_Lift;
-        objPM_Equipment_Hydraulic_Lift.Any_Inground_Lifts_Been_Removed = rdoAny_Inground_Lifts_Been_Removed.SelectedValue;
-        objPM_Equipment_Hydraulic_Lift.Documentation_Related_To_Removed_Lifts = rdoDocumentation_Related_To_Removed_Lifts.SelectedValue;
+        //objPM_Equipment_Hydraulic_Lift.Any_Inground_Lifts_Been_Removed = rdoAny_Inground_Lifts_Been_Removed.SelectedValue;
+        //objPM_Equipment_Hydraulic_Lift.Documentation_Related_To_Removed_Lifts = rdoDocumentation_Related_To_Removed_Lifts.SelectedValue;
         objPM_Equipment_Hydraulic_Lift.Update_Date = DateTime.Now;
         objPM_Equipment_Hydraulic_Lift.Updated_By = clsSession.UserID;
         objPM_Equipment_Hydraulic_Lift.Use_Same_Dates = Convert.ToString(rdbUseSameDates.SelectedValue);
@@ -1001,7 +1020,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
                 type = true;
             DataSet dsUseSameDates = clsPM_Equipment_Hydraulic_Lift_Grid.Select_UseSameDates_ByFK(PK_PM_Equipment_Hydraulic_Lift, type);
             if (dsUseSameDates != null && dsUseSameDates.Tables.Count > 0 && dsUseSameDates.Tables[0].Rows.Count > 0)
-            {
+            {                
                 txtHydraulicLift_Installation_Date.Text = clsGeneral.FormatDBNullDateToDisplay(dsUseSameDates.Tables[0].Rows[0]["Installation_Date"]);
                 txtHydraulicLift_Last_Inspection_Date.Text = clsGeneral.FormatDBNullDateToDisplay(dsUseSameDates.Tables[0].Rows[0]["Last_Inspection_Date"]);
             }
@@ -1011,15 +1030,19 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
     //Select Lift as Label name where Equpment Type is Hydraulick Lift
     private void Lift()
     {
-        spnDocumentation.InnerText = spnInGroundLifts.InnerText = spnInstalledLift.InnerText = spLiftNumber.InnerText = spLiftNumberAsOfDate.InnerText = "Lifts";
+        spnDocumentation.InnerText = spnInGroundLifts.InnerText = "Lifts";
+        spnInstalledLift.InnerText = spLiftNumber.InnerText = spLiftNumberAsOfDate.InnerText = "Lifts";
         spnInstalledLift2.InnerText = "Lifts";
+        spnReplacementLiftInformation.InnerText = spnReplacementLiftRack.InnerText = "Lift";
         spnLiftGrid.InnerText = "Hydraulic Lift";
         spnEquipmentTypeScreen.InnerText = "Hydraulic Lift - Hydraulic Lift";
 
-        spnvwDocumentation.InnerText = spnvwInGround.InnerText = spnvwFirstInstalled.InnerText = spvwLiftNumber.InnerText = spvwLiftNumberAsOfDate.InnerText = "Lifts";
+        spnvwDocumentation.InnerText = spnvwInGround.InnerText = "Lifts";
+        spnvwFirstInstalled.InnerText = spvwLiftNumber.InnerText = spvwLiftNumberAsOfDate.InnerText = "Lifts";
         spnvwFirstInstalled2.InnerText = "Lifts";
         spnvwEquipmentTypeScreen.InnerText = "Hydraulic Lift - Hydraulic Lift";
         spnvwHydraulicLiftGrid.InnerText = "Hydraulic Lift";
+        spnvwReplacementLift.InnerText = spnvwReplacementLiftInformation.InnerText = "Lift";
 
         lblEquipmentHydraulicLift.Text = "Hydraulic Lift";
     }
@@ -1027,15 +1050,19 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
     //Select Rack as Label name where Equpment Type is Alignment Rack
     private void Rack()
     {
-        spnDocumentation.InnerText = spnInGroundLifts.InnerText = spnInstalledLift.InnerText = spLiftNumber.InnerText = spLiftNumberAsOfDate.InnerText = "Racks";
+        spnDocumentation.InnerText = spnInGroundLifts.InnerText = "Racks";
+        spnInstalledLift.InnerText = spLiftNumber.InnerText = spLiftNumberAsOfDate.InnerText = "Racks";
         spnInstalledLift2.InnerText = "Racks";
+        spnReplacementLiftInformation.InnerText = spnReplacementLiftRack.InnerText = "Rack";
         spnLiftGrid.InnerText = "Alignment Rack";
         spnEquipmentTypeScreen.InnerText = "Alignment Rack - Alignment Rack";
 
-        spnvwDocumentation.InnerText = spnvwInGround.InnerText = spnvwFirstInstalled.InnerText = spvwLiftNumber.InnerText = spvwLiftNumberAsOfDate.InnerText = "Racks";
+        spnvwDocumentation.InnerText = spnvwInGround.InnerText = "Racks";
+        spnvwFirstInstalled.InnerText = spvwLiftNumber.InnerText = spvwLiftNumberAsOfDate.InnerText = "Racks";
         spnvwFirstInstalled2.InnerText = "Racks";
         spnvwEquipmentTypeScreen.InnerText = "Aligment Rack - Aligment Rack";
         spnvwHydraulicLiftGrid.InnerText = "Alignment Rack";
+        spnvwReplacementLift.InnerText = spnvwReplacementLiftInformation.InnerText = "Rack";
 
         lblEquipmentHydraulicLift.Text = "Aligment Rack";
     }
@@ -1071,6 +1098,41 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         {
             Lift();
             LiftGrid();
+        }
+    }
+
+    //Set Replacement Lift Information as per Radio button Selection
+    private void ShowHideReplacementLiftInformation()
+    {
+        if (rdoInGroundLifts.SelectedValue == "Y")
+        {
+            txtReplacementLiftDescription.Enabled = true;
+            txtReplacementOilType.Enabled = true;
+            txtManufacturer.Enabled = true;
+            txtReplacementInstallationDate.Enabled = true;
+            txtReplacementLastAnnualInspectionDate.Enabled = true;
+            txtReplacementNotes.Enabled = true;
+            rdoAboveGround.Enabled = true;
+            txtHydraulicLift_Removal_Date.Enabled = true;
+            txtHydraulicLiftNotes.Enabled = true;
+            imgInstallationDate1.Visible = true;
+            imgLastAnnualInspectionDate1.Visible = true;
+            imgHydraulicLift_Removal_Date.Visible = true;
+        }
+        else
+        {
+            txtReplacementLiftDescription.Enabled = false;
+            txtReplacementOilType.Enabled = false;
+            txtManufacturer.Enabled = false;
+            txtReplacementInstallationDate.Enabled = false;
+            txtReplacementLastAnnualInspectionDate.Enabled = false;
+            txtReplacementNotes.Enabled = false;
+            rdoAboveGround.Enabled = false;
+            txtHydraulicLift_Removal_Date.Enabled = false;
+            txtHydraulicLiftNotes.Enabled = false;
+            imgInstallationDate1.Visible = false;
+            imgLastAnnualInspectionDate1.Visible = false;
+            imgHydraulicLift_Removal_Date.Visible = false;
         }
     }
 
@@ -1346,6 +1408,27 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         txtHydraulicLift_Removal_Date.Text = "";
         txtHydraulicLiftNotes.Text = "";
         rdoAbove_Ground.SelectedValue = "N";
+
+        rdoStatus.SelectedValue = "N";
+        rdoReplacementLift.SelectedIndex = -1;
+        txtHydraulicLift_Last_Inspection_Date.Text = string.Empty;
+        rdoInGroundLifts.SelectedValue = "N";
+        rdoDocumentRelatedtoLifts.SelectedValue = "N";
+        
+
+        txtReplacementLiftDescription.Text = "";
+        txtReplacementOilType.Text = "";
+        txtManufacturer.Text = "";
+        txtReplacementInstallationDate.Text = "";
+        txtReplacementLastAnnualInspectionDate.Text = "";
+        txtReplacementNotes.Text = "";
+        rdoAboveGround.SelectedValue = "N";
+
+        txtHydraulicLift_Removal_Date.Text = "";
+        txtHydraulicLiftNotes.Text = "";
+        ShowHideReplacementLiftInformation();
+
+
         pnlHydraulicLiftType.Visible = false;
         pnlAdd_Hydraulic_Lift.Visible = true;
         btnAudit_Hydraulic_Lift.Visible = false;
@@ -1429,6 +1512,24 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         objPM_Equipment_Hydraulic_Lift_Grid.Notes = txtHydraulicLiftNotes.Text;
         objPM_Equipment_Hydraulic_Lift_Grid.Update_Date = DateTime.Now;
         objPM_Equipment_Hydraulic_Lift_Grid.Updated_By = clsSession.UserID;
+        
+        //3187
+        objPM_Equipment_Hydraulic_Lift_Grid.Status = Convert.ToString(rdoStatus.SelectedValue);
+        objPM_Equipment_Hydraulic_Lift_Grid.Any_Inground_Lifts_Been_Removed = Convert.ToString(rdoInGroundLifts.SelectedValue);
+        objPM_Equipment_Hydraulic_Lift_Grid.Documentation_Related_To_Removed_Lifts = Convert.ToString(rdoDocumentRelatedtoLifts.SelectedValue);        
+        objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Description = txtReplacementLiftDescription.Text;
+        objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Oil_Type = txtReplacementOilType.Text;
+        objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Above_Ground = rdoAboveGround.SelectedValue;
+        objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Manufacturer = txtManufacturer.Text;
+        objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Installation_Date = clsGeneral.FormatNullDateToStore(txtReplacementInstallationDate.Text);
+        objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Last_Annual_Inspection = clsGeneral.FormatNullDateToStore(txtReplacementLastAnnualInspectionDate.Text);
+        objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Notes = txtReplacementNotes.Text;
+        if (!string.IsNullOrEmpty(rdoReplacementLift.SelectedValue))
+        objPM_Equipment_Hydraulic_Lift_Grid.Lift_Number_Replacement_Indicator = Convert.ToString(rdoReplacementLift.SelectedValue);    
+
+        
+
+
         if (PK_PM_Equipment_Hydraulic_Lift_Grid > 0)
             objPM_Equipment_Hydraulic_Lift_Grid.Update();
         else
@@ -1537,7 +1638,43 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
             txtHydraulicLift_Last_Inspection_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Hydraulic_Lift_Grid.Last_Inspection_Date);
             // txtRemoval_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Hydraulic_Lift_Grid.Removal_Date); 
             txtHydraulicLift_Removal_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Hydraulic_Lift_Grid.Removal_Date);
-            txtHydraulicLiftNotes.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Notes);
+            txtHydraulicLiftNotes.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Notes);            
+
+
+            //3187
+            if (objPM_Equipment_Hydraulic_Lift_Grid.Status != null)
+                rdoStatus.SelectedValue = objPM_Equipment_Hydraulic_Lift_Grid.Status;
+            else
+                rdoStatus.SelectedValue = "N";
+
+            if (objPM_Equipment_Hydraulic_Lift_Grid.Any_Inground_Lifts_Been_Removed != null)
+                rdoInGroundLifts.SelectedValue = objPM_Equipment_Hydraulic_Lift_Grid.Any_Inground_Lifts_Been_Removed;
+            else
+                rdoInGroundLifts.SelectedValue = "N";
+
+            if (objPM_Equipment_Hydraulic_Lift_Grid.Documentation_Related_To_Removed_Lifts != null)
+                rdoDocumentRelatedtoLifts.SelectedValue = objPM_Equipment_Hydraulic_Lift_Grid.Documentation_Related_To_Removed_Lifts;
+            else
+                rdoDocumentRelatedtoLifts.SelectedValue = "N";
+
+            txtReplacementLiftDescription.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Description);
+            txtReplacementOilType.Text = objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Oil_Type;
+
+            if (objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Above_Ground != null)
+                rdoAboveGround.SelectedValue = objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Above_Ground;
+            else
+                rdoAboveGround.SelectedValue = "N";
+
+            ShowHideReplacementLiftInformation();
+
+            if (!string.IsNullOrEmpty(objPM_Equipment_Hydraulic_Lift_Grid.Lift_Number_Replacement_Indicator))
+                rdoReplacementLift.SelectedValue = objPM_Equipment_Hydraulic_Lift_Grid.Lift_Number_Replacement_Indicator;            
+
+            txtManufacturer.Text = objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Manufacturer;
+            txtReplacementInstallationDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Installation_Date);
+            txtReplacementLastAnnualInspectionDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Last_Annual_Inspection);
+            txtReplacementNotes.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Notes);
+
             pnlHydraulicLiftType.Visible = false;
             pnlAdd_Hydraulic_Lift.Visible = true;
             btnAudit_Hydraulic_Lift.Visible = true;
@@ -1642,6 +1779,27 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
             lblHydraulicLiftNote.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Notes);
             lblHydraulicLift_Last_Inspection_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Hydraulic_Lift_Grid.Last_Inspection_Date);
 
+
+            //3187            
+            lblStatus.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Status) == "A" ? "Active" : (Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Status) == "N" ? "Non-Active" : "Removed"); 
+
+            lblInGroundLifts.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Any_Inground_Lifts_Been_Removed) == "" ? "N" : (Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Any_Inground_Lifts_Been_Removed) == "Y" ? "Yes" : "No");
+            lblDocumentRelatedLifts.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Documentation_Related_To_Removed_Lifts) == "" ? "N" : (Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Documentation_Related_To_Removed_Lifts) == "Y" ? "Yes" : "No"); ;
+
+
+            lblReplacementDescription.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Description);
+            lblReplacementOilType.Text = objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Oil_Type;
+
+            lblAboveGround.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Above_Ground) == "" ? "N" : (Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Above_Ground) == "Y" ? "Yes" : "No"); ;
+
+            lblManufacturer.Text = objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Manufacturer;
+            lblReplacementInstallationDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Installation_Date);
+            lblLastAnnualInspectionDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Last_Annual_Inspection);
+            lblReplacementNotes.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Notes);
+
+            lblReplacementLift.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Lift_Number_Replacement_Indicator) == null ? "" : (Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Lift_Number_Replacement_Indicator) == "Y" ? "Yes" : "No");
+
+
             pnlHydraulicLiftTypeview.Visible = false;
             pnlHydraulicLifGridViewData.Visible = true;
             btnAuditHydraulicLiftView.Visible = true;
@@ -1738,7 +1896,23 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
             //objPM_Equipment_Tank.Release_Control_Countermeasures_Plan = txtRelease_Control_Countermeasures_Plan.Text.Trim();      //* :3187 *//
             objPM_Equipment_Tank.SPCC_Required = rdoSPCC_Required.SelectedValue;
             objPM_Equipment_Tank.SPCCDate_Developed = clsGeneral.FormatNullDateToStore(txtSPCCDate_Developed.Text);
-            objPM_Equipment_Tank.SPCCExpiration_Date = clsGeneral.FormatNullDateToStore(txtSPCCExpiration_Date.Text);
+            
+            DateTime? dtCurrent = clsGeneral.FormatNullDateToStore(txtSPCCDate_Developed.Text);
+            DateTime? dtNew = new DateTime();
+            if (dtCurrent != null && string.IsNullOrEmpty(txtSPCCExpiration_Date.Text))
+            {
+                dtNew = new DateTime(dtCurrent.Value.Year + 5, dtCurrent.Value.Month, dtCurrent.Value.Day, dtCurrent.Value.Hour, dtCurrent.Value.Minute, dtCurrent.Value.Second);
+            }
+            else if (!string.IsNullOrEmpty(txtSPCCExpiration_Date.Text))
+            {
+                dtNew = clsGeneral.FormatDBNullDateToDate(txtSPCCExpiration_Date.Text);
+            }
+            else
+            {
+                dtNew = null;
+            }
+
+            objPM_Equipment_Tank.SPCCExpiration_Date = dtNew;
             objPM_Equipment_Tank.Maintenance_Vendor = txtMaintenance_Vendor.Text.Trim();
             objPM_Equipment_Tank.Vendor_Contact_Name = txtVendor_Contact_Name.Text.Trim();
             objPM_Equipment_Tank.Vendor_Contact_Telephone = txtVendor_Contact_Telephone.Text.Trim();
@@ -1895,8 +2069,8 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
             //objPM_Equipment_Hydraulic_Lift.As_Of_Date_Number = clsGeneral.FormatNullDateToStore(txtAs_Of_Date_Number.Text);
             //objPM_Equipment_Hydraulic_Lift.Installation_Date = clsGeneral.FormatNullDateToStore(txtHydraulicLift_Installation_Date.Text);
             //objPM_Equipment_Hydraulic_Lift.Last_Inspection_Date = clsGeneral.FormatNullDateToStore(txtHydraulicLift_Last_Inspection_Date.Text);
-            objPM_Equipment_Hydraulic_Lift.Any_Inground_Lifts_Been_Removed = rdoAny_Inground_Lifts_Been_Removed.SelectedValue;
-            objPM_Equipment_Hydraulic_Lift.Documentation_Related_To_Removed_Lifts = rdoDocumentation_Related_To_Removed_Lifts.SelectedValue;
+            //objPM_Equipment_Hydraulic_Lift.Any_Inground_Lifts_Been_Removed = rdoAny_Inground_Lifts_Been_Removed.SelectedValue;
+            //objPM_Equipment_Hydraulic_Lift.Documentation_Related_To_Removed_Lifts = rdoDocumentation_Related_To_Removed_Lifts.SelectedValue;
             objPM_Equipment_Hydraulic_Lift.Use_Same_Dates = Convert.ToString(rdbUseSameDates.SelectedValue);
 
             //objPM_Equipment_Hydraulic_Lift.Notes = txtHydraulicLiftNotes.Text.Trim();
@@ -1962,6 +2136,18 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
     {
         StrOperation = "edit";
         Response.Redirect("Equipment.aspx?op=edit&id=" + Encryption.Encrypt(Convert.ToString(PM_Equipment)) + "&fid=" + Encryption.Encrypt(Convert.ToString(FK_PM_Site_Information)) + "&loc=" + Request.QueryString["loc"]);
+    }
+
+    protected void rdoInGroundLifts_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ShowHideReplacementLiftInformation();
+        pnlHydraulicLiftType.Visible = false;
+        pnlAdd_Hydraulic_Lift.Visible = true;
+        btnAudit_Hydraulic_Lift.Visible = true;
+        tblEquipment.Style["display"] = "none";
+        GetUse_Same_Dates();
+        SetValidationsHydraulic();
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);displayHydraulicLift('none');", true);
     }
     #endregion
 
@@ -2434,6 +2620,15 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
                 case "Last Annual Inspection Date": strCtrlsIDs += txtHydraulicLift_Last_Inspection_Date.ClientID + ","; strMessages += "Please enter [Equipment]/Last Annual Inspection Date" + ","; Span109.Style["display"] = "inline-block"; break;
                 case "Removal Date": strCtrlsIDs += txtHydraulicLift_Removal_Date.ClientID + ","; strMessages += "Please enter [Equipment]/Removal Date" + ","; Span110.Style["display"] = "inline-block"; break;
                 case "Notes": strCtrlsIDs += txtHydraulicLiftNotes.ClientID + ","; strMessages += "Please enter [Equipment]/Notes" + ","; Span111.Style["display"] = "inline-block"; break;
+
+                //3187
+                case "Replacement Description": strCtrlsIDs += txtReplacementLiftDescription.ClientID + ","; strMessages += "Please enter [Equipment]/Replacement Description" + ","; spnReplacementLiftDescription.Style["display"] = "inline-block"; break;
+                case "Replacement Oil Type": strCtrlsIDs += txtReplacementOilType.ClientID + ","; strMessages += "Please enter [Equipment]/Replacement Oil Type" + ","; spnOilType.Style["display"] = "inline-block"; break;
+                case "Replacement Manufacturer": strCtrlsIDs += txtManufacturer.ClientID + ","; strMessages += "Please enter [Equipment]/Replacement Manufacturer" + ","; spnManufacturer.Style["display"] = "inline-block"; break;
+                case "Replacement Installation Date": strCtrlsIDs += txtReplacementInstallationDate.ClientID + ","; strMessages += "Please enter [Equipment]/Replacement Installation Date" + ","; spnReplacementInstallationDate.Style["display"] = "inline-block"; break;
+                case "Replacement Last Annual Inspection": strCtrlsIDs += txtReplacementLastAnnualInspectionDate.ClientID + ","; strMessages += "Please enter [Equipment]/Replacement Last Annual Inspection" + ","; spnReplacementLastAnnualInspectionDate.Style["display"] = "inline-block"; break;
+                case "Replacement Notes": strCtrlsIDs += txtReplacementNotes.ClientID + ","; strMessages += "Please enter [Equipment]/Replacement Notes" + ","; spnReplacementNotes.Style["display"] = "inline-block"; break;                
+                
             }
             #endregion
         }
@@ -2474,6 +2669,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         hdnControlIDsPGCC.Value = strCtrlsIDs;
         hdnErrorMsgsPGCC.Value = strMessages;
     }
-    #endregion    
+    #endregion       
 
+    
 }

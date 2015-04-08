@@ -129,7 +129,7 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         // set tab
         Tab.SetSelectedTab(Controls_ExposuresTab_ExposuresTab.Tab.Pollution);
         if (!Page.IsPostBack)
-        {
+        {           
             Attachment.Table_Name = "PM_Attachments";
             AttachDetails.Table_Name = "PM_Attachments";
             Attachment.BindAttachmentType();
@@ -241,10 +241,13 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
                 gvTSDF.DataBind();
                 gvWasteRemoval.DataBind();
                 gvFrequency.DataBind();
-                gvPhaseI.DataBind();
+                //Remove PhaseI Grid : 3187
+                //gvPhaseI.DataBind();
                 gvEPAInspections.DataBind();
                 gvRemediations.DataBind();
                 gvViolations.DataBind();
+
+                BindGridOshaLog();
 
                 // set attachment details control in read/write mode. so user can add or remove attachment as well.
                 AttachDetails.FindControl("gvAttachment").DataBind();
@@ -744,8 +747,9 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         gvFrequency.DataBind();
 
         // Phase I Grid
-        gvPhaseI.DataSource = dsGrids.Tables[10];
-        gvPhaseI.DataBind();
+        //Remove PhaseI Grid : 3187
+        //gvPhaseI.DataSource = dsGrids.Tables[10];
+        //gvPhaseI.DataBind();
 
         // EPA Inspections Grid
         gvEPAInspections.DataSource = dsGrids.Tables[11];
@@ -770,6 +774,8 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         // 6H Grid
         gvSixH.DataSource = dsGrids.Tables[16];
         gvSixH.DataBind();
+
+        BindGridOshaLog();        
     }
 
     /// <summary>
@@ -820,8 +826,8 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         gvFrequencyView.DataBind();
 
         // Phase I Grid
-        gvPhaseIView.DataSource = dsGrids.Tables[10];
-        gvPhaseIView.DataBind();
+        //gvPhaseIView.DataSource = dsGrids.Tables[10];
+        //gvPhaseIView.DataBind();
 
         // EPA Inspections Grid
         gvEPAInspectionsView.DataSource = dsGrids.Tables[11];
@@ -846,6 +852,8 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         // 6H Grid
         gvSixHView.DataSource = dsGrids.Tables[16];
         gvSixHView.DataBind();
+
+        BindGridViewOshaLog();
     }
 
     /// <summary>
@@ -982,9 +990,9 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
     /// </summary>
     private void BindGridPhaseI()
     {
-        DataTable dtPhaseI = PM_Phase_I.SelectByFK_SiteInfo(PK_PM_Site_Information).Tables[0];
-        gvPhaseI.DataSource = dtPhaseI;
-        gvPhaseI.DataBind();
+        //DataTable dtPhaseI = PM_Phase_I.SelectByFK_SiteInfo(PK_PM_Site_Information).Tables[0];
+        //gvPhaseI.DataSource = dtPhaseI;
+        //gvPhaseI.DataBind();
     }
 
     /// <summary>
@@ -1015,6 +1023,43 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         DataTable dtViolation = PM_Violation.SelectByFK_SiteInfo(PK_PM_Site_Information).Tables[0];
         gvViolations.DataSource = dtViolation;
         gvViolations.DataBind();
+    }
+
+    /// <summary>
+    /// Binds SixH grid
+    /// </summary>
+    private void BindGridOshaLog()
+    {
+        
+        if (PK_PM_Compliance_Reporting > 0)
+        {
+            lnkComplainceReportingOSHA.Visible = true;
+            DataSet ds = clsPM_Complaince_Reporting_OSHA.SelectByFK(PK_PM_Compliance_Reporting);
+            DataTable dtCompliance_Reporting = ds.Tables[0];
+            gvComplainceReportingOSHA.DataSource = dtCompliance_Reporting;
+            gvComplainceReportingOSHA.DataBind();
+        }
+        else
+        {
+            lnkComplainceReportingOSHA.Visible = false;
+            gvComplainceReportingOSHA.DataBind();
+        }
+    }
+
+    private void BindGridViewOshaLog()
+    {
+
+        if (PK_PM_Compliance_Reporting > 0)
+        {
+            DataSet ds = clsPM_Complaince_Reporting_OSHA.SelectByFK(PK_PM_Compliance_Reporting);
+            DataTable dtCompliance_Reporting = ds.Tables[0];
+            gvOshaLogGridView.DataSource = dtCompliance_Reporting;
+            gvOshaLogGridView.DataBind();
+        }
+        else
+        {
+            gvOshaLogGridView.DataBind();
+        }
     }
     #endregion
 
@@ -1126,6 +1171,16 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
     protected void btnChangeBuilding_Click(object sender, EventArgs e)
     {
         Response.Redirect("BuildingList.aspx?loc=" + Request.QueryString["loc"]);
+    }
+
+    protected void lnkComplainceReportingOSHA_Click(object sender, EventArgs e)
+    {
+        if (PK_PM_Compliance_Reporting > 0)
+        {
+            string strURL = "PM_Compliance_Reporting_OSHA.aspx?";
+            strURL = strURL + "fid=" + Encryption.Encrypt(PK_PM_Compliance_Reporting.ToString()) + "&loc=" + Request.QueryString["loc"];
+            Response.Redirect(strURL);
+        }
     }
 
     #endregion
@@ -1290,12 +1345,13 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
                 PM_Frequency.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
                 BindGridFrequency();
             }
-            else if (strGridID == "gvPhaseI")
-            {
-                intPanel = 6;
-                PM_Phase_I.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
-                BindGridPhaseI();
-            }
+            //Remove PhaseI Grid #3187
+            //else if (strGridID == "gvPhaseI")
+            //{
+            //    intPanel = 6;
+            //    PM_Phase_I.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
+            //    BindGridPhaseI();
+            //}
             else if (strGridID == "gvEPAInspections")
             {
                 intPanel = 6;
@@ -1319,6 +1375,22 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
             Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "Javascript:ShowPanel(" + intPanel + ");", true);
         }
     }
+
+    protected void gvComplainceReportingOSHA_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "EditDetails" || e.CommandName == "ViewDetails")
+        {
+            string strURL = "PM_Compliance_Reporting_OSHA.aspx?";
+            strURL = strURL + "id=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&op=" + (e.CommandName == "EditDetails" ? "edit" : "view") + "&fid=" + Encryption.Encrypt(PK_PM_Compliance_Reporting.ToString()) + "&loc=" + Request.QueryString["loc"];
+            Response.Redirect(strURL);
+        }
+        else if (e.CommandName == "RemoveDetails")
+        {
+            clsPM_Complaince_Reporting_OSHA.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
+            BindGridOshaLog();
+            Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "Javascript:ShowPanel(" + 3 + ");", true);
+        }
+    }    
 
     #endregion
 
@@ -1556,4 +1628,6 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         hdnErrorMsgs.Value = strMessages;
     }
     #endregion
+    
+    
 }

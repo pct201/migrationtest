@@ -214,7 +214,8 @@ public partial class Attachment_Pollution : System.Web.UI.UserControl
             if (Table_Name == "PM_Equipment_Tank" || Table_Name == "PM_Equipment_Spray_Booth" || Table_Name == "PM_Equipment_OWS" || Table_Name == "PM_Equipment_Hydraulic_Lift" || Table_Name == "PM_Equipment_PGCC")
                 strSQL = strSQL + "Table_Name" + "," + Environment.NewLine;
 
-            strSQL = strSQL + "FK_Attachment_Type" + "," + Environment.NewLine;
+            if (clsGeneral.PollutionTableName[(int)AttachmentTable] != "PM_Compliance_Reporting_OSHA_Attachments")
+                strSQL = strSQL + "FK_Attachment_Type" + "," + Environment.NewLine;
             strSQL = strSQL + "Description" + "," + Environment.NewLine;
             strSQL = strSQL + "Attachment_Path" + "," + Environment.NewLine;
             strSQL = strSQL + "Updated_By" + "," + Environment.NewLine;
@@ -222,7 +223,8 @@ public partial class Attachment_Pollution : System.Web.UI.UserControl
             strSQL = strSQL + "VALUES(" + Convert.ToString(FK_Field_Value) + "," + Environment.NewLine;
             if (Table_Name == "PM_Equipment_Tank" || Table_Name == "PM_Equipment_Spray_Booth" || Table_Name == "PM_Equipment_OWS" || Table_Name == "PM_Equipment_Hydraulic_Lift" || Table_Name == "PM_Equipment_PGCC")
                 strSQL = strSQL + "'" + Convert.ToString(Table_Name) + "'," + Environment.NewLine;
-            strSQL = strSQL + Convert.ToString(drpAttachType.SelectedValue) + "," + Environment.NewLine;
+            if (clsGeneral.PollutionTableName[(int)AttachmentTable] != "PM_Compliance_Reporting_OSHA_Attachments")
+                strSQL = strSQL + Convert.ToString(drpAttachType.SelectedValue) + "," + Environment.NewLine;
             strSQL = strSQL + "'" + txtAttachDesc.Text.Trim().Replace("'", "''") + "'," + Environment.NewLine;
             strSQL = strSQL + "'" + name.Trim().Replace("'", "''") + "'," + Environment.NewLine;
             strSQL = strSQL + (string.IsNullOrEmpty(clsSession.UserID) ? "''" : clsSession.UserID) + "," + Environment.NewLine;

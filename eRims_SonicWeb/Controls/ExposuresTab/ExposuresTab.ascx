@@ -11,7 +11,7 @@
             Franchise
         </td>
         <td id="tab3" class="tab" onclick="RedirectTo(3);">
-            Environmental
+            EHS
         </td>
         <td id="tab6" class="tab" onclick="RedirectTo(6);">
             Project Management

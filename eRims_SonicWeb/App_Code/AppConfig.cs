@@ -180,6 +180,9 @@ public class AppConfig
     private static string _strPM_SI_UP_AttachmentsDocPath;
     private static string _strPM_SI_UP_AttachmentsImageURL;
 
+    private static string _strPM_Compliance_Reporting_OSHA_AttachmentsDocPath;
+    private static string _strPM_Compliance_Reporting_OSHA_AttachmentsImageURL;
+
     private static string _strPM_SI_FI_AttachmentsDocPath;
     private static string _strPM_SI_FI_AttachmentsImageURL;
 
@@ -946,9 +949,19 @@ public class AppConfig
         get { return _strPM_SI_UP_AttachmentsDocPath; }
     }
 
+    public static string PM_Compliance_Reporting_OSHA_AttachmentsDocPath
+    {
+        get { return _strPM_Compliance_Reporting_OSHA_AttachmentsDocPath; }
+    }
+
     public static string PM_SI_UP_AttachmentsImageURL
     {
         get { return _strPM_SI_UP_AttachmentsImageURL; }
+    }
+
+    public static string PM_Compliance_Reporting_OSHA_AttachmentsImageURL
+    {
+        get { return _strPM_Compliance_Reporting_OSHA_AttachmentsImageURL; }
     }
 
     public static string PM_SI_FI_AttachmentsDocPath
@@ -1478,6 +1491,9 @@ public class AppConfig
 
         _strPM_SI_UP_AttachmentsDocPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["PM_SI_UP_AttachmentsDocs"] + "\\");
         _strPM_SI_UP_AttachmentsImageURL = string.Concat(SiteURL, AttachmentDocPath, "/", ConfigurationManager.AppSettings["PM_SI_UP_AttachmentsDocs"] + "/");
+
+        _strPM_Compliance_Reporting_OSHA_AttachmentsDocPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["PM_Compliance_Reporting_OSHA_AttachmentsDocs"] + "\\");
+        _strPM_Compliance_Reporting_OSHA_AttachmentsImageURL = string.Concat(SiteURL, AttachmentDocPath, "/", ConfigurationManager.AppSettings["PM_Compliance_Reporting_OSHA_Attachments"] + "/");
 
         _strPM_SI_FI_AttachmentsDocPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["PM_SI_FI_AttachmentsDocs"] + "\\");
         _strPM_SI_FI_AttachmentsImageURL = string.Concat(SiteURL, AttachmentDocPath, "/", ConfigurationManager.AppSettings["PM_SI_FI_AttachmentsDocs"] + "/");

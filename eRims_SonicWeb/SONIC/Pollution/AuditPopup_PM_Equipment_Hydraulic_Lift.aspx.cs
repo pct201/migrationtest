@@ -94,15 +94,15 @@ public partial class SONIC_Pollution_AuditPopup_PM_Equipment_Hydraulic_Lift : Sy
             {
                 this.Title = "eRIMS Sonic :: Alignment Racks Audit Trail";
                 lbltable_Name.Text = "Alignment Rack";
-                spnauditRemoval.InnerText = spnLiftGrid.InnerText = "Rack";
-                spnauditRemoved.InnerText = spnLiftGrids.InnerText = "Racks";
+                //spnauditRemoval.InnerText = spnLiftGrid.InnerText = "Rack";
+                //spnauditRemoved.InnerText = spnLiftGrids.InnerText = "Racks";
             }
             else
             {
                 this.Title = "eRIMS Sonic :: Hydraulic Lift Audit Trail";
                 lbltable_Name.Text = "Hydraulic Lift";
-                spnauditRemoval.InnerText = spnLiftGrid.InnerText = "Lift";
-                spnauditRemoved.InnerText = spnLiftGrids.InnerText = "Lifts";
+                //spnauditRemoval.InnerText = spnLiftGrid.InnerText = "Lift";
+                //spnauditRemoved.InnerText = spnLiftGrids.InnerText = "Lifts"; 
             }
         }
     }

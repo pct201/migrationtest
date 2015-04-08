@@ -81,6 +81,39 @@
                                     <span style="display: inline-block; width: 300px;">Notes</span>
                                 </th>
                                 <th class="cols" align="left">
+                                    <span style="display: inline-block; width: 150px;">Status</span>
+                                </th>
+                                <th class="cols" align="left">
+                                    <span style="display: inline-block; width: 150px; word-wrap:normal;word-break:break-all">Have Any Inground <span id="spnauditRemoved" runat="server">Lifts</span> Been Removed?</span>
+                                </th>
+                                <th class="cols" align="left">
+                                    <span style="display: inline-block; width: 150px; word-wrap:normal;word-break:break-all">Documentation Related To Removed <span id="spnauditRemoval" runat="server">Lift</span></span>
+                                </th>
+                                <th class="cols" align="left">
+                                    <span style="display: inline-block; width: 150px; ">Replacement Description</span>
+                                </th>
+                                <th class="cols" align="left">
+                                    <span style="display: inline-block; width: 150px; ">Replacement Oil Type</span>
+                                </th>
+                                <th class="cols" align="left">
+                                    <span style="display: inline-block; width: 150px; ">Replacement Above Ground</span>
+                                </th>
+                                <th class="cols" align="left">
+                                    <span style="display: inline-block; width: 150px; ">Replacement Manufacturer</span>
+                                </th>
+                                <th class="cols" align="left">
+                                    <span style="display: inline-block; width: 150px; ">Replacement Installation Date</span>
+                                </th>
+                                <th class="cols" align="left">
+                                    <span style="display: inline-block; width: 150px; ">Replacement Last Annual Inspection</span>
+                                </th>
+                                <th class="cols" align="left">
+                                    <span style="display: inline-block; width: 150px; ">Replacement Notes</span>
+                                </th>
+                                <th class="cols" align="left">
+                                    <span style="display: inline-block; width: 150px; ">Lift Number Replacement Indicator</span>
+                                </th>
+                                <th class="cols" align="left">
                                     <span style="display: inline-block; width: 100px;">Updated By</span>
                                 </th>
                                 <th class="cols" align="left">
@@ -168,6 +201,72 @@
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
                                     <asp:Label ID="lblNotes" runat="server" Text='<%#Eval("Notes")%>' Width="300px" CssClass="TextClip"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>                           
+                             <asp:TemplateField HeaderText="Status">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblStatus" runat="server" Text='<%#CheckStatus(Eval("Status")) %>'  Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Any_Inground_Lifts_Been_Removed">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblAny_Inground_Lifts_Been_Removed" runat="server" Text='<%#Eval("Any_Inground_Lifts_Been_Removed") != "Y" ? "No":"Yes" %>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Documentation_Related_To_Removed_Lifts">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblDocumentation_Related_To_Removed_Lifts" runat="server" Text='<%#Eval("Documentation_Related_To_Removed_Lifts") != "Y" ? "No":"Yes"%>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Replacement_Description">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblReplacement_Description" runat="server" Text='<%#Eval("Replacement_Description")%>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Replacement_Oil_Type">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblReplacement_Oil_Type" runat="server" Text='<%#Eval("Replacement_Oil_Type")%>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Replacement_Above_Ground">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblReplacement_Above_Ground" runat="server" Text='<%#Eval("Replacement_Above_Ground") != "Y" ? "No":"Yes"  %>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Replacement_Manufacturer">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblReplacement_Manufacturer" runat="server" Text='<%#Eval("Replacement_Manufacturer")%>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Replacement_Installation_Date">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblReplacement_Installation_Date" runat="server" Text='<%#Eval("Replacement_Installation_Date")!= DBNull.Value ? clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Replacement_Installation_Date"))) : ""%>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Replacement_Last_Annual_Inspection">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblReplacement_Last_Annual_Inspection" runat="server" Text='<%#Eval("Replacement_Last_Annual_Inspection")!= DBNull.Value ? clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Replacement_Last_Annual_Inspection"))) : ""%>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Replacement_Notes">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblReplacement_Notes" runat="server" Text='<%#Eval("Replacement_Notes")%>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                               <asp:TemplateField HeaderText="Lift_Number_Replacement_Indicator">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblLift_Number_Replacement_Indicator" runat="server" Text='<%#CheckLiftNumberReplacementIndicator(Eval("Lift_Number_Replacement_Indicator"))%>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Updated_By">

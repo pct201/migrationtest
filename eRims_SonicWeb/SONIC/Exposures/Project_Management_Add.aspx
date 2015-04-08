@@ -186,5 +186,9 @@
                 </div>
             </td>
         </tr>
+        <tr>
+            <td align="left">&nbsp;</td>
+            <td align="center"><asp:Button runat="server" ID="btnBack" Text="Return To EHS Module" Visible="false" OnClick="btnBack_Click"/></td>
+        </tr>
     </table>
 </asp:Content>

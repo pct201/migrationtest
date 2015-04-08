@@ -84,7 +84,7 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
             try
             {
                 HttpContext.Current.Response.Clear();
-                HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "Environmental Ad-Hoc Report.xls"));
+                HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "EHS Ad-Hoc Report.xls"));
                 HttpContext.Current.Response.ContentType = "application/ms-excel";
                 HttpContext.Current.Response.TransmitFile(strFilePath);
                 HttpContext.Current.Response.Flush();
@@ -1209,6 +1209,20 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
 
                         liItem.Add(new ListItem("On Surface", "S"));
                         liItem.Add(new ListItem("Underground", "U"));
+
+                        lst_F.Items.Clear();
+                        for (int i = 0; i < liItem.Count; i++)
+                        {
+                            lst_F.Items.Add((ListItem)liItem[i]);
+                        }
+                    }
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "status")
+                    {
+                        List<ListItem> liItem = new List<ListItem>();
+
+                        liItem.Add(new ListItem("Active", "A"));
+                        liItem.Add(new ListItem("Non-Active", "N"));
+                        liItem.Add(new ListItem("Removed", "R"));
 
                         lst_F.Items.Clear();
                         for (int i = 0; i < liItem.Count; i++)
@@ -2917,6 +2931,20 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
 
             liItem.Add(new ListItem("On Surface", "S"));
             liItem.Add(new ListItem("Underground", "U"));
+
+            lst_F.Items.Clear();
+            for (int i = 0; i < liItem.Count; i++)
+            {
+                lst_F.Items.Add((ListItem)liItem[i]);
+            }
+        }
+        else if (Convert.ToString(Field_Header).ToLower().Trim() == "status")
+        {
+            List<ListItem> liItem = new List<ListItem>();
+
+            liItem.Add(new ListItem("Active", "A"));
+            liItem.Add(new ListItem("Non-Active", "N"));
+            liItem.Add(new ListItem("Removed", "R"));
 
             lst_F.Items.Clear();
             for (int i = 0; i < liItem.Count; i++)

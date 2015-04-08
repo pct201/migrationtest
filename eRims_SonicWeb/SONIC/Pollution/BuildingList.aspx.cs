@@ -46,6 +46,7 @@ public partial class SONIC_Pollution_BuildingList : clsBasePage
     {
         if (!Page.IsPostBack)
         {
+            ViewState["PreviousPage"] = Request.UrlReferrer;//Saves the Previous page url in ViewState
             Session["EnviroBuilding"] = null;
             SortOrder = "Asc";
             SortBy = "Building_Occupacy";
@@ -75,6 +76,16 @@ public partial class SONIC_Pollution_BuildingList : clsBasePage
         Response.Redirect("../Exposures/ExposureSearchResult.aspx");
     }
 
+    protected void btnReturntoPM_Click(object sender, EventArgs e)
+    {
+        if (ViewState["PreviousPage"] != null)	//Check if the ViewState 
+        //contains Previous page URL
+        {
+            Response.Redirect(ViewState["PreviousPage"].ToString());//Redirect to 
+            //Previous page by retrieving the PreviousPage Url from ViewState.
+        }
+    }
+
     #endregion
     
     #region "Methods"
@@ -84,7 +95,31 @@ public partial class SONIC_Pollution_BuildingList : clsBasePage
     /// </summary>
     private void BindGrid(int PageNumber, int PageSize)
     {
-        DataSet dsSearchResult = Building.SelectByPaging(FK_LU_Location_ID, SortBy, SortOrder, PageNumber, PageSize);
+        DataSet dsSearchResult = null;
+        if (Session["BuildingName"] != null && Request.QueryString["PM"] != null)
+        {            
+            string s = Session["BuildingName"].ToString();
+            string final = string.Empty;            
+            string[] words = s.Split(',');
+            for (int i = 0; i < words.Length; i++)
+            {
+                words[i] = "" + words[i].Trim() + "";
+                final = final + words[i] + ",";
+            }
+            
+            final = final.TrimEnd(',');
+
+            dsSearchResult = Building.SelectByPagingBuildingNumber(FK_LU_Location_ID, final, SortBy, SortOrder, PageNumber, PageSize);
+            btnReturntoPM.Visible = true;
+            btnBack.Visible = false;
+        }
+        else
+        {
+            btnReturntoPM.Visible = false;
+            btnBack.Visible = true;
+
+            dsSearchResult = Building.SelectByPaging(FK_LU_Location_ID, SortBy, SortOrder, PageNumber, PageSize);
+        }
         gvBuilding.DataSource = dsSearchResult.Tables[0];
         gvBuilding.DataBind();
 
@@ -246,4 +281,5 @@ public partial class SONIC_Pollution_BuildingList : clsBasePage
     }
 
     #endregion
+    
 }

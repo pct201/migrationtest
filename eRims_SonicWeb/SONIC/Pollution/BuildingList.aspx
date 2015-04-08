@@ -92,7 +92,7 @@
             <tr>
                 <td><table width="100%"><tr>
                 <td align="center">
-                    <asp:Button ID="btnReturntoPM" runat="server" Text="Return to Project Management" OnClick="btnReturntoPM_Click" />&nbsp;                
+                    <asp:Button ID="btnReturntoPM" runat="server" Text="Return to Project Management Module" OnClick="btnReturntoPM_Click" />&nbsp;                
                     <asp:Button ID="btnBack" runat="server" Text="Back" OnClick="btnBack_Click" />
                 </td>
                     </tr>

@@ -53,12 +53,12 @@
                                 <%--<th class="cols">
                                     <span style="display: inline-block; width: 100px;">Equipment Hydraulic Lift</span>
                                 </th>--%>                                
-                                <th class="cols" align="left">
+                                <%--<th class="cols" align="left">
                                     <span style="display: inline-block; width: 150px;">Have Any In-Ground <span id="spnauditRemoved" runat="server">Lifts</span> Been Removed from the Location?</span>
                                 </th>
                                 <th class="cols" align="left">
                                     <span style="display: inline-block; width: 150px;">If Yes, Is Documentation Related to <span id="spnauditRemoval" runat="server">Lift</span> Removal Attached?</span>
-                                </th>
+                                </th>--%>
                                  <th class="cols" align="left">
                                     <span style="display: inline-block; width: 200px;">Apply the Installation and Inspection Dates of the First Installed <span id="spnLiftGrid" runat="server">Lift</span> in the Below Grid to all Installed <span id="spnLiftGrids" runat="server">Lifts</span> in the Grid?</span>
                                 </th>
@@ -93,7 +93,7 @@
                                         Width="100px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>--%>                            
-                            <asp:TemplateField HeaderText="Above_Ground">
+                            <%--<asp:TemplateField HeaderText="Above_Ground">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
                                     <asp:Label ID="lblAbove_Ground" runat="server" Text='<%#Eval("Any_Inground_Lifts_Been_Removed")%>' Width="150px"></asp:Label>
@@ -104,7 +104,7 @@
                                 <ItemTemplate>
                                     <asp:Label ID="lblAbove_Ground" runat="server" Text='<%#Eval("Documentation_Related_To_Removed_Lifts")%>' Width="150px"></asp:Label>
                                 </ItemTemplate>
-                            </asp:TemplateField> 
+                            </asp:TemplateField> --%>
                               <asp:TemplateField HeaderText="Use_Same_Dates">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Environmental : Ad-Hoc Report Writer" Language="C#" MasterPageFile="~/Default.master"
+﻿<%@ Page Title="EHS : Ad-Hoc Report Writer" Language="C#" MasterPageFile="~/Default.master"
     AutoEventWireup="true" CodeFile="AdHocReportWriter.aspx.cs" Inherits="Pollution_AdHocReportWriter" %>
 
 <%@ Register Src="~/Controls/RelativeDate/RelativeDate.ascx" TagPrefix="uc" TagName="CtrlRelativeDates" %>
@@ -150,7 +150,7 @@
     <div>
         &nbsp;</div>
     <div class="bandHeaderRow">
-        Environmental : Ad Hoc Report Writer</div>
+        EHS : Ad Hoc Report Writer</div>
     <asp:Panel ID="pnl_Container" runat="server">
         <asp:UpdateProgress runat="server" ID="upProgress" DisplayAfter="100">
             <ProgressTemplate>

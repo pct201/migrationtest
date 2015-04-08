@@ -38,6 +38,13 @@
             document.getElementById('<%=hdPanel.ClientID%>').value = index;
             SetMenuStyle(index);
             ActiveTabIndex = index;
+            var loc = '<%=Session["ExposureLocation"]%>';
+            var Building_Id = '<%=Session["EnviroBuilding"]%>';
+            if (index == 8) {
+                if (loc > 0)
+                    loc = '<%=Encryption.Encrypt(Session["ExposureLocation"].ToString()) %>';
+                window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/Project_Management_Add.aspx?loc=' + loc + '&Building_Id=' + Building_Id;
+            }
             var op = '<%=StrOperation%>';
             if (op == "view") {
                 ShowPanelView(index);
@@ -46,6 +53,7 @@
                 var i;
                 if (index < 9) {
                     for (i = 1; i <= 8; i++) {
+                        if(index != 8)
                         document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i).style.display = (i == index) ? "block" : "none";
                     }
                     document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
@@ -66,12 +74,21 @@
         }
 
         function ShowPanelView(index) {
+
             document.getElementById('<%=hdPanel.ClientID%>').value = index;
             SetMenuStyle(index);
+            var loc = '<%=Session["ExposureLocation"]%>';
+            var Building_Id = '<%=Session["EnviroBuilding"]%>';
+            if (index == 8) {
+                if (loc > 0)
+                    loc = '<%=Encryption.Encrypt(Session["ExposureLocation"].ToString()) %>';
+                window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/Project_Management_Add.aspx?loc=' + loc + '&Building_Id=' + Building_Id;
+            }
             document.getElementById('<%=dvView.ClientID%>').style.display = "block";
             var i;
             if (index < 9) {
                 for (i = 1; i <= 8; i++) {
+                    if (index != 8)
                     document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i + "View").style.display = (i == index) ? "block" : "none";
                 }
                 //document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
@@ -275,7 +292,7 @@
                                 </tr>
                                 <tr>
                                     <td align="left" width="100%">
-                                        <span id="Menu8" onclick="javascript:ShowPanel(8);" class="LeftMenuStatic">Remediations&nbsp;<span
+                                        <span id="Menu8" onclick="javascript:ShowPanel(8);" class="LeftMenuStatic">Project Management Link&nbsp;<span
                                             id="MenuAsterisk6" runat="server" style="color: Red; display: none">*</span></span>
                                     </td>
                                 </tr>
@@ -972,6 +989,73 @@
                                                             </asp:GridView>
                                                         </td>
                                                     </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">
+                                                            OSHA Log Grid<br />
+                                                            [Main Building Only]<br />
+                                                            <asp:LinkButton ID="lnkComplainceReportingOSHA" runat="server" Text="--Add--" CausesValidation="true"
+                                                                ValidationGroup="vsErrorGroup" OnClick="lnkComplainceReportingOSHA_Click" OnClientClick="return ValSave();" />
+                                                        </td>
+                                                        <td align="center" valign="top">
+                                                            :
+                                                        </td>
+                                                        <td colspan="4" align="left" valign="top">
+                                                            <asp:GridView ID="gvComplainceReportingOSHA" runat="server" Width="100%" AutoGenerateColumns="false"
+                                                                EmptyDataText="No Record Exists" OnRowCommand="gvComplainceReportingOSHA_RowCommand">
+                                                                <Columns>
+                                                                    <asp:TemplateField HeaderText="Date Completed">
+                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkDate_Completed" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("Date_Completed")) %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Feb 1 Log Posting">
+                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkLog_Posted_Feb_1" runat="server" Text='<%# Eval("Log_Posted_Feb_1").ToString() == "N" ? "No" : "Yes" %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Number of Osha Recordable">
+                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkOSHA_Recordable" runat="server" Text='<%# Eval("OSHA_Recordable").ToString() %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Number of lost Work Days">
+                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkLost_Work_Days" runat="server" Text='<%# Eval("Lost_Work_Days").ToString() %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Number of Restricted Work Days">
+                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkRestsricted_Work_Days" runat="server" Text='<%# Eval("Restsricted_Work_Days").ToString() %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                     <asp:TemplateField HeaderText="Total Number of Associates">
+                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkTotal_Associates" runat="server" Text='<%# Eval("Total_Associates").ToString() %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Remove">
+                                                                        <ItemStyle Width="10%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkRemove" runat="server" Text="Remove" CommandName="RemoveDetails"
+                                                                                CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' OnClientClick="return confirm('Are you sure to remove the record?');" />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                            </asp:GridView>
+                                                        </td>
+                                                    </tr>
                                                 </table>
                                             </asp:Panel>
                                             <asp:Panel ID="pnl4" runat="server" Style="display: none;">
@@ -1281,7 +1365,7 @@
                                                             &nbsp;
                                                         </td>
                                                     </tr>
-                                                    <tr>
+                                                    <%--<tr>
                                                         <td align="left" width="14%" valign="top">
                                                             Phase I Grid<br />
                                                             <asp:LinkButton ID="lnkPhaseI" runat="server" Text="--Add--" CausesValidation="true"
@@ -1339,7 +1423,7 @@
                                                                 </Columns>
                                                             </asp:GridView>
                                                         </td>
-                                                    </tr>
+                                                    </tr>--%>
                                                     <tr>
                                                         <td colspan="6">
                                                             &nbsp;
@@ -2171,6 +2255,71 @@
                                                             </asp:GridView>
                                                         </td>
                                                     </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">
+                                                            OSHA Log Grid<br />
+                                                            [Main Building Only]<br />                                                           
+                                                        </td>
+                                                        <td align="center" valign="top">
+                                                            :
+                                                        </td>
+                                                        <td colspan="4" align="left" valign="top">
+                                                            <asp:GridView ID="gvOshaLogGridView" runat="server" Width="100%" AutoGenerateColumns="false"
+                                                                EmptyDataText="No Record Exists" OnRowCommand="gvComplainceReportingOSHA_RowCommand">
+                                                                <Columns>
+                                                                    <asp:TemplateField HeaderText="Date Completed">
+                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkDate_Completed" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("Date_Completed")) %>'
+                                                                                CommandName="ViewDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Feb 1 Log Posting">
+                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkLog_Posted_Feb_1" runat="server" Text='<%# Eval("Log_Posted_Feb_1").ToString() == "N" ? "No" : "Yes" %>'
+                                                                                CommandName="ViewDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Number of Osha Recordable">
+                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkOSHA_Recordable" runat="server" Text='<%# Eval("OSHA_Recordable").ToString() %>'
+                                                                                CommandName="ViewDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Number of lost Work Days">
+                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkLost_Work_Days" runat="server" Text='<%# Eval("Lost_Work_Days").ToString() %>'
+                                                                                CommandName="ViewDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Number of Restricted Work Days">
+                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkRestsricted_Work_Days" runat="server" Text='<%# Eval("Restsricted_Work_Days").ToString() %>'
+                                                                                CommandName="ViewDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                     <asp:TemplateField HeaderText="Total Number of Associates">
+                                                                        <ItemStyle Width="15%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkTotal_Associates" runat="server" Text='<%# Eval("Total_Associates").ToString() %>'
+                                                                                CommandName="ViewDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                   <%-- <asp:TemplateField HeaderText="Remove">
+                                                                        <ItemStyle Width="10%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkRemove" runat="server" Text="Remove" CommandName="RemoveDetails"
+                                                                                CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' OnClientClick="return confirm('Are you sure to remove the record?');" />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>--%>
+                                                                </Columns>
+                                                            </asp:GridView>
+                                                        </td>
+                                                    </tr>
                                                 </table>
                                             </asp:Panel>
                                             <asp:Panel ID="pnl4View" runat="server" Style="display: none;">
@@ -2435,7 +2584,7 @@
                                                             &nbsp;
                                                         </td>
                                                     </tr>
-                                                    <tr>
+                                                    <%--<tr>
                                                         <td align="left" width="14%" valign="top">
                                                             Phase I Grid
                                                         </td>
@@ -2484,7 +2633,7 @@
                                                                 </Columns>
                                                             </asp:GridView>
                                                         </td>
-                                                    </tr>
+                                                    </tr>--%>
                                                     <tr>
                                                         <td colspan="6">
                                                             &nbsp;
@@ -2733,7 +2882,7 @@
                                                     </td>
                                                 </tr>
                                             </table>
-                                        </asp:Panel>
+                                        </asp:Panel>                                        
                                     </td>
                                 </tr>
                             </table>
