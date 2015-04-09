@@ -218,7 +218,7 @@ public partial class Exposures_Property : clsBasePage
                 BindEmergencyContactGrid();
                 BindUtilityContactGrid();
                 BindOtherContactGrid();
-                BindBuildingImprovementGrid();
+                //BindBuildingImprovementGrid();
                 BindBuildingFinancialLimitGrid();
                 BindBuildingGGKLGrid();
                 BindSubLeaseGrid();
