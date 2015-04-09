@@ -5039,5 +5039,40 @@ public class ComboHelper
             }
         }
     }
+
+    /// <summary>
+    /// Used to Bind ProjectNumber by Locationid for contractorjobsecurity
+    /// </summary>
+    /// <param name="dropDowns">Dropdown Lists</param>
+    /// <param name="intID">used to selected a value using this param</param>
+    /// <param name="addSelectAsFirstElement">Require to add "--Select--" as a first element of dropdown</param>
+    public static void FillProjectNumberFromLocation(DropDownList[] dropDowns, int FK_Location, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.Contractor_Job_Security.SelectByLocationFacility_Construction_Project(FK_Location);
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Project_Number";
+            ddlToFill.DataValueField = "PK_Facility_construction_Project";
+            ddlToFill.DataSource = dsData;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+            ////check id greater 0 than find the value in dropdown list. if find than select the item.
+            //if (intID > 0)
+            //{
+            //    ListItem lst = new ListItem();
+            //    lst = ddlToFill.Items.FindByValue(intID.ToString());
+            //    if (lst != null)
+            //    {
+            //        lst.Selected = true;
+            //    }
+            //}
+        }
+    }
+
 }
 
