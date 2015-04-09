@@ -118,6 +118,10 @@
                     document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i + "view").style.display = "none";
                 }
             }
+            if (index == 6)
+            {
+                document.getElementById("ctl00_ContentPlaceHolder1_Div3").style.display = "none";
+            }
             document.getElementById('<%=pnlAttachment.ClientID%>').style.display = (index == 6) ? "block" : "none";
             if (index == 1) document.getElementById('<%=btnPrevoius.ClientID%>').style.display = "none";
             if (index == 1) document.getElementById('<%=btnPrevoius.ClientID%>').style.display = "none";

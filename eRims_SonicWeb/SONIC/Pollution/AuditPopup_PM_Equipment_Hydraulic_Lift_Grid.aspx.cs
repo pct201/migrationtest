@@ -33,7 +33,7 @@ public partial class SONIC_Pollution_AuditPopup_PM_Equipment_Hydraulic_Lift_Grid
         {
             return "Non-Active";
         }
-        else if (myValue.ToString() == "S")
+        else if (myValue.ToString() == "R")
         {
             return "Removed";
         }

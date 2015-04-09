@@ -1017,14 +1017,14 @@
                                                                                 CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Number of Osha Recordable" HeaderStyle-HorizontalAlign="Center">
+                                                                    <asp:TemplateField HeaderText="Number of OSHA Recordable" HeaderStyle-HorizontalAlign="Center">
                                                                         <ItemStyle Width="15%" HorizontalAlign="center" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkOSHA_Recordable" runat="server" Text='<%# Eval("OSHA_Recordable").ToString() %>'
                                                                                 CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Number of lost Work Days" HeaderStyle-HorizontalAlign="Center"> 
+                                                                    <asp:TemplateField HeaderText="Number of Lost Work Days" HeaderStyle-HorizontalAlign="Center"> 
                                                                         <ItemStyle Width="15%" HorizontalAlign="center" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkLost_Work_Days" runat="server" Text='<%# Eval("Lost_Work_Days").ToString() %>'
@@ -2281,14 +2281,14 @@
                                                                                 CommandName="ViewDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Number of Osha Recordable" HeaderStyle-HorizontalAlign="Center">
+                                                                    <asp:TemplateField HeaderText="Number of OSHA Recordable" HeaderStyle-HorizontalAlign="Center">
                                                                         <ItemStyle Width="15%" HorizontalAlign="center" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkOSHA_Recordable" runat="server" Text='<%# Eval("OSHA_Recordable").ToString() %>'
                                                                                 CommandName="ViewDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Number of lost Work Days" HeaderStyle-HorizontalAlign="Center">
+                                                                    <asp:TemplateField HeaderText="Number of Lost Work Days" HeaderStyle-HorizontalAlign="Center">
                                                                         <ItemStyle Width="15%" HorizontalAlign="center" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkLost_Work_Days" runat="server" Text='<%# Eval("Lost_Work_Days").ToString() %>'

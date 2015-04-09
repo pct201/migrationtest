@@ -3809,14 +3809,14 @@ function ValidateFieldsTank(sender, args) {
                                                             <td align="center" width="3%" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top" width="28%">
-                                                                <asp:Label ID="lblReplacementDescription" runat="server" Width="150px" />
+                                                                <asp:Label ID="lblReplacementDescription" runat="server" Width="150px" style="word-wrap:normal;word-break:break-all" />
                                                             </td>
                                                             <td align="left" valign="top" width="18%">Oil Type
                                                             </td>
                                                             <td align="center" valign="top" width="3%">:
                                                             </td>
                                                             <td align="left" valign="top" width="28%">
-                                                                <asp:Label ID="lblReplacementOilType" runat="server" Width="170px" MaxLength="75" />
+                                                                <asp:Label ID="lblReplacementOilType" runat="server" Width="170px" MaxLength="75" style="word-wrap:normal;word-break:break-all" />
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -3832,7 +3832,7 @@ function ValidateFieldsTank(sender, args) {
                                                             <td align="center" valign="top" width="3%">:
                                                             </td>
                                                             <td align="left" valign="top" width="28%">
-                                                                <asp:Label ID="lblManufacturer" runat="server" Width="170px" MaxLength="75" />
+                                                                <asp:Label ID="lblManufacturer" runat="server" Width="170px" MaxLength="75" style="word-wrap:normal;word-break:break-all"/>
                                                             </td>
                                                         </tr>
                                                         <tr>

@@ -254,7 +254,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td align="left" valign="top">
-                                                            Number of Osha Recordable Incidents&nbsp;<span id="spnNumberofOsha" style="color: Red; display: none;" runat="server">*</span>
+                                                            Number of OSHA Recordable Incidents&nbsp;<span id="spnNumberofOsha" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top">
                                                             :
@@ -366,7 +366,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td align="left" valign="top">
-                                                            Number of Osha Recordable Incidents
+                                                            Number of OSHA Recordable Incidents
                                                         </td>
                                                         <td align="center" valign="top">
                                                             :

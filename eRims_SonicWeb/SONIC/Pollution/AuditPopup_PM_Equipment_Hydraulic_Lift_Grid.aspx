@@ -108,7 +108,7 @@
                                     <span style="display: inline-block; width: 150px; ">Replacement Last Annual Inspection</span>
                                 </th>
                                 <th class="cols" align="left">
-                                    <span style="display: inline-block; width: 150px; ">Replacement Notes</span>
+                                    <span style="display: inline-block; width: 300px; ">Replacement Notes</span>
                                 </th>
                                 <th class="cols" align="left">
                                     <span style="display: inline-block; width: 150px; ">Lift Number Replacement Indicator</span>
@@ -224,13 +224,13 @@
                              <asp:TemplateField HeaderText="Replacement_Description">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblReplacement_Description" runat="server" Text='<%#Eval("Replacement_Description")%>' Width="150px"></asp:Label>
+                                    <asp:Label ID="lblReplacement_Description" runat="server" Text='<%#Eval("Replacement_Description")%>' CssClass="TextClip" Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                              <asp:TemplateField HeaderText="Replacement_Oil_Type">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblReplacement_Oil_Type" runat="server" Text='<%#Eval("Replacement_Oil_Type")%>' Width="150px"></asp:Label>
+                                    <asp:Label ID="lblReplacement_Oil_Type" runat="server" Text='<%#Eval("Replacement_Oil_Type")%>' style="word-wrap:normal;word-break:break-all" Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                              <asp:TemplateField HeaderText="Replacement_Above_Ground">
@@ -260,7 +260,7 @@
                              <asp:TemplateField HeaderText="Replacement_Notes">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblReplacement_Notes" runat="server" Text='<%#Eval("Replacement_Notes")%>' Width="150px"></asp:Label>
+                                    <asp:Label ID="lblReplacement_Notes" runat="server" Text='<%#Eval("Replacement_Notes")%>' Width="300px" CssClass="TextClip"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                                <asp:TemplateField HeaderText="Lift_Number_Replacement_Indicator">

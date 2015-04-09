@@ -2626,7 +2626,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
                 case "Replacement Oil Type": strCtrlsIDs += txtReplacementOilType.ClientID + ","; strMessages += "Please enter [Equipment]/Replacement Oil Type" + ","; spnOilType.Style["display"] = "inline-block"; break;
                 case "Replacement Manufacturer": strCtrlsIDs += txtManufacturer.ClientID + ","; strMessages += "Please enter [Equipment]/Replacement Manufacturer" + ","; spnManufacturer.Style["display"] = "inline-block"; break;
                 case "Replacement Installation Date": strCtrlsIDs += txtReplacementInstallationDate.ClientID + ","; strMessages += "Please enter [Equipment]/Replacement Installation Date" + ","; spnReplacementInstallationDate.Style["display"] = "inline-block"; break;
-                case "Replacement Last Annual Inspection": strCtrlsIDs += txtReplacementLastAnnualInspectionDate.ClientID + ","; strMessages += "Please enter [Equipment]/Replacement Last Annual Inspection" + ","; spnReplacementLastAnnualInspectionDate.Style["display"] = "inline-block"; break;
+                case "Replacement Last Annual Inspection Date": strCtrlsIDs += txtReplacementLastAnnualInspectionDate.ClientID + ","; strMessages += "Please enter [Equipment]/Replacement Last Annual Inspection Date" + ","; spnReplacementLastAnnualInspectionDate.Style["display"] = "inline-block"; break;
                 case "Replacement Notes": strCtrlsIDs += txtReplacementNotes.ClientID + ","; strMessages += "Please enter [Equipment]/Replacement Notes" + ","; spnReplacementNotes.Style["display"] = "inline-block"; break;                
                 
             }
