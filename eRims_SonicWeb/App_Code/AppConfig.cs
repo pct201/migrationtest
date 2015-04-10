@@ -251,6 +251,9 @@ public class AppConfig
     private static string _strEPMDocumentPath;
     private static string _strEPMDocumentURL;
 
+    private static string _strFCPDocumentPath;
+    private static string _strFCPDocumentURL;
+
     private static string _strAMDocumentPath;
     private static string _strAMDocumentURL;
 
@@ -1189,6 +1192,15 @@ public class AppConfig
         get { return _strEPMDocumentURL; }
     }
 
+    public static string strFCPDocumentPath
+    {
+        get { return _strFCPDocumentPath; }
+    }
+    public static string strFCPDocumentURL
+    {
+        get { return _strFCPDocumentURL; }
+    }
+
     public static string strAMDocumentPath
     {
         get { return _strAMDocumentPath; }
@@ -1563,6 +1575,9 @@ public class AppConfig
 
         _strEPMDocumentPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["EPM_Docs"] + "\\");
         _strEPMDocumentURL = string.Concat(SiteURL, AttachmentDocPath, "/", ConfigurationManager.AppSettings["EPM_Docs"] + "/");
+
+        _strFCPDocumentPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["FCP_Docs"] + "\\");
+        _strFCPDocumentURL = string.Concat(SiteURL, AttachmentDocPath, "/", ConfigurationManager.AppSettings["FCP_Docs"] + "/");
 
         _strAMDocumentPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["AM_Docs"] + "\\");
         _strAMDocumentURL = string.Concat(SiteURL, AttachmentDocPath, "/", ConfigurationManager.AppSettings["AM_Docs"] + "/");

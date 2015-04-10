@@ -20,8 +20,8 @@ public partial class Controls_ExposuresTab_ExposuresTab : System.Web.UI.UserCont
         Inspection = 4,
         Lease = 5,
         ProjectManagement = 6,
-        AssetProtection = 7
-
+        AssetProtection = 7,
+        Construction = 8
     }
     protected void Page_Load(object sender, EventArgs e)
     {
