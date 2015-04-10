@@ -218,7 +218,7 @@ public partial class Exposures_Property : clsBasePage
                 BindEmergencyContactGrid();
                 BindUtilityContactGrid();
                 BindOtherContactGrid();
-                //BindBuildingImprovementGrid();
+                BindBuildingImprovementGrid();
                 BindBuildingFinancialLimitGrid();
                 BindBuildingGGKLGrid();
                 BindSubLeaseGrid();
@@ -3225,10 +3225,13 @@ public partial class Exposures_Property : clsBasePage
 
     private void BindBuildingImprovementGrid()
     {
-        DataTable dtImprovements = Building_Improvements.SelectByFK_Property_Cope(PK_Property_Cope_ID).Tables[0];
-        dtImprovements.DefaultView.Sort = strBuildingImprovementSortBy + " " + strBuildingImprovementSortOrder;
-        gvBuildingImprovements.DataSource = dtImprovements;
-        gvBuildingImprovements.DataBind();
+        if (PK_Property_Cope_ID > 0)
+        {
+            DataTable dtImprovements = Building_Improvements.SelectByFK_Property_Cope(PK_Property_Cope_ID).Tables[0];
+            dtImprovements.DefaultView.Sort = strBuildingImprovementSortBy + " " + strBuildingImprovementSortOrder;
+            gvBuildingImprovements.DataSource = dtImprovements;
+            gvBuildingImprovements.DataBind();
+        }
     }
 
     private void BindBuildingFinancialLimitGrid()
