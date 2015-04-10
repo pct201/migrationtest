@@ -3806,6 +3806,31 @@ public class ComboHelper
         }
     }
 
+    /// <summary>
+    /// Fill Attachment Type
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillLU_FCP_Attachment_Type(DropDownList[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = LU_FCP_Attachment_Type.SelectAll().Tables[0];
+        dtData.DefaultView.RowFilter = "Active = 'Y'";
+        dtData.DefaultView.Sort = "Fld_Desc ASC";
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Fld_Desc";
+            ddlToFill.DataValueField = "PK_LU_FCP_Attachment_Type";
+            ddlToFill.DataSource = dtData.DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
 
     /// <summary>
     /// Fill Attachment Type
@@ -5048,7 +5073,8 @@ public class ComboHelper
     /// <param name="addSelectAsFirstElement">Require to add "--Select--" as a first element of dropdown</param>
     public static void FillProjectNumberFromLocation(DropDownList[] dropDowns, int FK_Location, bool booladdSelectAsFirstElement)
     {
-        DataSet dsData = ERIMS.DAL.Contractor_Job_Security.SelectByLocationFacility_Construction_Project(FK_Location);
+        DataSet dsData = null;
+        //DataSet dsData = ERIMS.DAL.Contractor_Job_Security.SelectByLocationFacility_Construction_Project(FK_Location);
         foreach (DropDownList ddlToFill in dropDowns)
         {
             ddlToFill.Items.Clear();
