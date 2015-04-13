@@ -111,6 +111,7 @@
     </siteMapNode>
     <siteMapNode url="" title="Administrator"  description="" roles="">
       <siteMapNode url="Administrator/security.aspx" title="User"  description="" roles="" />
+      <siteMapNode url="Administrator/Contractor_Security.aspx" title="Contractor Security"  description="" roles="" />
 
       <!--
       <siteMapNode url="Administrator\Business_Rule_List.aspx" title="Business Rule Management" description="Business Rule Management" roles="" />
@@ -269,6 +270,10 @@
             <siteMapNode url="SONIC/SLTSafetyWalk/AnnualQuestions.aspx" title ="Annual Questions" description="" roles="" />
           </siteMapNode>
           <siteMapNode url="Administrator/LU_SLT_Safety_Walk_Department.aspx" title ="Department" description="" roles="" />
+        </siteMapNode>
+        <siteMapNode title ="Facility Construction" description="" roles="">
+          <siteMapNode url="Administrator/LU_Document_Folders_FacilityConstruction.aspx" title ="Document Folders" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Contractor_Type.aspx" title ="Contractor Type" description="" roles="" />
         </siteMapNode>
 
       </siteMapNode>
