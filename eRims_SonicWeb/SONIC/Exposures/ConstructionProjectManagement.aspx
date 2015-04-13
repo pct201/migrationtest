@@ -68,11 +68,11 @@
                                                 <asp:TemplateField HeaderText="Project Number" SortExpression="Project_Number">
                                                     <ItemStyle Width="15%" />
                                                     <ItemTemplate>
-                                                        <a href='ConstructionProjectsView.aspx?loc=<%# Encryption.Encrypt(Eval("FK_Location").ToString()) %>&prjId=<%# Encryption.Encrypt(Eval("PK_Facility_construction_Project").ToString()) %>'><%# Eval("Project_Number") %></a>
+                                                        <a style="word-break:break-all; word-wrap:normal; display:inline-block;" href='ConstructionProjectsView.aspx?loc=<%# Encryption.Encrypt(Eval("FK_Location").ToString()) %>&prjId=<%# Encryption.Encrypt(Eval("PK_Facility_construction_Project").ToString()) %>'><%# Eval("Project_Number") %></a>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Building" SortExpression="Building_Number">
-                                                    <ItemStyle Width="15%" />
+                                                    <ItemStyle Width="15%"  />
                                                     <ItemTemplate>
                                                         <a href='ConstructionProjectsView.aspx?loc=<%# Encryption.Encrypt(Eval("FK_Location").ToString()) %>&prjId=<%# Encryption.Encrypt(Eval("PK_Facility_construction_Project").ToString()) %>'><%# DBNull.Value.Equals(Eval("Building_Number")) ? "" : Convert.ToString(Eval("Building_Number")).Trim(',') %></a>
                                                     </ItemTemplate>

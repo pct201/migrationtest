@@ -181,7 +181,7 @@
                                                         <td align="center" valign="top" width="4%">:
                                                         </td>
                                                         <td align="left" valign="top" colspan="4">
-                                                            <asp:Label ID="lbProjectNumber" runat="server" SkinID="lblDisabled" />
+                                                            <asp:Label ID="lbProjectNumber" runat="server" SkinID="lblDisabled" style="word-break:break-all; word-wrap:normal;" />
                                                         </td>
                                                     </tr>
                                                     <tr>

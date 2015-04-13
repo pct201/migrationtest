@@ -102,7 +102,7 @@
                                 <asp:TemplateField>
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
-                                        <asp:Label ID="lbProjectNumber" runat="server" Text='<%#Eval("Project_Number")%>'
+                                        <asp:Label ID="lbProjectNumber" runat="server" Text='<%#Eval("Project_Number")%>' style="word-wrap:break-word;"
                                             Width="100px"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
@@ -116,7 +116,7 @@
                                 <asp:TemplateField>
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
-                                        <asp:Label ID="lbProjectType" runat="server" Text='<%#Eval("Type_Description")%>'
+                                        <asp:Label ID="lbProjectType" runat="server" Text='<%#Eval("Type_Description")%>' CssClass="TextClip"
                                             Width="100px"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
@@ -144,7 +144,7 @@
                                 <asp:TemplateField>
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
-                                        <asp:Label ID="lbProjectDescription" runat="server" Text='<%#Eval("Project_Description")%>' style="word-wrap:break-word;" CssClass="TextClip"
+                                        <asp:Label ID="lbProjectDescription" runat="server" Text='<%#Eval("Project_Description")%>' CssClass="TextClip"
                                             Width="100px"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>

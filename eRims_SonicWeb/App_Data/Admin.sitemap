@@ -255,6 +255,7 @@
           <siteMapNode url="Administrator/LU_EPM_Outcome.aspx" title ="Outcome" description="" roles="" />
           <siteMapNode url="Administrator/LU_EPM_Project_Phase.aspx" title ="Project Phase" description="" roles="" />
           <siteMapNode url="Administrator/LU_EPM_Project_Type.aspx" title ="Project Type" description="" roles="" />
+          <siteMapNode url="Administrator/LU_FCP_Project_Type.aspx" title ="Facility Project Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_EPM_PurposeOfProject.aspx" title ="Purpose of Project" description="" roles="" />
           <siteMapNode url="Administrator/LU_EPM_Required_Activity.aspx" title ="Required Activity" description="" roles="" />
           <siteMapNode url="Administrator/LU_EPM_Requesting_Agency.aspx" title ="Requesting Agency" description="" roles="" />

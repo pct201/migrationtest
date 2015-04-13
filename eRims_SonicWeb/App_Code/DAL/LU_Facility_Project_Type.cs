@@ -15,6 +15,7 @@ namespace ERIMS.DAL
 
 		private decimal? _PK_LU_Facility_Project_Type;
 		private string _Type_Description;
+        private string _Active;
 
 		#endregion
 
@@ -37,8 +38,15 @@ namespace ERIMS.DAL
 			get { return _Type_Description; }
 			set { _Type_Description = value; }
 		}
-
-
+        
+        /// <summary>
+        /// Gets or Sets Active Value
+        /// </summary>
+        public string Active
+        {
+            get { return _Active; }
+            set { _Active = value; }
+        }
 		#endregion
 
 		#region Default Constructors
@@ -77,16 +85,20 @@ namespace ERIMS.DAL
 		/// </summary>
 		private void SetValue (DataRow drLU_Facility_Project_Type) 
 		{
-				if (drLU_Facility_Project_Type["LU_Facility_Project_Type"] == DBNull.Value)
+            if (drLU_Facility_Project_Type["PK_LU_Facility_Project_Type"] == DBNull.Value)
                     this._PK_LU_Facility_Project_Type = null;
 				else
-                    this._PK_LU_Facility_Project_Type = (decimal?)drLU_Facility_Project_Type["LU_Facility_Project_Type"];
+                this._PK_LU_Facility_Project_Type = (decimal?)drLU_Facility_Project_Type["PK_LU_Facility_Project_Type"];
 
 				if (drLU_Facility_Project_Type["Type_Description"] == DBNull.Value)
 					this._Type_Description = null;
 				else
 					this._Type_Description = (string)drLU_Facility_Project_Type["Type_Description"];
 
+                if (drLU_Facility_Project_Type["Active"] == DBNull.Value)
+                    this._Active = null;
+                else
+                    this._Active = (string)drLU_Facility_Project_Type["Active"];
 
 		}
 
@@ -106,6 +118,11 @@ namespace ERIMS.DAL
 				db.AddInParameter(dbCommand, "Type_Description", DbType.String, DBNull.Value);
 			else
 				db.AddInParameter(dbCommand, "Type_Description", DbType.String, this._Type_Description);
+
+            if (string.IsNullOrEmpty(this._Active))
+                db.AddInParameter(dbCommand, "Active", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Active", DbType.String, this._Active);
 
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -131,10 +148,12 @@ namespace ERIMS.DAL
 		/// Selects all records from the LU_Facility_Project_Type table.
 		/// </summary>
 		/// <returns>DataSet</returns>
-		public static DataSet SelectAll()
+		public static DataSet SelectAll(string active)
 		{
 			Database db = DatabaseFactory.CreateDatabase();
 			DbCommand dbCommand = db.GetStoredProcCommand("LU_Facility_Project_TypeSelectAll");
+
+            db.AddInParameter(dbCommand, "Active", DbType.String, active);
 
 			return db.ExecuteDataSet(dbCommand);
 		}
@@ -154,6 +173,11 @@ namespace ERIMS.DAL
 				db.AddInParameter(dbCommand, "Type_Description", DbType.String, DBNull.Value);
 			else
 				db.AddInParameter(dbCommand, "Type_Description", DbType.String, this._Type_Description);
+
+            if (string.IsNullOrEmpty(this._Active))
+                db.AddInParameter(dbCommand, "Active", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Active", DbType.String, this._Active);
 
 			db.ExecuteNonQuery(dbCommand);
 		}

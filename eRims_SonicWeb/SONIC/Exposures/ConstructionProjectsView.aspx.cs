@@ -194,11 +194,27 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
 
         if (dsProjectDetail.Tables[0].Rows.Count > 0)
         {
-            lbEstimatedEndDate.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Estimated_Completion_Date"]);
-            txtEstimatedEndDate.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Estimated_Completion_Date"]);
+            if (dsProjectDetail.Tables[0].Rows[0]["Estimated_Completion_Date"] != null)
+            {
+                lbEstimatedEndDate.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Estimated_Completion_Date"]);
+                txtEstimatedEndDate.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Estimated_Completion_Date"]);
+            }
+            else
+            {
+                lbEstimatedEndDate.Text = string.Empty;
+                txtEstimatedEndDate.Text = string.Empty;
+            }
 
-            lbEstimatedStartDate.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Estimated_Start_Date"]);
-            txtEstimatedStartDate.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Estimated_Start_Date"]);
+            if (dsProjectDetail.Tables[0].Rows[0]["Estimated_Start_Date"] != null)
+            {
+                lbEstimatedStartDate.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Estimated_Start_Date"]);
+                txtEstimatedStartDate.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Estimated_Start_Date"]);
+            }
+            else
+            {
+                lbEstimatedStartDate.Text = string.Empty;
+                txtEstimatedStartDate.Text = string.Empty;
+            }
 
             lbProjectNumber.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Project_Number"]);
             txtProjectNumber.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Project_Number"]);
@@ -222,7 +238,7 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
     /// </summary>
     private void BindProjectType()
     {
-        ddProjectType.DataSource = LU_Facility_Project_Type.SelectAll();
+        ddProjectType.DataSource = LU_Facility_Project_Type.SelectAll("Y");  // "Y" for Active, "N" for InActive, and "" for All
         ddProjectType.DataTextField = "Type_Description";
         ddProjectType.DataValueField = "PK_LU_Facility_Project_Type";
         ddProjectType.DataBind();
