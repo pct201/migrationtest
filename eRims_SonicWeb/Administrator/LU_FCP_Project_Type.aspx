@@ -125,7 +125,7 @@
                                             :
                                         </td>
                                         <td align="left" colspan="4">
-                                            <asp:TextBox ID="txtDescription" runat="server" MaxLength="75"></asp:TextBox>
+                                            <asp:TextBox ID="txtDescription" runat="server" MaxLength="50"></asp:TextBox>
                                             <asp:RequiredFieldValidator ID="rfvStatus" runat="server" ValidationGroup="vsError"
                                                 SetFocusOnError="true" ErrorMessage="Please Enter Description" Display="none"
                                                 ControlToValidate="txtDescription"></asp:RequiredFieldValidator>

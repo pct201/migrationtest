@@ -74,13 +74,13 @@
                                                 <asp:TemplateField HeaderText="Building" SortExpression="Building_Number">
                                                     <ItemStyle Width="15%"  />
                                                     <ItemTemplate>
-                                                        <a href='ConstructionProjectsView.aspx?loc=<%# Encryption.Encrypt(Eval("FK_Location").ToString()) %>&prjId=<%# Encryption.Encrypt(Eval("PK_Facility_construction_Project").ToString()) %>'><%# DBNull.Value.Equals(Eval("Building_Number")) ? "" : Convert.ToString(Eval("Building_Number")).Trim(',') %></a>
+                                                        <a style="word-break:break-all; word-wrap:normal; display:inline-block;" href='ConstructionProjectsView.aspx?loc=<%# Encryption.Encrypt(Eval("FK_Location").ToString()) %>&prjId=<%# Encryption.Encrypt(Eval("PK_Facility_construction_Project").ToString()) %>'><%# DBNull.Value.Equals(Eval("Building_Number")) ? "" : Convert.ToString(Eval("Building_Number")).Trim(',') %></a>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Project Type" SortExpression="Type_Description">
                                                     <ItemStyle Width="15%" />
                                                     <ItemTemplate>
-                                                        <a href='ConstructionProjectsView.aspx?loc=<%# Encryption.Encrypt(Eval("FK_Location").ToString()) %>&prjId=<%# Encryption.Encrypt(Eval("PK_Facility_construction_Project").ToString()) %>'><%# Eval("Type_Description") %></a>
+                                                        <a style="word-break:break-all; word-wrap:normal; display:inline-block;" href='ConstructionProjectsView.aspx?loc=<%# Encryption.Encrypt(Eval("FK_Location").ToString()) %>&prjId=<%# Encryption.Encrypt(Eval("PK_Facility_construction_Project").ToString()) %>'><%# Eval("Type_Description") %></a>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Estimated Start Date" SortExpression="Estimated_Start_Date">
