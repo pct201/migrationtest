@@ -319,6 +319,7 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
             Session["ConstructionProjectId"] = ConstructionProjectId;
         }
 
+        Session.Remove("IsEditable");
         hdnPanelSpaire.Value = "0";
         BindBuildings();
         FillConstructionProjectDetail();
@@ -333,6 +334,7 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
         {
             hdnPanel.Value = "2";
             hdnPanelSpaire.Value = "1";
+            Session["IsEditable"] = "1";
         }
         else
         {
@@ -342,6 +344,8 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
 
     protected void btnReturnto_View_Mode_Click(object sender, EventArgs e)
     {
+        Session.Remove("IsEditable");
+
         if (ConstructionProjectId > 0)
         {
             hdnPanel.Value = "1";
