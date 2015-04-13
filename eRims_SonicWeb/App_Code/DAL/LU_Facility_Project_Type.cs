@@ -194,5 +194,20 @@ namespace ERIMS.DAL
 
 			db.ExecuteNonQuery(dbCommand);
 		}
+
+        /// <summary>
+        /// Check Type Description Duplication
+        /// </summary>
+        /// <returns>Count</returns>
+        public int CheckTypeDescriptionDuplication(decimal pk_LU_Facility_Project_Type, string type_Description)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_Facility_Project_TypeCheck");
+
+            db.AddInParameter(dbCommand, "PK_LU_Facility_Project_Type", DbType.Decimal, pk_LU_Facility_Project_Type);
+            db.AddInParameter(dbCommand, "Type_Description", DbType.String, type_Description);
+
+            return Convert.ToInt32(db.ExecuteScalar(dbCommand));
+        }
 	}
 }

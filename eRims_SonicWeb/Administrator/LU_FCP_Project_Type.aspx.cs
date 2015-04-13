@@ -85,15 +85,26 @@ public partial class Administrator_LU_FCP_Project_Type : System.Web.UI.Page
         objProjectType.PK_LU_Facility_Project_Type = _PK_LU_FCP_Project_Type;
         objProjectType.Active = rdblActive.SelectedValue;
 
-        if (_PK_LU_FCP_Project_Type > 0)
+        if (objProjectType.CheckTypeDescriptionDuplication(_PK_LU_FCP_Project_Type, txtDescription.Text.Trim()) == 0)
         {
-            objProjectType.Update();
-            btnAdd.Text = "Add";
+            if (_PK_LU_FCP_Project_Type > 0)
+            {
+                objProjectType.Update();
+                btnAdd.Text = "Add";
+            }
+            else
+            {
+                _PK_LU_FCP_Project_Type = objProjectType.Insert();
+            }
         }
         else
         {
-            _PK_LU_FCP_Project_Type = objProjectType.Insert();
+            lblError.Text = "The Description that you are trying to add already exists in the Facility Project Type table.";
+            ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtDescription);
+            return;
         }
+
+        
         //claer Control
         ClearControls();
         //Bind Grid Function
