@@ -86,13 +86,13 @@
                                                 <asp:TemplateField HeaderText="Estimated Start Date" SortExpression="Estimated_Start_Date">
                                                     <ItemStyle Width="20%" />
                                                     <ItemTemplate>
-                                                        <a href='ConstructionProjectsView.aspx?loc=<%# Encryption.Encrypt(Eval("FK_Location").ToString()) %>&prjId=<%# Encryption.Encrypt(Eval("PK_Facility_construction_Project").ToString()) %>'><%# clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Estimated_Start_Date"))) %></a>
+                                                        <a href='ConstructionProjectsView.aspx?loc=<%# Encryption.Encrypt(Eval("FK_Location").ToString()) %>&prjId=<%# Encryption.Encrypt(Eval("PK_Facility_construction_Project").ToString()) %>'><%# DBNull.Value.Equals(Eval("Estimated_Start_Date")) ? "" : clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Estimated_Start_Date"))) %></a>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Estimated Complete Date" SortExpression="Estimated_Completion_Date">
                                                     <ItemStyle Width="20%" />
                                                     <ItemTemplate>
-                                                        <a href='ConstructionProjectsView.aspx?loc=<%# Encryption.Encrypt(Eval("FK_Location").ToString()) %>&prjId=<%# Encryption.Encrypt(Eval("PK_Facility_construction_Project").ToString()) %>'><%# clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Estimated_Completion_Date")))%></a>
+                                                        <a href='ConstructionProjectsView.aspx?loc=<%# Encryption.Encrypt(Eval("FK_Location").ToString()) %>&prjId=<%# Encryption.Encrypt(Eval("PK_Facility_construction_Project").ToString()) %>'><%# DBNull.Value.Equals(Eval("Estimated_Completion_Date")) ? "" : clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Estimated_Completion_Date")))%></a>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Remove">

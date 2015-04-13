@@ -123,14 +123,14 @@
                                 <asp:TemplateField>
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
-                                        <asp:Label ID="lbEstimatedStartDate" runat="server" Text='<%#Eval("Estimated_Start_Date")%>'
+                                        <asp:Label ID="lbEstimatedStartDate" runat="server" Text='<%# DBNull.Value.Equals(Eval("Estimated_Start_Date")) ? "" : clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Estimated_Start_Date"))) %>'
                                             Width="100px"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField>
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
-                                        <asp:Label ID="lbEstimatedCompleteDate" runat="server" Text='<%#Eval("Estimated_Completion_Date")%>'
+                                        <asp:Label ID="lbEstimatedCompleteDate" runat="server" Text='<%# DBNull.Value.Equals(Eval("Estimated_Completion_Date")) ? "" : clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Estimated_Completion_Date"))) %>'
                                             Width="100px"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
