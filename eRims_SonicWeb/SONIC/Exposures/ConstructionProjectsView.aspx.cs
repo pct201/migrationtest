@@ -62,14 +62,23 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
             if (Request.QueryString["prjId"] != null)
             {
                 ConstructionProjectId = Convert.ToDecimal(Encryption.Decrypt(Request.QueryString["prjId"].ToString()));
-                hdnPanel.Value = "1";
                 FillConstructionProjectDetail();
+                
+                if (Session["IsEditable"] != null)
+                {
+                    hdnPanel.Value = "2";
+                    hdnPanelSpaire.Value = "1";
+                }
+                else
+                {
+                    hdnPanel.Value = "1";
+                    hdnPanelSpaire.Value = "0";
+                }
             }
             else
             {
                 ConstructionProjectId = 0;
                 hdnPanel.Value = "2";
-                hdnPanelSpaire.Value = "1";
                 btnAuditTrail.Visible = false;
                 btnReturnto_View_Mode.Visible = false;
             }
@@ -307,10 +316,10 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
         {
             ConstructionProjectId = facility_Construction_Project.Insert();
             SaveBuildings();
-            hdnPanelSpaire.Value = "0";
             Session["ConstructionProjectId"] = ConstructionProjectId;
         }
 
+        hdnPanelSpaire.Value = "0";
         BindBuildings();
         FillConstructionProjectDetail();
         hdnPanel.Value = "1";
@@ -323,6 +332,7 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
         if (ConstructionProjectId > 0)
         {
             hdnPanel.Value = "2";
+            hdnPanelSpaire.Value = "1";
         }
         else
         {
@@ -335,6 +345,7 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
         if (ConstructionProjectId > 0)
         {
             hdnPanel.Value = "1";
+            hdnPanelSpaire.Value = "0";
         }
         else
         {

@@ -93,6 +93,7 @@ public partial class SONIC_Exposures_ConstructionProjectManagement : clsBasePage
         {
             HasEditRights = false;
             // check for the location id is passed in querystring
+
             if (Request.QueryString["loc"] != null)
             {
                 int loc;
@@ -113,8 +114,24 @@ public partial class SONIC_Exposures_ConstructionProjectManagement : clsBasePage
 
                 ucCtrlExposureInfo.PK_LU_Location = FK_Location;
                 ucCtrlExposureInfo.BindExposureInfo();
-                BindGrid();
                 //setControls();
+
+                if (Session["IsEditable"] != null)
+                {
+                    aAddProject.Visible = true;
+                    HasEditRights = true;
+                    BindGrid();
+                    btnEdit.Visible = false;
+                    btnCancel.Visible = true;
+                }
+                else
+                {
+                    aAddProject.Visible = false;
+                    HasEditRights = false;
+                    BindGrid();
+                    btnEdit.Visible = true;
+                    btnCancel.Visible = false;
+                }
             }
             else
                 Response.Redirect("../Exposures/ExposureSearch.aspx");
@@ -220,6 +237,7 @@ public partial class SONIC_Exposures_ConstructionProjectManagement : clsBasePage
         BindGrid();
         btnEdit.Visible = false;
         btnCancel.Visible = true;
+        Session["IsEditable"] = "1";
     }
 
     /// <summary>
@@ -234,6 +252,7 @@ public partial class SONIC_Exposures_ConstructionProjectManagement : clsBasePage
         BindGrid();
         btnEdit.Visible = true;
         btnCancel.Visible = false;
+        Session.Remove("IsEditable");
     }
 
     #endregion
