@@ -31,7 +31,7 @@
                         </HeaderTemplate>
                         <ItemTemplate>
                             <asp:CheckBox ID="chkFolder" runat="server" />
-                            <input type="hidden" id="hdnID" runat="server" value='<%#Eval("PK_LU_FCP_Attachment_Type")%>' />
+                            <input type="hidden" id="hdnID" runat="server" value='<%#Eval("PK_LU_FC_Document_Folder")%>' />
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Folders">

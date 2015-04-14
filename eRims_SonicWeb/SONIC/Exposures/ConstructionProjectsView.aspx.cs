@@ -81,6 +81,8 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
                 hdnPanel.Value = "2";
                 btnAuditTrail.Visible = false;
                 btnReturnto_View_Mode.Visible = false;
+                hdnPanelSpaire.Value = "1";
+                Session["IsEditable"] = "1";
             }
 
             ViewState["ConstructionProjectId"] = ConstructionProjectId;
@@ -216,14 +218,38 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
                 txtEstimatedStartDate.Text = string.Empty;
             }
 
-            lbProjectNumber.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Project_Number"]);
-            txtProjectNumber.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Project_Number"]);
+            if (dsProjectDetail.Tables[0].Rows[0]["Project_Number"] != null)
+            {
+                lbProjectNumber.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Project_Number"]);
+                txtProjectNumber.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Project_Number"]);
+            }
+            else
+            {
+                lbProjectNumber.Text = string.Empty;
+                txtProjectNumber.Text = string.Empty;
+            }
 
-            lbProjectType.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Type_Description"]);
-            ddProjectType.SelectedValue = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["FK_LU_Facility_Project_Type"]);
+            if (dsProjectDetail.Tables[0].Rows[0]["Type_Description"] != null)
+            {
+                lbProjectType.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Type_Description"]);
+                ddProjectType.SelectedValue = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["FK_LU_Facility_Project_Type"]);
+            }
+            else
+            {
+                lbProjectType.Text = string.Empty;
+                ddProjectType.SelectedValue = "0";
+            }
 
-            lbProject_Description.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Project_Description"]);
-            txtProjectDescription.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Project_Description"]);
+            if (dsProjectDetail.Tables[0].Rows[0]["Project_Description"] != null)
+            {
+                lbProject_Description.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Project_Description"]);
+                txtProjectDescription.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Project_Description"]);
+            }
+            else
+            {
+                lbProject_Description.Text = string.Empty;
+                txtProjectDescription.Text = string.Empty;
+            }
 
             FillBuildings();
         }

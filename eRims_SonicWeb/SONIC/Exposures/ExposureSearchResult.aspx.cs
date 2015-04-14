@@ -292,6 +292,8 @@ public partial class SONIC_Exposures_ExposureSearchResult : clsBasePage
             string strOperation = "";
             // get the hyperlink control for Franchise column
             HtmlAnchor lnkFranchise = (HtmlAnchor)e.Row.FindControl("lnkFranchise");
+            HtmlAnchor lnkConstruction = (HtmlAnchor)e.Row.FindControl("lnkConstruction");
+
             if (DataBinder.Eval(e.Row.DataItem, "Active").ToString() == "Y")
             {
                 // if franchise records are there
@@ -309,6 +311,23 @@ public partial class SONIC_Exposures_ExposureSearchResult : clsBasePage
                     if (FranchiseAccess == AccessType.Franchise_AddEdit)
                         lnkFranchise.InnerHtml = "Add New";
                     lnkFranchise.HRef = AppConfig.SiteURL + "SONIC/Franchise/FranchiseAddEdit.aspx?loc=" + Encryption.Encrypt(DataBinder.Eval(e.Row.DataItem, "PK_LU_Location_ID").ToString());
+                }
+
+                // if construction records are there
+                // display "View" as per the user rights
+                if (Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "ConstructionProjectCount")) > 0)
+                {
+                    if (App_Access == AccessType.Administrative_Access)
+                        lnkConstruction.InnerHtml = "View";
+                    strOperation = "view";
+                    lnkConstruction.HRef = AppConfig.SiteURL + "SONIC/Exposures/ConstructionProjectManagement.aspx?loc=" + Encryption.Encrypt(DataBinder.Eval(e.Row.DataItem, "PK_LU_Location_ID").ToString());
+                }
+                else
+                {
+                    // display "Add New" as per the user rights
+                    if (App_Access == AccessType.Administrative_Access)
+                        lnkConstruction.InnerHtml = "Add New";
+                    lnkConstruction.HRef = AppConfig.SiteURL + "SONIC/Exposures/ConstructionProjectsView.aspx?loc=" + Encryption.Encrypt(DataBinder.Eval(e.Row.DataItem, "PK_LU_Location_ID").ToString());
                 }
             }
             

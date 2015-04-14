@@ -189,8 +189,9 @@
                                     <asp:TemplateField HeaderText="Construction">
                                         <ItemStyle HorizontalAlign="Left" Width="55px" />
                                         <ItemTemplate>
-                                            <a href="../Exposures/ConstructionProjectManagement.aspx?loc=<%#Encryption.Encrypt(Eval("PK_LU_Location_ID").ToString())%>">
-                                                <%# App_Access == AccessType.NotAssigned ? "" : Convert.ToInt32(Eval("ConstructionProjectCount")) > 0 ? Eval("Active").ToString() == "N" ? "" : "View" : (App_Access == AccessType.View_Only || Eval("Active").ToString() == "N") ? "" : "Add New"%>
+                                            <a href='#' runat="server" id="lnkConstruction" />
+                                            <%--<a href="../Exposures/ConstructionProjectManagement.aspx?loc=<%#Encryption.Encrypt(Eval("PK_LU_Location_ID").ToString())%>">
+                                                <%# App_Access == AccessType.NotAssigned ? "" : Convert.ToInt32(Eval("ConstructionProjectCount")) > 0 ? Eval("Active").ToString() == "N" ? "" : "View" : (App_Access == AccessType.View_Only || Eval("Active").ToString() == "N") ? "" : "Add New"%>--%>
                                             </a>
                                         </ItemTemplate>
                                     </asp:TemplateField>

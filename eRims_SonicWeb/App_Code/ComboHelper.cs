@@ -3813,14 +3813,14 @@ public class ComboHelper
     /// <param name="booladdSelectAsFirstElement"></param>
     public static void FillLU_FCP_Attachment_Type(DropDownList[] dropDowns, bool booladdSelectAsFirstElement)
     {
-        DataTable dtData = LU_FCP_Attachment_Type.SelectAll().Tables[0];
-        dtData.DefaultView.RowFilter = "Active = 'Y'";
-        dtData.DefaultView.Sort = "Fld_Desc ASC";
+        DataTable dtData = clsLU_Document_Folders_FacilityConstruction.SelectAllRecords().Tables[0];
+        //dtData.DefaultView.RowFilter = "Active = 'Y'";
+        //dtData.DefaultView.Sort = "Fld_Desc ASC";
         foreach (DropDownList ddlToFill in dropDowns)
         {
             ddlToFill.Items.Clear();
-            ddlToFill.DataTextField = "Fld_Desc";
-            ddlToFill.DataValueField = "PK_LU_FCP_Attachment_Type";
+            ddlToFill.DataTextField = "Folder_Name";
+            ddlToFill.DataValueField = "PK_LU_FC_Document_Folder";
             ddlToFill.DataSource = dtData.DefaultView;
             ddlToFill.DataBind();
             //check require to add "-- select --" at first item of dropdown.

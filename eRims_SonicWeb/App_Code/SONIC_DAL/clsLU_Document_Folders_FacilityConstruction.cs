@@ -192,5 +192,17 @@ namespace ERIMS.DAL
 
 			db.ExecuteNonQuery(dbCommand);
 		}
+
+        /// <summary>
+        /// Selects a single record from the LU_FC_Document_Folder table.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectAllRecords()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_FC_Document_FolderSelectAllRecords");
+
+            return db.ExecuteDataSet(dbCommand);
+        }
 	}
 }
