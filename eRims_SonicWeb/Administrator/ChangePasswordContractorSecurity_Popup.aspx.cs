@@ -10,7 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using ERIMS.DAL;
 
-public partial class Administrator_ChangePasswordContractorSecurity_Popup : System.Web.UI.Page
+public partial class Administrator_ChangePasswordContractorSecurity_Popup : clsBasePage
 {
     #region Public Variables
     /// <summary>
