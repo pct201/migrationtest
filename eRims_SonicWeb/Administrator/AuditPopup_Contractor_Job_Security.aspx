@@ -88,32 +88,32 @@
                             <asp:TemplateField HeaderText="Location">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblFK_LU_Agency" runat="server" Text='<%#Eval("dba")%>' Width="150px"></asp:Label>
+                                    <asp:Label ID="lbldba" runat="server" CssClass="TextClip" Text='<%#Eval("dba")%>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Project_Number">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblFK_LU_Media" runat="server" Text='<%#Eval("Project_Number")%>' Width="150px"></asp:Label>
+                                    <asp:Label ID="lblProject_Number" runat="server" CssClass="TextClip" Text='<%#Eval("Project_Number")%>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Estimated_Start_Date">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblIdentification_Number" runat="server" Text='<%# Convert.ToDateTime(Eval("Estimated_Start_Date")).ToString("yyyy-MM-dd HH:mm") %>'
+                                    <asp:Label ID="lblEstimated_Start_Date" runat="server" CssClass="TextClip" Text='<%# Convert.ToDateTime(Eval("Estimated_Start_Date")).ToString("yyyy-MM-dd HH:mm") %>'
                                         ToolTip='<%# Eval("Estimated_Start_Date") != DBNull.Value ? Convert.ToDateTime(Eval("Estimated_Start_Date")).ToString("yyyy-MM-dd HH:mm") : "" %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Project_Description">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblContact_Name" runat="server" Text='<%#Eval("Project_Description")%>' Width="150px"></asp:Label>
+                                    <asp:Label ID="lblProject_Description" runat="server" CssClass="TextClip" Text='<%#Eval("Project_Description")%>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Updated_By">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblUpdated_By" runat="server" Text='<%#Eval("Updated_By")%>' Width="100px"></asp:Label>
+                                    <asp:Label ID="lblUpdated_By" runat="server" CssClass="TextClip" Text='<%#Eval("Updated_By")%>' Width="100px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Update_Date">

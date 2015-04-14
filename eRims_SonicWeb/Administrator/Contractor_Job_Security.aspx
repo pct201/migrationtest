@@ -5,10 +5,10 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <script type="text/javascript" src="../../JavaScript/JFunctions.js"></script>
-    <script type="text/javascript" src="../../JavaScript/Validator.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/Calendar_new.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/calendar-en.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/Calendar.js"></script>
+    <script type="text/javascript" src="../../JavaScript/Validator.js"></script>
     <script type="text/javascript">
         function OpenAuditPopUp() {
             var winHeight = window.screen.availHeight - 400;
@@ -70,7 +70,7 @@
                                                     </td>
                                                     <td align="left" valign="top">
                                                         <asp:TextBox ID="txtProject_Start_Date" runat="server" Width="170px" SkinID="txtDate" MaxLength="10"></asp:TextBox>
-                                                        <img alt="Date of Hire" onclick="return showCalendar('<%= txtProject_Start_Date.ClientID %>', 'mm/dd/y');"
+                                                        <img alt="Project_Start_Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtProject_Start_Date', 'mm/dd/y');"
                                                             onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
                                                             align="middle" id="img1" /><br />
                                                         <asp:RegularExpressionValidator ID="rvProject_Start_Date" runat="server" ControlToValidate="txtProject_Start_Date"
@@ -101,7 +101,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td align="left" valign="top">Project Description&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server">*</span>
+                                                    <td align="left" valign="top">Access&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server">*</span>
                                                     </td>
                                                     <td align="center" valign="top">:
                                                     </td>
@@ -168,7 +168,7 @@
                                                     <td align="center" width="4%" valign="top">:
                                                     </td>
                                                     <td align="left" width="28%" valign="top">
-                                                        <asp:Label ID="lblProject_Number" runat="server"></asp:Label>
+                                                        <asp:Label ID="lblProject_Number" runat="server" style="word-wrap:normal;word-break:break-all"></asp:Label>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -192,7 +192,7 @@
                                                     <td align="center" valign="top">:
                                                     </td>
                                                     <td align="left" valign="top">
-                                                        <asp:Label ID="lblProject_Description" runat="server"></asp:Label>
+                                                        <asp:Label ID="lblProject_Description" style="word-wrap:normal;word-break:break-all" runat="server"></asp:Label>
                                                     </td>
                                                     <td align="left" valign="top">&nbsp;
                                                     </td>
@@ -210,7 +210,7 @@
                                                         <asp:Label ID="lblAccess" runat="server"></asp:Label>
                                                     </td>
                                                     <td align="left" valign="top"></td>
-                                                    <td align="center" valign="top">:
+                                                    <td align="center" valign="top">
                                                     </td>
                                                     <td align="left" valign="top"></td>
                                                 </tr>

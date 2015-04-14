@@ -256,6 +256,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
         //PopupPassword.Style.Add("display", "none");
         divViewContractSecurityList.Style.Add("display", "block");
         divModifyAdmin.Style.Add("display", "none");
+        Response.Redirect("Contractor_Security.aspx");
         //System.Web.UI.HtmlControls.HtmlTableRow trpass = (System.Web.UI.HtmlControls.HtmlTableRow)DivEditContractorSecuirty.FindControl("trPassword");
         //trpass.Style.Add("display", "");
 
@@ -501,6 +502,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
         DivEditContractorSecuirty.Style.Add("display", "block");
         DivViewSecurity.Style.Add("display", "none");
         PopupPassword.Style.Add("display", "block");
+        lnkAddLocationProjectAccessGrid.Style.Add("display", "Block");
         //trPassword.Style.Add("diplay", "none");
         btnSave.Visible = true;
         btnEdit.Visible = false;
@@ -540,6 +542,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
         divViewContractSecurityList.Style.Add("display", "none");
         DivEditContractorSecuirty.Style.Add("display", "none");
         PopupPassword.Style.Add("display", "none");
+        lnkAddLocationProjectAccessGrid.Style.Add("display", "none");
         trPassword.Style.Add("display", "none");
         btnSave.Visible = false;
         btnEdit.Visible = true;

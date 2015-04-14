@@ -393,10 +393,10 @@
                                             CommandName="EditDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Project Number" HeaderStyle-HorizontalAlign="Center">
+                                <asp:TemplateField HeaderText="Project Number"  HeaderStyle-HorizontalAlign="Center">
                                     <ItemStyle Width="20%" HorizontalAlign="Left" />
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="lnkProject_Number" runat="server" Text='<%# Eval("Project_Number") %>'
+                                        <asp:LinkButton ID="lnkProject_Number" CssClass="TextClip" runat="server" Text='<%# Eval("Project_Number") %>'
                                             CommandName="EditDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>

@@ -225,7 +225,7 @@ public partial class Administrator_Contractor_Job_Security : clsBasePage
         ddlProjectNumber.SelectedValue = Convert.ToString(objContractor_Job_Security.FK_Facility_Construction_Project );
         txtProject_Start_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objContractor_Job_Security.Estimated_Start_Date);
         txtProject_Description.Text = objContractor_Job_Security.Project_Description;
-        if (objContractor_Job_Security.Access == "R")
+        if (objContractor_Job_Security.Access == "Read Only")
             rdoAccess.SelectedValue = "R";
         else
             rdoAccess.SelectedValue = "RW";
@@ -248,7 +248,7 @@ public partial class Administrator_Contractor_Job_Security : clsBasePage
         lblProject_Number.Text = Convert.ToString(objContractor_Job_Security.Project_Number);
         lblProject_Start_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objContractor_Job_Security.Estimated_Start_Date);
         lblProject_Description.Text = objContractor_Job_Security.Project_Description;
-        if (objContractor_Job_Security.Access == "R")
+        if (objContractor_Job_Security.Access == "Read Only")
             lblAccess.Text = "Read Only";
         else
             lblAccess.Text = "Read/Write";
