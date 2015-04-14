@@ -248,19 +248,13 @@
                                                         <td align="center" valign="top" width="4%">:
                                                         </td>
                                                         <td align="left" valign="top" width="26%">
-                                                            <asp:TextBox ID="txtEstimatedStartDate" runat="server" MaxLength="10" SkinID="txtdate"
+                                                            <asp:TextBox ID="txtEstimatedStartDate" runat="server" SkinID="txtdate"
                                                                 Width="150px"></asp:TextBox>
                                                             <img alt="Date to Consultant" onclick="return showCalendar('<%=txtEstimatedStartDate.ClientID %>', 'mm/dd/y');"
                                                                 onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
-                                                                align="middle" />
-                                                            <cc1:MaskedEditExtender ID="mskEstimatedStartDate" runat="server" AcceptNegative="Left"
-                                                                DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true"
-                                                                OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtEstimatedStartDate"
-                                                                CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
-                                                            </cc1:MaskedEditExtender>
-                                                            <br />
+                                                                align="middle" />                                                            
                                                             <asp:RegularExpressionValidator ID="revEstimatedStartDate" runat="server" ValidationGroup="vsErrorIdentification"
-                                                                Display="none" ErrorMessage="[Consultant and Schedule]/Date to Consultant is not a valid date"
+                                                                Display="none" ErrorMessage="[Consultant and Schedule]/Estimated Start Date is not a valid date"
                                                                 SetFocusOnError="true" ControlToValidate="txtEstimatedStartDate" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
                                                         </td>
                                                     </tr>
@@ -282,15 +276,9 @@
                                                                 Width="150px"></asp:TextBox>
                                                             <img alt="Date to Consultant" onclick="return showCalendar('<%=txtEstimatedEndDate.ClientID %>', 'mm/dd/y');"
                                                                 onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
-                                                                align="middle" />
-                                                            <cc1:MaskedEditExtender ID="mskEstimatedEndDate" runat="server" AcceptNegative="Left"
-                                                                DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true"
-                                                                OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtEstimatedEndDate"
-                                                                CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
-                                                            </cc1:MaskedEditExtender>
-                                                            <br />
+                                                                align="middle" />                                                            
                                                             <asp:RegularExpressionValidator ID="revEstimatedEndDate" runat="server" ValidationGroup="vsErrorIdentification"
-                                                                Display="none" ErrorMessage="[Consultant and Schedule]/Date to Consultant is not a valid date"
+                                                                Display="none" ErrorMessage="[Consultant and Schedule]/Estimated End Date is not a valid date"
                                                                 SetFocusOnError="true" ControlToValidate="txtEstimatedEndDate" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
                                                         </td>
                                                     </tr>
