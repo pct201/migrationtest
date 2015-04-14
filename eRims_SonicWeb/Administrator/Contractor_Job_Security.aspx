@@ -4,11 +4,11 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <script type="text/javascript" src="../../JavaScript/JFunctions.js"></script>
-    <script type="text/javascript" language="javascript" src="../../JavaScript/Calendar_new.js"></script>
-    <script type="text/javascript" language="javascript" src="../../JavaScript/calendar-en.js"></script>
-    <script type="text/javascript" language="javascript" src="../../JavaScript/Calendar.js"></script>
-    <script type="text/javascript" src="../../JavaScript/Validator.js"></script>
+    <%--<script type="text/javascript" src="../../JavaScript/JFunctions.js"></script>--%>
+    <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Calendar_new.js"></script>
+    <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/calendar-en.js"></script>
+    <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Calendar.js"></script>
+    <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Validator.js"></script>
     <script type="text/javascript">
         function OpenAuditPopUp() {
             var winHeight = window.screen.availHeight - 400;
