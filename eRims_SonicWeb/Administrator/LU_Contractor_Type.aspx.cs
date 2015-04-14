@@ -6,7 +6,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using ERIMS.DAL;
 
-public partial class Administrator_Contractor_Type : System.Web.UI.Page
+public partial class Administrator_Contractor_Type : clsBasePage
 {
 
     #region "Properties"
