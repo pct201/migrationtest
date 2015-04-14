@@ -196,7 +196,7 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
         {
             if (dsProjectDetail.Tables[0].Rows[0]["Estimated_Completion_Date"] != null)
             {
-                lbEstimatedEndDate.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Estimated_Completion_Date"]);
+                lbEstimatedEndDate.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(dsProjectDetail.Tables[0].Rows[0]["Estimated_Completion_Date"]));
                 txtEstimatedEndDate.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Estimated_Completion_Date"]);
             }
             else
@@ -207,7 +207,7 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
 
             if (dsProjectDetail.Tables[0].Rows[0]["Estimated_Start_Date"] != null)
             {
-                lbEstimatedStartDate.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Estimated_Start_Date"]);
+                lbEstimatedStartDate.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(dsProjectDetail.Tables[0].Rows[0]["Estimated_Start_Date"]));
                 txtEstimatedStartDate.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Estimated_Start_Date"]);
             }
             else
