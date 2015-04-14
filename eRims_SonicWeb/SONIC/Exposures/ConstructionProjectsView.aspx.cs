@@ -408,27 +408,27 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
                     spnProjectNumber.Style["display"] = "inline-block";
                     break;
                 case "Estimated Start Date":
-                    strCtrlsIDs += txtProjectNumber.ClientID + ",";
+                    strCtrlsIDs += txtEstimatedStartDate.ClientID + ",";
                     strMessages += "Please enter Estimated Start Date" + ",";
                     spnEstimatedStartDate.Style["display"] = "inline-block";
                     break;
                 case "Project Type":
-                    strCtrlsIDs += txtProjectNumber.ClientID + ",";
+                    strCtrlsIDs += ddProjectType.ClientID + ",";
                     strMessages += "Please enter Project Type" + ",";
                     spnProjectType.Style["display"] = "inline-block";
                     break;
                 case "Estimated End Date":
-                    strCtrlsIDs += txtProjectNumber.ClientID + ",";
+                    strCtrlsIDs += txtEstimatedEndDate.ClientID + ",";
                     strMessages += "Please enter Estimated End Date" + ",";
                     spnEstimatedEndDate.Style["display"] = "inline-block";
                     break;
                 case "Building":
-                    strCtrlsIDs += txtProjectNumber.ClientID + ",";
-                    strMessages += "Please enter Building" + ",";
+                    strCtrlsIDs += cblBuildingList.ClientID + ",";
+                    strMessages += "Please Select Building" + ",";
                     spnBuilding.Style["display"] = "inline-block";
                     break;
                 case "Project Description":
-                    strCtrlsIDs += txtProjectNumber.ClientID + ",";
+                    strCtrlsIDs += txtProjectDescription.ClientID + ",";
                     strMessages += "Please enter Project Description" + ",";
                     spnProjectDescription.Style["display"] = "inline-block";
                     break;

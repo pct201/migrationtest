@@ -403,7 +403,7 @@
 
                                 if (chkListBuilding != null) {
                                     focusCtrlID = 'ctl00_ContentPlaceHolder1_cblBuildingList';
-                                    msg = 'Please select [Identification]/Building(s)' + "\n";
+                                    msg += '- Please Select Building(s)' + "\n";
                                 }
                                 else {
                                     ctrl = document.getElementById('ctl00_ContentPlaceHolder1_txtProjectNumber');
