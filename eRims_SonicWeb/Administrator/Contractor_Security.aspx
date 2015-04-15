@@ -390,13 +390,13 @@
                                     <ItemStyle Width="20%" HorizontalAlign="Left"  />
                                     <ItemTemplate>
                                         <asp:LinkButton ID="lnkLocation" runat="server" Text='<%# Eval("dba") %>'
-                                            CommandName="EditDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
+                                            CommandName="EditDetails" Style="word-wrap: normal; word-break: break-all;" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Project Number"  HeaderStyle-HorizontalAlign="Center">
                                     <ItemStyle Width="20%" HorizontalAlign="Left" />
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="lnkProject_Number" CssClass="TextClip" runat="server" Text='<%# Eval("Project_Number") %>'
+                                        <asp:LinkButton ID="lnkProject_Number"  Style="word-wrap: normal; word-break: break-all;" runat="server" Text='<%# Eval("Project_Number") %>'
                                             CommandName="EditDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
