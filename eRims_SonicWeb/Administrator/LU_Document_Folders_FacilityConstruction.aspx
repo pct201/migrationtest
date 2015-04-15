@@ -103,14 +103,14 @@
                         </tr>
                         <tr>
                             <td style="text-align: left;">
-                                <asp:GridView ID="gvInspection_Area" runat="server" Width="100%" AutoGenerateColumns="false"
-                                    EnableViewState="true" AllowPaging="true" OnRowCommand="gvInspection_Area_RowCommand"
-                                    OnPageIndexChanging="gvInspection_Area_PageIndexChanging">
+                                <asp:GridView ID="gvInspection_Area" runat="server" Width="100%" AutoGenerateColumns="false" DataKeyNames="PK_LU_FC_Document_Folder"
+                                    EnableViewState="true" OnSorting="gvInspection_Area_Sorting"  OnRowCommand="gvInspection_Area_RowCommand" AllowSorting="true"
+                                    OnPageIndexChanging="gvInspection_Area_PageIndexChanging" OnRowCreated="gvInspection_Area_RowCreated">
                                     <Columns>
-                                        <asp:TemplateField HeaderText="Folder" HeaderStyle-HorizontalAlign="Left">
+                                        <asp:TemplateField HeaderText="Folder" HeaderStyle-HorizontalAlign="Left" SortExpression="Folder_Name">
                                             <ItemStyle Width="65%" />
                                             <ItemTemplate>
-                                                <%#Eval("Folder_Name")%>
+                                                <asp:Label ID="lblFolderName" runat="server" Text='<%# Eval("Folder_Name")%>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <%--<asp:TemplateField HeaderText="Status">
@@ -153,6 +153,10 @@
 
     <div runat="server" id="trStatusAdd" style="display: none;">
         <table width="100%" cellpadding="3" cellspacing="1" border="0">
+            <tr>
+                <td colspan="6">&nbsp;
+                </td>
+            </tr>
             <tr>
                 <td class="bandHeaderRow" colspan="6" align="left">Administrator :: Facility Construction Document Folder Maintenance
                 </td>
