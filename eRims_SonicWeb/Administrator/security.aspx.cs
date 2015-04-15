@@ -146,7 +146,7 @@ public partial class Administrator_security : clsBasePage
         txtLastName.Text = "";
         txtUserID.Text = "";
         txtPassword.Attributes.Add("value", "");
-       // txtPassword.Enabled = true;
+        // txtPassword.Enabled = true;
         txtConfirmPassword.Attributes.Add("value", "");
         trPassword.Visible = true;
         rfvConfirmPassword.Enabled = true;
@@ -358,7 +358,7 @@ public partial class Administrator_security : clsBasePage
         {
             //check Group is selected or not.
             if (chkRights.Items[intLoop].Selected == true && chkRights.Items[intLoop].Enabled == true)
-            {   
+            {
                 //set Group value to object
                 objAss_User_Right.FK_User_ID = PK_Security_ID;
                 objAss_User_Right.FK_Right_ID = Convert.ToInt32(chkRights.Items[intLoop].Value);
@@ -392,6 +392,7 @@ public partial class Administrator_security : clsBasePage
         btnCancel_Click(sender, e);
         //}
         SaveAssocAttachmentRights();
+        SaveAssocFCDocumentFolderAttachmentRights();
     }
 
     /// <summary>
@@ -478,7 +479,7 @@ public partial class Administrator_security : clsBasePage
     protected void chkRights_SelectedIndexChanged(object sender, EventArgs e)
     {
         string result = Request.Form["__EVENTTARGET"];
-        string[] checkedBox = result.Split('$'); 
+        string[] checkedBox = result.Split('$');
         int index = int.Parse(checkedBox[checkedBox.Length - 1]);
 
         if (Convert.ToInt32(chkRights.Items[index].Value) == DiaryRightId && chkRights.Items[index].Selected == false)
@@ -514,7 +515,7 @@ public partial class Administrator_security : clsBasePage
 
         Int32 _DiaryRightId = 0;
         DataTable dt = new DataTable();
-        
+
         string strModule = "Diary";
         //dt.Rows.Add(dsRights.Tables[0].Select("RightType_Id = 1 AND ModuleName='" + strModule + "'"));
 
@@ -597,7 +598,7 @@ public partial class Administrator_security : clsBasePage
     /// </summary>
     private void EditRecord()
     {
-        btnSave.Enabled = true; 
+        btnSave.Enabled = true;
         PopupPassword.Style.Add("display", "block");
         DivViewSecurity.Style.Add("display", "none");
         DivEditSecuirty.Style.Add("display", "block");
@@ -793,6 +794,8 @@ public partial class Administrator_security : clsBasePage
         //}
 
         BindDocumentFolderSecurity();
+        BindFCDocumentFolderSecurity();
+        FillFCDocumentFolderSecurity();
         SelectDocumentFolderSecurity();
 
     }
@@ -850,12 +853,12 @@ public partial class Administrator_security : clsBasePage
                 Employee objEmp = new Employee(Convert.ToDecimal(objSecurity.Employee_Id));
                 string emp_name = string.Empty;
                 if (objEmp.First_Name != null)
-                    emp_name = Convert.ToString(objEmp.First_Name).Trim()+ ", ";                
+                    emp_name = Convert.ToString(objEmp.First_Name).Trim() + ", ";
                 if (objEmp.Middle_Name != null)
                     emp_name += Convert.ToString(objEmp.Middle_Name).Trim() + " ";
                 if (objEmp.Last_Name != null)
                     emp_name += Convert.ToString(objEmp.Last_Name).Trim();
-                
+
                 lblEmployee.Text = emp_name;
             }
             else
@@ -884,7 +887,7 @@ public partial class Administrator_security : clsBasePage
                     }
                 }
                 lblRegion.Text = RegionName.ToString().TrimEnd(Convert.ToChar(","));
-                
+
             }
             else
             {
@@ -1110,6 +1113,52 @@ public partial class Administrator_security : clsBasePage
         }
     }
 
+    /// <summary>
+    /// Save selected Items from Facility Construction Document Folder Security List
+    /// </summary>
+    private void SaveAssocFCDocumentFolderAttachmentRights()
+    {
+        if (PK_Security_ID > 0)
+        {
+            if (chkGroup.Items.FindByText("Administrative").Selected != true)
+            {
+                clsAssoc_LU_FC_Document_Folder_Rights.DeleteByUserId(PK_Security_ID);
+            }
+            else
+            {
+                return;
+            }
+        }
+        else
+        {
+            if (chkGroup.Items.FindByText("Administrative").Selected == true && lboxFCFolderSecurity.Items[0].Selected)
+            {
+                DataSet dsFCDocumentFolder = clsLU_FC_Document_Folder_Rights.SelectAll();
+
+                foreach (clsAssoc_LU_FC_Document_Folder_Rights fcDocumentFolder in dsFCDocumentFolder.Tables[0].Rows)
+                {
+                    clsAssoc_LU_FC_Document_Folder_Rights assocFCDocumentFolder = new clsAssoc_LU_FC_Document_Folder_Rights();
+                    assocFCDocumentFolder.FK_LU_FC_Document_Folder_Rights = fcDocumentFolder.PK_Assoc_LU_FC_Document_Folder_Rights;
+                    assocFCDocumentFolder.FK_User_ID = PK_Security_ID;
+                    assocFCDocumentFolder.Insert();
+                }
+
+                return;
+            }
+        }
+
+        foreach (ListItem item in lboxFCFolderSecurity.Items)
+        {
+            if (item.Selected)
+            {
+                clsAssoc_LU_FC_Document_Folder_Rights assocFCDocumentFolder = new clsAssoc_LU_FC_Document_Folder_Rights();
+                assocFCDocumentFolder.FK_LU_FC_Document_Folder_Rights = Convert.ToDecimal(item.Value);
+                assocFCDocumentFolder.FK_User_ID = PK_Security_ID;
+                assocFCDocumentFolder.Insert();
+            }
+        }
+    }
+
 
     /// <summary>
     /// Add Items into Folder Security List
@@ -1145,7 +1194,7 @@ public partial class Administrator_security : clsBasePage
                     DataSet dsRights = Right.SelectByPK(Convert.ToInt32(lst.Value));
                     if (dsRights.Tables[0].Rows.Count > 0)
                     {
-                        string strModuleID = dsRights.Tables[0].Rows[0]["Module_ID"].ToString(); 
+                        string strModuleID = dsRights.Tables[0].Rows[0]["Module_ID"].ToString();
                         if (!strModule.Contains("'" + strModuleID + "'"))
                         {
                             DataSet dsFolderSecurity = clsAttachment_Rights.SelectByModuleID(Convert.ToDecimal(strModuleID));
@@ -1165,6 +1214,45 @@ public partial class Administrator_security : clsBasePage
                 {
                     if (Li.Value == strSelectedItems[i])
                         Li.Selected = true;
+                }
+            }
+        }
+    }
+
+    private void BindFCDocumentFolderSecurity()
+    {
+        DataSet dsFCDocumentFolder = clsLU_FC_Document_Folder_Rights.SelectAll();
+        lboxFCFolderSecurity.DataSource = dsFCDocumentFolder;
+        lboxFCFolderSecurity.DataTextField = "Right_Name";
+        lboxFCFolderSecurity.DataValueField = "PK_LU_FC_Document_Folder_Rights";
+        lboxFCFolderSecurity.DataBind();
+
+        if (chkGroup.Items.FindByText("Administrative").Selected == true)
+        {
+            lboxFCFolderSecurity.Items.Clear();
+            lboxFCFolderSecurity.Items.Add(new ListItem("All Folders", "0"));
+            lboxFCFolderSecurity.Items[0].Selected = true;
+        }
+
+    }
+
+    private void FillFCDocumentFolderSecurity()
+    {
+        if (chkGroup.Items.FindByText("Administrative").Selected != true)
+        {
+            DataTable dtFCDocumentFolder = clsAssoc_LU_FC_Document_Folder_Rights.SelectByUserId(PK_Security_ID).Tables[0];
+
+            if (lboxFCFolderSecurity.Items.Count > 0)
+            {
+                foreach (ListItem item in lboxFCFolderSecurity.Items)
+                {
+                    for (int i = 0; i < dtFCDocumentFolder.Rows.Count; i++)
+                    {
+                        if (item.Value == Convert.ToString(dtFCDocumentFolder.Rows[i]["FK_LU_FC_Document_Folder_Rights"]) && PK_Security_ID == Convert.ToInt32(dtFCDocumentFolder.Rows[i]["FK_User_ID"]))
+                        {
+                            item.Selected = true;
+                        }
+                    }
                 }
             }
         }
@@ -1413,7 +1501,7 @@ public partial class Administrator_security : clsBasePage
     protected void btnDeselectAllFields_Click(object sender, EventArgs e)
     {
         MoveListBoxItems(lstSelectedFields, lstFROIeMailRecipients, false, false, true);
-    }   
+    }
 
     /// <summary>
     /// Move Output Fields from One List to Another List and add/Remove From Sort and group by DropDown
@@ -1626,7 +1714,7 @@ public partial class Administrator_security : clsBasePage
     /// </summary>
     protected void btnDeSelectLocationFields_Click(object sender, EventArgs e)
     {
-        MoveListBoxItems(lstSecuritySelectedLocation,lstSecurityLocation, true, false, true);
+        MoveListBoxItems(lstSecuritySelectedLocation, lstSecurityLocation, true, false, true);
     }
 
     /// <summary>
@@ -1650,8 +1738,8 @@ public partial class Administrator_security : clsBasePage
         //clear list box
         lstSecurityLocation.Items.Clear();
         lstSecuritySelectedLocation.Items.Clear();
-               
-        
+
+
         //Get all Locations 
         DataSet dsData = clsAci_Lu_Location.SelectAll();
         dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
@@ -1664,7 +1752,7 @@ public partial class Administrator_security : clsBasePage
         //if opened in Edit mode, Move Selected data to right (From lstSecurityLocation to lstSecuritySelectedLocation)
         if (_EditFlag)
         {
-            DataSet dsSelectedData = clsSecurity_ACI_LU_Location.SelectByUser(PK_Security_ID,true);
+            DataSet dsSelectedData = clsSecurity_ACI_LU_Location.SelectByUser(PK_Security_ID, true);
             foreach (DataRow dr in dsSelectedData.Tables[0].Rows)
             {
                 if (dr["FK_ACI_LU_Location_ID"] != null)
@@ -1687,7 +1775,7 @@ public partial class Administrator_security : clsBasePage
     {
         lstSelectedLocationView.Items.Clear();
         //Move Selected data to right (From lstFROIeMailRecipients to lstSelectedFields)
-        DataSet dsSelectedData = clsSecurity_ACI_LU_Location.SelectByUser(PK_Security_ID,true);
+        DataSet dsSelectedData = clsSecurity_ACI_LU_Location.SelectByUser(PK_Security_ID, true);
         foreach (DataRow dr in dsSelectedData.Tables[0].Rows)
             lstSelectedLocationView.Items.Add(new ListItem(dr["Fld_Desc"].ToString(), dr["FK_ACI_LU_Location_ID"].ToString()));
         clsGeneral.SetListBoxToolTip(new ListBox[] { lstSelectedFieldsView });

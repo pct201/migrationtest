@@ -506,4 +506,7 @@
     function OnError(args) {
         alert("Error calling web service. Please contact us if this error persist.");
     }
+
+    function ShowPanel() {
+    }
 </script>

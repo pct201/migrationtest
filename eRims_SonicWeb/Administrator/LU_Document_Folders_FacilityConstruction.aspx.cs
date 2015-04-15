@@ -131,6 +131,11 @@ public partial class Administrator_LU_Document_Folders_FacilityConstruction : Sy
                 return;
             }
             PK_LU_FC_Document_Folder = _retVal;
+
+            clsLU_FC_Document_Folder_Rights folderRights = new clsLU_FC_Document_Folder_Rights();
+            folderRights.FK_LU_FC_Document_Folder = _retVal;
+            folderRights.Insert();
+            folderRights = null;
         }
 
         //delete Document Type
@@ -199,6 +204,8 @@ public partial class Administrator_LU_Document_Folders_FacilityConstruction : Sy
         else if (e.CommandName == "DeleteRecord")
         {
             PK_LU_FC_Document_Folder = Convert.ToDecimal(e.CommandArgument);
+            //delete from document folder rights table 
+            clsLU_FC_Document_Folder_Rights.DeleteByFK(Convert.ToDecimal(e.CommandArgument));
             //delete from parent table //[LU_FC_Document_Folder]
             clsLU_Document_Folders_FacilityConstruction.Delete(PK_LU_FC_Document_Folder);
             //delete Document Type  from table [LU_FC_Document_Folder_ContractorType]

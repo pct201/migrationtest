@@ -26,7 +26,7 @@ public partial class Controls_Attachment_Construction_Attachment : System.Web.UI
     /// <summary>
     /// denotes Foreign Key of EPM_Identification table
     /// </summary>
-    public decimal FK_FCP_Identification
+    public decimal ConstructionProjectId
     {
         get { return Convert.ToDecimal(Session["ConstructionProjectId"]); }
         set { Session["ConstructionProjectId"] = value; }
@@ -139,7 +139,7 @@ public partial class Controls_Attachment_Construction_Attachment : System.Web.UI
             FCP_Attachments objFCP_Attachment = new FCP_Attachments(PK_FCP_Attchments);
             tblEditAttachment.Visible = true;
             drpFolder.ClearSelection();
-            drpFolder.SelectedValue = objFCP_Attachment.Attachment_Type.ToString();
+            drpFolder.SelectedValue = objFCP_Attachment.PK_LU_FC_Document_Folder.ToString();
             fpFile.Enabled = false;
             btnAddAttachment.Text = btnAddAttachment.Text.Replace("Add", "Edit");
             lblAttachHeader.Text = lblAttachHeader.Text.Replace("Add", "Edit");
@@ -164,7 +164,7 @@ public partial class Controls_Attachment_Construction_Attachment : System.Web.UI
             FCP_Attachments objFCP_Attachment = new FCP_Attachments(PK_FCP_Attchments);
             tblEditAttachment.Visible = true;
             drpFolder.ClearSelection();
-            drpFolder.SelectedValue = objFCP_Attachment.Attachment_Type.ToString();
+            drpFolder.SelectedValue = objFCP_Attachment.PK_LU_FC_Document_Folder.ToString();
             fpFile.Enabled = false;
             lblAttachHeader.Visible = false;
             lblAttachHeaderView.Visible = true;
@@ -235,7 +235,7 @@ public partial class Controls_Attachment_Construction_Attachment : System.Web.UI
 
     private void BindGridFolder()
     {
-        DataTable dtFolder = FCP_Attachments.GetAttchmentFolderAndCount(FK_FCP_Identification).Tables[0];
+        DataTable dtFolder = FCP_Attachments.GetAttchmentFolderAndCount(ConstructionProjectId).Tables[0];
         gvFolders.DataSource = dtFolder;
         gvFolders.DataBind();
     }
@@ -243,7 +243,7 @@ public partial class Controls_Attachment_Construction_Attachment : System.Web.UI
     private void BindGridFiles()
     {
         // if claim id is avaialble
-        if (FK_FCP_Identification > 0)
+        if (ConstructionProjectId > 0)
         {
             // get the selected virtual folder IDs in comma seperated format
             string strFK_IDs = "";
@@ -260,7 +260,7 @@ public partial class Controls_Attachment_Construction_Attachment : System.Web.UI
                 strFK_IDs = hdnVirtualFolderID.Value;
 
             // select the Data for selected virtual folders of the claim and fill the Grid
-            DataTable dtFCP_Attachment = FCP_Attachments.SelectFilesByAttachmentType(strFK_IDs, FK_FCP_Identification).Tables[0];
+            DataTable dtFCP_Attachment = FCP_Attachments.SelectFilesByAttachmentType(strFK_IDs, ConstructionProjectId).Tables[0];
 
             // set the sort properties
             if (_SortBy == "" || _SortOrder == "")
@@ -344,7 +344,7 @@ public partial class Controls_Attachment_Construction_Attachment : System.Web.UI
 
     protected void btnAddDocument_Click(object sender, EventArgs e)
     {
-        if (FK_FCP_Identification > 0)
+        if (ConstructionProjectId > 0)
         {
             tblFolderList.Visible = false;
             tblAddEditAttachment.Visible = true;
@@ -403,7 +403,7 @@ public partial class Controls_Attachment_Construction_Attachment : System.Web.UI
     protected void btnAddAttachment_Click(object sender, EventArgs e)
     {
         // if claim PK is available
-        if (FK_FCP_Identification > 0)
+        if (ConstructionProjectId > 0)
         {
             {
                 ////set values to store in database
@@ -433,8 +433,8 @@ public partial class Controls_Attachment_Construction_Attachment : System.Web.UI
                 else
                 {
                     // set properties from page controls
-                    objFCPAttachment.FK_FCP_Identification = FK_FCP_Identification;
-                    objFCPAttachment.Attachment_Type = Convert.ToDecimal(drpFolder.SelectedValue);
+                    objFCPAttachment.FK_FCP_Identification = ConstructionProjectId;
+                    objFCPAttachment.PK_LU_FC_Document_Folder = Convert.ToDecimal(drpFolder.SelectedValue);
                     objFCPAttachment.Updated_By = clsSession.UserID;
                     objFCPAttachment.Update_Date = DateTime.Now;
                     objFCPAttachment.Attach_Date = DateTime.Now;
@@ -574,11 +574,12 @@ public partial class Controls_Attachment_Construction_Attachment : System.Web.UI
             else
             {
                 // set properties from page controls
-                objFCP_Attachments.FK_FCP_Identification = FK_FCP_Identification;
-                objFCP_Attachments.Attachment_Type = Convert.ToDecimal(obj.DropdownFolder.SelectedValue);
+                objFCP_Attachments.FK_FCP_Identification = ConstructionProjectId;
+                objFCP_Attachments.PK_LU_FC_Document_Folder = Convert.ToDecimal(obj.DropdownFolder.SelectedValue);
                 objFCP_Attachments.Updated_By = clsSession.UserID;
                 objFCP_Attachments.Update_Date = DateTime.Now;
                 objFCP_Attachments.Attach_Date = DateTime.Now;
+                objFCP_Attachments.Updated_By_Table = "Security";
 
                 if (!string.IsNullOrEmpty(obj.FileBrowser.PostedFile.FileName))
                 {
