@@ -2,9 +2,9 @@
     CodeFile="Contractor_Job_Security.aspx.cs" Inherits="Administrator_Contractor_Job_Security" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
-
+<%@ Register Src="~/Controls/NotesWithSpellCheck/Notes.ascx" TagName="ctrlMultiLineTextBox" TagPrefix="uc" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <%--<script type="text/javascript" src="../../JavaScript/JFunctions.js"></script>--%>
+    <script type="text/javascript" src="<%=AppConfig.SiteURL%>JavaScript/JFunctions.js"></script>
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Calendar_new.js"></script>
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/calendar-en.js"></script>
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Calendar.js"></script>
@@ -12,19 +12,36 @@
     <script type="text/javascript">
         function OpenAuditPopUp() {
             var winHeight = window.screen.availHeight - 400;
-            var winWidth = window.screen.availWidth - 500;
+            var winWidth = window.screen.availWidth - 900;
 
             obj = window.open('AuditPopup_Contractor_Job_Security.aspx?id=<%=ViewState["PK_Contractor_Job_Security"]%>', 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
             obj.focus();
             return false;
+        }
+        function Validate() {
+            var el = document.getElementById('<%=ddlLocation.ClientID%>').selectedIndex;
+            if (el == 0) {
+                alert("Please Select Location");
+                return false;
+            }
+            else {
+                var ep = document.getElementById('<%=ddlProjectNumber.ClientID%>').selectedIndex;
+                if (ep == 0) {
+                    alert("Please Select Project Number");
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+            
         }
     </script>
 
     <table cellpadding="0" cellspacing="0" width="100%">
 
         <tr>
-            <td class="ghc" align="left">Location/Project Access Grid Screen
-            </td>
+            <td align="left" class="Spacer"></td>
         </tr>
         <tr>
             <td>
@@ -33,12 +50,20 @@
                         <td class="Spacer" style="height: 15px;" colspan="2"></td>
                     </tr>
                     <tr>
+                        <td class="bandHeaderRow" align="left">Location/Project Access Grid Screen
+                                    </td>
+                    </tr>
+                    <tr>
+                        <td class="Spacer" style="height: 3px;" ></td>
+                    </tr>
+                    <tr>
 
                         <td valign="top">
                             <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                 <tr>
                                     <td width="5px" class="Spacer">&nbsp;
                                     </td>
+                                    
                                     <td class="dvContainer">
                                         <div id="dvEdit" runat="server" width="794px">
                                             <%--<asp:Panel ID="pnl1" runat="server" Style="display: inline;">--%>
@@ -46,7 +71,7 @@
                                                     Location/Project Access Grid Screen</div>--%>
                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                 <tr>
-                                                    <td align="left" width="18%" valign="top">Location&nbsp;<span id="Span1" style="color: Red; display: none;" runat="server">*</span>
+                                                    <td align="left" width="18%" valign="top">Location&nbsp;<span id="Span1" style="color: Red;"  runat="server">*</span>
                                                     </td>
                                                     <td align="center" width="4%" valign="top">:
                                                     </td>
@@ -54,7 +79,7 @@
                                                         <asp:DropDownList ID="ddlLocation" Width="175px" runat="server" AutoPostBack="true" SkinID="dropGen" OnSelectedIndexChanged="ddlLocation_SelectedIndexChanged">
                                                         </asp:DropDownList>
                                                     </td>
-                                                    <td align="left" width="18%" valign="top">Project Number&nbsp;<span id="Span2" style="color: Red; display: none;" runat="server">*</span>
+                                                    <td align="left" width="18%" valign="top">Project Number&nbsp;<span id="Span2" style="color: Red;"  runat="server">*</span>
                                                     </td>
                                                     <td align="center" width="4%" valign="top">:
                                                     </td>
@@ -90,15 +115,16 @@
                                                     </td>
                                                     <td align="center" valign="top">:
                                                     </td>
-                                                    <td align="left" valign="top">
-                                                        <asp:TextBox ID="txtProject_Description" runat="server" Width="170px" MaxLength="100" TextMode="MultiLine" />
+                                                    <td align="left" valign="top" colspan="4">
+                                                        <uc:ctrlMultiLineTextBox ControlType="TextBox" ID="CtrlMultiLineLabelProject_Description" runat="server" />
+                                                        <%--<asp:TextBox ID="txtProject_Description" runat="server" Width="170px" MaxLength="100" TextMode="MultiLine" />--%>
                                                     </td>
-                                                    <td align="left" valign="top">&nbsp;
+                                                    <%--<td align="left" valign="top">&nbsp;
                                                     </td>
                                                     <td align="center" valign="top">&nbsp;
                                                     </td>
                                                     <td align="left" valign="top">&nbsp;
-                                                    </td>
+                                                    </td>--%>
                                                 </tr>
                                                 <tr>
                                                     <td align="left" valign="top">Access&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server">*</span>
@@ -168,7 +194,7 @@
                                                     <td align="center" width="4%" valign="top">:
                                                     </td>
                                                     <td align="left" width="28%" valign="top">
-                                                        <asp:Label ID="lblProject_Number" runat="server" style="word-wrap:normal;word-break:break-all"></asp:Label>
+                                                        <asp:Label ID="lblProject_Number" runat="server" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -191,15 +217,16 @@
                                                     </td>
                                                     <td align="center" valign="top">:
                                                     </td>
-                                                    <td align="left" valign="top">
-                                                        <asp:Label ID="lblProject_Description" style="word-wrap:normal;word-break:break-all" runat="server"></asp:Label>
+                                                    <td align="left" valign="top" colspan="4">
+                                                        <%--<asp:Label ID="lblProject_Description" style="word-wrap:normal;word-break:break-all" runat="server"></asp:Label>--%>
+                                                        <uc:ctrlMultiLineTextBox ControlType="Label" ID="lblProject_Description" runat="server" />
                                                     </td>
-                                                    <td align="left" valign="top">&nbsp;
+                                                    <%--<td align="left" valign="top">&nbsp;
                                                     </td>
                                                     <td align="center" valign="top">&nbsp;
                                                     </td>
                                                     <td align="left" valign="top">&nbsp;
-                                                    </td>
+                                                    </td>--%>
                                                 </tr>
                                                 <tr>
                                                     <td align="left" valign="top">Access
@@ -210,8 +237,7 @@
                                                         <asp:Label ID="lblAccess" runat="server"></asp:Label>
                                                     </td>
                                                     <td align="left" valign="top"></td>
-                                                    <td align="center" valign="top">
-                                                    </td>
+                                                    <td align="center" valign="top"></td>
                                                     <td align="left" valign="top"></td>
                                                 </tr>
 
@@ -238,8 +264,8 @@
                                     <tr>
                                         <td width="60%" align="right">
                                             <asp:Button ID="btnSave" runat="server" Text="Save & View" OnClick="btnSave_Click"
-                                                CausesValidation="true" ValidationGroup="vsErrorGroup" />
-                                            <asp:Button ID="btnEdit" runat="server" Text=" Edit " OnClick="btnEdit_Click" />
+                                                CausesValidation="true" ValidationGroup="vsErrorGroup" OnClientClick="javascript: return Validate();" />
+                                            <asp:Button ID="btnEdit" runat="server" Text=" Edit " OnClick="btnEdit_Click"  />
                                             <asp:Button runat="server" ID="btnAuditTrail" Text="View Audit Trail" CausesValidation="false"
                                                 Visible="true" OnClientClick="javascript:return OpenAuditPopUp();" />
                                             <asp:Button ID="btnBack" runat="server" Text=" Back " OnClick="btnBack_Click" />
