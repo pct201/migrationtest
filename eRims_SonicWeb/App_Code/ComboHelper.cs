@@ -5073,8 +5073,8 @@ public class ComboHelper
     /// <param name="addSelectAsFirstElement">Require to add "--Select--" as a first element of dropdown</param>
     public static void FillProjectNumberFromLocation(DropDownList[] dropDowns, int FK_Location, bool booladdSelectAsFirstElement)
     {
-        DataSet dsData = null;
-        //DataSet dsData = ERIMS.DAL.Contractor_Job_Security.SelectByLocationFacility_Construction_Project(FK_Location);
+        //DataSet dsData = null;
+        DataSet dsData = ERIMS.DAL.Contractor_Job_Security.SelectByLocationFacility_Construction_Project(FK_Location);
         foreach (DropDownList ddlToFill in dropDowns)
         {
             ddlToFill.Items.Clear();
