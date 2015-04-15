@@ -175,7 +175,7 @@
         <div runat="server" id="DivEditContractorSecuirty">
             <table width="100%" cellpadding="3" cellspacing="1" border="0">
                 <tr>
-                    <td class="bandHeaderRow" colspan="6" align="left">Contractor Security
+                    <td class="bandHeaderRow" style="height:14px;" colspan="6" align="left">Contractor Security
                     </td>
                 </tr>
                 <tr>
@@ -200,21 +200,21 @@
                     </td>
                 </tr>
                 <tr runat="server" id="trPassword" style="display :none;">
-                    <td style="width: 18%;" align="left">Password<span style="color: Red;">*</span>
+                    <td  align="left">Password<span style="color: Red;">*</span>
                     </td>
-                    <td style="width: 4%;" align="center">:
+                    <td  align="center">:
                     </td>
-                    <td align="left" width="26%">
+                    <td align="left" >
                         <asp:TextBox runat="server" ID="txtPassword" MaxLength="50" ValidationGroup="vsErrorGroup"
                             Width="170px" TextMode="Password"></asp:TextBox>&nbsp;
                         <asp:RequiredFieldValidator ID="rfvPassword" ControlToValidate="txtPassword" Display="None"
                             runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Password."></asp:RequiredFieldValidator>
                     </td>
-                    <td align="left" width="15%">Confirm Password<span style="color: Red;">*</span>
+                    <td align="left" >Confirm Password<span style="color: Red;">*</span>
                     </td>
-                    <td align="center" width="4%">:
+                    <td align="center">:
                     </td>
-                    <td align="left" width="36%">
+                    <td align="left" >
                         <asp:TextBox runat="server" ID="txtConfirmPassword" MaxLength="50" ValidationGroup="vsErrorGroup"
                             Width="170px" TextMode="Password"></asp:TextBox>&nbsp;
                         <asp:RequiredFieldValidator ID="rfvConfirmPassword" ControlToValidate="txtConfirmPassword"
@@ -444,7 +444,7 @@
                     <td style="width: 4%;" align="center">:
                     </td>
                     <td colspan="4" align="left">
-                        <asp:Label runat="server" ID="lblLoginUserName"></asp:Label>
+                        <asp:Label runat="server" ID="lblLoginUserName" style="word-wrap:normal;word-break:break-all"></asp:Label>
                     </td>
                 </tr>
                 <tr>
@@ -453,14 +453,14 @@
                     <td align="center" style="width: 4%;">:
                     </td>
                     <td align="left" style="width: 28%;">
-                        <asp:Label runat="server" ID="lblFirstName"></asp:Label>
+                        <asp:Label runat="server" ID="lblFirstName" style="word-wrap:normal;word-break:break-all"></asp:Label>
                     </td>
                     <td align="left" style="width: 18%;">Last Name
                     </td>
                     <td align="center" style="width: 4%;">:
                     </td>
                     <td align="left" style="width: 28%;">
-                        <asp:Label runat="server" ID="lblLastName"></asp:Label>
+                        <asp:Label runat="server" ID="lblLastName"  style="word-wrap:normal;word-break:break-all" ></asp:Label>
                     </td>
                 </tr>
                 <tr>
@@ -468,11 +468,16 @@
                     </td>
                     <td align="center">:
                     </td>
-                    <td align="left" colspan="4">
-                        <asp:Label runat="server" ID="lblContractorCompany">
+                    <td align="left" >
+                        <asp:Label runat="server" style="word-wrap:normal;word-break:break-all" ID="lblContractorCompany">
                         </asp:Label>
                     </td>
-
+                    <td align="left">
+                    </td>
+                    <td align="center">
+                    </td>
+                    <td align="center">
+                    </td>
                 </tr>
                 <tr>
                     <td align="left" style="width: 18%;">Address 1
@@ -480,14 +485,14 @@
                     <td align="center" style="width: 4%;">:
                     </td>
                     <td align="left" style="width: 28%;">
-                        <asp:Label runat="server" ID="lblAddress1"></asp:Label>
+                        <asp:Label runat="server"  style="word-wrap:normal;word-break:break-all" ID="lblAddress1"></asp:Label>
                     </td>
                     <td align="left" style="width: 18%;">Address 2
                     </td>
                     <td align="center" style="width: 4%;">:
                     </td>
                     <td align="left" style="width: 28%;">
-                        <asp:Label runat="server" ID="lblAddress2"></asp:Label>
+                        <asp:Label runat="server"  style="word-wrap:normal;word-break:break-all" ID="lblAddress2"></asp:Label>
                     </td>
                 </tr>
                 <tr>
@@ -496,7 +501,7 @@
                     <td align="center" style="width: 4%;">:
                     </td>
                     <td align="left" style="width: 28%;">
-                        <asp:Label runat="server" ID="lblCity"></asp:Label>
+                        <asp:Label runat="server" ID="lblCity"  style="word-wrap:normal;word-break:break-all"></asp:Label>
                     </td>
                     <td align="left" style="width: 18%;">State
                     </td>
@@ -550,7 +555,7 @@
                     <td align="center">:
                     </td>
                     <td colspan="4">
-                        <asp:Label runat="server" ID="lblEmail"></asp:Label>
+                        <asp:Label runat="server" ID="lblEmail"  style="word-wrap:normal;word-break:break-all" ></asp:Label>
                     </td>
 
                 </tr>
