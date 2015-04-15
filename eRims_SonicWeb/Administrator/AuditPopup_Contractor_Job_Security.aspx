@@ -70,7 +70,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div style="overflow: scroll;  height: 400px;" id="divContractor_Job_Security_Grid"
+                <div style="overflow-y:scroll; overflow-x:hidden; height: 400px;" id="divContractor_Job_Security_Grid"
                     runat="server">
                     <asp:GridView ID="gvContractor_Job_SecurityAuditView" runat="server" AutoGenerateColumns="False"
                         CellPadding="4" EnableTheming="True" EmptyDataText="No records found!" ShowHeader="false">
@@ -100,14 +100,14 @@
                             <asp:TemplateField HeaderText="Estimated_Start_Date">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblEstimated_Start_Date" runat="server" CssClass="TextClip" Text='<%# Convert.ToDateTime(Eval("Estimated_Start_Date")).ToString("yyyy-MM-dd HH:mm") %>'
+                                    <asp:Label ID="lblEstimated_Start_Date" runat="server" CssClass="TextClip" Text='<%# Eval("Estimated_Start_Date") != DBNull.Value ? Convert.ToDateTime(Eval("Estimated_Start_Date")).ToString("yyyy-MM-dd HH:mm") : "" %>'
                                         ToolTip='<%# Eval("Estimated_Start_Date") != DBNull.Value ? Convert.ToDateTime(Eval("Estimated_Start_Date")).ToString("yyyy-MM-dd HH:mm") : "" %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Project_Description">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblProject_Description" runat="server" CssClass="TextClip" Text='<%#Eval("Project_Description")%>' Width="150px"></asp:Label>
+                                    <asp:Label ID="lblProject_Description" runat="server" CssClass="TextClip" Text='<%#Convert.ToString(Eval("Project_Description")) %>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Updated_By">
