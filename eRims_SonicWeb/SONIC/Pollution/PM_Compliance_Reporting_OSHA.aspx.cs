@@ -58,7 +58,7 @@ public partial class SONIC_Pollution_PM_Compliance_Reporting_OSHA : clsBasePage
         {
             // shows the first panel
             txtDateCompleted.Focus();
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);            
             PK_PM_Compliance_Reporting_OSHA = clsGeneral.GetQueryStringID(Request.QueryString["id"]);
             FK_PM_Complaince_Reporting = clsGeneral.GetQueryStringID(Request.QueryString["fid"]);
             FK_LU_Location_ID = clsGeneral.GetQueryStringID(Request.QueryString["loc"]);
@@ -106,7 +106,7 @@ public partial class SONIC_Pollution_PM_Compliance_Reporting_OSHA : clsBasePage
                     AttachDetails.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Compliance_Reporting_OSHA_Attachments, Convert.ToInt32(PK_PM_Compliance_Reporting_OSHA), "FK_PM_Complaince_Reporting_OSHA", "PK_PM_Compliance_Reporting_OSHA_Attachments", true, 2);
                 }
                 // bind attachment details to show attachment for current risk profile.
-                BindAttachmentDetails();
+                BindAttachmentDetails();                
             }
             else
             {
@@ -163,9 +163,35 @@ public partial class SONIC_Pollution_PM_Compliance_Reporting_OSHA : clsBasePage
         if (!string.IsNullOrEmpty(objPM_Compliance_Reporting_OSHA.Total_Associates.ToString())) 
             txtTotalNumberofAssociates.Text = Convert.ToString(objPM_Compliance_Reporting_OSHA.Total_Associates);
         txtComments.Text = objPM_Compliance_Reporting_OSHA.Comments;
-
+        txtExplainOsha.Text = objPM_Compliance_Reporting_OSHA.ExplainReason;
+        ShowHideEdit();
     }
 
+    private void ShowHideEdit()
+    {
+        if (rdoLogPosted.SelectedValue == "N")
+        {
+            divExplain.Visible = true;
+        }
+        else
+        {
+            divExplain.Visible = false;
+        }
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+    }
+
+    private void ShowHideView()
+    {
+        if (lblLogPosted.Text == "No")
+        {
+            viewExplain.Visible = true;
+        }
+        else
+        {
+            viewExplain.Visible = false;
+        }
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+    }
 
     /// <summary>
     /// Binds Page Controls for view mode
@@ -191,6 +217,8 @@ public partial class SONIC_Pollution_PM_Compliance_Reporting_OSHA : clsBasePage
         if (!string.IsNullOrEmpty(objPM_Compliance_Reporting_OSHA.Total_Associates.ToString())) 
             lblTotalNumberofAssociates.Text = Convert.ToString(objPM_Compliance_Reporting_OSHA.Total_Associates);
         lblComments.Text = objPM_Compliance_Reporting_OSHA.Comments;
+        lblExplainOsha.Text = objPM_Compliance_Reporting_OSHA.ExplainReason;
+        ShowHideView();
        
     }
     #endregion
@@ -225,6 +253,11 @@ public partial class SONIC_Pollution_PM_Compliance_Reporting_OSHA : clsBasePage
         if (!string.IsNullOrEmpty(txtNumberofRestrictedWorkDays.Text)) objPM_Compliance_Reporting_OSHA.Restsricted_Work_Days = Convert.ToInt32(txtNumberofRestrictedWorkDays.Text);
         if (!string.IsNullOrEmpty(txtTotalNumberofAssociates.Text)) objPM_Compliance_Reporting_OSHA.Total_Associates = Convert.ToInt32(txtTotalNumberofAssociates.Text);
         objPM_Compliance_Reporting_OSHA.Comments = Convert.ToString(txtComments.Text);
+
+        if (rdoLogPosted.SelectedValue == "N")
+            objPM_Compliance_Reporting_OSHA.ExplainReason = Convert.ToString(txtExplainOsha.Text);
+        else
+            objPM_Compliance_Reporting_OSHA.ExplainReason = string.Empty;
 
         objPM_Compliance_Reporting_OSHA.Updated_By = clsSession.UserID;
         objPM_Compliance_Reporting_OSHA.Updated_Date = DateTime.Now;
@@ -271,10 +304,16 @@ public partial class SONIC_Pollution_PM_Compliance_Reporting_OSHA : clsBasePage
     protected void btnBack_Click(object sender, EventArgs e)
     {
         if (StrOperation == "view")
-            Response.Redirect("Pollution.aspx?op=view&id=" + Encryption.Encrypt(Convert.ToString(FK_PM_Complaince_Reporting)) + "&loc=" + Encryption.Encrypt(Convert.ToString(FK_LU_Location_ID)) + "&pnl=" + Encryption.Encrypt("3"));
+            Response.Redirect("Pollution.aspx?op=view&fid=" + Encryption.Encrypt(Convert.ToString(FK_PM_Complaince_Reporting)) + "&loc=" + Encryption.Encrypt(Convert.ToString(FK_LU_Location_ID)) + "&pnl=" + Encryption.Encrypt("3"));
         else
-            Response.Redirect("Pollution.aspx?op=edit&id=" + Encryption.Encrypt(Convert.ToString(FK_PM_Complaince_Reporting)) + "&loc=" + Encryption.Encrypt(Convert.ToString(FK_LU_Location_ID)) + "&pnl=" + Encryption.Encrypt("3"));
+            Response.Redirect("Pollution.aspx?op=edit&fid=" + Encryption.Encrypt(Convert.ToString(FK_PM_Complaince_Reporting)) + "&loc=" + Encryption.Encrypt(Convert.ToString(FK_LU_Location_ID)) + "&pnl=" + Encryption.Encrypt("3"));
     }
+
+    protected void rdoLogPosted_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ShowHideEdit();
+    }
+
     #endregion
 
     #region Attachments Management
@@ -347,6 +386,7 @@ public partial class SONIC_Pollution_PM_Compliance_Reporting_OSHA : clsBasePage
                 case "Number of Restricted Work Days": strCtrlsIDs += txtNumberofRestrictedWorkDays.ClientID + ","; strMessages += "Please select [Osha Log]/Number of Restricted Work Days" + ","; spnNumberofRestrictedWorkDays.Style["display"] = "inline-block"; break;
                 case "Total Number of Associates": strCtrlsIDs += txtTotalNumberofAssociates.ClientID + ","; strMessages += "Please select [Osha Log]/Total Number of Associates" + ","; spnTotalNumberofAssociates.Style["display"] = "inline-block"; break;
                 case "Comments": strCtrlsIDs += txtComments.ClientID + ","; strMessages += "Please select [Osha Log]/Comments" + ","; spnComments.Style["display"] = "inline-block"; break;
+                case "Explain why the OSHA Log was not posted by Feb 1st": strCtrlsIDs += txtExplainOsha.ClientID + ","; strMessages += "Please select [Osha Log]/Explain why the OSHA Log was not posted by Feb 1st" + ","; spnExplainReason.Style["display"] = "inline-block"; break;
             }
             #endregion
         }
@@ -358,5 +398,6 @@ public partial class SONIC_Pollution_PM_Compliance_Reporting_OSHA : clsBasePage
         hdnControlIDs.Value = strCtrlsIDs;
         hdnErrorMsgs.Value = strMessages;
     }
-    #endregion
+    #endregion  
+    
 }

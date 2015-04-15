@@ -68,6 +68,12 @@
                                         <span style="display: inline-block; width: 150px;">Total Number of Associates</span>
                                     </th>
                                     <th class="cols" align="left">
+                                        <span style="display: inline-block; width: 150px;">Explain Reason of Not Posting Log By Feb1st?</span>
+                                    </th>
+                                    <th class="cols" align="left">
+                                        <span style="display: inline-block; width: 150px;">Comments</span>
+                                    </th>
+                                    <th class="cols" align="left">
                                         <span style="display: inline-block; width: 150px;">Updated By</span>
                                     </th>
                                     <th class="cols" align="left">
@@ -131,6 +137,20 @@
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
                                         <asp:Label ID="lnkTotal_Associates" runat="server" Text='<%# Eval("Total_Associates").ToString() %>'
+                                            CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' Width="150px" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Explain Reason of Not Posting Log By Feb1st?">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lnkLost_Work_Days" runat="server" Text='<%# Eval("ExplainReason").ToString() %>' CssClass="TextClip"
+                                            CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' Width="150px" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Number of lost Work Days">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lnkLost_Work_Days" runat="server" Text='<%# Eval("Comments").ToString() %>' CssClass="TextClip"
                                             CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' Width="150px" />
                                     </ItemTemplate>
                                 </asp:TemplateField>

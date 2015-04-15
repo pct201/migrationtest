@@ -166,7 +166,7 @@
         <siteMapNode url="" title="Diary" description="">
           <siteMapNode url="Administrator/LU_Task_Type.aspx" title="Task Type" description=""></siteMapNode>
         </siteMapNode>
-        <siteMapNode url="" title ="Environmental" description="" roles="" >
+        <siteMapNode url="" title ="EHS" description="" roles="" >
           <siteMapNode url="Administrator/Agency.aspx" title ="Agency" description="" roles="" />
           <siteMapNode url="Administrator/LU_Chemical_Family.aspx" title ="Chemical Family" description="" roles="" />
           <siteMapNode url="Administrator/Chemical_Type.aspx" title ="Chemical Type" description="" roles="" />

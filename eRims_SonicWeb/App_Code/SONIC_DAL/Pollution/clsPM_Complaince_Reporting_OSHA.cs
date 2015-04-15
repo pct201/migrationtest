@@ -24,6 +24,7 @@ namespace ERIMS.DAL
 		private string _Comments;
 		private string _Updated_By;
 		private DateTime? _Updated_Date;
+        private string _ExplainReason;
 
 		#endregion
 
@@ -128,6 +129,14 @@ namespace ERIMS.DAL
 			set { _Updated_Date = value; }
 		}
 
+        /// <summary>
+        /// Gets or sets the Log_Posted_Feb_1 value.
+        /// </summary>
+        public string ExplainReason
+        {
+            get { return _ExplainReason; }
+            set { _ExplainReason = value; }
+        }
 
 		#endregion
 
@@ -222,6 +231,11 @@ namespace ERIMS.DAL
 				else
 					this._Updated_Date = (DateTime?)drPM_Complaince_Reporting_OSHA["Updated_Date"];
 
+                if (drPM_Complaince_Reporting_OSHA["ExplainReason"] == DBNull.Value)
+                    this._ExplainReason = null;
+                else
+                    this._ExplainReason = (string)drPM_Complaince_Reporting_OSHA["ExplainReason"];
+
 
 		}
 
@@ -258,6 +272,7 @@ namespace ERIMS.DAL
 				db.AddInParameter(dbCommand, "Comments", DbType.String, DBNull.Value);
 			else
 				db.AddInParameter(dbCommand, "Comments", DbType.String, this._Comments);
+
 			
 			if (string.IsNullOrEmpty(this._Updated_By))
 				db.AddInParameter(dbCommand, "Updated_By", DbType.String, DBNull.Value);
@@ -265,6 +280,11 @@ namespace ERIMS.DAL
 				db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
 			
 			db.AddInParameter(dbCommand, "Updated_Date", DbType.DateTime, this._Updated_Date);
+
+            if (string.IsNullOrEmpty(this._ExplainReason))
+                db.AddInParameter(dbCommand, "ExplainReason", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "ExplainReason", DbType.String, this._ExplainReason);
 
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -337,6 +357,11 @@ namespace ERIMS.DAL
 				db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
 			
 			db.AddInParameter(dbCommand, "Updated_Date", DbType.DateTime, this._Updated_Date);
+
+            if (string.IsNullOrEmpty(this._ExplainReason))
+                db.AddInParameter(dbCommand, "ExplainReason", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "ExplainReason", DbType.String, this._ExplainReason);
 
 			db.ExecuteNonQuery(dbCommand);
 		}

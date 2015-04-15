@@ -175,6 +175,14 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
                 if (Request.QueryString["id"] != null && Convert.ToString(Request.QueryString["id"]).Trim() != "")
                     PK_PM_Site_Information = clsGeneral.GetQueryStringID(Request.QueryString["id"]);
 
+                //get PK by PM_Compliance_Reporting
+                if (Request.QueryString["fid"] != null && Convert.ToString(Request.QueryString["fid"]).Trim() != "")
+                {
+                    PK_PM_Compliance_Reporting = clsGeneral.GetQueryStringID(Request.QueryString["fid"]);
+                    PM_Compliance_Reporting objPM_Compliance_Reporting = new PM_Compliance_Reporting((decimal)PK_PM_Compliance_Reporting, false);
+                    PK_PM_Site_Information = Convert.ToDecimal(objPM_Compliance_Reporting.FK_PM_Site_Information);
+                }                
+
                 if (StrOperation == "view")
                 {
                     // Bind Controls
