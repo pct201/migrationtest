@@ -56,6 +56,7 @@ public partial class Administrator_Contractor_Job_Security : clsBasePage
             FK_Contractor_Security = clsGeneral.GetQueryStringID(Request.QueryString["fid"]);
             //used to fill RM Location Number Dropdown
             ComboHelper.FillLocationdba(new DropDownList[] { ddlLocation }, 0, true, true);
+            ComboHelper.FillProjectNumberFromLocation(new DropDownList[] { ddlProjectNumber }, Convert.ToInt32(ddlLocation.SelectedValue), true);
             //fill project number from location 
 
             if (PK_Contractor_Job_Security > 0)
@@ -201,7 +202,7 @@ public partial class Administrator_Contractor_Job_Security : clsBasePage
         {
             DataRow drProjectNo = dtpn.Rows[0];
             txtProject_Start_Date.Text = clsGeneral.FormatDBNullDateToDisplay(drProjectNo["Estimated_Start_Date"]);
-            txtProject_Description.Text = Convert.ToString(drProjectNo["Project_Description"]);
+            CtrlMultiLineLabelProject_Description.Text = Convert.ToString(drProjectNo["Project_Description"]);
         }
     }
     #endregion
@@ -224,7 +225,7 @@ public partial class Administrator_Contractor_Job_Security : clsBasePage
         ddlLocation.SelectedValue = Convert.ToString(objContractor_Job_Security.LU_Location_ID);
         ddlProjectNumber.SelectedValue = Convert.ToString(objContractor_Job_Security.FK_Facility_Construction_Project );
         txtProject_Start_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objContractor_Job_Security.Estimated_Start_Date);
-        txtProject_Description.Text = objContractor_Job_Security.Project_Description;
+        CtrlMultiLineLabelProject_Description.Text = objContractor_Job_Security.Project_Description;
         if (objContractor_Job_Security.Access == "Read Only")
             rdoAccess.SelectedValue = "R";
         else
