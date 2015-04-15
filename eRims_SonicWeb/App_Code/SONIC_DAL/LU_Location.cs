@@ -501,6 +501,20 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Regional", DbType.String, Regional);
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Selects all records from the LU_Location table for SLT Module Page.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectAll_SLT(Nullable<decimal> CurrentEmployee, string Regional)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_LocationSelectAll_SLT");
+            db.AddInParameter(dbCommand, "CurrentEmployee", DbType.Decimal, CurrentEmployee);
+            db.AddInParameter(dbCommand, "Regional", DbType.String, Regional);
+            return db.ExecuteDataSet(dbCommand);
+        }
+
         public static DataSet SelectByRegion(Nullable<decimal> CurrentEmployee, string Regional)
         {
             Database db = DatabaseFactory.CreateDatabase();

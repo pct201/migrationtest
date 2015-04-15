@@ -64,9 +64,9 @@ public partial class SONIC_SLT_SLT_Meeting_Location : clsBasePage
         }
         else
             Regional = string.Empty;
-        DataTable dtData = ERIMS.DAL.LU_Location.SelectAll(CurrentEmployee, Regional.ToString().TrimEnd(Convert.ToChar(","))).Tables[0];
+        DataTable dtData = ERIMS.DAL.LU_Location.SelectAll_SLT(CurrentEmployee, Regional.ToString().TrimEnd(Convert.ToChar(","))).Tables[0];
         dtData.DefaultView.RowFilter = " Active = 'Y' AND Show_On_Dashboard= 'Y' ";
-        dtData.DefaultView.Sort = "Sonic_Location_Code";
+        dtData.DefaultView.Sort = "dba";
         dtData = dtData.DefaultView.ToTable();
         ddlRMLocationNumber.Items.Clear();
         ddlRMLocationNumber.DataTextField = "dba1";
