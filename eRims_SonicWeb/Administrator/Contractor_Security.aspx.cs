@@ -66,7 +66,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
             SortBy = "User_Name";
             SortOrder = "Asc";
             //Bind Admin Grid
-            BindGrid(ctrlPageProperty.CurrentPage, ctrlPageProperty.PageSize);            
+            BindGrid(1, 10);            
             FillDropDown();
 
             btnDelete.Attributes.Add("onclick", "return OMSCheckSelected1('chkItem','gvContractorSecurity','Delete');");
