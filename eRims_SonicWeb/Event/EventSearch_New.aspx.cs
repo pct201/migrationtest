@@ -67,8 +67,8 @@ public partial class Event_EventSearch_New : clsBasePage
             // Check User Rights
             txtEventNumber.Focus();
             ctrlPageProperty.PageSize = clsSession.NumberOfSearchRows;
-            _SortBy = "Event_Number";
-            _SortOrder = "asc";
+            _SortBy = "Event_Start_Date";
+            _SortOrder = "desc";
 
             if (!string.IsNullOrEmpty(Request["Event"]))
             {
@@ -104,8 +104,8 @@ public partial class Event_EventSearch_New : clsBasePage
     {
         _IsCriteria = false;
         //Set Soryby,Sortorder and Page size filed
-        _SortBy = "Event_Number";
-        _SortOrder = "asc";
+        _SortBy = "Event_Start_Date";
+        _SortOrder = "desc";
         ctrlPageProperty.PageSize = 25;
         BindGrid(1, ctrlPageProperty.PageSize);
         pnlSearchFilter.Visible = false;
