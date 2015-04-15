@@ -58,7 +58,7 @@ public partial class Administrator_LU_Document_Folders_FacilityConstruction : Sy
             SortBy = "Folder_Name";
             SortOrder = "Asc";
             //Bind Grid Function
-            BindGrid(ctrlPageProperty.CurrentPage, ctrlPageProperty.PageSize);
+            BindGrid(1, 10);
             BindContractTypeList(false);
         }
     }
@@ -219,15 +219,14 @@ public partial class Administrator_LU_Document_Folders_FacilityConstruction : Sy
         DataSet dsGroup = clsLU_Document_Folders_FacilityConstruction.SelectAll(SortBy, SortOrder, PageNumber, PageSize);
         DataTable dtAdminData = dsGroup.Tables[0];
 
-        //Apply Dataset to Grid
-        gvInspection_Area.DataSource = dsGroup;
-        gvInspection_Area.DataBind();
-
         // set values for paging control,so it shows values as needed.
         ctrlPageProperty.TotalRecords = (dsGroup.Tables.Count >= 3) ? Convert.ToInt32(dsGroup.Tables[1].Rows[0][0]) : 0;
         ctrlPageProperty.CurrentPage = (dsGroup.Tables.Count >= 3) ? Convert.ToInt32(dsGroup.Tables[2].Rows[0][2]) : 0;
         ctrlPageProperty.RecordsToBeDisplayed = dtAdminData.Rows.Count;
         ctrlPageProperty.SetPageNumbers();
+
+        gvInspection_Area.DataSource = dtAdminData;
+        gvInspection_Area.DataBind();
 
         //Total records Count
         lblNumber.Text = (dsGroup.Tables.Count >= 3) ? Convert.ToString(dsGroup.Tables[1].Rows[0][0]) : "0";
@@ -358,7 +357,99 @@ public partial class Administrator_LU_Document_Folders_FacilityConstruction : Sy
     {
         BindGrid(ctrlPageProperty.CurrentPage, ctrlPageProperty.PageSize);
     }
+    /// <summary>
+    /// Returns the index of the column which contains particular sort expression
+    /// </summary>
+    /// <param name="strSortExp">The column on which the sorting is to be performed</param>
+    /// <returns>Integer</returns>
+    private int GetSortColumnIndex(string strSortExp)
+    {
+        int nRet = 0;
+        // Iterate through the Columns collection to determine the index
+        // of the column being sorted.
+        foreach (DataControlField field in gvInspection_Area.Columns)
+        {
+            if (field.SortExpression.ToString() == strSortExp)
+            {
+                nRet = gvInspection_Area.Columns.IndexOf(field);
+            }
+        }
+        return nRet;
+    }
 
+
+    /// <summary>
+    /// Adds the sorting image beside the column in the grid on which sorting has been performed
+    /// </summary>
+    /// <param name="headerRow">Header Row of the grid</param>
+    private void AddSortImage(GridViewRow headerRow)
+    {
+        Int32 iCol = GetSortColumnIndex(SortBy);
+        if (iCol == -1)
+        {
+            return;
+        }
+        // Create the sorting image based on the sort direction.
+        Image sortImage = new Image();
+        string strSortOrder = SortOrder == "asc" ? SortDirection.Ascending.ToString() : SortDirection.Descending.ToString();
+
+        // check for the order and
+        // set the images accordingly
+        if (SortDirection.Ascending.ToString() == strSortOrder)
+        {
+            sortImage.ImageUrl = "~/Images/up-arrow.gif";
+            sortImage.AlternateText = "Descending Order";
+        }
+        else
+        {
+            sortImage.ImageUrl = "~/Images/down-arrow.gif";
+            sortImage.AlternateText = "Ascending Order";
+        }
+        // Add the image to the appropriate header cell.
+        headerRow.Cells[iCol].Controls.Add(sortImage);
+
+    }
     #endregion
 
+    /// <summary>
+    /// Handles event for search result grid sorting
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvInspection_Area_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        // update sort field and sort order and bind the grid
+        SortOrder = (SortBy == e.SortExpression) ? (SortOrder == "asc" ? "desc" : "asc") : "asc";
+        SortBy = e.SortExpression;
+        BindGrid(ctrlPageProperty.CurrentPage, ctrlPageProperty.PageSize);
+    }
+
+    /// <summary>
+    /// Handles Row Created Event of Security Grid
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvInspection_Area_RowCreated(object sender, GridViewRowEventArgs e)
+    {
+        {
+            // check for the header row
+            if (e.Row.RowType == DataControlRowType.Header)
+            {
+                // if sort field already available
+                if (String.Empty != SortBy)
+                {
+                    // update sort image beside the column header
+                    AddSortImage(e.Row);
+                }
+                else
+                {
+                    // add sort image beside the column header
+                    Image sortImage = new Image();
+                    sortImage.ImageUrl = "~/Images/up-arrow.gif";
+                    sortImage.AlternateText = "Descending Order";
+                    e.Row.Cells[3].Controls.Add(sortImage);
+                }
+            }
+        }
+    }
 }
