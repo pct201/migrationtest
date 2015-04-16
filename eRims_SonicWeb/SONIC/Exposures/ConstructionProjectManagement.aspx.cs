@@ -116,25 +116,46 @@ public partial class SONIC_Exposures_ConstructionProjectManagement : clsBasePage
                 ucCtrlExposureInfo.BindExposureInfo();
                 //setControls();
 
-                if (Session["IsEditable"] != null)
+                DataSet dsRight = new DataSet();
+                dsRight = Security.SelectRightsByUserID(Convert.ToDecimal(clsSession.UserID));
+
+                DataRow[] drAddEditConstruction = dsRight.Tables[0].Select("RightType_ID=1 and Right_Name='Construction-AddEdit'");
+                if (drAddEditConstruction != null && drAddEditConstruction.Length > 0)
                 {
-                    aAddProject.Visible = true;
-                    HasEditRights = true;
-                    BindGrid();
-                    btnEdit.Visible = false;
-                    btnCancel.Visible = true;
+                    if (Session["IsEditable"] != null)
+                    {
+                        aAddProject.Visible = true;
+                        HasEditRights = true;
+                        btnEdit.Visible = false;
+                        btnCancel.Visible = true;
+                    }
+                    else
+                    {
+                        aAddProject.Visible = false;
+                        HasEditRights = false;
+                        btnEdit.Visible = true;
+                        btnCancel.Visible = false;
+                    }
                 }
                 else
                 {
-                    aAddProject.Visible = false;
-                    HasEditRights = false;
-                    BindGrid();
-                    btnEdit.Visible = true;
-                    btnCancel.Visible = false;
+                    DataRow[] drViewConstruction = dsRight.Tables[0].Select("RightType_ID=2 and Right_Name='Construction-ViewOnly'");
+                    if (drViewConstruction != null && drViewConstruction.Length > 0)
+                    {
+                        HasEditRights = false;
+                        btnEdit.Visible = false;
+                        Session.Remove("IsEditable");
+                    }
+                    else
+                    {
+                        Response.Redirect("../Exposures/ExposureSearch.aspx", false);
+                    }
                 }
+
+                BindGrid();
             }
             else
-                Response.Redirect("../Exposures/ExposureSearch.aspx");
+                Response.Redirect("../Exposures/ExposureSearch.aspx", false);
         }
     }
 

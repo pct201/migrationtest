@@ -48,6 +48,12 @@ public partial class SONIC_Exposures_ExposureSearchResult : clsBasePage
         set { ViewState["FranchiseAccess"] = value; }
     }
 
+    public AccessType ConstructionAccess
+    {
+        get { return (AccessType)Enum.Parse(typeof(AccessType), Convert.ToString(ViewState["ConstructionAccess"])); }
+        set { ViewState["ConstructionAccess"] = value; }
+    }
+
     public AccessType Asset_Protection
     {
         get { return (AccessType)Enum.Parse(typeof(AccessType), Convert.ToString(ViewState["Asset_Protection"])); }
@@ -64,6 +70,7 @@ public partial class SONIC_Exposures_ExposureSearchResult : clsBasePage
         {
             //get User Access for Franchise module
             FranchiseAccess = AccessType.NotAssigned;
+            ConstructionAccess = AccessType.NotAssigned;
 
             Asset_Protection = (App_Access == AccessType.Administrative_Access) ? AccessType.Administrative_Access : AccessType.NotAssigned;
             DataSet dsRight = new DataSet();
@@ -84,6 +91,18 @@ public partial class SONIC_Exposures_ExposureSearchResult : clsBasePage
             if (drView_Asset != null && drView_Asset.Length > 0)
             {
                 Asset_Protection = AccessType.View_Only;
+            }
+
+            DataRow[] drViewConstruction = dsRight.Tables[0].Select("RightType_ID=2 and Right_Name='Construction-ViewOnly'");
+            if (drViewConstruction != null && drViewConstruction.Length > 0)
+            {
+                ConstructionAccess = AccessType.Construction_ViewOnly;
+            }
+
+            DataRow[] drAddEditConstruction = dsRight.Tables[0].Select("RightType_ID=1 and Right_Name='Construction-AddEdit'");
+            if (drAddEditConstruction != null && drAddEditConstruction.Length > 0)
+            {
+                ConstructionAccess = AccessType.Construction_AddEdit;
             }
 
             // set the default sort field and sort order
@@ -317,17 +336,30 @@ public partial class SONIC_Exposures_ExposureSearchResult : clsBasePage
                 // display "View" as per the user rights
                 if (Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "ConstructionProjectCount")) > 0)
                 {
-                    if (App_Access == AccessType.Administrative_Access)
+                    if (ConstructionAccess == AccessType.Construction_ViewOnly || ConstructionAccess == AccessType.Construction_AddEdit)
+                    {
                         lnkConstruction.InnerHtml = "View";
-                    strOperation = "view";
-                    lnkConstruction.HRef = AppConfig.SiteURL + "SONIC/Exposures/ConstructionProjectManagement.aspx?loc=" + Encryption.Encrypt(DataBinder.Eval(e.Row.DataItem, "PK_LU_Location_ID").ToString());
+                        lnkConstruction.HRef = AppConfig.SiteURL + "SONIC/Exposures/ConstructionProjectManagement.aspx?loc=" + Encryption.Encrypt(DataBinder.Eval(e.Row.DataItem, "PK_LU_Location_ID").ToString());
+                    }
+                    else
+                    {
+                        lnkConstruction.InnerHtml = string.Empty;
+                        lnkConstruction.HRef = "#";
+                    }                    
                 }
                 else
                 {
                     // display "Add New" as per the user rights
-                    if (App_Access == AccessType.Administrative_Access)
+                    if (ConstructionAccess == AccessType.Construction_AddEdit)
+                    {
                         lnkConstruction.InnerHtml = "Add New";
-                    lnkConstruction.HRef = AppConfig.SiteURL + "SONIC/Exposures/ConstructionProjectsView.aspx?loc=" + Encryption.Encrypt(DataBinder.Eval(e.Row.DataItem, "PK_LU_Location_ID").ToString());
+                        lnkConstruction.HRef = AppConfig.SiteURL + "SONIC/Exposures/ConstructionProjectsView.aspx?loc=" + Encryption.Encrypt(DataBinder.Eval(e.Row.DataItem, "PK_LU_Location_ID").ToString());
+                    }
+                    else
+                    {
+                        lnkConstruction.InnerHtml = string.Empty;
+                        lnkConstruction.HRef = "#";
+                    }
                 }
             }
             

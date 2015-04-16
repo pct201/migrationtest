@@ -389,10 +389,12 @@ public partial class Administrator_security : clsBasePage
             clsSession.IsUserRegionalOfficer = rdoIsRegionalOfficer.SelectedValue == "1" && rdoAdminRole.SelectedValue != "Y";
 
         BindGrid(ctrlPageProperty.CurrentPage, ctrlPageProperty.PageSize);
-        btnCancel_Click(sender, e);
-        //}
         SaveAssocAttachmentRights();
         SaveAssocFCDocumentFolderAttachmentRights();
+
+        btnCancel_Click(sender, e);
+        //}
+
     }
 
     /// <summary>
@@ -474,6 +476,8 @@ public partial class Administrator_security : clsBasePage
         }
 
         BindDocumentFolderSecurity();
+        BindFCDocumentFolderSecurity();
+        FillFCDocumentFolderSecurity();
     }
 
     protected void chkRights_SelectedIndexChanged(object sender, EventArgs e)
@@ -1120,41 +1124,32 @@ public partial class Administrator_security : clsBasePage
     {
         if (PK_Security_ID > 0)
         {
-            if (chkGroup.Items.FindByText("Administrative").Selected != true)
+            clsAssoc_LU_FC_Document_Folder_Rights.DeleteByUserId(PK_Security_ID);
+        }
+
+        if (chkGroup.Items.FindByText("Administrative").Selected == true)
+        {
+            DataTable dtFCDocumentFolder = clsLU_FC_Document_Folder_Rights.SelectAll().Tables[0];
+
+            for (int i = 0; i < dtFCDocumentFolder.Rows.Count; i++)
             {
-                clsAssoc_LU_FC_Document_Folder_Rights.DeleteByUserId(PK_Security_ID);
-            }
-            else
-            {
-                return;
+                clsAssoc_LU_FC_Document_Folder_Rights assocFCDocumentFolder = new clsAssoc_LU_FC_Document_Folder_Rights();
+                assocFCDocumentFolder.FK_LU_FC_Document_Folder_Rights = Convert.ToDecimal(dtFCDocumentFolder.Rows[i]["PK_LU_FC_Document_Folder_Rights"]);
+                assocFCDocumentFolder.FK_User_ID = PK_Security_ID;
+                assocFCDocumentFolder.Insert();
             }
         }
         else
         {
-            if (chkGroup.Items.FindByText("Administrative").Selected == true && lboxFCFolderSecurity.Items[0].Selected)
+            foreach (ListItem item in lboxFCFolderSecurity.Items)
             {
-                DataSet dsFCDocumentFolder = clsLU_FC_Document_Folder_Rights.SelectAll();
-
-                foreach (clsAssoc_LU_FC_Document_Folder_Rights fcDocumentFolder in dsFCDocumentFolder.Tables[0].Rows)
+                if (item.Selected)
                 {
                     clsAssoc_LU_FC_Document_Folder_Rights assocFCDocumentFolder = new clsAssoc_LU_FC_Document_Folder_Rights();
-                    assocFCDocumentFolder.FK_LU_FC_Document_Folder_Rights = fcDocumentFolder.PK_Assoc_LU_FC_Document_Folder_Rights;
+                    assocFCDocumentFolder.FK_LU_FC_Document_Folder_Rights = Convert.ToDecimal(item.Value);
                     assocFCDocumentFolder.FK_User_ID = PK_Security_ID;
                     assocFCDocumentFolder.Insert();
                 }
-
-                return;
-            }
-        }
-
-        foreach (ListItem item in lboxFCFolderSecurity.Items)
-        {
-            if (item.Selected)
-            {
-                clsAssoc_LU_FC_Document_Folder_Rights assocFCDocumentFolder = new clsAssoc_LU_FC_Document_Folder_Rights();
-                assocFCDocumentFolder.FK_LU_FC_Document_Folder_Rights = Convert.ToDecimal(item.Value);
-                assocFCDocumentFolder.FK_User_ID = PK_Security_ID;
-                assocFCDocumentFolder.Insert();
             }
         }
     }
@@ -1221,36 +1216,41 @@ public partial class Administrator_security : clsBasePage
 
     private void BindFCDocumentFolderSecurity()
     {
-        DataSet dsFCDocumentFolder = clsLU_FC_Document_Folder_Rights.SelectAll();
-        lboxFCFolderSecurity.DataSource = dsFCDocumentFolder;
-        lboxFCFolderSecurity.DataTextField = "Right_Name";
-        lboxFCFolderSecurity.DataValueField = "PK_LU_FC_Document_Folder_Rights";
-        lboxFCFolderSecurity.DataBind();
-
         if (chkGroup.Items.FindByText("Administrative").Selected == true)
         {
             lboxFCFolderSecurity.Items.Clear();
             lboxFCFolderSecurity.Items.Add(new ListItem("All Folders", "0"));
             lboxFCFolderSecurity.Items[0].Selected = true;
         }
+        else
+        {
+            DataSet dsFCDocumentFolder = clsLU_FC_Document_Folder_Rights.SelectAll();
+            lboxFCFolderSecurity.DataSource = dsFCDocumentFolder;
+            lboxFCFolderSecurity.DataTextField = "Right_Name";
+            lboxFCFolderSecurity.DataValueField = "PK_LU_FC_Document_Folder_Rights";
+            lboxFCFolderSecurity.DataBind();
+        }
 
     }
 
     private void FillFCDocumentFolderSecurity()
     {
-        if (chkGroup.Items.FindByText("Administrative").Selected != true)
+        if (PK_Security_ID > 0)
         {
-            DataTable dtFCDocumentFolder = clsAssoc_LU_FC_Document_Folder_Rights.SelectByUserId(PK_Security_ID).Tables[0];
-
-            if (lboxFCFolderSecurity.Items.Count > 0)
+            if (chkGroup.Items.FindByText("Administrative").Selected != true)
             {
-                foreach (ListItem item in lboxFCFolderSecurity.Items)
+                DataTable dtFCDocumentFolder = clsAssoc_LU_FC_Document_Folder_Rights.SelectByUserId(PK_Security_ID).Tables[0];
+
+                if (lboxFCFolderSecurity.Items.Count > 0)
                 {
-                    for (int i = 0; i < dtFCDocumentFolder.Rows.Count; i++)
+                    foreach (ListItem item in lboxFCFolderSecurity.Items)
                     {
-                        if (item.Value == Convert.ToString(dtFCDocumentFolder.Rows[i]["FK_LU_FC_Document_Folder_Rights"]) && PK_Security_ID == Convert.ToInt32(dtFCDocumentFolder.Rows[i]["FK_User_ID"]))
+                        for (int i = 0; i < dtFCDocumentFolder.Rows.Count; i++)
                         {
-                            item.Selected = true;
+                            if (item.Value == Convert.ToString(dtFCDocumentFolder.Rows[i]["FK_LU_FC_Document_Folder_Rights"]) && PK_Security_ID == Convert.ToInt32(dtFCDocumentFolder.Rows[i]["FK_User_ID"]))
+                            {
+                                item.Selected = true;
+                            }
                         }
                     }
                 }

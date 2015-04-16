@@ -324,12 +324,13 @@ namespace ERIMS.DAL
         /// Selects all records from the FCP_Attachments table.
         /// </summary>
         /// <returns>DataSet</returns>
-        public static DataSet GetAttchmentFolderAndCount(decimal PK_FCP_Identification)
+        public static DataSet GetAttchmentFolderAndCount(decimal PK_FCP_Identification, decimal fK_User_ID)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("FCP_AttachmentsFolderAndCount");
 
             db.AddInParameter(dbCommand, "PK_FCP_Identification", DbType.Decimal, PK_FCP_Identification);
+            db.AddInParameter(dbCommand, "FK_User_ID", DbType.Decimal, fK_User_ID);
 
             return db.ExecuteDataSet(dbCommand);
         }

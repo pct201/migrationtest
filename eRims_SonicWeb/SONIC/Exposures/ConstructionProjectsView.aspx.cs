@@ -59,34 +59,58 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
             BindBuildings();
             BindProjectType();
 
-            if (Request.QueryString["prjId"] != null)
+            DataSet dsRight = new DataSet();
+            dsRight = Security.SelectRightsByUserID(Convert.ToDecimal(clsSession.UserID));
+
+            DataRow[] drAddEditConstruction = dsRight.Tables[0].Select("RightType_ID=1 and Right_Name='Construction-AddEdit'");
+            if (drAddEditConstruction != null && drAddEditConstruction.Length > 0)
             {
-                ConstructionProjectId = Convert.ToDecimal(Encryption.Decrypt(Request.QueryString["prjId"].ToString()));
-                FillConstructionProjectDetail();
-                
-                if (Session["IsEditable"] != null)
+                if (Request.QueryString["prjId"] != null)
                 {
-                    hdnPanel.Value = "2";
-                    hdnPanelSpaire.Value = "1";
+                    ConstructionProjectId = Convert.ToDecimal(Encryption.Decrypt(Request.QueryString["prjId"].ToString()));
+                    FillConstructionProjectDetail();
+
+                    if (Session["IsEditable"] != null)
+                    {
+                        hdnPanel.Value = "2";
+                        hdnPanelSpaire.Value = "1";
+                    }
+                    else
+                    {
+                        hdnPanel.Value = "1";
+                        hdnPanelSpaire.Value = "0";
+                    }
                 }
                 else
                 {
-                    hdnPanel.Value = "1";
-                    hdnPanelSpaire.Value = "0";
+                    ConstructionProjectId = 0;
+                    hdnPanel.Value = "2";
+                    btnAuditTrail.Visible = false;
+                    btnReturnto_View_Mode.Visible = false;
+                    hdnPanelSpaire.Value = "1";
+                    Session["IsEditable"] = "1";
                 }
+
+                ViewState["ConstructionProjectId"] = ConstructionProjectId;
+                Session["ConstructionProjectId"] = ConstructionProjectId;
             }
             else
             {
-                ConstructionProjectId = 0;
-                hdnPanel.Value = "2";
-                btnAuditTrail.Visible = false;
+                hdnPanel.Value = "1";
+                hdnPanelSpaire.Value = "0";
+                btnAuditTrail.Visible = true;
                 btnReturnto_View_Mode.Visible = false;
-                hdnPanelSpaire.Value = "1";
-                Session["IsEditable"] = "1";
+                btnEdit.Visible = false;
+                Session.Remove("IsEditable");
+
+                if (Request.QueryString["prjId"] != null)
+                {
+                    ConstructionProjectId = Convert.ToDecimal(Encryption.Decrypt(Request.QueryString["prjId"].ToString()));
+                    FillConstructionProjectDetail();
+                }
             }
 
-            ViewState["ConstructionProjectId"] = ConstructionProjectId;
-            Session["ConstructionProjectId"] = ConstructionProjectId;
+            
             SetValidations();
 
             // store the location id in session

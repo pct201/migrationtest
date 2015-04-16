@@ -15,7 +15,8 @@
     <tr>
         <td align="left" width="100%">
             <div class="bandHeaderRow">
-                Attachment</div>
+                Attachment
+            </div>
         </td>
     </tr>
     <tr>
@@ -51,7 +52,7 @@
             <br />
             <asp:Button ID="btnViewSelection" runat="server" Text="View Selections" OnClick="btnViewSelection_Click"
                 Width="120px" OnClientClick="return CheckSeleted('Folder');" />&nbsp;
-            <asp:Button ID="btnAddDocument" runat="server" Text="Add Document" OnClick="btnAddDocument_Click"
+            <asp:Button ID="btnAddDocument" runat="server" Text="Add Document" OnClick="btnAddDocument_Click" Visible="false"
                 Width="120px" />&nbsp;
         </td>
     </tr>
@@ -130,8 +131,7 @@
         </td>
     </tr>
     <tr>
-        <td>
-            &nbsp;
+        <td>&nbsp;
         </td>
     </tr>
     <tr>
@@ -139,11 +139,9 @@
             <table cellpadding="3" cellspacing="1" width="100%" visible="false" id="tblEditAttachment"
                 runat="server">
                 <tr>
-                    <td width="18%" align="left">
-                        Folder
+                    <td width="18%" align="left">Folder
                     </td>
-                    <td width="4%" align="center">
-                        :
+                    <td width="4%" align="center">:
                     </td>
                     <td align="left">
                         <asp:DropDownList ID="drpFolder" runat="server" Width="500px">
@@ -154,19 +152,16 @@
                     </td>
                 </tr>
                 <tr>
-                    <td align="left">
-                        File to Attach
+                    <td align="left">File to Attach
                     </td>
-                    <td align="center">
-                        :
+                    <td align="center">:
                     </td>
                     <td align="left">
                         <asp:FileUpload ID="fpFile" runat="server" Width="500px" />
                     </td>
                 </tr>
                 <tr>
-                    <td>
-                        &nbsp;
+                    <td>&nbsp;
                     </td>
                 </tr>
                 <tr>
@@ -299,6 +294,7 @@
     </tr>
 </table>
 <br />
+<asp:HiddenField ID="hdnIsEditable" runat="server" />
 <script type="text/javascript">
 
     function DeleteConfirm(grid) {
@@ -509,4 +505,25 @@
 
     function ShowPanel() {
     }
+
+    function IsEditable() {
+        var hdn = $('#<%= hdnIsEditable.ClientID %>').val();
+
+        if (hdn == "0") {
+            $('#<%= gvFiles.ClientID %> > tbody > tr').each(function () {
+                $(this).find('td:last a:first').hide();
+                $(this).find('td:last a:last').hide();
+            });
+        }
+        else {
+            $('#<%= gvFiles.ClientID %> > tbody > tr').each(function () {
+                $(this).find('td:last a:first').show();
+                $(this).find('td:last a:last').show();
+            });
+        }
+    }
+
+    $(document).ready(function () {
+        IsEditable();
+    });
 </script>

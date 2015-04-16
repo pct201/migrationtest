@@ -59,15 +59,6 @@ public partial class Controls_Attachment_Construction_Attachment : System.Web.UI
         set { ViewState["SortOrder" + this.ID] = value; }
     }
 
-    /// <summary>
-    /// Denotes the operation whether edit or view
-    /// </summary>
-    public string StrOperation
-    {
-        get { return Convert.ToString(ViewState["strOperation"]); }
-        set { ViewState["strOperation"] = value; }
-    }
-
     public bool Is_AttachmentExists
     {
         get { return ViewState["Is_AttachmentExists"] == null ? false : Convert.ToBoolean(ViewState["Is_AttachmentExists"]); }
@@ -89,8 +80,18 @@ public partial class Controls_Attachment_Construction_Attachment : System.Web.UI
             BindGridFolder();
             BindDropDown();
 
-            if (StrOperation.ToLower() == "view")
+            DataSet dsRight = new DataSet();
+            dsRight = Security.SelectRightsByUserID(Convert.ToDecimal(clsSession.UserID));
+
+            DataRow[] drAddEditConstruction = dsRight.Tables[0].Select("RightType_ID=1 and Right_Name='Construction-AddEdit'");
+            if (drAddEditConstruction != null && drAddEditConstruction.Length > 0)
             {
+                hdnIsEditable.Value = "1";
+                btnAddDocument.Visible = true;
+            }
+            else
+            {
+                hdnIsEditable.Value = "0";
                 btnAddDocument.Visible = false;
             }
         }
@@ -235,7 +236,7 @@ public partial class Controls_Attachment_Construction_Attachment : System.Web.UI
 
     private void BindGridFolder()
     {
-        DataTable dtFolder = FCP_Attachments.GetAttchmentFolderAndCount(ConstructionProjectId).Tables[0];
+        DataTable dtFolder = FCP_Attachments.GetAttchmentFolderAndCount(ConstructionProjectId, Convert.ToDecimal(clsSession.UserID)).Tables[0];
         gvFolders.DataSource = dtFolder;
         gvFolders.DataBind();
     }

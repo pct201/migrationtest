@@ -53,7 +53,9 @@ public class clsBasePage : System.Web.UI.Page
         CRM_Edit = 10,
         CRM_Add = 11,
         Ohio_Claim_Access = 12,
-        Delete = 13
+        Delete = 13,
+        Construction_AddEdit = 14,
+        Construction_ViewOnly = 15
     }
 
     /// <summary>
