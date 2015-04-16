@@ -129,7 +129,8 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         // set tab
         Tab.SetSelectedTab(Controls_ExposuresTab_ExposuresTab.Tab.Pollution);
         if (!Page.IsPostBack)
-        {           
+        {            
+            Session["SIC"] = null;
             Attachment.Table_Name = "PM_Attachments";
             AttachDetails.Table_Name = "PM_Attachments";
             Attachment.BindAttachmentType();
@@ -256,7 +257,7 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
                 gvViolations.DataBind();
 
                 BindGridOshaLog();
-
+                
                 // set attachment details control in read/write mode. so user can add or remove attachment as well.
                 AttachDetails.FindControl("gvAttachment").DataBind();
                 SetValidations();
@@ -537,6 +538,8 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
             LU_SIC objSIC = new LU_SIC((decimal)objPM_Site_Information.FK_LU_SIC);
             lblFK_LU_SIC.Text = objSIC.Fld_Code;
             lblSICDesc.Text = objSIC.Fld_Desc_1 + "<br/>" + objSIC.Fld_Desc_2 + "<br/>" + objSIC.Fld_Desc_3;
+
+            Session["SIC"] = lblFK_LU_SIC.Text + ":" + lblSICDesc.Text;
         }
         else
         {
@@ -700,9 +703,7 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         // SIC popup values
         txtSIC.Text = Request.Form[txtSIC.UniqueID];
         txtSICDesc.Text = Request.Form[txtSICDesc.UniqueID];
-        lblSIC.Text = Server.HtmlDecode(txtSICDesc.Text);
-
-        Session["SIC"] = txtSIC.Text + ":" + lblSIC.Text;
+        lblSIC.Text = Server.HtmlDecode(txtSICDesc.Text);        
 
         // NAICS popup values
         txtNAICS.Text = Request.Form[txtNAICS.UniqueID];
@@ -864,7 +865,8 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         gvSixHView.DataSource = dsGrids.Tables[16];
         gvSixHView.DataBind();
 
-        BindGridViewOshaLog();
+        BindGridOshaLog();
+        //BindGridViewOshaLog();
     }
 
     /// <summary>
@@ -1047,8 +1049,9 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
             lnkComplainceReportingOSHA.Visible = true;
             DataSet ds = clsPM_Complaince_Reporting_OSHA.SelectByFK(PK_PM_Compliance_Reporting);
             DataTable dtCompliance_Reporting = ds.Tables[0];
-            gvComplainceReportingOSHA.DataSource = dtCompliance_Reporting;
+            gvComplainceReportingOSHA.DataSource = gvOshaLogGridView.DataSource = dtCompliance_Reporting;
             gvComplainceReportingOSHA.DataBind();
+            gvOshaLogGridView.DataBind();
         }
         else
         {
@@ -1057,21 +1060,21 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         }
     }
 
-    private void BindGridViewOshaLog()
-    {
+    //private void BindGridViewOshaLog()
+    //{
 
-        if (PK_PM_Compliance_Reporting > 0)
-        {
-            DataSet ds = clsPM_Complaince_Reporting_OSHA.SelectByFK(PK_PM_Compliance_Reporting);
-            DataTable dtCompliance_Reporting = ds.Tables[0];
-            gvOshaLogGridView.DataSource = dtCompliance_Reporting;
-            gvOshaLogGridView.DataBind();
-        }
-        else
-        {
-            gvOshaLogGridView.DataBind();
-        }
-    }
+    //    if (PK_PM_Compliance_Reporting > 0)
+    //    {
+    //        DataSet ds = clsPM_Complaince_Reporting_OSHA.SelectByFK(PK_PM_Compliance_Reporting);
+    //        DataTable dtCompliance_Reporting = ds.Tables[0];
+    //        gvOshaLogGridView.DataSource = dtCompliance_Reporting;
+    //        gvOshaLogGridView.DataBind();
+    //    }
+    //    else
+    //    {
+    //        gvOshaLogGridView.DataBind();
+    //    }
+    //}
     #endregion
 
     #region Control Events
