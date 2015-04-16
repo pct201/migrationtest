@@ -16,11 +16,11 @@ public class clsPrintClaimNotesCOI
     {
         DataTable dtNotes = null;
         dtNotes = clsCOI_Notes.SelectByIDs(strPKs).Tables[0];
-        
+
         StringBuilder sbHTML = new StringBuilder();
 
         #region " Generate HTML Text "
-        
+
         string strClaimNumber = "";
         string strDBA = "";
         string strNotes = "Selected COI Notes";
@@ -45,19 +45,20 @@ public class clsPrintClaimNotesCOI
         }
         else
             strLocationName = Convert.ToString(objLocation.Sonic_Location_Code);
-            strInsuredName = Convert.ToString(objInsured.Insured_Name);
-            strIssueDate = clsGeneral.FormatDate(objCOI.Issue_Date);
-            strEffectiveDate = clsGeneral.FormatDate(objInsured.Date_Closed);
-            strSonicLocationNumber = Convert.ToString(objLocation.Sonic_Location_Code);
+        strInsuredName = Convert.ToString(objInsured.Insured_Name);
+        if (objCOI.Issue_Date.HasValue)
+            strIssueDate = clsGeneral.FormatDate(objCOI.Issue_Date.Value);
+        strEffectiveDate = clsGeneral.FormatDate(objInsured.Date_Closed);
+        strSonicLocationNumber = Convert.ToString(objLocation.Sonic_Location_Code);
 
-        
-        
+
+
         //strEmployeeName = Convert.ToString(dtClaim.Rows[0]["Employee_Name"]);
 
         string strTDBlue = "style='background-color:#95B3D7;border-top:black 1px solid;border-left:black 1px solid;'";
         string strTDWhite = "style='border-top:black 1px solid;border-left:black 1px solid;border-bottom:black 1px solid;'";
         sbHTML.Append("<HTML><Body>");
-        sbHTML.Append("<b>"+ strNotes +"</b>");
+        sbHTML.Append("<b>" + strNotes + "</b>");
         sbHTML.Append("<br /></br />");
         sbHTML.Append("<table cellpadding='3' cellspacing='1' border='0' width='100%'>");
         sbHTML.Append("<tr>");
@@ -180,7 +181,7 @@ public class clsPrintClaimNotesCOI
         }
 
         //doc.Save("ClaimSonicNotes.doc", Aspose.Words.SaveFormat.Doc, Aspose.Words.SaveType.OpenInWord, HttpContext.Current.Response);
-        doc.Save(HttpContext.Current.Response, strDocName , ContentDisposition.Attachment, Aspose.Words.Saving.SaveOptions.CreateSaveOptions(SaveFormat.Doc));
+        doc.Save(HttpContext.Current.Response, strDocName, ContentDisposition.Attachment, Aspose.Words.Saving.SaveOptions.CreateSaveOptions(SaveFormat.Doc));
         HttpContext.Current.Response.End();
         #endregion
     }

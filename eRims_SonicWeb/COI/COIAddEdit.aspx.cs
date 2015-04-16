@@ -110,7 +110,7 @@ public partial class Admin_COIAddEdit : clsBasePage
     /// </summary>
     private int Fk_Lu_Location_Id
     {
-        get 
+        get
         {
             if (ddlDBA.SelectedIndex > -1)
             {
@@ -119,7 +119,7 @@ public partial class Admin_COIAddEdit : clsBasePage
             else
             {
                 return 0;
-            }        
+            }
         }
     }
 
@@ -502,7 +502,7 @@ public partial class Admin_COIAddEdit : clsBasePage
         //}
 
         //DataTable dtTIV = COI_Insureds.GetBuildingTIV(strBuillding_Numbers).Tables[0];
-        DataTable dtTIV = COI_Insureds.GetBuildingTIV(Fk_Lu_Location_Id,PK_COIs).Tables[0];
+        DataTable dtTIV = COI_Insureds.GetBuildingTIV(Fk_Lu_Location_Id, PK_COIs).Tables[0];
         txtBuilding_TIV.Enabled = Convert.ToBoolean(dtTIV.Rows[0]["AllowEdit"]);
         txtBuilding_TIV.Text = string.Format("{0:N2}", dtTIV.Rows[0]["Building_TIV"]);
     }
@@ -596,7 +596,8 @@ public partial class Admin_COIAddEdit : clsBasePage
         //initialize object for COIs record
         COIs objCOI = new COIs(PK_COIs);
         // set values
-        txtIssueDate.Text = clsGeneral.FormatDate(objCOI.Issue_Date);
+        if (objCOI.Issue_Date.HasValue)
+            txtIssueDate.Text = clsGeneral.FormatDate(objCOI.Issue_Date.Value);
         txtDateRequested.Text = clsGeneral.FormatDate(objCOI.Date_Requested);
         drpRiskProfile.SelectedValue = Convert.ToString(objCOI.FK_COI_Risk_Profile);
 
@@ -627,7 +628,7 @@ public partial class Admin_COIAddEdit : clsBasePage
         //------- Insured details 
 
         // initialize the insured object
-        COI_Insureds objInsured = new COI_Insureds(objCOI.FK_COI_Insureds,PK_COIs);
+        COI_Insureds objInsured = new COI_Insureds(objCOI.FK_COI_Insureds, PK_COIs);
 
         Building_Ownership objOwnership = new Building_Ownership((Int32)objInsured.FK_Building_Ownership_ID);
         //set values
@@ -727,7 +728,9 @@ public partial class Admin_COIAddEdit : clsBasePage
         COIs objCOI = new COIs(PK_COIs);
 
         //set values
-        lblIssueDate.Text = clsGeneral.FormatDate(objCOI.Issue_Date);        
+        if (objCOI.Issue_Date.HasValue)
+            lblIssueDate.Text = clsGeneral.FormatDate(objCOI.Issue_Date.Value);
+
         lblDateRequested.Text = clsGeneral.FormatDate(objCOI.Date_Requested);
         lblRiskProfile.Text = objCOI.FK_COI_Risk_Profile != null ? new COI_Risk_Profiles(Convert.ToDecimal(objCOI.FK_COI_Risk_Profile)).Name.ToString() : "";
 
@@ -766,7 +769,7 @@ public partial class Admin_COIAddEdit : clsBasePage
 
         //------ Insured details
         //initialize the Insured object
-        COI_Insureds objInsured = new COI_Insureds(objCOI.FK_COI_Insureds,PK_COIs);
+        COI_Insureds objInsured = new COI_Insureds(objCOI.FK_COI_Insureds, PK_COIs);
         Building_Ownership objOwnership = new Building_Ownership((Int32)objInsured.FK_Building_Ownership_ID);
 
         //set values
@@ -847,7 +850,7 @@ public partial class Admin_COIAddEdit : clsBasePage
             gvNotes.DataBind();
             btnView.Visible = false;
             btnPrint.Visible = false;
-        }        
+        }
         ctrlPageSonicNotes.TotalRecords = (dsNotes.Tables.Count >= 2) ? Convert.ToInt32(dsNotes.Tables[1].Rows[0][0]) : 0;
         ctrlPageSonicNotes.CurrentPage = (dsNotes.Tables.Count >= 2) ? Convert.ToInt32(dsNotes.Tables[1].Rows[0][2]) : 0;
         ctrlPageSonicNotes.RecordsToBeDisplayed = dsNotes.Tables[0].Rows.Count;
@@ -921,7 +924,7 @@ public partial class Admin_COIAddEdit : clsBasePage
         btnNotesAdd.Style["Display"] = "none";
 
         //Hide radio buttons in grid bands 
-        
+
         rdoGeneralRequired.Visible = false;
         rdoAutoRequired.Visible = false;
         rdoExcessRequired.Visible = false;
@@ -1018,6 +1021,8 @@ public partial class Admin_COIAddEdit : clsBasePage
         // Get COI details
         if (txtIssueDate.Text != String.Empty)
             objCOI.Issue_Date = Convert.ToDateTime(txtIssueDate.Text);
+        else
+            objCOI.Issue_Date = null;
         // Get COI details
         if (txtDateRequested.Text != String.Empty)
             objCOI.Date_Requested = Convert.ToDateTime(txtDateRequested.Text);
@@ -1041,7 +1046,7 @@ public partial class Admin_COIAddEdit : clsBasePage
         objCOI.COI_Active = rdoCOIActive.SelectedValue;
         objCOI.FK_COI_Signature = (drpSignature.SelectedIndex != 0) ? Convert.ToInt32(drpSignature.SelectedValue) : 0;
         objCOI.Send_By_Email = rdoSendByEmail.SelectedValue;
-        
+
         //Savecompliance text.
         foreach (DataListItem Item in dlComplianceText.Items)
         {
@@ -1097,7 +1102,7 @@ public partial class Admin_COIAddEdit : clsBasePage
         objCOI.LeveL_4_Text = txtLevel4Text.Text.Trim();
         objCOI.Update_Date = DateTime.Today;
         objCOI.Updated_By = clsSession.UserName;
-        
+
         // create a new Insured object.
         COI_Insureds objInsured = new COI_Insureds();
 
@@ -1130,7 +1135,7 @@ public partial class Admin_COIAddEdit : clsBasePage
         objInsured.Sublease_Agreement = rdoSubleaseAgreement.SelectedValue;
         objInsured.Notes = txtNotes.Text.Trim();
         objInsured.FK_Building_Ownership_ID = Convert.ToDecimal(hdnPK_Building_Ownership_ID.Value);
-        
+
         // if COI is in update mode
         if (PK_COIs > 0)
         {
@@ -1601,7 +1606,7 @@ public partial class Admin_COIAddEdit : clsBasePage
             // Bind the attachment detail to view the added attachment
             BindAttachmentDetails();
             // show attachment panel as the page is loaded again
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(10);", true);
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(11);", true);
         }
         else
             ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript: alert('Please save Certificates of Insurance First');ShowPanel(1);", true);
@@ -2160,6 +2165,6 @@ public partial class Admin_COIAddEdit : clsBasePage
         hdnControlIDs.Value = strCtrlsIDs;
         hdnErrorMsgs.Value = strMessages;
     }
-    #endregion   
-   
+    #endregion
+
 }

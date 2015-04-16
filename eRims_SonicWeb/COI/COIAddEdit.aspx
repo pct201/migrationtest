@@ -200,25 +200,25 @@ function ShowPanel(index) {
 
     if (op == "view") {
         document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
-                ShowPanelView(index);
+        ShowPanelView(index);
+    }
+    else {
+        document.getElementById("<%=dvEdit.ClientID%>").style.display = "block";
+        document.getElementById("<%=dvGrids.ClientID%>").style.display = "block";
+
+        if (index < 10) {
+
+            for (i = 1; i <= 13; i++) {
+                document.getElementById("ctl00_ContentPlaceHolder1_Panel" + i).style.display = "none";
+            }
+            if (index < 5) {
+                document.getElementById("ctl00_ContentPlaceHolder1_Panel" + index).style.display = "block";
             }
             else {
-                document.getElementById("<%=dvEdit.ClientID%>").style.display = "block";
-                document.getElementById("<%=dvGrids.ClientID%>").style.display = "block";
-
-                if (index < 10) {
-
-                    for (i = 1; i <= 13; i++) {
-                        document.getElementById("ctl00_ContentPlaceHolder1_Panel" + i).style.display = "none";
-                    }
-                    if (index < 5) {
-                        document.getElementById("ctl00_ContentPlaceHolder1_Panel" + index).style.display = "block";
-                    }
-                    else {
-                        document.getElementById("ctl00_ContentPlaceHolder1_Panel" + (4 + index)).style.display = "block";
-                    }
-                    document.getElementById("ctl00_ContentPlaceHolder1_Div1").style.display = "none";
-                    document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
+                document.getElementById("ctl00_ContentPlaceHolder1_Panel" + (4 + index)).style.display = "block";
+            }
+            document.getElementById("ctl00_ContentPlaceHolder1_Div1").style.display = "none";
+            document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
                     document.getElementById("ctl00_ContentPlaceHolder1_Div2").style.display = "none";
 
                 }
@@ -240,7 +240,7 @@ function ShowPanel(index) {
                     }
 
             }
-                //onSubleaseChange();
+        //onSubleaseChange();
             SetFocusOnFirstControl(index);
         }
 
@@ -307,77 +307,77 @@ function ShowPanel(index) {
                 document.getElementById("ctl00_ContentPlaceHolder1_Div2").style.display = "none";
                 document.getElementById("ctl00_ContentPlaceHolder1_Div1").style.display = "block";
                 document.getElementById("<%=dvAttachment.ClientID%>").style.display = "block";
-                }
-                //document.getElementById("<=dvAttachment.ClientID%>").style.display = "block";
+            }
+            //document.getElementById("<=dvAttachment.ClientID%>").style.display = "block";
 
-        }
     }
+}
 
-    function onSubleaseChangePanel() {
+function onSubleaseChangePanel() {
 
-        var SubleaseYes = document.getElementById("ctl00_ContentPlaceHolder1_rdoSubleaseAgreement_0");
-        var SubleaseNo = document.getElementById("ctl00_ContentPlaceHolder1_rdoSubleaseAgreement_1");
-        var btnInsuredname = document.getElementById('ctl00_ContentPlaceHolder1_btnInsuredName');
-        var ddlDBA = document.getElementById('ctl00_ContentPlaceHolder1_ddlDBA');
+    var SubleaseYes = document.getElementById("ctl00_ContentPlaceHolder1_rdoSubleaseAgreement_0");
+    var SubleaseNo = document.getElementById("ctl00_ContentPlaceHolder1_rdoSubleaseAgreement_1");
+    var btnInsuredname = document.getElementById('ctl00_ContentPlaceHolder1_btnInsuredName');
+    var ddlDBA = document.getElementById('ctl00_ContentPlaceHolder1_ddlDBA');
+    if (SubleaseYes.checked) {
+        btnInsuredname.disabled = false;
+        ddlDBA.disabled = true;
+    }
+    else if (SubleaseNo.checked) {
+        btnInsuredname.disabled = true;
+        ddlDBA.disabled = false;
+    }
+}
+
+function onSubleaseChange() {
+    var SubleaseYes = document.getElementById("ctl00_ContentPlaceHolder1_rdoSubleaseAgreement_0");
+    var SubleaseNo = document.getElementById("ctl00_ContentPlaceHolder1_rdoSubleaseAgreement_1");
+    var btnInsuredname = document.getElementById('ctl00_ContentPlaceHolder1_btnInsuredName');
+    var ddlDBA = document.getElementById('ctl00_ContentPlaceHolder1_ddlDBA');
+    var txtName = document.getElementById('ctl00_ContentPlaceHolder1_txtName');
+    var txtContactLastName = document.getElementById('ctl00_ContentPlaceHolder1_txtContactLastName');
+    var txtContactFirstName = document.getElementById('ctl00_ContentPlaceHolder1_txtContactFirstName');
+    var txtContactTitle = document.getElementById('ctl00_ContentPlaceHolder1_txtContactTitle');
+    var txtContactPhone = document.getElementById('ctl00_ContentPlaceHolder1_txtContactPhone');
+    var txtContactFax = document.getElementById('ctl00_ContentPlaceHolder1_txtContactFax');
+    var txtContactEmail = document.getElementById('ctl00_ContentPlaceHolder1_txtContactEmail');
+    var drpRegion = document.getElementById('ctl00_ContentPlaceHolder1_drpRegion');
+    var hdnPK_Building_Ownership_ID = document.getElementById('ctl00_ContentPlaceHolder1_hdnPK_Building_Ownership_ID');
+    var txtSublease = document.getElementById('ctl00_ContentPlaceHolder1_txtSubleaseName');
+    var txtLandlord = document.getElementById('ctl00_ContentPlaceHolder1_txtLandlordName');
+    var BuildingGridAdd = document.getElementById('ctl00_ContentPlaceHolder1_lnkAddBuilding');
+    var BuildingGrid = document.getElementById('ctl00_ContentPlaceHolder1_gvBuildingInformation');
+    var op = '<%=StrOperation%>';
+
+        txtName.disabled = SubleaseYes.checked;
+        txtContactLastName.disabled = SubleaseYes.checked;
+        txtContactFirstName.disabled = SubleaseYes.checked;
+        txtContactTitle.disabled = SubleaseYes.checked;
+        txtContactPhone.disabled = SubleaseYes.checked;
+        txtContactFax.disabled = SubleaseYes.checked;
+        txtContactEmail.disabled = SubleaseYes.checked;
+        BuildingGridAdd.disabled = SubleaseYes.checked;
+        ddlDBA.disabled = SubleaseYes.checked;
+        btnInsuredname.disabled = !SubleaseYes.checked;
+
         if (SubleaseYes.checked) {
-            btnInsuredname.disabled = false;
-            ddlDBA.disabled = true;
-        }
-        else if (SubleaseNo.checked) {
-            btnInsuredname.disabled = true;
-            ddlDBA.disabled = false;
-        }
-    }
+            var tmpBuilding_Number = document.getElementById('ctl00_ContentPlaceHolder1_hdnBuilding_Number').value;
+            txtSublease.value = document.getElementById('ctl00_ContentPlaceHolder1_hdntxtName').value;
+            txtLandlord.value = document.getElementById('ctl00_ContentPlaceHolder1_hdnLandlordName').value;
 
-    function onSubleaseChange() {
-        var SubleaseYes = document.getElementById("ctl00_ContentPlaceHolder1_rdoSubleaseAgreement_0");
-        var SubleaseNo = document.getElementById("ctl00_ContentPlaceHolder1_rdoSubleaseAgreement_1");
-        var btnInsuredname = document.getElementById('ctl00_ContentPlaceHolder1_btnInsuredName');
-        var ddlDBA = document.getElementById('ctl00_ContentPlaceHolder1_ddlDBA');
-        var txtName = document.getElementById('ctl00_ContentPlaceHolder1_txtName');
-        var txtContactLastName = document.getElementById('ctl00_ContentPlaceHolder1_txtContactLastName');
-        var txtContactFirstName = document.getElementById('ctl00_ContentPlaceHolder1_txtContactFirstName');
-        var txtContactTitle = document.getElementById('ctl00_ContentPlaceHolder1_txtContactTitle');
-        var txtContactPhone = document.getElementById('ctl00_ContentPlaceHolder1_txtContactPhone');
-        var txtContactFax = document.getElementById('ctl00_ContentPlaceHolder1_txtContactFax');
-        var txtContactEmail = document.getElementById('ctl00_ContentPlaceHolder1_txtContactEmail');
-        var drpRegion = document.getElementById('ctl00_ContentPlaceHolder1_drpRegion');
-        var hdnPK_Building_Ownership_ID = document.getElementById('ctl00_ContentPlaceHolder1_hdnPK_Building_Ownership_ID');
-        var txtSublease = document.getElementById('ctl00_ContentPlaceHolder1_txtSubleaseName');
-        var txtLandlord = document.getElementById('ctl00_ContentPlaceHolder1_txtLandlordName');
-        var BuildingGridAdd = document.getElementById('ctl00_ContentPlaceHolder1_lnkAddBuilding');
-        var BuildingGrid = document.getElementById('ctl00_ContentPlaceHolder1_gvBuildingInformation');
-        var op = '<%=StrOperation%>';
-
-            txtName.disabled = SubleaseYes.checked;
-            txtContactLastName.disabled = SubleaseYes.checked;
-            txtContactFirstName.disabled = SubleaseYes.checked;
-            txtContactTitle.disabled = SubleaseYes.checked;
-            txtContactPhone.disabled = SubleaseYes.checked;
-            txtContactFax.disabled = SubleaseYes.checked;
-            txtContactEmail.disabled = SubleaseYes.checked;
-            BuildingGridAdd.disabled = SubleaseYes.checked;
-            ddlDBA.disabled = SubleaseYes.checked;
-            btnInsuredname.disabled = !SubleaseYes.checked;
-
-            if (SubleaseYes.checked) {
-                var tmpBuilding_Number = document.getElementById('ctl00_ContentPlaceHolder1_hdnBuilding_Number').value;
-                txtSublease.value = document.getElementById('ctl00_ContentPlaceHolder1_hdntxtName').value;
-                txtLandlord.value = document.getElementById('ctl00_ContentPlaceHolder1_hdnLandlordName').value;
-
-                BuildingGridAdd.href = "#";
-                //Hide and Show BuildingGrid Column Building number and Remove Button
-                var grid = document.getElementById('ctl00_ContentPlaceHolder1_gvBuildingInformation');
-                if (grid != null && grid.rows.length > 1) {
-                    for (i = 0; i < grid.rows.length; i++) {
-                        grid.rows[i].cells[0].style.display = "none";
-                        grid.rows[i].cells[1].style.display = "block";
-                        grid.rows[i].cells[3].style.display = "none";
-                        grid.rows[i].cells[4].style.display = "block";
-                    }
+            BuildingGridAdd.href = "#";
+            //Hide and Show BuildingGrid Column Building number and Remove Button
+            var grid = document.getElementById('ctl00_ContentPlaceHolder1_gvBuildingInformation');
+            if (grid != null && grid.rows.length > 1) {
+                for (i = 0; i < grid.rows.length; i++) {
+                    grid.rows[i].cells[0].style.display = "none";
+                    grid.rows[i].cells[1].style.display = "block";
+                    grid.rows[i].cells[3].style.display = "none";
+                    grid.rows[i].cells[4].style.display = "block";
                 }
-                //Check Validation
-                document.getElementById('<%=Span1.ClientID %>').style.display = "none";
+            }
+            //Check Validation
+            document.getElementById('<%=Span1.ClientID %>').style.display = "none";
                 document.getElementById('<%=Span4.ClientID %>').style.display = "none";
                 document.getElementById('<%=Span6.ClientID %>').style.display = "none";
                 document.getElementById('<%=Span8.ClientID %>').style.display = "none";
@@ -405,7 +405,7 @@ function ShowPanel(index) {
                 document.getElementById('ctl00_ContentPlaceHolder1_hdnPK_Building_Ownership_ID').value = 0;
                 //Check Span Validation 
                 var ctrlIDs = document.getElementById('<%=hdnControlIDs.ClientID%>').value.split(',');
-               if (document.getElementById('<%=hdnControlIDs.ClientID%>').value != "") {
+                if (document.getElementById('<%=hdnControlIDs.ClientID%>').value != "") {
                     var i = 0;
                     for (i = 0; i < ctrlIDs.length; i++) {
                         var ctrl = document.getElementById(ctrlIDs[i]);
@@ -418,10 +418,10 @@ function ShowPanel(index) {
                                     if (rdb.checked) {
                                         if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtName')
                                             document.getElementById('<%=Span1.ClientID %>').style.display = "";
-                                       else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtContactLastName')
-                                           document.getElementById('<%=Span6.ClientID %>').style.display = "";
-                                        else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtContactFirstName')
-                                            document.getElementById('<%=Span8.ClientID %>').style.display = "";
+                                        else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtContactLastName')
+                                            document.getElementById('<%=Span6.ClientID %>').style.display = "";
+                                       else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtContactFirstName')
+                                           document.getElementById('<%=Span8.ClientID %>').style.display = "";
                                         else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtContactTitle')
                                             document.getElementById('<%=Span10.ClientID %>').style.display = "";
                                         else if (ctrl.id == 'ctl00_ContentPlaceHolder1_txtContactPhone')
@@ -548,31 +548,31 @@ function ValidateFields(sender, args) {
         args.IsValid = true;
     }
 }
-    //For Sonic Notes Validation
-    function CheckSelectedSonicNotes(buttonType) {
-        var ctrls = document.getElementsByTagName('input');
-        var i, chkID;
-        var cnt = 0;
-        chkID = "chkSelectSonicNotes";
-        for (i = 0; i < ctrls.length; i++) {
-            if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
-                if (ctrls[i].checked)
-                    cnt++;
-            }
-        }
-
-        if (cnt == 0) {
-            if (buttonType == "View")
-                alert("Please select Note(s) to View");
-            else
-                alert("Please select Note(s) to Print");
-
-            return false;
-        }
-        else {
-            return true;
+//For Sonic Notes Validation
+function CheckSelectedSonicNotes(buttonType) {
+    var ctrls = document.getElementsByTagName('input');
+    var i, chkID;
+    var cnt = 0;
+    chkID = "chkSelectSonicNotes";
+    for (i = 0; i < ctrls.length; i++) {
+        if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
+            if (ctrls[i].checked)
+                cnt++;
         }
     }
+
+    if (cnt == 0) {
+        if (buttonType == "View")
+            alert("Please select Note(s) to View");
+        else
+            alert("Please select Note(s) to Print");
+
+        return false;
+    }
+    else {
+        return true;
+    }
+}
     </script>
     <script type="text/javascript">
         var GB_ROOT_DIR = '<%=AppConfig.SiteURL%>' + 'greybox/';
@@ -1603,6 +1603,7 @@ function ValidateFields(sender, args) {
                                                             </table>
                                                         </EmptyDataTemplate>
                                                     </asp:GridView>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td class="Spacer" colspan="7" style="height: 10px;"></td>
@@ -2618,226 +2619,226 @@ function ValidateFields(sender, args) {
                                     </table>
                                 </asp:Panel>
                                 <div id="Div2" runat="server" style="display: none;">
-                                        <table cellpadding="3" cellspacing="1" border="0" width="100%">
-                                            <tr>
-                                                <td colspan="3">
-                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                                        <tr>
-                                                            <td width="45%"></td>
-                                                            <td valign="top" align="right">
-                                                                <uc:ctrlPaging ID="ctrlPageSonicNotes" runat="server" />
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                        <table cellpadding="3" cellspacing="1" border="0" width="100%">
-                                            <tr>
-                                                <td valign="top" style="width: 15%">Notes Grid<br />
-                                                    <asp:LinkButton ID="btnNotesAdd" runat="server" ValidationGroup="vsError" Text="--Add--"
-                                                        OnClick="btnNotesAdd_Click"></asp:LinkButton>
-                                                </td>
-                                                <td align="center" valign="top" style="width: 3%">:
-                                                </td>
-                                                <td style="margin-left: 40px" style="width: 650px" align="left">
-                                                    <asp:GridView ID="gvNotes" runat="server" AutoGenerateColumns="false" Width="100%"
-                                                        OnRowCommand="gvNotes_RowCommand">
-                                                        <EmptyDataRowStyle ForeColor="#7f7f7f" HorizontalAlign="Center" />
-                                                        <EmptyDataTemplate>
-                                                            <asp:Label ID="lblEmptyEmergencyMessage" runat="server" Text="No Record Found"></asp:Label>
-                                                        </EmptyDataTemplate>
-                                                        <Columns>
-                                                            <asp:TemplateField ItemStyle-VerticalAlign="Top" ItemStyle-Width="12%">
-                                                                <HeaderTemplate>
-                                                                    <input type="checkbox" id="chkMultiSelectSonicNotes" onclick="SelectDeselectAllSonicNotes(this.checked);" />Select
-                                                                </HeaderTemplate>
-                                                                <ItemTemplate>
-                                                                    <asp:CheckBox ID="chkSelectSonicNotes" runat="server" onclick="SelectDeselectNoteHeader();" />
-                                                                    <input type="hidden" id="hdnPK" runat="server" value='<%#Eval("PK_COI_Notes") %>' />
-                                                                </ItemTemplate>
-                                                            </asp:TemplateField>
-                                                            <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top"
-                                                                HeaderText="Note Date">
-                                                                <ItemTemplate>
-                                                                    <asp:LinkButton ID="lbtNote_Date" runat="server" Text='<%# string.Format("{0:MM/dd/yyyy}", Eval("Note_Date")) %>'
-                                                                        CommandName="EditRecord" CommandArgument='<%#Eval("PK_COI_Notes") %>' Width="80px"></asp:LinkButton>
-                                                                </ItemTemplate>
-                                                            </asp:TemplateField>
-                                                            <%-- <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top"
+                                    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                        <tr>
+                                            <td colspan="3">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tr>
+                                                        <td width="45%"></td>
+                                                        <td valign="top" align="right">
+                                                            <uc:ctrlPaging ID="ctrlPageSonicNotes" runat="server" />
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                        <tr>
+                                            <td valign="top" style="width: 15%">Notes Grid<br />
+                                                <asp:LinkButton ID="btnNotesAdd" runat="server" ValidationGroup="vsError" Text="--Add--"
+                                                    OnClick="btnNotesAdd_Click"></asp:LinkButton>
+                                            </td>
+                                            <td align="center" valign="top" style="width: 3%">:
+                                            </td>
+                                            <td style="margin-left: 40px" style="width: 650px" align="left">
+                                                <asp:GridView ID="gvNotes" runat="server" AutoGenerateColumns="false" Width="100%"
+                                                    OnRowCommand="gvNotes_RowCommand">
+                                                    <EmptyDataRowStyle ForeColor="#7f7f7f" HorizontalAlign="Center" />
+                                                    <EmptyDataTemplate>
+                                                        <asp:Label ID="lblEmptyEmergencyMessage" runat="server" Text="No Record Found"></asp:Label>
+                                                    </EmptyDataTemplate>
+                                                    <Columns>
+                                                        <asp:TemplateField ItemStyle-VerticalAlign="Top" ItemStyle-Width="12%">
+                                                            <HeaderTemplate>
+                                                                <input type="checkbox" id="chkMultiSelectSonicNotes" onclick="SelectDeselectAllSonicNotes(this.checked);" />Select
+                                                            </HeaderTemplate>
+                                                            <ItemTemplate>
+                                                                <asp:CheckBox ID="chkSelectSonicNotes" runat="server" onclick="SelectDeselectNoteHeader();" />
+                                                                <input type="hidden" id="hdnPK" runat="server" value='<%#Eval("PK_COI_Notes") %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top"
+                                                            HeaderText="Note Date">
+                                                            <ItemTemplate>
+                                                                <asp:LinkButton ID="lbtNote_Date" runat="server" Text='<%# string.Format("{0:MM/dd/yyyy}", Eval("Note_Date")) %>'
+                                                                    CommandName="EditRecord" CommandArgument='<%#Eval("PK_COI_Notes") %>' Width="80px"></asp:LinkButton>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <%-- <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top"
                                                             HeaderText="User">
                                                             <ItemTemplate>
                                                                 <asp:LinkButton ID="lbtUser_Name" runat="server" Text='<%# Eval("User_Name") %>'
                                                                     CommandName="EditRecord" CommandArgument='<%#Eval("PK_COI_Notes") %>' Width="100px"></asp:LinkButton>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>--%>
-                                                            <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top"
-                                                                HeaderText="Notes">
-                                                                <ItemTemplate>
-                                                                    <asp:LinkButton ID="lbtNotes" runat="server" Text='<%# Eval("Note") %>' CommandName="EditRecord"
-                                                                        CommandArgument='<%#Eval("PK_COI_Notes") %>' Width="310px" CssClass="TextClip"></asp:LinkButton>
-                                                                </ItemTemplate>
-                                                            </asp:TemplateField>
-                                                            <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top"
-                                                                HeaderText="Remove">
-                                                                <ItemTemplate>
-                                                                    <asp:LinkButton ID="lbtDelete" runat="server" Text="Remove" CommandName="Remove"
-                                                                        CommandArgument='<%#Eval("PK_COI_Notes") %>' OnClientClick="javascript:return confirm('Are you sure you want delete selected record?');"
-                                                                        Width="80px"></asp:LinkButton>
-                                                                </ItemTemplate>
-                                                            </asp:TemplateField>
-                                                        </Columns>
-                                                    </asp:GridView>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="3" align="center">
-                                                    <asp:Button ID="btnView" runat="server" Text=" View " OnClick="btnView_Click" OnClientClick="return CheckSelectedSonicNotes('View');" />&nbsp;&nbsp;
+                                                        <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top"
+                                                            HeaderText="Notes">
+                                                            <ItemTemplate>
+                                                                <asp:LinkButton ID="lbtNotes" runat="server" Text='<%# Eval("Note") %>' CommandName="EditRecord"
+                                                                    CommandArgument='<%#Eval("PK_COI_Notes") %>' Width="310px" CssClass="TextClip"></asp:LinkButton>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                        <asp:TemplateField ItemStyle-HorizontalAlign="Left" ItemStyle-VerticalAlign="Top"
+                                                            HeaderText="Remove">
+                                                            <ItemTemplate>
+                                                                <asp:LinkButton ID="lbtDelete" runat="server" Text="Remove" CommandName="Remove"
+                                                                    CommandArgument='<%#Eval("PK_COI_Notes") %>' OnClientClick="javascript:return confirm('Are you sure you want delete selected record?');"
+                                                                    Width="80px"></asp:LinkButton>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
+                                                    </Columns>
+                                                </asp:GridView>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" align="center">
+                                                <asp:Button ID="btnView" runat="server" Text=" View " OnClick="btnView_Click" OnClientClick="return CheckSelectedSonicNotes('View');" />&nbsp;&nbsp;
                                                             <asp:Button ID="btnPrint" runat="server" Text=" Print " OnClick="btnPrint_Click"
                                                                 OnClientClick="return CheckSelectedSonicNotes('Print');" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;
-                                                </td>
-                                            </tr>
-                                        </table>
-                                        <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                                            <tr>
-                                                <td width="5px" class="Spacer">&nbsp;
-                                                </td>
-                                                <td class="dvContainer">
-                                                    <div id="DivEditNotes" runat="server" width="794px" style="display: none">
-                                                        <div class="bandHeaderRow">
-                                                            Notes
-                                                        </div>
-                                                        <table cellpadding="3" cellspacing="1" border="0" width="100%">
-                                                            <tr>
-                                                                <td align="left" width="18%" valign="top">Date of Note&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server">*</span>
-                                                                </td>
-                                                                <td align="center" width="4%" valign="top">:
-                                                                </td>
-                                                                <td align="left" width="28%" valign="top">
-                                                                    <asp:TextBox ID="txtNote_Date" runat="server" Width="170px" SkinID="txtDate" MaxLength="10"></asp:TextBox>
-                                                                    <img alt="Date of Note" onclick="return showCalendar('<%= txtNote_Date.ClientID %>', 'mm/dd/y');"
-                                                                        onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
-                                                                        align="middle" id="imgtxtNote_Date" />
-                                                                    <asp:RegularExpressionValidator ID="rvtxtNote_Date" runat="server" ControlToValidate="txtNote_Date"
-                                                                        ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"
-                                                                        ErrorMessage="[Notes]/Date of Note is Not Valid Date." Display="none" SetFocusOnError="true">
-                                                                    </asp:RegularExpressionValidator>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" width="18%" valign="top">Notes&nbsp;<span id="Span7" style="color: Red; display: none;" runat="server">*</span>
-                                                                </td>
-                                                                <td align="center" width="4%" valign="top">:
-                                                                </td>
-                                                                <td align="left" width="28%" valign="top">
-                                                                    <uc:ctrlMultiLineTextBox ID="CtrlMultiLineTextBox1" ControlType="TextBox" runat="server" />
-                                                                </td>
-                                                            </tr>
-                                                        </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                        <tr>
+                                            <td width="5px" class="Spacer">&nbsp;
+                                            </td>
+                                            <td class="dvContainer">
+                                                <div id="DivEditNotes" runat="server" width="794px" style="display: none">
+                                                    <div class="bandHeaderRow">
+                                                        Notes
                                                     </div>
-                                                    <div id="DivViewNotes" runat="server" width="794px" style="display: none">
-                                                        <div class="bandHeaderRow">
-                                                            Notes
-                                                        </div>
-                                                        <table cellpadding="3" cellspacing="1" border="0" width="100%">
-                                                            <tr>
-                                                                <td align="left" width="18%" valign="top">Date of Note
-                                                                </td>
-                                                                <td align="center" width="4%" valign="top">:
-                                                                </td>
-                                                                <td align="left" width="28%" valign="top">
-                                                                    <asp:Label ID="lblNote_Date" runat="server"></asp:Label>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" width="18%" valign="top">Notes
-                                                                </td>
-                                                                <td align="center" width="4%" valign="top">:
-                                                                </td>
-                                                                <td align="left" width="28%" valign="top">
-                                                                    <uc:ctrlMultiLineTextBox ID="CtrlMultiLineTextBox2" ControlType="Label" runat="server" />
-                                                                </td>
-                                                            </tr>
-                                                        </table>
+                                                    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                        <tr>
+                                                            <td align="left" width="18%" valign="top">Date of Note&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server">*</span>
+                                                            </td>
+                                                            <td align="center" width="4%" valign="top">:
+                                                            </td>
+                                                            <td align="left" width="28%" valign="top">
+                                                                <asp:TextBox ID="txtNote_Date" runat="server" Width="170px" SkinID="txtDate" MaxLength="10"></asp:TextBox>
+                                                                <img alt="Date of Note" onclick="return showCalendar('<%= txtNote_Date.ClientID %>', 'mm/dd/y');"
+                                                                    onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
+                                                                    align="middle" id="imgtxtNote_Date" />
+                                                                <asp:RegularExpressionValidator ID="rvtxtNote_Date" runat="server" ControlToValidate="txtNote_Date"
+                                                                    ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"
+                                                                    ErrorMessage="[Notes]/Date of Note is Not Valid Date." Display="none" SetFocusOnError="true">
+                                                                </asp:RegularExpressionValidator>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" width="18%" valign="top">Notes&nbsp;<span id="Span7" style="color: Red; display: none;" runat="server">*</span>
+                                                            </td>
+                                                            <td align="center" width="4%" valign="top">:
+                                                            </td>
+                                                            <td align="left" width="28%" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="CtrlMultiLineTextBox1" ControlType="TextBox" runat="server" />
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div id="DivViewNotes" runat="server" width="794px" style="display: none">
+                                                    <div class="bandHeaderRow">
+                                                        Notes
                                                     </div>
-                                                    <div id="DivNotesList" runat="server" width="794px" style="display: none">
-                                                        <div class="bandHeaderRow">
-                                                            Notes
-                                                        </div>
-                                                        <table cellpadding="1" cellspacing="1" width="100%">
-                                                            <tr>
-                                                                <td width="100%">
-                                                                    <div style="width: 785px; height: 370px; overflow-x: hidden; overflow-y: scroll;">
-                                                                        <asp:Repeater ID="rptNotes" runat="server">
-                                                                            <ItemTemplate>
-                                                                                <table cellpadding="1" cellspacing="1" width="100%">
-                                                                                    <tr>
-                                                                                        <td align="left" valign="top">
-                                                                                            <table cellpadding="3" cellspacing="1" width="100%">
-                                                                                                <tr>
-                                                                                                    <td width="18%" align="left" valign="top">Date of Note
-                                                                                                    </td>
-                                                                                                    <td width="4%" align="center" valign="top">:
-                                                                                                    </td>
-                                                                                                    <td align="left" valign="top">
-                                                                                                        <%#clsGeneral.FormatDBNullDateToDisplay(Eval("Note_Date"))%>
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                                <tr>
-                                                                                                    <td align="left" valign="top">Notes
-                                                                                                    </td>
-                                                                                                    <td align="center" valign="top">:
-                                                                                                    </td>
-                                                                                                    <td align="left" valign="top" colspan="4">
-                                                                                                        <uc:ctrlMultiLineTextBox ID="lblNoteText" runat="server" Text='<%# Eval("Note") %>'
-                                                                                                            ControlType="Label" Width="540" />
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                            </table>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr style="height: 30px">
-                                                                                        <td colspan="2" style="vertical-align: middle;">
-                                                                                            <hr size="1" color="Black" style="width: 758px;" />
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </table>
-                                                                            </ItemTemplate>
-                                                                        </asp:Repeater>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>&nbsp;
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="center">
-                                                                    <asp:Button ID="btnPrintSelectedNotes" runat="server" Text=" Print " OnClick="btnPrintSelectedNotes_Click"
-                                                                        CausesValidation="false" />&nbsp;
+                                                    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                        <tr>
+                                                            <td align="left" width="18%" valign="top">Date of Note
+                                                            </td>
+                                                            <td align="center" width="4%" valign="top">:
+                                                            </td>
+                                                            <td align="left" width="28%" valign="top">
+                                                                <asp:Label ID="lblNote_Date" runat="server"></asp:Label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" width="18%" valign="top">Notes
+                                                            </td>
+                                                            <td align="center" width="4%" valign="top">:
+                                                            </td>
+                                                            <td align="left" width="28%" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="CtrlMultiLineTextBox2" ControlType="Label" runat="server" />
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div id="DivNotesList" runat="server" width="794px" style="display: none">
+                                                    <div class="bandHeaderRow">
+                                                        Notes
+                                                    </div>
+                                                    <table cellpadding="1" cellspacing="1" width="100%">
+                                                        <tr>
+                                                            <td width="100%">
+                                                                <div style="width: 785px; height: 370px; overflow-x: hidden; overflow-y: scroll;">
+                                                                    <asp:Repeater ID="rptNotes" runat="server">
+                                                                        <ItemTemplate>
+                                                                            <table cellpadding="1" cellspacing="1" width="100%">
+                                                                                <tr>
+                                                                                    <td align="left" valign="top">
+                                                                                        <table cellpadding="3" cellspacing="1" width="100%">
+                                                                                            <tr>
+                                                                                                <td width="18%" align="left" valign="top">Date of Note
+                                                                                                </td>
+                                                                                                <td width="4%" align="center" valign="top">:
+                                                                                                </td>
+                                                                                                <td align="left" valign="top">
+                                                                                                    <%#clsGeneral.FormatDBNullDateToDisplay(Eval("Note_Date"))%>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td align="left" valign="top">Notes
+                                                                                                </td>
+                                                                                                <td align="center" valign="top">:
+                                                                                                </td>
+                                                                                                <td align="left" valign="top" colspan="4">
+                                                                                                    <uc:ctrlMultiLineTextBox ID="lblNoteText" runat="server" Text='<%# Eval("Note") %>'
+                                                                                                        ControlType="Label" Width="540" />
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </table>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr style="height: 30px">
+                                                                                    <td colspan="2" style="vertical-align: middle;">
+                                                                                        <hr size="1" color="Black" style="width: 758px;" />
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </ItemTemplate>
+                                                                    </asp:Repeater>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>&nbsp;
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="center">
+                                                                <asp:Button ID="btnPrintSelectedNotes" runat="server" Text=" Print " OnClick="btnPrintSelectedNotes_Click"
+                                                                    CausesValidation="false" />&nbsp;
                                                         <asp:Button ID="btnCancel" runat="server" Text=" Return " OnClick="btnCancel_Click"
                                                             CausesValidation="false" />&nbsp;
                                                         <asp:Button ID="btnMail" runat="server" Text=" Mail " OnClientClick="return OpenMailPopUp();"
                                                             CausesValidation="false" />
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>&nbsp;
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>&nbsp;
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </div>
                             </td>
                         </tr>

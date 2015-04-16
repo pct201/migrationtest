@@ -45,20 +45,21 @@ public partial class COIInfo : System.Web.UI.UserControl
     /// </summary>
     public void BindrCOIInfo()
     {
-            // Get Information from databse
-            COIs objCOI = new COIs(PK_COIs);
-            LU_Location objLocation = new LU_Location(Convert.ToDecimal(objCOI.FK_LU_Location_ID));
-            COI_Insureds objInsured = new COI_Insureds(objCOI.FK_COI_Insureds);
+        // Get Information from databse
+        COIs objCOI = new COIs(PK_COIs);
+        LU_Location objLocation = new LU_Location(Convert.ToDecimal(objCOI.FK_LU_Location_ID));
+        COI_Insureds objInsured = new COI_Insureds(objCOI.FK_COI_Insureds);
 
-            lblDBALocationName.Text = Convert.ToString(objLocation.dba);
-            if (objLocation.Sonic_Location_Code < 0)
-            {
-                lblSonicLocationNo.Text = "";
-            }
-            else
-                lblSonicLocationNo.Text = Convert.ToString(objLocation.Sonic_Location_Code);
-            lblInsuredName.Text = Convert.ToString(objInsured.Insured_Name);
-            lblIssueDate.Text = clsGeneral.FormatDate(objCOI.Issue_Date);
-            lblEffectiveDate.Text = clsGeneral.FormatDate(objInsured.Date_Closed);
-      }
+        lblDBALocationName.Text = Convert.ToString(objLocation.dba);
+        if (objLocation.Sonic_Location_Code < 0)
+        {
+            lblSonicLocationNo.Text = "";
+        }
+        else
+            lblSonicLocationNo.Text = Convert.ToString(objLocation.Sonic_Location_Code);
+        lblInsuredName.Text = Convert.ToString(objInsured.Insured_Name);
+        if (objCOI.Issue_Date.HasValue)
+            lblIssueDate.Text = clsGeneral.FormatDate(objCOI.Issue_Date.Value);
+        lblEffectiveDate.Text = clsGeneral.FormatDate(objInsured.Date_Closed);
+    }
 }
