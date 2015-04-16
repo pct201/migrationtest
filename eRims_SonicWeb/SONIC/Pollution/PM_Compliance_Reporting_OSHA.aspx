@@ -127,20 +127,41 @@
             obj.focus();
             return false;
         }
-        function ValidateFields(sender, args) {
+        function ValidateFields(sender, args) {            
             var msg = '';
             var ctrlIDs = document.getElementById('<%=hdnControlIDs.ClientID%>').value.split(',');
-            var Messages = document.getElementById('<%=hdnErrorMsgs.ClientID%>').value.split(',');
+            var Messages = document.getElementById('<%=hdnErrorMsgs.ClientID%>').value.split(',');              
+
             var focusCtrlID = "";
             if (document.getElementById('<%=hdnControlIDs.ClientID%>').value != "") {
                 var i = 0;
                 for (i = 0; i < ctrlIDs.length; i++) {
                     var bEmpty = false;
                     var ctrl = document.getElementById(ctrlIDs[i]);
-                    switch (ctrl.type) {
-                        case "textarea":
-                        case "text": if (ctrl.value == '') bEmpty = true; break;
-                        case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
+                    
+                    if(ctrl != null)
+                    {
+                        switch (ctrl.type)
+                        {
+                            case "textarea": if (ctrl.value == '') bEmpty = true; break;
+                            case "text": if (ctrl.value == '') bEmpty = true; break;
+                            case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
+                            case undefined:
+                                if (ctrl.tagName == "TABLE") {
+                                    var rdbtnLstValues = ctrl.getElementsByTagName("input");
+                                    var Checkdvalue;
+                                    for (var j = 0; j < rdbtnLstValues.length; j++) {
+                                        if (rdbtnLstValues[j].checked) {
+                                            Checkdvalue = rdbtnLstValues[j];
+                                            break;
+                                        }
+                                    }
+                                    if (!Checkdvalue) {
+                                        bEmpty = true;
+                                    }
+                                };
+                                break;
+                        }
                     }
                     //if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
                     if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
@@ -239,7 +260,7 @@
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
-                                                            <asp:RadioButtonList ID="rdoLogPosted" runat="server" SkinID="YesNoType" AutoPostBack="true" OnSelectedIndexChanged="rdoLogPosted_SelectedIndexChanged">
+                                                            <asp:RadioButtonList ID="rdoLogPosted" runat="server" SkinID="YNTypeNullSelection" AutoPostBack="true" OnSelectedIndexChanged="rdoLogPosted_SelectedIndexChanged">
                                                             </asp:RadioButtonList>
                                                         </td>
                                                     </tr>
@@ -285,6 +306,20 @@
                                                         <td align="left" valign="top">
                                                             <asp:TextBox ID="txtTotalNumberofAssociates" runat="server" Width="170px" onkeypress="return numberOnly(event);" autocomplete="off"
                                                                 MaxLength="6" onpaste="return false" />
+                                                        </td>
+                                                    </tr>
+                                                      <tr>
+                                                        <td align="left" valign="top">
+                                                            SIC Code&nbsp;
+                                                        </td>
+                                                        <td align="center" valign="top">
+                                                            :
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:TextBox ID="txtSIC" runat="server" Width="150px" ReadOnly="true" />                                                            
+                                                        </td>
+                                                        <td align="left" valign="top" colspan="3">
+                                                            <asp:Label ID="lblSIC" runat="server" />                                                            
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -387,6 +422,20 @@
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblTotalNumberofAssociates" runat="server"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                       <tr>
+                                                        <td align="left" valign="top">
+                                                            SIC Code&nbsp;
+                                                        </td>
+                                                        <td align="center" valign="top">
+                                                            :
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblvwSICCode" runat="server" Width="150px" ReadOnly="true" SkinID="txtDisabled" />                                                            
+                                                        </td>
+                                                        <td align="left" valign="top" colspan="3">
+                                                            <asp:Label ID="lblvwSICDesc" runat="server" />                                                            
                                                         </td>
                                                     </tr>
                                                     <tr>

@@ -133,7 +133,7 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
             Attachment.Table_Name = "PM_Attachments";
             AttachDetails.Table_Name = "PM_Attachments";
             Attachment.BindAttachmentType();
-
+            
             // check if location id is passed in querystring or not
             if (Request.QueryString["loc"] != null)
             {
@@ -443,6 +443,7 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
             txtSIC.Text = objSIC.Fld_Code;
             lblSIC.Text = strDesc;
             txtSICDesc.Text = Server.HtmlEncode(strDesc);
+            Session["SIC"] = txtSIC.Text + ":" + lblSIC.Text;
         }
 
         // if NAICS ID is avaialble then set all level descriptions
@@ -700,6 +701,8 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         txtSIC.Text = Request.Form[txtSIC.UniqueID];
         txtSICDesc.Text = Request.Form[txtSICDesc.UniqueID];
         lblSIC.Text = Server.HtmlDecode(txtSICDesc.Text);
+
+        Session["SIC"] = txtSIC.Text + ":" + lblSIC.Text;
 
         // NAICS popup values
         txtNAICS.Text = Request.Form[txtNAICS.UniqueID];
@@ -1184,7 +1187,7 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
     protected void lnkComplainceReportingOSHA_Click(object sender, EventArgs e)
     {
         if (PK_PM_Compliance_Reporting > 0)
-        {
+        {            
             string strURL = "PM_Compliance_Reporting_OSHA.aspx?";
             strURL = strURL + "fid=" + Encryption.Encrypt(PK_PM_Compliance_Reporting.ToString()) + "&loc=" + Request.QueryString["loc"];
             Response.Redirect(strURL);
@@ -1398,7 +1401,23 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
             BindGridOshaLog();
             Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "Javascript:ShowPanel(" + 3 + ");", true);
         }
-    }    
+    }
+
+    public string CheckStatus(object myValue)
+    {
+        if (myValue.ToString() == "Y")
+        {
+            return "Yes";
+        }
+        else if (myValue.ToString() == "N")
+        {
+            return "No";
+        }
+        else
+        {
+            return string.Empty;
+        }
+    }
 
     #endregion
 

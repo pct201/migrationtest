@@ -1013,7 +1013,7 @@
                                                                     <asp:TemplateField HeaderText="Feb 1 Log Posting" HeaderStyle-HorizontalAlign="Center">
                                                                         <ItemStyle Width="15%" HorizontalAlign="center" />
                                                                         <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkLog_Posted_Feb_1" runat="server" Text='<%# Eval("Log_Posted_Feb_1").ToString() == "N" ? "No" : "Yes" %>'
+                                                                            <asp:LinkButton ID="lnkLog_Posted_Feb_1" runat="server" Text='<%# CheckStatus(Eval("Log_Posted_Feb_1")) %>'
                                                                                 CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
@@ -2277,7 +2277,7 @@
                                                                     <asp:TemplateField HeaderText="Feb 1 Log Posting" HeaderStyle-HorizontalAlign="Center">
                                                                         <ItemStyle Width="15%" HorizontalAlign="center" />
                                                                         <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkLog_Posted_Feb_1" runat="server" Text='<%# Eval("Log_Posted_Feb_1").ToString() == "N" ? "No" : "Yes" %>'
+                                                                            <asp:LinkButton ID="lnkLog_Posted_Feb_1" runat="server" Text='<%# CheckStatus(Eval("Log_Posted_Feb_1")) %>'
                                                                                 CommandName="ViewDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
