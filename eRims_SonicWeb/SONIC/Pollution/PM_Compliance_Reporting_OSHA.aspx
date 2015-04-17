@@ -105,8 +105,10 @@
             //            document.getElementById('ctl00_ContentPlaceHolder1_Attachment_cstFile').enabled = false;
             if (Page_ClientValidate('vsErrorGroup'))
                 return true;
-            else
+            else {
+                Page_BlockSubmit = false;
                 return false;
+            }
         }
 
         function ValAttach() {
@@ -169,6 +171,7 @@
                 if (msg.length > 0) {
                     sender.errormessage = msg;
                     args.IsValid = false;
+                    
                 }
                 else
                     args.IsValid = true;
