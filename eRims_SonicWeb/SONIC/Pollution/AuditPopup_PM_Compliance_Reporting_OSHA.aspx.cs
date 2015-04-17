@@ -81,5 +81,20 @@ public partial class SONIC_Pollution_AuditPopup_PM_Compliance_Reporting_OSHA : S
         dt = null;
     }
 
+    public string CheckStatus(object myValue)
+    {
+        if (myValue.ToString() == "Y")
+        {
+            return "Yes";
+        }
+        else if (myValue.ToString() == "N")
+        {
+            return "No";
+        }
+        else
+        {
+            return string.Empty;
+        }
+    }
     #endregion
 }

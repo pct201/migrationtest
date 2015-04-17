@@ -108,7 +108,7 @@
                                 <asp:TemplateField HeaderText="Feb 1 Log Posting">
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
-                                        <asp:Label ID="lnkLog_Posted_Feb_1" runat="server" Text='<%# Eval("Log_Posted_Feb_1").ToString() == "N" ? "No" : "Yes" %>'
+                                        <asp:Label ID="lnkLog_Posted_Feb_1" runat="server" Text='<%# CheckStatus(Eval("Log_Posted_Feb_1")) %>'
                                             CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Compliance_Reporting_OSHA") %>' Width="150px" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
