@@ -1,0 +1,93 @@
+/*****************	Date: 03-04-2015   *****************/
+Database:
+	Tables: [PM_Waste_Removal] and [PM_Waste_Removal_Audit]
+		Add Field : [EPA_ID_Number] NVARCHAR 75
+	SP: 1. PM_Waste_RemovalInsert (update)
+		2. PM_Waste_RemovalSelectByPK (update)
+		3. PM_Waste_RemovalSelectAll (update)
+		4. PM_Waste_RemovalUpdate (update)
+		5. PM_Waste_Removal_AuditView (update)
+
+/*****************	Date: 06-04-2015   *****************/
+Database:
+	Tables: (Have a query in this work, whether Access specifier has to be a part of this code or not)
+		New Tables : 
+			[Facility_Construction_Project], 
+			[Facility_Construction_Project_Audit], 
+			[Facility_Construction_PM_Buildings], 
+			[Facility_Construction_PM_Buildings_Audit] 
+			[LU_Facility_Project_Type]
+	SP: 1. SelectConstructionProjectsByLoction (new)
+		2. Facility_Construction_ProjectDelete (new)
+		3. Facility_Construction_ProjectInsert (new)
+		4. Facility_Construction_ProjectSelect (new)
+		5. Facility_Construction_ProjectSelectAll (new)
+		6. Facility_Construction_ProjectUpdate (new)
+		
+/*****************	Date: 07-04-2015   *****************/
+Database:
+	SP: 1. Facility_Construction_PM_BuildingsDelete (new)
+		2. Facility_Construction_PM_BuildingsInsert (new)
+		3. Facility_Construction_PM_BuildingsSelect (new)
+		4. Facility_Construction_PM_BuildingsSelectAll (new)
+		5. Facility_Construction_PM_BuildingsUpdate (new)
+		6. BuildingSelectByFacilityConstructionProjectId (new)
+		7. SelectBuildingsBasedOnConstrctionProjectId (new)
+		8. DeleteBuildingsByConstructionProjectId (new)
+		
+/*****************	Date: 09-04-2015   *****************/
+Database:
+	Tables:
+		New Tables : 
+			[FCP_Attachments], 
+			[LU_FCP_Attachment_Type]
+	SP:  1. FCP_AttachmentsByAttachmentID (new)
+		 2. FCP_AttachmentsFolderAndCount (new)
+		 3. FCP_AttachmentsSelectByAttachmentType (new)
+		 4. FCP_AttachmentsInsert (new)
+		 5. FCP_AttachmentsSelect (new)
+		 6. FCP_AttachmentsSelectAll (new)
+		 7. FCP_AttachmentsUpdate (new)
+		 8. FCP_AttachmentsDelete (new)
+		 9. LU_FCP_Attachment_TypeInsert (new)
+		10. LU_FCP_Attachment_TypeSelect (new)
+		11. LU_FCP_Attachment_TypeSelectAll (new)
+		12. LU_FCP_Attachment_TypeUpdate (new)
+		13. LU_FCP_Attachment_TypeDelete (new)
+		14. SelectConstructionProjectsAudit (new)
+		
+/*****************	Date: 10-04-2015   *****************/
+Database:
+	SP:
+		1. ExposuresSearch (new)
+		 
+/*****************	Date: 13-04-2015   *****************/
+Database:
+	SP:
+		1. LU_Facility_Project_TypeCheck (new)
+
+/*****************	Date: 14-04-2015   *****************/
+Database:
+	SP:
+		1. LU_FC_Document_FolderSelectAllRecords (new)
+
+/*****************	Date: 15-04-2015   *****************/
+Database:
+	Tables:
+		New Tables:
+			[LU_FC_Document_Folder_Rights]
+			[Assoc_LU_FC_Document_Folder_Rights]
+	SP:
+		1. LU_FC_Document_Folder_RightsSelectByPK (new)
+		2. LU_FC_Document_Folder_RightsInsert (new)
+		3. LU_FC_Document_Folder_RightsDeleteByFK (new)
+		4. Assoc_LU_FC_Document_Folder_RightsInsert (new)
+		5. Assoc_LU_FC_Document_Folder_RightsSelectByPK (new)
+		6. Assoc_LU_FC_Document_Folder_RightsSelectAll (new)
+		7. Assoc_LU_FC_Document_Folder_RightsUpdate (new)
+		8. Assoc_LU_FC_Document_Folder_RightsDeleteByPK (new)
+		9. LU_FC_Document_Folder_RightsSelectAll (new)
+		10. Assoc_LU_FC_Document_Folder_RightsSelectByUserId (new)
+		11. Assoc_LU_FC_Document_Folder_RightsDeleteByUserId (new)
+
+		
