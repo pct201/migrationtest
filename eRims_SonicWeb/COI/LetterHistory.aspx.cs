@@ -50,13 +50,13 @@ public partial class Admin_LetterHistory : clsBasePage
                 // if id is passed set primary key.
                 if (!clsGeneral.IsNull(Request.QueryString["id"]))
                 {
-                 //   PK_COI_Letter_History = Convert.ToInt32(Request.QueryString["id"]);
+                    //   PK_COI_Letter_History = Convert.ToInt32(Request.QueryString["id"]);
                     PK_COI_Letter_History = (int)clsGeneral.GetQueryStringID(Request.QueryString["id"]);
                     BindDetailsForView();
                     if (App_Access == AccessType.Administrative_Access)
                     {
                         // set Attachment details control in read/write mode.
-                        AttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.Letter_History, PK_COI_Letter_History, true,0);
+                        AttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.Letter_History, PK_COI_Letter_History, true, 0);
                         BindAttachmentDetails();
                     }
                 }
@@ -65,7 +65,7 @@ public partial class Admin_LetterHistory : clsBasePage
                     Response.Redirect("Default.aspx");
                 }
             }
-        }        
+        }
     }
 
     #endregion
@@ -83,7 +83,10 @@ public partial class Admin_LetterHistory : clsBasePage
         COIs objCOI = new COIs(objLetterHistory.FK_COIs);
         COI_Insureds objInsured = new COI_Insureds(objCOI.FK_COI_Insureds);
         lblInsured.Text = clsGeneral.FormatName(objInsured.Contact_First_Name, objInsured.Contact_Last_Name);
-        lblIssueDate.Text = objCOI.Issue_Date.ToString(AppConfig.DisplayDateFormat);
+
+        if (objCOI.Issue_Date.HasValue)
+            lblIssueDate.Text = objCOI.Issue_Date.Value.ToString(AppConfig.DisplayDateFormat);
+
         lblDateLetterSent.Text = objLetterHistory.Date_Letter_Sent.ToString(AppConfig.DisplayDateFormat);
         lblNoncomplianceLevel.Text = new COI_Noncompliance_Level(objLetterHistory.FK_COI_Noncompliance_Level).Fld_Desc;
         lblGeneral.Text = new COI_Coverage_Status(objLetterHistory.FK_COI_Coverage_Status_General).Fld_Desc;
@@ -93,8 +96,8 @@ public partial class Admin_LetterHistory : clsBasePage
         lblExcess.Text = new COI_Coverage_Status(objLetterHistory.FK_COI_Coverage_Status_Excess).Fld_Desc;
         lblProfessional.Text = new COI_Coverage_Status(objLetterHistory.FK_COI_Coverage_Status_Prfessional).Fld_Desc;
 
-        lblCancellationNotice.Text = (objLetterHistory.Cancellation_Notice == "Y") ? "NO" : "YES";       
-        lblSignedCertificate.Text = (objLetterHistory.Signed_Certificate_Received == "Y") ? "NO" : "YES";       
+        lblCancellationNotice.Text = (objLetterHistory.Cancellation_Notice == "Y") ? "NO" : "YES";
+        lblSignedCertificate.Text = (objLetterHistory.Signed_Certificate_Received == "Y") ? "NO" : "YES";
         lblAMBestRating.Text = (objLetterHistory.AM_Best == "Y") ? "NO" : "YES";
         lblOrdinanceOrLaw.Text = (objLetterHistory.Ordinance_Law == "Y") ? "NO" : "YES";
         lblSubrogation.Text = (objLetterHistory.Subrogation_Waiver == "Y") ? "NO" : "YES";
@@ -108,7 +111,7 @@ public partial class Admin_LetterHistory : clsBasePage
         BindComplianceGridForView();
 
     }
-   
+
     /// <summary>
     /// Handle Attachment Control Add Attachment Event
     /// </summary>
@@ -162,7 +165,7 @@ public partial class Admin_LetterHistory : clsBasePage
         dlComplianceView.DataSource = dtTemp;
         dlComplianceView.DataBind();
     }
-    
+
     /// <summary>
     /// Compliance Item Data Bound Event 
     /// </summary>

@@ -87,7 +87,7 @@ public partial class SONIC_Exposures_COIMail : System.Web.UI.Page
                         else
                             strLocationName = Convert.ToString(objLocation.Sonic_Location_Code);
                             strInsuredName = Convert.ToString(objInsured.Insured_Name);
-                            strIssueDate = clsGeneral.FormatDate(objCOI.Issue_Date);
+                            strIssueDate = clsGeneral.FormatDBNullDateToDisplay(objCOI.Issue_Date);
                             strEffectiveDate = clsGeneral.FormatDate(objInsured.Date_Closed);
                             strSonicLocationNumber = Convert.ToString(objLocation.Sonic_Location_Code);
 

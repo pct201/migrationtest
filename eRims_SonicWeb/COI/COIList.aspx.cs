@@ -215,7 +215,8 @@ public partial class Admin_COIList : clsBasePage
 
                 // get insured name and Issue date for the COI
                 string strInsured = DataBinder.Eval(e.Row.DataItem, "Insured_Name").ToString().Trim();
-                string strIssuedate = Convert.ToDateTime(DataBinder.Eval(e.Row.DataItem, "Issue_Date")).ToString(AppConfig.DisplayDateFormat);
+                //string strIssuedate = Convert.ToDateTime(DataBinder.Eval(e.Row.DataItem, "Issue_Date")).ToString(AppConfig.DisplayDateFormat);
+                string strIssuedate = clsGeneral.FormatDBNullDateToDisplay(DataBinder.Eval(e.Row.DataItem, "Issue_Date"));
                 strInsured = strInsured.Replace("'", "singlequot");
                 //show message for confirmation for deleting the record when clicking on link
                 lnkDelete.Attributes.Add("onclick", "javascript:return ConfirmDelete('" + strInsured + "','" + strIssuedate + "');");

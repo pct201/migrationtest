@@ -209,7 +209,7 @@ public partial class COI_GenerateCOI : clsBasePage
         StringBuilder sbDate = new StringBuilder();
         sbDate.Append(TABLE("100%", "0", "0", ""));
         sbDate.Append(TD("100%", "center", "valign=top", "DATE", COIContentType.SectionHeader) + "</tr>");
-        sbDate.Append(TR("100%", "center", "", clsGeneral.FormatDate(new COIs(FK_COI).Issue_Date), COIContentType.Data));
+        sbDate.Append(TR("100%", "center", "", clsGeneral.FormatDBNullDateToDisplay(new COIs(FK_COI).Issue_Date), COIContentType.Data));
         sbDate.Append(ENDTABLE().Replace("</tr>", ""));
 
         StringBuilder sb = new StringBuilder();
@@ -795,7 +795,7 @@ public partial class COI_GenerateCOI : clsBasePage
         StringBuilder sbDate = new StringBuilder();
         sbDate.Append(TABLE("100%", "0", "0", ""));
         sbDate.Append(TD("100%", "center", "valign=top", "DATE", COIContentType.SectionHeader) + "</tr>");
-        sbDate.Append(TR("100%", "center", "", clsGeneral.FormatDate(new COIs(FK_COI).Issue_Date), COIContentType.Data));
+        sbDate.Append(TR("100%", "center", "", clsGeneral.FormatDBNullDateToDisplay(new COIs(FK_COI).Issue_Date), COIContentType.Data));
         sbDate.Append(ENDTABLE().Replace("</tr>", ""));
 
         StringBuilder sb = new StringBuilder();

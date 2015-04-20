@@ -411,7 +411,7 @@ public partial class SONIC_ClaimInfo_ClaimNotesCOI : System.Web.UI.Page
             else
                 lblLocationNumber.Text = Convert.ToString(objLocation.Sonic_Location_Code);
             lblInsuredName.Text = Convert.ToString(objInsured.Insured_Name);
-            lblIssueDate.Text = clsGeneral.FormatDate(objCOI.Issue_Date);
+            lblIssueDate.Text = clsGeneral.FormatDBNullDateToDisplay(objCOI.Issue_Date);
             lblEffectiveDate.Text = clsGeneral.FormatDate(objInsured.Date_Closed);
         }
     }

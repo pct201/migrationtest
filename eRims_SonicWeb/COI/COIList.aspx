@@ -93,7 +93,7 @@
                                     <asp:TemplateField HeaderText="Date Received" SortExpression="Issue_Date">
                                         <ItemStyle Width="14%" HorizontalAlign="Left" VerticalAlign="Top" />
                                         <ItemTemplate>
-                                            <%# clsGeneral.FormatDate(Convert.ToDateTime(Eval("Issue_Date")))%>
+                                            <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Issue_Date"))%>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Disposition ">
