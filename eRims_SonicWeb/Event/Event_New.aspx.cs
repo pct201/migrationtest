@@ -860,7 +860,7 @@ public partial class Event_Event_New : clsBasePage
     /// </summary>
     private void BindDropDownList()
     {
-        ComboHelper.FillLocation(new DropDownList[] { ddlLocation,ddlLocation_Sonic }, true);
+        ComboHelper.FillLocationDBA_All(new DropDownList[] { ddlLocation,ddlLocation_Sonic }, 0,true);
         BindReapterEventType();
         BindReapterEventTypeSonic();
         BindReapterInvest_Images();

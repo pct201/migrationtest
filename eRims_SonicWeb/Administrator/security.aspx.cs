@@ -376,12 +376,12 @@ public partial class Administrator_security : clsBasePage
         }
 
         //Loop for inserting ACI Locations
-        clsSecurity_ACI_LU_Location.DeleteByUser(PK_Security_ID);
+        clsSecurity_ACI_LU_Location_Link.DeleteByUser(PK_Security_ID);
         foreach (ListItem Li in lstSecuritySelectedLocation.Items)
         {
-            clsSecurity_ACI_LU_Location objSecurity_ACI_LU_Location = new clsSecurity_ACI_LU_Location();
+            clsSecurity_ACI_LU_Location_Link objSecurity_ACI_LU_Location = new clsSecurity_ACI_LU_Location_Link();
             objSecurity_ACI_LU_Location.FK_Security_ID = PK_Security_ID;
-            objSecurity_ACI_LU_Location.FK_ACI_LU_Location_ID = Convert.ToInt32(Li.Value);
+            objSecurity_ACI_LU_Location.FK_LU_Location_ID = Convert.ToInt32(Li.Value);
             objSecurity_ACI_LU_Location.Insert();
         }
 
@@ -422,7 +422,7 @@ public partial class Administrator_security : clsBasePage
         }
         else
         {
-            clsSecurity_ACI_LU_Location.DeleteByPK(Convert.ToDecimal(Request.Form["chkItem"]));
+            clsSecurity_ACI_LU_Location_Link.DeleteByPK(Convert.ToDecimal(Request.Form["chkItem"]));
             Security.DeleteByPKs(Request.Form["chkItem"].ToString());
         }
         //Bind Grid
@@ -1733,6 +1733,55 @@ public partial class Administrator_security : clsBasePage
         MoveListBoxItems(lstSecuritySelectedLocation, lstSecurityLocation, false, false, true);
     }
 
+    //private void BindSecurityACI_LocationList(bool _EditFlag, Nullable<decimal> _Employee_Id)
+    //{
+    //    //clear list box
+    //    lstSecurityLocation.Items.Clear();
+    //    lstSecuritySelectedLocation.Items.Clear();
+
+
+    //    //Get all Locations 
+    //    DataSet dsData = clsAci_Lu_Location.SelectAll();
+    //    dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+    //    dsData.Tables[0].DefaultView.Sort = "Fld_Desc asc";
+    //    // Bind List lstSecurityLocation
+    //    lstSecurityLocation.DataSource = dsData.Tables[0].DefaultView;
+    //    lstSecurityLocation.DataTextField = "Fld_Desc";
+    //    lstSecurityLocation.DataValueField = "PK_ACI_LU_Location";
+    //    lstSecurityLocation.DataBind();
+    //    //if opened in Edit mode, Move Selected data to right (From lstSecurityLocation to lstSecuritySelectedLocation)
+    //    if (_EditFlag)
+    //    {
+    //        DataSet dsSelectedData = clsSecurity_ACI_LU_Location.SelectByUser(PK_Security_ID, true);
+    //        foreach (DataRow dr in dsSelectedData.Tables[0].Rows)
+    //        {
+    //            if (dr["FK_ACI_LU_Location_ID"] != null)
+    //            {
+    //                if (lstSecurityLocation.Items.FindByValue(dr["FK_ACI_LU_Location_ID"].ToString().Trim()) != null)
+    //                {
+    //                    lstSecurityLocation.Items.Remove(new ListItem(dr["Fld_Desc"].ToString().Trim(), dr["FK_ACI_LU_Location_ID"].ToString().Trim()));
+    //                    lstSecuritySelectedLocation.Items.Add(new ListItem(dr["Fld_Desc"].ToString().Trim(), dr["FK_ACI_LU_Location_ID"].ToString().Trim()));
+    //                }
+    //            }
+    //        }
+    //        //Enable/Disable buttons
+    //        btnDeSelectLocationFields.Enabled = btnDeSelectAllLocationFields.Enabled = lstSecuritySelectedLocation.Items.Count > 0; //imgUp.Enabled = imgDown.Enabled = 
+    //        btnSelectLocationFields.Enabled = btnSelectAllLocationFields.Enabled = lstSecurityLocation.Items.Count > 0;
+    //        clsGeneral.SetListBoxToolTip(new ListBox[] { lstSecurityLocation, lstSecuritySelectedLocation });
+    //    }
+    //}
+
+    //private void BindSecurityLocationView()
+    //{
+    //    lstSelectedLocationView.Items.Clear();
+    //    //Move Selected data to right (From lstFROIeMailRecipients to lstSelectedFields)
+    //    DataSet dsSelectedData = clsSecurity_ACI_LU_Location.SelectByUser(PK_Security_ID, true);
+    //    foreach (DataRow dr in dsSelectedData.Tables[0].Rows)
+    //        lstSelectedLocationView.Items.Add(new ListItem(dr["Fld_Desc"].ToString(), dr["FK_ACI_LU_Location_ID"].ToString()));
+    //    clsGeneral.SetListBoxToolTip(new ListBox[] { lstSelectedFieldsView });
+    //}
+
+
     private void BindSecurityACI_LocationList(bool _EditFlag, Nullable<decimal> _Employee_Id)
     {
         //clear list box
@@ -1741,26 +1790,26 @@ public partial class Administrator_security : clsBasePage
 
 
         //Get all Locations 
-        DataSet dsData = clsAci_Lu_Location.SelectAll();
+        DataSet dsData = LU_Location.SelectAll();
         dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
-        dsData.Tables[0].DefaultView.Sort = "Fld_Desc asc";
+        dsData.Tables[0].DefaultView.Sort = "dba asc";
         // Bind List lstSecurityLocation
         lstSecurityLocation.DataSource = dsData.Tables[0].DefaultView;
-        lstSecurityLocation.DataTextField = "Fld_Desc";
-        lstSecurityLocation.DataValueField = "PK_ACI_LU_Location";
+        lstSecurityLocation.DataTextField = "dba";
+        lstSecurityLocation.DataValueField = "PK_LU_Location_ID";
         lstSecurityLocation.DataBind();
         //if opened in Edit mode, Move Selected data to right (From lstSecurityLocation to lstSecuritySelectedLocation)
         if (_EditFlag)
         {
-            DataSet dsSelectedData = clsSecurity_ACI_LU_Location.SelectByUser(PK_Security_ID, true);
+            DataSet dsSelectedData = clsSecurity_ACI_LU_Location_Link.SelectByUser(PK_Security_ID, true);
             foreach (DataRow dr in dsSelectedData.Tables[0].Rows)
             {
-                if (dr["FK_ACI_LU_Location_ID"] != null)
+                if (dr["FK_LU_Location_ID"] != null)
                 {
-                    if (lstSecurityLocation.Items.FindByValue(dr["FK_ACI_LU_Location_ID"].ToString().Trim()) != null)
+                    if (lstSecurityLocation.Items.FindByValue(dr["FK_LU_Location_ID"].ToString().Trim()) != null)
                     {
-                        lstSecurityLocation.Items.Remove(new ListItem(dr["Fld_Desc"].ToString().Trim(), dr["FK_ACI_LU_Location_ID"].ToString().Trim()));
-                        lstSecuritySelectedLocation.Items.Add(new ListItem(dr["Fld_Desc"].ToString().Trim(), dr["FK_ACI_LU_Location_ID"].ToString().Trim()));
+                        lstSecurityLocation.Items.Remove(new ListItem(dr["dba"].ToString().Trim(), dr["FK_LU_Location_ID"].ToString().Trim()));
+                        lstSecuritySelectedLocation.Items.Add(new ListItem(dr["dba"].ToString().Trim(), dr["FK_LU_Location_ID"].ToString().Trim()));
                     }
                 }
             }
@@ -1775,11 +1824,10 @@ public partial class Administrator_security : clsBasePage
     {
         lstSelectedLocationView.Items.Clear();
         //Move Selected data to right (From lstFROIeMailRecipients to lstSelectedFields)
-        DataSet dsSelectedData = clsSecurity_ACI_LU_Location.SelectByUser(PK_Security_ID, true);
+        DataSet dsSelectedData = clsSecurity_ACI_LU_Location_Link.SelectByUser(PK_Security_ID, true);
         foreach (DataRow dr in dsSelectedData.Tables[0].Rows)
-            lstSelectedLocationView.Items.Add(new ListItem(dr["Fld_Desc"].ToString(), dr["FK_ACI_LU_Location_ID"].ToString()));
+            lstSelectedLocationView.Items.Add(new ListItem(dr["dba"].ToString(), dr["FK_LU_Location_ID"].ToString()));
         clsGeneral.SetListBoxToolTip(new ListBox[] { lstSelectedFieldsView });
     }
-
     #endregion
 }

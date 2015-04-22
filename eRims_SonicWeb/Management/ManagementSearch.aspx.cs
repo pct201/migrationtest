@@ -89,7 +89,7 @@ public partial class Management_ManagementSearch : clsBasePage
         //ComboHelper.FillLocation(new DropDownList[] { drpLocation }, true);
         //ComboHelper.FillState(new DropDownList[] { drpState }, true);
         //ComboHelper.FillLU_Region(new DropDownList[] { drpRegion }, true);
-        ComboHelper.FillLocationByACIUser((new DropDownList[] { drpLocation }), Convert.ToDecimal(clsSession.UserID), true);
+        ComboHelper.FillLocationByACIUser_New((new DropDownList[] { drpLocation }), Convert.ToDecimal(clsSession.UserID), true);
         ComboHelper.FillLU_Camera_Type(new DropDownList[] { drpCamera_Type }, true);
         ComboHelper.FillStatus(drpClient_Issue, true);
         ComboHelper.FillStatus(drpFacilities_Issue, true);

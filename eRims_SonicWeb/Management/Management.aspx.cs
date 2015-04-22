@@ -111,7 +111,7 @@ public partial class Management_Management : clsBasePage
     private void BindDropDown()
     {
         //ComboHelper.FillLocation(new DropDownList[] { drpLocation }, true);
-        ComboHelper.FillLocationByACIUser((new DropDownList[] { drpLocation }), Convert.ToDecimal(clsSession.UserID), true);
+        ComboHelper.FillLocationByACIUser_New((new DropDownList[] { drpLocation }), Convert.ToDecimal(clsSession.UserID), true);
         //ComboHelper.FillLU_Region(new DropDownList[] { drpRegion }, true);
         //ComboHelper.FillState(new DropDownList[] { drpState }, true);
         ComboHelper.FillLU_Camera_Type(new DropDownList[] { drpCameraType }, true);
@@ -225,7 +225,8 @@ public partial class Management_Management : clsBasePage
             else
                 rblTask_Complete.ClearSelection();
 
-            if (objRecord.FK_LU_Location != null) drpLocation.SelectedValue = Convert.ToString(objRecord.FK_LU_Location);
+            //if (objRecord.FK_LU_Location != null) drpLocation.SelectedValue = Convert.ToString(objRecord.FK_LU_Location);
+            clsGeneral.SetDropdownValue(drpLocation, objRecord.FK_LU_Location, true);
             //if (objRecord.FK_LU_State != null) drpState.SelectedValue = Convert.ToString(objRecord.FK_LU_State);
             //if (objRecord.FK_LU_Region != null) drpRegion.SelectedValue = Convert.ToString(objRecord.FK_LU_Region);
             if (objRecord.FK_LU_Camera_Type != null) drpCameraType.SelectedValue = Convert.ToString(objRecord.FK_LU_Camera_Type);
@@ -271,8 +272,12 @@ public partial class Management_Management : clsBasePage
             lblDateComleted.Text = clsGeneral.FormatDBNullDateToDisplay(objRecord.Date_Complete);
             lblCRApproved.Text = clsGeneral.FormatDBNullDateToDisplay(objRecord.CR_Approved);
 
+            //if (objRecord.FK_LU_Location != null)
+            //    lblLocation.Text = new clsAci_Lu_Location((decimal)objRecord.FK_LU_Location).Fld_Desc;
+            //else
+            //    lblLocation.Text = "";
             if (objRecord.FK_LU_Location != null)
-                lblLocation.Text = new clsAci_Lu_Location((decimal)objRecord.FK_LU_Location).Fld_Desc;
+                lblLocation.Text = new LU_Location((decimal)objRecord.FK_LU_Location).dba;
             else
                 lblLocation.Text = "";
 
@@ -605,12 +610,20 @@ public partial class Management_Management : clsBasePage
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
+    //protected void drpLocation_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    if (!string.IsNullOrEmpty(drpLocation.SelectedValue))
+    //    {
+    //        clsAci_Lu_Location lu = new clsAci_Lu_Location(Convert.ToDecimal(drpLocation.SelectedValue));
+    //        txtLocation_Code.Text = Convert.ToString(lu.Fld_Code);
+    //    }
+    //}
     protected void drpLocation_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (!string.IsNullOrEmpty(drpLocation.SelectedValue))
         {
-            clsAci_Lu_Location lu = new clsAci_Lu_Location(Convert.ToDecimal(drpLocation.SelectedValue));
-            txtLocation_Code.Text = Convert.ToString(lu.Fld_Code);
+            LU_Location lu = new LU_Location(Convert.ToDecimal(drpLocation.SelectedValue));
+            txtLocation_Code.Text = Convert.ToString(lu.Sonic_Location_Code);
         }
     }
     #endregion

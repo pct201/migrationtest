@@ -5134,5 +5134,30 @@ public class ComboHelper
         }
     }
 
+    /// <summary>
+    /// Used to Bind Location For ACI Event DropDown
+    /// </summary>
+    /// <param name="dropDowns">Dropdown Lists</param>
+    /// <param name="intID">used to selected a value using this param</param>
+    /// <param name="addSelectAsFirstElement">Require to add "--Select--" as a first element of dropdown</param>
+    public static void FillLocationByACIUser_New(DropDownList[] dropDownList, decimal Security_Id, bool p)
+    {
+        DataSet dsData = clsSecurity_ACI_LU_Location_Link.SelectByUser(Security_Id, false);
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+        foreach (DropDownList ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "dba";
+            ddlToFill.DataValueField = "PK_LU_Location_ID";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (p)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
 }
 

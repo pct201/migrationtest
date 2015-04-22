@@ -1459,7 +1459,8 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     
                     if (lstAdHoc[0].Field_Header == "Location")
                     {
-                        ComboHelper.FillLocation(new ListBox[] { lst_F }, false);
+                        //ComboHelper.FillLocation(new ListBox[] { lst_F }, false);
+                        ComboHelper.FillLocationDBA_All(new ListBox[] { lst_F }, 0, false);
                     }
                     else if (lstAdHoc[0].Field_Header == "Event Description")
                     {
@@ -4836,7 +4837,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
         lst_F.Items.Clear();
         if (Field_Header == "Location")
         {
-            ComboHelper.FillLocation(new ListBox[] { lst_F }, false);
+            ComboHelper.FillLocationDBA_All(new ListBox[] { lst_F }, 0, false);
         }
         else if (Field_Header == "Event Description")
         {

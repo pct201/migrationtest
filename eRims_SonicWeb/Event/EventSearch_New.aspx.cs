@@ -217,7 +217,7 @@ public partial class Event_EventSearch_New : clsBasePage
         //ComboHelper.FillLU_Camera_Type(new DropDownList[] { drpCameraType }, true);
         //ComboHelper.FillLU_Alarm_Type(new DropDownList[] { drpAlarmType }, true);
         //ComboHelper.FillLocation(new DropDownList[] { drpLocation }, true);
-        ComboHelper.FillLocationByACIUser((new DropDownList[] { drpLocation }), Convert.ToDecimal(clsSession.UserID), true);
+        ComboHelper.FillLocationByACIUser_New((new DropDownList[] { drpLocation }), Convert.ToDecimal(clsSession.UserID), true);
     }
 
     /// <summary>
