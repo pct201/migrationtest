@@ -251,11 +251,21 @@
                     </td>
                     <td style="width: 4%;" align="center">:
                     </td>
-                    <td align="left" width="26%" colspan="4">
+                    <td align="left" width="26%" >
                         <asp:TextBox runat="server" ID="txtContractorCompany" MaxLength="75" ValidationGroup="vsErrorGroup"
                             Width="170px"></asp:TextBox>&nbsp;
                         <%--<asp:RequiredFieldValidator ID="rfvtxtContractorCompany" ControlToValidate="txtContractorCompany" Display="None"
                             runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Contractor Company."></asp:RequiredFieldValidator>--%>
+                    </td>
+                    <td align="left">Contractor Type<span style="color: Red;">*</span>
+                    </td>
+                    <td align="center">:
+                    </td>
+                    <td align="left">
+                        <asp:DropDownList ID="ddlContractoType" runat="server" Width="170px" SkinID="ddlSONIC">
+                        </asp:DropDownList>
+                        <asp:RequiredFieldValidator ID="rfvddlContractoType" ControlToValidate="ddlContractoType" Display="None"
+                             ValidationGroup="vsErrorGroup" Text="*" InitialValue="0" runat="server" ErrorMessage="Please select atleast one Contractor Type."></asp:RequiredFieldValidator>
                     </td>
 
                 </tr>
@@ -472,11 +482,12 @@
                         <asp:Label runat="server" style="word-wrap:normal;word-break:break-all" ID="lblContractorCompany">
                         </asp:Label>
                     </td>
-                    <td align="left">
+                    <td align="left" style="width: 18%;">Contractor Type
                     </td>
-                    <td align="center">
+                    <td align="center" style="width: 4%;">:
                     </td>
-                    <td align="center">
+                    <td align="left" style="width: 28%;">
+                        <asp:Label runat="server" style="word-wrap:normal;word-break:break-all" ID="lblContractorType"></asp:Label>
                     </td>
                 </tr>
                 <tr>

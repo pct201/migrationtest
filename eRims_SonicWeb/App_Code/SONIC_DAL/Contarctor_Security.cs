@@ -35,6 +35,7 @@ namespace ERIMS.DAL
         private string _Texting_Address;
         private DateTime? _Update_Date;
         private string _Updated_By;
+        private decimal? _FK_LU_Contractor_Type; 
 
         #endregion
 
@@ -238,6 +239,15 @@ namespace ERIMS.DAL
             set { _Updated_By = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the FK_LU_Contractor_Type value.
+        /// </summary>
+        public decimal? FK_LU_Contractor_Type
+        {
+            get { return _FK_LU_Contractor_Type; }
+            set { _FK_LU_Contractor_Type = value; }
+        }
+
 
         #endregion
 
@@ -387,6 +397,10 @@ namespace ERIMS.DAL
             else
                 this._Updated_By = (string)drContractor_Security["Updated_By"];
 
+            if (drContractor_Security["FK_LU_Contractor_Type"] == DBNull.Value)
+                this._FK_LU_Contractor_Type = null;
+            else
+                this._FK_LU_Contractor_Type = (decimal?)drContractor_Security["FK_LU_Contractor_Type"];
 
         }
 
@@ -497,6 +511,8 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Updated_By", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
+
+            db.AddInParameter(dbCommand, "FK_LU_Contractor_Type", DbType.Decimal, this._FK_LU_Contractor_Type);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -657,6 +673,8 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Updated_By", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
+
+            db.AddInParameter(dbCommand, "FK_LU_Contractor_Type", DbType.Decimal, this._FK_LU_Contractor_Type);
 
            int returnValue = Convert.ToInt32(db.ExecuteNonQuery(dbCommand));
            return returnValue;

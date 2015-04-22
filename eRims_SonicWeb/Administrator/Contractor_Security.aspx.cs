@@ -124,7 +124,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
         txtAddress1.Text = "";
         txtAddress2.Text = "";
         txtCity.Text = "";
-        //ddlState.SelectedValue = ;
+        //ddlState.SelectedValue = ;        
         txtZipCode.Text = "";
         txtOfficeTelephone.Text = "";
         txtCellPhone.Text = "";
@@ -205,6 +205,12 @@ public partial class Administrator_Contractor_Security : clsBasePage
 
         if (ddlState.SelectedIndex > 0)
             objContractorSecurity.FK_State = Convert.ToDecimal(ddlState.SelectedValue);
+        else
+            objContractorSecurity.FK_State = 0;
+        if (ddlContractoType.SelectedIndex > 0)
+            objContractorSecurity.FK_LU_Contractor_Type = Convert.ToDecimal(ddlContractoType.SelectedValue);
+        else
+            objContractorSecurity.FK_LU_Contractor_Type = 0;
         objContractorSecurity.Zip_Code = Convert.ToString(txtZipCode.Text);
 
         objContractorSecurity.Office_Telephone = Convert.ToString(txtOfficeTelephone.Text);
@@ -419,6 +425,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
     private void FillDropDown()
     {
         ComboHelper.FillState(new DropDownList[] { ddlState }, 0, true);
+        ComboHelper.FillContractorType(new DropDownList[] { ddlContractoType }, 0, true);
     }
     /// <summary>
     /// Binds the grid by page number and page size
@@ -522,6 +529,8 @@ public partial class Administrator_Contractor_Security : clsBasePage
         txtCity.Text = Convert.ToString(objContractorSecurity.City);
         if (objContractorSecurity.FK_State != null)
             ddlState.SelectedValue = objContractorSecurity.FK_State.ToString();
+        if (objContractorSecurity.FK_LU_Contractor_Type != null)
+            ddlContractoType.SelectedValue = objContractorSecurity.FK_LU_Contractor_Type.ToString();
 
         txtZipCode.Text = Convert.ToString(objContractorSecurity.Zip_Code);
         txtOfficeTelephone.Text = Convert.ToString(objContractorSecurity.Office_Telephone);
@@ -557,6 +566,8 @@ public partial class Administrator_Contractor_Security : clsBasePage
         lblCity.Text = Convert.ToString(objContractorSecurity.City);
         if (objContractorSecurity.FK_State != null)
             lblState.Text = new State(Convert.ToDecimal(objContractorSecurity.FK_State)).FLD_state;
+            if (objContractorSecurity.FK_LU_Contractor_Type != null)
+            lblContractorType.Text = new clsLU_Contractor_Type(Convert.ToDecimal(objContractorSecurity.FK_LU_Contractor_Type)).CT_Desc;
         lblZipCode.Text =  Convert.ToString(objContractorSecurity.Zip_Code);
         lblOfficeTelephone.Text = Convert.ToString(objContractorSecurity.Office_Telephone);
         lblCellPhone.Text = Convert.ToString(objContractorSecurity.Cell_Telephone);
