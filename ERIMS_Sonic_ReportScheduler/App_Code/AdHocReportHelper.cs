@@ -24,6 +24,7 @@ namespace ERIMS_DAL
             FirstDayCurrYear = 6,
             LastDayCurrYear = 7,
             CurrentDate = 8,
+            PreviousDate = 9,
         }
 
         public enum DateCriteria : int
@@ -80,6 +81,8 @@ namespace ERIMS_DAL
                 dtReturn = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1).AddDays(-1);
             else if (RelDateType == RaltiveDates.LastDayPrevYear)
                 dtReturn = new DateTime(DateTime.Today.Year, 1, 1).AddDays(-1);
+            else if (RelDateType == RaltiveDates.PreviousDate)
+                dtReturn = DateTime.Now.AddDays(-1);
 
             return dtReturn;
         }
