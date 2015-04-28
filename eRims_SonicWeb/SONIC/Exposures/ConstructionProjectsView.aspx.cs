@@ -74,11 +74,13 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
                     {
                         hdnPanel.Value = "2";
                         hdnPanelSpaire.Value = "1";
+                        
                     }
                     else
                     {
                         hdnPanel.Value = "1";
                         hdnPanelSpaire.Value = "0";
+                        btnReturnto_View_Mode.Visible = false;
                     }
                 }
                 else
@@ -106,6 +108,7 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
                 if (Request.QueryString["prjId"] != null)
                 {
                     ConstructionProjectId = Convert.ToDecimal(Encryption.Decrypt(Request.QueryString["prjId"].ToString()));
+                    Session["ConstructionProjectId"] = ConstructionProjectId;
                     FillConstructionProjectDetail();
                 }
             }
@@ -127,10 +130,10 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
     {
         int Location_Id;
         // Check if User has right To Add Equipment or View Equipment
-        if (App_Access == AccessType.View_Only)
-        {
-            Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc", true);
-        }
+        //if (App_Access == AccessType.View_Only)
+        //{
+        //    Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc", true);
+        //}
 
         // Check whether Parameter Location ID is valid int
         // if not provided then redirect to search page.
@@ -390,7 +393,8 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
         BindBuildings();
         FillConstructionProjectDetail();
         hdnPanel.Value = "1";
-        btnReturnto_View_Mode.Visible = true;
+        btnReturnto_View_Mode.Visible = false;
+        btnEdit.Visible = true;
         btnAuditTrail.Visible = true;
     }
 
@@ -401,6 +405,9 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
             hdnPanel.Value = "2";
             hdnPanelSpaire.Value = "1";
             Session["IsEditable"] = "1";
+            ctrlAttachment.FindControl("btnAddDocument").Visible = true;
+            btnReturnto_View_Mode.Visible = true;
+            btnEdit.Visible = false;
         }
         else
         {
@@ -416,6 +423,9 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
         {
             hdnPanel.Value = "1";
             hdnPanelSpaire.Value = "0";
+            ctrlAttachment.FindControl("btnAddDocument").Visible = false;
+            btnReturnto_View_Mode.Visible = false;
+            btnEdit.Visible = true;
         }
         else
         {

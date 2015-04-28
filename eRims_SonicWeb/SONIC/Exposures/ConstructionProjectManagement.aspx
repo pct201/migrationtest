@@ -46,7 +46,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="100%">&nbsp;&nbsp;<a id="aAddProject" runat="server" href="#" visible="false">Add</a>
+                                    <td width="100%">&nbsp;&nbsp;<a id="aAddProject" runat="server" href="#" visible="false" style="text-decoration:underline">Add</a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -113,7 +113,7 @@
                     <tr>
                         <td align="center" style="height: 35px;" valign="middle" width="100%" colspan="4">
                             <asp:Button ID="btnEdit" runat="server" Text=" Edit " OnClick="btnEdit_Click" />
-                            <asp:Button ID="btnCancel" runat="server" Text=" Cancel " OnClick="btnCancel_Click" Visible="false" />
+                            <asp:Button ID="btnCancel" runat="server" Text=" Return to View Mode" OnClick="btnCancel_Click" Visible="false" />
                         </td>
                     </tr>
                 </table>
@@ -125,7 +125,7 @@
     </table>
     <script type="text/javascript">
         function ConfirmRemove() {
-            return confirm("Are you sure you want to remove the selected data from eRIMS2? Once the data are removed, eRIMS2 does not have functionality to retrieve the data.");
+            return confirm("Are you sure you want to remove the record?");
         }
     </script>
 </asp:Content>

@@ -87,7 +87,10 @@ public partial class Controls_Attachment_Construction_Attachment : System.Web.UI
             if (drAddEditConstruction != null && drAddEditConstruction.Length > 0)
             {
                 hdnIsEditable.Value = "1";
-                btnAddDocument.Visible = true;
+                if (Session["IsEditable"] != null && Session["IsEditable"] == "1" && ConstructionProjectId > 0)
+                    btnAddDocument.Visible = true;
+                else
+                    btnAddDocument.Visible = false;
             }
             else
             {

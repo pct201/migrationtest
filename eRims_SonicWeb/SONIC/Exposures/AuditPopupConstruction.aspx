@@ -15,8 +15,8 @@
     function showAudit(divHeader, divGrid) {
         var divheight, i;
 
-        divHeader.style.width = window.screen.availWidth - 900 + "px";
-        divGrid.style.width = window.screen.availWidth - 900 + "px";
+        divHeader.style.width = window.screen.availWidth - 720 + "px";
+        divGrid.style.width = window.screen.availWidth - 720 + "px";
 
         divheight = divGrid.style.height;
         i = divheight.indexOf('px');
@@ -85,7 +85,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div style="overflow: scroll; width: 600px; height: 395px;" id="divPollution_Grid"
+                    <div style="overflow: scroll; width: 600px; height: 380px;" id="divPollution_Grid"
                         runat="server">
                         <asp:GridView ID="gvSIUtilityProvider" runat="server" AutoGenerateColumns="False"
                             CellPadding="4" EnableTheming="True" EmptyDataText="No records found!" ShowHeader="false">
@@ -151,7 +151,7 @@
                                 <asp:TemplateField HeaderText="Updated By">
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
-                                        <asp:Label ID="lblUpdatedBy" runat="server" Text='<%#Eval("UpdatedBy")%>' Width="100px"></asp:Label>
+                                        <asp:Label ID="lblUpdatedBy" runat="server" Text='<%#Eval("Updated_By")%>' Width="100px"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Update Date">

@@ -41,7 +41,7 @@
                 $('#divIdentificationView').hide();
                 $('#divIdentificationEdit').hide();
                 $('#divAttachment').show();
-                $('#<%= btnEdit.ClientID %>').hide();
+                //$('#<%= btnEdit.ClientID %>').hide();
                 $('#spnIdentification').removeClass("LeftMenuSelected");
                 $('#spnIdentification').addClass("LeftMenuStatic");
                 $('#spnAttachment').removeClass("LeftMenuStatic");
@@ -181,7 +181,7 @@
                                                         <td align="center" valign="top" width="4%">:
                                                         </td>
                                                         <td align="left" valign="top" colspan="4">
-                                                            <asp:Label ID="lbProjectNumber" runat="server" SkinID="lblDisabled" style="word-break:break-all; word-wrap:normal;" />
+                                                            <asp:Label ID="lbProjectNumber" runat="server" SkinID="lblDisabled" Style="word-break: break-all; word-wrap: normal;" />
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -252,7 +252,7 @@
                                                                 Width="150px"></asp:TextBox>
                                                             <img alt="Date to Consultant" onclick="return showCalendar('<%=txtEstimatedStartDate.ClientID %>', 'mm/dd/y');"
                                                                 onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
-                                                                align="middle" />                                                            
+                                                                align="middle" />
                                                             <asp:RegularExpressionValidator ID="revEstimatedStartDate" runat="server" ValidationGroup="vsErrorIdentification"
                                                                 Display="none" ErrorMessage="[Consultant and Schedule]/Estimated Start Date is not a valid date"
                                                                 SetFocusOnError="true" ControlToValidate="txtEstimatedStartDate" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
@@ -276,7 +276,7 @@
                                                                 Width="150px"></asp:TextBox>
                                                             <img alt="Date to Consultant" onclick="return showCalendar('<%=txtEstimatedEndDate.ClientID %>', 'mm/dd/y');"
                                                                 onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
-                                                                align="middle" />                                                            
+                                                                align="middle" />
                                                             <asp:RegularExpressionValidator ID="revEstimatedEndDate" runat="server" ValidationGroup="vsErrorIdentification"
                                                                 Display="none" ErrorMessage="[Consultant and Schedule]/Estimated End Date is not a valid date"
                                                                 SetFocusOnError="true" ControlToValidate="txtEstimatedEndDate" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
@@ -306,10 +306,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td colspan="4" align="center" valign="middle">
-                                                            <asp:Button ID="btnSave" Text="Save and View" runat="server" OnClick="btnSave_Click" CausesValidation="true" ValidationGroup="vsErrorIdentification" />&nbsp;&nbsp;
-                                                            <asp:Button ID="btnReturnto_View_Mode" Text="Return to View Mode" runat="server"
-                                                                OnClick="btnReturnto_View_Mode_Click" CausesValidation="false"
-                                                                Width="150px" />&nbsp;&nbsp;
+                                                            <asp:Button ID="btnSave" Text="Save and View" runat="server" OnClick="btnSave_Click" CausesValidation="true" ValidationGroup="vsErrorIdentification" />&nbsp;&nbsp;                                                            
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -336,9 +333,12 @@
                                     <td align="center">
                                         <asp:Button ID="btnEdit" Text="Edit" runat="server" OnClick="btnEdit_Click"
                                             CausesValidation="false" />&nbsp;&nbsp;
+                                        <asp:Button ID="btnReturnto_View_Mode" Text="Return to View Mode" runat="server"
+                                            OnClick="btnReturnto_View_Mode_Click" CausesValidation="false"
+                                            Width="150px" />&nbsp;&nbsp;
                                         <asp:Button runat="server" ID="btnAuditTrail" Text="View Audit Trail" CausesValidation="false"
                                             OnClientClick="javascript:return OpenAuditPopUp();" />
-                                        <asp:Button ID="btnCancel" runat="server" Text=" Cancel " OnClick="btnCancel_Click"/>
+                                        <asp:Button ID="btnCancel" runat="server" Text=" Cancel " OnClick="btnCancel_Click" />
                                     </td>
                                 </tr>
                             </table>
@@ -424,7 +424,7 @@
         }
         function OpenAuditPopUp() {
             var winHeight = window.screen.availHeight - 550;
-            var winWidth = window.screen.availWidth - 900;
+            var winWidth = window.screen.availWidth - 700;
 
             obj = window.open('AuditPopupConstruction.aspx?id=<%=ViewState["ConstructionProjectId"]%>', 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
             obj.focus();
