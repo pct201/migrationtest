@@ -140,43 +140,48 @@ public partial class Administrator_Contractor_Job_Security : clsBasePage
         btnSave.Visible = true;
         btnEdit.Visible = false;
 
-        Contractor_Job_Security objContractor_Job_Security = new Contractor_Job_Security(PK_Contractor_Job_Security);
-        objContractor_Job_Security.PK_Contractor_Job_Security = PK_Contractor_Job_Security;
-        objContractor_Job_Security.FK_Contractor_Security = FK_Contractor_Security;
-        objContractor_Job_Security.FK_Facility_Construction_Project = Convert.ToInt32(ddlProjectNumber.SelectedValue);
-        objContractor_Job_Security.Access = rdoAccess.SelectedValue;
-        objContractor_Job_Security.Updated_By = clsSession.UserID;
-        objContractor_Job_Security.Update_Date = DateTime.Now;
+            Contractor_Job_Security objContractor_Job_Security = new Contractor_Job_Security(PK_Contractor_Job_Security);
 
-        decimal _retval;
-        if (PK_Contractor_Job_Security > 0)
-        {
-            _retval = objContractor_Job_Security.Update();
-            if (_retval == -2)
+            objContractor_Job_Security.PK_Contractor_Job_Security = PK_Contractor_Job_Security;
+            objContractor_Job_Security.FK_Contractor_Security = FK_Contractor_Security;
+            objContractor_Job_Security.FK_Facility_Construction_Project = Convert.ToInt32(ddlProjectNumber.SelectedValue);
+            objContractor_Job_Security.Access = rdoAccess.SelectedValue;
+            objContractor_Job_Security.Updated_By = clsSession.UserID;
+            objContractor_Job_Security.Update_Date = DateTime.Now;
+
+            decimal _retval;
+            if (PK_Contractor_Job_Security > 0)
             {
-                //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('The selected Utility Type and Sonic Location Code already exist in the Utility Provider table');ShowPanel(1);", true);
+                _retval = objContractor_Job_Security.Update();
+                if (_retval == -2)
+                {
+                    //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('The selected Utility Type and Sonic Location Code already exist in the Utility Provider table');ShowPanel(1);", true);
+                    Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('This Project Details Record Exists.');", true);
+                }
+                else
+                {
+                    Response.Redirect("Contractor_Job_Security.aspx?op=view&id=" + Encryption.Encrypt(Convert.ToString(PK_Contractor_Job_Security)) + "&fid=" + Encryption.Encrypt(Convert.ToString(FK_Contractor_Security)));
+                    BindDetailsForView();
+                }
             }
             else
             {
+                _retval = objContractor_Job_Security.Insert();
+                if (_retval == -2)
+                {
+                    //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('The selected Contractor Job Security already exist in the Contractor Job Security');", true);
+                    Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('This Project Details Record Exists.');",true);
+                }
+                else
+                {
+                PK_Contractor_Job_Security = _retval;
                 Response.Redirect("Contractor_Job_Security.aspx?op=view&id=" + Encryption.Encrypt(Convert.ToString(PK_Contractor_Job_Security)) + "&fid=" + Encryption.Encrypt(Convert.ToString(FK_Contractor_Security)));
+                BindDetailsForView();
+
+                }
             }
-        }
-        else
-        {
-            _retval = objContractor_Job_Security.Insert();
-            //if (_retval == -2)
-            //{
-            //    Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('The selected Contractor Job Security already exist in the Contractor Job Security');", true);
-            //}
-            //else
-            //{
-            PK_Contractor_Job_Security = _retval;
-            Response.Redirect("Contractor_Job_Security.aspx?op=view&id=" + Encryption.Encrypt(Convert.ToString(PK_Contractor_Job_Security)) + "&fid=" + Encryption.Encrypt(Convert.ToString(FK_Contractor_Security)));
-            //}
-        }
-        BindDetailsForView();
-
-
+            
+        
     }
 
     /// <summary>

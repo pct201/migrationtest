@@ -159,6 +159,21 @@ namespace ERIMS.DAL
 
 		}
 
+        ///// <summary>
+        ///// Initializes a new instance of the Contractor_Job_Security class based on Primary Key And Contracor_Security Primary key.
+        ///// </summary>
+        //public Contractor_Job_Security(decimal fK_Contractor_Security, decimal fk_Facility_Construction_Project)
+        //{
+        //    DataTable dtContractor_Job_Security = SelectByFK(fK_Contractor_Security, fk_Facility_Construction_Project).Tables[0];
+
+        //    if (dtContractor_Job_Security.Rows.Count == 1)
+        //    {
+        //        SetValue(dtContractor_Job_Security.Rows[0]);
+
+        //    }
+
+        //}
+
 
 		/// <summary>
 		/// Initializes a new instance of the Contractor_Job_Security class based on Datarow passed.
@@ -273,6 +288,21 @@ namespace ERIMS.DAL
 			return db.ExecuteDataSet(dbCommand);
 		}
 
+        ///// <summary>
+        ///// Selects a single record from the Contractor_Job_Security table.
+        ///// </summary>
+        ///// <returns>DataSet</returns>
+        //public DataSet SelectByFK(decimal fK_Contractor_Security,decimal FK_Facility_Construction_Project)
+        //{
+        //    Database db = DatabaseFactory.CreateDatabase();
+        //    DbCommand dbCommand = db.GetStoredProcCommand("Contractor_Job_SecuritySelectBYPKFK");
+
+        //    db.AddInParameter(dbCommand, "FK_Facility_Construction_Project", DbType.Decimal, FK_Facility_Construction_Project);
+        //    db.AddInParameter(dbCommand, "FK_Contractor_Security", DbType.Decimal, fK_Contractor_Security);
+
+        //    return db.ExecuteDataSet(dbCommand);
+        //}
+
         /// <summary>
         /// Selects a single record from the Facility_construction_Project table.
         /// </summary>
@@ -330,7 +360,7 @@ namespace ERIMS.DAL
 		/// <summary>
 		/// Updates a record in the Contractor_Job_Security table.
 		/// </summary>
-		public decimal Update()
+		public int Update()
 		{
 			Database db = DatabaseFactory.CreateDatabase();
 			DbCommand dbCommand = db.GetStoredProcCommand("Contractor_Job_SecurityUpdate");
@@ -353,8 +383,8 @@ namespace ERIMS.DAL
 				db.AddInParameter(dbCommand, "Updated_By", DbType.String, DBNull.Value);
 			else
 				db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
-             decimal res;
-			 res= db.ExecuteNonQuery(dbCommand);
+             int res;
+             res = Convert.ToInt32(db.ExecuteScalar(dbCommand));
              return res;
 		}
 
