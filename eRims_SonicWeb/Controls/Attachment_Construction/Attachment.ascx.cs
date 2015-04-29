@@ -71,12 +71,19 @@ public partial class Controls_Attachment_Construction_Attachment : System.Web.UI
         set { ViewState["Building_IDs"] = value; }
     }
 
+    public string RightType_ID
+    {
+        get { return ViewState["RightType_ID"].ToString(); }
+        set { ViewState["RightType_ID"] = value; }
+    }
+
     #endregion
 
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
+            RightType_ID = "3,4";
             BindGridFolder();
             BindDropDown();
 
@@ -102,8 +109,8 @@ public partial class Controls_Attachment_Construction_Attachment : System.Web.UI
 
     private void BindDropDown()
     {
-        ComboHelper.FillLU_FCP_Attachment_Type(new DropDownList[] { drpFolder,Attachment1.DropdownFolder, Attachment2.DropdownFolder, Attachment3.DropdownFolder, Attachment4.DropdownFolder, 
-            Attachment5.DropdownFolder, Attachment6.DropdownFolder,Attachment7.DropdownFolder,Attachment8.DropdownFolder,Attachment9.DropdownFolder,Attachment10.DropdownFolder }, true);
+        ComboHelper.FillLU_FCP_Attachment_Type_User(new DropDownList[] { drpFolder,Attachment1.DropdownFolder, Attachment2.DropdownFolder, Attachment3.DropdownFolder, Attachment4.DropdownFolder, 
+            Attachment5.DropdownFolder, Attachment6.DropdownFolder,Attachment7.DropdownFolder,Attachment8.DropdownFolder,Attachment9.DropdownFolder,Attachment10.DropdownFolder }, true, RightType_ID);
     }
 
     #region " Grid Events"
@@ -137,7 +144,8 @@ public partial class Controls_Attachment_Construction_Attachment : System.Web.UI
         {
             // get PK
             PK_FCP_Attchments = Convert.ToDecimal(e.CommandArgument);
-
+            RightType_ID = "3,4";
+            BindDropDown();
             // bind the controls in edit mode
             // also set the controls required in edit mode
             FCP_Attachments objFCP_Attachment = new FCP_Attachments(PK_FCP_Attchments);
@@ -162,7 +170,8 @@ public partial class Controls_Attachment_Construction_Attachment : System.Web.UI
         {
             // get PK
             PK_FCP_Attchments = Convert.ToDecimal(e.CommandArgument);
-
+            RightType_ID = "2,3,4,5";
+            BindDropDown();
             // bind the controls in view mode
             // also set the controls required for view mode
             FCP_Attachments objFCP_Attachment = new FCP_Attachments(PK_FCP_Attchments);
@@ -264,7 +273,7 @@ public partial class Controls_Attachment_Construction_Attachment : System.Web.UI
                 strFK_IDs = hdnVirtualFolderID.Value;
 
             // select the Data for selected virtual folders of the claim and fill the Grid
-            DataTable dtFCP_Attachment = FCP_Attachments.SelectFilesByAttachmentType(strFK_IDs, ConstructionProjectId).Tables[0];
+            DataTable dtFCP_Attachment = FCP_Attachments.SelectFilesByAttachmentTypeAndSecurityID(strFK_IDs, ConstructionProjectId).Tables[0];
 
             // set the sort properties
             if (_SortBy == "" || _SortOrder == "")
@@ -350,6 +359,8 @@ public partial class Controls_Attachment_Construction_Attachment : System.Web.UI
     {
         if (ConstructionProjectId > 0)
         {
+            RightType_ID = "3";
+            BindDropDown();
             tblFolderList.Visible = false;
             tblAddEditAttachment.Visible = true;
             fpFile.Enabled = true;

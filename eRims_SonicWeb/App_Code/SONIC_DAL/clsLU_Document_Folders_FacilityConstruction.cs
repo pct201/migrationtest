@@ -204,5 +204,20 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Selects a single record from the LU_FC_Document_Folder table.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectAllRecords_BySecurityID(decimal SecurityID, string RightType_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_FC_Document_FolderSelectAllRecords_BySecurityID");
+            db.AddInParameter(dbCommand, "SecurityID", DbType.Decimal, SecurityID);
+            db.AddInParameter(dbCommand, "RightType_ID", DbType.String, RightType_ID);
+
+
+            return db.ExecuteDataSet(dbCommand);
+        }
 	}
 }

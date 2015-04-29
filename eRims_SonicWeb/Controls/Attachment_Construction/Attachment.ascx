@@ -101,11 +101,11 @@
                         <ItemStyle Width="13%" />
                         <ItemTemplate>
                             <asp:LinkButton ID="lnkEdit" runat="server" Text="Edit" CommandName="EditAttachment"
-                                CommandArgument='<%# Eval("PK_FCP_Attachments")%>' />&nbsp;
+                                CommandArgument='<%# Eval("PK_FCP_Attachments")%>' Visible='<%# Convert.ToBoolean(Eval("IsEdit"))%>' />&nbsp;
                             <asp:LinkButton ID="lnkView" runat="server" Text="View" CommandName="ViewAttachment"
-                                CommandArgument='<%# Eval("PK_FCP_Attachments")%>' />&nbsp;
+                                CommandArgument='<%# Eval("PK_FCP_Attachments")%>' Visible='<%# Convert.ToBoolean(Eval("IsView"))%>'/>&nbsp;
                             <asp:LinkButton ID="lnkDelete" runat="server" Text="Delete" CommandName="DeleteAttachment"
-                                CommandArgument='<%# Eval("PK_FCP_Attachments") + ":" + Eval("Attachment_Filename") %>'
+                                CommandArgument='<%# Eval("PK_FCP_Attachments") + ":" + Eval("Attachment_Filename") %>' Visible='<%# Convert.ToBoolean(Eval("IsDelete"))%>'
                                 OnClientClick="return confirm('Are you sure to delete the attachment?')" />&nbsp;
                         </ItemTemplate>
                     </asp:TemplateField>

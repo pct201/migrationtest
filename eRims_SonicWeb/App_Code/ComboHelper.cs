@@ -3831,6 +3831,31 @@ public class ComboHelper
         }
     }
 
+    /// <summary>
+    /// Fill Attachment Type By User
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillLU_FCP_Attachment_Type_User(DropDownList[] dropDowns, bool booladdSelectAsFirstElement, string RightType_ID)
+    {
+        DataTable dtData = clsLU_Document_Folders_FacilityConstruction.SelectAllRecords_BySecurityID(Convert.ToDecimal(clsSession.UserID), RightType_ID).Tables[0];
+        //dtData.DefaultView.RowFilter = "Active = 'Y'";
+        //dtData.DefaultView.Sort = "Fld_Desc ASC";
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Folder_Name";
+            ddlToFill.DataValueField = "PK_LU_FC_Document_Folder";
+            ddlToFill.DataSource = dtData.DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
 
     /// <summary>
     /// Fill Attachment Type

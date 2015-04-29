@@ -350,6 +350,22 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        /// <summary>
+        /// Selects a single record from the EPM_Attachments table by a primary key.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectFilesByAttachmentTypeAndSecurityID(string FK_Attachment_Type, decimal FK_FCP_Identification)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("FCP_AttachmentsSelectByAttachmentTypeAndSecurityID");
+
+            db.AddInParameter(dbCommand, "FK_Attachment_Type", DbType.String, FK_Attachment_Type);
+            db.AddInParameter(dbCommand, "FK_FCP_Identification", DbType.Decimal, FK_FCP_Identification);
+            db.AddInParameter(dbCommand, "SecurityID", DbType.Decimal, Convert.ToDecimal(clsSession.UserID));
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
         public static DataSet GetAttchmentsByID(string PK_FCP_Attachments)
         {
             Database db = DatabaseFactory.CreateDatabase();
