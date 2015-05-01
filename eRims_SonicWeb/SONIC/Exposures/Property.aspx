@@ -5772,7 +5772,14 @@ function ShowHideLeaseAttachment() {
     document.getElementById('<%=trLeaseAttachment.ClientID%>').style.display = "";
 }
 
-
+ function CheckBeforeAddBuildingAttach() {
+            var PK = document.getElementById('<%=hdnBuildingID.ClientID%>').value;
+    if (PK > 0)
+        ShowHideBuildingAttachment();
+    else {
+        alert('Please Enter Building Information First');
+    }
+}
 
 
 
