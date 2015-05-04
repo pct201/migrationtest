@@ -202,6 +202,11 @@
         <siteMapNode url="" title="Exposures" description="">
           <siteMapNode url="Administrator/LU_Market.aspx" title="Market" description=""></siteMapNode>
         </siteMapNode>
+        <siteMapNode title ="Facility Construction" description="" roles="">
+          <siteMapNode url="Administrator/LU_Document_Folders_FacilityConstruction.aspx" title ="Document Folders" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Contractor_Type.aspx" title ="Contractor Type" description="" roles="" />
+          <siteMapNode url="Administrator/LU_FCP_Project_Type.aspx" title ="Facility Project Type" description="" roles="" />
+        </siteMapNode>
         <siteMapNode url="" title="First Reports" description="">
           <siteMapNode url="Administrator/IncidentInvolvementType.aspx" title="Incident Involvement Type" description=""></siteMapNode>
         </siteMapNode>
@@ -271,12 +276,6 @@
           </siteMapNode>
           <siteMapNode url="Administrator/LU_SLT_Safety_Walk_Department.aspx" title ="Department" description="" roles="" />
         </siteMapNode>
-        <siteMapNode title ="Facility Construction" description="" roles="">
-          <siteMapNode url="Administrator/LU_Document_Folders_FacilityConstruction.aspx" title ="Document Folders" description="" roles="" />
-          <siteMapNode url="Administrator/LU_Contractor_Type.aspx" title ="Contractor Type" description="" roles="" />
-          <siteMapNode url="Administrator/LU_FCP_Project_Type.aspx" title ="Facility Project Type" description="" roles="" />
-        </siteMapNode>
-
       </siteMapNode>
       <siteMapNode url="Administrator\SabaTrainingImportExport.aspx" title ="Saba Training Export/Import" description="Saba Training Export/Import" roles="" />
       <siteMapNode url="Administrator\Mandatory_Field_Management.aspx" title ="Mandatory Field Management" description="Mandatory Field Management" roles="" />
