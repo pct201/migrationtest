@@ -1114,7 +1114,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
             txtReplacementNotes.Enabled = true;
             rdoAboveGround.Enabled = true;
             txtHydraulicLift_Removal_Date.Enabled = true;
-            txtHydraulicLiftNotes.Enabled = true;
+            //txtHydraulicLiftNotes.Enabled = true;
             imgInstallationDate1.Visible = true;
             imgLastAnnualInspectionDate1.Visible = true;
             imgHydraulicLift_Removal_Date.Visible = true;
@@ -1129,7 +1129,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
             txtReplacementNotes.Enabled = false;
             rdoAboveGround.Enabled = false;
             txtHydraulicLift_Removal_Date.Enabled = false;
-            txtHydraulicLiftNotes.Enabled = false;
+            //txtHydraulicLiftNotes.Enabled = false;
             imgInstallationDate1.Visible = false;
             imgLastAnnualInspectionDate1.Visible = false;
             imgHydraulicLift_Removal_Date.Visible = false;
@@ -1409,7 +1409,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         txtHydraulicLiftNotes.Text = "";
         rdoAbove_Ground.SelectedValue = "N";
 
-        rdoStatus.SelectedValue = "N";
+        rdoStatus.SelectedValue = "N";        
         rdoReplacementLift.SelectedIndex = -1;
         txtHydraulicLift_Last_Inspection_Date.Text = string.Empty;
         rdoInGroundLifts.SelectedValue = "N";
@@ -1425,9 +1425,9 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         rdoAboveGround.SelectedValue = "N";
 
         txtHydraulicLift_Removal_Date.Text = "";
-        txtHydraulicLiftNotes.Text = "";
-        ShowHideReplacementLiftInformation();
-
+        
+        ShowHideReplacementLiftInformation();       
+        
 
         pnlHydraulicLiftType.Visible = false;
         pnlAdd_Hydraulic_Lift.Visible = true;
@@ -1645,7 +1645,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
             if (objPM_Equipment_Hydraulic_Lift_Grid.Status != null)
                 rdoStatus.SelectedValue = objPM_Equipment_Hydraulic_Lift_Grid.Status;
             else
-                rdoStatus.SelectedValue = "N";
+                rdoStatus.SelectedIndex = -1;
 
             if (objPM_Equipment_Hydraulic_Lift_Grid.Any_Inground_Lifts_Been_Removed != null)
                 rdoInGroundLifts.SelectedValue = objPM_Equipment_Hydraulic_Lift_Grid.Any_Inground_Lifts_Been_Removed;
@@ -1781,7 +1781,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
 
 
             //3187            
-            lblStatus.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Status) == "A" ? "Active" : (Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Status) == "N" ? "Non-Active" : "Removed"); 
+            lblStatus.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Status) == "A" ? "Active" : (Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Status) == "N" ? "Non-Active" : (Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Status) == "R" ? "Removed" : string.Empty)); 
 
             lblInGroundLifts.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Any_Inground_Lifts_Been_Removed) == "" ? "N" : (Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Any_Inground_Lifts_Been_Removed) == "Y" ? "Yes" : "No");
             lblDocumentRelatedLifts.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Documentation_Related_To_Removed_Lifts) == "" ? "N" : (Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Documentation_Related_To_Removed_Lifts) == "Y" ? "Yes" : "No"); ;

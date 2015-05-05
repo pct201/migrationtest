@@ -84,7 +84,7 @@
                                     <span style="display: inline-block; width: 150px;">Status</span>
                                 </th>
                                 <th class="cols" align="left">
-                                    <span style="display: inline-block; width: 150px; word-wrap:normal;word-break:break-all">Have Any Inground <span id="spnauditRemoved" runat="server">Lifts</span> Been Removed?</span>
+                                    <span style="display: inline-block; width: 190px; word-wrap:normal;word-break:break-all">Have Any Inground <span id="spnauditRemoved" runat="server">Lifts</span> Been Removed from service bay?</span>
                                 </th>
                                 <th class="cols" align="left">
                                     <span style="display: inline-block; width: 150px; word-wrap:normal;word-break:break-all">Documentation Related To Removed <span id="spnauditRemoval" runat="server">Lift</span></span>
@@ -212,7 +212,7 @@
                              <asp:TemplateField HeaderText="Any_Inground_Lifts_Been_Removed">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblAny_Inground_Lifts_Been_Removed" runat="server" Text='<%#Eval("Any_Inground_Lifts_Been_Removed") != "Y" ? "No":"Yes" %>' Width="150px"></asp:Label>
+                                    <asp:Label ID="lblAny_Inground_Lifts_Been_Removed" runat="server" Text='<%#Eval("Any_Inground_Lifts_Been_Removed") != "Y" ? "No":"Yes" %>' Width="190px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                              <asp:TemplateField HeaderText="Documentation_Related_To_Removed_Lifts">

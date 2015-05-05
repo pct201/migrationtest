@@ -2192,7 +2192,7 @@ function ValidateFieldsTank(sender, args) {
                                                             <td align="left" valign="top" width="28%">
                                                                 <asp:RadioButtonList ID="rdoStatus" runat="server" RepeatDirection="Horizontal" CellPadding="0" CellSpacing="0">
                                                                     <asp:ListItem Text="Active" Value="A"></asp:ListItem>
-                                                                    <asp:ListItem Text="Non-Active" Value="N" Selected="True"></asp:ListItem>
+                                                                    <asp:ListItem Text="Non-Active" Value="N"></asp:ListItem>
                                                                     <asp:ListItem Text="Removed" Value="R"></asp:ListItem>
                                                                 </asp:RadioButtonList>
                                                             </td>
@@ -2248,7 +2248,7 @@ function ValidateFieldsTank(sender, args) {
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" width="18%" valign="top">Have Any In-Ground <span id="spnInGroundLifts" runat="server">Lifts</span> been Removed from the Location?&nbsp;
+                                                            <td align="left" width="18%" valign="top">Have Any In-Ground <span id="spnInGroundLifts" runat="server">Lifts</span> been Removed from the service bay?&nbsp;
                                                             </td>
                                                             <td align="center" width="3%" valign="top">:
                                                             </td>
@@ -2367,7 +2367,7 @@ function ValidateFieldsTank(sender, args) {
                                                                 <td align="center" valign="top">:
                                                                 </td>
                                                                 <td align="left" colspan="4" valign="top">
-                                                                    <uc:ctrlMultiLineTextBox ID="txtHydraulicLiftNotes" runat="server" />
+                                                                    <uc:ctrlMultiLineTextBox ID="txtHydraulicLiftNotes" runat="server" Enabled="true" />
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -3783,7 +3783,7 @@ function ValidateFieldsTank(sender, args) {
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" width="18%" valign="top">Have Any In-Ground <span id="spnvwInGround" runat="server">Lifts</span> been Removed from the Location?
+                                                            <td align="left" width="18%" valign="top">Have Any In-Ground <span id="spnvwInGround" runat="server">Lifts</span> been Removed from the service bay?
                                                             </td>
                                                             <td align="center" width="3%" valign="top">:
                                                             </td>
