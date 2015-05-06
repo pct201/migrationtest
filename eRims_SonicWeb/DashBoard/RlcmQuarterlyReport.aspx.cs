@@ -1480,6 +1480,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
 
         if (strMarket == string.Empty && isAll)
         {
+            strMarket = "0,";
             foreach (ListItem Li in lstMarket.Items)
             {
                 strMarket = strMarket + "" + Li.Value.Replace("'", "''") + ",";
