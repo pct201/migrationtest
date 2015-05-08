@@ -5184,5 +5184,13 @@ public class ComboHelper
         }
     }
 
+    public static void LearningProgramingStatusDescription(ListBox lst)
+    {
+        lst.Items.Clear();
+        lst.Items.Add(new ListItem("Withdrawn", "Withdrawn"));
+        lst.Items.Add(new ListItem("Enrolled but not started", "Enrolled but not started"));
+        lst.Items.Add(new ListItem("Completed", "Completed"));
+        lst.Items.Add(new ListItem("Started", "Started"));       
+    }
 }
 
