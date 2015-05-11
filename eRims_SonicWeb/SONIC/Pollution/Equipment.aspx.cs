@@ -452,6 +452,10 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         // set attachment details control in read/write mode. so user can add or remove attachment as well.
         // AttachDetailsTank.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Tank), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
         // BindTankAttachmentDetaills();
+        if (objPM_Equipment_Tank.Status != null)
+            rdoEquipmentStatus.SelectedValue = objPM_Equipment_Tank.Status;
+        else
+            rdoEquipmentStatus.SelectedValue = "N";
         AttachDetails.Equipment_Table_Name = "PM_Equipment_Tank";
         AttachDetails.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Tank), "FK_Table_Name", "PK_PM_Equipment_Attachments", true, 2);
         BindTankAttachmentDetaills();
@@ -529,6 +533,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         lblInspection_Company_Contact_Name.Text = objPM_Equipment_Tank.Inspection_Company_Contact_Name;
         lblInspection_Company_Contact_Telephone.Text = objPM_Equipment_Tank.Inspection_Company_Contact_Telephone;
         lblNotes.Text = objPM_Equipment_Tank.Notes;
+        lblEquipmentStatus.Text = lblStatus.Text = Convert.ToString(objPM_Equipment_Tank.Status) == "A" ? "Active" : (Convert.ToString(objPM_Equipment_Tank.Status) == "N" ? "Non-Active" : (Convert.ToString(objPM_Equipment_Tank.Status) == "R" ? "Removed" : string.Empty)); 
         // set attachment details control in readonly mode.
         //TankAttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Equipment_Attachments, Convert.ToInt32(PK_PM_Equipment_Tank), "FK_Table_Name", "PK_PM_Equipment_Attachments", false, 2);
         //BindTankAttachmentDetaills();
@@ -1426,8 +1431,9 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
 
         txtHydraulicLift_Removal_Date.Text = "";
         
-        ShowHideReplacementLiftInformation();       
-        
+        ShowHideReplacementLiftInformation();
+
+        //rdoEquipmentStatus.SelectedValue = "N";
 
         pnlHydraulicLiftType.Visible = false;
         pnlAdd_Hydraulic_Lift.Visible = true;
@@ -1896,6 +1902,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
             //objPM_Equipment_Tank.Release_Control_Countermeasures_Plan = txtRelease_Control_Countermeasures_Plan.Text.Trim();      //* :3187 *//
             objPM_Equipment_Tank.SPCC_Required = rdoSPCC_Required.SelectedValue;
             objPM_Equipment_Tank.SPCCDate_Developed = clsGeneral.FormatNullDateToStore(txtSPCCDate_Developed.Text);
+            objPM_Equipment_Tank.Status = rdoEquipmentStatus.SelectedValue;
             
             DateTime? dtCurrent = clsGeneral.FormatNullDateToStore(txtSPCCDate_Developed.Text);
             DateTime? dtNew = new DateTime();

@@ -218,6 +218,10 @@
                                 </th>
 
                                 <th class="cols">
+                                    <span style="display: inline-block; width: 150px;">Status</span>
+                                </th>
+
+                                <th class="cols">
                                     <span style="display: inline-block; width: 100px;">Updated By</span>
                                 </th>
                                 <th class="cols">
@@ -619,7 +623,12 @@
                                         Width="117px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-
+                            <asp:TemplateField HeaderText="Status">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblStatus" runat="server" Text='<%#CheckStatus(Eval("Status")) %>'  Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
                             <asp:TemplateField HeaderText="Updated_By">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>

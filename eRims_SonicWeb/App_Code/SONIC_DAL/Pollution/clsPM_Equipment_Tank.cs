@@ -607,6 +607,14 @@ namespace ERIMS.DAL
             set { _Manufacturer = value; }
         }
 
+        private string _Status;
+
+        public string Status
+        {
+            get { return _Status; }
+            set { _Status = value; }
+        }
+        
 		#endregion
 
 		#region Default Constructors
@@ -936,6 +944,11 @@ namespace ERIMS.DAL
                     this._Secure_Non_Business = null;
                 else
                     this._Secure_Non_Business = (string)drPM_Equipment_Tank["Secure_Non_Business"];
+
+                if (drPM_Equipment_Tank["Status"] == DBNull.Value)
+                    this._Status = null;
+                else
+                    this._Status = (string)drPM_Equipment_Tank["Status"];
 		}
 
 		#endregion
@@ -1162,6 +1175,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Secure_Non_Business", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Secure_Non_Business", DbType.String, this._Secure_Non_Business);
+
+            if (string.IsNullOrEmpty(this._Status))
+                db.AddInParameter(dbCommand, "Status", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Status", DbType.String, this._Status);
 
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -1417,6 +1435,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Secure_Non_Business", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Secure_Non_Business", DbType.String, this._Secure_Non_Business);
+
+            if (string.IsNullOrEmpty(this._Status))
+                db.AddInParameter(dbCommand, "Status", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Status", DbType.String, this._Status);
 
 			db.ExecuteNonQuery(dbCommand);
 		}

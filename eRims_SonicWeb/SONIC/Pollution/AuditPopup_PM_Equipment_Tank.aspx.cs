@@ -82,5 +82,25 @@ public partial class SONIC_Pollution_AuditPopup_PM_Equipment_Tank : System.Web.U
         dt = null;
     }
 
+    //Set status
+    public string CheckStatus(object myValue)
+    {
+        if (myValue.ToString() == "A")
+        {
+            return "Active";
+        }
+        else if (myValue.ToString() == "N")
+        {
+            return "Non-Active";
+        }
+        else if (myValue.ToString() == "R")
+        {
+            return "Removed";
+        }
+        else
+        {
+            return string.Empty;
+        }
+    }
     #endregion
 }
