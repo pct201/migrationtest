@@ -5001,6 +5001,30 @@ public class ComboHelper
     }
 
     /// <summary>
+    /// Used to bind ACI Location
+    /// </summary>
+    /// <param name="dropDowns">Dropdown Lists</param>
+    /// <param name="addSelectAsFirstElement">Require to add "--Select--" as a first element of dropdown</param>
+    public static void FillWorkToBeCompleted(DropDownList[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = clsLU_Work_Completed.SelectAll();
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Fld_Desc";
+            ddlToFill.DataValueField = "PK_LU_Work_Completed";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary>
     /// Bind Status of Yes or No (it used for ClientIssue and FacilitiesIssues in management module)
     /// </summary>
     /// <param name="dropDowns"></param>
