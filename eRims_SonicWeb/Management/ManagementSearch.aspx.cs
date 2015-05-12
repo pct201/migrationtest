@@ -57,7 +57,7 @@ public partial class Management_ManagementSearch : clsBasePage
             //txtCompany.Focus();
             drpLocation.Focus();
             ctrlPageProperty.PageSize = clsSession.NumberOfSearchRows;
-            _SortBy = "Camera_Number";
+            _SortBy = "dba";
             _SortOrder = "asc";
 
             btnAdd.Visible = (App_Access != AccessType.View_Only);
@@ -90,9 +90,11 @@ public partial class Management_ManagementSearch : clsBasePage
         //ComboHelper.FillState(new DropDownList[] { drpState }, true);
         //ComboHelper.FillLU_Region(new DropDownList[] { drpRegion }, true);
         ComboHelper.FillLocationByACIUser_New((new DropDownList[] { drpLocation }), Convert.ToDecimal(clsSession.UserID), true);
-        ComboHelper.FillLU_Camera_Type(new DropDownList[] { drpCamera_Type }, true);
-        ComboHelper.FillStatus(drpClient_Issue, true);
-        ComboHelper.FillStatus(drpFacilities_Issue, true);
+        ComboHelper.FillWorkToBeCompleted((new DropDownList[] { drpWorkToBeCompleted }), true);
+        ComboHelper.FillRecord_Type((new DropDownList[] { drpRecordType }), true);
+        //ComboHelper.FillLU_Camera_Type(new DropDownList[] { drpCamera_Type }, true);
+        //ComboHelper.FillStatus(drpClient_Issue, true);
+        //ComboHelper.FillStatus(drpFacilities_Issue, true);
     }
 
     /// <summary>
@@ -105,16 +107,16 @@ public partial class Management_ManagementSearch : clsBasePage
 
         #region "Variable"
 
-        decimal? decState = 0, decLocation = 0, decRegion = 0, decCameraType = 0, decCost = 0, decLocation_Code = null;
+        decimal? decLocation = 0, decRecordType = 0, decLocation_Code = null, decWorkToBeCompleted = 0;
         DateTime? Date_Scheduled_From = null, Date_Scheduled_To = null, Date_Complete_From = null, Date_Complete_To = null, CR_Approved_From = null, CR_Approved_To = null;
-        string strCompany = null, strCity = null, strCounty = null, strCameraNumber = null, strClientIssue = null, strFacilitiesIssue = null;
+        string strOtherWorkType = null, strOtherRecordType = null, strJob = null, strOrder = null, strCreatedBy = null;
 
         //if (drpState.SelectedIndex > 0) decState = Convert.ToDecimal(drpState.SelectedValue);
         if (drpLocation.SelectedIndex > 0) decLocation = Convert.ToDecimal(drpLocation.SelectedValue);
         //if (drpRegion.SelectedIndex > 0) decRegion = Convert.ToDecimal(drpRegion.SelectedValue);
-        if (drpCamera_Type.SelectedIndex > 0) decCameraType = Convert.ToDecimal(drpCamera_Type.SelectedValue);
-        if (drpClient_Issue.SelectedIndex > 0) strClientIssue = Convert.ToString(drpClient_Issue.SelectedValue);
-        if (drpFacilities_Issue.SelectedIndex > 0) strFacilitiesIssue = Convert.ToString(drpFacilities_Issue.SelectedValue);
+        //if (drpCamera_Type.SelectedIndex > 0) decCameraType = Convert.ToDecimal(drpCamera_Type.SelectedValue);
+        //if (drpClient_Issue.SelectedIndex > 0) strClientIssue = Convert.ToString(drpClient_Issue.SelectedValue);
+        //if (drpFacilities_Issue.SelectedIndex > 0) strFacilitiesIssue = Convert.ToString(drpFacilities_Issue.SelectedValue);
 
         if (!string.IsNullOrEmpty(txtDate_Scheduled.Text)) Date_Scheduled_From = Convert.ToDateTime(txtDate_Scheduled.Text);
         if (!string.IsNullOrEmpty(txtTo_Date_Scheduled.Text)) Date_Scheduled_To = Convert.ToDateTime(txtTo_Date_Scheduled.Text);
@@ -126,12 +128,24 @@ public partial class Management_ManagementSearch : clsBasePage
         //if (!string.IsNullOrEmpty(txtCompany.Text)) strCompany = txtCompany.Text.Trim().Replace("'", "''");
         //if (!string.IsNullOrEmpty(txtCity.Text)) strCity = txtCity.Text.Trim().Replace("'", "''");
         //if (!string.IsNullOrEmpty(txtCounty.Text)) strCounty = txtCounty.Text.Trim().Replace("'", "''");
-        if (!string.IsNullOrEmpty(txtCamera_Number.Text)) strCameraNumber = txtCamera_Number.Text.Trim().Replace("'", "''");
-        if (!string.IsNullOrEmpty(txtCost.Text)) decCost = Convert.ToDecimal(txtCost.Text);
+        //if (!string.IsNullOrEmpty(txtCamera_Number.Text)) strCameraNumber = txtCamera_Number.Text.Trim().Replace("'", "''");
+        if (drpWorkToBeCompleted.SelectedIndex > 0) decWorkToBeCompleted = Convert.ToDecimal(drpWorkToBeCompleted.SelectedValue);
+        if (drpRecordType.SelectedIndex > 0) decRecordType = Convert.ToDecimal(drpRecordType.SelectedValue);
+        if (!string.IsNullOrEmpty(txtOtherWorkType.Text)) strOtherWorkType = txtOtherWorkType.Text.Trim().Replace("'", "''");
+        if (!string.IsNullOrEmpty(txtOtherRecordType.Text)) strOtherRecordType = txtOtherRecordType.Text.Trim().Replace("'", "''");
+        if (!string.IsNullOrEmpty(txtJob.Text)) strJob = txtJob.Text.Trim().Replace("'", "''");
+        if (!string.IsNullOrEmpty(txtOrder.Text)) strOrder = txtOrder.Text.Trim().Replace("'", "''");
+        if (!string.IsNullOrEmpty(txtCreatedBy.Text)) strCreatedBy = txtCreatedBy.Text.Trim().Replace("'", "''");
+        //if (!string.IsNullOrEmpty(txtCost.Text)) decCost = Convert.ToDecimal(txtCost.Text);
 
         if (!string.IsNullOrEmpty(txtLocation_Code.Text)) decLocation_Code = Convert.ToDecimal(txtLocation_Code.Text);
 
-        bool? Task_Complete = null;
+        bool? Task_Complete = null, workToBeCompletedBy = null;
+
+        if (!string.IsNullOrEmpty(rdbWorkToBeCompletedBy.SelectedValue))
+        {
+            workToBeCompletedBy = Convert.ToBoolean(Convert.ToInt32(rdbWorkToBeCompletedBy.SelectedValue));
+        }
 
         if (!string.IsNullOrEmpty(rdbTaskComplete.SelectedValue))
         {
@@ -143,8 +157,8 @@ public partial class Management_ManagementSearch : clsBasePage
         #region "Bind Grid"
 
         // selects records depending on paging criteria and search values.
-        DataSet dsManagement = ERIMS.DAL.clsManagement.ManagementSearch(strCompany, strCity, strCounty, strCameraNumber, decCost, decLocation, decState, decRegion, decCameraType, strClientIssue,
-            strFacilitiesIssue, Date_Scheduled_From, Date_Scheduled_To, Date_Complete_From, Date_Complete_To, CR_Approved_From, CR_Approved_To, decLocation_Code, _SortBy, _SortOrder, PageNumber, PageSize, Task_Complete);
+        DataSet dsManagement = ERIMS.DAL.clsManagement.ManagementSearch(decLocation, decWorkToBeCompleted, strOtherWorkType,
+            decRecordType, strOtherRecordType, strCreatedBy, strJob, strOrder, Date_Scheduled_From, Date_Scheduled_To, Date_Complete_From, Date_Complete_To, CR_Approved_From, CR_Approved_To, decLocation_Code, _SortBy, _SortOrder, PageNumber, PageSize, workToBeCompletedBy, Task_Complete);
         DataTable dtManagement = dsManagement.Tables[0];
 
         // set values for paging control,so it shows values as needed.
@@ -178,12 +192,12 @@ public partial class Management_ManagementSearch : clsBasePage
         #region "Save Criteria"
 
         DataTable dtCriteria = new DataTable();
-        dtCriteria.Columns.Add("strCompany", typeof(string));
-        dtCriteria.Columns.Add("strCity", typeof(string));
-        dtCriteria.Columns.Add("strCounty", typeof(string));
-        dtCriteria.Columns.Add("strCameraNumber", typeof(string));
-        dtCriteria.Columns.Add("strClientIssue", typeof(string));
-        dtCriteria.Columns.Add("strFacilitiesIssue", typeof(string));
+        //dtCriteria.Columns.Add("strCompany", typeof(string));
+        //dtCriteria.Columns.Add("strCity", typeof(string));
+        //dtCriteria.Columns.Add("strCounty", typeof(string));
+        //dtCriteria.Columns.Add("strCameraNumber", typeof(string));
+        //dtCriteria.Columns.Add("strClientIssue", typeof(string));
+        //dtCriteria.Columns.Add("strFacilitiesIssue", typeof(string));
         dtCriteria.Columns.Add("Date_Scheduled_From", typeof(string));
         dtCriteria.Columns.Add("Date_Scheduled_To", typeof(string));
         dtCriteria.Columns.Add("Date_Complete_From", typeof(string));
@@ -191,22 +205,30 @@ public partial class Management_ManagementSearch : clsBasePage
         dtCriteria.Columns.Add("CR_Approved_From", typeof(string));
         dtCriteria.Columns.Add("CR_Approved_To", typeof(string));
 
-        dtCriteria.Columns.Add("decState", typeof(decimal));
+        //dtCriteria.Columns.Add("decState", typeof(decimal));
         dtCriteria.Columns.Add("decLocation", typeof(decimal));
-        dtCriteria.Columns.Add("decRegion", typeof(decimal));
-        dtCriteria.Columns.Add("decCameraType", typeof(decimal));
-        dtCriteria.Columns.Add("decCost", typeof(decimal));
+        //dtCriteria.Columns.Add("decRegion", typeof(decimal));
+        //dtCriteria.Columns.Add("decCameraType", typeof(decimal));
+        //dtCriteria.Columns.Add("decCost", typeof(decimal));
         dtCriteria.Columns.Add("decLocation_Code", typeof(decimal));
         dtCriteria.Columns.Add("Task_Complete", typeof(bool));
 
+        dtCriteria.Columns.Add("decWorkToBeCompleted", typeof(decimal));
+        dtCriteria.Columns.Add("decRecordType", typeof(decimal));
+        dtCriteria.Columns.Add("strOtherWorkType", typeof(string));
+        dtCriteria.Columns.Add("strOtherRecordType", typeof(string));
+        dtCriteria.Columns.Add("strJob", typeof(string));
+        dtCriteria.Columns.Add("strOrder", typeof(string));
+        dtCriteria.Columns.Add("strCreatedBy", typeof(string));
+        dtCriteria.Columns.Add("workToBeCompletedBy", typeof(bool));
+
         DataRow drCriteria = dtCriteria.NewRow();
-        drCriteria["strCompany"] = strCompany;
-        drCriteria["strCity"] = strCity;
-        drCriteria["strCounty"] = strCounty;
-        drCriteria["strCameraNumber"] = strCameraNumber;
-        drCriteria["strCameraNumber"] = strCameraNumber;
-        drCriteria["strClientIssue"] = strClientIssue;
-        drCriteria["strFacilitiesIssue"] = strFacilitiesIssue;
+        //drCriteria["strCompany"] = strCompany;
+        //drCriteria["strCity"] = strCity;
+        //drCriteria["strCounty"] = strCounty;
+        //drCriteria["strCameraNumber"] = strCameraNumber;
+        //drCriteria["strClientIssue"] = strClientIssue;
+        //drCriteria["strFacilitiesIssue"] = strFacilitiesIssue;
         drCriteria["Date_Scheduled_From"] = Date_Scheduled_From;
         drCriteria["Date_Scheduled_To"] = Date_Scheduled_To;
         drCriteria["Date_Complete_From"] = Date_Complete_From;
@@ -214,11 +236,22 @@ public partial class Management_ManagementSearch : clsBasePage
         drCriteria["CR_Approved_From"] = CR_Approved_From;
         drCriteria["CR_Approved_To"] = CR_Approved_To;
 
-        drCriteria["decState"] = decState;
+        //drCriteria["decState"] = decState;
         drCriteria["decLocation"] = decLocation;
-        drCriteria["decRegion"] = decRegion;
-        drCriteria["decCameraType"] = decCameraType;
-        drCriteria["decCost"] = decCost;
+        //drCriteria["decRegion"] = decRegion;
+        //drCriteria["decCameraType"] = decCameraType;
+        //drCriteria["decCost"] = decCost;
+
+        drCriteria["decWorkToBeCompleted"] = decWorkToBeCompleted;
+        drCriteria["decRecordType"] = decRecordType;
+        drCriteria["strOtherWorkType"] = strOtherWorkType;
+        drCriteria["strOtherRecordType"] = strOtherRecordType;
+        drCriteria["strJob"] = strJob;
+        drCriteria["strOrder"] = strOrder;
+        drCriteria["strCreatedBy"] = strCreatedBy;
+        if (workToBeCompletedBy != null)
+            drCriteria["workToBeCompletedBy"] = workToBeCompletedBy;
+
         if (decLocation_Code != null)
             drCriteria["decLocation_Code"] = decLocation_Code;
         if (Task_Complete != null)
@@ -243,11 +276,11 @@ public partial class Management_ManagementSearch : clsBasePage
 
         #region "Declaration"
 
-        decimal? decState = Convert.ToDecimal(drCriteria["decState"]);
+        //decimal? decState = Convert.ToDecimal(drCriteria["decState"]);
         decimal? decLocation = Convert.ToDecimal(drCriteria["decLocation"]);
-        decimal? decRegion = Convert.ToDecimal(drCriteria["decRegion"]);
-        decimal? decCameraType = Convert.ToDecimal(drCriteria["decCameraType"]);
-        decimal? decCost = Convert.ToDecimal(drCriteria["decCost"]);
+        //decimal? decRegion = Convert.ToDecimal(drCriteria["decRegion"]);
+        //decimal? decCameraType = Convert.ToDecimal(drCriteria["decCameraType"]);
+        //decimal? decCost = Convert.ToDecimal(drCriteria["decCost"]);
         decimal? decLocation_Code = null;
         if (drCriteria["decLocation_Code"] != DBNull.Value)
             decLocation_Code = Convert.ToDecimal(drCriteria["decLocation_Code"]);
@@ -258,13 +291,26 @@ public partial class Management_ManagementSearch : clsBasePage
         DateTime? CR_Approved_From = clsGeneral.FormatNullDateToStore(Convert.ToString(drCriteria["CR_Approved_From"]));
         DateTime? CR_Approved_To = clsGeneral.FormatNullDateToStore(Convert.ToString(drCriteria["CR_Approved_To"]));
 
-        string strCompany = Convert.ToString(drCriteria["strCompany"]);
-        string strCity = Convert.ToString(drCriteria["strCity"]);
-        string strCounty = Convert.ToString(drCriteria["strCounty"]);
-        string strCameraNumber = Convert.ToString(drCriteria["strCameraNumber"]);
-        string strClientIssue = Convert.ToString(drCriteria["strClientIssue"]);
-        string strFacilitiesIssue = Convert.ToString(drCriteria["strFacilitiesIssue"]);
-        bool? Task_Complete = null;
+        //string strCompany = Convert.ToString(drCriteria["strCompany"]);
+        //string strCity = Convert.ToString(drCriteria["strCity"]);
+        //string strCounty = Convert.ToString(drCriteria["strCounty"]);
+        //string strCameraNumber = Convert.ToString(drCriteria["strCameraNumber"]);
+        //string strClientIssue = Convert.ToString(drCriteria["strClientIssue"]);
+        //string strFacilitiesIssue = Convert.ToString(drCriteria["strFacilitiesIssue"]);
+
+        decimal? decWorkToBeCompleted = Convert.ToDecimal(drCriteria["decWorkToBeCompleted"]);
+        decimal? decRecordType = Convert.ToDecimal(drCriteria["decRecordType"]);
+        string strOtherWorkType = Convert.ToString(drCriteria["strOtherWorkType"]);
+        string strOtherRecordType = Convert.ToString(drCriteria["strOtherRecordType"]);
+        string strJob = Convert.ToString(drCriteria["strJob"]);
+        string strOrder = Convert.ToString(drCriteria["strOrder"]);
+        string strCreatedBy = Convert.ToString(drCriteria["strCreatedBy"]);
+
+        bool? Task_Complete = null, workToBeCompletedBy = null;
+
+        if (drCriteria["workToBeCompletedBy"] != DBNull.Value)
+            workToBeCompletedBy = Convert.ToBoolean(drCriteria["workToBeCompletedBy"]);
+
         if (drCriteria["Task_Complete"] != DBNull.Value)
             Task_Complete = Convert.ToBoolean(drCriteria["Task_Complete"]);
 
@@ -272,8 +318,8 @@ public partial class Management_ManagementSearch : clsBasePage
 
         #region "Bind Grid"
 
-        DataSet dsManagement = ERIMS.DAL.clsManagement.ManagementSearch(strCompany, strCity, strCounty, strCameraNumber, decCost, decLocation, decState, decRegion, decCameraType, strClientIssue,
-            strFacilitiesIssue, Date_Scheduled_From, Date_Scheduled_To, Date_Complete_From, Date_Complete_To, CR_Approved_From, CR_Approved_To, decLocation_Code, _SortBy, _SortOrder, PageNumber, PageSize, Task_Complete);
+        DataSet dsManagement = ERIMS.DAL.clsManagement.ManagementSearch(decLocation, decWorkToBeCompleted, strOtherWorkType,
+            decRecordType, strOtherRecordType, strCreatedBy, strJob, strOrder, Date_Scheduled_From, Date_Scheduled_To, Date_Complete_From, Date_Complete_To, CR_Approved_From, CR_Approved_To, decLocation_Code, _SortBy, _SortOrder, PageNumber, PageSize, workToBeCompletedBy, Task_Complete);
 
         // set values for paging control,so it shows values as needed.
         DataTable dtManagement = dsManagement.Tables[0];
@@ -385,12 +431,17 @@ public partial class Management_ManagementSearch : clsBasePage
         strHTML.Append("<table  cellpadding='0' cellspacing='0' width='100%' border='1'>");
         strHTML.Append("<tr align='right' valign='bottom' style='font-weight: bold;'>");
 
-        strHTML.Append("<td align='left'>Company</td>");
-        strHTML.Append("<td align='left'>Camera Number</td>'");
-        strHTML.Append("<td align='left'>Camera Type</td>");
-        strHTML.Append("<td align='left'>Date Scheduled</td>");
-        strHTML.Append("<td align='left'>Date Complete</td>");
-        strHTML.Append("<td align='left'>Task Complete</td>");
+        //strHTML.Append("<td align='left'>Company</td>");
+        //strHTML.Append("<td align='left'>Camera Number</td>'");
+        //strHTML.Append("<td align='left'>Camera Type</td>");
+        //strHTML.Append("<td align='left'>Date Scheduled</td>");
+        //strHTML.Append("<td align='left'>Date Complete</td>");
+        //strHTML.Append("<td align='left'>Task Complete</td>");
+        strHTML.Append("<td align='left'>DBA</td>");
+        strHTML.Append("<td align='left'>Work To Be Completed</td>'");
+        strHTML.Append("<td align='left'>Order</td>");
+        strHTML.Append("<td align='left'>Job</td>");
+        strHTML.Append("<td align='left'>Created By</td>");
 
         strHTML.Append("</tr>");
 
@@ -399,12 +450,17 @@ public partial class Management_ManagementSearch : clsBasePage
             for (int i = 0; i < dtManagement.Rows.Count; i++)
             {
                 strHTML.Append("<tr align='left'>");
-                strHTML.Append("<td>" + Convert.ToString(dtManagement.Rows[i]["Company"]) + "</td>");
-                strHTML.Append("<td>" + Convert.ToString(dtManagement.Rows[i]["Camera_Number"]) + "</td>");
-                strHTML.Append("<td>" + Convert.ToString(dtManagement.Rows[i]["FK_LU_Camera_Type"]) + "</td>");
-                strHTML.Append("<td>" + clsGeneral.FormatDBNullDateToDisplay(dtManagement.Rows[i]["Date_Scheduled"]) + "</td>");
-                strHTML.Append("<td>" + clsGeneral.FormatDBNullDateToDisplay(dtManagement.Rows[i]["Date_Complete"]) + "</td>");
-                strHTML.Append("<td>" + Convert.ToString(dtManagement.Rows[i]["Task_Complete"]) + "</td>");
+                //strHTML.Append("<td>" + Convert.ToString(dtManagement.Rows[i]["Company"]) + "</td>");
+                //strHTML.Append("<td>" + Convert.ToString(dtManagement.Rows[i]["Camera_Number"]) + "</td>");
+                //strHTML.Append("<td>" + Convert.ToString(dtManagement.Rows[i]["FK_LU_Camera_Type"]) + "</td>");
+                //strHTML.Append("<td>" + clsGeneral.FormatDBNullDateToDisplay(dtManagement.Rows[i]["Date_Scheduled"]) + "</td>");
+                //strHTML.Append("<td>" + clsGeneral.FormatDBNullDateToDisplay(dtManagement.Rows[i]["Date_Complete"]) + "</td>");
+                //strHTML.Append("<td>" + Convert.ToString(dtManagement.Rows[i]["Task_Complete"]) + "</td>");
+                strHTML.Append("<td>" + Convert.ToString(dtManagement.Rows[i]["DBA"]) + "</td>");
+                strHTML.Append("<td>" + Convert.ToString(dtManagement.Rows[i]["WorkToBeCompleted"]) + "</td>");
+                strHTML.Append("<td>" + Convert.ToString(dtManagement.Rows[i]["Order"]) + "</td>");
+                strHTML.Append("<td>" + Convert.ToString(dtManagement.Rows[i]["Job"]) + "</td>");
+                strHTML.Append("<td>" + Convert.ToString(dtManagement.Rows[i]["Created_By"]) + "</td>");
                 strHTML.Append("</tr>");
             }
         }
@@ -427,7 +483,7 @@ public partial class Management_ManagementSearch : clsBasePage
         context.Response.AppendHeader("Content-Disposition", "attachment; filename=" + name);
         context.Response.End();
     }
-
+    
     #endregion
 
     #region "Grid Events"
@@ -528,7 +584,7 @@ public partial class Management_ManagementSearch : clsBasePage
     {
         _IsCriteria = false;
         //Set Soryby,Sortorder and Page size filed
-        _SortBy = "Camera_Number";
+        _SortBy = "dba";
         _SortOrder = "asc";
         ctrlPageProperty.PageSize = 25;
 
@@ -558,12 +614,15 @@ public partial class Management_ManagementSearch : clsBasePage
         drpLocation.SelectedIndex = 0;
         //drpState.SelectedIndex = 0;
         //drpRegion.SelectedIndex = 0;
-        drpCamera_Type.SelectedIndex = 0;
-        drpClient_Issue.SelectedIndex = 0;
-        drpFacilities_Issue.SelectedIndex = 0;
+        //drpCamera_Type.SelectedIndex = 0;
+        //drpClient_Issue.SelectedIndex = 0;
+        //drpFacilities_Issue.SelectedIndex = 0;
+        drpRecordType.SelectedIndex = 0;
+        drpWorkToBeCompleted.SelectedIndex = 0;
         // show search filter panel
         pnlSearchResult.Visible = false;
         pnlSearchFilter.Visible = true;
+        rdbWorkToBeCompletedBy.ClearSelection();
         rdbTaskComplete.ClearSelection();
 
         // Check User Rights
@@ -600,11 +659,11 @@ public partial class Management_ManagementSearch : clsBasePage
 
         #region "Declaration"
 
-        decimal? decState = Convert.ToDecimal(drCriteria["decState"]);
+        //decimal? decState = Convert.ToDecimal(drCriteria["decState"]);
         decimal? decLocation = Convert.ToDecimal(drCriteria["decLocation"]);
-        decimal? decRegion = Convert.ToDecimal(drCriteria["decRegion"]);
-        decimal? decCameraType = Convert.ToDecimal(drCriteria["decCameraType"]);
-        decimal? decCost = Convert.ToDecimal(drCriteria["decCost"]);
+        //decimal? decRegion = Convert.ToDecimal(drCriteria["decRegion"]);
+        //decimal? decCameraType = Convert.ToDecimal(drCriteria["decCameraType"]);
+        //decimal? decCost = Convert.ToDecimal(drCriteria["decCost"]);
         decimal? decLocation_Code = null;
         if (drCriteria["decLocation_Code"] != DBNull.Value)
             decLocation_Code = Convert.ToDecimal(drCriteria["decLocation_Code"]);
@@ -615,21 +674,35 @@ public partial class Management_ManagementSearch : clsBasePage
         DateTime? CR_Approved_From = clsGeneral.FormatNullDateToStore(Convert.ToString(drCriteria["CR_Approved_From"]));
         DateTime? CR_Approved_To = clsGeneral.FormatNullDateToStore(Convert.ToString(drCriteria["CR_Approved_To"]));
 
-        string strCompany = Convert.ToString(drCriteria["strCompany"]);
-        string strCity = Convert.ToString(drCriteria["strCity"]);
-        string strCounty = Convert.ToString(drCriteria["strCounty"]);
-        string strCameraNumber = Convert.ToString(drCriteria["strCameraNumber"]);
-        string strClientIssue = Convert.ToString(drCriteria["strClientIssue"]);
-        string strFacilitiesIssue = Convert.ToString(drCriteria["strFacilitiesIssue"]);
-        bool? Task_Complete = null;
+        //string strCompany = Convert.ToString(drCriteria["strCompany"]);
+        //string strCity = Convert.ToString(drCriteria["strCity"]);
+        //string strCounty = Convert.ToString(drCriteria["strCounty"]);
+        //string strCameraNumber = Convert.ToString(drCriteria["strCameraNumber"]);
+        //string strClientIssue = Convert.ToString(drCriteria["strClientIssue"]);
+        //string strFacilitiesIssue = Convert.ToString(drCriteria["strFacilitiesIssue"]);
+
+        decimal? decWorkToBeCompleted = Convert.ToDecimal(drCriteria["decWorkToBeCompleted"]);
+        decimal? decRecordType = Convert.ToDecimal(drCriteria["decRecordType"]);
+        string strOtherWorkType = Convert.ToString(drCriteria["strOtherWorkType"]);
+        string strOtherRecordType = Convert.ToString(drCriteria["strOtherRecordType"]);
+        string strJob = Convert.ToString(drCriteria["strJob"]);
+        string strOrder = Convert.ToString(drCriteria["strOrder"]);
+        string strCreatedBy = Convert.ToString(drCriteria["strCreatedBy"]);
+
+        bool? Task_Complete = null, workToBeCompletedBy = null;
+
+        if (drCriteria["workToBeCompletedBy"] != DBNull.Value)
+            workToBeCompletedBy = Convert.ToBoolean(drCriteria["workToBeCompletedBy"]);
+
         if (drCriteria["Task_Complete"] != DBNull.Value)
             Task_Complete = Convert.ToBoolean(drCriteria["Task_Complete"]);
 
         #endregion
 
         // selects records depending on paging criteria and search values.
-        DataSet dsManagement = ERIMS.DAL.clsManagement.ManagementSearch(strCompany, strCity, strCounty, strCameraNumber, decCost, decLocation, decState, decRegion, decCameraType, strClientIssue,
-            strFacilitiesIssue, Date_Scheduled_From, Date_Scheduled_To, Date_Complete_From, Date_Complete_To, CR_Approved_From, CR_Approved_To, decLocation_Code, _SortBy, _SortOrder, 1, ctrlPageProperty.TotalRecords, Task_Complete);
+        DataSet dsManagement = ERIMS.DAL.clsManagement.ManagementSearch(decLocation, decWorkToBeCompleted, strOtherWorkType,
+            decRecordType, strOtherRecordType, strCreatedBy, strJob, strOrder, Date_Scheduled_From, Date_Scheduled_To, Date_Complete_From, Date_Complete_To, CR_Approved_From, CR_Approved_To, decLocation_Code, _SortBy, _SortOrder, 1, ctrlPageProperty.TotalRecords, workToBeCompletedBy, Task_Complete);
+
         DataTable dtManagement = dsManagement.Tables[0];
         ExportToSpreadsheet(dtManagement, "ManagementSearch.xls");
 

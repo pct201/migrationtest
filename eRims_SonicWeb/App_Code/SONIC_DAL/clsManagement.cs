@@ -1263,24 +1263,23 @@ namespace ERIMS.DAL
 			db.ExecuteNonQuery(dbCommand);
 		}
 
-        public static DataSet ManagementSearch(string Company, string City, string County, string Camera_Number, decimal? Cost, decimal? FK_LU_Location, decimal? FK_LU_State,
-            decimal? FK_LU_Region, decimal? FK_LU_Camera_Type, string FK_LU_Client_Issue, string FK_LU_Facilities_Issue, DateTime? Date_Scheduled_From, DateTime? Date_Scheduled_To,
-            DateTime? Date_Complete_From, DateTime? Date_Complete_To, DateTime? CR_Approved_From, DateTime? CR_Approved_To, decimal? Location_Code, string strOrderBy, string strOrder, int intPageNo, int intPageSize,bool? Task_Complete)
+        public static DataSet ManagementSearch(decimal? FK_LU_Location, decimal? FK_LU_Work_Completed, string Work_To_Complete_Other, decimal? FK_LU_Record_Type, string Record_Type_Other, string Created_By, string Job, string Order, DateTime? Date_Scheduled_From, DateTime? Date_Scheduled_To,
+            DateTime? Date_Complete_From, DateTime? Date_Complete_To, DateTime? CR_Approved_From, DateTime? CR_Approved_To, decimal? Location_Code, string strOrderBy, string strOrder, int intPageNo, int intPageSize, bool? Work_Completed_By, bool? Task_Complete)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("ManagementSearch");
 
-            db.AddInParameter(dbCommand, "Company", DbType.String, Company);
-            db.AddInParameter(dbCommand, "City", DbType.String, City);
-            db.AddInParameter(dbCommand, "County", DbType.String, County);
-            db.AddInParameter(dbCommand, "Camera_Number", DbType.String, Camera_Number);
-            db.AddInParameter(dbCommand, "Cost", DbType.Decimal, Cost);
+            //db.AddInParameter(dbCommand, "Company", DbType.String, Company);
+            //db.AddInParameter(dbCommand, "City", DbType.String, City);
+            //db.AddInParameter(dbCommand, "County", DbType.String, County);
+            //db.AddInParameter(dbCommand, "Camera_Number", DbType.String, Camera_Number);
+            //db.AddInParameter(dbCommand, "Cost", DbType.Decimal, Cost);
             db.AddInParameter(dbCommand, "FK_LU_Location", DbType.Decimal, FK_LU_Location);
-            db.AddInParameter(dbCommand, "FK_LU_State", DbType.Decimal, FK_LU_State);
-            db.AddInParameter(dbCommand, "FK_LU_Region", DbType.Decimal, FK_LU_Region);
-            db.AddInParameter(dbCommand, "FK_LU_Camera_Type", DbType.Decimal, FK_LU_Camera_Type);
-            db.AddInParameter(dbCommand, "FK_LU_Client_Issue", DbType.String, FK_LU_Client_Issue);
-            db.AddInParameter(dbCommand, "FK_LU_Facilities_Issue", DbType.String, FK_LU_Facilities_Issue);
+            //db.AddInParameter(dbCommand, "FK_LU_State", DbType.Decimal, FK_LU_State);
+            //db.AddInParameter(dbCommand, "FK_LU_Region", DbType.Decimal, FK_LU_Region);
+            //db.AddInParameter(dbCommand, "FK_LU_Camera_Type", DbType.Decimal, FK_LU_Camera_Type);
+            //db.AddInParameter(dbCommand, "FK_LU_Client_Issue", DbType.String, FK_LU_Client_Issue);
+            //db.AddInParameter(dbCommand, "FK_LU_Facilities_Issue", DbType.String, FK_LU_Facilities_Issue);
             db.AddInParameter(dbCommand, "Date_Scheduled_From", DbType.DateTime, Date_Scheduled_From);
             db.AddInParameter(dbCommand, "Date_Scheduled_To", DbType.DateTime, Date_Scheduled_To);
             db.AddInParameter(dbCommand, "Date_Complete_From", DbType.DateTime, Date_Complete_From);
@@ -1294,6 +1293,15 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "intPageSize", DbType.Int32, intPageSize);
             db.AddInParameter(dbCommand, "Task_Complete", DbType.Boolean, Task_Complete);
             db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Int32, Convert.ToInt32(clsSession.UserID));
+
+            db.AddInParameter(dbCommand, "FK_LU_Work_Completed", DbType.Decimal, FK_LU_Work_Completed);
+            db.AddInParameter(dbCommand, "FK_LU_Record_Type", DbType.Decimal, FK_LU_Record_Type);
+            db.AddInParameter(dbCommand, "Work_To_Complete_Other", DbType.String, Work_To_Complete_Other);
+            db.AddInParameter(dbCommand, "Record_Type_Other", DbType.String, Record_Type_Other);
+            db.AddInParameter(dbCommand, "Created_By", DbType.String, Created_By);
+            db.AddInParameter(dbCommand, "Job", DbType.String, Job);
+            db.AddInParameter(dbCommand, "Order", DbType.String, Order);
+            db.AddInParameter(dbCommand, "Work_Completed_By", DbType.Boolean, Work_Completed_By);
 
             return db.ExecuteDataSet(dbCommand);
         }

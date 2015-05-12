@@ -10,7 +10,7 @@
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Calendar.js"></script>
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Validator.js"></script>
     <script type="text/javascript" language="javascript" src="<%=AppConfig.SiteURL%>JavaScript/Date_Validation.js"></script>
-         <script type="text/javascript" language="javascript" src="../JavaScript/jquery-1.5.min.js"></script>
+    <script type="text/javascript" language="javascript" src="../JavaScript/jquery-1.5.min.js"></script>
     <script type="text/javascript" language="javascript" src="../JavaScript/jquery.maskedinput.js"></script>
     <script language="javascript" type="text/javascript">
         function ConfirmDelete() {
@@ -32,8 +32,7 @@
     <asp:Panel ID="pnlSearchFilter" runat="server" Width="100%">
         <table width="100%" cellpadding="0" cellspacing="0">
             <tr>
-                <td>
-                    &nbsp;
+                <td>&nbsp;
                 </td>
             </tr>
             <tr>
@@ -58,21 +57,17 @@
                             <td align="left" valign="top" width="32%">
                                 <asp:TextBox ID="txtCompany" runat="server" MaxLength="50" Width="200px"></asp:TextBox>
                             </td>--%>
-                            <td align="left" width="16%" valign="top">
-                                DBA
+                            <td align="left" width="16%" valign="top">DBA
                             </td>
-                            <td align="center" width="2%" valign="top">
-                                :
+                            <td align="center" width="2%" valign="top">:
                             </td>
                             <td align="left" valign="top" width="32%">
                                 <asp:DropDownList ID="drpLocation" runat="server" Width="205px" SkinID="dropGen">
                                 </asp:DropDownList>
                             </td>
-                            <td align="left" width="16%" valign="top">
-                                Location Code
+                            <td align="left" width="16%" valign="top">Location Code
                             </td>
-                            <td align="center" width="2%" valign="top">
-                                :
+                            <td align="center" width="2%" valign="top">:
                             </td>
                             <td align="left" valign="top" width="32%">
                                 <asp:TextBox ID="txtLocation_Code" runat="server" Width="200px" MaxLength="4" autocomplete="off"
@@ -122,7 +117,7 @@
                             </td>
                         </tr>--%>
                         <tr>
-                            <td align="left" valign="top">
+                            <%--<td align="left" valign="top">
                                 Camera Number
                             </td>
                             <td align="center" valign="top">
@@ -130,8 +125,16 @@
                             </td>
                             <td align="left" valign="top">
                                 <asp:TextBox ID="txtCamera_Number" runat="server" MaxLength="30" Width="200px"></asp:TextBox>
+                            </td>--%>
+                            <td align="left" valign="top">Work To Be Completed
+                            </td>
+                            <td align="center" valign="top">:
                             </td>
                             <td align="left" valign="top">
+                                <asp:DropDownList ID="drpWorkToBeCompleted" runat="server" Width="205px" SkinID="dropGen">
+                                </asp:DropDownList>
+                            </td>
+                            <%-- <td align="left" valign="top">
                                 Camera Type
                             </td>
                             <td align="center" valign="top">
@@ -140,10 +143,17 @@
                             <td align="left" valign="top">
                                 <asp:DropDownList ID="drpCamera_Type" runat="server" Width="205px" SkinID="dropGen">
                                 </asp:DropDownList>
+                            </td>--%>
+                            <td align="left" valign="top">Other
+                            </td>
+                            <td align="center" valign="top">:
+                            </td>
+                            <td align="left" valign="top">
+                                <asp:TextBox ID="txtOtherWorkType" runat="server" MaxLength="50" Width="200px"></asp:TextBox>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left" valign="top">
+                            <%--<td align="left" valign="top">
                                 Sonic Task
                             </td>
                             <td align="center" valign="top">
@@ -162,9 +172,68 @@
                             <td align="left" valign="top">
                                 <asp:DropDownList ID="drpFacilities_Issue" runat="server" Width="205px" SkinID="dropGen">
                                 </asp:DropDownList>
+                            </td>--%>
+                            <td align="left" valign="top">Work To Be Completed By
+                            </td>
+                            <td align="center" valign="top">:
+                            </td>
+                            <td align="left" valign="top">
+                                <asp:RadioButtonList ID="rdbWorkToBeCompletedBy" runat="server">
+                                    <asp:ListItem Text="ACI" Value="0"></asp:ListItem>
+                                    <asp:ListItem Text="Sonic" Value="1"></asp:ListItem>
+                                </asp:RadioButtonList>
+                            </td>
+                            <td align="left" valign="top">Task Complete?
+                            </td>
+                            <td align="center" valign="top">:
+                            </td>
+                            <td align="left" valign="top">
+                                <asp:RadioButtonList ID="rdbTaskComplete" runat="server" SkinID="YesNoTypeNullSelection" />
                             </td>
                         </tr>
                         <tr>
+                            <td align="left" valign="top">Record Type
+                            </td>
+                            <td align="center" valign="top">:
+                            </td>
+                            <td align="left" valign="top">
+                                <asp:DropDownList ID="drpRecordType" runat="server" Width="205px" SkinID="dropGen">
+                                </asp:DropDownList>
+                            </td>
+                            <td align="left" valign="top">Other
+                            </td>
+                            <td align="center" valign="top">:
+                            </td>
+                            <td align="left" valign="top">
+                                <asp:TextBox ID="txtOtherRecordType" runat="server" MaxLength="50" Width="200px"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" valign="top">Job #
+                            </td>
+                            <td align="center" valign="top">:
+                            </td>
+                            <td align="left" valign="top">
+                                <asp:TextBox ID="txtJob" runat="server" MaxLength="50" Width="200px"></asp:TextBox>
+                            </td>
+                            <td align="left" valign="top">Order #
+                            </td>
+                            <td align="center" valign="top">:
+                            </td>
+                            <td align="left" valign="top">
+                                <asp:TextBox ID="txtOrder" runat="server" MaxLength="50" Width="200px"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" valign="top">Created By
+                            </td>
+                            <td align="center" valign="top">:
+                            </td>
+                            <td align="left" valign="top">
+                                <asp:TextBox ID="txtCreatedBy" runat="server" MaxLength="50" Width="200px"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <%--<tr>
                             <td align="left" valign="top">
                                 Cost
                             </td>
@@ -174,22 +243,12 @@
                             <td align="left" valign="top">
                                 $<asp:TextBox ID="txtCost" runat="server" Width="195px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" onpaste="return false;" autocomplete="off"/>
                             </td>
-                            <td align="left" valign="top">
-                                Task Complete?
-                            </td>
-                            <td align="center" valign="top">
-                                :
-                            </td>
-                            <td align="left" valign="top">
-                                <asp:RadioButtonList ID="rdbTaskComplete" runat="server" SkinID="YesNoTypeNullSelection" />
-                            </td>
-                        </tr>
+                            
+                        </tr>--%>
                         <tr>
-                            <td align="left" valign="top">
-                                Date Scheduled
+                            <td align="left" valign="top">Date Scheduled
                             </td>
-                            <td align="center" valign="top">
-                                :
+                            <td align="center" valign="top">:
                             </td>
                             <td align="left" valign="top">
                                 <asp:TextBox ID="txtDate_Scheduled" runat="server" SkinID="txtDate" MaxLength="10"
@@ -201,11 +260,9 @@
                                     Display="none" ErrorMessage="[Management]/Date Scheduled is not a valid date"
                                     SetFocusOnError="true" ControlToValidate="txtDate_Scheduled" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
                             </td>
-                            <td align="left" valign="top">
-                                To
+                            <td align="left" valign="top">To
                             </td>
-                            <td align="center" valign="top">
-                                :
+                            <td align="center" valign="top">:
                             </td>
                             <td align="left" valign="top">
                                 <asp:TextBox ID="txtTo_Date_Scheduled" runat="server" SkinID="txtDate" MaxLength="10"
@@ -222,11 +279,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td align="left" valign="top">
-                                Date Complete
+                            <td align="left" valign="top">Date Complete
                             </td>
-                            <td align="center" valign="top">
-                                :
+                            <td align="center" valign="top">:
                             </td>
                             <td align="left" valign="top">
                                 <asp:TextBox ID="txtDate_Complete" runat="server" SkinID="txtDate" MaxLength="10"
@@ -238,11 +293,9 @@
                                     Display="none" ErrorMessage="[Management]/Date Complete is not a valid date"
                                     SetFocusOnError="true" ControlToValidate="txtDate_Complete" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
                             </td>
-                            <td align="left" valign="top">
-                                To
+                            <td align="left" valign="top">To
                             </td>
-                            <td align="center" valign="top">
-                                :
+                            <td align="center" valign="top">:
                             </td>
                             <td align="left" valign="top">
                                 <asp:TextBox ID="txtTo_Date_Complete" runat="server" SkinID="txtDate" MaxLength="10"
@@ -259,11 +312,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td align="left" valign="top">
-                                CR Approved
+                            <td align="left" valign="top">CR Approved
                             </td>
-                            <td align="center" valign="top">
-                                :
+                            <td align="center" valign="top">:
                             </td>
                             <td align="left" valign="top">
                                 <asp:TextBox ID="txtCR_Approved" runat="server" SkinID="txtDate" MaxLength="10" Width="180px" />
@@ -274,11 +325,9 @@
                                     Display="none" ErrorMessage="[Management]/CR Approved is not a valid date" SetFocusOnError="true"
                                     ControlToValidate="txtCR_Approved" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
                             </td>
-                            <td align="left" valign="top">
-                                To
+                            <td align="left" valign="top">To
                             </td>
-                            <td align="center" valign="top">
-                                :
+                            <td align="center" valign="top">:
                             </td>
                             <td align="left" valign="top">
                                 <asp:TextBox ID="txtTo_CR_Approved" runat="server" SkinID="txtDate" Width="180px" />
@@ -297,8 +346,7 @@
                 </td>
             </tr>
             <tr>
-                <td>
-                    &nbsp;
+                <td>&nbsp;
                 </td>
             </tr>
             <tr>
@@ -311,8 +359,7 @@
                 </td>
             </tr>
             <tr>
-                <td>
-                    &nbsp;
+                <td>&nbsp;
                 </td>
             </tr>
         </table>
@@ -325,17 +372,14 @@
                 <td style="width: 45%">
                     <table cellpadding="0" cellspacing="0" border="0" width="100%">
                         <tr>
-                            <td class="Spacer" style="height: 10px;">
+                            <td class="Spacer" style="height: 10px;"></td>
+                        </tr>
+                        <tr>
+                            <td align="left">&nbsp;<span class="heading">Management Search Results</span>
                             </td>
                         </tr>
                         <tr>
-                            <td align="left">
-                                &nbsp;<span class="heading">Management Search Results</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="left">
-                                &nbsp; &nbsp;<asp:Label ID="lblNumber" runat="server" Text="0"></asp:Label>&nbsp;Management
+                            <td align="left">&nbsp; &nbsp;<asp:Label ID="lblNumber" runat="server" Text="0"></asp:Label>&nbsp;Management
                                 Found
                             </td>
                         </tr>
@@ -349,8 +393,7 @@
                 <td colspan="2">
                     <table cellpadding="0" cellspacing="0" border="0" style="text-align: right; width: 100%;">
                         <tr>
-                            <td>
-                                &nbsp;
+                            <td>&nbsp;
                             </td>
                         </tr>
                         <tr>
@@ -393,32 +436,67 @@
                                                     <%# Eval("Company")%>
                                                 </ItemTemplate>
                                             </asp:TemplateField>--%>
-                                            <asp:TemplateField HeaderText="Camera Number" HeaderStyle-HorizontalAlign="Left"
+                                            <%--<asp:TemplateField HeaderText="Camera Number" HeaderStyle-HorizontalAlign="Left"
                                                 ItemStyle-HorizontalAlign="Left" SortExpression="Camera_Number">
                                                 <ItemStyle Width="110px" />
                                                 <ItemTemplate>
                                                     <%# Eval("Camera_Number")%>
                                                 </ItemTemplate>
+                                            </asp:TemplateField>--%>
+                                            <asp:TemplateField HeaderText="DBA" HeaderStyle-HorizontalAlign="Left"
+                                                ItemStyle-HorizontalAlign="Left" SortExpression="dba">
+                                                <ItemStyle Width="110px" />
+                                                <ItemTemplate>
+                                                    <%# Eval("dba")%>
+                                                </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Camera Type" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
+                                            <%--<asp:TemplateField HeaderText="Camera Type" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
                                                 SortExpression="FK_LU_Camera_Type">
                                                 <ItemStyle Width="110px" />
                                                 <ItemTemplate>
                                                     <%# Eval("FK_LU_Camera_Type")%>
                                                 </ItemTemplate>
+                                            </asp:TemplateField>--%>
+                                            <asp:TemplateField HeaderText="Work To Be Completed" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
+                                                SortExpression="WorkToBeCompleted">
+                                                <ItemStyle Width="110px" />
+                                                <ItemTemplate>
+                                                    <%# Eval("WorkToBeCompleted")%>
+                                                </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Date Scheduled" HeaderStyle-HorizontalAlign="Left"
+                                            <%--<asp:TemplateField HeaderText="Date Scheduled" HeaderStyle-HorizontalAlign="Left"
                                                 ItemStyle-HorizontalAlign="Left" SortExpression="Date_Scheduled">
                                                 <ItemStyle Width="110px" />
                                                 <ItemTemplate>
                                                     <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Date_Scheduled"))%>
                                                 </ItemTemplate>
+                                            </asp:TemplateField>--%>
+                                            <asp:TemplateField HeaderText="Order" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
+                                                SortExpression="Order">
+                                                <ItemStyle Width="110px" />
+                                                <ItemTemplate>
+                                                    <%# Eval("Order")%>
+                                                </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Task Complete" HeaderStyle-HorizontalAlign="Left"
+                                            <%--<asp:TemplateField HeaderText="Task Complete" HeaderStyle-HorizontalAlign="Left"
                                                 ItemStyle-HorizontalAlign="Left" SortExpression="Task_Complete">
                                                 <ItemStyle Width="110px" />
                                                 <ItemTemplate>
                                                     <%# Eval("Task_Complete")%>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>--%>
+                                            <asp:TemplateField HeaderText="Job" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
+                                                SortExpression="Job">
+                                                <ItemStyle Width="110px" />
+                                                <ItemTemplate>
+                                                    <%# Eval("Job")%>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Created_By" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
+                                                SortExpression="Created_By">
+                                                <ItemStyle Width="110px" />
+                                                <ItemTemplate>
+                                                    <%# Eval("Created_By")%>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                         </Columns>
@@ -432,8 +510,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align: left;">
-                                &nbsp;
+                            <td style="text-align: left;">&nbsp;
                             </td>
                         </tr>
                         <tr>
@@ -444,8 +521,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align: left;">
-                                &nbsp;
+                            <td style="text-align: left;">&nbsp;
                             </td>
                         </tr>
                     </table>
