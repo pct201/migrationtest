@@ -1348,7 +1348,7 @@ public class AppConfig
         //
         _EPM_MaiTo = ConfigurationManager.AppSettings["EPM_MaiTo"];
         //
-        _ACI_Management_MaiTo = ConfigurationManager.AppSettings["ACI_Management_MaiTo"];
+        _ACI_Management_MaiTo = ConfigurationManager.AppSettings["ACI_Management_MailTo"];
         //set physical path of Environment
         _strEnviro_AttachmentPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["EnvironDoc"] + "\\");
         //set Virtual path of Environment
