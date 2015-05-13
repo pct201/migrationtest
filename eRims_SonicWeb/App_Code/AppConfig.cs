@@ -103,7 +103,9 @@ public class AppConfig
     private static string _SMTPpwd;
     private static string _Port;
     private static string _ClaimEmailID;
+    private static string _ManagementEmailID;
     private static string _EPM_MaiTo;
+    private static string _ACI_Management_MaiTo;
 
     private static string _strPurchasingAssetDocPath;
     private static string _strPurchasingAssetImageURL;
@@ -684,9 +686,17 @@ public class AppConfig
     {
         get { return _ClaimEmailID; }
     }
+    public static string ManagementEmailID
+    {
+        get { return _ManagementEmailID; }
+    }
     public static string EPM_MaiTo
     {
         get { return _EPM_MaiTo; }
+    }
+    public static string ACI_Management_MaiTo
+    {
+        get { return _ACI_Management_MaiTo; }
     }
 
     public static string PremiumAllocationPath
@@ -1333,8 +1343,12 @@ public class AppConfig
         _Port = ConfigurationManager.AppSettings["Port"];
         //Claim From Email ID
         _ClaimEmailID = ConfigurationManager.AppSettings["ClaimEmailID"];
+        //Management From Email ID
+        _ManagementEmailID = ConfigurationManager.AppSettings["Management_EmailID"];
         //
         _EPM_MaiTo = ConfigurationManager.AppSettings["EPM_MaiTo"];
+        //
+        _ACI_Management_MaiTo = ConfigurationManager.AppSettings["ACI_Management_MaiTo"];
         //set physical path of Environment
         _strEnviro_AttachmentPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["EnvironDoc"] + "\\");
         //set Virtual path of Environment

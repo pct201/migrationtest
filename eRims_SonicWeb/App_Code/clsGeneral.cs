@@ -131,7 +131,14 @@ public class clsGeneral : System.Web.UI.Page
         CRM_Non_Customer = 42,
         Investigation = 43,
 
-        Event = 44
+        Event = 44,
+        Management = 45
+    }
+
+    public enum Major_Coverage : int
+    {
+        Event = 18,
+        Management = 19
     }
 
     public enum Claim_Tables : int

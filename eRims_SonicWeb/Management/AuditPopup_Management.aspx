@@ -74,33 +74,67 @@
                                 <th class="cols">
                                     <span style="display: inline-block; width: 150px;">Location Code</span>
                                 </th>
-                                <th class="cols">
+                               <%-- <th class="cols">
                                     <span style="display: inline-block; width: 150px;">Camera Number</span>
                                 </th>
                                 <th class="cols">
                                     <span style="display: inline-block; width: 150px;">Camera Type</span>
-                                </th>
-                                <th class="cols">
-                                    <span style="display: inline-block; width: 150px;">Sonic Task</span>
-                                </th>
-                                <th class="cols">
-                                    <span style="display: inline-block; width: 150px;">ACI Task</span>
-                                </th>
-                                <th class="cols">
-                                    <span style="display: inline-block; width: 150px;">Cost</span>
-                                </th>
-                                <th class="cols">
+                                </th>--%>
+                                 <th class="cols">
                                     <span style="display: inline-block; width: 150px;">Date Scheduled</span>
                                 </th>
                                 <th class="cols">
                                     <span style="display: inline-block; width: 150px;">Date Complete</span>
                                 </th>
                                 <th class="cols">
+                                    <span style="display: inline-block; width: 150px;">Work To Be Completed</span>
+                                </th>
+                                <th class="cols">
+                                    <span style="display: inline-block; width: 150px;">Work To Be Completed By</span>
+                                </th>
+                                <%--<th class="cols">
+                                    <span style="display: inline-block; width: 150px;">Sonic Task</span>
+                                </th>
+                                <th class="cols">
+                                    <span style="display: inline-block; width: 150px;">ACI Task</span>
+                                </th>--%>
+                                <th class="cols">
+                                    <span style="display: inline-block; width: 150px;">Service/Repair Cost</span>
+                                </th>
+                                <th class="cols">
                                     <span style="display: inline-block; width: 150px;">CR Approved</span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 300px;">Camera Concern</span>
+                                    <span style="display: inline-block; width: 150px;">Record Type</span>
                                 </th>
+                                <th class="cols">
+                                    <span style="display: inline-block; width: 150px;">Job #</span>
+                                </th>
+                                <th class="cols">
+                                    <span style="display: inline-block; width: 150px;">Order #</span>
+                                </th>
+                                <th class="cols">
+                                    <span style="display: inline-block; width: 150px;">Order Date</span>
+                                </th>
+                                <th class="cols">
+                                    <span style="display: inline-block; width: 150px;">Requested By</span>
+                                </th>
+                                <th class="cols">
+                                    <span style="display: inline-block; width: 150px;">Created By</span>
+                                </th>
+                                <th class="cols">
+                                    <span style="display: inline-block; width: 150px;">Previous Contract Amount</span>
+                                </th>
+                                <th class="cols">
+                                    <span style="display: inline-block; width: 150px;">Revised Contract Amount</span>
+                                </th>
+                                <%--<th class="cols">
+                                    <span style="display: inline-block; width: 300px;">Camera Concern</span>
+                                </th>--%>
+                                <th class="cols">
+                                    <span style="display: inline-block; width: 300px;">Reason for Request</span>
+                                </th>
+
                                 <th class="cols">
                                     <span style="display: inline-block; width: 300px;">Recommendation</span>
                                 </th>
@@ -116,7 +150,7 @@
                 </div>
                 <div style="overflow: scroll; width: 600px; height: 425px;" id="divgvManagement_Audit_Grid"
                     runat="server">
-                    <asp:GridView ID="gvManagement_Audit" runat="server" AutoGenerateColumns="False"
+                    <asp:GridView ID="gvManagement_Audit" runat="server" AutoGenerateColumns="False" Style="word-wrap: normal; word-break: break-all;"
                         CellPadding="4" CellSpacing="0" EnableTheming="True" EmptyDataText="No records found!" ShowHeader="false"
                         Width="100%">
                         <RowStyle HorizontalAlign="Left" VerticalAlign="Top" />
@@ -176,7 +210,7 @@
                                 <ItemTemplate>
                                     <asp:Label ID="lblCounty" runat="server" Text='<%#Eval("County")%>' Width="150px"></asp:Label>
                                 </ItemTemplate>
-                            </asp:TemplateField>--%>
+                            </asp:TemplateField>
                             <asp:TemplateField HeaderText="Camera Number">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
@@ -190,28 +224,8 @@
                                     <asp:Label ID="lblFK_LU_Camera_Type" runat="server" Text='<%#Eval("CameraType")%>'
                                         Width="150px"></asp:Label>
                                 </ItemTemplate>
-                            </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Client Issue">
-                                <ItemStyle CssClass="cols" />
-                                <ItemTemplate>
-                                    <asp:Label ID="lblFK_LU_Client_Issue" runat="server" Text='<%#Convert.ToString(Eval("FK_LU_Client_Issue"))=="Y"?"Yes":Convert.ToString(Eval("FK_LU_Client_Issue"))=="N"?"No":""%>'
-                                        Width="150px"></asp:Label>
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Facilities Issue">
-                                <ItemStyle CssClass="cols" />
-                                <ItemTemplate>
-                                    <asp:Label ID="lblFK_LU_Facilities_Issue" runat="server" Text='<%#Convert.ToString(Eval("FK_LU_Facilities_Issue"))=="Y"?"Yes":Convert.ToString(Eval("FK_LU_Facilities_Issue"))=="N"?"No":""%>'
-                                        Width="150px"></asp:Label>
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Cost">
-                                <ItemStyle CssClass="cols" />
-                                <ItemTemplate>
-                                    <asp:Label ID="lblCost" runat="server" Text='<%#Eval("Cost")%>' Width="150px"></asp:Label>
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Date_Scheduled">
+                            </asp:TemplateField>--%>
+                               <asp:TemplateField HeaderText="Date_Scheduled">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
                                     <asp:Label ID="lblDate_Scheduled" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("Date_Scheduled")) %>'
@@ -225,20 +239,117 @@
                                         Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="CR_Approved">
+                            <asp:TemplateField HeaderText="Work Completed">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblFK_LU_Work_Completed" runat="server" Text='<%#Eval("Work_Completed")%>'
+                                        Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                           <asp:TemplateField HeaderText="Work Completed By">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblWork_Completed_By" runat="server" Text='<%#Convert.ToString(Eval("Work_Completed_By"))=="Y"?"Yes":Convert.ToString(Eval("Work_Completed_By"))=="N"?"No":""%>'
+                                        Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                         <%--   <asp:TemplateField HeaderText="Client Issue">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblFK_LU_Client_Issue" runat="server" Text='<%#Convert.ToString(Eval("FK_LU_Client_Issue"))=="Y"?"Yes":Convert.ToString(Eval("FK_LU_Client_Issue"))=="N"?"No":""%>'
+                                        Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Facilities Issue">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblFK_LU_Facilities_Issue" runat="server" Text='<%#Convert.ToString(Eval("FK_LU_Facilities_Issue"))=="Y"?"Yes":Convert.ToString(Eval("FK_LU_Facilities_Issue"))=="N"?"No":""%>'
+                                        Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>--%>
+                            <%--<asp:TemplateField HeaderText="Cost">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblCost" runat="server" Text='<%#Eval("Cost")%>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>--%>
+                            <asp:TemplateField HeaderText="Service Cost">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblService_RepairCost" runat="server" Text='<%# string.Format("{0:C2}",Eval("Service_Repair_Cost")) %>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="CR_Approved">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
                                     <asp:Label ID="lblCR_Approved" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("CR_Approved")) %>'
                                         Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Camera_Concern">
+                            <asp:TemplateField HeaderText="Record Type">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblRecord_Type" runat="server" Text='<%#Eval("Record_Type")%>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Job">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblJob" runat="server" Text='<%#Eval("Job")%>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Order">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblOrder" runat="server" Text='<%#Eval("Order")%>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Order_Date">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblOrder_Date" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("Order_Date")) %>'
+                                        Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Requested_By">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblRequested_By" runat="server" Text='<%#Eval("Requested_By")%>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Created_By">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblCreated_By" runat="server" Text='<%#Eval("Created_By")%>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                              <asp:TemplateField HeaderText="Previous Contract Amount">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblPrevious_Contract_Amount" runat="server" Text='<%# string.Format("{0:C2}",Eval("Previous_Contract_Amount")) %>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                              <asp:TemplateField HeaderText="Revised Contract Amount">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblRevised_Contract_Amount" runat="server" Text='<%# string.Format("{0:C2}",Eval("Revised_Contract_Amount")) %>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                           <%-- <asp:TemplateField HeaderText="Camera_Concern">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
                                     <asp:Label ID="lblCamera_Concern" runat="server" Text='<%#Eval("Camera_Concern")%>'
                                         Width="300px"></asp:Label>
                                 </ItemTemplate>
+                            </asp:TemplateField>--%>
+                             <asp:TemplateField HeaderText="Reason_for_Request">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblReason_for_Request" runat="server" Text='<%#Eval("Reason_for_Request")%>'
+                                        Width="300px"></asp:Label>
+                                </ItemTemplate>
                             </asp:TemplateField>
+
                             <asp:TemplateField HeaderText="Recommendation">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>

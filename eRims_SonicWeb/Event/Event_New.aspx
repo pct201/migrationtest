@@ -2098,7 +2098,7 @@
                                             <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                                 <tr>
                                                     <td align="left" valign="top" width="100%" style="height: 200px;">
-                                                        <uc:Attachment ID="ucAttachment" runat="server" Attachment_Table="Event" />
+                                                        <uc:Attachment ID="ucAttachment" runat="server" Attachment_Table="Event" MajorCoverage="Event" />
                                                     </td>
                                                 </tr>
                                             </table>

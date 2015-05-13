@@ -158,7 +158,8 @@ public partial class Management_ManagementSearch : clsBasePage
 
         // selects records depending on paging criteria and search values.
         DataSet dsManagement = ERIMS.DAL.clsManagement.ManagementSearch(decLocation, decWorkToBeCompleted, strOtherWorkType,
-            decRecordType, strOtherRecordType, strCreatedBy, strJob, strOrder, Date_Scheduled_From, Date_Scheduled_To, Date_Complete_From, Date_Complete_To, CR_Approved_From, CR_Approved_To, decLocation_Code, _SortBy, _SortOrder, PageNumber, PageSize, workToBeCompletedBy, Task_Complete);
+            decRecordType, strOtherRecordType, strCreatedBy, strJob, strOrder, Date_Scheduled_From, Date_Scheduled_To, Date_Complete_From,
+            Date_Complete_To, CR_Approved_From, CR_Approved_To, decLocation_Code, workToBeCompletedBy, Task_Complete, _SortBy, _SortOrder, PageNumber, PageSize);
         DataTable dtManagement = dsManagement.Tables[0];
 
         // set values for paging control,so it shows values as needed.
@@ -319,7 +320,8 @@ public partial class Management_ManagementSearch : clsBasePage
         #region "Bind Grid"
 
         DataSet dsManagement = ERIMS.DAL.clsManagement.ManagementSearch(decLocation, decWorkToBeCompleted, strOtherWorkType,
-            decRecordType, strOtherRecordType, strCreatedBy, strJob, strOrder, Date_Scheduled_From, Date_Scheduled_To, Date_Complete_From, Date_Complete_To, CR_Approved_From, CR_Approved_To, decLocation_Code, _SortBy, _SortOrder, PageNumber, PageSize, workToBeCompletedBy, Task_Complete);
+            decRecordType, strOtherRecordType, strCreatedBy, strJob, strOrder, Date_Scheduled_From, Date_Scheduled_To, Date_Complete_From, Date_Complete_To, CR_Approved_From,
+            CR_Approved_To, decLocation_Code, workToBeCompletedBy, Task_Complete, _SortBy, _SortOrder, PageNumber, PageSize);
 
         // set values for paging control,so it shows values as needed.
         DataTable dtManagement = dsManagement.Tables[0];
@@ -439,8 +441,8 @@ public partial class Management_ManagementSearch : clsBasePage
         //strHTML.Append("<td align='left'>Task Complete</td>");
         strHTML.Append("<td align='left'>DBA</td>");
         strHTML.Append("<td align='left'>Work To Be Completed</td>'");
-        strHTML.Append("<td align='left'>Order</td>");
-        strHTML.Append("<td align='left'>Job</td>");
+        strHTML.Append("<td align='left'>Order #</td>");
+        strHTML.Append("<td align='left'>Job #</td>");
         strHTML.Append("<td align='left'>Created By</td>");
 
         strHTML.Append("</tr>");
@@ -701,7 +703,8 @@ public partial class Management_ManagementSearch : clsBasePage
 
         // selects records depending on paging criteria and search values.
         DataSet dsManagement = ERIMS.DAL.clsManagement.ManagementSearch(decLocation, decWorkToBeCompleted, strOtherWorkType,
-            decRecordType, strOtherRecordType, strCreatedBy, strJob, strOrder, Date_Scheduled_From, Date_Scheduled_To, Date_Complete_From, Date_Complete_To, CR_Approved_From, CR_Approved_To, decLocation_Code, _SortBy, _SortOrder, 1, ctrlPageProperty.TotalRecords, workToBeCompletedBy, Task_Complete);
+            decRecordType, strOtherRecordType, strCreatedBy, strJob, strOrder, Date_Scheduled_From, Date_Scheduled_To, Date_Complete_From, Date_Complete_To, CR_Approved_From, 
+            CR_Approved_To, decLocation_Code, workToBeCompletedBy, Task_Complete, _SortBy, _SortOrder, 1, ctrlPageProperty.TotalRecords);
 
         DataTable dtManagement = dsManagement.Tables[0];
         ExportToSpreadsheet(dtManagement, "ManagementSearch.xls");

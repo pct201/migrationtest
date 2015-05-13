@@ -179,8 +179,8 @@
                             </td>
                             <td align="left" valign="top">
                                 <asp:RadioButtonList ID="rdbWorkToBeCompletedBy" runat="server">
-                                    <asp:ListItem Text="ACI" Value="0"></asp:ListItem>
-                                    <asp:ListItem Text="Sonic" Value="1"></asp:ListItem>
+                                    <asp:ListItem Text="ACI" Value="1"></asp:ListItem>
+                                    <asp:ListItem Text="Sonic" Value="0"></asp:ListItem>
                                 </asp:RadioButtonList>
                             </td>
                             <td align="left" valign="top">Task Complete?
@@ -401,7 +401,7 @@
                                 <div style="overflow-x: scroll; overflow-y: none; text-align: left; width: 998px;"
                                     id="dvSearchResult" runat="server">
                                     <asp:GridView ID="gvManagement" runat="server" GridLines="None" CellPadding="4" CellSpacing="0"
-                                        AutoGenerateColumns="false" AllowSorting="true" Width="1750px" EnableTheming="false"
+                                        AutoGenerateColumns="false" AllowSorting="true" Width="660px" EnableTheming="false" Style="word-wrap: normal; word-break: break-all;"
                                         OnRowCommand="gvManagement_RowCommand" OnRowCreated="gvManagement_RowCreated"
                                         OnSorting="gvManagement_Sorting" OnRowDataBound="gvManagement_RowDataBound">
                                         <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
@@ -471,8 +471,8 @@
                                                     <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Date_Scheduled"))%>
                                                 </ItemTemplate>
                                             </asp:TemplateField>--%>
-                                            <asp:TemplateField HeaderText="Order" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
-                                                SortExpression="Order">
+                                            <asp:TemplateField HeaderText="Order #" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
+                                                SortExpression="[Order]">
                                                 <ItemStyle Width="110px" />
                                                 <ItemTemplate>
                                                     <%# Eval("Order")%>
@@ -485,14 +485,14 @@
                                                     <%# Eval("Task_Complete")%>
                                                 </ItemTemplate>
                                             </asp:TemplateField>--%>
-                                            <asp:TemplateField HeaderText="Job" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
+                                            <asp:TemplateField HeaderText="Job #" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
                                                 SortExpression="Job">
                                                 <ItemStyle Width="110px" />
                                                 <ItemTemplate>
                                                     <%# Eval("Job")%>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Created_By" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
+                                            <asp:TemplateField HeaderText="Created By" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
                                                 SortExpression="Created_By">
                                                 <ItemStyle Width="110px" />
                                                 <ItemTemplate>

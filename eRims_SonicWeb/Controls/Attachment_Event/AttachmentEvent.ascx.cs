@@ -24,9 +24,9 @@ public partial class Controls_Attachments_AttachmentEvent : System.Web.UI.UserCo
     /// <summary>
     /// Denotes major coverage of the claim
     /// </summary>
-    public int MajorCoverage
+    public clsGeneral.Major_Coverage MajorCoverage
     {
-        get { return 18; }
+        get { return (clsGeneral.Major_Coverage)Enum.Parse(typeof(clsGeneral.Major_Coverage), Convert.ToString(ViewState["AttachMajCov" + this.ID])); }
         set { ViewState["AttachMajCov" + this.ID] = value; }
     }
 

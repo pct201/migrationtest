@@ -1175,5 +1175,30 @@ public class AuditTrail
         return db.ExecuteDataSet(dbCommand);
     }
 
+    /// <summary>
+    /// get all audit records
+    /// </summary>
+    /// <param name="PK_CRM_Customer"></param>
+    /// <returns></returns>
+    public static DataSet GetACI_Management_ProjectCost_AuditTrial(decimal PK_ACIManagement_ProjectCost)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("ACI_Management_ProjectCost_AuditView");
+        db.AddInParameter(dbCommand, "PK_ACIManagement_ProjectCost", DbType.Decimal, PK_ACIManagement_ProjectCost);
+        return db.ExecuteDataSet(dbCommand);
+    }
+
+    /// <summary>
+    /// get all audit records
+    /// </summary>
+    /// <param name="PK_CRM_Customer"></param>
+    /// <returns></returns>
+    public static DataSet Get_ACI_Management_ProjectCostInvoice_AuditTrial(decimal PK_ACIManagement_ProjectCost_Invoice)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("ACI_MKanagement_ProjectCostInvoice_AuditView");
+        db.AddInParameter(dbCommand, "PK_ACIManagement_ProjectCost_Invoice", DbType.Decimal, PK_ACIManagement_ProjectCost_Invoice);
+        return db.ExecuteDataSet(dbCommand);
+    }
     #endregion
 }

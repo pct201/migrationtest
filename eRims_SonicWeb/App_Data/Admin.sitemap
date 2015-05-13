@@ -225,6 +225,10 @@
         <siteMapNode url="" title="Investigation" description="">
           <siteMapNode url="Administrator/Contributing Factor.aspx" title="Contributing Factor" description="Contributing Factor" roles=""></siteMapNode>
         </siteMapNode>
+        <siteMapNode url="" title ="Management" description="" roles="" >
+          <siteMapNode url="Administrator/LU_Record_Type.aspx" title ="Record Type" description="" roles="" />  
+          <siteMapNode url="Administrator/LU_Work_Completed.aspx" title ="Work Completed" description="" roles="" />
+        </siteMapNode>  
         <siteMapNode url="" title ="Policy" description="" roles="" >
           <siteMapNode url="Administrator/Policy_Type.aspx" title ="Policy Type" description="" roles="" />
         </siteMapNode>
