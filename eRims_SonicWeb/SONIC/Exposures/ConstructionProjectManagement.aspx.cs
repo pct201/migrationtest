@@ -148,7 +148,7 @@ public partial class SONIC_Exposures_ConstructionProjectManagement : clsBasePage
                     }
                     else
                     {
-                        Response.Redirect("../Exposures/ExposureSearch.aspx", false);
+                        Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc", true);
                     }
                 }
 
