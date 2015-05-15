@@ -52,18 +52,18 @@
         }
 
         function SelectDeselectSonicNoteHeader() {
-        var ctrls = document.getElementsByTagName('input');
-        var i, chkID;
-        var cnt = 0;
-        chkID = "chkSelectSonicACINotes";
-        for (i = 0; i < ctrls.length; i++) {
-            if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
-                if (ctrls[i].checked)
-                    cnt++;
+            var ctrls = document.getElementsByTagName('input');
+            var i, chkID;
+            var cnt = 0;
+            chkID = "chkSelectSonicACINotes";
+            for (i = 0; i < ctrls.length; i++) {
+                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
+                    if (ctrls[i].checked)
+                        cnt++;
+                }
             }
-        }
 
-        var rowCnt = document.getElementById('<%=gvSonic_Notes.ClientID%>').rows.length - 1;
+            var rowCnt = document.getElementById('<%=gvSonic_Notes.ClientID%>').rows.length - 1;
         var headerChkID = 'chkMultiSelectSonicACINotes';
 
         if (cnt == rowCnt)
@@ -73,8 +73,8 @@
     }
 
   
-        function CheckSelectedAcadianNotes(buttonType) {
-            var gv = document.getElementById('<%=gvACI_Notes.ClientID%>');
+    function CheckSelectedAcadianNotes(buttonType) {
+        var gv = document.getElementById('<%=gvACI_Notes.ClientID%>');
             var ctrls = gv.getElementsByTagName('input');
             var i;
             var cnt = 0;
@@ -116,81 +116,81 @@
             }
         }
 
-         function CheckSelectedSonicNotes(buttonType) {
+        function CheckSelectedSonicNotes(buttonType) {
              
             var gv = document.getElementById('<%=dvSonicNOtes.ClientID%>');
-            var ctrls = gv.getElementsByTagName('input');
-            var i;
-            var cnt = 0;
-            var m_strAttIds = '';
-            for (i = 0; i < ctrls.length; i++) {
-                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf("chkSelectSonicACINotes") > 0) {
-                    if (ctrls[i].checked) {
-                        var ctrlId = ctrls[i].id;
-                        ctrlId = ctrlId.substring(ctrlId.lastIndexOf("_") - 2);
-                        var hdnpk = ctrlId.replace("chkSelectSonicACINotes", "hdnPK_Sonic_Event_Notes");
-                        //index = Number(index) - 2;
-                        var id = document.getElementById('ctl00_ContentPlaceHolder1_gvSonic_Notes_ctl' + hdnpk).value;
-                        if (m_strAttIds == "")
-                            m_strAttIds = id;
-                        else {
-                            m_strAttIds = m_strAttIds + "," + id;
-                        }
-                        cnt++;
-                    }
-                }
-            }
+             var ctrls = gv.getElementsByTagName('input');
+             var i;
+             var cnt = 0;
+             var m_strAttIds = '';
+             for (i = 0; i < ctrls.length; i++) {
+                 if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf("chkSelectSonicACINotes") > 0) {
+                     if (ctrls[i].checked) {
+                         var ctrlId = ctrls[i].id;
+                         ctrlId = ctrlId.substring(ctrlId.lastIndexOf("_") - 2);
+                         var hdnpk = ctrlId.replace("chkSelectSonicACINotes", "hdnPK_Sonic_Event_Notes");
+                         //index = Number(index) - 2;
+                         var id = document.getElementById('ctl00_ContentPlaceHolder1_gvSonic_Notes_ctl' + hdnpk).value;
+                         if (m_strAttIds == "")
+                             m_strAttIds = id;
+                         else {
+                             m_strAttIds = m_strAttIds + "," + id;
+                         }
+                         cnt++;
+                     }
+                 }
+             }
             
-            if (cnt == 0) {
-                if (buttonType == "View")
-                    alert("Please select Note(s) to View");
-                else
-                    alert("Please select Note(s)");
+             if (cnt == 0) {
+                 if (buttonType == "View")
+                     alert("Please select Note(s) to View");
+                 else
+                     alert("Please select Note(s)");
 
-                return false;
-            }
-            else {
-                if(buttonType != 'Print')
-                {
-                    AciSelectedNotePopup(m_strAttIds,buttonType);
-                    return false;
-                }
-                else
-                    return true;
-            }
-        }
+                 return false;
+             }
+             else {
+                 if(buttonType != 'Print')
+                 {
+                     AciSelectedNotePopup(m_strAttIds,buttonType);
+                     return false;
+                 }
+                 else
+                     return true;
+             }
+         }
 
-        function ConfirmRemove() {
-            return confirm("Are you sure to remove?");
-        }
+         function ConfirmRemove() {
+             return confirm("Are you sure to remove?");
+         }
 
-        function checkLength() 
-        {
-            var oObject = document.getElementById('ctl00_ContentPlaceHolder1_txtACI_Notes_txtNote') 
-            if (oObject.value.length < 50)
-            {
-                alert("Please enter minimum 50 Characters for Notes.");
-                return false;
-            }
-            else
-            {
-                return true;            
-            }              
-        }
+         function checkLength() 
+         {
+             var oObject = document.getElementById('ctl00_ContentPlaceHolder1_txtACI_Notes_txtNote') 
+             if (oObject.value.length < 50)
+             {
+                 alert("Please enter minimum 50 Characters for Notes.");
+                 return false;
+             }
+             else
+             {
+                 return true;            
+             }              
+         }
 
-        function SelectDeselectACINoteHeader() {
-            var ctrls = document.getElementsByTagName('input');
-            var i, chkID;
-            var cnt = 0;
-            chkID = "chkSelectSonicNotes";
-            for (i = 0; i < ctrls.length; i++) {
-                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
-                    if (ctrls[i].checked)
-                        cnt++;
-                }
-            }
+         function SelectDeselectACINoteHeader() {
+             var ctrls = document.getElementsByTagName('input');
+             var i, chkID;
+             var cnt = 0;
+             chkID = "chkSelectSonicNotes";
+             for (i = 0; i < ctrls.length; i++) {
+                 if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
+                     if (ctrls[i].checked)
+                         cnt++;
+                 }
+             }
 
-            var rowCnt = document.getElementById('<%=gvACI_Notes.ClientID%>').rows.length - 1;
+             var rowCnt = document.getElementById('<%=gvACI_Notes.ClientID%>').rows.length - 1;
 
             var headerChkID = 'chkMultiSelectSonicNotes';
 
@@ -476,18 +476,18 @@
 
         function OpenFRNumber(FRtype) {
             GB_showCenter('FR Number', '<%=AppConfig.SiteURL%>Event/PopupFirstReport.aspx?ftype='+FRtype, 500, 650, '');
-                 return false;
-             }
-
-             function setAgencyNameSonic()
-             {
-                 var agencyname =  document.getElementById("<%=txtAgency_name.ClientID%>").value;
-            var agencynameSonic = document.getElementById("<%=txtAgency_name_Sonic.ClientID%>");
-            agencynameSonic.value = agencyname;
+            return false;
         }
-        function setOfficerNameSonic()
+
+        function setAgencyNameSonic()
         {
-            var Officername =  document.getElementById("<%=txtOfficer_Name.ClientID%>").value;
+            var agencyname =  document.getElementById("<%=txtAgency_name.ClientID%>").value;
+                 var agencynameSonic = document.getElementById("<%=txtAgency_name_Sonic.ClientID%>");
+                 agencynameSonic.value = agencyname;
+             }
+             function setOfficerNameSonic()
+             {
+                 var Officername =  document.getElementById("<%=txtOfficer_Name.ClientID%>").value;
             var OfficernameSonic = document.getElementById("<%=txtOfficer_Name_Sonic.ClientID%>");
             OfficernameSonic.value = Officername;
         }
@@ -996,7 +996,7 @@
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top" colspan="4">
-                                                            <asp:Image ID="ImgEvent_Image" runat="server" Height="200" Width="200" />
+                                                            <asp:Image ID="ImgEvent_Image" runat="server" Height="400" Width="500" />
                                                         </td>
                                                     </tr>
                                                     <tr>
