@@ -354,6 +354,8 @@
                     <asp:Button runat="server" ID="btnSearch" Text="Search" ValidationGroup="vsErrorGroup"
                         OnClick="btnSearch_Click" CausesValidation="true" />
                     &nbsp;&nbsp;
+                    <asp:Button ID="btnAdd" runat="server" Text="  Add New " OnClick="btnAdd_Click" />
+                    &nbsp;&nbsp;
                     <asp:Button runat="server" ID="btnClear" Text=" Clear " CausesValidation="false"
                         OnClick="btnSearchAgain_Click" />
                 </td>
@@ -517,7 +519,6 @@
                             <td align="center">
                                 <asp:Button ID="btnSearchAgain" runat="server" Text="Search Again" OnClick="btnSearchAgain_Click" />
                                 <asp:Button ID="btnSaveToExcel" runat="server" Text="Export to Excel" OnClick="btnSaveToExcel_Click" />
-                                <asp:Button ID="btnAdd" runat="server" Text="  Add New " OnClick="btnAdd_Click" />
                             </td>
                         </tr>
                         <tr>

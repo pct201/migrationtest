@@ -7,10 +7,10 @@
 <%@ Register Src="~/Controls/ExposuresTab/ExposuresTab.ascx" TagName="CtlTab" TagPrefix="uc" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <script type="text/javascript" src="../../JavaScript/JFunctions.js"></script>
-    <script type="text/javascript" language="javascript" src="../../JavaScript/Validator.js"></script>
-    <script type="text/javascript" language="javascript" src="../../JavaScript/Calendar_new.js"></script>
-    <script type="text/javascript" language="javascript" src="../../JavaScript/calendar-en.js"></script>
-    <script type="text/javascript" language="javascript" src="../../JavaScript/Calendar.js"></script>
+    <script type="text/javascript" language="javascript" src="../JavaScript/Validator.js"></script>
+    <script type="text/javascript" language="javascript" src="../JavaScript/Calendar_new.js"></script>
+    <script type="text/javascript" language="javascript" src="../JavaScript/calendar-en.js"></script>
+    <script type="text/javascript" language="javascript" src="../JavaScript/Calendar.js"></script>
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
         <div>
             <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"

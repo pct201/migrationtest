@@ -329,7 +329,7 @@ public partial class Management_Management : clsBasePage
             else
                 rdoWork_Completed_By.ClearSelection();
 
-            txtService_Repair_Cost.Text = Convert.ToString(objRecord.Service_Repair_Cost);
+            txtService_Repair_Cost.Text = clsGeneral.GetStringValue(objRecord.Service_Repair_Cost);
             txtRecord_Type_Other.Text = objRecord.Record_Type_Other;
             txtJob.Text = objRecord.Job;
             txtOrder.Text = objRecord.Order;
@@ -337,8 +337,8 @@ public partial class Management_Management : clsBasePage
             txtRequestedBy.Text = objRecord.Requested_By;
             txtCreatedBy.Text = objRecord.Created_By;
 
-            txtPreviousContractAmount.Text = Convert.ToString(objRecord.Previous_Contract_Amount );
-            txtRevisedContractAmount.Text =  Convert.ToString(objRecord.Revised_Contract_Amount);
+            txtPreviousContractAmount.Text = clsGeneral.GetStringValue(objRecord.Previous_Contract_Amount );
+            txtRevisedContractAmount.Text =  clsGeneral.GetStringValue(objRecord.Revised_Contract_Amount);
             ctrlReason_Request.Text = objRecord.Reason_for_Request != null ? Convert.ToString(objRecord.Reason_for_Request) : "";
             
             clsGeneral.SetDropdownValue(drpFK_Work_Completed, objRecord.FK_LU_Work_Completed, true);
@@ -543,7 +543,7 @@ public partial class Management_Management : clsBasePage
                     break;
             }
 
-            lblService_Repair_Cost.Text = Convert.ToString(objRecord.Service_Repair_Cost);
+            lblService_Repair_Cost.Text = clsGeneral.GetStringValue(objRecord.Service_Repair_Cost);
             lblRecord_Type_Other.Text = objRecord.Record_Type_Other;
             lblJob.Text = objRecord.Job;
             lblOrder.Text = objRecord.Order;
@@ -551,8 +551,8 @@ public partial class Management_Management : clsBasePage
             lblRequestedBy.Text = objRecord.Requested_By;
             lblCreatedBy.Text = objRecord.Created_By;
 
-            lblPreviousContractAmount.Text = Convert.ToString(objRecord.Previous_Contract_Amount);
-            lblRevisedContractAmount.Text = Convert.ToString(objRecord.Revised_Contract_Amount);
+            lblPreviousContractAmount.Text = clsGeneral.GetStringValue(objRecord.Previous_Contract_Amount);
+            lblRevisedContractAmount.Text = clsGeneral.GetStringValue(objRecord.Revised_Contract_Amount);
             lblReason_Request.Text = objRecord.Reason_for_Request != null ? Convert.ToString(objRecord.Reason_for_Request) : "";
 
             if (objRecord.FK_LU_Work_Completed != null)
