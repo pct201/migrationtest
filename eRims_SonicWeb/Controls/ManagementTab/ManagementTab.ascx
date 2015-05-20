@@ -60,9 +60,9 @@
 
             if (window.location.href.indexOf("Management.aspx") > 0) {
 
-                var pkmgmt = '<%=Request.QueryString["PK_Management"] %>'
+                var pkmgmt = '<%=Request.QueryString["id"] %>'
                 var mode = '<%=Request.QueryString["mode"] %>'
-                window.location.href = '<%=AppConfig.SiteURL%>Management/Management.aspx?PK_Management=' + pkmgmt + '&mode=' + mode;
+                window.location.href = '<%=AppConfig.SiteURL%>Management/Management.aspx?id=' + pkmgmt + '&mode=' + mode;
             }
             else
                 window.location.href = '<%=AppConfig.SiteURL%>Management/Management.aspx';

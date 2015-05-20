@@ -77,7 +77,8 @@ public partial class Management_Management : clsBasePage
             }
             if (PK_Management > 0)
             {
-                if (StrOperation.ToLower() == "view")
+
+                if (StrOperation.ToLower() == "view" || App_Access == AccessType.View_Only)
                 {
                     BindDetailsForView();
                     ucAttachmentView.FK_Table = PK_Management;

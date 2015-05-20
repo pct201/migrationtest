@@ -61,12 +61,12 @@
 
         var ActiveTabIndex = 1;
         function ShowPanel(index) {
-
             SetMenuStyle(index);
             ActiveTabIndex = index;
             document.getElementById("ctl00_ContentPlaceHolder1_hdnPanel").value = ActiveTabIndex;
             var op = '<%=StrOperation%>';
-            if (op == "view") {
+            var App_Access = '<%= App_Access%>';
+            if (op == "view" || App_Access.toLowerCase() == 'view_only') {
                 ShowPanelView(index);
             }
             else {
