@@ -36,7 +36,7 @@
                                 <asp:ListItem Selected="True" Text="First Day of Previous Month" Value="FirstDayPrevMonth"></asp:ListItem>
                                 <asp:ListItem Text="Last Day of Previous Month" Value="LastDayPrevMonth"></asp:ListItem>
                                 <asp:ListItem Text="First Day of Current Month" Value="FirstDayCurrMonth"></asp:ListItem>
-                                <asp:ListItem Text="Last Day of Current Mohth" Value="LastDayCurrMonth"></asp:ListItem>
+                                <asp:ListItem Text="Last Day of Current Month" Value="LastDayCurrMonth"></asp:ListItem>
                                 <asp:ListItem Text="First Day of Previous Year" Value="FirstDayPrevYear"></asp:ListItem>
                                 <asp:ListItem Text="Last Day of Previous Year" Value="LastDayPrevYear"></asp:ListItem>
                                 <asp:ListItem Text="First Day of Current Year" Value="FirstDayCurrYear"></asp:ListItem>

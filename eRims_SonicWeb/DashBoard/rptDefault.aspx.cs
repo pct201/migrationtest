@@ -50,7 +50,9 @@ public partial class SONIC_ClaimInfo_rptDefault : clsBasePage
             else if (Report_ID == 50)
                 rptLink.HRef = "rptWCClaimManagement.aspx";
             else if (Report_ID == 54)
-                rptLink.HRef = "SafetyFirstAwardReport.aspx";         
+                rptLink.HRef = "SafetyFirstAwardReport.aspx";
+            else if (Report_ID == 64)
+                rptLink.HRef = "rptSafetyTrainingReport.aspx";         
         }
     }
     #endregion

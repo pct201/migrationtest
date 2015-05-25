@@ -1317,6 +1317,19 @@ namespace ERIMS_Sonic_ReportScheduler
             return db.ExecuteDataSet(dbCommand);
         }
 
+
+        public static DataSet GetSafetyTrainingReport(string strRegion, string strMarket, int intYear, string strInterval, decimal FK_Security_Id)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("DealershipDashBoardReport");
+            db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+            db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+            db.AddInParameter(dbCommand, "Year", DbType.Int32, intYear);
+            db.AddInParameter(dbCommand, "strInterval", DbType.String, strInterval);
+            db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, FK_Security_Id);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
         /// <summary>
         /// select Comma seperated Accident Year
         /// </summary>

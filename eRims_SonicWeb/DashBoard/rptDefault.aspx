@@ -33,6 +33,11 @@
                 schedulePopUp = "ScheduleRptSafetyFirstAward.aspx?PK_ReportID=" + PK_ReportID;
                 obj = window.open(schedulePopUp, null, 'width=800,height=500,left=' + (window.screen.width - 800) / 2 + ',top=' + (window.screen.height - 500) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
             }
+
+            else if (PK_ReportID == 64) {
+                schedulePopUp = "SchedulerRptSafetyTraining.aspx?PK_ReportID=" + PK_ReportID;
+                obj = window.open(schedulePopUp, null, 'width=800,height=500,left=' + (window.screen.width - 800) / 2 + ',top=' + (window.screen.height - 500) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+            }
             
             obj.focus();
         }
