@@ -12657,173 +12657,180 @@ namespace ERIMS_Sonic_ReportScheduler
         //Report 64
         private void BindSafetyTrainingReport(DataRow drReportSchedule)
         {
-            decimal pK_Schedule_ID = Convert.ToDecimal(drReportSchedule["PK_Schedule"]);
-            decimal Fk_RecipientList = Convert.ToDecimal(drReportSchedule["Fk_RecipientList"]);
-            decimal FK_Security_Id = Convert.ToDecimal(drReportSchedule["FK_Security_Id"]);
-
-            //Get Report criteria for the scheduled report
-            DataTable dtFilter = Report.SelectFilterCriteria(64, pK_Schedule_ID).Tables[0];
-            if (dtFilter.Rows.Count > 0)
+            try
             {
-                //Get the recipient from the recipient list 
-                DataTable dtRecipients = Report.SelectOneRecordWithRecipientList(Fk_RecipientList).Tables[0];
+                decimal pK_Schedule_ID = Convert.ToDecimal(drReportSchedule["PK_Schedule"]);
+                decimal Fk_RecipientList = Convert.ToDecimal(drReportSchedule["Fk_RecipientList"]);
+                decimal FK_Security_Id = Convert.ToDecimal(drReportSchedule["FK_Security_Id"]);
 
-                //Get the user who has scheduled the report
-                DataTable dtUser = Report.SelectSecurityByPK(FK_Security_Id).Tables[0];
-
-                String strFirstName, strLastName, strMailFrom;
-                strFirstName = strLastName = strMailFrom = "";
-                if (dtUser.Rows.Count > 0)
+                //Get Report criteria for the scheduled report
+                DataTable dtFilter = Report.SelectFilterCriteria(64, pK_Schedule_ID).Tables[0];
+                if (dtFilter.Rows.Count > 0)
                 {
-                    strFirstName = Convert.ToString(dtUser.Rows[0]["FIRST_NAME"]).Trim();
-                    strLastName = Convert.ToString(dtUser.Rows[0]["LAST_NAME"]).Trim();
-                    strMailFrom = Convert.ToString(dtUser.Rows[0]["Email"]).Trim();
-                }
+                    //Get the recipient from the recipient list 
+                    DataTable dtRecipients = Report.SelectOneRecordWithRecipientList(Fk_RecipientList).Tables[0];
 
-                string strYear = Convert.ToString(dtFilter.Rows[0]["Year"]).Trim();
-                string strRegion = string.Empty;
-                if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Region"])))
-                    strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]);
-                
-                string strMarket = null;
-                if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
-                {
-                    strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
-                }
-                //Create HTML for the report and wirte into HTML Write object
-                StringBuilder strHTML = new StringBuilder();
-                System.IO.StringWriter stringWrite = new System.IO.StringWriter();
-                System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
+                    //Get the user who has scheduled the report
+                    DataTable dtUser = Report.SelectSecurityByPK(FK_Security_Id).Tables[0];
 
-                #region "Report Title"
-
-                //Retrive Region
-                string strRegionString = string.Empty;
-                if (string.IsNullOrEmpty(strRegion))
-                    strRegionString = "All Region";
-                else
-                    strRegionString = strRegion;
-                
-                
-                //Retrieve Market Values
-                string strMarketString = string.Empty;
-                if (string.IsNullOrEmpty(strMarket))
-                {
-                    strMarketString = "All Market";
-                }
-                else
-                {
-                    string[] strMar = strMarket.Split(Convert.ToChar(","));
-                    for (int i = 0; i < strMar.Length; i++)
+                    String strFirstName, strLastName, strMailFrom;
+                    strFirstName = strLastName = strMailFrom = "";
+                    if (dtUser.Rows.Count > 0)
                     {
-                        strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                        strFirstName = Convert.ToString(dtUser.Rows[0]["FIRST_NAME"]).Trim();
+                        strLastName = Convert.ToString(dtUser.Rows[0]["LAST_NAME"]).Trim();
+                        strMailFrom = Convert.ToString(dtUser.Rows[0]["Email"]).Trim();
                     }
-                    strMarketString = strMarketString.TrimEnd(',');
-                }
 
-                //Add Report Title and Schedule Date
-                strHTML.Append("<br />");
-                strHTML.Append("<b>Report Title : Safety Training Report </b>");
-                strHTML.Append("<br /><br />");
-                strHTML.Append("Schedule Start Date : " + Convert.ToDateTime(drReportSchedule["Scheduled_Date"]).ToString(DateDisplayFormat));
-                strHTML.Append("&nbsp;&nbsp;&nbsp;&nbsp;Schedule End Date : " + Convert.ToDateTime(drReportSchedule["Schedule_End_Date"]).ToString(DateDisplayFormat));
-                strHTML.Append("<br />");
-                strHTML.Append("Recurring Period : " + drReportSchedule["Recurring_Period"].ToString());
-                strHTML.Append("<br />");
-                strHTML.Append("Recurring Date : " + dtSchduleDate.ToString(DateDisplayFormat));
+                    string strYear = Convert.ToString(dtFilter.Rows[0]["Year"]).Trim();
+                    string strRegion = string.Empty;
+                    if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Region"])))
+                        strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]);
 
-                //Add Report Filter Criteria    
-                strHTML.Append("<br /><br /><table> <tr> <td>");
-                strHTML.Append("<b>Report Filters </b>");
-                strHTML.Append("<br /><table>");
-                strHTML.Append("<tr> <td colspan='8'>");
-                strHTML.Append("Year   : " + strYear);
-                strHTML.Append("</td> </tr>");
-                strHTML.Append("<tr> <td colspan='8'>");
-                strHTML.Append("Region   : " + strRegionString);
-                strHTML.Append("<tr> <td colspan='8'>");
-                strHTML.Append("Market        : " + strMarketString);
-                strHTML.Append("</td> </tr>");
-                strHTML.Append("<tr> <td colspan='8'>");
-                strHTML.Append("</td></tr></table> ");
+                    string strMarket = null;
+                    if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
+                    {
+                        strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                    }
+                    //Create HTML for the report and wirte into HTML Write object
+                    StringBuilder strHTML = new StringBuilder();
+                    System.IO.StringWriter stringWrite = new System.IO.StringWriter();
+                    System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
-                #endregion
+                    #region "Report Title"
 
-                #region "Grid Data"
-
-                strHTML.Append("<table cellspacing='0' cellpadding='0' align='Left' border='0' style='width: 1700px; border-collapse: collapse;'>");
-                //Header Row  
-              
-
-                strHTML.Append("<tr align='left'><td align='left'>");
-                strHTML.Append("<table width='1700px' cellpadding='0' cellspacing='0' border='0'>");
-                strHTML.Append("<tr><td align='left'>");
-                strHTML.Append("<table width='1700px' cellpadding='0' cellspacing='0' border='1' style='font-weight: bold;'>");
-                strHTML.Append("<tr style='font-weight: bold;'>");
-                strHTML.Append("<td align='left' colspan='2'>Sonic Automotive</td>");
-                strHTML.Append("<td align='center' colspan='4'>Safety Training Report </td>");
-                strHTML.Append("<td align='right' colspan='2'>Valuation Date: " + DateTime.Now.ToString("MM/dd/yyy") + " </td>");
-                strHTML.Append("</tr>");
-
-                strHTML.Append("<tr style='font-weight: bold;'>");
-                strHTML.Append("<td class='cols_' width='180px'>Company Name</td>");
-                strHTML.Append("<td class='cols_' width='120px'>Employee Name</td>");
-                strHTML.Append("<td class='cols_' width='120px'>JobTitle</td>");
-                strHTML.Append("<td class='cols_' width='120px'>Region</td>");
-                strHTML.Append("<td class='cols_' width='120px'>Last Hire Date</td>");
-                strHTML.Append("<td class='cols_' width='120px'>Quarter</td>");
-                strHTML.Append("<td class='cols_' width='250px'>Learning Programming Title</td>");
-                strHTML.Append("<td class='cols_' width='110px'>Status</td>");
-                strHTML.Append("</tr>");
-                strHTML.Append("</table>");
-                strHTML.Append("</td></tr>");
-                strHTML.Append("</table>");
-                strHTML.Append("</td></tr>");
+                    //Retrive Region
+                    string strRegionString = string.Empty;
+                    if (string.IsNullOrEmpty(strRegion))
+                        strRegionString = "All Region";
+                    else
+                        strRegionString = strRegion;
 
 
-                DataSet dsReport = Report.GetSafetyTrainingReport(strRegion, strMarket, Convert.ToInt32(strYear), null, FK_Security_Id);
+                    //Retrieve Market Values
+                    string strMarketString = string.Empty;
+                    if (string.IsNullOrEmpty(strMarket))
+                    {
+                        strMarketString = "All Market";
+                    }
+                    else
+                    {
+                        string[] strMar = strMarket.Split(Convert.ToChar(","));
+                        for (int i = 0; i < strMar.Length; i++)
+                        {
+                            strMarketString += Report.SelectMarketInfoById(Convert.ToDecimal(strMar[i].ToString())).Tables[0].Rows[0]["Market"].ToString() + ",";
+                        }
+                        strMarketString = strMarketString.TrimEnd(',');
+                    }
 
-                if (dsReport != null && dsReport.Tables.Count > 0 && dsReport.Tables[0].Rows.Count > 0)
-                {
-                    DataTable dtLocation = dsReport.Tables[0];
-                    DataTable dtDetails = dsReport.Tables[0];
+                    //Add Report Title and Schedule Date
+                    strHTML.Append("<br />");
+                    strHTML.Append("<b>Report Title : Safety Training Report </b>");
+                    strHTML.Append("<br /><br />");
+                    strHTML.Append("Schedule Start Date : " + Convert.ToDateTime(drReportSchedule["Scheduled_Date"]).ToString(DateDisplayFormat));
+                    strHTML.Append("&nbsp;&nbsp;&nbsp;&nbsp;Schedule End Date : " + Convert.ToDateTime(drReportSchedule["Schedule_End_Date"]).ToString(DateDisplayFormat));
+                    strHTML.Append("<br />");
+                    strHTML.Append("Recurring Period : " + drReportSchedule["Recurring_Period"].ToString());
+                    strHTML.Append("<br />");
+                    strHTML.Append("Recurring Date : " + dtSchduleDate.ToString(DateDisplayFormat));
+
+                    //Add Report Filter Criteria    
+                    strHTML.Append("<br /><br /><table> <tr> <td>");
+                    strHTML.Append("<b>Report Filters </b>");
+                    strHTML.Append("<br /><table>");
+                    strHTML.Append("<tr> <td colspan='8'>");
+                    strHTML.Append("Year   : " + strYear);
+                    strHTML.Append("</td> </tr>");
+                    strHTML.Append("<tr> <td colspan='8'>");
+                    strHTML.Append("Region   : " + strRegionString);
+                    strHTML.Append("<tr> <td colspan='8'>");
+                    strHTML.Append("Market        : " + strMarketString);
+                    strHTML.Append("</td> </tr>");
+                    strHTML.Append("<tr> <td colspan='8'>");
+                    strHTML.Append("</td></tr></table> ");
+
+                    #endregion
+
+                    #region "Grid Data"
+
+                    strHTML.Append("<table cellspacing='0' cellpadding='0' align='Left' border='0' style='width: 1700px; border-collapse: collapse;'>");
+                    //Header Row  
+
 
                     strHTML.Append("<tr align='left'><td align='left'>");
                     strHTML.Append("<table width='1700px' cellpadding='0' cellspacing='0' border='0'>");
                     strHTML.Append("<tr><td align='left'>");
-                    strHTML.Append("<table cellspacing='0' cellpadding='0' align='Left' border='1' style='width: 100%; border-collapse: collapse;'>");
+                    strHTML.Append("<table width='1700px' cellpadding='0' cellspacing='0' border='1' style='font-weight: bold;'>");
+                    strHTML.Append("<tr style='font-weight: bold;'>");
+                    strHTML.Append("<td align='left' colspan='2'>Sonic Automotive</td>");
+                    strHTML.Append("<td align='center' colspan='4'>Safety Training Report </td>");
+                    strHTML.Append("<td align='right' colspan='2'>Valuation Date: " + DateTime.Now.ToString("MM/dd/yyy") + " </td>");
+                    strHTML.Append("</tr>");
 
-                    foreach (DataRow drDetail in dsReport.Tables[0].Rows)
+                    strHTML.Append("<tr style='font-weight: bold;'>");
+                    strHTML.Append("<td class='cols_' width='180px'>Company Name</td>");
+                    strHTML.Append("<td class='cols_' width='120px'>Employee Name</td>");
+                    strHTML.Append("<td class='cols_' width='120px'>JobTitle</td>");
+                    strHTML.Append("<td class='cols_' width='120px'>Region</td>");
+                    strHTML.Append("<td class='cols_' width='120px'>Last Hire Date</td>");
+                    strHTML.Append("<td class='cols_' width='120px'>Quarter</td>");
+                    strHTML.Append("<td class='cols_' width='250px'>Learning Programming Title</td>");
+                    strHTML.Append("<td class='cols_' width='110px'>Status</td>");
+                    strHTML.Append("</tr>");
+                    strHTML.Append("</table>");
+                    strHTML.Append("</td></tr>");
+                    strHTML.Append("</table>");
+                    strHTML.Append("</td></tr>");
+
+
+                    DataSet dsReport = Report.GetSafetyTrainingReport(strRegion, strMarket, Convert.ToInt32(strYear), null, FK_Security_Id);
+
+                    if (dsReport != null && dsReport.Tables.Count > 0 && dsReport.Tables[0].Rows.Count > 0)
                     {
-                        strHTML.Append("<tr>");
-                        strHTML.Append("<td align='left' style='width: 180px'>" + Convert.ToString(drDetail["CompanyName"]) + "</td>");
-                        strHTML.Append("<td align='left' style='width: 120px'>" + Convert.ToString(drDetail["EmployeeName"]) + "</td>");
-                        strHTML.Append("<td align='left' style='width: 120px'>" + Convert.ToString(drDetail["Job_Title"]) + "</td>");
-                        strHTML.Append("<td align='left' style='width: 120px'>" + Convert.ToString(drDetail["Region"]) + "</td>");
-                        strHTML.Append("<td align='left' style='width: 120px'>" + Convert.ToString(drDetail["LastHireDate"]) + "</td>");
-                        strHTML.Append("<td align='left' style='width: 120px'>" + Convert.ToString(drDetail["AssociateQuarter"]) + "</td>");
-                        strHTML.Append("<td align='left' style='width: 250px'>" + Convert.ToString(drDetail["LearningProgramTitle"]) + "</td>");
-                        strHTML.Append("<td align='left' style='width: 110px'>" + Convert.ToString(drDetail["LearningProgramStatus"]) + "</td>");
-                        strHTML.Append(" </tr>");
+                        DataTable dtLocation = dsReport.Tables[0];
+                        DataTable dtDetails = dsReport.Tables[0];
+
+                        strHTML.Append("<tr align='left'><td align='left'>");
+                        strHTML.Append("<table width='1700px' cellpadding='0' cellspacing='0' border='0'>");
+                        strHTML.Append("<tr><td align='left'>");
+                        strHTML.Append("<table cellspacing='0' cellpadding='0' align='Left' border='1' style='width: 100%; border-collapse: collapse;'>");
+
+                        foreach (DataRow drDetail in dsReport.Tables[0].Rows)
+                        {
+                            strHTML.Append("<tr>");
+                            strHTML.Append("<td align='left' style='width: 180px'>" + Convert.ToString(drDetail["CompanyName"]) + "</td>");
+                            strHTML.Append("<td align='left' style='width: 120px'>" + Convert.ToString(drDetail["EmployeeName"]) + "</td>");
+                            strHTML.Append("<td align='left' style='width: 120px'>" + Convert.ToString(drDetail["Job_Title"]) + "</td>");
+                            strHTML.Append("<td align='left' style='width: 120px'>" + Convert.ToString(drDetail["Region"]) + "</td>");
+                            strHTML.Append("<td align='left' style='width: 120px'>" + Convert.ToString(drDetail["LastHireDate"]) + "</td>");
+                            strHTML.Append("<td align='left' style='width: 120px'>" + Convert.ToString(drDetail["AssociateQuarter"]) + "</td>");
+                            strHTML.Append("<td align='left' style='width: 250px'>" + Convert.ToString(drDetail["LearningProgramTitle"]) + "</td>");
+                            strHTML.Append("<td align='left' style='width: 110px'>" + Convert.ToString(drDetail["LearningProgramStatus"]) + "</td>");
+                            strHTML.Append(" </tr>");
+                        }
+                        strHTML.Append("</table>");
+                        strHTML.Append("</td></tr>");
+                        strHTML.Append("</table>");
+                        strHTML.Append("</td></tr>");
                     }
-                    strHTML.Append("</table>");
-                    strHTML.Append("</td></tr>");
-                    strHTML.Append("</table>");
-                    strHTML.Append("</td></tr>");
-                }
-                else
-                {
-                    strHTML.Append("<tr> <td style='font-weight: bold;'> No Record Found.");
-                    strHTML.Append("</td></tr>");
-                }
+                    else
+                    {
+                        strHTML.Append("<tr> <td style='font-weight: bold;'> No Record Found.");
+                        strHTML.Append("</td></tr>");
+                    }
 
-                strHTML.Append("</table>");
-                #endregion
+                    strHTML.Append("</table>");
+                    #endregion
 
-                //Write HTML in to HtmlWriter
-                htmlWrite.WriteLine(strHTML.ToString());
-                //Send Mail
-                SendMail("Safety Training Report", "SafetyTrainingReport.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
+                    //Write HTML in to HtmlWriter
+                    htmlWrite.WriteLine(strHTML.ToString());
+                    //Send Mail
+                    SendMail("Safety Training Report", "SafetyTrainingReport.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
+                }
+            }
+            catch(Exception ex)
+            {
+                EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message);
             }
         }
         #endregion
