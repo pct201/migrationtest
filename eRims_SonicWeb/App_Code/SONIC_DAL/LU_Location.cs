@@ -821,6 +821,26 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+
+        public static DataSet SelectSonicLocationDBA()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetSqlStringCommand("SonicLocationDBA");
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+
+
+        public static DataSet SelectSonicLocationCode()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetSqlStringCommand("SonicLocationCode");
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+
         /// <summary>
         /// Selects all records from the LU_Location table.
         /// </summary>
