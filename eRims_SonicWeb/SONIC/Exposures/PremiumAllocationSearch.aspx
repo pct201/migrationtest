@@ -92,15 +92,22 @@
                                             DataKeyNames="PK_PA_Screen_Fields" Width="100%">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="Year" SortExpression="Year">
-                                                    <ItemStyle Width="40%" />
+                                                    <ItemStyle Width="30%" />
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblYear" runat="server" Text='<%# Eval("Year")%>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Total Risk Management Fee" SortExpression="Total_Risk_Management_Fee">
-                                                    <ItemStyle Width="40%" />
+                                                
+                                                <asp:TemplateField HeaderText="Property Valuation Date" SortExpression="Property_Valuation_Date">
+                                                    <ItemStyle Width="25%" />
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblTotal_Risk_Management_Fee" runat="server" Text='<%# Eval("Total_Risk_Management_Fee")%>'></asp:Label>
+                                                        <asp:Label ID="lblProperty_Valuation_Date" runat="server" Text='<%# clsGeneral.FormatDateToDisplay(!string.IsNullOrEmpty(Convert.ToString(Eval("Property_Valuation_Date"))) ? Convert.ToDateTime(Eval("Property_Valuation_Date")) : (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue) %>'></asp:Label>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Total Locations" SortExpression="Total_Locations">
+                                                    <ItemStyle Width="25%" />
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblTotal_Locations" runat="server" Text='<%# Eval("Total_Locations")%>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField>

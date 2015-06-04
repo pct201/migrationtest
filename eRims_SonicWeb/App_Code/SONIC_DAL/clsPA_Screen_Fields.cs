@@ -30,6 +30,26 @@ namespace ERIMS.DAL
 		private DateTime? _Update_Date;
 		private string _Updated_By;
         private decimal? _Pollution_Premium;
+        private DateTime? _Property_Valuation_Date;
+        private decimal? _Directors_Officers_Premium;
+        private decimal? _Fiduciary_Premium;
+        private decimal? _Kidnap_Ransom_Premium;
+        private decimal? _Earthquake_Premium;
+        private decimal? _Dealers_Physical_Damage_Premium;
+        private int? _Total_Locations;
+
+        private int? _WC_Headcount;
+        private int? _Texas_WC_Headcount;
+         private decimal? _Texas_WC_Payroll;
+        private decimal? _WC_Payroll;
+        private decimal? _PP_Total_RS_Means;
+        private decimal? _PP_Total_Business_Interruption;
+        private decimal? _PP_Total_Contents;
+         private decimal? _PP_Total_Parts;
+        private decimal? _EP_Total_RS_Means;
+        private decimal? _EP_Total_Business_Interruption;
+        private decimal? _EP_Total_Contents;
+        private decimal? _EP_Total_Parts;
 
 		#endregion
 
@@ -188,7 +208,133 @@ namespace ERIMS.DAL
             set { _Pollution_Premium = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the Property_Valuation_Date value.
+        /// </summary>
+        public DateTime? Property_Valuation_Date
+        {
+            get { return _Property_Valuation_Date; }
+            set { _Property_Valuation_Date = value; }
+        }
 
+        /// <summary>
+        /// Gets or sets the Directors_Officers_Premium value.
+        /// </summary>
+        public decimal? Directors_Officers_Premium
+        {
+            get { return _Directors_Officers_Premium; }
+            set { _Directors_Officers_Premium = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Fiduciary_Premium value.
+        /// </summary>
+        public decimal? Fiduciary_Premium
+        {
+            get { return _Fiduciary_Premium; }
+            set { _Fiduciary_Premium = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Kidnap_Ransom_Premium value.
+        /// </summary>
+        public decimal? Kidnap_Ransom_Premium
+        {
+            get { return _Kidnap_Ransom_Premium; }
+            set { _Kidnap_Ransom_Premium = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Earthquake_Premium value.
+        /// </summary>
+        public decimal? Earthquake_Premium
+        {
+            get { return _Earthquake_Premium; }
+            set { _Earthquake_Premium = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Dealers_Physical_Damage_Premium value.
+        /// </summary>
+        public decimal? Dealers_Physical_Damage_Premium
+        {
+            get { return _Dealers_Physical_Damage_Premium; }
+            set { _Dealers_Physical_Damage_Premium = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Total_Locations value.
+        /// </summary>
+        public int? Total_Locations
+        {
+            get { return _Total_Locations; }
+            set { _Total_Locations = value; }
+        }
+
+
+
+        public decimal? Texas_WC_Payroll
+        {
+            get { return _Texas_WC_Payroll; }
+            set { _Texas_WC_Payroll = value; }
+        }
+        public int? WC_Headcount
+        {
+            get { return _WC_Headcount; }
+            set { _WC_Headcount = value; }
+        }
+        public int? Texas_WC_Headcount
+        {
+            get { return _Texas_WC_Headcount; }
+            set { _Texas_WC_Headcount = value; }}
+        
+
+
+        public  decimal? WC_Payroll
+        {
+            get { return _WC_Payroll;}
+            set { _WC_Payroll = value;}
+        }
+        public decimal? PP_Total_RS_Means
+        {
+             get { return _PP_Total_RS_Means; }
+            set { _PP_Total_RS_Means = value; }
+        }
+        public decimal? PP_Total_Business_Interruption
+        {
+             get { return _PP_Total_Business_Interruption; }
+            set { _PP_Total_Business_Interruption = value; }
+        }
+        public decimal? PP_Total_Contents
+        {
+            get { return _PP_Total_Contents; }
+            set { _PP_Total_Contents = value; }
+        }
+        public decimal? PP_Total_Parts
+        {
+             get { return _PP_Total_Parts; }
+            set { _PP_Total_Parts = value; }
+        }
+        public decimal? EP_Total_RS_Means
+        {
+             get { return _EP_Total_RS_Means; }
+            set { _EP_Total_RS_Means = value; }
+        }
+        public decimal? EP_Total_Business_Interruption
+        {
+            get { return _EP_Total_Business_Interruption; }
+            set { _EP_Total_Business_Interruption = value; }
+        }
+        public decimal? EP_Total_Contents
+        {
+           get { return _EP_Total_Contents; }
+            set { _EP_Total_Contents = value; }
+        }
+        public decimal? EP_Total_Parts
+        {
+            get { return _EP_Total_Parts; }
+            set { _EP_Total_Parts = value; }
+        }
 		#endregion
 
 		#region Default Constructors
@@ -312,7 +458,100 @@ namespace ERIMS.DAL
                 else
                     this._Pollution_Premium = (decimal?)drPA_Screen_Fields["Pollution_Premium"];
 
+                if (drPA_Screen_Fields["Property_Valuation_Date"] == DBNull.Value)
+                    this._Property_Valuation_Date = null;
+                else
+                    this._Property_Valuation_Date = (DateTime?)drPA_Screen_Fields["Property_Valuation_Date"];
 
+                if (drPA_Screen_Fields["Directors_Officers_Premium"] == DBNull.Value)
+                    this._Directors_Officers_Premium = null;
+                else
+                    this._Directors_Officers_Premium = (decimal?)drPA_Screen_Fields["Directors_Officers_Premium"];
+
+                if (drPA_Screen_Fields["Fiduciary_Premium"] == DBNull.Value)
+                    this._Fiduciary_Premium = null;
+                else
+                    this._Fiduciary_Premium = (decimal?)drPA_Screen_Fields["Fiduciary_Premium"];
+
+                if (drPA_Screen_Fields["Kidnap_Ransom_Premium"] == DBNull.Value)
+                    this._Kidnap_Ransom_Premium = null;
+                else
+                    this._Kidnap_Ransom_Premium = (decimal?)drPA_Screen_Fields["Kidnap_Ransom_Premium"];
+
+                if (drPA_Screen_Fields["Earthquake_Premium"] == DBNull.Value)
+                    this._Earthquake_Premium = null;
+                else
+                    this._Earthquake_Premium = (decimal?)drPA_Screen_Fields["Earthquake_Premium"];
+
+                if (drPA_Screen_Fields["Dealers_Physical_Damage_Premium"] == DBNull.Value)
+                    this._Dealers_Physical_Damage_Premium = null;
+                else
+                    this._Dealers_Physical_Damage_Premium = (decimal?)drPA_Screen_Fields["Dealers_Physical_Damage_Premium"];
+
+                if (drPA_Screen_Fields["Total_Locations"] == DBNull.Value)
+                    this._Total_Locations = null;
+                else
+                    this._Total_Locations = (int?)drPA_Screen_Fields["Total_Locations"];
+
+                if (drPA_Screen_Fields["WC_Headcount"] == DBNull.Value)
+                    this.WC_Headcount  = null;
+                else
+                    this.WC_Headcount = (int?)drPA_Screen_Fields["WC_Headcount"];
+
+                if (drPA_Screen_Fields["Texas_WC_Headcount"] == DBNull.Value)
+                    this.Texas_WC_Headcount = null;
+                else
+                    this.Texas_WC_Headcount = (int?)drPA_Screen_Fields["Texas_WC_Headcount"];
+
+                if (drPA_Screen_Fields["WC_Payroll"] == DBNull.Value)
+                    this.WC_Payroll = null;
+                else
+                    this.WC_Payroll = (decimal?)drPA_Screen_Fields["WC_Payroll"];
+
+                if (drPA_Screen_Fields["Texas_WC_Payroll"] == DBNull.Value)
+                    this.Texas_WC_Payroll = null;
+                else
+                    this.Texas_WC_Payroll = (decimal?)drPA_Screen_Fields["Texas_WC_Payroll"];
+
+                if (drPA_Screen_Fields["PP_Total_RS_Means"] == DBNull.Value)
+                    this.PP_Total_RS_Means = null;
+                else
+                    this.PP_Total_RS_Means = (decimal?)drPA_Screen_Fields["PP_Total_RS_Means"];
+
+                if (drPA_Screen_Fields["PP_Total_Business_Interruption"] == DBNull.Value)
+                    this.PP_Total_Business_Interruption = null;
+                else
+                    this.PP_Total_Business_Interruption = (decimal?)drPA_Screen_Fields["PP_Total_Business_Interruption"];
+
+                if (drPA_Screen_Fields["PP_Total_Contents"] == DBNull.Value)
+                    this.PP_Total_Contents = null;
+                else
+                    this.PP_Total_Contents = (decimal?)drPA_Screen_Fields["PP_Total_Contents"];
+
+                if (drPA_Screen_Fields["PP_Total_Parts"] == DBNull.Value)
+                    this.PP_Total_Parts = null;
+                else
+                    this.PP_Total_Parts = (decimal?)drPA_Screen_Fields["PP_Total_Parts"];
+
+                if (drPA_Screen_Fields["EP_Total_RS_Means"] == DBNull.Value)
+                    this.EP_Total_RS_Means = null;
+                else
+                    this.EP_Total_RS_Means = (decimal?)drPA_Screen_Fields["EP_Total_RS_Means"];
+
+                if (drPA_Screen_Fields["EP_Total_Business_Interruption"] == DBNull.Value)
+                    this.EP_Total_Business_Interruption = null;
+                else
+                    this.EP_Total_Business_Interruption = (decimal?)drPA_Screen_Fields["EP_Total_Business_Interruption"];
+
+                if (drPA_Screen_Fields["EP_Total_Contents"] == DBNull.Value)
+                    this.EP_Total_Contents = null;
+                else
+                    this.EP_Total_Contents = (decimal?)drPA_Screen_Fields["EP_Total_Contents"];
+
+                if (drPA_Screen_Fields["EP_Total_Parts"] == DBNull.Value)
+                    this.EP_Total_Parts = null;
+                else
+                    this.EP_Total_Parts = (decimal?)drPA_Screen_Fields["EP_Total_Parts"];
 		}
 
 		#endregion
@@ -361,6 +600,20 @@ namespace ERIMS.DAL
 				db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
 
             db.AddInParameter(dbCommand, "Pollution_Premium", DbType.Decimal, this._Pollution_Premium);
+
+            db.AddInParameter(dbCommand, "Property_Valuation_Date", DbType.DateTime, this._Property_Valuation_Date);
+
+            db.AddInParameter(dbCommand, "Directors_Officers_Premium", DbType.Decimal, this._Directors_Officers_Premium);
+
+            db.AddInParameter(dbCommand, "Fiduciary_Premium", DbType.Decimal, this._Fiduciary_Premium);
+
+            db.AddInParameter(dbCommand, "Kidnap_Ransom_Premium", DbType.Decimal, this._Kidnap_Ransom_Premium);
+
+            db.AddInParameter(dbCommand, "Earthquake_Premium", DbType.Decimal, this._Earthquake_Premium);
+
+            db.AddInParameter(dbCommand, "Dealers_Physical_Damage_Premium", DbType.Decimal, this._Dealers_Physical_Damage_Premium);
+
+            db.AddInParameter(dbCommand, "Total_Locations", DbType.Int32, this._Total_Locations);
 
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -439,6 +692,20 @@ namespace ERIMS.DAL
 				db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
 
             db.AddInParameter(dbCommand, "Pollution_Premium", DbType.Decimal, this._Pollution_Premium);
+
+            db.AddInParameter(dbCommand, "Property_Valuation_Date", DbType.DateTime, this._Property_Valuation_Date);
+
+            db.AddInParameter(dbCommand, "Directors_Officers_Premium", DbType.Decimal, this._Directors_Officers_Premium);
+
+            db.AddInParameter(dbCommand, "Fiduciary_Premium", DbType.Decimal, this._Fiduciary_Premium);
+
+            db.AddInParameter(dbCommand, "Kidnap_Ransom_Premium", DbType.Decimal, this._Kidnap_Ransom_Premium);
+
+            db.AddInParameter(dbCommand, "Earthquake_Premium", DbType.Decimal, this._Earthquake_Premium);
+
+            db.AddInParameter(dbCommand, "Dealers_Physical_Damage_Premium", DbType.Decimal, this._Dealers_Physical_Damage_Premium);
+
+            db.AddInParameter(dbCommand, "Total_Locations", DbType.Int32, this._Total_Locations);
 
 			db.ExecuteNonQuery(dbCommand);
 		}
@@ -587,5 +854,33 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+
+        ///// <summary>
+        ///// Selects a single record from the PA_Screen_Fields table by a primary key.
+        ///// </summary>
+        ///// <returns>DataSet</returns>
+        //public static DataSet SelectFieldsByValuationDate(DateTime valuationdate)
+        //{
+        //    Database db = DatabaseFactory.CreateDatabase();
+        //    DbCommand dbCommand = db.GetStoredProcCommand("PA_Screen_FieldsSelect_ByValuation_Date");
+
+        //    db.AddInParameter(dbCommand, "ValuationDate", DbType.DateTime, valuationdate);
+
+        //    return db.ExecuteDataSet(dbCommand);
+        //}
+
+        ///// <summary>
+        ///// Selects a single record from the PA_Screen_Fields table by a primary key.
+        ///// </summary>
+        ///// <returns>DataSet</returns>
+        //public static DataSet SelectFieldsByYearWise(int year)
+        //{
+        //    Database db = DatabaseFactory.CreateDatabase();
+        //    DbCommand dbCommand = db.GetStoredProcCommand("PA_Screen_FieldsSelect_Yearwise");
+
+        //    db.AddInParameter(dbCommand, "Year", DbType.Int32 , year);
+
+        //    return db.ExecuteDataSet(dbCommand);
+        //}
 	}
 }
