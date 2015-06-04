@@ -11,7 +11,7 @@ using System.Web.UI.HtmlControls;
 using ERIMS.DAL;
 
 
-public partial class SONIC_Exposures_PremiumAllocationBaseDataSearchFilter : System.Web.UI.Page
+public partial class SONIC_Exposures_PremiumAllocationBaseDataSearchFilter : clsBasePage
 {
     #region "Properties"
     public int CurrentPage

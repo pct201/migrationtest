@@ -15,36 +15,35 @@
         }
 
         function yearValidation() {
-                document.getElementById()
-                       if (year.length != 4) {
-                        alert("Year is not proper. Please check");
-                        return false;
-                    }                   
-                    return true;
-                }
-            
-        function openPA_Values_ImportedPopup() {            
+            document.getElementById()
+            if (year.length != 4) {
+                alert("Year is not proper. Please check");
+                return false;
+            }
+            return true;
+        }
+
+        function openPA_Values_ImportedPopup() {
             var winHeight = window.screen.availHeight - 300;
             var winWidth = window.screen.availWidth - 200;
 
             var StatusFlag = '';
-            
-            if (document.getElementById('<%= btnHiddenView.ClientID %>'))
-            {
-                StatusFlag = document.getElementById('<%= btnHiddenView.ClientID%>').value;  
+
+            if (document.getElementById('<%= btnHiddenView.ClientID %>')) {
+                StatusFlag = document.getElementById('<%= btnHiddenView.ClientID%>').value;
             }
-            
+
             obj = window.open("AuditPopup_PA_Values_Imported.aspx?id=" + StatusFlag, 'PopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
             obj.focus();
             return false;
         }
-        
+
 
     </script>
     <div>
         <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
             HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
-            ValidationGroup="vsErrorGroup" CssClass="errormessage"></asp:ValidationSummary>
+            ValidationGroup="vsError" CssClass="errormessage"></asp:ValidationSummary>
     </div>
     <asp:UpdatePanel runat="server" ID="UpdSearch">
         <ContentTemplate>
@@ -145,7 +144,7 @@
                                                             </tr>
                                                             <tr>
                                                                 <td align="left">&nbsp;
-                                                                    <asp:Label ID="lblNumber" runat="server" Text="0"></asp:Label>&nbsp;Found
+                                                                    <asp:Label ID="lblNumber" runat="server" Text="0"></asp:Label>
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -271,28 +270,34 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td align="left" >Year
+                                                    <td align="left">Year <span style="color: Red;">*</span>
                                                     </td>
                                                     <td align="center">:
                                                     </td>
-                                                    <td align="left" >
+                                                    <td align="left">
                                                         <asp:TextBox ID="txtYear1" runat="server" MaxLength="4" SkinID="txtYearWithRange" />
+                                                        <asp:RequiredFieldValidator ID="revtxtYear" runat="server" Display="None" ErrorMessage="Please Enter Year."
+                                                            ControlToValidate="txtYear1" SetFocusOnError="true" ValidationGroup="vsError"></asp:RequiredFieldValidator>
+                                                        <asp:RangeValidator ID="rvtxtYearBuilt" runat="server" ControlToValidate="txtYear1"
+                                                            ValidationGroup="vsError" Type="Integer" MinimumValue="1"
+                                                            MaximumValue="2100" ErrorMessage="Year is not valid."
+                                                            Display="None"></asp:RangeValidator>
                                                     </td>
                                                     <td align="left">Total Headcount
                                                     </td>
                                                     <td align="center">:
                                                     </td>
                                                     <td align="left">
-                                                        <asp:TextBox ID="txtTotalHeadcount" runat="server" MaxLength="4" SkinID="txtYearWithRange"  />
+                                                        <asp:TextBox ID="txtTotalHeadcount" runat="server" MaxLength="4" SkinID="txtYearWithRange" />
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td align="left" >Non-Texas Payroll
+                                                    <td align="left">Non-Texas Payroll
                                                     </td>
                                                     <td align="center">:
                                                     </td>
-                                                    <td align="left" >
-                                                        <asp:TextBox ID="txtNonTexasPayroll"  Width="146px" onkeypress="return FormatNumber(event,this.id,15,false,false);" onpaste="return false;" onblur="formatCurrencyOnBlur(this);" runat="server" MaxLength="15" />
+                                                    <td align="left">
+                                                        <asp:TextBox ID="txtNonTexasPayroll" Width="146px" onkeypress="return FormatNumber(event,this.id,15,false,false);" onpaste="return false;" onblur="formatCurrencyOnBlur(this);" runat="server" MaxLength="15" />
                                                     </td>
                                                     <td align="left">Texas Payroll
                                                     </td>
@@ -301,7 +306,7 @@
                                                     <td align="left">
                                                         <asp:TextBox ID="txtTexasPayroll" runat="server" Width="146px" onkeypress="return FormatNumber(event,this.id,15,false,false);" onpaste="return false;" onblur="formatCurrencyOnBlur(this);" MaxLength="15" />
                                                     </td>
-                                                </tr>                                                
+                                                </tr>
                                                 <tr>
                                                     <td>&nbsp;</td>
                                                 </tr>
@@ -311,8 +316,9 @@
                                                             <tr>
                                                                 <td align="left" style="width: 30%"></td>
                                                                 <td align="center" colspan="2">
-                                                                    <asp:Button ID="btnSave" runat="server" Text="Save" OnClick="btnSave_Click" />&nbsp;
-                                                                    <asp:Button ID="btnCancel" runat="server" Text="Cancel" OnClick="btnCancel_Click"  />&nbsp;                                                                   
+                                                                    <asp:Button ID="btnSave" runat="server" Text="Save" OnClick="btnSave_Click"
+                                                                        CausesValidation="true" ValidationGroup="vsError" />&nbsp;
+                                                                    <asp:Button ID="btnCancel" runat="server" Text="Cancel" OnClick="btnCancel_Click" />&nbsp;                                                                   
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -397,33 +403,39 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td> <tr><td><asp:HiddenField ID="btnHiddenView" runat="server" /></td></tr></td>
+                                                    <td>
+                                                        <tr>
+                                                            <td>
+                                                                <asp:HiddenField ID="btnHiddenView" runat="server" />
+                                                            </td>
+                                                        </tr>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 18%">&nbsp;</td>
-                                                </tr>                                                                                               
+                                                </tr>
                                                 <tr>
-                                                        <td colspan="6">
-                                                            <table>
-                                                                <tr>
-                                                                    <td align="left" style="width: 30%"></td>
-                                                                    <td align="center" colspan="2">                                                                       
-                                                                            <asp:Button ID="btnUpdate" runat="server" Text="Update" OnClick="btnUpdate_Click" />&nbsp;
+                                                    <td colspan="6">
+                                                        <table>
+                                                            <tr>
+                                                                <td align="left" style="width: 30%"></td>
+                                                                <td align="center" colspan="2">
+                                                                    <asp:Button ID="btnUpdate" runat="server" Text="Update" OnClick="btnUpdate_Click" />&nbsp;
                                                                             <asp:Button ID="btnReturn" runat="server" Text="Cancel" OnClick="btnReturn_Click" />&nbsp;
                                                                              <asp:Button ID="btnViewAuditTrail" runat="server" Text="View Audit Trail" OnClick="btnViewAuditTrail_Click" OnClientClick="javascript:return openPA_Values_ImportedPopup();" />
-                                                                            <%--<asp:Button ID="btnViewAuditView" runat="server" Text="View Audit Trail" OnClientClick="javascript:return openPA_Values_ImportedPopup();" />--%>
-                                                                     </td>
-                                                                        <td align="left" style="width: 13%"></td>
-                                                                </tr>
-                                                                </table>
-                                                            </td>
-                                                        </tr>
+                                                                    <%--<asp:Button ID="btnViewAuditView" runat="server" Text="View Audit Trail" OnClientClick="javascript:return openPA_Values_ImportedPopup();" />--%>
+                                                                </td>
+                                                                <td align="left" style="width: 13%"></td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
                                                 <tr>
                                                     <td class="Spacer" style="height: 20px;" colspan="6">&nbsp;
                                                     </td>
                                                 </tr>
-                                </table>
-                                </td>
+                                            </table>
+                                        </td>
                                     </tr>
                                 </table>
                             </asp:Panel>

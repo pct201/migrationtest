@@ -1200,5 +1200,19 @@ public class AuditTrail
         db.AddInParameter(dbCommand, "PK_ACIManagement_ProjectCost_Invoice", DbType.Decimal, PK_ACIManagement_ProjectCost_Invoice);
         return db.ExecuteDataSet(dbCommand);
     }
+
+    /// <summary>
+    /// get all audit records
+    /// </summary>
+    /// <param name="PK_CRM_Customer"></param>
+    /// <returns></returns>
+    public static DataSet GetPA_Values_ImportedAuditTrail(decimal PK_PA_Values_Imported)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("PA_Values_ImportedAuditView");
+        db.AddInParameter(dbCommand, "PK_PA_Values_Imported", DbType.Decimal, PK_PA_Values_Imported);
+        return db.ExecuteDataSet(dbCommand);
+    }
+
     #endregion
 }
