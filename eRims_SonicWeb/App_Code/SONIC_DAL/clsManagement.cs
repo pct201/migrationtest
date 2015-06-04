@@ -1305,5 +1305,19 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Selects a single record from the Management table by a primary key.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet GetManagementAbstractLetterData(decimal pK_Management_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("ManagementAbstractLetterData");
+
+            db.AddInParameter(dbCommand, "PK_Management_ID", DbType.Decimal, pK_Management_ID);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
 	}
 }

@@ -145,6 +145,30 @@
                 return false;
             }
         }
+        function CheckEventListItemLocation() {
+            var lstLocation = document.getElementById('<%=lstEventSecurityLocation.ClientID %>');
+
+            if (lstLocation.length <= 0) {
+                alert('No record!');
+                return false;
+            }
+            if (lstLocation.selectedIndex < 0) {
+                alert('Please select at least one Event Locations field(s)');
+                return false;
+            }
+        }
+        function CheckManagementListItemLocation() {
+            var lstLocation = document.getElementById('<%=lstManagementSecurityLocation.ClientID %>');
+
+            if (lstLocation.length <= 0) {
+                alert('No record!');
+                return false;
+            }
+            if (lstLocation.selectedIndex < 0) {
+                alert('Please select at least one Management Locations field(s)');
+                return false;
+            }
+        }
 
         function CheckListItemSelected() {
             var lstSelected = document.getElementById('<%=lstSelectedFields.ClientID %>');
@@ -171,6 +195,30 @@
              }
         }
 
+        function CheckEventListItemSelected() {
+            var lstSelected = document.getElementById('<%=lstSecurityEventSelectedLocation.ClientID %>');
+            if (lstSelected.length <= 0) {
+                alert('No records');
+                return false;
+            }
+            if (lstSelected.selectedIndex < 0) {
+                alert('Please select at least one Event Locations field(s)');
+                return false;
+            }
+        }
+
+        function CheckManagementListItemSelected() {
+            var lstSelected = document.getElementById('<%=lstSecuritySelectedManagementLocation.ClientID %>');
+            if (lstSelected.length <= 0) {
+                alert('No records');
+                return false;
+            }
+            if (lstSelected.selectedIndex < 0) {
+                alert('Please select at least one Management Locations field(s)');
+                return false;
+            }
+        }
+
         function CheckListItemSelectedAll() {
             var lstSelected = document.getElementById('<%=lstSelectedFields.ClientID %>');
             if (lstSelected.length <= 0)
@@ -179,6 +227,18 @@
 
         function CheckACIListItemSelectedAll() {
             var lstSelected = document.getElementById('<%=lstSecuritySelectedLocation.ClientID %>');
+            if (lstSelected.length <= 0)
+            { alert('No records'); return false; }
+        }
+
+        function CheckEventListItemSelectedAll() {
+            var lstSelected = document.getElementById('<%=lstSecurityEventSelectedLocation.ClientID %>');
+            if (lstSelected.length <= 0)
+            { alert('No records'); return false; }
+        }
+
+        function CheckManagementListItemSelectedAll() {
+            var lstSelected = document.getElementById('<%=lstSecuritySelectedManagementLocation.ClientID %>');
             if (lstSelected.length <= 0)
             { alert('No records'); return false; }
         }
@@ -726,6 +786,112 @@
                         </table>
                     </td>
                 </tr>
+
+                <tr>
+                    <td colspan="6">
+                        <table width="100%" cellpadding="2" cellspacing="2">
+                            <tr valign="top">
+                                <td style="width: 16%">
+                                    Event Location Selection
+                                </td>
+                                <td style="width: 2%;" align="center">
+                                    :
+                                </td>
+                                <td style="width: 72%">
+                                    <table width="100%">
+                                        <tr>
+                                            <td align="left" style="width: 250px">
+                                                Locations Available
+                                                <asp:ListBox ID="lstEventSecurityLocation" runat="server" Rows="10" SelectionMode="Multiple"
+                                                    Width="250px"></asp:ListBox>
+                                            </td>
+                                            <td valign="middle" align="center" style="width: 125px">
+                                                <table width="100%">
+                                                    <tr>
+                                                        <td align="center">
+                                                            <asp:Button ID="btnSelectEventLocationFields" runat="server" Text=">" Width="50px" OnClick="btnSelectEventLocationFields_Click"  OnClientClick="javascript:return CheckEventListItemLocation();"
+                                                                Enabled="false"  ValidationGroup="vsErrorAvailFieldss" />
+                                                            <br />
+                                                            <br />
+                                                            <asp:Button ID="btnSelectAllEventLocationFields" runat="server" Text=">>" Width="50px" Enabled="false"
+                                                                OnClick="btnSelectAllEventLocationFields_Click" />  
+                                                            <br />
+                                                            <br />
+                                                            <asp:Button ID="btnDeSelectEventLocationFields" runat="server" Text="<" Width="50px" OnClick="btnDeSelectEventLocationFields_Click" OnClientClick="javascript:return CheckEventListItemSelected();"
+                                                                Enabled="false"  ValidationGroup="vsErrorSelectFieldss" />
+                                                            <br />
+                                                            <br />
+                                                            <asp:Button ID="btnDeSelectAllEventLocationFields" runat="server" Text="<<" Width="50px" OnClientClick="javascript:return CheckEventListItemSelectedAll();"
+                                                                Enabled="false" OnClick="btnDeSelectAllEventLocationFields_Click" />
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td align="left">
+                                                Locations Selected<br />
+                                                <asp:ListBox ID="lstSecurityEventSelectedLocation" runat="server" Rows="10" SelectionMode="Multiple"
+                                                    Width="250px"></asp:ListBox>                                                
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="6">
+                        <table width="100%" cellpadding="2" cellspacing="2">
+                            <tr valign="top">
+                                <td style="width: 16%">
+                                    Management Location Selection
+                                </td>
+                                <td style="width: 2%;" align="center">
+                                    :
+                                </td>
+                                <td style="width: 72%">
+                                    <table width="100%">
+                                        <tr>
+                                            <td align="left" style="width: 250px">
+                                                Locations Available
+                                                <asp:ListBox ID="lstManagementSecurityLocation" runat="server" Rows="10" SelectionMode="Multiple"
+                                                    Width="250px"></asp:ListBox>
+                                            </td>
+                                            <td valign="middle" align="center" style="width: 125px">
+                                                <table width="100%">
+                                                    <tr>
+                                                        <td align="center">
+                                                            <asp:Button ID="btnSelectManagementLocationFields" runat="server" Text=">" Width="50px" OnClick="btnSelectManagementLocationFields_Click"  OnClientClick="javascript:return CheckManagementListItemLocation();"
+                                                                Enabled="false"  ValidationGroup="vsErrorAvailFieldss" />
+                                                            <br />
+                                                            <br />
+                                                            <asp:Button ID="btnSelectAllManagementLocationFields" runat="server" Text=">>" Width="50px" Enabled="false"
+                                                                OnClick="btnSelectAllManagementLocationFields_Click" />
+                                                            <br />
+                                                            <br />
+                                                            <asp:Button ID="btnDeSelectManagementLocationFields" runat="server" Text="<" Width="50px" OnClick="btnDeSelectManagementLocationFields_Click" OnClientClick="javascript:return CheckManagementListItemSelected();"
+                                                                Enabled="false"  ValidationGroup="vsErrorSelectFieldss" />
+                                                            <br />
+                                                            <br />
+                                                            <asp:Button ID="btnDeSelectAllManagementLocationFields" runat="server" Text="<<" Width="50px" OnClientClick="javascript:return CheckManagementListItemSelectedAll();"
+                                                                Enabled="false" OnClick="btnDeSelectAllManagementLocationFields_Click" />
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td align="left">
+                                                Locations Selected<br />
+                                                <asp:ListBox ID="lstSecuritySelectedManagementLocation" runat="server" Rows="10" SelectionMode="Multiple"
+                                                    Width="250px"></asp:ListBox>                                                
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
                  
             </table>
         </div>
@@ -950,6 +1116,42 @@
                                 </td>
                                 <td style="width: 82%">
                                     <asp:ListBox ID="lstSelectedLocationView" runat="server" Rows="10" SelectionMode="Single"
+                                        Width="250px"></asp:ListBox>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        <table width="100%" cellpadding="2" cellspacing="2">
+                            <tr valign="top">
+                                <td style="width: 16%">
+                                    Event Location Selection (Locations Selected)
+                                </td>
+                                <td style="width: 2%;" align="center">
+                                    :
+                                </td>
+                                <td style="width: 82%">
+                                    <asp:ListBox ID="lstEventSelectedLocationView" runat="server" Rows="10" SelectionMode="Single"
+                                        Width="250px"></asp:ListBox>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        <table width="100%" cellpadding="2" cellspacing="2">
+                            <tr valign="top">
+                                <td style="width: 16%">
+                                    Management Location Selection (Locations Selected)
+                                </td>
+                                <td style="width: 2%;" align="center">
+                                    :
+                                </td>
+                                <td style="width: 82%">
+                                    <asp:ListBox ID="lstManagementSelectedLocationView" runat="server" Rows="10" SelectionMode="Single"
                                         Width="250px"></asp:ListBox>
                                 </td>
                             </tr>

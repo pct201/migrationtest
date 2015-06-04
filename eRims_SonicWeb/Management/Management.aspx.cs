@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ERIMS.DAL;
+using System.Text;
+using System.IO;
 
 
 public partial class Management_Management : clsBasePage
@@ -92,6 +94,8 @@ public partial class Management_Management : clsBasePage
                 }
                 BindStoreGrid();
                 BindACIGrid();
+
+                btnResendManagementAbstract.Visible = true;
             }
             else
             {
@@ -104,6 +108,8 @@ public partial class Management_Management : clsBasePage
                 //drpClientIssue.SelectedValue = "Y";
                 BindStoreGrid();
                 BindACIGrid();
+
+                btnResendManagementAbstract.Visible = false;
             }
 
             BindProjectCostGrid();
@@ -277,9 +283,15 @@ public partial class Management_Management : clsBasePage
         objRecord.Updated_By = clsSession.UserID;
 
         if (PK_Management > 0)
+        {
             objRecord.Update();
+            ViewState.Remove("EmailAbsratact");
+        }
         else
+        {
             PK_Management = objRecord.Insert();
+            ViewState["EmailAbsratact"] = PK_Management;
+        }
     }
 
     /// <summary>
@@ -745,6 +757,395 @@ public partial class Management_Management : clsBasePage
 
     }
 
+    private void SendAbstractViaEmailWhileInsert()
+    {
+        if (PK_Management > 0)
+        {
+            clsManagement objManagement = new clsManagement(PK_Management);
+            DataTable dtEmailList = Security.GetEmailsByLocation(objManagement.FK_LU_Location).Tables[0];
+            string[] strEmailIds = new string[1];
+
+            string strAbstractReportData = Convert.ToString(Management_AbstractReport(PK_Management));
+
+            for (int i = 0; i < dtEmailList.Rows.Count; i++)
+            {
+                strEmailIds[0] = Convert.ToString(dtEmailList.Rows[i]["Email"]);
+                EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
+                objEmail.SendMailMessage(AppConfig.ManagementEmailID, " ", strEmailIds, "ACI Management Abstract.", strAbstractReportData, true, null, AppConfig.MailCC);
+                strEmailIds[0] = string.Empty;
+            }
+        }
+    }
+
+    public StringBuilder Management_AbstractReport(decimal _PK_Management)
+    {
+        DataSet dsAbstractManagement = clsManagement.GetManagementAbstractLetterData(_PK_Management);
+
+        StringBuilder strBody = new StringBuilder("");
+
+        if (dsAbstractManagement.Tables.Count > 0 && dsAbstractManagement.Tables[0].Rows.Count > 0)
+        {
+            DataTable dtManagementDetail = dsAbstractManagement.Tables[0];
+            DataTable dtStoreContactDetails = dsAbstractManagement.Tables[1];
+            DataTable dtACIContactDetails = dsAbstractManagement.Tables[2];
+            DataTable dtProjectCostDetails = dsAbstractManagement.Tables[3];
+            DataTable dtInvoiceDetails = dsAbstractManagement.Tables[4];
+
+            FileStream fsMail = null;
+
+            fsMail = new FileStream(AppConfig.DocumentsPath + @"\AbstractLetterTemplate\Management_AbstractReport.html", FileMode.Open, FileAccess.Read);
+
+            StreamReader rd = new StreamReader(fsMail);
+            //StringBuilder strBody = new StringBuilder(rd.ReadToEnd().ToString());
+            rd = new StreamReader(fsMail);
+            strBody = new StringBuilder(rd.ReadToEnd().ToString());
+
+
+            rd.Close();
+            fsMail.Close();
+
+            #region "Management Details"
+
+            strBody = strBody.Replace("[DBA]", Convert.ToString(dtManagementDetail.Rows[0]["DBA"]));
+            strBody = strBody.Replace("[LocationCode]", Convert.ToString(dtManagementDetail.Rows[0]["Location_Code"]));
+            strBody = strBody.Replace("[DateScheduled]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["Date_Scheduled"]));
+            strBody = strBody.Replace("[DateCompleted]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["Date_Complete"]));
+            strBody = strBody.Replace("[WorkToBeCompleted]", Convert.ToString(dtManagementDetail.Rows[0]["WorkToBeCompleted"]));
+            strBody = strBody.Replace("[WorkToBeCompletedOther]", Convert.ToString(dtManagementDetail.Rows[0]["Work_To_Complete_Other"]));
+
+            if (!DBNull.Value.Equals(dtManagementDetail.Rows[0]["Work_Completed_By"]))
+            {
+                switch (Convert.ToBoolean(dtManagementDetail.Rows[0]["Work_Completed_By"]))
+                {
+                    case false:
+                        strBody = strBody.Replace("[WorkToBeCompletedBy]", "Sonic");
+                        break;
+                    case true:
+                        strBody = strBody.Replace("[WorkToBeCompletedBy]", "ACI");
+                        break;
+                    default:
+                        strBody = strBody.Replace("[WorkToBeCompletedBy]", string.Empty);
+                        break;
+                }
+            }
+            else
+            {
+                strBody = strBody.Replace("[WorkToBeCompletedBy]", string.Empty);
+            }
+
+            if (!DBNull.Value.Equals(dtManagementDetail.Rows[0]["Task_Complete"]))
+            {
+                switch (Convert.ToBoolean(dtManagementDetail.Rows[0]["Task_Complete"]))
+                {
+                    case false:
+                        strBody = strBody.Replace("[TaskComplete]", "NO");
+                        break;
+                    case true:
+                        strBody = strBody.Replace("[TaskComplete]", "YES");
+                        break;
+                    default:
+                        strBody = strBody.Replace("[TaskComplete]", string.Empty);
+                        break;
+                }
+            }
+            else
+            {
+                strBody = strBody.Replace("[TaskComplete]", string.Empty);
+            }
+
+            strBody = strBody.Replace("[Service/RepairCost]", string.Format("{0:C2}", dtManagementDetail.Rows[0]["Service_Repair_Cost"]));
+            strBody = strBody.Replace("[CRApproved]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["CR_Approved"]));
+            strBody = strBody.Replace("[RecordType]", Convert.ToString(dtManagementDetail.Rows[0]["RecordType"]));
+            strBody = strBody.Replace("[RecordTypeOther]", Convert.ToString(dtManagementDetail.Rows[0]["Record_Type_Other"]));
+            strBody = strBody.Replace("[Job#]", Convert.ToString(dtManagementDetail.Rows[0]["Job"]));
+            strBody = strBody.Replace("[Order#]", Convert.ToString(dtManagementDetail.Rows[0]["Order"]));
+            strBody = strBody.Replace("[OrderDate]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["Order_Date"]));
+            strBody = strBody.Replace("[RequestedBy]", Convert.ToString(dtManagementDetail.Rows[0]["Requested_By"]));
+            strBody = strBody.Replace("[CreatedBy]", Convert.ToString(dtManagementDetail.Rows[0]["Created_By"]));
+            strBody = strBody.Replace("[PreviousContractAmount]", string.Format("{0:C2}", dtManagementDetail.Rows[0]["Previous_Contract_Amount"]));
+            strBody = strBody.Replace("[RevisedContractAmount]", string.Format("{0:C2}", dtManagementDetail.Rows[0]["Revised_Contract_Amount"]));
+            strBody = strBody.Replace("[ReasonForRequest]", Convert.ToString(dtManagementDetail.Rows[0]["Reason_for_Request"]));
+            strBody = strBody.Replace("[Recommendation]", Convert.ToString(dtManagementDetail.Rows[0]["Recommendation"]));
+            strBody = strBody.Replace("[GM_EMailTo]", Convert.ToString(dtManagementDetail.Rows[0]["GM_Email_To"]));
+            strBody = strBody.Replace("[GM_LastEMailDate]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["GM_Last_Email_Date"]));
+
+            if (!DBNull.Value.Equals(dtManagementDetail.Rows[0]["GM_Decision"]))
+            {
+                switch (Convert.ToBoolean(dtManagementDetail.Rows[0]["GM_Decision"]))
+                {
+                    case false:
+                        strBody = strBody.Replace("[GM_Decision]", "Not Approved");
+                        break;
+                    case true:
+                        strBody = strBody.Replace("[GM_Decision]", "Approved");
+                        break;
+                    default:
+                        strBody = strBody.Replace("[GM_Decision]", string.Empty);
+                        break;
+                }
+            }
+            else
+            {
+                strBody = strBody.Replace("[GM_Decision]", string.Empty);
+            }
+
+            strBody = strBody.Replace("[GM_ResponseDate]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["GM_Response_Date"]));
+
+            strBody = strBody.Replace("[RLCM_EMailTo]", Convert.ToString(dtManagementDetail.Rows[0]["RLCM_Email_To"]));
+            strBody = strBody.Replace("[RLCM_LastEMailDate]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["RLCM_Last_Email_Date"]));
+
+            if (!DBNull.Value.Equals(dtManagementDetail.Rows[0]["RLCM_Decision"]))
+            {
+                switch (Convert.ToBoolean(dtManagementDetail.Rows[0]["RLCM_Decision"]))
+                {
+                    case false:
+                        strBody = strBody.Replace("[RLCM_Decision]", "Not Approved");
+                        break;
+                    case true:
+                        strBody = strBody.Replace("[RLCM_Decision]", "Approved");
+                        break;
+                    default:
+                        strBody = strBody.Replace("[RLCM_Decision]", string.Empty);
+                        break;
+                }
+            }
+            else
+            {
+                strBody = strBody.Replace("[RLCM_Decision]", string.Empty);
+            }
+
+            strBody = strBody.Replace("[RLCM_ResponseDate]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["RLCM_Response_Date"]));
+
+            strBody = strBody.Replace("[NAPM_EMailTo]", Convert.ToString(dtManagementDetail.Rows[0]["NAPM_Email_To"]));
+            strBody = strBody.Replace("[NAPM_LastEMailDate]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["NAPM_Last_Email_Date"]));
+
+            if (!DBNull.Value.Equals(dtManagementDetail.Rows[0]["NAPM_Decision"]))
+            {
+                switch (Convert.ToBoolean(dtManagementDetail.Rows[0]["NAPM_Decision"]))
+                {
+                    case false:
+                        strBody = strBody.Replace("[NAPM_Decision]", "Not Approved");
+                        break;
+                    case true:
+                        strBody = strBody.Replace("[NAPM_Decision]", "Approved");
+                        break;
+                    default:
+                        strBody = strBody.Replace("[NAPM_Decision]", string.Empty);
+                        break;
+                }
+            }
+            else
+            {
+                strBody = strBody.Replace("[NAPM_Decision]", string.Empty);
+            }
+
+            strBody = strBody.Replace("[NAPM_ResponseDate]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["NAPM_Response_Date"]));
+
+            strBody = strBody.Replace("[DRM_EMailTo]", Convert.ToString(dtManagementDetail.Rows[0]["DRM_Email_To"]));
+            strBody = strBody.Replace("[DRM_LastEMailDate]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["DRM_Last_Email_Date"]));
+
+            if (!DBNull.Value.Equals(dtManagementDetail.Rows[0]["DRM_Decision"]))
+            {
+                switch (Convert.ToBoolean(dtManagementDetail.Rows[0]["DRM_Decision"]))
+                {
+                    case false:
+                        strBody = strBody.Replace("[DRM_Decision]", "Not Approved");
+                        break;
+                    case true:
+                        strBody = strBody.Replace("[DRM_Decision]", "Approved");
+                        break;
+                    default:
+                        strBody = strBody.Replace("[DRM_Decision]", string.Empty);
+                        break;
+                }
+            }
+            else
+            {
+                strBody = strBody.Replace("[DRM_Decision]", string.Empty);
+            }
+
+            strBody = strBody.Replace("[DRM_ResponseDate]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["DRM_Response_Date"]));
+            strBody = strBody.Replace("[Comments]", Convert.ToString(dtManagementDetail.Rows[0]["Comment"]));
+
+            #endregion
+
+            #region "Store and ACI Contact Details"
+
+            strBody = strBody.Replace("[StoreContactGrid]", GetStoreContactDetails(dtStoreContactDetails));
+            strBody = strBody.Replace("[ACIContactGrid]", GetACIContactDetails(dtACIContactDetails));
+
+            #endregion
+
+            #region Project Cost Details
+
+            strBody = strBody.Replace("[ProjectCostGrid]", GetProjectCostDetails(dtProjectCostDetails));
+            strBody = strBody.Replace("[InvoiceGrid]", GetInvoiceDetails(dtInvoiceDetails));
+
+            #endregion
+        }
+
+        return strBody;
+
+    }
+
+    public string GetStoreContactDetails(DataTable dtStoreContactDetails)
+    {
+        StringBuilder sbGrid = new StringBuilder(string.Empty);
+        sbGrid = new StringBuilder(string.Empty);
+        if (dtStoreContactDetails.Rows.Count > 0)
+        {
+            sbGrid.Append("<table width='100%'>");
+            sbGrid.Append("<tr style='background-color: #7f7f7f; font-family: Arial; color: white; font-size: 12px; font-weight: bold' valign=top>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left' width='25%'> First Name </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left' width='25%'> Last Name </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left' width='25%'> Phone </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left' width='25%'> Email </td>");
+            sbGrid.Append("</tr>");
+
+            foreach (DataRow dr in dtStoreContactDetails.Rows)
+            {
+                sbGrid.Append("<tr valign=top>");
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left' width='25%'>  {0} </td>", Convert.ToString(dr["First_Name"]));
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left' width='25%'>  {0} </td>", Convert.ToString(dr["Last_name"]));
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left' width='25%'>  {0} </td>", Convert.ToString(dr["Phone"]));
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left' width='25%'>  {0} </td>", Convert.ToString(dr["Email"]));
+                sbGrid.Append("</tr>");
+            }
+            sbGrid.Append("</table>");
+        }
+        else
+        {
+            sbGrid.Append("No Records found.");
+        }
+
+        return sbGrid.ToString();
+    }
+
+    public string GetACIContactDetails(DataTable dtACIContactDetails)
+    {
+        StringBuilder sbGrid = new StringBuilder(string.Empty);
+        sbGrid = new StringBuilder(string.Empty);
+        if (dtACIContactDetails.Rows.Count > 0)
+        {
+            sbGrid.Append("<table width='100%'>");
+            sbGrid.Append("<tr style='background-color: #7f7f7f; font-family: Arial; color: white; font-size: 12px; font-weight: bold' valign=top>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left' width='25%'> First Name </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left' width='25%'> Last Name </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left' width='25%'> Phone </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left' width='25%'> Email </td>");
+            sbGrid.Append("</tr>");
+
+            foreach (DataRow dr in dtACIContactDetails.Rows)
+            {
+                sbGrid.Append("<tr valign=top>");
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left' width='25%'>  {0} </td>", Convert.ToString(dr["First_Name"]));
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left' width='25%'>  {0} </td>", Convert.ToString(dr["Last_name"]));
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left' width='25%'>  {0} </td>", Convert.ToString(dr["Phone"]));
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left' width='25%'>  {0} </td>", Convert.ToString(dr["Email"]));
+                sbGrid.Append("</tr>");
+            }
+            sbGrid.Append("</table>");
+        }
+        else
+        {
+            sbGrid.Append("No Records found.");
+        }
+
+        return sbGrid.ToString();
+    }
+
+    public string GetProjectCostDetails(DataTable dtProjectCostDetails)
+    {
+        StringBuilder sbGrid = new StringBuilder(string.Empty);
+        sbGrid = new StringBuilder(string.Empty);
+        if (dtProjectCostDetails.Rows.Count > 0)
+        {
+            sbGrid.Append("<table width='100%'>");
+            sbGrid.Append("<tr style='background-color: #7f7f7f; font-family: Arial; color: white; font-size: 12px; font-weight: bold' valign=top>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px; width:25%;' align='left'> Project Phase </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px; width:25%;' align='left'> Budget($) </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px; width:25%;' align='left'> Estimated Cost($) </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px; width:25%;' align='left'> Actual Cost($) </td>");
+            sbGrid.Append("</tr>");
+
+            foreach (DataRow dr in dtProjectCostDetails.Rows)
+            {
+                sbGrid.Append("<tr valign=top>");
+
+                if (!DBNull.Value.Equals(dr["FK_LU_EPM_Project_Phase"]))
+                {
+                    switch (dr["FK_LU_EPM_Project_Phase"].ToString())
+                    {
+                        case "1":
+                            sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px; width:25%;' align='left'>  Completed </td>");
+                            break;
+                        case "2":
+                            sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px; width:25%;' align='left'>  Delayed </td>");
+                            break;
+                        case "3":
+                            sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px; width:25%;' align='left'>  In Progress </td>");
+                            break;
+                        case "4":
+                            sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px; width:25%;' align='left'>  Proposal </td>");
+                            break;
+                        default:
+                            sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px; width:25%;' align='left'></td>");
+                            break;
+                    }
+                }
+                else
+                {
+                    sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px; width:25%;' align='left'></td>");
+                }
+
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px; width:25%;' align='left'>  {0} </td>", string.Format("{0:C2}", dr["Budget"]));
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px; width:25%;' align='left'>  {0} </td>", string.Format("{0:C2}", dr["Estimated_Cost"]));
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px; width:25%;' align='left'>  {0} </td>", string.Format("{0:C2}", dr["Actual_Cost"]));
+                sbGrid.Append("</tr>");
+            }
+            sbGrid.Append("</table>");
+        }
+        else
+        {
+            sbGrid.Append("No Records found.");
+        }
+
+        return sbGrid.ToString();
+    }
+
+    public string GetInvoiceDetails(DataTable dtInvoiceDetails)
+    {
+        StringBuilder sbGrid = new StringBuilder(string.Empty);
+        sbGrid = new StringBuilder(string.Empty);
+        if (dtInvoiceDetails.Rows.Count > 0)
+        {
+            sbGrid.Append("<table width='100%'>");
+            sbGrid.Append("<tr style='background-color: #7f7f7f; font-family: Arial; color: white; font-size: 12px; font-weight: bold' valign=top>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px; width:25%;' align='left'> Invoice Number </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px; width:25%;' align='left'> Invoice Date </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px; width:25%;' align='left'> Invoice Amount($) </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px; width:25%;' align='left'> Vendor </td>");
+            sbGrid.Append("</tr>");
+
+            foreach (DataRow dr in dtInvoiceDetails.Rows)
+            {
+                sbGrid.Append("<tr valign=top>");
+
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px; width:25%;' align='left'>  {0} </td>", Convert.ToString(dr["Invoice_Number"]));
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px; width:25%;' align='left'>  {0} </td>", clsGeneral.FormatDBNullDateToDisplay(dr["Invoice_Date"]));
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px; width:25%;' align='left'>  {0} </td>", string.Format("{0:C2}", dr["Invoice_Amount"]));
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px; width:25%;' align='left'>  {0} </td>", Convert.ToString(dr["Vendor"]));
+                sbGrid.Append("</tr>");
+            }
+            sbGrid.Append("</table>");
+        }
+        else
+        {
+            sbGrid.Append("No Records found.");
+        }
+
+        return sbGrid.ToString();
+    }
     #endregion
 
     #region "Other Event"
@@ -756,7 +1157,14 @@ public partial class Management_Management : clsBasePage
     /// <param name="e"></param>
     protected void btnSave_Click(object sender, EventArgs e)
     {
+        ViewState.Remove("EmailAbsratact");
+
         SaveRecord();
+
+        if (ViewState["EmailAbsratact"] != null)
+        {
+            SendAbstractViaEmailWhileInsert();
+        }
 
         if (StrOperation.ToLower() == "add" || StrOperation.ToLower() == "addto" || StrOperation.ToLower() == "")
         {
@@ -1039,6 +1447,16 @@ public partial class Management_Management : clsBasePage
             ClientScript.RegisterClientScriptBlock(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Please Enter Management Details First');ShowPanel(" + hdnPanel.Value + ");", true);
             //ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel("+hdnPanel.Value+");", true);
         }
+    }
+
+    /// <summary>
+    /// Resend Management Abstract Click Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnResendManagementAbstract_Click(object sender, EventArgs e)
+    {
+        SendAbstractViaEmailWhileInsert();
     }
     #endregion
 

@@ -480,7 +480,9 @@
                                                                 :
                                                             </td>
                                                             <td>
-                                                                $<asp:TextBox ID="txtService_Repair_Cost" runat="server" MaxLength="10" onKeyPress="return(currencyFormat_New(this,',','.',10,event))"
+                                                                <%--$<asp:TextBox ID="txtService_Repair_Cost" runat="server" MaxLength="10" onKeyPress="return(currencyFormat_New(this,',','.',10,event))"
+                                                                    OnBlur="CheckNumericVal(this,20);" Width="170px" AutoComplete="off"></asp:TextBox>--%>
+                                                                $<asp:TextBox ID="txtService_Repair_Cost" runat="server" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);"  onpaste="return false;"
                                                                     OnBlur="CheckNumericVal(this,20);" Width="170px" AutoComplete="off"></asp:TextBox>
                                                             </td>
                                                             <td align="left" valign="top">
@@ -615,7 +617,7 @@
                                                                 :
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                $<asp:TextBox ID="txtPreviousContractAmount" autocomplete="off" onpaste="return false;"
+                                                                $<asp:TextBox ID="txtPreviousContractAmount" autocomplete="off" onpaste="return false;" OnBlur="CheckNumericVal(this,20);" 
                                                                     runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" />
                                                             </td>
                                                             <td align="left" valign="top">
@@ -625,7 +627,7 @@
                                                                 :
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                $<asp:TextBox ID="txtRevisedContractAmount" autocomplete="off" onpaste="return false;"
+                                                                $<asp:TextBox ID="txtRevisedContractAmount" autocomplete="off" onpaste="return false;"  OnBlur="CheckNumericVal(this,20);" 
                                                                     runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" />
                                                             </td>
                                                         </tr>
@@ -2424,6 +2426,9 @@
                                 <asp:Button ID="btnEdit" runat="server" Text=" Edit " CausesValidation="false" OnClick="btnEdit_Click"
                                     Visible="false" />
                                 &nbsp; &nbsp;
+                                <asp:Button ID="btnResendManagementAbstract" runat="server" Text="Resend Management Abstract" CausesValidation="true" Visible="false"
+                                    OnClick="btnResendManagementAbstract_Click" />
+                                &nbsp; &nbsp;
                                 <asp:Button ID="btnCancel" runat="server" Text="Cancel" CausesValidation="false"
                                     OnClick="btnCancel_Click" />
                                 &nbsp; &nbsp;
@@ -2455,6 +2460,39 @@
             return false;
         }
 
+        function CheckNumericVal(Ctl, length) {
+            if (Ctl.value == "" || isNaN(Number(Ctl.value.replace(/,/g, '')) * 1) == true)
+                Ctl.innerText = "";
+            else {
+                var len1 = Ctl.value.split(".")[0].replace(/,/g, '').length;
+                if (len1 > length - 2) {
+                    alert("Length is exceeded.");
+                    Ctl.innerText = "";
+                }
+                else
+                    Ctl.innerText = formatCurrency_New(Ctl.value);
+            }
+        }
+        function formatCurrency_New(num) {
+            num = num.toString().replace(/\$|\,/g, '');
+            if (isNaN(num))
+                num = "0";
+
+            sign = (num == (num = Math.abs(num)));
+            num = Math.floor(num * 100 + 0.50000000001);
+            cents = num % 100;
+            num = Math.floor(num / 100).toString();
+
+            if (cents < 10)
+                cents = "0" + cents;
+
+            for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3) ; i++)
+                num = num.substring(0, num.length - (4 * i + 3)) + ',' +
+
+            num.substring(num.length - (4 * i + 3));
+
+            return (((sign) ? '' : '-') + num + '.' + cents);
+        }
     </script>
     <script type="text/javascript" src="<%=AppConfig.SiteURL%>greybox/AJS.js"></script>
     <script type="text/javascript" src="<%=AppConfig.SiteURL%>greybox/AJS_fx.js"></script>

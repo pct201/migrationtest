@@ -80,7 +80,7 @@ public partial class Administrator_security : clsBasePage
         if (!Page.IsPostBack)
         {
             // set the default sort field and sort order
-            SortBy = "User_Name";
+            SortBy = "USER_NAME";
             SortOrder = "Asc";
 
             //Bind Admin Grid
@@ -103,7 +103,7 @@ public partial class Administrator_security : clsBasePage
             //ComboHelper.FillAssociateName(new DropDownList[] { ddlEmployee }, 0, true);
         }
         //Set ListBox ToolTip
-        clsGeneral.SetListBoxToolTip(new ListBox[] { lstFROIeMailRecipients, lstSelectedFields, lstSelectedFieldsView });
+        clsGeneral.SetListBoxToolTip(new ListBox[] { lstFROIeMailRecipients, lstSelectedFields, lstSelectedFieldsView, lstSecurityLocation, lstSecuritySelectedLocation, lstSelectedLocationView, lstEventSecurityLocation, lstSecurityEventSelectedLocation, lstEventSelectedLocationView, lstManagementSecurityLocation, lstSecuritySelectedManagementLocation, lstManagementSelectedLocationView });
 
         string pwd = txtPassword.Text;
         txtPassword.Attributes.Add("value", pwd);
@@ -178,6 +178,8 @@ public partial class Administrator_security : clsBasePage
         BindListRegions();
         BindFROIeMailRecipients(false, null);
         BindSecurityACI_LocationList(false, null);
+        BindEventSecurity_LocationList(false, null);
+        BindManagementSecurity_LocationList(false, null);
     }
 
     /// <summary>
@@ -383,6 +385,26 @@ public partial class Administrator_security : clsBasePage
             objSecurity_ACI_LU_Location.FK_Security_ID = PK_Security_ID;
             objSecurity_ACI_LU_Location.FK_LU_Location_ID = Convert.ToInt32(Li.Value);
             objSecurity_ACI_LU_Location.Insert();
+        }
+
+        //Loop for inserting Event Locations
+        clsEvent_Email_Recipients.DeleteByUser(PK_Security_ID);
+        foreach (ListItem Li in lstSecurityEventSelectedLocation.Items)
+        {
+            clsEvent_Email_Recipients objEventLocation = new clsEvent_Email_Recipients();
+            objEventLocation.FK_Security_ID = PK_Security_ID;
+            objEventLocation.FK_LU_Location_ID = Convert.ToInt32(Li.Value);
+            objEventLocation.Insert();
+        }
+
+        //Loop for inserting Management Locations
+        clsManagement_Email_Recipients.DeleteByUser(PK_Security_ID);
+        foreach (ListItem Li in lstSecuritySelectedManagementLocation.Items)
+        {
+            clsManagement_Email_Recipients objManagementLocation = new clsManagement_Email_Recipients();
+            objManagementLocation.FK_Security_ID = PK_Security_ID;
+            objManagementLocation.FK_LU_Location_ID = Convert.ToInt32(Li.Value);
+            objManagementLocation.Insert();
         }
 
         if (clsSession.UserID == PK_Security_ID.ToString())
@@ -700,6 +722,8 @@ public partial class Administrator_security : clsBasePage
             }
             BindFROIeMailRecipients(true, null);
             BindSecurityACI_LocationList(true, null);
+            BindEventSecurity_LocationList(true, null);
+            BindManagementSecurity_LocationList(true, null);
             //else
             //{
             // tdRegion.Style.Add("display", "none");
@@ -973,6 +997,8 @@ public partial class Administrator_security : clsBasePage
         }
         BindFROIeMailRecipientsView();
         BindSecurityLocationView();
+        BindEventSecurityLocationView();
+        BindManagementSecurityLocationView();
 
         BindDocumentFolderSecurity();
         SelectDocumentFolderSecurityView();
@@ -1595,6 +1621,49 @@ public partial class Administrator_security : clsBasePage
             btnSelectAllLocationFields.Enabled = true;
         }
 
+        if (lstSecurityEventSelectedLocation.Items.Count <= 0)
+        {
+            btnDeSelectEventLocationFields.Enabled = false;
+            btnDeSelectAllEventLocationFields.Enabled = false;//imgUp.Enabled = imgDown.Enabled = 
+        }
+        else
+        {
+            btnDeSelectEventLocationFields.Enabled = true;
+            btnDeSelectAllEventLocationFields.Enabled = true;//imgUp.Enabled = imgDown.Enabled = 
+        }
+        // IF output Fields is Empty
+        if (lstEventSecurityLocation.Items.Count <= 0)
+        {
+            btnSelectEventLocationFields.Enabled = false;
+            btnSelectAllEventLocationFields.Enabled = false;
+        }
+        else
+        {
+            btnSelectEventLocationFields.Enabled = true;
+            btnSelectAllEventLocationFields.Enabled = true;
+        }
+
+        if (lstSecuritySelectedManagementLocation.Items.Count <= 0)
+        {
+            btnDeSelectManagementLocationFields.Enabled = false;
+            btnDeSelectAllManagementLocationFields.Enabled = false;//imgUp.Enabled = imgDown.Enabled = 
+        }
+        else
+        {
+            btnDeSelectManagementLocationFields.Enabled = true;
+            btnDeSelectAllManagementLocationFields.Enabled = true;//imgUp.Enabled = imgDown.Enabled = 
+        }
+        // IF output Fields is Empty
+        if (lstManagementSecurityLocation.Items.Count <= 0)
+        {
+            btnSelectManagementLocationFields.Enabled = false;
+            btnSelectAllManagementLocationFields.Enabled = false;
+        }
+        else
+        {
+            btnSelectManagementLocationFields.Enabled = true;
+            btnSelectAllManagementLocationFields.Enabled = true;
+        }
     }
 
     /// <summary>
@@ -1636,8 +1705,8 @@ public partial class Administrator_security : clsBasePage
             {
                 if (lstFROIeMailRecipients.Items.FindByValue(dr["FK_LU_Location_ID"].ToString().Trim()) != null)
                 {
-                    lstFROIeMailRecipients.Items.Remove(new ListItem(dr["dba"].ToString().Trim(), dr["FK_LU_Location_ID"].ToString().Trim()));
-                    lstSelectedFields.Items.Add(new ListItem(dr["dba"].ToString().Trim(), dr["FK_LU_Location_ID"].ToString().Trim()));
+                    lstFROIeMailRecipients.Items.Remove(new ListItem(dr["dba"].ToString(), dr["FK_LU_Location_ID"].ToString()));
+                    lstSelectedFields.Items.Add(new ListItem(dr["dba"].ToString(), dr["FK_LU_Location_ID"].ToString()));
                 }
             }
         }
@@ -1708,7 +1777,7 @@ public partial class Administrator_security : clsBasePage
     {
         MoveListBoxItems(lstSecurityLocation, lstSecuritySelectedLocation, true, true, false);
     }
-
+    
     /// <summary>
     /// Event to handle Deselect Fields
     /// </summary>
@@ -1781,7 +1850,6 @@ public partial class Administrator_security : clsBasePage
     //    clsGeneral.SetListBoxToolTip(new ListBox[] { lstSelectedFieldsView });
     //}
 
-
     private void BindSecurityACI_LocationList(bool _EditFlag, Nullable<decimal> _Employee_Id)
     {
         //clear list box
@@ -1808,16 +1876,17 @@ public partial class Administrator_security : clsBasePage
                 {
                     if (lstSecurityLocation.Items.FindByValue(dr["FK_LU_Location_ID"].ToString().Trim()) != null)
                     {
-                        lstSecurityLocation.Items.Remove(new ListItem(dr["dba"].ToString().Trim(), dr["FK_LU_Location_ID"].ToString().Trim()));
-                        lstSecuritySelectedLocation.Items.Add(new ListItem(dr["dba"].ToString().Trim(), dr["FK_LU_Location_ID"].ToString().Trim()));
+                        lstSecurityLocation.Items.Remove(new ListItem(dr["dba"].ToString(), dr["FK_LU_Location_ID"].ToString()));
+                        lstSecuritySelectedLocation.Items.Add(new ListItem(dr["dba"].ToString(), dr["FK_LU_Location_ID"].ToString()));
                     }
                 }
             }
-            //Enable/Disable buttons
-            btnDeSelectLocationFields.Enabled = btnDeSelectAllLocationFields.Enabled = lstSecuritySelectedLocation.Items.Count > 0; //imgUp.Enabled = imgDown.Enabled = 
-            btnSelectLocationFields.Enabled = btnSelectAllLocationFields.Enabled = lstSecurityLocation.Items.Count > 0;
-            clsGeneral.SetListBoxToolTip(new ListBox[] { lstSecurityLocation, lstSecuritySelectedLocation });
         }
+
+        //Enable/Disable buttons
+        btnDeSelectLocationFields.Enabled = btnDeSelectAllLocationFields.Enabled = lstSecuritySelectedLocation.Items.Count > 0; //imgUp.Enabled = imgDown.Enabled = 
+        btnSelectLocationFields.Enabled = btnSelectAllLocationFields.Enabled = lstSecurityLocation.Items.Count > 0;
+        clsGeneral.SetListBoxToolTip(new ListBox[] { lstSecurityLocation, lstSecuritySelectedLocation });
     }
 
     private void BindSecurityLocationView()
@@ -1829,5 +1898,175 @@ public partial class Administrator_security : clsBasePage
             lstSelectedLocationView.Items.Add(new ListItem(dr["dba"].ToString(), dr["FK_LU_Location_ID"].ToString()));
         clsGeneral.SetListBoxToolTip(new ListBox[] { lstSelectedFieldsView });
     }
+
+    #endregion
+
+    #region Event Security Location Events and Methods
+
+    protected void btnSelectEventLocationFields_Click(object sender, EventArgs e)
+    {
+        MoveListBoxItems(lstEventSecurityLocation, lstSecurityEventSelectedLocation, true, true, false);
+    }
+
+    /// <summary>
+    /// Event to handle Deselect Fields
+    /// </summary>
+    protected void btnDeSelectEventLocationFields_Click(object sender, EventArgs e)
+    {
+        MoveListBoxItems(lstSecurityEventSelectedLocation, lstEventSecurityLocation, true, false, true);
+    }
+
+    /// <summary>
+    /// Event to Handle select All output fields.
+    /// </summary>
+    protected void btnSelectAllEventLocationFields_Click(object sender, EventArgs e)
+    {
+        MoveListBoxItems(lstEventSecurityLocation, lstSecurityEventSelectedLocation, false, true, false);
+    }
+
+    /// <summary>
+    /// Event to handle DeSelect All Output Fields.
+    /// </summary>
+    protected void btnDeSelectAllEventLocationFields_Click(object sender, EventArgs e)
+    {
+        MoveListBoxItems(lstSecurityEventSelectedLocation, lstEventSecurityLocation, false, false, true);
+    }
+
+    private void BindEventSecurity_LocationList(bool _EditFlag, Nullable<decimal> _Employee_Id)
+    {
+        //clear list box
+        lstEventSecurityLocation.Items.Clear();
+        lstSecurityEventSelectedLocation.Items.Clear();
+
+
+        //Get all Locations 
+        DataSet dsData = LU_Location.SelectAll();
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+        dsData.Tables[0].DefaultView.Sort = "dba asc";
+        // Bind List lstEventSecurityLocation
+        lstEventSecurityLocation.DataSource = dsData.Tables[0].DefaultView;
+        lstEventSecurityLocation.DataTextField = "dba";
+        lstEventSecurityLocation.DataValueField = "PK_LU_Location_ID";
+        lstEventSecurityLocation.DataBind();
+        //if opened in Edit mode, Move Selected data to right (From lstEventSecurityLocation to lstSecurityEventSelectedLocation)
+        if (_EditFlag)
+        {
+            DataSet dsSelectedData = clsEvent_Email_Recipients.SelectByUser(PK_Security_ID);
+            foreach (DataRow dr in dsSelectedData.Tables[0].Rows)
+            {
+                if (dr["FK_LU_Location_ID"] != null)
+                {
+                    if (lstEventSecurityLocation.Items.FindByValue(dr["FK_LU_Location_ID"].ToString().Trim()) != null)
+                    {
+                        lstEventSecurityLocation.Items.Remove(new ListItem(dr["dba"].ToString(), dr["FK_LU_Location_ID"].ToString()));
+                        lstSecurityEventSelectedLocation.Items.Add(new ListItem(dr["dba"].ToString(), dr["FK_LU_Location_ID"].ToString()));
+                    }
+                }
+            }
+        }
+
+        //Enable/Disable buttons
+        btnDeSelectEventLocationFields.Enabled = btnDeSelectAllEventLocationFields.Enabled = lstSecurityEventSelectedLocation.Items.Count > 0; //imgUp.Enabled = imgDown.Enabled = 
+        btnSelectEventLocationFields.Enabled = btnSelectAllEventLocationFields.Enabled = lstEventSecurityLocation.Items.Count > 0;
+        clsGeneral.SetListBoxToolTip(new ListBox[] { lstEventSecurityLocation, lstSecurityEventSelectedLocation });
+    }
+
+    private void BindEventSecurityLocationView()
+    {
+        lstEventSelectedLocationView.Items.Clear();
+        //Move Selected data to right (From lstFROIeMailRecipients to lstSelectedFields)
+        DataSet dsSelectedData = clsEvent_Email_Recipients.SelectByUser(PK_Security_ID);
+        foreach (DataRow dr in dsSelectedData.Tables[0].Rows)
+            lstEventSelectedLocationView.Items.Add(new ListItem(dr["dba"].ToString(), dr["FK_LU_Location_ID"].ToString()));
+        clsGeneral.SetListBoxToolTip(new ListBox[] { lstEventSelectedLocationView });
+    }
+
+    #endregion
+
+    #region Management Security Location Events and Methods
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnSelectManagementLocationFields_Click(object sender, EventArgs e)
+    {
+        MoveListBoxItems(lstManagementSecurityLocation, lstSecuritySelectedManagementLocation, true, true, false);
+    }
+
+    /// <summary>
+    /// Event to handle Deselect Fields
+    /// </summary>
+    protected void btnDeSelectManagementLocationFields_Click(object sender, EventArgs e)
+    {
+        MoveListBoxItems(lstSecuritySelectedManagementLocation, lstManagementSecurityLocation, true, false, true);
+    }
+
+    /// <summary>
+    /// Event to Handle select All output fields.
+    /// </summary>
+    protected void btnSelectAllManagementLocationFields_Click(object sender, EventArgs e)
+    {
+        MoveListBoxItems(lstManagementSecurityLocation, lstSecuritySelectedManagementLocation, false, true, false);
+    }
+
+    /// <summary>
+    /// Event to handle DeSelect All Output Fields.
+    /// </summary>
+    protected void btnDeSelectAllManagementLocationFields_Click(object sender, EventArgs e)
+    {
+        MoveListBoxItems(lstSecuritySelectedManagementLocation, lstManagementSecurityLocation, false, false, true);
+    }
+
+    private void BindManagementSecurity_LocationList(bool _EditFlag, Nullable<decimal> _Employee_Id)
+    {
+        //clear list box
+        lstManagementSecurityLocation.Items.Clear();
+        lstSecuritySelectedManagementLocation.Items.Clear();
+
+
+        //Get all Locations 
+        DataSet dsData = LU_Location.SelectAll();
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+        dsData.Tables[0].DefaultView.Sort = "dba asc";
+        // Bind List lstEventSecurityLocation
+        lstManagementSecurityLocation.DataSource = dsData.Tables[0].DefaultView;
+        lstManagementSecurityLocation.DataTextField = "dba";
+        lstManagementSecurityLocation.DataValueField = "PK_LU_Location_ID";
+        lstManagementSecurityLocation.DataBind();
+        //if opened in Edit mode, Move Selected data to right (From lstManagementSecurityLocation to lstSecuritySelectedManagementLocation)
+        if (_EditFlag)
+        {
+            DataSet dsSelectedData = clsManagement_Email_Recipients.SelectByUser(PK_Security_ID);
+            foreach (DataRow dr in dsSelectedData.Tables[0].Rows)
+            {
+                if (dr["FK_LU_Location_ID"] != null)
+                {
+                    if (lstManagementSecurityLocation.Items.FindByValue(dr["FK_LU_Location_ID"].ToString().Trim()) != null)
+                    {
+                        lstManagementSecurityLocation.Items.Remove(new ListItem(dr["dba"].ToString(), dr["FK_LU_Location_ID"].ToString()));
+                        lstSecuritySelectedManagementLocation.Items.Add(new ListItem(dr["dba"].ToString(), dr["FK_LU_Location_ID"].ToString()));
+                    }
+                }
+            }
+        }
+
+        //Enable/Disable buttons
+        btnDeSelectManagementLocationFields.Enabled = btnDeSelectAllManagementLocationFields.Enabled = lstSecuritySelectedManagementLocation.Items.Count > 0; //imgUp.Enabled = imgDown.Enabled = 
+        btnSelectManagementLocationFields.Enabled = btnSelectAllManagementLocationFields.Enabled = lstManagementSecurityLocation.Items.Count > 0;
+        clsGeneral.SetListBoxToolTip(new ListBox[] { lstManagementSecurityLocation, lstSecuritySelectedManagementLocation });
+    }
+
+    private void BindManagementSecurityLocationView()
+    {
+        lstManagementSelectedLocationView.Items.Clear();
+        //Move Selected data to right (From lstFROIeMailRecipients to lstSelectedFields)
+        DataSet dsSelectedData = clsManagement_Email_Recipients.SelectByUser(PK_Security_ID);
+        foreach (DataRow dr in dsSelectedData.Tables[0].Rows)
+            lstManagementSelectedLocationView.Items.Add(new ListItem(dr["dba"].ToString(), dr["FK_LU_Location_ID"].ToString()));
+        clsGeneral.SetListBoxToolTip(new ListBox[] { lstManagementSelectedLocationView });
+    }
+
     #endregion
 }

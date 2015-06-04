@@ -1,0 +1,468 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style type="text/css">
+        .td {
+            font-size: 12px;
+        }
+
+        .HeaderRow {
+            margin: 0;
+            vertical-align: middle;
+            background-color: #9a9a9a;
+            padding-left: 5px;
+            font-weight: bold;
+            color: White;
+            text-decoration: none;
+            font-family: Arial;
+            font-size: 14px;
+        }
+
+        .ValueCell {
+            font-family: Arial;
+            font-size: 12px;
+            text-align: left;
+        }
+
+        .TitleCell {
+            font-family: Arial;
+            font-size: 12px;
+            text-align: left;
+            font-weight: bold;
+            width: 18%;
+        }
+    </style>
+</head>
+<body>
+    <table width="100%" cellpadding="0" cellspacing="0" style="font-family: Arial">
+        <tr>
+            <td style="font-size: 12px; font-family: Arial;">
+                <table width="100%" style="font-weight: bold">
+                    <!--<tr>
+                        <td style="border-bottom: 1px solid #000000; font-size: large">SONIC System, Inc.
+                        </td>
+                    </tr>-->
+                    <tr>
+                        <td style="font-size: 14px; font-family: Arial; font-weight: bold">Management Abstract
+                        </td>
+                    </tr>
+                </table>
+                <br />
+            </td>
+        </tr>
+        <tr>
+            <td style="font-size: 12px; font-family: Arial;">
+                <table width="100%" cellpadding="1" cellspacing="1">
+                    <tr style="text-align:left;">
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold;" colspan="6" class="HeaderRow">Management
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">DBA
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[DBA]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Location Code
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; text-align: center; vertical-align: top; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[LocationCode]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Date Scheduled
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[DateScheduled]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Date Completed
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; text-align: center; vertical-align: top; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[DateCompleted]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Work To Be Completed 
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[WorkToBeCompleted]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Other
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; text-align: center; vertical-align: top; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[WorkToBeCompletedOther]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Work To Be Completed By
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[WorkToBeCompletedBy]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Task Complete?
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; text-align: center; vertical-align: top; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[TaskComplete]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Service/Repair Cost
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[Service/RepairCost]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">CR Approved 
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; text-align: center; vertical-align: top; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[CRApproved]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Record Type
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[RecordType]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Other 
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; text-align: center; vertical-align: top; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[RecordTypeOther]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Job #
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[Job#]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Order #
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; text-align: center; vertical-align: top; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[Order#]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Order Date
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[OrderDate]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">&nbsp;
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; text-align: center; vertical-align: top; width: 4%;">&nbsp;
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">&nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Requested By
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[RequestedBy]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Created By 
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; text-align: center; vertical-align: top; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[CreatedBy]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Previous Contract Amount 
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[PreviousContractAmount]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Revised Contract Amount 
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; text-align: center; vertical-align: top; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[RevisedContractAmount]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Reason for Request
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[ReasonForRequest]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">&nbsp;
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; text-align: center; vertical-align: top; width: 4%;">&nbsp;
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">&nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Recommendation
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[Recommendation]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">&nbsp;
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; text-align: center; vertical-align: top; width: 4%;">&nbsp;
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">&nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">&nbsp;
+                        </td>
+                    </tr>
+                    <tr style="page-break-inside: avoid">
+                        <td colspan="6">
+                            <table width="100%">
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align: text-top; width: 18%;">Store Contact Grid
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                                    </td>
+                                    <td colspan="4" style="font-size: 12px; font-family: Arial;">
+                                        <table width="100%" cellpadding="3" cellspacing="1">
+                                            <tr style="page-break-inside: avoid">
+                                                <td style="font-size: 12px; font-family: Arial;" colspan="6">[StoreContactGrid]
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align: text-top; width: 18%;">ACI Contact Grid
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                                    </td>
+                                    <td colspan="4" style="font-size: 12px; font-family: Arial;">
+                                        <table width="100%" cellpadding="3" cellspacing="1">
+                                            <tr style="page-break-inside: avoid">
+                                                <td style="font-size: 12px; font-family: Arial;" colspan="6">[ACIContactGrid]
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">&nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold;" colspan="6" class="HeaderRow">Approvals
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">GM
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">E-Mail To
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[GM_EMailTo]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Last E-Mail Date
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; text-align: center; vertical-align: top; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[GM_LastEMailDate]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Decision
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[GM_Decision]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">GM Response Date
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; text-align: center; vertical-align: top; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[GM_ResponseDate]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">RLCM
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">E-Mail To
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[RLCM_EMailTo]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Last E-Mail Date
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; text-align: center; vertical-align: top; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[RLCM_LastEMailDate]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Decision
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[RLCM_Decision]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">RLCM Response Date
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; text-align: center; vertical-align: top; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[RLCM_ResponseDate]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">NAPM
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">E-Mail To
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[NAPM_EMailTo]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Last E-Mail Date
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; text-align: center; vertical-align: top; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[NAPM_LastEMailDate]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Decision
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[NAPM_Decision]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">NAPM Response Date
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; text-align: center; vertical-align: top; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[NAPM_ResponseDate]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">DRM
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">E-Mail To
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[DRM_EMailTo]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Last E-Mail Date
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; text-align: center; vertical-align: top; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[DRM_LastEMailDate]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Decision
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[DRM_Decision]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">DRM Response Date
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; text-align: center; vertical-align: top; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[DRM_ResponseDate]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">Comments
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">[Comments]
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold; width: 18%;">&nbsp;
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; text-align: center; vertical-align: top; width: 4%;">&nbsp;
+                        </td>
+                        <td style="font-size: 12px; font-family: Arial; width: 28%;">&nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">&nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; font-family: Arial; font-weight: bold;" colspan="6" class="HeaderRow">Project Cost
+                        </td>
+                    </tr>
+                    <tr style="page-break-inside: avoid">
+                        <td colspan="6">
+                            <table width="100%">
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align: text-top; width: 18%;">Project Cost Grid
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                                    </td>
+                                    <td colspan="4" style="font-size: 12px; font-family: Arial;">
+                                        <table width="100%" cellpadding="3" cellspacing="1">
+                                            <tr style="page-break-inside: avoid">
+                                                <td style="font-size: 12px; font-family: Arial;" colspan="6">[ProjectCostGrid]
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">&nbsp;
+                                    </td>
+                                </tr>
+                                <tr style="page-break-inside: avoid">
+                                    <td style="font-size: 12px; font-family: Arial; font-weight: bold; vertical-align: text-top; width: 18%;">Invoice Grid
+                                    </td>
+                                    <td style="font-size: 12px; font-family: Arial; vertical-align: top; text-align: center; width: 4%;">:
+                                    </td>
+                                    <td colspan="4" style="font-size: 12px; font-family: Arial;">
+                                        <table width="100%" cellpadding="3" cellspacing="1">
+                                            <tr style="page-break-inside: avoid">
+                                                <td style="font-size: 12px; font-family: Arial;" colspan="6">[InvoiceGrid]
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
