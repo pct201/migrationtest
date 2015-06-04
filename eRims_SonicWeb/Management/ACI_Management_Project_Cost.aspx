@@ -89,7 +89,7 @@
                                         </td>
                                         <td align="left" valign="top" width="26%">
                                             $&nbsp;<asp:TextBox ID="txtBudget" runat="server" SkinID="txtAmt" Width="170px" onkeypress="return FormatNumber(event,this.id,13,false);" autocomplete="off"
-                                                onpaste="return false" />
+                                                onpaste="return false" OnBlur="CheckNumericVal(this,13);" />
                                         </td>
                                         <td align="left" valign="top" width="20%">
                                             Date Budget Established&nbsp;<span id="Span4" style="color: Red; display: none;"
@@ -128,7 +128,7 @@
                                         </td>
                                         <td align="left" valign="top">
                                             $&nbsp;<asp:TextBox ID="txtEstimated_Cost" runat="server" SkinID="txtAmt" Width="170px" autocomplete="off"
-                                                onkeypress="return FormatNumber(event,this.id,13,false);" onpaste="return false" />
+                                                onkeypress="return FormatNumber(event,this.id,13,false);" onpaste="return false" OnBlur="CheckNumericVal(this,13);" />
                                         </td>
                                         <td align="left" valign="top">
                                             Date Estimated Cost Derived&nbsp;<span id="Span6" style="color: Red; display: none;"
@@ -168,7 +168,7 @@
                                         </td>
                                         <td align="left" valign="top">
                                             $&nbsp;<asp:TextBox ID="txtOriginal_Estimated_Cost" runat="server" SkinID="txtAmt" autocomplete="off"
-                                                Width="170px" onkeypress="return FormatNumber(event,this.id,13,false);" onpaste="return false" />
+                                                Width="170px" onkeypress="return FormatNumber(event,this.id,13,false);" onpaste="return false" OnBlur="CheckNumericVal(this,13);" />
                                         </td>
                                         <td align="left" valign="top">
                                             Date Original Estimated Cost Derived&nbsp;<span id="Span8" style="color: Red; display: none;"
@@ -208,7 +208,7 @@
                                         </td>
                                         <td align="left" valign="top">
                                             $&nbsp;<asp:TextBox ID="txtActual_Cost" runat="server" SkinID="txtAmt" Width="170px" autocomplete="off"
-                                                onkeypress="return FormatNumber(event,this.id,13,false);" onpaste="return false" />
+                                                onkeypress="return FormatNumber(event,this.id,13,false);" onpaste="return false" OnBlur="CheckNumericVal(this,13);" />
                                         </td>
                                         <td align="left" valign="top">
                                             Date Actual Cost Incurred&nbsp;<span id="Span10" style="color: Red; display: none;"
@@ -417,6 +417,41 @@
             obj = window.open("AuditPopup-ACI-Management-ProjectCost.aspx?id=" + '<%=ViewState["PK_ACIManagement_ProjectCost"]%>', 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
             obj.focus();
             return false;
+        }
+
+        function CheckNumericVal(Ctl, length) {
+            if (Ctl.value == "" || isNaN(Number(Ctl.value.replace(/,/g, '')) * 1) == true)
+                Ctl.innerText = "";
+            else {
+                var len1 = Ctl.value.split(".")[0].replace(/,/g, '').length;
+                if (len1 > length - 2) {
+                    alert("Length is exceeded.");
+                    Ctl.innerText = "";
+                }
+                else
+                    Ctl.innerText = formatCurrency_New(Ctl.value);
+            }
+        }
+
+        function formatCurrency_New(num) {
+            num = num.toString().replace(/\$|\,/g, '');
+            if (isNaN(num))
+                num = "0";
+
+            sign = (num == (num = Math.abs(num)));
+            num = Math.floor(num * 100 + 0.50000000001);
+            cents = num % 100;
+            num = Math.floor(num / 100).toString();
+
+            if (cents < 10)
+                cents = "0" + cents;
+
+            for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3) ; i++)
+                num = num.substring(0, num.length - (4 * i + 3)) + ',' +
+
+            num.substring(num.length - (4 * i + 3));
+
+            return (((sign) ? '' : '-') + num + '.' + cents);
         }
     </script>
 </asp:Content>

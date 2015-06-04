@@ -300,7 +300,7 @@
                                                                 <asp:UpdatePanel ID="upnlCode" runat="server">
                                                                     <ContentTemplate>
                                                                         <asp:TextBox ID="txtLocation_Code" runat="server" Width="175px" MaxLength="4" autocomplete="off"
-                                                                            onKeyPress="return FormatInteger(event);" onpaste="return false" />
+                                                                            onKeyPress="return FormatInteger(event);" onpaste="return false" onblur="CheckNumericValOnly(this,4);" />
                                                                     </ContentTemplate>
                                                                     <Triggers>
                                                                         <asp:AsyncPostBackTrigger ControlID="drpLocation" EventName="SelectedIndexChanged" />
@@ -1021,7 +1021,7 @@
                                                                             :
                                                                         </td>
                                                                         <td align="left" width="26%">
-                                                                            <asp:TextBox runat="server" ID="txtGM_Email_To"></asp:TextBox>
+                                                                            <asp:TextBox runat="server" ID="txtGM_Email_To"  MaxLength="100"></asp:TextBox>
                                                                             <asp:RegularExpressionValidator ID="revEmail" runat="server" ControlToValidate="txtGM_Email_To"
                                                                             ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="[Approvals]/GM Email To Address Is Invalid"
                                                                             SetFocusOnError="True" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*">*</asp:RegularExpressionValidator>
@@ -1098,7 +1098,7 @@
                                                                             :
                                                                         </td>
                                                                         <td align="left" width="26%">
-                                                                            <asp:TextBox runat="server" ID="txtRLCM_Email_To"></asp:TextBox>
+                                                                            <asp:TextBox runat="server" ID="txtRLCM_Email_To" MaxLength="100"></asp:TextBox>
                                                                             <asp:RegularExpressionValidator ID="rgvRLCM_Email_To" runat="server" ControlToValidate="txtRLCM_Email_To"
                                                                             ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="[Approvals]/RLCM Email To Address Is Invalid"
                                                                             SetFocusOnError="True" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*">*</asp:RegularExpressionValidator>
@@ -1174,7 +1174,7 @@
                                                                             :
                                                                         </td>
                                                                         <td align="left" width="26%">
-                                                                            <asp:TextBox runat="server" ID="txtNAPM_Email_To"></asp:TextBox>
+                                                                            <asp:TextBox runat="server" ID="txtNAPM_Email_To" MaxLength="100"></asp:TextBox>
                                                                             <asp:RegularExpressionValidator ID="rgvNAPM_Email_To" runat="server" ControlToValidate="txtNAPM_Email_To"
                                                                             ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="[Approvals]/NAPM Email To Address Is Invalid"
                                                                             SetFocusOnError="True" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*">*</asp:RegularExpressionValidator>
@@ -1250,7 +1250,7 @@
                                                                             :
                                                                         </td>
                                                                         <td align="left" width="26%">
-                                                                            <asp:TextBox runat="server" ID="txtDRM_Email_To"></asp:TextBox>
+                                                                            <asp:TextBox runat="server" ID="txtDRM_Email_To" MaxLength="100"></asp:TextBox>
                                                                             <asp:RegularExpressionValidator ID="rgvDRM_Email_To" runat="server" ControlToValidate="txtDRM_Email_To"
                                                                             ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="[Approvals]/DRM Email To Address Is Invalid"
                                                                             SetFocusOnError="True" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*([,]\s*\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)*">*</asp:RegularExpressionValidator>
@@ -2458,6 +2458,12 @@
             else
                 alert('Please select DBA');
             return false;
+        }
+
+        function CheckNumericValOnly(Ctl, length) {
+            if (Ctl.value == "" || isNaN(Number(Ctl.value.replace(/,/g, '')) * 1) == true) {
+                Ctl.innerText = "";
+            }
         }
 
         function CheckNumericVal(Ctl, length) {
