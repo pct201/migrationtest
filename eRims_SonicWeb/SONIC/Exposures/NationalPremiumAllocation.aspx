@@ -49,160 +49,7 @@
 
 
         }
-
-        function FillDetails() {
-
-            var TotalHeadCount, TotalLocation;
-            TotalHeadCount = document.getElementById('<%=txtTotal_Headcount.ClientID %>').value;
-            TotalLocation = document.getElementById('<%=txtTotal_Locations.ClientID %>').value;
-
-            //Calculate WC Rate :
-            var WC_Premium, WCTotal_Payroll, WCRate;
-            if (document.getElementById('<%=txtWC_Premium.ClientID %>').value != '')
-                WC_Premium = document.getElementById('<%=txtWC_Premium.ClientID %>').value;
-            else
-                WC_Premium = 0;
-
-            if (document.getElementById('<%=txtWCTotal_Payroll.ClientID %>').value != '')
-                WCTotal_Payroll = document.getElementById('<%=txtWCTotal_Payroll.ClientID %>').value;
-            else
-                WCTotal_Payroll = 0;
-
-            WCRate = parseFloat((parseFloat(WC_Premium) / parseFloat(WCTotal_Payroll)) * 100).toFixed(2);
-            document.getElementById('<%=txtWorkersCompensationRate.ClientID %>').value = WCRate;
-
-            //Texas Non-Subscription Rate 
-            var Texas_Premium, TexasTotal_Payroll, TexasRate;
-            if (document.getElementById('<%=txtTexasNonSubscriptionPremium.ClientID %>').value != '')
-                Texas_Premium = document.getElementById('<%=txtTexasNonSubscriptionPremium.ClientID %>').value;
-            else
-                Texas_Premium = 0;
-
-            if (document.getElementById('<%=txtTXTotalPayroll.ClientID %>').value != '')
-                TexasTotal_Payroll = document.getElementById('<%=txtTXTotalPayroll.ClientID %>').value;
-            else
-                TexasTotal_Payroll = 0;
-
-            TexasRate = parseFloat((parseFloat(Texas_Premium) / parseFloat(TexasTotal_Payroll)) * 100).toFixed(2);
-            document.getElementById('<%=txtTexasNonSubscriptionRate.ClientID %>').value = TexasRate;
-
-            //Calculate Excess Umbrella Rate :
-            var Umbrella_Premium, ExcessUmbrellaRate;
-            if (document.getElementById('<%=txtExcessUmbrellaPremium.ClientID %>').value != '')
-                Umbrella_Premium = document.getElementById('<%=txtExcessUmbrellaPremium.ClientID %>').value;
-            else
-                Umbrella_Premium = 0;
-            ExcessUmbrellaRate = parseFloat((parseFloat(Umbrella_Premium) / parseFloat(WCTotal_Payroll) + parseFloat(TexasTotal_Payroll)) * 100).toFixed(2);
-            document.getElementById('<%=txtExcessUmbrellaRate.ClientID %>').value = ExcessUmbrellaRate;
-
-            //Calculate EPLI Rate
-            var EPL_Premium, EPLIRate;
-            if (document.getElementById('<%=txtEPLIPremium.ClientID %>').value != '')
-                EPL_Premium = document.getElementById('<%=txtEPLIPremium.ClientID %>').value;
-            else
-                EPL_Premium = 0;
-            EPLIRate = parseFloat((parseFloat(EPL_Premium) / TotalHeadCount * 100));
-            document.getElementById('<%=txtEPLIRate.ClientID %>').value = EPLIRate.toFixed(2);
-
-            //Calculate Garage Liability Rate
-            var Garage_Premium, GarageRate;
-            if (document.getElementById('<%=txtGarageLiabilityPremium.ClientID %>').value != '')
-                Garage_Premium = document.getElementById('<%=txtGarageLiabilityPremium.ClientID %>').value;
-            else
-                Garage_Premium = 0;
-            GarageRate = parseFloat((parseFloat(Garage_Premium) / TotalHeadCount * 100)).toFixed(2);
-            document.getElementById('<%=txtGarageLiabilityRate.ClientID %>').value = GarageRate;
-
-            //Calculate Crime Premium Rate
-            var Crime_Premium, CrimeRate;
-            if (document.getElementById('<%=txtCrimePremium.ClientID %>').value != '')
-                Crime_Premium = document.getElementById('<%=txtCrimePremium.ClientID %>').value;
-            else
-                Crime_Premium = 0;
-            CrimeRate = parseFloat((parseFloat(Crime_Premium) / TotalLocation * 100)).toFixed(2);
-            document.getElementById('<%=txtCrimeRate.ClientID %>').value = CrimeRate;
-
-            //Calculate Cyber Rate
-            var Cyber_Premium, CyberRate;
-            if (document.getElementById('<%=txtCyberPremium.ClientID %>').value != '')
-                Cyber_Premium = document.getElementById('<%=txtCyberPremium.ClientID %>').value;
-            else
-                Cyber_Premium = 0;
-            CyberRate = parseFloat((parseFloat(Cyber_Premium) / TotalLocation * 100)).toFixed(2);
-            document.getElementById('<%=txtCyberRate.ClientID %>').value = CyberRate;
-
-            //Calculate Pollution Rate
-            var Pollution_Premium, PollutionRate;
-            if (document.getElementById('<%=txtPollutionPremium.ClientID %>').value != '')
-                Pollution_Premium = document.getElementById('<%=txtPollutionPremium.ClientID %>').value;
-            else
-                Pollution_Premium = 0;
-            PollutionRate = parseFloat((parseFloat(Pollution_Premium) / TotalLocation * 100)).toFixed(2);
-            document.getElementById('<%=txtPollutionRate.ClientID %>').value = PollutionRate;
-
-            //Calculate earthquake Rate :
-            var earthquake_Premium, earthquakeTotalInsurableValues, EarthquakeTotalRSMeans, EarthquakeTotalBusinessInterruption,
-                EarthquakeTotalContents, EarthquakeTotalParts, earthquakeRate;
-            if (document.getElementById('<%=txtEarthquakePremium.ClientID %>').value != '')
-                earthquake_Premium = document.getElementById('<%=txtEarthquakePremium.ClientID %>').value;
-            else
-                earthquake_Premium = 0;
-
-            EarthquakeTotalRSMeans = parseFloat(document.getElementById('<%=txtEarthquakeTotalRSMeans.ClientID %>').value);
-
-            if (isNaN(EarthquakeTotalRSMeans) == true) {
-                EarthquakeTotalRSMeans = 0;
-            }
-            EarthquakeTotalBusinessInterruption = parseFloat(document.getElementById('<%=txtEarthquakeTotalBusinessInterruption.ClientID %>').value);
-            if (isNaN(EarthquakeTotalBusinessInterruption) == true) {
-                EarthquakeTotalBusinessInterruption = 0;
-            }
-            EarthquakeTotalContents = parseFloat(document.getElementById('<%=txtEarthquakeTotalContents.ClientID %>').value);
-            if (isNaN(EarthquakeTotalContents) == true) {
-                EarthquakeTotalContents = 0;
-            }
-            EarthquakeTotalParts = parseFloat(document.getElementById('<%=txtEarthquakeTotalParts.ClientID %>').value);
-            if (isNaN(EarthquakeTotalParts) == true) {
-                EarthquakeTotalParts = 0;
-            }
-            document.getElementById('<%=txtEarthquakeTotalInsurableValues.ClientID %>').value = EarthquakeTotalRSMeans + EarthquakeTotalBusinessInterruption + EarthquakeTotalContents + EarthquakeTotalParts;
-
-            earthquakeTotalInsurableValues = document.getElementById('<%=txtEarthquakeTotalInsurableValues.ClientID %>').value;
-            earthquakeRate = parseFloat((parseFloat(earthquakeTotalInsurableValues) / TotalLocation * 100)).toFixed(2);
-            document.getElementById('<%=txtEarthquakeRate.ClientID %>').value = earthquakeRate;
-
-
-            //Calculate Property Rate :
-            var Property_Premium, PropertyTotalInsurableValues, PropertyTotalRSMeans, PropertyTotalBusinessInterruption,
-                PropertyTotalContents, PropertyTotalParts, PropertyRate;
-            if (document.getElementById('<%=txtProperty_Premium.ClientID %>').value != '')
-                Property_Premium = document.getElementById('<%=txtProperty_Premium.ClientID %>').value;
-            else
-                Property_Premium = 0;
-
-            PropertyTotalRSMeans = parseFloat(document.getElementById('<%=txtPropertyRS_Means.ClientID %>').value);
-            if (isNaN(PropertyTotalRSMeans) == true) {
-                PropertyTotalRSMeans = 0;
-            }
-            PropertyTotalBusinessInterruption = parseInt(document.getElementById('<%=txtPropertyTotalBusinessInterruption.ClientID %>').value);
-            if (isNaN(PropertyTotalBusinessInterruption) == true) {
-                PropertyTotalBusinessInterruption = 0;
-            }
-            PropertyTotalContents = parseFloat(document.getElementById('<%=txtPropertyTotalContents.ClientID %>').value);
-            if (isNaN(PropertyTotalContents) == true) {
-                PropertyTotalContents = 0;
-            }
-            PropertyTotalParts = parseFloat(document.getElementById('<%=txtPropertyTotalParts.ClientID %>').value);
-            if (isNaN(PropertyTotalParts) == true) {
-                PropertyTotalParts = 0;
-            }
-            document.getElementById('<%=txtPropertyTotalInsurableValues.ClientID %>').value = PropertyTotalRSMeans + PropertyTotalBusinessInterruption + PropertyTotalContents + PropertyTotalParts;
-            PropertyTotalInsurableValues = document.getElementById('<%=txtPropertyTotalInsurableValues.ClientID %>').value;
-
-            PropertyRate = parseFloat((parseFloat(PropertyTotalInsurableValues) / TotalLocation * 100)).toFixed(2);
-            document.getElementById('<%=txtPropertyRate.ClientID %>').value = PropertyRate.toFixed(2);
-
-        }
+        
 
         function formatCurrencyOnBlur(ctrl) {
             if (ctrl.value != '') {
@@ -212,7 +59,7 @@
         }
 
         function OpenPopup() {
-            //GB_showCenter('', '<%=AppConfig.SiteURL%>DashBoard/DealershipDetail.aspx?DBA=' + DBA.replace(/&/g, '%26') + '&Code=' + Code.toString() + '&year=' + year + '&MapID=' + MapID + '&' + new Date().toString(), 300, 400, '');
+            
             var navUrl = '<%=AppConfig.SiteURL%>/Sonic/Exposures/RiskManagementServiceGrid.aspx?FK_PA_National_Allocation=' + '<%= Convert.ToString(PK_PA_National_Allocation) %>' + '&strOperation=' + 'add'
             OpenWindow(navUrl);
             return false;
@@ -477,7 +324,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td align="left" width="18%">Excess Umbrella Rate
+                            <td align="left" width="18%" class="InnerContent">Excess Umbrella Rate
                             </td>
                             <td align="center" width="4%">:
                             </td>
@@ -529,25 +376,7 @@
                                 <asp:TextBox ID="txtEarthquakeTotalContents" runat="server" Width="170px" SkinID="txtCurrency15w"
                                     onpaste="return false" Enabled="false" />
                             </td>
-                        </tr>
-                        <%--  <tr>
-                            <td align="left" width="18%" class="InnerContent">EPLI Rate
-                            </td>
-                            <td align="center" width="4%">:
-                            </td>
-                            <td align="left" width="28%">$&nbsp;
-                                <asp:TextBox ID="TextBox12" runat="server" Width="170px" SkinID="txtCurrency15w"
-                                    onpaste="return false" />
-                            </td>
-                            <td align="left" width="18%" class="InnerContent">Total Contents
-                            </td>
-                            <td align="center" width="4%">:
-                            </td>
-                            <td align="left" width="28%">$&nbsp;
-                                <asp:TextBox ID="TextBox13" runat="server" Width="170px" SkinID="txtCurrency15w"
-                                    onpaste="return false" />
-                            </td>
-                        </tr>--%>
+                        </tr>                      
                         <tr>
                             <td align="left" width="18%">Garage Liability Premium
                             </td>
@@ -723,7 +552,7 @@
                                                                         <td align="center" valign="top">:</td>
                                                                         <td align="left" valign="top">
                                                                             <asp:TextBox ID="txtServiceAmount" runat="server"
-                                                                                SkinID="txtCurrency15w" onpaste="return false" /></td>
+                                                                                SkinID="txtCurrency12w" onpaste="return false" /></td>
                                                                         <td>&nbsp;</td>
                                                                     </tr>
                                                                     <tr>
@@ -1023,7 +852,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td align="left" width="18%">Excess Umbrella Rate
+                            <td align="left" width="18%" class="InnerContent">Excess Umbrella Rate
                             </td>
                             <td align="center" width="4%">:
                             </td>
@@ -1069,25 +898,7 @@
                             <td align="left" width="28%">$&nbsp;
                                 <asp:Label ID="lblEarthquakeTotalContents" runat="server" Width="170px" />
                             </td>
-                        </tr>
-                        <%--  <tr>
-                            <td align="left" width="18%" class="InnerContent">EPLI Rate
-                            </td>
-                            <td align="center" width="4%">:
-                            </td>
-                            <td align="left" width="28%">$&nbsp;
-                                <asp:TextBox ID="TextBox12" runat="server" Width="170px" SkinID="txtCurrency15w"
-                                    onpaste="return false" />
-                            </td>
-                            <td align="left" width="18%" class="InnerContent">Total Contents
-                            </td>
-                            <td align="center" width="4%">:
-                            </td>
-                            <td align="left" width="28%">$&nbsp;
-                                <asp:TextBox ID="TextBox13" runat="server" Width="170px" SkinID="txtCurrency15w"
-                                    onpaste="return false" />
-                            </td>
-                        </tr>--%>
+                        </tr>                       
                         <tr>
                             <td align="left" width="18%">Garage Liability Premium
                             </td>
@@ -1217,23 +1028,7 @@
                                     </tr>
                                 </table>
                             </td>
-                        </tr>
-                        <%-- <tr>
-                            <td align="left" width="18%" class="InnerContent">Cyber Rate
-                            </td>
-                            <td align="center" width="4%">:
-                            </td>
-                            <td align="left" width="28%">$&nbsp;
-                                <asp:TextBox ID="TextBox24" runat="server" Width="170px" SkinID="txtCurrency15w"
-                                    onpaste="return false" />
-                            </td>
-                            <td align="left" width="18%">&nbsp;
-                            </td>
-                            <td align="center" width="4%">&nbsp;
-                            </td>
-                            <td align="left" width="28%">&nbsp;
-                            </td>
-                        </tr>--%>
+                        </tr>                       
                         <tr>
                             <td align="left" width="18%">Total Risk Management Fee
                             </td>

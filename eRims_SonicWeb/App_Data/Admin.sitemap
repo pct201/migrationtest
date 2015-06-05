@@ -70,7 +70,7 @@
         <siteMapNode url="Policy/rptDefault.aspx" title="Policy Reports" description="Policy Reports"/>
         <siteMapNode url="" title="Premium Allocation Report" description="">
           <siteMapNode url="SONIC/Exposures/NationalPremiumAllocationSearch.aspx" title="National Premium Allocation Search" description="Serach" />
-          <siteMapNode url="SONIC/Exposures/PremiumAllocationBaseDataSearchFilter.aspx" title="Premium Allocation Base Data Search" description="Serach" />          
+          <siteMapNode url="SONIC/Exposures/PremiumAllocationBaseDataSearchFilter.aspx" title="Premium Allocation Base Data Search" description="Serach" />
           <siteMapNode url="SONIC/Exposures/PremiumAllocationSearch.aspx" title="Search" description="Serach" />
           <siteMapNode url="SONIC/Exposures/Worksheet_Template_Export.aspx" title="Worksheet Template Export" description="Worksheet Template Export" />
           <siteMapNode url="SONIC/Exposures/rptPARImport.aspx" title="Import" description="Import" />
@@ -230,9 +230,9 @@
           <siteMapNode url="Administrator/Contributing Factor.aspx" title="Contributing Factor" description="Contributing Factor" roles=""></siteMapNode>
         </siteMapNode>
         <siteMapNode url="" title ="Management" description="" roles="" >
-          <siteMapNode url="Administrator/LU_Record_Type.aspx" title ="Record Type" description="" roles="" />  
+          <siteMapNode url="Administrator/LU_Record_Type.aspx" title ="Record Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_Work_Completed.aspx" title ="Work Completed" description="" roles="" />
-        </siteMapNode>  
+        </siteMapNode>
         <siteMapNode url="" title ="Policy" description="" roles="" >
           <siteMapNode url="Administrator/Policy_Type.aspx" title ="Policy Type" description="" roles="" />
         </siteMapNode>
@@ -252,14 +252,8 @@
           <siteMapNode url="Administrator/LeaseRentalEquipmentType.aspx" title ="Lease/Rental Equipment Type" description="" roles="" />
           <siteMapNode url="Administrator/Manufacturer.aspx" title ="Manufacturer" description="" roles="" />
         </siteMapNode>
-        <siteMapNode title ="Real Estate" description="" roles="">
-          <siteMapNode url="Administrator/RE_Contractor.aspx" title ="Contractor" description="" roles="" />
-          <siteMapNode url="Administrator/LeaseType.aspx" title ="Lease Type" description="" roles="" />
-          <siteMapNode url="Administrator/ProjectType.aspx" title ="Project Type" description="" roles="" />
-          <siteMapNode url="Administrator/Work_Scope.aspx" title ="Scope of Work" description="" roles="" />
-          <siteMapNode url="Administrator/SecurityDeposit.aspx" title ="Security Deposit Held At" description="" roles="" />
-          <siteMapNode url="Administrator/Re_Status.aspx" title ="Status" description="" roles="" />
-          <siteMapNode url="Administrator/RepairType.aspx" title ="Type of Repair" description="" roles="" />
+        <siteMapNode title ="Premium Allocation" description="" roles="">
+          <siteMapNode url="Administrator/LU_NPA_Service.aspx" title ="Service Names" description="" roles="" />
         </siteMapNode>
         <siteMapNode title ="Project Management" description="" roles="">
           <siteMapNode url="Administrator/LU_EPM_Attachment_Type.aspx" title ="Attachment Type" description="" roles="" />
@@ -272,6 +266,15 @@
           <siteMapNode url="Administrator/LU_EPM_Required_Activity.aspx" title ="Required Activity" description="" roles="" />
           <siteMapNode url="Administrator/LU_EPM_Requesting_Agency.aspx" title ="Requesting Agency" description="" roles="" />
           <siteMapNode url="Administrator/LU_EPM_Target_Area.aspx" title ="Target Area" description="" roles="" />
+        </siteMapNode>
+        <siteMapNode title ="Real Estate" description="" roles="">
+          <siteMapNode url="Administrator/RE_Contractor.aspx" title ="Contractor" description="" roles="" />
+          <siteMapNode url="Administrator/LeaseType.aspx" title ="Lease Type" description="" roles="" />
+          <siteMapNode url="Administrator/ProjectType.aspx" title ="Project Type" description="" roles="" />
+          <siteMapNode url="Administrator/Work_Scope.aspx" title ="Scope of Work" description="" roles="" />
+          <siteMapNode url="Administrator/SecurityDeposit.aspx" title ="Security Deposit Held At" description="" roles="" />
+          <siteMapNode url="Administrator/Re_Status.aspx" title ="Status" description="" roles="" />
+          <siteMapNode url="Administrator/RepairType.aspx" title ="Type of Repair" description="" roles="" />
         </siteMapNode>
         <siteMapNode title ="Sedgwick Claim File Review" description="" roles="">
           <siteMapNode url="Administrator\LU_Sedgwick_Evaluation.aspx" title ="RLCM Comments Evaluation Criteria" description="" roles="" />

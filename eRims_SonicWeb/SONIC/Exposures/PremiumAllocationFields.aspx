@@ -59,7 +59,7 @@
                             </td>
                             
                             <td>
-                                <asp:TextBox ID="txtYear" runat="server" MaxLength="4" Width="170px" onpaste="return false" AutoPostBack="true" SkinID="txtYearWithRange" OnTextChanged="txtYear_TextChanged">
+                                <asp:TextBox ID="txtYear" runat="server" MaxLength="4" Width="170px" onpaste="return false" SkinID="txtYearWithRange" >
                                 </asp:TextBox>
                                 <asp:RequiredFieldValidator ID="revtxtYear" runat="server" Display="None" ErrorMessage="Please Enter Year."
                                     ControlToValidate="txtYear" SetFocusOnError="true" ValidationGroup="vsError"></asp:RequiredFieldValidator>

@@ -160,17 +160,6 @@ public partial class SONIC_Exposures_PremiumAllocationFields : clsBasePage
         Response.Redirect("PremiumAllocationSearch.aspx");
     }
 
-    protected void txtYear_TextChanged(object sender, EventArgs e)
-    {
-
-        if (clsPA_Screen_Fields.CheckAllocationYearExists(PK_PA_Screen_Fields, Convert.ToInt32(txtYear.Text)))
-        {
-            lblError.Text = "Allocation Fields For this Year is already Exists. Please enter another Year.";
-            lblError.Visible = true;
-            return;
-        }
-
-    }
 
 
     #endregion
@@ -296,7 +285,7 @@ public partial class SONIC_Exposures_PremiumAllocationFields : clsBasePage
         decimal TotalEpInsurableValues = 0;
         clsPA_Screen_Fields objPA_Screen = new clsPA_Screen_Fields(PK_PA_Screen_Fields);
 
-        txtYear.Enabled = false;
+        txtYear.Enabled = true;
         txtYear.Text = Convert.ToString(objPA_Screen.Year);
         if (objPA_Screen.WC_Premium != null)
             txtWC_Premium.Text = string.Format("{0:N2}", objPA_Screen.WC_Premium);
