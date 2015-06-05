@@ -329,7 +329,7 @@
                             <td align="center" width="4%">:
                             </td>
                             <td align="left" width="28%">$&nbsp;
-                                <asp:TextBox ID="txtExcessUmbrellaRate" runat="server" Width="170px" SkinID="txtCurrency15w"
+                                <asp:TextBox ID="txtExcessUmbrellaRate" runat="server" Width="170px" SkinID="txtCurrency12w"
                                     onpaste="return false" Enabled="false" />
                             </td>
                             <td align="left" width="18%" class="InnerContent">Total RS Means
@@ -337,7 +337,7 @@
                             <td align="center" width="4%">:
                             </td>
                             <td align="left" width="28%">$&nbsp;
-                                <asp:TextBox ID="txtEarthquakeTotalRSMeans" runat="server" Width="170px" SkinID="txtCurrency15w"
+                                <asp:TextBox ID="txtEarthquakeTotalRSMeans" runat="server" Width="170px" SkinID="txtCurrency12w"
                                     onpaste="return false" Enabled="false" />
                             </td>
                         </tr>
@@ -355,7 +355,7 @@
                             <td align="center" width="4%">:
                             </td>
                             <td align="left" width="28%">$&nbsp;
-                                <asp:TextBox ID="txtEarthquakeTotalBusinessInterruption" runat="server" Width="170px" SkinID="txtCurrency15w"
+                                <asp:TextBox ID="txtEarthquakeTotalBusinessInterruption" runat="server" Width="170px" SkinID="txtCurrency12w"
                                     onpaste="return false" Enabled="false" />
                             </td>
                         </tr>
@@ -365,7 +365,7 @@
                             <td align="center" width="4%">:
                             </td>
                             <td align="left" width="28%">$&nbsp;
-                                <asp:TextBox ID="txtEPLIRate" runat="server" Width="170px" SkinID="txtCurrency15w"
+                                <asp:TextBox ID="txtEPLIRate" runat="server" Width="170px" SkinID="txtCurrency12w"
                                     onpaste="return false" Enabled="false" />
                             </td>
                             <td align="left" width="18%" class="InnerContent">Total Contents
@@ -373,7 +373,7 @@
                             <td align="center" width="4%">:
                             </td>
                             <td align="left" width="28%">$&nbsp;
-                                <asp:TextBox ID="txtEarthquakeTotalContents" runat="server" Width="170px" SkinID="txtCurrency15w"
+                                <asp:TextBox ID="txtEarthquakeTotalContents" runat="server" Width="170px" SkinID="txtCurrency12w"
                                     onpaste="return false" Enabled="false" />
                             </td>
                         </tr>                      
@@ -391,7 +391,7 @@
                             <td align="center" width="4%">:
                             </td>
                             <td align="left" width="28%">$&nbsp;
-                                <asp:TextBox ID="txtEarthquakeTotalParts" runat="server" Width="170px" SkinID="txtCurrency15w"
+                                <asp:TextBox ID="txtEarthquakeTotalParts" runat="server" Width="170px" SkinID="txtCurrency12w"
                                     onpaste="return false" Enabled="false" />
                             </td>
                         </tr>
@@ -401,7 +401,7 @@
                             <td align="center" width="4%">:
                             </td>
                             <td align="left" width="28%">$&nbsp;
-                                <asp:TextBox ID="txtGarageLiabilityRate" runat="server" Width="170px" SkinID="txtCurrency15w"
+                                <asp:TextBox ID="txtGarageLiabilityRate" runat="server" Width="170px" SkinID="txtCurrency12w"
                                     onpaste="return false" Enabled="false" />
                             </td>
                             <td align="left" width="18%" class="InnerContent">Total Insurable Values
@@ -409,7 +409,7 @@
                             <td align="center" width="4%">:
                             </td>
                             <td align="left" width="28%">$&nbsp;
-                                <asp:TextBox ID="txtEarthquakeTotalInsurableValues" runat="server" Width="170px" SkinID="txtCurrency15w"
+                                <asp:TextBox ID="txtEarthquakeTotalInsurableValues" runat="server" Width="170px" SkinID="txtCurrency12w"
                                     onpaste="return false" Enabled="false" />
                             </td>
                         </tr>
@@ -427,7 +427,7 @@
                             <td align="center" width="4%">:
                             </td>
                             <td align="left" width="28%">$&nbsp;
-                                <asp:TextBox ID="txtEarthquakeRate" runat="server" Width="170px" SkinID="txtCurrency15w"
+                                <asp:TextBox ID="txtEarthquakeRate" runat="server" Width="170px" SkinID="txtCurrency12w"
                                     onpaste="return false" Enabled="false" />
                             </td>
                         </tr>
@@ -437,7 +437,7 @@
                             <td align="center" width="4%">:
                             </td>
                             <td align="left" width="28%">
-                                <asp:TextBox ID="txtCrimeRate" runat="server" Width="170px" SkinID="txtCurrency15w"
+                                <asp:TextBox ID="txtCrimeRate" runat="server" Width="170px" SkinID="txtCurrency12w"
                                     onpaste="return false" Enabled="false" />
                             </td>
                             <td align="left" width="18%">Pollution Premium
@@ -463,7 +463,7 @@
                             <td align="center" width="4%">:
                             </td>
                             <td align="left" width="28%">$&nbsp;
-                                <asp:TextBox ID="txtPollutionRate" runat="server" Width="170px" SkinID="txtCurrency15w"
+                                <asp:TextBox ID="txtPollutionRate" runat="server" Width="170px" SkinID="txtCurrency12w"
                                     onpaste="return false" Enabled="false" />
                             </td>
                         </tr>
@@ -473,7 +473,7 @@
                             <td align="center" width="4%">:
                             </td>
                             <td align="left" width="28%">$&nbsp;
-                                <asp:TextBox ID="txtCyberRate" runat="server" Width="170px" SkinID="txtCurrency15w"
+                                <asp:TextBox ID="txtCyberRate" runat="server" Width="170px" SkinID="txtCurrency12w"
                                     onpaste="return false" Enabled="false" />
                             </td>
                             <td align="left" width="18%">&nbsp;
@@ -587,7 +587,7 @@
                                         <td align="center" width="4%">:
                                         </td>
                                         <td align="left" width="28%">$&nbsp;
-                                <asp:TextBox ID="txtTotalRiskManagementFee" runat="server" Width="170px" SkinID="txtCurrency15w"
+                                <asp:TextBox ID="txtTotalRiskManagementFee" runat="server" Width="170px" SkinID="txtCurrency12w"
                                     onpaste="return false" Enabled="false" />
                                         </td>
                                         <td align="left" width="18%"></td>
@@ -600,7 +600,7 @@
                                         <td align="center" width="4%">:
                                         </td>
                                         <td align="left" width="28%">$&nbsp;
-                                <asp:TextBox ID="txtTotalRiskManagementRate" runat="server" Width="170px" SkinID="txtCurrency15w"
+                                <asp:TextBox ID="txtTotalRiskManagementRate" runat="server" Width="170px" SkinID="txtCurrency12w"
                                     onpaste="return false" Enabled="false" />
                                         </td>
                                         <td align="left" width="18%"></td>
