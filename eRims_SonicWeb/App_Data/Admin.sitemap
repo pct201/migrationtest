@@ -202,6 +202,7 @@
         </siteMapNode>
         <siteMapNode url="" title="Exposures" description="">
           <siteMapNode url="Administrator/LU_Market.aspx" title="Market" description=""></siteMapNode>
+          <siteMapNode url="Administrator/LU_Meeting_Type.aspx" title="Meeting Type" description=""></siteMapNode>
         </siteMapNode>
         <siteMapNode title ="Facility Construction" description="" roles="">
           <siteMapNode url="Administrator/LU_Document_Folders_FacilityConstruction.aspx" title ="Document Folders" description="" roles="" />
