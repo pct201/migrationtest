@@ -752,7 +752,7 @@ namespace ERIMS.DAL
             DateTime UpdatedDate, string UpdatedBy, decimal PK_PA_National_Allocation)
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("PA_NationalLocationByYear");
+            DbCommand dbCommand = db.GetStoredProcCommand("PA_NationalAllocationByAllCriteria");
             db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);
             db.AddInParameter(dbCommand, "PropertyDate", DbType.DateTime, PropertyDate);
             db.AddInParameter(dbCommand, "WorkerCompensationPremium", DbType.Decimal, WCPremium);

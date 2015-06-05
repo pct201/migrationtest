@@ -69,6 +69,8 @@
         <siteMapNode url="SONIC/RealEstate/rptDefault.aspx" title="Lease Reports" description="Lease Reports" />
         <siteMapNode url="Policy/rptDefault.aspx" title="Policy Reports" description="Policy Reports"/>
         <siteMapNode url="" title="Premium Allocation Report" description="">
+          <siteMapNode url="SONIC/Exposures/NationalPremiumAllocationSearch.aspx" title="National Premium Allocation Search" description="Serach" />
+          <siteMapNode url="SONIC/Exposures/PremiumAllocationBaseDataSearchFilter.aspx" title="Premium Allocation Base Data Search" description="Serach" />          
           <siteMapNode url="SONIC/Exposures/PremiumAllocationSearch.aspx" title="Search" description="Serach" />
           <siteMapNode url="SONIC/Exposures/Worksheet_Template_Export.aspx" title="Worksheet Template Export" description="Worksheet Template Export" />
           <siteMapNode url="SONIC/Exposures/rptPARImport.aspx" title="Import" description="Import" />

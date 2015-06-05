@@ -250,7 +250,7 @@
             BorderColor="DimGray" BorderWidth="1" HeaderText="Verify the following fields:"
             ShowMessageBox="true" ShowSummary="false"></asp:ValidationSummary>
     </div>
-        <div>
+    <div>
         <asp:ValidationSummary ID="vsErrorGroup" runat="server" CssClass="errormessage" ValidationGroup="vsErrorGroup"
             BorderColor="DimGray" BorderWidth="1" HeaderText="Verify the following fields:"
             ShowMessageBox="true" ShowSummary="false"></asp:ValidationSummary>
@@ -283,7 +283,7 @@
                             <td align="center">:
                             </td>
                             <td>
-                                <asp:TextBox ID="txtYear" runat="server" MaxLength="4" Width="170px" onpaste="return false" SkinID="txtYearWithRange" >
+                                <asp:TextBox ID="txtYear" runat="server" MaxLength="4" Width="170px" onpaste="return false" SkinID="txtYearWithRange">
                                 </asp:TextBox>
                                 <asp:RequiredFieldValidator ID="revtxtYear" runat="server" Display="None" ErrorMessage="Please Enter Year."
                                     ControlToValidate="txtYear" SetFocusOnError="true" ValidationGroup="vsError"></asp:RequiredFieldValidator>
@@ -297,7 +297,7 @@
                             <td align="center">:
                             </td>
                             <td>
-                                <asp:TextBox ID="txtProperty_Valuation_Date" runat="server" Width="170px" onpaste="return false" SkinID="txtDate" >
+                                <asp:TextBox ID="txtProperty_Valuation_Date" runat="server" Width="170px" onpaste="return false" SkinID="txtDate">
                                 </asp:TextBox>
                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" Display="None" ErrorMessage="Please Enter Property Valuation Date."
                                     ControlToValidate="txtProperty_Valuation_Date" SetFocusOnError="true" ValidationGroup="vsError"></asp:RequiredFieldValidator>
@@ -662,157 +662,171 @@
                                 <b>:</b>
                             </td>
                             <td align="left" valign="top" colspan="4">
-                                <table width="100%">
-                                    <tr id="trStatusGrid" runat="server">
-                                        <td align="left">
-                                            <asp:GridView ID="gvRiskManagementServiceGrid" runat="server" Width="90%" AutoGenerateColumns="false" OnRowDataBound="gvRiskManagementServiceGrid_RowDataBound"
-                                                EmptyDataText="No Record Exists" OnRowCommand="gvRiskManagementServiceGrid_RowCommand">
-                                                <Columns>
-                                                    <asp:TemplateField HeaderText="Service" HeaderStyle-HorizontalAlign="Center">
-                                                        <ItemStyle Width="35%" HorizontalAlign="center" />
-                                                        <ItemTemplate>
-                                                            <asp:LinkButton ID="lnkService" runat="server" Text='<%# Eval("Field_Description") %>'
-                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PA_National_Allocation_Service_Grid") %>' />
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Service Amount ($)" HeaderStyle-HorizontalAlign="Center">
-                                                        <ItemStyle Width="45%" HorizontalAlign="center" />
-                                                        <ItemTemplate>
-                                                            <asp:LinkButton ID="lnkServiceAmount" runat="server" Text='<%# clsGeneral.FormatCommaSeperatorCurrency(Eval("Service_Amount")) %>'
-                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PA_National_Allocation_Service_Grid") %>' />
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center">
-                                                        <ItemStyle Width="10%" HorizontalAlign="center" />
-                                                        <ItemTemplate>
-                                                            <asp:LinkButton ID="lnkRemove" runat="server" Text="Remove" CommandName="RemoveDetails"
-                                                                CommandArgument='<%# Eval("PK_PA_National_Allocation_Service_Grid") %>' OnClientClick="return confirm('Are you sure to remove the record?');" />
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                </Columns>
-                                            </asp:GridView>
+                                <asp:UpdatePanel ID="upd" runat="server">
+                                    <ContentTemplate>
+                                        <table width="100%">
+                                            <tr id="trStatusGrid" runat="server">
+                                                <td align="left">
+                                                    <asp:GridView ID="gvRiskManagementServiceGrid" runat="server" Width="90%" AutoGenerateColumns="false" OnRowDataBound="gvRiskManagementServiceGrid_RowDataBound"
+                                                        EmptyDataText="No Record Exists" OnRowCommand="gvRiskManagementServiceGrid_RowCommand">
+                                                        <Columns>
+                                                            <asp:TemplateField HeaderText="Service" HeaderStyle-HorizontalAlign="Center">
+                                                                <ItemStyle Width="35%" HorizontalAlign="center" />
+                                                                <ItemTemplate>
+                                                                    <asp:LinkButton ID="lnkService" runat="server" Text='<%# Eval("Field_Description") %>'
+                                                                        CommandName="EditDetails" CommandArgument='<%# Eval("PK_PA_National_Allocation_Service_Grid") %>' />
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Service Amount ($)" HeaderStyle-HorizontalAlign="Center">
+                                                                <ItemStyle Width="45%" HorizontalAlign="center" />
+                                                                <ItemTemplate>
+                                                                    <asp:LinkButton ID="lnkServiceAmount" runat="server" Text='<%# clsGeneral.FormatCommaSeperatorCurrency(Eval("Service_Amount")) %>'
+                                                                        CommandName="EditDetails" CommandArgument='<%# Eval("PK_PA_National_Allocation_Service_Grid") %>' />
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center">
+                                                                <ItemStyle Width="10%" HorizontalAlign="center" />
+                                                                <ItemTemplate>
+                                                                    <asp:LinkButton ID="lnkRemove" runat="server" Text="Remove" CommandName="RemoveDetails"
+                                                                        CommandArgument='<%# Eval("PK_PA_National_Allocation_Service_Grid") %>' OnClientClick="return confirm('Are you sure to remove the record?');" />
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                        </Columns>
+                                                    </asp:GridView>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-bottom: 5px;">
+                                                    <asp:LinkButton ID="lnkAddRiskServiceNew" OnClick="lnkAddRiskServiceNew_Click"
+                                                        runat="server" Text="Add New"></asp:LinkButton>&nbsp;                                                                           
+                                                </td>
+                                            </tr>
+                                            <tr id="trStatusAdd" runat="server" display="none">
+                                                <td>
+                                                    <table>
+                                                        <tr>
+                                                            <td width="70%">
+                                                                <table width="100%" style="text-align: left" cellpadding="2" cellspacing="3">
+                                                                    <tr>
+                                                                        <td align="left" valign="top">Service<span style="color: red">*</span></td>
+                                                                        <td align="center" valign="top">:</td>
+                                                                        <td align="left" valign="top">
+                                                                            <asp:DropDownList ID="ddlService" runat="server" Width="170px" />
+                                                                            <asp:RequiredFieldValidator ID="rfvService" runat="server" Display="None" ErrorMessage="Please Enter Service."
+                                                                                ControlToValidate="ddlService" SetFocusOnError="true" ValidationGroup="vsErrorGroup" InitialValue="0"></asp:RequiredFieldValidator>
+                                                                        </td>
+
+                                                                        <td>&nbsp;</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left" valign="top">Service Amount $</td>
+                                                                        <td align="center" valign="top">:</td>
+                                                                        <td align="left" valign="top">
+                                                                            <asp:TextBox ID="txtServiceAmount" runat="server"
+                                                                                SkinID="txtCurrency15w" onpaste="return false" /></td>
+                                                                        <td>&nbsp;</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="4">&nbsp;</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td width="40%"></td>
+                                                                        <td colspan="2">
+                                                                            <asp:Button ID="btnSaveGrid" Text="Add" runat="server" OnClick="btnSaveGrid_Click" CausesValidation="true" ValidationGroup="vsErrorGroup" />&nbsp;
+                                            <asp:Button ID="btnCancel" Text="Cancel" runat="server" OnClick="btnCancel_Click" />
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="100%" colspan="6">
+                                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                                    <ContentTemplate>
+                                <table>
+                                    <tr>
+                                        <td align="left" width="26%">Total Risk Management Fee
                                         </td>
+                                        <td align="center" width="4%">:
+                                        </td>
+                                        <td align="left" width="28%">$&nbsp;
+                                <asp:TextBox ID="txtTotalRiskManagementFee" runat="server" Width="170px" SkinID="txtCurrency15w"
+                                    onpaste="return false" Enabled="false" />
+                                        </td>
+                                        <td align="left" width="18%"></td>
+                                        <td align="center" width="4%"></td>
+                                        <td align="left" width="28%"></td>
                                     </tr>
                                     <tr>
-                                        <td style="padding-bottom: 5px;">
-                                            <asp:LinkButton ID="lnkAddRiskServiceNew" OnClick="lnkAddRiskServiceNew_Click"
-                                                runat="server" Text="Add New"></asp:LinkButton>&nbsp;                                                                           
+                                        <td align="left" width="18%">Total Risk Management Rate
                                         </td>
+                                        <td align="center" width="4%">:
+                                        </td>
+                                        <td align="left" width="28%">$&nbsp;
+                                <asp:TextBox ID="txtTotalRiskManagementRate" runat="server" Width="170px" SkinID="txtCurrency15w"
+                                    onpaste="return false" Enabled="false" />
+                                        </td>
+                                        <td align="left" width="18%"></td>
+                                        <td align="center" width="4%"></td>
+                                        <td align="left" width="28%"></td>
                                     </tr>
-                                    <tr id="trStatusAdd" runat="server" display="none">
-                                        <td>
-                                            <table>
-                                                <tr>
-                                                    <td width="70%">
-                                                        <table width="100%" style="text-align: left" cellpadding="2" cellspacing="3">
-                                                            <tr>
-                                                                <td align="left" valign="top">Service<span style="color:red">*</span></td>
-                                                                <td align="center" valign="top">:</td>
-                                                                <td align="left" valign="top">
-                                                                    <asp:DropDownList ID="ddlService" runat="server" Width="170px" />
-                                                                    <asp:RequiredFieldValidator ID="rfvService" runat="server" Display="None" ErrorMessage="Please Enter Service."
-                                                                    ControlToValidate="ddlService" SetFocusOnError="true" ValidationGroup="vsErrorGroup" InitialValue="0"></asp:RequiredFieldValidator>
-                                                                </td>
-
-                                                                <td>&nbsp;</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" valign="top">Service Amount $</td>
-                                                                <td align="center" valign="top">:</td>
-                                                                <td align="left" valign="top">
-                                                                    <asp:TextBox ID="txtServiceAmount" runat="server"
-                                                                        SkinID="txtCurrency15w" onpaste="return false" /></td>
-                                                                <td>&nbsp;</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td colspan="4">&nbsp;</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td width="40%"></td>
-                                                                <td colspan="2">
-                                                                    <asp:Button ID="btnSaveGrid" Text="Add" runat="server" OnClick="btnSaveGrid_Click" CausesValidation="true" ValidationGroup="vsErrorGroup"/>&nbsp;
-                                            <asp:Button ID="btnCancel" Text="Cancel" runat="server" OnClick="btnCancel_Click" />
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    </td>
-                                                </tr>
-                                            </table>
+                                    <tr>
+                                        <td colspan="6">&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" width="18%">Total Actual Cost
+                                        </td>
+                                        <td align="center" width="4%">:
+                                        </td>
+                                        <td align="left" width="28%">$&nbsp;
+                                <asp:TextBox ID="txtTotal_Actual_Cost" runat="server" Width="170px" SkinID="txtCurrency15w"
+                                    onpaste="return false" Enabled="false" />
+                                        </td>
+                                        <td align="left" width="18%"></td>
+                                        <td align="center" width="4%"></td>
+                                        <td align="left" width="28%"></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" width="18%">Total Store Cost
+                                        </td>
+                                        <td align="center" width="4%">:
+                                        </td>
+                                        <td align="left" width="28%">$&nbsp;
+                                <asp:TextBox ID="txtTotal_Store_Cost" runat="server" Width="170px" SkinID="txtCurrency15w"
+                                    onpaste="return false" Enabled="false" />
+                                        </td>
+                                        <td align="left" width="18%"></td>
+                                        <td align="center" width="4%"></td>
+                                        <td align="left" width="28%"></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" width="18%">Total Surcharge Amount
+                                        </td>
+                                        <td align="center" width="4%">:
+                                        </td>
+                                        <td align="left" width="28%">$&nbsp;
+                                <asp:TextBox ID="txtTotal_Surcharge_Amount" runat="server" Width="170px" SkinID="txtCurrency15w"
+                                    onpaste="return false" Enabled="false" />
+                                        </td>
+                                        <td align="left" width="18%"></td>
+                                        <td align="center" width="4%"></td>
+                                        <td align="left" width="28%"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;
                                         </td>
                                     </tr>
                                 </table>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="left" width="18%">Total Risk Management Fee
-                            </td>
-                            <td align="center" width="4%">:
-                            </td>
-                            <td align="left" width="28%">$&nbsp;
-                                <asp:TextBox ID="txtTotalRiskManagementFee" runat="server" Width="170px" SkinID="txtCurrency15w"
-                                    onpaste="return false" Enabled="false" />
-                            </td>
-                            <td align="left" width="18%"></td>
-                            <td align="center" width="4%"></td>
-                            <td align="left" width="28%"></td>
-                        </tr>
-                        <tr>
-                            <td align="left" width="18%">Total Risk Management Rate
-                            </td>
-                            <td align="center" width="4%">:
-                            </td>
-                            <td align="left" width="28%">$&nbsp;
-                                <asp:TextBox ID="txtTotalRiskManagementRate" runat="server" Width="170px" SkinID="txtCurrency15w"
-                                    onpaste="return false" Enabled="false" />
-                            </td>
-                            <td align="left" width="18%"></td>
-                            <td align="center" width="4%"></td>
-                            <td align="left" width="28%"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="6">&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td align="left" width="18%">Total Actual Cost
-                            </td>
-                            <td align="center" width="4%">:
-                            </td>
-                            <td align="left" width="28%">$&nbsp;
-                                <asp:TextBox ID="txtTotal_Actual_Cost" runat="server" Width="170px" SkinID="txtCurrency15w"
-                                    onpaste="return false" Enabled="false" />
-                            </td>
-                            <td align="left" width="18%"></td>
-                            <td align="center" width="4%"></td>
-                            <td align="left" width="28%"></td>
-                        </tr>
-                        <tr>
-                            <td align="left" width="18%">Total Store Cost
-                            </td>
-                            <td align="center" width="4%">:
-                            </td>
-                            <td align="left" width="28%">$&nbsp;
-                                <asp:TextBox ID="txtTotal_Store_Cost" runat="server" Width="170px" SkinID="txtCurrency15w"
-                                    onpaste="return false" Enabled="false" />
-                            </td>
-                            <td align="left" width="18%"></td>
-                            <td align="center" width="4%"></td>
-                            <td align="left" width="28%"></td>
-                        </tr>
-                        <tr>
-                            <td align="left" width="18%">Total Surcharge Amount
-                            </td>
-                            <td align="center" width="4%">:
-                            </td>
-                            <td align="left" width="28%">$&nbsp;
-                                <asp:TextBox ID="txtTotal_Surcharge_Amount" runat="server" Width="170px" SkinID="txtCurrency15w"
-                                    onpaste="return false" Enabled="false" />
-                            </td>
-                            <td align="left" width="18%"></td>
-                            <td align="center" width="4%"></td>
-                            <td align="left" width="28%"></td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
                             </td>
                         </tr>
                         <tr>
@@ -1198,12 +1212,12 @@
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                 </Columns>
-                                            </asp:GridView>                                            
+                                            </asp:GridView>
                                         </td>
                                     </tr>
                                 </table>
                             </td>
-                        </tr>                        
+                        </tr>
                         <%-- <tr>
                             <td align="left" width="18%" class="InnerContent">Cyber Rate
                             </td>

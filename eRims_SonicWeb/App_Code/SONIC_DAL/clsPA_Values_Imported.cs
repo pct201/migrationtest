@@ -22,6 +22,7 @@ namespace ERIMS_DAL
         private int? _Number_Of_Employees;
         private DateTime? _Update_Date;
         private string _Updated_By;
+        private string _SonicLocationdba;
 
         #endregion
 
@@ -99,6 +100,12 @@ namespace ERIMS_DAL
             set { _Updated_By = value; }
         }
 
+        public string SonicLocationdba
+        {
+            get { return _SonicLocationdba; }
+            set { _SonicLocationdba = value; }
+        }
+
 
         #endregion
 
@@ -107,7 +114,7 @@ namespace ERIMS_DAL
         /// <summary>
         /// Initializes a new instance of the clsPA_Values_Imported class with default value.
         /// </summary>
-        public clsPA_Values_Imported() 
+        public clsPA_Values_Imported()
         {
 
 
@@ -120,13 +127,13 @@ namespace ERIMS_DAL
         /// <summary>
         /// Initializes a new instance of the clsPA_Values_Imported class based on Primary Key.
         /// </summary>
-        public clsPA_Values_Imported(decimal pK_PA_Values_Imported) 
+        public clsPA_Values_Imported(decimal pK_PA_Values_Imported)
         {
             DataTable dtPA_Values_Imported = SelectByPK(pK_PA_Values_Imported).Tables[0];
 
             if (dtPA_Values_Imported.Rows.Count == 1)
             {
-                 SetValue(dtPA_Values_Imported.Rows[0]);
+                SetValue(dtPA_Values_Imported.Rows[0]);
 
             }
 
@@ -136,85 +143,58 @@ namespace ERIMS_DAL
         /// <summary>
         /// Initializes a new instance of the clsPA_Values_Imported class based on Datarow passed.
         /// </summary>
-        private void SetValue (DataRow drPA_Values_Imported) 
+        private void SetValue(DataRow drPA_Values_Imported)
         {
-                if (drPA_Values_Imported["PK_PA_Values_Imported"] == DBNull.Value)
-                    this._PK_PA_Values_Imported = null;
-                else
-                    this._PK_PA_Values_Imported = (decimal?)drPA_Values_Imported["PK_PA_Values_Imported"];
+            if (drPA_Values_Imported["PK_PA_Values_Imported"] == DBNull.Value)
+                this._PK_PA_Values_Imported = null;
+            else
+                this._PK_PA_Values_Imported = (decimal?)drPA_Values_Imported["PK_PA_Values_Imported"];
 
-                if (drPA_Values_Imported["Sonic_Location_Code"] == DBNull.Value)
-                    this._Sonic_Location_Code = null;
-                else
-                    this._Sonic_Location_Code = (int?)drPA_Values_Imported["Sonic_Location_Code"];
+            if (drPA_Values_Imported["Sonic_Location_Code"] == DBNull.Value)
+                this._Sonic_Location_Code = null;
+            else
+                this._Sonic_Location_Code = (int?)drPA_Values_Imported["Sonic_Location_Code"];
 
-                if (drPA_Values_Imported["Year"] == DBNull.Value)
-                    this._Year = null;
-                else
-                    this._Year = (int?)drPA_Values_Imported["Year"];
+            if (drPA_Values_Imported["dba"] == DBNull.Value)
+                this._SonicLocationdba = null;
+            else
+                this._SonicLocationdba = (string)drPA_Values_Imported["dba"];
 
-                if (drPA_Values_Imported["Non_Texas_Payroll"] == DBNull.Value)
-                    this._Non_Texas_Payroll = null;
-                else
-                    this._Non_Texas_Payroll = (decimal?)drPA_Values_Imported["Non_Texas_Payroll"];
 
-                if (drPA_Values_Imported["Texas_Payroll"] == DBNull.Value)
-                    this._Texas_Payroll = null;
-                else
-                    this._Texas_Payroll = (decimal?)drPA_Values_Imported["Texas_Payroll"];
+            if (drPA_Values_Imported["Year"] == DBNull.Value)
+                this._Year = null;
+            else
+                this._Year = (int?)drPA_Values_Imported["Year"];
 
-                if (drPA_Values_Imported["Number_Of_Employees"] == DBNull.Value)
-                    this._Number_Of_Employees = null;
-                else
-                    this._Number_Of_Employees = (int?)drPA_Values_Imported["Number_Of_Employees"];
+            if (drPA_Values_Imported["Non_Texas_Payroll"] == DBNull.Value)
+                this._Non_Texas_Payroll = null;
+            else
+                this._Non_Texas_Payroll = (decimal?)drPA_Values_Imported["Non_Texas_Payroll"];
 
-                if (drPA_Values_Imported["Update_Date"] == DBNull.Value)
-                    this._Update_Date = null;
-                else
-                    this._Update_Date = (DateTime?)drPA_Values_Imported["Update_Date"];
+            if (drPA_Values_Imported["Texas_Payroll"] == DBNull.Value)
+                this._Texas_Payroll = null;
+            else
+                this._Texas_Payroll = (decimal?)drPA_Values_Imported["Texas_Payroll"];
 
-                if (drPA_Values_Imported["Updated_By"] == DBNull.Value)
-                    this._Updated_By = null;
-                else
-                    this._Updated_By = (string)drPA_Values_Imported["Updated_By"];
+            if (drPA_Values_Imported["Number_Of_Employees"] == DBNull.Value)
+                this._Number_Of_Employees = null;
+            else
+                this._Number_Of_Employees = (int?)drPA_Values_Imported["Number_Of_Employees"];
+
+            if (drPA_Values_Imported["Update_Date"] == DBNull.Value)
+                this._Update_Date = null;
+            else
+                this._Update_Date = (DateTime?)drPA_Values_Imported["Update_Date"];
+
+            if (drPA_Values_Imported["Updated_By"] == DBNull.Value)
+                this._Updated_By = null;
+            else
+                this._Updated_By = (string)drPA_Values_Imported["Updated_By"];
 
 
         }
 
         #endregion
-
-        /// <summary>
-        /// Inserts a record into the PA_Values_Imported table.
-        /// </summary>
-        /// <returns></returns>
-        public int Insert()
-        {
-            Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("PA_Values_ImportedInsert");
-
-            
-            db.AddInParameter(dbCommand, "Sonic_Location_Code", DbType.Int32, this._Sonic_Location_Code);
-            
-            db.AddInParameter(dbCommand, "Year", DbType.Int32, this._Year);
-            
-            db.AddInParameter(dbCommand, "Non_Texas_Payroll", DbType.Decimal, this._Non_Texas_Payroll);
-            
-            db.AddInParameter(dbCommand, "Texas_Payroll", DbType.Decimal, this._Texas_Payroll);
-            
-            db.AddInParameter(dbCommand, "Number_Of_Employees", DbType.Int32, this._Number_Of_Employees);
-            
-            db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
-            
-            if (string.IsNullOrEmpty(this._Updated_By))
-                db.AddInParameter(dbCommand, "Updated_By", DbType.String, DBNull.Value);
-            else
-                db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
-
-            // Execute the query and return the new identity value
-            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
-
-            return returnValue;
-        }
 
         /// <summary>
         /// Selects a single record from the PA_Values_Imported table by a primary key.
@@ -242,48 +222,51 @@ namespace ERIMS_DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+
+        /// <summary>
+        /// Selects all records from the PA_Values_Imported table.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectBySearchCriteria(int SonicLocationCode, int Year, int intPageNo, int intPageSize)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("PA_Values_ImportedSearchNew");
+
+            db.AddInParameter(dbCommand, "@SonicLocationCode", DbType.Int32, SonicLocationCode);
+            db.AddInParameter(dbCommand, "@Year", DbType.Int32, Year);
+            db.AddInParameter(dbCommand, "@intPageNo", DbType.Int32, intPageNo);
+            db.AddInParameter(dbCommand, "@intPageSize", DbType.Int32, intPageSize);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
         /// <summary>
         /// Updates a record in the PA_Values_Imported table.
         /// </summary>
-        public void Update()
+        public int Update()
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("PA_Values_ImportedUpdate");
 
-            
+
             db.AddInParameter(dbCommand, "PK_PA_Values_Imported", DbType.Decimal, this._PK_PA_Values_Imported);
-            
-            db.AddInParameter(dbCommand, "Sonic_Location_Code", DbType.Int32, this._Sonic_Location_Code);
-            
-            db.AddInParameter(dbCommand, "Year", DbType.Int32, this._Year);
-            
+
             db.AddInParameter(dbCommand, "Non_Texas_Payroll", DbType.Decimal, this._Non_Texas_Payroll);
-            
+
             db.AddInParameter(dbCommand, "Texas_Payroll", DbType.Decimal, this._Texas_Payroll);
-            
+
+            db.AddInParameter(dbCommand, "Year", DbType.Int32, this._Year);
+
             db.AddInParameter(dbCommand, "Number_Of_Employees", DbType.Int32, this._Number_Of_Employees);
-            
-            db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
-            
+
             if (string.IsNullOrEmpty(this._Updated_By))
                 db.AddInParameter(dbCommand, "Updated_By", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
 
-            db.ExecuteNonQuery(dbCommand);
-        }
+            db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
 
-        /// <summary>
-        /// Deletes a record from the PA_Values_Imported table by a composite primary key.
-        /// </summary>
-        public static void DeleteByPK(decimal pK_PA_Values_Imported)
-        {
-            Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("PA_Values_ImportedDeleteByPK");
-
-            db.AddInParameter(dbCommand, "PK_PA_Values_Imported", DbType.Decimal, pK_PA_Values_Imported);
-
-            db.ExecuteNonQuery(dbCommand);
+            return db.ExecuteNonQuery(dbCommand);
         }
 
         public static DataTable GetDataToImport(string strFileName)
@@ -321,6 +304,39 @@ namespace ERIMS_DAL
                 objConn.Dispose();
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Inserts a record into the PA_Values_Imported table.
+        /// </summary>
+        /// <returns></returns>
+        public int Insert()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("PA_Values_ImportedInsert");
+
+
+            db.AddInParameter(dbCommand, "Sonic_Location_Code", DbType.Int32, this._Sonic_Location_Code);
+
+            db.AddInParameter(dbCommand, "Year", DbType.Int32, this._Year);
+
+            db.AddInParameter(dbCommand, "Non_Texas_Payroll", DbType.Decimal, this._Non_Texas_Payroll);
+
+            db.AddInParameter(dbCommand, "Texas_Payroll", DbType.Decimal, this._Texas_Payroll);
+
+            db.AddInParameter(dbCommand, "Number_Of_Employees", DbType.Int32, this._Number_Of_Employees);
+
+            db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
+
+            if (string.IsNullOrEmpty(this._Updated_By))
+                db.AddInParameter(dbCommand, "Updated_By", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
+
+            // Execute the query and return the new identity value
+            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
+
+            return returnValue;
         }
     }
 }
