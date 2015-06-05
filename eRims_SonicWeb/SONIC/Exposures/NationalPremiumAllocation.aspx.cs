@@ -433,7 +433,7 @@ public partial class SONIC_Exposures_NationalPremiumAllocation : clsBasePage
             TotalRiskManagementFee = Convert.ToDecimal(ViewState["TotalRiskManagementFee"]);
 
             if (clsGeneral.GetDecimalValue(txtTotal_Locations) != 0)
-                TotalRiskManagementRate = Convert.ToDecimal(ViewState["TotalRiskManagementFee"]) / clsGeneral.GetDecimalValue(txtTotal_Locations);
+                TotalRiskManagementRate = decimal.Round((Convert.ToDecimal(ViewState["TotalRiskManagementFee"]) / clsGeneral.GetDecimalValue(txtTotal_Locations)), 2, MidpointRounding.AwayFromZero);                    
             else
                 TotalRiskManagementRate = 0;
 
@@ -442,11 +442,11 @@ public partial class SONIC_Exposures_NationalPremiumAllocation : clsBasePage
         TotalActualCost = (clsGeneral.GetDecimalValue(txtTotal_Actual_Cost));
 
 
-        TotalStoreCost = (Convert.ToDecimal(ViewState["TotalRiskManagementFee"]) + clsGeneral.GetDecimalValue(txtWC_Premium) + clsGeneral.GetDecimalValue(txtTexasNonSubscriptionPremium) +
+        TotalStoreCost = decimal.Round(Convert.ToDecimal(ViewState["TotalRiskManagementFee"]), 2, MidpointRounding.AwayFromZero) + clsGeneral.GetDecimalValue(txtWC_Premium) + clsGeneral.GetDecimalValue(txtTexasNonSubscriptionPremium) +
         clsGeneral.GetDecimalValue(txtExcessUmbrellaPremium) + clsGeneral.GetDecimalValue(txtEPLIPremium) +
         clsGeneral.GetDecimalValue(txtGarageLiabilityPremium) + clsGeneral.GetDecimalValue(txtCrimePremium) +
         clsGeneral.GetDecimalValue(txtCyberPremium) + clsGeneral.GetDecimalValue(txtProperty_Premium) +
-        clsGeneral.GetDecimalValue(txtEarthquakePremium) + clsGeneral.GetDecimalValue(txtPollutionPremium));
+        clsGeneral.GetDecimalValue(txtEarthquakePremium) + clsGeneral.GetDecimalValue(txtPollutionPremium);
 
         TotalSurcharge = TotalActualCost - TotalStoreCost;
     }

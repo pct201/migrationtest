@@ -106,7 +106,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtProperty_Premium" runat="server"   skinid="txtCurrency15w" Width="170px"
+                                <asp:TextBox ID="txtProperty_Premium" runat="server"   skinid="txtCurrency12w" Width="170px"
                                 onpaste="return false" />
                             </td>
                             
@@ -121,7 +121,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtWC_Premium" runat="server" Width="170px" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtWC_Premium" runat="server" Width="170px" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                               <td align="left" width="18%" style="padding-left:20px;">
@@ -133,7 +133,7 @@
                             
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtPP_Total_RS_Means" runat="server" Width="170px" Enabled="false" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtPP_Total_RS_Means" runat="server" Width="170px" Enabled="false" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                             
@@ -148,7 +148,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtWC_Total_Payroll" runat="server" Width="170px" Enabled ="false" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtWC_Total_Payroll" runat="server" Width="170px" Enabled ="false" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                             <td align="left" width="18%" style="padding-left:20px;">
@@ -159,7 +159,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtPP_Total_Business_Interruption" runat="server" Enabled ="false" Width="170px" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtPP_Total_Business_Interruption" runat="server" Enabled ="false" Width="170px" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                            
@@ -185,7 +185,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtPP_Total_Contents" runat="server" Width="170px" Enabled ="false" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtPP_Total_Contents" runat="server" Width="170px" Enabled ="false" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                            
@@ -199,7 +199,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtTexas_WC_Premium" runat="server" Width="170px" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtTexas_WC_Premium" runat="server" Width="170px" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                              <td align="left" width="18%" style="padding-left:20px;">
@@ -210,7 +210,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtPP_Total_Parts" runat="server" Width="170px" Enabled ="false" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtPP_Total_Parts" runat="server" Width="170px" Enabled ="false" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                             
@@ -224,7 +224,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtTexas_WC_Payroll" runat="server" Width="170px" Enabled ="false" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtTexas_WC_Payroll" runat="server" Width="170px" Enabled ="false" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                              <td align="left" width="18%" style="padding-left:20px;">
@@ -235,7 +235,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtPPTotalInsurableValues" runat="server" Width="170px" Enabled ="false" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtPPTotalInsurableValues" runat="server" Width="170px" Enabled ="false" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                             
@@ -248,7 +248,7 @@
                                 :
                             </td>
                             <td align="left" width="28%">
-                                <asp:TextBox ID="txtTexas_NSP_Total_Headcount" runat="server" Width="170px" Enabled ="false" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtTexas_NSP_Total_Headcount" runat="server" Width="170px" Enabled ="false" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                               <td align="left" width="18%">
@@ -259,7 +259,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtEarthquake_Premium" runat="server" Width="170px"  skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtEarthquake_Premium" runat="server" Width="170px"  skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                         </tr>
@@ -272,7 +272,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtExcess_Umbrella_Premium" runat="server" Width="170px" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtExcess_Umbrella_Premium" runat="server" Width="170px" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                              <td align="left" width="18%" style="padding-left:20px;">
@@ -283,7 +283,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtEP_Total_RS_Means" runat="server" Width="170px" Enabled ="false" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtEP_Total_RS_Means" runat="server" Width="170px" Enabled ="false" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                            
@@ -298,7 +298,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtEPL_Premium" runat="server" Width="170px"  skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtEPL_Premium" runat="server" Width="170px"  skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                             <td align="left" width="18%" style="padding-left:20px;">
@@ -309,7 +309,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtEP_Total_Business_Interruption" runat="server" Width="170px" Enabled ="false" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtEP_Total_Business_Interruption" runat="server" Width="170px" Enabled ="false" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                            
@@ -324,7 +324,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtGarage_Liability_Premium" runat="server" Width="170px" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtGarage_Liability_Premium" runat="server" Width="170px" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                              
@@ -336,7 +336,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtEP_Total_Contents" runat="server" Width="170px" Enabled ="false" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtEP_Total_Contents" runat="server" Width="170px" Enabled ="false" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                         </tr>
@@ -349,7 +349,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtCrime_Premium" runat="server" Width="170px" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtCrime_Premium" runat="server" Width="170px" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                            <td align="left" width="18%" style="padding-left:20px;">
@@ -360,7 +360,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtEP_Total_Parts" runat="server" Width="170px" Enabled ="false" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtEP_Total_Parts" runat="server" Width="170px" Enabled ="false" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                         </tr>
@@ -373,7 +373,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtCyber_Premium" runat="server" Width="170px" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtCyber_Premium" runat="server" Width="170px" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                             <td align="left" width="18%" style="padding-left:20px;">
@@ -384,7 +384,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtEPTotalInsurableValues" runat="server" Width="170px" Enabled ="false" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtEPTotalInsurableValues" runat="server" Width="170px" Enabled ="false" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
 
@@ -398,7 +398,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtDirectors_Officers_Premium" runat="server" Width="170px" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtDirectors_Officers_Premium" runat="server" Width="170px" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                             <td align="left" width="18%">
@@ -409,7 +409,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtPollution_Premium" runat="server" Width="170px" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtPollution_Premium" runat="server" Width="170px" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                         </tr>
@@ -422,7 +422,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtFiduciary_Premium" runat="server" Width="170px" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtFiduciary_Premium" runat="server" Width="170px" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                             <td align="left" width="18%">
@@ -433,7 +433,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtDealers_Physical_Damage_Premium" runat="server" Width="170px" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtDealers_Physical_Damage_Premium" runat="server" Width="170px" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                         </tr>
@@ -446,7 +446,7 @@
                             </td>
                             <td align="left" width="28%">
                                 $
-                                <asp:TextBox ID="txtKidnap_Ransom_Premium" runat="server" Width="170px" skinid="txtCurrency15w"
+                                <asp:TextBox ID="txtKidnap_Ransom_Premium" runat="server" Width="170px" skinid="txtCurrency12w"
                                 onpaste="return false" />
                             </td>
                             
