@@ -50,7 +50,7 @@
 
         }
         
-
+ 
         function formatCurrencyOnBlur(ctrl) {
             if (ctrl.value != '') {
                 var val = ctrl.value.replace(",", "").replace(",", "");
@@ -66,6 +66,31 @@
             //alert("Please Save Premium Allocation Data First.");
 
         }
+
+        function CheckYear()
+        {              
+            if (document.getElementById('<%=txtYear.ClientID%>').value != undefined && document.getElementById('<%=txtYear.ClientID%>').value != null && document.getElementById('<%=txtYear.ClientID%>').value != "")                   
+            {                
+                return confirm('Are you sure that you want to remove the record?');
+            }
+            else
+            {
+                alert("Please Enter Year and Save the Data.");
+                return false;
+            }
+        
+        }
+
+        function CheckYearupdate() {
+            if (document.getElementById('<%=txtYear.ClientID%>').value != undefined && document.getElementById('<%=txtYear.ClientID%>').value != null && document.getElementById('<%=txtYear.ClientID%>').value != "") {
+                return true;
+                    }
+                    else {
+                    alert("Please Enter Year and Save the Data.");
+                        return false;
+                    }
+
+                }
 
         function OpenWindow(navUrl) {
             var w = 700, h = 400;
@@ -503,7 +528,7 @@
                                                                 <ItemStyle Width="35%" HorizontalAlign="center" />
                                                                 <ItemTemplate>
                                                                     <asp:LinkButton ID="lnkService" runat="server" Text='<%# Eval("Field_Description") %>'
-                                                                        CommandName="EditDetails" CommandArgument='<%# Eval("PK_PA_National_Allocation_Service_Grid") %>' />
+                                                                        CommandName="EditDetails" CommandArgument='<%# Eval("PK_PA_National_Allocation_Service_Grid") %>' OnClientClick="return CheckYearupdate();"/>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField HeaderText="Service Amount ($)" HeaderStyle-HorizontalAlign="Center">
@@ -517,7 +542,7 @@
                                                                 <ItemStyle Width="10%" HorizontalAlign="center" />
                                                                 <ItemTemplate>
                                                                     <asp:LinkButton ID="lnkRemove" runat="server" Text="Remove" CommandName="RemoveDetails"
-                                                                        CommandArgument='<%# Eval("PK_PA_National_Allocation_Service_Grid") %>' OnClientClick="return confirm('Are you sure to remove the record?');" />
+                                                                        CommandArgument='<%# Eval("PK_PA_National_Allocation_Service_Grid") %>' OnClientClick="return CheckYear();" />
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                         </Columns>
@@ -526,7 +551,7 @@
                                             </tr>
                                             <tr>
                                                 <td style="padding-bottom: 5px;">
-                                                    <asp:LinkButton ID="lnkAddRiskServiceNew" OnClick="lnkAddRiskServiceNew_Click"
+                                                    <asp:LinkButton ID="lnkAddRiskServiceNew" OnClick="lnkAddRiskServiceNew_Click" OnClientClick="return CheckYearupdate();"
                                                         runat="server" Text="Add New"></asp:LinkButton>&nbsp;                                                                           
                                                 </td>
                                             </tr>

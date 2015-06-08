@@ -837,13 +837,14 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public DataSet UpdateTotalRiskValues(int? Year, int? Location, decimal? PK_PA_National_Allocation)
+        public DataSet UpdateTotalRiskValues(int? Year, int? Location, decimal? PK_PA_National_Allocation, decimal? TotalActualCost)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("PA_National_AllocationRiskValues");
             db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);
             db.AddInParameter(dbCommand, "PK_PA_National_Allocation", DbType.Decimal, PK_PA_National_Allocation);
             db.AddInParameter(dbCommand, "TotalLocation", DbType.Int32, Location);
+            db.AddInParameter(dbCommand, "TotalActualCost", DbType.Decimal, TotalActualCost);
 
             return db.ExecuteDataSet(dbCommand);
         }

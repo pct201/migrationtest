@@ -230,30 +230,30 @@ public partial class SONIC_Exposures_NationalPremiumAllocation : clsBasePage
     {
         if (e.CommandName == "RemoveDetails")
         {
-            clsPA_National_Allocation_Service_Grid.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
-            BindRiskManagementGrid();
-            SetRiskManagementFields();
+                clsPA_National_Allocation_Service_Grid.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
+                BindRiskManagementGrid();
+                SetRiskManagementFields();
         }
         else if (e.CommandName == "EditDetails")
         {
-            ViewState["PK_PA_National_Allocation_Service_Grid"] = Convert.ToInt32(e.CommandArgument);
-            clsPA_National_Allocation_Service_Grid objPA_National_Allocation_Service_Grid = new clsPA_National_Allocation_Service_Grid(Convert.ToDecimal(e.CommandArgument));
-            txtServiceAmount.Text = Convert.ToString(objPA_National_Allocation_Service_Grid.Service_Amount);
+                ViewState["PK_PA_National_Allocation_Service_Grid"] = Convert.ToInt32(e.CommandArgument);
+                clsPA_National_Allocation_Service_Grid objPA_National_Allocation_Service_Grid = new clsPA_National_Allocation_Service_Grid(Convert.ToDecimal(e.CommandArgument));
+                txtServiceAmount.Text = Convert.ToString(objPA_National_Allocation_Service_Grid.Service_Amount);
 
-            if (ddlService.Items.Contains(ddlService.Items.FindByValue(objPA_National_Allocation_Service_Grid.FK_LU_NPA_Service.ToString())) == true)
-            {
-                ddlService.SelectedValue = Convert.ToString(objPA_National_Allocation_Service_Grid.FK_LU_NPA_Service);
-            }
-            else
-            {
-                ddlService.SelectedValue = "0";
-            }
-            //ddlService.SelectedValue = Convert.ToString(objPA_National_Allocation_Service_Grid.FK_LU_NPA_Service);
-            lnkAddRiskServiceNew.Visible = false;
-            trStatusAdd.Style.Add("display", "inline");
-            //trStatusGrid.Style.Add("display", "none");
-            btnSaveGrid.Text = " Update ";
-            SetRiskManagementFields();
+                if (ddlService.Items.Contains(ddlService.Items.FindByValue(objPA_National_Allocation_Service_Grid.FK_LU_NPA_Service.ToString())) == true)
+                {
+                    ddlService.SelectedValue = Convert.ToString(objPA_National_Allocation_Service_Grid.FK_LU_NPA_Service);
+                }
+                else
+                {
+                    ddlService.SelectedValue = "0";
+                }
+                //ddlService.SelectedValue = Convert.ToString(objPA_National_Allocation_Service_Grid.FK_LU_NPA_Service);
+                lnkAddRiskServiceNew.Visible = false;
+                trStatusAdd.Style.Add("display", "inline");
+                //trStatusGrid.Style.Add("display", "none");
+                btnSaveGrid.Text = " Update ";
+                SetRiskManagementFields();            
         }
     }
 
@@ -542,12 +542,13 @@ public partial class SONIC_Exposures_NationalPremiumAllocation : clsBasePage
         clsPA_National_Allocation objPA_National_Allocation = new clsPA_National_Allocation();
         objPA_National_Allocation.PK_PA_National_Allocation = PK_PA_National_Allocation;
         objPA_National_Allocation.Total_Locations = Convert.ToInt32(txtTotal_Locations.Text);
-        objPA_National_Allocation.Year = Convert.ToInt32(txtYear.Text);
-
+        if (!string.IsNullOrEmpty(txtYear.Text))
+            objPA_National_Allocation.Year = Convert.ToInt32(txtYear.Text);            
+        objPA_National_Allocation.Total_Actual_Cost = clsGeneral.GetDecimalNullableValue(txtTotal_Actual_Cost);
 
         if (PK_PA_National_Allocation > 0)
         {
-            DataSet ds = objPA_National_Allocation.UpdateTotalRiskValues(objPA_National_Allocation.Year, objPA_National_Allocation.Total_Locations, objPA_National_Allocation.PK_PA_National_Allocation);
+            DataSet ds = objPA_National_Allocation.UpdateTotalRiskValues(objPA_National_Allocation.Year, objPA_National_Allocation.Total_Locations, objPA_National_Allocation.PK_PA_National_Allocation, objPA_National_Allocation.Total_Actual_Cost);
 
             if (ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
