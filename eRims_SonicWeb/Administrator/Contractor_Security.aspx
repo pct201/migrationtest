@@ -270,6 +270,20 @@
 
                 </tr>
 
+                  <tr>                   
+                    <td align="left">Alert Method<span style="color: Red;">*</span>
+                    </td>
+                    <td align="center">:
+                    </td>
+                    <td align="left">
+                        <asp:DropDownList ID="ddlAlertMethod" runat="server" Width="170px" SkinID="ddlSONIC">
+                        </asp:DropDownList>
+                        <asp:RequiredFieldValidator ID="rfvddlAlertMethod" ControlToValidate="ddlAlertMethod" Display="None"
+                             ValidationGroup="vsErrorGroup" Text="*" InitialValue="0" runat="server" ErrorMessage="Please select atleast one Alert Method."></asp:RequiredFieldValidator>
+                    </td>
+
+                </tr>
+
                 <tr>
                     <td align="left">Address 1<%--<span style="color: Red;">*</span>--%>
                     </td>
@@ -490,6 +504,15 @@
                         <asp:Label runat="server" style="word-wrap:normal;word-break:break-all" ID="lblContractorType"></asp:Label>
                     </td>
                 </tr>
+                 <tr>
+                    <td align="left" style="width: 18%;">Alert Method
+                    </td>
+                    <td align="center" style="width: 4%;">:
+                    </td>
+                    <td align="left" style="width: 28%;">
+                        <asp:Label runat="server" style="word-wrap:normal;word-break:break-all" ID="lblAlertMethod"></asp:Label>
+                    </td>
+                </tr>
                 <tr>
                     <td align="left" style="width: 18%;">Address 1
                     </td>
@@ -580,24 +603,24 @@
                         <asp:GridView ID="gvViewLocationProjectAccess" runat="server" Width="100%" AutoGenerateColumns="false"
                             EmptyDataText="No Record Exists" OnRowCommand="gvViewLocationProjectAccess_RowCommand">
                             <Columns>
-                                <asp:TemplateField HeaderText="Type">
+                                <asp:TemplateField HeaderText="Location">
                                     <ItemStyle Width="20%" HorizontalAlign="Left" />
                                     <ItemTemplate>
                                         <asp:LinkButton ID="lnkdbaview" runat="server" Text='<%# Eval("dba") %>'
                                             CommandName="ViewDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Name">
+                                <asp:TemplateField HeaderText="Project Number">
                                     <ItemStyle Width="20%" HorizontalAlign="Left" />
                                     <ItemTemplate>
                                         <asp:LinkButton ID="lnkProject_NumberView" runat="server" Text='<%# Eval("Project_Number") %>'
                                             CommandName="ViewDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Phone">
+                                <asp:TemplateField HeaderText="Project Start Date">
                                     <ItemStyle Width="20%" HorizontalAlign="Left" />
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="lnkEstimated_Start_DateView" runat="server" Text='<%# Eval("Estimated_Start_Date") %>'
+                                        <asp:LinkButton ID="lnkEstimated_Start_DateView" runat="server" Text='<%# DataBinder.Eval(Container.DataItem,"Estimated_Start_Date","{0:MM/dd/yyyy}") %>'
                                             CommandName="ViewDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>

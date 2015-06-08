@@ -200,9 +200,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
         objContractorSecurity.Previous_Password_2 = "";
         objContractorSecurity.Previous_Password_3 = "";
         objContractorSecurity.Texting_Address = "";
-        objContractorSecurity.FL_LU_FACILITY_CONSTRUCTION_ALERT_METHOD = 0;
-
-
+        
         if (ddlState.SelectedIndex > 0)
             objContractorSecurity.FK_State = Convert.ToDecimal(ddlState.SelectedValue);
         else
@@ -211,6 +209,11 @@ public partial class Administrator_Contractor_Security : clsBasePage
             objContractorSecurity.FK_LU_Contractor_Type = Convert.ToDecimal(ddlContractoType.SelectedValue);
         else
             objContractorSecurity.FK_LU_Contractor_Type = 0;
+        if (ddlAlertMethod.SelectedIndex > 0)
+            objContractorSecurity.FL_LU_FACILITY_CONSTRUCTION_ALERT_METHOD = Convert.ToDecimal(ddlAlertMethod.SelectedValue);
+        else
+            objContractorSecurity.FL_LU_FACILITY_CONSTRUCTION_ALERT_METHOD = 0;
+
         objContractorSecurity.Zip_Code = Convert.ToString(txtZipCode.Text);
 
         objContractorSecurity.Office_Telephone = Convert.ToString(txtOfficeTelephone.Text);
@@ -426,6 +429,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
     {
         ComboHelper.FillState(new DropDownList[] { ddlState }, 0, true);
         ComboHelper.FillContractorType(new DropDownList[] { ddlContractoType }, 0, true);
+        FillAlertMethod(new DropDownList[] { ddlAlertMethod }, 0, true);
     }
     /// <summary>
     /// Binds the grid by page number and page size
@@ -531,6 +535,8 @@ public partial class Administrator_Contractor_Security : clsBasePage
             ddlState.SelectedValue = objContractorSecurity.FK_State.ToString();
         if (objContractorSecurity.FK_LU_Contractor_Type != null)
             ddlContractoType.SelectedValue = objContractorSecurity.FK_LU_Contractor_Type.ToString();
+        if (objContractorSecurity.FL_LU_FACILITY_CONSTRUCTION_ALERT_METHOD != null)
+            ddlAlertMethod.SelectedValue = objContractorSecurity.FL_LU_FACILITY_CONSTRUCTION_ALERT_METHOD.ToString();
 
         txtZipCode.Text = Convert.ToString(objContractorSecurity.Zip_Code);
         txtOfficeTelephone.Text = Convert.ToString(objContractorSecurity.Office_Telephone);
@@ -568,6 +574,10 @@ public partial class Administrator_Contractor_Security : clsBasePage
             lblState.Text = new State(Convert.ToDecimal(objContractorSecurity.FK_State)).FLD_state;
             if (objContractorSecurity.FK_LU_Contractor_Type != null)
             lblContractorType.Text = new clsLU_Contractor_Type(Convert.ToDecimal(objContractorSecurity.FK_LU_Contractor_Type)).CT_Desc;
+
+            if (objContractorSecurity.FL_LU_FACILITY_CONSTRUCTION_ALERT_METHOD != null)
+                lblAlertMethod.Text = new LU_Facility_Construction_Alert_Method(Convert.ToDecimal(objContractorSecurity.FL_LU_FACILITY_CONSTRUCTION_ALERT_METHOD)).Alert_Method;
+
         lblZipCode.Text =  Convert.ToString(objContractorSecurity.Zip_Code);
         lblOfficeTelephone.Text = Convert.ToString(objContractorSecurity.Office_Telephone);
         lblCellPhone.Text = Convert.ToString(objContractorSecurity.Cell_Telephone);
@@ -586,6 +596,31 @@ public partial class Administrator_Contractor_Security : clsBasePage
         gvViewLocationProjectAccess.DataSource = dsGrids;
         gvLocationProjectAccess.DataBind();
         gvViewLocationProjectAccess.DataBind();
+    }
+
+    /// <summary>
+    /// Used to Bind Fill Alert Method DropDown
+    /// </summary>
+    /// <param name="dropDowns">Dropdown Lists</param>
+    /// <param name="intID">used to selected a value using this param</param>
+    /// <param name="addSelectAsFirstElement">Require to add "--Select--" as a first element of dropdown</param>
+    public static void FillAlertMethod(DropDownList[] dropDowns, int intID, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.LU_Facility_Construction_Alert_Method.SelectAllActive();
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Alert_Method";
+            ddlToFill.DataValueField = "PK_LU_Facility_Construction_Alert_Method";
+            ddlToFill.DataSource = dsData;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem("-- Select --", "0"));
+            }
+            
+        }
     }
 
     #endregion
