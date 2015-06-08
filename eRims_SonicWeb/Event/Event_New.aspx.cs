@@ -731,8 +731,6 @@ public partial class Event_Event_New : clsBasePage
 
         if (objEvent.Police_Called != null)
             rdoPolice_Called_Sonic.SelectedValue = Convert.ToString(objEvent.Police_Called);
-        if (objEvent.Video_Requested_By_Sonic != null)
-            rblVideoRequestedBySonic_Sonic.SelectedValue = Convert.ToString(objEvent.Video_Requested_By_Sonic);
         txtAgency_name_Sonic.Text = objEvent.Agency_name;
         txtOfficer_Name_Sonic.Text = objEvent.Officer_Name;
         txtOfficer_Phone_Sonic.Text = objEvent.Officer_Phone;
@@ -888,7 +886,6 @@ public partial class Event_Event_New : clsBasePage
             objEvent.Event_Start_Time = Convert.ToString(txtEvent_Start_Time.Text);
             objEvent.Event_End_Time = Convert.ToString(txtEvent_End_Time.Text);
             objEvent.Police_Called = rdoPolice_Called.SelectedValue;
-            objEvent.Video_Requested_By_Sonic = rblVideoRequestedBySonic.SelectedValue;
             objEvent.Agency_name = Convert.ToString(txtAgency_name.Text);
             objEvent.Officer_Name = Convert.ToString(txtOfficer_Name.Text);
             objEvent.Officer_Phone = Convert.ToString(txtOfficer_Phone.Text);
@@ -910,7 +907,6 @@ public partial class Event_Event_New : clsBasePage
             objEvent.Event_Start_Time = Convert.ToString(txtEvent_Start_Time_Sonic.Text);
             objEvent.Event_End_Time = Convert.ToString(txtEvent_End_Time_Sonic.Text);
             objEvent.Police_Called = rdoPolice_Called_Sonic.SelectedValue;
-            objEvent.Video_Requested_By_Sonic = rblVideoRequestedBySonic_Sonic.SelectedValue;
             objEvent.Agency_name = Convert.ToString(txtAgency_name_Sonic.Text);
             objEvent.Officer_Name = Convert.ToString(txtOfficer_Name_Sonic.Text);
             objEvent.Officer_Phone = Convert.ToString(txtOfficer_Phone_Sonic.Text);
@@ -921,6 +917,7 @@ public partial class Event_Event_New : clsBasePage
             objEvent.Event_Desc = txtEventDesciptionSonic.Text.Trim();
         }
 
+        objEvent.Video_Requested_By_Sonic = rblVideoRequestedBySonic.SelectedValue;
         objEvent.Monitoring_Hours = rdoMonitoring_Hours_Sonic.SelectedValue;
         objEvent.Source_Of_Information = txtSource_Of_Information.Text.Trim();
         objEvent.Sonic_Contact_Name = txtSonic_Contact_Name.Text;
@@ -1406,7 +1403,6 @@ public partial class Event_Event_New : clsBasePage
             //txtEventDesciptionSonic.Attributes.Add("class", "readOnlyTextBox");
             txtEventDesciptionSonic.Enable = false;
             rdoPolice_Called_Sonic.Enabled = false;
-            rblVideoRequestedBySonic_Sonic.Enabled = false;
             txtAgency_name_Sonic.Enabled = false;
             txtOfficer_Phone_Sonic.Enabled = false;
             txtOfficer_Name_Sonic.Enabled = false;
