@@ -702,7 +702,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Year <span style="color: Red;">*</span>
+                            <td>Year    
                             </td>
                             <td align="center">:
                             </td>
