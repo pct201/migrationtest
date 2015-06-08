@@ -106,6 +106,7 @@
         <siteMapNode url="SONIC/SLT/SLT_AdHocReportWriter.aspx" title="SLT" description="SLT"/>
         <siteMapNode url="Event/ACIEvents_AdHocReportWriter.aspx" title="ACI Events" description="ACI Events"/>
         <siteMapNode url="SONIC/SafetyTraining_AdhocReportWriter.aspx" title="Safety Training" description="Safety Training"/>
+       <siteMapNode url="SONIC/Exposures/Property_AdHocReportWriter.aspx" title="Property" description="Property"/>
       </siteMapNode>
       <siteMapNode url="" title="Administrator"  description="" roles="">
         <siteMapNode url="Administrator/rptLog_Audit.aspx" title="Login Audit" description="" roles=""></siteMapNode>
