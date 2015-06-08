@@ -338,7 +338,7 @@ namespace ERIMS.DAL
         public static DataSet SelectByLocationFacility_Construction_Project(decimal FK_Location)
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("Facility_Construction_ProjectSelectByLocation");
+            DbCommand dbCommand = db.GetStoredProcCommand("Facility_Construction_ProjectSelectByLocationForCS");
 
             db.AddInParameter(dbCommand, "FK_Location", DbType.Decimal, FK_Location);
 
