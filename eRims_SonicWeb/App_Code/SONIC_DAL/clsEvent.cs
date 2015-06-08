@@ -104,7 +104,7 @@ namespace ERIMS.DAL
         private string _Sonic_Contact_Name;
         private string _Sonic_Contact_Phone;
         private string _Sonic_Contact_Email;
-
+        private string _Video_Requested_By_Sonic;
 
         #endregion
 
@@ -911,6 +911,15 @@ namespace ERIMS.DAL
             set { _Sonic_Contact_Email = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the Video_Requested_By_Sonic value.
+        /// </summary>
+        public string Video_Requested_By_Sonic
+        {
+            get { return _Video_Requested_By_Sonic; }
+            set { _Video_Requested_By_Sonic = value; }
+        }
+
         #endregion
 
         #region Default Constructors
@@ -1387,6 +1396,11 @@ namespace ERIMS.DAL
                 this._Sonic_Contact_Email = null;
             else
                 this._Sonic_Contact_Email = (string)drEvent["Sonic_Contact_Email"];
+
+            if (drEvent["Video_Requested_By_Sonic"] == DBNull.Value)
+                this._Video_Requested_By_Sonic = null;
+            else
+                this._Video_Requested_By_Sonic = (string)drEvent["Video_Requested_By_Sonic"];
         }
 
         #endregion
@@ -1753,6 +1767,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Sonic_Contact_Email", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Sonic_Contact_Email", DbType.String, this._Sonic_Contact_Email);
+
+            if (string.IsNullOrEmpty(this._Video_Requested_By_Sonic))
+                db.AddInParameter(dbCommand, "Video_Requested_By_Sonic", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Video_Requested_By_Sonic", DbType.String, this._Video_Requested_By_Sonic);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -2149,6 +2168,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Sonic_Contact_Email", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Sonic_Contact_Email", DbType.String, this._Sonic_Contact_Email);
+
+            if (string.IsNullOrEmpty(this._Video_Requested_By_Sonic))
+                db.AddInParameter(dbCommand, "Video_Requested_By_Sonic", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Video_Requested_By_Sonic", DbType.String, this._Video_Requested_By_Sonic);
 
             db.ExecuteNonQuery(dbCommand);
         }

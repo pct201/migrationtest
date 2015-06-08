@@ -114,6 +114,9 @@
                                     <span style="display: inline-block; width: 150px;">Financial Loss</span>
                                 </th>
                                 <th class="cols">
+                                    <span style="display: inline-block; width: 150px;">Video Requested by Sonic</span>
+                                </th>
+                                <th class="cols">
                                     <span style="display: inline-block; width: 150px;">Updated By</span>
                                 </th>
                                 <th class="cols">
@@ -263,6 +266,12 @@
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
                                     <asp:Label ID="lblFinancial_Loss" runat="server" Text='<%#clsGeneral.GetStringValue(Eval("Financial_Loss"))%>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Video_Requested_By_Sonic">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblVideo_Requested_By_Sonic" runat="server" Text='<%#Eval("Video_Requested_By_Sonic")%>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Updated_By">

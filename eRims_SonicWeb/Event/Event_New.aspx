@@ -523,6 +523,24 @@
                 rdoSonicNo.checked = true;
             
         }
+
+        function setVideoRequestedBySonic()
+        {
+            var rdoVideo = document.getElementById("<%=rblVideoRequestedBySonic.ClientID%>");
+            var rdo = document.getElementById(rdoVideo.id + "_0");
+
+            var rdoVideoSonic = document.getElementById("<%=rblVideoRequestedBySonic_Sonic.ClientID%>");
+            var rdoSonicYes = document.getElementById(rdoVideoSonic.id + "_0");
+            var rdoSonicNo = document.getElementById(rdoVideoSonic.id + "_1");
+
+            if (rdo.checked)
+            {
+                rdoSonicYes.checked = true;
+            }
+            else
+                rdoSonicNo.checked = true;
+            
+        }
               
 
     </script>
@@ -1012,6 +1030,24 @@
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                     <tr>
                                                         <td style="height: 5px" colspan="6"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" width="18%" valign="top">Video Requested by Sonic?
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">:
+                                                        </td>
+                                                        <td align="left" width="28%" valign="top">
+                                                            <asp:RadioButtonList ID="rblVideoRequestedBySonic" runat="server" onclick="return setVideoRequestedBySonic();">
+                                                                <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                <asp:ListItem Text="No" Value="N" Selected="True"></asp:ListItem>
+                                                            </asp:RadioButtonList>
+                                                        </td>
+                                                        <td align="left" width="18%" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="left" width="28%" valign="top">&nbsp;
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <td align="left" width="18%" valign="top">Police Called?
@@ -1819,6 +1855,24 @@
                                                         </td>
                                                         <td colspan="3" valign="top">
                                                             <uc:ctrlMultiLineTextBox ID="txtEventDesciptionSonic" runat="server" Width="450" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" width="18%" valign="top">Video Requested by Sonic?
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">:
+                                                        </td>
+                                                        <td align="left" width="28%" valign="top">
+                                                            <asp:RadioButtonList ID="rblVideoRequestedBySonic_Sonic" runat="server">
+                                                                <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                <asp:ListItem Text="No" Value="N" Selected="True"></asp:ListItem>
+                                                            </asp:RadioButtonList>
+                                                        </td>
+                                                        <td align="left" width="18%" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">&nbsp;
+                                                        </td>
+                                                        <td align="left" width="28%" valign="top">&nbsp;
                                                         </td>
                                                     </tr>
                                                     <tr>
