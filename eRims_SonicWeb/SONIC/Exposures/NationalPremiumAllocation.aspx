@@ -49,8 +49,8 @@
 
 
         }
-        
- 
+
+
         function formatCurrencyOnBlur(ctrl) {
             if (ctrl.value != '') {
                 var val = ctrl.value.replace(",", "").replace(",", "");
@@ -59,7 +59,7 @@
         }
 
         function OpenPopup() {
-            
+
             var navUrl = '<%=AppConfig.SiteURL%>/Sonic/Exposures/RiskManagementServiceGrid.aspx?FK_PA_National_Allocation=' + '<%= Convert.ToString(PK_PA_National_Allocation) %>' + '&strOperation=' + 'add'
             OpenWindow(navUrl);
             return false;
@@ -67,30 +67,27 @@
 
         }
 
-        function CheckYear()
-        {              
-            if (document.getElementById('<%=txtYear.ClientID%>').value != undefined && document.getElementById('<%=txtYear.ClientID%>').value != null && document.getElementById('<%=txtYear.ClientID%>').value != "")                   
-            {                
+        function CheckYear() {
+            if (document.getElementById('<%=txtYear.ClientID%>').value != undefined && document.getElementById('<%=txtYear.ClientID%>').value != null && document.getElementById('<%=txtYear.ClientID%>').value != "") {
                 return confirm('Are you sure that you want to remove the record?');
             }
-            else
-            {
+            else {
                 alert("Please Enter Year and Save the Data.");
                 return false;
             }
-        
+
         }
 
         function CheckYearupdate() {
             if (document.getElementById('<%=txtYear.ClientID%>').value != undefined && document.getElementById('<%=txtYear.ClientID%>').value != null && document.getElementById('<%=txtYear.ClientID%>').value != "") {
                 return true;
-                    }
-                    else {
-                    alert("Please Enter Year and Save the Data.");
-                        return false;
-                    }
+            }
+            else {
+                alert("Please Enter Year and Save the Data.");
+                return false;
+            }
 
-                }
+        }
 
         function OpenWindow(navUrl) {
             var w = 700, h = 400;
@@ -108,6 +105,14 @@
             { leftPos = w / 2; topPos = h / 2; }
 
             window.open(navUrl, "popup2", "toolbar=no,menubar=no,scrollbars=yes,resizable=yes,width=" + popW + ",height=" + popH + ",top=" + topPos + ",left=" + leftPos);
+        }
+
+        function valueSave(mon) {
+            var retVal = true;
+            retVal = confirm("Updating National Premium Allocation data will erase and regenerate Location premium allocation data. Are you sure want to continue?");
+            if (retVal == true)
+                __doPostBack(document.getElementById('<%=btnSave.ClientID%>').name, "UpdateDetails");
+
         }
 
     </script>
@@ -401,7 +406,7 @@
                                 <asp:TextBox ID="txtEarthquakeTotalContents" runat="server" Width="170px" SkinID="txtCurrency12w"
                                     onpaste="return false" Enabled="false" />
                             </td>
-                        </tr>                      
+                        </tr>
                         <tr>
                             <td align="left" width="18%">Garage Liability Premium
                             </td>
@@ -528,7 +533,7 @@
                                                                 <ItemStyle Width="35%" HorizontalAlign="center" />
                                                                 <ItemTemplate>
                                                                     <asp:LinkButton ID="lnkService" runat="server" Text='<%# Eval("Field_Description") %>'
-                                                                        CommandName="EditDetails" CommandArgument='<%# Eval("PK_PA_National_Allocation_Service_Grid") %>' OnClientClick="return CheckYearupdate();"/>
+                                                                        CommandName="EditDetails" CommandArgument='<%# Eval("PK_PA_National_Allocation_Service_Grid") %>' OnClientClick="return CheckYearupdate();" />
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField HeaderText="Service Amount ($)" HeaderStyle-HorizontalAlign="Center">
@@ -605,82 +610,82 @@
                             <td width="100%" colspan="6">
                                 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                                     <ContentTemplate>
-                                <table>
-                                    <tr>
-                                        <td align="left" width="26%">Total Risk Management Fee
-                                        </td>
-                                        <td align="center" width="4%">:
-                                        </td>
-                                        <td align="left" width="28%">$&nbsp;
+                                        <table>
+                                            <tr>
+                                                <td align="left" width="26%">Total Risk Management Fee
+                                                </td>
+                                                <td align="center" width="4%">:
+                                                </td>
+                                                <td align="left" width="28%">$&nbsp;
                                 <asp:TextBox ID="txtTotalRiskManagementFee" runat="server" Width="170px" SkinID="txtCurrency12w"
                                     onpaste="return false" Enabled="false" />
-                                        </td>
-                                        <td align="left" width="18%"></td>
-                                        <td align="center" width="4%"></td>
-                                        <td align="left" width="28%"></td>
-                                    </tr>
-                                    <tr>
-                                        <td align="left" width="18%">Total Risk Management Rate
-                                        </td>
-                                        <td align="center" width="4%">:
-                                        </td>
-                                        <td align="left" width="28%">$&nbsp;
+                                                </td>
+                                                <td align="left" width="18%"></td>
+                                                <td align="center" width="4%"></td>
+                                                <td align="left" width="28%"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" width="18%">Total Risk Management Rate
+                                                </td>
+                                                <td align="center" width="4%">:
+                                                </td>
+                                                <td align="left" width="28%">$&nbsp;
                                 <asp:TextBox ID="txtTotalRiskManagementRate" runat="server" Width="170px" SkinID="txtCurrency12w"
                                     onpaste="return false" Enabled="false" />
-                                        </td>
-                                        <td align="left" width="18%"></td>
-                                        <td align="center" width="4%"></td>
-                                        <td align="left" width="28%"></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="6">&nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td align="left" width="18%">Total Actual Cost
-                                        </td>
-                                        <td align="center" width="4%">:
-                                        </td>
-                                        <td align="left" width="28%">$&nbsp;
+                                                </td>
+                                                <td align="left" width="18%"></td>
+                                                <td align="center" width="4%"></td>
+                                                <td align="left" width="28%"></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" width="18%">Total Actual Cost
+                                                </td>
+                                                <td align="center" width="4%">:
+                                                </td>
+                                                <td align="left" width="28%">$&nbsp;
                                 <asp:TextBox ID="txtTotal_Actual_Cost" runat="server" Width="170px" SkinID="txtCurrency15w"
                                     onpaste="return false" Enabled="false" />
-                                        </td>
-                                        <td align="left" width="18%"></td>
-                                        <td align="center" width="4%"></td>
-                                        <td align="left" width="28%"></td>
-                                    </tr>
-                                    <tr>
-                                        <td align="left" width="18%">Total Store Cost
-                                        </td>
-                                        <td align="center" width="4%">:
-                                        </td>
-                                        <td align="left" width="28%">$&nbsp;
+                                                </td>
+                                                <td align="left" width="18%"></td>
+                                                <td align="center" width="4%"></td>
+                                                <td align="left" width="28%"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" width="18%">Total Store Cost
+                                                </td>
+                                                <td align="center" width="4%">:
+                                                </td>
+                                                <td align="left" width="28%">$&nbsp;
                                 <asp:TextBox ID="txtTotal_Store_Cost" runat="server" Width="170px" SkinID="txtCurrency15w"
                                     onpaste="return false" Enabled="false" />
-                                        </td>
-                                        <td align="left" width="18%"></td>
-                                        <td align="center" width="4%"></td>
-                                        <td align="left" width="28%"></td>
-                                    </tr>
-                                    <tr>
-                                        <td align="left" width="18%">Total Surcharge Amount
-                                        </td>
-                                        <td align="center" width="4%">:
-                                        </td>
-                                        <td align="left" width="28%">$&nbsp;
+                                                </td>
+                                                <td align="left" width="18%"></td>
+                                                <td align="center" width="4%"></td>
+                                                <td align="left" width="28%"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left" width="18%">Total Surcharge Amount
+                                                </td>
+                                                <td align="center" width="4%">:
+                                                </td>
+                                                <td align="left" width="28%">$&nbsp;
                                 <asp:TextBox ID="txtTotal_Surcharge_Amount" runat="server" Width="170px" SkinID="txtCurrency15w"
                                     onpaste="return false" Enabled="false" />
-                                        </td>
-                                        <td align="left" width="18%"></td>
-                                        <td align="center" width="4%"></td>
-                                        <td align="left" width="28%"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbsp;
-                                        </td>
-                                    </tr>
-                                </table>
-                                        </ContentTemplate>
-                                    </asp:UpdatePanel>
+                                                </td>
+                                                <td align="left" width="18%"></td>
+                                                <td align="center" width="4%"></td>
+                                                <td align="left" width="28%"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>&nbsp;
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
                             </td>
                         </tr>
                         <tr>
@@ -923,7 +928,7 @@
                             <td align="left" width="28%">$&nbsp;
                                 <asp:Label ID="lblEarthquakeTotalContents" runat="server" Width="170px" />
                             </td>
-                        </tr>                       
+                        </tr>
                         <tr>
                             <td align="left" width="18%">Garage Liability Premium
                             </td>
@@ -1053,7 +1058,7 @@
                                     </tr>
                                 </table>
                             </td>
-                        </tr>                       
+                        </tr>
                         <tr>
                             <td align="left" width="18%">Total Risk Management Fee
                             </td>

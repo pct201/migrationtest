@@ -848,5 +848,17 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        public static DataSet CheckLocationRecords(int Year)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("CheckLocationRecords_ByYear");
+
+            db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
     }
+
+
 }

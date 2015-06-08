@@ -802,6 +802,14 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        public static DataSet Generate_PremiumAllocation_Annual_Report_New(int? Year)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GeneratePremiumAllocationAnnualReport");
+            db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);
+            return db.ExecuteDataSet(dbCommand);
+        }
+
         /// <summary>
         /// Generate Report For Premium Allocation Monthly BreakDown Report.
         /// </summary>

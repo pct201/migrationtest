@@ -111,8 +111,30 @@ public partial class SONIC_Exposures_NationalPremiumAllocation : clsBasePage
             return;
         }
 
-        CalculateTotalRiskFields();       
-        
+        string strArgs = (this.Request["__EVENTARGUMENT"] == null) ? string.Empty : this.Request["__EVENTARGUMENT"];
+        if (strArgs != "UpdateDetails")
+        {
+            DataSet dsTemp = clsPA_National_Allocation.CheckLocationRecords(Convert.ToInt32(txtYear.Text));
+            bool isLocationExists = Convert.ToBoolean(dsTemp.Tables[0].Rows[0][0]);
+            bool isBaseDataExists = Convert.ToBoolean(dsTemp.Tables[1].Rows[0][0]);
+
+            if (isBaseDataExists && isLocationExists)
+            {
+                ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "javascript:valueSave(" + txtYear.Text + ");", true);
+                return;
+            }
+            else
+            {
+                if (!isBaseDataExists)
+                {
+                    ScriptManager.RegisterStartupScript(this, typeof(string), DateTime.Now.ToString(), "javascript:alert('No imported data exists for the selected year. Calculations cannot be run to calculate location data.');", true);
+                    return;
+                }
+            }
+        }
+
+        CalculateTotalRiskFields();
+
         DataSet ds = clsPA_National_Allocation.SelectByFieldsCriteria(Convert.ToInt32(txtYear.Text), clsGeneral.FormatDateToStore(txtProperty_Valuation_Date.Text),
             clsGeneral.GetDecimalNullableValue(txtWC_Premium), clsGeneral.GetDecimalNullableValue(txtTexasNonSubscriptionPremium),
             clsGeneral.GetDecimalNullableValue(txtExcessUmbrellaPremium), clsGeneral.GetDecimalNullableValue(txtEPLIPremium),
@@ -122,14 +144,14 @@ public partial class SONIC_Exposures_NationalPremiumAllocation : clsBasePage
             TotalRiskManagementFee, TotalRiskManagementRate, TotalStoreCost, TotalSurcharge, System.DateTime.Now, clsSession.UserID, PK_PA_National_Allocation);
 
         if (ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
-        {           
+        {
 
             DataTable dt1 = ds.Tables[0];
             if (dt1 != null && dt1.Rows.Count > 0)
             {
-                PK_PA_National_Allocation = Convert.ToDecimal(dt1.Rows[0][0]);                
+                PK_PA_National_Allocation = Convert.ToDecimal(dt1.Rows[0][0]);
             }
-            
+
 
             Response.Redirect("NationalPremiumAllocation.aspx?id=" + Encryption.Encrypt(PK_PA_National_Allocation.ToString()) + "&mode=edit");
 
@@ -156,7 +178,7 @@ public partial class SONIC_Exposures_NationalPremiumAllocation : clsBasePage
 
         txtServiceAmount.Text = string.Empty;
         ddlService.SelectedIndex = -1;
-        trStatusAdd.Style.Add("display", "inline");        
+        trStatusAdd.Style.Add("display", "inline");
     }
 
 
@@ -230,30 +252,30 @@ public partial class SONIC_Exposures_NationalPremiumAllocation : clsBasePage
     {
         if (e.CommandName == "RemoveDetails")
         {
-                clsPA_National_Allocation_Service_Grid.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
-                BindRiskManagementGrid();
-                SetRiskManagementFields();
+            clsPA_National_Allocation_Service_Grid.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
+            BindRiskManagementGrid();
+            SetRiskManagementFields();
         }
         else if (e.CommandName == "EditDetails")
         {
-                ViewState["PK_PA_National_Allocation_Service_Grid"] = Convert.ToInt32(e.CommandArgument);
-                clsPA_National_Allocation_Service_Grid objPA_National_Allocation_Service_Grid = new clsPA_National_Allocation_Service_Grid(Convert.ToDecimal(e.CommandArgument));
-                txtServiceAmount.Text = Convert.ToString(objPA_National_Allocation_Service_Grid.Service_Amount);
+            ViewState["PK_PA_National_Allocation_Service_Grid"] = Convert.ToInt32(e.CommandArgument);
+            clsPA_National_Allocation_Service_Grid objPA_National_Allocation_Service_Grid = new clsPA_National_Allocation_Service_Grid(Convert.ToDecimal(e.CommandArgument));
+            txtServiceAmount.Text = Convert.ToString(objPA_National_Allocation_Service_Grid.Service_Amount);
 
-                if (ddlService.Items.Contains(ddlService.Items.FindByValue(objPA_National_Allocation_Service_Grid.FK_LU_NPA_Service.ToString())) == true)
-                {
-                    ddlService.SelectedValue = Convert.ToString(objPA_National_Allocation_Service_Grid.FK_LU_NPA_Service);
-                }
-                else
-                {
-                    ddlService.SelectedValue = "0";
-                }
-                //ddlService.SelectedValue = Convert.ToString(objPA_National_Allocation_Service_Grid.FK_LU_NPA_Service);
-                lnkAddRiskServiceNew.Visible = false;
-                trStatusAdd.Style.Add("display", "inline");
-                //trStatusGrid.Style.Add("display", "none");
-                btnSaveGrid.Text = " Update ";
-                SetRiskManagementFields();            
+            if (ddlService.Items.Contains(ddlService.Items.FindByValue(objPA_National_Allocation_Service_Grid.FK_LU_NPA_Service.ToString())) == true)
+            {
+                ddlService.SelectedValue = Convert.ToString(objPA_National_Allocation_Service_Grid.FK_LU_NPA_Service);
+            }
+            else
+            {
+                ddlService.SelectedValue = "0";
+            }
+            //ddlService.SelectedValue = Convert.ToString(objPA_National_Allocation_Service_Grid.FK_LU_NPA_Service);
+            lnkAddRiskServiceNew.Visible = false;
+            trStatusAdd.Style.Add("display", "inline");
+            //trStatusGrid.Style.Add("display", "none");
+            btnSaveGrid.Text = " Update ";
+            SetRiskManagementFields();
         }
     }
 
@@ -418,7 +440,7 @@ public partial class SONIC_Exposures_NationalPremiumAllocation : clsBasePage
 
                 txtEarthquakeTotalInsurableValues.Text = clsGeneral.FormatCommaSeperatorCurrency(clsGeneral.GetDecimalValue(txtEarthquakeTotalRSMeans) + clsGeneral.GetDecimalValue(txtEarthquakeTotalBusinessInterruption) +
                     clsGeneral.GetDecimalValue(txtEarthquakeTotalContents) + clsGeneral.GetDecimalValue(txtEarthquakeTotalParts));
-                
+
             }
 
         }
@@ -433,7 +455,7 @@ public partial class SONIC_Exposures_NationalPremiumAllocation : clsBasePage
             TotalRiskManagementFee = Convert.ToDecimal(ViewState["TotalRiskManagementFee"]);
 
             if (clsGeneral.GetDecimalValue(txtTotal_Locations) != 0)
-                TotalRiskManagementRate = decimal.Round((Convert.ToDecimal(ViewState["TotalRiskManagementFee"]) / clsGeneral.GetDecimalValue(txtTotal_Locations)), 2, MidpointRounding.AwayFromZero);                    
+                TotalRiskManagementRate = decimal.Round((Convert.ToDecimal(ViewState["TotalRiskManagementFee"]) / clsGeneral.GetDecimalValue(txtTotal_Locations)), 2, MidpointRounding.AwayFromZero);
             else
                 TotalRiskManagementRate = 0;
 
@@ -543,7 +565,7 @@ public partial class SONIC_Exposures_NationalPremiumAllocation : clsBasePage
         objPA_National_Allocation.PK_PA_National_Allocation = PK_PA_National_Allocation;
         objPA_National_Allocation.Total_Locations = Convert.ToInt32(txtTotal_Locations.Text);
         if (!string.IsNullOrEmpty(txtYear.Text))
-            objPA_National_Allocation.Year = Convert.ToInt32(txtYear.Text);            
+            objPA_National_Allocation.Year = Convert.ToInt32(txtYear.Text);
         objPA_National_Allocation.Total_Actual_Cost = clsGeneral.GetDecimalNullableValue(txtTotal_Actual_Cost);
 
         if (PK_PA_National_Allocation > 0)
