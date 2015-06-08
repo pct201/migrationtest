@@ -155,6 +155,10 @@ public partial class SONIC_Exposures_PremiumAllocation_AnnualReport_New : clsBas
         PremiumAllocation_WS.Cells["E2"].Style.Font.Bold = true;
         PremiumAllocation_WS.Cells["E2:F2"].Merge = true;
 
+        PremiumAllocation_WS.Cells["R2"].Value = "Date Report Generated: " + DateTime.Now.ToShortDateString();
+        PremiumAllocation_WS.Cells["R2"].Style.Font.Bold = true;
+        PremiumAllocation_WS.Cells["R2:T2"].Merge = true;
+
         PremiumAllocation_WS.Cells["A4"].Value = "Region";
         PremiumAllocation_WS.Cells["B4"].Value = "Market";
         PremiumAllocation_WS.Cells["C4"].Value = "Location Code";
@@ -212,6 +216,33 @@ public partial class SONIC_Exposures_PremiumAllocation_AnnualReport_New : clsBas
             PremiumAllocation_WS.Cells["T" + (iCurrRow + 5)].Value = dtReport.Rows[iCurrRow]["Total"];
         }
 
+        DataRow[] drRecords1 = dsReport.Tables[0].Select("dba = 'Total'");
+        if (drRecords1 != null && drRecords1.Length > 0)
+        {
+            PremiumAllocation_WS.Cells["A" + (dtReport.Rows.Count + 5)].Value = drRecords1[0]["Region"];
+            PremiumAllocation_WS.Cells["B" + (dtReport.Rows.Count + 5)].Value = drRecords1[0]["Market"];
+            PremiumAllocation_WS.Cells["C" + (dtReport.Rows.Count + 5)].Value = drRecords1[0]["Sonic_Location_Code"];
+            PremiumAllocation_WS.Cells["D" + (dtReport.Rows.Count + 5)].Value = drRecords1[0]["dba"];
+            PremiumAllocation_WS.Cells["E" + (dtReport.Rows.Count + 5)].Value = drRecords1[0]["Non_Texas_Payroll"];
+            PremiumAllocation_WS.Cells["F" + (dtReport.Rows.Count + 5)].Value = drRecords1[0]["Texas_Payroll"];
+            PremiumAllocation_WS.Cells["G" + (dtReport.Rows.Count + 5)].Value = drRecords1[0]["Total_Payroll"];
+            PremiumAllocation_WS.Cells["H" + (dtReport.Rows.Count + 5)].Value = drRecords1[0]["Total_Headcount"];
+            PremiumAllocation_WS.Cells["I" + (dtReport.Rows.Count + 5)].Value = drRecords1[0]["Property_Total_Insurables"];
+
+            PremiumAllocation_WS.Cells["J" + (dtReport.Rows.Count + 5)].Value = drRecords1[0]["WC_Annual"];
+            PremiumAllocation_WS.Cells["K" + (dtReport.Rows.Count + 5)].Value = drRecords1[0]["Garage_Annual"];
+            PremiumAllocation_WS.Cells["L" + (dtReport.Rows.Count + 5)].Value = drRecords1[0]["Property_Annual"];
+            PremiumAllocation_WS.Cells["M" + (dtReport.Rows.Count + 5)].Value = drRecords1[0]["Earthquake_Annual"];
+            PremiumAllocation_WS.Cells["N" + (dtReport.Rows.Count + 5)].Value = drRecords1[0]["Crime_Annual"];
+            PremiumAllocation_WS.Cells["O" + (dtReport.Rows.Count + 5)].Value = drRecords1[0]["Excess_Umbrella_Annual"];
+            PremiumAllocation_WS.Cells["P" + (dtReport.Rows.Count + 5)].Value = drRecords1[0]["EPL_Annual"];
+            PremiumAllocation_WS.Cells["Q" + (dtReport.Rows.Count + 5)].Value = drRecords1[0]["Cyber_Annual"];
+            PremiumAllocation_WS.Cells["R" + (dtReport.Rows.Count + 5)].Value = drRecords1[0]["Pollution_Annual"];
+            PremiumAllocation_WS.Cells["S" + (dtReport.Rows.Count + 5)].Value = drRecords1[0]["Risk_Annual"];
+            PremiumAllocation_WS.Cells["T" + (dtReport.Rows.Count + 5)].Value = drRecords1[0]["Total"];
+        }
+
+        #region set style
         PremiumAllocation_WS.Column(1).Width = (double)12.7;
         PremiumAllocation_WS.Column(2).Width = (double)12.7;
         PremiumAllocation_WS.Column(3).Width = (double)12.7;
@@ -240,10 +271,32 @@ public partial class SONIC_Exposures_PremiumAllocation_AnnualReport_New : clsBas
             range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
             Border border = range.Style.Border;
             border.Bottom.Style = border.Top.Style = border.Left.Style = border.Right.Style = ExcelBorderStyle.Thin;
-            
+
         }
 
+        using (ExcelRange range = PremiumAllocation_WS.Cells[4, 5, 4 + dtReport.Rows.Count + 1, 7])
+        {
+            range.Style.Numberformat.Format = "$ #,##0";
+        }
+
+        using (ExcelRange range = PremiumAllocation_WS.Cells[4, 9, 4 + dtReport.Rows.Count + 1, 20])
+        {
+            range.Style.Numberformat.Format = "$ #,##0";
+        }
+
+        using (ExcelRange range = PremiumAllocation_WS.Cells[dtReport.Rows.Count + 5, 4, dtReport.Rows.Count + 5, 20])
+        {
+            //range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+            range.Style.Font.Italic = true;
+            range.Style.Font.Bold = true;
+            Border border = range.Style.Border;
+            border.Bottom.Style = ExcelBorderStyle.Double;
+
+        }
+        #endregion
         //PremiumAllocation_WS.Cells.AutoFitColumns();
+
+        
 
         string strDir = string.Format(System.AppDomain.CurrentDomain.BaseDirectory.ToString() + @"temp\Premium_Allocation");
         string strfile = string.Empty;
