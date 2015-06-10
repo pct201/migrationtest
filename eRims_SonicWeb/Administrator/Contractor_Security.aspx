@@ -655,6 +655,10 @@
                             </td>
                         </tr>
                         <tr>
+                            <td align="center">&nbsp;
+                            </td>
+                        </tr>
+                        <tr>
                             <td align="center">
                                 <asp:Button ID="btnSave" runat="server" Text=" Save & View" CausesValidation="true" ValidationGroup="vsErrorGroup"
                                     OnClick="btnSave_Click" OnClientClick="return CheckVal();" />&nbsp;&nbsp;&nbsp;

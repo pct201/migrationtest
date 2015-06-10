@@ -230,7 +230,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
             // Used to Check Duplicate user ID?
             if (RtnVal == -2)
             {
-                lblError.Text = "Contractor Security already exists.";
+                lblError.Text = "Login User Name already exists.";
                 return;
             }
 
@@ -246,7 +246,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
             // Used to Check Duplicate User ID?
             if (PK_Contactor_Security == -2)
             {
-                lblError.Text = "Contractor Security already exists.";
+                lblError.Text = "Login User Name already exists.";
                 return;
             }
         }
