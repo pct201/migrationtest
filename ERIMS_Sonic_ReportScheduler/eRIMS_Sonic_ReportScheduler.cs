@@ -14346,7 +14346,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 {
                     if (strConditionValue.Trim().ToUpper() == "Y" || strConditionValue.Trim().ToUpper() == "N" || strConditionValue.Trim().ToUpper() == "Y,N")
                     {
-                        if (strField == "Is_Actionable")
+                        if (strField == "Is_Actionable" || strField == "Video_Requested_By_Sonic")
                             strWhere = " And ISNULL([" + strTableName + "]." + strField + ",'N') NOT IN ('" + strConditionValue.Replace(",", "','") + "') ";
                         else
                             strWhere = " And " + strTableName + ".[" + strField + "] NOT IN ('" + strConditionValue.Replace(",", "','") + "') ";
@@ -14356,7 +14356,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 }
                 else if (strConditionValue.Trim().ToUpper() == "Y" || strConditionValue.Trim().ToUpper() == "N" || strConditionValue.Trim().ToUpper() == "Y,N" || strConditionValue.Trim().ToUpper() == "O" || strConditionValue.Trim().ToUpper() == "C" || strConditionValue.Trim().ToUpper() == "O,C" || strConditionValue.Trim().ToUpper() == "C,O")
                 {
-                    if (strField == "Is_Actionable")
+                    if (strField == "Is_Actionable" || strField == "Video_Requested_By_Sonic")
                         strWhere = " And ISNULL([" + strTableName + "]." + strField + ",'N') IN ('" + strConditionValue.Replace(",", "','") + "') ";
                     else
                         strWhere = " And " + strTableName + ".[" + strField + "] IN ('" + strConditionValue.Replace(",", "','") + "') ";
