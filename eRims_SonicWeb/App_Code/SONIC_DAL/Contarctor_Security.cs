@@ -676,7 +676,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "FK_LU_Contractor_Type", DbType.Decimal, this._FK_LU_Contractor_Type);
 
-           int returnValue = Convert.ToInt32(db.ExecuteNonQuery(dbCommand));
+            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
            return returnValue;
         }
 
