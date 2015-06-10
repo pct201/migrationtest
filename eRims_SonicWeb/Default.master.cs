@@ -55,6 +55,11 @@ public partial class _Default : System.Web.UI.MasterPage
         //        //e.Item.Text = @"<a class='FirstReport' id='" + e.Item.Text + "' onclick='javascript:OpenWizardPopup();' href='javascript:void(0);'>" + e.Item.Text + "</a>";
         //    //}
         //}
+        if (e.Item.Text == "Immix Webportal")
+        {
+            e.Item.Target = "_blank";
+        }
+     
     }
     protected void btnHdnSearchPage_Click(object sender, EventArgs e)
     {
