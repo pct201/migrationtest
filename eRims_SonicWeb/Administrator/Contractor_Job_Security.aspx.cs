@@ -233,7 +233,7 @@ public partial class Administrator_Contractor_Job_Security : clsBasePage
         CtrlMultiLineLabelProject_Description.Text = objContractor_Job_Security.Project_Description;
         if (objContractor_Job_Security.Access == "Read Only")
             rdoAccess.SelectedValue = "R";
-        else
+        else if (objContractor_Job_Security.Access == "Read/Write")
             rdoAccess.SelectedValue = "RW";
 
     }
@@ -256,8 +256,9 @@ public partial class Administrator_Contractor_Job_Security : clsBasePage
         lblProject_Description.Text = objContractor_Job_Security.Project_Description;
         if (objContractor_Job_Security.Access == "Read Only")
             lblAccess.Text = "Read Only";
-        else
+        else if (objContractor_Job_Security.Access == "Read/Write")
             lblAccess.Text = "Read/Write";
+        else { lblAccess.Text = ""; }
     }
 
     #endregion
