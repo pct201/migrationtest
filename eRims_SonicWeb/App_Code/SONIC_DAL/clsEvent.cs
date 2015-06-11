@@ -2464,5 +2464,20 @@ namespace ERIMS.DAL
             
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Get Event Abstract Data
+        /// </summary>
+        /// <param name="strSelectedEvents"></param>
+        /// <returns></returns>
+        public static DataSet GetEventAbstractLetterData(decimal PK_Event)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetEventAbstractLetterData");
+
+            db.AddInParameter(dbCommand, "PK_Event", DbType.Decimal, PK_Event);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
     }
 }

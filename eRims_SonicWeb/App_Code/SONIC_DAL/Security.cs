@@ -596,6 +596,16 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        public static DataSet GetEmailsByLocationForEvent(decimal? FK_LU_Location_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetEmailsByLocationForEvent");
+
+            db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Decimal, FK_LU_Location_ID);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
         #endregion
     }
 }
