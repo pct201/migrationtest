@@ -691,6 +691,23 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         }
         drpFK_Employee.Items.Insert(0, new ListItem("-- Select --", "0"));
     }
+
+    private void BindEmployeesByLocation()
+    {
+        //FK_LU_Location_ID
+        drpFK_Employee.Items.Clear();
+        DataSet dsEmployee = Employee.SelectEmployessByLocation(Convert.ToInt32(FK_LU_Location_ID));
+        if (dsEmployee.Tables.Count > 0)
+        {
+            drpFK_Employee.DataSource = dsEmployee.Tables[0];
+            drpFK_Employee.DataTextField = "EmployeeName";
+            drpFK_Employee.DataValueField = "PK_Employee_ID";
+            drpFK_Employee.DataBind();
+        }
+        drpFK_Employee.Items.Insert(0, new ListItem("-- Select --", "0"));
+    }
+
+
     #endregion
     #region "MeetingSchehule"
     private void BindAttendeesGrid()
@@ -2694,6 +2711,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     /// <param name="e"></param>
     protected void lnkSLT_MemberAdd_New_Click(object sender, EventArgs e)
     {
+        BindActiveEmployeesByLocation();
         btnSLTMembers_AuditEdit.Visible = false;
         tr_Sltmembers.Style.Add("display", "none");
         tr_SltmembersADD.Style.Add("display", "");
@@ -3944,6 +3962,10 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         if (e.CommandName == "EditMembers")
         {
             #region
+            
+            //Get Employees by Locations :
+            BindEmployeesByLocation();
+
             btnSLTMembers_AuditEdit.Visible = true;
             //tr_Sltmembers.Visible = false;
             //tr_SltmembersADD.Visible = true;
