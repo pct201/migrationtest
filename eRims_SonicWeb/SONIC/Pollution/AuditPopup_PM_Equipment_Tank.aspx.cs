@@ -59,7 +59,7 @@ public partial class SONIC_Pollution_AuditPopup_PM_Equipment_Tank : System.Web.U
         lbltable_Name.Text = "Tank";
         // Fill grid with audit table
         dt = clsPM_Equipment_Tank.GetAuditView(PK).Tables[0];
-        gvSIUtilityProvider.DataSource = dt;
+            gvSIUtilityProvider.DataSource = dt;
         gvSIUtilityProvider.DataBind();
         // Check if record found or not.
         if (dt.Rows.Count > 0)
@@ -102,5 +102,23 @@ public partial class SONIC_Pollution_AuditPopup_PM_Equipment_Tank : System.Web.U
             return string.Empty;
         }
     }
+
+
+    public string CheckYesNo(object myValue)
+    {
+        if (myValue.ToString() == "Y" || myValue.ToString() == "YES" || myValue.ToString() == "Yes")
+        {
+            return "Yes";
+        }
+        else if (myValue.ToString() == "N" || myValue.ToString() == "NO" || myValue.ToString() == "No")
+        {
+            return "No";
+        }
+        else
+        {
+            return string.Empty;
+        }
+    }
+
     #endregion
 }

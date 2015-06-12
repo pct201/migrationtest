@@ -668,7 +668,7 @@ function ValidateFieldsEquipment(sender, args) {
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:RadioButtonList ID="rdbULCertified" runat="server" SkinID="YesNoType">
+                                                                <asp:RadioButtonList ID="rdbULCertified" runat="server" SkinID="YNTypeNullSelection">
                                                                 </asp:RadioButtonList>
                                                             </td>
                                                             <td align="left" valign="top">Certificate Number&nbsp;<span id="Span11" style="color: Red; display: none;" runat="server">*</span>
@@ -698,7 +698,7 @@ function ValidateFieldsEquipment(sender, args) {
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:RadioButtonList ID="rdbSecureNonBusiness" runat="server" SkinID="YesNoType">
+                                                                <asp:RadioButtonList ID="rdbSecureNonBusiness" runat="server" SkinID="YNTypeNullSelection">
                                                                 </asp:RadioButtonList>
                                                             </td>                                                            
                                                         </tr>
@@ -730,7 +730,7 @@ function ValidateFieldsEquipment(sender, args) {
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:RadioButtonList ID="rdoTank_In_Use" runat="server" SkinID="YesNoType">
+                                                                <asp:RadioButtonList ID="rdoTank_In_Use" runat="server" SkinID="YNTypeNullSelection">
                                                                 </asp:RadioButtonList>
                                                             </td>
                                                             <td align="left" valign="top">Last Revision Date&nbsp;<span id="Span15" style="color: Red; display: none;" runat="server">*</span>
@@ -841,7 +841,7 @@ function ValidateFieldsEquipment(sender, args) {
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:RadioButtonList ID="rdoRegistration_Required" runat="server" SkinID="YesNoType">
+                                                                <asp:RadioButtonList ID="rdoRegistration_Required" runat="server" SkinID="YNTypeNullSelection">
                                                                 </asp:RadioButtonList>
                                                             </td>
                                                             <td align="left" valign="top">Registration Number&nbsp;<span id="Span22" style="color: Red; display: none;" runat="server">*</span>
@@ -858,7 +858,7 @@ function ValidateFieldsEquipment(sender, args) {
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:RadioButtonList ID="rdoLeak_Detection_Required" runat="server" SkinID="YesNoType">
+                                                                <asp:RadioButtonList ID="rdoLeak_Detection_Required" runat="server" SkinID="YNTypeNullSelection">
                                                                 </asp:RadioButtonList>
                                                             </td>
                                                             <td align="left" valign="top">Leak Detection Type&nbsp;<span id="Span23" style="color: Red; display: none;" runat="server">*</span>
@@ -875,7 +875,7 @@ function ValidateFieldsEquipment(sender, args) {
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:RadioButtonList ID="rdoOverfill_Protection" runat="server" SkinID="YesNoType">
+                                                                <asp:RadioButtonList ID="rdoOverfill_Protection" runat="server" SkinID="YNTypeNullSelection">
                                                                 </asp:RadioButtonList>
                                                             </td>
                                                             <td align="left" valign="top">&nbsp;
@@ -891,7 +891,7 @@ function ValidateFieldsEquipment(sender, args) {
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:RadioButtonList ID="rdoSecondary_Containment_Adequate" runat="server" SkinID="YesNoType">
+                                                                <asp:RadioButtonList ID="rdoSecondary_Containment_Adequate" runat="server" SkinID="YNTypeNullSelection">
                                                                 </asp:RadioButtonList>
                                                             </td>
                                                             <td align="left" valign="top">Secondary Containment Type&nbsp;<span id="Span24" style="color: Red; display: none;"
@@ -1001,7 +1001,7 @@ function ValidateFieldsEquipment(sender, args) {
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" colspan="4" valign="top">
-                                                                <asp:RadioButtonList ID="rdoSPCC_Required" runat="server" SkinID="YesNoType">
+                                                                <asp:RadioButtonList ID="rdoSPCC_Required" runat="server" SkinID="YNTypeNullSelection">
                                                                 </asp:RadioButtonList>
                                                             </td>
                                                         </tr>

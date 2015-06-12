@@ -322,13 +322,13 @@
                              <asp:TemplateField HeaderText="UL_Certified">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblUL_Certified" runat="server" Text='<%#Eval("UL_Certified")%>' Width="100px"></asp:Label>
+                                    <asp:Label ID="lblUL_Certified" runat="server" Text='<%#CheckYesNo(Eval("UL_Certified"))%>' Width="100px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                              <asp:TemplateField HeaderText="Secure_Non_Business">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblSecure_Non_Business" runat="server" Text='<%#Eval("Secure_Non_Business")%>' Width="100px"></asp:Label>
+                                    <asp:Label ID="lblSecure_Non_Business" runat="server" Text='<%#CheckYesNo(Eval("Secure_Non_Business"))%>' Width="100px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Certificate_Number">
@@ -369,7 +369,7 @@
                             <asp:TemplateField HeaderText="Tank_In_Use">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblTank_In_Use" runat="server" Text='<%#Eval("Tank_In_Use")%>' Width="100px"></asp:Label>
+                                    <asp:Label ID="lblTank_In_Use" runat="server" Text='<%#CheckYesNo(Eval("Tank_In_Use"))%>' Width="100px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Last_Inspection_Date">
@@ -417,7 +417,7 @@
                             <asp:TemplateField HeaderText="Registration_Required">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblRegistration_Required" runat="server" Text='<%#Eval("Registration_Required")%>'
+                                    <asp:Label ID="lblRegistration_Required" runat="server" Text='<%#CheckYesNo(Eval("Registration_Required"))%>'
                                         Width="100px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
@@ -431,7 +431,7 @@
                             <asp:TemplateField HeaderText="Leak_Detection_Required">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblLeak_Detection_Required" runat="server" Text='<%#Eval("Leak_Detection_Required")%>'
+                                    <asp:Label ID="lblLeak_Detection_Required" runat="server" Text='<%#CheckYesNo(Eval("Leak_Detection_Required"))%>'
                                         Width="100px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
@@ -445,14 +445,14 @@
                             <asp:TemplateField HeaderText="Overfill_Protection">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblOverfill_Protection" runat="server" Text='<%#Eval("Overfill_Protection")%>'
+                                    <asp:Label ID="lblOverfill_Protection" runat="server" Text='<%#CheckYesNo(Eval("Overfill_Protection"))%>'
                                         Width="100px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Secondary_Containment_Adequate">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblSecondary_Containment_Adequate" runat="server" Text='<%#Eval("Secondary_Containment_Adequate")%>'
+                                    <asp:Label ID="lblSecondary_Containment_Adequate" runat="server" Text='<%#CheckYesNo(Eval("Secondary_Containment_Adequate"))%>'
                                         Width="100px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
@@ -604,7 +604,7 @@
                             <asp:TemplateField HeaderText="SPCC Required">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblSPCC_Required" runat="server" Text='<%#Eval("SPCC_Required")%>' Width="100px" CssClass="TextClip"></asp:Label>
+                                    <asp:Label ID="lblSPCC_Required" runat="server" Text='<%#CheckYesNo(Eval("SPCC_Required"))%>' Width="100px" CssClass="TextClip"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
 

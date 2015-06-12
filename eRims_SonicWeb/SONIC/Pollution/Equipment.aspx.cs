@@ -386,17 +386,17 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         if (objPM_Equipment_Tank.Tank_In_Use != null)
             rdoTank_In_Use.SelectedValue = objPM_Equipment_Tank.Tank_In_Use;
         else
-            rdoTank_In_Use.SelectedValue = "Y";
+            rdoTank_In_Use.SelectedIndex = -1;
 
         if (objPM_Equipment_Tank.UL_Certified != null)
             rdbULCertified.SelectedValue = objPM_Equipment_Tank.UL_Certified;
         else
-            rdbULCertified.SelectedValue = "Y";
+            rdbULCertified.SelectedIndex = -1;
 
         if (objPM_Equipment_Tank.Secure_Non_Business != null)
             rdbSecureNonBusiness.SelectedValue = objPM_Equipment_Tank.Secure_Non_Business;
         else
-            rdbSecureNonBusiness.SelectedValue = "Y";
+            rdbSecureNonBusiness.SelectedIndex = -1;
 
         txtLast_Inspection_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Last_Inspection_Date);
         txtClosure_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Closure_Date);
@@ -407,21 +407,21 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         if (objPM_Equipment_Tank.Registration_Required != null)
             rdoRegistration_Required.SelectedValue = objPM_Equipment_Tank.Registration_Required;
         else
-            rdoRegistration_Required.SelectedValue = "Y";
+            rdoRegistration_Required.SelectedIndex = -1;
         txtRegistration_Number.Text = objPM_Equipment_Tank.Registration_Number;
         if (objPM_Equipment_Tank.Leak_Detection_Required != null)
             rdoLeak_Detection_Required.SelectedValue = objPM_Equipment_Tank.Leak_Detection_Required;
         else
-            rdoLeak_Detection_Required.SelectedValue = "Y";
+            rdoLeak_Detection_Required.SelectedIndex = -1;
         txtLeak_Detection_Type.Text = objPM_Equipment_Tank.Leak_Detection_Type;
         if (objPM_Equipment_Tank.Overfill_Protection != null)
             rdoOverfill_Protection.SelectedValue = objPM_Equipment_Tank.Overfill_Protection;
         else
-            rdoOverfill_Protection.SelectedValue = "Y";
+            rdoOverfill_Protection.SelectedIndex = -1;
         if (objPM_Equipment_Tank.Secondary_Containment_Adequate != null)
             rdoSecondary_Containment_Adequate.SelectedValue = objPM_Equipment_Tank.Secondary_Containment_Adequate;
         else
-            rdoSecondary_Containment_Adequate.SelectedValue = "Y";
+            rdoSecondary_Containment_Adequate.SelectedIndex = -1;
         if (objPM_Equipment_Tank.FK_LU_Secondary_Containment_Type != null) drpFK_LU_Secondary_Containment_Type.SelectedValue = objPM_Equipment_Tank.FK_LU_Secondary_Containment_Type.ToString();
         txtDescription_Other_Reporting_Requirements.Text = objPM_Equipment_Tank.Description_Other_Reporting_Requirements;
         txtPlan_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Plan_Date);
@@ -431,10 +431,12 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         txtExpiration_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Expiration_Date);
         txtRecordkeeping_Requirements.Text = objPM_Equipment_Tank.Recordkeeping_Requirements;
         //txtRelease_Control_Countermeasures_Plan.Text = objPM_Equipment_Tank.Release_Control_Countermeasures_Plan;            //* :3187 *//
+
         if (objPM_Equipment_Tank.SPCC_Required != null)
             rdoSPCC_Required.SelectedValue = objPM_Equipment_Tank.SPCC_Required;
         else
-            rdoSPCC_Required.SelectedValue = "Y";
+            rdoSPCC_Required.SelectedIndex = -1;
+        
         txtSPCCDate_Developed.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.SPCCDate_Developed);
         txtSPCCExpiration_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.SPCCExpiration_Date);
         txtMaintenance_Vendor.Text = objPM_Equipment_Tank.Maintenance_Vendor;
@@ -493,21 +495,21 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         lblInstallation_Firm.Text = objPM_Equipment_Tank.Installation_Firm;
         lblLast_Maintenance_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Last_Maintenance_Date);
         lblLast_Revision_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Last_Revision_Date);
-        lblTank_In_Use.Text = objPM_Equipment_Tank.Tank_In_Use == "Y" ? "Yes" : "No";
-        lblULCertified.Text = objPM_Equipment_Tank.UL_Certified == "Y" ? "Yes" : "No";
-        lblSecureNonBusiness.Text = objPM_Equipment_Tank.Secure_Non_Business == "Y" ? "Yes" : "No";
+        lblTank_In_Use.Text = objPM_Equipment_Tank.Tank_In_Use == "Y" ? "Yes" : objPM_Equipment_Tank.Tank_In_Use == "N" ? "No" : "";
+        lblULCertified.Text = objPM_Equipment_Tank.UL_Certified == "Y" ? "Yes" : objPM_Equipment_Tank.UL_Certified == "N" ? "No" : "";
+        lblSecureNonBusiness.Text = objPM_Equipment_Tank.Secure_Non_Business == "Y" ? "Yes" : objPM_Equipment_Tank.Secure_Non_Business == "N" ? "No" : "";
         lblLast_Inspection_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Last_Inspection_Date);
         lblClosure_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Closure_Date);
         lblRemoval_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Removal_Date);
         lblRevised_Removal_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Revised_Removal_Date);
         lblPermit_Begin_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Permit_Begin_Date);
         lblPermit_End_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Permit_End_Date);
-        lblRegistration_Required.Text = objPM_Equipment_Tank.Registration_Required == "Y" ? "Yes" : "No";
+        lblRegistration_Required.Text = objPM_Equipment_Tank.Registration_Required == "Y" ? "Yes" : objPM_Equipment_Tank.Registration_Required == "N" ? "No" : "";
         lblRegistration_Number.Text = objPM_Equipment_Tank.Registration_Number;
-        lblLeak_Detection_Required.Text = objPM_Equipment_Tank.Leak_Detection_Required == "Y" ? "Yes" : "No";
+        lblLeak_Detection_Required.Text = objPM_Equipment_Tank.Leak_Detection_Required == "Y" ? "Yes" : objPM_Equipment_Tank.Leak_Detection_Required == "N" ? "No" : "";
         lblLeak_Detection_Type.Text = objPM_Equipment_Tank.Leak_Detection_Type;
-        lblOverfill_Protection.Text = objPM_Equipment_Tank.Overfill_Protection == "Y" ? "Yes" : "No";
-        lblSecondary_Containment_Adequate.Text = objPM_Equipment_Tank.Secondary_Containment_Adequate == "Y" ? "Yes" : "No";
+        lblOverfill_Protection.Text = objPM_Equipment_Tank.Overfill_Protection == "Y" ? "Yes" : objPM_Equipment_Tank.Overfill_Protection == "N" ? "No" : "";
+        lblSecondary_Containment_Adequate.Text = objPM_Equipment_Tank.Secondary_Containment_Adequate == "Y" ? "Yes" : objPM_Equipment_Tank.Secondary_Containment_Adequate == "N" ? "No" : "";
         if (objPM_Equipment_Tank.FK_LU_Secondary_Containment_Type != null)
             lblFK_LU_Secondary_Containment_Type.Text = new LU_Secondary_Containment_Type((decimal)objPM_Equipment_Tank.FK_LU_Secondary_Containment_Type).Fld_Desc;
         lblDescription_Other_Reporting_Requirements.Text = objPM_Equipment_Tank.Description_Other_Reporting_Requirements;
@@ -518,7 +520,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         lblExpiration_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.Expiration_Date);
         lblRecordkeeping_Requirements.Text = objPM_Equipment_Tank.Recordkeeping_Requirements;
         //lblRelease_Control_Countermeasures_Plan.Text = objPM_Equipment_Tank.Release_Control_Countermeasures_Plan;    //*  :3187  *//
-        lblSPCC_Required.Text = objPM_Equipment_Tank.SPCC_Required == "Y" ? "Yes" : "No";
+        lblSPCC_Required.Text = objPM_Equipment_Tank.SPCC_Required == "Y" ? "Yes" : objPM_Equipment_Tank.SPCC_Required == "N" ? "No" : "";
         lblSPCCDate_Developed.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.SPCCDate_Developed);
         lblSPCCExpiration_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Tank.SPCCExpiration_Date);        
         lblMaintenance_Vendor.Text = objPM_Equipment_Tank.Maintenance_Vendor;
