@@ -1477,6 +1477,16 @@ namespace ERIMS.DAL
             DbCommand dbCommand = db.GetStoredProcCommand("Employee_SelectPayrollCodes");
             return db.ExecuteDataSet(dbCommand);
         }
+
+        public static DataSet SelectEmployessByLocation(int Sonic_Location_Code)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("SelectEmployessByLocation");
+
+            db.AddInParameter(dbCommand, "Sonic_Location_Code", DbType.Int32, Sonic_Location_Code);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
         #endregion
     }
 }
