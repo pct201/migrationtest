@@ -75,16 +75,16 @@ namespace ERIMS_Sonic_ReportScheduler
 
         //public void OnStart()
         //{
-            // TODO: Add code here to start your service.
+        //    // TODO: Add code here to start your service.
 
-            //Make event log entry to indicate starting of service
-            //EventLog.WriteEntry("eRIMS_Sonic Report Scheduler Started At : " + DateTime.Now.ToString());
+        //    //Make event log entry to indicate starting of service
+        //    EventLog.WriteEntry("eRIMS_Sonic Report Scheduler Started At : " + DateTime.Now.ToString());
 
-            //Create a thread for the function which send email
-            //Thread TSendMail = default(Thread);
-            //TSendMail = new System.Threading.Thread(SendReportAsAttachment);
+        //    //Create a thread for the function which send email
+        //    Thread TSendMail = default(Thread);
+        //    TSendMail = new System.Threading.Thread(SendReportAsAttachment);
 
-            //Start the thread
+        //    //Start the thread
         //    TSendMail.Start();
         //    TSendMail.CurrentCulture = new System.Globalization.CultureInfo("en-US");
         //}
@@ -105,7 +105,7 @@ namespace ERIMS_Sonic_ReportScheduler
         /// </summary>
         public void SendReportAsAttachment()
         {
-            Thread.Sleep(15000);
+            Thread.Sleep(1000);
             //Thread.Sleep(3600000);
             while (true)
             {
@@ -8249,7 +8249,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         //Sub Header
                         strHTML.Append("<tr style='font-weight:bold;  color : White;' align='center'>");
                         strHTML.Append("<td colspan='15' style='background: #993300;'>LOCATION/ADDRESS INFORMATION</td>");
-                        strHTML.Append("<td colspan='8' style='background: #000000;'>OCCUPANCY</td>");
+                        strHTML.Append("<td colspan='10' style='background: #000000;'>OCCUPANCY</td>");
                         strHTML.Append("<td colspan='7' style='background: #008000;'>FINANCIAL INFORMATION</td>");
                         strHTML.Append("<td colspan='12' style='background-color: #9999FF; color: #FFFFFF'>FIRE INSPECTION COMPANY</td>");
                         strHTML.Append("<td colspan='13' style='background: #000084;'>SECURITY GUARD SERVICES</td>");
@@ -8292,6 +8292,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<td width='120'>Office</td>");
                         strHTML.Append("<td width='120'>Parking Lot</td>");
                         strHTML.Append("<td width='120'>Row Land</td>");
+                        strHTML.Append("<td width='120'>Car Wash</td>");
+                        strHTML.Append("<td width='120'>Photo Booth</td>");
 
                         //FINANCIAL INFORMATION
                         strHTML.Append("<td width='150'>Property Valuation Date</td>");
@@ -8426,6 +8428,8 @@ namespace ERIMS_Sonic_ReportScheduler
                                 strHTML.Append("<td width='120'>" + Convert.ToString(dr["Office"]) + "</td>");
                                 strHTML.Append("<td width='120'>" + Convert.ToString(dr["Parking_Lot"]) + "t</td>");
                                 strHTML.Append("<td width='120'>" + Convert.ToString(dr["Raw_Land"]) + "</td>");
+                                strHTML.Append("<td width='120'>" + Convert.ToString(dr["Car_Wash"]) + "</td>");
+                                strHTML.Append("<td width='120'>" + Convert.ToString(dr["Photo_Booth"]) + "</td>");
 
                                 //FINANCIAL INFORMATION
                                 strHTML.Append("<td width='150'>" + FormatDBNullDateToDisplay(dr["Property_Valuation_Date"]) + "</td>");

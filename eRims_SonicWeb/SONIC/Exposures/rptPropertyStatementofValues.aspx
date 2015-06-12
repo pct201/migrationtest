@@ -89,7 +89,7 @@
                                 AutoPostBack="false" Width="280px" Rows="5"></asp:ListBox>
                         </td>
                     </tr>
-                     <tr>
+                    <tr>
                         <td align="left" valign="top" width="28%">Market
                         </td>
                         <td width="2%" align="center" valign="top">:
@@ -1450,6 +1450,16 @@
                             <asp:TemplateField HeaderText="Row Land">
                                 <ItemTemplate>
                                     <asp:Label ID="Label23" runat="server" Text='<%# Eval("Raw_Land") %>' Width="120px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Car Wash">
+                                <ItemTemplate>
+                                    <asp:Label ID="Label23" runat="server" Text='<%# Eval("Car_Wash") %>' Width="120px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Photo Booth">
+                                <ItemTemplate>
+                                    <asp:Label ID="Label23" runat="server" Text='<%# Eval("Photo_Booth") %>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Property Valuation Date">
