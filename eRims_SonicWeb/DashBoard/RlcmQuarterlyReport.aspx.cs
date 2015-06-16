@@ -288,7 +288,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
         strMarket = MarketAll;
 
         DataSet ds = new DataSet();
-        ds = Charts.RLCMQuarterlyPerformanceReport(Pk_SecurityId, strRegions, strMarket, idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate, strRlcm);
+        ds = Charts.RLCMQuarterlyPerformanceReport(Pk_SecurityId, strRegions, strMarket, idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate, strRlcm, rdoSortBy.SelectedValue);
 
         if (ds.Tables.Count > 0)
         {
@@ -523,7 +523,22 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
             //}
             strMarket = MarketAll;
 
-            Ds = Charts.RLCMQuarterlyPerformanceReportGrid(Pk_SecurityId, strRegions, strMarket, idState, CurrentFromDate, CurrentToDate, strRlcm);
+            if (rdoSortBy.SelectedValue == "RLCM")
+            {
+                Ds = Charts.RLCMQuarterlyPerformanceReportGrid_ByRLCM(Pk_SecurityId, strRegions, strMarket, idState, CurrentFromDate, CurrentToDate, strRlcm);
+                ((TemplateField)gvSLTScoring.Columns[0]).HeaderText = "RLCM";
+                ((TemplateField)gvRLCMSLTParticipation.Columns[0]).HeaderText = "RLCM";
+                ((TemplateField)gvTraining.Columns[0]).HeaderText = "RLCM";
+                ((TemplateField)gvRLCMLagTime.Columns[0]).HeaderText = "RLCM";
+            }
+            else
+            {
+                Ds = Charts.RLCMQuarterlyPerformanceReportGrid(Pk_SecurityId, strRegions, strMarket, idState, CurrentFromDate, CurrentToDate, strRlcm);
+                ((TemplateField)gvSLTScoring.Columns[0]).HeaderText = "Region";
+                ((TemplateField)gvRLCMSLTParticipation.Columns[0]).HeaderText = "Region";
+                ((TemplateField)gvTraining.Columns[0]).HeaderText = "Region";
+                ((TemplateField)gvRLCMLagTime.Columns[0]).HeaderText = "Region";
+            }
             if (Ds != null && Ds.Tables.Count > 0)
             {
 
@@ -600,8 +615,18 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
             //}
 
             strMarket = MarketAll;
-
-            Ds = Charts.RLCMFacilityInspections(Pk_SecurityId, strRegions, strMarket, idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate, strRlcm);
+            if (rdoSortBy.SelectedValue == "RLCM")
+            {
+                Ds = Charts.RLCMFacilityInspections_ByRLCM(Pk_SecurityId, strRegions, strMarket, idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate, strRlcm);
+                ((BoundField)gvFacilityInspection.Columns[0]).DataField = "RLCM";
+                ((BoundField)gvFacilityInspection.Columns[0]).HeaderText = "RLCM";
+            }
+            else
+            {
+                Ds = Charts.RLCMFacilityInspections(Pk_SecurityId, strRegions, strMarket, idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate, strRlcm);
+                ((BoundField)gvFacilityInspection.Columns[0]).DataField = "Region";
+                ((BoundField)gvFacilityInspection.Columns[0]).HeaderText = "Region";
+            }
 
             if (Ds != null && Ds.Tables[0].Rows.Count > 0)
             {
@@ -640,7 +665,16 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
             strRegions = RegionsAll;
             //}
             strMarket = MarketAll;
-            Ds = Charts.RLCMIncidentInvestigation(Pk_SecurityId, strRegions, strMarket, idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate, strRlcm);
+            if (rdoSortBy.SelectedValue == "RLCM")
+            {
+                ((TemplateField)gvInvestigation.Columns[0]).HeaderText = "RLCM";
+                Ds = Charts.RLCMIncidentInvestigation_ByRLCM(Pk_SecurityId, strRegions, strMarket, idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate, strRlcm);
+            }
+            else
+            {
+                ((TemplateField)gvInvestigation.Columns[0]).HeaderText = "Region";
+                Ds = Charts.RLCMIncidentInvestigation(Pk_SecurityId, strRegions, strMarket, idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate, strRlcm);
+            }
 
             if (Ds != null && Ds.Tables[0].Rows.Count > 0)
             {
@@ -686,12 +720,22 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
             //}
             strMarket = MarketAll;
 
-            Ds = Charts.RLCMSonicUniversityTraining(Pk_SecurityId, strRegions, strMarket,idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate, strRlcm);
+            if (rdoSortBy.SelectedValue == "RLCM")
+            {
+                ((TemplateField)gvSabaTraining.Columns[0]).HeaderText = "RLCM";
+                Ds = Charts.RLCMSonicUniversityTraining_ByRLCM(Pk_SecurityId, strRegions, strMarket, idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate, strRlcm);
+            }
+            else
+            {
+                ((TemplateField)gvSabaTraining.Columns[0]).HeaderText = "Region";
+                Ds = Charts.RLCMSonicUniversityTraining(Pk_SecurityId, strRegions, strMarket, idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate, strRlcm);
+            }
 
             if (Ds != null && Ds.Tables[0].Rows.Count > 0)
             {
                 divUni.Style["display"] = "block";
                 divUniMessage.Style["display"] = "none";
+
                 gvSabaTraining.DataSource = Ds.Tables[0];
                 gvSabaTraining.DataBind();
                 Ds = null;
@@ -732,7 +776,18 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
             //}
             strMarket = MarketAll;
 
-            Ds = Charts.RLCMWcClaimManagement(Pk_SecurityId, strRegions, strMarket,idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate, strRlcm);
+            if (rdoSortBy.SelectedValue == "RLCM")
+            {
+                Ds = Charts.RLCMWcClaimManagement_ByRLCM(Pk_SecurityId, strRegions, strMarket, idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate, strRlcm);
+                ((BoundField)gvWc.Columns[0]).DataField = "RLCM";
+                ((BoundField)gvWc.Columns[0]).HeaderText = "RLCM";
+            }
+            else
+            {
+                Ds = Charts.RLCMWcClaimManagement(Pk_SecurityId, strRegions, strMarket, idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate, strRlcm);
+                ((BoundField)gvWc.Columns[0]).DataField = "Region";
+                ((BoundField)gvWc.Columns[0]).HeaderText = "Region";
+            }
 
             if (Ds != null && Ds.Tables[0].Rows.Count > 0)
             {
@@ -800,6 +855,11 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
                 e.Row.Font.Bold = true;
             }
         }
+
+        //if (e.Row.RowType == DataControlRowType.Header)
+        //{
+        //    e.Row.Cells[0].Text = rdoSortBy.SelectedValue;
+        //}
     }
 
     protected void gvRLCMSLTParticipation_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -937,7 +997,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
         strHTML.Append("</Row>");
 
         strHTML.Append("<Row>");
-        strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Region</Data></Cell>");
+        strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">" + rdoSortBy.SelectedValue + "</Data></Cell>");
         strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Location/DBA</Data></Cell>");
         strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Ranking</Data></Cell>");
         strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Current Points</Data></Cell>");
@@ -986,7 +1046,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
 
         //RLCM Participation Start//
         strHTML.Append("<Row>");
-        strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Region</Data></Cell>");
+        strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">" + rdoSortBy.SelectedValue + "</Data></Cell>");
         strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Location/DBA</Data></Cell>");
         strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Q1 %</Data></Cell>");
         strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Q2 %</Data></Cell>");
@@ -1039,7 +1099,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
 
         //Training Start//
         strHTML.Append("<Row>");
-        strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Region</Data></Cell>");
+        strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">" + rdoSortBy.SelectedValue + "</Data></Cell>");
         strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Quarter</Data></Cell>");
         strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Scheduled</Data></Cell>");
         strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Completed</Data></Cell>");
@@ -1086,7 +1146,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
 
         //RLCM Lag Time Start//
         strHTML.Append("<Row>");
-        strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Region</Data></Cell>");
+        strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">" + rdoSortBy.SelectedValue + "</Data></Cell>");
         strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Location/DBA</Data></Cell>");
         strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Quarter</Data></Cell>");
         strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Average (Days)</Data></Cell>");
@@ -1140,7 +1200,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
         if (strColumnWidthTag != string.Empty)
             strHTML.Append(strColumnWidthTag);
         strHTML.Append("<Row>");
-        strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Region</Data></Cell>");
+        strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">" + rdoSortBy.SelectedValue + "</Data></Cell>");
         strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Location/DBA</Data></Cell>");
         strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Quarter</Data></Cell>");
         strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Percentage Completed by Quarter Prior Year/Running Total</Data></Cell>");
@@ -1208,7 +1268,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
         if (strColumnWidthTag != string.Empty)
             strHTML.Append(strColumnWidthTag);
         strHTML.Append("<Row>");
-        strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Region</Data></Cell>");
+        strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">" + rdoSortBy.SelectedValue + "</Data></Cell>");
         strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Location/DBA</Data></Cell>");
         strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Quarter</Data></Cell>");
         strHTML.Append("<Cell ss:StyleID=\"BoldColumn\"><Data ss:Type=\"String\">Number To Be Trained/Prior Year</Data></Cell>");
@@ -1547,7 +1607,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
     private string MakeChart(DataTable dt)
     {
         StringBuilder strChartXML = new StringBuilder();
-        strChartXML.Append("<chart caption='" + dt.Rows[0]["region"].ToString() + "' showLabels='1' showvalues='0' showYAxisValues='0' decimals='0' numDivLines ='0' rotateValues='1' exportEnabled='1' exportAtClient='1' exportHandler='fcBatchExporter' exportAction='Save'>");
+        strChartXML.Append("<chart caption='" + dt.Rows[0]["SortValue"].ToString() + "' showLabels='1' showvalues='0' showYAxisValues='0' decimals='0' numDivLines ='0' rotateValues='1' exportEnabled='1' exportAtClient='1' exportHandler='fcBatchExporter' exportAction='Save'>");
 
         strChartXML.Append("<categories>");
 
@@ -1610,7 +1670,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
 
         StringBuilder sbChart = new StringBuilder();
         //sbChart.Append(InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/MSColumn2D.swf?ChartNoDataText=No data to display for:" + dt.Rows[0]["region"].ToString().Replace(" ", "").Replace("-", "") + "", "", strChartXML.ToString(), dt.Rows[0]["region"].ToString().Replace(" ", "").Replace("-", ""), "98%", "300", false, true));
-        sbChart.Append(InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/MSColumn2D.swf?ChartNoDataText=No data to display for:" + dt.Rows[0]["region"].ToString().Replace(" ", "").Replace("-", "") + "", "", strChartXML.ToString(), dt.Rows[0]["region"].ToString().Replace(" ", "").Replace("-", "").Replace("/", ""), "98%", "300", false, true));
+        sbChart.Append(InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/MSColumn2D.swf?ChartNoDataText=No data to display for:" + dt.Rows[0]["SortValue"].ToString().Replace(" ", "").Replace("-", "") + "", "", strChartXML.ToString(), dt.Rows[0]["SortValue"].ToString().Replace(" ", "").Replace("-", "").Replace("/", ""), "98%", "300", false, true));
         return sbChart.ToString();
     }
 

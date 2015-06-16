@@ -142,6 +142,18 @@
                     <td align="left" class="lc">
                         <asp:ListBox ID="lstMarket" runat="server" Width="180px" SelectionMode="Multiple"></asp:ListBox>
                     </td>                    
+                    <td align="left" class="lc">
+                        Sort By
+                    </td>
+                    <td align="right" class="lc" >
+                        :
+                    </td>
+                    <td align="left" class="lc">
+                        <asp:RadioButtonList id="rdoSortBy" runat="server">
+                            <asp:ListItem Text="Region" Value ="Region" Selected="True"></asp:ListItem>
+                            <asp:ListItem Text="RLCM" Value ="RLCM"></asp:ListItem>
+                        </asp:RadioButtonList>
+                    </td>                    
                 </tr>
                 <tr>
                     <td align="left" class="lc">
@@ -384,7 +396,7 @@
                                                     <Columns>
                                                         <asp:TemplateField HeaderText="Region" SortExpression="Region" ItemStyle-HorizontalAlign="Left">
                                                             <ItemTemplate>
-                                                                <asp:Label ID="lblRegion" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Region")%>'></asp:Label>
+                                                                <asp:Label ID="lblRegion" runat="server" Text='<%# (rdoSortBy.SelectedValue == "RLCM") ? DataBinder.Eval(Container.DataItem, "RLCM") : DataBinder.Eval(Container.DataItem, "Region")%>'></asp:Label>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="Location/DBA" SortExpression="dba" ItemStyle-HorizontalAlign="Left">
@@ -426,7 +438,8 @@
                                                         <asp:TemplateField HeaderText="Region" SortExpression="Region" ItemStyle-HorizontalAlign="Left"
                                                             ItemStyle-Width="11%" HeaderStyle-Width="11%">
                                                             <ItemTemplate>
-                                                                <asp:Label ID="lblRegion" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Region")%>'></asp:Label>
+                                                                <%--<asp:Label ID="lblRegion" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Region")%>'></asp:Label>--%>
+                                                                <asp:Label ID="lblRegion" runat="server" Text='<%# (rdoSortBy.SelectedValue == "RLCM") ? DataBinder.Eval(Container.DataItem, "RLCM") : DataBinder.Eval(Container.DataItem, "Region")%>'></asp:Label>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="Location/DBA" SortExpression="dba" ItemStyle-HorizontalAlign="Left"
@@ -482,7 +495,8 @@
                                                         <asp:TemplateField HeaderText="Region" SortExpression="Region" ItemStyle-HorizontalAlign="Left"
                                                             ItemStyle-Width="22%">
                                                             <ItemTemplate>
-                                                                <asp:Label ID="lblRegion" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Region")%>'></asp:Label>
+                                                                <%--<asp:Label ID="lblRegion" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Region")%>'></asp:Label>--%>
+                                                                <asp:Label ID="lblRegion" runat="server" Text='<%# (rdoSortBy.SelectedValue == "RLCM") ? DataBinder.Eval(Container.DataItem, "RLCM") : DataBinder.Eval(Container.DataItem, "Region")%>'></asp:Label>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="Quarter" SortExpression="Quarter" ItemStyle-HorizontalAlign="Center"
@@ -525,7 +539,8 @@
                                                     <Columns>
                                                         <asp:TemplateField HeaderText="Region" SortExpression="Region" ItemStyle-HorizontalAlign="Left">
                                                             <ItemTemplate>
-                                                                <asp:Label ID="lblRegion" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Region")%>'></asp:Label>
+                                                                <%--<asp:Label ID="lblRegion" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Region")%>'></asp:Label>--%>
+                                                                <asp:Label ID="lblRegion" runat="server" Text='<%# (rdoSortBy.SelectedValue == "RLCM") ? DataBinder.Eval(Container.DataItem, "RLCM") : DataBinder.Eval(Container.DataItem, "Region")%>'></asp:Label>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="Location/DBA" SortExpression="dba" ItemStyle-HorizontalAlign="Left">
@@ -604,10 +619,10 @@
                                                 <td>
                                                     <asp:GridView ID="gvFacilityInspection" runat="server" AutoGenerateColumns="false"
                                                         EmptyDataText="No Record Found." OnRowDataBound="gvFacilityInspection_RowDataBound"
-                                                        Width="1870px">
+                                                        Width="1920px">
                                                         <Columns>
                                                             <asp:BoundField DataField="Region" HeaderText="Region" SortExpression="Region" HeaderStyle-HorizontalAlign="Left"
-                                                                ItemStyle-HorizontalAlign="Left" ItemStyle-Width="70px"></asp:BoundField>
+                                                                ItemStyle-HorizontalAlign="Left" ItemStyle-Width="120px"></asp:BoundField>
                                                             <asp:TemplateField HeaderText="Location/DBA" SortExpression="dba" ItemStyle-HorizontalAlign="Left"
                                                                 ItemStyle-Width="200px" HeaderStyle-HorizontalAlign="Left">
                                                                 <ItemTemplate>
@@ -738,7 +753,8 @@
                                                             <asp:TemplateField HeaderText="Region" SortExpression="Region" ItemStyle-HorizontalAlign="Left"
                                                                 HeaderStyle-Width="150px" ItemStyle-Width="150px">
                                                                 <ItemTemplate>
-                                                                    <asp:Label ID="lblRegion" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Region")%>'></asp:Label>
+                                                                    <%--<asp:Label ID="lblRegion" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Region")%>'></asp:Label>--%>
+                                                                    <asp:Label ID="lblRegion" runat="server" Text='<%# (rdoSortBy.SelectedValue == "RLCM") ? DataBinder.Eval(Container.DataItem, "RLCM") : DataBinder.Eval(Container.DataItem, "Region")%>'></asp:Label>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField HeaderText="Location/DBA" SortExpression="dba" ItemStyle-HorizontalAlign="Left"
@@ -882,7 +898,8 @@
                                                             <asp:TemplateField HeaderText="Region" SortExpression="Region" ItemStyle-HorizontalAlign="Left"
                                                                 HeaderStyle-Width="150px" ItemStyle-Width="150px">
                                                                 <ItemTemplate>
-                                                                    <asp:Label ID="lblRegion" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Region")%>'></asp:Label>
+                                                                    <%--<asp:Label ID="lblRegion" runat="server" Text='<%#DataBinder.Eval(Container.DataItem, "Region")%>'></asp:Label>--%>
+                                                                    <asp:Label ID="lblRegion" runat="server" Text='<%# (rdoSortBy.SelectedValue == "RLCM") ? DataBinder.Eval(Container.DataItem, "RLCM") : DataBinder.Eval(Container.DataItem, "Region")%>'></asp:Label>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField HeaderText="Location/DBA" SortExpression="dba" ItemStyle-HorizontalAlign="Left"
