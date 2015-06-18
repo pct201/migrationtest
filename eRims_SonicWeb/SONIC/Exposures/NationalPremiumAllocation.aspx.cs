@@ -470,7 +470,7 @@ public partial class SONIC_Exposures_NationalPremiumAllocation : clsBasePage
         clsGeneral.GetDecimalValue(txtCyberPremium) + clsGeneral.GetDecimalValue(txtProperty_Premium) +
         clsGeneral.GetDecimalValue(txtEarthquakePremium) + clsGeneral.GetDecimalValue(txtPollutionPremium);
 
-        TotalSurcharge = TotalActualCost - TotalStoreCost;
+        TotalSurcharge = TotalStoreCost - TotalActualCost;
     }
 
     private void ShowTotalRiskValues()
