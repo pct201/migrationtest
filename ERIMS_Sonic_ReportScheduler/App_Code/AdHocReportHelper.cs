@@ -295,6 +295,32 @@ namespace ERIMS_DAL
             return db.ExecuteReader(dbCommand);
         }
 
+        /// <summary>
+        /// Management A-hoc Report
+        /// </summary>
+        /// <param name="SelectedField"></param>
+        /// <param name="GroupBy"></param>
+        /// <param name="PVDWhere"></param>
+        /// <param name="SqlWhere1"></param>
+        /// <param name="SqlSortBy"></param>
+        /// <param name="strFilterIds"></param>
+        /// <returns></returns>
+        public static IDataReader GetAdHocReportForManagement(string SelectedField, string GroupBy, DateTime? PVDWhere, string SqlWhere1, string SqlSortBy, string strFilterIds, decimal PK_Security_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Management_rptAdHocReport");
+            dbCommand.CommandTimeout = 100000;
+
+            db.AddInParameter(dbCommand, "SelectedField", DbType.String, SelectedField);
+            db.AddInParameter(dbCommand, "GroupBy", DbType.String, GroupBy);
+            db.AddInParameter(dbCommand, "PVDWhere", DbType.DateTime, PVDWhere);
+            db.AddInParameter(dbCommand, "SqlWhere1", DbType.String, SqlWhere1);
+            db.AddInParameter(dbCommand, "SqlSortBy", DbType.String, SqlSortBy);
+            db.AddInParameter(dbCommand, "SqlWhereIds", DbType.String, strFilterIds);
+            db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, PK_Security_ID);
+            return db.ExecuteReader(dbCommand);
+        }
+
     }
 
 }

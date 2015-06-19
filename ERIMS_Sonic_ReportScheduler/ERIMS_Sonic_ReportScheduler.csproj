@@ -85,6 +85,9 @@
     <Compile Include="App_Code\AdHocReport.cs" />
     <Compile Include="App_Code\AdhocReportFields.cs" />
     <Compile Include="App_Code\AdHocReportHelper.cs" />
+    <Compile Include="App_Code\Management_AdHocFilter.cs" />
+    <Compile Include="App_Code\Management_AdHocReport.cs" />
+    <Compile Include="App_Code\Management_AdhocReportFields.cs" />
     <Compile Include="eRIMS_Sonic_ReportScheduler.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -139,7 +142,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\AdHocReportFields.xml" />
+    <Content Include="App_Data\AdHocReportFields.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

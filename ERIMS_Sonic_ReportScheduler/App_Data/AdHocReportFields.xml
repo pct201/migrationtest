@@ -21,4 +21,8 @@
   <Field Title="Is Sonic Event" TableName="" Type="drpYesNoString" HasCode="N" Field_Name=""></Field>
   <Field Title="Location" TableName="LU_Location" Type="DropDown" HasCode="Y" Field_Name="dba"></Field>
   <Field Title="Video Requested by Sonic" TableName="" Type="drpYesNoString" HasCode="N" Field_Name=""></Field>
+  <Field Title="Project Phase" TableName="LU_EPM_Project_Phase" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
+  <Field Title="Work to Be Completed" TableName="LU_Work_Completed" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
+  <Field Title="Record Type" TableName="LU_Record_Type" Type="DropDown" HasCode="Y" Field_Name="Fld_Desc"></Field>
+  <Field Title="Vendor State" TableName="State" Type="DropDown" HasCode="Y" Field_Name="FLD_state"></Field>
 </AdHocReportField>
