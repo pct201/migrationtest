@@ -139,9 +139,9 @@ public partial class DealershipDetail : System.Web.UI.Page
 
         dsResult = Charts.GetSabaTrainingDetail1(Year, DBA, Sonic_Location_Code, Quarter, AssociateStatus);
         if (dsResult.Tables[1] != null && dsResult.Tables[1].Rows.Count > 1)
-            dtAggreage.Rows[1][1] = dsResult.Tables[1].Rows[1][0] != DBNull.Value ? dsResult.Tables[1].Rows[1][0] : 0;
+            dtAggreage.Rows[1][1] = dsResult.Tables[1].Rows[1][0] != DBNull.Value ? dsResult.Tables[1].Rows[1][0] : 28;
         else
-            dtAggreage.Rows[1][1] = 0;
+            dtAggreage.Rows[1][1] = 28;
 
         if (dsResult.Tables[1] != null && dsResult.Tables[1].Rows.Count > 1)
             dtAggreage.Rows[1][2] = dsResult.Tables[1].Rows[1][1] != DBNull.Value ? dsResult.Tables[1].Rows[1][1] : "All Pro";            
