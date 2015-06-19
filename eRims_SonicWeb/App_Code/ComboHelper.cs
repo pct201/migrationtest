@@ -5264,5 +5264,177 @@ public class ComboHelper
             }
         }
     }
-}
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="intID"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillWork_Completed(ListBox[] dropDowns, int intID, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.clsLU_Work_Completed.SelectAll().Tables[0];
+        dtData.DefaultView.RowFilter = "Active = 'Y'";
+        foreach (ListBox ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Fld_Desc";
+            ddlToFill.DataValueField = "PK_LU_Work_Completed";
+            ddlToFill.DataSource = dtData;
+            //ddlToFill.Style.Add("font-size", "x-small");
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+            //check id greater 0 than find the value in dropdown list. if find than select the item.
+            if (intID > 0)
+            {
+                ListItem lst = new ListItem();
+                lst = ddlToFill.Items.FindByValue(intID.ToString());
+                if (lst != null)
+                {
+                    lst.Selected = true;
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="intID"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillRecord_Type(ListBox[] dropDowns, int intID, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.clsLU_Record_Type.SelectAll().Tables[0];
+        dtData.DefaultView.RowFilter = "Active = 'Y'";
+        foreach (ListBox ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Fld_Desc";
+            ddlToFill.DataValueField = "PK_LU_Record_Type";
+            ddlToFill.DataSource = dtData;
+            //ddlToFill.Style.Add("font-size", "x-small");
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+            //check id greater 0 than find the value in dropdown list. if find than select the item.
+            if (intID > 0)
+            {
+                ListItem lst = new ListItem();
+                lst = ddlToFill.Items.FindByValue(intID.ToString());
+                if (lst != null)
+                {
+                    lst.Selected = true;
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="LstBox"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillManagementByDecision(ListBox[] LstBox, bool booladdSelectAsFirstElement)
+    {
+        foreach (ListBox li in LstBox)
+        {
+            li.Items.Clear();
+            li.Items.Add(new ListItem("Approve", "1"));
+            li.Items.Add(new ListItem("Not Approve", "0"));
+
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                li.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="intID"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillEPM_Project_Phase(ListBox[] dropDowns, int intID, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.LU_EPM_Project_Phase.SelectAll().Tables[0];
+        dtData.DefaultView.RowFilter = "Active = 'Y'";
+        dtData.DefaultView.Sort = "Fld_Desc ASC";
+
+        foreach (ListBox ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Fld_Desc";
+            ddlToFill.DataValueField = "PK_LU_EPM_Project_Phase";
+            ddlToFill.DataSource = dtData.DefaultView;
+            //ddlToFill.Style.Add("font-size", "x-small");
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+            //check id greater 0 than find the value in dropdown list. if find than select the item.
+            if (intID > 0)
+            {
+                ListItem lst = new ListItem();
+                lst = ddlToFill.Items.FindByValue(intID.ToString());
+                if (lst != null)
+                {
+                    lst.Selected = true;
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="LstBox"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillManagementByWorkCompletedBy(ListBox[] LstBox, bool booladdSelectAsFirstElement)
+    {
+        foreach (ListBox li in LstBox)
+        {
+            li.Items.Clear();
+            li.Items.Add(new ListItem("ACI", "1"));
+            li.Items.Add(new ListItem("Sonic", "0"));
+
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                li.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="LstBox"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillTaskComplete(ListBox[] LstBox, bool booladdSelectAsFirstElement)
+    {
+        foreach (ListBox li in LstBox)
+        {
+            li.Items.Clear();
+            li.Items.Add(new ListItem("Yes", "1"));
+            li.Items.Add(new ListItem("No", "0"));
+
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                li.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+}

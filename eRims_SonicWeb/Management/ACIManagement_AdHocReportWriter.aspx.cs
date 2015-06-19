@@ -10,7 +10,7 @@ using System.IO;
 using System.Collections;
 using ERIMS.DAL;
 
-public partial class ACIEvents_AdHocReportWriter : clsBasePage
+public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
 {
     public enum ReportOutputType : int
     {
@@ -76,9 +76,9 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             //Hide Hidden Button
             btnHdnScheduling.Style["display"] = "none";
 
-            clsGeneral.SetDropdownValue(drpFilter1, "Is Actionable", false);
-            chkNotCriteria1.Visible = true;
-            LoadFilterControlDropDown("Is Actionable", "Y", lst_F1);
+            //clsGeneral.SetDropdownValue(drpFilter1, "Is Actionable", false);
+            //chkNotCriteria1.Visible = true;
+            //LoadFilterControlDropDown("Is Actionable", "Y", lst_F1);
 
             if (ReportId > 0 && PK_Schedule > 0 && strMode == "edit")
             {
@@ -183,7 +183,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
         //If records found
         if (File.Exists(strFilePath))
         {
-            if (clsGeneral.SendAdHocReport("Ad Hoc Report", strFilePath, "Ad Hoc Report.xls", Convert.ToDecimal(ddlRecipientList.SelectedItem.Value)))
+            if (clsGeneral.SendAdHocReport("Ad Hoc Report", strFilePath, "Management Ad-Hoc Report.xls", Convert.ToDecimal(ddlRecipientList.SelectedItem.Value)))
                 ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Email Sent Successfully')", true);
             else
                 ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Error occured while sending email.Please contact administrator')", true);
@@ -213,11 +213,11 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
     {
         string strType = GetSelectedCoverage();
 
-        DataTable dtAdHocReport = ERIMS.DAL.ACI_AdHocReport.ExistsReportName(strType, txtReportName.Text, (ddlReports.SelectedIndex > 0) ? Convert.ToDecimal(ddlReports.SelectedValue) : 0);
+        DataTable dtAdHocReport = ERIMS.DAL.Management_AdHocReport.ExistsReportName(strType, txtReportName.Text, (ddlReports.SelectedIndex > 0) ? Convert.ToDecimal(ddlReports.SelectedValue) : 0);
 
         if (dtAdHocReport.Rows.Count > 0)
         {
-            hdnReportId.Value = Convert.ToString(dtAdHocReport.Rows[0]["Pk_AdHocReport"]);
+            hdnReportId.Value = Convert.ToString(dtAdHocReport.Rows[0]["PK_Management_AdHocReport"]);
             String confirmMessage = "Are you sure you want to overwrite the existing report " + txtReportName.Text.Trim().Replace(@"\", @"\\").Replace("\"", "\\\"") + "?";
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "confirmNeeded", "__doPostBack('UserConfirmationPostBack',  window.confirm(\"" + confirmMessage + "\"));", true);
         }
@@ -245,7 +245,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
         if (ddlReports.SelectedIndex > 0)
         {
             // Delete Report and all Filter Criteria
-            ERIMS.DAL.ACI_AdHocReport.DeleteByPK(Convert.ToDecimal(ddlReports.SelectedItem.Value));
+            ERIMS.DAL.Management_AdHocReport.DeleteByPK(Convert.ToDecimal(ddlReports.SelectedItem.Value));
             hdnReportId.Value = "0";
             txtReportName.Text = "";
             string strType = GetSelectedCoverage();
@@ -749,12 +749,12 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             // Set Report PK
             _dcSelectedReport = 0;
 
-            List<ERIMS.DAL.ACI_AdHocFilter> lstFilter = new List<ACI_AdHocFilter>();
+            List<ERIMS.DAL.Management_AdHocFilter> lstFilter = new List<Management_AdHocFilter>();
 
             _dcSelectedReport = Convert.ToDecimal(ddlReports.SelectedItem.Value);
-            lstFilter = new ERIMS.DAL.ACI_AdHocFilter().GetAdHocReportFieldByPk(_dcSelectedReport.Value);
+            lstFilter = new ERIMS.DAL.Management_AdHocFilter().GetAdHocReportFieldByPk(_dcSelectedReport.Value);
 
-            ERIMS.DAL.ACI_AdHocReport ObjAdHocReport = new ERIMS.DAL.ACI_AdHocReport(_dcSelectedReport.Value);
+            ERIMS.DAL.Management_AdHocReport ObjAdHocReport = new ERIMS.DAL.Management_AdHocReport(_dcSelectedReport.Value);
 
             // Clear All Panels to bank
             ClearAllFilterPanel();
@@ -985,7 +985,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
         strExport.Append("<table style='font-size:10pt;'>");
         strExport.Append("<tr><td>&nbsp;</td></tr>");
         strExport.Append("<tr>");
-        strExport.Append("<td><b>Report Title : Ad-Hoc Report</b></td>");
+        strExport.Append("<td><b>Report Title : Management Ad-Hoc Report</b></td>");
         strExport.Append("</tr>");
         strExport.Append("<tr><td>&nbsp;</td></tr>");
         if (drpGroupByFirst.SelectedIndex > 0)
@@ -1050,13 +1050,13 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
     /// <param name="decValue"></param>
     /// <param name="lstSearch"></param>
     /// <returns></returns>
-    private int SearchList(decimal decValue, List<ACI_AdhocReportFields> lstSearch)
+    private int SearchList(decimal decValue, List<Management_AdhocReportFields> lstSearch)
     {
         int i;
 
         for (i = 0; i < lstSearch.Count; i++)
         {
-            if (lstSearch[i].Pk_AdhocReportFields.Value == decValue)
+            if (lstSearch[i].PK_Management_AdhocReportFields.Value == decValue)
                 return i;
         }
 
@@ -1248,10 +1248,10 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
     private void BindReportNameDropDown(string strType)
     {
         ddlReports.Items.Clear();
-        DataTable dtReprot = ERIMS.DAL.ACI_AdHocReport.SelectReportName(strType).Tables[0];
+        DataTable dtReprot = ERIMS.DAL.Management_AdHocReport.SelectReportName(strType).Tables[0];
         ddlReports.DataSource = dtReprot;
         ddlReports.DataTextField = "ReportName";
-        ddlReports.DataValueField = "Pk_AdHocReport";
+        ddlReports.DataValueField = "PK_Management_AdHocReport";
         ddlReports.DataBind();
         ddlReports.Items.Insert(0, new ListItem("---Select---", "0"));
         //clsGeneral.SetDropDownToolTip(new DropDownList[] { ddlReports });
@@ -1338,13 +1338,13 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
         if (bSort == true && lstOutputFields.Items.Count > 0)
         {
             DataTable dtFields = new DataTable();
-            dtFields.Columns.Add(new DataColumn("Pk_AdhocReportFields", typeof(decimal)));
+            dtFields.Columns.Add(new DataColumn("PK_Management_AdhocReportFields", typeof(decimal)));
             dtFields.Columns.Add(new DataColumn("Field_Header", typeof(string)));
 
             foreach (ListItem itmField in lstOutputFields.Items)
             {
                 DataRow drField = dtFields.NewRow();
-                drField["Pk_AdhocReportFields"] = itmField.Value;
+                drField["PK_Management_AdhocReportFields"] = itmField.Value;
                 drField["Field_Header"] = itmField.Text;
                 dtFields.Rows.Add(drField);
             }
@@ -1352,7 +1352,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             lstOutputFields.Items.Clear();
             lstOutputFields.DataSource = dtFields.DefaultView;
             lstOutputFields.DataTextField = "Field_Header";
-            lstOutputFields.DataValueField = "Pk_AdhocReportFields";
+            lstOutputFields.DataValueField = "PK_Management_AdhocReportFields";
             lstOutputFields.DataBind();
         }
 
@@ -1438,10 +1438,10 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
         decimal decSelectedValue = 0;
         if (drpFilter.Items.Count > 0 && drpFilter.SelectedIndex > 0)
             decSelectedValue = Convert.ToDecimal(drpFilter.SelectedItem.Value);
-        List<ERIMS.DAL.ACI_AdhocReportFields> lstAdHoc = null;
+        List<ERIMS.DAL.Management_AdhocReportFields> lstAdHoc = null;
 
         if (decSelectedValue > 0)
-            lstAdHoc = new ERIMS.DAL.ACI_AdhocReportFields().GetAdHocReportFieldByPk(decSelectedValue);
+            lstAdHoc = new ERIMS.DAL.Management_AdhocReportFields().GetAdHocReportFieldByPk(decSelectedValue);
 
         if (lstAdHoc != null && lstAdHoc.Count > 0)
         {
@@ -1457,33 +1457,45 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     SetDefaultTExtBox(pnlText_F.ID);
                     break;
                 case (int)AdHocReportHelper.AdHocControlType.MultiSelectList:
-                    
-                    if (lstAdHoc[0].Field_Header == "Location")
+
+                    if (lstAdHoc[0].Field_Header == "DBA")
                     {
                         //ComboHelper.FillLocation(new ListBox[] { lst_F }, false);
                         ComboHelper.FillLocationDBA_All(new ListBox[] { lst_F }, 0, false);
                     }
-                    else if (lstAdHoc[0].Field_Header == "Event Description")
+                    else if (lstAdHoc[0].Field_Header == "Work to Be Completed")
                     {
-                        ComboHelper.FillEventDescription(new ListBox[] { lst_F });
+                        ComboHelper.FillWork_Completed(new ListBox[] { lst_F }, 0, false);
                     }
-                    else if (lstAdHoc[0].Field_Header == "Event Type")
-                    {                        
-                        ComboHelper.FillEventType(new ListBox[] { lst_F }, false);
+                    else if (lstAdHoc[0].Field_Header == "Work to Be Completed By")
+                    {
+                        ComboHelper.FillManagementByWorkCompletedBy(new ListBox[] { lst_F }, false);
                     }
-                    else if (lstAdHoc[0].Field_Header == "Company State")
+                    else if (lstAdHoc[0].Field_Header == "Task Complete")
+                    {
+                        ComboHelper.FillTaskComplete(new ListBox[] { lst_F }, false);
+                    }
+                    else if (lstAdHoc[0].Field_Header == "Record Type")
+                    {
+                        ComboHelper.FillRecord_Type(new ListBox[] { lst_F }, 0, false);
+                    }
+                    else if (lstAdHoc[0].Field_Header == "Project Phase")
+                    {
+                        ComboHelper.FillEPM_Project_Phase(new ListBox[] { lst_F }, 0, false);
+                    }
+                    else if (lstAdHoc[0].Field_Header == "GM Decision" || lstAdHoc[0].Field_Header == "RLCM Decision" || lstAdHoc[0].Field_Header == "NAPM Decision" || lstAdHoc[0].Field_Header == "DRM Decision")
+                    {
+                        ComboHelper.FillManagementByDecision(new ListBox[] { lst_F }, false);
+                    }
+                    else if (lstAdHoc[0].Field_Header == "Vendor State")
                     {
                         ComboHelper.FillStateList(new ListBox[] { lst_F }, false);
                     }
-                    else if(lstAdHoc[0].Field_Header == "Status")
-                    {
-                        ComboHelper.FillEventByStaus(new ListBox[] { lst_F }, false);
-                    }
- 
+
                     else
                     {
                         AdHocReportHelper.FillFilterDropDown(lstAdHoc[0].Field_Header, new ListBox[] { lst_F }, false, GetSelectedCoverage());
-                    }                       
+                    }
                     pnlText_F.Visible = false;
                     pnlAmoun_F.Visible = false;
                     pnlDate_F.Visible = false;
@@ -1685,7 +1697,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
 
         if (!string.IsNullOrEmpty(strText))
         {
-            if (strFieldName.Contains("Date_Theft_Reported"))
+            if (strFieldName.Contains("Comments_Description"))
                 strWhere = " And (CONVERT(VARCHAR," + strFieldName + " ,108))";
             else strWhere = " And " + strFieldName;
             if (IsNotSelected == true)
@@ -1802,9 +1814,9 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             if (drpFilter != null)
             {
                 drpFilter.Items.Clear();
-                drpFilter.DataSource = ERIMS.DAL.ACI_AdhocReportFields.GetAdHocFilterFields(strTypes, "F");
+                drpFilter.DataSource = ERIMS.DAL.Management_AdhocReportFields.GetAdHocFilterFields(strTypes, "F");
                 drpFilter.DataTextField = "Field_Header";
-                drpFilter.DataValueField = "Pk_AdhocReportFields";
+                drpFilter.DataValueField = "PK_Management_AdhocReportFields";
                 drpFilter.DataBind();
                 drpFilter.Items.Insert(0, new ListItem("--Select--", "0"));
             }
@@ -2120,13 +2132,13 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
     private void BindOutpuFields(string strType)
     {
         lstOutputFields.Items.Clear();
-        DataSet dsData = ERIMS.DAL.ACI_AdhocReportFields.GetAdHocFields(strType, "O");
+        DataSet dsData = ERIMS.DAL.Management_AdhocReportFields.GetAdHocFields(strType, "O");
         dsData.Tables[0].DefaultView.Sort = "Field_Header asc";
 
         //lstOutputFields.DataSource = ERIMS.DAL.ACI_AdhocReportFields.GetAdHocFields(strType, "O");
         lstOutputFields.DataSource = dsData.Tables[0].DefaultView;
         lstOutputFields.DataTextField = "Field_Header";
-        lstOutputFields.DataValueField = "Pk_AdhocReportFields";
+        lstOutputFields.DataValueField = "PK_Management_AdhocReportFields";
         lstOutputFields.DataBind();
         //Didable button
         btnDeselectFields.Enabled = btnDeselectAllFields.Enabled = imgUp.Enabled = imgDown.Enabled = false;
@@ -2139,7 +2151,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
     private string BindReport_old(ref StringBuilder sbRecord, ReportOutputType ReportType)
     {
         IDataReader Reader = null;
-        List<ERIMS.DAL.ACI_AdhocReportFields> lstAdhoc = null;
+        List<ERIMS.DAL.Management_AdhocReportFields> lstAdhoc = null;
         DataTable dtSchema = null, dtHeader = null;
 
         try
@@ -2186,7 +2198,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             strCriteria = GetFilterIDs(new DropDownList[] { drpFilter1, drpFilter2, drpFilter3, drpFilter4, drpFilter5, drpFilter6, drpFilter7, drpFilter8, drpFilter9, drpFilter10, });
 
             if (!string.IsNullOrEmpty(strCriteria))
-                lstAdhoc = new ERIMS.DAL.ACI_AdhocReportFields().GetAdHocReportFieldByMultipleID(strCriteria);
+                lstAdhoc = new ERIMS.DAL.Management_AdhocReportFields().GetAdHocReportFieldByMultipleID(strCriteria);
 
             #region "Get Where condtion"
             //Prior Valuation Date.            
@@ -2395,8 +2407,8 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             try
             {
                 //Reader = AdHocReportHelper.GetAdHocReportACI(GetAllItemString(lstSelectedFields, false), strGroupBy, PVD, strWhere, strOrderBy, strFilterIds, Convert.ToBoolean(Convert.ToInt32(rdbEvent.SelectedValue)));
-                Reader = AdHocReportHelper.GetAdHocReportACI(GetAllItemString(lstSelectedFields, false), strGroupBy, PVD, strWhere, strOrderBy, strFilterIds, true);//Always set as Event
-                
+                Reader = AdHocReportHelper.GetAdHocReportForManagement(GetAllItemString(lstSelectedFields, false), strGroupBy, PVD, strWhere, strOrderBy, strFilterIds);//Always set as Management
+
             }
             catch (Exception ex)
             {
@@ -2441,8 +2453,8 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                 if (ReportType == ReportOutputType.ExportAsMail)
                 {
                     sbRecord.Append("<br />");
-                    sbRecord.Append("<b>Report Title : Ad Hoc Report </b>");
-                    sbRecord.Append("<br /><br />");
+                    sbRecord.Append("<b>Report Title : Management Ad Hoc Report </b>");
+                    sbRecord.Append("<br />");
                 }
 
                 sbRecord.Append(GenerateFilterCriteria());
@@ -3130,7 +3142,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
     private string BindReport(ref StringBuilder sbRecord, ReportOutputType ReportType)
     {
         IDataReader Reader = null;
-        List<ERIMS.DAL.ACI_AdhocReportFields> lstAdhoc = null;
+        List<ERIMS.DAL.Management_AdhocReportFields> lstAdhoc = null;
         DataTable dtSchema = null, dtHeader = null;
         bool IsGroupBySelected = false;
         try
@@ -3178,7 +3190,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             strCriteria = GetFilterIDs(new DropDownList[] { drpFilter1, drpFilter2, drpFilter3, drpFilter4, drpFilter5, drpFilter6, drpFilter7, drpFilter8, drpFilter9, drpFilter10, });
 
             if (!string.IsNullOrEmpty(strCriteria))
-                lstAdhoc = new ERIMS.DAL.ACI_AdhocReportFields().GetAdHocReportFieldByMultipleID(strCriteria);
+                lstAdhoc = new ERIMS.DAL.Management_AdhocReportFields().GetAdHocReportFieldByMultipleID(strCriteria);
 
             #region "Get Where condtion"
             //Prior Valuation Date.            
@@ -3199,10 +3211,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter1.Text, Convert.ToInt16(drpText_F1.SelectedItem.Value), chkNotCriteria1.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic");
-                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
-                        strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria1.Checked);
-                    else
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Work to Be Completed By") || lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
                     strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria1.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
@@ -3226,10 +3235,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter2.Text, Convert.ToInt16(drpText_F2.SelectedItem.Value), chkNotCriteria2.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic");
-                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
-                        strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria2.Checked);
-                    else
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Work to Be Completed By") || lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
                     strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F2, bStringVal), chkNotCriteria2.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
@@ -3252,10 +3258,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter3.Text, Convert.ToInt16(drpText_F3.SelectedItem.Value), chkNotCriteria3.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic");
-                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
-                        strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria3.Checked);
-                    else
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Work to Be Completed By") || lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
                     strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F3, bStringVal), chkNotCriteria3.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
@@ -3277,10 +3280,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter4.Text, Convert.ToInt16(drpText_F4.SelectedItem.Value), chkNotCriteria4.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic");
-                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
-                        strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria4.Checked);
-                    else
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Work to Be Completed By") || lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
                     strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F4, bStringVal), chkNotCriteria4.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
@@ -3301,10 +3301,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter5.Text, Convert.ToInt16(drpText_F5.SelectedItem.Value), chkNotCriteria5.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic");
-                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
-                        strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria5.Checked);
-                    else
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Work to Be Completed By") || lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
                     strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F5, bStringVal), chkNotCriteria5.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
@@ -3327,10 +3324,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter6.Text, Convert.ToInt16(drpText_F6.SelectedItem.Value), chkNotCriteria6.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic");
-                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
-                        strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria6.Checked);
-                    else
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Work to Be Completed By") || lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
                     strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F6, bStringVal), chkNotCriteria6.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
@@ -3351,10 +3345,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter7.Text, Convert.ToInt16(drpText_F7.SelectedItem.Value), chkNotCriteria7.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic");
-                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
-                        strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria7.Checked);
-                    else
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Work to Be Completed By") || lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
                     strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F7, bStringVal), chkNotCriteria7.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
@@ -3376,10 +3367,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter8.Text, Convert.ToInt16(drpText_F8.SelectedItem.Value), chkNotCriteria8.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic");
-                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
-                        strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria8.Checked);
-                    else
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Work to Be Completed By") || lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
                     strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F8, bStringVal), chkNotCriteria8.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
@@ -3402,11 +3390,8 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter9.Text, Convert.ToInt16(drpText_F9.SelectedItem.Value), chkNotCriteria9.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic");
-                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
-                        strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria9.Checked);
-                    else
-                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F9, bStringVal), chkNotCriteria9.Checked);
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Work to Be Completed By") || lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F9, bStringVal), chkNotCriteria9.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                     strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From9.Text, txtDate_To9.Text, lstDate9.SelectedItem.Value, chkNotCriteria9.Checked);
@@ -3427,11 +3412,8 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter10.Text, Convert.ToInt16(drpText_F10.SelectedItem.Value), chkNotCriteria10.Checked);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                 {
-                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Is Sonic Event") || lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Police Called") || lstAdhoc[iSelected].Field_Header.Contains("Status") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic");
-                    if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
-                        strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria10.Checked);
-                    else
-                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F10, bStringVal), chkNotCriteria10.Checked);
+                    bool bStringVal = lstAdhoc[iSelected].Field_Header.Contains("Work to Be Completed By") || lstAdhoc[iSelected].Field_Header.Contains("Task Complete") || lstAdhoc[iSelected].Field_Header.Contains("GM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision") || lstAdhoc[iSelected].Field_Header.Contains("NAPM Decision") || lstAdhoc[iSelected].Field_Header.Contains("DRM Decision") || lstAdhoc[iSelected].Field_Header.Contains("RLCM Decision");
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F10, bStringVal), chkNotCriteria10.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                 {
@@ -3451,7 +3433,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             try
             {
                 //Reader = AdHocReportHelper.GetAdHocReportACI(GetAllItemString(lstSelectedFields, false), strGroupBy, PVD, strWhere, strOrderBy, strFilterIds, Convert.ToBoolean(Convert.ToInt32(rdbEvent.SelectedValue)));
-                  Reader = AdHocReportHelper.GetAdHocReportACI(GetAllItemString(lstSelectedFields, false), strGroupBy, PVD, strWhere, strOrderBy, strFilterIds, true);//Always set as Event
+                Reader = AdHocReportHelper.GetAdHocReportForManagement(GetAllItemString(lstSelectedFields, false), strGroupBy, PVD, strWhere, strOrderBy, strFilterIds);//Always set as Management
 
             }
             catch (Exception ex)
@@ -3497,11 +3479,16 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                 if (ReportType == ReportOutputType.ExportAsMail)
                 {
                     sbRecord.Append("<br />");
-                    sbRecord.Append("<b>Report Title : Ad Hoc Report </b>");
-                    sbRecord.Append("<br /><br />");
+                    sbRecord.Append("<b>Report Title : Management Ad Hoc Report </b>");
+                    sbRecord.Append("<br />");
                 }
 
                 sbRecord.Append(GenerateFilterCriteria());
+
+                if (ReportType == ReportOutputType.ExportAsMail)
+                {
+                    sbRecord.Replace("<tr><td><b>Report Title : Management Ad-Hoc Report</b></td></tr>", "");
+                }
 
                 sbRecord.Append("<table border='1' cellpadding='0' cellspacing='0' width='" + (150 * lstSelectedFields.Items.Count).ToString() + "' style='font-size:10pt'>");
 
@@ -3815,7 +3802,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                                 }
                                 else
                                 {
-                                sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;' align='right'>&nbsp;" + strFirstGroupBy + ": " + string.Format("{0:c2}", decVal) + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;' align='right'>&nbsp;" + strFirstGroupBy + ": " + string.Format("{0:c2}", decVal) + "</td></tr>");
                                 }
                             }
                             else if (strFormatFirstGroupBy == "datetime")
@@ -4082,8 +4069,8 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                             {
                                 // it display only Time
                                 if (Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) == "Time Theft Reported")
-                                    sbRecord.Append("<td>" + string.Format("{0:HH:mm}", Reader[intColumn]) + "</td>");
-                                else sbRecord.Append("<td>" + string.Format("{0:MM/dd/yyyy}", Reader[intColumn]) + "</td>");
+                                    sbRecord.Append("<td align='left'>" + string.Format("{0:HH:mm}", Reader[intColumn]) + "</td>");
+                                else sbRecord.Append("<td align='left'>" + string.Format("{0:MM/dd/yyyy}", Reader[intColumn]) + "</td>");
                             }
                             else
                             {
@@ -4351,7 +4338,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
     private bool CheckISdisplayCurrencyFormat(string strHeader)
     {
         //Array contains value have numeric field but should not display with $ sign,
-        string strNumericField = "Operator Length of Service,Other Vehicle VIN,Auto Liability - FROI #,DPD - FROI #,Premises Liability - FROI #,Property Damage -FROI #";
+        string strNumericField = "Location Code";
         string[] arrNumericField = strNumericField.Split(',');
 
         // if header is defiend numeric filed it return false
@@ -4463,7 +4450,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
         //}
         //return strWhere;
         return "";
-     }
+    }
 
     /***
     /// <summary>
@@ -4551,7 +4538,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
     {
         string strType = GetSelectedCoverage();
 
-        ERIMS.DAL.ACI_AdHocReport objAdHocReport = new ERIMS.DAL.ACI_AdHocReport();
+        ERIMS.DAL.Management_AdHocReport objAdHocReport = new ERIMS.DAL.Management_AdHocReport();
         objAdHocReport.ReportName = txtReportName.Text.Trim();
         objAdHocReport.CoverageType = strType;
 
@@ -4624,13 +4611,13 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
         objAdHocReport.Updated_By = clsSession.UserName;
         objAdHocReport.Update_Date = System.DateTime.Now;
         decimal Pk_AdHocReport = 0;
-        objAdHocReport.Pk_AdHocReport = hdnReportId.Value == string.Empty ? 0 : Convert.ToInt32(hdnReportId.Value);
-        Pk_AdHocReport = objAdHocReport.Pk_AdHocReport.Value;
+        objAdHocReport.PK_Management_AdHocReport = hdnReportId.Value == string.Empty ? 0 : Convert.ToInt32(hdnReportId.Value);
+        Pk_AdHocReport = objAdHocReport.PK_Management_AdHocReport.Value;
 
         if (hdnScheduleID.Value != "0")
             objAdHocReport.FK_Schedule = Convert.ToDecimal(hdnScheduleID.Value);
 
-        if (objAdHocReport.Pk_AdHocReport.Value <= 0)
+        if (objAdHocReport.PK_Management_AdHocReport.Value <= 0)
         {
             Pk_AdHocReport = objAdHocReport.Insert();
             hdnReportId.Value = Pk_AdHocReport.ToString();
@@ -4655,14 +4642,14 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
         if (Pk_AdHocReport > 0)
         {
             // Delete 
-            ERIMS.DAL.ACI_AdHocFilter.DeleteByFk_AdHocReport(Pk_AdHocReport);
+            ERIMS.DAL.Management_AdHocFilter.DeleteByFk_AdHocReport(Pk_AdHocReport);
 
             string strCriteria = string.Empty;
             strCriteria = GetFilterIDs(new DropDownList[] { drpFilter1, drpFilter2, drpFilter3, drpFilter4, drpFilter5, drpFilter6, drpFilter7, drpFilter8, drpFilter9, drpFilter10, });
-            List<ERIMS.DAL.ACI_AdhocReportFields> lstAdhoc = new List<ACI_AdhocReportFields>();
+            List<ERIMS.DAL.Management_AdhocReportFields> lstAdhoc = new List<Management_AdhocReportFields>();
 
             if (!string.IsNullOrEmpty(strCriteria))
-                lstAdhoc = new ERIMS.DAL.ACI_AdhocReportFields().GetAdHocReportFieldByMultipleID(strCriteria);
+                lstAdhoc = new ERIMS.DAL.Management_AdhocReportFields().GetAdHocReportFieldByMultipleID(strCriteria);
 
             decimal decValue;
             int iSelected;
@@ -4671,7 +4658,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             {
                 decValue = Convert.ToDecimal(drpFilter1.SelectedItem.Value);
                 iSelected = SearchList(decValue, lstAdhoc);
-                SaveFilterCriteria(Pk_AdHocReport, lstAdhoc[iSelected].Pk_AdhocReportFields.Value, lstAdhoc[iSelected].Fk_ControlType.Value, drpText_F1.SelectedValue, txtFilter1.Text, GetSelectedItemString(lst_F1, false), lstDate1.SelectedValue, txtDate_From1.Text, txtDate_To1.Text, drpAmount_F1.SelectedValue, txtAmount1_F1.Text, txtAmount2_F1.Text, ucRelativeDatesFrom_1.RelativeDate, ucRelativeDatesTo_1.RelativeDate, chkNotCriteria1);
+                SaveFilterCriteria(Pk_AdHocReport, lstAdhoc[iSelected].PK_Management_AdhocReportFields.Value, lstAdhoc[iSelected].Fk_ControlType.Value, drpText_F1.SelectedValue, txtFilter1.Text, GetSelectedItemString(lst_F1, false), lstDate1.SelectedValue, txtDate_From1.Text, txtDate_To1.Text, drpAmount_F1.SelectedValue, txtAmount1_F1.Text, txtAmount2_F1.Text, ucRelativeDatesFrom_1.RelativeDate, ucRelativeDatesTo_1.RelativeDate, chkNotCriteria1);
                 //lstAdhoc.RemoveAt(iSelected);
             }
 
@@ -4679,7 +4666,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             {
                 decValue = Convert.ToDecimal(drpFilter2.SelectedItem.Value);
                 iSelected = SearchList(decValue, lstAdhoc);
-                SaveFilterCriteria(Pk_AdHocReport, lstAdhoc[iSelected].Pk_AdhocReportFields.Value, lstAdhoc[iSelected].Fk_ControlType.Value, drpText_F2.SelectedValue, txtFilter2.Text, GetSelectedItemString(lst_F2, false), lstDate2.SelectedValue, txtDate_From2.Text, txtDateTo2.Text, drpAmount_F2.SelectedValue, txtAmount1_F2.Text, txtAmount2_F2.Text, ucRelativeDatesFrom_2.RelativeDate, ucRelativeDatesTo_2.RelativeDate, chkNotCriteria2);
+                SaveFilterCriteria(Pk_AdHocReport, lstAdhoc[iSelected].PK_Management_AdhocReportFields.Value, lstAdhoc[iSelected].Fk_ControlType.Value, drpText_F2.SelectedValue, txtFilter2.Text, GetSelectedItemString(lst_F2, false), lstDate2.SelectedValue, txtDate_From2.Text, txtDateTo2.Text, drpAmount_F2.SelectedValue, txtAmount1_F2.Text, txtAmount2_F2.Text, ucRelativeDatesFrom_2.RelativeDate, ucRelativeDatesTo_2.RelativeDate, chkNotCriteria2);
                 // lstAdhoc.RemoveAt(iSelected);
             }
 
@@ -4687,7 +4674,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             {
                 decValue = Convert.ToDecimal(drpFilter3.SelectedItem.Value);
                 iSelected = SearchList(decValue, lstAdhoc);
-                SaveFilterCriteria(Pk_AdHocReport, lstAdhoc[iSelected].Pk_AdhocReportFields.Value, lstAdhoc[iSelected].Fk_ControlType.Value, drpText_F3.SelectedValue, txtFilter3.Text, GetSelectedItemString(lst_F3, false), lstDate3.SelectedValue, txtDate_From3.Text, txtDate_To3.Text, drpAmount_F3.SelectedValue, txtAmount1_F3.Text, txtAmount2_F3.Text, ucRelativeDatesFrom_3.RelativeDate, ucRelativeDatesTo_3.RelativeDate, chkNotCriteria3);
+                SaveFilterCriteria(Pk_AdHocReport, lstAdhoc[iSelected].PK_Management_AdhocReportFields.Value, lstAdhoc[iSelected].Fk_ControlType.Value, drpText_F3.SelectedValue, txtFilter3.Text, GetSelectedItemString(lst_F3, false), lstDate3.SelectedValue, txtDate_From3.Text, txtDate_To3.Text, drpAmount_F3.SelectedValue, txtAmount1_F3.Text, txtAmount2_F3.Text, ucRelativeDatesFrom_3.RelativeDate, ucRelativeDatesTo_3.RelativeDate, chkNotCriteria3);
                 //lstAdhoc.RemoveAt(iSelected);
             }
 
@@ -4695,7 +4682,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             {
                 decValue = Convert.ToDecimal(drpFilter4.SelectedItem.Value);
                 iSelected = SearchList(decValue, lstAdhoc);
-                SaveFilterCriteria(Pk_AdHocReport, lstAdhoc[iSelected].Pk_AdhocReportFields.Value, lstAdhoc[iSelected].Fk_ControlType.Value, drpText_F4.SelectedValue, txtFilter4.Text, GetSelectedItemString(lst_F4, false), lstDate4.SelectedValue, txtDate_From4.Text, txtDate_To4.Text, drpAmount_F4.SelectedValue, txtAmount1_F4.Text, txtAmount2_F4.Text, ucRelativeDatesFrom_4.RelativeDate, ucRelativeDatesTo_4.RelativeDate, chkNotCriteria4);
+                SaveFilterCriteria(Pk_AdHocReport, lstAdhoc[iSelected].PK_Management_AdhocReportFields.Value, lstAdhoc[iSelected].Fk_ControlType.Value, drpText_F4.SelectedValue, txtFilter4.Text, GetSelectedItemString(lst_F4, false), lstDate4.SelectedValue, txtDate_From4.Text, txtDate_To4.Text, drpAmount_F4.SelectedValue, txtAmount1_F4.Text, txtAmount2_F4.Text, ucRelativeDatesFrom_4.RelativeDate, ucRelativeDatesTo_4.RelativeDate, chkNotCriteria4);
                 //lstAdhoc.RemoveAt(iSelected);
             }
 
@@ -4703,7 +4690,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             {
                 decValue = Convert.ToDecimal(drpFilter5.SelectedItem.Value);
                 iSelected = SearchList(decValue, lstAdhoc);
-                SaveFilterCriteria(Pk_AdHocReport, lstAdhoc[iSelected].Pk_AdhocReportFields.Value, lstAdhoc[iSelected].Fk_ControlType.Value, drpText_F5.SelectedValue, txtFilter5.Text, GetSelectedItemString(lst_F5, false), lstDate5.SelectedValue, txtDate_From5.Text, txtDate_To5.Text, drpAmount_F5.SelectedValue, txtAmount1_F5.Text, txtAmount2_F5.Text, ucRelativeDatesFrom_5.RelativeDate, ucRelativeDatesTo_5.RelativeDate, chkNotCriteria5);
+                SaveFilterCriteria(Pk_AdHocReport, lstAdhoc[iSelected].PK_Management_AdhocReportFields.Value, lstAdhoc[iSelected].Fk_ControlType.Value, drpText_F5.SelectedValue, txtFilter5.Text, GetSelectedItemString(lst_F5, false), lstDate5.SelectedValue, txtDate_From5.Text, txtDate_To5.Text, drpAmount_F5.SelectedValue, txtAmount1_F5.Text, txtAmount2_F5.Text, ucRelativeDatesFrom_5.RelativeDate, ucRelativeDatesTo_5.RelativeDate, chkNotCriteria5);
                 //lstAdhoc.RemoveAt(iSelected);
             }
 
@@ -4711,7 +4698,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             {
                 decValue = Convert.ToDecimal(drpFilter6.SelectedItem.Value);
                 iSelected = SearchList(decValue, lstAdhoc);
-                SaveFilterCriteria(Pk_AdHocReport, lstAdhoc[iSelected].Pk_AdhocReportFields.Value, lstAdhoc[iSelected].Fk_ControlType.Value, drpText_F6.SelectedValue, txtFilter6.Text, GetSelectedItemString(lst_F6, false), lstDate6.SelectedValue, txtDate_From6.Text, txtDate_To6.Text, drpAmount_F6.SelectedValue, txtAmount1_F6.Text, txtAmount2_F6.Text, ucRelativeDatesFrom_6.RelativeDate, ucRelativeDatesTo_6.RelativeDate, chkNotCriteria6);
+                SaveFilterCriteria(Pk_AdHocReport, lstAdhoc[iSelected].PK_Management_AdhocReportFields.Value, lstAdhoc[iSelected].Fk_ControlType.Value, drpText_F6.SelectedValue, txtFilter6.Text, GetSelectedItemString(lst_F6, false), lstDate6.SelectedValue, txtDate_From6.Text, txtDate_To6.Text, drpAmount_F6.SelectedValue, txtAmount1_F6.Text, txtAmount2_F6.Text, ucRelativeDatesFrom_6.RelativeDate, ucRelativeDatesTo_6.RelativeDate, chkNotCriteria6);
                 //lstAdhoc.RemoveAt(iSelected);
             }
 
@@ -4719,7 +4706,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             {
                 decValue = Convert.ToDecimal(drpFilter7.SelectedItem.Value);
                 iSelected = SearchList(decValue, lstAdhoc);
-                SaveFilterCriteria(Pk_AdHocReport, lstAdhoc[iSelected].Pk_AdhocReportFields.Value, lstAdhoc[iSelected].Fk_ControlType.Value, drpText_F7.SelectedValue, txtFilter7.Text, GetSelectedItemString(lst_F7, false), lstDate7.SelectedValue, txtDate_From7.Text, txtDate_To7.Text, txtAmount1_F7.Text, drpAmount_F7.SelectedValue, txtAmount2_F7.Text, ucRelativeDatesFrom_7.RelativeDate, ucRelativeDatesTo_7.RelativeDate, chkNotCriteria7);
+                SaveFilterCriteria(Pk_AdHocReport, lstAdhoc[iSelected].PK_Management_AdhocReportFields.Value, lstAdhoc[iSelected].Fk_ControlType.Value, drpText_F7.SelectedValue, txtFilter7.Text, GetSelectedItemString(lst_F7, false), lstDate7.SelectedValue, txtDate_From7.Text, txtDate_To7.Text, txtAmount1_F7.Text, drpAmount_F7.SelectedValue, txtAmount2_F7.Text, ucRelativeDatesFrom_7.RelativeDate, ucRelativeDatesTo_7.RelativeDate, chkNotCriteria7);
                 //lstAdhoc.RemoveAt(iSelected);
             }
 
@@ -4727,7 +4714,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             {
                 decValue = Convert.ToDecimal(drpFilter8.SelectedItem.Value);
                 iSelected = SearchList(decValue, lstAdhoc);
-                SaveFilterCriteria(Pk_AdHocReport, lstAdhoc[iSelected].Pk_AdhocReportFields.Value, lstAdhoc[iSelected].Fk_ControlType.Value, drpText_F8.SelectedValue, txtFilter8.Text, GetSelectedItemString(lst_F8, false), lstDate8.SelectedValue, txtDate_From8.Text, txtDate_To8.Text, drpAmount_F8.SelectedValue, txtAmount1_F8.Text, txtAmount2_F8.Text, ucRelativeDatesFrom_8.RelativeDate, ucRelativeDatesTo_8.RelativeDate, chkNotCriteria8);
+                SaveFilterCriteria(Pk_AdHocReport, lstAdhoc[iSelected].PK_Management_AdhocReportFields.Value, lstAdhoc[iSelected].Fk_ControlType.Value, drpText_F8.SelectedValue, txtFilter8.Text, GetSelectedItemString(lst_F8, false), lstDate8.SelectedValue, txtDate_From8.Text, txtDate_To8.Text, drpAmount_F8.SelectedValue, txtAmount1_F8.Text, txtAmount2_F8.Text, ucRelativeDatesFrom_8.RelativeDate, ucRelativeDatesTo_8.RelativeDate, chkNotCriteria8);
                 //lstAdhoc.RemoveAt(iSelected);
             }
 
@@ -4735,7 +4722,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             {
                 decValue = Convert.ToDecimal(drpFilter9.SelectedItem.Value);
                 iSelected = SearchList(decValue, lstAdhoc);
-                SaveFilterCriteria(Pk_AdHocReport, lstAdhoc[iSelected].Pk_AdhocReportFields.Value, lstAdhoc[iSelected].Fk_ControlType.Value, drpText_F9.SelectedValue, txtFilter9.Text, GetSelectedItemString(lst_F9, false), lstDate9.SelectedValue, txtDate_From9.Text, txtDate_To9.Text, drpAmount_F9.SelectedValue, txtAmount1_F9.Text, txtAmount2_F9.Text, ucRelativeDatesFrom_9.RelativeDate, ucRelativeDatesTo_9.RelativeDate, chkNotCriteria9);
+                SaveFilterCriteria(Pk_AdHocReport, lstAdhoc[iSelected].PK_Management_AdhocReportFields.Value, lstAdhoc[iSelected].Fk_ControlType.Value, drpText_F9.SelectedValue, txtFilter9.Text, GetSelectedItemString(lst_F9, false), lstDate9.SelectedValue, txtDate_From9.Text, txtDate_To9.Text, drpAmount_F9.SelectedValue, txtAmount1_F9.Text, txtAmount2_F9.Text, ucRelativeDatesFrom_9.RelativeDate, ucRelativeDatesTo_9.RelativeDate, chkNotCriteria9);
                 //lstAdhoc.RemoveAt(iSelected);
             }
 
@@ -4743,7 +4730,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             {
                 decValue = Convert.ToDecimal(drpFilter10.SelectedItem.Value);
                 iSelected = SearchList(decValue, lstAdhoc);
-                SaveFilterCriteria(Pk_AdHocReport, lstAdhoc[iSelected].Pk_AdhocReportFields.Value, lstAdhoc[iSelected].Fk_ControlType.Value, drpText_F10.SelectedValue, txtFilter10.Text, GetSelectedItemString(lst_F10, false), lstDate10.SelectedValue, txtDate_From10.Text, txtDate_To10.Text, drpAmount_F10.SelectedValue, txtAmount1_F10.Text, txtAmount2_F10.Text, ucRelativeDatesFrom_10.RelativeDate, ucRelativeDatesTo_10.RelativeDate, chkNotCriteria10);
+                SaveFilterCriteria(Pk_AdHocReport, lstAdhoc[iSelected].PK_Management_AdhocReportFields.Value, lstAdhoc[iSelected].Fk_ControlType.Value, drpText_F10.SelectedValue, txtFilter10.Text, GetSelectedItemString(lst_F10, false), lstDate10.SelectedValue, txtDate_From10.Text, txtDate_To10.Text, drpAmount_F10.SelectedValue, txtAmount1_F10.Text, txtAmount2_F10.Text, ucRelativeDatesFrom_10.RelativeDate, ucRelativeDatesTo_10.RelativeDate, chkNotCriteria10);
                 //lstAdhoc.RemoveAt(iSelected);
             }
         }
@@ -4758,9 +4745,9 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
     public void SaveFilterCriteria(decimal Fk_AdHocReport, decimal FK_AdHocReportFields, decimal Fk_ControlType, string FitlerText, string TextWhere, string ListFilterWhere,
                                          string ListDate, string Date_From, string Date_To, string AmountWhere, string Amount1, string Amount2, AdHocReportHelper.RaltiveDates relativeFrom, AdHocReportHelper.RaltiveDates relativeTo, CheckBox chkNotSelected)
     {
-        ERIMS.DAL.ACI_AdHocFilter objFilter = new ACI_AdHocFilter();
-        objFilter.FK_AdHocReport = Fk_AdHocReport;
-        objFilter.FK_AdHocReportFields = FK_AdHocReportFields;
+        ERIMS.DAL.Management_AdHocFilter objFilter = new Management_AdHocFilter();
+        objFilter.FK_Management_AdHocReport = Fk_AdHocReport;
+        objFilter.FK_Management_AdhocReportFields = FK_AdHocReportFields;
 
         ///Relative Date
         if (Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
@@ -4808,23 +4795,23 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
     /// </summary>
     /// <param name="objFilter"></param>
     /// <param name="drpFilter"></param>
-    private void LoadFilterCriteria(ERIMS.DAL.ACI_AdHocFilter objFilter, DropDownList drpFilter)
+    private void LoadFilterCriteria(ERIMS.DAL.Management_AdHocFilter objFilter, DropDownList drpFilter)
     {
         ListItem liSelected;
 
         // Check if Fk is not null
-        if (objFilter.FK_AdHocReportFields.HasValue)
+        if (objFilter.FK_Management_AdhocReportFields.HasValue)
         {
             drpFilter.ClearSelection();
             // Find a value and then set it to selected
-            liSelected = drpFilter.Items.FindByValue(objFilter.FK_AdHocReportFields.ToString());
+            liSelected = drpFilter.Items.FindByValue(objFilter.FK_Management_AdhocReportFields.ToString());
 
             if (liSelected != null)
                 liSelected.Selected = true;
         }
     }
 
-    private void LoadCheckBoxNotCriteria(ERIMS.DAL.ACI_AdHocFilter objFilter, CheckBox chkNotSelectd)
+    private void LoadCheckBoxNotCriteria(ERIMS.DAL.Management_AdHocFilter objFilter, CheckBox chkNotSelectd)
     {
         chkNotSelectd.Checked = objFilter.IsNotSelected;
     }
@@ -4836,27 +4823,45 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
     private void LoadFilterControlDropDown(string Field_Header, string ConditionValue, ListBox lst_F)
     {
         lst_F.Items.Clear();
-        if (Field_Header == "Location")
+
+        if (Field_Header == "DBA")
         {
+            //ComboHelper.FillLocation(new ListBox[] { lst_F }, false);
             ComboHelper.FillLocationDBA_All(new ListBox[] { lst_F }, 0, false);
         }
-        else if (Field_Header == "Event Description")
+        else if (Field_Header == "Work to Be Completed")
         {
-            ComboHelper.FillEventDescription(new ListBox[] { lst_F });
+            ComboHelper.FillWork_Completed(new ListBox[] { lst_F }, 0, false);
         }
-        else if (Field_Header == "Event Type")
+        else if (Field_Header == "Work to Be Completed By")
         {
-            ComboHelper.FillEventType(new ListBox[] { lst_F }, false);
+            ComboHelper.FillManagementByWorkCompletedBy(new ListBox[] { lst_F }, false);
         }
-        else if (Field_Header == "Company State")
+        else if (Field_Header == "Task Complete")
+        {
+            ComboHelper.FillTaskComplete(new ListBox[] { lst_F }, false);
+        }
+        else if (Field_Header == "Record Type")
+        {
+            ComboHelper.FillRecord_Type(new ListBox[] { lst_F }, 0, false);
+        }
+        else if (Field_Header == "Project Phase")
+        {
+            ComboHelper.FillEPM_Project_Phase(new ListBox[] { lst_F }, 0, false);
+        }
+        else if (Field_Header == "GM Decision" || Field_Header == "RLCM Decision" || Field_Header == "NAPM Decision" || Field_Header == "DRM Decision")
+        {
+            ComboHelper.FillManagementByDecision(new ListBox[] { lst_F }, false);
+        }
+        else if (Field_Header == "Vendor State")
         {
             ComboHelper.FillStateList(new ListBox[] { lst_F }, false);
         }
         else
         {
             AdHocReportHelper.FillFilterDropDown(Field_Header, new ListBox[] { lst_F }, false, GetSelectedCoverage());
-        }                       
-            
+        }
+
         //Set ListBox ToolTip
         clsGeneral.SetListBoxToolTip(new ListBox[] { lst_F });
         // Set Selected Value for Filter Criteria
@@ -4893,7 +4898,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
     /// <summary>
     /// Bind Amount Fields from database
     /// </summary>
-    private void LoadFilterControlAmount(ERIMS.DAL.ACI_AdHocFilter objFilter, Panel pnlAmount_F, DropDownList drpAmount_F, TextBox txtAmount1_F, TextBox txtAmount2_F, Label lblAmountText1_F, Label lblAmountText2_F, CompareValidator cvAmount)
+    private void LoadFilterControlAmount(ERIMS.DAL.Management_AdHocFilter objFilter, Panel pnlAmount_F, DropDownList drpAmount_F, TextBox txtAmount1_F, TextBox txtAmount2_F, Label lblAmountText1_F, Label lblAmountText2_F, CompareValidator cvAmount)
     {
         ListItem liSelected = drpAmount_F.Items.FindByValue(objFilter.ConditionType);
         // Show Amount Panel
@@ -4914,7 +4919,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
     /// <summary>
     /// Bind Date Filter Criteria from database
     /// </summary>
-    private void LoadFilterControlDate(ERIMS.DAL.ACI_AdHocFilter objFilter, Panel pnlDate_F, DropDownList rdbCommon, Label lbl1, Label lbl2, TextBox txt1, TextBox txt2, HtmlImage img2, RegularExpressionValidator revDateTo, ASP.controls_relativedate_relativedate_ascx ucRelativeDatesFrom, ASP.controls_relativedate_relativedate_ascx ucRelativeDatesTo, HtmlImage img1)
+    private void LoadFilterControlDate(ERIMS.DAL.Management_AdHocFilter objFilter, Panel pnlDate_F, DropDownList rdbCommon, Label lbl1, Label lbl2, TextBox txt1, TextBox txt2, HtmlImage img2, RegularExpressionValidator revDateTo, ASP.controls_relativedate_relativedate_ascx ucRelativeDatesFrom, ASP.controls_relativedate_relativedate_ascx ucRelativeDatesTo, HtmlImage img1)
     {
 
         ListItem liSelected = rdbCommon.Items.FindByValue(objFilter.ConditionType);
@@ -5142,7 +5147,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
     /// <returns></returns>
     public string GetSelectedFilters(DropDownList drpFilter, DropDownList drpText_F, TextBox txtFilter, ListBox lst_F, DropDownList lstDate, TextBox txtDate_From, TextBox txtDate_To, DropDownList drpAmount_F, TextBox txtAmount1_F, TextBox txtAmount2_F, CheckBox chkNotCriteria)
     {
-        List<ERIMS.DAL.ACI_AdhocReportFields> lstAdhoc = null;
+        List<ERIMS.DAL.Management_AdhocReportFields> lstAdhoc = null;
         decimal decValue;
         int iSelected;
         string strWhere = string.Empty, strFilterIds = string.Empty, strGroupBy = string.Empty, strOrderBy = string.Empty, strCriteria = string.Empty, strPath = string.Empty;
@@ -5150,7 +5155,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
         strCriteria = GetFilterIDs(new DropDownList[] { drpFilter });
 
         if (!string.IsNullOrEmpty(strCriteria))
-            lstAdhoc = new ERIMS.DAL.ACI_AdhocReportFields().GetAdHocReportFieldByMultipleID(strCriteria);
+            lstAdhoc = new ERIMS.DAL.Management_AdhocReportFields().GetAdHocReportFieldByMultipleID(strCriteria);
 
         if (drpFilter.SelectedIndex > 0)
         {
@@ -5170,8 +5175,8 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             {
                 if (chkNotCriteria.Checked == true)
                     strWhere = "<b>" + strFilterIds + " (Not In) :</b>  " + GetSelectedItemTextString(lst_F);
-                else                   
-                        strWhere = "<b>" + strFilterIds + " (In) :</b>  " + GetSelectedItemTextString(lst_F);                    
+                else
+                    strWhere = "<b>" + strFilterIds + " (In) :</b>  " + GetSelectedItemTextString(lst_F);
             }
             else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
             {
@@ -5224,7 +5229,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                 strValues = strValues + lstBoxItem.Text.Replace("'", "''") + ", ";
             }
         }
-        return strValues.Trim().TrimEnd(',');        
+        return strValues.Trim().TrimEnd(',');
     }
 
     ///// <summary>
@@ -5247,11 +5252,11 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
     //Bind AdHoc Report Edit Mode
     private void BindAdHocReportEdit()
     {
-        DataSet dsScheduler = ERIMS.DAL.ACI_AdHocFilter.SelectByAdHocReportScheduler(PK_Schedule, ReportId);
+        DataSet dsScheduler = ERIMS.DAL.Management_AdHocFilter.SelectByAdHocReportScheduler(PK_Schedule, ReportId);
         if (dsScheduler != null && dsScheduler.Tables.Count > 0 && dsScheduler.Tables[0].Rows.Count > 0)
         {
             DataRow drScheduler = dsScheduler.Tables[0].Rows[0];
-            if (drScheduler["Pk_AdHocReport"] == DBNull.Value)
+            if (drScheduler["PK_Management_AdHocReport"] == DBNull.Value)
                 hdnScheduleID.Value = "0";
             else
                 hdnScheduleID.Value = Convert.ToString(drScheduler["FK_Schedule"]);
@@ -5268,10 +5273,10 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             }
             decimal Pk_AdHocReport;
             decimal? _dcSelectedReport = null;
-            if (drScheduler["Pk_AdHocReport"] == DBNull.Value)
+            if (drScheduler["PK_Management_AdHocReport"] == DBNull.Value)
                 Pk_AdHocReport = -1;
             else
-                Pk_AdHocReport = Convert.ToDecimal(drScheduler["Pk_AdHocReport"]);
+                Pk_AdHocReport = Convert.ToDecimal(drScheduler["PK_Management_AdHocReport"]);
             string strType = GetSelectedCoverage();
             SetDefaults(strType);
             BindReportNameDropDown(strType);
@@ -5293,10 +5298,10 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                 ddlRecipientList.SelectedValue = Convert.ToString(drScheduler["Fk_RecipientList"]);
             }
             _dcSelectedReport = 0;
-            List<ERIMS.DAL.ACI_AdHocFilter> lstFilter = new List<ACI_AdHocFilter>();
+            List<ERIMS.DAL.Management_AdHocFilter> lstFilter = new List<Management_AdHocFilter>();
             _dcSelectedReport = Pk_AdHocReport;
-            lstFilter = new ERIMS.DAL.ACI_AdHocFilter().GetAdHocReportFieldByPk(Pk_AdHocReport);
-            ERIMS.DAL.ACI_AdHocReport ObjAdHocReport = new ERIMS.DAL.ACI_AdHocReport(Pk_AdHocReport);
+            lstFilter = new ERIMS.DAL.Management_AdHocFilter().GetAdHocReportFieldByPk(Pk_AdHocReport);
+            ERIMS.DAL.Management_AdHocReport ObjAdHocReport = new ERIMS.DAL.Management_AdHocReport(Pk_AdHocReport);
             // Clear All Panels to bank
             ClearAllFilterPanel();
             // Clear All Control

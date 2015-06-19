@@ -237,8 +237,8 @@ public partial class Management_Management : clsBasePage
 
         //**************Approval Screen Fields starts********************//
         objRecord.GM_Email_To = txtGM_Email_To.Text;
-        objRecord.GM_Last_Email_Date = clsGeneral.FormatDateToStore(txtGM_Last_Email_Date);
-        objRecord.GM_Response_Date = clsGeneral.FormatDateToStore(txtGM_Response_Date);
+        objRecord.GM_Last_Email_Date = clsGeneral.FormatNullDateToStore(txtGM_Last_Email_Date.Text);
+        objRecord.GM_Response_Date = clsGeneral.FormatNullDateToStore(txtGM_Response_Date.Text);
         if (rdoGM_Decision.SelectedValue == "1")
             objRecord.GM_Decision = true;
         else if (rdoGM_Decision.SelectedValue == "0")
@@ -247,8 +247,8 @@ public partial class Management_Management : clsBasePage
             objRecord.GM_Decision = null;
         
         objRecord.RLCM_Email_To = txtRLCM_Email_To.Text;
-        objRecord.RLCM_Last_Email_Date = clsGeneral.FormatDateToStore(txtRLCM_Last_Email_Date);
-        objRecord.RLCM_Response_Date = clsGeneral.FormatDateToStore(txtRLCM_Response_Date);
+        objRecord.RLCM_Last_Email_Date = clsGeneral.FormatNullDateToStore(txtRLCM_Last_Email_Date.Text);
+        objRecord.RLCM_Response_Date = clsGeneral.FormatNullDateToStore(txtRLCM_Response_Date.Text);
         if (rdoRLCM_Decision.SelectedValue == "1")
             objRecord.RLCM_Decision = true;
         else if (rdoRLCM_Decision.SelectedValue == "0")
@@ -257,8 +257,8 @@ public partial class Management_Management : clsBasePage
             objRecord.RLCM_Decision = null;
 
         objRecord.NAPM_Email_To = txtNAPM_Email_To.Text;
-        objRecord.NAPM_Last_Email_Date = clsGeneral.FormatDateToStore(txtNAPM_Last_Email_Date);
-        objRecord.NAPM_Response_Date = clsGeneral.FormatDateToStore(txtNAPM_Response_Date);
+        objRecord.NAPM_Last_Email_Date = clsGeneral.FormatNullDateToStore(txtNAPM_Last_Email_Date.Text);
+        objRecord.NAPM_Response_Date = clsGeneral.FormatNullDateToStore(txtNAPM_Response_Date.Text);
         if (rdoNAPM_Decision.SelectedValue == "1")
             objRecord.NAPM_Decision = true;
         else if (rdoNAPM_Decision.SelectedValue == "0")
@@ -267,8 +267,8 @@ public partial class Management_Management : clsBasePage
             objRecord.NAPM_Decision = null;
 
         objRecord.DRM_Email_To = txtDRM_Email_To.Text;
-        objRecord.DRM_Last_Email_Date = clsGeneral.FormatDateToStore(txtDRM_Last_Email_Date);
-        objRecord.DRM_Response_Date = clsGeneral.FormatDateToStore(txtDRM_Response_Date);
+        objRecord.DRM_Last_Email_Date = clsGeneral.FormatNullDateToStore(txtDRM_Last_Email_Date.Text);
+        objRecord.DRM_Response_Date = clsGeneral.FormatNullDateToStore(txtDRM_Response_Date.Text);
         if (rdoDRM_Decision.SelectedValue == "1")
             objRecord.DRM_Decision = true;
         else if (rdoDRM_Decision.SelectedValue == "0")

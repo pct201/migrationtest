@@ -1,5 +1,4 @@
-<%@ Page Language="C#" MasterPageFile="~/Default.master" AutoEventWireup="true" CodeFile="ACIEvents_AdHocReportWriter.aspx.cs"
-    Inherits="ACIEvents_AdHocReportWriter" MaintainScrollPositionOnPostback="true" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Default.master" AutoEventWireup="true" CodeFile="ACIManagement_AdHocReportWriter.aspx.cs" Inherits="Management_ACIManagement_AdHocReportWriter" %>
 
 <%--<%@ Register Src="~/Controls/DistributionFolders/AdHocDistributionFolders.ascx" TagName="AdHocDistribution"
     TagPrefix="uc" %>--%>
@@ -21,7 +20,7 @@
             if (hdnPK_Adhoc == "")
                 hdnPK_Adhoc = 0;
             if (Page_ClientValidate('vsErrorGroup'))
-                GB_showCenter('Schedule Ad Hoc Report Writer', '<%=AppConfig.SiteURL%>/Event/SchedulerptAdHocWriter.aspx?PKID=' + PK_Schedule + "&RID=" + hdnPK_Adhoc, 300, 500, '');
+                GB_showCenter('Schedule Ad Hoc Report Writer', '<%=AppConfig.SiteURL%>/Management/SchedulerptManagementAdHocWriter.aspx?PKID=' + PK_Schedule + "&RID=" + hdnPK_Adhoc, 300, 500, '');
             else {
                 Page_ClientValidate('dummy'); return false;
             }
@@ -251,7 +250,7 @@
         BorderColor="DimGray" BorderWidth="1" HeaderText="Verify the following fields:"
         ShowMessageBox="true" ShowSummary="false"></asp:ValidationSummary>
     <div class="bandHeaderRow">
-        Ad Hoc Report Writer</div>
+        Management: Ad Hoc Report Writer</div>
     <asp:Panel ID="pnl_Container" runat="server">
         <table width="100%" cellpadding="4" cellspacing="2">
             <tr>
