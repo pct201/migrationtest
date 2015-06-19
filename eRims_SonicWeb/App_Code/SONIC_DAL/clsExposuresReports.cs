@@ -182,5 +182,17 @@ public class clsExposuresReports
             db.AddInParameter(dbCommand, "ShowOnDashboard", DbType.String, strShowOnDashboard);
         return db.ExecuteDataSet(dbCommand);
     }
+
+
+    public static DataSet GetSafetyTrainingReportByRegionLocation(int intYear)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("DealershipDetailsbyRegionLocation");
+        db.AddInParameter(dbCommand, "Year", DbType.Int32, intYear);
+        //db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, Convert.ToDecimal(clsSession.UserID));
+
+        return db.ExecuteDataSet(dbCommand);
+    }
+
     #endregion
 }

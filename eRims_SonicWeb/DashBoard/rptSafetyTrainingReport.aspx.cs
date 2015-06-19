@@ -99,7 +99,7 @@ public partial class DashBoard_rptSafetyTrainingReport : clsBasePage
         memorystream.Seek(0, SeekOrigin.Begin);
 
         HttpContext.Current.Response.Clear();
-        HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "Facility Inspection Report.xls"));
+        HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "Safety Training Report.xls"));
         HttpContext.Current.Response.ContentType = "application/ms-excel";
         HttpContext.Current.Response.Write(stringWrite.ToString().Replace("#EAEAEA", "White").Replace("#eaeaea", "White").Replace("background-color:#C0C0C0", "background-color:White;").Replace("<style type='text/css'></style>", "<style type='text/css'> .cols_{" + strcols + " }</style>").Replace("background-color:#7f7f7f;color:White", "background-color:White;color:Black"));
         HttpContext.Current.Response.End();
@@ -113,7 +113,7 @@ public partial class DashBoard_rptSafetyTrainingReport : clsBasePage
     {
         trCriteria.Visible = true;
         tblReport.Visible = false;
-        lblHeading.Text = "Facility Inspection Report";
+        lblHeading.Text = "Safety Training Report";
     }
     #endregion
 

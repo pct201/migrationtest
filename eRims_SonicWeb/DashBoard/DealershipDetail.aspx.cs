@@ -137,9 +137,21 @@ public partial class DealershipDetail : System.Web.UI.Page
         MergeColumn(ref dtAggreage, dsResult.Tables[0], 1);
         dtAverage.Rows.Add(dtAverage.NewRow()[0] = (dsResult.Tables[1].Rows[0][0] != DBNull.Value ? dsResult.Tables[1].Rows[0][0] : 0));
 
-        dsResult = Charts.GetSabaTrainingByLocation(Year, Region);
-        MergeColumn(ref dtAggreage, dsResult.Tables[0], 2);
-        dtAverage.Rows.Add(dtAverage.NewRow()[0] = (dsResult.Tables[1].Rows[0][0] != DBNull.Value ? dsResult.Tables[1].Rows[0][0] : 0));
+        dsResult = Charts.GetSabaTrainingDetail1(Year, DBA, Sonic_Location_Code, Quarter, AssociateStatus);
+        if (dsResult.Tables[1] != null && dsResult.Tables[1].Rows.Count > 1)
+            dtAggreage.Rows[1][1] = dsResult.Tables[1].Rows[1][0] != DBNull.Value ? dsResult.Tables[1].Rows[1][0] : 0;
+        else
+            dtAggreage.Rows[1][1] = 0;
+
+        if (dsResult.Tables[1] != null && dsResult.Tables[1].Rows.Count > 1)
+            dtAggreage.Rows[1][2] = dsResult.Tables[1].Rows[1][1] != DBNull.Value ? dsResult.Tables[1].Rows[1][1] : "All Pro";            
+        else
+            dtAggreage.Rows[1][2] = "All Pro";
+        //MergeColumn(ref dtAggreage, dsResult.Tables[0], 2);
+        if (dsResult.Tables[1] != null && dsResult.Tables[1].Rows.Count > 1)
+        dtAverage.Rows.Add(dtAverage.NewRow()[0] = (dsResult.Tables[1].Rows[1][0] != DBNull.Value ? dsResult.Tables[1].Rows[1][0] : 0));
+        else
+        dtAverage.Rows.Add(dtAverage.NewRow()[0] = 0);
 
         dsResult = Charts.GetIncidentInvestigationByLocation(Year, Region);
         MergeColumn(ref dtAggreage, dsResult.Tables[0], 3);
@@ -519,11 +531,15 @@ public partial class DealershipDetail : System.Web.UI.Page
 
             if (result5.Length > 0)
             {
-                if (string.IsNullOrEmpty(result5[0]["QuarterPercentage"].ToString()))
-                    lblSabaPerformance.Text = "0";
+                if (string.IsNullOrEmpty(result5[0]["AssociateQuarter"].ToString()))
+                    lblSabaPerformance.Text = "All Pro";
                 else
                     lblSabaPerformance.Text = result5[0]["AssociateQuarter"].ToString();
-                    
+
+            }
+            else
+            {
+                lblSabaPerformance.Text = "All Pro";
             }
         }
     }

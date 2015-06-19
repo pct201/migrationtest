@@ -21,7 +21,7 @@
     <script type="text/javascript" language="javascript" src="../../JavaScript/jquery.maskedinput.js"></script>
     <script type="text/javascript">
 
-        $(document).ready(function () {            
+        $(document).ready(function () {
             $("#ctl00_ContentPlaceHolder1_SafetywalkAttachment_txtType").val("");
         });
 
@@ -434,14 +434,14 @@ function onPreviousStep() {
     return false;
 }
 
-function CheckBeforeAddSaftyWalkAttach() {    
+function CheckBeforeAddSaftyWalkAttach() {
     var trAttach = document.getElementById('<%=trSafetyWalkAttachment.ClientID%>');
     trAttach.style.display = "block";
 }
 
 function CheckBeforeAddTrainingAttach() {
     $("#ctl00_ContentPlaceHolder1_SLT_TrainingAttachmentADD_txtType").val("");
-    var PK = '<%=PK_SLT_Training%>';    
+    var PK = '<%=PK_SLT_Training%>';
     if (PK > 0) {
         var trAttach = document.getElementById('<%=tr_training_Attachment.ClientID%>');
         trAttach.style.display = "block";
@@ -481,50 +481,50 @@ function CheckSLT_Member() {
 function SetValidationGroup() {
     var Index = document.getElementById("ctl00_ContentPlaceHolder1_hdnPanel2").value;
     var Schedule_id = '<%=ViewState["PK_SLT_Meeting_Schedule"] %>';
-        var temp_ID = '<%=PK_Temp_Schedule_ID %>';
-        var ValidationGroups;
-        if (Index == 1) {
-            if (document.getElementById("ctl00_ContentPlaceHolder1_tr_SltmembersADD").style.display == "block") {
-                ValidationGroups = "vsErrorSLT_Members";
-            }
-            else
-                return true;
+    var temp_ID = '<%=PK_Temp_Schedule_ID %>';
+    var ValidationGroups;
+    if (Index == 1) {
+        if (document.getElementById("ctl00_ContentPlaceHolder1_tr_SltmembersADD").style.display == "block") {
+            ValidationGroups = "vsErrorSLT_Members";
         }
-        if (Index == 3) ValidationGroups = "vsErrorAttendees";
-        else if (Index != 1 && Index != 8 && Index != 13 && Index != 7 && Index != 3 && Index != 2 && Index != 9 && Index != 14) {
-            if (Schedule_id > 0) {
-                if (Index == 4) ValidationGroups = "vsErrorcallToOrder";
-                else if (Index == 5) ValidationGroups = "vsErrorSafetywalkGroup";
-                else if (Index == 6) {
-                    var id_Q_Ins = '<%=ViewState["PK_SLT_Quarterly_Inspections"] %>';
-                var id_Q_Res = '<%=ViewState["FK_Inspection_Responses_ID"] %>';
-                if (parseInt(id_Q_Ins) > 0 && parseInt(id_Q_Res) > 0) {
-                    ValidationGroups = "vsErrorInspectionGroup";
+        else
+            return true;
+    }
+    if (Index == 3) ValidationGroups = "vsErrorAttendees";
+    else if (Index != 1 && Index != 8 && Index != 13 && Index != 7 && Index != 3 && Index != 2 && Index != 9 && Index != 14) {
+        if (Schedule_id > 0) {
+            if (Index == 4) ValidationGroups = "vsErrorcallToOrder";
+            else if (Index == 5) ValidationGroups = "vsErrorSafetywalkGroup";
+            else if (Index == 6) {
+                var id_Q_Ins = '<%=ViewState["PK_SLT_Quarterly_Inspections"] %>';
+                    var id_Q_Res = '<%=ViewState["FK_Inspection_Responses_ID"] %>';
+                    if (parseInt(id_Q_Ins) > 0 && parseInt(id_Q_Res) > 0) {
+                        ValidationGroups = "vsErrorInspectionGroup";
+                    }
+                    else {
+                        ValidationGroups = "";
+                    }
                 }
-                else {
-                    ValidationGroups = "";
+                else if (Index == 10) ValidationGroups = "vsErrorTrainingGroup";
+                else if (Index == 11) {
+                    if (document.getElementById("ctl00_ContentPlaceHolder1_tr_procedureAdd").style.display == "block") {
+                        ValidationGroups = "vsErrorProcedure";
+                    }
+                    else
+                        return true;
                 }
-            }
-            else if (Index == 10) ValidationGroups = "vsErrorTrainingGroup";
-            else if (Index == 11) {
-                if (document.getElementById("ctl00_ContentPlaceHolder1_tr_procedureAdd").style.display == "block") {
-                    ValidationGroups = "vsErrorProcedure";
+                else if (Index == 12) {
+                    if (document.getElementById("ctl00_ContentPlaceHolder1_tr_suggestionadd").style.display == "block") {
+                        ValidationGroups = "vsErrorSuggestion";
+                    }
+                    else
+                        return true;
                 }
-                else
-                    return true;
-            }
-            else if (Index == 12) {
-                if (document.getElementById("ctl00_ContentPlaceHolder1_tr_suggestionadd").style.display == "block") {
-                    ValidationGroups = "vsErrorSuggestion";
-                }
-                else
-                    return true;
-            }
-}
-else {
-    alert('Please select meeting agenda record');
-    return false;
-}
+    }
+    else {
+        alert('Please select meeting agenda record');
+        return false;
+    }
 }
 else if (Index == 14) {
     if (temp_ID > 0 || Schedule_id > 0) {
@@ -626,8 +626,8 @@ function ValidatePoints(sender, args) {
         args.IsValid = false;
 }
 
-function OpenPopup() {            
-//GB_showCenter('', '<%=AppConfig.SiteURL%>DashBoard/DealershipDetail.aspx?DBA=' + DBA.replace(/&/g, '%26') + '&Code=' + Code.toString() + '&year=' + year + '&MapID=' + MapID + '&' + new Date().toString(), 300, 400, '');
+function OpenPopup() {
+    //GB_showCenter('', '<%=AppConfig.SiteURL%>DashBoard/DealershipDetail.aspx?DBA=' + DBA.replace(/&/g, '%26') + '&Code=' + Code.toString() + '&year=' + year + '&MapID=' + MapID + '&' + new Date().toString(), 300, 400, '');
     var navUrl = '<%=AppConfig.SiteURL%>DashBoard/DealershipDetail.aspx?DBA=' + '<%= Convert.ToString(ViewState["jDBA"]) %>' + '&Code=' + '<%= Convert.ToString(ViewState["jSLC"]) %>' + '&year=' + '<%= Convert.ToString(ViewState["jYear"]) %>' + '&MapID=' + 3 + '&' + new Date().toString();
     OpenWindow(navUrl);
 }
@@ -651,17 +651,17 @@ function OpenWindow(navUrl) {
 }
 
 
-        jQuery(function ($) {
-            $("#<%=txtMembersStart_Date.ClientID%>").mask("99/99/9999");
-    $("#<%=txtmemberEnd_date.ClientID%>").mask("99/99/9999");
-    $("#<%=txtActual_Meeting_Date.ClientID%>").mask("99/99/9999");
-    $("#<%=txtMeeting_Start_Time.ClientID%>").mask("99:99");
-    $("#<%=txtMeeting_End_Time.ClientID%>").mask("99:99");
-    $("#<%=txtScheduled_Meeting_Time.ClientID%>").mask("99:99");
-});
-        
-function DisableButton() {
-    document.getElementById('<%= btnSaveNnextCall.ClientID %>').disabled = true;
+jQuery(function ($) {
+    $("#<%=txtMembersStart_Date.ClientID%>").mask("99/99/9999");
+            $("#<%=txtmemberEnd_date.ClientID%>").mask("99/99/9999");
+            $("#<%=txtActual_Meeting_Date.ClientID%>").mask("99/99/9999");
+            $("#<%=txtMeeting_Start_Time.ClientID%>").mask("99:99");
+            $("#<%=txtMeeting_End_Time.ClientID%>").mask("99:99");
+            $("#<%=txtScheduled_Meeting_Time.ClientID%>").mask("99:99");
+        });
+
+        function DisableButton() {
+            document.getElementById('<%= btnSaveNnextCall.ClientID %>').disabled = true;
     document.getElementById('<%= btnSaveNnextCall.ClientID %>').value = 'Submitting...';
 }
 
@@ -1194,7 +1194,7 @@ function DisableButton() {
                                                                     <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
-                                                                        <asp:DropDownList ID="drpMeeting_AgendaYear" runat="server" Width="160px" SkinID="dropGen">
+                                                                        <asp:DropDownList ID="drpMeeting_AgendaYear" runat="server" Width="160px" SkinID="dropGen" runnat="server">
                                                                         </asp:DropDownList>
                                                                     </td>
                                                                     <td align="left" valign="top">Month
@@ -1295,6 +1295,49 @@ function DisableButton() {
                                                                 Visible="false" />
                                                             &nbsp;&nbsp;<asp:Button ID="btnAdd_NewAgenda" runat="server" Text="Add New" OnClientClick="javascript:return CheckSLT_Member();"
                                                                 OnClick="lnkAddMeeting_Click" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr><td><b> Employee Details who Signed up for Training but have not completed yet :</b></td></tr>
+                                                    <tr>
+                                                        <td>Year : 
+                                                            <asp:DropDownList ID="ddlEmployeeSignedupYear" runat="server" Width="160px" SkinID="dropGen" runnat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlEmployeeSignedupYear_SelectedIndexChanged">
+                                                                        </asp:DropDownList>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="tr4" runat="server">
+                                                        <td align="left" valign="top">
+                                                            <asp:GridView ID="gvEmployeeSignedUp" runat="server" Width="100%" AutoGenerateColumns="false"
+                                                                PageSize="7" AllowPaging="true" OnPageIndexChanging="gvEmployeeSignedUp_PageIndexChanging">
+                                                                <Columns>                                                                   
+                                                                    <asp:TemplateField HeaderText="Employee Name" >
+                                                                        <ItemStyle Width="14%"/>
+                                                                        <ItemTemplate>
+                                                                            <asp:Label ID="lblEmployeeName" runat="server" Text='<%# Eval("EmployeeName") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Status Description" >
+                                                                        <ItemStyle Width="15%" />
+                                                                        <ItemTemplate>
+                                                                            <asp:Label ID="lblStatusDescription" runat="server" Text='<%#Eval("StatusDescription") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="EnrollmentDate" >
+                                                                        <ItemStyle Width="12%" />
+                                                                        <ItemTemplate>
+                                                                            <asp:Label ID="lblEnrollmentDate" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("EnrollmentDate")) %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>                                                                    
+                                                                </Columns>
+                                                                <EmptyDataTemplate>
+                                                                    <table cellpadding="4" cellspacing="0" width="100%">
+                                                                        <tr>
+                                                                            <td width="100%" align="center" style="border: 1px solid #cccccc;">
+                                                                                <asp:Label ID="lblEmptyHeaderGridMessage" runat="server" Text="No Record Found"></asp:Label>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </EmptyDataTemplate>
+                                                            </asp:GridView>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -3616,7 +3659,7 @@ function DisableButton() {
                                                     </tr>
                                                     <tr>
                                                         <td align="left" colspan="6">
-                                                            <a href="javascript:CheckBeforeAddTrainingAttach();" >Add New</a>
+                                                            <a href="javascript:CheckBeforeAddTrainingAttach();">Add New</a>
                                                             <%--<input type="hidden" id="hdnBuildingID" runat="server" />--%>
                                                         </td>
                                                     </tr>

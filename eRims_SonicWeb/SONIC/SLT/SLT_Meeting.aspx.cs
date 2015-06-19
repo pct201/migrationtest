@@ -363,6 +363,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                     // Bind Controls
                     BindDetailsForEdit();
                     SetValidations();
+                    BindEmployeeGrid();
                     //if (App_Access != AccessType.Administrative_Access && UserAccessType != AccessType.Administrative_Access)
                     //{
                     //    gvMeeting.Columns[gvMeeting.Columns.Count - 1].Visible = false;
@@ -964,6 +965,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         ddlYearIncident.Items.Clear();
         drpYearInspection.Items.Clear();
         drpMeeting_AgendaYear.Items.Clear();
+        ddlEmployeeSignedupYear.Items.Clear();
 
         for (int i = DateTime.Now.Year; i >= 2007; i--)
         {
@@ -972,6 +974,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             ddlYearIncident.Items.Add(new ListItem(i.ToString(), i.ToString())); // fill Year In ddl fro Incident Review Grid
             drpYearInspection.Items.Add(new ListItem(i.ToString(), i.ToString()));
             drpMeeting_AgendaYear.Items.Add(new ListItem(i.ToString(), i.ToString()));
+            ddlEmployeeSignedupYear.Items.Add(new ListItem(i.ToString(), i.ToString()));
             //ddlYear_Claim_Management.Items.Add(new ListItem(i.ToString(), i.ToString()));
         }
         ddlYearIncident.SelectedValue = DateTime.Now.Year.ToString();
@@ -5752,5 +5755,28 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         else
             txtMember_Email.Text = string.Empty;
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
-    }   
+    }
+    protected void gvEmployeeSignedUp_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        gvEmployeeSignedUp.PageIndex = e.NewPageIndex; //Page new index call
+        BindEmployeeGrid();
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
+    }
+
+    private void BindEmployeeGrid()
+    {
+        LU_Location objLU_Location = new LU_Location(FK_LU_Location_ID);
+        string Sonic_Location_Code = Convert.ToString(objLU_Location.Sonic_Location_Code);
+        string DBA = objLU_Location.dba;
+        DataSet ds = SLT_Members.SelectSignedupEmployeeByLocation(Convert.ToInt32(ddlEmployeeSignedupYear.SelectedValue), DBA, Sonic_Location_Code);
+        if(ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
+            gvEmployeeSignedUp.DataSource = ds.Tables[0];
+        gvEmployeeSignedUp.DataBind();
+    }
+
+    protected void ddlEmployeeSignedupYear_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        BindEmployeeGrid();
+        Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
+    }
 }

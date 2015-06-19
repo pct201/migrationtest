@@ -3,9 +3,22 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
-    <script type="text/javascript">  
-    function openWindowSchedule(PK_ReportID)
+    <script type="text/javascript" src="../JavaScript/jquery.min.js">        
+    </script>
+
+    <script type="text/javascript">            
+      
+        $(document).ready(function(){
+            $('#<%= gvReports.ClientID %> > tbody > tr > td > input[type="button"]').each(function(){
+                if($(this).attr('onclick') == "return openWindowSchedule('66    ');"){
+                    $(this).hide();
+                }
+            });
+        });
+
+        function openWindowSchedule(PK_ReportID)
         {
+
             var schedulePopUp = '';
             var obj='';
             if (PK_ReportID == 47)
@@ -46,8 +59,7 @@
 
     <table id="Table1" cellpadding="0" cellspacing="0" width="100%" runat="server">
         <tr>
-            <td width="100%" class="Spacer" style="height: 20px;">
-            </td>
+            <td width="100%" class="Spacer" style="height: 20px;"></td>
         </tr>
         <tr>
             <td width="100%" align="center">
@@ -73,7 +85,7 @@
                         <asp:TemplateField>
                             <ItemStyle Width="12%" HorizontalAlign="Center"></ItemStyle>
                             <ItemTemplate>
-                                <input type="button" value="Schedule" title="Schedule Report" class="btn" onclick="return openWindowSchedule('<%# Eval("PK_ReportID") %>');" />
+                                <input type="button" value="Schedule" title="Schedule Report" class="btn" onclick="return openWindowSchedule('<%# Eval("PK_ReportID") %>    ');" />
                             </ItemTemplate>
                         </asp:TemplateField>
                     </Columns>
@@ -81,8 +93,7 @@
             </td>
         </tr>
         <tr>
-            <td width="100%" class="Spacer" style="height: 20px;">
-            </td>
+            <td width="100%" class="Spacer" style="height: 20px;"></td>
         </tr>
     </table>
 </asp:Content>
