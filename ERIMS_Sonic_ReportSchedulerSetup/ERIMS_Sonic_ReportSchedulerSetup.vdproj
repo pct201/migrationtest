@@ -238,7 +238,7 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "FrameworkVersion" = "8:2.0.50727               "
+                "FrameworkVersion" = "8:2.0.50727                "
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=76617"
                 }
@@ -416,7 +416,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:ERIMS_Sonic_ReportSchedulerSetup"
         "ProductCode" = "8:{C0E62953-DBB8-4870-8D56-6C5CF184E824}"
-        "PackageCode" = "8:{8F5BD247-1057-4522-9FCA-751301442995}"
+        "PackageCode" = "8:{C26BB7FF-6DCD-481A-ACB6-B4C1599ABB90}"
         "UpgradeCode" = "8:{97C30599-D11B-4AC6-B3AC-55CC5156D9D0}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
