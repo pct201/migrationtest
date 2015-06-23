@@ -1216,7 +1216,7 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
                             lst_F.Items.Add((ListItem)liItem[i]);
                         }
                     }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "status" || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "status(tank)")
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).Trim() == "Status(Hydraulic Lift)" || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "status(tank)")
                     {
                         List<ListItem> liItem = new List<ListItem>();
 
@@ -2938,7 +2938,7 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
                 lst_F.Items.Add((ListItem)liItem[i]);
             }
         }
-        else if (Convert.ToString(Field_Header).ToLower().Trim() == "status" || Convert.ToString(Field_Header).ToLower().Trim() == "status(tank)")
+        else if (Convert.ToString(Field_Header).Trim() == "Status(Hydraulic Lift)" || Convert.ToString(Field_Header).ToLower().Trim() == "status(tank)")
         {
             List<ListItem> liItem = new List<ListItem>();
 
