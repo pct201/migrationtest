@@ -950,6 +950,7 @@ public partial class Event_Event_New : clsBasePage
 
         objEvent.Update_Date = DateTime.Now;
         objEvent.Updated_By = clsSession.UserID;
+        
         if (PK_Event > 0)
         {
             objEvent.Update();
@@ -1449,13 +1450,22 @@ public partial class Event_Event_New : clsBasePage
 
             string strAbstractReportData = Convert.ToString(Event_AbstactReport(PK_Event, false, clsGeneral.Major_Coverage.Event));
 
+            string[] attchment = null;
+            if (ViewState["Attchments"] != null)
+            {
+                attchment = new string[1];
+                attchment[0] = AppConfig.SitePath + "Documents/EventImage" + "/" + Convert.ToString(ViewState["Attchments"]);
+            }
+
             for (int i = 0; i < dtEmailList.Rows.Count; i++)
             {
                 strEmailIds[0] = Convert.ToString(dtEmailList.Rows[i]["Email"]);
                 EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
-                objEmail.SendMailMessage(AppConfig.ManagementEmailID, " ", strEmailIds, "ACI Actionable Event Abstract.", strAbstractReportData, true, null, AppConfig.MailCC);
+                objEmail.SendMailMessage(AppConfig.ManagementEmailID, " ", strEmailIds, "ACI Actionable Event Abstract.", strAbstractReportData, true, attchment, AppConfig.MailCC);
                 strEmailIds[0] = string.Empty;
             }
+
+            ViewState.Remove("Attchments");
         }
     }
 
@@ -1531,6 +1541,19 @@ public partial class Event_Event_New : clsBasePage
             strBody = strBody.Replace("[Acadian_Investigator_Email_Address]", Convert.ToString(dtEvent.Rows[0]["Investigator_Email"]));
             strBody = strBody.Replace("[Acadian_Investigator_Phone]", Convert.ToString(dtEvent.Rows[0]["Investigator_Phone"]));
 
+            //string AttachmentDocPath = "Documents/EventImage";
+            if (!string.IsNullOrEmpty(Convert.ToString(dtEvent.Rows[0]["Event_Image"])) && File.Exists(AppConfig.DocumentsPath + "EventImage\\" + dtEvent.Rows[0]["Event_Image"]))
+            {
+                ViewState["Attchments"] = dtEvent.Rows[0]["Event_Image"];
+                //strBody = strBody.Replace("[Event_Image]", "<img  alt='' src='" + AppConfig.SiteURL + AttachmentDocPath + "/" + dtEvent.Rows[0]["Event_Image"] + "' Height='200' Width='200' />");
+            }
+            else
+            {
+                // ViewState["Attchments"] = dtEvent.Rows[0]["Event_Image"];
+                ViewState.Remove("Attchments");
+                //strBody = strBody.Replace("[Event_Image]", string.Empty);
+            }
+
             strBody = strBody.Replace("[AL_FR_Number]", Convert.ToString(dtEvent.Rows[0]["AL_FR_Number"]));
             strBody = strBody.Replace("[DPD_FR_Number]", Convert.ToString(dtEvent.Rows[0]["DPD_FR_Number"]));
             strBody = strBody.Replace("[PL_FR_Number]", Convert.ToString(dtEvent.Rows[0]["PL_FR_Number"]));
@@ -1563,7 +1586,11 @@ public partial class Event_Event_New : clsBasePage
             strBody = strBody.Replace("[Police_Report_#]", Convert.ToString(dtEvent.Rows[0]["Police_Report_Number"]));
 
             strBody = strBody.Replace("[Acadian_Notes_Grid]", GetACINotesDetails(dtACINotes));
-            strBody = strBody.Replace("[Sonic_Notes_Grid]", GetSonicNotesDetails(dtSonicNotes));
+
+            if (Is_Sonic_Event)
+            {
+                strBody = strBody.Replace("[Sonic_Notes_Grid]", GetSonicNotesDetails(dtSonicNotes));
+            }
 
             #endregion
         }
