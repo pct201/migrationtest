@@ -5265,6 +5265,128 @@ public class ComboHelper
         }
     }
 
+
+    #region Property
+
+
+    public static void FillDistanceFromOthers(ListBox lst)
+    {
+        lst.Items.Clear();
+        lst.Items.Add(new ListItem("", "--SELECT--"));
+        lst.Items.Add(new ListItem("<1 MIles", "<1 MIles"));
+        lst.Items.Add(new ListItem("1-5 Miles", "1-5 Miles"));
+        lst.Items.Add(new ListItem("5-10 Miles", "5-10 Miles"));
+        lst.Items.Add(new ListItem(">10 Miles", ">10 Miles"));
+        
+    }
+    /// <summary>
+    /// fill fire department types-building
+    /// </summary>
+    /// <param name="lst"></param>
+    public static void FillBuildingFireDeptTypes(ListBox lst)
+    {
+        lst.Items.Clear();
+        lst.Items.Add(new ListItem("", "--SELECT--"));
+        lst.Items.Add(new ListItem("Paid", "Paid"));
+        lst.Items.Add(new ListItem("Part Paid", "Part Paid"));
+        lst.Items.Add(new ListItem("Volunteer", "Volunteer"));
+
+    }
+
+
+    /// <summary>
+    /// Fill Auto Liability Type
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="intID"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillBuildingLiability(ListBox lst)
+    {
+        lst.Items.Clear();
+        lst.Items.Add(new ListItem("Assigned with Liability", "Assigned with Liability"));
+        lst.Items.Add(new ListItem("Assigned without Liability", "Assigned without Liability"));
+
+    }
+
+    public static void FillLosspayeeTypes(ListBox lst)
+    {
+        lst.Items.Clear();
+        lst.Items.Add(new ListItem("", "--SELECT--"));
+        lst.Items.Add(new ListItem("Mortgagee", "Mortgagee"));
+        lst.Items.Add(new ListItem("Landlord", "Landlord"));
+
+    }
+
+    public static void FillPropertyContactTypeForAdhoc(ListBox[] dropDownList, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.clsLU_Property_Contact_Type.SelectActive();
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+        foreach (ListBox ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Fld_Desc";
+            ddlToFill.DataValueField = "Fld_Desc";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    public static void FillBuildingImprovementStatusForAdhoc(ListBox[] dropDownList, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.clsLU_BI_Status.SelectActive();
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+        foreach (ListBox ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Fld_Desc";
+            ddlToFill.DataValueField = "PK_LU_BI_Status";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    public static void FillBuildingImprovementBuildingForAdhoc(ListBox[] dropDownList, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.Building.SelectAll();
+        //dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+        foreach (ListBox ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Building_Number";
+            ddlToFill.DataValueField = "PK_Building_ID";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    public static void FillBIRevisedSquareFootage(ListBox lst)
+    {
+        lst.Items.Clear();
+        lst.Items.Add(new ListItem("", "--SELECT--"));
+        lst.Items.Add(new ListItem("Add", "A"));
+        lst.Items.Add(new ListItem("Reduce", "R"));
+        lst.Items.Add(new ListItem("No Change", "N"));
+
+    }
+
+    #endregion
+
+
     /// <summary>
     /// 
     /// </summary>
