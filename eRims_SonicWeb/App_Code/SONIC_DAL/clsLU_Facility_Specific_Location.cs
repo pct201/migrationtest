@@ -173,7 +173,7 @@ namespace ERIMS.DAL
 			else
 				db.AddInParameter(dbCommand, "Description", DbType.String, this._Description);
 
-			return Convert.ToDecimal(db.ExecuteNonQuery(dbCommand));
+            return Convert.ToDecimal(db.ExecuteScalar(dbCommand));
 		}
 
 		/// <summary>
