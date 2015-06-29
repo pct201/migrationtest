@@ -1138,7 +1138,7 @@ public partial class Property_AdHocReportWriter : clsBasePage
                     {
                         ComboHelper.FillLocationLocationCodeFranchiseReport(new ListBox[] { lst_F }, false);
                     }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).Trim() == "Building-Location Status")
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).Trim() == "Building-Location Status".ToLower())
                     {
                         ComboHelper.FillBuildingLocationStatus(new ListBox[] { lst_F }, false);
                     }
@@ -2901,7 +2901,7 @@ public partial class Property_AdHocReportWriter : clsBasePage
         {
             ComboHelper.FillLocationLocationCodeFranchiseReport(new ListBox[] { lst_F }, false);
         }
-        else if (Convert.ToString(Field_Header).ToLower().Trim() == "Building-Location Status")
+        else if (Convert.ToString(Field_Header).ToLower().Trim() == "Building-Location Status".ToLower())
         {
             ComboHelper.FillBuildingLocationStatus(new ListBox[] { lst_F }, false);
         }
