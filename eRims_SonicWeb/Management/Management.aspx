@@ -402,9 +402,9 @@
                                                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ValidationGroup="vsErrorGroup"
                                                                     Display="none" ErrorMessage="Scheduled Date is not a valid date" SetFocusOnError="true"
                                                                     ControlToValidate="txtdate_Scheduled" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
-                                                                <asp:CompareValidator ID="cmpvalid" runat="server" ErrorMessage="Date Sheduled should be greater than or equal to current date"
+                                                                <%--<asp:CompareValidator ID="cmpvalid" runat="server" ErrorMessage="Date Sheduled should be greater than or equal to current date"
                                                                     Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToCompare="txtCurrentDate"
-                                                                    ControlToValidate="txtdate_Scheduled" Type="Date" Operator="GreaterThanEqual"></asp:CompareValidator>
+                                                                    ControlToValidate="txtdate_Scheduled" Type="Date" Operator="GreaterThanEqual"></asp:CompareValidator>--%>
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 Date Completed
@@ -420,9 +420,9 @@
                                                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ValidationGroup="vsErrorGroup"
                                                                     Display="none" ErrorMessage="Completed Date is not a valid date" SetFocusOnError="true"
                                                                     ControlToValidate="txtDate_Completed" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
-                                                                <asp:CompareValidator ID="CompareValidator1" runat="server" ErrorMessage="Date Completed should be less than or equal to current date"
+                                                                <%--<asp:CompareValidator ID="CompareValidator1" runat="server" ErrorMessage="Date Completed should be less than or equal to current date"
                                                                     Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToCompare="txtCurrentDate"
-                                                                    ControlToValidate="txtDate_Completed" Type="Date" Operator="LessThanEqual"></asp:CompareValidator>
+                                                                    ControlToValidate="txtDate_Completed" Type="Date" Operator="LessThanEqual"></asp:CompareValidator>--%>
                                                             </td>
                                                         </tr>
                                                         <tr>
