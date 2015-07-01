@@ -1354,10 +1354,22 @@ public partial class Management_Management : clsBasePage
     //}
     protected void drpLocation_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (!string.IsNullOrEmpty(drpLocation.SelectedValue))
+        if (!string.IsNullOrEmpty(drpLocation.SelectedValue) && drpLocation.SelectedIndex > 0)
         {
-            LU_Location lu = new LU_Location(Convert.ToDecimal(drpLocation.SelectedValue));
-            txtLocation_Code.Text = Convert.ToString(lu.Sonic_Location_Code);
+            LU_Location location = new LU_Location(Convert.ToDecimal(drpLocation.SelectedValue));
+
+            if (location.Sonic_Location_Code != null)
+            {
+                txtLocation_Code.Text = Convert.ToString(location.Sonic_Location_Code);
+            }
+            else
+            {
+                txtLocation_Code.Text = string.Empty;
+            }
+        }
+        else
+        {
+            txtLocation_Code.Text = string.Empty;
         }
     }
 
