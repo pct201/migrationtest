@@ -481,7 +481,7 @@ public partial class DealershipDetail : System.Web.UI.Page
         }
         if (dsDetail.Tables[1].Rows.Count > 0)
         {
-            if (Year != null) lblSabaTrainingYear.Text = Convert.ToString(Year); 
+            if (Year != null) lblSabaTrainingYear.Text = Convert.ToString(Year);
             else if (dsDetail.Tables[0].Rows[0]["Year"] == DBNull.Value)
                 lblSabaTrainingYear.Text = "Data Not Available";
             else
@@ -541,6 +541,10 @@ public partial class DealershipDetail : System.Web.UI.Page
             {
                 lblSabaPerformance.Text = "All Pro";
             }
+        }
+        else
+        {
+            lblSabaPerformance.Text = "All Pro";
         }
     }
 

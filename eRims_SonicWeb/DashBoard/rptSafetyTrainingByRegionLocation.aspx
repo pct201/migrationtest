@@ -68,15 +68,27 @@
                         </td>
                     </tr>--%>
                     <tr>
-                        <td align="left" valign="top">
+                        <td align="left" valign="top" width="25%">
                             Year
                         </td>
-                        <td width="2%" align="center" valign="top">
+                        <td align="center" valign="top" width="5%">
                             :
                         </td>
-                        <td align="left">
+                        <td align="left" width="65%">
                             <asp:DropDownList ID="drpYear" runat="server" SkinID="dropGen" Width="200px">
                             </asp:DropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" valign="top" width="25%">
+                            Regions
+                        </td>
+                        <td align="center" valign="top" width="5%">
+                            :&nbsp;
+                        </td>
+                        <td align="left" width="65%">
+                            <asp:ListBox ID="lstRegion" runat="server" SelectionMode="Multiple" Width="250px"
+                                Rows="5"></asp:ListBox>
                         </td>
                     </tr>
 <%--                    <tr>

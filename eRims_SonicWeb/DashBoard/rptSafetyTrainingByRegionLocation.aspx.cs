@@ -20,6 +20,7 @@ public partial class DashBoard_rptSafetyTrainingByRegionLocation : clsBasePage
         {
             //BindRegion();
             BindYear();
+            ComboHelper.FillRegionListBox(new ListBox[] { lstRegion }, false);
             //ComboHelper.FillMarket(new DropDownList[] { ddlMarket }, true);
             //drpReportInterval.Focus();
 
@@ -35,6 +36,7 @@ public partial class DashBoard_rptSafetyTrainingByRegionLocation : clsBasePage
     /// <param name="e"></param>
     protected void btnShowReport_Click(object sender, EventArgs e)
     {
+
         lblReport.Text = GenerageAnnaulyReportByRegionLocation().ToString();
     }
 
@@ -47,6 +49,7 @@ public partial class DashBoard_rptSafetyTrainingByRegionLocation : clsBasePage
     {
         // load the page again to clear selection        
         drpYear.SelectedIndex = 0;
+        lstRegion.ClearSelection();
         //drpReportInterval.SelectedIndex = 0;
     }
 
@@ -126,8 +129,26 @@ public partial class DashBoard_rptSafetyTrainingByRegionLocation : clsBasePage
 
     private System.Text.StringBuilder GenerageAnnaulyReportByRegionLocation()
     {
+        string strRegion = "";
+        // get selected regions
+        foreach (ListItem li in lstRegion.Items)
+        {
+            if (li.Selected)
+                strRegion = strRegion + "" + li.Value + ",";
+        }
+        strRegion = strRegion.TrimEnd(',');
 
-        DataSet dsReport = clsExposuresReports.GetSafetyTrainingReportByRegionLocation(Convert.ToInt32(drpYear.SelectedValue));
+        if (string.IsNullOrEmpty(strRegion))
+        {
+            foreach (ListItem li in lstRegion.Items)
+            {                
+                strRegion = strRegion + "" + li.Value + ",";
+            }
+        }
+
+
+
+        DataSet dsReport = clsExposuresReports.GetSafetyTrainingReportByRegionLocation(Convert.ToInt32(drpYear.SelectedValue), strRegion);
 
         // get data tables from dataset
 

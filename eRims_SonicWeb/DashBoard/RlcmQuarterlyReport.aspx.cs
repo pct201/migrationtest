@@ -265,6 +265,11 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
         pnlCriteria.Visible = false;
         pnlReport.Visible = true;
 
+        if (rdoSortBy.SelectedValue == "RLCM")
+            Label1.Text = "AGGREGATE PERFORMANCE BY RLCM";
+        else
+            Label1.Text = "AGGREGATE PERFORMANCE BY Region";
+
         cpeSLTScoring.Collapsed = true;
         cpeSLTScoring.ClientState = "true";
         cpeFacility.Collapsed = true;

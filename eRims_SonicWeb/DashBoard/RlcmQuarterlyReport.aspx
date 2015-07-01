@@ -304,7 +304,7 @@
                             <table width="100%" cellpadding="3" cellspacing="0">
                                 <tr>
                                     <td align="left">
-                                        <asp:Label ID="Label1" runat="server" Text="AGGREGATE PERFORMANCE BY REGION"></asp:Label>
+                                        <asp:Label ID="Label1" runat="server" ></asp:Label>
                                     </td>
                                     <td>
                                         <asp:Panel ID="Panel1" runat="server">
