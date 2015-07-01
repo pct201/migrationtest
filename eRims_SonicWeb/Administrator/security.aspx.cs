@@ -1702,10 +1702,13 @@ public partial class Administrator_security : clsBasePage
         {
             DataSet dsSelectedData = clsFROI_EMail_Recipients.SelectByUser(PK_Security_ID);
             foreach (DataRow dr in dsSelectedData.Tables[0].Rows)
-            {
+            {                
                 if (lstFROIeMailRecipients.Items.FindByValue(dr["FK_LU_Location_ID"].ToString().Trim()) != null)
                 {
-                    lstFROIeMailRecipients.Items.Remove(new ListItem(dr["dba"].ToString(), dr["FK_LU_Location_ID"].ToString()));
+                    // 3315 : Sonic - Security FROI Recipients Issue : Solved Issue of Left side items are not removed from list
+                    int index = lstFROIeMailRecipients.Items.IndexOf(lstFROIeMailRecipients.Items.FindByValue(dr["FK_LU_Location_ID"].ToString().Trim()));
+                    lstFROIeMailRecipients.Items.RemoveAt(index);
+                    // lstFROIeMailRecipients.Items.Remove(new ListItem(dr["dba"].ToString(), dr["FK_LU_Location_ID"].ToString()));
                     lstSelectedFields.Items.Add(new ListItem(dr["dba"].ToString(), dr["FK_LU_Location_ID"].ToString()));
                 }
             }
