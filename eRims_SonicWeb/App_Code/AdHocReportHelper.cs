@@ -473,6 +473,19 @@ public class AdHocReportHelper
                 liItem.Add(new ListItem("Yes", "1"));
                 liItem.Add(new ListItem("No", "0"));
             }
+            else if (strModuleName.ToUpper() == "PROPERTY")
+            {
+                if (strField_Name == "Building Improvement-New Build" || strField_Name == "Building Improvement-Open")
+                {
+                    liItem.Add(new ListItem("Yes", "Y"));
+                    liItem.Add(new ListItem("No", "N"));
+                }
+                else
+                {
+                    liItem.Add(new ListItem("Yes", "1"));
+                    liItem.Add(new ListItem("No", "0"));
+                }
+            }
             else
             {
                 liItem.Add(new ListItem("Yes", "Y"));

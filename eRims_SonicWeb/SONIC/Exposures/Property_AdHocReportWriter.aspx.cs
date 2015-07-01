@@ -1138,7 +1138,7 @@ public partial class Property_AdHocReportWriter : clsBasePage
                     {
                         ComboHelper.FillLocationLocationCodeFranchiseReport(new ListBox[] { lst_F }, false);
                     }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).Trim() == "Building-Location Status".ToLower())
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "Building-Location Status".ToLower())
                     {
                         ComboHelper.FillBuildingLocationStatus(new ListBox[] { lst_F }, false);
                     }
@@ -1184,7 +1184,7 @@ public partial class Property_AdHocReportWriter : clsBasePage
                     }
                     else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "Building Improvement-Building Number".ToLower())
                     {
-                        ComboHelper.FillBuildingImprovementBuildingForAdhoc(new ListBox[] { lst_F }, true);
+                        ComboHelper.FillBuildingImprovementBuildingForAdhoc(new ListBox[] { lst_F }, false);
                     }
                     else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "Building Improvement-Revised Square Footage".ToLower())
                     {
@@ -1913,9 +1913,9 @@ public partial class Property_AdHocReportWriter : clsBasePage
                         strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter1.Text, Convert.ToInt16(drpText_F1.SelectedItem.Value));
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F1, false));
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + "[" + lstAdhoc[iSelected].WhereField + "]", GetSelectedItemString(lst_F1, false));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
-                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F1, false));
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F1, true));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                     strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From1.Text, txtDate_To1.Text, lstDate1.SelectedItem.Value);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
@@ -1935,9 +1935,9 @@ public partial class Property_AdHocReportWriter : clsBasePage
                 if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter2.Text, Convert.ToInt16(drpText_F2.SelectedItem.Value));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F2, false));
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + "[" + lstAdhoc[iSelected].WhereField + "]", GetSelectedItemString(lst_F2, false));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
-                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F2, false));
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F2, true));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                     strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From2.Text, txtDateTo2.Text, lstDate2.SelectedItem.Value);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
@@ -1956,9 +1956,9 @@ public partial class Property_AdHocReportWriter : clsBasePage
                 if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter3.Text, Convert.ToInt16(drpText_F3.SelectedItem.Value));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F3, false));
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + "[" + lstAdhoc[iSelected].WhereField + "]", GetSelectedItemString(lst_F3, false));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
-                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F3, false));
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F3, true));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                     strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From3.Text, txtDate_To3.Text, lstDate3.SelectedItem.Value);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
@@ -1976,9 +1976,9 @@ public partial class Property_AdHocReportWriter : clsBasePage
                 if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter4.Text, Convert.ToInt16(drpText_F4.SelectedItem.Value));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F4, false));
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + "[" + lstAdhoc[iSelected].WhereField + "]", GetSelectedItemString(lst_F4, false));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
-                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F4, false));
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F4, true));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                     strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From4.Text, txtDate_To4.Text, lstDate4.SelectedItem.Value);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
@@ -1996,9 +1996,9 @@ public partial class Property_AdHocReportWriter : clsBasePage
                 if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter5.Text, Convert.ToInt16(drpText_F5.SelectedItem.Value));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F5, false));
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + "[" + lstAdhoc[iSelected].WhereField + "]", GetSelectedItemString(lst_F5, false));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
-                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F5, false));
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F5, true));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                     strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From5.Text, txtDate_To5.Text, lstDate5.SelectedItem.Value);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
@@ -2016,9 +2016,9 @@ public partial class Property_AdHocReportWriter : clsBasePage
                 if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter6.Text, Convert.ToInt16(drpText_F6.SelectedItem.Value));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F6, false));
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + "[" + lstAdhoc[iSelected].WhereField + "]", GetSelectedItemString(lst_F6, false));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
-                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F6, false));
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F6, true));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                     strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From6.Text, txtDate_To6.Text, lstDate6.SelectedItem.Value);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
@@ -2036,9 +2036,9 @@ public partial class Property_AdHocReportWriter : clsBasePage
                 if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter7.Text, Convert.ToInt16(drpText_F7.SelectedItem.Value));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F7, false));
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + "[" + lstAdhoc[iSelected].WhereField + "]", GetSelectedItemString(lst_F7, false));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
-                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F7, false));
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F7, true));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                     strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From7.Text, txtDate_To7.Text, lstDate7.SelectedItem.Value);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
@@ -2056,9 +2056,9 @@ public partial class Property_AdHocReportWriter : clsBasePage
                 if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter8.Text, Convert.ToInt16(drpText_F8.SelectedItem.Value));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F8, false));
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + "[" + lstAdhoc[iSelected].WhereField + "]", GetSelectedItemString(lst_F8, false));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
-                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F8, false));
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F8, true));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                     strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From8.Text, txtDate_To8.Text, lstDate8.SelectedItem.Value);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
@@ -2077,9 +2077,9 @@ public partial class Property_AdHocReportWriter : clsBasePage
                 if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter9.Text, Convert.ToInt16(drpText_F9.SelectedItem.Value));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F9, false));
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + "[" + lstAdhoc[iSelected].WhereField + "]", GetSelectedItemString(lst_F9, false));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
-                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F9, false));
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F9, true));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                     strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From9.Text, txtDate_To9.Text, lstDate9.SelectedItem.Value);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
@@ -2097,9 +2097,9 @@ public partial class Property_AdHocReportWriter : clsBasePage
                 if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
                     strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter10.Text, Convert.ToInt16(drpText_F10.SelectedItem.Value));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F10, false));
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + "[" + lstAdhoc[iSelected].WhereField + "]", GetSelectedItemString(lst_F10, false));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
-                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F10, false));
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F10, true));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                     strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From10.Text, txtDate_To10.Text, lstDate10.SelectedItem.Value);
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
@@ -2943,7 +2943,7 @@ public partial class Property_AdHocReportWriter : clsBasePage
         }
         else if (Convert.ToString(Field_Header).ToLower().Trim() == "Building Improvement-Building Number".ToLower())
         {
-            ComboHelper.FillBuildingImprovementBuildingForAdhoc(new ListBox[] { lst_F }, true);
+            ComboHelper.FillBuildingImprovementBuildingForAdhoc(new ListBox[] { lst_F }, false);
         }
 
             
