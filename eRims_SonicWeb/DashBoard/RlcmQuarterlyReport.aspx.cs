@@ -1612,7 +1612,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
     private string MakeChart(DataTable dt)
     {
         StringBuilder strChartXML = new StringBuilder();
-        strChartXML.Append("<chart caption='" + dt.Rows[0]["SortValue"].ToString() + "' showLabels='1' showvalues='0' showYAxisValues='0' decimals='0' numDivLines ='0' rotateValues='1' exportEnabled='1' exportAtClient='1' exportHandler='fcBatchExporter' exportAction='Save'>");
+        strChartXML.Append("<chart caption='" + dt.Rows[0]["SortValue"].ToString() + "' showLabels='1' showvalues='0' showYAxisValues='0' decimals='0' numDivLines ='0' rotateValues='1' exportEnabled='1' exportAtClient='1' exportHandler='fcBatchExporter' html5exporthandler='fcBatchExporter' exportAction='Save'>");
 
         strChartXML.Append("<categories>");
 
