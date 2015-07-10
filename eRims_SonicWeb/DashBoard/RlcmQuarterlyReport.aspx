@@ -12,11 +12,13 @@
         type="text/javascript"></script>
     <script language="Javascript" src="<%=AppConfig.SiteURL%>FusionCharts/FusionCharts.js"
         type="text/javascript"></script>
+    <script type="text/javascript" language="javascript" src="../JavaScript/scroll.js"></script>
     <script language="Javascript" src="<%=AppConfig.SiteURL%>FusionCharts/FusionChartsExportComponent.js"
         type="text/javascript"></script>
     <script type="text/javascript">
+
         var initiateExport = false;
-        function exportCharts(exportFormat) {
+        function exportCharts(exportFormat) {            
             initiateExport = true;
             for (var chartRef in FusionCharts.items) {
                 if (FusionCharts.items[chartRef].exportChart) {
