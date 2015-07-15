@@ -1446,7 +1446,7 @@ public partial class Event_Event_New : clsBasePage
         {
             clsEvent objEvent = new clsEvent(PK_Event);
             DataTable dtEmailList = Security.GetEmailsByLocationForEvent(objEvent.FK_LU_Location).Tables[0];
-            string[] strEmailIds = new string[1];
+            //string[] strEmailIds = new string[1];
 
             string strAbstractReportData = Convert.ToString(Event_AbstactReport(PK_Event, false, clsGeneral.Major_Coverage.Event));
 
@@ -1457,13 +1457,33 @@ public partial class Event_Event_New : clsBasePage
                 attchment[0] = AppConfig.SitePath + "Documents/EventImage" + "/" + Convert.ToString(ViewState["Attchments"]);
             }
 
-            for (int i = 0; i < dtEmailList.Rows.Count; i++)
+            System.Collections.Generic.List<string> lstMail = new System.Collections.Generic.List<string>();
+
+            int intToMailCount = 0;
+            if (dtEmailList.Rows.Count > 0)
             {
-                strEmailIds[0] = Convert.ToString(dtEmailList.Rows[i]["Email"]);
-                EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
-                objEmail.SendMailMessage(AppConfig.ManagementEmailID, " ", strEmailIds, "ACI Actionable Event Abstract.", strAbstractReportData, true, attchment, AppConfig.MailCC);
-                strEmailIds[0] = string.Empty;
+                foreach (DataRow drRecipient in dtEmailList.Rows)
+                {
+                    lstMail.Insert(intToMailCount, drRecipient["Email"].ToString());
+                    intToMailCount++;
+                }
             }
+
+            string[] EmailTo = lstMail.ToArray();
+
+            if (EmailTo.Length > 0)
+            {
+                EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
+                objEmail.SendMailMessage(AppConfig.ManagementEmailID, " ", EmailTo, "ACI Actionable Event Abstract", strAbstractReportData, true, attchment, AppConfig.MailCC);
+            }
+
+            //for (int i = 0; i < dtEmailList.Rows.Count; i++)
+            //{
+            //    strEmailIds[0] = Convert.ToString(dtEmailList.Rows[i]["Email"]);
+            //    EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
+            //    objEmail.SendMailMessage(AppConfig.ManagementEmailID, " ", strEmailIds, "ACI Actionable Event Abstract.", strAbstractReportData, true, attchment, AppConfig.MailCC);
+            //    strEmailIds[0] = string.Empty;
+            //}
 
             ViewState.Remove("Attchments");
         }

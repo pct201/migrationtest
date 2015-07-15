@@ -763,17 +763,37 @@ public partial class Management_Management : clsBasePage
         {
             clsManagement objManagement = new clsManagement(PK_Management);
             DataTable dtEmailList = Security.GetEmailsByLocation(objManagement.FK_LU_Location).Tables[0];
-            string[] strEmailIds = new string[1];
+            //string[] strEmailIds = new string[1];
 
             string strAbstractReportData = Convert.ToString(Management_AbstractReport(PK_Management));
 
-            for (int i = 0; i < dtEmailList.Rows.Count; i++)
+            System.Collections.Generic.List<string> lstMail = new System.Collections.Generic.List<string>();
+
+            int intToMailCount = 0;
+            if (dtEmailList.Rows.Count > 0)
             {
-                strEmailIds[0] = Convert.ToString(dtEmailList.Rows[i]["Email"]);
-                EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
-                objEmail.SendMailMessage(AppConfig.ManagementEmailID, " ", strEmailIds, "ACI Management Abstract.", strAbstractReportData, true, null, AppConfig.MailCC);
-                strEmailIds[0] = string.Empty;
+                foreach (DataRow drRecipient in dtEmailList.Rows)
+                {
+                    lstMail.Insert(intToMailCount, drRecipient["Email"].ToString());
+                    intToMailCount++;
+                }
             }
+
+            string[] EmailTo = lstMail.ToArray();
+
+            if (EmailTo.Length > 0)
+            {
+                EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
+                objEmail.SendMailMessage(AppConfig.ManagementEmailID, " ", EmailTo, "ACI Management Abstract", strAbstractReportData, true, null, AppConfig.MailCC);
+            }
+
+            //for (int i = 0; i < dtEmailList.Rows.Count; i++)
+            //{
+            //    strEmailIds[0] = Convert.ToString(dtEmailList.Rows[i]["Email"]);
+            //    EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
+            //    objEmail.SendMailMessage(AppConfig.ManagementEmailID, " ", strEmailIds, "ACI Management Abstract.", strAbstractReportData, true, null, AppConfig.MailCC);
+            //    strEmailIds[0] = string.Empty;
+            //}
         }
     }
 
