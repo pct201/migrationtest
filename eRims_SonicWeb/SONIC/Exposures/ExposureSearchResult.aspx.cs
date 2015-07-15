@@ -88,7 +88,7 @@ public partial class SONIC_Exposures_ExposureSearchResult : clsBasePage
             }
 
             DataRow[] drView_Asset = dsRight.Tables[0].Select("RightType_ID=2 and ModuleName='Asset Protection'");
-            if (drView_Asset != null && drView_Asset.Length > 0)
+            if (drView_Asset != null && drView_Asset.Length > 0 && Asset_Protection!= AccessType.Administrative_Access)
             {
                 Asset_Protection = AccessType.View_Only;
             }
