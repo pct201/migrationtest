@@ -2479,5 +2479,42 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+
+        /// <summary>
+        /// Get ACI Event By Location  For Page 3 Dashboard
+        /// </summary>
+        /// <param name="strSelectedEvents"></param>
+        /// <returns></returns>
+        public static DataSet GetDashboardDataACIByLocation(string region,int Month, int year)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetDashboardDataACIByLocation");
+
+            db.AddInParameter(dbCommand, "Region", DbType.String, region);
+            db.AddInParameter(dbCommand, "Month", DbType.Int32, Month);
+            db.AddInParameter(dbCommand, "year", DbType.Int32, year);
+            dbCommand.CommandTimeout = 1000;
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// Get ACI Event Count By Location  For Page 3 Dashboard
+        /// </summary>
+        /// <param name="strSelectedEvents"></param>
+        /// <returns></returns>
+        public static DataSet GetDashboardDataACIEventCounts(decimal FK_LU_Location, int Month, int year)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetDashboardDataACIEventCounts");
+
+            db.AddInParameter(dbCommand, "FK_LU_Location", DbType.Decimal, FK_LU_Location);
+            db.AddInParameter(dbCommand, "Month", DbType.Int32, Month);
+            db.AddInParameter(dbCommand, "year", DbType.Int32, year);
+            dbCommand.CommandTimeout = 1000;
+
+            return db.ExecuteDataSet(dbCommand);
+        }
     }
 }

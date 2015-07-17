@@ -3,6 +3,28 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
   <script language="Javascript" src="<%=AppConfig.SiteURL%>FusionCharts/FusionCharts.js"
         type="text/javascript"></script>
+    <script language="javascript" type="text/javascript">
+        function OpenPopup(region, Year, Month) {
+            var w = 700, h = 550;
+
+            var navigationurl;
+            navigationurl = 'ACIEventByLocation.aspx?region=' + region + "&year=" + Year + "&Month=" + Month;
+
+            if (document.all || document.layers) {
+                w = screen.availWidth;
+                h = screen.availHeight;
+            }
+
+            var leftPos, topPos;
+            var popW = 850, popH = 575;
+            if (document.all)
+            { leftPos = (w - popW) / 2; topPos = (h - popH) / 2; }
+            else
+            { leftPos = w / 2; topPos = h / 2; }
+
+            window.open(navigationurl, "popup", "toolbar=no,menubar=no,scrollbars=yes,resizable=yes,width=" + popW + ",height=" + popH + ",top=" + topPos + ",left=" + leftPos);
+        }
+    </script>
     <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
         HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
         ValidationGroup="vsErrorGroup" CssClass="errormessage"></asp:ValidationSummary>
@@ -110,7 +132,7 @@
         </tr>
         <tr>
             <td width="100%" valign="top" style="border: 1px solid #666666;" colspan="2" align="center">
-                <div id="divchart2" runat="server" style="width: 950px; height: 300px; margin:10px;" />
+                <div id="divchart2" runat="server" style="width: 950px; height: 450px; margin:10px;" />
             </td>
         </tr>
      </table>
