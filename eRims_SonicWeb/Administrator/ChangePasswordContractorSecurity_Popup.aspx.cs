@@ -48,6 +48,8 @@ public partial class Administrator_ChangePasswordContractorSecurity_Popup : clsB
                 {
                     Contractor_Security objcontractor_security = new Contractor_Security(UserID);
                     decimal Contactor_SecurityID = Convert.ToInt32(objcontractor_security.PK_Contactor_Security);
+                    string password = "";
+                    password = Encryption.Encrypt(txtNewPwd.Text.ToString());
                     // Check Password Strength
                     if (clsGeneral.CheckPassword(txtNewPwd.Text) == false)
                     {
@@ -55,20 +57,18 @@ public partial class Administrator_ChangePasswordContractorSecurity_Popup : clsB
                         return;
                     }
                     //Update Password Details
-                    Contractor_Security.UpdateContractorSecurityPassword(Contactor_SecurityID, Encryption.Encrypt(txtNewPwd.Text.ToString()), DateTime.Now);
+                    Contractor_Security.UpdateContractorSecurityPassword(Contactor_SecurityID, password, DateTime.Now);
                     if (Request.QueryString[1].ToString() == "0")
                     {
-                        ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "parent.parent.GB_hide();", true);
+                        //Passed Pasword and confirm password value for V-Card Issue
+                        ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_txtPassword').value = '" + password + "';parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_txtConfirmPassword').value = '" + password + "';parent.parent.GB_hide();", true);                       
                     }
                     else
-                        ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "self.close();", true);
+                    {
+                        //Passed Pasword and confirm password value for V-Card Issue
+                        ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_txtPassword').value = '" + password + "';parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_txtConfirmPassword').value = '" + password + "';opener.location.reload(true);self.close();", true);                        
+                    }
                 }
-                //else
-                //{
-                //    lblMessage.Visible = true;
-                //    lblMessage.Text = "Invalid current password.";
-
-                //}
             }
         }
     }

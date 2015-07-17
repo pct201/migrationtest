@@ -25,6 +25,7 @@ namespace ERIMS.DAL
         private string _Address_1;
         private string _Address_2;
         private string _City;
+        private string _State;
         private decimal? _FK_State;
         private string _Zip_Code;
         private string _Office_Telephone;
@@ -35,7 +36,7 @@ namespace ERIMS.DAL
         private string _Texting_Address;
         private DateTime? _Update_Date;
         private string _Updated_By;
-        private decimal? _FK_LU_Contractor_Type; 
+        private decimal? _FK_LU_Contractor_Type;
 
         #endregion
 
@@ -156,6 +157,12 @@ namespace ERIMS.DAL
         {
             get { return _FK_State; }
             set { _FK_State = value; }
+        }
+
+        public string State
+        {
+            get { return _State; }
+            set { _State = value; }
         }
 
         /// <summary>
@@ -677,7 +684,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "FK_LU_Contractor_Type", DbType.Decimal, this._FK_LU_Contractor_Type);
 
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
-           return returnValue;
+            return returnValue;
         }
 
         /// <summary>
@@ -691,6 +698,84 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "PK_Contactor_Security", DbType.String, pK_Contactor_Security);
 
             db.ExecuteNonQuery(dbCommand);
+        }
+
+        public string ImportContractorSecurityFromVCard(string ActionType)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("ImportContractorSecurityFromVCard");
+
+            if (string.IsNullOrEmpty(this._First_Name))
+                db.AddInParameter(dbCommand, "First_Name", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "First_Name", DbType.String, this._First_Name);
+
+            if (string.IsNullOrEmpty(this._Last_Name))
+                db.AddInParameter(dbCommand, "Last_Name", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Last_Name", DbType.String, this._Last_Name);
+
+            if (string.IsNullOrEmpty(this._Contractor_Company_Name))
+                db.AddInParameter(dbCommand, "Contractor_Company_Name", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Contractor_Company_Name", DbType.String, this._Contractor_Company_Name);
+
+            if (string.IsNullOrEmpty(this._Address_1))
+                db.AddInParameter(dbCommand, "Address_1", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Address_1", DbType.String, this._Address_1);
+
+            if (string.IsNullOrEmpty(this._City))
+                db.AddInParameter(dbCommand, "City", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "City", DbType.String, this._City);
+
+            if (string.IsNullOrEmpty(this._State))
+                db.AddInParameter(dbCommand, "State", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "State", DbType.String, this._State);
+
+            if (string.IsNullOrEmpty(this._Zip_Code))
+                db.AddInParameter(dbCommand, "Zip_Code", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Zip_Code", DbType.String, this._Zip_Code);
+
+            if (string.IsNullOrEmpty(this._Office_Telephone))
+                db.AddInParameter(dbCommand, "Office_Telephone", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Office_Telephone", DbType.String, this._Office_Telephone);
+
+            if (string.IsNullOrEmpty(this._Cell_Telephone))
+                db.AddInParameter(dbCommand, "Cell_Telephone", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Cell_Telephone", DbType.String, this._Cell_Telephone);
+
+            if (string.IsNullOrEmpty(this._Pager))
+                db.AddInParameter(dbCommand, "Pager", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Pager", DbType.String, this._Pager);
+
+            if (string.IsNullOrEmpty(this._Email))
+                db.AddInParameter(dbCommand, "Email", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Email", DbType.String, this._Email);
+
+            //db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
+
+            if (string.IsNullOrEmpty(this._Updated_By))
+                db.AddInParameter(dbCommand, "Updated_By", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
+
+            db.AddInParameter(dbCommand, "ActionType", DbType.String, ActionType);
+
+            db.AddInParameter(dbCommand, "PK_Contactor_Security", DbType.Decimal, this._PK_Contactor_Security);
+
+            db.AddOutParameter(dbCommand, "Status", DbType.String, 10);
+            // Execute the query and return the new identity value
+            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
+            PK_Contactor_Security = returnValue;            
+            return Convert.ToString(db.GetParameterValue(dbCommand, "Status"));
         }
     }
 }

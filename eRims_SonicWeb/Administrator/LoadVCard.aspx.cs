@@ -48,21 +48,21 @@ public partial class Administrator_LoadVCard : System.Web.UI.Page
                         objContracor.Address_1 = add.Street;
                         objContracor.City = add.City;
                         objContracor.State = add.Region;
-                        objContracor.Zip_Code = add.PostalCode;
-                        break;
+                        objContracor.Zip_Code = CheckNumber(add.PostalCode, 0);
+                        break;                                  
                     }
                 }
             }
             if (vCard_temp.Phones != null && vCard_temp.Phones.Count > 0)
             {
                 foreach (vCardPhone phone in vCard_temp.Phones)
-                {
+                {                    
                     if (phone.IsCellular)
-                        objContracor.Cell_Telephone = phone.FullNumber;
+                        objContracor.Cell_Telephone = CheckNumber(phone.FullNumber, 1);
                     if (phone.IsWork)
-                        objContracor.Office_Telephone = phone.FullNumber;
+                        objContracor.Office_Telephone = CheckNumber(phone.FullNumber, 1);
                     if (phone.IsPager)
-                        objContracor.Pager = phone.FullNumber;
+                        objContracor.Pager = CheckNumber(phone.FullNumber, 1);
                 }
             }
             if (vCard_temp.EmailAddresses != null && vCard_temp.EmailAddresses.Count > 0)
@@ -73,7 +73,7 @@ public partial class Administrator_LoadVCard : System.Web.UI.Page
             {
                 objContracor.PK_Contactor_Security = Convert.ToDecimal(Session["PK_Contactor_Security"]);
                 Session["PK_Contactor_Security"] = null;
-            }
+            }            
             string returnVal = objContracor.ImportContractorSecurityFromVCard(ActionType);
             if (returnVal.ToLower() == "exist")
             {
@@ -83,11 +83,43 @@ public partial class Administrator_LoadVCard : System.Web.UI.Page
             }
             else
             {
-                string script = "alert('Import successfull.');self.close();";
-                ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", script, true);
+                string script = "alert('Import successfull.');opener.location.reload(true);self.close();";
+                Session["PK_Contactor_Security"] = objContracor.PK_Contactor_Security;
+                ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", script, true);                
             }
 
         }
 
+    }
+
+    /// <summary>
+    /// Checks the format of zipcode and Phone Numbers and Inserts them as per the format
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="num"></param>
+    /// <returns></returns>
+    private string CheckNumber(string a, int num)
+    {
+        string b = string.Empty;       
+
+        for (int i = 0; i < a.Length; i++)
+        {
+            if (Char.IsDigit(a[i]))
+                b += a[i];
+        }
+
+        if (num == 1)
+        {
+            if (b.Length == 10)
+                b = b.Substring(0, 3) + "-" + b.Substring(3, 3) + "-" + b.Substring(6, 4);
+                return b;
+        }
+        else if (num == 0)
+        {
+            if (b.Length == 9)
+                b = b.Substring(0, 5) + "-" + b.Substring(5, 4);
+                return b;
+        }
+        return "";
     }
 }

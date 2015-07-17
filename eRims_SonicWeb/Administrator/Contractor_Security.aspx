@@ -12,7 +12,7 @@
     <script type="text/javascript" language="javascript" src="../JavaScript/jquery-1.5.min.js"></script>
     <script type="text/javascript" language="javascript" src="../JavaScript/jquery.maskedinput.js"></script>
 
-    
+
     <script type="text/javascript">
         var GB_ROOT_DIR = '<%=AppConfig.SiteURL%>' + 'greybox/';
         jQuery(function ($) {
@@ -21,7 +21,7 @@
             $("#<%=txtCellPhone.ClientID%>").mask("999-999-9999");
             $("#<%=txtPager.ClientID%>").mask("999-999-9999");
         });
-        function CheckVal() {
+        function CheckVal() {            
             if (document.getElementById('<%=txtCellPhone.ClientID%>').value == "___-___-____")
                 document.getElementById('<%=txtCellPhone.ClientID%>').value = "";
             if (document.getElementById('<%=txtOfficeTelephone.ClientID%>').value == "___-___-____")
@@ -30,7 +30,7 @@
                 document.getElementById('<%=txtPager.ClientID%>').value = "";
             if (document.getElementById('<%=txtZipCode.ClientID%>').value == "_____-____")
                 document.getElementById('<%=txtZipCode.ClientID%>').value = "";
-           
+
             if (Page_ClientValidate()) {
                 return true;
             }
@@ -39,6 +39,16 @@
         }
         function OPenCSChangePasswordPopup() {
             GB_showCenter('Associate Name', '<%=AppConfig.SiteURL%>Administrator/ChangePasswordContractorSecurity_Popup.aspx?UserName=' + document.getElementById('<%=txtLoginUserName.ClientID %>').value + '&id=0&UID=' + document.getElementById('<%=HdnPK_Contactor_Security.ClientID %>').value, 500, 500, '');
+        }
+
+        function OpenVCardPopup() {
+            //GB_showCenter('Load VCard', '<%=AppConfig.SiteURL%>Administrator/LoadVCard.aspx', 200, 500, '');
+            //var window = window.open(, "", "height=200,width=500")
+            var left = (screen.width / 2) - (500 / 2);
+            var top = (screen.height / 2) - (200 / 2);
+            var window1 = window.open('<%=AppConfig.SiteURL%>Administrator/LoadVCard.aspx', "vCard", 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=500 , height=200, top=' + top + ', left=' + left);
+            window1.focus();
+            return false;
         }
     </script>
     <link href="<%=AppConfig.SiteURL%>greybox/gb_styles.css" rel="stylesheet" type="text/css" />
@@ -98,6 +108,7 @@
                     <table cellpadding="0" cellspacing="0" border="0" style="text-align: right; width: 100%;">
                         <tr>
                             <td>
+                                <asp:Button ID="btnLoadVCard" runat="server" ToolTip="click here to Load VCARD" Text="Load VCARD" OnClientClick="return OpenVCardPopup();" />
                                 <asp:Button ID="btnDelete" runat="server" Text="Delete" ToolTip="Click here to delete "
                                     OnClick="btnDelete_Click" />
                                 <asp:Button ID="btnAddNew" runat="server" Text="Add New" ToolTip="Add new "
@@ -175,7 +186,7 @@
         <div runat="server" id="DivEditContractorSecuirty">
             <table width="100%" cellpadding="3" cellspacing="1" border="0">
                 <tr>
-                    <td class="bandHeaderRow" style="height:14px;" colspan="6" align="left">Contractor Security
+                    <td class="bandHeaderRow" style="height: 14px;" colspan="6" align="left">Contractor Security
                     </td>
                 </tr>
                 <tr>
@@ -199,22 +210,22 @@
                             style="display: none;">Change Password</a>
                     </td>
                 </tr>
-                <tr runat="server" id="trPassword" style="display :none;">
-                    <td  align="left">Password<span style="color: Red;">*</span>
+                <tr runat="server" id="trPassword" style="display: none;">
+                    <td align="left">Password<span style="color: Red;">*</span>
                     </td>
-                    <td  align="center">:
+                    <td align="center">:
                     </td>
-                    <td align="left" >
+                    <td align="left">
                         <asp:TextBox runat="server" ID="txtPassword" MaxLength="50" ValidationGroup="vsErrorGroup"
                             Width="170px" TextMode="Password"></asp:TextBox>&nbsp;
                         <asp:RequiredFieldValidator ID="rfvPassword" ControlToValidate="txtPassword" Display="None"
                             runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Password."></asp:RequiredFieldValidator>
                     </td>
-                    <td align="left" >Confirm Password<span style="color: Red;">*</span>
+                    <td align="left">Confirm Password<span style="color: Red;">*</span>
                     </td>
                     <td align="center">:
                     </td>
-                    <td align="left" >
+                    <td align="left">
                         <asp:TextBox runat="server" ID="txtConfirmPassword" MaxLength="50" ValidationGroup="vsErrorGroup"
                             Width="170px" TextMode="Password"></asp:TextBox>&nbsp;
                         <asp:RequiredFieldValidator ID="rfvConfirmPassword" ControlToValidate="txtConfirmPassword"
@@ -251,7 +262,7 @@
                     </td>
                     <td style="width: 4%;" align="center">:
                     </td>
-                    <td align="left" width="26%" >
+                    <td align="left" width="26%">
                         <asp:TextBox runat="server" ID="txtContractorCompany" MaxLength="75" ValidationGroup="vsErrorGroup"
                             Width="170px"></asp:TextBox>&nbsp;
                         <%--<asp:RequiredFieldValidator ID="rfvtxtContractorCompany" ControlToValidate="txtContractorCompany" Display="None"
@@ -265,12 +276,12 @@
                         <asp:DropDownList ID="ddlContractoType" runat="server" Width="170px" SkinID="ddlSONIC">
                         </asp:DropDownList>
                         <asp:RequiredFieldValidator ID="rfvddlContractoType" ControlToValidate="ddlContractoType" Display="None"
-                             ValidationGroup="vsErrorGroup" Text="*" InitialValue="0" runat="server" ErrorMessage="Please select atleast one Contractor Type."></asp:RequiredFieldValidator>
+                            ValidationGroup="vsErrorGroup" Text="*" InitialValue="0" runat="server" ErrorMessage="Please select atleast one Contractor Type."></asp:RequiredFieldValidator>
                     </td>
 
                 </tr>
 
-                  <tr>                   
+                <tr>
                     <td align="left">Alert Method<span style="color: Red;">*</span>
                     </td>
                     <td align="center">:
@@ -279,7 +290,7 @@
                         <asp:DropDownList ID="ddlAlertMethod" runat="server" Width="170px" SkinID="ddlSONIC">
                         </asp:DropDownList>
                         <asp:RequiredFieldValidator ID="rfvddlAlertMethod" ControlToValidate="ddlAlertMethod" Display="None"
-                             ValidationGroup="vsErrorGroup" Text="*" InitialValue="0" runat="server" ErrorMessage="Please select atleast one Alert Method."></asp:RequiredFieldValidator>
+                            ValidationGroup="vsErrorGroup" Text="*" InitialValue="0" runat="server" ErrorMessage="Please select atleast one Alert Method."></asp:RequiredFieldValidator>
                     </td>
 
                 </tr>
@@ -401,8 +412,9 @@
 
                 <tr>
                     <td align="left" valign="top">Location/Project Access Grid<br />
-                        <asp:LinkButton ID="lnkAddLocationProjectAccessGrid" runat="server" Text="--Add--" 
-                             OnClick="lnkAddLocationProjectAccessGrid_Click" /> <%--OnClientClick="return CheckVal();" ValidationGroup="vsErrorGroup" CausesValidation="true" --%>
+                        <asp:LinkButton ID="lnkAddLocationProjectAccessGrid" runat="server" Text="--Add--"
+                            OnClick="lnkAddLocationProjectAccessGrid_Click" />
+                        <%--OnClientClick="return CheckVal();" ValidationGroup="vsErrorGroup" CausesValidation="true" --%>
                     </td>
                     <td align="center" valign="top">:
                     </td>
@@ -411,16 +423,16 @@
                             EmptyDataText="No Record Exists" OnRowCommand="gvLocationProjectAccess_RowCommand">
                             <Columns>
                                 <asp:TemplateField HeaderText="Location" HeaderStyle-HorizontalAlign="Center">
-                                    <ItemStyle Width="20%" HorizontalAlign="Center"  />
+                                    <ItemStyle Width="20%" HorizontalAlign="Center" />
                                     <ItemTemplate>
                                         <asp:LinkButton ID="lnkLocation" runat="server" Text='<%# Eval("dba") %>'
                                             CommandName="EditDetails" Style="word-wrap: normal; word-break: break-all;" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Project Number"  HeaderStyle-HorizontalAlign="Center">
+                                <asp:TemplateField HeaderText="Project Number" HeaderStyle-HorizontalAlign="Center">
                                     <ItemStyle Width="20%" HorizontalAlign="Center" />
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="lnkProject_Number"  Style="word-wrap: normal; word-break: break-all;" runat="server" Text='<%# Eval("Project_Number") %>'
+                                        <asp:LinkButton ID="lnkProject_Number" Style="word-wrap: normal; word-break: break-all;" runat="server" Text='<%# Eval("Project_Number") %>'
                                             CommandName="EditDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
@@ -438,7 +450,7 @@
                                             CommandName="EditDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                
+
                                 <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center">
                                     <ItemStyle Width="10%" HorizontalAlign="Center" />
                                     <ItemTemplate>
@@ -468,7 +480,7 @@
                     <td style="width: 4%;" align="center">:
                     </td>
                     <td colspan="4" align="left">
-                        <asp:Label runat="server" ID="lblLoginUserName" style="word-wrap:normal;word-break:break-all"></asp:Label>
+                        <asp:Label runat="server" ID="lblLoginUserName" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                     </td>
                 </tr>
                 <tr>
@@ -477,14 +489,14 @@
                     <td align="center" style="width: 4%;">:
                     </td>
                     <td align="left" style="width: 28%;">
-                        <asp:Label runat="server" ID="lblFirstName" style="word-wrap:normal;word-break:break-all"></asp:Label>
+                        <asp:Label runat="server" ID="lblFirstName" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                     </td>
                     <td align="left" style="width: 18%;">Last Name
                     </td>
                     <td align="center" style="width: 4%;">:
                     </td>
                     <td align="left" style="width: 28%;">
-                        <asp:Label runat="server" ID="lblLastName"  style="word-wrap:normal;word-break:break-all" ></asp:Label>
+                        <asp:Label runat="server" ID="lblLastName" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                     </td>
                 </tr>
                 <tr>
@@ -492,8 +504,8 @@
                     </td>
                     <td align="center">:
                     </td>
-                    <td align="left" >
-                        <asp:Label runat="server" style="word-wrap:normal;word-break:break-all" ID="lblContractorCompany">
+                    <td align="left">
+                        <asp:Label runat="server" Style="word-wrap: normal; word-break: break-all" ID="lblContractorCompany">
                         </asp:Label>
                     </td>
                     <td align="left" style="width: 18%;">Contractor Type
@@ -501,16 +513,16 @@
                     <td align="center" style="width: 4%;">:
                     </td>
                     <td align="left" style="width: 28%;">
-                        <asp:Label runat="server" style="word-wrap:normal;word-break:break-all" ID="lblContractorType"></asp:Label>
+                        <asp:Label runat="server" Style="word-wrap: normal; word-break: break-all" ID="lblContractorType"></asp:Label>
                     </td>
                 </tr>
-                 <tr>
+                <tr>
                     <td align="left" style="width: 18%;">Alert Method
                     </td>
                     <td align="center" style="width: 4%;">:
                     </td>
                     <td align="left" style="width: 28%;">
-                        <asp:Label runat="server" style="word-wrap:normal;word-break:break-all" ID="lblAlertMethod"></asp:Label>
+                        <asp:Label runat="server" Style="word-wrap: normal; word-break: break-all" ID="lblAlertMethod"></asp:Label>
                     </td>
                 </tr>
                 <tr>
@@ -519,14 +531,14 @@
                     <td align="center" style="width: 4%;">:
                     </td>
                     <td align="left" style="width: 28%;">
-                        <asp:Label runat="server"  style="word-wrap:normal;word-break:break-all" ID="lblAddress1"></asp:Label>
+                        <asp:Label runat="server" Style="word-wrap: normal; word-break: break-all" ID="lblAddress1"></asp:Label>
                     </td>
                     <td align="left" style="width: 18%;">Address 2
                     </td>
                     <td align="center" style="width: 4%;">:
                     </td>
                     <td align="left" style="width: 28%;">
-                        <asp:Label runat="server"  style="word-wrap:normal;word-break:break-all" ID="lblAddress2"></asp:Label>
+                        <asp:Label runat="server" Style="word-wrap: normal; word-break: break-all" ID="lblAddress2"></asp:Label>
                     </td>
                 </tr>
                 <tr>
@@ -535,7 +547,7 @@
                     <td align="center" style="width: 4%;">:
                     </td>
                     <td align="left" style="width: 28%;">
-                        <asp:Label runat="server" ID="lblCity"  style="word-wrap:normal;word-break:break-all"></asp:Label>
+                        <asp:Label runat="server" ID="lblCity" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                     </td>
                     <td align="left" style="width: 18%;">State
                     </td>
@@ -589,13 +601,13 @@
                     <td align="center">:
                     </td>
                     <td colspan="4">
-                        <asp:Label runat="server" ID="lblEmail"  style="word-wrap:normal;word-break:break-all" ></asp:Label>
+                        <asp:Label runat="server" ID="lblEmail" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                     </td>
 
                 </tr>
-                 <tr>
+                <tr>
                     <td align="left" valign="top">Location/Project Access Grid<br />
-                       
+
                     </td>
                     <td align="center" valign="top">:
                     </td>
@@ -631,7 +643,7 @@
                                             CommandName="ViewDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                               <%-- 
+                                <%-- 
                                 <asp:TemplateField HeaderText="Remove">
                                     <ItemStyle Width="10%" HorizontalAlign="Left" />
                                     <ItemTemplate>
