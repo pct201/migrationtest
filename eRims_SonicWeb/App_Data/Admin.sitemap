@@ -213,6 +213,7 @@
           <siteMapNode url="Administrator/LU_Document_Folders_FacilityConstruction.aspx" title ="Document Folders" description="" roles="" />
           <siteMapNode url="Administrator/LU_Contractor_Type.aspx" title ="Contractor Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_FCP_Project_Type.aspx" title ="Facility Project Type" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Punchlist_Item_Type.aspx" title ="Facility Punchlist Item Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_Origin_Type.aspx" title ="Origin Type" description="" roles="" />
         <siteMapNode url="Administrator/LU_Facility_Area.aspx" title ="Facility Area" description="" roles="" />
           <siteMapNode url="Administrator/LU_Facility_Specific_Location.aspx" title ="Facility Specific Location" description="" roles="" />
