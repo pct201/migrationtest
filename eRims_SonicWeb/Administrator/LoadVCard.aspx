@@ -16,7 +16,7 @@
             left: 30%;
         }
     </style>
-    
+
 </head>
 <body>
     <form id="form1" runat="server">
@@ -49,23 +49,32 @@
                 retVal = confirm("Would you like to update the existing Contractor?");
                 if (retVal == true)
                     __doPostBack(document.getElementById('<%=btnUpload.ClientID%>').name, "UpdateDetails");
-            else {
-                alert('Import Cancelled');
+                else {
+                    alert('Import Cancelled');
 
-                self.close();
+                    self.close();
+                }
+
             }
-
-        }
-    </script>
+        </script>
+        <div>
+            <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
+                HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
+                EnableClientScript="true" ValidationGroup="vsErrorGroup" CssClass="errormessage"></asp:ValidationSummary>
+        </div>
         <table width="100%" class="box">
             <tr>
                 <td>Please select VCard
                 </td>
                 <td>
                     <asp:FileUpload ID="fluVcard" runat="server" onchange="return CheckExtension(this);" />
+                    <asp:RequiredFieldValidator ID="rfvUpload" runat="server" ControlToValidate="fluVcard"
+                        InitialValue="" Display="None" Text="*" ErrorMessage="Please Select File to Upload." ValidationGroup="vsErrorGroup">                                                                        
+                    </asp:RequiredFieldValidator>
+
                 </td>
                 <td>
-                    <asp:Button ID="btnUpload" runat="server" Text="Upload" OnClick="btnUpload_Click" />
+                    <asp:Button ID="btnUpload" runat="server" Text="Upload" OnClick="btnUpload_Click" ValidationGroup="vsErrorGroup" />
                 </td>
             </tr>
         </table>
