@@ -134,7 +134,7 @@ public partial class SONIC_Exposures_NationalPremiumAllocation : clsBasePage
         }
 
         CalculateTotalRiskFields();
-
+//dls + 1 below
         DataSet ds = clsPA_National_Allocation.SelectByFieldsCriteria(Convert.ToInt32(txtYear.Text), clsGeneral.FormatDateToStore(txtProperty_Valuation_Date.Text),
             clsGeneral.GetDecimalNullableValue(txtWC_Premium), clsGeneral.GetDecimalNullableValue(txtTexasNonSubscriptionPremium),
             clsGeneral.GetDecimalNullableValue(txtExcessUmbrellaPremium), clsGeneral.GetDecimalNullableValue(txtEPLIPremium),
@@ -333,7 +333,7 @@ public partial class SONIC_Exposures_NationalPremiumAllocation : clsBasePage
                 DateTime datevalue = (Convert.ToDateTime(Convert.ToString(sDate)));
                 yy = datevalue.Year.ToString();
             }
-
+//dls added +1 below
             DataSet ds = clsPA_National_Allocation.SelectByPropertyValuationYear(Convert.ToInt32(yy), Convert.ToInt32(objPA_National_Allocation.Year));
 
             if (ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
@@ -342,8 +342,10 @@ public partial class SONIC_Exposures_NationalPremiumAllocation : clsBasePage
                 lblWCTotalPayroll.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[0]["WorkersCompensationPremiumTotalPayroll"]);
                 lblWCTotalHeadcount.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[0]["WorkersCompensationPremiumTotal_Headcount"]);
                 lblTXTotalPayroll.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[0]["TexasNonSubscriptionPremiumTotalPayroll"]);
-                lblWCTotalHeadcount.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[0]["TexasNonSubscriptionPremiumTotal_Headcount"]);
-                lblEarthquakeTotalRSMeans.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[0]["EarthquakePremiumTotalRSMeans"]);
+      //dls     //lblWCTotalHeadcount.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[0]["TexasNonSubscriptionPremiumTotal_Headcount"]);
+      // lable name was wrong, corrected it in the line below
+		lblTXTotalHeadCount.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[0]["TexasNonSubscriptionPremiumTotal_Headcount"]);
+		lblEarthquakeTotalRSMeans.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[0]["EarthquakePremiumTotalRSMeans"]);
                 lblEarthquakeTotalBusinessInterruption.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[0]["EarthquakePremiumTotalBusinessInterruption"]);
                 lblEarthquakeTotalContents.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[0]["EarthquakePremiumTotalContents"]);
                 lblEarthquakeTotalParts.Text = clsGeneral.FormatCommaSeperatorCurrency(dt.Rows[0]["EarthquakePremiumTotalParts"]);
@@ -412,7 +414,7 @@ public partial class SONIC_Exposures_NationalPremiumAllocation : clsBasePage
                 DateTime datevalue = (Convert.ToDateTime(Convert.ToString(sDate)));
                 yy = datevalue.Year.ToString();
             }
-
+//dls - added +1 to years below
             DataSet ds = clsPA_National_Allocation.SelectByPropertyValuationYear(Convert.ToInt32(yy), Convert.ToInt32(objPA_National_Allocation.Year));
 
             if (ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
