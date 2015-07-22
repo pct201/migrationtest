@@ -5559,4 +5559,39 @@ public class ComboHelper
             }
         }
     }
+
+
+    /// <summary>
+    /// Used to Bind Contractor Type DropDown
+    /// </summary>
+    /// <param name="dropDowns">Dropdown Lists</param>
+    /// <param name="intID">used to selected a value using this param</param>
+    /// <param name="addSelectAsFirstElement">Require to add "--Select--" as a first element of dropdown</param>
+    public static void FillContractorFirm(DropDownList[] dropDowns, int intID, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.Contractor_Firm.SelectFirmName();
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Contractor_Firm_Name";
+            ddlToFill.DataValueField = "PK_Contractor_Firm";
+            ddlToFill.DataSource = dsData;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+            //check id greater 0 than find the value in dropdown list. if find than select the item.
+            //if (intID > 0)
+            //{
+            //    ListItem lst = new ListItem();
+            //    lst = ddlToFill.Items.FindByValue(intID.ToString());
+            //    if (lst != null)
+            //    {
+            //        lst.Selected = true;
+            //    }
+            //}
+        }
+    }
 }

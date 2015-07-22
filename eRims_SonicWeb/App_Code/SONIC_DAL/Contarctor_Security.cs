@@ -37,6 +37,7 @@ namespace ERIMS.DAL
         private DateTime? _Update_Date;
         private string _Updated_By;
         private decimal? _FK_LU_Contractor_Type;
+        private decimal? _FK_Contractor_Firm;  
 
         #endregion
 
@@ -255,6 +256,15 @@ namespace ERIMS.DAL
             set { _FK_LU_Contractor_Type = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the FK_Contractor_Firm value.
+        /// </summary>
+        public decimal? FK_Contractor_Firm
+        {
+            get { return _FK_Contractor_Firm; }
+            set { _FK_Contractor_Firm = value; }
+        }
+
 
         #endregion
 
@@ -409,7 +419,15 @@ namespace ERIMS.DAL
             else
                 this._FK_LU_Contractor_Type = (decimal?)drContractor_Security["FK_LU_Contractor_Type"];
 
+             if (drContractor_Security["FK_Contractor_Firm"] == DBNull.Value)
+                this._FK_Contractor_Firm = null;
+            else
+                this._FK_Contractor_Firm = (decimal?)drContractor_Security["FK_Contractor_Firm"];
+
+        
         }
+
+        
 
         #endregion
 
@@ -520,6 +538,8 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
 
             db.AddInParameter(dbCommand, "FK_LU_Contractor_Type", DbType.Decimal, this._FK_LU_Contractor_Type);
+
+            db.AddInParameter(dbCommand, "FK_Contractor_Firm", DbType.Decimal, this._FK_Contractor_Firm);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -682,6 +702,8 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
 
             db.AddInParameter(dbCommand, "FK_LU_Contractor_Type", DbType.Decimal, this._FK_LU_Contractor_Type);
+
+            db.AddInParameter(dbCommand, "FK_Contractor_Firm", DbType.Decimal, this._FK_Contractor_Firm);
 
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
             return returnValue;

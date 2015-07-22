@@ -258,15 +258,19 @@
                     </td>
                 </tr>
                 <tr>
-                    <td align="left">Contractor Company<%--<span style="color: Red;">*</span>--%>
+                    <td align="left">Contractor Firm<span style="color: Red;">*</span>
                     </td>
                     <td style="width: 4%;" align="center">:
                     </td>
-                    <td align="left" width="26%">
+                    <%--<td align="left" width="26%">
                         <asp:TextBox runat="server" ID="txtContractorCompany" MaxLength="75" ValidationGroup="vsErrorGroup"
                             Width="170px"></asp:TextBox>&nbsp;
-                        <%--<asp:RequiredFieldValidator ID="rfvtxtContractorCompany" ControlToValidate="txtContractorCompany" Display="None"
-                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Contractor Company."></asp:RequiredFieldValidator>--%>
+                    </td>--%>
+                    <td align="left" width="26%">
+                        <asp:DropDownList ID="ddlContractorfirm" runat="server" Width="170px" SkinID="ddlSONIC">
+                        </asp:DropDownList>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ControlToValidate="ddlContractorfirm" Display="None"
+                             ValidationGroup="vsErrorGroup" Text="*" InitialValue="0" runat="server" ErrorMessage="Please select atleast one Contractor Firm."></asp:RequiredFieldValidator>
                     </td>
                     <td align="left">Contractor Type<span style="color: Red;">*</span>
                     </td>
@@ -500,12 +504,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <td align="left">Contractor Company
+                    <td align="left">Contractor Firm
                     </td>
                     <td align="center">:
                     </td>
                     <td align="left">
-                        <asp:Label runat="server" Style="word-wrap: normal; word-break: break-all" ID="lblContractorCompany">
+                        <asp:Label runat="server" Style="word-wrap: normal; word-break: break-all" ID="lblContractorFirm">
                         </asp:Label>
                     </td>
                     <td align="left" style="width: 18%;">Contractor Type

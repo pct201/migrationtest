@@ -139,7 +139,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
         txtLoginUserName.Text = "";
         txtFirstName.Text = "";
         txtLastName.Text = "";
-        txtContractorCompany.Text = "";
+        //txtContractorCompany.Text = "";
         txtAddress1.Text = "";
         txtAddress2.Text = "";
         txtCity.Text = "";
@@ -209,7 +209,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
         objContractorSecurity.First_Name = txtFirstName.Text.Trim().Replace("'", "\'");
         objContractorSecurity.Last_Name = txtLastName.Text.Trim().Replace("'", "\'");
         objContractorSecurity.Password = Encryption.Encrypt(txtPassword.Text.Trim().Replace("'", "\'").ToString());
-        objContractorSecurity.Contractor_Company_Name = txtContractorCompany.Text.Trim().Replace("'", "\'");
+        //objContractorSecurity.Contractor_Company_Name = txtContractorCompany.Text.Trim().Replace("'", "\'");
         objContractorSecurity.Address_1 = txtAddress1.Text.Trim().Replace("'", "\'");
         objContractorSecurity.Address_2 = txtAddress2.Text.Trim().Replace("'", "\'");
         objContractorSecurity.City = txtCity.Text.Trim().Replace("'", "\'");
@@ -219,7 +219,12 @@ public partial class Administrator_Contractor_Security : clsBasePage
         objContractorSecurity.Previous_Password_2 = "";
         objContractorSecurity.Previous_Password_3 = "";
         objContractorSecurity.Texting_Address = "";
-        
+
+        if (ddlContractorfirm.SelectedIndex > 0)
+            objContractorSecurity.FK_Contractor_Firm = Convert.ToDecimal(ddlContractorfirm.SelectedValue);
+        else
+            objContractorSecurity.FK_Contractor_Firm = 0;
+
         if (ddlState.SelectedIndex > 0)
             objContractorSecurity.FK_State = Convert.ToDecimal(ddlState.SelectedValue);
         else
@@ -448,6 +453,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
     {
         ComboHelper.FillState(new DropDownList[] { ddlState }, 0, true);
         ComboHelper.FillContractorType(new DropDownList[] { ddlContractoType }, 0, true);
+        ComboHelper.FillContractorFirm(new DropDownList[] { ddlContractorfirm }, 0, true);
         FillAlertMethod(new DropDownList[] { ddlAlertMethod }, 0, true);
     }
     /// <summary>
@@ -556,10 +562,15 @@ public partial class Administrator_Contractor_Security : clsBasePage
         txtConfirmPassword.Attributes.Add("value", txtPassword.Text);
         txtFirstName.Text = Convert.ToString(objContractorSecurity.First_Name);
         txtLastName.Text = Convert.ToString(objContractorSecurity.Last_Name);
-        txtContractorCompany.Text = Convert.ToString(objContractorSecurity.Contractor_Company_Name);
+        //txtContractorCompany.Text = Convert.ToString(objContractorSecurity.Contractor_Company_Name);
         txtAddress1.Text = Convert.ToString(objContractorSecurity.Address_1);   
         txtAddress2.Text = Convert.ToString(objContractorSecurity.Address_2);
         txtCity.Text = Convert.ToString(objContractorSecurity.City);
+
+        if (objContractorSecurity.FK_Contractor_Firm != null)
+            ddlContractorfirm.SelectedValue = objContractorSecurity.FK_Contractor_Firm.ToString();
+
+
         if (objContractorSecurity.FK_State != null)
             ddlState.SelectedValue = objContractorSecurity.FK_State.ToString();
         if (objContractorSecurity.FK_LU_Contractor_Type != null)
@@ -595,12 +606,16 @@ public partial class Administrator_Contractor_Security : clsBasePage
         lblLoginUserName.Text = Convert.ToString(objContractorSecurity.User_Name);
         lblFirstName.Text = Convert.ToString(objContractorSecurity.First_Name);
         lblLastName.Text =Convert.ToString(objContractorSecurity.Last_Name);
-        lblContractorCompany.Text = Convert.ToString(objContractorSecurity.Contractor_Company_Name);
+        //lblContractorCompany.Text = Convert.ToString(objContractorSecurity.Contractor_Company_Name);
         lblAddress1.Text = Convert.ToString(objContractorSecurity.Address_1);
         lblAddress2.Text = Convert.ToString(objContractorSecurity.Address_2);
         lblCity.Text = Convert.ToString(objContractorSecurity.City);
         if (objContractorSecurity.FK_State != null)
             lblState.Text = new State(Convert.ToDecimal(objContractorSecurity.FK_State)).FLD_state;
+
+        if (objContractorSecurity.FK_Contractor_Firm != null)
+            lblContractorFirm.Text = new Contractor_Firm(Convert.ToDecimal(objContractorSecurity.FK_Contractor_Firm)).Contractor_Firm_Name;
+
             if (objContractorSecurity.FK_LU_Contractor_Type != null)
             lblContractorType.Text = new clsLU_Contractor_Type(Convert.ToDecimal(objContractorSecurity.FK_LU_Contractor_Type)).CT_Desc;
 
