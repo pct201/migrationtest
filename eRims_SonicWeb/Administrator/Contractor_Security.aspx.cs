@@ -568,7 +568,14 @@ public partial class Administrator_Contractor_Security : clsBasePage
         txtCity.Text = Convert.ToString(objContractorSecurity.City);
 
         if (objContractorSecurity.FK_Contractor_Firm != null)
-            ddlContractorfirm.SelectedValue = objContractorSecurity.FK_Contractor_Firm.ToString();
+            if (ddlContractorfirm.Items.Contains(ddlContractorfirm.Items.FindByValue(objContractorSecurity.FK_Contractor_Firm.ToString())) == true)
+            {
+                ddlContractorfirm.SelectedValue = objContractorSecurity.FK_Contractor_Firm.ToString();
+            }
+            else
+            {
+                ddlContractorfirm.SelectedValue = "0";
+            }
 
 
         if (objContractorSecurity.FK_State != null)

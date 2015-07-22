@@ -449,7 +449,7 @@ namespace ERIMS.DAL
         public static DataSet SelectFirmName()
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("Contractor_FirmName");
+            DbCommand dbCommand = db.GetStoredProcCommand("Contractor_FirmNameList");
 
 
             return db.ExecuteDataSet(dbCommand);
