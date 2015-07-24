@@ -16,7 +16,7 @@ using System.Text;
 public partial class SONIC_EmailAttachment : System.Web.UI.Page
 {
     //string strBody = "This e-mail communication is to request your decision to approve/not approve the settlement on the eRIMS2 Management {Origin_Claim_Number}. Please login to eRIMS2, search for Management {Origin_Claim_Number}, click on the Risk Management Worksheet link on the left side of the screen, scroll down to the Settlement Approvals band and provide your decision and enter the date of approval in the appropriate approval area. Thank you!";
-    string strBody = "This e-mail communication is to request your decision to approve/not approve the settlement on the eRIMS2 ACI Management . Please login to eRIMS2 (Your Sonic Shared Drive – My Business APPS – eRIMS2 – enter your User ID and Password, search for ACI and then ACI Management , click on the Approvals link on the left side of the screen, scroll down to the Approvals band and provide your decision and enter the date of approval in the appropriate approval area. Thank you!";
+    string strBody = "This e-mail communication is to request your decision to approve/not approve the settlement on the eRIMS2 ACI Management. Please login to eRIMS2 (Your Sonic Shared Drive – My Business APPS – eRIMS2 – enter your User ID and Password, search for ACI and then ACI Management , click on the Approvals link on the left side of the screen, scroll down to the Approvals band and provide your decision and enter the date of approval in the appropriate approval area. Thank you!";
 
     /// <summary>
     /// Page Load Event
