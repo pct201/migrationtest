@@ -61,12 +61,12 @@ public partial class Administrator_ChangePasswordContractorSecurity_Popup : clsB
                     if (Request.QueryString[1].ToString() == "0")
                     {
                         //Passed Pasword and confirm password value for V-Card Issue
-                        ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_txtPassword').value = '" + password + "';parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_txtConfirmPassword').value = '" + password + "';parent.parent.GB_hide();", true);                       
+                        ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_txtPassword').value = '" + Encryption.Decrypt(password) + "';parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_txtConfirmPassword').value = '" + Encryption.Decrypt(password) + "';parent.parent.GB_hide();", true);                       
                     }
                     else
                     {
                         //Passed Pasword and confirm password value for V-Card Issue
-                        ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_txtPassword').value = '" + password + "';parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_txtConfirmPassword').value = '" + password + "';opener.location.reload(true);self.close();", true);                        
+                        ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_txtPassword').value = '" + Encryption.Decrypt(password) + "';parent.parent.document.getElementById('ctl00_ContentPlaceHolder1_txtConfirmPassword').value = '" + Encryption.Decrypt(password) + "';opener.location.reload(true);self.close();", true);                        
                     }
                 }
             }
