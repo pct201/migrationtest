@@ -515,17 +515,6 @@ public class clsBasePage : System.Web.UI.Page
                         Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc");
                 }
             }
-
-            // check access to  run and view the Reports- SafetyTraining_AdhocReportWriter Report 
-            else if (strModule == "SONIC/" && strUrl.IndexOf("SafetyTraining_AdhocReportWriter.aspx") > 0)
-            {
-                if (UserAccessType != AccessType.Administrative_Access)
-                {
-                    if (dsGroup.Tables[0].Rows.Count <= 0)
-                        Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc");
-                }
-            }
-
             else
             {
                 if (clsSession.IsUserRegionalOfficer && (UserAccessType != AccessType.Administrative_Access))
