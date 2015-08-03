@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using ERIMS.DAL;
+using System.IO;
 
 public partial class SONIC_ClaimInfo_rptAdHocWriterOhioWCClaim : clsBasePage
 {
@@ -551,14 +552,39 @@ public partial class SONIC_ClaimInfo_rptAdHocWriterOhioWCClaim : clsBasePage
         // show popup with message if repord not found else export grid to excel
         if (gvAdHoc.Rows.Count > 0)
         {
-            GridViewExportUtil.ExportAdHoc("AdHocReport" + this.Claim_Type + ".xls", this.gvAdHoc);
+            string data = GridViewExportUtil.ExportAdHoc_New(this.gvAdHoc);
+            data = data.Trim();
+            HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            string strPath = AppConfig.SitePath + @"temp\";
+            string fileName = "AdHocReport" + this.Claim_Type + ".xlsx";
+            string outputFiles = Path.GetFullPath(strPath + fileName);
+            bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+            if (blnHTML2Excel)
+            {
+                try
+                {
+                    HttpContext.Current.Response.Clear();
+                    HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", fileName));
+                    HttpContext.Current.Response.ContentType = "application/ms-excel";
+                    HttpContext.Current.Response.TransmitFile(outputFiles);
+                    HttpContext.Current.Response.Flush();
+                }
+                finally
+                {
+                    if (File.Exists(outputFiles))
+                        File.Delete(outputFiles);
+                    HttpContext.Current.Response.End();
+                }
+
+            }
         }
         else
         {
             string m_strScript = "alert('No Data Available For Selected Criteria.');";
             Page.ClientScript.RegisterStartupScript(this.GetType(), "NoRecords", m_strScript, true);
         }
-    }
+        }
+    
 
     /// <summary>
     /// Calculate Sum for the perticular column in passed datatable.

@@ -163,13 +163,64 @@ public class GridViewExportUtil
                 table.RenderControl(htw);
 
                 //  render the htmlwriter into the response
-                HttpContext.Current.Response.Write(sw.ToString());
+               HttpContext.Current.Response.Write(sw.ToString());
                 HttpContext.Current.Response.End();
             }
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="fileName"></param>
+    /// <param name="gv"></param>
+    public static string ExportAdHoc_New(sGridView gv)
+    {
+      
+        using (StringWriter sw = new StringWriter())
+        {
+            using (HtmlTextWriter htw = new HtmlTextWriter(sw))
+            {
+                //  Create a table to contain the grid
+                Table table = new Table();
 
+                //  include the gridline settings
+                table.GridLines = gv.GridLines;
+
+                //  add the header row to the table
+                if (gv.HeaderRow != null)
+                {
+                    //gv.HeaderRow.Controls.RemoveAt(0);
+                    GridViewExportUtil.PrepareControlForExportAdHoc(gv.HeaderRow);
+                    table.Rows.Add(gv.HeaderRow);
+                }
+
+                //  add each of the data rows to the table
+                foreach (GridViewRow row in gv.Rows)
+                {
+                    //row.Controls.RemoveAt(0);
+                    GridViewExportUtil.PrepareControlForExportAdHoc(row);
+                    table.Rows.Add(row);
+                }
+
+                //  add the footer row to the table
+                if (gv.FooterRow != null)
+                {
+
+                    GridViewExportUtil.PrepareControlForExportAdHoc(gv.FooterRow);
+                    table.Rows.Add(gv.FooterRow);
+                }
+
+                //  render the table into the htmlwriter
+                table.RenderControl(htw);
+
+                string data = sw.ToString();
+                HttpContext.Current.Response.Write(sw.ToString());
+                return data;
+                //HttpContext.Current.Response.End();
+            }
+        }
+    }
 
     /// <summary>
     /// Replace any of the contained controls with literals

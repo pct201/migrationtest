@@ -82,22 +82,29 @@ public partial class SONIC_DealershipDetails_AdhocReportWriter : clsBasePage
         //Bind Report
         StringBuilder sbRecord = new StringBuilder();
         string strFilePath = BindReport(ref sbRecord, ReportOutputType.ExportToExcel);
+        string data = File.ReadAllText(strFilePath);
+        data = data.Trim();
+        HTML2Excel objHtml2Excel = new HTML2Excel(data);
+        string outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
+        bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+
 
         //If records found
-        if (File.Exists(strFilePath))
+        //if (File.Exists(strFilePath))
+        if (blnHTML2Excel)
         {
             try
             {
                 HttpContext.Current.Response.Clear();
-                HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "Safety Training Details Ad-Hoc Report.xls"));
+                HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"" + "Safety Training Details Ad-Hoc Report.xlsx" +"\""));
                 HttpContext.Current.Response.ContentType = "application/ms-excel";
-                HttpContext.Current.Response.TransmitFile(strFilePath);
+                HttpContext.Current.Response.TransmitFile(outputFiles);
                 HttpContext.Current.Response.Flush();
             }
             finally
             {
-                if (File.Exists(strFilePath))
-                    File.Delete(strFilePath);
+                if (File.Exists(outputFiles))
+                    File.Delete(outputFiles);
                 HttpContext.Current.Response.End();
             }
         }
