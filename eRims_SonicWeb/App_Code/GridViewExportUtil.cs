@@ -174,7 +174,7 @@ public class GridViewExportUtil
     /// </summary>
     /// <param name="fileName"></param>
     /// <param name="gv"></param>
-    public static string ExportAdHoc_New(sGridView gv)
+    public static string ExportAdHoc_New(GridView gv)
     {
       
         using (StringWriter sw = new StringWriter())
