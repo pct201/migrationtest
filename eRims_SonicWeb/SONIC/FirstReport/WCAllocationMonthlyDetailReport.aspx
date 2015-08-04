@@ -203,7 +203,7 @@
                                                                             Wrap="true" />
                                                                         <ItemStyle Width="100px" HorizontalAlign="left" />
                                                                         <ItemTemplate>
-                                                                            <asp:Label ID="lblDateofIncident" runat="server" Text='<%# clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Date_Of_Incident")))%>'
+                                                                            <asp:Label ID="lblDateofIncident" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("Date_Of_Incident"))%>'
                                                                                 Width="100px"></asp:Label>
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>

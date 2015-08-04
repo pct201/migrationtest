@@ -65,7 +65,7 @@ public partial class SONIC_RealEstate_ScheduleWCAllocationYTDCharge : clsBasePag
     protected void btnSave_Click(object sender, EventArgs e)
     {
         Tatva_ReportWCAllocationYTDChargeSchedule obj = new Tatva_ReportWCAllocationYTDChargeSchedule();
-        string strRegion = string.Empty, strLocation = string.Empty, strYear = string.Empty;
+        string strRegion = string.Empty, strLocation = string.Empty, strYear = string.Empty, strMarket = string.Empty;
 
         // get selected regions
         foreach (ListItem li in lstRegion.Items)
@@ -74,6 +74,14 @@ public partial class SONIC_RealEstate_ScheduleWCAllocationYTDCharge : clsBasePag
                 strRegion = strRegion + "'" + li.Value + "',";
         }
         strRegion = strRegion.TrimEnd(',');
+
+        //get selected Market
+        foreach (ListItem li in lstMarket.Items)
+        {
+            if (li.Selected)
+                strMarket = strMarket + "" + li.Value + ",";
+        }
+        strMarket = strMarket.TrimEnd(',');
 
         // get selected regions
         foreach (ListItem li in lstLocation.Items)
@@ -95,6 +103,11 @@ public partial class SONIC_RealEstate_ScheduleWCAllocationYTDCharge : clsBasePag
         if (!string.IsNullOrEmpty(strRegion))
             obj.Region = strRegion;
 
+        // set region
+        if (!string.IsNullOrEmpty(strMarket))
+            obj.Market = strMarket;
+
+
         // set lease type
         if (!string.IsNullOrEmpty(strLocation))
             obj.Location = strLocation;
@@ -102,6 +115,7 @@ public partial class SONIC_RealEstate_ScheduleWCAllocationYTDCharge : clsBasePag
         if (!string.IsNullOrEmpty(strYear))
             obj.Year = strYear;
 
+        obj.Run_report_by = rdoRunBy.SelectedValue;
         obj.FK_Report = PK_ReportID;
         obj.Scheduled_Date = Convert.ToDateTime(txtScheduleDate.Text);
         obj.Created_Date = DateTime.Now;
@@ -109,6 +123,7 @@ public partial class SONIC_RealEstate_ScheduleWCAllocationYTDCharge : clsBasePag
         obj.Recurring_Type = Convert.ToDecimal(drpRecurringPeriod.SelectedValue);
         obj.FK_Security_ID = Convert.ToDecimal(clsSession.UserID);
         obj.Fk_RecipientList = Convert.ToDecimal(drpRecipientList.SelectedValue);
+        
 
         //Insert Report Schedule
         int intID = obj.Insert();
@@ -163,6 +178,9 @@ public partial class SONIC_RealEstate_ScheduleWCAllocationYTDCharge : clsBasePag
         lstRegion.DataTextField = "region";
         lstRegion.DataValueField = "region";
         lstRegion.DataBind();
+
+        //Fill Market
+        ComboHelper.FillMarketListBox(new ListBox[] { lstMarket }, false);
 
         lstYear.DataSource = WC_FR.SelectDistinctIncidentYear().Tables[0];
         lstYear.DataTextField = "WCYear";

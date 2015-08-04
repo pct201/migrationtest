@@ -635,13 +635,36 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet GetWCAllocationYTDChargeReport(string strRegion, string strLocation, string strYear)
+        public static DataSet GetWCAllocationYTDChargeReport(string strRegion, string strMarket, string strLocation, string strYear)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("rptWCAllocationYTDChargeReport");
 
             if (!string.IsNullOrEmpty(strRegion))
                 db.AddInParameter(dbCommand, "region", DbType.String, strRegion);
+
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+
+            if (!string.IsNullOrEmpty(strLocation))
+                db.AddInParameter(dbCommand, "location", DbType.String, strLocation);
+
+            if (!string.IsNullOrEmpty(strYear))
+                db.AddInParameter(dbCommand, "Accident_year", DbType.String, strYear);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        public static DataSet GetWCAllocationYTDChargeReport_ByMarket(string strRegion, string strMarket, string strLocation, string strYear)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("rptWCAllocationYTDChargeReport_ByMarket");
+
+            if (!string.IsNullOrEmpty(strRegion))
+                db.AddInParameter(dbCommand, "region", DbType.String, strRegion);
+
+            if (!string.IsNullOrEmpty(strMarket))
+                db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
 
             if (!string.IsNullOrEmpty(strLocation))
                 db.AddInParameter(dbCommand, "location", DbType.String, strLocation);

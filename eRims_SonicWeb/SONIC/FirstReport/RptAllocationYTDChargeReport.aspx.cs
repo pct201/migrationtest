@@ -29,17 +29,18 @@ public partial class SONIC_FirstReport_RptAllocationYTDChargeReport : clsBasePag
         if (!IsPostBack)
         {
             // fill DropDown
-            BindDropDownList();
+            BindDropDownList();            
         }
     }
 
     #region "Events"
 
     protected void btnShowReport_Click(object sender, EventArgs e)
-    {
-        DataSet dsResult;
-        string strRegion = string.Empty, strLocation = string.Empty, strYear = string.Empty;
+    {       
+        string strRegion = string.Empty, strLocation = string.Empty, strYear = string.Empty, strMarket = string.Empty;
+        bool setMarket = false;
 
+        
         // get selected regions
         foreach (ListItem li in lstRegion.Items)
         {
@@ -47,6 +48,14 @@ public partial class SONIC_FirstReport_RptAllocationYTDChargeReport : clsBasePag
                 strRegion = strRegion + "'" + li.Value + "',";
         }
         strRegion = strRegion.TrimEnd(',');
+
+        //get selected Market
+        foreach (ListItem li in lstMarket.Items)
+        {
+            if (li.Selected)
+                strMarket = strMarket + "" + li.Value + ",";
+        }
+        strMarket = strMarket.TrimEnd(',');
 
         // get selected Location
         foreach (ListItem li in lstLocation.Items)
@@ -64,9 +73,23 @@ public partial class SONIC_FirstReport_RptAllocationYTDChargeReport : clsBasePag
         }
         strYear = strYear.TrimEnd(',');
 
-        // get report result from database
-        dsResult = Report.GetWCAllocationYTDChargeReport(strRegion, strLocation, strYear);
-        dtDetails = dsResult.Tables[0];
+        // fetch records for report as per year selected
+        DataSet dsResult = new DataSet();
+
+        if (rdoRunBy.SelectedValue == "Region")
+        {      
+  
+            dsResult = Report.GetWCAllocationYTDChargeReport(strRegion, strMarket, strLocation, strYear);
+            dtDetails = dsResult.Tables[0];
+            setMarket = false;            
+
+        }
+        else if (rdoRunBy.SelectedValue == "Market")
+        {
+            dsResult = Report.GetWCAllocationYTDChargeReport_ByMarket(strRegion, strMarket, strLocation, strYear);
+            dtDetails = dsResult.Tables[0];
+            setMarket = true;
+        }        
         // set scrollbar propery
         dvReport.Style[HtmlTextWriterStyle.OverflowX] = (dsResult.Tables[1].Rows.Count > 0) ? "scroll;" : "hidden;";
 
@@ -117,8 +140,8 @@ public partial class SONIC_FirstReport_RptAllocationYTDChargeReport : clsBasePag
         gvReport.GridLines = GridLines.None;
     }
 
-    protected void gvReport_RowDataBound(object sender, GridViewRowEventArgs e)
-    {
+    protected void gvReport_RowDataBound(object sender, GridViewRowEventArgs e)    
+    {        
         // if row type is data row
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
@@ -133,8 +156,8 @@ public partial class SONIC_FirstReport_RptAllocationYTDChargeReport : clsBasePag
             //bind the sub grid for Region grid 
             GridView gvDetail = e.Row.FindControl("gvDetail") as GridView;
             gvDetail.DataSource = dvDetails.ToTable();
-            gvDetail.DataBind();
-
+            gvDetail.DataBind();          
+            
             if (gvDetail.Rows.Count > 0)
             {
                 ((Label)gvDetail.FooterRow.FindControl("lblTotalCount")).Text = gvDetail.Rows.Count.ToString();
@@ -213,5 +236,5 @@ public partial class SONIC_FirstReport_RptAllocationYTDChargeReport : clsBasePag
         
     }
 
-    #endregion
+    #endregion    
 }

@@ -7967,13 +7967,23 @@ namespace ERIMS_Sonic_ReportScheduler
                         strLastName = Convert.ToString(dtUser.Rows[0]["LAST_NAME"]).Trim();
                         strMailFrom = Convert.ToString(dtUser.Rows[0]["Email"]).Trim();
 
-                        string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();                        
+                        string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
+                        string strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();    
                       
                         string strLocation = Convert.ToString(dtFilter.Rows[0]["Location"]).Trim();
                         string strYear = Convert.ToString(dtFilter.Rows[0]["Year"]).Trim();
+                        string strRun_Report_By = Convert.ToString(dtFilter.Rows[0]["Run_report_by"]);
+
+                        if (string.IsNullOrEmpty(strRun_Report_By))
+                            strRun_Report_By = "Region";
+
+                        DataSet dsResult = new DataSet();
 
                         //Get the all Unique records for Selected group (default - last name -sort) by search criteria
-                        DataSet dsResult = Report.GetWCAllocationYTDChargeReport(strRegion, strLocation, strYear);
+                        if (strRun_Report_By == "Region")
+                            dsResult = Report.GetWCAllocationYTDChargeReport(strRegion, strMarket, strLocation, strYear);
+                        else if(strRun_Report_By == "Market")
+                            dsResult = Report.GetWCAllocationYTDChargeReport_ByMarket(strRegion, strMarket, strLocation, strYear);
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -8001,6 +8011,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br /><table> <tr> <td colspan='8'>");
                         strHTML.Append("Region   : " + strRegion);
                         strHTML.Append("</td> </tr> <tr> <td colspan='8'>");
+                        strHTML.Append("Market   : " + (string.IsNullOrEmpty(strMarket) ? "" : GetCommaValueFromTable(Report.getMarketByIds(strMarket).Tables[0], "Market")));
+                        strHTML.Append("</td> </tr> <tr> <td colspan='8'>");
                         strHTML.Append("Location : " + (string.IsNullOrEmpty(strLocation) ? "" : GetCommaValueFromTable(Report.getLocationByIds(strLocation).Tables[0], "DBA")));
                         strHTML.Append("</td></tr> <tr> <td colspan='8'>");
                         strHTML.Append("Accident Year : " + strYear);
@@ -8023,6 +8035,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<td >Date Reported To SRS</td>");
                         strHTML.Append("<td >Location</td>");
                         strHTML.Append("<td >Region</td>");
+                        strHTML.Append("<td >Market</td>");
                         strHTML.Append("<td >Department</td>");
                         strHTML.Append("<td >Employee</td>");
                         strHTML.Append("<td >Description of Incident</td>");
@@ -8067,6 +8080,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                         strHTML.Append("<td> " + (Convert.ToString(drReport["Date_Reported_to_SRS"]) != string.Empty ? FormatDateToDisplay(FormatDateToStore(drReport["Date_Reported_to_SRS"])) : "") + " </td>");
                                         strHTML.Append("<td> " + Convert.ToString(drReport["DBA"]) + " </td>");
                                         strHTML.Append("<td> " + Convert.ToString(drReport["Region"]) + " </td>");
+                                        strHTML.Append("<td> " + Convert.ToString(drReport["Market"]) + " </td>");
                                         strHTML.Append("<td> " + Convert.ToString(drReport["Description"]) + " </td>");
                                         strHTML.Append("<td> " + Convert.ToString(drReport["Employee_Name"]) + " </td>");
                                         strHTML.Append("<td> " + Convert.ToString(drReport["Description_of_Incident"]) + " </td>");
