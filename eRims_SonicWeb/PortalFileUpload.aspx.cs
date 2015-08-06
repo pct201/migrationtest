@@ -55,6 +55,73 @@ public partial class PortalFileUpload : System.Web.UI.Page
                         { Response.Write("Project ID Not found"); }
                         #endregion
                         break;
+                    case "BUILDINGATTACHMENTS":
+                        string uploadPath = string.Concat(AppConfig.BuildingAttachDocPath, "\\");
+                        string strattachFilePath = System.IO.Path.GetFileName(Request.Files[0].FileName);
+                        string strAttachFullName = string.Concat(uploadPath, strattachFilePath);
+
+                        if (System.IO.Directory.Exists(uploadPath) == false)
+                        {
+                            System.IO.Directory.CreateDirectory(uploadPath);
+                        }
+
+                        Request.Files[0].SaveAs(strAttachFullName);
+                        break;
+                    case "SUBLEASE":
+                        string uploadSubleasePath = string.Concat(AppConfig.LeaseSubleaseDocPath, "\\");
+                        string strSubleaseFilePath = System.IO.Path.GetFileName(Request.Files[0].FileName);
+                        string strSubLeaseAttachFullName = string.Concat(uploadSubleasePath, strSubleaseFilePath);
+
+                        if (System.IO.Directory.Exists(uploadSubleasePath) == false)
+                        {
+                            System.IO.Directory.CreateDirectory(uploadSubleasePath);
+                        }
+
+                        Request.Files[0].SaveAs(strSubLeaseAttachFullName);
+                        break;
+                    case "INSURANCE":
+                        string uploadInsurancePath = string.Concat(AppConfig.PropertyCOIDocPath, "\\");
+                        string strInsuranceFilePath = System.IO.Path.GetFileName(Request.Files[0].FileName);
+                        string strInsuranceAttachFullName = string.Concat(uploadInsurancePath, strInsuranceFilePath);
+
+                        if (System.IO.Directory.Exists(uploadInsurancePath) == false)
+                        {
+                            System.IO.Directory.CreateDirectory(uploadInsurancePath);
+                        }
+
+                        Request.Files[0].SaveAs(strInsuranceAttachFullName);
+                        break;
+                    case "DELETEBUILDINGATTACHMENTS":
+                        string deleteAttachmentPath = string.Concat(AppConfig.BuildingAttachDocPath, "\\");
+                        string deleteFileName = Convert.ToString(Request.QueryString["fileName"]); // System.IO.Path.GetFileName(Request.Files[0].FileName);
+
+                        string[] files = Directory.GetFiles(deleteAttachmentPath, deleteFileName);
+                        if (files != null && files.Length > 0)
+                        {
+                            System.IO.File.Delete(files[0]);
+                        }
+                        break;
+                    case "DELETESUBLEASE":
+                        string deleteSubLeaseAttachmentPath = string.Concat(AppConfig.LeaseSubleaseDocPath, "\\");
+                        string deleteSubLeaseFileName = Convert.ToString(Request.QueryString["fileName"]); // System.IO.Path.GetFileName(Request.Files[0].FileName);
+
+                        string[] subleasefiles = Directory.GetFiles(deleteSubLeaseAttachmentPath, deleteSubLeaseFileName);
+                        if (subleasefiles != null && subleasefiles.Length > 0)
+                        {
+                            System.IO.File.Delete(subleasefiles[0]);
+                        }
+                        break;
+                    case "DELETEINSURANCE":
+                        string deleteInsuranceAttachmentPath = string.Concat(AppConfig.PropertyCOIDocPath, "\\");
+                        string deleteInsuranceFileName = Convert.ToString(Request.QueryString["fileName"]); // System.IO.Path.GetFileName(Request.Files[0].FileName);
+
+                        string[] insurancefiles = Directory.GetFiles(deleteInsuranceAttachmentPath, deleteInsuranceFileName);
+                        if (insurancefiles != null && insurancefiles.Length > 0)
+                        {
+                            System.IO.File.Delete(insurancefiles[0]);
+                        }
+                        break;
+
                     default: break;
                 }
 
