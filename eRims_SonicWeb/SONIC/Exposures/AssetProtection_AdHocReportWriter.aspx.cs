@@ -138,7 +138,7 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
   
         //If records found
            // if (File.Exists(outputFiles))
-        if (blnHTML2Excel)
+        if ((blnHTML2Excel==true) && File.Exists(strFilePath))
         {
             try
             {
@@ -152,6 +152,9 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
             {
                 if (File.Exists(outputFiles))
                     File.Delete(outputFiles);
+                if (File.Exists(strFilePath))
+                    File.Delete(strFilePath);
+
                 HttpContext.Current.Response.End();
             }
         }
@@ -167,12 +170,20 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
         //Bind Report
         StringBuilder sbRecord = new StringBuilder();
         string strFilePath = BindReport(ref sbRecord, ReportOutputType.ExportAsMail);
+        string data = File.ReadAllText(strFilePath);
+        data = data.Trim();
+        HTML2Excel objHtml2Excel = new HTML2Excel(data);
+        string outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
+        bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
 
         //If records found
-        if (File.Exists(strFilePath))
+        if (File.Exists(strFilePath) && (blnHTML2Excel==true))
         {
-            if (clsGeneral.SendAdHocReport("Ad Hoc Report", strFilePath, "Inspection Ad-Hoc Report.xls", Convert.ToDecimal(ddlRecipientList.SelectedItem.Value)))
+            if (clsGeneral.SendAdHocReport("Ad Hoc Report", outputFiles, "Asset Protection Ad-Hoc Report.xlsx", Convert.ToDecimal(ddlRecipientList.SelectedItem.Value)))
+            {
                 ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Email Sent Successfully')", true);
+                File.Delete(strFilePath);
+            }
             else
                 ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Error occured while sending email.Please contact administrator')", true);
         }
