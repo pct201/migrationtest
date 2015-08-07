@@ -83,15 +83,20 @@ public partial class Property_AdHocReportWriter : clsBasePage
         //Bind Report
         StringBuilder sbRecord = new StringBuilder();
         string strFilePath = BindReport(ref sbRecord, ReportOutputType.ExportToExcel);
+         string outputFiles=string.Empty;
+         bool blnHTML2Excel=false;
+        if( File.Exists(strFilePath))
+        {
         string data = File.ReadAllText(strFilePath);
         data = data.Trim();
         HTML2Excel objHtml2Excel = new HTML2Excel(data);
-        string outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
-        bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+         outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
+         blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+        }
 
         //If records found
         //if (File.Exists(strFilePath))
-        if ((blnHTML2Excel == true) && File.Exists(strFilePath))
+        if (blnHTML2Excel == true) 
         {
             try
             {
