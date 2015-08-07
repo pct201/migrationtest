@@ -559,7 +559,7 @@ public partial class SONIC_ClaimInfo_rptAdHocWriterOhioWCClaim : clsBasePage
             string fileName = "AdHocReport" + this.Claim_Type + ".xlsx";
             string outputFiles = Path.GetFullPath(strPath + fileName);
             bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
-            if (blnHTML2Excel)
+            if ((blnHTML2Excel==true) && File.Exists(outputFiles))
             {
                 try
                 {
