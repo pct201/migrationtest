@@ -36,7 +36,8 @@
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Building Number">
-                            <ItemStyle Width="20%" />
+                            <ItemStyle Width="25%" HorizontalAlign="Left" />
+                            <HeaderStyle HorizontalAlign="Left" />
                             <ItemTemplate>
                                 <%# Eval("Building_Number")%>
                             </ItemTemplate>

@@ -35,7 +35,7 @@ public partial class Event_BuildingDetailPopUp : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            ComboHelper.FillLocation(new DropDownList[] { ddlLocation_Sonic }, true);
+            ComboHelper.FillLocationDBA_All(new DropDownList[] { ddlLocation_Sonic }, 0, true);
             clsGeneral.SetDropdownValue(ddlLocation_Sonic, PK_ACI_LU_Location, true);
             BindGridBuilding();
         }
