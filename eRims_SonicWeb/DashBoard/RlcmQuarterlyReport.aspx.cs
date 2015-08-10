@@ -8,6 +8,8 @@ using System.Data;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using FusionCharts;
+using Aspose.Words;
 
 public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
 {
@@ -501,6 +503,114 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
         {
             Page.ClientScript.RegisterStartupScript(this.GetType(), "ErrorAlert", "alert('No data available to export.');", true);
         }
+    }
+
+    protected void btnExportToPDF_Click(object sender, EventArgs e)
+    {
+        ResetGrid();
+        if (rdoSortBy.SelectedValue == "RLCM")
+            Label1.Text = "AGGREGATE PERFORMANCE BY RLCM";
+        else
+            Label1.Text = "AGGREGATE PERFORMANCE BY Region";
+
+        cpeSLTScoring.Collapsed = true;
+        cpeSLTScoring.ClientState = "true";
+        cpeFacility.Collapsed = true;
+        cpeFacility.ClientState = "true";
+        cpeUni.Collapsed = true;
+        cpeUni.ClientState = "true";
+        cpeInvestigation.Collapsed = true;
+        cpeInvestigation.ClientState = "true";
+        cpeWc.Collapsed = true;
+        cpeWc.ClientState = "true";
+
+        string strRegions = string.Empty;
+        string strRlcm = string.Empty;
+        string strMarket = string.Empty;
+        strRlcm = Rlcms;
+        strRegions = RegionsAll;
+        strMarket = MarketAll;
+
+        DataSet ds = new DataSet();
+        ds = Charts.RLCMQuarterlyPerformanceReport(Pk_SecurityId, strRegions, strMarket, idState, CurrentFromDate, CurrentToDate, PriorFromDate, PriorToDate, strRlcm, rdoSortBy.SelectedValue);
+        string strDir = AppConfig.SitePath + @"temp\";
+        if (ds.Tables.Count > 0)
+        {
+            pnlCriteria.Visible = false;
+            pnlReport.Visible = true;
+            StringBuilder sb = new StringBuilder();
+            string strChart = string.Empty;
+
+            for (int i = 0; i <= ds.Tables.Count - 1; i++)
+            {
+                if (ds.Tables[i].Rows.Count > 0)
+                {
+                    strChart = MakeChart(ds.Tables[i], true);
+                    string xml = strChart;
+                    // string strDir = AppConfig.SitePath + @"temp\";
+                    // string strDir = "D:\\Projects\\eRIMS_SONIC_New\\trunk\\eRIMS_Sonic\\eRIMS_SONICWeb\\temp\\";
+                    if (!Directory.Exists(strDir))
+                    {
+                        Directory.CreateDirectory(strDir);
+                    }
+
+                    string imageName = "../temp/FusionChart" + i + ".png";
+                    ServerSideImageHandler ssh = new ServerSideImageHandler(Server.MapPath("../FusionCharts/MSColumn2D.swf"), 867, 300, xml, string.Empty, Server.MapPath(imageName));
+                    ssh.BeginCapture();
+                }
+            }
+
+            iTextSharp.text.Rectangle pgSize;
+            string strPdfpath = Server.MapPath("../temp/FusionChart.pdf");
+            pgSize = new iTextSharp.text.Rectangle(867, 300);
+            iTextSharp.text.Document doc = new iTextSharp.text.Document(pgSize, 0, 0, 0, 0);
+            iTextSharp.text.pdf.PdfWriter.GetInstance(doc, new FileStream(strPdfpath, FileMode.Create));
+            doc.Open();
+            for (int i = 0; i <= ds.Tables.Count - 1; i++)
+            {
+                string imagepath = Server.MapPath("../temp/FusionChart" + i + ".png");
+
+                try
+                {
+                    iTextSharp.text.Image gif = iTextSharp.text.Image.GetInstance(imagepath);
+                    //Resize image depend upon your need
+                    gif.ScaleToFit(867, 300);
+                    gif.Alignment = iTextSharp.text.Image.ALIGN_CENTER;
+                    doc.Add(gif);
+                }
+                catch (iTextSharp.text.DocumentException dex)
+                {
+                    Response.Write(dex.Message);
+                }
+                catch (IOException ioex)
+                {
+                    Response.Write(ioex.Message);
+                }
+                catch (Exception ex)
+                {
+                    Response.Write(ex.Message);
+                }
+
+            }
+            doc.Close();
+
+            HttpContext context = HttpContext.Current;
+            context.Response.Clear();
+            context.Response.AppendHeader("Content-Type", "application/pdf");
+            context.Response.AppendHeader("Content-disposition", "attachment; filename=" + "FusionChart.pdf");
+            context.Response.WriteFile("../temp/FusionChart.pdf");
+            context.Response.Flush();
+            if (File.Exists(strDir + "FusionChart.pdf"))
+                File.Delete(strDir + "FusionChart.pdf");
+            for (int i = 0; i <= ds.Tables.Count - 1; i++)
+            {
+                if (File.Exists(strDir + "FusionChart" + i + ".png"))
+                    File.Delete(strDir + "FusionChart" + i + ".png");
+            }
+
+            context.Response.End();
+        }
+
     }
 
     /// <summary>
@@ -1596,7 +1706,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
             {
                 if (ds.Tables[i].Rows.Count > 0)
                 {
-                    strChart = MakeChart(ds.Tables[i]);
+                    strChart = MakeChart(ds.Tables[i],false);
                     sb.Append(MakeHtml(strChart));
                     divCharts.InnerHtml = sb.ToString();
                 }
@@ -1609,7 +1719,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
     /// </summary>
     /// <param name="dt">datatable of related chart to be generated</param>    
     /// <returns></returns>
-    private string MakeChart(DataTable dt)
+    private string MakeChart(DataTable dt,bool blnNumber)
     {
         StringBuilder strChartXML = new StringBuilder();
         strChartXML.Append("<chart caption='" + dt.Rows[0]["SortValue"].ToString() + "' showLabels='1' showvalues='0' showYAxisValues='0' decimals='0' numDivLines ='0' rotateValues='1' exportEnabled='1' exportAtClient='1' exportHandler='fcBatchExporter' html5exporthandler='fcBatchExporter' exportAction='Save'>");
@@ -1676,6 +1786,9 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
         StringBuilder sbChart = new StringBuilder();
         //sbChart.Append(InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/MSColumn2D.swf?ChartNoDataText=No data to display for:" + dt.Rows[0]["region"].ToString().Replace(" ", "").Replace("-", "") + "", "", strChartXML.ToString(), dt.Rows[0]["region"].ToString().Replace(" ", "").Replace("-", ""), "98%", "300", false, true));
         sbChart.Append(InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/MSColumn2D.swf?ChartNoDataText=No data to display for:" + dt.Rows[0]["SortValue"].ToString().Replace(" ", "").Replace("-", "") + "", "", strChartXML.ToString(), dt.Rows[0]["SortValue"].ToString().Replace(" ", "").Replace("-", "").Replace("/", ""), "98%", "300", false, true));
+        if (blnNumber)
+            return strChartXML.ToString();
+        else
         return sbChart.ToString();
     }
 

@@ -21,39 +21,39 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-        (function () {
-            //for non IE modern browser
-            if (window.addEventListener) {
-                function loadFn() {
-                    var currentX = window.pageXOffset, currentY = window.pageYOffset,
-                    screenWidth = window.innerWidth, screenHeight = window.innerHeight,
-                    scrollMaxX = window.scrollMaxX, scrollMaxY = window.scrollMaxY,
-                    winMaxHeight = scrollMaxY + screenHeight, winMaxWidth = scrollMaxX + screenWidth, x, y;
-                    if (scrollMaxX > 0 || scrollMaxY > 0) {
-                        y = 0;
-                        do {
-                            x = 0;
-                            do {
-                                window.scrollTo(x, y);
-                                x += screenWidth;
-                            } while (x < winMaxWidth)
-                            y += screenHeight;
-                        } while (y < winMaxHeight)
-                    }
+        //(function () {
+        //    //for non IE modern browser
+        //    if (window.addEventListener) {
+        //        function loadFn() {
+        //            var currentX = window.pageXOffset, currentY = window.pageYOffset,
+        //            screenWidth = window.innerWidth, screenHeight = window.innerHeight,
+        //            scrollMaxX = window.scrollMaxX, scrollMaxY = window.scrollMaxY,
+        //            winMaxHeight = scrollMaxY + screenHeight, winMaxWidth = scrollMaxX + screenWidth, x, y;
+        //            if (scrollMaxX > 0 || scrollMaxY > 0) {
+        //                y = 0;
+        //                do {
+        //                    x = 0;
+        //                    do {
+        //                        window.scrollTo(x, y);
+        //                        x += screenWidth;
+        //                    } while (x < winMaxWidth)
+        //                    y += screenHeight;
+        //                } while (y < winMaxHeight)
+        //            }
 
-                    //scroll to current position
-                    window.scrollTo(currentX, currentY);
-                }
-                window.addEventListener('load', loadFn, false);
-            }
-        }())
+        //            //scroll to current position
+        //            window.scrollTo(currentX, currentY);
+        //        }
+        //        window.addEventListener('load', loadFn, false);
+        //    }
+        //}())
 
 
 
         var initiateExport = false;
-        function exportCharts(exportFormat) {            
+        function exportCharts(exportFormat) {
             initiateExport = true;
-            $("html, body").animate({ scrollTop: 0 }, 25000);
+            //$("html, body").animate({ scrollTop: 0 }, 25000);
             for (var chartRef in FusionCharts.items) {
                 if (FusionCharts.items[chartRef].exportChart) {
                     //document.getElementById("linkToExportedFile").innerHTML = "Exporting...";
@@ -105,7 +105,7 @@
             //Render the exporter SWF in our DIV fcexpDiv
             myExportComponent.Render("fcexpDiv");
         }
-            
+
     </script>
     <div>
         <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
@@ -115,8 +115,7 @@
     <asp:UpdateProgress runat="server" ID="upProgress" DisplayAfter="100">
         <ProgressTemplate>
             <div class="UpdatePanelloading" id="divProgress" style="width: 100%; position: fixed;">
-                <table id="ProgressTable" cellpadding="0" cellspacing="0" border="0" style="width: 100%;
-                    height: 100%;">
+                <table id="ProgressTable" cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: 100%;">
                     <tr align="center" valign="middle">
                         <td class="LoadingText" align="center" valign="middle">
                             <img src="../Images/indicator.gif" alt="Loading" />&nbsp;&nbsp;&nbsp;Please Wait..
@@ -177,19 +176,19 @@
                     </td>
                     <td align="left" class="lc">
                         <asp:ListBox ID="lstMarket" runat="server" Width="180px" SelectionMode="Multiple"></asp:ListBox>
-                    </td>                    
+                    </td>
                     <td align="left" class="lc">
                         Sort By
                     </td>
-                    <td align="right" class="lc" >
+                    <td align="right" class="lc">
                         :
                     </td>
                     <td align="left" class="lc">
-                        <asp:RadioButtonList id="rdoSortBy" runat="server">
-                            <asp:ListItem Text="Region" Value ="Region" Selected="True"></asp:ListItem>
-                            <asp:ListItem Text="RLCM" Value ="RLCM"></asp:ListItem>
+                        <asp:RadioButtonList ID="rdoSortBy" runat="server">
+                            <asp:ListItem Text="Region" Value="Region" Selected="True"></asp:ListItem>
+                            <asp:ListItem Text="RLCM" Value="RLCM"></asp:ListItem>
                         </asp:RadioButtonList>
-                    </td>                    
+                    </td>
                 </tr>
                 <tr>
                     <td align="left" class="lc">
@@ -340,7 +339,7 @@
                             <table width="100%" cellpadding="3" cellspacing="0">
                                 <tr>
                                     <td align="left">
-                                        <asp:Label ID="Label1" runat="server" ></asp:Label>
+                                        <asp:Label ID="Label1" runat="server"></asp:Label>
                                     </td>
                                     <td>
                                         <asp:Panel ID="Panel1" runat="server">
@@ -357,8 +356,8 @@
                 </tr>
                 <tr>
                     <td align="center" style="width: 100%" colspan="6">
-                        <asp:Panel ID="pnlCharts" runat="server" >
-                            <table width="100%" >
+                        <asp:Panel ID="pnlCharts" runat="server">
+                            <table width="100%">
                                 <tr>
                                     <td>
                                         <div id="divCharts" runat="server" style="width: 90%">
@@ -366,18 +365,24 @@
                                     </td>
                                 </tr>
                             </table>
-                            <table width="100%" >
-                                <tr>
+                            <table width="100%">
+                                <%--   <tr>
                                     <td align="right">
                                         <input value="Export to PDF" type="button" onclick="JavaScript:exportCharts('PDF')" />
                                     </td>
-                                </tr>
+                                </tr>--%>
                                 <tr>
+                                    <td align="right">
+                                        <asp:Button ID="btnExportToPDF" runat="server" Text="Export to PDF" CausesValidation="false"
+                                            OnClick="btnExportToPDF_Click"  />
+                                    </td>
+                                </tr>
+                               <%-- <tr>
                                     <td align="right">
                                         <div id="fcexpDiv">
                                         </div>
                                     </td>
-                                </tr>
+                                </tr>--%>
                                 <%--<tr>
                                     <td>
                                         &nbsp;
@@ -978,7 +983,7 @@
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField HeaderText="Average Incident Review Lag Time (Days)/ Prior Year"
-                                                                SortExpression="LagTime_Prev_Year" ItemStyle-HorizontalAlign="Right" ItemStyle-Width="200px" 
+                                                                SortExpression="LagTime_Prev_Year" ItemStyle-HorizontalAlign="Right" ItemStyle-Width="200px"
                                                                 HeaderStyle-HorizontalAlign="Right" HeaderStyle-Width="200px">
                                                                 <ItemTemplate>
                                                                     <asp:Label ID="lblLagTime_Prev_Year" runat="server" Text='<%#String.Format("{0, 0:N2}",DataBinder.Eval(Container.DataItem, "LagTime_Prev_Year"))%>'></asp:Label>
@@ -1086,8 +1091,7 @@
                                                                     <asp:Label ID="lbldba" runat="server" Text='<%# Eval("dba").ToString() == "Z" ? "" : Eval("dba") %>'></asp:Label>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
-                                                            <asp:BoundField DataField="Quarter" HeaderText="Quarter" SortExpression="Quarter">
-                                                            </asp:BoundField>
+                                                            <asp:BoundField DataField="Quarter" HeaderText="Quarter" SortExpression="Quarter"></asp:BoundField>
                                                             <asp:BoundField DataField="ClaimScore_Prev" HeaderText="Performance Level Score WC Claims/ Prior Year"
                                                                 SortExpression="ClaimScore_Prev" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
                                                                 HeaderStyle-Width="200px"></asp:BoundField>
@@ -1135,7 +1139,7 @@
                                                                 HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right"></asp:BoundField>
                                                             <asp:BoundField DataField="S5_Curr" HeaderText="Frequency By S5 Code/ Current Year"
                                                                 HeaderStyle-Width="200px" DataFormatString="{0:N0}" SortExpression="S5_Curr"
-                                                                HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right"></asp:BoundField>                                                            
+                                                                HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right"></asp:BoundField>
                                                             <asp:BoundField DataField="S0_1_Prev" HeaderText="Frequency By S0-1 Code/ Prior Year"
                                                                 HeaderStyle-Width="200px" DataFormatString="{0:N0}" SortExpression="S0_1_Prev"
                                                                 HeaderStyle-HorizontalAlign="Right" ItemStyle-HorizontalAlign="Right"></asp:BoundField>
@@ -1312,7 +1316,7 @@
                 divData.style.display = "none";
                 divMessage.style.display = "none";
             }
-        } 
+}
 
     </script>
 </asp:Content>
