@@ -5265,6 +5265,29 @@ public class ComboHelper
         }
     }
 
+    /// <summary>
+    /// Fill Event Level Drop downs
+    /// </summary>
+    /// <param name="dropDownList">All dropDownList</param>
+    /// <param name="booladdSelectAsFirstElement">Add --select-- to first item in each drop down or not</param>
+    public static void FillEventLevel(DropDownList[] dropDownList, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.clsLU_Event_Level.SelectAll();
+        
+        foreach (DropDownList ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Fld_Desc";
+            ddlToFill.DataValueField = "PK_LU_Event_Level";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
 
     #region Property
 

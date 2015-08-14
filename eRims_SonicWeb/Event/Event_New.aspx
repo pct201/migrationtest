@@ -1594,6 +1594,16 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
+                                                        <td align="left" valign="top">Event Level
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top" colspan="4">
+                                                            <%--<uc:ctrlMultiLineTextBox ID="txtSource_Of_Information" runat="server" MaxLength="100" />--%>
+                                                            <asp:DropDownList ID="ddlEventLevel" runat="server" Width="175px" SkinID="dropGen"></asp:DropDownList>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
                                                         <td colspan="6">&nbsp;
                                                             <asp:Button ID="btnhdnReload" runat="server" OnClick="btnhdnReload_Click" Style="display: none;" />
                                                         </td>

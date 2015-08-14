@@ -797,6 +797,8 @@ public partial class Event_Event_New : clsBasePage
         {
             DataSet dsEventType = clsEvent_Link_LU_Event_Type.SelectByFK_Event(PK_Event);
 
+            decimal eventLevelCodeOld = 0;
+            decimal eventLevelCodeNew = 0;
             if (dsEventType.Tables.Count > 0 && dsEventType.Tables[0].Rows.Count > 0)
             {
                 foreach (DataRow drEvent_Type in dsEventType.Tables[0].Rows)
@@ -808,13 +810,20 @@ public partial class Event_Event_New : clsBasePage
                         {
                             CheckBox chkEvent = (CheckBox)rptEvent.FindControl("chkEventType");
                             chkEvent.Checked = true;
+                            eventLevelCodeNew = Convert.ToDecimal(drEvent_Type["EventLevel_Fld_Code"]);
 
+                            if (eventLevelCodeNew > eventLevelCodeOld)
+                            {
+                                eventLevelCodeOld = eventLevelCodeNew;
+                            }
                             //TextBox txtDesc = (TextBox)rptEvent.FindControl("txtEventDesciption");
                             //txtDesc.Text = drEvent_Type["Description"].ToString();
                         }
                     }
                 }
             }
+
+            clsGeneral.SetDropdownValue(ddlEventLevel, eventLevelCodeOld, true);
 
             BindEvent_CameraGrid();
             BindACINoteGrid(ctrlPageAcadianNotes.CurrentPage, ctrlPageAcadianNotes.PageSize);
@@ -871,6 +880,7 @@ public partial class Event_Event_New : clsBasePage
     private void BindDropDownList()
     {
         ComboHelper.FillLocationDBA_All(new DropDownList[] { ddlLocation, ddlLocation_Sonic }, 0, true);
+        ComboHelper.FillEventLevel(new DropDownList[] { ddlEventLevel }, true);
         BindReapterEventType();
         BindReapterEventTypeSonic();
         BindReapterInvest_Images();
