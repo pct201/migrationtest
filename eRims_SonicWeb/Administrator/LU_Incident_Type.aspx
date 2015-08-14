@@ -167,15 +167,15 @@
                                     </tr>
                                     <tr>
                                         <td style="width: 18%" align="left">
-                                            Event Level<span class="mf">*</span>
+                                            Event Level<span class="mf"></span>
                                         </td>
                                         <td style="width: 4%" align="center">
                                             :
                                         </td>
                                         <td align="left" colspan="4">
                                             <asp:DropDownList ID="ddlEventLevel" runat="server" Width="175px" SkinID="dropGen"></asp:DropDownList>
-                                            <asp:RequiredFieldValidator ID="rfvddlEventLevel" runat="server" ValidationGroup="vsError" InitialValue="0"
-                                                SetFocusOnError="true" ErrorMessage="Please Select Event Level" Display="none" ControlToValidate="ddlEventLevel"></asp:RequiredFieldValidator>
+                                            <%--<asp:RequiredFieldValidator ID="rfvddlEventLevel" runat="server" ValidationGroup="vsError" InitialValue="0"
+                                                SetFocusOnError="true" ErrorMessage="Please Select Event Level" Display="none" ControlToValidate="ddlEventLevel"></asp:RequiredFieldValidator>--%>
                                         </td>
                                     </tr>
                                     <tr>
