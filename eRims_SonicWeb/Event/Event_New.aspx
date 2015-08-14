@@ -656,6 +656,18 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
+                                                        <td align="left" valign="top">Event Level
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:DropDownList ID="ddlEvent_Level" runat="server" Width="175px"></asp:DropDownList>
+                                                        </td>
+                                                        <td colspan="3">
+                                                            &nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
                                                         <td colspan="3">
                                                             <u><b>Actionable Event Type</b></u>
                                                         </td>
@@ -1599,8 +1611,7 @@
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top" colspan="4">
-                                                            <%--<uc:ctrlMultiLineTextBox ID="txtSource_Of_Information" runat="server" MaxLength="100" />--%>
-                                                            <asp:DropDownList ID="ddlEventLevel" runat="server" Width="175px" SkinID="dropGen"></asp:DropDownList>
+                                                            <asp:DropDownList ID="ddlEvent_Level_Sonic" runat="server" Width="175px" SkinID="dropGen"></asp:DropDownList>
                                                         </td>
                                                     </tr>
                                                     <tr>

@@ -823,7 +823,8 @@ public partial class Event_Event_New : clsBasePage
                 }
             }
 
-            clsGeneral.SetDropdownValue(ddlEventLevel, eventLevelCodeOld, true);
+            clsGeneral.SetDropdownValue(ddlEvent_Level, eventLevelCodeOld, true);
+            clsGeneral.SetDropdownValue(ddlEvent_Level_Sonic, eventLevelCodeOld, true);
 
             BindEvent_CameraGrid();
             BindACINoteGrid(ctrlPageAcadianNotes.CurrentPage, ctrlPageAcadianNotes.PageSize);
@@ -880,7 +881,7 @@ public partial class Event_Event_New : clsBasePage
     private void BindDropDownList()
     {
         ComboHelper.FillLocationDBA_All(new DropDownList[] { ddlLocation, ddlLocation_Sonic }, 0, true);
-        ComboHelper.FillEventLevel(new DropDownList[] { ddlEventLevel }, true);
+        ComboHelper.FillEventLevel(new DropDownList[] { ddlEvent_Level, ddlEvent_Level_Sonic }, true);
         BindReapterEventType();
         BindReapterEventTypeSonic();
         BindReapterInvest_Images();
@@ -1340,6 +1341,7 @@ public partial class Event_Event_New : clsBasePage
 
         ddlLocation.Enabled = Is_Enable;
         txtACI_EventID.Enabled = Is_Enable;
+        ddlEvent_Level.Enabled = Is_Enable;
         foreach (RepeaterItem rpt in rptEventType.Items)
         {
             CheckBox chkEvent = (CheckBox)rpt.FindControl("chkEventType");
@@ -1416,6 +1418,7 @@ public partial class Event_Event_New : clsBasePage
             rdoMonitoring_Hours_Sonic.Enabled = false;
             txtSonic_Notes.Attributes.Add("class", "readOnlyTextBox");
             txtSource_Of_Information.Enabled = false;
+            ddlEvent_Level_Sonic.Enabled = false;
             lnkAddEvent_CameraNew_Sonic.Visible = false;
             foreach (RepeaterItem rpt in rptEventTypeSonic.Items)
             {
