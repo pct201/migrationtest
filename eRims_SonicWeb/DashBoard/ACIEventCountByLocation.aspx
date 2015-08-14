@@ -38,6 +38,12 @@
                     <asp:GridView ID="gvEventData" runat="server" Width="100%" OnRowDataBound="gvEventData_OnRowDataBound"
                         EmptyDataText="No Record Exists">
                         <Columns>
+                            <asp:TemplateField HeaderText="Event Number" HeaderStyle-HorizontalAlign="Left" HeaderStyle-Width="10%">
+                                <ItemStyle HorizontalAlign="Left" VerticalAlign="Top" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblEvent_Number" Text='<%# Eval("Event_Number") %>' runat="server" />
+                                </ItemTemplate>
+                            </asp:TemplateField>
                             <asp:TemplateField HeaderText="Event Type" HeaderStyle-HorizontalAlign="Left" HeaderStyle-Width="30%">
                                 <ItemStyle HorizontalAlign="Left" VerticalAlign="Top" />
                                 <ItemTemplate>

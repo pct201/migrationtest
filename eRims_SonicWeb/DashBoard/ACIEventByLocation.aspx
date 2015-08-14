@@ -22,7 +22,7 @@
     }
 
     function OpenWindow(navUrl) {
-        var w = 700, h = 550;
+        var w = 800, h = 550;
 
         if (document.all || document.layers) {
             w = screen.availWidth;
@@ -30,7 +30,7 @@
         }
 
         var leftPos, topPos;
-        var popW = 800, popH = 400;
+        var popW = 900, popH = 400;
         if (document.all)
         { leftPos = (w - popW) / 2; topPos = (h - popH) / 2; }
         else

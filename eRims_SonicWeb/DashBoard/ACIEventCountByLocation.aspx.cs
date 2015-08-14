@@ -68,7 +68,7 @@ public partial class DashBoard_ACIEventCountByLocation : System.Web.UI.Page
         DataSet dsEvent = clsEvent.GetDashboardDataACIEventCounts(Fk_LU_Location, Month, Year);
 
         DataTable dtEventData = dsEvent.Tables[0];
-        dtEventData.DefaultView.Sort = "Event_Type ASC";
+        dtEventData.DefaultView.Sort = "Event_Number ASC";
         gvEventData.DataSource = dtEventData.DefaultView;
         gvEventData.DataBind();
 
@@ -96,11 +96,11 @@ public partial class DashBoard_ACIEventCountByLocation : System.Web.UI.Page
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
-            Label lblEvent_Type = (Label)e.Row.FindControl("lblEvent_Type");
+            Label lblEvent_Number = (Label)e.Row.FindControl("lblEvent_Number");
 
-            if (lblEvent_Type.Text == "ZZZ Total")
+            if (lblEvent_Number.Text == "ZZZ Total")
             {
-                lblEvent_Type.Text = "Total";
+                lblEvent_Number.Text = "Total";
                 e.Row.Font.Bold = true;
                 e.Row.BackColor = System.Drawing.ColorTranslator.FromHtml("#507CD1");
                 e.Row.ForeColor = System.Drawing.Color.White;
