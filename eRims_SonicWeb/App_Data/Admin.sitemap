@@ -115,9 +115,11 @@
       </siteMapNode>
     </siteMapNode>
     <siteMapNode url="" title="Administrator"  description="" roles="">
-      <siteMapNode url="Administrator/security.aspx" title="User"  description="" roles="" />
       <siteMapNode url="Administrator/Contractor_Firm.aspx" title="Contractor Firm"  description="" roles="" />
-      <siteMapNode url="Administrator/Contractor_Security.aspx" title="Contractor Security"  description="" roles="" />
+      <siteMapNode url="" title="User" description="">
+        <siteMapNode url="Administrator/security.aspx" title="User Security"  description="" roles="" />
+        <siteMapNode url="Administrator/UserAccessRequestForm.aspx" title="User Access Request"  description="" roles="" />
+      </siteMapNode>
 
       <!--
       <siteMapNode url="Administrator\Business_Rule_List.aspx" title="Business Rule Management" description="Business Rule Management" roles="" />
@@ -145,6 +147,9 @@
       <siteMapNode url="Administrator/DeleteFirstReport.aspx" title ="Delete First Report" description="" roles="" />
       <siteMapNode url="Administrator/AttachmentFolders.aspx" title ="Document Folder Maintenance" description="Document Folder Maintenance" roles=""/>
       <siteMapNode url="" title="Lookup Table Maintenance"  description="" roles="">
+        <siteMapNode url="" title="ACI" description="">
+          <siteMapNode url="Administrator/LU_Incident_Type.aspx" title="Event Type" description=""></siteMapNode>
+        </siteMapNode>
         <siteMapNode url="" title="Asset Protection" description="">
           <siteMapNode url="Administrator/LU_AM_Attachment_Type.aspx" title="Attachment Type" description=""></siteMapNode>
           <siteMapNode url="Administrator/LU_AP_Cap_Index_Risk_Category.aspx" title="Cap Index menu selection" description=""></siteMapNode>
@@ -294,6 +299,9 @@
             <siteMapNode url="SONIC/SLTSafetyWalk/AnnualQuestions.aspx" title ="Annual Questions" description="" roles="" />
           </siteMapNode>
           <siteMapNode url="Administrator/LU_SLT_Safety_Walk_Department.aspx" title ="Department" description="" roles="" />
+        </siteMapNode>
+        <siteMapNode url="" title="User Access Request" description="">
+          <siteMapNode url="Administrator/U_A_Request_Admin.aspx" title="Administrator E-Mail" description=""></siteMapNode>
         </siteMapNode>
       </siteMapNode>
       <siteMapNode url="Administrator\SabaTrainingImportExport.aspx" title ="Saba Training Export/Import" description="Saba Training Export/Import" roles="" />

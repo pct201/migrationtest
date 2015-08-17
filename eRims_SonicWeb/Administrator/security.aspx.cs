@@ -10,6 +10,7 @@ using System.Web.UI.HtmlControls;
 using System.Collections;
 using System.Collections.Generic;
 using ERIMS.DAL;
+using System.IO;
 
 /// <summary>
 /// By : Ravi Gupta, Modified By: Dhruti Desai
@@ -21,6 +22,7 @@ using ERIMS.DAL;
 
 public partial class Administrator_security : clsBasePage
 {
+
     #region Properties
     /// <summary>
     /// Denotes the Primary Key
@@ -69,6 +71,7 @@ public partial class Administrator_security : clsBasePage
         set { ViewState["DiaryRightId"] = value; }
     }
 
+  
     #endregion
 
     #region Main Events
@@ -99,6 +102,13 @@ public partial class Administrator_security : clsBasePage
             btnDelete.Attributes.Add("onclick", "return OMSCheckSelected1('chkItem','gvDiaryDetails','Delete');");
             PopupPassword.Style.Add("display", "none");
 
+            //#3341 -- start
+            //Take value from Session variable to be field in the Security Page if Admin Promotes the Access Requester
+            if (Session["dtPromote"] != null)
+            {
+                btnAddNew_Click(sender, e);
+            }
+            //#3341 -- end
             //Bind Employee Dropdown
             //ComboHelper.FillAssociateName(new DropDownList[] { ddlEmployee }, 0, true);
         }
@@ -180,6 +190,32 @@ public partial class Administrator_security : clsBasePage
         BindSecurityACI_LocationList(false, null);
         BindEventSecurity_LocationList(false, null);
         BindManagementSecurity_LocationList(false, null);
+
+        //#3341 -- start
+        //Take value from Session variable to be field in the Security Page if Admin Promotes the Access Requester
+        if (Session["dtPromote"] != null)
+        {
+            DataTable dt = (DataTable)Session["dtPromote"];
+            if (dt.Rows.Count > 0)
+            {
+                txtFirstName.Enabled = txtLastName.Enabled = false;
+                txtFirstName.Text = Convert.ToString(dt.Rows[0]["FirstName"]);
+                txtLastName.Text = Convert.ToString(dt.Rows[0]["LastName"]);
+                ViewState["Email"] = txtEmail.Text = Convert.ToString(dt.Rows[0]["EMail"]);
+                txtPhone.Text = Convert.ToString(dt.Rows[0]["Telephone"]);
+                rdoIsSonicEmployee.SelectedValue = Convert.ToString(dt.Rows[0]["EmployeeName"]) == "" ? "0":"1";
+                rdoIsSonicEmployee_OnSelectedIndexChanged(sender, e);                
+
+                if (HdnEmployeeID.Value != "")
+                    BindFROIeMailRecipients(true, Convert.ToInt32(HdnEmployeeID.Value));
+                tdEmployee.Style["display"] = "";
+                tdRigionalOfficer.Style["display"] = "";
+                HdnEmployeeID.Value = Convert.ToString(dt.Rows[0]["EmployeeId"]);
+                HdnEmployeeName.Value = Convert.ToString(dt.Rows[0]["EmployeeName"]);
+                lnkAssName.InnerText = Convert.ToString(dt.Rows[0]["EmployeeName"]);
+            }
+        }        
+        //#3341 end
     }
 
     /// <summary>
@@ -189,19 +225,32 @@ public partial class Administrator_security : clsBasePage
     /// <param name="e"></param>
     protected void btnCancel_Click(object sender, EventArgs e)
     {
-        PopupPassword.Style.Add("display", "none");
-        divViewAdminList.Style.Add("display", "block");
-        divModifyAdmin.Style.Add("display", "none");
-        System.Web.UI.HtmlControls.HtmlTableRow trpass = (System.Web.UI.HtmlControls.HtmlTableRow)DivEditSecuirty.FindControl("trPassword");
-        trpass.Style.Add("display", "");
-        rdoIsSonicEmployee.ClearSelection();
-        chkGroup.ClearSelection();
-        chkRights.ClearSelection();
-        lstInheritedRights.Items.Clear();
-        rdoIsRegionalOfficer.ClearSelection();
-        lstRegion.ClearSelection();
-        lstReportType.ClearSelection();
-        rdCorporateUser.ClearSelection();
+        //#3341 start        
+        if (Session["dtPromote"] != null)
+        {
+            //Page.ClientScript.RegisterStartupScript(this.GetType(), "Redirect", "alert('User Access Request Cancelled.'); window.location='UserAccessRequestForm.aspx';", true);
+            Session["dtPromote"] = null;
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "Redirect", "window.location='UserAccessRequestForm.aspx';", true);
+
+        }
+        //End
+        else
+        {
+            PopupPassword.Style.Add("display", "none");
+            divViewAdminList.Style.Add("display", "block");
+            divModifyAdmin.Style.Add("display", "none");
+            System.Web.UI.HtmlControls.HtmlTableRow trpass = (System.Web.UI.HtmlControls.HtmlTableRow)DivEditSecuirty.FindControl("trPassword");
+            trpass.Style.Add("display", "");
+            rdoIsSonicEmployee.ClearSelection();
+            chkGroup.ClearSelection();
+            chkRights.ClearSelection();
+            lstInheritedRights.Items.Clear();
+            rdoIsRegionalOfficer.ClearSelection();
+            lstRegion.ClearSelection();
+            lstReportType.ClearSelection();
+            rdCorporateUser.ClearSelection();
+        }
+
     }
 
     /// <summary>
@@ -211,9 +260,6 @@ public partial class Administrator_security : clsBasePage
     /// <param name="e"></param>
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        //check Page Validation
-        //if (IsValid)
-        //{
         Security objSecurity = new Security(PK_Security_ID);
         objSecurity.PK_Security_ID = PK_Security_ID;
 
@@ -260,7 +306,6 @@ public partial class Administrator_security : clsBasePage
 
         if (Convert.ToDecimal(objEmp.PK_Employee_ID) > 0)
         {
-            //ScriptManager.RegisterClientScriptBlock(Page, GetType(), "", "AssignValue('" + emp_name.ToString() + "','" + objSecurity.Employee_Id + "');", true);
             Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "AssignValue('" + emp_name.ToString().Replace("'", "\\'").Trim() + "','" + objSecurity.Employee_Id + "');", true);
         }
 
@@ -296,12 +341,47 @@ public partial class Administrator_security : clsBasePage
                 return;
             }
             PK_Security_ID = objSecurity.Insert();
+
             // Used to Check Duplicate User ID?
             if (PK_Security_ID == -2)
             {
                 lblError.Text = "User ID already exists.";
                 return;
             }
+            else
+            {
+                if (SendUserAccessRequestName())
+                {
+                    if (SendUserAccessRequestPassword())
+                    { 
+                          DataTable dt = (DataTable)Session["dtPromote"];
+                          if (dt.Rows.Count > 0)
+                          {
+                              if (!string.IsNullOrEmpty(dt.Rows[0]["PK_U_A_Request"].ToString()))
+                              {
+                                  U_A_Request u_a_request = new U_A_Request(Convert.ToDecimal(dt.Rows[0]["PK_U_A_Request"]));
+                                  u_a_request.Deny = false;
+                                  u_a_request.Update_Date = DateTime.Now;
+                                if (!string.IsNullOrEmpty(clsSession.UserID))
+                                    u_a_request.Updated_By = clsSession.UserID;
+                                else
+                                    u_a_request.Updated_By = "New User";
+
+                                if (Convert.ToDecimal(dt.Rows[0]["PK_U_A_Request"].ToString()) > 0)
+                                {
+                                    u_a_request.Update();                                    
+                                }
+
+                              }
+                          }
+                    }
+                    else
+                    {
+                        ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Emails couldn't be sent due to technical Issue!')", true);
+                    }
+                }
+            }
+            
         }
         //deleting Assoc user group
         Assoc_User_Group.DeleteByUserID(PK_Security_ID);
@@ -418,6 +498,112 @@ public partial class Administrator_security : clsBasePage
         //}
 
     }
+
+
+    #region "EmailMethods"
+    /// <summary>
+    /// User Request Mail Send Method for User-Id
+    /// </summary>
+    /// <param name="_IsAttachment"></param>
+    private bool SendUserAccessRequestName()
+    {
+        bool flag = false;
+
+        //used to send Email
+        if (PK_Security_ID > 0)
+        {
+            string[] EmailTo = new string[1];
+
+            Security objSecurity = new Security(PK_Security_ID);
+            if (string.IsNullOrEmpty(ViewState["Email"].ToString()))
+            {                
+                EmailTo[0] = objSecurity.Email;
+            }
+            else
+                EmailTo[0] = Convert.ToString(ViewState["Email"]);
+
+
+            string HtmlBody = "You have been granted access to the Sonic eRIMS2 system. The URL of the software is https://sonic.erims2.com. Your User Id is " + objSecurity.USER_NAME + ". Your password will be forwarded to you in a separate e-mail.";
+
+            //generate FIle and store it on disk
+            clsGeneral.CreateDirectory(AppConfig.SitePath + "SONIC-Email/" + "FN" + "_" + "LN" + "/U_A_request/" + DateTime.Today.ToString("MM-dd-yyyy"));
+
+
+
+            if (EmailTo.Length > 0)
+            {
+                EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
+
+                objEmail.SendMailMessage(AppConfig.MailFrom, "Admin", EmailTo, "eRIMS2 Access E-Mail 1 of 2", HtmlBody, false, null, AppConfig.MailCC);
+
+                flag = true;
+            }
+            else
+            {
+                flag = false;
+            }
+
+            return flag;
+        }
+        else
+            return false;
+
+    }
+
+
+    /// <summary>
+    /// User Request Mail Send Method for Password
+    /// </summary>
+    /// <param name="_IsAttachment"></param>
+    private bool SendUserAccessRequestPassword()
+    {
+        bool flag = false;
+
+        //used to send Email
+        if (PK_Security_ID > 0)
+        {            
+            string[] EmailTo = new string[1];
+            Security objSecurity = new Security(PK_Security_ID);
+            U_A_Request_Admin objU_A_Request_Admin = new U_A_Request_Admin(1);
+            if (string.IsNullOrEmpty(ViewState["Email"].ToString()))
+            {                
+                EmailTo[0] = objSecurity.Email;
+            }
+            else
+                EmailTo[0] = Convert.ToString(ViewState["Email"]);
+
+            string HtmlBody = "Your initial Sonic eRIMS2 password is " + Encryption.Decrypt(objSecurity.PASSWORD) + ". The password must be changed every 45 days." +
+                "If you have questions using Sonic’s eRIMS2, please contact " + Convert.ToString(objU_A_Request_Admin.Name) + " at " + Convert.ToString(objU_A_Request_Admin.Admin_EMail);
+
+            //generate FIle and store it on disk
+            clsGeneral.CreateDirectory(AppConfig.SitePath + "SONIC-Email/" + "FN" + "_" + "LN" + "/U_A_request/" + DateTime.Today.ToString("MM-dd-yyyy"));
+
+
+
+            if (EmailTo.Length > 0)
+            {
+                EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
+
+                objEmail.SendMailMessage(AppConfig.MailFrom, "Admin", EmailTo, "eRIMS2 Access E-Mail 2 of 2", HtmlBody, false, null, AppConfig.MailCC);
+
+                ViewState["Email"] = null;
+
+                flag = true;
+            }
+            else
+            {
+                flag = false;
+            }
+
+            return flag;
+        }
+        else
+            return false;
+
+    }    
+    #endregion
+
+  
 
     /// <summary>
     /// Delete User Click
@@ -623,7 +809,12 @@ public partial class Administrator_security : clsBasePage
     /// Used to Populate values to controls for Editing
     /// </summary>
     private void EditRecord()
-    {
+    {        
+        //Enable the disabled button if any #3341
+        txtFirstName.Enabled = txtLastName.Enabled = true;
+        //txtEmail.Enabled = txtPhone.Enabled = rdoIsSonicEmployee.Enabled = true;
+        //lnkAssName.HRef = "#";
+
         btnSave.Enabled = true;
         PopupPassword.Style.Add("display", "block");
         DivViewSecurity.Style.Add("display", "none");
@@ -2072,4 +2263,5 @@ public partial class Administrator_security : clsBasePage
     }
 
     #endregion
+
 }

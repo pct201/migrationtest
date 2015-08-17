@@ -94,6 +94,14 @@
                                             OnClientClick="javascript:return CheckUserID();">Forgot Password?</asp:LinkButton>
                                     </td>
                                 </tr>
+                                 <tr>
+                                    <td>
+                                        &nbsp;
+                                    </td>
+                                    <td colspan="2" align="left" style="padding-left: 12px; padding-top: 5px; padding-bottom: 9px;">
+                                        <asp:LinkButton ID="lnkAccessRequest" runat="server" OnClick="lnkAccessRequest_Click">Access Request</asp:LinkButton>
+                                    </td>
+                                </tr>
                             </table>
                         </td>
                     </tr>

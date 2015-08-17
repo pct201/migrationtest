@@ -885,7 +885,7 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
-
+              
         public void InsertUpdatePayrollByLocation()
         {
             Database db = DatabaseFactory.CreateDatabase();
@@ -895,6 +895,25 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Payroll_Codes", DbType.String, this._Payroll_Codes);
             
             db.ExecuteNonQuery(dbCommand);
+        }
+
+        public static DataSet SelectStateMarketByLocationID(decimal pk_Lu_Location_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("SelectStateMarketByLocationID");
+            db.AddInParameter(dbCommand, "PK_LU_Location_ID", DbType.Decimal, pk_Lu_Location_ID);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+
+        public static DataSet SelectAllDealershipByUserAndLocationId(decimal PK_Security_ID, decimal PK_LU_Location_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_Location_SelectAllDealershipBySecurityIDAndLocation");
+            db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, PK_Security_ID);
+            db.AddInParameter(dbCommand, "PK_LU_Location_ID", DbType.Decimal, PK_LU_Location_ID);
+            return db.ExecuteDataSet(dbCommand);
         }
         #endregion
     }
