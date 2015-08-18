@@ -582,11 +582,11 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
         
-        public static DataSet SelectAllDealershipByUser(decimal PK_Security_ID)
+        public static DataSet SelectAllDealershipByUser()
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("LU_Location_SelectAllDealershipBySecurityID");
-            db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, PK_Security_ID);
+            DbCommand dbCommand = db.GetStoredProcCommand("SelectDealershipByLocation");
+            //db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, PK_Security_ID);
             return db.ExecuteDataSet(dbCommand);
         }
         
@@ -907,11 +907,10 @@ namespace ERIMS.DAL
         }
 
 
-        public static DataSet SelectAllDealershipByUserAndLocationId(decimal PK_Security_ID, decimal PK_LU_Location_ID)
+        public static DataSet SelectAllDealershipByUserAndLocationId(decimal PK_LU_Location_ID)
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("LU_Location_SelectAllDealershipBySecurityIDAndLocation");
-            db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, PK_Security_ID);
+            DbCommand dbCommand = db.GetStoredProcCommand("SelectDealershipByLocationAndId");
             db.AddInParameter(dbCommand, "PK_LU_Location_ID", DbType.Decimal, PK_LU_Location_ID);
             return db.ExecuteDataSet(dbCommand);
         }

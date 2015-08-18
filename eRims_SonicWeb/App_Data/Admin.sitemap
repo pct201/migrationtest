@@ -116,7 +116,8 @@
     </siteMapNode>
     <siteMapNode url="" title="Administrator"  description="" roles="">
       <siteMapNode url="Administrator/Contractor_Firm.aspx" title="Contractor Firm"  description="" roles="" />
-      <siteMapNode url="" title="User" description="">
+      <siteMapNode url="Administrator/Contractor_Security.aspx" title="Contractor Security"  description="" roles="" />
+      <siteMapNode url="" title="User" description="">        
         <siteMapNode url="Administrator/security.aspx" title="User Security"  description="" roles="" />
         <siteMapNode url="Administrator/UserAccessRequestForm.aspx" title="User Access Request"  description="" roles="" />
       </siteMapNode>

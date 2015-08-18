@@ -373,7 +373,7 @@
                                             </td>
                                             <td width="25%">
                                                 <asp:CheckBox runat="server" ID="chkHome_Office" Text="Home Office"                                                    
-                                                     OnCheckedChanged="rdoHomeOffice_CheckedChanged" AutoPostBack="true"></asp:CheckBox>
+                                                     OnCheckedChanged="chkHomeOffice_CheckedChanged" AutoPostBack="true"></asp:CheckBox>
                                             </td>
                                         </tr>
                                     </table>
@@ -402,7 +402,7 @@
                                                 <asp:CheckBox runat="server" ID="chkBusiness_Office" Text="Business Office"></asp:CheckBox>
                                             </td>
                                             <td width="25%">
-                                                <asp:CheckBox runat="server" ID="chkField_Operastions" Text="Field Operations" AutoPostBack="true" OnCheckedChanged="rdoFieldOperations_CheckedChanged"></asp:CheckBox>
+                                                <asp:CheckBox runat="server" ID="chkField_Operastions" Text="Field Operations" AutoPostBack="true" OnCheckedChanged="chkFieldOperations_CheckedChanged"></asp:CheckBox>
                                             </td>
                                         </tr>
                                     </table>
@@ -512,7 +512,7 @@
                 </tr>
                 <tr>
                     <td align="left">Do you need to access<br />
-                        building information?<span style="color: red">*</span>
+                        building information?<%--<span style="color: red">*</span>--%>
                     </td>
                     <td align="center">:
                     </td>

@@ -448,7 +448,9 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
     private void ShowHideHomeOffice()
     {
         if (chkHome_Office.Checked)
+        {
             tdHomeOffice.Style["display"] = "";
+        }
         else
             tdHomeOffice.Style["display"] = "none";
 
@@ -461,7 +463,9 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
     private void ShowHideFieldOperation()
     {
         if (chkField_Operastions.Checked)
+        {
             tdFieldOperations.Style["display"] = "";
+        }
         else
             tdFieldOperations.Style["display"] = "none";
 
@@ -696,7 +700,7 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
 
         if (objU_A_Request.FK_LU_Location.ToString() != "")
         {
-            DataSet ds = LU_Location.SelectAllDealershipByUserAndLocationId(56, Convert.ToDecimal(objU_A_Request.FK_LU_Location));
+            DataSet ds = LU_Location.SelectAllDealershipByUserAndLocationId(Convert.ToDecimal(objU_A_Request.FK_LU_Location));
             DataTable dt = ds.Tables[0];
             if (dt.Rows.Count > 0)
             {
@@ -977,26 +981,11 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
         lstLocationsAvailable.Items.Clear();
         lstSelectedFields.Items.Clear();
 
-        //Assign Values to CurrentEmployee and Regional
-        Nullable<decimal> CurrentEmployee;
-        if (_Employee_Id != null)
-            CurrentEmployee = _Employee_Id;
-        else
-            if (rdlSA_EA_Associate.SelectedIndex >= 0) if (Convert.ToInt32(rdlSA_EA_Associate.SelectedValue) > 0) CurrentEmployee = new Security(56).Employee_Id; else CurrentEmployee = 0;
-            else CurrentEmployee = 0;
-        string Regional = string.Empty;
-        DataSet dsRegion = Regional_Access.SelectBySecurityID(56);
-        if (dsRegion.Tables[0].Rows.Count > 0)
-            foreach (DataRow drRegion in dsRegion.Tables[0].Rows) Regional += drRegion["Region"].ToString() + ",";
-        else
-            Regional = string.Empty;
-
+           
         //Get all Locations as per CurrentEmployee and Regional
-        DataSet dsData = LU_Location.SelectAll(CurrentEmployee, Regional.ToString().TrimEnd(Convert.ToChar(",")));
-        dsData.Tables[0].DefaultView.Sort = "dba asc";
-        // Bind List lstFROIeMailRecipients
+        DataSet dsData = LU_Location.SelectAllDealershipByUser();
         lstLocationsAvailable.DataSource = dsData.Tables[0].DefaultView;
-        lstLocationsAvailable.DataTextField = "dba";
+        lstLocationsAvailable.DataTextField = "Dealership";
         lstLocationsAvailable.DataValueField = "PK_LU_Location_ID";
         lstLocationsAvailable.DataBind();
         //if opened in Edit mode, Move Selected data to right (From lstlocations to lstSelectedFields)
@@ -1051,7 +1040,7 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
     {
 
         //Dealership
-        ddlDealership.DataSource = LU_Location.SelectAllDealershipByUser(56);
+        ddlDealership.DataSource = LU_Location.SelectAllDealershipByUser();
         ddlDealership.DataTextField = "Dealership";
         ddlDealership.DataValueField = "PK_LU_Location_ID";
         ddlDealership.DataBind();
@@ -1234,7 +1223,7 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
 
                 if (objU_A_Request.FK_LU_Location.ToString() != "")
                 {
-                    DataSet ds = LU_Location.SelectAllDealershipByUserAndLocationId(56, Convert.ToDecimal(objU_A_Request.FK_LU_Location));
+                    DataSet ds = LU_Location.SelectAllDealershipByUserAndLocationId(Convert.ToDecimal(objU_A_Request.FK_LU_Location));
                     DataTable dt = ds.Tables[0];
                     if (dt.Rows.Count > 0)
                     {
@@ -1306,15 +1295,20 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
     #endregion
 
     #region "Event Changed Events"
-    protected void rdoHomeOffice_CheckedChanged(object sender, EventArgs e)
+    protected void chkHomeOffice_CheckedChanged(object sender, EventArgs e)
     {
         ShowHideHomeOffice();
+        if (chkHome_Office.Checked)
+            txtHome_Office_Text.Text = "";
+
     }
 
 
-    protected void rdoFieldOperations_CheckedChanged(object sender, EventArgs e)
+    protected void chkFieldOperations_CheckedChanged(object sender, EventArgs e)
     {
         ShowHideFieldOperation();
+        if (chkField_Operastions.Checked)
+            txtField_Operations_Text.Text = "";
     }
 
 
