@@ -870,6 +870,8 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
     protected void btnSelectFields_Click(object sender, EventArgs e)
     {
         MoveListBoxItems(lstLocationsAvailable, lstSelectedFields, true, true, false);
+        ShowHideHomeOffice();
+        ShowHideFieldOperation();
     }
 
     /// <summary>
@@ -878,6 +880,8 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
     protected void btnDeselectFields_Click(object sender, EventArgs e)
     {
         MoveListBoxItems(lstSelectedFields, lstLocationsAvailable, true, false, true);
+        ShowHideHomeOffice();
+        ShowHideFieldOperation();
     }
 
     /// <summary>
@@ -886,6 +890,8 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
     protected void btnSelectAllFields_Click(object sender, EventArgs e)
     {
         MoveListBoxItems(lstLocationsAvailable, lstSelectedFields, false, true, false);
+        ShowHideHomeOffice();
+        ShowHideFieldOperation();
     }
 
     /// <summary>
@@ -894,6 +900,8 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
     protected void btnDeselectAllFields_Click(object sender, EventArgs e)
     {
         MoveListBoxItems(lstSelectedFields, lstLocationsAvailable, false, false, true);
+        ShowHideHomeOffice();
+        ShowHideFieldOperation();
     }
 
 
@@ -1030,6 +1038,8 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
     protected void btnAssName_OnClick(object sender, EventArgs e)
     {
         BindLocations(true, Convert.ToInt32(HdnEmployeeID.Value));
+        ShowHideHomeOffice();
+        ShowHideFieldOperation();
         //tdEmployee.Style["display"] = "";
         //tdRigionalOfficer.Style["display"] = "";
         lnkAssName.InnerText = HdnEmployeeName.Value;

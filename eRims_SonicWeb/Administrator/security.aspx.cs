@@ -71,7 +71,7 @@ public partial class Administrator_security : clsBasePage
         set { ViewState["DiaryRightId"] = value; }
     }
 
-  
+
     #endregion
 
     #region Main Events
@@ -203,8 +203,8 @@ public partial class Administrator_security : clsBasePage
                 txtLastName.Text = Convert.ToString(dt.Rows[0]["LastName"]);
                 ViewState["Email"] = txtEmail.Text = Convert.ToString(dt.Rows[0]["EMail"]);
                 txtPhone.Text = Convert.ToString(dt.Rows[0]["Telephone"]);
-                rdoIsSonicEmployee.SelectedValue = Convert.ToString(dt.Rows[0]["EmployeeName"]) == "" ? "0":"1";
-                rdoIsSonicEmployee_OnSelectedIndexChanged(sender, e);                
+                rdoIsSonicEmployee.SelectedValue = Convert.ToString(dt.Rows[0]["EmployeeName"]) == "" ? "0" : "1";
+                rdoIsSonicEmployee_OnSelectedIndexChanged(sender, e);
 
                 if (HdnEmployeeID.Value != "")
                     BindFROIeMailRecipients(true, Convert.ToInt32(HdnEmployeeID.Value));
@@ -214,7 +214,7 @@ public partial class Administrator_security : clsBasePage
                 HdnEmployeeName.Value = Convert.ToString(dt.Rows[0]["EmployeeName"]);
                 lnkAssName.InnerText = Convert.ToString(dt.Rows[0]["EmployeeName"]);
             }
-        }        
+        }
         //#3341 end
     }
 
@@ -350,38 +350,41 @@ public partial class Administrator_security : clsBasePage
             }
             else
             {
-                if (SendUserAccessRequestName())
+                if (Session["dtPromote"] != null)
                 {
-                    if (SendUserAccessRequestPassword())
-                    { 
-                          DataTable dt = (DataTable)Session["dtPromote"];
-                          if (dt.Rows.Count > 0)
-                          {
-                              if (!string.IsNullOrEmpty(dt.Rows[0]["PK_U_A_Request"].ToString()))
-                              {
-                                  U_A_Request u_a_request = new U_A_Request(Convert.ToDecimal(dt.Rows[0]["PK_U_A_Request"]));
-                                  u_a_request.Deny = false;
-                                  u_a_request.Update_Date = DateTime.Now;
-                                if (!string.IsNullOrEmpty(clsSession.UserID))
-                                    u_a_request.Updated_By = clsSession.UserID;
-                                else
-                                    u_a_request.Updated_By = "New User";
-
-                                if (Convert.ToDecimal(dt.Rows[0]["PK_U_A_Request"].ToString()) > 0)
-                                {
-                                    u_a_request.Update();                                    
-                                }
-
-                              }
-                          }
-                    }
-                    else
+                    if (SendUserAccessRequestName())
                     {
-                        ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Emails couldn't be sent due to technical Issue!')", true);
+                        if (SendUserAccessRequestPassword())
+                        {
+                            DataTable dt = (DataTable)Session["dtPromote"];
+                            if (dt.Rows.Count > 0)
+                            {
+                                if (!string.IsNullOrEmpty(dt.Rows[0]["PK_U_A_Request"].ToString()))
+                                {
+                                    U_A_Request u_a_request = new U_A_Request(Convert.ToDecimal(dt.Rows[0]["PK_U_A_Request"]));
+                                    u_a_request.Deny = false;
+                                    u_a_request.Update_Date = DateTime.Now;
+                                    if (!string.IsNullOrEmpty(clsSession.UserID))
+                                        u_a_request.Updated_By = clsSession.UserID;
+                                    else
+                                        u_a_request.Updated_By = "New User";
+
+                                    if (Convert.ToDecimal(dt.Rows[0]["PK_U_A_Request"].ToString()) > 0)
+                                    {
+                                        u_a_request.Update();
+                                    }
+
+                                }
+                            }
+                        }
+                        else
+                        {
+                            ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Emails couldn't be sent due to technical Issue!')", true);
+                        }
                     }
                 }
             }
-            
+
         }
         //deleting Assoc user group
         Assoc_User_Group.DeleteByUserID(PK_Security_ID);
@@ -515,8 +518,9 @@ public partial class Administrator_security : clsBasePage
             string[] EmailTo = new string[1];
 
             Security objSecurity = new Security(PK_Security_ID);
+
             if (string.IsNullOrEmpty(ViewState["Email"].ToString()))
-            {                
+            {
                 EmailTo[0] = objSecurity.Email;
             }
             else
@@ -560,12 +564,12 @@ public partial class Administrator_security : clsBasePage
 
         //used to send Email
         if (PK_Security_ID > 0)
-        {            
+        {
             string[] EmailTo = new string[1];
             Security objSecurity = new Security(PK_Security_ID);
             U_A_Request_Admin objU_A_Request_Admin = new U_A_Request_Admin(1);
             if (string.IsNullOrEmpty(ViewState["Email"].ToString()))
-            {                
+            {
                 EmailTo[0] = objSecurity.Email;
             }
             else
@@ -599,10 +603,10 @@ public partial class Administrator_security : clsBasePage
         else
             return false;
 
-    }    
+    }
     #endregion
 
-  
+
 
     /// <summary>
     /// Delete User Click
@@ -808,7 +812,7 @@ public partial class Administrator_security : clsBasePage
     /// Used to Populate values to controls for Editing
     /// </summary>
     private void EditRecord()
-    {        
+    {
         //Enable the disabled button if any #3341
         txtFirstName.Enabled = txtLastName.Enabled = true;
         //txtEmail.Enabled = txtPhone.Enabled = rdoIsSonicEmployee.Enabled = true;
@@ -1892,7 +1896,7 @@ public partial class Administrator_security : clsBasePage
         {
             DataSet dsSelectedData = clsFROI_EMail_Recipients.SelectByUser(PK_Security_ID);
             foreach (DataRow dr in dsSelectedData.Tables[0].Rows)
-            {                
+            {
                 if (lstFROIeMailRecipients.Items.FindByValue(dr["FK_LU_Location_ID"].ToString().Trim()) != null)
                 {
                     // 3315 : Sonic - Security FROI Recipients Issue : Solved Issue of Left side items are not removed from list
@@ -1970,7 +1974,7 @@ public partial class Administrator_security : clsBasePage
     {
         MoveListBoxItems(lstSecurityLocation, lstSecuritySelectedLocation, true, true, false);
     }
-    
+
     /// <summary>
     /// Event to handle Deselect Fields
     /// </summary>
