@@ -401,10 +401,7 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
         dt.Columns.Add("PK_U_A_Request");
         dt.Rows.Add(lblFirstName.Text, lblLastName.Text, lblEmail.Text, lblTelephone.Text, lblEmployeeId.Text, lblAssociateName.Text, PK_U_A_Request);
         Session["dtPromote"] = dt;
-
-        Response.Redirect("..//Administrator//security.aspx");
-
-
+        Response.Redirect(AppConfig.SiteURL + "Administrator/security.aspx");
     }
     protected void btnDeny_Click(object sender, EventArgs e)
     {

@@ -222,7 +222,7 @@ public partial class Signin : System.Web.UI.Page
     //Access Request
     protected void lnkAccessRequest_Click(object sender, EventArgs e)
     {
-        Response.Redirect("..//eRims_SonicWeb//Administrator//UserAccessRequestForm.aspx?Requester=1");
+        Response.Redirect(AppConfig.SiteURL + "Administrator/UserAccessRequestForm.aspx?Requester=1");     
     }
 
 
