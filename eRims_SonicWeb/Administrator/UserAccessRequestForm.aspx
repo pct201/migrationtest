@@ -87,12 +87,14 @@
         function ShowHideDiv(chkHome_Office, value) {
             
             if (value == 1) {
-                var dvPassport = document.getElementById("<%= tdHomeOffice.ClientID %>");
-                dvPassport.style.display = chkHome_Office.checked ? "block" : "none";
+                var dvHomeOffice = document.getElementById("<%= tdHomeOffice.ClientID %>");
+                document.getElementById("<%= txtHome_Office_Text.ClientID %>").value = "";
+                dvHomeOffice.style.display = chkHome_Office.checked ? "block" : "none";
             }
             else {
-                var dvPassport = document.getElementById("<%= tdFieldOperations.ClientID %>");
-                dvPassport.style.display = chkHome_Office.checked ? "block" : "none";
+                var dvFieldOperations = document.getElementById("<%= tdFieldOperations.ClientID %>");
+                document.getElementById("<%= txtField_Operations_Text.ClientID %>").value = "";
+                dvFieldOperations.style.display = chkHome_Office.checked ? "block" : "none";
             }
         }
 

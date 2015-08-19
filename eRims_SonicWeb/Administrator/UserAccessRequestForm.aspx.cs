@@ -168,6 +168,7 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
     protected void btnSave_Click(object sender, EventArgs e)
     {
         saveCount = 1;
+
         U_A_Request u_a_request = new U_A_Request(PK_U_A_Request);
 
         u_a_request.PK_U_A_Request = PK_U_A_Request;
@@ -223,18 +224,23 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
         if (chkHome_Office.Checked)
         {
             u_a_request.Home_Office = true;
-            u_a_request.Field_Operations_Text = txtField_Operations_Text.Text;
-        }
-        else
-            u_a_request.Home_Office = false;
-
-        if (chkField_Operastions.Checked)
-        {
-            u_a_request.Field_Operastions = true;
             u_a_request.Home_Office_Text = txtHome_Office_Text.Text;
         }
         else
+        {
+            u_a_request.Home_Office = false;
+            u_a_request.Home_Office_Text = string.Empty;
+        }
+        if (chkField_Operastions.Checked)
+        {
+            u_a_request.Field_Operastions = true;
+            u_a_request.Field_Operations_Text = txtField_Operations_Text.Text;
+        }
+        else
+        {
             u_a_request.Field_Operastions = false;
+            u_a_request.Field_Operations_Text = string.Empty;
+        }
 
         u_a_request.Reason_For_Access = ctrlReason_For_Access.Text;
 
@@ -333,25 +339,21 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
                 objU_A_Request_Locations.Insert();
             }
 
-            if (SendUserRequestMail())
-            {
 
-            }
-            else
+            if (Request.QueryString["Requester"] != null)
             {
-                Page.ClientScript.RegisterStartupScript(this.GetType(), "Redirect", "alert('Report Submitted successfully but due to technical problem Mail can not be send at this time, Please try to resend.'); window.location='UserAccessRequestForm.aspx';", true);
+                if (SendUserRequestMail())
+                {                    
+                }
+                else
+                {
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "Redirect", "alert('Report Submitted successfully but due to technical problem Mail can not be send at this time, Please try to resend.'); window.location='UserAccessRequestForm.aspx';", true);
+                }
             }
         }
 
         BindGrid(ctrlPageProperty.CurrentPage, ctrlPageProperty.PageSize);
-
-
-
         btnCancel_Click(sender, e);
-
-
-
-
     }
 
     protected void btnSearch_Click(object sender, EventArgs e)
