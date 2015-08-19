@@ -15,6 +15,8 @@
     <script type="text/javascript" language="javascript" src="../JavaScript/Calendar.js"></script>
     <script type="text/javascript" language="javascript" src="../JavaScript/jquery-1.5.min.js"></script>
     <script type="text/javascript" language="javascript" src="../JavaScript/jquery.maskedinput.js"></script>
+    <script type="text/javascript" src="../JavaScript/Validator.js"></script>
+    <script type="text/javascript" src="../JavaScript/JFunctions.js"></script>
     <script type="text/javascript">
         var GB_ROOT_DIR = '<%=AppConfig.SiteURL%>' + 'greybox/';
 
@@ -80,6 +82,18 @@
             }
             else
                 return false;
+        }
+
+        function ShowHideDiv(chkHome_Office, value) {
+            
+            if (value == 1) {
+                var dvPassport = document.getElementById("<%= tdHomeOffice.ClientID %>");
+                dvPassport.style.display = chkHome_Office.checked ? "block" : "none";
+            }
+            else {
+                var dvPassport = document.getElementById("<%= tdFieldOperations.ClientID %>");
+                dvPassport.style.display = chkHome_Office.checked ? "block" : "none";
+            }
         }
 
     </script>
@@ -372,8 +386,8 @@
                                                 <asp:CheckBox runat="server" ID="chkParts" Text="Parts"></asp:CheckBox>
                                             </td>
                                             <td width="25%">
-                                                <asp:CheckBox runat="server" ID="chkHome_Office" Text="Home Office"                                                    
-                                                     OnCheckedChanged="chkHomeOffice_CheckedChanged" AutoPostBack="true"></asp:CheckBox>
+                                                <asp:CheckBox runat="server" ID="chkHome_Office" Text="Home Office" OnClick="ShowHideDiv(this,1)"                                                    
+                                                     ></asp:CheckBox>
                                             </td>
                                         </tr>
                                     </table>
@@ -402,7 +416,7 @@
                                                 <asp:CheckBox runat="server" ID="chkBusiness_Office" Text="Business Office"></asp:CheckBox>
                                             </td>
                                             <td width="25%">
-                                                <asp:CheckBox runat="server" ID="chkField_Operastions" Text="Field Operations" AutoPostBack="true" OnCheckedChanged="chkFieldOperations_CheckedChanged"></asp:CheckBox>
+                                                <asp:CheckBox runat="server" ID="chkField_Operastions" Text="Field Operations" OnClick="ShowHideDiv(this,2)" ></asp:CheckBox>
                                             </td>
                                         </tr>
                                     </table>

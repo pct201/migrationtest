@@ -1293,24 +1293,5 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
 
     }
     #endregion
-
-    #region "Event Changed Events"
-    protected void chkHomeOffice_CheckedChanged(object sender, EventArgs e)
-    {
-        ShowHideHomeOffice();
-        if (chkHome_Office.Checked)
-            txtHome_Office_Text.Text = "";
-
-    }
-
-
-    protected void chkFieldOperations_CheckedChanged(object sender, EventArgs e)
-    {
-        ShowHideFieldOperation();
-        if (chkField_Operastions.Checked)
-            txtField_Operations_Text.Text = "";
-    }
-
-
-    #endregion    
+   
 }
