@@ -533,8 +533,7 @@ public partial class Administrator_security : clsBasePage
             if (EmailTo.Length > 0)
             {
                 EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
-
-                objEmail.SendMailMessage(AppConfig.MailFrom, "Admin", EmailTo, "eRIMS2 Access E-Mail 1 of 2", HtmlBody, false, null, AppConfig.MailCC);
+                objEmail.SendMailMessage(AppConfig.MailFrom, "Admin", EmailTo, "eRIMS2 Access E-Mail 1 of 2", HtmlBody, false, null, string.Empty);
 
                 flag = true;
             }
@@ -584,7 +583,7 @@ public partial class Administrator_security : clsBasePage
             {
                 EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
 
-                objEmail.SendMailMessage(AppConfig.MailFrom, "Admin", EmailTo, "eRIMS2 Access E-Mail 2 of 2", HtmlBody, false, null, AppConfig.MailCC);
+                objEmail.SendMailMessage(AppConfig.MailFrom, "Admin", EmailTo, "eRIMS2 Access E-Mail 2 of 2", HtmlBody, false, null, string.Empty);
 
                 ViewState["Email"] = null;
 

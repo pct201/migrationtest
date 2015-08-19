@@ -805,7 +805,7 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
             {
                 EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
 
-                objEmail.SendMailMessage(AppConfig.MailFrom, " ", EmailTo, "New eRIMS2 User Access Request", HtmlBody, true, new string[] { }, AppConfig.MailCC);
+                objEmail.SendMailMessage(AppConfig.MailFrom, " ", EmailTo, "New eRIMS2 User Access Request", HtmlBody, true, new string[] { }, string.Empty);
 
                 flag = true;
             }
@@ -846,7 +846,7 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
             {
                 EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
 
-                objEmail.SendMailMessage(AppConfig.MailFrom, "Admin", EmailTo, "eRIMS2 Access", HtmlBody, false, null, AppConfig.MailCC);
+                objEmail.SendMailMessage(AppConfig.MailFrom, "Admin", EmailTo, "eRIMS2 Access", HtmlBody, false, null, string.Empty);
 
                 flag = true;
             }
