@@ -1831,8 +1831,10 @@ function IsValidMonitorTime() {
                                                                 <tr>
                                                                     <td align="left" valign="top" width="27%">
                                                                         <asp:CheckBox ID="chkSITSOther" runat="server" Text="Other" />
+                                                                    </td>                                                                        
+                                                                    <td align="left" valign="top" width="50%">
+                                                                        <asp:CheckBox ID="chkSITS_Supra_Key_Advantage" runat="server" Text="Supra Key Advantage" />
                                                                     </td>
-                                                                    <td align="left" valign="top" width="50%"></td>
                                                                 </tr>
                                                             </table>
                                                         </td>
@@ -6393,7 +6395,9 @@ function IsValidMonitorTime() {
                                                                     <td align="left" valign="top" width="27%">
                                                                         <asp:CheckBox ID="chkSITSOtherView" runat="server" Text="Other" Enabled="false" />
                                                                     </td>
-                                                                    <td align="left" valign="top" width="50%"></td>
+                                                                    <td align="left" valign="top" width="50%">
+                                                                        <asp:CheckBox ID="chkSITS_Supra_Key_AdvantageView" runat="server" Text="Supra Key Advantage" Enabled="false" />
+                                                                    </td>
                                                                 </tr>
                                                             </table>
                                                         </td>

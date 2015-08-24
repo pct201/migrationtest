@@ -120,6 +120,7 @@ namespace ERIMS.DAL
         private string _AC_Key_Fobs;
         private string _AC_Door_Restrictions;
         private string _Total_Hours_CCTV_Monitored_Per_Week;
+        private string _SITS_Supra_Key_Advantage;
 
         #endregion
 
@@ -1086,6 +1087,16 @@ namespace ERIMS.DAL
             get { return _Total_Hours_CCTV_Monitored_Per_Week; }
             set { _Total_Hours_CCTV_Monitored_Per_Week = value; }
         }
+        
+
+        /// <summary>
+        /// Gets or sets the SITS_Other value.
+        /// </summary>
+        public string SITS_Supra_Key_Advantage
+        {
+            get { return _SITS_Supra_Key_Advantage; }
+            set { _SITS_Supra_Key_Advantage = value; }
+        }
 
         #endregion
 
@@ -1660,6 +1671,11 @@ namespace ERIMS.DAL
                 this._Total_Hours_CCTV_Monitored_Per_Week = null;
             else
                 this._Total_Hours_CCTV_Monitored_Per_Week = (string)drAP_Property_Security["Total_Hours_CCTV_Monitored_Per_Week"];
+
+            if (drAP_Property_Security["SITS_Supra_Key_Advantage"] == DBNull.Value)
+                this._SITS_Supra_Key_Advantage = null;
+            else
+                this._SITS_Supra_Key_Advantage = (string)drAP_Property_Security["SITS_Supra_Key_Advantage"];
         }
 
 
@@ -2177,6 +2193,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Total_Hours_CCTV_Monitored_Per_Week", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Total_Hours_CCTV_Monitored_Per_Week", DbType.String, this._Total_Hours_CCTV_Monitored_Per_Week);
+
+            if (string.IsNullOrEmpty(this._SITS_Supra_Key_Advantage))
+                db.AddInParameter(dbCommand, "SITS_Supra_Key_Advantage", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "SITS_Supra_Key_Advantage", DbType.String, this._SITS_Supra_Key_Advantage);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -2723,6 +2744,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Total_Hours_CCTV_Monitored_Per_Week", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Total_Hours_CCTV_Monitored_Per_Week", DbType.String, this._Total_Hours_CCTV_Monitored_Per_Week);
+
+            if (string.IsNullOrEmpty(this._SITS_Supra_Key_Advantage))
+                db.AddInParameter(dbCommand, "SITS_Supra_Key_Advantage", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "SITS_Supra_Key_Advantage", DbType.String, this._SITS_Supra_Key_Advantage);
 
             db.ExecuteNonQuery(dbCommand);
         }

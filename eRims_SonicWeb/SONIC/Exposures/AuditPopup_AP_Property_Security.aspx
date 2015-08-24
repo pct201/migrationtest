@@ -402,8 +402,11 @@
                                         <th class="cols">
                                             <span style="display: inline-block; width: 160px">Door Restrictions</span>
                                         </th>
-                                         <th class="cols">
+                                        <th class="cols">
                                             <span style="display: inline-block; width: 160px">Total Hours CCTV Monitored Per Week</span>
+                                        </th>
+                                        <th class="cols">
+                                            <span style="display: inline-block; width: 160px">Supra Key Advantage</span>
                                         </th>
                                         <th class="cols">
                                             <span style="display: inline-block; width: 160px">Updated By</span>
@@ -1165,6 +1168,13 @@
                                                 Width="160px"></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="SITS_Supra_Key_Advantage">
+                                        <ItemStyle CssClass="cols" />
+                                        <ItemTemplate>
+                                            <asp:Label ID="lblSITS_Supra_Key_Advantage" runat="server" Text='<%#clsGeneral.FormatYesNoToDisplay(Eval("SITS_Supra_Key_Advantage"))%>'
+                                                Width="160px"></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Updated_By">
                                         <ItemStyle CssClass="cols" />
                                         <ItemTemplate>
@@ -1189,7 +1199,7 @@
                                     <asp:Label ID="lblAP_Property_Security_Financials" runat="server" Style="font-weight: bold"></asp:Label>
                                 </td>
                             </tr>
-                        </table>                                                
+                        </table>
                         <div style="overflow-x: hidden; width: auto;" id="dvHeader" runat="server">
                             <table cellpadding="4" cellspacing="0" style="width: 600px; border-collapse: collapse;">
                                 <tbody>

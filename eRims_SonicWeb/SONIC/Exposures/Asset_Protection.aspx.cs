@@ -22,7 +22,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     }
 
     /// <summary>
-    /// Denotes the Primary Key
+    /// Denotes the Primary KeychkSITSOther
     /// </summary>
     public decimal PK_AP_Property_Security_Monitor_Grids
     {
@@ -631,6 +631,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         chkKeyFobs.Checked = objAP_Property_Security.AC_Key_Fobs == "Y" ? true : false;
         chkDoorRestrictions.Checked = objAP_Property_Security.AC_Door_Restrictions == "Y" ? true : false;
 
+        chkSITS_Supra_Key_Advantage.Checked = objAP_Property_Security.SITS_Supra_Key_Advantage == "Y" ? true : false;
+
         if (objAP_Property_Security.Cap_Index_Crime_Score != null)
             txtCap_Index_Crime_Score.Text = Convert.ToString(objAP_Property_Security.Cap_Index_Crime_Score);
         if (objAP_Property_Security.Cap_Index_Risk_Cateogory != null) ddlCap_Index_Risk_Category.SelectedValue = objAP_Property_Security.Cap_Index_Risk_Cateogory.ToString();
@@ -760,6 +762,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         chkZDPartsView.Checked = objAP_Property_Security.ZD_Parts == "Y" ? true : false;
         chkZDServiceView.Checked = objAP_Property_Security.ZD_Sales == "Y" ? true : false;
         chkZDSalesShowroomView.Checked = objAP_Property_Security.ZD_Sales_Showroom == "Y" ? true : false;
+        chkSITS_Supra_Key_AdvantageView.Checked = objAP_Property_Security.SITS_Supra_Key_Advantage == "Y" ? true : false;
 
         chkKeyFobsView.Checked = objAP_Property_Security.AC_Key_Fobs == "Y" ? true : false;
         chkDoorRestrictionsView.Checked = objAP_Property_Security.AC_Door_Restrictions == "Y" ? true : false;
@@ -885,6 +888,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         objAP_Property_Security.SITS_Auto_Tracks = chkSITSAutoTracks.Checked ? "Y" : "N";
         objAP_Property_Security.SITS_Key_Tracks = chkSITSKeyTracks.Checked ? "Y" : "N";
         objAP_Property_Security.SITS_Other = chkSITSOther.Checked ? "Y" : "N";
+        objAP_Property_Security.SITS_Supra_Key_Advantage = chkSITS_Supra_Key_Advantage.Checked ? "Y" : "N";
         objAP_Property_Security.Update_Date = DateTime.Now;
         objAP_Property_Security.Updated_By = clsSession.UserID;
         objAP_Property_Security.ZD_Collision_Center = chkZDCollisionCenter.Checked ? "Y" : "N";
