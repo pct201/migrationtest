@@ -347,6 +347,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         case 65:
                             BindACI_ManagementAdHocReportWriter(dtScheduleReports.Rows[i]);
                             break;
+                        case 66:
+                            BindConstructionAdHocReport(dtScheduleReports.Rows[i]);
                         default:
                             break;
                     }
@@ -3226,7 +3228,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<br />");
                         strHTML.Append("Regions              : " + (string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Region"])) ? "All" : dtFilter.Rows[0]["Region"].ToString()));
                         strHTML.Append("<br />");
-                        strHTML.Append("Markets              : " + strMarketString );
+                        strHTML.Append("Markets              : " + strMarketString);
                         strHTML.Append("<br /><br />");
                         strHTML.Append("</span>");
 
@@ -3697,7 +3699,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         DateTime End_Date = Convert.ToDateTime(dtFilter.Rows[0]["End_Date"]);
 
                         // get result records from database for the report
-                        DataSet dsReport = Report.Get_Litigation_Summary_Report(Start_Date, End_Date, Convert.ToString(dtFilter.Rows[0]["Region"]),strMarket);
+                        DataSet dsReport = Report.Get_Litigation_Summary_Report(Start_Date, End_Date, Convert.ToString(dtFilter.Rows[0]["Region"]), strMarket);
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -4099,7 +4101,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         DateTime End_Date = Convert.ToDateTime(dtFilter.Rows[0]["End_Date"]);
 
                         // get result records from database for the report
-                        DataSet dsReport = Report.Get_Network_Call_Summary_Report(Start_Date, End_Date, Convert.ToString(dtFilter.Rows[0]["Region"]),strMarket);
+                        DataSet dsReport = Report.Get_Network_Call_Summary_Report(Start_Date, End_Date, Convert.ToString(dtFilter.Rows[0]["Region"]), strMarket);
 
                         //Create HTML for the report and wirte into HTML Write object
                         StringBuilder strHTML = new StringBuilder();
@@ -4138,7 +4140,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
                         //Add Report Filter Criteria 
                         strHTML.Append("<br /><br />");
-                        strHTML.Append("<b>Report Filters </b>");                       
+                        strHTML.Append("<b>Report Filters </b>");
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Date Claim Opened Between " + Start_Date.ToString(DateDisplayFormat) + " and " + End_Date.ToString(DateDisplayFormat));
                         strHTML.Append("<br />");
@@ -5021,7 +5023,7 @@ namespace ERIMS_Sonic_ReportScheduler
                             {
                                 //Add No record found line for year
                                 strHTML.Append("<tr><td align='left' colspan='19'>No Record Found!</td></tr>");
-                            } 
+                            }
 
                             #endregion
                         }
@@ -5442,7 +5444,7 @@ namespace ERIMS_Sonic_ReportScheduler
                             EndToDate = Convert.ToDateTime(dtFilter.Rows[0]["EndToDate"].ToString());
                         if (dtFilter.Rows[0]["EndFromDate"] != null && dtFilter.Rows[0]["EndFromDate"] != DBNull.Value)
                             EndFromDate = Convert.ToDateTime(dtFilter.Rows[0]["EndFromDate"].ToString());
-                       
+
                         // get result records from database for the report
                         DataSet dsReport = Report.GetService_Contract_Detail_Report(strRegion, strMarket, strLocation, strServiceContract, strServiceType, StartToDate, StartFromDate, EndToDate, EndFromDate);
 
@@ -5937,7 +5939,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<b>Report Filters </b>");
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Regions              : " + strRegion.TrimStart(Convert.ToChar(",")).Replace("'", ""));
-                        strHTML.Append("<br /><br />");                        
+                        strHTML.Append("<br /><br />");
                         strHTML.Append("Market        : " + strMarketString);
                         strHTML.Append("<br /><br />");
                         strHTML.Append("Location          : " + strLocationString);
@@ -7960,7 +7962,7 @@ namespace ERIMS_Sonic_ReportScheduler
                     DataTable dtUser = Report.SelectSecurityByPK(FK_Security_Id).Tables[0];
 
                     String strFirstName, strLastName, strMailFrom;
-                    strFirstName = strLastName = strMailFrom  = "";
+                    strFirstName = strLastName = strMailFrom = "";
                     if (dtUser.Rows.Count > 0)
                     {
                         strFirstName = Convert.ToString(dtUser.Rows[0]["FIRST_NAME"]).Trim();
@@ -7968,8 +7970,8 @@ namespace ERIMS_Sonic_ReportScheduler
                         strMailFrom = Convert.ToString(dtUser.Rows[0]["Email"]).Trim();
 
                         string strRegion = Convert.ToString(dtFilter.Rows[0]["Region"]).Trim();
-                        string strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();    
-                      
+                        string strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+
                         string strLocation = Convert.ToString(dtFilter.Rows[0]["Location"]).Trim();
                         string strYear = Convert.ToString(dtFilter.Rows[0]["Year"]).Trim();
                         string strRun_Report_By = Convert.ToString(dtFilter.Rows[0]["Run_report_by"]);
@@ -7982,7 +7984,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         //Get the all Unique records for Selected group (default - last name -sort) by search criteria
                         if (strRun_Report_By == "Region")
                             dsResult = Report.GetWCAllocationYTDChargeReport(strRegion, strMarket, strLocation, strYear);
-                        else if(strRun_Report_By == "Market")
+                        else if (strRun_Report_By == "Market")
                             dsResult = Report.GetWCAllocationYTDChargeReport_ByMarket(strRegion, strMarket, strLocation, strYear);
 
                         //Create HTML for the report and wirte into HTML Write object
@@ -7993,7 +7995,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         #region "Report Title"
                         //Retrieve Market Values
 
-                      
+
                         //Add Report Title and Schedule Date
                         strHTML.Append("<br />");
                         strHTML.Append("<b>Report Title : Workers Comp Allocation YTD Charge Report </b>");
@@ -9693,7 +9695,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 string strMarket = null;
                 if (!string.IsNullOrEmpty(Convert.ToString(dtFilter.Rows[0]["Market"])))
                 {
-                  strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
+                    strMarket = Convert.ToString(dtFilter.Rows[0]["Market"]).Trim();
                 }
                 string strYear = Convert.ToString(dtFilter.Rows[0]["Year"]).Trim();
                 string strReportInterval = Convert.ToString(dtFilter.Rows[0]["Report_Interval"]).Trim();
@@ -11227,7 +11229,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 strHTML.Append("Year   : " + strYear);
                 strHTML.Append("</td> </tr>");
                 strHTML.Append("<tr> <td colspan='8'>");
-                strHTML.Append("Region   : " + strRegion);                
+                strHTML.Append("Region   : " + strRegion);
                 strHTML.Append("<tr> <td colspan='8'>");
                 strHTML.Append("Market        : " + strMarketString);
                 strHTML.Append("</td> </tr>");
@@ -11787,7 +11789,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 System.IO.StringWriter stringWrite = new System.IO.StringWriter();
                 System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
 
-                 #region "Report Title"
+                #region "Report Title"
 
                 //Retrieve Market Values
                 string strMarketString = string.Empty;
@@ -11820,7 +11822,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 strHTML.Append("<br /><br /><table> <tr> <td>");
                 strHTML.Append("<b>Report Filters </b>");
                 strHTML.Append("<br /><table> <tr> <td colspan='11'>");
-                strHTML.Append("Region   : " + strRegion.Replace("'",""));
+                strHTML.Append("Region   : " + strRegion.Replace("'", ""));
                 strHTML.Append("</td> </tr>");
                 strHTML.Append("<br /><table> <tr> <td colspan='11'>");
                 strHTML.Append("Market        : " + strMarketString);
@@ -11881,7 +11883,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<td >" + Convert.ToString(dr["DBA"]) + "</td>");
                         strHTML.Append("<td >" + Convert.ToString(dr["Employee_Name"]) + "</td>");
                         strHTML.Append("<td >" + Convert.ToString(dr["Origin_Claim_Number"]) + "</td>");
-                        strHTML.Append("<td >" + FormatDBNullDateToDisplay( dr["Date_Of_Accident"]) + "</td>");
+                        strHTML.Append("<td >" + FormatDBNullDateToDisplay(dr["Date_Of_Accident"]) + "</td>");
                         strHTML.Append("<td >" + Convert.ToString(dr["Part_of_Body"]) + "</td>");
                         strHTML.Append("<td >" + Convert.ToString(dr["Claim_Status"]) + "</td>");
 
@@ -11906,10 +11908,10 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<td  align='right'>" + string.Format("{0:C2}", dr["Out_Medical"]) + "</td>");
                         strHTML.Append("<td  align='right'>" + string.Format("{0:C2}", dr["Out_Expense"]) + "</td>");
                         strHTML.Append("<td  align='right'>" + string.Format("{0:C2}", dr["Out_Total"]) + "</td>");
-                        strHTML.Append(" </tr></table></td>");                       
+                        strHTML.Append(" </tr></table></td>");
                         strHTML.Append("<td >" + Convert.ToString(dr["Resignation"]) + "</td>");
                         strHTML.Append("<td align='right'>" + string.Format("{0:C2}", dr["Settled_Amount"]) + "</td>");
-                        strHTML.Append("<td >" + Convert.ToString(dr["Who_Approved"]).Replace("<br/>"," , ") + "</td>");
+                        strHTML.Append("<td >" + Convert.ToString(dr["Who_Approved"]).Replace("<br/>", " , ") + "</td>");
                         strHTML.Append("</tr>");
                     }
                 }
@@ -12673,7 +12675,7 @@ namespace ERIMS_Sonic_ReportScheduler
             {
                 EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message);
             }
-        }       
+        }
 
         //Report 64
         private void BindSafetyTrainingReport(DataRow drReportSchedule)
@@ -12849,7 +12851,7 @@ namespace ERIMS_Sonic_ReportScheduler
                     SendMail("Safety Training Report", "SafetyTrainingReport.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message);
             }
@@ -12958,7 +12960,102 @@ namespace ERIMS_Sonic_ReportScheduler
             {
                 EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message);
             }
-        }       
+        }
+
+        // Report 66
+        private void BindConstructionAdHocReport(DataRow drReportSchedule)
+        {
+            IDataReader Reader = null;
+            try
+            {
+                decimal pK_Schedule_ID = Convert.ToDecimal(drReportSchedule["PK_Schedule"]);
+                decimal Fk_RecipientList = Convert.ToDecimal(drReportSchedule["Fk_RecipientList"]);
+                decimal FK_Security_Id = Convert.ToDecimal(drReportSchedule["FK_Security_Id"]);
+                string strReportSchedulerName = Convert.ToString(drReportSchedule["ReportSchedulerName"]);
+                //decimal pK_Schedule_ID = 6;
+                //decimal Fk_RecipientList = 2;
+                //decimal FK_Security_Id = 1;
+                //string strReportSchedulerName = "test";
+                //Get Report criteria for the scheduled report
+                DataSet ds = new DataSet();
+                ds = Report.SelectFilterCriteria(66, pK_Schedule_ID);
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
+                {
+                    DataTable dtFilter = ds.Tables[0];
+                    if (dtFilter.Rows.Count > 0)
+                    {
+                        string strCoverageType = string.Empty, strOutPutFields = string.Empty, strFirstGroupBy = string.Empty, strSecGroupBy = string.Empty;
+
+                        Int32 _dcSelectedReport = 0;
+
+                        _dcSelectedReport = Convert.ToInt32(dtFilter.Rows[0]["Pk_AdHocReport"]);
+                        List<Construction_AdHocFilter> lstFilter = Construction_AdHocFilter.SelectList(Construction_AdHocFilter.SelectAdHocFilterByFK(_dcSelectedReport));
+
+                        Construction_AdHocReport ObjAdHocReport = new Construction_AdHocReport(_dcSelectedReport);
+
+                        strOutPutFields = ObjAdHocReport.OutputFields;
+                        string strFilterIDs = string.Empty;
+                        foreach (ERIMS_DAL.Construction_AdHocFilter adhocFilter in lstFilter)
+                        {
+                            // AdhocReportFields obj = new AdhocReportFields();
+                            // List<AdhocReportFields> lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
+                            strFilterIDs += adhocFilter.FK_AdHocReportFields + ",";
+                        }
+                        strFilterIDs = strFilterIDs.TrimEnd(',');
+
+                        List<Construction_AdhocReportFields> listConstruction_AdHocReportFields = !string.IsNullOrEmpty(strFilterIDs) ? Construction_AdhocReportFields.SelectList(Construction_AdhocReportFields.GetAdHocReportFieldByMultipleID(strFilterIDs)) : new List<Construction_AdhocReportFields>();
+
+                        StringBuilder sbRecord = new StringBuilder();
+                        if (dtFilter.Rows.Count > 0)
+                        {
+                            //Get the recipient from the recipient list 
+                            DataTable dtRecipients = Report.SelectOneRecordWithRecipientList(Fk_RecipientList).Tables[0];
+                            DataRow drFilterCriteria = dtFilter.Rows[0];
+                            //Get the user who has scheduled the report
+                            DataTable dtUser = Report.SelectContractorSecurityByPK(FK_Security_Id).Tables[0];
+
+                            String strFirstName, strLastName, strMailFrom;
+                            strFirstName = strLastName = strMailFrom = "";
+                            if (dtUser.Rows.Count > 0)
+                            {
+                                strFirstName = Convert.ToString(dtUser.Rows[0]["First_Name"]).Trim();
+                                strLastName = Convert.ToString(dtUser.Rows[0]["Last_Name"]).Trim();
+                                strMailFrom = Convert.ToString(dtUser.Rows[0]["Email"]).Trim();
+                            }
+                            //Get Records in Reader
+                            Reader = Construction_AdHocReport.GetConstructionAdHocReport(strOutPutFields, BindGroupBy(ObjAdHocReport), GetWhereCondition(lstFilter, listConstruction_AdHocReportFields), BindOrderBy(ObjAdHocReport), strFilterIDs, FK_Security_Id);
+                            //Get File path where Records Save.
+                            string strFilePath = BindConstructionReport(ref sbRecord, Reader, ObjAdHocReport, lstFilter, listConstruction_AdHocReportFields, strReportSchedulerName);
+
+                            //If records found
+                            if (File.Exists(strFilePath))
+                            {
+                                try
+                                {
+                                    SendMail(strReportSchedulerName, strReportSchedulerName + ".xls", strFirstName, strLastName, strMailFrom, strFilePath, dtRecipients, FK_Security_Id);
+                                    EventLog.WriteEntry("eRIMS_Sonic Scheduled Reports Sent successfully scheduled on " + dtSchduleDate.ToString());
+                                }
+                                catch (Exception ex)
+                                {
+                                    EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message);
+                                }
+                                finally
+                                {
+                                    dtRecipients.Dispose();
+                                    dtUser.Dispose();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message);
+            }
+        }
+
         #endregion
 
         #region Mail Send Method
@@ -13485,7 +13582,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
                     if (lstFilter[i].Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                     {
-                        lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));                      
+                        lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
                         if (Convert.ToBoolean(lstFilter[i].IsNotSelected) == true)
                             sbRecord.Append("<b>" + lstAdhoc[0].Field_Header + " (Not In)</b>" + " : " + FillFilterDropDown(lstAdhoc[0].Field_Header, lstFilter[i].ConditionValue));
                         else
@@ -16355,6 +16452,850 @@ namespace ERIMS_Sonic_ReportScheduler
                 throw e;
             }
         }
+        #endregion
+
+        #region Construction Ad-Hoc Report Methods
+
+        /// <summary>
+        /// Bind and return Group By String
+        /// </summary>
+        /// <param name="ObjAdHocReport"></param>
+        /// <returns></returns>
+        private string BindGroupBy(Construction_AdHocReport ObjAdHocReport)
+        {
+            string strGroupBy = string.Empty;
+
+            if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.FirstGroupBy)))
+            {
+                Construction_AdhocReportFields objReportFields = new Construction_AdhocReportFields(ObjAdHocReport.FirstGroupBy.Value);
+                strGroupBy = " [" + objReportFields.Field_Header + "] " + ObjAdHocReport.FirstGroupByOrder;
+            }
+
+            if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.SecondGroupBy)))
+            {
+                Construction_AdhocReportFields objReportFields = new Construction_AdhocReportFields(ObjAdHocReport.FirstGroupBy.Value);
+                strGroupBy += (string.IsNullOrEmpty(strGroupBy) ? "" : ",") + " [" + objReportFields.Field_Header + "] " + ObjAdHocReport.SecondGroupByOrder;
+            }
+
+            return strGroupBy;
+        }
+
+        /// <summary>
+        /// Bind and return Order By String
+        /// </summary>
+        /// <param name="ObjAdHocReport"></param>
+        /// <returns></returns>
+        private string BindOrderBy(Construction_AdHocReport ObjAdHocReport)
+        {
+            string strOrderBy = string.Empty;                        
+            if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.FirstSortBy)))
+            {
+                Construction_AdhocReportFields objReportFields = new Construction_AdhocReportFields(ObjAdHocReport.FirstSortBy.Value);
+                strOrderBy = " [" + objReportFields.Field_Header + "] " + ObjAdHocReport.FirstSortByOrder;
+            }
+            if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.SecondSortBy)))
+            {
+                Construction_AdhocReportFields objReportFields = new Construction_AdhocReportFields(ObjAdHocReport.SecondSortBy.Value);
+                strOrderBy += (string.IsNullOrEmpty(strOrderBy) ? "" : ",") + " [" + objReportFields.Field_Header + "] " + ObjAdHocReport.SecondGroupByOrder;
+            }
+            if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.ThirdSortBy)))
+            {
+                Construction_AdhocReportFields objReportFields = new Construction_AdhocReportFields(ObjAdHocReport.SecondSortBy.Value);
+                strOrderBy += (string.IsNullOrEmpty(strOrderBy) ? "" : ",") + " [" + objReportFields.Field_Header + "] " + ObjAdHocReport.ThirdSortByOrder;
+            }            
+            return strOrderBy;
+        }
+
+        /// <summary>
+        /// Bind and Return Where Condition
+        /// </summary>
+        /// <param name="lstFilter"></param>
+        /// <returns></returns>
+        private string GetWhereCondition(List<Construction_AdHocFilter> lstFilter, List<Construction_AdhocReportFields> listConstruction_AdHocReportFields)
+        {
+            string strWhere = string.Empty;
+            for (int i = 0; i < lstFilter.Count; i++)
+            {
+                AdhocReportFields obj = new AdhocReportFields();
+                List<AdhocReportFields> lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
+                string strConditionType = lstFilter[i].ConditionType;
+                string strConditionValue = lstFilter[i].ConditionValue;
+                string strField = lstAdhoc[0].WhereField;
+
+                Construction_AdhocReportFields construction_AdhocReportFields = listConstruction_AdHocReportFields.Find(a => a.Pk_AdhocReportFields == lstFilter[i].FK_AdHocReportFields);
+
+                if (construction_AdhocReportFields.Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                {
+                    strWhere += BindTextCondition(lstFilter[i].ConditionType, lstFilter[i].ConditionValue, lstAdhoc[0].Field_Name, lstAdhoc[0].Table_Name, Convert.ToBoolean(lstFilter[i].IsNotSelected));
+                }
+                else if (construction_AdhocReportFields.Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList && lstFilter[i].ConditionValue != null)
+                {
+                    strWhere += BindDropDownCondition(lstFilter[i].ConditionType, lstFilter[i].ConditionValue, lstAdhoc[0].WhereField, lstAdhoc[0].Table_Name, Convert.ToBoolean(lstFilter[i].IsNotSelected));
+
+                }
+                else if (construction_AdhocReportFields.Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                {
+                    strWhere += BindDateCondition(lstFilter[i], lstAdhoc[0].Field_Name, lstAdhoc[0].Table_Name, Convert.ToBoolean(lstFilter[i].IsNotSelected));
+                }
+                else if (construction_AdhocReportFields.Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    strWhere += BindAmountCondition(lstFilter[i], lstFilter[i].ConditionType, lstFilter[i].ConditionValue, lstAdhoc[0].Field_Name, lstAdhoc[0].Table_Name, Convert.ToBoolean(lstFilter[i].IsNotSelected));
+                }
+            }
+            return strWhere;
+        }
+
+        /// <summary>
+        /// Bind and Return DateTime Type Condition
+        /// </summary>
+        /// <param name="lstFilter"></param>
+        /// <returns></returns>
+        private string BindDateCondition(ERIMS_DAL.Construction_AdHocFilter objFilter, string strField, string strTableName, bool IsNotSelected)
+        {
+            string strWhere = string.Empty;
+
+            DateTime? dtFrom = null, dtTo = null;
+
+            if (string.IsNullOrEmpty(objFilter.FromRelativeCriteria))
+                dtFrom = FormatNullDateToStore(Convert.ToString(objFilter.FromDate));
+            else
+            {
+                // set Relative Date From criteria
+                AdHocReportHelper.RaltiveDates RelType = (AdHocReportHelper.RaltiveDates)Enum.Parse(typeof(AdHocReportHelper.RaltiveDates), objFilter.FromRelativeCriteria);
+                dtFrom = AdHocReportHelper.GetRelativeDate(RelType);
+            }
+            if (string.IsNullOrEmpty(objFilter.ToRelativeCriteria))
+                dtTo = FormatNullDateToStore(Convert.ToString(objFilter.ToDate));
+            else
+            {
+                // set Relative Date To criteria
+                AdHocReportHelper.RaltiveDates RelType = (AdHocReportHelper.RaltiveDates)Enum.Parse(typeof(AdHocReportHelper.RaltiveDates), objFilter.ToRelativeCriteria);
+                dtTo = AdHocReportHelper.GetRelativeDate(RelType);
+            }
+
+            AdHocReportHelper.DateCriteria DtType = AdHocReportHelper.DateCriteria.On;
+
+            if (objFilter.ConditionType == "On")
+                DtType = AdHocReportHelper.DateCriteria.On;
+            else if (objFilter.ConditionType == "BF")
+                DtType = AdHocReportHelper.DateCriteria.Before;
+            else if (objFilter.ConditionType == "A")
+                DtType = AdHocReportHelper.DateCriteria.After;
+            else if (objFilter.ConditionType == "B")
+                DtType = AdHocReportHelper.DateCriteria.Between;
+
+            if (dtFrom.HasValue)
+                strWhere = AdHocReportHelper.GetDateWhereAbsolute(strTableName + ".[" + strField + "]", dtFrom, dtTo, DtType, IsNotSelected);
+
+            else if (dtTo.HasValue)
+                strWhere = AdHocReportHelper.GetDateWhereAbsolute(strTableName + ".[" + strField + "]", dtFrom, dtTo, DtType, IsNotSelected);
+            return strWhere;
+        }
+
+        /// <summary>
+        /// Bind and Return Amount Type Condition
+        /// </summary>
+        /// <param name="lstFilter"></param>
+        /// <returns></returns>
+        private string BindAmountCondition(ERIMS_DAL.Construction_AdHocFilter objFilter, string strConditionType, string strConditionValue, string strField, string strTableName, bool IsNotSelected)
+        {
+            string strWhere = string.Empty;
+            AdHocReportHelper.AmountCriteria AmtType = AdHocReportHelper.AmountCriteria.Equal;
+
+            decimal? dFrom = null;
+            decimal? dTo = null;
+
+            if (!string.IsNullOrEmpty(Convert.ToString(objFilter.AmountFrom)))
+                dFrom = Convert.ToDecimal(objFilter.AmountFrom);
+
+            if (!string.IsNullOrEmpty(Convert.ToString(objFilter.AmountTo)))
+                dTo = Convert.ToDecimal(objFilter.AmountTo);
+
+            if (Convert.ToInt16(objFilter.ConditionType) == (int)AdHocReportHelper.AmountCriteria.Equal)
+                AmtType = AdHocReportHelper.AmountCriteria.Equal;
+            else if (Convert.ToInt16(objFilter.ConditionType) == (int)AdHocReportHelper.AmountCriteria.GreaterThan)
+                AmtType = AdHocReportHelper.AmountCriteria.GreaterThan;
+            else if (Convert.ToInt16(objFilter.ConditionType) == (int)AdHocReportHelper.AmountCriteria.Between)
+                AmtType = AdHocReportHelper.AmountCriteria.Between;
+            else if (Convert.ToInt16(objFilter.ConditionType) == (int)AdHocReportHelper.AmountCriteria.LessThan)
+                AmtType = AdHocReportHelper.AmountCriteria.LessThan;
+
+            if (dFrom.HasValue)
+                strWhere = AdHocReportHelper.GetAmountWhere("[" + strTableName.Trim() + "]" + "." + "[" + strField.Trim() + "]", dFrom, dTo, AmtType, IsNotSelected);
+            else if (dTo.HasValue)
+                strWhere = AdHocReportHelper.GetAmountWhere("[" + strTableName.Trim() + "]", dFrom, dTo, AmtType, IsNotSelected);
+
+            return strWhere;
+        }
+
+        /// <summary>
+        /// Bind Report Data.
+        /// </summary>
+        /// <param name="dsReport">Report Dataset</param>
+        private string BindConstructionReport(ref StringBuilder sbRecord, IDataReader Reader, Construction_AdHocReport ObjAdHocReport, List<Construction_AdHocFilter> lstFilter, List<Construction_AdhocReportFields> listConstruction_AdHocReportFields, string strReportSchedulerName)
+        {
+            DataTable dtSchema = null, dtHeader = null;
+            AdhocReportFields objReportFields = new AdhocReportFields();
+            List<AdhocReportFields> lstAdhoc = null;
+            string strPath = string.Empty;
+            Boolean IsGroupBySelected = false;
+
+
+            try
+            {
+                #region "Filter and Title"
+                sbRecord.Append("<br />");
+                sbRecord.Append("<b>Report Title : " + strReportSchedulerName + " </b>");
+                sbRecord.Append("<br /><br />");
+
+                AdhocReportFields obj = new AdhocReportFields();
+                for (int i = 0; i < lstFilter.Count; i++)
+                {
+                    string strConditionVal = string.Empty;
+                    Construction_AdhocReportFields construction_AdhocReportFields = listConstruction_AdHocReportFields.Find(a => a.Pk_AdhocReportFields == lstFilter[i].FK_AdHocReportFields);
+                    if (construction_AdhocReportFields.Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    {
+                        string strConditionType = lstFilter[i].ConditionType;
+                        if (Convert.ToBoolean(lstFilter[i].IsNotSelected) == true)
+                            strConditionType = (strConditionType == "1") ? " Not Contains " : (strConditionType == "2" ? " Not Start With " : " Not End With ");
+                        else
+                            strConditionType = (strConditionType == "1") ? " Contains " : (strConditionType == "2" ? " Start With " : " End With ");
+                        strConditionVal = lstFilter[i].ConditionValue;
+                        lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
+                        sbRecord.Append("<b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + lstFilter[i].ConditionValue);
+                    }
+
+                    if (construction_AdhocReportFields.Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    {
+                        lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
+                        if (Convert.ToBoolean(lstFilter[i].IsNotSelected) == true)
+                            sbRecord.Append("<b>" + lstAdhoc[0].Field_Header + " (Not In)</b>" + " : " + FillFilterDropDown(lstAdhoc[0].Field_Header, lstFilter[i].ConditionValue));
+                        else
+                            sbRecord.Append("<b>" + lstAdhoc[0].Field_Header + " (In)</b>" + " : " + FillFilterDropDown(lstAdhoc[0].Field_Header, lstFilter[i].ConditionValue));
+                    }
+
+                    if (construction_AdhocReportFields.Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    {
+                        string strConditionType = lstFilter[i].ConditionType;
+                        lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
+                        strConditionType = (strConditionType == "O") ? " On " : (strConditionType == "B" ? " Between " : (strConditionType == "BF" ? "On or Before " : "On or After "));
+
+                        string dtFrom = null, dtTo = null;
+                        if (string.IsNullOrEmpty(lstFilter[i].FromRelativeCriteria))
+                            dtFrom = FormatDBNullDateToDisplay(lstFilter[i].FromDate);
+                        else
+                        {
+                            // set Relative Date From criteria
+                            AdHocReportHelper.RaltiveDates RelType = (AdHocReportHelper.RaltiveDates)Enum.Parse(typeof(AdHocReportHelper.RaltiveDates), lstFilter[i].FromRelativeCriteria);
+                            dtFrom = AdHocReportHelper.GetRelativeDate(RelType).ToString("MM/dd/yyyy");
+                        }
+                        if (string.IsNullOrEmpty(lstFilter[i].ToRelativeCriteria))
+                            dtTo = FormatDBNullDateToDisplay(lstFilter[i].ToDate);
+                        else
+                        {
+                            // set Relative Date To criteria
+                            AdHocReportHelper.RaltiveDates RelType = (AdHocReportHelper.RaltiveDates)Enum.Parse(typeof(AdHocReportHelper.RaltiveDates), lstFilter[i].ToRelativeCriteria);
+                            dtTo = AdHocReportHelper.GetRelativeDate(RelType).ToString("MM/dd/yyyy");
+                        }
+
+                        if (Convert.ToBoolean(lstFilter[i].IsNotSelected) == true)
+                            strConditionType = "Not" + strConditionType;
+
+                        if (strConditionType.Trim() != "Between" && strConditionType.Trim() != "Not Between")
+                            strConditionVal = "<b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + dtFrom;
+                        else
+                            strConditionVal = "<b>" + lstAdhoc[0].Field_Header + " : </b>" + strConditionType + dtFrom + " And " + dtTo;
+
+                        sbRecord.Append(strConditionVal);
+                    }
+                    if (construction_AdhocReportFields.Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                    {
+                        string strConditionType = lstFilter[i].ConditionType;
+                        lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
+                        strConditionType = (strConditionType == "0") ? " Equal " : (strConditionType == "1" ? " Greater Than " : (strConditionType == "2" ? " Between " : " Less Than "));
+
+                        if (Convert.ToBoolean(lstFilter[i].IsNotSelected) == true)
+                            strConditionType = "Not" + strConditionType;
+
+                        if (strConditionType.Trim() != "Between" && strConditionType.Trim() != "Not Between")
+                            strConditionVal = "<b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + Convert.ToString(lstFilter[i].AmountFrom);
+                        else
+                            strConditionVal = "<b>" + lstAdhoc[0].Field_Header + " : </b>" + strConditionType + Convert.ToString(lstFilter[i].AmountFrom) + " And " + Convert.ToString(lstFilter[i].AmountTo);
+                        sbRecord.Append(strConditionVal);
+                    }
+                    sbRecord.Append("<br />");
+                }
+                sbRecord.Append("<br />");
+
+                #endregion
+
+                // Check if Any record is exists or not
+                if (Reader.Read())
+                {
+                    string strFirstGroupBy = string.Empty, strSecGroupBy = string.Empty, strThirdGroupBy = string.Empty;
+
+                    if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.FirstGroupBy)))
+                    {
+                        lstAdhoc = objReportFields.GetAdHocReportFieldByPk(Convert.ToDecimal(ObjAdHocReport.FirstGroupBy));
+                        strFirstGroupBy = lstAdhoc[0].Field_Header;
+
+                        IsGroupBySelected = true;
+                    }
+
+                    if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.SecondGroupBy)))
+                    {
+                        lstAdhoc = objReportFields.GetAdHocReportFieldByPk(Convert.ToDecimal(ObjAdHocReport.SecondGroupBy));
+                        strSecGroupBy = lstAdhoc[0].Field_Header;
+
+                        IsGroupBySelected = true;
+                    }
+
+                    if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.ThirdGroupBy)))
+                    {
+                        lstAdhoc = objReportFields.GetAdHocReportFieldByPk(Convert.ToDecimal(ObjAdHocReport.ThirdGroupBy));
+                        strThirdGroupBy = lstAdhoc[0].Field_Header;
+
+                        IsGroupBySelected = true;
+                    }
+
+                    //iF First Group By is Not  selected then second Group by will be set as first Group By
+                    if (string.IsNullOrEmpty(strFirstGroupBy))
+                    {
+                        strFirstGroupBy = strSecGroupBy;
+                        strSecGroupBy = string.Empty;
+                    }
+
+                    dtSchema = Reader.GetSchemaTable();
+
+                    sbRecord.Append("<table border='1' cellpadding='0' cellspacing='0' width='" + (150 * ObjAdHocReport.OutputFields.Split(',').Length).ToString() + "' style='font-size:10pt'>");
+
+                    #region "Header"
+
+                    // If reader found a records 
+                    sbRecord.Append("<tr>");
+                    if (IsGroupBySelected)
+                        sbRecord.Append("<td>&nbsp;</td>");
+                    dtHeader = new DataTable();
+                    string strFormatFirstGroupBy = string.Empty, strFormatSecGroupBy = string.Empty, strFormatThirdGroupBy = string.Empty;
+
+                    foreach (DataRow drHeader in dtSchema.Rows)
+                    {
+                        //Remove Group By 
+                        if (strFirstGroupBy != Convert.ToString(drHeader["ColumnName"]) && strSecGroupBy != Convert.ToString(drHeader["ColumnName"]) && strThirdGroupBy != Convert.ToString(drHeader["ColumnName"]))
+                        {
+                            if (drHeader["ColumnName"].ToString() != "Claim Count")
+                            {
+                                sbRecord.Append("<td><b>" + drHeader["ColumnName"] + "</b></td>");
+                            }
+                        }                        
+
+                        //Get  Group By Field's Data Type
+                        if (strFirstGroupBy == Convert.ToString(drHeader["ColumnName"]))
+                            strFormatFirstGroupBy = drHeader["DataTypeName"].ToString();
+                        if (strSecGroupBy == Convert.ToString(drHeader["ColumnName"]))
+                            strFormatSecGroupBy = drHeader["DataTypeName"].ToString();
+                        if (strThirdGroupBy == Convert.ToString(drHeader["ColumnName"]))
+                            strFormatThirdGroupBy = drHeader["DataTypeName"].ToString();
+                    }
+
+                    //When Header have records
+                    if (dtHeader.Columns.Count > 0)
+                    {
+                        DataRow drHerder = dtHeader.NewRow();
+
+                        for (int i = 0; i < dtHeader.Columns.Count; i++)
+                            drHerder[i] = 0;
+
+                        dtHeader.Rows.Add(drHerder);
+                        dtHeader.AcceptChanges();
+                    }
+
+                    sbRecord.Append("</tr>");
+
+                    #endregion
+
+                    strPath = AppDomain.CurrentDomain.BaseDirectory + @"temp\" + strReportSchedulerName + System.DateTime.Now.ToString("MMddyyhhmmss") + ".xls";
+
+                    if (!File.Exists(strPath))
+                    {
+                        if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"temp\"))
+                            Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"temp\");
+                        // Create a file to write to.
+                        //Remove WhiteSpace
+                        sbRecord.Replace("<tr></tr>", "");
+                        File.SetAttributes(AppDomain.CurrentDomain.BaseDirectory, FileAttributes.Normal);
+                        using (StreamWriter sw = File.CreateText(strPath))
+                        {
+                            sw.Write(sbRecord.ToString());
+                            sbRecord = new StringBuilder(string.Empty);
+                        }
+                    }
+
+                    #region "Item Template"
+
+                    DataTable dtSubTotalFirstGroup = dtHeader.Clone();
+                    DataTable dtSubTotalSecondGroup = dtHeader.Clone();
+                    DataTable dtSubTotalThirdGroup = dtHeader.Clone();
+
+                    string strGroupByValue_1 = string.Empty, strGroupByValue_2 = string.Empty, strNOGroup1 = string.Empty, strNOGroup2 = string.Empty;
+                    string strGroupByValue_3 = string.Empty, strNOGroup3 = string.Empty;                    
+
+                    do
+                    {
+                        string strFormat = string.Empty;
+
+                        #region "SUBTOTALS"                        
+
+                        #region Third
+
+                        // print subtotal for 3rd group by when the value is changed
+                        if (!string.IsNullOrEmpty(strThirdGroupBy) && !string.IsNullOrEmpty(strGroupByValue_3) && strGroupByValue_3 != Convert.ToString(Reader[strThirdGroupBy]))
+                        {
+                            if (dtSubTotalThirdGroup.Rows.Count > 0)
+                            {
+                                sbRecord.Append("<tr>");
+                                int intCol = 1;
+                                if (dtSchema.Rows.Count > 0)
+                                    sbRecord.Append("<td><b>Sub Total For " + strThirdGroupBy + "</b></td>");
+                                foreach (DataRow drSchema in dtSchema.Rows)
+                                {
+                                    string strColName = Convert.ToString(drSchema["ColumnName"]).ToString();
+
+                                    if (strFirstGroupBy != strColName && strSecGroupBy != strColName && strThirdGroupBy != strColName)
+                                    {
+                                        if (dtSubTotalThirdGroup.Columns.Contains(Convert.ToString(drSchema["ColumnName"])))
+                                            sbRecord.Append("<td align='right'><b>" + string.Format("{0:c2}", dtSubTotalThirdGroup.Rows[0][Convert.ToString(drSchema["ColumnName"])]) + "</b></td>");
+                                        else
+                                        {
+                                            sbRecord.Append("<td>&nbsp;</td>");
+                                        }
+                                    }
+
+                                    intCol++;
+                                }
+
+                                sbRecord.Append("</tr>");
+                                dtSubTotalThirdGroup.Clear();
+                            }
+                        }
+
+                        #endregion
+
+                        #region Second
+
+                        // print subtotal for 2nd group by when the value is changed
+                        if (!string.IsNullOrEmpty(strSecGroupBy) && !string.IsNullOrEmpty(strGroupByValue_2) && strGroupByValue_2 != Convert.ToString(Reader[strSecGroupBy]))
+                        {
+                            if (dtSubTotalSecondGroup.Rows.Count > 0)
+                            {
+                                sbRecord.Append("<tr>");
+                                int intCol = 1;
+                                if (dtSchema.Rows.Count > 0)
+                                    sbRecord.Append("<td><b>Sub Total For " + strSecGroupBy + "</b></td>");
+                                foreach (DataRow drSchema in dtSchema.Rows)
+                                {
+                                    string strColName = Convert.ToString(drSchema["ColumnName"]).ToString();
+
+                                    if (strFirstGroupBy != strColName && strSecGroupBy != strColName && strThirdGroupBy != strColName)
+                                    {
+                                        if (dtSubTotalSecondGroup.Columns.Contains(Convert.ToString(drSchema["ColumnName"])))
+                                            sbRecord.Append("<td align='right'><b>" + string.Format("{0:c2}", dtSubTotalSecondGroup.Rows[0][Convert.ToString(drSchema["ColumnName"])]) + "</b></td>");
+                                        else
+                                        {
+                                            sbRecord.Append("<td>&nbsp;</td>");                                            
+                                        }
+                                    }
+
+                                    intCol++;
+                                }
+
+                                sbRecord.Append("</tr>");
+                                dtSubTotalSecondGroup.Clear();
+                            }
+                        }
+
+                        #endregion
+
+                        #region First
+                        // print subtotal for 1st group by when the value is changed
+                        if (!string.IsNullOrEmpty(strFirstGroupBy) && !string.IsNullOrEmpty(strGroupByValue_1) && strGroupByValue_1 != Convert.ToString(Reader[strFirstGroupBy]))
+                        {
+                            if (dtSubTotalFirstGroup.Rows.Count > 0)
+                            {
+                                sbRecord.Append("<tr>");
+                                int intCol = 1;
+                                if (dtSchema.Rows.Count > 0)
+                                    sbRecord.Append("<td><b>Sub Total For " + strFirstGroupBy + "</b></td>");
+                                foreach (DataRow drSchema in dtSchema.Rows)
+                                {
+                                    string strColName = Convert.ToString(drSchema["ColumnName"]).ToString();
+
+                                    if (strFirstGroupBy != strColName && strSecGroupBy != strColName && strThirdGroupBy != strColName)
+                                    {
+                                        if (dtSubTotalFirstGroup.Columns.Contains(Convert.ToString(drSchema["ColumnName"])))
+                                            sbRecord.Append("<td align='right'><b>" + string.Format("{0:c2}", dtSubTotalFirstGroup.Rows[0][Convert.ToString(drSchema["ColumnName"])]) + "</b></td>");
+                                        else
+                                        {
+                                            sbRecord.Append("<td>&nbsp;</td>");                                            
+                                        }
+                                    }
+
+                                    intCol++;
+                                }
+
+                                sbRecord.Append("</tr>");
+                                dtSubTotalFirstGroup.Clear();
+                            }
+                        }
+                        #endregion
+
+                        #endregion
+
+                        #region Group By
+
+                        #region First Group
+
+                        if (!string.IsNullOrEmpty(strFirstGroupBy))
+                        {
+                            if (strGroupByValue_1 != Convert.ToString(Reader[strFirstGroupBy]))
+                            {
+                                strGroupByValue_1 = Convert.ToString(Reader[strFirstGroupBy]);
+                                if (strFormatFirstGroupBy == "decimal")
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;' align='right'>&nbsp;" + strFirstGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_1) + "</td></tr>");
+                                else if (strFormatFirstGroupBy == "datetime")
+                                {
+                                    // it display only Time
+                                    if (strFirstGroupBy == "Time Theft Reported")
+                                        sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;'>&nbsp;" + strFirstGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strFirstGroupBy]) + "</td></tr>");
+                                    else sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;'>&nbsp;" + strFirstGroupBy + ": " + FormatDBNullDateToDisplay(strGroupByValue_1) + "</td></tr>");
+                                }
+                                else sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;'>&nbsp;" + strFirstGroupBy + ": " + strGroupByValue_1 + "</td></tr>");
+                                //Change Second Group By when First Groupby is Change
+                                strGroupByValue_2 = string.Empty;
+                            }
+                            // it will set No : [First Group By] when it is null
+                            else if ((Reader[strFirstGroupBy] == DBNull.Value || string.IsNullOrEmpty(Convert.ToString(Reader[strFirstGroupBy]))) && strNOGroup1 == string.Empty)
+                            {
+                                strNOGroup1 = "No " + strFirstGroupBy;
+                                sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;' >&nbsp;" + strFirstGroupBy + ": " + strNOGroup1 + "</td></tr>");
+                                // When Group by 1 value find as Null
+                                strNOGroup1 = strFirstGroupBy;
+                                //Change Second Group By when First Groupby is Change
+                                strGroupByValue_2 = string.Empty;
+                            }
+                        }
+
+                        #endregion
+
+                        #region Second Group By
+
+                        if (!string.IsNullOrEmpty(strSecGroupBy))
+                        {
+                            if (strGroupByValue_2 != Convert.ToString(Reader[strSecGroupBy]))
+                            {
+                                strGroupByValue_2 = Convert.ToString(Reader[strSecGroupBy]);
+                                if (strFormatSecGroupBy == "decimal")
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' align='right' >&nbsp;" + strSecGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_2) + "</td></tr>");
+                                else if (strFormatSecGroupBy == "datetime")
+                                {
+                                    // it display only Time
+                                    if (strSecGroupBy == "Time Theft Reported")
+                                        sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;'>&nbsp;" + strSecGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strSecGroupBy]) + "</td></tr>");
+                                    else sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' >&nbsp;" + strSecGroupBy + ": " + FormatDBNullDateToDisplay(strGroupByValue_2) + "</td></tr>");
+                                }
+                                else sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' >&nbsp;" + strSecGroupBy + ": " + strGroupByValue_2 + "</td></tr>");
+                            }
+                            else if (Reader[strSecGroupBy] == DBNull.Value && strNOGroup2 == string.Empty)
+                            {
+                                strNOGroup2 = "No " + strSecGroupBy;
+                                sbRecord.Append("<tr><td style='font-weight: bold;color: #276692;' >&nbsp;" + strSecGroupBy + ": " + strNOGroup2 + "</td></tr>");
+                                //No Group by assign
+                                strNOGroup2 = strGroupByValue_2;
+                            }
+                        }
+
+                        #endregion
+
+                        #region Third Group BY
+                        
+                        if (!string.IsNullOrEmpty(strThirdGroupBy))
+                        {
+                            if (strGroupByValue_3 != Convert.ToString(Reader[strThirdGroupBy]))
+                            {
+                                strGroupByValue_3 = Convert.ToString(Reader[strThirdGroupBy]);
+                                if (strFormatThirdGroupBy == "decimal")
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' align='right' >&nbsp;" + strThirdGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_3) + "</td></tr>");
+                                else if (strFormatThirdGroupBy == "datetime")
+                                {
+                                    // it display only Time
+                                    if (strThirdGroupBy == "Time Theft Reported")
+                                        sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;'>&nbsp;" + strThirdGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strThirdGroupBy]) + "</td></tr>");
+                                    else sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' >&nbsp;" + strThirdGroupBy + ": " + FormatDBNullDateToDisplay(strGroupByValue_3) + "</td></tr>");
+                                }
+                                else sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' >&nbsp;" + strThirdGroupBy + ": " + strGroupByValue_3 + "</td></tr>");                                
+                            }
+                            else if ((Reader[strThirdGroupBy] == DBNull.Value || string.IsNullOrEmpty(Convert.ToString(Reader[strThirdGroupBy]))) && strNOGroup3 == string.Empty)
+                            {
+                                strNOGroup3 = "No " + strThirdGroupBy;
+                                sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' >&nbsp;" + strThirdGroupBy + ": " + strNOGroup3 + "</td></tr>");
+                                // When Group by 3 value find as Null
+                                strNOGroup3 = strThirdGroupBy;
+                                //Change third Group By when 3rd Groupby is Change
+                                strGroupByValue_3 = string.Empty;
+                            }
+                        }
+
+                        #endregion
+
+                        #endregion
+
+                        string strColumnName = string.Empty;
+                        sbRecord.Append("<tr>");
+                        if (IsGroupBySelected)
+                            sbRecord.Append("<td>&nbsp;</td>");
+                        ///Print Records
+                        //for (int intColumn = 0; intColumn < Reader.FieldCount - 1; intColumn++)
+                        for (int intColumn = 0; intColumn <= Reader.FieldCount - 1; intColumn++)
+                        {
+                            #region " Count Sub Totals"
+                            #region First : 1st
+                            if (!string.IsNullOrEmpty(strFirstGroupBy) && !string.IsNullOrEmpty(strGroupByValue_1))
+                            {
+                                if (dtSubTotalFirstGroup.Columns.Contains(Reader.GetName(intColumn)) && Convert.ToString(Reader[strFirstGroupBy]) == strGroupByValue_1)
+                                {
+                                    if (dtSubTotalFirstGroup.Rows.Count == 0)
+                                    {
+                                        dtSubTotalFirstGroup.Rows.Add(dtSubTotalFirstGroup.NewRow());
+                                        foreach (DataColumn dcTotal in dtSubTotalFirstGroup.Columns)
+                                            dtSubTotalFirstGroup.Rows[0][dcTotal] = 0;
+                                    }
+                                    decimal decTotal = 0;
+                                    decTotal = Convert.ToDecimal(dtSubTotalFirstGroup.Rows[0][Reader.GetName(intColumn)]);
+                                    decTotal += Reader.IsDBNull(intColumn) ? 0 : Convert.ToDecimal(Reader[intColumn]);
+                                    dtSubTotalFirstGroup.Rows[0][Reader.GetName(intColumn)] = decTotal;
+                                }
+                            }
+                            #endregion
+
+                            #region  second: 2nd
+
+                            if (!string.IsNullOrEmpty(strSecGroupBy) && !string.IsNullOrEmpty(strGroupByValue_2))
+                            {
+                                if (dtSubTotalSecondGroup.Columns.Contains(Reader.GetName(intColumn)) && Convert.ToString(Reader[strSecGroupBy]) == strGroupByValue_2)
+                                {
+                                    if (dtSubTotalSecondGroup.Rows.Count == 0)
+                                    {
+                                        dtSubTotalSecondGroup.Rows.Add(dtSubTotalSecondGroup.NewRow());
+                                        foreach (DataColumn dcTotal in dtSubTotalSecondGroup.Columns)
+                                            dtSubTotalSecondGroup.Rows[0][dcTotal] = 0;
+                                    }
+                                    decimal decTotal = 0;
+                                    decTotal = Convert.ToDecimal(dtSubTotalSecondGroup.Rows[0][Reader.GetName(intColumn)]);
+                                    decTotal += Reader.IsDBNull(intColumn) ? 0 : Convert.ToDecimal(Reader[intColumn]);
+                                    dtSubTotalSecondGroup.Rows[0][Reader.GetName(intColumn)] = decTotal;
+                                }
+                            }
+
+                            #endregion
+
+                            #region Third : 3nd
+
+                            //if (!string.IsNullOrEmpty(strThirdGroupBy) && !string.IsNullOrEmpty(strGroupByValue_3))
+                            if ((strThirdGroupBy != null) && (strGroupByValue_3 != null))
+                            {
+                                if (dtSubTotalThirdGroup.Columns.Contains(Reader.GetName(intColumn)) && Convert.ToString(Reader[strThirdGroupBy]) == strGroupByValue_3)
+                                {
+                                    if (dtSubTotalThirdGroup.Rows.Count == 0)
+                                    {
+                                        dtSubTotalThirdGroup.Rows.Add(dtSubTotalThirdGroup.NewRow());
+                                        foreach (DataColumn dcTotal in dtSubTotalThirdGroup.Columns)
+                                            dtSubTotalThirdGroup.Rows[0][dcTotal] = 0;
+                                    }
+                                    decimal decTotal = 0;
+                                    decTotal = Convert.ToDecimal(dtSubTotalThirdGroup.Rows[0][Reader.GetName(intColumn)]);
+                                    decTotal += Reader.IsDBNull(intColumn) ? 0 : Convert.ToDecimal(Reader[intColumn]);
+                                    dtSubTotalThirdGroup.Rows[0][Reader.GetName(intColumn)] = decTotal;
+                                }
+                            }
+
+                            #endregion
+
+                            #endregion
+
+                            //Remove Group By Column
+                            #region
+
+                            if (strFirstGroupBy != Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) && strSecGroupBy != Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) && strThirdGroupBy != Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]))
+                            {
+                                strFormat = dtSchema.Rows[intColumn]["DataTypeName"].ToString();
+
+                                if (strFormat == "decimal")
+                                {
+                                    // If dataType is Numeric but it is not Currency field.
+                                    if (CheckISdisplayCurrencyFormat(dtSchema.Rows[intColumn][0].ToString()))
+                                        sbRecord.Append("<td align='right' >&nbsp;" + string.Format("{0:c2}", Reader[intColumn]) + "</td>");
+                                    else
+                                        sbRecord.Append("<td align='right' >&nbsp;" + Convert.ToString(Reader[intColumn]) + "</td>");
+                                }
+                                else if (strFormat == "datetime")
+                                {
+                                    // it display only Time
+                                    if (Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) == "Time Theft Reported")
+                                        sbRecord.Append("<td >&nbsp;" + string.Format("{0:HH:mm}", Reader[intColumn]) + "</td>");
+                                    else sbRecord.Append("<td >&nbsp;" + string.Format("{0:MM/dd/yyyy}", Reader[intColumn]) + "</td>");
+                                }
+                                else
+                                {
+                                    //sbRecord.Append(@"<td style='mso-number-format:\@;'>&nbsp;" + Convert.ToString(Reader[intColumn]) + "</td>");
+                                    sbRecord.Append(@"<td>&nbsp;" + Convert.ToString(Reader[intColumn]) + "</td>");
+                                }
+                            }
+
+                            #endregion
+                        }
+                        
+                        sbRecord.Append("</tr>");
+
+                        using (StreamWriter sw = File.AppendText(strPath))
+                        {
+                            sw.Write(sbRecord);
+                            sbRecord = new StringBuilder(string.Empty);
+                        }
+                    } while (Reader.Read());
+
+                    #region " SUBTOAL FOR Last groups "
+
+                    if (dtSubTotalThirdGroup.Rows.Count > 0)
+                    {
+                        sbRecord.Append("<tr>");
+                        int intCol = 1;
+                        if (dtSchema.Rows.Count > 0)
+                            sbRecord.Append("<td align='left'><b>Sub Total For " + strThirdGroupBy + "</b></td>");
+                        foreach (DataRow drSchema in dtSchema.Rows)
+                        {
+                            string strColName = Convert.ToString(drSchema["ColumnName"]).ToString();
+                            if (strFirstGroupBy != strColName && strSecGroupBy != strColName && strThirdGroupBy != strColName)
+                            {
+                                if (dtSubTotalThirdGroup.Columns.Contains(Convert.ToString(drSchema["ColumnName"])))
+                                    sbRecord.Append("<td align='right'><b>" + string.Format("{0:c2}", dtSubTotalThirdGroup.Rows[0][Convert.ToString(drSchema["ColumnName"])]) + "</b></td>");
+                                else
+                                {
+                                    sbRecord.Append("<td>&nbsp;</td>");
+                                }
+                            }
+                            intCol++;
+                        }
+                        sbRecord.Append("</tr>");
+                        dtSubTotalThirdGroup.Clear();
+                    }
+
+                    if (dtSubTotalSecondGroup.Rows.Count > 0)
+                    {
+                        sbRecord.Append("<tr>");
+                        int intCol = 1;
+                        if (dtSchema.Rows.Count > 0)
+                            sbRecord.Append("<td align='left'><b>Sub Total For " + strSecGroupBy + "</b></td>");
+                        foreach (DataRow drSchema in dtSchema.Rows)
+                        {
+                            string strColName = Convert.ToString(drSchema["ColumnName"]).ToString();
+                            if (strFirstGroupBy != strColName && strSecGroupBy != strColName)
+                            {
+                                if (dtSubTotalSecondGroup.Columns.Contains(Convert.ToString(drSchema["ColumnName"])))
+                                    sbRecord.Append("<td align='right'><b>" + string.Format("{0:c2}", dtSubTotalSecondGroup.Rows[0][Convert.ToString(drSchema["ColumnName"])]) + "</b></td>");
+                                else
+                                {
+                                    sbRecord.Append("<td>&nbsp;</td>");
+                                }
+                            }
+                            intCol++;
+                        }
+                        sbRecord.Append("</tr>");
+                        dtSubTotalSecondGroup.Clear();
+                    }
+
+                    if (dtSubTotalFirstGroup.Rows.Count > 0)
+                    {
+                        sbRecord.Append("<tr>");
+                        int intCol = 1;
+                        if (dtSchema.Rows.Count > 0)
+                            sbRecord.Append("<td align='left'><b>Sub Total For " + strFirstGroupBy + "</b></td>");
+                        foreach (DataRow drSchema in dtSchema.Rows)
+                        {
+                            string strColName = Convert.ToString(drSchema["ColumnName"]).ToString();
+                            if (strFirstGroupBy != strColName && strSecGroupBy != strColName)
+                            {
+                                if (dtSubTotalFirstGroup.Columns.Contains(Convert.ToString(drSchema["ColumnName"])))
+                                    sbRecord.Append("<td align='right'><b>" + string.Format("{0:c2}", dtSubTotalFirstGroup.Rows[0][Convert.ToString(drSchema["ColumnName"])]) + "</b></td>");
+                                else
+                                {
+                                    sbRecord.Append("<td>&nbsp;</td>");
+                                }
+                            }
+                            intCol++;
+                        }
+                        sbRecord.Append("</tr>");
+                        dtSubTotalFirstGroup.Clear();
+                    }
+
+                    #endregion
+
+                    #endregion
+
+                    //Table End
+                    sbRecord.Append("</table>");
+                    
+                    //Remove White Space.
+                    //sbRecord.Replace("<tr></tr>", "");
+                    using (StreamWriter sw = File.AppendText(strPath))
+                    {
+                        sw.Write(sbRecord);
+                        sbRecord = new StringBuilder(string.Empty);
+                    }
+                }
+                else
+                {
+                    //Remove WhiteSpace
+                    sbRecord.Replace("<tr></tr>", "");
+                    if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + @"temp\"))
+                        Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"temp\");
+
+                    strPath = AppDomain.CurrentDomain.BaseDirectory + @"temp\" + strReportSchedulerName + System.DateTime.Now.ToString("MMddyyhhmmss") + ".xls";
+                    ///When records are not found.
+                    sbRecord.Append("<table  cellpadding='4' cellspacing='0' Width='100%'>");
+                    sbRecord.Append("<tr>");
+                    sbRecord.Append("<td align='center'>No Record found.</td></tr></table>");
+                    using (StreamWriter sw = File.AppendText(strPath))
+                    {
+                        sw.Write(sbRecord);
+                        sbRecord = new StringBuilder(string.Empty);
+                    }
+                }
+
+                if (!Reader.IsClosed)
+                    Reader.Close();
+
+                return strPath;
+            }
+            catch (Exception ex)
+            {
+                //EventLog.WriteEntry("ERROR in Ad Hoc Report Writer , " + ex.Message);
+                EventLog.WriteEntry("ERROR in ACI Ad Hoc Report Writer , " + ex.Message);
+            }
+            finally
+            {
+                if (Reader != null)
+                {
+                    Reader.Close();
+                    Reader.Dispose();
+                }
+                if (dtSchema != null)
+                    dtSchema.Dispose();
+                if (dtHeader != null)
+                    dtHeader.Dispose();
+            }
+            return strPath;
+        }
+
         #endregion
     }
 }

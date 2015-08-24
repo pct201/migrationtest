@@ -1110,6 +1110,22 @@ namespace ERIMS_Sonic_ReportScheduler
 
             return db.ExecuteDataSet(dbCommand).Tables[0];
         }
+
+        /// <summary>
+        /// Method To Select Contractor Security Details By pk_Contractor_Security
+        /// </summary>
+        /// <param name="pK_Security_ID"></param>
+        /// <returns></returns>
+        public static DataSet SelectContractorSecurityByPK(decimal pk_Contractor_Security)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Contractor_SecuritySelect");
+
+            db.AddInParameter(dbCommand, "PK_Contactor_Security", DbType.Decimal, pk_Contractor_Security);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
         #endregion
 
         #region Exposures Reports
