@@ -349,6 +349,7 @@ namespace ERIMS_Sonic_ReportScheduler
                             break;
                         case 66:
                             BindConstructionAdHocReport(dtScheduleReports.Rows[i]);
+                            break;
                         default:
                             break;
                     }
