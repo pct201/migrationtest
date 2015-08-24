@@ -168,7 +168,7 @@
                             <asp:TemplateField HeaderText="Event_End_Time">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblEvent_Start_Time" runat="server" Text='<%#Eval("Event_End_Time")%>' Width="150px"></asp:Label>
+                                    <asp:Label ID="lblEvent_End_Time" runat="server" Text='<%#Eval("Event_End_Time")%>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                              <asp:TemplateField HeaderText="Location">
