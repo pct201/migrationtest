@@ -995,6 +995,12 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
 
             htFindAndReplace.Add("[Total_Hours_CCTV_Monitored_Per_Week]", objAP_Property_Security.Total_Hours_CCTV_Monitored_Per_Week);
 
+            if (objAP_Property_Security.SITS_Supra_Key_Advantage == "Y")
+            {
+                htFindAndReplace.Add("[imgSITS_Supra_Key_Advantage]", ImgChecked);
+            }
+            else { htFindAndReplace.Add("[imgSITS_Supra_Key_Advantage]", ImgUnchecked); }
+
             DateTime? BeginDate = null;
             DateTime? EndDate = null;
             if (txtBegin_Date.Text.Trim() != "")
@@ -1883,6 +1889,12 @@ public partial class SONIC_Exposures_Asset_Protection_Generate_Abstract : System
                 htFindAndReplace.Add("[Cap_Index_Risk_Category]", "");
             
             htFindAndReplace.Add("[Total_Hours_CCTV_Monitored_Per_Week]", objAP_Property_Security.Total_Hours_CCTV_Monitored_Per_Week);
+
+            if (objAP_Property_Security.SITS_Supra_Key_Advantage == "Y")
+            {
+                htFindAndReplace.Add("[imgSITS_Supra_Key_Advantage]", ImgChecked);
+            }
+            else { htFindAndReplace.Add("[imgSITS_Supra_Key_Advantage]", ImgUnchecked); }
 
             DateTime? BeginDate = null;
             DateTime? EndDate = null;
