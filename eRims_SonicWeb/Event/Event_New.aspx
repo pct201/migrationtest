@@ -39,6 +39,17 @@
             }
         }
 
+        function CheckEvent() {
+            var values = '<%=ViewState["PK_Event"]%>';
+            if (values == '' || values == '0') {
+                alert('Please Save Event Record First');
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
         function SelectDeselectAllACINotes(bChecked) {
             var ctrls = document.getElementsByTagName('input');
             var i, chkID;
@@ -64,29 +75,73 @@
             }
 
             var rowCnt = document.getElementById('<%=gvSonic_Notes.ClientID%>').rows.length - 1;
-        var headerChkID = 'chkMultiSelectSonicACINotes';
+            var headerChkID = 'chkMultiSelectSonicACINotes';
 
-        if (cnt == rowCnt)
-            document.getElementById(headerChkID).checked = true;
-        else
-            document.getElementById(headerChkID).checked = false;
-    }
+            if (cnt == rowCnt)
+                document.getElementById(headerChkID).checked = true;
+            else
+                document.getElementById(headerChkID).checked = false;
+        }
 
   
-    function CheckSelectedAcadianNotes(buttonType) {
-        var gv = document.getElementById('<%=gvACI_Notes.ClientID%>');
+        function CheckSelectedAcadianNotes(buttonType) {
+            var gv = document.getElementById('<%=gvACI_Notes.ClientID%>');
+        var ctrls = gv.getElementsByTagName('input');
+        var i;
+        var cnt = 0;
+        var m_strAttIds = '';
+        for (i = 0; i < ctrls.length; i++) {
+            if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf("chkSelectSonicNotes") > 0) {
+                if (ctrls[i].checked) {
+                    var ctrlId = ctrls[i].id;
+                    ctrlId = ctrlId.substring(ctrlId.lastIndexOf("_") - 2);
+                    var hdnpk = ctrlId.replace("chkSelectSonicNotes", "hdnPK_ACI_Event_Notes");
+                    //index = Number(index) - 2;
+                    var id = document.getElementById('ctl00_ContentPlaceHolder1_gvACI_Notes_ctl' + hdnpk).value;
+                    if (m_strAttIds == "")
+                        m_strAttIds = id;
+                    else {
+                        m_strAttIds = m_strAttIds + "," + id;
+                    }
+                    cnt++;
+                }
+            }
+        }
+            
+        if (cnt == 0) {
+            if (buttonType == "View")
+                alert("Please select Note(s) to View");
+            else
+                alert("Please select Note(s)");
+
+            return false;
+        }
+        else {
+            if(buttonType != 'Print')//here sonic both view time condition is right
+            {
+                AciSelectedNotePopup(m_strAttIds,buttonType);
+                return false;
+            }
+            else
+                return true;
+        }
+    }
+
+    function CheckSelectedSonicNotes(buttonType) {
+             
+        var gv = document.getElementById('<%=dvSonicNOtes.ClientID%>');
             var ctrls = gv.getElementsByTagName('input');
             var i;
             var cnt = 0;
             var m_strAttIds = '';
             for (i = 0; i < ctrls.length; i++) {
-                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf("chkSelectSonicNotes") > 0) {
+                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf("chkSelectSonicACINotes") > 0) {
                     if (ctrls[i].checked) {
                         var ctrlId = ctrls[i].id;
                         ctrlId = ctrlId.substring(ctrlId.lastIndexOf("_") - 2);
-                        var hdnpk = ctrlId.replace("chkSelectSonicNotes", "hdnPK_ACI_Event_Notes");
+                        var hdnpk = ctrlId.replace("chkSelectSonicACINotes", "hdnPK_Sonic_Event_Notes");
                         //index = Number(index) - 2;
-                        var id = document.getElementById('ctl00_ContentPlaceHolder1_gvACI_Notes_ctl' + hdnpk).value;
+                        var id = document.getElementById('ctl00_ContentPlaceHolder1_gvSonic_Notes_ctl' + hdnpk).value;
                         if (m_strAttIds == "")
                             m_strAttIds = id;
                         else {
@@ -106,7 +161,7 @@
                 return false;
             }
             else {
-                if(buttonType != 'Print')//here sonic both view time condition is right
+                if(buttonType != 'Print')
                 {
                     AciSelectedNotePopup(m_strAttIds,buttonType);
                     return false;
@@ -116,143 +171,99 @@
             }
         }
 
-        function CheckSelectedSonicNotes(buttonType) {
-             
-            var gv = document.getElementById('<%=dvSonicNOtes.ClientID%>');
-             var ctrls = gv.getElementsByTagName('input');
-             var i;
-             var cnt = 0;
-             var m_strAttIds = '';
-             for (i = 0; i < ctrls.length; i++) {
-                 if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf("chkSelectSonicACINotes") > 0) {
-                     if (ctrls[i].checked) {
-                         var ctrlId = ctrls[i].id;
-                         ctrlId = ctrlId.substring(ctrlId.lastIndexOf("_") - 2);
-                         var hdnpk = ctrlId.replace("chkSelectSonicACINotes", "hdnPK_Sonic_Event_Notes");
-                         //index = Number(index) - 2;
-                         var id = document.getElementById('ctl00_ContentPlaceHolder1_gvSonic_Notes_ctl' + hdnpk).value;
-                         if (m_strAttIds == "")
-                             m_strAttIds = id;
-                         else {
-                             m_strAttIds = m_strAttIds + "," + id;
-                         }
-                         cnt++;
-                     }
-                 }
-             }
-            
-             if (cnt == 0) {
-                 if (buttonType == "View")
-                     alert("Please select Note(s) to View");
-                 else
-                     alert("Please select Note(s)");
+        function ConfirmRemove() {
+            return confirm("Are you sure to remove?");
+        }
 
-                 return false;
-             }
-             else {
-                 if(buttonType != 'Print')
+        function checkLength() 
+        {
+            var oObject = document.getElementById('ctl00_ContentPlaceHolder1_txtACI_Notes_txtNote') 
+            if (oObject.value.length < 50)
+            {
+                alert("Please enter minimum 50 Characters for Notes.");
+                return false;
+            }
+            else
+            {
+                return true;            
+            }              
+        }
+
+        function SelectDeselectACINoteHeader() {
+            var ctrls = document.getElementsByTagName('input');
+            var i, chkID;
+            var cnt = 0;
+            chkID = "chkSelectSonicNotes";
+            for (i = 0; i < ctrls.length; i++) {
+                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
+                    if (ctrls[i].checked)
+                        cnt++;
+                }
+            }
+
+            var rowCnt = document.getElementById('<%=gvACI_Notes.ClientID%>').rows.length - 1;
+
+             var headerChkID = 'chkMultiSelectSonicNotes';
+
+             if (cnt == rowCnt)
+                 document.getElementById(headerChkID).checked = true;
+             else
+                 document.getElementById(headerChkID).checked = false;
+         }
+
+         function checkLengthSonic() 
+         {
+             if (Page_ClientValidate("vsErrorGroup"))
+             {
+                 var oObject = document.getElementById('ctl00_ContentPlaceHolder1_txtSonic_Notes_txtNote') 
+                 if (oObject.value.length < 50)
                  {
-                     AciSelectedNotePopup(m_strAttIds,buttonType);
+                     alert("Please enter minimum 50 Characters for Notes.");
                      return false;
                  }
                  else
-                     return true;
-             }
-         }
-
-         function ConfirmRemove() {
-             return confirm("Are you sure to remove?");
-         }
-
-         function checkLength() 
-         {
-             var oObject = document.getElementById('ctl00_ContentPlaceHolder1_txtACI_Notes_txtNote') 
-             if (oObject.value.length < 50)
-             {
-                 alert("Please enter minimum 50 Characters for Notes.");
-                 return false;
+                 {
+                     return true;            
+                 }        
              }
              else
-             {
-                 return true;            
-             }              
+                 return false;
          }
 
-         function SelectDeselectACINoteHeader() {
-             var ctrls = document.getElementsByTagName('input');
-             var i, chkID;
-             var cnt = 0;
-             chkID = "chkSelectSonicNotes";
-             for (i = 0; i < ctrls.length; i++) {
-                 if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
-                     if (ctrls[i].checked)
-                         cnt++;
+         function valSaveEvent() 
+         {
+             if (Page_ClientValidate("vsErrorGroup"))
+             {
+                 if (Page_ClientValidate("vsErrorEvent_Camera"))
+                 {
+                     return true;
                  }
+                 else
+                     return false;
              }
+             else
+                 return false;
+         }
 
-             var rowCnt = document.getElementById('<%=gvACI_Notes.ClientID%>').rows.length - 1;
+         function valSaveEventSonic() 
+         {
+             if (Page_ClientValidate("vsErrorGroup"))
+             {
+                 if (Page_ClientValidate("vsErrorEvent_Camera_Sonic"))
+                 {
+                     return true;
+                 }
+                 else
+                     return false;
+             }
+             else
+                 return false;
+         }
 
-            var headerChkID = 'chkMultiSelectSonicNotes';
-
-            if (cnt == rowCnt)
-                document.getElementById(headerChkID).checked = true;
-            else
-                document.getElementById(headerChkID).checked = false;
-        }
-
-        function checkLengthSonic() 
-        {
-            if (Page_ClientValidate("vsErrorGroup"))
-            {
-                var oObject = document.getElementById('ctl00_ContentPlaceHolder1_txtSonic_Notes_txtNote') 
-                if (oObject.value.length < 50)
-                {
-                    alert("Please enter minimum 50 Characters for Notes.");
-                    return false;
-                }
-                else
-                {
-                    return true;            
-                }        
-            }
-            else
-                return false;
-        }
-
-        function valSaveEvent() 
-        {
-            if (Page_ClientValidate("vsErrorGroup"))
-            {
-                if (Page_ClientValidate("vsErrorEvent_Camera"))
-                {
-                    return true;
-                }
-                else
-                    return false;
-            }
-            else
-                return false;
-        }
-
-        function valSaveEventSonic() 
-        {
-            if (Page_ClientValidate("vsErrorGroup"))
-            {
-                if (Page_ClientValidate("vsErrorEvent_Camera_Sonic"))
-                {
-                    return true;
-                }
-                else
-                    return false;
-            }
-            else
-                return false;
-        }
-
-        function AciNotePopup(NoteId, type) {            
-            var winHeight = 500;
-            var winWidth = 500;
-            var EventId = <%=ViewState["PK_Event"]%>;            
+         function AciNotePopup(NoteId, type) {            
+             var winHeight = 500;
+             var winWidth = 500;
+             var EventId = <%=ViewState["PK_Event"]%>;            
             obj = window.open("Event_Note.aspx?nid=" + NoteId + "&id=" + '<%=ViewState["PK_Event"]%>' + "&type=" + type, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
             obj.focus();
         }
@@ -482,19 +493,19 @@
         function setAgencyNameSonic()
         {
             var agencyname =  document.getElementById("<%=txtAgency_name.ClientID%>").value;
-                 var agencynameSonic = document.getElementById("<%=txtAgency_name_Sonic.ClientID%>");
-                 agencynameSonic.value = agencyname;
-             }
-             function setOfficerNameSonic()
-             {
-                 var Officername =  document.getElementById("<%=txtOfficer_Name.ClientID%>").value;
-            var OfficernameSonic = document.getElementById("<%=txtOfficer_Name_Sonic.ClientID%>");
-            OfficernameSonic.value = Officername;
+            var agencynameSonic = document.getElementById("<%=txtAgency_name_Sonic.ClientID%>");
+            agencynameSonic.value = agencyname;
         }
-              
-        function setPhoneSonic()
+        function setOfficerNameSonic()
         {
-            var PhoneNumber =  document.getElementById("<%=txtOfficer_Phone.ClientID%>").value;
+            var Officername =  document.getElementById("<%=txtOfficer_Name.ClientID%>").value;
+                 var OfficernameSonic = document.getElementById("<%=txtOfficer_Name_Sonic.ClientID%>");
+                 OfficernameSonic.value = Officername;
+             }
+              
+             function setPhoneSonic()
+             {
+                 var PhoneNumber =  document.getElementById("<%=txtOfficer_Phone.ClientID%>").value;
             var PhoneNumberSonic = document.getElementById("<%=txtOfficer_Phone_Sonic.ClientID%>");
             PhoneNumberSonic.value = PhoneNumber;
         }
@@ -1251,7 +1262,7 @@
                                                                 <tr>
                                                                     <td style="padding-bottom: 5px;" colspan="6">
                                                                         <asp:LinkButton Style="display: inline" ID="lnkAddACINotesNew" OnClick="lnkAddACINotesNew_Click"
-                                                                            runat="server" Text="Add New"></asp:LinkButton>&nbsp;&nbsp;&nbsp;
+                                                                            runat="server" Text="Add New" OnClientClick="return CheckEvent();" ></asp:LinkButton>&nbsp;&nbsp;&nbsp;
                                                                          <asp:Button ID="btnACINoteView" runat="server" Text=" View" OnClientClick="return AciSelectedNotePopup('','ACIView');" />&nbsp;&nbsp;
                                                                         <asp:Button ID="btnPrint" runat="server" Text=" Print " OnClick="btnPrint_Click"
                                                                             OnClientClick="return CheckSelectedAcadianNotes('Print');" />
@@ -1406,7 +1417,7 @@
                                                                 <tr>
                                                                     <td style="padding-bottom: 5px;" colspan="6">
                                                                         <asp:LinkButton Style="display: inline" ID="lnkAddSonicNotesNew" OnClick="lnkAddSonicNotesNew_Click"
-                                                                            runat="server" Text="Add New"></asp:LinkButton>&nbsp;&nbsp;&nbsp;
+                                                                            runat="server" Text="Add New" OnClientClick="return CheckEvent();"></asp:LinkButton>&nbsp;&nbsp;&nbsp;
                                                                           <asp:Button ID="btnSonicNoteView" runat="server" Text=" View" OnClientClick="return AciSelectedNotePopup('','SonicView');" />&nbsp;&nbsp;
                                                                                     <asp:Button ID="btnSonicPrint" runat="server" Text=" Print " OnClick="btnSonicPrint_Click"
                                                                                         OnClientClick="return CheckSelectedSonicNotes('Print');" />
