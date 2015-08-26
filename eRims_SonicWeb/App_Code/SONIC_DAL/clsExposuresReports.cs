@@ -117,6 +117,20 @@ public class clsExposuresReports
 
         return db.ExecuteDataSet(dbCommand);
     }
+
+    public static DataSet GetSafetyTrainingReport(string strRegion, string strMarket, int intYear, string strInterval)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("DealershipDashBoardReport");
+        db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+        db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
+        db.AddInParameter(dbCommand, "Year", DbType.Int32, intYear);
+        db.AddInParameter(dbCommand, "strInterval", DbType.String, strInterval);
+        db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, Convert.ToDecimal(clsSession.UserID));
+
+        return db.ExecuteDataSet(dbCommand);
+    }
+
     public static DataSet GetRegionList()
     {
         decimal PK_security_ID = 0;
@@ -167,6 +181,20 @@ public class clsExposuresReports
         if (strShowOnDashboard != string.Empty)
             db.AddInParameter(dbCommand, "ShowOnDashboard", DbType.String, strShowOnDashboard);
         return db.ExecuteDataSet(dbCommand);
+    }   
+
+
+    public static DataSet GetSafetyTrainingReportByRegionLocation(int intYear, string strRegion)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("DealershipDetailsbyRegionLocation");
+        db.AddInParameter(dbCommand, "Year", DbType.Int32, intYear);
+        db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
+        
+        //db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, Convert.ToDecimal(clsSession.UserID));
+
+        return db.ExecuteDataSet(dbCommand);
     }
+
     #endregion
 }

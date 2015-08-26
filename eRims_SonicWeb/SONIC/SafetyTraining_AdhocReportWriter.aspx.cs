@@ -105,6 +105,10 @@ public partial class SONIC_DealershipDetails_AdhocReportWriter : clsBasePage
             {
                 if (File.Exists(outputFiles))
                     File.Delete(outputFiles);
+
+                if (File.Exists(strFilePath))
+                    File.Delete(strFilePath);
+
                 HttpContext.Current.Response.End();
             }
         }

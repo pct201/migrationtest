@@ -347,7 +347,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         case 65:
                             BindACI_ManagementAdHocReportWriter(dtScheduleReports.Rows[i]);
                             break;
-                        case 66:
+                        case 67:
                             BindConstructionAdHocReport(dtScheduleReports.Rows[i]);
                             break;
                         default:
@@ -12963,7 +12963,7 @@ namespace ERIMS_Sonic_ReportScheduler
             }
         }
 
-        // Report 66
+        // Report 67
         private void BindConstructionAdHocReport(DataRow drReportSchedule)
         {
             IDataReader Reader = null;
@@ -12979,7 +12979,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 //string strReportSchedulerName = "test";
                 //Get Report criteria for the scheduled report
                 DataSet ds = new DataSet();
-                ds = Report.SelectFilterCriteria(66, pK_Schedule_ID);
+                ds = Report.SelectFilterCriteria(67, pK_Schedule_ID);
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
                     DataTable dtFilter = ds.Tables[0];

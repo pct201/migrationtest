@@ -435,12 +435,12 @@ function onPreviousStep() {
 }
 
 function CheckBeforeAddSaftyWalkAttach() {
-
     var trAttach = document.getElementById('<%=trSafetyWalkAttachment.ClientID%>');
     trAttach.style.display = "block";
 }
-  function CheckBeforeAddTrainingAttach() {
-            $("#ctl00_ContentPlaceHolder1_SLT_TrainingAttachmentADD_txtType").val("");
+
+function CheckBeforeAddTrainingAttach() {
+    $("#ctl00_ContentPlaceHolder1_SLT_TrainingAttachmentADD_txtType").val("");
     var PK = '<%=PK_SLT_Training%>';
     if (PK > 0) {
         var trAttach = document.getElementById('<%=tr_training_Attachment.ClientID%>');
@@ -470,17 +470,17 @@ function openWindowAbstract(strURL) {
 }
 function CheckSLT_Member() {
     var rowscount = document.getElementById('<%=gvSLT_Members.ClientID%>').rows.length;
-        if (rowscount > 1)
-            return true;
-        else {
-            alert('Please  Add SLT Member record first');
-            return false;
-        }
+    if (rowscount > 1)
+        return true;
+    else {
+        alert('Please  Add SLT Member record first');
+        return false;
     }
+}
 
-    function SetValidationGroup() {
-        var Index = document.getElementById("ctl00_ContentPlaceHolder1_hdnPanel2").value;
-        var Schedule_id = '<%=ViewState["PK_SLT_Meeting_Schedule"] %>';
+function SetValidationGroup() {
+    var Index = document.getElementById("ctl00_ContentPlaceHolder1_hdnPanel2").value;
+    var Schedule_id = '<%=ViewState["PK_SLT_Meeting_Schedule"] %>';
     var temp_ID = '<%=PK_Temp_Schedule_ID %>';
     var ValidationGroups;
     if (Index == 1) {
@@ -626,17 +626,42 @@ function ValidatePoints(sender, args) {
         args.IsValid = false;
 }
 
+function OpenPopup() {
+    //GB_showCenter('', '<%=AppConfig.SiteURL%>DashBoard/DealershipDetail.aspx?DBA=' + DBA.replace(/&/g, '%26') + '&Code=' + Code.toString() + '&year=' + year + '&MapID=' + MapID + '&' + new Date().toString(), 300, 400, '');
+    var navUrl = '<%=AppConfig.SiteURL%>DashBoard/DealershipDetail.aspx?DBA=' + '<%= Convert.ToString(ViewState["jDBA"]) %>' + '&Code=' + '<%= Convert.ToString(ViewState["jSLC"]) %>' + '&year=' + '<%= Convert.ToString(ViewState["jYear"]) %>' + '&MapID=' + 3 + '&' + new Date().toString();
+    OpenWindow(navUrl);
+}
+
+function OpenWindow(navUrl) {
+    var w = 700, h = 550;
+
+    if (document.all || document.layers) {
+        w = screen.availWidth;
+        h = screen.availHeight;
+    }
+
+    var leftPos, topPos;
+    var popW = 400, popH = 300;
+    if (document.all)
+    { leftPos = (w - popW) / 2; topPos = (h - popH) / 2; }
+    else
+    { leftPos = w / 2; topPos = h / 2; }
+
+    window.open(navUrl, "popup2", "toolbar=no,menubar=no,scrollbars=yes,resizable=yes,width=" + popW + ",height=" + popH + ",top=" + topPos + ",left=" + leftPos);
+}
+
+
 jQuery(function ($) {
     $("#<%=txtMembersStart_Date.ClientID%>").mask("99/99/9999");
-    $("#<%=txtmemberEnd_date.ClientID%>").mask("99/99/9999");
-    $("#<%=txtActual_Meeting_Date.ClientID%>").mask("99/99/9999");
-    $("#<%=txtMeeting_Start_Time.ClientID%>").mask("99:99");
-    $("#<%=txtMeeting_End_Time.ClientID%>").mask("99:99");
-    $("#<%=txtScheduled_Meeting_Time.ClientID%>").mask("99:99");
-});
+            $("#<%=txtmemberEnd_date.ClientID%>").mask("99/99/9999");
+            $("#<%=txtActual_Meeting_Date.ClientID%>").mask("99/99/9999");
+            $("#<%=txtMeeting_Start_Time.ClientID%>").mask("99:99");
+            $("#<%=txtMeeting_End_Time.ClientID%>").mask("99:99");
+            $("#<%=txtScheduled_Meeting_Time.ClientID%>").mask("99:99");
+        });
 
-function DisableButton() {
-    document.getElementById('<%= btnSaveNnextCall.ClientID %>').disabled = true;
+        function DisableButton() {
+            document.getElementById('<%= btnSaveNnextCall.ClientID %>').disabled = true;
     document.getElementById('<%= btnSaveNnextCall.ClientID %>').value = 'Submitting...';
 }
 
@@ -1044,7 +1069,7 @@ function DisableButton() {
                                                                     </td>
                                                                 </tr>
                                                                 <tr id="trMemberName_New" runat="server">
-                                                                    <td align="left" valign="top">Member Name&nbsp;<span id="Span3_New" runat="server" style="color: Red; display: none">*</span>                                                                        
+                                                                    <td align="left" valign="top">Member Name&nbsp;<span id="Span3_New" runat="server" style="color: Red; display: none">*</span>
                                                                     </td>
                                                                     <td align="center" valign="top">:
                                                                     </td>
@@ -1169,7 +1194,7 @@ function DisableButton() {
                                                                     <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" valign="top">
-                                                                        <asp:DropDownList ID="drpMeeting_AgendaYear" runat="server" Width="160px" SkinID="dropGen">
+                                                                        <asp:DropDownList ID="drpMeeting_AgendaYear" runat="server" Width="160px" SkinID="dropGen" runnat="server">
                                                                         </asp:DropDownList>
                                                                     </td>
                                                                     <td align="left" valign="top">Month
@@ -1270,6 +1295,49 @@ function DisableButton() {
                                                                 Visible="false" />
                                                             &nbsp;&nbsp;<asp:Button ID="btnAdd_NewAgenda" runat="server" Text="Add New" OnClientClick="javascript:return CheckSLT_Member();"
                                                                 OnClick="lnkAddMeeting_Click" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr><td><b> Employee Details who Signed up for Training but have not completed yet :</b></td></tr>
+                                                    <tr>
+                                                        <td>Year : 
+                                                            <asp:DropDownList ID="ddlEmployeeSignedupYear" runat="server" Width="160px" SkinID="dropGen" runnat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlEmployeeSignedupYear_SelectedIndexChanged">
+                                                                        </asp:DropDownList>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="tr4" runat="server">
+                                                        <td align="left" valign="top">
+                                                            <asp:GridView ID="gvEmployeeSignedUp" runat="server" Width="100%" AutoGenerateColumns="false"
+                                                                PageSize="7" AllowPaging="true" OnPageIndexChanging="gvEmployeeSignedUp_PageIndexChanging">
+                                                                <Columns>                                                                   
+                                                                    <asp:TemplateField HeaderText="Employee Name" >
+                                                                        <ItemStyle Width="14%"/>
+                                                                        <ItemTemplate>
+                                                                            <asp:Label ID="lblEmployeeName" runat="server" Text='<%# Eval("EmployeeName") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Status Description" >
+                                                                        <ItemStyle Width="15%" />
+                                                                        <ItemTemplate>
+                                                                            <asp:Label ID="lblStatusDescription" runat="server" Text='<%#Eval("StatusDescription") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="EnrollmentDate" >
+                                                                        <ItemStyle Width="12%" />
+                                                                        <ItemTemplate>
+                                                                            <asp:Label ID="lblEnrollmentDate" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("EnrollmentDate")) %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>                                                                    
+                                                                </Columns>
+                                                                <EmptyDataTemplate>
+                                                                    <table cellpadding="4" cellspacing="0" width="100%">
+                                                                        <tr>
+                                                                            <td width="100%" align="center" style="border: 1px solid #cccccc;">
+                                                                                <asp:Label ID="lblEmptyHeaderGridMessage" runat="server" Text="No Record Found"></asp:Label>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </EmptyDataTemplate>
+                                                            </asp:GridView>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -1840,7 +1908,7 @@ function DisableButton() {
                                                                                 <ItemTemplate>
                                                                                     <asp:TextBox ID="txtCompletedDate" runat="server" Width="80px" SkinID="txtDate" Enabled='<%# Convert.ToBoolean(Eval("IsEnable")) %>' Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("Safety_Walk_Comp_Date")) %>' />
                                                                                     <asp:ImageButton ID="imgbtn" runat="server" ImageUrl="../../Images/iconPicDate.gif" ImageAlign="Middle" Enabled='<%# Convert.ToBoolean(Eval("IsEnable")) %>' OnClientClick="javascript:return false;" />
-                                                                                    <cc1:CalendarExtender ID="calCompletedDate" runat="server" TargetControlID="txtCompletedDate" PopupButtonID="imgbtn" ></cc1:CalendarExtender>
+                                                                                    <cc1:CalendarExtender ID="calCompletedDate" runat="server" TargetControlID="txtCompletedDate" PopupButtonID="imgbtn"></cc1:CalendarExtender>
                                                                                     <asp:RegularExpressionValidator ID="revDate_Completed_Inspection" runat="server"
                                                                                         ValidationGroup="vsErrorInspectionGroup" Display="none" ErrorMessage="Date Completed is not a valid date"
                                                                                         SetFocusOnError="true" ControlToValidate="txtCompletedDate" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
@@ -1868,14 +1936,14 @@ function DisableButton() {
                                                         </tr>
                                                         <tr>
                                                             <td colspan="6" align="center">
-                                                                <asp:Button ID="btnSave_SLTSafety" runat="server" Text="Save" OnClick="btnSave_SLTSafety_Click" Visible="false" />                                                                    
+                                                                <asp:Button ID="btnSave_SLTSafety" runat="server" Text="Save" OnClick="btnSave_SLTSafety_Click" Visible="false" />
                                                                 &nbsp;&nbsp;<asp:Button ID="Button3" runat="server" Text="View Audit Trail"
                                                                     OnClientClick="javascript:return AuditPopUpMeeting('SLTSafetyWalk');" Visible="false" />
                                                             </td>
                                                         </tr>
                                                     </table>
-                                                    <asp:Button ID="btnhdnReload" runat="server" OnClick="btnhdnReload_Click" style="display:none;" />
-                                                    <asp:Button ID="btnReload_Participant" runat="server" OnClick="btnReload_Participant_Click" style="display:none;" />
+                                                    <asp:Button ID="btnhdnReload" runat="server" OnClick="btnhdnReload_Click" Style="display: none;" />
+                                                    <asp:Button ID="btnReload_Participant" runat="server" OnClick="btnReload_Participant_Click" Style="display: none;" />
                                                 </asp:Panel>
                                             </asp:Panel>
                                             <asp:Panel ID="pnl6" runat="server" Style="display: none;">
@@ -2225,7 +2293,6 @@ function DisableButton() {
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:DropDownList ID="drpFK_SLT_Members" Width="175px" runat="server" SkinID="dropGen">
-                                                                
                                                             </asp:DropDownList>
                                                         </td>
                                                         <td align="left" width="18%" valign="top">Date Completed&nbsp;<span id="Span11" runat="server" style="color: Red; display: none">*</span>
@@ -2953,74 +3020,9 @@ function DisableButton() {
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="6" align="left">
-                                                            <b>SABA Weekly Training Report Attachments</b><br />
-                                                            <i>Click to view details</i>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="6">&nbsp;
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
                                                         <td colspan="6">
-                                                            <asp:GridView ID="gvSLT_TrainingAttachment" runat="server" Width="100%" OnRowDataBound="gvSLT_TrainingAttachment_RowDataBound"
-                                                                OnRowCommand="gvSLT_TrainingAttachment_RowCommand" EmptyDataText="Currently there is no attachment<br/>Please add one or more attachment">
-                                                                <Columns>
-                                                                    <asp:TemplateField HeaderText="File Name">
-                                                                        <ItemStyle Width="35%" />
-                                                                        <ItemTemplate>
-                                                                            <a id="lnkTrainingAttachFile" runat="server" href="#">
-                                                                                <%# Eval("Attachment_Name1")%>
-                                                                            </a>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Type">
-                                                                        <ItemStyle Width="35%" />
-                                                                        <ItemTemplate>
-                                                                            <%# Eval("Attachment_Description")%>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Remove">
-                                                                        <ItemStyle Width="30%" />
-                                                                        <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkRemoveAttachment" runat="server" Text="Remove" CommandArgument='<%#Eval("PK_Attachment_Id") + ":" + Eval("Attachment_Name") %>'
-                                                                                CommandName="RemoveAttachment" OnClientClick="return confirm('Are you sure to remove the Attachment?');" />
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                </Columns>
-                                                            </asp:GridView>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="Spacer" style="height: 10px;"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" colspan="6">
-                                                            <a href="javascript:CheckBeforeAddTrainingAttach();">Add New</a>
-                                                            <%--<input type="hidden" id="hdnBuildingID" runat="server" />--%>
-                                                        </td>
-                                                    </tr>
-                                                    <tr id="tr_training_Attachment" runat="server" style="display: none;">
-                                                        <td align="left" colspan="6">
-                                                            <uc:ctrlAttachment runat="server" ID="SLT_TrainingAttachmentADD" OnFileSelection="Upload_Training_Attachment" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>&nbsp;
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="center" colspan="6">
-                                                            <asp:Button ID="btnSaveTrainingSuggestion" runat="server" Text="Save" OnClick="btnSaveTrainingSuggestion_Click"
-                                                                CausesValidation="true" ValidationGroup="vsErrorTrainingGroup" />
-                                                            &nbsp;&nbsp;
-                                                            <asp:Button ID="btnTrainigAudit_Edit" runat="server" Text="View Audit Trail" Visible="false"
-                                                                OnClientClick="javascript:return AuditPopUpMeeting('SLTTraining');" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>&nbsp;
+                                                            <asp:LinkButton ID="lnkAssociateSafetyCertificationTraining" Text="Associate Safety Certification Training" OnClientClick="OpenPopup(); return false;" runat="server"></asp:LinkButton><br />
+                                                            <i>Click to view details</i>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -3612,11 +3614,82 @@ function DisableButton() {
                                                                 onkeypress="return FormatInteger(event);" onblur="CheckPoints(4, this);" />
                                                         </td>
                                                     </tr>
+                                                    <tr>
+                                                        <td colspan="6" align="left">
+                                                            <b>SABA Weekly Training Report Attachments</b><br />
+                                                            <i>Click to view details</i>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">&nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            <asp:GridView ID="gvSLT_TrainingAttachment" runat="server" Width="100%" OnRowDataBound="gvSLT_TrainingAttachment_RowDataBound"
+                                                                OnRowCommand="gvSLT_TrainingAttachment_RowCommand" EmptyDataText="Currently there is no attachment<br/>Please add one or more attachment">
+                                                                <Columns>
+                                                                    <asp:TemplateField HeaderText="File Name">
+                                                                        <ItemStyle Width="35%" />
+                                                                        <ItemTemplate>
+                                                                            <a id="lnkTrainingAttachFile" runat="server" href="#">
+                                                                                <%# Eval("Attachment_Name1")%>
+                                                                            </a>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Type">
+                                                                        <ItemStyle Width="35%" />
+                                                                        <ItemTemplate>
+                                                                            <%# Eval("Attachment_Description")%>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Remove">
+                                                                        <ItemStyle Width="30%" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkRemoveAttachment" runat="server" Text="Remove" CommandArgument='<%#Eval("PK_Attachment_Id") + ":" + Eval("Attachment_Name") %>'
+                                                                                CommandName="RemoveAttachment" OnClientClick="return confirm('Are you sure to remove the Attachment?');" />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                            </asp:GridView>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="Spacer" style="height: 10px;"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" colspan="6">
+                                                            <a href="javascript:CheckBeforeAddTrainingAttach();">Add New</a>
+                                                            <%--<input type="hidden" id="hdnBuildingID" runat="server" />--%>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="tr_training_Attachment" runat="server" style="display: none;">
+                                                        <td align="left" colspan="6">
+                                                            <uc:ctrlAttachment runat="server" ID="SLT_TrainingAttachmentADD" OnFileSelection="Upload_Training_Attachment" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>&nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center" colspan="6">
+                                                            <asp:Button ID="btnSaveTrainingSuggestion" runat="server" Text="Save" OnClick="btnSaveTrainingSuggestion_Click"
+                                                                CausesValidation="true" ValidationGroup="vsErrorTrainingGroup" />
+                                                            &nbsp;&nbsp;
+                                                            <asp:Button ID="btnTrainigAudit_Edit" runat="server" Text="View Audit Trail" Visible="false"
+                                                                OnClientClick="javascript:return AuditPopUpMeeting('SLTTraining');" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>&nbsp;
+                                                        </td>
+                                                    </tr>
                                                 </table>
                                                 <%--<asp:CustomValidator ID="cvPoints" runat="server" ClientValidationFunction="ValidatePoints" ErrorMessage="Please enter all points to overwrite" 
                                                 Display="None" ValidationGroup="vsErrorMeetingReview" />--%>
                                             </asp:Panel>
-                                            
+
                                         </div>
                                         <div id="dvView" runat="server" width="794px">
                                             <asp:Panel ID="pnl1View" runat="server" Style="display: none;">
@@ -4151,311 +4224,311 @@ function DisableButton() {
                                             </asp:Panel>
                                             <asp:Panel ID="pnl5View" runat="server" Style="display: none;">
                                                 <asp:Panel ID="pnl16View" runat="server">
-                                                <div class="bandHeaderRow">
-                                                    Safety Walk
-                                                </div>
-                                                <table cellpadding="3" cellspacing="1" border="0" width="100%">
-                                                    <tr>
-                                                        <td align="left" width="18%" valign="top">Monthly Safety Walk Completed
-                                                        </td>
-                                                        <td align="center" width="4%" valign="top">:
-                                                        </td>
-                                                        <td align="left" width="28%" valign="top">
-                                                            <asp:Label ID="lblSafety_Walk_Comp" runat="server"></asp:Label>
-                                                        </td>
-                                                        <td align="left" width="18%" valign="top">Date Completed
-                                                        </td>
-                                                        <td align="center" width="4%" valign="top">:
-                                                        </td>
-                                                        <td align="left" width="28%" valign="top">
-                                                            <asp:Label ID="lblSafety_Walk_Comp_Date" runat="server"></asp:Label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top">Monthly Safety Walk Completed by the following SLT Members
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top" colspan="4">
-                                                            <asp:GridView ID="gvSafetyWalkView" runat="server" Width="100%" AutoGenerateColumns="false"
-                                                                PageSize="10" EmptyDataText="No Record Found" OnPageIndexChanging="gvSafetyWalkView_PageIndexChanging"
-                                                                OnRowDataBound="gvSafetyWalkView_RowDataBound">
-                                                                <Columns>
-                                                                    <asp:BoundField HeaderText="First Name" DataField="First_Name" ItemStyle-HorizontalAlign="Left"
-                                                                        ItemStyle-Width="25%" />
-                                                                    <asp:BoundField HeaderText="Last Name" DataField="Last_Name" ItemStyle-HorizontalAlign="Left"
-                                                                        ItemStyle-Width="25%" />
-                                                                    <asp:BoundField HeaderText="SLT Role" DataField="SLT_Role" ItemStyle-HorizontalAlign="Left"
-                                                                        ItemStyle-Width="25%" />
-                                                                    <asp:TemplateField HeaderText="Participated">
-                                                                        <ItemStyle Width="25%" />
-                                                                        <ItemTemplate>
-                                                                            <asp:Label ID="lblparticipated" runat="server"></asp:Label>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                </Columns>
-                                                            </asp:GridView>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="6">
-                                                            <hr size="1" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left">
-                                                            <b>Departments Reviewed</b><br />
-                                                            <br />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top">Sales
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:Label ID="lblSales_Reviewed" runat="server"></asp:Label>
-                                                        </td>
-                                                        <td align="left" valign="top">Deficiencies Corrected
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:Label ID="lblSales_Deficiencies" runat="server"></asp:Label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr id="trSalesView" runat="server" style="display: none;">
-                                                        <td align="left" valign="top">Comments
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" colspan="4" valign="top">
-                                                            <uc:ctrlMultiLineTextBox ID="lblSales_Comments" runat="server" ControlType="Label" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top">Parts
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:Label ID="lblParts_Reviewed" runat="server"></asp:Label>
-                                                        </td>
-                                                        <td align="left" valign="top">Deficiencies Corrected
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:Label ID="lblParts_Deficiencies" runat="server"></asp:Label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr id="trPartsView" runat="server" style="display: none;">
-                                                        <td align="left" valign="top">Comments
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" colspan="4" valign="top">
-                                                            <uc:ctrlMultiLineTextBox ID="lblParts_Comments" runat="server" ControlType="Label" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top">Service Facility
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:Label ID="lblService_Facility_Reviewed" runat="server"></asp:Label>
-                                                        </td>
-                                                        <td align="left" valign="top">Deficiencies Corrected
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:Label ID="lblService_Deficiencies" runat="server"></asp:Label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr id="trServiceView" runat="server" style="display: none;">
-                                                        <td align="left" valign="top">Comments
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" colspan="4" valign="top">
-                                                            <uc:ctrlMultiLineTextBox ID="lblService_Comments" runat="server" ControlType="Label" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top">Body Shop
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:Label ID="lblBody_Shop_Reviewed" runat="server"></asp:Label>
-                                                        </td>
-                                                        <td align="left" valign="top">Deficiencies Corrected
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:Label ID="lblBody_Shop_Deficiencies" runat="server"></asp:Label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr id="trBody_ShopView" runat="server" style="display: none;">
-                                                        <td align="left" valign="top">Comments
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" colspan="4" valign="top">
-                                                            <uc:ctrlMultiLineTextBox ID="lblBody_Shop_Comments" runat="server" ControlType="Label" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top">Business Office
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:Label ID="lblBus_Off_Reviewed" runat="server"></asp:Label>
-                                                        </td>
-                                                        <td align="left" valign="top">Deficiencies Corrected
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:Label ID="lblBus_Off_Deficiencies" runat="server"></asp:Label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr id="trBusinessView" runat="server" style="display: none;">
-                                                        <td align="left" valign="top">Comments
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" colspan="4" valign="top">
-                                                            <uc:ctrlMultiLineTextBox ID="lblBus_Off_Comments" runat="server" ControlType="Label" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top">Detail Area
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:Label ID="lblDetail_Area_Reviewed" runat="server"></asp:Label>
-                                                        </td>
-                                                        <td align="left" valign="top">Deficiencies Corrected
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:Label ID="lblDetail_Deficiencies" runat="server"></asp:Label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr id="trDetailAreaView" runat="server" style="display: none;">
-                                                        <td align="left" valign="top">Comments
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" colspan="4" valign="top">
-                                                            <uc:ctrlMultiLineTextBox ID="lblDetail_Comments" runat="server" ControlType="Label" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top">Car Wash
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:Label ID="lblCar_Wash_Reviewed" runat="server"></asp:Label>
-                                                        </td>
-                                                        <td align="left" valign="top">Deficiencies Corrected
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:Label ID="lblCar_Wash_Deficiencies" runat="server"></asp:Label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr id="trCarWashView" runat="server" style="display: none;">
-                                                        <td align="left" valign="top">Comments
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" colspan="4" valign="top">
-                                                            <uc:ctrlMultiLineTextBox ID="lblCar_Wash_Comments" runat="server" ControlType="Label" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top">Parking Lot
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:Label ID="lblParking_Lot_Reviewed" runat="server"></asp:Label>
-                                                        </td>
-                                                        <td align="left" valign="top">Deficiencies Corrected
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:Label ID="lblParking_Deficiencies" runat="server"></asp:Label>
-                                                        </td>
-                                                    </tr>
-                                                    <tr id="trParkingView" runat="server" style="display: none;">
-                                                        <td align="left" valign="top">Comments
-                                                        </td>
-                                                        <td align="center" valign="top">:
-                                                        </td>
-                                                        <td align="left" colspan="4" valign="top">
-                                                            <uc:ctrlMultiLineTextBox ID="lblParking_Comments" runat="server" ControlType="Label" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="6">&nbsp;
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="6" align="left">
-                                                            <b>Safety Walk Attachments</b><br />
-                                                            <i>Click to view details</i>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="6">&nbsp;
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="6">
-                                                            <asp:GridView ID="gvSafetywalkAttachmentView" runat="server" Width="100%" OnRowDataBound="gvSafetywalkAttachmentView_RowDataBound"
-                                                                EmptyDataText="Currently there is no attachment<br/>Please add one or more attachment">
-                                                                <Columns>
-                                                                    <asp:TemplateField HeaderText="File Name">
-                                                                        <ItemStyle Width="35%" />
-                                                                        <ItemTemplate>
-                                                                            <a id="lnkSaftywalkAttachFile" runat="server" href="#">
-                                                                                <%# Eval("Attachment_Name1")%>
-                                                                            </a>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Type">
-                                                                        <ItemStyle Width="35%" />
-                                                                        <ItemTemplate>
-                                                                            <%# Eval("Attachment_Description")%>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                </Columns>
-                                                            </asp:GridView>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="6">&nbsp;
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="6" align="center">&nbsp;&nbsp;<asp:Button ID="btnsaftety_walkAudit_view" runat="server" Text="View Audit Trail"
-                                                            OnClientClick="javascript:return AuditPopUpMeeting('SLTSafetyWalk');" Visible="false" />
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                    </asp:Panel>
+                                                    <div class="bandHeaderRow">
+                                                        Safety Walk
+                                                    </div>
+                                                    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                        <tr>
+                                                            <td align="left" width="18%" valign="top">Monthly Safety Walk Completed
+                                                            </td>
+                                                            <td align="center" width="4%" valign="top">:
+                                                            </td>
+                                                            <td align="left" width="28%" valign="top">
+                                                                <asp:Label ID="lblSafety_Walk_Comp" runat="server"></asp:Label>
+                                                            </td>
+                                                            <td align="left" width="18%" valign="top">Date Completed
+                                                            </td>
+                                                            <td align="center" width="4%" valign="top">:
+                                                            </td>
+                                                            <td align="left" width="28%" valign="top">
+                                                                <asp:Label ID="lblSafety_Walk_Comp_Date" runat="server"></asp:Label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Monthly Safety Walk Completed by the following SLT Members
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top" colspan="4">
+                                                                <asp:GridView ID="gvSafetyWalkView" runat="server" Width="100%" AutoGenerateColumns="false"
+                                                                    PageSize="10" EmptyDataText="No Record Found" OnPageIndexChanging="gvSafetyWalkView_PageIndexChanging"
+                                                                    OnRowDataBound="gvSafetyWalkView_RowDataBound">
+                                                                    <Columns>
+                                                                        <asp:BoundField HeaderText="First Name" DataField="First_Name" ItemStyle-HorizontalAlign="Left"
+                                                                            ItemStyle-Width="25%" />
+                                                                        <asp:BoundField HeaderText="Last Name" DataField="Last_Name" ItemStyle-HorizontalAlign="Left"
+                                                                            ItemStyle-Width="25%" />
+                                                                        <asp:BoundField HeaderText="SLT Role" DataField="SLT_Role" ItemStyle-HorizontalAlign="Left"
+                                                                            ItemStyle-Width="25%" />
+                                                                        <asp:TemplateField HeaderText="Participated">
+                                                                            <ItemStyle Width="25%" />
+                                                                            <ItemTemplate>
+                                                                                <asp:Label ID="lblparticipated" runat="server"></asp:Label>
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                    </Columns>
+                                                                </asp:GridView>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6">
+                                                                <hr size="1" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">
+                                                                <b>Departments Reviewed</b><br />
+                                                                <br />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Sales
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblSales_Reviewed" runat="server"></asp:Label>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblSales_Deficiencies" runat="server"></asp:Label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trSalesView" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="lblSales_Comments" runat="server" ControlType="Label" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Parts
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblParts_Reviewed" runat="server"></asp:Label>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblParts_Deficiencies" runat="server"></asp:Label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trPartsView" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="lblParts_Comments" runat="server" ControlType="Label" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Service Facility
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblService_Facility_Reviewed" runat="server"></asp:Label>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblService_Deficiencies" runat="server"></asp:Label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trServiceView" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="lblService_Comments" runat="server" ControlType="Label" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Body Shop
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblBody_Shop_Reviewed" runat="server"></asp:Label>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblBody_Shop_Deficiencies" runat="server"></asp:Label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trBody_ShopView" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="lblBody_Shop_Comments" runat="server" ControlType="Label" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Business Office
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblBus_Off_Reviewed" runat="server"></asp:Label>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblBus_Off_Deficiencies" runat="server"></asp:Label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trBusinessView" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="lblBus_Off_Comments" runat="server" ControlType="Label" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Detail Area
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblDetail_Area_Reviewed" runat="server"></asp:Label>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblDetail_Deficiencies" runat="server"></asp:Label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trDetailAreaView" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="lblDetail_Comments" runat="server" ControlType="Label" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Car Wash
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblCar_Wash_Reviewed" runat="server"></asp:Label>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblCar_Wash_Deficiencies" runat="server"></asp:Label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trCarWashView" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="lblCar_Wash_Comments" runat="server" ControlType="Label" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Parking Lot
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblParking_Lot_Reviewed" runat="server"></asp:Label>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblParking_Deficiencies" runat="server"></asp:Label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trParkingView" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="lblParking_Comments" runat="server" ControlType="Label" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6">&nbsp;
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6" align="left">
+                                                                <b>Safety Walk Attachments</b><br />
+                                                                <i>Click to view details</i>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6">&nbsp;
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6">
+                                                                <asp:GridView ID="gvSafetywalkAttachmentView" runat="server" Width="100%" OnRowDataBound="gvSafetywalkAttachmentView_RowDataBound"
+                                                                    EmptyDataText="Currently there is no attachment<br/>Please add one or more attachment">
+                                                                    <Columns>
+                                                                        <asp:TemplateField HeaderText="File Name">
+                                                                            <ItemStyle Width="35%" />
+                                                                            <ItemTemplate>
+                                                                                <a id="lnkSaftywalkAttachFile" runat="server" href="#">
+                                                                                    <%# Eval("Attachment_Name1")%>
+                                                                                </a>
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                        <asp:TemplateField HeaderText="Type">
+                                                                            <ItemStyle Width="35%" />
+                                                                            <ItemTemplate>
+                                                                                <%# Eval("Attachment_Description")%>
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                    </Columns>
+                                                                </asp:GridView>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6">&nbsp;
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6" align="center">&nbsp;&nbsp;<asp:Button ID="btnsaftety_walkAudit_view" runat="server" Text="View Audit Trail"
+                                                                OnClientClick="javascript:return AuditPopUpMeeting('SLTSafetyWalk');" Visible="false" />
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </asp:Panel>
                                                 <asp:Panel ID="pnl15View" runat="server">
                                                     <table>
                                                         <tr>
@@ -4491,7 +4564,7 @@ function DisableButton() {
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Date Completed" ItemStyle-Width="20%">
                                                                                 <ItemTemplate>
-                                                                                  <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Safety_Walk_Comp_Date")) %>
+                                                                                    <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Safety_Walk_Comp_Date")) %>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Safety Walk Participation" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="20%" HeaderStyle-HorizontalAlign="Center">
@@ -5609,46 +5682,6 @@ function DisableButton() {
                                                         <td colspan="6">&nbsp;
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td colspan="6" align="left">
-                                                            <b>SABA Weekly Training Report Attachments</b>
-                                                            <br />
-                                                            <i>Click to view details</i>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="6">&nbsp;
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="6">
-                                                            <asp:GridView ID="gvSLT_TrainingAttachmentView" runat="server" Width="100%" OnRowDataBound="gvSLT_TrainingAttachmentView_RowDataBound"
-                                                                EmptyDataText="Currently there is no attachment<br/>Please add one or more attachment">
-                                                                <Columns>
-                                                                    <asp:TemplateField HeaderText="File Name">
-                                                                        <ItemStyle Width="35%" />
-                                                                        <ItemTemplate>
-                                                                            <a id="lnkTrainingAttachFile" runat="server" href="#">
-                                                                                <%# Eval("Attachment_Name1")%>
-                                                                            </a>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Type">
-                                                                        <ItemStyle Width="35%" />
-                                                                        <ItemTemplate>
-                                                                            <%# Eval("Attachment_Description")%>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                </Columns>
-                                                            </asp:GridView>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="6" align="center">
-                                                            <asp:Button ID="btnTrainingAudit_View" runat="server" Text="View Audit Trail" Visible="false"
-                                                                OnClientClick="javascript:return AuditPopUpMeeting('SLTTraining');" />
-                                                        </td>
-                                                    </tr>
                                                 </table>
                                             </asp:Panel>
                                             <asp:Panel ID="pnl11View" runat="server" Style="display: none;" Height="460px">
@@ -6103,6 +6136,46 @@ function DisableButton() {
                                                     <td align="center" width="4%" valign="top"></td>
                                                     <td align="left" width="28%" valign="top"></td>
                                                 </tr>
+                                                <tr>
+                                                    <td colspan="6" align="left">
+                                                        <b>SABA Weekly Training Report Attachments</b>
+                                                        <br />
+                                                        <i>Click to view details</i>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="6">&nbsp;
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="6">
+                                                        <asp:GridView ID="gvSLT_TrainingAttachmentView" runat="server" Width="100%" OnRowDataBound="gvSLT_TrainingAttachmentView_RowDataBound"
+                                                            EmptyDataText="Currently there is no attachment<br/>Please add one or more attachment">
+                                                            <Columns>
+                                                                <asp:TemplateField HeaderText="File Name">
+                                                                    <ItemStyle Width="35%" />
+                                                                    <ItemTemplate>
+                                                                        <a id="lnkTrainingAttachFile" runat="server" href="#">
+                                                                            <%# Eval("Attachment_Name1")%>
+                                                                        </a>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:TemplateField HeaderText="Type">
+                                                                    <ItemStyle Width="35%" />
+                                                                    <ItemTemplate>
+                                                                        <%# Eval("Attachment_Description")%>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                            </Columns>
+                                                        </asp:GridView>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="6" align="center">
+                                                        <asp:Button ID="btnTrainingAudit_View" runat="server" Text="View Audit Trail" Visible="false"
+                                                            OnClientClick="javascript:return AuditPopUpMeeting('SLTTraining');" />
+                                                    </td>
+                                                </tr>
                                             </table>
                                         </asp:Panel>
                                     </td>
@@ -6119,7 +6192,7 @@ function DisableButton() {
                                             <asp:Button ID="btnEdit" runat="server" Text="Edit" OnClick="btnEdit_Click" Visible="false" />&nbsp;
                                             <asp:Button ID="btnPrevious" runat="server" Text="Previous" OnClientClick="javascript:return onPreviousStep();" />
                                             &nbsp;
-                                            <asp:Button ID="btnSaveNnextCall" runat="server" Text="Save & Next" CausesValidation="true" 
+                                            <asp:Button ID="btnSaveNnextCall" runat="server" Text="Save & Next" CausesValidation="true"
                                                 OnClientClick="javascript:return SetValidationGroup();" OnClick="btnSaveNnextCall_Click" />
                                             <asp:Button ID="btnSaveNSend" runat="server" Text="Save" CausesValidation="true"
                                                 ValidationGroup="vsErrorSchedule" Style="display: none" OnClick="btnSaveNSend_Click" />
