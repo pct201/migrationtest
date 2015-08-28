@@ -16511,7 +16511,7 @@ namespace ERIMS_Sonic_ReportScheduler
                     {
                         DataTable dtReport = Report.SelectByTableName(strTable, hasUnderScore);
                         dtReport.DefaultView.Sort = sortField;
-                        strRecord = GetCommaValueFromTable(dtReport, strDesc);
+                        strRecord = GetCommaValueFromTable(dtReport, textField);
                     }
                 }
                 else if (string.Compare(strType, "DropDownStatus", true) == 0)
