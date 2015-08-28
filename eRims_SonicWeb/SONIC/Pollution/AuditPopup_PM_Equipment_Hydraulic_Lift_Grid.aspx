@@ -90,6 +90,15 @@
                                     <span style="display: inline-block; width: 150px; word-wrap:normal;word-break:break-all">Documentation Related To Removed <span id="spnauditRemoval" runat="server">Lift</span></span>
                                 </th>
                                 <th class="cols" align="left">
+                                    <span style="display: inline-block; width: 150px; word-wrap:normal;word-break:break-all">Has a Hoist Hanger/Tire Hook/similar device been installed?</span>
+                                </th>
+                                <th class="cols" align="left">
+                                    <span style="display: inline-block; width: 150px; word-wrap:normal;word-break:break-all">Hoist Hanger/Tire Hook/similar device Make</span>
+                                </th>
+                                <th class="cols" align="left">
+                                    <span style="display: inline-block; width: 150px; word-wrap:normal;word-break:break-all">Hoist Hanger/Tire Hook/similar device Model</span>
+                                </th>
+                                <th class="cols" align="left">
                                     <span style="display: inline-block; width: 150px; ">Replacement Description</span>
                                 </th>
                                 <th class="cols" align="left">
@@ -219,6 +228,24 @@
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
                                     <asp:Label ID="lblDocumentation_Related_To_Removed_Lifts" runat="server" Text='<%#Eval("Documentation_Related_To_Removed_Lifts") != "Y" ? "No":"Yes"%>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Hoist_Hanger_Tire_Hook">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblHoist_Hanger_Tire_Hook" runat="server" Text='<%#CheckLiftNumberReplacementIndicator(Eval("Hoist_Hanger_Tire_Hook"))%>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Hoist_Hanger_Tire_Hook_Make">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblHoist_Hanger_Tire_Hook_Make" runat="server" Text='<%#Eval("Hoist_Hanger_Tire_Hook_Make")%>' Width="150px" style="word-wrap:normal;word-break:break-all"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Hoist_Hanger_Tire_Hook_Model">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblHoist_Hanger_Tire_Hook_Model" runat="server" Text='<%#Eval("Hoist_Hanger_Tire_Hook_Model")%>' Width="150px" style="word-wrap:normal;word-break:break-all"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                              <asp:TemplateField HeaderText="Replacement_Description">

@@ -2279,6 +2279,38 @@ function ValidateFieldsEquipment(sender, args) {
                                                                 </asp:RadioButtonList>
                                                             </td>
                                                         </tr>
+                                                         <tr>
+                                                            <td align="left" width="18%" valign="top">Has a Hoist Hanger/Tire Hook/similar device been installed?
+                                                                 &nbsp;<span id="spnHoistHangerTireHook" style="color: Red; display: none;" runat="server">*</span>
+                                                            </td>
+                                                            <td align="center" width="3%" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top" width="28%">
+                                                                 <asp:RadioButtonList ID="rdoHoistHangerTireHook" runat="server" SkinID="YesNoType" AutoPostBack="true" OnSelectedIndexChanged="rdoHoistHangerTireHook_SelectedIndexChanged">
+                                                                </asp:RadioButtonList>
+                                                            </td>
+                                                            <td>
+                                                          
+                                                            </td>
+                                                        </tr>
+                                                         <tr>
+                                                            <td align="left" width="18%" valign="top">Hoist Hanger/Tire Hook/similar device Make
+                                                                 &nbsp;<span id="spnHoistHangerTireHookMake" style="color: Red; display: none;" runat="server">*</span>
+                                                            </td>
+                                                            <td align="center" width="3%" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top" width="28%">
+                                                               <asp:TextBox ID="txtHoistHangerTireHookMake" runat="server" Width="170px" MaxLength="75" />
+                                                            </td>
+                                                            <td align="left" valign="top" width="18%">Hoist Hanger/Tire Hook/similar device Model
+                                                                 &nbsp;<span id="spnHoistHangerTireHookModel" style="color: Red; display: none;" runat="server">*</span>
+                                                            </td>
+                                                            <td align="center" valign="top" width="3%">:
+                                                            </td>
+                                                            <td align="left" valign="top" width="28%">
+                                                               <asp:TextBox ID="txtHoistHangerTireHookModel" runat="server" Width="170px" MaxLength="75" />
+                                                            </td>
+                                                        </tr>
                                                         <asp:Panel runat="server" ID="pnlReplacementLiftInformation">
                                                             <tr>
                                                                 <td colspan="6"><b>Replacement <span id="spnReplacementLiftInformation" runat="server">Lift</span> Information</b></td>
@@ -3815,6 +3847,38 @@ function ValidateFieldsEquipment(sender, args) {
                                                                 </asp:Label>
                                                             </td>
                                                         </tr>
+                                                         <tr>
+                                                            <td align="left" width="18%" valign="top">Has a Hoist Hanger/Tire Hook/similar device been installed?
+                                                            </td>
+                                                            <td align="center" width="3%" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top" width="28%">
+                                                                <asp:Label ID="lblHoistHangerTireHook" runat="server">
+                                                                </asp:Label>
+                                                            </td>
+                                                            <td>
+                                                          
+                                                            </td>
+                                                        </tr>
+                                                         <tr>
+                                                            <td align="left" width="18%" valign="top">Hoist Hanger/Tire Hook/similar device Make
+                                                            </td>
+                                                            <td align="center" width="3%" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top" width="28%" style="word-wrap:normal;word-break:break-all">
+                                                                <asp:Label ID="lblHoistHangerTireHookMake" runat="server">
+                                                                </asp:Label>
+                                                            </td>
+                                                            <td align="left" valign="top" width="18%" >Hoist Hanger/Tire Hook/similar device  Model
+                                                            </td>
+                                                            <td align="center" valign="top" width="3%">:
+                                                            </td>
+                                                            <td align="left" valign="top" width="28%" style="word-wrap:normal;word-break:break-all">
+                                                                <asp:Label ID="lblHoistHangerTireHookModel" runat="server">
+                                                                </asp:Label>
+                                                            </td>
+                                                        </tr>
+
                                                         <tr>
                                                             <td colspan="6"><b>Replacement <span id="spnvwReplacementLiftInformation" runat="server">Lift</span> Information</b></td>
                                                         </tr>
