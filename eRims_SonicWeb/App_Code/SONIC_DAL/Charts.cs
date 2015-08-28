@@ -147,6 +147,23 @@ public class Charts
         return db.ExecuteDataSet(dbCommand);
     }
 
+    public static DataSet GetSabaTrainingDetail2(int Year, string DBA, string Sonic_Location_Code, int Quarter, string AssociateStatus)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("DealerShipDetailsLatest");
+
+        db.AddInParameter(dbCommand, "@DealerShipYear", DbType.Int32, Year);
+        if (Quarter == 0)
+            db.AddInParameter(dbCommand, "@DealerShipQuarter", DbType.Int32, null);
+        else
+            db.AddInParameter(dbCommand, "@DealerShipQuarter", DbType.Int32, Quarter);
+        db.AddInParameter(dbCommand, "@AssociateStatus", DbType.String, AssociateStatus);
+        db.AddInParameter(dbCommand, "DBA", DbType.String, DBA);
+        db.AddInParameter(dbCommand, "Sonic_Location_Code", DbType.String, Sonic_Location_Code);
+
+        return db.ExecuteDataSet(dbCommand);
+    }
+
     public static DataSet GetIncidentReductionByRegion(int Year)
     {
         Database db = DatabaseFactory.CreateDatabase();

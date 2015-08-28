@@ -2008,7 +2008,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         {
             if (drpTrainingYear.SelectedIndex >= 0)
                 intYear = Convert.ToInt32(drpTrainingYear.SelectedValue);
-            DataSet dsDetail = Charts.GetSabaTrainingDetail1(Convert.ToInt32(intYear), DBA, Sonic_Location_Code, 0, null);
+            DataSet dsDetail = Charts.GetSabaTrainingDetail2(Convert.ToInt32(intYear), DBA, Sonic_Location_Code, 0, null);
             DataTable dtResult = dsDetail.Tables[1];
 
             ViewState["jYear"] = intYear;            
@@ -2020,65 +2020,65 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             if (dsDetail.Tables[1] != null && dsDetail.Tables[1].Rows.Count > 0)
                 
             {
-                    DataRow[] result1 = dsDetail.Tables[1].Select("AssociateQuarter = '1'");
+                    DataRow[] result1 = dsDetail.Tables[0].Select("AssociateQuarter = '1'");
                     if (result1.Length > 0)
                     {
-                        if (string.IsNullOrEmpty(result1[0]["QuarterPercentage"].ToString()))
+                        if (string.IsNullOrEmpty(result1[0]["Percentage"].ToString()))
                             lblTrainingQ1.Text = "0";
                         else
-                            lblTrainingQ1.Text = string.Format("{0:0.0#}", result1[0]["QuarterPercentage"]) + "%";
+                            lblTrainingQ1.Text = string.Format("{0:0.0#}", result1[0]["Percentage"]) + "%";
                     }
                     else
                     {
                         lblTrainingQ1.Text = "0";
                     }
 
-                    DataRow[] result2 = dsDetail.Tables[1].Select("AssociateQuarter = '2'");
+                    DataRow[] result2 = dsDetail.Tables[0].Select("AssociateQuarter = '2'");
                     if (result2.Length > 0)
                     {
-                        if (string.IsNullOrEmpty(result1[0]["QuarterPercentage"].ToString()))
+                        if (string.IsNullOrEmpty(result1[0]["Percentage"].ToString()))
                             lblTrainingQ2.Text = "0";
                         else
-                            lblTrainingQ2.Text = string.Format("{0:0.0#}", result2[0]["QuarterPercentage"]) + "%";
+                            lblTrainingQ2.Text = string.Format("{0:0.0#}", result2[0]["Percentage"]) + "%";
                     }
                     else
                     {
                         lblTrainingQ2.Text = "0";
                     }
 
-                    DataRow[] result3 = dsDetail.Tables[1].Select("AssociateQuarter = '3'");
+                    DataRow[] result3 = dsDetail.Tables[0].Select("AssociateQuarter = '3'");
                     if (result3.Length > 0)
                     {
-                        if (string.IsNullOrEmpty(result1[0]["QuarterPercentage"].ToString()))
+                        if (string.IsNullOrEmpty(result1[0]["Percentage"].ToString()))
                             lblTrainingQ3.Text = "0";
                         else
-                            lblTrainingQ3.Text = string.Format("{0:0.0#}", result3[0]["QuarterPercentage"]) + "%";
+                            lblTrainingQ3.Text = string.Format("{0:0.0#}", result3[0]["Percentage"]) + "%";
                     }
                     else
                     {
                         lblTrainingQ3.Text = "0";
                     }
 
-                    DataRow[] result4 = dsDetail.Tables[1].Select("AssociateQuarter = '4'");
+                    DataRow[] result4 = dsDetail.Tables[0].Select("AssociateQuarter = '4'");
                     if (result4.Length > 0)
                     {
-                        if (string.IsNullOrEmpty(result4[0]["QuarterPercentage"].ToString()))
+                        if (string.IsNullOrEmpty(result4[0]["Percentage"].ToString()))
                             lblTrainingQ4.Text = "0";
                         else
-                            lblTrainingQ4.Text = string.Format("{0:0.0#}", result1[0]["QuarterPercentage"]) + "%";
+                            lblTrainingQ4.Text = string.Format("{0:0.0#}", result1[0]["Percentage"]) + "%";
                     }
                     else
                     {
                         lblTrainingQ4.Text = "0";
                     }
 
-                    DataRow[] result5 = dsDetail.Tables[1].Select("AssociateQuarter In ('All Pro','Starter', 'Second String', 'Water boy', 'Spectator')");
+                    DataRow[] result5 = dsDetail.Tables[1].Select("PerformanceLevel In ('All Pro','Starter', 'Second String', 'Water boy', 'Spectator')");
                     if (result5.Length > 0)
                     {
-                        if (string.IsNullOrEmpty(result5[0]["QuarterPercentage"].ToString()))
+                        if (string.IsNullOrEmpty(result5[0]["PerformanceLevel"].ToString()))
                             lblTrainingScore.Text = "0";
                         else
-                            lblTrainingScore.Text = result5[0]["AssociateQuarter"].ToString();
+                            lblTrainingScore.Text = result5[0]["PerformanceLevel"].ToString();
 
                     }
                     else
@@ -2094,58 +2094,58 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 if (drpTrainingYearView.SelectedIndex >= 0)
                     intYear = Convert.ToInt32(drpTrainingYearView.SelectedValue);
                 DataSet dsDetail = Charts.GetSabaTrainingDetail1(Convert.ToInt32(intYear), DBA, Sonic_Location_Code, 0, null);
-                DataTable dtResult = dsDetail.Tables[1];
+                DataTable dtResult = dsDetail.Tables[0];
 
-                if (dsDetail.Tables[1] != null && dsDetail.Tables[1].Rows.Count > 0)
+                if (dsDetail.Tables[0] != null && dsDetail.Tables[0].Rows.Count > 0)
                 {
-                    DataRow[] result1 = dsDetail.Tables[1].Select("AssociateQuarter = '1'");
+                    DataRow[] result1 = dsDetail.Tables[0].Select("AssociateQuarter = '1'");
 
                     if (result1.Length > 0)
                     {
-                        if (string.IsNullOrEmpty(result1[0]["QuarterPercentage"].ToString()))
+                        if (string.IsNullOrEmpty(result1[0]["Percentage"].ToString()))
                             lblTrainingQ1View.Text = "0";
                         else
-                            lblTrainingQ1View.Text = string.Format("{0:0.0#}", result1[0]["QuarterPercentage"]) + "%";
+                            lblTrainingQ1View.Text = string.Format("{0:0.0#}", result1[0]["Percentage"]) + "%";
                     }
 
-                    DataRow[] result2 = dsDetail.Tables[1].Select("AssociateQuarter = '2'");
+                    DataRow[] result2 = dsDetail.Tables[0].Select("AssociateQuarter = '2'");
 
                     if (result2.Length > 0)
                     {
-                        if (string.IsNullOrEmpty(result1[0]["QuarterPercentage"].ToString()))
+                        if (string.IsNullOrEmpty(result1[0]["Percentage"].ToString()))
                             lblTrainingQ2View.Text = "0";
                         else
-                            lblTrainingQ2View.Text = string.Format("{0:0.0#}", result2[0]["QuarterPercentage"]) + "%";
+                            lblTrainingQ2View.Text = string.Format("{0:0.0#}", result2[0]["Percentage"]) + "%";
                     }
 
-                    DataRow[] result3 = dsDetail.Tables[1].Select("AssociateQuarter = '3'");
+                    DataRow[] result3 = dsDetail.Tables[0].Select("AssociateQuarter = '3'");
 
                     if (result3.Length > 0)
                     {
-                        if (string.IsNullOrEmpty(result1[0]["QuarterPercentage"].ToString()))
+                        if (string.IsNullOrEmpty(result1[0]["Percentage"].ToString()))
                             lblTrainingQ3View.Text = "0";
                         else
-                            lblTrainingQ3View.Text = string.Format("{0:0.0#}", result3[0]["QuarterPercentage"]) + "%";
+                            lblTrainingQ3View.Text = string.Format("{0:0.0#}", result3[0]["Percentage"]) + "%";
                     }
 
                     DataRow[] result4 = dsDetail.Tables[1].Select("AssociateQuarter = '4'");
 
                     if (result4.Length > 0)
                     {
-                        if (string.IsNullOrEmpty(result4[0]["QuarterPercentage"].ToString()))
+                        if (string.IsNullOrEmpty(result4[0]["Percentage"].ToString()))
                             lblTrainingQ4View.Text = "0";
                         else
-                            lblTrainingQ4View.Text = string.Format("{0:0.0#}", result1[0]["QuarterPercentage"]) + "%";
+                            lblTrainingQ4View.Text = string.Format("{0:0.0#}", result1[0]["Percentage"]) + "%";
                     }
 
                     DataRow[] result5 = dsDetail.Tables[1].Select("AssociateQuarter In ('All Pro','Starter', 'Second String', 'Water boy', 'Spectator')");
 
                     if (result5.Length > 0)
                     {
-                        if (string.IsNullOrEmpty(result5[0]["QuarterPercentage"].ToString()))
+                        if (string.IsNullOrEmpty(result5[0]["PerformanceLevel"].ToString()))
                             lblTrainingScoreView.Text = "0";
                         else
-                            lblTrainingScoreView.Text = result5[0]["AssociateQuarter"].ToString();
+                            lblTrainingScoreView.Text = result5[0]["PerformanceLevel"].ToString();
 
                     }
 
