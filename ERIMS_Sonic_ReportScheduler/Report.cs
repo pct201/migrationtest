@@ -1112,6 +1112,35 @@ namespace ERIMS_Sonic_ReportScheduler
         }
 
         /// <summary>
+        /// Selects by table name(General).
+        /// </summary>
+        /// <returns>DataTable</returns>
+        public static DataTable SelectByTableName(string tableName, bool hasUnderScore)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            string procedureName = string.Empty;
+            if (tableName.ToUpper() == "CONTRACTOR_SECURITY")
+            {
+                procedureName = tableName + "SelectAllActive";
+            }
+            else
+            {
+                if (hasUnderScore)
+                {
+                    procedureName = tableName + "_SelectAll";
+                }
+                else
+                {
+                    procedureName = tableName + "SelectAll";
+                }
+            }
+
+            DbCommand dbCommand = db.GetStoredProcCommand(procedureName);
+
+            return db.ExecuteDataSet(dbCommand).Tables[0];
+        }
+
+        /// <summary>
         /// Method To Select Contractor Security Details By pk_Contractor_Security
         /// </summary>
         /// <param name="pK_Security_ID"></param>

@@ -85,6 +85,9 @@
     <Compile Include="App_Code\AdHocReport.cs" />
     <Compile Include="App_Code\AdhocReportFields.cs" />
     <Compile Include="App_Code\AdHocReportHelper.cs" />
+    <Compile Include="App_Code\Construction_AdHocFilter.cs" />
+    <Compile Include="App_Code\Construction_AdHocReport.cs" />
+    <Compile Include="App_Code\Construction_AdhocReportFields.cs" />
     <Compile Include="App_Code\Management_AdHocFilter.cs" />
     <Compile Include="App_Code\Management_AdHocReport.cs" />
     <Compile Include="App_Code\Management_AdhocReportFields.cs" />

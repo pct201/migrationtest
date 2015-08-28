@@ -16453,6 +16453,105 @@ namespace ERIMS_Sonic_ReportScheduler
                 throw e;
             }
         }
+
+        /// <summary>
+        /// Fill Filter DropDown For Construction AdHoc Report
+        /// </summary>
+        /// <param name="strField_Name"></param>
+        /// <param name="strConValue"></param>
+        /// <returns></returns>
+        public static string FillFilterDropDownForConstructionReport(string strField_Name, string strConValue)
+        {
+            try
+            {
+
+                /*
+                 * This function used for Fill drop down For Adhoc Report.
+                 * As Filter come from database directly, We maintain one XML file for Field name and Table Name.
+                 * Some of the drop down are static in system. Like Yes, No ,N/A  values drop down
+                 * In XML file there are one field "Title" which map with "Header" of Adhoc Report Field.
+                 * Same way another property "TableName" which is Actual table name in database.
+                 * "Type" property is used for define static drop down type.
+                 * "HasCode" property define if table has both Description and Code fields
+                 * 
+                 * First of all Find "Title" in XML File. based on that Fill Drop Down 
+                 * If It is static values meand "Type" is not "DropDown" then Add Static Fields to Dropdown
+                 * 
+                 * */
+
+                DataSet dsXML = new System.Data.DataSet();
+                // Read XML Files
+
+                dsXML.ReadXml(AppDomain.CurrentDomain.BaseDirectory + "\\ConstructionAdHocReportFields.xml");
+                string strTable = string.Empty, strType = string.Empty, strDesc = string.Empty, strRecord = string.Empty, valueField = string.Empty, textField = string.Empty, sortField = string.Empty;
+                bool IsTableHasCode = true;
+                bool hasUnderScore = false;
+
+                if (dsXML.Tables.Count > 0)
+                {
+                    DataRow[] drFilter = dsXML.Tables[0].Select("Title = '" + strField_Name + "'");
+
+                    if (drFilter.Length > 0)
+                    {
+                        strTable = Convert.ToString(drFilter[0]["TableName"]);
+                        strType = Convert.ToString(drFilter[0]["Type"]);
+                        IsTableHasCode = (Convert.ToString(drFilter[0]["HasCode"]) == "Y");
+                        hasUnderScore = (Convert.ToString(drFilter[0]["HasUnderScore"]) == "Y");
+                        valueField = Convert.ToString(drFilter[0]["DataValueField"]);
+                        textField = Convert.ToString(drFilter[0]["DataTextField"]);
+                        sortField = Convert.ToString(drFilter[0]["SortField"]);
+                    }
+                }
+                dsXML.Dispose();
+                dsXML = null;
+
+                if (string.Compare(strType, "DropDown", true) == 0)
+                {
+                    if (!string.IsNullOrEmpty(strConValue))
+                    {
+                        DataTable dtReport = Report.SelectByTableName(strTable, hasUnderScore);
+                        dtReport.DefaultView.Sort = sortField;
+                        strRecord = GetCommaValueFromTable(dtReport, strDesc);
+                    }
+                }
+                else if (string.Compare(strType, "DropDownStatus", true) == 0)
+                {
+                    if(!string.IsNullOrEmpty(strConValue))
+                    {
+                        if(strConValue.Contains(","))
+                        {
+                            string[] arrConditionValue = strConValue.Split(',');
+                            foreach(string conditionValue in arrConditionValue)
+                            {
+                                if(!string.IsNullOrEmpty(conditionValue))
+                                {
+                                    switch (conditionValue.ToUpper())
+                                    {
+                                        case "O" :
+                                            strConValue += "Open,";
+                                            break;
+                                            case "I" :
+                                            strConValue += "In Process,";
+                                            break;
+                                            case "C" :
+                                            strConValue += "Complete,";
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    strConValue = (!string.IsNullOrEmpty(strConValue)) ? strConValue.TrimEnd(',') : "";
+                }                
+                return strRecord;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         #endregion
 
         #region Construction Ad-Hoc Report Methods
@@ -16488,7 +16587,7 @@ namespace ERIMS_Sonic_ReportScheduler
         /// <returns></returns>
         private string BindOrderBy(Construction_AdHocReport ObjAdHocReport)
         {
-            string strOrderBy = string.Empty;                        
+            string strOrderBy = string.Empty;
             if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.FirstSortBy)))
             {
                 Construction_AdhocReportFields objReportFields = new Construction_AdhocReportFields(ObjAdHocReport.FirstSortBy.Value);
@@ -16503,7 +16602,7 @@ namespace ERIMS_Sonic_ReportScheduler
             {
                 Construction_AdhocReportFields objReportFields = new Construction_AdhocReportFields(ObjAdHocReport.SecondSortBy.Value);
                 strOrderBy += (string.IsNullOrEmpty(strOrderBy) ? "" : ",") + " [" + objReportFields.Field_Header + "] " + ObjAdHocReport.ThirdSortByOrder;
-            }            
+            }
             return strOrderBy;
         }
 
@@ -16670,9 +16769,9 @@ namespace ERIMS_Sonic_ReportScheduler
                     {
                         lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
                         if (Convert.ToBoolean(lstFilter[i].IsNotSelected) == true)
-                            sbRecord.Append("<b>" + lstAdhoc[0].Field_Header + " (Not In)</b>" + " : " + FillFilterDropDown(lstAdhoc[0].Field_Header, lstFilter[i].ConditionValue));
+                            sbRecord.Append("<b>" + lstAdhoc[0].Field_Header + " (Not In)</b>" + " : " + FillFilterDropDownForConstructionReport(lstAdhoc[0].Field_Header, lstFilter[i].ConditionValue));
                         else
-                            sbRecord.Append("<b>" + lstAdhoc[0].Field_Header + " (In)</b>" + " : " + FillFilterDropDown(lstAdhoc[0].Field_Header, lstFilter[i].ConditionValue));
+                            sbRecord.Append("<b>" + lstAdhoc[0].Field_Header + " (In)</b>" + " : " + FillFilterDropDownForConstructionReport(lstAdhoc[0].Field_Header, lstFilter[i].ConditionValue));
                     }
 
                     if (construction_AdhocReportFields.Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.DateControl)
@@ -16788,7 +16887,7 @@ namespace ERIMS_Sonic_ReportScheduler
                             {
                                 sbRecord.Append("<td><b>" + drHeader["ColumnName"] + "</b></td>");
                             }
-                        }                        
+                        }
 
                         //Get  Group By Field's Data Type
                         if (strFirstGroupBy == Convert.ToString(drHeader["ColumnName"]))
@@ -16839,13 +16938,13 @@ namespace ERIMS_Sonic_ReportScheduler
                     DataTable dtSubTotalThirdGroup = dtHeader.Clone();
 
                     string strGroupByValue_1 = string.Empty, strGroupByValue_2 = string.Empty, strNOGroup1 = string.Empty, strNOGroup2 = string.Empty;
-                    string strGroupByValue_3 = string.Empty, strNOGroup3 = string.Empty;                    
+                    string strGroupByValue_3 = string.Empty, strNOGroup3 = string.Empty;
 
                     do
                     {
                         string strFormat = string.Empty;
 
-                        #region "SUBTOTALS"                        
+                        #region "SUBTOTALS"
 
                         #region Third
 
@@ -16903,7 +17002,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                             sbRecord.Append("<td align='right'><b>" + string.Format("{0:c2}", dtSubTotalSecondGroup.Rows[0][Convert.ToString(drSchema["ColumnName"])]) + "</b></td>");
                                         else
                                         {
-                                            sbRecord.Append("<td>&nbsp;</td>");                                            
+                                            sbRecord.Append("<td>&nbsp;</td>");
                                         }
                                     }
 
@@ -16937,7 +17036,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                             sbRecord.Append("<td align='right'><b>" + string.Format("{0:c2}", dtSubTotalFirstGroup.Rows[0][Convert.ToString(drSchema["ColumnName"])]) + "</b></td>");
                                         else
                                         {
-                                            sbRecord.Append("<td>&nbsp;</td>");                                            
+                                            sbRecord.Append("<td>&nbsp;</td>");
                                         }
                                     }
 
@@ -17018,7 +17117,7 @@ namespace ERIMS_Sonic_ReportScheduler
                         #endregion
 
                         #region Third Group BY
-                        
+
                         if (!string.IsNullOrEmpty(strThirdGroupBy))
                         {
                             if (strGroupByValue_3 != Convert.ToString(Reader[strThirdGroupBy]))
@@ -17033,7 +17132,7 @@ namespace ERIMS_Sonic_ReportScheduler
                                         sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;'>&nbsp;" + strThirdGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strThirdGroupBy]) + "</td></tr>");
                                     else sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' >&nbsp;" + strThirdGroupBy + ": " + FormatDBNullDateToDisplay(strGroupByValue_3) + "</td></tr>");
                                 }
-                                else sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' >&nbsp;" + strThirdGroupBy + ": " + strGroupByValue_3 + "</td></tr>");                                
+                                else sbRecord.Append("<tr><td style='font-weight: bold;color: #603311;' >&nbsp;" + strThirdGroupBy + ": " + strGroupByValue_3 + "</td></tr>");
                             }
                             else if ((Reader[strThirdGroupBy] == DBNull.Value || string.IsNullOrEmpty(Convert.ToString(Reader[strThirdGroupBy]))) && strNOGroup3 == string.Empty)
                             {
@@ -17154,7 +17253,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
                             #endregion
                         }
-                        
+
                         sbRecord.Append("</tr>");
 
                         using (StreamWriter sw = File.AppendText(strPath))
@@ -17244,7 +17343,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
                     //Table End
                     sbRecord.Append("</table>");
-                    
+
                     //Remove White Space.
                     //sbRecord.Replace("<tr></tr>", "");
                     using (StreamWriter sw = File.AppendText(strPath))
