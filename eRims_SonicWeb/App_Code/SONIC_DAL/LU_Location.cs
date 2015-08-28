@@ -590,6 +590,15 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
         
+        public static DataSet SelectAllDealershipByUser(decimal PK_Security_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_Location_SelectAllDealershipBySecurityID");
+            db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, PK_Security_ID);
+            //db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, PK_Security_ID);
+            return db.ExecuteDataSet(dbCommand);
+        }
+
 
         /// <summary>
         /// Selects all records from the LU_Location table.
