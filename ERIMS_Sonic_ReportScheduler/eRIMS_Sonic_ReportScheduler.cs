@@ -12973,10 +12973,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 decimal Fk_RecipientList = Convert.ToDecimal(drReportSchedule["Fk_RecipientList"]);
                 decimal FK_Security_Id = Convert.ToDecimal(drReportSchedule["FK_Security_Id"]);
                 string strReportSchedulerName = Convert.ToString(drReportSchedule["ReportSchedulerName"]);
-                //decimal pK_Schedule_ID = 6;
-                //decimal Fk_RecipientList = 2;
-                //decimal FK_Security_Id = 1;
-                //string strReportSchedulerName = "test";
+                
                 //Get Report criteria for the scheduled report
                 DataSet ds = new DataSet();
                 ds = Report.SelectFilterCriteria(67, pK_Schedule_ID);
@@ -16516,24 +16513,24 @@ namespace ERIMS_Sonic_ReportScheduler
                 }
                 else if (string.Compare(strType, "DropDownStatus", true) == 0)
                 {
-                    if(!string.IsNullOrEmpty(strConValue))
+                    if (!string.IsNullOrEmpty(strConValue))
                     {
-                        if(strConValue.Contains(","))
+                        if (strConValue.Contains(","))
                         {
                             string[] arrConditionValue = strConValue.Split(',');
-                            foreach(string conditionValue in arrConditionValue)
+                            foreach (string conditionValue in arrConditionValue)
                             {
-                                if(!string.IsNullOrEmpty(conditionValue))
+                                if (!string.IsNullOrEmpty(conditionValue))
                                 {
                                     switch (conditionValue.ToUpper())
                                     {
-                                        case "O" :
+                                        case "O":
                                             strConValue += "Open,";
                                             break;
-                                            case "I" :
+                                        case "I":
                                             strConValue += "In Process,";
                                             break;
-                                            case "C" :
+                                        case "C":
                                             strConValue += "Complete,";
                                             break;
                                     }
@@ -16543,7 +16540,7 @@ namespace ERIMS_Sonic_ReportScheduler
                     }
 
                     strConValue = (!string.IsNullOrEmpty(strConValue)) ? strConValue.TrimEnd(',') : "";
-                }                
+                }
                 return strRecord;
             }
             catch (Exception e)
@@ -16568,13 +16565,34 @@ namespace ERIMS_Sonic_ReportScheduler
             if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.FirstGroupBy)))
             {
                 Construction_AdhocReportFields objReportFields = new Construction_AdhocReportFields(ObjAdHocReport.FirstGroupBy.Value);
-                strGroupBy = " [" + objReportFields.Field_Header + "] " + ObjAdHocReport.FirstGroupByOrder;
+                string firstGroupByOrder = "ASC";
+                if (!string.IsNullOrEmpty(ObjAdHocReport.FirstGroupByOrder))
+                {
+                    firstGroupByOrder = ObjAdHocReport.FirstGroupByOrder.ToUpper() == "TRUE" ? "ASC" : "DESC";
+                }
+                strGroupBy = " [" + objReportFields.Field_Header + "] " + firstGroupByOrder;
             }
 
             if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.SecondGroupBy)))
             {
-                Construction_AdhocReportFields objReportFields = new Construction_AdhocReportFields(ObjAdHocReport.FirstGroupBy.Value);
-                strGroupBy += (string.IsNullOrEmpty(strGroupBy) ? "" : ",") + " [" + objReportFields.Field_Header + "] " + ObjAdHocReport.SecondGroupByOrder;
+                Construction_AdhocReportFields objReportFields = new Construction_AdhocReportFields(ObjAdHocReport.SecondGroupBy.Value);
+                string secondGroupByOrder = "ASC";
+                if (!string.IsNullOrEmpty(ObjAdHocReport.SecondGroupByOrder))
+                {
+                    secondGroupByOrder = ObjAdHocReport.SecondGroupByOrder.ToUpper() == "TRUE" ? "ASC" : "DESC";
+                }
+                strGroupBy += (string.IsNullOrEmpty(strGroupBy) ? "" : ",") + " [" + objReportFields.Field_Header + "] " + secondGroupByOrder;
+            }
+
+            if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.ThirdGroupBy)))
+            {
+                Construction_AdhocReportFields objReportFields = new Construction_AdhocReportFields(ObjAdHocReport.ThirdGroupBy.Value);
+                string thirdGroupByOrder = "ASC";
+                if (!string.IsNullOrEmpty(ObjAdHocReport.ThirdGroupByOrder))
+                {
+                    thirdGroupByOrder = ObjAdHocReport.ThirdGroupByOrder.ToUpper() == "TRUE" ? "ASC" : "DESC";
+                }
+                strGroupBy += (string.IsNullOrEmpty(strGroupBy) ? "" : ",") + " [" + objReportFields.Field_Header + "] " + thirdGroupByOrder;
             }
 
             return strGroupBy;
@@ -16735,8 +16753,7 @@ namespace ERIMS_Sonic_ReportScheduler
         private string BindConstructionReport(ref StringBuilder sbRecord, IDataReader Reader, Construction_AdHocReport ObjAdHocReport, List<Construction_AdHocFilter> lstFilter, List<Construction_AdhocReportFields> listConstruction_AdHocReportFields, string strReportSchedulerName)
         {
             DataTable dtSchema = null, dtHeader = null;
-            AdhocReportFields objReportFields = new AdhocReportFields();
-            List<AdhocReportFields> lstAdhoc = null;
+            Construction_AdhocReportFields objReportFields = new Construction_AdhocReportFields();
             string strPath = string.Empty;
             Boolean IsGroupBySelected = false;
 
@@ -16747,8 +16764,6 @@ namespace ERIMS_Sonic_ReportScheduler
                 sbRecord.Append("<br />");
                 sbRecord.Append("<b>Report Title : " + strReportSchedulerName + " </b>");
                 sbRecord.Append("<br /><br />");
-
-                AdhocReportFields obj = new AdhocReportFields();
                 for (int i = 0; i < lstFilter.Count; i++)
                 {
                     string strConditionVal = string.Empty;
@@ -16761,23 +16776,21 @@ namespace ERIMS_Sonic_ReportScheduler
                         else
                             strConditionType = (strConditionType == "1") ? " Contains " : (strConditionType == "2" ? " Start With " : " End With ");
                         strConditionVal = lstFilter[i].ConditionValue;
-                        lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
-                        sbRecord.Append("<b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + lstFilter[i].ConditionValue);
+                        sbRecord.Append("<b>" + construction_AdhocReportFields.Field_Header + " : " + strConditionType + "</b>" + lstFilter[i].ConditionValue);
                     }
 
                     if (construction_AdhocReportFields.Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
                     {
-                        lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
                         if (Convert.ToBoolean(lstFilter[i].IsNotSelected) == true)
-                            sbRecord.Append("<b>" + lstAdhoc[0].Field_Header + " (Not In)</b>" + " : " + FillFilterDropDownForConstructionReport(lstAdhoc[0].Field_Header, lstFilter[i].ConditionValue));
+                            sbRecord.Append("<b>" + construction_AdhocReportFields.Field_Header + " (Not In)</b>" + " : " + FillFilterDropDownForConstructionReport(construction_AdhocReportFields.Field_Header, lstFilter[i].ConditionValue));
                         else
-                            sbRecord.Append("<b>" + lstAdhoc[0].Field_Header + " (In)</b>" + " : " + FillFilterDropDownForConstructionReport(lstAdhoc[0].Field_Header, lstFilter[i].ConditionValue));
+                            sbRecord.Append("<b>" + construction_AdhocReportFields.Field_Header + " (In)</b>" + " : " + FillFilterDropDownForConstructionReport(construction_AdhocReportFields.Field_Header, lstFilter[i].ConditionValue));
                     }
 
                     if (construction_AdhocReportFields.Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.DateControl)
                     {
                         string strConditionType = lstFilter[i].ConditionType;
-                        lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
+                        Construction_AdhocReportFields objConstruction_AdhocReportFields = new Construction_AdhocReportFields(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
                         strConditionType = (strConditionType == "O") ? " On " : (strConditionType == "B" ? " Between " : (strConditionType == "BF" ? "On or Before " : "On or After "));
 
                         string dtFrom = null, dtTo = null;
@@ -16802,25 +16815,24 @@ namespace ERIMS_Sonic_ReportScheduler
                             strConditionType = "Not" + strConditionType;
 
                         if (strConditionType.Trim() != "Between" && strConditionType.Trim() != "Not Between")
-                            strConditionVal = "<b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + dtFrom;
+                            strConditionVal = "<b>" + construction_AdhocReportFields.Field_Header + " : " + strConditionType + "</b>" + dtFrom;
                         else
-                            strConditionVal = "<b>" + lstAdhoc[0].Field_Header + " : </b>" + strConditionType + dtFrom + " And " + dtTo;
+                            strConditionVal = "<b>" + construction_AdhocReportFields.Field_Header + " : </b>" + strConditionType + dtFrom + " And " + dtTo;
 
                         sbRecord.Append(strConditionVal);
                     }
                     if (construction_AdhocReportFields.Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.AmountControl)
                     {
                         string strConditionType = lstFilter[i].ConditionType;
-                        lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
                         strConditionType = (strConditionType == "0") ? " Equal " : (strConditionType == "1" ? " Greater Than " : (strConditionType == "2" ? " Between " : " Less Than "));
 
                         if (Convert.ToBoolean(lstFilter[i].IsNotSelected) == true)
                             strConditionType = "Not" + strConditionType;
 
                         if (strConditionType.Trim() != "Between" && strConditionType.Trim() != "Not Between")
-                            strConditionVal = "<b>" + lstAdhoc[0].Field_Header + " : " + strConditionType + "</b>" + Convert.ToString(lstFilter[i].AmountFrom);
+                            strConditionVal = "<b>" + construction_AdhocReportFields.Field_Header + " : " + strConditionType + "</b>" + Convert.ToString(lstFilter[i].AmountFrom);
                         else
-                            strConditionVal = "<b>" + lstAdhoc[0].Field_Header + " : </b>" + strConditionType + Convert.ToString(lstFilter[i].AmountFrom) + " And " + Convert.ToString(lstFilter[i].AmountTo);
+                            strConditionVal = "<b>" + construction_AdhocReportFields.Field_Header + " : </b>" + strConditionType + Convert.ToString(lstFilter[i].AmountFrom) + " And " + Convert.ToString(lstFilter[i].AmountTo);
                         sbRecord.Append(strConditionVal);
                     }
                     sbRecord.Append("<br />");
@@ -16833,31 +16845,32 @@ namespace ERIMS_Sonic_ReportScheduler
                 if (Reader.Read())
                 {
                     string strFirstGroupBy = string.Empty, strSecGroupBy = string.Empty, strThirdGroupBy = string.Empty;
-
-                    if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.FirstGroupBy)))
+                    if (listConstruction_AdHocReportFields != null && listConstruction_AdHocReportFields.Count > 0)
                     {
-                        lstAdhoc = objReportFields.GetAdHocReportFieldByPk(Convert.ToDecimal(ObjAdHocReport.FirstGroupBy));
-                        strFirstGroupBy = lstAdhoc[0].Field_Header;
+                        if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.FirstGroupBy)))
+                        {
+                            Construction_AdhocReportFields construction_AdhocReportFields = listConstruction_AdHocReportFields.Find(a => a.Pk_AdhocReportFields == ObjAdHocReport.FirstGroupBy.Value);
+                            strFirstGroupBy = construction_AdhocReportFields.Field_Header;
 
-                        IsGroupBySelected = true;
+                            IsGroupBySelected = true;
+                        }
+
+                        if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.SecondGroupBy)))
+                        {
+                            Construction_AdhocReportFields construction_AdhocReportFields = listConstruction_AdHocReportFields.Find(a => a.Pk_AdhocReportFields == ObjAdHocReport.SecondGroupBy.Value);
+                            strSecGroupBy = construction_AdhocReportFields.Field_Header;
+
+                            IsGroupBySelected = true;
+                        }
+
+                        if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.ThirdGroupBy)))
+                        {
+                            Construction_AdhocReportFields construction_AdhocReportFields = listConstruction_AdHocReportFields.Find(a => a.Pk_AdhocReportFields == ObjAdHocReport.ThirdGroupBy.Value);
+                            strThirdGroupBy = construction_AdhocReportFields.Field_Header;
+
+                            IsGroupBySelected = true;
+                        }
                     }
-
-                    if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.SecondGroupBy)))
-                    {
-                        lstAdhoc = objReportFields.GetAdHocReportFieldByPk(Convert.ToDecimal(ObjAdHocReport.SecondGroupBy));
-                        strSecGroupBy = lstAdhoc[0].Field_Header;
-
-                        IsGroupBySelected = true;
-                    }
-
-                    if (!string.IsNullOrEmpty(Convert.ToString(ObjAdHocReport.ThirdGroupBy)))
-                    {
-                        lstAdhoc = objReportFields.GetAdHocReportFieldByPk(Convert.ToDecimal(ObjAdHocReport.ThirdGroupBy));
-                        strThirdGroupBy = lstAdhoc[0].Field_Header;
-
-                        IsGroupBySelected = true;
-                    }
-
                     //iF First Group By is Not  selected then second Group by will be set as first Group By
                     if (string.IsNullOrEmpty(strFirstGroupBy))
                     {
