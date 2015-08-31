@@ -34,8 +34,9 @@ namespace ERIMS.DAL
         private string _Any_Inground_Lifts_Been_Removed;
         private string _Documentation_Related_To_Removed_Lifts;
         private string _Hoist_Hanger_Tire_Hook;
-        private string _Hoist_Hanger_Tire_Hook_Make;
-        private string _Hoist_Hanger_Tire_Hook_Model; 
+        //private string _Hoist_Hanger_Tire_Hook_Make;
+        //private string _Hoist_Hanger_Tire_Hook_Model;
+        private string _Lift_Model;
         private string _Replacement_Description;
         private string _Replacement_Oil_Type;
         private string _Replacement_Above_Ground;
@@ -208,24 +209,32 @@ namespace ERIMS.DAL
             get { return _Hoist_Hanger_Tire_Hook; }
             set { _Hoist_Hanger_Tire_Hook = value; }
         }
-
         /// <summary>
-        /// Gets or sets the Hoist_Hanger_Tire_Hook_Make value.
+        /// Gets or sets the Lift Model.
         /// </summary>
-        public string Hoist_Hanger_Tire_Hook_Make
+        public string Lift_Model
         {
-            get { return _Hoist_Hanger_Tire_Hook_Make; }
-            set { _Hoist_Hanger_Tire_Hook_Make= value; }
+            get { return _Lift_Model; }
+            set { _Lift_Model = value; }
         }
 
-        /// <summary>
-        /// Gets or sets the Hoist_Hanger_Tire_Hook_Model value.
-        /// </summary>
-        public string Hoist_Hanger_Tire_Hook_Model
-        {
-            get { return _Hoist_Hanger_Tire_Hook_Model; }
-            set { _Hoist_Hanger_Tire_Hook_Model = value; }
-        }
+        ///// <summary>
+        ///// Gets or sets the Hoist_Hanger_Tire_Hook_Make value.
+        ///// </summary>
+        //public string Hoist_Hanger_Tire_Hook_Make
+        //{
+        //    get { return _Hoist_Hanger_Tire_Hook_Make; }
+        //    set { _Hoist_Hanger_Tire_Hook_Make= value; }
+        //}
+
+        ///// <summary>
+        ///// Gets or sets the Hoist_Hanger_Tire_Hook_Model value.
+        ///// </summary>
+        //public string Hoist_Hanger_Tire_Hook_Model
+        //{
+        //    get { return _Hoist_Hanger_Tire_Hook_Model; }
+        //    set { _Hoist_Hanger_Tire_Hook_Model = value; }
+        //}
 
         public string Replacement_Description
         {
@@ -404,15 +413,20 @@ namespace ERIMS.DAL
                 else
                     this._Hoist_Hanger_Tire_Hook = (string)drPM_Equipment_Hydraulic_Lift_Grid["Hoist_Hanger_Tire_Hook"];
 
-                if (drPM_Equipment_Hydraulic_Lift_Grid["Hoist_Hanger_Tire_Hook_Make"] == DBNull.Value)
-                    this._Hoist_Hanger_Tire_Hook_Make = null;
-                else
-                    this._Hoist_Hanger_Tire_Hook_Make = (string)drPM_Equipment_Hydraulic_Lift_Grid["Hoist_Hanger_Tire_Hook_Make"];
+                //if (drPM_Equipment_Hydraulic_Lift_Grid["Hoist_Hanger_Tire_Hook_Make"] == DBNull.Value)
+                //    this._Hoist_Hanger_Tire_Hook_Make = null;
+                //else
+                //    this._Hoist_Hanger_Tire_Hook_Make = (string)drPM_Equipment_Hydraulic_Lift_Grid["Hoist_Hanger_Tire_Hook_Make"];
 
-                if (drPM_Equipment_Hydraulic_Lift_Grid["Hoist_Hanger_Tire_Hook_Model"] == DBNull.Value)
-                    this._Hoist_Hanger_Tire_Hook_Model = null;
+                //if (drPM_Equipment_Hydraulic_Lift_Grid["Hoist_Hanger_Tire_Hook_Model"] == DBNull.Value)
+                //    this._Hoist_Hanger_Tire_Hook_Model = null;
+                //else
+                //    this._Hoist_Hanger_Tire_Hook_Model = (string)drPM_Equipment_Hydraulic_Lift_Grid["Hoist_Hanger_Tire_Hook_Model"];
+
+                if (drPM_Equipment_Hydraulic_Lift_Grid["Lift_Model"] == DBNull.Value)
+                    this._Lift_Model = null;
                 else
-                    this._Hoist_Hanger_Tire_Hook_Model = (string)drPM_Equipment_Hydraulic_Lift_Grid["Hoist_Hanger_Tire_Hook_Model"];
+                    this._Lift_Model = (string)drPM_Equipment_Hydraulic_Lift_Grid["Lift_Model"];
 
                 if (drPM_Equipment_Hydraulic_Lift_Grid["Replacement_Description"] == DBNull.Value)
                     this._Replacement_Description = null;
@@ -538,15 +552,20 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Hoist_Hanger_Tire_Hook", DbType.String, this._Hoist_Hanger_Tire_Hook);
 
-            if (string.IsNullOrEmpty(this._Hoist_Hanger_Tire_Hook_Make))
-                db.AddInParameter(dbCommand, "Hoist_Hanger_Tire_Hook_Make", DbType.String, DBNull.Value);
-            else
-                db.AddInParameter(dbCommand, "Hoist_Hanger_Tire_Hook_Make", DbType.String, this.Hoist_Hanger_Tire_Hook_Make);
+            //if (string.IsNullOrEmpty(this._Hoist_Hanger_Tire_Hook_Make))
+            //    db.AddInParameter(dbCommand, "Hoist_Hanger_Tire_Hook_Make", DbType.String, DBNull.Value);
+            //else
+            //    db.AddInParameter(dbCommand, "Hoist_Hanger_Tire_Hook_Make", DbType.String, this.Hoist_Hanger_Tire_Hook_Make);
 
-            if (string.IsNullOrEmpty(this._Hoist_Hanger_Tire_Hook_Model))
-                db.AddInParameter(dbCommand, "Hoist_Hanger_Tire_Hook_Model", DbType.String, DBNull.Value);
+            //if (string.IsNullOrEmpty(this._Hoist_Hanger_Tire_Hook_Model))
+            //    db.AddInParameter(dbCommand, "Hoist_Hanger_Tire_Hook_Model", DbType.String, DBNull.Value);
+            //else
+            //    db.AddInParameter(dbCommand, "Hoist_Hanger_Tire_Hook_Model", DbType.String, this.Hoist_Hanger_Tire_Hook_Model);
+
+            if (string.IsNullOrEmpty(this._Lift_Model))
+                db.AddInParameter(dbCommand, "Lift_Model", DbType.String, DBNull.Value);
             else
-                db.AddInParameter(dbCommand, "Hoist_Hanger_Tire_Hook_Model", DbType.String, this.Hoist_Hanger_Tire_Hook_Model);
+                db.AddInParameter(dbCommand, "Lift_Model", DbType.String, this._Lift_Model);
 
             if (string.IsNullOrEmpty(this._Replacement_Description))
                 db.AddInParameter(dbCommand, "Replacement_Description", DbType.String, DBNull.Value);
@@ -723,15 +742,20 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Hoist_Hanger_Tire_Hook", DbType.String, this._Hoist_Hanger_Tire_Hook);
 
-            if (string.IsNullOrEmpty(this._Hoist_Hanger_Tire_Hook_Make))
-                db.AddInParameter(dbCommand, "Hoist_Hanger_Tire_Hook_Make", DbType.String, DBNull.Value);
-            else
-                db.AddInParameter(dbCommand, "Hoist_Hanger_Tire_Hook_Make", DbType.String, this._Hoist_Hanger_Tire_Hook_Make);
+            //if (string.IsNullOrEmpty(this._Hoist_Hanger_Tire_Hook_Make))
+            //    db.AddInParameter(dbCommand, "Hoist_Hanger_Tire_Hook_Make", DbType.String, DBNull.Value);
+            //else
+            //    db.AddInParameter(dbCommand, "Hoist_Hanger_Tire_Hook_Make", DbType.String, this._Hoist_Hanger_Tire_Hook_Make);
 
-            if (string.IsNullOrEmpty(this._Hoist_Hanger_Tire_Hook_Model))
-                db.AddInParameter(dbCommand, "Hoist_Hanger_Tire_Hook_Model", DbType.String, DBNull.Value);
+            //if (string.IsNullOrEmpty(this._Hoist_Hanger_Tire_Hook_Model))
+            //    db.AddInParameter(dbCommand, "Hoist_Hanger_Tire_Hook_Model", DbType.String, DBNull.Value);
+            //else
+            //    db.AddInParameter(dbCommand, "Hoist_Hanger_Tire_Hook_Model", DbType.String, this._Hoist_Hanger_Tire_Hook_Model);
+
+            if (string.IsNullOrEmpty(this._Lift_Model))
+                db.AddInParameter(dbCommand, "Lift_Model", DbType.String, DBNull.Value);
             else
-                db.AddInParameter(dbCommand, "Hoist_Hanger_Tire_Hook_Model", DbType.String, this._Hoist_Hanger_Tire_Hook_Model);
+                db.AddInParameter(dbCommand, "Lift_Model", DbType.String, this._Lift_Model);
 
             if (string.IsNullOrEmpty(this._Replacement_Description))
                 db.AddInParameter(dbCommand, "Replacement_Description", DbType.String, DBNull.Value);

@@ -2228,38 +2228,38 @@ function ValidateFieldsEquipment(sender, args) {
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td align="left" valign="top">Installation Date&nbsp;<span id="Span108" style="color: Red; display: none;" runat="server">*</span>
+                                                            <td align="left" valign="top" width="20"></td>
+                                                            
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td align="left" valign="top">Lift Model&nbsp;<span id="spnLiftModel" style="color: Red; display: none;" runat="server">*</span>
                                                             </td>
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:TextBox ID="txtHydraulicLift_Installation_Date" runat="server" Width="150px"
-                                                                    SkinID="txtDate" />
+                                                                <asp:TextBox ID="txtLiftModel" runat="server" Width="170px" MaxLength="75" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Installation Date&nbsp;<span id="Span108" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                            <td align="center" valign="top">: </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:TextBox ID="txtHydraulicLift_Installation_Date" runat="server" SkinID="txtDate" Width="150px" />
                                                                 <img alt="Installation Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtHydraulicLift_Installation_Date', 'mm/dd/y');"
                                                                     onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
                                                                     align="middle" />
-
-                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ValidationGroup="vsErrorHydraulicLiftGrid"
-                                                                    Display="none" ErrorMessage="[Equipment]/Installation Date is not a valid date"
-                                                                    SetFocusOnError="true" ControlToValidate="txtHydraulicLift_Installation_Date"
-                                                                    ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
+                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="txtHydraulicLift_Installation_Date" Display="none" ErrorMessage="[Equipment]/Installation Date is not a valid date" SetFocusOnError="true" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$" ValidationGroup="vsErrorHydraulicLiftGrid"></asp:RegularExpressionValidator>
                                                             </td>
-                                                            <td align="left" valign="top">Last Annual Inspection Date&nbsp;<span id="Span109" style="color: Red; display: none;" runat="server">*</span>
-                                                            </td>
-                                                            <td align="center" valign="top">:
-                                                            </td>
+                                                            <td align="left" valign="top">Last Annual Inspection Date&nbsp;<span id="Span109" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                            <td align="center" valign="top">: </td>
                                                             <td align="left" valign="top">
-                                                                <asp:TextBox ID="txtHydraulicLift_Last_Inspection_Date" runat="server" Width="150px"
-                                                                    SkinID="txtDate" />
+                                                                <asp:TextBox ID="txtHydraulicLift_Last_Inspection_Date" runat="server" SkinID="txtDate" Width="150px" />
                                                                 <img alt="Last Inspection Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtHydraulicLift_Last_Inspection_Date', 'mm/dd/y');"
                                                                     onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
                                                                     align="middle" runat="server" id="imgInspectionDate" />
-                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator15" runat="server"
-                                                                    ValidationGroup="vsErrorHydraulicLiftGrid" Display="none" ErrorMessage="[Equipment]/Last Inspection Date is not a valid date"
-                                                                    SetFocusOnError="true" ControlToValidate="txtHydraulicLift_Last_Inspection_Date"
-                                                                    ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
+                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator15" runat="server" ControlToValidate="txtHydraulicLift_Last_Inspection_Date" Display="none" ErrorMessage="[Equipment]/Last Inspection Date is not a valid date" SetFocusOnError="true" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$" ValidationGroup="vsErrorHydraulicLiftGrid"></asp:RegularExpressionValidator>
                                                             </td>
-                                                        </tr>
+                                                            </tr>
                                                         <tr>
                                                             <td align="left" width="18%" valign="top">Have Any In-Ground <span id="spnInGroundLifts" runat="server">Lifts</span> been Removed from the service bay?&nbsp;
                                                             </td>
@@ -2286,14 +2286,14 @@ function ValidateFieldsEquipment(sender, args) {
                                                             <td align="center" width="3%" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top" width="28%">
-                                                                 <asp:RadioButtonList ID="rdoHoistHangerTireHook" runat="server" SkinID="YesNoType" AutoPostBack="true" OnSelectedIndexChanged="rdoHoistHangerTireHook_SelectedIndexChanged">
+                                                                 <asp:RadioButtonList ID="rdoHoistHangerTireHook" runat="server" SkinID="YesNoType">
                                                                 </asp:RadioButtonList>
                                                             </td>
                                                             <td>
                                                           
                                                             </td>
                                                         </tr>
-                                                         <tr>
+                                                        <%-- <tr>
                                                             <td align="left" width="18%" valign="top">Hoist Hanger/Tire Hook/similar device Make
                                                                  &nbsp;<span id="spnHoistHangerTireHookMake" style="color: Red; display: none;" runat="server">*</span>
                                                             </td>
@@ -2310,7 +2310,7 @@ function ValidateFieldsEquipment(sender, args) {
                                                             <td align="left" valign="top" width="28%">
                                                                <asp:TextBox ID="txtHoistHangerTireHookModel" runat="server" Width="170px" MaxLength="75" />
                                                             </td>
-                                                        </tr>
+                                                        </tr>--%>
                                                         <asp:Panel runat="server" ID="pnlReplacementLiftInformation">
                                                             <tr>
                                                                 <td colspan="6"><b>Replacement <span id="spnReplacementLiftInformation" runat="server">Lift</span> Information</b></td>
@@ -3814,6 +3814,22 @@ function ValidateFieldsEquipment(sender, args) {
                                                             </td>
                                                         </tr>
                                                         <tr>
+                                                             <td align="left" width="18%" valign="top">
+                                                            </td>
+                                                            <td align="center" width="4%" valign="top">
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                            </td>
+                                                            <td align="left" width="18%" valign="top">Lift Model
+                                                            </td>
+                                                            <td align="center" width="4%" valign="top">:
+                                                            </td>
+                                                            <td align="left" width="28%" valign="top" style="word-wrap:normal;word-break:break-all">
+                                                                <asp:Label ID="lblLiftModel" runat="server" Width="150px" />
+                                                            </td>
+
+                                                        </tr>
+                                                        <tr>
                                                             <td align="left" width="18%" valign="top">Installation Date
                                                             </td>
                                                             <td align="center" width="4%" valign="top">:
@@ -3860,7 +3876,7 @@ function ValidateFieldsEquipment(sender, args) {
                                                           
                                                             </td>
                                                         </tr>
-                                                         <tr>
+                                                        <%-- <tr>
                                                             <td align="left" width="18%" valign="top">Hoist Hanger/Tire Hook/similar device Make
                                                             </td>
                                                             <td align="center" width="3%" valign="top">:
@@ -3877,7 +3893,7 @@ function ValidateFieldsEquipment(sender, args) {
                                                                 <asp:Label ID="lblHoistHangerTireHookModel" runat="server">
                                                                 </asp:Label>
                                                             </td>
-                                                        </tr>
+                                                        </tr>--%>
 
                                                         <tr>
                                                             <td colspan="6"><b>Replacement <span id="spnvwReplacementLiftInformation" runat="server">Lift</span> Information</b></td>

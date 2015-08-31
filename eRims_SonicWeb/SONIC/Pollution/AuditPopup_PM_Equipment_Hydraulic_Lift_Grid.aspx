@@ -64,6 +64,9 @@
                                 </th>
                                 <th class="cols" align="left">
                                     <span style="display: inline-block; width: 150px;">Manufacturer</span>
+                                </th>  
+                                 <th class="cols" align="left">
+                                    <span style="display: inline-block; width: 150px;">Lift Model</span>
                                 </th>                                
                                 <th class="cols" align="left">
                                     <span style="display: inline-block; width: 100px;">Number</span>
@@ -92,12 +95,12 @@
                                 <th class="cols" align="left">
                                     <span style="display: inline-block; width: 150px; word-wrap:normal;word-break:break-all">Has a Hoist Hanger/Tire Hook/similar device been installed?</span>
                                 </th>
-                                <th class="cols" align="left">
+                             <%--   <th class="cols" align="left">
                                     <span style="display: inline-block; width: 150px; word-wrap:normal;word-break:break-all">Hoist Hanger/Tire Hook/similar device Make</span>
                                 </th>
                                 <th class="cols" align="left">
                                     <span style="display: inline-block; width: 150px; word-wrap:normal;word-break:break-all">Hoist Hanger/Tire Hook/similar device Model</span>
-                                </th>
+                                </th>--%>
                                 <th class="cols" align="left">
                                     <span style="display: inline-block; width: 150px; ">Replacement Description</span>
                                 </th>
@@ -178,6 +181,13 @@
                                         Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Lift_Model">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblLift_Model" runat="server" Text='<%#Eval("Lift_Model")%>'
+                                        Width="150px" style="word-wrap:normal;word-break:break-all"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
                             <asp:TemplateField HeaderText="Number_Of_Lifts_At_Location">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
@@ -236,7 +246,7 @@
                                     <asp:Label ID="lblHoist_Hanger_Tire_Hook" runat="server" Text='<%#CheckLiftNumberReplacementIndicator(Eval("Hoist_Hanger_Tire_Hook"))%>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Hoist_Hanger_Tire_Hook_Make">
+                           <%-- <asp:TemplateField HeaderText="Hoist_Hanger_Tire_Hook_Make">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
                                     <asp:Label ID="lblHoist_Hanger_Tire_Hook_Make" runat="server" Text='<%#Eval("Hoist_Hanger_Tire_Hook_Make")%>' Width="150px" style="word-wrap:normal;word-break:break-all"></asp:Label>
@@ -247,7 +257,7 @@
                                 <ItemTemplate>
                                     <asp:Label ID="lblHoist_Hanger_Tire_Hook_Model" runat="server" Text='<%#Eval("Hoist_Hanger_Tire_Hook_Model")%>' Width="150px" style="word-wrap:normal;word-break:break-all"></asp:Label>
                                 </ItemTemplate>
-                            </asp:TemplateField>
+                            </asp:TemplateField>--%>
                              <asp:TemplateField HeaderText="Replacement_Description">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>

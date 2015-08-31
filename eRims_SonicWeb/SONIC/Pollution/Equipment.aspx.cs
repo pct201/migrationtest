@@ -1143,21 +1143,21 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         }
     }
 
-    private void ShowHideHoistHangerInformation()
-    {
-        if (rdoHoistHangerTireHook.SelectedValue == "Y")
-        {
-            txtHoistHangerTireHookMake.Enabled = true;
-            txtHoistHangerTireHookModel.Enabled = true;
-        }
-        else
-        {
-            txtHoistHangerTireHookMake.Enabled = false;
-            txtHoistHangerTireHookModel.Enabled = false;
-            txtHoistHangerTireHookMake.Text = "";
-            txtHoistHangerTireHookModel.Text ="";
-        }
-    }
+    //private void ShowHideHoistHangerInformation()
+    //{
+    //    if (rdoHoistHangerTireHook.SelectedValue == "Y")
+    //    {
+    //        txtHoistHangerTireHookMake.Enabled = true;
+    //        txtHoistHangerTireHookModel.Enabled = true;
+    //    }
+    //    else
+    //    {
+    //        txtHoistHangerTireHookMake.Enabled = false;
+    //        txtHoistHangerTireHookModel.Enabled = false;
+    //        txtHoistHangerTireHookMake.Text = "";
+    //        txtHoistHangerTireHookModel.Text ="";
+    //    }
+    //}
     #endregion
 
     #region Control Events
@@ -1448,12 +1448,13 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
 
         txtHydraulicLift_Removal_Date.Text = "";
         rdoHoistHangerTireHook.SelectedValue = "N";
-        txtHoistHangerTireHookMake.Text = "";
-        txtHoistHangerTireHookModel.Text = "";
+        //txtHoistHangerTireHookMake.Text = "";
+        //txtHoistHangerTireHookModel.Text = "";
+        txtLiftModel.Text = "";
         rdoHoistHangerTireHook.SelectedValue = "N";
         
         ShowHideReplacementLiftInformation();
-        ShowHideHoistHangerInformation();
+        //ShowHideHoistHangerInformation();
 
         //rdoEquipmentStatus.SelectedValue = "N";
 
@@ -1556,8 +1557,9 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
         objPM_Equipment_Hydraulic_Lift_Grid.Lift_Number_Replacement_Indicator = Convert.ToString(rdoReplacementLift.SelectedValue);
         if (!string.IsNullOrEmpty(rdoHoistHangerTireHook.SelectedValue))
             objPM_Equipment_Hydraulic_Lift_Grid.Hoist_Hanger_Tire_Hook = Convert.ToString(rdoHoistHangerTireHook.SelectedValue);
-        objPM_Equipment_Hydraulic_Lift_Grid.Hoist_Hanger_Tire_Hook_Make = txtHoistHangerTireHookMake.Text;
-        objPM_Equipment_Hydraulic_Lift_Grid.Hoist_Hanger_Tire_Hook_Model = txtHoistHangerTireHookModel.Text;
+        //objPM_Equipment_Hydraulic_Lift_Grid.Hoist_Hanger_Tire_Hook_Make = txtHoistHangerTireHookMake.Text;
+        //objPM_Equipment_Hydraulic_Lift_Grid.Hoist_Hanger_Tire_Hook_Model = txtHoistHangerTireHookModel.Text;
+        objPM_Equipment_Hydraulic_Lift_Grid.Lift_Model = txtLiftModel.Text;
 
 
         
@@ -1705,7 +1707,7 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
                 rdoAboveGround.SelectedValue = "N";
 
             ShowHideReplacementLiftInformation();
-            ShowHideHoistHangerInformation();
+            //ShowHideHoistHangerInformation();
 
             if (!string.IsNullOrEmpty(objPM_Equipment_Hydraulic_Lift_Grid.Lift_Number_Replacement_Indicator))
                 rdoReplacementLift.SelectedValue = objPM_Equipment_Hydraulic_Lift_Grid.Lift_Number_Replacement_Indicator;            
@@ -1714,8 +1716,9 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
             txtReplacementInstallationDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Installation_Date);
             txtReplacementLastAnnualInspectionDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Last_Annual_Inspection);
             txtReplacementNotes.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Replacement_Notes);
-            txtHoistHangerTireHookMake.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Hoist_Hanger_Tire_Hook_Make);
-            txtHoistHangerTireHookModel.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Hoist_Hanger_Tire_Hook_Model);
+            //txtHoistHangerTireHookMake.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Hoist_Hanger_Tire_Hook_Make);
+            //txtHoistHangerTireHookModel.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Hoist_Hanger_Tire_Hook_Model);
+            txtLiftModel.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Lift_Model);
 
             pnlHydraulicLiftType.Visible = false;
             pnlAdd_Hydraulic_Lift.Visible = true;
@@ -1841,10 +1844,11 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
 
             lblReplacementLift.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Lift_Number_Replacement_Indicator) == null ? "" : (Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Lift_Number_Replacement_Indicator) == "Y" ? "Yes" : "No");
 
-            lblHoistHangerTireHookMake.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Hoist_Hanger_Tire_Hook_Make);
-            lblHoistHangerTireHookModel.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Hoist_Hanger_Tire_Hook_Model);
+            //lblHoistHangerTireHookMake.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Hoist_Hanger_Tire_Hook_Make);
+            //lblHoistHangerTireHookModel.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Hoist_Hanger_Tire_Hook_Model);
             lblHoistHangerTireHook.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Hoist_Hanger_Tire_Hook) == null ? "" : (Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Hoist_Hanger_Tire_Hook) == "Y" ? "Yes" : "No");
-            //lblHoistHangerTireHook.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Hoist_Hanger_Tire_Hook) == "N" ? "No":"Yes";
+            lblLiftModel.Text = Convert.ToString(objPM_Equipment_Hydraulic_Lift_Grid.Lift_Model);
+         
 
             pnlHydraulicLiftTypeview.Visible = false;
             pnlHydraulicLifGridViewData.Visible = true;
@@ -2199,8 +2203,8 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
 
     protected void rdoHoistHangerTireHook_SelectedIndexChanged(object sender, EventArgs e)
     {
-        ShowHideHoistHangerInformation();
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);displayHydraulicLift('none');", true);
+        //ShowHideHoistHangerInformation();
+      //  Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);displayHydraulicLift('none');", true);
     }
     #endregion
 
@@ -2681,8 +2685,9 @@ public partial class SONIC_Pollution_Equipment : clsBasePage
                 case "Replacement Installation Date": strCtrlsIDs += txtReplacementInstallationDate.ClientID + ","; strMessages += "Please enter [Equipment]/Replacement Installation Date" + ","; spnReplacementInstallationDate.Style["display"] = "inline-block"; break;
                 case "Replacement Last Annual Inspection Date": strCtrlsIDs += txtReplacementLastAnnualInspectionDate.ClientID + ","; strMessages += "Please enter [Equipment]/Replacement Last Annual Inspection Date" + ","; spnReplacementLastAnnualInspectionDate.Style["display"] = "inline-block"; break;
                 case "Replacement Notes": strCtrlsIDs += txtReplacementNotes.ClientID + ","; strMessages += "Please enter [Equipment]/Replacement Notes" + ","; spnReplacementNotes.Style["display"] = "inline-block"; break;
-                case "Hoist Hanger device Make": strCtrlsIDs += txtHoistHangerTireHookMake.ClientID + ","; strMessages += "Please enter [Equipment]/Hoist Hanger Tire Hook Make" + ","; spnHoistHangerTireHookMake.Style["display"] = "inline-block"; break;
-                case "Hoist Hanger device Model": strCtrlsIDs += txtHoistHangerTireHookModel.ClientID + ","; strMessages += "Please enter [Equipment]/Hoist Hanger Tire Hook Model" + ","; spnHoistHangerTireHookModel.Style["display"] = "inline-block"; break;
+                case "Lift Model": strCtrlsIDs += txtLiftModel.ClientID + ","; strMessages += "Please enter [Equipment]/Lift Model" + ","; spnLiftModel.Style["display"] = "inline-block"; break;
+                //case "Hoist Hanger device Make": strCtrlsIDs += txtHoistHangerTireHookMake.ClientID + ","; strMessages += "Please enter [Equipment]/Hoist Hanger Tire Hook Make" + ","; spnHoistHangerTireHookMake.Style["display"] = "inline-block"; break;
+                //case "Hoist Hanger device Model": strCtrlsIDs += txtHoistHangerTireHookModel.ClientID + ","; strMessages += "Please enter [Equipment]/Hoist Hanger Tire Hook Model" + ","; spnHoistHangerTireHookModel.Style["display"] = "inline-block"; break;
                 
             }
             #endregion
