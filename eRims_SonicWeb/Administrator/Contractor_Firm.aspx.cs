@@ -190,6 +190,11 @@ public partial class Administrator_Contractor_Firm : clsBasePage
         else
             objContractorFirm.FK_State = 0;
 
+        if (ddlFirmType.SelectedIndex > 0)
+            objContractorFirm.FK_State = Convert.ToDecimal(ddlState.SelectedValue);
+        else
+            objContractorFirm.FK_State = 0;
+
         objContractorFirm.Zip_Code = Convert.ToString(txtZipCode.Text);
 
         objContractorFirm.Office_Telephone = Convert.ToString(txtOfficeTelephone.Text);
@@ -199,6 +204,10 @@ public partial class Administrator_Contractor_Firm : clsBasePage
         objContractorFirm.Email = txtEmail.Text.Trim().Replace("'", "\'");
         objContractorFirm.Updated_By = clsSession.UserID;
         objContractorFirm.Update_Date = DateTime.Now;
+
+        objContractorFirm.FK_LU_Firm_type = Convert.ToDecimal(ddlFirmType.SelectedValue);
+        objContractorFirm.Contact_Name = Convert.ToString(txtContactName.Text);
+        objContractorFirm.Facsimile_Number = Convert.ToString(txtFacsimile_Number.Text);
 
         if (PK_Contractor_Firm > 0)
         {
@@ -339,6 +348,7 @@ public partial class Administrator_Contractor_Firm : clsBasePage
     private void FillDropDown()
     {
         ComboHelper.FillState(new DropDownList[] { ddlState }, 0, true);
+        ComboHelper.FillFirmType(new DropDownList[] { ddlFirmType }, 0, true);
     }
     /// <summary>
     /// Binds the grid by page number and page size
@@ -430,6 +440,7 @@ public partial class Administrator_Contractor_Firm : clsBasePage
         txtContractorFirmName.Text = Convert.ToString(objContractorFirm.Contractor_Firm_Name);
         txtAddress1.Text = Convert.ToString(objContractorFirm.Address_1);
         txtAddress2.Text = Convert.ToString(objContractorFirm.Address_2);
+
         txtCity.Text = Convert.ToString(objContractorFirm.City);
         if (objContractorFirm.FK_State != null)
             ddlState.SelectedValue = objContractorFirm.FK_State.ToString();
@@ -439,7 +450,10 @@ public partial class Administrator_Contractor_Firm : clsBasePage
         txtCellPhone.Text = Convert.ToString(objContractorFirm.Cell_Telephone);
         txtPager.Text = Convert.ToString(objContractorFirm.Pager);
         txtEmail.Text = Convert.ToString(objContractorFirm.Email);
-
+        txtFacsimile_Number.Text = Convert.ToString(objContractorFirm.Facsimile_Number);
+        txtContactName.Text = Convert.ToString(objContractorFirm.Contact_Name);
+        if (objContractorFirm.FK_LU_Firm_type != null)
+            ddlFirmType.SelectedValue = objContractorFirm.FK_LU_Firm_type.ToString();
     }
 
     /// <summary>
@@ -467,6 +481,10 @@ public partial class Administrator_Contractor_Firm : clsBasePage
         lblCellPhone.Text = Convert.ToString(objContractorFirm.Cell_Telephone);
         lblPager.Text = Convert.ToString(objContractorFirm.Pager);
         lblEmail.Text = Convert.ToString(objContractorFirm.Email);
+        lblContactName.Text = Convert.ToString(objContractorFirm.Contact_Name);
+        lblFacsimileNumber.Text = Convert.ToString(objContractorFirm.Facsimile_Number);
+        if (objContractorFirm.FK_LU_Firm_type != null)
+            lblFirmType.Text = new LU_Construction_Firm_Type(Convert.ToDecimal(objContractorFirm.FK_LU_Firm_type)).CFT_Desc;   //please change
 
     }
 
