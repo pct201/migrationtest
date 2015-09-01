@@ -224,6 +224,7 @@
           <siteMapNode url="Administrator/LU_Origin_Type.aspx" title ="Origin Type" description="" roles="" />
         <siteMapNode url="Administrator/LU_Facility_Area.aspx" title ="Facility Area" description="" roles="" />
           <siteMapNode url="Administrator/LU_Facility_Specific_Location.aspx" title ="Facility Specific Location" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Construction_Firm_Type.aspx" title ="Firm Type" description="" roles="" />
         
         </siteMapNode>
         <siteMapNode url="" title="First Reports" description="">
