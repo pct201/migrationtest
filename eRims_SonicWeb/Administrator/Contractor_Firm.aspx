@@ -214,7 +214,16 @@
                         <asp:RequiredFieldValidator ID="rfvFirstName" ControlToValidate="txtContractorFirmName" Display="None"
                             runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Contractor Firm Name."></asp:RequiredFieldValidator>
                     </td>                    
-                    <td colspan="3">&nbsp;</td>
+                   <td align="left">Firm Type<%--<span style="color: Red;">*</span>--%>
+                    </td>
+                    <td align="center">:
+                    </td>
+                    <td align="left">
+                         <asp:DropDownList ID="ddlFirmType" runat="server" Width="170px" SkinID="ddlSONIC">
+                        </asp:DropDownList>
+                        <%--<asp:RequiredFieldValidator ID="rfvtxtAddress2" ControlToValidate="txtAddress2" Display="None"
+                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Address 2."></asp:RequiredFieldValidator>--%>
+                    </td>
                 </tr>                               
                 <tr>
                     <td align="left">Address 1<%--<span style="color: Red;">*</span>--%>
@@ -262,7 +271,7 @@
                     </td>
                     <td style="width: 4%;" align="center">:
                     </td>
-                    <td align="left" width="26%" colspan="4">
+                    <td align="left" width="26%" >
                         <asp:TextBox runat="server" ID="txtZipCode" MaxLength="10" ValidationGroup="vsErrorGroup"
                             Width="170px"></asp:TextBox>&nbsp;
                         <%--<asp:RequiredFieldValidator ID="rfvtxtZipCode" ControlToValidate="txtZipCode" Display="None"
@@ -271,7 +280,14 @@
                             ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter the Zip Code in xxxxx-xxxx format."
                             Display="none" ValidationExpression="((\(\d{2}\) ?)|(\d{5}-))?\d{4}$"></asp:RegularExpressionValidator>
                     </td>
-
+                     <td align="left">Contact Name</td>
+                    <td align="center">:
+                    </td>
+                    <td align="left">
+                        <asp:TextBox runat="server" ID="txtContactName" MaxLength="50" Width="170px"></asp:TextBox>
+                        <%--<asp:RequiredFieldValidator ID="rfvtxtAddress2" ControlToValidate="txtAddress2" Display="None"
+                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Address 2."></asp:RequiredFieldValidator>--%>
+                    </td>
                 </tr>
 
                 <tr>
@@ -305,7 +321,7 @@
                     </td>
                     <td style="width: 4%;" align="center">:
                     </td>
-                    <td align="left" width="26%" colspan="4">
+                    <td align="left" width="26%">
                         <asp:TextBox runat="server" ID="txtPager" MaxLength="12" ValidationGroup="vsErrorGroup"
                             Width="170px"></asp:TextBox>&nbsp;
                         <%--<asp:RequiredFieldValidator ID="rfvtxtPager" ControlToValidate="txtPager" Display="None"
@@ -313,6 +329,15 @@
                         <asp:RegularExpressionValidator ID="rfvtxtPager" ControlToValidate="txtPager"
                             runat="server" ErrorMessage="Please Enter Pager in XXX-XXX-XXXX format."
                             Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
+                    </td>
+                     <td align="left">Facsimile Number
+                    </td>
+                    <td align="center">:
+                    </td>
+                    <td align="left">
+                        <asp:TextBox runat="server" ID="txtFacsimile_Number" MaxLength="13" Width="170px"></asp:TextBox>
+                        <%--<asp:RequiredFieldValidator ID="rfvtxtAddress2" ControlToValidate="txtAddress2" Display="None"
+                            runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Address 2."></asp:RequiredFieldValidator>--%>
                     </td>
 
                 </tr>
@@ -348,11 +373,12 @@
                     <td align="left" style="width: 28%;">
                         <asp:Label runat="server" ID="lblContractorFirmName" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                     </td>
-                    <td align="left" style="width: 18%;">
+                    <td align="left" style="width: 18%;">Firm Type
                     </td>
-                    <td align="center" style="width: 4%;">
+                    <td align="center" style="width: 4%;">:
                     </td>
                     <td align="left" style="width: 28%;">
+                        <asp:Label runat="server" ID="lblFirmType" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                     </td>
                 </tr>                
                 <tr>
@@ -392,11 +418,17 @@
                     </td>
                     <td align="center">:
                     </td>
-                    <td align="left" colspan="4">
+                    <td align="left" >
                         <asp:Label runat="server" ID="lblZipCode">
                         </asp:Label>
                     </td>
-
+                     <td align="left" style="width: 18%;">Contact Name
+                    </td>
+                    <td align="center" style="width: 4%;">:
+                    </td>
+                    <td align="left" style="width: 28%;">
+                        <asp:Label runat="server" ID="lblContactName"></asp:Label>
+                    </td>
                 </tr>
                 <tr>
                     <td align="left" style="width: 18%;">Office Telephone (999-999-9999)
@@ -419,11 +451,17 @@
                     </td>
                     <td align="center">:
                     </td>
-                    <td align="left" colspan="4">
+                    <td align="left">
                         <asp:Label runat="server" ID="lblPager">
                         </asp:Label>
                     </td>
-
+                    <td align="left" style="width: 18%;">Facsimile Number
+                    </td>
+                    <td align="center" style="width: 4%;">:
+                    </td>
+                    <td align="left" style="width: 28%;">
+                        <asp:Label runat="server" ID="lblFacsimileNumber"></asp:Label>
+                    </td>
                 </tr>
                 <tr>
                     <td align="left">Email
