@@ -26,6 +26,9 @@ namespace ERIMS.DAL
         private string _Zip_Code;
         private DateTime? _Update_Date;
         private string _Updated_By;
+        private decimal? _FK_LU_Firm_type;
+        private string _Contact_Name;
+        private string _Facsimile_Number;
         
 
 		#endregion
@@ -150,6 +153,32 @@ namespace ERIMS.DAL
             set { _Update_Date = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the FK_LU_Firm_type value.
+        /// </summary>
+        public decimal? FK_LU_Firm_type
+        {
+            get { return _FK_LU_Firm_type; }
+            set { _FK_LU_Firm_type = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Contact_Name value.
+        /// </summary>
+        public string Contact_Name
+        {
+            get { return _Contact_Name; }
+            set { _Contact_Name = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Facsimile_Number value.
+        /// </summary>
+        public string Facsimile_Number
+        {
+            get { return _Facsimile_Number; }
+            set { _Facsimile_Number = value; }
+        }
 
 		#endregion
 
@@ -254,6 +283,21 @@ namespace ERIMS.DAL
                 else
                     this._Updated_By = (string)drContractor_Firm["Updated_By"];
 
+                if (drContractor_Firm["FK_LU_Firm_type"] == DBNull.Value)
+                    this._FK_LU_Firm_type = null;
+                else
+                    this._FK_LU_Firm_type = (decimal?)drContractor_Firm["FK_LU_Firm_type"];
+
+                if (drContractor_Firm["Contact_Name"] == DBNull.Value)
+                    this._Contact_Name = null;
+                else
+                    this._Contact_Name = (string)drContractor_Firm["Contact_Name"];
+
+                if (drContractor_Firm["Facsimile_Number"] == DBNull.Value)
+                    this._Facsimile_Number = null;
+                else
+                    this._Facsimile_Number = (string)drContractor_Firm["Facsimile_Number"];
+
 		}
 
 		#endregion
@@ -321,6 +365,18 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Updated_By", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
+
+            db.AddInParameter(dbCommand, "FK_LU_Firm_type", DbType.Decimal, this._FK_LU_Firm_type);
+
+            if (string.IsNullOrEmpty(this._Contact_Name))
+                db.AddInParameter(dbCommand, "Contact_Name", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Contact_Name", DbType.String, this._Contact_Name);
+
+            if (string.IsNullOrEmpty(this._Facsimile_Number))
+                db.AddInParameter(dbCommand, "Facsimile_Number", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Facsimile_Number", DbType.String, this._Facsimile_Number);
 
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -424,6 +480,18 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Updated_By", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
+
+            db.AddInParameter(dbCommand, "FK_LU_Firm_type", DbType.Decimal, this._FK_LU_Firm_type);
+
+            if (string.IsNullOrEmpty(this._Contact_Name))
+                db.AddInParameter(dbCommand, "Contact_Name", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Contact_Name", DbType.String, this._Contact_Name);
+
+            if (string.IsNullOrEmpty(this._Facsimile_Number))
+                db.AddInParameter(dbCommand, "Facsimile_Number", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Facsimile_Number", DbType.String, this._Facsimile_Number);
 
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
             return returnValue;
