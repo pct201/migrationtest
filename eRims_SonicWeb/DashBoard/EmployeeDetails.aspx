@@ -40,7 +40,7 @@
                         <HeaderStyle HorizontalAlign="left" />
                         <ItemStyle Width="30%" HorizontalAlign="left" />
                         <ItemTemplate>
-                            <%# Eval("ProgramCompletionDate") %>
+                            <%# clsGeneral.FormatDateToDisplay(clsGeneral.FormatDateToStore(Eval("ProgramCompletionDate"))) %>
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>
