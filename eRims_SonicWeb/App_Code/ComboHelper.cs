@@ -5618,6 +5618,51 @@ public class ComboHelper
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillFocusAreaCauseCode(DropDownList[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.Investigation.SelectAllCauseCodeInformation();
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Focus_Area";
+            ddlToFill.DataValueField = "Master_Order";
+            ddlToFill.DataSource = dsData.Tables[0];
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillFocusAreaCauseCode(ListBox[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.Investigation.SelectAllCauseCodeInformation();
+        foreach (ListBox ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Focus_Area";
+            ddlToFill.DataValueField = "Focus_Area";
+            ddlToFill.DataSource = dsData.Tables[0];
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
 
     /// <summary>
     /// Used to Bind Firm Type DropDown
@@ -5652,4 +5697,5 @@ public class ComboHelper
             //}
         }
     }
+
 }

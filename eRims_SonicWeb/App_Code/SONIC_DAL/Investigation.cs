@@ -118,6 +118,10 @@ namespace ERIMS.DAL
         private string _Root_Causes_Comment;
         private string _Action_Plan;
         private string _Action_Plan_Comment;
+        private string _Focus_Area;
+        private string _Communicated;
+        private DateTime? _Date_Communicated;
+        private string _No_Communication_Explanation;
         #endregion
 
 
@@ -1094,6 +1098,43 @@ namespace ERIMS.DAL
             set { _Action_Plan_Comment = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the Focus_Area value.
+        /// </summary>
+        public string Focus_Area
+        {
+            get { return _Focus_Area; }
+            set { _Focus_Area = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Communicated value.
+        /// </summary>
+        public string Communicated
+        {
+            get { return _Communicated; }
+            set { _Communicated = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Date_Communicated value.
+        /// </summary>
+        public DateTime? Date_Communicated
+        {
+            get { return _Date_Communicated; }
+            set { _Date_Communicated = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the No_Communication_Explanation value.
+        /// </summary>
+        public string No_Communication_Explanation
+        {
+            get { return _No_Communication_Explanation; }
+            set { _No_Communication_Explanation = value; }
+        }
+
+
         #endregion
 
         #region Constructors
@@ -1342,6 +1383,27 @@ namespace ERIMS.DAL
                     this._Action_Plan_Comment = null;
                 else
                     this._Action_Plan_Comment = (string)drInvestigation["Action_Plan_Comment"];
+
+                if (drInvestigation["Focus_Area"] == DBNull.Value)
+					this._Focus_Area = null;
+				else
+					this._Focus_Area = (string)drInvestigation["Focus_Area"];
+
+				if (drInvestigation["Communicated"] == DBNull.Value)
+					this._Communicated = null;
+				else
+					this._Communicated = (string)drInvestigation["Communicated"];
+
+				if (drInvestigation["Date_Communicated"] == DBNull.Value)
+					this._Date_Communicated = null;
+				else
+					this._Date_Communicated = (DateTime?)drInvestigation["Date_Communicated"];
+
+				if (drInvestigation["No_Communication_Explanation"] == DBNull.Value)
+					this._No_Communication_Explanation = null;
+				else
+					this._No_Communication_Explanation = (string)drInvestigation["No_Communication_Explanation"];
+
             }
             else
             {
@@ -1387,6 +1449,10 @@ namespace ERIMS.DAL
                 this.Root_Causes_Comment = string.Empty;
                 this.Action_Plan = string.Empty;
                 this.Action_Plan_Comment = string.Empty;
+                this.Focus_Area = string.Empty;
+                this.Communicated= string.Empty;
+                this.Date_Communicated =(DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
+                this.No_Communication_Explanation = string.Empty;
             }
         }
 
@@ -1548,6 +1614,24 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Root_Causes_Comment", DbType.String, this._Root_Causes_Comment);
             db.AddInParameter(dbCommand, "Action_Plan", DbType.String, this._Action_Plan);
             db.AddInParameter(dbCommand, "Action_Plan_Comment", DbType.String, this._Action_Plan_Comment);
+            
+            if (string.IsNullOrEmpty(this._Focus_Area))
+				db.AddInParameter(dbCommand, "Focus_Area", DbType.String, DBNull.Value);
+			else
+				db.AddInParameter(dbCommand, "Focus_Area", DbType.String, this._Focus_Area);
+			
+			if (string.IsNullOrEmpty(this._Communicated))
+				db.AddInParameter(dbCommand, "Communicated", DbType.String, DBNull.Value);
+			else
+				db.AddInParameter(dbCommand, "Communicated", DbType.String, this._Communicated);
+			
+			db.AddInParameter(dbCommand, "Date_Communicated", DbType.DateTime, this._Date_Communicated);
+			
+			if (string.IsNullOrEmpty(this._No_Communication_Explanation))
+				db.AddInParameter(dbCommand, "No_Communication_Explanation", DbType.String, DBNull.Value);
+			else
+				db.AddInParameter(dbCommand, "No_Communication_Explanation", DbType.String, this._No_Communication_Explanation);
+
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -1734,6 +1818,22 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Root_Causes_Comment", DbType.String, this._Root_Causes_Comment);
             db.AddInParameter(dbCommand, "Action_Plan", DbType.String, this._Action_Plan);
             db.AddInParameter(dbCommand, "Action_Plan_Comment", DbType.String, this._Action_Plan_Comment);
+            if (string.IsNullOrEmpty(this._Focus_Area))
+				db.AddInParameter(dbCommand, "Focus_Area", DbType.String, DBNull.Value);
+			else
+				db.AddInParameter(dbCommand, "Focus_Area", DbType.String, this._Focus_Area);
+			
+			if (string.IsNullOrEmpty(this._Communicated))
+				db.AddInParameter(dbCommand, "Communicated", DbType.String, DBNull.Value);
+			else
+				db.AddInParameter(dbCommand, "Communicated", DbType.String, this._Communicated);
+			
+			db.AddInParameter(dbCommand, "Date_Communicated", DbType.DateTime, this._Date_Communicated);
+			
+			if (string.IsNullOrEmpty(this._No_Communication_Explanation))
+				db.AddInParameter(dbCommand, "No_Communication_Explanation", DbType.String, DBNull.Value);
+			else
+				db.AddInParameter(dbCommand, "No_Communication_Explanation", DbType.String, this._No_Communication_Explanation);
 
             db.ExecuteNonQuery(dbCommand);
         }
@@ -1865,6 +1965,30 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "PK_Investigation_ID", DbType.Decimal, pk_Investigation);
             db.AddInParameter(dbCommand, "Sonic_Cause_Code", DbType.String, strSonic_Cause_Code);
             db.ExecuteNonQuery(dbCommand);
+        }
+
+        /// <summary>
+        /// Selects all records from the LU_Cause_Code_Information table.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectAllCauseCodeInformation()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_Cause_Code_InformationFocusAreaSelectAll");
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// Selects all records from the LU_Cause_Code_Information table.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectAllCauseCodeInformationByMasterNode(int Master_Order)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_Cause_Code_InformationSelectByMasterOrder");
+            db.AddInParameter(dbCommand, "Master_Order", DbType.Int32, Master_Order);
+            return db.ExecuteDataSet(dbCommand);
         }
 
         #endregion
