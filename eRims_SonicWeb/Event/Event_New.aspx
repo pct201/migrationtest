@@ -2179,7 +2179,7 @@
                                                             Width="170px" OnClientClick="CheckBeforeSave('btnSave');return false;" />
                                                         <asp:Button ID="btnSend_Notification" runat="server" ToolTip="Save and Send Notification" Text="Save and Send Notification"
                                                             OnClick="btnSend_Notification_Click" CausesValidation="true" ValidationGroup="vsErrorGroup"
-                                                            Width="170px" OnClientClick="CheckBeforeSave('btnSend_Notification');return false;" />
+                                                            Width="190px" OnClientClick="CheckBeforeSave('btnSend_Notification');return false;" />
                                                         <asp:Button ID="btnSaveHidden" runat="server" OnClick="btnSaveHidden_Click" Style="display: none" />
                                                         <asp:Button ID="btnBack" runat="server" ToolTip="Edit" Text="  Edit  " CausesValidation="false"
                                                             OnClick="btnBack_Click" />
