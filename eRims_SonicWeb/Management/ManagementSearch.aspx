@@ -232,6 +232,13 @@
                             <td align="left" valign="top">
                                 <asp:TextBox ID="txtCreatedBy" runat="server" MaxLength="50" Width="200px"></asp:TextBox>
                             </td>
+                            <td align="left" valign="top">
+                                Reference Number
+                            </td>
+                            <td align="center" valign="top">:</td>
+                            <td align="left" valign="top">
+                                <asp:TextBox ID="txtReference_Number" runat="server" MaxLength="20" Width="200px"></asp:TextBox>
+                            </td>
                         </tr>
                         <%--<tr>
                             <td align="left" valign="top">
@@ -445,6 +452,13 @@
                                                     <%# Eval("Camera_Number")%>
                                                 </ItemTemplate>
                                             </asp:TemplateField>--%>
+                                            <asp:TemplateField HeaderText="Reference Number" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
+                                                SortExpression="Reference_Number">
+                                                <ItemStyle Width="150px" />
+                                                <ItemTemplate>
+                                                    <%# Eval("Reference_Number")%>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
                                             <asp:TemplateField HeaderText="DBA" HeaderStyle-HorizontalAlign="Left"
                                                 ItemStyle-HorizontalAlign="Left" SortExpression="dba">
                                                 <ItemStyle Width="110px" />

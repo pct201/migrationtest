@@ -264,6 +264,15 @@
                                                             <td style="height: 5px" colspan="6">
                                                             </td>
                                                         </tr>
+                                                           <tr>
+                                                            <td align="left" width="18%" valign="top">Reference Number
+                                                            </td>
+                                                            <td align="center" width="4%" valign="top">:
+                                                            </td>
+                                                            <td align="left" width="28%" valign="top" colspan="4">
+                                                                <asp:TextBox ID="txtReferenceNumber" autocomplete="off" runat="server" SkinID="txtDisabled" Width="170px"></asp:TextBox>
+                                                            </td>
+                                                        </tr>
                                                         <tr>
                                                             <%--<td align="left" width="18%" valign="top">
                                                             Company<span class="mf">*</span>
@@ -485,7 +494,28 @@
                                                                 $<asp:TextBox ID="txtService_Repair_Cost" runat="server" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);"  onpaste="return false;"
                                                                     OnBlur="CheckNumericVal(this,20);" Width="170px" AutoComplete="off"></asp:TextBox>
                                                             </td>
+                                                            <td align="left" valign="top">Approval Submission
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
                                                             <td align="left" valign="top">
+                                                                <asp:DropDownList ID="drpFK_LU_Approval_Submission" runat="server" Width="175px" SkinID="dropGen">
+                                                                </asp:DropDownList>
+                                                            </td>
+                                                           
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">
+                                                                Record Type
+                                                            </td>
+                                                            <td align="center" valign="top">
+                                                                :
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:DropDownList ID="drpFK_Record_Type" runat="server" Width="175px" SkinID="dropGen">
+                                                                </asp:DropDownList>
+                                                            </td>
+                                                             <td align="left" valign="top">
                                                                 CR Approved
                                                             </td>
                                                             <td align="center" valign="top">
@@ -503,27 +533,7 @@
                                                                     Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToCompare="txtCurrentDate"
                                                                     ControlToValidate="txtCR_Approved" Type="Date" Operator="LessThanEqual"></asp:CompareValidator>
                                                             </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td align="left" valign="top">
-                                                                Record Type
-                                                            </td>
-                                                            <td align="center" valign="top">
-                                                                :
-                                                            </td>
-                                                            <td align="left" valign="top">
-                                                                <asp:DropDownList ID="drpFK_Record_Type" runat="server" Width="175px" SkinID="dropGen">
-                                                                </asp:DropDownList>
-                                                            </td>
-                                                            <td align="left" valign="top">
-                                                                Other
-                                                            </td>
-                                                            <td align="center" valign="top">
-                                                                :
-                                                            </td>
-                                                            <td align="left" valign="top">
-                                                                <asp:TextBox ID="txtRecord_Type_Other" MaxLength="30" runat="server" Width="170px"></asp:TextBox>
-                                                            </td>
+                                                           
                                                         </tr>
                                                         <tr>
                                                             <td align="left" valign="top">
@@ -535,15 +545,16 @@
                                                             <td align="left" valign="top">
                                                                 <asp:TextBox ID="txtJob" MaxLength="50" runat="server" Width="170px"></asp:TextBox>
                                                             </td>
-                                                            <td align="left" valign="top">
-                                                                Order #
+                                                             <td align="left" valign="top">
+                                                                Other
                                                             </td>
                                                             <td align="center" valign="top">
                                                                 :
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:TextBox ID="txtOrder" MaxLength="50" runat="server" Width="170px"></asp:TextBox>
+                                                                <asp:TextBox ID="txtRecord_Type_Other" MaxLength="30" runat="server" Width="170px"></asp:TextBox>
                                                             </td>
+                                                            
                                                         </tr>
                                                         <tr>
                                                             <td align="left" valign="top">
@@ -563,6 +574,15 @@
                                                                 <asp:CompareValidator ID="cmp" runat="server" ErrorMessage="Order Date should be less than or equal to current date"
                                                                     Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToCompare="txtCurrentDate"
                                                                     ControlToValidate="txtOrderDate" Type="Date" Operator="LessThanEqual"></asp:CompareValidator>
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                Order #
+                                                            </td>
+                                                            <td align="center" valign="top">
+                                                                :
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:TextBox ID="txtOrder" MaxLength="50" runat="server" Width="170px"></asp:TextBox>
                                                             </td>
                                                         </tr>
                                                         <%--<tr>
@@ -1504,6 +1524,15 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
+                                                            <td align="left" width="18%" valign="top">Reference Number
+                                                            </td>
+                                                            <td align="center" width="4%" valign="top">:
+                                                            </td>
+                                                            <td align="left" width="28%" valign="top" colspan="4">
+                                                                <asp:Label ID="lblReference_Number" runat="server"></asp:Label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
                                                             <%--<td align="left" width="18%" valign="top">
                                                             Company
                                                         </td>
@@ -1673,15 +1702,15 @@
                                                             <td>
                                                                 $<asp:Label ID="lblService_Repair_Cost" runat="server" MaxLength="10"></asp:Label>
                                                             </td>
-                                                            <td align="left" valign="top">
-                                                                CR Approved
+                                                            <td align="left" valign="top">Approval Submission
                                                             </td>
-                                                            <td align="center" valign="top">
-                                                                :
+                                                            <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:Label ID="lblCRApproved" runat="server"></asp:Label>
+                                                                <asp:Label ID="lblFK_LU_Approval_Submission" runat="server">
+                                                                </asp:Label>
                                                             </td>
+                                                            
                                                         </tr>
                                                         <tr>
                                                             <td align="left" valign="top">
@@ -1695,14 +1724,15 @@
                                                                 </asp:Label>
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                Other
+                                                                CR Approved
                                                             </td>
                                                             <td align="center" valign="top">
                                                                 :
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:Label ID="lblRecord_Type_Other" MaxLength="30" runat="server"></asp:Label>
+                                                                <asp:Label ID="lblCRApproved" runat="server"></asp:Label>
                                                             </td>
+                                                            
                                                         </tr>
                                                         <%--<tr>
                                                         <td align="left" valign="top">Client Issue
@@ -1740,14 +1770,15 @@
                                                                 <asp:Label ID="lblJob" runat="server"></asp:Label>
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                Order #
+                                                                Other
                                                             </td>
                                                             <td align="center" valign="top">
                                                                 :
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:Label ID="lblOrder" runat="server"></asp:Label>
+                                                                <asp:Label ID="lblRecord_Type_Other" MaxLength="30" runat="server"></asp:Label>
                                                             </td>
+                                                            
                                                         </tr>
                                                         <tr>
                                                             <td align="left" valign="top">
@@ -1758,6 +1789,15 @@
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:Label ID="lblOrderDate" runat="server" />
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                Order #
+                                                            </td>
+                                                            <td align="center" valign="top">
+                                                                :
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblOrder" runat="server"></asp:Label>
                                                             </td>
                                                         </tr>
                                                         <tr>

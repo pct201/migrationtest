@@ -66,6 +66,8 @@ namespace ERIMS.DAL
         private DateTime? _DRM_Last_Email_Date;
         private DateTime? _DRM_Response_Date;
         private string _Comment;
+        private string _Reference_Number;
+        private decimal? _FK_LU_Approval_Submission;
 
 		#endregion
 
@@ -548,6 +550,23 @@ namespace ERIMS.DAL
             set { _Comment = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the Reference_Number value.
+        /// </summary>
+        public string Reference_Number
+        {
+            get { return _Reference_Number; }
+            set { _Reference_Number = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the FK_LU_Approval_Submission value.
+        /// </summary>
+        public decimal? FK_LU_Approval_Submission
+        {
+            get { return _FK_LU_Approval_Submission; }
+            set { _FK_LU_Approval_Submission = value; }
+        }
 		#endregion
 
 		#region Default Constructors
@@ -850,6 +869,16 @@ namespace ERIMS.DAL
                     this._Comment = null;
                 else
                     this._Comment = (string)drManagement["Comment"];
+
+                if (drManagement["Reference_Number"] == DBNull.Value)
+                    this._Reference_Number = null;
+                else
+                    this._Reference_Number = (string)drManagement["Reference_Number"];
+
+                if (drManagement["FK_LU_Approval_Submission"] == DBNull.Value)
+                    this._FK_LU_Approval_Submission = null;
+                else
+                    this._FK_LU_Approval_Submission = (decimal?)drManagement["FK_LU_Approval_Submission"];
 		}
 
 		#endregion
@@ -1033,6 +1062,8 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Comment", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Comment", DbType.String, this._Comment);
+
+            db.AddInParameter(dbCommand, "FK_LU_Approval_Submission", DbType.Decimal, this._FK_LU_Approval_Submission);
 
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -1247,6 +1278,8 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Comment", DbType.String, this._Comment);
 
+            db.AddInParameter(dbCommand, "FK_LU_Approval_Submission", DbType.Decimal, this._FK_LU_Approval_Submission);
+
 			db.ExecuteNonQuery(dbCommand);
 		}
 
@@ -1264,7 +1297,7 @@ namespace ERIMS.DAL
 		}
 
         public static DataSet ManagementSearch(decimal? FK_LU_Location, decimal? FK_LU_Work_Completed, string Work_To_Complete_Other, decimal? FK_LU_Record_Type, string Record_Type_Other, string Created_By, string Job, string Order, DateTime? Date_Scheduled_From, DateTime? Date_Scheduled_To,
-            DateTime? Date_Complete_From, DateTime? Date_Complete_To, DateTime? CR_Approved_From, DateTime? CR_Approved_To, decimal? Location_Code, bool? Work_Completed_By, bool? Task_Complete, string strOrderBy, string strOrder, int intPageNo, int intPageSize)
+            DateTime? Date_Complete_From, DateTime? Date_Complete_To, DateTime? CR_Approved_From, DateTime? CR_Approved_To, decimal? Location_Code, bool? Work_Completed_By, bool? Task_Complete, string strOrderBy, string strOrder, int intPageNo, int intPageSize, string ReferenceNumber)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("ManagementSearch");
@@ -1302,6 +1335,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Job", DbType.String, Job);
             db.AddInParameter(dbCommand, "Order", DbType.String, Order);
             db.AddInParameter(dbCommand, "Work_Completed_By", DbType.Boolean, Work_Completed_By);
+            db.AddInParameter(dbCommand, "ReferenceNumber", DbType.String, ReferenceNumber);
 
             return db.ExecuteDataSet(dbCommand);
         }

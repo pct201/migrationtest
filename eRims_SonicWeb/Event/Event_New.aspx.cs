@@ -251,10 +251,10 @@ public partial class Event_Event_New : clsBasePage
 
         SaveRecord();
 
-        if (ViewState["EmailAbsratact"] != null)
-        {
-            SendAbstractViaEmailWhileInsert();
-        }
+        //if (ViewState["EmailAbsratact"] != null)
+        //{
+        //    SendAbstractViaEmailWhileInsert();
+        //}
 
         ClearControl();
 
@@ -271,6 +271,33 @@ public partial class Event_Event_New : clsBasePage
             ucEventInfo.FillEventInformation(PK_Event);
         }
         Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(" + hdnPanel.Value + ");", true);
+    }
+
+    /// <summary>
+    /// Send Notification
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnSend_Notification_Click(object sender, EventArgs e)
+    {
+        SaveRecord();
+        SendAbstractViaEmailWhileInsert();
+
+        ClearControl();
+        if (StrOperation.ToLower() == "add" || StrOperation.ToLower() == "addto" || StrOperation.ToLower() == "")
+        {
+            Response.Redirect("Event_New.aspx?eid=" + Encryption.Encrypt(PK_Event.ToString()) + "&iid=" + Encryption.Encrypt(FK_Incident.ToString()) + "&mode=edit&pnl=" + hdnPanel.Value, true);
+        }
+        else
+        {
+            StrOperation = "edit";
+            BindDetailsForEdit();
+            // set user control values
+            //ucIncidentInfo.FillIncidentInformation(FK_Incident, PK_Event, 0);
+            ucEventInfo.FillEventInformation(PK_Event);
+        }
+        Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(" + hdnPanel.Value + ");", true);
+
     }
 
     /// <summary>

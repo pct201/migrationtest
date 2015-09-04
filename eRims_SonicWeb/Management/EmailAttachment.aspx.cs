@@ -44,7 +44,9 @@ public partial class SONIC_EmailAttachment : System.Web.UI.Page
             //    DataRow drManagement = dtManagement.Rows[0];
             //    strManagement_Numberr = Convert.ToString(drManagement["Management_Number"]);
             //}
-            txtBody.Text = strBody.Replace("{Origin_Claim_Number}",string.Empty );//strManagement_Numberr.ToString().Trim()
+            decimal PK_Management = clsGeneral.GetDecimal(Request.QueryString["ManagementId"]);
+            string strReference_Number = new clsManagement((decimal)PK_Management).Reference_Number;
+            txtBody.Text = "Reference Number : " + Convert.ToString(strReference_Number) + " \n \n" + strBody.Replace("{Origin_Claim_Number}", string.Empty);//strManagement_Numberr.ToString().Trim()
         }
 
     }
@@ -66,7 +68,7 @@ public partial class SONIC_EmailAttachment : System.Web.UI.Page
         string[] strEmailIds = strToEmailIDs.TrimEnd(Convert.ToChar(",")).Split(Convert.ToChar(","));
         string[] strAttachment = null;
         EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
-        objEmail.SendMailMessage(AppConfig.ManagementEmailID, " ", strEmailIds, " Email Notification for ACI Change Request for your Approval.", txtBody.Text, true, strAttachment, AppConfig.MailCC);      
+        objEmail.SendMailMessage(AppConfig.ManagementEmailID, " ", strEmailIds, " Email Notification for ACI Change Request for your Approval.", txtBody.Text.Replace("\n", "<br/>"), true, strAttachment, AppConfig.MailCC);      
         StringBuilder sb = new StringBuilder();
         sb.Append("var obj=document.getElementById('lstEmailTo');");
         sb.Append("var strEmails = '';");

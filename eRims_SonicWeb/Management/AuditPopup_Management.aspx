@@ -104,6 +104,9 @@
                                 <th class="cols">
                                     <span style="display: inline-block; width: 150px;">CR Approved</span>
                                 </th>
+                                 <th class="cols">
+                                    <span style="display: inline-block; width: 150px;">Approval Submission</span>
+                                </th>
                                 <th class="cols">
                                     <span style="display: inline-block; width: 150px;">Record Type</span>
                                 </th>
@@ -131,6 +134,7 @@
                                 <%--<th class="cols">
                                     <span style="display: inline-block; width: 300px;">Camera Concern</span>
                                 </th>--%>
+                               
                                 <th class="cols">
                                     <span style="display: inline-block; width: 300px;">Reason for Request</span>
                                 </th>
@@ -284,6 +288,12 @@
                                 <ItemTemplate>
                                     <asp:Label ID="lblCR_Approved" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("CR_Approved")) %>'
                                         Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Approval Submission">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblApproval_Submission" runat="server" Text='<%#Eval("Approval_Submission")%>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Record Type">

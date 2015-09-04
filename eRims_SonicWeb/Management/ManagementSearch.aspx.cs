@@ -109,7 +109,7 @@ public partial class Management_ManagementSearch : clsBasePage
 
         decimal? decLocation = 0, decRecordType = 0, decLocation_Code = null, decWorkToBeCompleted = 0;
         DateTime? Date_Scheduled_From = null, Date_Scheduled_To = null, Date_Complete_From = null, Date_Complete_To = null, CR_Approved_From = null, CR_Approved_To = null;
-        string strOtherWorkType = null, strOtherRecordType = null, strJob = null, strOrder = null, strCreatedBy = null;
+        string strOtherWorkType = null, strOtherRecordType = null, strJob = null, strOrder = null, strCreatedBy = null, strReferenceNumber = null; ;
 
         //if (drpState.SelectedIndex > 0) decState = Convert.ToDecimal(drpState.SelectedValue);
         if (drpLocation.SelectedIndex > 0) decLocation = Convert.ToDecimal(drpLocation.SelectedValue);
@@ -151,7 +151,7 @@ public partial class Management_ManagementSearch : clsBasePage
         {
             Task_Complete = Convert.ToBoolean(Convert.ToInt32(rdbTaskComplete.SelectedValue));
         }
-
+        if (!string.IsNullOrEmpty(txtReference_Number.Text)) strReferenceNumber = txtReference_Number.Text.Trim().Replace("'", "''");
         #endregion
 
         #region "Bind Grid"
@@ -159,7 +159,7 @@ public partial class Management_ManagementSearch : clsBasePage
         // selects records depending on paging criteria and search values.
         DataSet dsManagement = ERIMS.DAL.clsManagement.ManagementSearch(decLocation, decWorkToBeCompleted, strOtherWorkType,
             decRecordType, strOtherRecordType, strCreatedBy, strJob, strOrder, Date_Scheduled_From, Date_Scheduled_To, Date_Complete_From,
-            Date_Complete_To, CR_Approved_From, CR_Approved_To, decLocation_Code, workToBeCompletedBy, Task_Complete, _SortBy, _SortOrder, PageNumber, PageSize);
+            Date_Complete_To, CR_Approved_From, CR_Approved_To, decLocation_Code, workToBeCompletedBy, Task_Complete, _SortBy, _SortOrder, PageNumber, PageSize, strReferenceNumber);
         DataTable dtManagement = dsManagement.Tables[0];
 
         // set values for paging control,so it shows values as needed.
@@ -222,6 +222,7 @@ public partial class Management_ManagementSearch : clsBasePage
         dtCriteria.Columns.Add("strOrder", typeof(string));
         dtCriteria.Columns.Add("strCreatedBy", typeof(string));
         dtCriteria.Columns.Add("workToBeCompletedBy", typeof(bool));
+        dtCriteria.Columns.Add("strReferenceNumber", typeof(string));
 
         DataRow drCriteria = dtCriteria.NewRow();
         //drCriteria["strCompany"] = strCompany;
@@ -257,6 +258,8 @@ public partial class Management_ManagementSearch : clsBasePage
             drCriteria["decLocation_Code"] = decLocation_Code;
         if (Task_Complete != null)
             drCriteria["Task_Complete"] = Task_Complete;
+
+        drCriteria["strReferenceNumber"] = strReferenceNumber;
 
         dtCriteria.Rows.Add(drCriteria);
         Session["ManagementCriteria"] = dtCriteria;
@@ -315,13 +318,14 @@ public partial class Management_ManagementSearch : clsBasePage
         if (drCriteria["Task_Complete"] != DBNull.Value)
             Task_Complete = Convert.ToBoolean(drCriteria["Task_Complete"]);
 
+        string strReferenceNumber = Convert.ToString(drCriteria["strReferenceNumber"]);
         #endregion
 
         #region "Bind Grid"
 
         DataSet dsManagement = ERIMS.DAL.clsManagement.ManagementSearch(decLocation, decWorkToBeCompleted, strOtherWorkType,
             decRecordType, strOtherRecordType, strCreatedBy, strJob, strOrder, Date_Scheduled_From, Date_Scheduled_To, Date_Complete_From, Date_Complete_To, CR_Approved_From,
-            CR_Approved_To, decLocation_Code, workToBeCompletedBy, Task_Complete, _SortBy, _SortOrder, PageNumber, PageSize);
+            CR_Approved_To, decLocation_Code, workToBeCompletedBy, Task_Complete, _SortBy, _SortOrder, PageNumber, PageSize, strReferenceNumber);
 
         // set values for paging control,so it shows values as needed.
         DataTable dtManagement = dsManagement.Tables[0];
@@ -439,8 +443,9 @@ public partial class Management_ManagementSearch : clsBasePage
         //strHTML.Append("<td align='left'>Date Scheduled</td>");
         //strHTML.Append("<td align='left'>Date Complete</td>");
         //strHTML.Append("<td align='left'>Task Complete</td>");
+        strHTML.Append("<td align='left'>Reference Number</td>");
         strHTML.Append("<td align='left'>DBA</td>");
-        strHTML.Append("<td align='left'>Work To Be Completed</td>'");
+        strHTML.Append("<td align='left'>Work To Be Completed</td>");
         strHTML.Append("<td align='left'>Order #</td>");
         strHTML.Append("<td align='left'>Job #</td>");
         strHTML.Append("<td align='left'>Created By</td>");
@@ -458,6 +463,7 @@ public partial class Management_ManagementSearch : clsBasePage
                 //strHTML.Append("<td>" + clsGeneral.FormatDBNullDateToDisplay(dtManagement.Rows[i]["Date_Scheduled"]) + "</td>");
                 //strHTML.Append("<td>" + clsGeneral.FormatDBNullDateToDisplay(dtManagement.Rows[i]["Date_Complete"]) + "</td>");
                 //strHTML.Append("<td>" + Convert.ToString(dtManagement.Rows[i]["Task_Complete"]) + "</td>");
+                strHTML.Append("<td>" + Convert.ToString(dtManagement.Rows[i]["Reference_Number"]) + "</td>");
                 strHTML.Append("<td>" + Convert.ToString(dtManagement.Rows[i]["DBA"]) + "</td>");
                 strHTML.Append("<td>" + Convert.ToString(dtManagement.Rows[i]["WorkToBeCompleted"]) + "</td>");
                 strHTML.Append("<td>" + Convert.ToString(dtManagement.Rows[i]["Order"]) + "</td>");
@@ -698,13 +704,13 @@ public partial class Management_ManagementSearch : clsBasePage
 
         if (drCriteria["Task_Complete"] != DBNull.Value)
             Task_Complete = Convert.ToBoolean(drCriteria["Task_Complete"]);
-
+        string strReferenceNumber = Convert.ToString(drCriteria["strReferenceNumber"]);
         #endregion
 
         // selects records depending on paging criteria and search values.
         DataSet dsManagement = ERIMS.DAL.clsManagement.ManagementSearch(decLocation, decWorkToBeCompleted, strOtherWorkType,
-            decRecordType, strOtherRecordType, strCreatedBy, strJob, strOrder, Date_Scheduled_From, Date_Scheduled_To, Date_Complete_From, Date_Complete_To, CR_Approved_From, 
-            CR_Approved_To, decLocation_Code, workToBeCompletedBy, Task_Complete, _SortBy, _SortOrder, 1, ctrlPageProperty.TotalRecords);
+            decRecordType, strOtherRecordType, strCreatedBy, strJob, strOrder, Date_Scheduled_From, Date_Scheduled_To, Date_Complete_From, Date_Complete_To, CR_Approved_From,
+            CR_Approved_To, decLocation_Code, workToBeCompletedBy, Task_Complete, _SortBy, _SortOrder, 1, ctrlPageProperty.TotalRecords, strReferenceNumber);
 
         DataTable dtManagement = dsManagement.Tables[0];
         ExportToSpreadsheet(dtManagement, "ManagementSearch.xls");

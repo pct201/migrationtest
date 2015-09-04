@@ -132,6 +132,7 @@ public partial class Management_Management : clsBasePage
         ComboHelper.FillLocationByACIUser_New((new DropDownList[] { drpLocation }), Convert.ToDecimal(clsSession.UserID), true);
         ComboHelper.FillWork_Completed((new DropDownList[] { drpFK_Work_Completed }), true);
         ComboHelper.FillRecord_Type((new DropDownList[] { drpFK_Record_Type }), true);
+        ComboHelper.FillApproval_Submission((new DropDownList[] { drpFK_LU_Approval_Submission }), true);
         
         //ComboHelper.FillLU_Region(new DropDownList[] { drpRegion }, true);
         //ComboHelper.FillState(new DropDownList[] { drpState }, true);
@@ -211,6 +212,11 @@ public partial class Management_Management : clsBasePage
             objRecord.FK_LU_Record_Type = Convert.ToDecimal(drpFK_Record_Type.SelectedValue);
         else
             objRecord.FK_LU_Record_Type = null;
+
+        if (drpFK_LU_Approval_Submission.SelectedIndex > 0)
+            objRecord.FK_LU_Approval_Submission = Convert.ToDecimal(drpFK_LU_Approval_Submission.SelectedValue);
+        else
+            objRecord.FK_LU_Approval_Submission = null;
 
         objRecord.Work_To_Complete_Other = txtWork_To_Complete_Other.Text;
 
@@ -310,6 +316,8 @@ public partial class Management_Management : clsBasePage
             if (objRecord.PK_Management_ID != null)
                 PK_Management = Convert.ToDecimal(objRecord.PK_Management_ID);
 
+            txtReferenceNumber.Text = Convert.ToString(objRecord.Reference_Number);
+
             //txtCompany.Text = objRecord.Company != null ? objRecord.Company : "";
             //txtCompany_Phone.Text = objRecord.Company_Phone != null ? objRecord.Company_Phone : "";
             //txtCity.Text = objRecord.City != null ? objRecord.City : "";
@@ -334,6 +342,7 @@ public partial class Management_Management : clsBasePage
             //if (objRecord.FK_LU_Facilities_Issue != null) drpFacilitiesIssue.SelectedValue = Convert.ToString(objRecord.FK_LU_Facilities_Issue);
 
             clsGeneral.SetDropdownValue(drpFK_Record_Type, objRecord.FK_LU_Record_Type, true);
+            clsGeneral.SetDropdownValue(drpFK_LU_Approval_Submission, objRecord.FK_LU_Approval_Submission, true);
 
             txtWork_To_Complete_Other.Text = objRecord.Work_To_Complete_Other;
 
@@ -459,6 +468,7 @@ public partial class Management_Management : clsBasePage
         clsManagement objRecord = new clsManagement(PK_Management);
         if (PK_Management > 0)
         {
+            lblReference_Number.Text = Convert.ToString(objRecord.Reference_Number);
             //lblCompany.Text = objRecord.Company != null ? objRecord.Company : "";
             //lblCompany_Phone.Text = objRecord.Company_Phone != null ? objRecord.Company_Phone : "";
             //lblCity.Text = objRecord.City != null ? objRecord.City : "";
@@ -537,6 +547,11 @@ public partial class Management_Management : clsBasePage
                 lblFK_LU_Record_Type.Text = new clsLU_Record_Type((decimal)objRecord.FK_LU_Record_Type).Fld_Desc;
             else
                 lblFK_LU_Record_Type.Text = string.Empty;
+
+            if (objRecord.FK_LU_Approval_Submission != null)
+                lblFK_LU_Approval_Submission.Text = new clsLU_Approval_Submission((decimal)objRecord.FK_LU_Approval_Submission).Fld_Desc;
+            else
+                lblFK_LU_Approval_Submission.Text = string.Empty;
 
             if (objRecord.Work_To_Complete_Other != null)
                 lblWork_To_Complete_Other.Text = objRecord.Work_To_Complete_Other;
@@ -827,6 +842,7 @@ public partial class Management_Management : clsBasePage
             #region "Management Details"
 
             strBody = strBody.Replace("[DBA]", Convert.ToString(dtManagementDetail.Rows[0]["DBA"]));
+            strBody = strBody.Replace("[Reference_Number]", Convert.ToString(dtManagementDetail.Rows[0]["Reference_Number"]));
             strBody = strBody.Replace("[LocationCode]", Convert.ToString(dtManagementDetail.Rows[0]["Location_Code"]));
             strBody = strBody.Replace("[DateScheduled]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["Date_Scheduled"]));
             strBody = strBody.Replace("[DateCompleted]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["Date_Complete"]));
@@ -876,6 +892,7 @@ public partial class Management_Management : clsBasePage
             strBody = strBody.Replace("[Service/RepairCost]", string.Format("{0:C2}", dtManagementDetail.Rows[0]["Service_Repair_Cost"]));
             strBody = strBody.Replace("[CRApproved]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["CR_Approved"]));
             strBody = strBody.Replace("[RecordType]", Convert.ToString(dtManagementDetail.Rows[0]["RecordType"]));
+            strBody = strBody.Replace("[Approval_Submission]", Convert.ToString(dtManagementDetail.Rows[0]["Approval_Submission"]));
             strBody = strBody.Replace("[RecordTypeOther]", Convert.ToString(dtManagementDetail.Rows[0]["Record_Type_Other"]));
             strBody = strBody.Replace("[Job#]", Convert.ToString(dtManagementDetail.Rows[0]["Job"]));
             strBody = strBody.Replace("[Order#]", Convert.ToString(dtManagementDetail.Rows[0]["Order"]));

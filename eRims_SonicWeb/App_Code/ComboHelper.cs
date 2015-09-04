@@ -5266,6 +5266,30 @@ public class ComboHelper
     }
 
     /// <summary>
+    /// Used to bind Approval Submission dropdown of ACI Management screen
+    /// </summary>
+    /// <param name="dropDownList"></param>
+    /// <param name="p"></param>
+    public static void FillApproval_Submission(DropDownList[] dropDownList, bool p)
+    {
+        DataSet dsData = clsLU_Approval_Submission.SelectAll();
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+        foreach (DropDownList ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Fld_Desc";
+            ddlToFill.DataValueField = "PK_LU_Approval_Submission";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (p)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary>
     /// Fill Event Level Drop downs
     /// </summary>
     /// <param name="dropDownList">All dropDownList</param>
