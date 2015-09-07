@@ -718,7 +718,7 @@ public partial class Exposures_Investigation : clsBasePage
             // set the FKs
             objInvestigation.FK_LU_Location_ID = Convert.ToInt32(FK_LU_Location);
             objInvestigation.FK_WC_FR_ID = FK_WC_FR;
-            
+
             //objInvestigation.Original_Sonic_S0_Cause_Code = txtOriginalSonicCode.Text.Trim();
             //objInvestigation.Sonic_S0_Cause_Code_Promoted = rdoSonicCodePromoted.SelectedValue;
             //objInvestigation.Date_Sonic_S0_Cause_Code_Promoted = clsGeneral.FormatNullDateToStore(txtDateSonicCodePromoted.Text);
@@ -729,11 +729,11 @@ public partial class Exposures_Investigation : clsBasePage
 
             objInvestigation.OSHA_Recordable = Convert.ToString(rdoOshaRecordable.SelectedValue) == "Y" ? true : false;
 
-           
+            lblOSHARecordable.Text = hdnOSHARecordable.Value;
             objInvestigation.Original_Sonic_S0_Cause_Code = txtOriginalSonicCode.Text.Trim();
             objInvestigation.Sonic_S0_Cause_Code_Promoted = rdoSonicCodePromoted.SelectedValue;
             objInvestigation.Date_Sonic_S0_Cause_Code_Promoted = clsGeneral.FormatNullDateToStore(txtDateSonicCodePromoted.Text);
-           
+
             objInvestigation.Sonic_Cause_Code = ddlSonic_Cause_Code.SelectedIndex > 0 ? ddlSonic_Cause_Code.SelectedItem.Text : string.Empty;
 
             if (hdnOriginalSonicCode.Value != "")
@@ -758,7 +758,7 @@ public partial class Exposures_Investigation : clsBasePage
             else
                 PK_Investigation_ID = objInvestigation.Insert();
 
-           
+
 
             hdnFocusArea.Value = drpCauseOfIncident.SelectedItem.Text;
 
@@ -1248,7 +1248,16 @@ public partial class Exposures_Investigation : clsBasePage
         if (objInvestigation.OSHA_Recordable != null)
         {
             rdoOshaRecordable.SelectedValue = objInvestigation.OSHA_Recordable == true ? "Y" : "N";
+
+            lblOSHARecordable.Text = objInvestigation.OSHA_Recordable == true ? "Yes" : "No";
+            hdnOSHARecordable.Value = lblOSHARecordable.Text;
         }
+
+        //if (objInvestigation.OSHA_Recordable != null)
+        //{
+        //    lblOSHARecordable.Text = objInvestigation.OSHA_Recordable == true ? "Yes" : "No";
+        //    hdnOSHARecordable.Value = lblOSHARecordable.Text;
+        //}
 
         hdnOriginalSonicCode.Value = objInvestigation.Sonic_Cause_Code;
         ddlSonic_Cause_Code.ClearSelection();
@@ -1463,131 +1472,222 @@ public partial class Exposures_Investigation : clsBasePage
 
         #endregion
 
+        //#region "Causes"
+
+        //strBody.Append("<div style='" + bandHeaderRow + "'>&nbsp;Causes</div>");
+        //strBody.Append("<table cellpadding='3' cellspacing=1 border=0 width='100%'" + strFontStyle + ">");
+        //strBody.Append("<tr><td colspan='6' width='100%'><b>What were the immediate causes of the accident?</b></td></tr>");
+        //strBody.Append("<tr><td colspan='6' width='100%'>SUBSTANDARD BEHAVIORS</td></tr>");
+
+        //#region "Cause Behaviours"
+
+        //StringBuilder causeBehaviours = new StringBuilder();
+        //causeBehaviours.Append("<table cellpadding='0' cellspacing='0' width='100%'" + strFontStyle + ">");
+        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[0] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_1) + "</td></tr>");
+        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[1] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_2) + "</td></tr>");
+        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[2] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_3) + "</td></tr>");
+        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[3] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_4) + "</td></tr>");
+        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[4] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_5) + "</td></tr>");
+        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[5] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_6) + "</td></tr>");
+        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[6] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_7) + "</td></tr>");
+        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[7] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_8) + "</td></tr>");
+        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[8] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_9) + "</td></tr>");
+        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[9] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_10) + "</td></tr>");
+        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[10] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_11) + "</td></tr>");
+        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[11] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_12) + "</td></tr>");
+        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[12] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_13) + "</td></tr>");
+        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[13] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_14) + "</td></tr>");
+        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[14] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_15) + "</td></tr>");
+        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[15] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_16) + "</td></tr>");
+        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[16] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_17) + "</td></tr>");
+        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[17] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_18) + "</td></tr>");
+        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[18] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_19) + "</td></tr>");
+        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[19] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_20) + "</td></tr>");
+        //causeBehaviours.Append("</table>");
+
+        //#endregion
+
+        //strBody.Append("<tr><td colspan='6'>" + causeBehaviours.ToString() + "</td></tr>");
+        //strBody.Append("<tr><td colspan='6' width='100%'>&nbsp;</td></tr>");
+        //strBody.Append("<tr><td colspan='6' width='100%'>SUBSTANDARD CONDITIONS</td>");
+
+        //#region "Cause Conditions"
+
+        //StringBuilder sbCauseConditions = new StringBuilder();
+        //sbCauseConditions.Append("<table cellpadding='0' cellspacing='0' width='100%'" + strFontStyle + ">");
+        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[0] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_21) + "</td></tr>");
+        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[1] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_22) + "</td></tr>");
+        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[2] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_23) + "</td></tr>");
+        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[3] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_24) + "</td></tr>");
+        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[4] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_25) + "</td></tr>");
+        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[5] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_26) + "</td></tr>");
+        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[6] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_27) + "</td></tr>");
+        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[7] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_28) + "</td></tr>");
+        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[8] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_29) + "</td></tr>");
+        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[9] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_30) + "</td></tr>");
+        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[10] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_31) + "</td></tr>");
+        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[11] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_32) + "</td></tr>");
+        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[12] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_33) + "</td></tr>");
+        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[13] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_34) + "</td></tr>");
+        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[14] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_35) + "</td></tr>");
+        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[15] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_36) + "</td></tr>");
+        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[16] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_37) + "</td></tr>");
+        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[17] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_38) + "</td></tr>");
+        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[18] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_39) + "</td></tr>");
+        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[19] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_40) + "</td></tr>");
+        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[20] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_41) + "</td></tr>");
+        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[21] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_42) + "</td></tr>");
+        //sbCauseConditions.Append("</table>");
+
+        //#endregion
+
+        //strBody.Append("<tr><td colspan='6'>" + sbCauseConditions.ToString() + "</td></tr>");
+        //if (objInvestigation.Cause_42 == true)
+        //    strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Cause_42_detail + "</td></tr>");
+
+        //strBody.Append("<tr><td align='left'>Comment</td></tr>");
+        //strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Cause_Comment + "</td></tr>");
+        //strBody.Append("<tr><td align='left' colspan='6'>What are the basic causes that led to the immediate causes above?</td></tr>");
+        //strBody.Append("<tr><td colspan='6' align='left'>");
+
+        //strBody.Append("<table cellpadding='3' cellspacing='1' border='0' width='100%'" + strFontStyle + "><tr>");
+        //strBody.Append("<td align='left' colspan='2' style='width:50%'>PERSONAL FACTORS</td>");
+        //strBody.Append("<td align='left' colspan='2' style='width:50%'>JOB FACTORS</td></tr>");
+
+        //#region "Personal Factors"
+
+        //StringBuilder sbPersonalFactors = new StringBuilder();
+        //sbPersonalFactors.Append("<table cellpadding='0' cellspacing='0' width='100%'" + strFontStyle + ">");
+        //sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[0] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_1) + "</td></tr>");
+        //sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[1] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_2) + "</td></tr>");
+        //sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[2] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_3) + "</td></tr>");
+        //sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[3] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_4) + "</td></tr>");
+        //sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[4] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_5) + "</td></tr>");
+        //sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[5] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_6) + "</td></tr>");
+        //sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[6] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_7) + "</td></tr>");
+        //sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[7] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_8) + "</td></tr>");
+        //sbPersonalFactors.Append("</table>");
+
+        //#endregion
+
+        //#region "Job Factors"
+
+        //StringBuilder sbJobFactors = new StringBuilder();
+        //sbJobFactors.Append("<table cellpadding='0' cellspacing='0' width='100%'" + strFontStyle + ">");
+        //sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[0] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_9) + "</td></tr>");
+        //sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[1] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_10) + "</td></tr>");
+        //sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[2] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_11) + "</td></tr>");
+        //sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[3] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_12) + "</td></tr>");
+        //sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[4] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_13) + "</td></tr>");
+        //sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[5] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_14) + "</td></tr>");
+        //sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[6] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_15) + "</td></tr>");
+        //sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[7] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_16) + "</td></tr>");
+        //sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[8] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_17) + "</td></tr>");
+        //sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[9] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_18) + "</td></tr>");
+        //sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[10] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_19) + "</td></tr>");
+        //sbJobFactors.Append("</table>");
+        //#endregion
+
+        //strBody.Append("<tr><td colspan='2' align='left' valign='top'>" + sbPersonalFactors.ToString() + "</td><td align='left' colspan='2' valign='top'>" + sbJobFactors.ToString() + "</td></tr>");
+
+        //if (objInvestigation.Personal_Job_Factors_19 == true)
+        //    strBody.Append("<tr><td align='left'>&nbsp;</td><td align='left'>&nbsp;</td><td align='left'>" + objInvestigation.Personal_Job_Factors_17_Details + "</td></tr>");
+        //strBody.Append("</table></td>");
+
+        //strBody.Append("<tr><td align='left' colspan='6'>");
+        //strBody.Append("<table width='100%' " + strFontStyle + ">");
+
+        //if (strOperation == "edit")
+        //{
+
+        //    if (drpFk_LU_Contributing_Factor.SelectedItem.Text == "Other" || lblContributingFactor.Text == "Other")
+        //    {
+        //        strBody.Append("<tr><td align='left' width='18%'>Contributing Factor</td><td align='center' width='4%'>:</td>");
+        //        strBody.Append("<td align='left' width='28%'>" + new clsLU_Contributing_Factor((decimal)objInvestigation.FK_LU_Contributing_Factor).Field_Description + "</td>");
+        //        strBody.Append("<td align='left' width='18%'>Contributing Factor - Other</td><td align='center' width='4%'>:</td>");
+        //        strBody.Append("<td align='left' width='28%'>" + objInvestigation.Contributing_Factor_Other + "</td></tr>");
+        //    }
+        //    else
+        //    {
+        //        strBody.Append("<tr><td align='left' style='width:18%'>Contributing Factor</td><td align='center' style='width:4%'>:</td>");
+        //        if (drpFk_LU_Contributing_Factor.SelectedIndex > 0)
+        //        {
+        //            strBody.Append("<td align='left' colspan='4'>" + new clsLU_Contributing_Factor((decimal)objInvestigation.FK_LU_Contributing_Factor).Field_Description + "</td></tr>");
+        //        }
+        //        else
+        //        {
+        //            strBody.Append("<td align='left' colspan='4'>" + string.Empty + "</td></tr>");
+        //        }
+        //    }
+
+        //    strBody.Append("</table></td></tr>");
+        //}
+        //else
+        //{
+        //    if (lblContributingFactor.Text == "Other")
+        //    {
+        //        strBody.Append("<tr><td align='left' width='18%'>Contributing Factor</td><td align='center' width='4%'>:</td>");
+        //        strBody.Append("<td align='left' width='28%'>" + new clsLU_Contributing_Factor((decimal)objInvestigation.FK_LU_Contributing_Factor).Field_Description + "</td>");
+        //        strBody.Append("<td align='left' width='18%'>Contributing Factor - Other</td><td align='center' width='4%'>:</td>");
+        //        strBody.Append("<td align='left' width='28%'>" + objInvestigation.Contributing_Factor_Other + "</td></tr>");
+        //    }
+        //    else
+        //    {
+        //        strBody.Append("<tr><td align='left' style='width:18%'>Contributing Factor</td><td align='center' style='width:4%'>:</td>");
+        //        if (objInvestigation.FK_LU_Contributing_Factor != null)
+        //        {
+        //            strBody.Append("<td align='left' colspan='4'>" + new clsLU_Contributing_Factor((decimal)objInvestigation.FK_LU_Contributing_Factor).Field_Description + "</td></tr>");
+        //        }
+        //        else
+        //        {
+        //            strBody.Append("<td align='left' colspan='4'>" + string.Empty + "</td></tr>");
+        //        }
+        //    }
+
+        //    strBody.Append("</table></td></tr>");
+        //}
+
+        //strBody.Append("<tr><td align='left' colspan='6'>Comment</td></tr>");
+        //strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Personal_Job_Comment + "</td></tr>");
+        //strBody.Append("<tr><td align='left' colspan='6'>Conclusions/Impressions</td></tr>");
+        //strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Conclusions + "</td></tr>");
+        //strBody.Append("<tr><td align='left' width='18%' valign='top'>OSHA Recordable</td><td align='center' width='4%' valign='top'>:</td>");
+        //strBody.Append("<td colspan='4' valign='top'>" + clsGeneral.FormatYesNoToDisplayForView(objInvestigation.OSHA_Recordable) + "</td></tr>");
+        //strBody.Append("<tr><td align='left' colspan='6'><table cellpadding='0' cellspacing='0' border='0' width='100%'" + strFontStyle + ">");
+        //strBody.Append("<tr><td align='left' style='width:18%'>Sonic Cause Code</td><td align='center' style='width:4%'>:</td>");
+        //strBody.Append("<td align='left' colspan='4'>" + objInvestigation.Sonic_Cause_Code + "</td></tr></table></td></tr>");
+
+        //strBody.Append("</table>");
+
+        //#endregion
+
+        //#region "Corrective Actions"
+
+        //strBody.Append("<div style='" + bandHeaderRow + "'>&nbsp;Corrective Actions</div>");
+        //strBody.Append("<table cellpadding='3' cellspacing=1 border=0 width='100%'" + strFontStyle + ">");
+        //strBody.Append("<tr><td align='left' colspan='6'>Description</td></tr>");
+        //strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Corrective_Action_Description + "</td></tr>");
+        //strBody.Append("<tr><td align='left' width='18%'>Assigned To</td><td align='center' width='4%'>:</td>");
+        //strBody.Append("<td align='left' width='28%'>" + objInvestigation.Assigned_To + "</td>");
+        //strBody.Append("<td align='left' width='18%'>Assigned By</td><td align='center' width='4%'>:</td>");
+        //strBody.Append("<td align='left' width='28%'>" + objInvestigation.AssignedBy + "</td></tr>");
+        //strBody.Append("<tr><td align='left'>To Be Completed by</td><td align='center'>:</td>");
+        //strBody.Append("<td align='left'>" + clsGeneral.FormatDateToDisplay(objInvestigation.To_Be_Competed_by) + "</td>");
+        //strBody.Append("<td align='left'>Status</td><td align='center'>:</td>");
+        //strBody.Append("<td align='left'>" + objInvestigation.Status + "</td></tr>");
+        //strBody.Append("<tr><td align='left' colspan='6'>Lessons Learned</td></tr>");
+        //strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Lessons_Learned + "</td></tr>");
+        //strBody.Append("</table>");
+
+        //#endregion
+
         #region "Causes"
 
         strBody.Append("<div style='" + bandHeaderRow + "'>&nbsp;Causes</div>");
         strBody.Append("<table cellpadding='3' cellspacing=1 border=0 width='100%'" + strFontStyle + ">");
-        strBody.Append("<tr><td colspan='6' width='100%'><b>What were the immediate causes of the accident?</b></td></tr>");
-        strBody.Append("<tr><td colspan='6' width='100%'>SUBSTANDARD BEHAVIORS</td></tr>");
-
-        #region "Cause Behaviours"
-
-        StringBuilder causeBehaviours = new StringBuilder();
-        causeBehaviours.Append("<table cellpadding='0' cellspacing='0' width='100%'" + strFontStyle + ">");
-        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[0] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_1) + "</td></tr>");
-        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[1] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_2) + "</td></tr>");
-        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[2] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_3) + "</td></tr>");
-        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[3] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_4) + "</td></tr>");
-        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[4] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_5) + "</td></tr>");
-        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[5] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_6) + "</td></tr>");
-        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[6] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_7) + "</td></tr>");
-        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[7] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_8) + "</td></tr>");
-        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[8] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_9) + "</td></tr>");
-        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[9] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_10) + "</td></tr>");
-        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[10] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_11) + "</td></tr>");
-        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[11] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_12) + "</td></tr>");
-        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[12] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_13) + "</td></tr>");
-        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[13] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_14) + "</td></tr>");
-        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[14] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_15) + "</td></tr>");
-        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[15] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_16) + "</td></tr>");
-        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[16] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_17) + "</td></tr>");
-        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[17] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_18) + "</td></tr>");
-        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[18] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_19) + "</td></tr>");
-        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[19] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_20) + "</td></tr>");
-        causeBehaviours.Append("</table>");
-
-        #endregion
-
-        strBody.Append("<tr><td colspan='6'>" + causeBehaviours.ToString() + "</td></tr>");
         strBody.Append("<tr><td colspan='6' width='100%'>&nbsp;</td></tr>");
-        strBody.Append("<tr><td colspan='6' width='100%'>SUBSTANDARD CONDITIONS</td>");
-
-        #region "Cause Conditions"
-
-        StringBuilder sbCauseConditions = new StringBuilder();
-        sbCauseConditions.Append("<table cellpadding='0' cellspacing='0' width='100%'" + strFontStyle + ">");
-        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[0] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_21) + "</td></tr>");
-        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[1] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_22) + "</td></tr>");
-        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[2] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_23) + "</td></tr>");
-        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[3] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_24) + "</td></tr>");
-        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[4] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_25) + "</td></tr>");
-        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[5] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_26) + "</td></tr>");
-        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[6] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_27) + "</td></tr>");
-        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[7] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_28) + "</td></tr>");
-        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[8] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_29) + "</td></tr>");
-        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[9] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_30) + "</td></tr>");
-        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[10] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_31) + "</td></tr>");
-        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[11] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_32) + "</td></tr>");
-        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[12] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_33) + "</td></tr>");
-        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[13] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_34) + "</td></tr>");
-        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[14] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_35) + "</td></tr>");
-        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[15] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_36) + "</td></tr>");
-        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[16] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_37) + "</td></tr>");
-        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[17] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_38) + "</td></tr>");
-        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[18] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_39) + "</td></tr>");
-        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[19] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_40) + "</td></tr>");
-        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[20] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_41) + "</td></tr>");
-        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[21] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_42) + "</td></tr>");
-        sbCauseConditions.Append("</table>");
-
-        #endregion
-
-        strBody.Append("<tr><td colspan='6'>" + sbCauseConditions.ToString() + "</td></tr>");
-        if (objInvestigation.Cause_42 == true)
-            strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Cause_42_detail + "</td></tr>");
-
-        strBody.Append("<tr><td align='left'>Comment</td></tr>");
-        strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Cause_Comment + "</td></tr>");
-        strBody.Append("<tr><td align='left' colspan='6'>What are the basic causes that led to the immediate causes above?</td></tr>");
-        strBody.Append("<tr><td colspan='6' align='left'>");
-
-        strBody.Append("<table cellpadding='3' cellspacing='1' border='0' width='100%'" + strFontStyle + "><tr>");
-        strBody.Append("<td align='left' colspan='2' style='width:50%'>PERSONAL FACTORS</td>");
-        strBody.Append("<td align='left' colspan='2' style='width:50%'>JOB FACTORS</td></tr>");
-
-        #region "Personal Factors"
-
-        StringBuilder sbPersonalFactors = new StringBuilder();
-        sbPersonalFactors.Append("<table cellpadding='0' cellspacing='0' width='100%'" + strFontStyle + ">");
-        sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[0] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_1) + "</td></tr>");
-        sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[1] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_2) + "</td></tr>");
-        sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[2] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_3) + "</td></tr>");
-        sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[3] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_4) + "</td></tr>");
-        sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[4] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_5) + "</td></tr>");
-        sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[5] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_6) + "</td></tr>");
-        sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[6] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_7) + "</td></tr>");
-        sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[7] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_8) + "</td></tr>");
-        sbPersonalFactors.Append("</table>");
-
-        #endregion
-
-        #region "Job Factors"
-
-        StringBuilder sbJobFactors = new StringBuilder();
-        sbJobFactors.Append("<table cellpadding='0' cellspacing='0' width='100%'" + strFontStyle + ">");
-        sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[0] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_9) + "</td></tr>");
-        sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[1] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_10) + "</td></tr>");
-        sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[2] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_11) + "</td></tr>");
-        sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[3] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_12) + "</td></tr>");
-        sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[4] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_13) + "</td></tr>");
-        sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[5] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_14) + "</td></tr>");
-        sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[6] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_15) + "</td></tr>");
-        sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[7] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_16) + "</td></tr>");
-        sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[8] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_17) + "</td></tr>");
-        sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[9] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_18) + "</td></tr>");
-        sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[10] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_19) + "</td></tr>");
-        sbJobFactors.Append("</table>");
-        #endregion
-
-        strBody.Append("<tr><td colspan='2' align='left' valign='top'>" + sbPersonalFactors.ToString() + "</td><td align='left' colspan='2' valign='top'>" + sbJobFactors.ToString() + "</td></tr>");
-
-        if (objInvestigation.Personal_Job_Factors_19 == true)
-            strBody.Append("<tr><td align='left'>&nbsp;</td><td align='left'>&nbsp;</td><td align='left'>" + objInvestigation.Personal_Job_Factors_17_Details + "</td></tr>");
-        strBody.Append("</table></td>");
-
-        strBody.Append("<tr><td align='left' colspan='6'>");
-        strBody.Append("<table width='100%' " + strFontStyle + ">");
-
+        strBody.Append("<tr><td align='left'>Describe how the event occurred</td><td align='center' width='4%'>:</td>");
+        strBody.Append("<td  align='left' colspan='4'>" + objInvestigation.Cause_Comment + "</td></tr>");
         if (strOperation == "edit")
         {
 
@@ -1638,10 +1738,45 @@ public partial class Exposures_Investigation : clsBasePage
             strBody.Append("</table></td></tr>");
         }
 
-        strBody.Append("<tr><td align='left' colspan='6'>Comment</td></tr>");
-        strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Personal_Job_Comment + "</td></tr>");
-        strBody.Append("<tr><td align='left' colspan='6'>Conclusions/Impressions</td></tr>");
-        strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Conclusions + "</td></tr>");
+        strBody.Append("<tr><td align='left'>What is the Cause of this Incident?</td><td align='center' width='4%'>:</td><td align='left' colspan='4'>" + objInvestigation.Focus_Area + "</td></tr>");
+        strBody.Append("</table>");
+
+        #endregion
+
+        #region  "Root Cause Determination "
+
+        strBody.Append("<div style='" + bandHeaderRow + "'>&nbsp;Root Cause Determination</div>");
+        strBody.Append("<table cellpadding='3' cellspacing=1 border=0 width='100%'" + strFontStyle + ">");
+        DataSet dsRootCause = clsInvestigation_Cause_Information.SelectByInvestigationID(Convert.ToDecimal(PK_Investigation_ID));
+        DataTable dtroot = dsRootCause.Tables[0];
+
+        #region "Cause Deter"
+        
+        StringBuilder sbRootCausequestion = new StringBuilder();
+        sbRootCausequestion.Append("<table cellpadding='0' cellspacing='0' width='100%'" + strFontStyle + ">");
+        foreach (DataRow dr in dtroot.Rows)
+        {
+            string response = Convert.ToString(dr["Response"]) == "Y" ? "Yes" : "No";
+            sbRootCausequestion.Append("<tr><td width='70%' valign='Top' align='left'>" + Convert.ToString(dr["Question"]) + "</td><td valign='Top' align='center' width='4%'>:</td><td align='left' valign='Top'>" + response + "</td></tr>");
+        }
+        sbRootCausequestion.Append("</table>");
+        strBody.Append("<tr><td align='left' valign='Top'>Root Cause Determination</td><td valign='Top' align='center' width='4%'>:</td><td align='left' colspan='4'>" + sbRootCausequestion.ToString() + "</td></tr>");
+        #endregion
+
+        #region "Cause Deter Reference"
+
+        StringBuilder sbRootCauseGuidance= new StringBuilder();
+        sbRootCauseGuidance.Append("<table cellpadding='0' cellspacing='0' width='100%'" + strFontStyle + ">");
+        foreach (DataRow dr in dtroot.Rows)
+        {
+            sbRootCauseGuidance.Append("<tr><td align='left'>" + dr["Guidance"] + "</td></tr>");
+        }
+        sbRootCauseGuidance.Append("</table>");
+
+        strBody.Append("<tr><td align='left' valign='Top'>Recommendation(s) to Prevent Reoccurrence</td><td valign='Top' align='center' width='4%'>:</td><td align='left' colspan='4'>" + sbRootCauseGuidance.ToString() + "</td></tr>");
+        #endregion
+        strBody.Append("<tr><td align='left' valign='Top'>What is your impression/conclusion on how the event occurred?</td><td valign='Top' align='center' width='4%'>:</td><td  valign='Top' align='left' colspan='4'>" + objInvestigation.Conclusions + "</td></tr>");
+        
         strBody.Append("<tr><td align='left' width='18%' valign='top'>OSHA Recordable</td><td align='center' width='4%' valign='top'>:</td>");
         strBody.Append("<td colspan='4' valign='top'>" + clsGeneral.FormatYesNoToDisplayForView(objInvestigation.OSHA_Recordable) + "</td></tr>");
         strBody.Append("<tr><td align='left' colspan='6'><table cellpadding='0' cellspacing='0' border='0' width='100%'" + strFontStyle + ">");
@@ -1656,8 +1791,7 @@ public partial class Exposures_Investigation : clsBasePage
 
         strBody.Append("<div style='" + bandHeaderRow + "'>&nbsp;Corrective Actions</div>");
         strBody.Append("<table cellpadding='3' cellspacing=1 border=0 width='100%'" + strFontStyle + ">");
-        strBody.Append("<tr><td align='left' colspan='6'>Description</td></tr>");
-        strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Corrective_Action_Description + "</td></tr>");
+        strBody.Append("<tr><td align='left' valign='Top'>What has been done to prevent a similar accident from happening again?</td><td valign='Top' align='center' width='4%'>:</td><td valign='top' align='left' colspan='4'>" + objInvestigation.Lessons_Learned + "</td></tr>");
         strBody.Append("<tr><td align='left' width='18%'>Assigned To</td><td align='center' width='4%'>:</td>");
         strBody.Append("<td align='left' width='28%'>" + objInvestigation.Assigned_To + "</td>");
         strBody.Append("<td align='left' width='18%'>Assigned By</td><td align='center' width='4%'>:</td>");
@@ -1666,8 +1800,10 @@ public partial class Exposures_Investigation : clsBasePage
         strBody.Append("<td align='left'>" + clsGeneral.FormatDateToDisplay(objInvestigation.To_Be_Competed_by) + "</td>");
         strBody.Append("<td align='left'>Status</td><td align='center'>:</td>");
         strBody.Append("<td align='left'>" + objInvestigation.Status + "</td></tr>");
-        strBody.Append("<tr><td align='left' colspan='6'>Lessons Learned</td></tr>");
-        strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Lessons_Learned + "</td></tr>");
+        string communicated = Convert.ToString(objInvestigation.Communicated) == "Y" ? "Yes" : "No";
+        strBody.Append("<tr><td align='left' colspan='4'>Have the above changes been communicated to associates with similar job tasks?</td><td align='center'>:</td><td align='left'>" + communicated + "</td></tr>");
+        strBody.Append("<tr><td align='left' >If Yes, Date Communicated</td><td align='center'>:</td><td align='left'>" + clsGeneral.FormatDBNullDateToDisplay(objInvestigation.Date_Communicated) + "</td></tr>");
+        strBody.Append("<tr><td align='left' valign='Top'>If No, Explain Why</td><td valign='Top' align='center' width='4%'>:</td><td align='left' colspan='4'>" + objInvestigation.No_Communication_Explanation + "</td></tr>");
         strBody.Append("</table>");
 
         #endregion
