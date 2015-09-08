@@ -2135,13 +2135,13 @@ public partial class Exposures_Investigation : clsBasePage
             #region " set validation control IDs and messages "
             switch (Convert.ToString(drField["Field_Name"]))
             {
-                case "Description ":
-                    strCorrectiveIDs += "ctl00_ContentPlaceHolder1_txtCorrective_Action_Description_txtNote,";
-                    strCorrectiveMessages += "Please enter [Corrective Actions]/Description " + ",";
-                    //if (chkLocInfoComplete.Checked == true)
-                    //Span5.Style["display"] = "inline-block";
-                    //else Span5.Style["display"] = "none";
-                    break;
+                //case "Description ":
+                //    strCorrectiveIDs += "ctl00_ContentPlaceHolder1_txtCorrective_Action_Description_txtNote,";
+                //    strCorrectiveMessages += "Please enter [Corrective Actions]/Description " + ",";
+                //    //if (chkLocInfoComplete.Checked == true)
+                //    //Span5.Style["display"] = "inline-block";
+                //    //else Span5.Style["display"] = "none";
+                //    break;
                 case "Assigned To":
                     strCorrectiveIDs += txtAssigned_To.ClientID + ",";
                     strCorrectiveMessages += "Please enter [Corrective Actions]/Assigned To" + ",";
@@ -2170,9 +2170,9 @@ public partial class Exposures_Investigation : clsBasePage
                     Span9.Style["display"] = "inline-block";
                     //else Span9.Style["display"] = "none";
                     break;
-                case "Lessons Learned":
+                case "What has been done to prevent a similar accident from happening again?":
                     strCorrectiveIDs += "ctl00_ContentPlaceHolder1_txtLessons_Learned_txtNote,";
-                    strCorrectiveMessages += "Please enter [Corrective Actions]/Lessons Learned" + ",";
+                    strCorrectiveMessages += "Please enter [Corrective Actions]/What has been done to prevent a similar accident from happening again?" + ",";
                     //if chkLocInfoComplete.Checked == true)
                     Span10.Style["display"] = "inline-block";
                     //else Span10.Style["display"] = "none";
