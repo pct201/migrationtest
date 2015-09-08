@@ -518,7 +518,7 @@ public partial class Exposures_Investigation : clsBasePage
                     ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Mail sent successfully')", true);
                     //Open Next Panel.
                     if (Request.QueryString["isStatus"] == null)
-                        ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);", true);
+                        ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
                     else
                         Response.Redirect("FirstReportStatus.aspx", true);
                 }
@@ -533,7 +533,7 @@ public partial class Exposures_Investigation : clsBasePage
         else
         {
             //Open Next Panel.
-            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);alert('Please select any First Report')", true);
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);alert('Please select any First Report')", true);
         }
     }
 
@@ -596,7 +596,7 @@ public partial class Exposures_Investigation : clsBasePage
         else
         {
             //Open Next Panel.
-            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);alert('Please select any First Report')", true);
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);alert('Please select any First Report')", true);
         }
     }
 
@@ -794,7 +794,7 @@ public partial class Exposures_Investigation : clsBasePage
         else
         {
             //Open Next Panel.
-            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);alert('Please select any First Report')", true);
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);alert('Please select any First Report')", true);
         }
     }
 
@@ -1084,7 +1084,7 @@ public partial class Exposures_Investigation : clsBasePage
         btnInvestigationSave.Visible = false;
         // Check if User has right To Add or Edit 
 
-        CtrlViewAttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.Investigation, PK_Investigation_ID, false, 5);
+        CtrlViewAttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.Investigation, PK_Investigation_ID, false, 6);
         CtrlViewAttachDetails.Bind();
 
         //if ((!bIsRegionalOfficer && bLocInfoComplete) || Module_Access_Mode == AccessType.View_Only)
@@ -1357,7 +1357,7 @@ public partial class Exposures_Investigation : clsBasePage
         #endregion
 
 
-        CtrlAttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.Investigation, PK_Investigation_ID, true, 5);
+        CtrlAttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.Investigation, PK_Investigation_ID, true, 6);
         CtrlAttachDetails.Bind();
 
         if (objInvestigation.Investigative_Quality != null)
@@ -2004,7 +2004,7 @@ public partial class Exposures_Investigation : clsBasePage
 
         // Used to Bind Grid with Attached Data
         CtrlAttachDetails.Bind();
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);", true);
     }
 
     #endregion
