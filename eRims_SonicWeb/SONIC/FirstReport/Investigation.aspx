@@ -86,7 +86,6 @@
                 for (i = 0; i < ctrlIDs.length; i++) {
                     var bEmpty = false;
                     var ctrl = document.getElementById(ctrlIDs[i]);
-                    debugger;
                     switch (ctrl.type) {
                         case "hidden":
                         case "textarea":
@@ -111,7 +110,6 @@
         }
 
         function ValidateFieldsCorrective(sender, args) {
-            debugger;
             var msg = '';
             var ctrlIDs = document.getElementById('<%=hdnCorrectiveControlIDs.ClientID%>').value.split(',');
             var Messages = document.getElementById('<%=hdnCorrectiveErrorMsgs.ClientID%>').value.split(',');
@@ -2049,11 +2047,11 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td align="left">If No, Explain Why
+                                                                <td align="left" valign="top">If No, Explain Why
                                                                 </td>
-                                                                <td align="center">:
+                                                                <td align="center" valign="top">:
                                                                 </td>
-                                                                <td align="left" colspan="4">
+                                                                <td align="left" colspan="4" valign="top">
                                                                     <uc:ctrlMultiLineTextBox runat="server" ID="lblNoCommunicationExplanation" ControlType="Label" />
                                                                 </td>
                                                             </tr>

@@ -485,15 +485,11 @@ public partial class Exposures_Investigation : clsBasePage
             objInvestigation.Status = ddlStatus.SelectedIndex > 0 ? ddlStatus.SelectedItem.Text : string.Empty;
             objInvestigation.Lessons_Learned = txtLessons_Learned.Text.Trim();
             objInvestigation.Communicated = rdoCommunicated.SelectedValue;
-            if (rdoCommunicated.SelectedValue == "Y")
-            {
-                objInvestigation.Date_Communicated = clsGeneral.FormatDateToStore(txtDateCommunicated.Text);
-            }
-            else
-            {
-                objInvestigation.No_Communication_Explanation = txtNo_Communication_Explanation.Text.Trim();
-            }
 
+            objInvestigation.Date_Communicated = clsGeneral.FormatNullDateToStore(txtDateCommunicated.Text);
+          
+                objInvestigation.No_Communication_Explanation = txtNo_Communication_Explanation.Text.Trim();
+            
 
 
             // insert or update the investigation record as per the PK available
