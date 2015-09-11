@@ -1506,7 +1506,7 @@
                                                                     <cc1:CalendarExtender ID="calActualDate" runat="server" Format="MM/dd/yyyy" TargetControlID="txtActualDate">
                                                                     </cc1:CalendarExtender>--%>
                                                                     <asp:RadioButtonList ID="rdoCompleted" runat="server" SkinID="YNTypeNullSelection"></asp:RadioButtonList>
-                                                                    <asp:HiddenField ID="hdnCompleted" runat="server" Value='<%eval("Completed") %>' />
+                                                                    <asp:HiddenField ID="hdnCompleted" runat="server" Value='<%#Eval("Completed") %>' />
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center">
