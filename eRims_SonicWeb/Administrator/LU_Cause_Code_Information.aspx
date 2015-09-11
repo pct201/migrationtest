@@ -1,4 +1,4 @@
-﻿<%@ Page Title="eRIMS Sonic :: Cause Code Information" Language="C#" MasterPageFile="~/Default.master" AutoEventWireup="true" CodeFile="LU_Cause_Code_Information.aspx.cs" Inherits="Administrator_LU_Cause_Code_Information" %>
+﻿<%@ Page Title="eRIMS Sonic :: Cause Code Information" Language="C#" MasterPageFile="~/Default.master" AutoEventWireup="true" EnableTheming="false" CodeFile="LU_Cause_Code_Information.aspx.cs" Inherits="Administrator_LU_Cause_Code_Information" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="ajaxToolkit" %>
 
@@ -6,186 +6,158 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
- <style>
-  .watermarkTextBox
- {
-     width: 200px;
-     background-color: Aqua;
- }
- input, textarea
- {
-     width: 200px;
- }
- /*Reorder List*/
- .dragHandle
- {
-     width: 10px;
-     height: 15px;
-     background-color: Blue;
-     background-image: url(/images/bg-menu-main.png);
-     cursor: move;
-     border: outset thin white;
- }
- .callbackStyle
- {
-     border: thin blue inset;
- }
- .callbackStyle table
- {
-     background-color: #5377A9;
-     color: Black;
- }
- .reorderListDemo li
- {
-     list-style: none;
-     margin: 2px;
-     /*background-image: url(/images/bg_nav.gif);*/
-     background-repeat: repeat-x;
-     /*color: #FFF;*/
- }
- .reorderListDemo li a
- {
-     color: #FFF !important;
-     font-weight: bold;
- }
- .reorderCue
- {
-     border: dashed thin black;
-     width: 100%;
-     height: 25px;
- }
- .itemArea
- {
-     margin-left: 15px;
-     font-family: Arial, Verdana, sans-serif;
-     font-size: 1em;
-     text-align: left;
- }
- .reorderListDemoTall li
- {
-     list-style: none;
-     margin: 2px;
-     background-color: Blue;
-     color: #FFF;
- }
- .itemAreaTall
- {
-     margin-left: 15px;
-     font-family: Arial, Verdana, sans-serif;
-     font-size: 1em;
-     text-align: left;
-     width: 800px;
-     height: 185px;
-     margin-top: 15px;
- }
- .reorderCueTall
- {
-     border: dashed thin black;
-     width: 100%;
-     height: 200px;
-     margin-bottom: 30px;
- }
- #sizeImage img
- {
-     width: 200px;
-     height: 100px;
- }
-  </style>
+    <script type="text/javascript" src="../JavaScript/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../JavaScript/jquery-1.10.1.ui.min.js"></script>
 
+    <script language="javascript" type="text/javascript">
+       var jq = $.noConflict();
+        function divExpandCollapse(divName) {
+            var div, img;
+            div = document.getElementById(divName);
+            img = document.getElementById('img' + divName);
+            if (div.style.display == "none") {
+                div.style.display = "inline-block";
+                img.src = "../Images/Collepse_Minus.png";
+                jq("img").attr("title", "Collapse");
+            } else {
+                div.style.display = "none";
+                img.src = "../Images/Expand_Plus.png";
+                jq("img").attr("title", "Expand");
 
-   
-   <div id="divQuestionViewList" style="display: block;" runat="Server">
+            }
+        }
+
+        jq(function () {
+            jq('.gvChildGrid').each(function () {
+                jq('#' + jq(this).attr('id').concat(' tbody')).sortable({
+                    cursor: 'move',
+                    scroll: false,
+                    stop: function (ev, ui) {
+                        jq('.gvChildGrid').each(function () {
+                            jq(this).find('tr').each(function () { jq(this).removeClass('bkodd'); jq(this).removeAttr('style'); });
+                            jq(this).find('tr:even').each(function () { jq(this).toggleClass('bkodd'); });
+                        });
+                    }
+                });
+                jq('#' + jq(this).attr('id').concat(' tbody')).disableSelection();
+            });
+        });
+
+        function getData() {
+            //gets table             
+            var Ids = [];
+            jq('.gvChildGrid').each(function () {
+                var tempIds = jq(this).find('tr > td:first-child').next().map(function () {
+                    return parseInt((jq(this).find('input:hidden')).val());
+                }).get().join(',');
+                Ids.push(tempIds);
+            });
+            jq('#ctl00_ContentPlaceHolder1_hdnSortOrder').val(Ids);
+
+            var PKId = [];
+            jq('.gvChildGrid').each(function () {
+
+                var tempIds = jq(this).find('tr > td:first-child').map(function () {
+                    return parseInt((jq(this).find('input:hidden')).val());
+                }).get().join(',');
+                PKId.push(tempIds);
+            });
+            jq('#<%=hdnPKId.ClientID %>').val(PKId);
+
+        }
+    </script>
+
+    <style type="text/css">
+        .bkeven
+        {
+            background-color: White;
+            font-family: Tahoma;
+            font-size: 8pt;
+        }
+
+        .bkodd
+        {
+            background-color: #EAEAEA !important;
+            font-family: Tahoma !important;
+            font-size: 8pt !important;
+        }
+    </style>
+    <div id="divCauseCodeInfoGrid" style="display: block;" runat="Server">
         <table width="100%" cellpadding="0" cellspacing="0">
             <tr>
-                <td colspan="4">
-                    &nbsp;
+                <td colspan="4">&nbsp;
                 </td>
             </tr>
             <tr>
-                <td class="bandHeaderRow" colspan="4" align="left">
-                    Administrator :: Cause Code Information
+                <td class="bandHeaderRow" colspan="4" align="left">Administrator :: Cause Code Information
                 </td>
             </tr>
             <tr>
-                <td colspan="4">
-                    &nbsp;
+                <td colspan="4">&nbsp;
                 </td>
             </tr>
             <tr>
-                <td style="width: 10%">
-                    &nbsp;
+                <td style="width: 10%">&nbsp;
                 </td>
                 <td colspan="2" align="center">
                     <table cellpadding="0" cellspacing="0" border="0" width="100%">
                         <tr align="left">
                             <td>
                                 <asp:LinkButton runat="server" ID="lnkAdd_New" Text="Add New" OnClick="lnkAddNew_Click"></asp:LinkButton>
-                         
-                         
-                                 <div style="margin-top:20px;margin-left:20px;float:right;" >
-                                <asp:Button runat="server" ID="btnSortQuestions" Text="Sort Questions" OnClick="btnSortQuestions_Click" ></asp:Button>
-                            </div>
-                           </td>
+                                <div style="margin-top: 20px; margin-left: 20px; float: right;">
+                                    <asp:Button runat="server" ID="btnSortQuestions" Text="Sort Questions" OnClick="btnSortQuestions_Click"></asp:Button>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
-                            <td>
-                                &nbsp;
+                            <td>&nbsp;
                             </td>
                         </tr>
                         <tr>
                             <td align="left">
-                                <asp:GridView ID="gvQuestion" AllowPaging="true" PageSize="20" runat="server" Width="100%"
-                                    AutoGenerateColumns="false" OnPageIndexChanging="gvQuestion_PageIndexChanging"
-                                    OnRowCreated="gvQuestion_RowCreated" OnRowEditing="gvQuestion_RowEditing" OnRowCommand="gvQuestion_RowCommand">
+                                <asp:GridView ID="gvCauseCodeInformation" AllowPaging="true" PageSize="20" runat="server" Width="100%" 
+                                    AutoGenerateColumns="false" OnPageIndexChanging="gvCauseCodeInformation_PageIndexChanging"
+                                    OnRowCreated="gvCauseCodeInformation_RowCreated" OnRowCommand="gvCauseCodeInformation_RowCommand" OnRowEditing="gvCauseCodeInformation_RowEditing">
                                     <Columns>
                                         <asp:TemplateField HeaderText="Focus Area">
                                             <ItemStyle Width="15%" />
                                             <ItemTemplate>
-                                                <%# Eval("Focus_Area") %>
-                                                <asp:HiddenField runat="Server" ID="hdnInspectionQuestionID" Value='<%# Eval("PK_LU_Cause_Code_Information") %>' />
+                                                   <asp:Label ID="lblFocus_Area" runat="server" Text='<%# Eval("Focus_Area") %>' CssClass="TextClip"></asp:Label>
+                                                <asp:HiddenField runat="Server" ID="hdnPK_LU_Cause_Code_Information" Value='<%# Eval("PK_LU_Cause_Code_Information") %>' />
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Sort Order">
-                                            <ItemStyle Width="10%" />
+                                            <ItemStyle Width="15%" />
                                             <ItemTemplate>
                                                 <%#Eval("Sort_Order") %>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Question">
-                                            <ItemStyle Width="20%" />
+                                            <ItemStyle Width="30%"/>
                                             <ItemTemplate>
-                                                <asp:LinkButton runat="server" ID="lnkView" Text='<%#Eval("Question") %>' CommandName="View"></asp:LinkButton>
+                                                <asp:LinkButton runat="server" ID="lnkView" Text='<%#Eval("Question") %>' CommandName="View" Width="175px"></asp:LinkButton>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Guidline">
-                                            <ItemStyle Width="45%" />
+                                        <asp:TemplateField HeaderText="Guidance">
                                             <ItemTemplate>
-                                                <%#Eval("Guidance")%>
+                                                 <asp:Label ID="lblGridGuidance" runat="server" Text=' <%#Eval("Guidance")%>' CssClass="TextClip" width="150px" ></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                         <asp:TemplateField HeaderText="Reference">
-                                            <ItemStyle Width="45%" />
+                                        <asp:TemplateField HeaderText="Reference">
                                             <ItemTemplate>
-                                                <%#Eval("Reference")%>
+                                                 <asp:Label ID="lblGridRef" runat="server" Text=' <%#Eval("Reference")%>' CssClass="TextClip" width="150px"></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                          <asp:TemplateField HeaderText="Active">
+                                        <asp:TemplateField HeaderText="Active">
                                             <ItemStyle Width="45%" />
                                             <ItemTemplate>
-                                                <%#Eval("Active")%>
+                                                 <asp:Label runat="server" ID="lblGridActive" Text='<%#(Eval("Active").ToString() == "Y" ? "Yes" : "No") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Edit">
                                             <ItemStyle Width="5%" />
                                             <ItemTemplate>
                                                 <asp:LinkButton runat="server" ID="lnkEdit" Text="Edit" CommandName="Edit"></asp:LinkButton>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Remove">
-                                            <ItemStyle Width="5%" />
-                                            <ItemTemplate>
-                                                <asp:LinkButton runat="server" ID="lnkRemove" Text="Remove" CommandName="Remove"
-                                                    OnClientClick="return confirm('Are you sure to delete?');"></asp:LinkButton>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                     </Columns>
@@ -203,68 +175,47 @@
                         </tr>
                     </table>
                 </td>
-                <td style="width: 10%">
-                    &nbsp;
+                <td style="width: 10%">&nbsp;
                 </td>
             </tr>
             <tr>
-                <td colspan="4">
-                    &nbsp;
+                <td colspan="4">&nbsp;
                 </td>
             </tr>
         </table>
     </div>
-    <div id="divViewQuestion" style="display: none;" runat="server">
+    <div id="divViewCauseCodeInformation" style="display: none;" runat="server">
         <table width="100%" cellpadding="0" cellspacing="0">
             <tr>
-                <td colspan="4">
-                    &nbsp;
+                <td colspan="4">&nbsp;
                 </td>
             </tr>
             <tr>
-                <td class="bandHeaderRow" colspan="4" align="left">
-                    Administrator :: Inspection Questions
+                <td class="bandHeaderRow" colspan="4" align="left">Administrator :: Cause Code Information
                 </td>
             </tr>
             <tr>
-                <td colspan="4">
-                    &nbsp;
+                <td colspan="4">&nbsp;
                 </td>
             </tr>
             <tr runat="server" id="tr1" style="display: block;">
-                <td style="width: 20%">
-                    &nbsp;
+                <td style="width: 20%">&nbsp;
                 </td>
                 <td colspan="2">
                     <table cellpadding="3" cellspacing="1" border="0" width="100%">
                         <tr>
-                            <td style="width: 18%" align="left">
-                                Focus Area
+                            <td style="width: 18%" align="left">Focus Area
                             </td>
-                            <td style="width: 4%" align="center">
-                                :
+                            <td style="width: 4%" align="center">:
                             </td>
                             <td colspan="4" align="left">
                                 <asp:Label runat="server" ID="lblFocusArea"></asp:Label>
                             </td>
                         </tr>
                         <tr>
-                            <td valign="top" align="left">
-                                Sort Order
+                            <td valign="top" align="left">Question
                             </td>
-                            <td valign="top" align="center">
-                                :
-                            </td>
-                            <td colspan="4" align="left">
-                                <asp:Label runat="server" ID="lblSortOrder"></asp:Label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td valign="top" align="left">
-                                Question
-                            </td>
-                            <td valign="top" align="center">
-                                :
+                            <td valign="top" align="center">:
                             </td>
                             <td colspan="4" align="left">
                                 <uc:ctrlMultiLineTextBox runat="server" ID="lblQuestion" ControlType="Label"
@@ -272,23 +223,19 @@
                             </td>
                         </tr>
                         <tr>
-                            <td valign="top" align="left">
-                                Guidance
+                            <td valign="top" align="left">Guidance
                             </td>
-                            <td valign="top" align="center">
-                                :
+                            <td valign="top" align="center">:
                             </td>
                             <td colspan="4" align="left">
                                 <uc:ctrlMultiLineTextBox runat="server" ID="lblGuidance" ControlType="Label"
                                     Width="450" />
                             </td>
                         </tr>
-                         <tr>
-                            <td valign="top" align="left">
-                                Reference
+                        <tr>
+                            <td valign="top" align="left">Reference
                             </td>
-                            <td valign="top" align="center">
-                                :
+                            <td valign="top" align="center">:
                             </td>
                             <td colspan="4" align="left">
                                 <uc:ctrlMultiLineTextBox runat="server" ID="lblReference" ControlType="Label"
@@ -296,11 +243,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td valign="top" align="left">
-                              Active
+                            <td valign="top" align="left">Active
                             </td>
-                            <td valign="top" align="center">
-                                :
+                            <td valign="top" align="center">:
                             </td>
                             <td colspan="4" align="left">
                                 <asp:Label ID="lblActive" runat="server" />
@@ -308,213 +253,49 @@
                         </tr>
                     </table>
                 </td>
-                <td style="width: 20%">
-                    &nbsp;
+                <td style="width: 20%">&nbsp;
                 </td>
             </tr>
             <tr>
-                <td colspan="4">
-                    &nbsp;
+                <td colspan="4">&nbsp;
                 </td>
             </tr>
         </table>
     </div>
-    <table cellpadding="5" cellspacing="5" border="0" width="100%">
-        <tr>
-            <td style="width: 25%">
-                &nbsp;
-            </td>
-            <td align="right">
-                <asp:Button ID="btnSave" runat="server" Text="Save" CausesValidation="true" ValidationGroup="vsErrorGroup"
-                    OnClick="btnSave_Click" />
-            </td>
-            <td style="width: 2%">
-                &nbsp;
-            </td>
-            <td align="left">
-                <asp:Button ID="btnCancel" runat="server" Text="Cancel" CausesValidation="false"
-                    OnClick="btnCancel_Click" />
-            </td>
-            <td style="width: 25%">
-                &nbsp;
-            </td>
-        </tr>
-    </table>
-    <div id="divCauseCodeInformation_Main" runat="server" >
-        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-            <ContentTemplate>
-                    <div style="width: 850px;display: none;" runat="server" id="divMain">
-                        <div  id="divCauseCodeInformation" class="reorderListDemo" style="padding-bottom: 50px;" runat="server">
-                            <div style="margin-top:20px;margin-left:20px;">
-                                <asp:LinkButton runat="server" ID="lnkAddNew" Text="Add New" OnClick="lnkAddNew_Click"></asp:LinkButton>
-                            </div>
-                          <asp:Repeater runat="server" ID="rptFocusArea" OnItemDataBound="rptFocusArea_ItemDataBound">
-                               <ItemTemplate>
-                                   
-                            <asp:Panel runat="server" id="pnlFocusArea" style="display:block;margin-left:80px;" OnRowCommand="gvFocusArea_RowCommand">
-                               <%-- <asp:GridView runat="server" Width="100%" ID="gvFocusArea" style="margin-left:80px;" OnRowCommand="gvFocusArea_RowCommand" >--%>
-                                      <%--   <asp:TemplateField>
-                                            <ItemStyle BackColor="#276692" Font-Bold="true"  Height="15" Width="15" ForeColor="White" />
-                                            <ItemTemplate>--%>
-                                <table cellpadding="0" style="margin-left:150px;">
-                                 
-                                    <tr style="background-color:rgb(234,234,234);font-weight:bold;width:100%;height:20px;">
-                                        <td  style="background-color:rgb(234,234,234);font-weight:bold;width:15px;">
-                                             <asp:ImageButton  OnClick="imagePlus_Click" ID="imagePlus" ImageUrl="~/Images/plus.png" runat="server" Height="15" Width="15" CommandName="image" CommandArgument='<%# Eval("Master_Order") %>' style="background-color:rgb(234,234,234);font-weight:bold;"/>
-                                            </td>
-                                                <%--<asp:HiddenField runat="Server" ID="hdnMaster_Order" Value='<%# Eval("Master_Order") %>' />--%>
-                                          <%--  </ItemTemplate>--%>
-                                        <%--/asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Focus Area">
-                                            <ItemStyle BackColor="#276692" Font-Bold="true"/>
-                                            <ItemTemplate>
-                                               --%>
-                                        <td style="background-color:rgb(234,234,234);font-weight:bold;width:500px;">
-                                            <asp:Label ID="Order" runat="server" Text=' <%#Eval("Focus_Area") %>' ForeColor="Black" style="background-color:rgb(234,234,234);"></asp:Label>
-                                            </td>   
-                                          <%--  </ItemTemplate>
-                                        </asp:TemplateField>
-                                           </Columns>--%>
-                                       <%--   <EmptyDataTemplate>
-                                        <table cellpadding="4" cellspacing="0" width="100%">
-                                            <tr>
-                                                <td width="100%" align="center" style="border: 1px solid #cccccc;">
-                                                    <asp:Label ID="lblEmptyHeaderGridMessage" runat="server" Text="No Record Found"></asp:Label>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </EmptyDataTemplate>--%>
-                               <%-- <table style="margin-left:100px;width:500px;">
-                                    <tr style="background-color:rgb(39, 102, 146);color:white;font-weight:bold;">
-                                        <td style="width:15px;">
-                                            <asp:Image runat="server" ID="imgPlus" ImageUrl="~/Images/plus.png" Height="15" Width="15" />
-                                        </td>
-                                        <td>
-                                           <asp:Label ID="Label1" runat="server" Text="Focus Area" ></asp:Label>
-                                          <asp:Label ID="Order" runat="server" Text='<%# Eval("Focus_Area") %>' ></asp:Label>
-                                        </td>
-                                    </tr>
-                                </table>--%>
-                                  
-                             <%-- </asp:GridView>--%>
-                                        </tr>
-                                    </table>
-                            </asp:Panel>
-
-                            <asp:Panel runat="server" ID="pnlQuestions" style="margin-left:80px;">
-                            <ajaxToolkit:ReorderList ID="rlItemList"  DragHandleAlignment="Left" PostBackOnReorder="true" CallbackCssStyle="callbackStyle"  ItemInsertLocation="End" 
-                                  ShowInsertItem="false"  runat="server" OnItemReorder="rlItemList_ItemReorder">
-                            
-                                <DragHandleTemplate>
-                                    <div class="dragHandle">
-                                        <asp:Label ID="lbl" runat="server" Text="Drag me"></asp:Label>
-                                    </div>
-                                </DragHandleTemplate>
-                                
-                                <ItemTemplate>
-                                    <div class="itemArea">
-                                        <span style="float: right">
-                                            <asp:LinkButton Width="50" ID="lnkEdit"  CommandName="edit"  runat="server" Text="Edit" />
-                                        </span>
-                                        <table style="margin-left:100px;width:500px;">
-                                            <tr>
-                                                <td>
-                                        <asp:Label ID="lblPKLUCauseCodeInformation" Visible="false" runat="server"  Text='<%# Eval("PK_LU_Cause_Code_Information") %>'></asp:Label> 
-                                       <%-- <asp:Label ID="Order" runat="server" Text='<%# Eval("Focus_Area") %>' ></asp:Label>
-                                        <asp:Label ID="Label3" runat="server" Text='<%# Eval("Sort_Order") %>'></asp:Label>--%>
-                                        <asp:Label ID="Name" runat="server" Text='<%# Eval("Question") %>'></asp:Label> 
-                                        <%--<asp:Label ID="Label1" runat="server" Text='<%# Eval("Guidance") %>'></asp:Label>
-                                        <asp:Label ID="Label2" runat="server" Text='<%# Eval("Active") %>'></asp:Label>--%>
-                                                    </td>
-                                                 </tr>
-                                        </table>
-                                    </div>
-                                </ItemTemplate>
-                                <ReorderTemplate>
-                                    <asp:Panel ID="Panel2" runat="server"  CssClass="reorderCue" />
-                                </ReorderTemplate>
-                            </ajaxToolkit:ReorderList>
-                             </asp:Panel>
-                               <ajaxToolkit:CollapsiblePanelExtender ID="cpe" runat="server" TargetControlID="pnlQuestions" CollapsedSize="0" ExpandedSize="300" Collapsed="True"
-                                ExpandControlID="pnlFocusArea" CollapseControlID="pnlFocusArea" AutoCollapse="False" AutoExpand="False" ScrollContents="True" TextLabelID="Order" 
-                                 ImageControlID="Image1" ExpandDirection="Vertical">
-                                  </ajaxToolkit:CollapsiblePanelExtender> 
-                              </ItemTemplate>
-                              </asp:Repeater>
-                        </div>
-                    </div>
-               
-                   <%-- <div>
-                        <asp:TextBox ID="tbItemName" runat="server"></asp:TextBox>
-                        <ajaxToolkit:TextBoxWatermarkExtender ID="TBWE1"   runat="server" TargetControlID="tbItemName"  WatermarkText="Name"  WatermarkCssClass="watermarkTextBox" />
-                    </div>
-                    <div>
-                        <asp:TextBox Rows="4" ID="tbItemDescription" runat="server" Height="51px"  TextMode="MultiLine"></asp:TextBox> 
-                          
-                        <ajaxToolkit:TextBoxWatermarkExtender ID="TBWE2" runat="server" TargetControlID="tbItemDescription"  WatermarkText="Description" 
-                          WatermarkCssClass="watermarkTextBox" />
-                          
-                    </div>--%>
-                    <div>
-                        <asp:Button ID="btnAddReorderListItem" runat="server" Text="Add"/>
-                    </div>
-
-                  <div id="divAddNewQuestion" style="display: none;" runat="server">
-                <table width="100%" cellpadding="0" cellspacing="0">
+    <div id="divAddCauseCodeInformation" style="display: none;" runat="server">
+        <table width="100%" cellpadding="0" cellspacing="0">
             <tr>
-                <td colspan="4">
-                    &nbsp;
+                <td colspan="4">&nbsp;
                 </td>
             </tr>
             <tr>
-                <td class="bandHeaderRow" colspan="4" align="left">
-                    Administrator :: Cause Code Information
+                <td class="bandHeaderRow" colspan="4" align="left">Administrator :: Cause Code Information
                 </td>
             </tr>
             <tr>
-                <td colspan="4">
-                    &nbsp;
+                <td colspan="4">&nbsp;
                 </td>
             </tr>
             <tr runat="server" id="trGroupAdd" style="display: block;">
-                <td style="width: 20%">
-                    &nbsp;
+                <td style="width: 20%">&nbsp;
                 </td>
                 <td colspan="2">
                     <table cellpadding="3" cellspacing="1" border="0" width="100%">
                         <tr>
-                            <td style="width: 18%" align="left">
-                                Focus Area<span style="color: Red;">*</span>
+                            <td style="width: 18%" align="left">Focus Area<span style="color: Red;">*</span>
                             </td>
-                            <td style="width: 4%" align="center">
-                                :
+                            <td style="width: 4%" align="center">:
                             </td>
                             <td colspan="4" align="left">
-                                <asp:TextBox runat="server" ID="txtFocusArea" MaxLength="50"></asp:TextBox>
-                                <asp:RequiredFieldValidator ID="rfvFocusArea" ControlToValidate="txtFocusArea" Display="None"
+                                <asp:DropDownList ID="ddlFocusArea" runat="server" Width="200px" SkinID="dropGen" AutoPostBack="true"></asp:DropDownList>
+                                <asp:RequiredFieldValidator ID="rfvFocusArea" ControlToValidate="ddlFocusArea" Display="None"
                                     runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Focus Area"></asp:RequiredFieldValidator>
                             </td>
                         </tr>
                         <tr>
-                            <td valign="top" align="left">
-                                Sort Order<span style="color: Red;">*</span>
+                            <td valign="top" align="left">Question <span style="color: Red;">*</span>
                             </td>
-                            <td valign="top" align="center">
-                                :
-                            </td>
-                            <td colspan="4" align="left">
-                                <asp:TextBox runat="server" ID="txtSortOrder"></asp:TextBox>
-                                <asp:RequiredFieldValidator ID="rfvtxtSortOrder" ControlToValidate="txtSortOrder"
-                                    Display="None" runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup"
-                                    ErrorMessage="Please Enter Sort Order"></asp:RequiredFieldValidator>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td valign="top" align="left">
-                                Question <span style="color: Red;">*</span>
-                            </td>
-                            <td valign="top" align="center">
-                                :
+                            <td valign="top" align="center">:
                             </td>
                             <td colspan="4" align="left">
                                 <uc:ctrlMultiLineTextBox runat="server" ID="txtQuestion" ControlType="TextBox"
@@ -523,24 +304,20 @@
                             </td>
                         </tr>
                         <tr>
-                            <td valign="top" align="left">
-                                Guidance<span style="color: Red;">*</span>
+                            <td valign="top" align="left">Guidance<span style="color: Red;">*</span>
                             </td>
-                            <td valign="top" align="center">
-                                :
+                            <td valign="top" align="center">:
                             </td>
                             <td colspan="4" align="left">
                                 <uc:ctrlMultiLineTextBox runat="server" ID="txtGuidance" ControlType="TextBox"
                                     MaxLength="500" Width="450" IsRequired="true" ValidationGroup="vsErrorGroup"
-                                    RequiredFieldMessage="Please Enter txtGuidance for the Question" />
+                                    RequiredFieldMessage="Please Enter Guidance for the Question" />
                             </td>
                         </tr>
                         <tr>
-                            <td valign="top" align="left">
-                                Reference<span style="color: Red;">*</span>
+                            <td valign="top" align="left">Reference<span style="color: Red;">*</span>
                             </td>
-                            <td valign="top" align="center">
-                                :
+                            <td valign="top" align="center">:
                             </td>
                             <td colspan="4" align="left">
                                 <uc:ctrlMultiLineTextBox runat="server" ID="txtReference" ControlType="TextBox"
@@ -548,13 +325,13 @@
                                     RequiredFieldMessage="Please Enter Reference for the Question" />
                             </td>
                         </tr>
-                        <tr><td></td></tr>
                         <tr>
-                            <td valign="top" align="left">
-                                Active
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td valign="top" align="left">Active
                             </td>
-                            <td valign="top" align="center">
-                                :
+                            <td valign="top" align="center">:
                             </td>
                             <td colspan="4" align="left">
                                 <asp:RadioButtonList ID="rdoActive" runat="server" SkinID="YesNoType" />
@@ -562,24 +339,119 @@
                         </tr>
                     </table>
                 </td>
-                <td style="width: 20%">
-                    &nbsp;
+                <td style="width: 20%">&nbsp;
                 </td>
             </tr>
             <tr>
-                <td colspan="4">
-                    &nbsp;
+                <td colspan="4">&nbsp;
                 </td>
             </tr>
         </table>
     </div>
-            </ContentTemplate>
-        </asp:UpdatePanel>
+    <table cellpadding="5" cellspacing="5" border="0" width="100%">
+        <tr>
+            <td style="width: 25%">&nbsp;
+            </td>
+            <td align="right">
+                <asp:Button ID="btnSave" runat="server" Text="Save" CausesValidation="true" ValidationGroup="vsErrorGroup" OnClick="btnSave_Click" />
+            </td>
+            <td style="width: 2%">&nbsp;
+            </td>
+            <td align="left">
+                <asp:Button ID="btnCancel" runat="server" Text="Cancel" CausesValidation="false" OnClick="btnCancel_Click" />
+            </td>
+            <td style="width: 25%">&nbsp;
+            </td>
+        </tr>
+    </table>
 
-        
+    <div id="divCauseCodeInformation_Main" runat="server" style="display: block;">
+        <div style="width: 850px; display: block;" runat="server" id="divMain">
+            <div runat="server" id="divFocusArea" style="display: none; margin-left: 150px;">
+                <asp:GridView ID="gvFocusArea" AllowPaging="true" PageSize="20" runat="server" Width="100%"
+                    AutoGenerateColumns="false" OnRowDataBound="gvFocusArea_RowDataBound">
+                    <Columns>
+                        <asp:TemplateField>
+                            <ItemStyle Width="2%" />
+                            <ItemTemplate>
+                                <a href="JavaScript:divExpandCollapse('div<%# Eval("Master_Order") %>');" title="This is a small Tooltip with the Classname 'Tooltip'">
+                                    <img id='imgdiv<%# Eval("Master_Order") %>' width="10" height="10" border="0" src="../Images/Expand_Plus.png" alt="Expand" />
+                                </a>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Focus Area">
+                            <ItemStyle Width="15%" />
+                            <ItemTemplate>
+                                <%# Eval("Focus_Area") %>
+                                <asp:HiddenField runat="Server" ID="hdnMaster_Order" Value='<%# Eval("Master_Order") %>' />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField>
+                            <ItemStyle Width="15%" />
+                            <ItemTemplate>
+                                <tr>
+                                    <td colspan="100%">
+                                        <div id='div<%# Eval("Master_Order") %>' style="display: none; position: relative; left: 15px; overflow: auto">
+                                            <div style="width: 95%; background-color: rgb(127,127,127); color: white; font-weight: bold; height: 20px;" id="divTitle">
+                                              <%--  <span style="margin-left: 70px;">
+                                                    <asp:Label ID="lblSort_Order" runat="server" Text="Sort Order"></asp:Label></span>--%>
+                                                <span style="margin-left: 70px;">
+                                                    <asp:Label ID="lblQuestions" runat="server" Text="Questions"></asp:Label></span>
+                                            </div>
+                                            <asp:GridView ID="gvChildGrid" dontUseScrolls="true" CssClass="gvChildGrid" runat="server" AutoGenerateColumns="false" GridLines="None" Width="95%" ShowHeader="False">
+                                                <Columns>
+                                                    <asp:TemplateField>
+                                                        <ItemStyle Width="5%" />
+                                                        <ItemTemplate>
+                                                            <asp:HiddenField runat="server" Value='<%# Eval("PK_LU_Cause_Code_Information") %>' ID="hdnPK" />
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                     <asp:TemplateField>
+                                                        <ItemStyle Width="5%" />
+                                                        <ItemTemplate>
+                                                            <asp:HiddenField runat="server" Value='<%# Eval("Sort_Order") %>' ID="hdnSort_Order" />
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                    <%--<asp:BoundField DataField="Sort_Order" HeaderStyle-HorizontalAlign="Left" />--%>
+                                                    <asp:BoundField DataField="Question" HeaderStyle-HorizontalAlign="Left" />
+                                                </Columns>
+                                            </asp:GridView>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                    </Columns>
+                    <EmptyDataTemplate>
+                        <table cellpadding="4" cellspacing="0" width="100%">
+                            <tr>
+                                <td width="100%" align="center" style="border: 1px solid #cccccc;">
+                                    <asp:Label ID="lblEmptyHeaderGridMessage" runat="server" Text="No Record Found"></asp:Label>
+                                </td>
+                            </tr>
+                        </table>
+                    </EmptyDataTemplate>
+                </asp:GridView>
+            </div>
+        </div>
+        <table cellpadding="5" cellspacing="5" border="0" width="100%">
+            <tr>
+                <td style="width: 25%">&nbsp;
+                </td>
+                <td align="right">
+                    <asp:Button ID="btnSaveReorderList" runat="server" Text="Save" OnClick="btnSaveReorderList_Click" OnClientClick="getData();" />
+                    <asp:HiddenField ID="hdnSortOrder" runat="server" />
+                    <asp:HiddenField ID="hdnPKId" runat="server" />
+                </td>
+                <td style="width: 2%">&nbsp;
+                </td>
+                <td align="left">
+                    <asp:Button ID="btnCancelReorderList" runat="server" Text="Cancel" CausesValidation="false" OnClick="btnCancel_Click" />
+                </td>
+                <td style="width: 25%">&nbsp;
+                </td>
+            </tr>
+        </table>
     </div>
-
-   
-   
 </asp:Content>
 
