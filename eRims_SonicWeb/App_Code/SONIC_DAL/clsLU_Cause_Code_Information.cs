@@ -10,7 +10,6 @@ namespace ERIMS.DAL
 	/// </summary>
 	public sealed class clsLU_Cause_Code_Information
 	{
-
 		#region Private variables used to hold the property values
 
 		private decimal? _PK_LU_Cause_Code_Information;
@@ -221,7 +220,6 @@ namespace ERIMS.DAL
 			Database db = DatabaseFactory.CreateDatabase();
 			DbCommand dbCommand = db.GetStoredProcCommand("LU_Cause_Code_InformationInsert");
 
-			
 			if (string.IsNullOrEmpty(this._Focus_Area))
 				db.AddInParameter(dbCommand, "Focus_Area", DbType.String, DBNull.Value);
 			else
@@ -264,27 +262,13 @@ namespace ERIMS.DAL
 			return returnValue;
 		}
 
-
-       //public clsLU_Cause_Code_Information()
-       // {
-       //      this._PK_LU_Cause_Code_Information = -1;
-       //         this._Focus_Area = "";
-       //         //this._Sort_Order = "";
-       //         this._Question = "";
-       //         this._Guidance = "";
-       //         this._Active = "N";
-       //  }
-
-
         public clsLU_Cause_Code_Information(int PK)
         {
+            DataTable dtLU_Cause_Code_Information = SelectByPK(PK).Tables[0];
 
-            DataTable dtInspection_Questions = SelectByPK(PK).Tables[0];
-
-            if (dtInspection_Questions.Rows.Count > 0)
+            if (dtLU_Cause_Code_Information.Rows.Count > 0)
             {
-
-                DataRow drInspection_Questions = dtInspection_Questions.Rows[0];
+                DataRow drInspection_Questions = dtLU_Cause_Code_Information.Rows[0];
 
                 this._PK_LU_Cause_Code_Information = drInspection_Questions["PK_LU_Cause_Code_Information"] != DBNull.Value ? Convert.ToInt32(drInspection_Questions["PK_LU_Cause_Code_Information"]) : 0;
                 this._Focus_Area = Convert.ToString(drInspection_Questions["Focus_Area"]);
@@ -293,12 +277,11 @@ namespace ERIMS.DAL
                 this._Guidance = Convert.ToString(drInspection_Questions["Guidance"]);
                 this._Reference = Convert.ToString(drInspection_Questions["Reference"]);
                 this._Active = Convert.ToString(drInspection_Questions["Active"]);
-
+                this._Master_Order = Convert.ToInt16(drInspection_Questions["Master_Order"]);
             }
 
             else
             {
-
                 this._PK_LU_Cause_Code_Information = -1;
                 this._Focus_Area = "";
                 this._Sort_Order = -1;
@@ -306,12 +289,9 @@ namespace ERIMS.DAL
                 this._Guidance = "";
                 this._Reference = "";
                 this._Active = "N";
+                this._Master_Order = -1;
             }
-
         }
-
-
-
 
         /// <summary>
 		/// Selects a single record from the LU_Cause_Code_Information table by a primary key.
@@ -326,19 +306,7 @@ namespace ERIMS.DAL
 
 			return db.ExecuteDataSet(dbCommand);
 		}
-
-
-        /// <summary>
-        /// Selects a single record from the LU_Cause_Code_Information table by a primary key.
-        /// </summary>
-        /// <returns>DataSet</returns>
-        public static DataSet SelectAllID()
-        {
-            Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("LU_Cause_Code_InformationSelectAll");
-
-            return db.ExecuteDataSet(dbCommand);
-        }
+      
 		/// <summary>
 		/// Selects all records from the LU_Cause_Code_Information table.
 		/// </summary>
@@ -350,7 +318,6 @@ namespace ERIMS.DAL
 
 			return db.ExecuteDataSet(dbCommand);
 		}
-
 
         /// <summary>
         /// Selects Focus Area from the LU_Cause_Code_Information table.
@@ -364,7 +331,6 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-
         /// <summary>
         /// Selects Questions from the LU_Cause_Code_Information table.
         /// </summary>
@@ -373,11 +339,25 @@ namespace ERIMS.DAL
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("LU_Cause_Code_InformationSelectQuestions");
+
             db.AddInParameter(dbCommand, "Master_Order", DbType.Decimal, Master_Order);
 
             return db.ExecuteDataSet(dbCommand);
         }
 
+        /// <summary>
+        /// Selects Master Order from the LU_Cause_Code_Information table.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectPKByMasterOrder(decimal Master_Order)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_Cause_Code_InformationSelectPKByMasterOrder");
+
+            db.AddInParameter(dbCommand, "Master_Order", DbType.Decimal, Master_Order);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
 
 		/// <summary>
 		/// Updates a record in the LU_Cause_Code_Information table.
@@ -430,41 +410,17 @@ namespace ERIMS.DAL
 		}
 
         /// <summary>
-        /// Updates a record in the LU_Cause_Code_Information table.
+        /// Update Sort_Order in LU_Cause_Code_Information table.
         /// </summary>
-        public void UpdateSortOrder()
+        public static void UpdateLU_Cause_Code_InformationSO(string xml)
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("LU_Cause_Code_InformationUpdate_SortOrder");
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_Cause_Code_InformationUpdateSortOrder");
 
-
-            db.AddInParameter(dbCommand, "PK_LU_Cause_Code_Information", DbType.Decimal, this._PK_LU_Cause_Code_Information);
-
-            db.AddInParameter(dbCommand, "Sort_Order", DbType.Int32, this._Sort_Order);
-
-            if (string.IsNullOrEmpty(this._Updated_By))
-                db.AddInParameter(dbCommand, "Updated_By", DbType.String, DBNull.Value);
-            else
-                db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
-
-            db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
-
+            db.AddInParameter(dbCommand, "xmlData", DbType.Xml, xml);
 
             db.ExecuteNonQuery(dbCommand);
         }
 
-
-		/// <summary>
-		/// Deletes a record from the LU_Cause_Code_Information table by a composite primary key.
-		/// </summary>
-		public static void DeleteByPK(decimal pK_LU_Cause_Code_Information)
-		{
-			Database db = DatabaseFactory.CreateDatabase();
-			DbCommand dbCommand = db.GetStoredProcCommand("LU_Cause_Code_InformationDeleteByPK");
-
-			db.AddInParameter(dbCommand, "PK_LU_Cause_Code_Information", DbType.Decimal, pK_LU_Cause_Code_Information);
-
-			db.ExecuteNonQuery(dbCommand);
-		}
 	}
 }

@@ -6,11 +6,13 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using AjaxControlToolkit;
 using ERIMS.DAL;
+using System.Xml;
 
-public partial class Administrator_LU_Cause_Code_Information : System.Web.UI.Page
+public partial class Administrator_LU_Cause_Code_Information : clsBasePage
 {
 
-    #region Properties
+    #region "Properties"
+
     /// <summary>
     /// Denotes the Primary Key
     /// </summary>
@@ -22,6 +24,8 @@ public partial class Administrator_LU_Cause_Code_Information : System.Web.UI.Pag
         }
         set { ViewState["PK_LU_Cause_Code_Information"] = value; }
     }
+   
+    string strSortOrder = string.Empty;
 
     /// <summary>
     /// Denotes the Master Order
@@ -34,356 +38,331 @@ public partial class Administrator_LU_Cause_Code_Information : System.Web.UI.Pag
         }
         set { ViewState["Master_Order"] = value; }
     }
+
     #endregion
 
-    protected int NewListOrderNumber;
-    // protected List<reorderlistitem> ListDataItems;
+    #region "Page Event"
 
+    /// <summary>
+    /// Page Load Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void Page_Load(object sender, EventArgs e)
     {
 
-        //rlItemList.ItemReorder += new EventHandler<ReorderListItemReorderEventArgs>(rlItemList_ItemReorder);
-
-        // Event handler for deleting items from the list
-        //  rlItemList.ItemCommand += new EventHandler<ReorderListItemReorderEventArgs>(rlItemList_ItemCommand);
-
-
         if (!Page.IsPostBack)
         {
-            
-            DataSet dsInsQues = clsLU_Cause_Code_Information.SelectAll();
             // bind the grid.
-            GetListData();
             BindGrid();
+            BindFocusArea();
             btnSave.Visible = false;
             btnCancel.Visible = false;
-            //rlItemList.DataSource = dsInsQues;
-            //rlItemList.DataBind();
-            BindData();
-
+            btnSaveReorderList.Visible = false;
+            btnCancelReorderList.Visible = false;
         }
     }
 
-    public void BindGrid()
+    #endregion
+
+    #region "Event"
+
+    /// <summary>
+    /// Save button Click event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnSave_Click(object sender, EventArgs e)
     {
-        DataSet dsInsQues = clsLU_Cause_Code_Information.SelectAll();
-        // bind the grid.
-        gvQuestion.DataSource = dsInsQues;
-        gvQuestion.DataBind();
+        clsLU_Cause_Code_Information objCauseCodeInfo = new clsLU_Cause_Code_Information(PK_LU_Cause_Code_Information);
+        objCauseCodeInfo.PK_LU_Cause_Code_Information = PK_LU_Cause_Code_Information;
+        objCauseCodeInfo.Focus_Area = ddlFocusArea.SelectedItem.Text;
+
+        if (!string.IsNullOrEmpty(ddlFocusArea.SelectedValue))
+        {
+            objCauseCodeInfo.Master_Order = Convert.ToInt16(ddlFocusArea.SelectedValue);
+        }
+
+        objCauseCodeInfo.Question = txtQuestion.Text.ToString();
+        objCauseCodeInfo.Update_Date = DateTime.Now;
+        objCauseCodeInfo.Updated_By = Session["UserID"].ToString();
+        objCauseCodeInfo.Guidance = txtGuidance.Text.ToString();
+        objCauseCodeInfo.Reference = txtReference.Text.ToString();
+        objCauseCodeInfo.Active = rdoActive.SelectedValue;
+
+        if (PK_LU_Cause_Code_Information > 0)
+        {
+            objCauseCodeInfo.Update();
+        }
+        else
+        {
+            objCauseCodeInfo.Insert();
+        }
+
+        BindGrid();
+        btnCancel_Click(null, null);
     }
 
-    protected void gvQuestion_RowCreated(object sender, GridViewRowEventArgs e)
+    /// <summary>
+    /// Save button Click event for Reorder List
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnSaveReorderList_Click(object sender, EventArgs e)
+    {
+        BindFocusArea();
+        string strSortNew, strHiddenPK;
+        strSortNew = strSortOrder.TrimEnd(',');
+        strHiddenPK = hdnPKId.Value;
+        string[] strSortOrderArray = strHiddenPK.Split(',');
+        string[] strSortNewArray = strSortNew.Split(',');
+        string strfinal = "<LU_Cause_Code_Information>";
+        int lengthSortOrder = strSortOrderArray.Length;
+
+        if (lengthSortOrder == strSortNewArray.Length)
+        {
+            for (int count = 0; count < lengthSortOrder; count++)
+            {
+                strfinal = strfinal + "<so><PK_LU_Cause_Code_Information>" + strSortOrderArray[count] + "</PK_LU_Cause_Code_Information><Sort_Order>" + strSortNewArray[count] + "</Sort_Order></so>";
+            }
+            strfinal = strfinal + "</LU_Cause_Code_Information>";
+            clsLU_Cause_Code_Information.UpdateLU_Cause_Code_InformationSO(strfinal);
+            BindFocusArea();
+        }        
+    }
+
+    /// <summary>
+    /// Cancel button Click event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        divCauseCodeInfoGrid.Style.Add("display", "block");
+        divAddCauseCodeInformation.Style.Add("display", "none");
+        divViewCauseCodeInformation.Style.Add("display", "none");
+        divFocusArea.Style.Add("display", "none");
+        ddlFocusArea.SelectedIndex = -1;
+        txtGuidance.Text = "";
+        txtQuestion.Text = "";
+        txtReference.Text = "";
+        lblFocusArea.Text = "";
+        lblGuidance.Text = "";
+        lblQuestion.Text = "";
+        btnSave.Text = "Save";
+        btnSave.Visible = false;
+        btnCancel.Visible = false;
+        rdoActive.SelectedValue = "N";
+        btnSaveReorderList.Visible = false;
+        btnCancelReorderList.Visible = false;
+    }
+
+    /// <summary>
+    /// Sort Questions button Click event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnSortQuestions_Click(object sender, EventArgs e)
+    {
+        BindFocusArea();
+        DataSet dsCodeInformation = clsLU_Cause_Code_Information.SelectFocusArea();
+        divMain.Style.Add("display", "block");
+        divCauseCodeInfoGrid.Style.Add("display", "none");
+        divCauseCodeInformation_Main.Style.Add("display", "block");
+        divFocusArea.Style.Add("display", "block");
+        btnSaveReorderList.Visible = true;
+        btnCancelReorderList.Visible = true;
+    }
+
+    /// <summary>
+    /// Link Add New Click Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void lnkAddNew_Click(object sender, EventArgs e)
+    {
+        BindDropDowns();
+        divCauseCodeInfoGrid.Style.Add("display", "none");
+        divAddCauseCodeInformation.Style.Add("display", "block");
+        divViewCauseCodeInformation.Style.Add("display", "none");
+        ddlFocusArea.Enabled = true;
+        btnCancel.Visible = true;
+        btnSave.Visible = true;
+        btnSave.Text = "Save";
+        ddlFocusArea.Focus();
+    }
+
+    #endregion
+
+    #region "Grid Event"
+
+    /// <summary>
+    /// Page Index Change Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvCauseCodeInformation_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        gvCauseCodeInformation.PageIndex = e.NewPageIndex;
+        BindGrid();
+    }
+
+    /// <summary>
+    /// Row Created Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvCauseCodeInformation_RowCreated(object sender, GridViewRowEventArgs e)
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
             LinkButton lnkView = (LinkButton)e.Row.FindControl("lnkView");
             LinkButton lnkEdit = (LinkButton)e.Row.FindControl("lnkEdit");
-            LinkButton lnkRemove = (LinkButton)e.Row.FindControl("lnkRemove");
+
             if (lnkView != null)
                 lnkView.CommandArgument = Convert.ToString(e.Row.RowIndex);
             if (lnkEdit != null)
                 lnkEdit.CommandArgument = Convert.ToString(e.Row.RowIndex);
-            if (lnkRemove != null)
-                lnkRemove.CommandArgument = Convert.ToString(e.Row.RowIndex);
         }
     }
 
-    protected void gvQuestion_RowEditing(object sender, GridViewEditEventArgs e)
-    {
-
-    }
-    protected void gvQuestion_PageIndexChanging(object sender, GridViewPageEventArgs e)
-    {
-        gvQuestion.PageIndex = e.NewPageIndex;
-        BindGrid();
-    }
-    protected void gvQuestion_RowCommand(object sender, GridViewCommandEventArgs e)
+    /// <summary>
+    /// Row Command Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvCauseCodeInformation_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         if (e.CommandName == "Edit")
         {
-            HiddenField hdnInsID = (HiddenField)gvQuestion.Rows[Convert.ToInt32(e.CommandArgument)].FindControl("hdnInspectionQuestionID");
-            PK_LU_Cause_Code_Information = Convert.ToInt32(hdnInsID.Value.ToString());
+            HiddenField hdnPKID = (HiddenField)gvCauseCodeInformation.Rows[Convert.ToInt32(e.CommandArgument)].FindControl("hdnPK_LU_Cause_Code_Information");
+            PK_LU_Cause_Code_Information = Convert.ToInt32(hdnPKID.Value.ToString());
             EditRecord();
         }
         if (e.CommandName == "View")
         {
-            HiddenField hdnInsID = (HiddenField)gvQuestion.Rows[Convert.ToInt32(e.CommandArgument)].FindControl("hdnInspectionQuestionID");
-            PK_LU_Cause_Code_Information = Convert.ToInt32(hdnInsID.Value.ToString());
+            HiddenField hdnPKID = (HiddenField)gvCauseCodeInformation.Rows[Convert.ToInt32(e.CommandArgument)].FindControl("hdnPK_LU_Cause_Code_Information");
+            PK_LU_Cause_Code_Information = Convert.ToInt32(hdnPKID.Value.ToString());
             ViewRecord();
         }
-        if (e.CommandName == "Remove")
+    }
+
+    /// <summary>
+    /// Row DataBound Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvFocusArea_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
         {
-            HiddenField hdnInsID = (HiddenField)gvQuestion.Rows[Convert.ToInt32(e.CommandArgument)].FindControl("hdnInspectionQuestionID");
-            PK_LU_Cause_Code_Information = Convert.ToInt32(hdnInsID.Value.ToString());
-            clsLU_Cause_Code_Information.DeleteByPK(PK_LU_Cause_Code_Information);
-            btnCancel_Click(null, null);
-            BindGrid();
+            GridView gv = (GridView)e.Row.FindControl("gvChildGrid");
+            HiddenField gvddl = (HiddenField)e.Row.FindControl("hdnMaster_Order");
+            Master_Order = Convert.ToInt32(gvddl.Value.ToString());
+            gv.DataSource = clsLU_Cause_Code_Information.SelectQuestions(Master_Order);
+            gv.DataBind();
         }
     }
+
+    /// <summary>
+    /// Row Editing Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvCauseCodeInformation_RowEditing(object sender, GridViewEditEventArgs e)
+    {
+
+    }
+
+    #endregion
+
+    #region Methods
+
+    /// <summary>
+    /// Bind CouseCodeInformation Grid
+    /// </summary>
+    public void BindGrid()
+    {
+        DataSet dsCodeInformation = clsLU_Cause_Code_Information.SelectAll();
+        gvCauseCodeInformation.DataSource = dsCodeInformation;
+        gvCauseCodeInformation.DataBind();
+    }
+
+    /// <summary>
+    /// Edit the CouseCodeInformation Grid Records
+    /// </summary>
     public void EditRecord()
     {
-        divQuestionViewList.Style.Add("display", "none");
-        divAddNewQuestion.Style.Add("display", "block");
-        divViewQuestion.Style.Add("display", "none");
+        BindDropDowns();
+        divCauseCodeInfoGrid.Style.Add("display", "none");
+        divAddCauseCodeInformation.Style.Add("display", "block");
+        divViewCauseCodeInformation.Style.Add("display", "none");
+        btnSaveReorderList.Visible = false;
+        btnCancelReorderList.Visible = false;
         btnSave.Visible = true;
         btnCancel.Visible = true;
         btnSave.Text = "Update";
+        ddlFocusArea.Enabled = false;
         clsLU_Cause_Code_Information objclsLU_Cause_Code_Information = new clsLU_Cause_Code_Information(PK_LU_Cause_Code_Information);
-        txtFocusArea.Text = objclsLU_Cause_Code_Information.Focus_Area.ToString();
+        clsGeneral.SetDropdownValue(ddlFocusArea, objclsLU_Cause_Code_Information.Master_Order, true);
         txtQuestion.Text = objclsLU_Cause_Code_Information.Question.ToString();
-        txtSortOrder.Text = objclsLU_Cause_Code_Information.Sort_Order.ToString();
         txtGuidance.Text = objclsLU_Cause_Code_Information.Guidance.ToString();
         txtReference.Text = objclsLU_Cause_Code_Information.Reference.ToString();
         rdoActive.SelectedValue = objclsLU_Cause_Code_Information.Active;
-
-        txtFocusArea.Focus();
     }
+
+    /// <summary>
+    /// View the CouseCodeInformation Grid Records
+    /// </summary>
     public void ViewRecord()
     {
-        divQuestionViewList.Style.Add("display", "none");
-        divAddNewQuestion.Style.Add("display", "none");
-        divViewQuestion.Style.Add("display", "block");
+        divCauseCodeInfoGrid.Style.Add("display", "none");
+        divAddCauseCodeInformation.Style.Add("display", "none");
+        divViewCauseCodeInformation.Style.Add("display", "block");
         btnSave.Visible = false;
         btnCancel.Visible = true;
+        btnSaveReorderList.Visible = false;
+        btnCancelReorderList.Visible = false;
         clsLU_Cause_Code_Information objIns_Que = new clsLU_Cause_Code_Information(PK_LU_Cause_Code_Information);
         lblFocusArea.Text = objIns_Que.Focus_Area.ToString();
         lblQuestion.Text = objIns_Que.Question.ToString();
-        lblSortOrder.Text = objIns_Que.Sort_Order.ToString();
         lblGuidance.Text = objIns_Que.Guidance.ToString();
         lblReference.Text = objIns_Que.Reference.ToString();
         lblActive.Text = objIns_Que.Active == "Y" ? "Yes" : "No";
     }
-    protected void btnCancel_Click(object sender, EventArgs e)
-    {
-        divQuestionViewList.Style.Add("display", "block");
-        divAddNewQuestion.Style.Add("display", "none");
-        divViewQuestion.Style.Add("display", "none");
-        txtFocusArea.Text = "";
-        txtGuidance.Text = "";
-        txtSortOrder.Text = "";
-        txtQuestion.Text = "";
-        lblFocusArea.Text = "";
-        lblGuidance.Text = "";
-        lblQuestion.Text = "";
-        lblSortOrder.Text = "";
-        btnSave.Text = "Save";
-        btnSave.Visible = false;
-        btnCancel.Visible = false;
-        rdoActive.SelectedValue = "N";
-    }
-    protected void btnSave_Click(object sender, EventArgs e)
-    {
-        clsLU_Cause_Code_Information objIns_Que = new clsLU_Cause_Code_Information(PK_LU_Cause_Code_Information);
-        objIns_Que.PK_LU_Cause_Code_Information = PK_LU_Cause_Code_Information;
-        objIns_Que.Focus_Area = txtFocusArea.Text.ToString();
-        objIns_Que.Question = txtQuestion.Text.ToString();
-        //objIns_Que.Sort_Order = txtSortOrder.Text.ToString();
-        objIns_Que.Guidance = txtGuidance.Text.ToString();
-        objIns_Que.Reference = txtReference.Text.ToString();
-        objIns_Que.Active = rdoActive.SelectedValue;
-        if (PK_LU_Cause_Code_Information > 0)
-        {
-            objIns_Que.Update();
-        }
-        else
-        {
-            objIns_Que.Insert();
-        }
-        BindGrid();
-        btnCancel_Click(null, null);
-    }
-
-
-    protected void btnSortQuestions_Click(object sender, EventArgs e)
-    {
-        clsLU_Cause_Code_Information.SelectFocusArea();
-
-        DataSet dsInsQues = clsLU_Cause_Code_Information.SelectFocusArea();
-        // bind the grid.
-       rptFocusArea.DataSource = dsInsQues;
-       rptFocusArea.DataBind();
-        divMain.Style.Add("display", "block");
-        divQuestionViewList.Style.Add("display", "none");
-        //pnlFocusArea.Style.Add("display", "block");
-    }
-
 
     /// <summary>
-    /// Reorder list items in the database when a reorder event occurs
+    /// Bind FocusArea Grid
     /// </summary>
-    protected void rlItemList_ItemReorder(object sender, ReorderListItemReorderEventArgs e)
+    public void BindFocusArea()
     {
-        int NewOrder = e.NewIndex + 1;
-        int OldOrder = e.OldIndex + 1;
-        clsLU_Cause_Code_Information obj = new clsLU_Cause_Code_Information();
-        DataSet dsList = clsLU_Cause_Code_Information.SelectAll();
+        DataSet dsCodeInformation = clsLU_Cause_Code_Information.SelectFocusArea();
 
-        int ReorderListItemID = Convert.ToInt16(((Label)(e.Item.FindControl("lblPKLUCauseCodeInformation"))).Text);
-        //int MasterOrder = Convert.ToInt16(((Label)(e.Item.FindControl("lblPKLUCauseCodeInformation"))).Text);
-
-        //int db = new RealTimeReorderListDataDataContext();
-
-        int ListItemCount = 1;
-        //DataSet dsInsQues = clsLU_Cause_Code_Information.SelectAllID();
-        //int ListData = from ld in db.ReorderListItems
-        //orderby ld.ListOrder
-        //select ld;
-
-        DataTable dtListData = dsList.Tables[0];
-        foreach (DataRow drListDataItem in dtListData.Rows)
+        if (dsCodeInformation.Tables[0] != null && dsCodeInformation.Tables[0].Rows.Count > 0)
         {
+            gvFocusArea.DataSource = dsCodeInformation.Tables[0];
+            gvFocusArea.DataBind();
+        }
 
-            // clsLU_Cause_Code_Information obj=new clsLU_Cause_Code_Information();
+        if (dsCodeInformation.Tables[1] != null && dsCodeInformation.Tables[1].Rows.Count > 0)
+        {            
+            DataTable dt = dsCodeInformation.Tables[1];
 
-
-            obj.PK_LU_Cause_Code_Information = Convert.ToDecimal(drListDataItem["PK_LU_Cause_Code_Information"]);
-
-            obj.Sort_Order = Convert.ToInt16(drListDataItem["Sort_Order"]);
-
-            // Move forward items in this range
-            if (OldOrder > NewOrder && ListItemCount >= NewOrder && ListItemCount <= OldOrder)
-                obj.Sort_Order = ListItemCount + 1;
-            // Move backward items in this range
-            else if
-                (OldOrder < NewOrder && ListItemCount <= NewOrder && ListItemCount >= OldOrder)
-                obj.Sort_Order = ListItemCount - 1;
-
-            ListItemCount++;
-
-            // Set the changed item into the newly numerical gap
-            if (obj.PK_LU_Cause_Code_Information == ReorderListItemID)
+            int rowCount = dt.Rows.Count;
+            for (int i = 0; i < rowCount; i++) 
             {
-                // obj.PK_LU_Cause_Code_Information = Convert.ToDecimal(drListDataItem["PK_LU_Cause_Code_Information"]);
-                clsLU_Cause_Code_Information objLU_Cause_Code_Information = new clsLU_Cause_Code_Information(Convert.ToDecimal(obj.PK_LU_Cause_Code_Information));
-                objLU_Cause_Code_Information.Sort_Order = NewOrder;
-                objLU_Cause_Code_Information.Updated_By = Convert.ToString(drListDataItem["Updated_By"]);
-                objLU_Cause_Code_Information.Update_Date = DateTime.Now.Date;
-                objLU_Cause_Code_Information.UpdateSortOrder();
-                BindData();
+                strSortOrder = strSortOrder + dsCodeInformation.Tables[1].Rows[i][0] + ",";
             }
         }
-        //obj.PK_LU_Cause_Code_Information = ReorderListItemID;
-        // obj.Update();
-
-        //db.SubmitChanges();
-
-        //GetListData();
-        //BindData();
-    }
-
-
-    /// <summary>
-    /// ItemCommand event used to delete list items
-    /// </summary>
-    void rlItemList_ItemCommand(object sender, ReorderListCommandEventArgs e)
-    {
-        // If you want support for multiple commands
-        if (e.CommandName != "Delete")
-            return;
-
-        //int db = new RealTimeReorderListDataDataContext();
-
-        // ListData = from ld in db.ReorderListItems
-        //               where ld.ID == Convert.ToInt32(((Label)
-        //                  (e.Item.FindControl("ID"))).Text)
-        //               select ld;
-        //db.ReorderListItems.DeleteAllOnSubmit(ListData);
-        //db.SubmitChanges();
-        GetListData();
-        BindData();
-    }
-
-
-    /// <summary>
-    /// Add button click event used to inset a new list item into the database
-    /// </summary>
-    protected void AddReorderListItem_Click(object sender, EventArgs e)
-    {
-        GetListData(); // Get the current NewListOrderNumber
-        //var db = new RealTimeReorderListDataDataContext();
-        //var RLI = new ReorderListItem
-        //{
-        //    ListOrder = NewListOrderNumber,
-        //    Name = tbItemName.Text,
-        //    Description = tbItemDescription.Text
-        //};
-        //db.ReorderListItems.InsertOnSubmit(RLI);
-        //db.SubmitChanges();
-
-        // Clear the form values so that watermark shows
-        // tbItemName.Text = "";
-        // tbItemDescription.Text = "";
-
-        GetListData(); //Get the list with the newly inserted item
-        BindData();
-
     }
 
     /// <summary>
-    /// Retrieve the list items from the database
+    /// Bind All DropDowns
     /// </summary>
-    public void GetListData()
+    private void BindDropDowns()
     {
-
-        clsLU_Cause_Code_Information obj = new clsLU_Cause_Code_Information(PK_LU_Cause_Code_Information);
-        //ListDataItems = ListData.ToList();
-        //NewListOrderNumber = ListDataItems.Count() + 1;
+        ComboHelper.FillFocusArea(new DropDownList[] { ddlFocusArea }, true);
     }
 
-    /// <summary>
-    /// Bind the data the to the ReorderList control
-    /// </summary>
-    protected void BindData()
-    {
-        //rlItemList.DataSource = clsLU_Cause_Code_Information.SelectAll();
-        //rlItemList.DataBind();
-    }
-
-
-
-    protected void lnkEdit_Click(object sender, EventArgs e)
-    {
-
-    }
-
-    protected void lnkAddNew_Click(object sender, EventArgs e)
-    {
-        divCauseCodeInformation.Style.Add("display", "none");
-        divAddNewQuestion.Style.Add("display", "block");
-        divViewQuestion.Style.Add("display", "none");
-        btnCancel.Visible = true;
-        btnSave.Visible = true;
-        btnSave.Text = "Save";
-        txtFocusArea.Focus();
-    }
-    protected void imagePlus_Click(object sender, ImageClickEventArgs e)
-    {
-        //if (e.CommandName == "image")
-        //{
-        //    HiddenField hdnID = (HiddenField)gvQuestion.Rows[Convert.ToInt32(e.CommandArgument)].FindControl("hdnMaster_Order");
-        //    HiddenField hdnID = (HiddenField)gvQuestion.Rows.
-        //    Master_Order = Convert.ToInt32(hdnID.Value.ToString());
-        //    clsLU_Cause_Code_Information.SelectQuestions(Master_Order);
-        //}
-    }
-    protected void gvFocusArea_RowCommand(object sender, GridViewCommandEventArgs e)
-    {
-        if (e.CommandName == "image")
-        {
-
-            Master_Order = Convert.ToInt32(e.CommandArgument);
-            //rlItemList.DataSource = clsLU_Cause_Code_Information.SelectQuestions(Master_Order);
-            //// bind the grid.
-            //rlItemList.DataBind();
-        }
-    }
-    
-    protected void rptFocusArea_ItemDataBound(object sender, RepeaterItemEventArgs e)
-    {
-        decimal Master_Order = Convert.ToDecimal(DataBinder.Eval(e.Item.DataItem, "Master_Order"));
-        ReorderList rdoList = (ReorderList)e.Item.FindControl("rlItemList");
-        rdoList.DataSource = clsLU_Cause_Code_Information.SelectQuestions(Master_Order);
-        //// bind the grid.
-        rdoList.DataBind();
-    }
+    #endregion
 }
