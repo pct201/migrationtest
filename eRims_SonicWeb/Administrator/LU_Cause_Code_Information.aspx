@@ -34,8 +34,8 @@
                     scroll: false,
                     stop: function (ev, ui) {
                         jq('.gvChildGrid').each(function () {
-                            jq(this).find('tr').each(function () { jq(this).removeClass('bkodd'); jq(this).removeAttr('style'); });
-                            jq(this).find('tr:even').each(function () { jq(this).toggleClass('bkodd'); });
+                            jq(this).find('tr').removeClass('bkodd').removeAttr('style');
+                            jq(this).find('tr:even').addClass('bkodd'); 
                         });
                     }
                 });
