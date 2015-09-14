@@ -8,8 +8,8 @@
 
     <script type="text/javascript" src="../JavaScript/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../JavaScript/jquery-1.10.1.ui.min.js"></script>
-
     <script language="javascript" type="text/javascript">
+
        var jq = $.noConflict();
         function divExpandCollapse(divName) {
             var div, img;
@@ -393,8 +393,6 @@
                                     <td colspan="100%">
                                         <div id='div<%# Eval("Master_Order") %>' style="display: none; position: relative; left: 15px; overflow: auto">
                                             <div style="width: 95%; background-color: rgb(127,127,127); color: white; font-weight: bold; height: 20px;" id="divTitle">
-                                              <%--  <span style="margin-left: 70px;">
-                                                    <asp:Label ID="lblSort_Order" runat="server" Text="Sort Order"></asp:Label></span>--%>
                                                 <span style="margin-left: 70px;">
                                                     <asp:Label ID="lblQuestions" runat="server" Text="Questions"></asp:Label></span>
                                             </div>
@@ -412,7 +410,6 @@
                                                             <asp:HiddenField runat="server" Value='<%# Eval("Sort_Order") %>' ID="hdnSort_Order" />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
-                                                    <%--<asp:BoundField DataField="Sort_Order" HeaderStyle-HorizontalAlign="Left" />--%>
                                                     <asp:BoundField DataField="Question" HeaderStyle-HorizontalAlign="Left" />
                                                 </Columns>
                                             </asp:GridView>

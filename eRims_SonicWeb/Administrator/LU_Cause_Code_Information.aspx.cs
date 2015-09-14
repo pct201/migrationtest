@@ -10,7 +10,6 @@ using System.Xml;
 
 public partial class Administrator_LU_Cause_Code_Information : clsBasePage
 {
-
     #region "Properties"
 
     /// <summary>
@@ -50,7 +49,6 @@ public partial class Administrator_LU_Cause_Code_Information : clsBasePage
     /// <param name="e"></param>
     protected void Page_Load(object sender, EventArgs e)
     {
-
         if (!Page.IsPostBack)
         {
             // bind the grid.
@@ -323,12 +321,12 @@ public partial class Administrator_LU_Cause_Code_Information : clsBasePage
         btnCancel.Visible = true;
         btnSaveReorderList.Visible = false;
         btnCancelReorderList.Visible = false;
-        clsLU_Cause_Code_Information objIns_Que = new clsLU_Cause_Code_Information(PK_LU_Cause_Code_Information);
-        lblFocusArea.Text = objIns_Que.Focus_Area.ToString();
-        lblQuestion.Text = objIns_Que.Question.ToString();
-        lblGuidance.Text = objIns_Que.Guidance.ToString();
-        lblReference.Text = objIns_Que.Reference.ToString();
-        lblActive.Text = objIns_Que.Active == "Y" ? "Yes" : "No";
+        clsLU_Cause_Code_Information objclsLU_Cause_Code_Information = new clsLU_Cause_Code_Information(PK_LU_Cause_Code_Information);
+        lblFocusArea.Text = objclsLU_Cause_Code_Information.Focus_Area.ToString();
+        lblQuestion.Text = objclsLU_Cause_Code_Information.Question.ToString();
+        lblGuidance.Text = objclsLU_Cause_Code_Information.Guidance.ToString();
+        lblReference.Text = objclsLU_Cause_Code_Information.Reference.ToString();
+        lblActive.Text = objclsLU_Cause_Code_Information.Active == "Y" ? "Yes" : "No";
     }
 
     /// <summary>
@@ -349,9 +347,10 @@ public partial class Administrator_LU_Cause_Code_Information : clsBasePage
             DataTable dt = dsCodeInformation.Tables[1];
 
             int rowCount = dt.Rows.Count;
-            for (int i = 0; i < rowCount; i++) 
+            int count = 0;
+            for (count = 0; count < rowCount; count++) 
             {
-                strSortOrder = strSortOrder + dsCodeInformation.Tables[1].Rows[i][0] + ",";
+                strSortOrder = strSortOrder + dsCodeInformation.Tables[1].Rows[count][0] + ",";
             }
         }
     }

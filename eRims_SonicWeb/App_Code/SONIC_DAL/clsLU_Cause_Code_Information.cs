@@ -117,7 +117,6 @@ namespace ERIMS.DAL
 			set { _Master_Order = value; }
 		}
 
-
 		#endregion
 
 		#region Default Constructors
@@ -127,7 +126,6 @@ namespace ERIMS.DAL
 		/// </summary>
 		public clsLU_Cause_Code_Information() 
 		{
-
 
 		}
 
@@ -145,11 +143,8 @@ namespace ERIMS.DAL
 			if (dtLU_Cause_Code_Information.Rows.Count == 1)
 			{
 				 SetValue(dtLU_Cause_Code_Information.Rows[0]);
-
 			}
-
 		}
-
 
 		/// <summary>
 		/// Initializes a new instance of the clsLU_Cause_Code_Information class based on Datarow passed.
@@ -205,8 +200,6 @@ namespace ERIMS.DAL
 					this._Master_Order = null;
 				else
 					this._Master_Order = (int?)drLU_Cause_Code_Information["Master_Order"];
-
-
 		}
 
 		#endregion
@@ -279,7 +272,6 @@ namespace ERIMS.DAL
                 this._Active = Convert.ToString(drInspection_Questions["Active"]);
                 this._Master_Order = Convert.ToInt16(drInspection_Questions["Master_Order"]);
             }
-
             else
             {
                 this._PK_LU_Cause_Code_Information = -1;
@@ -346,7 +338,7 @@ namespace ERIMS.DAL
         }
 
         /// <summary>
-        /// Selects Master Order from the LU_Cause_Code_Information table.
+        /// Selects Primary Key and Sort Order from the LU_Cause_Code_Information table by Master_Order.
         /// </summary>
         /// <returns>DataSet</returns>
         public static DataSet SelectPKByMasterOrder(decimal Master_Order)
@@ -367,7 +359,6 @@ namespace ERIMS.DAL
 			Database db = DatabaseFactory.CreateDatabase();
 			DbCommand dbCommand = db.GetStoredProcCommand("LU_Cause_Code_InformationUpdate");
 
-			
 			db.AddInParameter(dbCommand, "PK_LU_Cause_Code_Information", DbType.Decimal, this._PK_LU_Cause_Code_Information);
 			
 			if (string.IsNullOrEmpty(this._Focus_Area))
@@ -421,6 +412,5 @@ namespace ERIMS.DAL
 
             db.ExecuteNonQuery(dbCommand);
         }
-
 	}
 }
