@@ -136,6 +136,7 @@ public partial class Administrator_LU_Cause_Code_Information : clsBasePage
     /// <param name="e"></param>
     protected void btnCancel_Click(object sender, EventArgs e)
     {
+        BindGrid();
         divCauseCodeInfoGrid.Style.Add("display", "block");
         divAddCauseCodeInformation.Style.Add("display", "none");
         divViewCauseCodeInformation.Style.Add("display", "none");
