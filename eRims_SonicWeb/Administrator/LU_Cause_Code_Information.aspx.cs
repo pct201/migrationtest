@@ -83,7 +83,7 @@ public partial class Administrator_LU_Cause_Code_Information : clsBasePage
 
         objCauseCodeInfo.Question = txtQuestion.Text.ToString();
         objCauseCodeInfo.Update_Date = DateTime.Now;
-        objCauseCodeInfo.Updated_By = Session["UserID"].ToString();
+        objCauseCodeInfo.Updated_By = clsSession.UserID;
         objCauseCodeInfo.Guidance = txtGuidance.Text.ToString();
         objCauseCodeInfo.Reference = txtReference.Text.ToString();
         objCauseCodeInfo.Active = rdoActive.SelectedValue;

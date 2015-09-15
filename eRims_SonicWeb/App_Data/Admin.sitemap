@@ -244,8 +244,8 @@
           <siteMapNode url="Administrator/InspectionQuestion.aspx" title="Inspection Questions"  description="" roles="" />
         </siteMapNode>
         <siteMapNode url="" title="Investigation" description="">
+           <siteMapNode url="Administrator/LU_Cause_Code_Information.aspx" title="Cause Code Information" description="Cause Code Information" roles=""></siteMapNode>
           <siteMapNode url="Administrator/Contributing Factor.aspx" title="Contributing Factor" description="Contributing Factor" roles=""></siteMapNode>
-          <siteMapNode url="Administrator/LU_Cause_Code_Information.aspx" title="Cause Code Information" description="Cause Code Information" roles=""></siteMapNode>
         </siteMapNode>
         <siteMapNode url="" title ="Management" description="" roles="" >
           <siteMapNode url="Administrator/LU_Approval_Submission.aspx" title="Approval Submission" description="" roles=""></siteMapNode>

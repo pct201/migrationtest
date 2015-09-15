@@ -5,6 +5,9 @@
 <%@ Register Src="~/Controls/Notes/Notes.ascx" TagName="ctrlMultiLineTextBox" TagPrefix="uc" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+      <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
+        HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
+        ValidationGroup="vsErrorGroup" CssClass="errormessage"></asp:ValidationSummary>
 
     <script type="text/javascript" src="../JavaScript/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="../JavaScript/jquery-1.10.1.ui.min.js"></script>
@@ -289,7 +292,7 @@
                             <td colspan="4" align="left">
                                 <asp:DropDownList ID="ddlFocusArea" runat="server" Width="200px" SkinID="dropGen" AutoPostBack="true"></asp:DropDownList>
                                 <asp:RequiredFieldValidator ID="rfvFocusArea" ControlToValidate="ddlFocusArea" Display="None"
-                                    runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Focus Area"></asp:RequiredFieldValidator>
+                                    runat="server" InitialValue="0" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Focus Area"></asp:RequiredFieldValidator>
                             </td>
                         </tr>
                         <tr>
