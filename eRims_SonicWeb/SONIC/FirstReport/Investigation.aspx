@@ -850,7 +850,7 @@
                                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                                 <tr>
                                                                                     <td align="center" width="2%">
-                                                                                        <%#Container.ItemIndex + 1%>
+                                                                                        <%#Container.ItemIndex + 1%>.
                                                                                     </td>
                                                                                     <td align="left" width="70%">
                                                                                        <%#Eval("Question")%>
@@ -886,7 +886,7 @@
                                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                                 <tr>
                                                                                     <td align="center" width="2%" valign="top">
-                                                                                        <%#Container.ItemIndex + 1%>
+                                                                                        <%#Container.ItemIndex + 1%>.
                                                                                     </td>
                                                                                     <td align="left" width="98%">
                                                                                         <%#Eval("Guidance")%>
