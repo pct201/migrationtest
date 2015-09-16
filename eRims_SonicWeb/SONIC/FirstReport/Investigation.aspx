@@ -2,7 +2,7 @@
     Inherits="Exposures_Investigation" Title="eRIMS Sonic :: Exposures :: Investigation" %>
 
 <%@ Register Src="~/Controls/ExposuresTab/ExposuresTab.ascx" TagName="CtlTab" TagPrefix="uc" %>
-<%@ Register Src="~/Controls/Notes/Notes.ascx" TagName="ctrlMultiLineTextBox" TagPrefix="uc" %>
+<%@ Register Src="~/Controls/NotesWithSpellCheck/Notes.ascx" TagName="ctrlMultiLineTextBox" TagPrefix="uc" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <%@ Register Src="~/Controls/InvestigationInfo/InvestigationInfo.ascx" TagName="ctrlExposureInfo"
@@ -849,7 +849,7 @@
                                                                         <ItemTemplate>
                                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                                 <tr>
-                                                                                    <td align="center" width="2%" valign="top">
+                                                                                    <td align="center" width="2%">
                                                                                         <%#Container.ItemIndex + 1%>
                                                                                     </td>
                                                                                     <td align="left" width="70%">

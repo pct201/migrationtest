@@ -1295,7 +1295,7 @@ public partial class Exposures_Investigation : clsBasePage
         if (rdoCommunicated.SelectedValue == "Y")
         {
             txtDateCommunicated.Text = clsGeneral.FormatDBNullDateToDisplay(objInvestigation.Date_Communicated);
-            txtNo_Communication_Explanation.Enable = false;
+            txtNo_Communication_Explanation.Enabled = false;
         }
         else
         {
@@ -2274,12 +2274,12 @@ public partial class Exposures_Investigation : clsBasePage
         if (rdoCommunicated.SelectedValue == "Y")
         {
             txtDateCommunicated.Enabled = true;
-            txtNo_Communication_Explanation.Enable = false;
+            txtNo_Communication_Explanation.Enabled = false;
             txtNo_Communication_Explanation.Text = "";
         }
         else
         {
-            txtNo_Communication_Explanation.Enable = true;
+            txtNo_Communication_Explanation.Enabled = true;
             txtDateCommunicated.Enabled = false;
             txtDateCommunicated.Text = "";
         }
