@@ -18,6 +18,7 @@
             var div, img;
             div = document.getElementById(divName);
             img = document.getElementById('img' + divName);
+            
             if (div.style.display == "none") {
                 div.style.display = "inline-block";
                 img.src = "../Images/Collepse_Minus.png";
@@ -411,7 +412,7 @@
                                                         <ItemStyle Width="5%" />
                                                         <ItemTemplate>
                                                             <asp:HiddenField runat="server" Value='<%# Eval("Sort_Order") %>' ID="hdnSort_Order" />
-                                                             <img id='imgdiv<%# Eval("Sort_Order") %>' width="15" height="15" border="0" src="../Images/DragIcon.png" alt="Drag it" />
+                                                             <img id='imgSortdiv<%# Eval("Sort_Order") %>' width="15" height="15" border="0" src="../Images/DragIcon.png" alt="Drag it" />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:BoundField DataField="Question" HeaderStyle-HorizontalAlign="Left" />
