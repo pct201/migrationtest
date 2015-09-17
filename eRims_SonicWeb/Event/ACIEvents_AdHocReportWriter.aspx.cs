@@ -148,14 +148,14 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
         //Bind Report
         StringBuilder sbRecord = new StringBuilder();
         string strFilePath = BindReport(ref sbRecord, ReportOutputType.ExportToExcel);
-         string outputFiles=string.Empty;
-         bool blnHTML2Excel = false;
+        string outputFiles = string.Empty;
+        bool blnHTML2Excel = false;
         if (File.Exists(strFilePath))
         {
             string data = File.ReadAllText(strFilePath);
             data = data.Trim();
             HTML2Excel objHtml2Excel = new HTML2Excel(data);
-             outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
+            outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
             blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
         }
 
@@ -175,7 +175,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             {
                 if (File.Exists(outputFiles))
                     File.Delete(outputFiles);
-                 if (File.Exists(strFilePath))
+                if (File.Exists(strFilePath))
                     File.Delete(strFilePath);
 
                 HttpContext.Current.Response.End();
@@ -193,15 +193,19 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
         //Bind Report
         StringBuilder sbRecord = new StringBuilder();
         string strFilePath = BindReport(ref sbRecord, ReportOutputType.ExportAsMail);
-        string data = File.ReadAllText(strFilePath);
-        data = data.Trim();
-        HTML2Excel objHtml2Excel = new HTML2Excel(data);
-        string outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
-        bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
-
+        bool blnHTML2Excel = false;
+        string outputFiles = string.Empty;
+        if (File.Exists(strFilePath))
+        {
+            string data = File.ReadAllText(strFilePath);
+            data = data.Trim();
+            HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
+            blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+        }
 
         //If records found
-        if (File.Exists(strFilePath) && (blnHTML2Excel==true))
+        if (blnHTML2Excel)
         {
             if (clsGeneral.SendAdHocReport("Ad Hoc Report", outputFiles, "Ad Hoc Report.xlsx", Convert.ToDecimal(ddlRecipientList.SelectedItem.Value)))
             {
@@ -1480,7 +1484,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     SetDefaultTExtBox(pnlText_F.ID);
                     break;
                 case (int)AdHocReportHelper.AdHocControlType.MultiSelectList:
-                    
+
                     if (lstAdHoc[0].Field_Header == "Location")
                     {
                         //ComboHelper.FillLocation(new ListBox[] { lst_F }, false);
@@ -1491,22 +1495,22 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                         ComboHelper.FillEventDescription(new ListBox[] { lst_F });
                     }
                     else if (lstAdHoc[0].Field_Header == "Event Type")
-                    {                        
+                    {
                         ComboHelper.FillEventType(new ListBox[] { lst_F }, false);
                     }
                     else if (lstAdHoc[0].Field_Header == "Company State")
                     {
                         ComboHelper.FillStateList(new ListBox[] { lst_F }, false);
                     }
-                    else if(lstAdHoc[0].Field_Header == "Status")
+                    else if (lstAdHoc[0].Field_Header == "Status")
                     {
                         ComboHelper.FillEventByStaus(new ListBox[] { lst_F }, false);
                     }
- 
+
                     else
                     {
                         AdHocReportHelper.FillFilterDropDown(lstAdHoc[0].Field_Header, new ListBox[] { lst_F }, false, GetSelectedCoverage());
-                    }                       
+                    }
                     pnlText_F.Visible = false;
                     pnlAmoun_F.Visible = false;
                     pnlDate_F.Visible = false;
@@ -2419,7 +2423,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             {
                 //Reader = AdHocReportHelper.GetAdHocReportACI(GetAllItemString(lstSelectedFields, false), strGroupBy, PVD, strWhere, strOrderBy, strFilterIds, Convert.ToBoolean(Convert.ToInt32(rdbEvent.SelectedValue)));
                 Reader = AdHocReportHelper.GetAdHocReportACI(GetAllItemString(lstSelectedFields, false), strGroupBy, PVD, strWhere, strOrderBy, strFilterIds, true);//Always set as Event
-                
+
             }
             catch (Exception ex)
             {
@@ -3226,7 +3230,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria1.Checked);
                     else
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria1.Checked);
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria1.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                     strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From1.Text, txtDate_To1.Text, lstDate1.SelectedItem.Value, chkNotCriteria1.Checked);
@@ -3253,7 +3257,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria2.Checked);
                     else
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F2, bStringVal), chkNotCriteria2.Checked);
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F2, bStringVal), chkNotCriteria2.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                     strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From2.Text, txtDateTo2.Text, lstDate2.SelectedItem.Value, chkNotCriteria2.Checked);
@@ -3279,7 +3283,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria3.Checked);
                     else
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F3, bStringVal), chkNotCriteria3.Checked);
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F3, bStringVal), chkNotCriteria3.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                     strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From3.Text, txtDate_To3.Text, lstDate3.SelectedItem.Value, chkNotCriteria3.Checked);
@@ -3304,7 +3308,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria4.Checked);
                     else
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F4, bStringVal), chkNotCriteria4.Checked);
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F4, bStringVal), chkNotCriteria4.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                     strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From4.Text, txtDate_To4.Text, lstDate4.SelectedItem.Value, chkNotCriteria4.Checked);
@@ -3328,7 +3332,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria5.Checked);
                     else
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F5, bStringVal), chkNotCriteria5.Checked);
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F5, bStringVal), chkNotCriteria5.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                 {
@@ -3354,7 +3358,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria6.Checked);
                     else
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F6, bStringVal), chkNotCriteria6.Checked);
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F6, bStringVal), chkNotCriteria6.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                     strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From6.Text, txtDate_To6.Text, lstDate6.SelectedItem.Value, chkNotCriteria6.Checked);
@@ -3378,7 +3382,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria7.Checked);
                     else
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F7, bStringVal), chkNotCriteria7.Checked);
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F7, bStringVal), chkNotCriteria7.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                     strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From7.Text, txtDate_To7.Text, lstDate7.SelectedItem.Value, chkNotCriteria7.Checked);
@@ -3403,7 +3407,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                     if (lstAdhoc[iSelected].Field_Header.Contains("Is Actionable") || lstAdhoc[iSelected].Field_Header.Contains("Video Requested by Sonic"))
                         strWhere += GetListBoxWhereCondition("IsNull([" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField + ",'N')", GetSelectedItemString(lst_F1, bStringVal), chkNotCriteria8.Checked);
                     else
-                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F8, bStringVal), chkNotCriteria8.Checked);
+                        strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F8, bStringVal), chkNotCriteria8.Checked);
                 }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
                     strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From8.Text, txtDate_To8.Text, lstDate8.SelectedItem.Value, chkNotCriteria8.Checked);
@@ -3474,7 +3478,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             try
             {
                 //Reader = AdHocReportHelper.GetAdHocReportACI(GetAllItemString(lstSelectedFields, false), strGroupBy, PVD, strWhere, strOrderBy, strFilterIds, Convert.ToBoolean(Convert.ToInt32(rdbEvent.SelectedValue)));
-                  Reader = AdHocReportHelper.GetAdHocReportACI(GetAllItemString(lstSelectedFields, false), strGroupBy, PVD, strWhere, strOrderBy, strFilterIds, true);//Always set as Event
+                Reader = AdHocReportHelper.GetAdHocReportACI(GetAllItemString(lstSelectedFields, false), strGroupBy, PVD, strWhere, strOrderBy, strFilterIds, true);//Always set as Event
 
             }
             catch (Exception ex)
@@ -3838,7 +3842,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                                 }
                                 else
                                 {
-                                sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;' align='right'>&nbsp;" + strFirstGroupBy + ": " + string.Format("{0:c2}", decVal) + "</td></tr>");
+                                    sbRecord.Append("<tr><td style='font-weight: bold;color: #FF9C09;' align='right'>&nbsp;" + strFirstGroupBy + ": " + string.Format("{0:c2}", decVal) + "</td></tr>");
                                 }
                             }
                             else if (strFormatFirstGroupBy == "datetime")
@@ -4486,7 +4490,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
         //}
         //return strWhere;
         return "";
-     }
+    }
 
     /***
     /// <summary>
@@ -4878,8 +4882,8 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
         else
         {
             AdHocReportHelper.FillFilterDropDown(Field_Header, new ListBox[] { lst_F }, false, GetSelectedCoverage());
-        }                       
-            
+        }
+
         //Set ListBox ToolTip
         clsGeneral.SetListBoxToolTip(new ListBox[] { lst_F });
         // Set Selected Value for Filter Criteria
@@ -5193,8 +5197,8 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
             {
                 if (chkNotCriteria.Checked == true)
                     strWhere = "<b>" + strFilterIds + " (Not In) :</b>  " + GetSelectedItemTextString(lst_F);
-                else                   
-                        strWhere = "<b>" + strFilterIds + " (In) :</b>  " + GetSelectedItemTextString(lst_F);                    
+                else
+                    strWhere = "<b>" + strFilterIds + " (In) :</b>  " + GetSelectedItemTextString(lst_F);
             }
             else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
             {
@@ -5247,7 +5251,7 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
                 strValues = strValues + lstBoxItem.Text.Replace("'", "''") + ", ";
             }
         }
-        return strValues.Trim().TrimEnd(',');        
+        return strValues.Trim().TrimEnd(',');
     }
 
     ///// <summary>
