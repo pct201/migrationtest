@@ -126,14 +126,18 @@ public partial class SLT_AdHocReportWriter : clsBasePage
         //Bind Report
         StringBuilder sbRecord = new StringBuilder();
         string strFilePath = BindReport(ref sbRecord, ReportOutputType.ExportAsMail);
-        string data = File.ReadAllText(strFilePath);
-        data = data.Trim();
-        HTML2Excel objHtml2Excel = new HTML2Excel(data);
-        string outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
-        bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
-
+        bool blnHTML2Excel = false;
+        string outputFiles = string.Empty;
+        if (File.Exists(strFilePath))
+        {
+            string data = File.ReadAllText(strFilePath);
+            data = data.Trim();
+            HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
+            blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+        }
         //If records found
-        if (File.Exists(strFilePath) && (blnHTML2Excel==true))
+        if (blnHTML2Excel)
         {
             if (clsGeneral.SendAdHocReport("Ad Hoc Report", outputFiles, "SLT Ad-Hoc Report.xlsx", Convert.ToDecimal(ddlRecipientList.SelectedItem.Value)))
             {

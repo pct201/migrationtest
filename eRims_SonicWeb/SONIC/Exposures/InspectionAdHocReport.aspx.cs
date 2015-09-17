@@ -119,20 +119,20 @@ public partial class SONIC_Inspection_AdHocReportWriter : clsBasePage
         //Bind Report
         StringBuilder sbRecord = new StringBuilder();
         string strFilePath = BindReport(ref sbRecord, ReportOutputType.ExportToExcel);
-        bool blnHTML2Excel=false;
+        bool blnHTML2Excel = false;
         string outputFiles = string.Empty;
         if (File.Exists(strFilePath))
         {
             string data = File.ReadAllText(strFilePath);
             data = data.Trim();
             HTML2Excel objHtml2Excel = new HTML2Excel(data);
-             outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
-             blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+            outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
+            blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
         }
 
         //If records found
         //if (File.Exists(strFilePath))
-        if (blnHTML2Excel) 
+        if (blnHTML2Excel)
         {
             try
             {
@@ -164,15 +164,19 @@ public partial class SONIC_Inspection_AdHocReportWriter : clsBasePage
         //Bind Report
         StringBuilder sbRecord = new StringBuilder();
         string strFilePath = BindReport(ref sbRecord, ReportOutputType.ExportAsMail);
-        string data = File.ReadAllText(strFilePath);
-        data = data.Trim();
-        HTML2Excel objHtml2Excel = new HTML2Excel(data);
-        string outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
-        bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
-
+        bool blnHTML2Excel = false;
+        string outputFiles = string.Empty;
+        if (File.Exists(strFilePath))
+        {
+            string data = File.ReadAllText(strFilePath);
+            data = data.Trim();
+            HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
+            blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+        }
 
         //If records found
-        if (File.Exists(strFilePath) && (blnHTML2Excel==true))
+        if (blnHTML2Excel)
         {
             if (clsGeneral.SendAdHocReport("Ad Hoc Report", outputFiles, "Inspection Ad-Hoc Report.xlsx", Convert.ToDecimal(ddlRecipientList.SelectedItem.Value)))
             {
@@ -304,7 +308,7 @@ public partial class SONIC_Inspection_AdHocReportWriter : clsBasePage
     /// <param name="e"></param>
     protected void btnSelectFields_Click(object sender, EventArgs e)
     {
-       // MoveListBoxItems(lstOutputFields, lstSelectedFields, true, true);
+        // MoveListBoxItems(lstOutputFields, lstSelectedFields, true, true);
         MoveListBoxItems(lstOutputFields, lstSelectedFields, true, true, false);
     }
 
@@ -315,7 +319,7 @@ public partial class SONIC_Inspection_AdHocReportWriter : clsBasePage
     /// <param name="e"></param>
     protected void btnSelectAllFields_Click(object sender, EventArgs e)
     {
-       // MoveListBoxItems(lstOutputFields, lstSelectedFields, false, true);
+        // MoveListBoxItems(lstOutputFields, lstSelectedFields, false, true);
         MoveListBoxItems(lstOutputFields, lstSelectedFields, false, true, false);
     }
 
@@ -326,7 +330,7 @@ public partial class SONIC_Inspection_AdHocReportWriter : clsBasePage
     /// <param name="e"></param>
     protected void btnDeselectFields_Click(object sender, EventArgs e)
     {
-       // MoveListBoxItems(lstSelectedFields, lstOutputFields, true, false);
+        // MoveListBoxItems(lstSelectedFields, lstOutputFields, true, false);
         MoveListBoxItems(lstSelectedFields, lstOutputFields, true, false, true);
     }
 
@@ -724,8 +728,8 @@ public partial class SONIC_Inspection_AdHocReportWriter : clsBasePage
 
             Inspection_AdHocReport ObjAdHocReport = new Inspection_AdHocReport(_dcSelectedReport.Value);
 
-          //  rdbIncidentType.SelectedValue = Convert.ToString(ObjAdHocReport.IncidentType);
-           // rdbIncidentType_SelectedIndexChanged(sender, e);
+            //  rdbIncidentType.SelectedValue = Convert.ToString(ObjAdHocReport.IncidentType);
+            // rdbIncidentType_SelectedIndexChanged(sender, e);
 
             // Clear All Panels to bank
             ClearAllFilterPanel();
@@ -1353,12 +1357,12 @@ public partial class SONIC_Inspection_AdHocReportWriter : clsBasePage
                     }
                     else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "dealership dba")
                     {
-                       //ComboHelper.FillLocationDBA_AllCRMAdHoc(new ListBox[] { lst_F }, 0, false);
+                        //ComboHelper.FillLocationDBA_AllCRMAdHoc(new ListBox[] { lst_F }, 0, false);
                         ComboHelper.FillLocationDBA_All(new ListBox[] { lst_F }, 0, false);
                     }
                     else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "legal entity")
                     {
-                      //  ComboHelper.FillDistinctLocationLegal_EntityList(new ListBox[] { lst_F }, false);
+                        //  ComboHelper.FillDistinctLocationLegal_EntityList(new ListBox[] { lst_F }, false);
                         ComboHelper.FillDistinctLocationLegal_EntityByPK_Location(new ListBox[] { lst_F }, false);
                     }
                     else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "sonic location code")
@@ -1377,7 +1381,7 @@ public partial class SONIC_Inspection_AdHocReportWriter : clsBasePage
                     {
                         AdHocReportHelper.FillFilterDropDown(lstAdHoc[0].Field_Header, new ListBox[] { lst_F }, false, "INSPECTION");
                     }
-                   
+
                     pnlText_F.Visible = false;
                     pnlAmoun_F.Visible = false;
                     pnlDate_F.Visible = false;
@@ -1571,7 +1575,7 @@ public partial class SONIC_Inspection_AdHocReportWriter : clsBasePage
             else
                 strWhere = " And " + lstWhereFiels + " IN (" + strCondition + ") ";
         }
-       
+
         return strWhere;
     }
 
@@ -1615,7 +1619,7 @@ public partial class SONIC_Inspection_AdHocReportWriter : clsBasePage
             }
             strWhere = " And " + lstWhereFiels + " IN (" + strNewList.TrimEnd(',').Replace("^", ",") + ") ";
         }
-        
+
         return strWhere;
     }
 
@@ -2310,7 +2314,7 @@ public partial class SONIC_Inspection_AdHocReportWriter : clsBasePage
 
             #endregion
 
-            clsGeneral.DisposeOf(lstAdhoc);  
+            clsGeneral.DisposeOf(lstAdhoc);
 
             //if (rdbIncidentType.SelectedIndex == 0)
             //    Reader = AdHocReportHelper.GetAdHocReportCRMCustomer(GetAllItemString(lstSelectedFields, false), strGroupBy, strWhere, strOrderBy, strFilterIds, Convert.ToDecimal(clsSession.UserID));
@@ -2737,7 +2741,7 @@ public partial class SONIC_Inspection_AdHocReportWriter : clsBasePage
     {
         Inspection_AdHocReport objAdHocReport = new Inspection_AdHocReport();
         objAdHocReport.ReportName = txtReportName.Text.Trim();
-       // objAdHocReport.IncidentType = Convert.ToString(rdbIncidentType.SelectedValue);
+        // objAdHocReport.IncidentType = Convert.ToString(rdbIncidentType.SelectedValue);
 
         if (drpGroupByFirst.SelectedIndex > 0)
         {
@@ -3071,7 +3075,7 @@ public partial class SONIC_Inspection_AdHocReportWriter : clsBasePage
         //{
         //    ComboHelper.FillStateList(new ListBox[] { lst_F }, false);
         //}
-       
+
 
         //Set ListBox ToolTip
         clsGeneral.SetListBoxToolTip(new ListBox[] { lst_F });
@@ -3183,8 +3187,8 @@ public partial class SONIC_Inspection_AdHocReportWriter : clsBasePage
 
             foreach (string strSelect in strSelectedValues)
             {
-               string  strSelectValue = strSelect.Replace("^", ",");
-               li = lstSelect.Items.FindByValue(strSelectValue);
+                string strSelectValue = strSelect.Replace("^", ",");
+                li = lstSelect.Items.FindByValue(strSelectValue);
 
                 if (li != null)
                     li.Selected = true;
