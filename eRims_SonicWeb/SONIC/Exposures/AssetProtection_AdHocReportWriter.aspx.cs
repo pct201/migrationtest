@@ -175,14 +175,18 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
         //Bind Report
         StringBuilder sbRecord = new StringBuilder();
         string strFilePath = BindReport(ref sbRecord, ReportOutputType.ExportAsMail);
-        string data = File.ReadAllText(strFilePath);
-        data = data.Trim();
-        HTML2Excel objHtml2Excel = new HTML2Excel(data);
-        string outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
-        bool blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
-
+        bool blnHTML2Excel = false;
+        string outputFiles = string.Empty;
+        if (File.Exists(strFilePath))
+        {
+            string data = File.ReadAllText(strFilePath);
+            data = data.Trim();
+            HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
+            blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+        }
         //If records found
-        if (File.Exists(strFilePath) && (blnHTML2Excel==true))
+        if (blnHTML2Excel)
         {
             if (clsGeneral.SendAdHocReport("Ad Hoc Report", outputFiles, "Asset Protection Ad-Hoc Report.xlsx", Convert.ToDecimal(ddlRecipientList.SelectedItem.Value)))
             {
@@ -1809,6 +1813,100 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
     }
 
     /// <summary>
+    ///  Get Where condition when Type is Amount
+    /// </summary>
+    /// <param name="strField_Header"></param>
+    /// <param name="strAmtfrom"></param>
+    /// <param name="strAmtTo"></param>
+    /// <param name="drpAmtCriteria"></param>
+    /// <returns></returns>
+    //public string GetSecurity_FinancialsAmountCondtion(string strTable_Name,string strWhere_Field,string strField_Header, string strAmtfrom, string strAmtTo, string drpAmtCriteria)
+    //{
+    //    string strWhere = string.Empty;
+    //    AdHocReportHelper.AmountCriteria AmtType = AdHocReportHelper.AmountCriteria.Equal;
+
+    //    decimal? dFrom = null;
+    //    decimal? dTo = null;
+
+    //    if (!string.IsNullOrEmpty(strAmtfrom))
+    //        dFrom = Convert.ToDecimal(strAmtfrom);
+
+    //    if (!string.IsNullOrEmpty(strAmtTo))
+    //        dTo = Convert.ToDecimal(strAmtTo);
+
+    //    if (Convert.ToInt16(drpAmtCriteria) == (int)AdHocReportHelper.AmountCriteria.Equal)
+    //        AmtType = AdHocReportHelper.AmountCriteria.Equal;
+    //    else if (Convert.ToInt16(drpAmtCriteria) == (int)AdHocReportHelper.AmountCriteria.GreaterThan)
+    //        AmtType = AdHocReportHelper.AmountCriteria.GreaterThan;
+    //    else if (Convert.ToInt16(drpAmtCriteria) == (int)AdHocReportHelper.AmountCriteria.Between)
+    //        AmtType = AdHocReportHelper.AmountCriteria.Between;
+    //    else if (Convert.ToInt16(drpAmtCriteria) == (int)AdHocReportHelper.AmountCriteria.LessThan)
+    //        AmtType = AdHocReportHelper.AmountCriteria.LessThan;
+
+    //    if (dFrom.HasValue)
+    //        strWhere = AdHocReportHelper.GetAmountWhere("[" + strTable_Name.Trim() + "]." + strWhere_Field.Trim() , dFrom, dTo, AmtType);
+    //    else if (dTo.HasValue)
+    //        strWhere = AdHocReportHelper.GetAmountWhere("[" + strTable_Name.Trim() + "]." + strWhere_Field.Trim(), dFrom, dTo, AmtType);
+
+    //    strWhere += "AND [" + strTable_Name.Trim() + "].Category = ";
+
+    //    switch (strField_Header)
+    //    { 
+        
+    //        case "Total Capex CCTV Only":
+    //            strWhere += "'CCTV Only'";
+    //            break;
+
+    //        case "Total Capex Access Control":
+    //            strWhere += "'Access Control'";
+    //            break;
+
+    //        case "Total Capex Burglar Alarms":
+    //            strWhere += "'Burglar Alarms'";
+    //            break;
+
+    //        case "Total Capex Guard Services":
+    //            strWhere += "'Guard Services'";
+    //            break;
+
+    //        case "Total Capex CCTV and Live Monitoring Services":
+    //            strWhere += "'CCTV and Live Monitoring Services'";
+    //            break;
+
+    //        case "Total Capex Security Inventory Tracking Systems":
+    //            strWhere += "'Security Inventory Tracking Systems'";
+    //            break;
+
+    //        case "Total Monthly Charge CCTV Only":
+    //            strWhere += "'CCTV Only'";
+    //            break;
+
+    //        case "Total Monthly Charge Access Control":
+    //            strWhere += "'Access Control'";
+    //            break;
+
+    //        case "Total Monthly Charge Burglar Alarms":
+    //            strWhere += "'Burglar Alarms'";
+    //            break;
+
+    //        case "Total Monthly Charge Guard Services":
+    //            strWhere += "'Guard Services'";
+    //            break;
+
+    //        case "Total Monthly Charge CCTV and Live Monitoring Services":
+    //            strWhere += "'CCTV and Live Monitoring Services'";
+    //            break;
+
+    //        case "Total Monthly Charge Security Inventory Tracking Systems":
+    //            strWhere += "'Security Inventory Tracking Systems'";
+    //            break;
+
+    //    }
+
+    //    return strWhere;
+    //}
+
+    /// <summary>
     /// Bind Fileter Combo By COverage
     /// </summary>
     /// <param name="strTypes"></param>
@@ -2233,6 +2331,8 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                     // It takes Filed Header when Table is Transaction otherwist it take Filed Name.
                     if (lstAdhoc[iSelected].Table_Name == "T")
                         strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
+                    //else if( lstAdhoc[iSelected].Table_Name == "AP_Property_Security_Financials")
+                    //    strWhere += GetSecurity_FinancialsAmountCondtion(lstAdhoc[iSelected].Table_Name,lstAdhoc[iSelected].WhereField.Trim(), lstAdhoc[iSelected].Field_Header, txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
                     else
                         strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
                 }
@@ -2281,6 +2381,8 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                 {
                     if (lstAdhoc[iSelected].Table_Name == "T")
                         strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F2.Text, txtAmount2_F2.Text, drpAmount_F2.SelectedItem.Value);
+                    //else if (lstAdhoc[iSelected].Table_Name == "AP_Property_Security_Financials")
+                    //    strWhere += GetSecurity_FinancialsAmountCondtion(lstAdhoc[iSelected].Table_Name, lstAdhoc[iSelected].WhereField.Trim(), lstAdhoc[iSelected].Field_Header, txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
                     else
                         strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F2.Text, txtAmount2_F2.Text, drpAmount_F2.SelectedItem.Value);
                 }
@@ -2329,6 +2431,8 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                 {
                     if (lstAdhoc[iSelected].Table_Name == "T")
                         strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F3.Text, txtAmount2_F3.Text, drpAmount_F3.SelectedItem.Value);
+                    //else if (lstAdhoc[iSelected].Table_Name == "AP_Property_Security_Financials")
+                    //    strWhere += GetSecurity_FinancialsAmountCondtion(lstAdhoc[iSelected].Table_Name, lstAdhoc[iSelected].WhereField.Trim(), lstAdhoc[iSelected].Field_Header, txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
                     else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F3.Text, txtAmount2_F3.Text, drpAmount_F3.SelectedItem.Value);
                 }
             }
@@ -2376,6 +2480,8 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                 {
                     if (lstAdhoc[iSelected].Table_Name == "T")
                         strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F4.Text, txtAmount2_F4.Text, drpAmount_F4.SelectedItem.Value);
+                    //else if (lstAdhoc[iSelected].Table_Name == "AP_Property_Security_Financials")
+                    //    strWhere += GetSecurity_FinancialsAmountCondtion(lstAdhoc[iSelected].Table_Name, lstAdhoc[iSelected].WhereField.Trim(), lstAdhoc[iSelected].Field_Header, txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
                     else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F4.Text, txtAmount2_F4.Text, drpAmount_F4.SelectedItem.Value);
                 }
             }
@@ -2426,6 +2532,8 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                 {
                     if (lstAdhoc[iSelected].Table_Name == "T")
                         strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F5.Text, txtAmount2_F5.Text, drpAmount_F5.SelectedItem.Value);
+                    //else if (lstAdhoc[iSelected].Table_Name == "AP_Property_Security_Financials")
+                    //    strWhere += GetSecurity_FinancialsAmountCondtion(lstAdhoc[iSelected].Table_Name, lstAdhoc[iSelected].WhereField.Trim(), lstAdhoc[iSelected].Field_Header, txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
                     else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F5.Text, txtAmount2_F5.Text, drpAmount_F5.SelectedItem.Value);
                 }
             }
@@ -2476,6 +2584,8 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                 {
                     if (lstAdhoc[iSelected].Table_Name == "T")
                         strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F6.Text, txtAmount2_F6.Text, drpAmount_F6.SelectedItem.Value);
+                    //else if (lstAdhoc[iSelected].Table_Name == "AP_Property_Security_Financials")
+                    //    strWhere += GetSecurity_FinancialsAmountCondtion(lstAdhoc[iSelected].Table_Name, lstAdhoc[iSelected].WhereField.Trim(), lstAdhoc[iSelected].Field_Header, txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
                     else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F6.Text, txtAmount2_F6.Text, drpAmount_F6.SelectedItem.Value);
                 }
             }
@@ -2523,6 +2633,8 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                 {
                     if (lstAdhoc[iSelected].Table_Name == "T")
                         strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F7.Text, txtAmount2_F7.Text, drpAmount_F7.SelectedItem.Value);
+                    //else if (lstAdhoc[iSelected].Table_Name == "AP_Property_Security_Financials")
+                    //    strWhere += GetSecurity_FinancialsAmountCondtion(lstAdhoc[iSelected].Table_Name, lstAdhoc[iSelected].WhereField.Trim(), lstAdhoc[iSelected].Field_Header, txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
                     else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F7.Text, txtAmount2_F7.Text, drpAmount_F7.SelectedItem.Value);
                 }
             }
@@ -2570,6 +2682,8 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                 {
                     if (lstAdhoc[iSelected].Table_Name == "T")
                         strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F8.Text, txtAmount2_F8.Text, drpAmount_F8.SelectedItem.Value);
+                    //else if (lstAdhoc[iSelected].Table_Name == "AP_Property_Security_Financials")
+                    //    strWhere += GetSecurity_FinancialsAmountCondtion(lstAdhoc[iSelected].Table_Name, lstAdhoc[iSelected].WhereField.Trim(), lstAdhoc[iSelected].Field_Header, txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
                     else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F8.Text, txtAmount2_F8.Text, drpAmount_F8.SelectedItem.Value);
                 }
             }
@@ -2618,6 +2732,8 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                 {
                     if (lstAdhoc[iSelected].Table_Name == "T")
                         strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F9.Text, txtAmount2_F9.Text, drpAmount_F9.SelectedItem.Value);
+                    //else if (lstAdhoc[iSelected].Table_Name == "AP_Property_Security_Financials")
+                    //    strWhere += GetSecurity_FinancialsAmountCondtion(lstAdhoc[iSelected].Table_Name, lstAdhoc[iSelected].WhereField.Trim(), lstAdhoc[iSelected].Field_Header, txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
                     else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F9.Text, txtAmount2_F9.Text, drpAmount_F9.SelectedItem.Value);
                 }
             }
@@ -2665,6 +2781,8 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                 {
                     if (lstAdhoc[iSelected].Table_Name == "T")
                         strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F10.Text, txtAmount2_F10.Text, drpAmount_F10.SelectedItem.Value);
+                    //else if (lstAdhoc[iSelected].Table_Name == "AP_Property_Security_Financials")
+                    //    strWhere += GetSecurity_FinancialsAmountCondtion(lstAdhoc[iSelected].Table_Name, lstAdhoc[iSelected].WhereField.Trim(), lstAdhoc[iSelected].Field_Header, txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
                     else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F10.Text, txtAmount2_F10.Text, drpAmount_F10.SelectedItem.Value);
                 }
             }
