@@ -2083,7 +2083,7 @@ public partial class Exposures_Investigation : clsBasePage
         dtFields.DefaultView.RowFilter = "IsRequired = '1'";
         dtFields = dtFields.DefaultView.ToTable();
 
-        Label MenuAsterisk5 = (Label)mnuProperty.Controls[1].FindControl("MenuAsterisk");
+        Label MenuAsterisk5 = (Label)mnuProperty.Controls[2].FindControl("MenuAsterisk");
         MenuAsterisk5.Style["display"] = (dtFields.Select("LeftMenuIndex = 5").Length > 0) ? "inline-block" : "none";
 
         foreach (DataRow drField in dtFields.Rows)
@@ -2127,7 +2127,7 @@ public partial class Exposures_Investigation : clsBasePage
         dtFields.DefaultView.RowFilter = "IsRequired = '1'";
         dtFields = dtFields.DefaultView.ToTable();
 
-        Label MenuAsterisk3 = (Label)mnuProperty.Controls[2].FindControl("MenuAsterisk");
+        Label MenuAsterisk3 = (Label)mnuProperty.Controls[3].FindControl("MenuAsterisk");
         MenuAsterisk3.Style["display"] = (dtFields.Select("LeftMenuIndex = 3").Length > 0) ? "inline-block" : "none";
 
         foreach (DataRow drField in dtFields.Rows)
@@ -2192,7 +2192,7 @@ public partial class Exposures_Investigation : clsBasePage
         dtFields.DefaultView.RowFilter = "IsRequired = '1'";
         dtFields = dtFields.DefaultView.ToTable();
 
-        Label MenuAsterisk4 = (Label)mnuProperty.Controls[3].FindControl("MenuAsterisk");
+        Label MenuAsterisk4 = (Label)mnuProperty.Controls[4].FindControl("MenuAsterisk");
         MenuAsterisk4.Style["display"] = (dtFields.Select("LeftMenuIndex = 4").Length > 0) ? "inline-block" : "none";
 
         foreach (DataRow drField in dtFields.Rows)
