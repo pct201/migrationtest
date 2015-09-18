@@ -7,7 +7,7 @@
   <Field Title="RFI Status" TableName="LU_RFI_Status" Type="DropDown" HasCode="Y" HasUnderScore="N" DataTextField="RFI_Status" DataValueField="PK_LU_RFI_Status" SortField="PK_LU_RFI_Status"></Field>  
   <Field Title="RFI Recipient RFI Action Role" TableName="LU_RFI_Action_Role" Type="DropDown" HasCode="Y" HasUnderScore="N" DataTextField="RFI_Action_Role" DataValueField="PK_RFI_Action_Role" SortField="PK_RFI_Action_Role"></Field>
   <Field Title="Punch List Item Type" TableName="LU_Punchlist_Item_Type" Type="DropDown" HasCode="Y" HasUnderScore="N" DataTextField="Type" DataValueField="PK_LU_Punchlist_Item_Type" SortField="PK_LU_Punchlist_Item_Type"></Field>
-  <Field Title="Punch List Item Status" TableName="LU_Item_Status" Type="DropDown" HasCode="Y" HasUnderScore="N" DataTextField="Fld_Desc" DataValueField="PK_LU_Item_Status" SortField="PK_LU_Item_Status"></Field>  
+  <Field Title="Punch List Item Status" TableName="LU_PunchList_Status" Type="DropDown" HasCode="Y" HasUnderScore="N" DataTextField="Descr" DataValueField="PK_LU_PunchList_Status" SortField="PK_LU_PunchList_Status"></Field>  
   <Field Title="Building SecuCam State" TableName="State" Type="DropDown" HasCode="Y" HasUnderScore="N" DataTextField="FLD_state" DataValueField="PK_ID" SortField="PK_ID"></Field>  
   <Field Title="Building Voltage Security" TableName="LU_Voltage_Security" Type="DropDown" HasCode="Y" HasUnderScore="N" DataTextField="Fld_Desc" DataValueField="PK_LU_Voltage_Security" SortField="PK_LU_Voltage_Security"></Field>  
   <Field Title="Building Power Service" TableName="LU_Power_Service" Type="DropDown" HasCode="Y" HasUnderScore="N" DataTextField="Fld_Desc" DataValueField="PK_LU_Power_Service" SortField="PK_LU_Power_Service"></Field>  
