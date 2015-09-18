@@ -802,7 +802,7 @@
                                                             </tr>
                                                             <tr>
 
-                                                                <td align="left">What is the cause of this incident?&nbsp;<span id="span101" style="color: Red; display: none;" runat="server">*</span>
+                                                                <td align="left">What is the Nature of Incident?&nbsp;<span id="span101" style="color: Red; display: none;" runat="server">*</span>
                                                                 </td>
                                                                 <td align="center" width="2%">:
                                                                 </td>
@@ -920,9 +920,9 @@
                                                                 <td align="center" width="4%" valign="top">:
                                                                 </td>
                                                                 <td colspan="4" valign="top">
-                                                                    <asp:RadioButtonList ID="rdoOshaRecordable" runat="server" SkinID="YesNoType"
+                                                                    <asp:RadioButtonList ID="rdoOSHARecordable" runat="server" SkinID="YesNoType"
                                                                         Enabled="false" ValidationGroup="valRootCause"  />
-                                                                    <asp:Label ID="lblOSHARecordable" runat="server"  ValidationGroup="valRootCause" />
+                                                                    <asp:Label ID="lblOSHARecordable" runat="server"  ValidationGroup="valRootCause" style="display:none"/>
                                                                     <input type="hidden" id="hdnOSHARecordable" runat="server"  />
                                                                 </td>
                                                             </tr>
@@ -1833,7 +1833,7 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td align="left">What is the Cause of this Incident?
+                                                                <td align="left">What is the Nature of Incident?
                                                                 </td>
                                                                 <td align="center">:
                                                                 </td>

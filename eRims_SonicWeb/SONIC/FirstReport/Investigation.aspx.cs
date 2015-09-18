@@ -723,7 +723,7 @@ public partial class Exposures_Investigation : clsBasePage
 
             objInvestigation.Conclusions = txtConclusions.Text.Trim();
 
-            objInvestigation.OSHA_Recordable = Convert.ToString(rdoOshaRecordable.SelectedValue) == "Y" ? true : false;
+            objInvestigation.OSHA_Recordable = Convert.ToString(rdoOSHARecordable.SelectedValue) == "Y" ? true : false;
 
             lblOSHARecordable.Text = hdnOSHARecordable.Value;
             objInvestigation.Original_Sonic_S0_Cause_Code = txtOriginalSonicCode.Text.Trim();
@@ -1243,7 +1243,7 @@ public partial class Exposures_Investigation : clsBasePage
 
         if (objInvestigation.OSHA_Recordable != null)
         {
-            rdoOshaRecordable.SelectedValue = objInvestigation.OSHA_Recordable == true ? "Y" : "N";
+            rdoOSHARecordable.SelectedValue = objInvestigation.OSHA_Recordable == true ? "Y" : "N";
 
             lblOSHARecordable.Text = objInvestigation.OSHA_Recordable == true ? "Yes" : "No";
             hdnOSHARecordable.Value = lblOSHARecordable.Text;
