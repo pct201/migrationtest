@@ -226,10 +226,12 @@
           <siteMapNode url="Administrator/LU_Facility_Specific_Location.aspx" title ="Facility Specific Location" description="" roles="" />
           <siteMapNode url="Administrator/LU_Construction_Firm_Type.aspx" title ="Firm Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_Contract_Type.aspx" title ="Contract Type" description="" roles="" />
+          <siteMapNode url="Administrator/LU_PunchList_Status.aspx" title ="Punch List Status" description="" roles="" />
         
         </siteMapNode>
         <siteMapNode url="" title="First Reports" description="">
           <siteMapNode url="Administrator/IncidentInvolvementType.aspx" title="Incident Involvement Type" description=""></siteMapNode>
+          <!--<siteMapNode url="Administrator/LU_PL_Loss_Category.aspx" title="Loss Category" description=""></siteMapNode>-->
         </siteMapNode>
         <siteMapNode url="" title="Franchise" description="">
           <siteMapNode url="Administrator/Franchise_Additional_Land.aspx" title="Additional Land" description=""></siteMapNode>
