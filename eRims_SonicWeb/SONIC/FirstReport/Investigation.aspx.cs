@@ -766,11 +766,14 @@ public partial class Exposures_Investigation : clsBasePage
 
                     HiddenField fk_lu_cause_code_info = item.FindControl("hdnFK_LU_Cause_Info") as HiddenField;
                     RadioButtonList rdlResponse = item.FindControl("rdoRootCauseTypeList") as RadioButtonList;
+                    RadioButtonList rdlGuidanceReoccurance = rptRootCauseDeterminationRecmndation.Items[item.ItemIndex].FindControl("rdoRootCauseGuidanceList") as RadioButtonList;
+
                     HiddenField hdnPK_Investigation_Cause_Information = item.FindControl("hdnPK_Investigation_Cause_Information") as HiddenField;
                     clsInvestigation_Cause_Information objInvestigation_Cause_Information = new clsInvestigation_Cause_Information();
                     objInvestigation_Cause_Information.FK_Investigation = PK_Investigation_ID;
                     objInvestigation_Cause_Information.FK_LU_Cause_Code_Information = Convert.ToDecimal(fk_lu_cause_code_info.Value);
                     objInvestigation_Cause_Information.Response = Convert.ToString(rdlResponse.SelectedValue);
+                    objInvestigation_Cause_Information.Prevent_Reoccurrence = Convert.ToString(rdlGuidanceReoccurance.SelectedValue);
                     objInvestigation_Cause_Information.Updated_By = clsSession.UserName;
                     objInvestigation_Cause_Information.Update_Date = DateTime.Now;
                     objInvestigation_Cause_Information.PK_Investigation_Cause_Information = Convert.ToDecimal(hdnPK_Investigation_Cause_Information.Value);
@@ -1027,7 +1030,11 @@ public partial class Exposures_Investigation : clsBasePage
             Label lblRootCauseTypeList = (Label)rptRootCauseDeterminationView.Items[i].FindControl("lblRootCauseTypeList");
             lblRootCauseTypeList.Text = Convert.ToString(dtRootCauseDetermination.Rows[i]["Response"]) == "Y" ? "Yes" : "No";
         }
-
+        for (int i = 0; i < dtRootCauseDetermination.Rows.Count; i++)
+        {
+            Label lblRootCauseTypeList = (Label)rptRootCauseDeterminationRecmndationView.Items[i].FindControl("lblRootCauseGuidanceReoccurance");
+            lblRootCauseTypeList.Text = Convert.ToString(dtRootCauseDetermination.Rows[i]["Prevent_Reoccurrence"]) == "Y" ? "Yes" : "No";
+        }
 
         #endregion
 
@@ -1239,7 +1246,11 @@ public partial class Exposures_Investigation : clsBasePage
             RadioButtonList rdoValue = (RadioButtonList)rptRootCauseDetermination.Items[i].FindControl("rdoRootCauseTypeList");
             rdoValue.SelectedValue = Convert.ToString(dtRootCauseDetermination.Rows[i]["Response"]) == "Y" ? "Y" : "N";
         }
-
+        for (int i = 0; i < dtRootCauseDetermination.Rows.Count; i++)
+        {
+            RadioButtonList rdoValue = (RadioButtonList)rptRootCauseDeterminationRecmndation.Items[i].FindControl("rdoRootCauseGuidanceList");
+            rdoValue.SelectedValue = Convert.ToString(dtRootCauseDetermination.Rows[i]["Prevent_Reoccurrence"]) == "Y" ? "Y" : "N";
+        }
 
         if (objInvestigation.OSHA_Recordable != null)
         {

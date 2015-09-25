@@ -19,6 +19,7 @@ namespace ERIMS.DAL
 		private string _Response;
 		private string _Updated_By;
 		private DateTime? _Update_Date;
+        private string _Prevent_Reoccurrence;
 
 		#endregion
 
@@ -77,6 +78,15 @@ namespace ERIMS.DAL
 			get { return _Update_Date; }
 			set { _Update_Date = value; }
 		}
+
+        /// <summary>
+        /// Gets or sets the Prevent_Reoccurrence value.
+        /// </summary>
+        public string Prevent_Reoccurrence
+        {
+            get { return _Prevent_Reoccurrence; }
+            set { _Prevent_Reoccurrence = value; }
+        }
 
 
 		#endregion
@@ -178,6 +188,11 @@ namespace ERIMS.DAL
 			
 			db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
 
+            if (string.IsNullOrEmpty(this._Prevent_Reoccurrence))
+                db.AddInParameter(dbCommand, "Prevent_Reoccurrence", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Prevent_Reoccurrence", DbType.String, this._Prevent_Reoccurrence);
+
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -236,6 +251,11 @@ namespace ERIMS.DAL
 				db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
 			
 			db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
+
+            if (string.IsNullOrEmpty(this._Prevent_Reoccurrence))
+                db.AddInParameter(dbCommand, "Prevent_Reoccurrence", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Prevent_Reoccurrence", DbType.String, this._Prevent_Reoccurrence);
 
 			db.ExecuteNonQuery(dbCommand);
 		}
