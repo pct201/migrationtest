@@ -2063,16 +2063,16 @@ public partial class Exposures_Investigation : clsBasePage
                 //    strMessages += "Please enter [Causes]/What is your Conclusion/Impression of how the event occurred?" + ",";
                 //    Span1.Style["display"] = "inline-block";
                 //    break;
-                case "What is the Cause of this Incident?":
+                case "What is the Nature of this Incident?":
                     strCtrlsIDs += drpCauseOfIncident.ClientID + ",";
-                    strMessages += "Please select [Causes]/What is the Cause of this Incident?" + ",";
+                    strMessages += "Please select [Causes]/What is the Nature of this Incident?" + ",";
                     span101.Style["display"] = "inline-block";
                     break;
-                //case "Contributing Factor":
-                //    strCtrlsIDs += drpFk_LU_Contributing_Factor.ClientID + ",";
-                //    strMessages += "Please select [Causes]/Contributing Factor" + ",";
-                //    Span17.Style["display"] = "inline-block";
-                //    break;
+                case "Contributing Factor":
+                    strCtrlsIDs += drpFk_LU_Contributing_Factor.ClientID + ",";
+                    strMessages += "Please select [Causes]/Contributing Factor" + ",";
+                    Span17.Style["display"] = "inline-block";
+                    break;
                 //case "OSHA Recordable":
                 //    strCtrlsIDs += hdnOSHARecordable.ClientID + ",";
                 //    strMessages += "Please select [Causes]/OSHA Recordable" + ",";
