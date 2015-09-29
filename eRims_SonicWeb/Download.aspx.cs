@@ -182,10 +182,97 @@ public partial class Download : System.Web.UI.Page
             {
                 try
                 {
-                    string fileName = Convert.ToString(Request.QueryString["fileName"]);
-                    string orgName = Convert.ToString(Request.QueryString["orgName"]);
+                    string fileName = Convert.ToString(Request.QueryString["fileName"]).Replace(",", "");
+                    string orgName = Convert.ToString(Request.QueryString["orgName"]).Replace(",", "");
 
                     string strFilePath = AppConfig.strFCPDocumentPath + "\\" + fileName;
+                    string strFileName = Path.GetFileName(strFilePath);
+                    bool isExist = File.Exists(strFilePath);
+                    if (isExist)
+                    {
+                        HttpContext.Current.Response.Clear();
+                        HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", orgName));
+                        HttpContext.Current.Response.ContentType = "application/ms-word";
+                        HttpContext.Current.Response.TransmitFile(strFilePath);
+                        HttpContext.Current.Response.Flush();
+                        HttpContext.Current.Response.End();
+                    }
+                    else
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "errormessage", "javascript: alert('No file found.');", true);
+                    }
+                }
+                catch
+                {
+                    ClientScript.RegisterStartupScript(GetType(), "errormessage", "javascript: alert(No file found.);", true);
+                }
+            }
+            else if (!string.IsNullOrEmpty(Request.QueryString["buildingattachment"]))
+            {
+                try
+                {
+                    string fileName = Convert.ToString(Request.QueryString["fileName"]).Replace(",", "");
+                    string orgName = Convert.ToString(Request.QueryString["orgName"]).Replace(",", "");
+
+                    string strFilePath = AppConfig.BuildingAttachDocPath + "\\" + fileName;
+                    string strFileName = Path.GetFileName(strFilePath);
+                    bool isExist = File.Exists(strFilePath);
+                    if (isExist)
+                    {
+                        HttpContext.Current.Response.Clear();
+                        HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", orgName));
+                        HttpContext.Current.Response.ContentType = "application/ms-word";
+                        HttpContext.Current.Response.TransmitFile(strFilePath);
+                        HttpContext.Current.Response.Flush();
+                        HttpContext.Current.Response.End();
+                    }
+                    else
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "errormessage", "javascript: alert('No file found.');", true);
+                    }
+                }
+                catch
+                {
+                    ClientScript.RegisterStartupScript(GetType(), "errormessage", "javascript: alert(No file found.);", true);
+                }
+            }
+            else if (!string.IsNullOrEmpty(Request.QueryString["sublease"]))
+            {
+                try
+                {
+                    string fileName = Convert.ToString(Request.QueryString["fileName"]).Replace(",", "");
+
+                    string strFilePath = AppConfig.LeaseSubleaseDocPath + "\\" + fileName;
+                    string orgName = Convert.ToString(Request.QueryString["orgName"]).Replace(",", "");
+                    string strFileName = Path.GetFileName(strFilePath);
+                    bool isExist = File.Exists(strFilePath);
+                    if (isExist)
+                    {
+                        HttpContext.Current.Response.Clear();
+                        HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", orgName));
+                        HttpContext.Current.Response.ContentType = "application/ms-word";
+                        HttpContext.Current.Response.TransmitFile(strFilePath);
+                        HttpContext.Current.Response.Flush();
+                        HttpContext.Current.Response.End();
+                    }
+                    else
+                    {
+                        ClientScript.RegisterStartupScript(GetType(), "errormessage", "javascript: alert('No file found.');", true);
+                    }
+                }
+                catch
+                {
+                    ClientScript.RegisterStartupScript(GetType(), "errormessage", "javascript: alert(No file found.);", true);
+                }
+            }
+            else if (!string.IsNullOrEmpty(Request.QueryString["insurance"]))
+            {
+                try
+                {
+                    string fileName = Convert.ToString(Request.QueryString["fileName"]).Replace(",", "");
+
+                    string strFilePath = AppConfig.PropertyCOIDocPath + "\\" + fileName;
+                    string orgName = Convert.ToString(Request.QueryString["orgName"]).Replace(",", "");
                     string strFileName = Path.GetFileName(strFilePath);
                     bool isExist = File.Exists(strFilePath);
                     if (isExist)
