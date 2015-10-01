@@ -138,19 +138,17 @@ public partial class Exposures_Investigation : clsBasePage
             rdbTime.ClearSelection();
             rdbWitness.ClearSelection();
 
-            //edited 3356
-            //rptCauseBehavioursEdit.DataSource = strCauseBahaviour;
-            //rptCauseBehavioursEdit.DataBind();
+            rptCauseBehavioursEdit.DataSource = strCauseBahaviour;
+            rptCauseBehavioursEdit.DataBind();
 
-            //rptCauseConditionsEdit.DataSource = strCauseConditions;
-            //rptCauseConditionsEdit.DataBind();
+            rptCauseConditionsEdit.DataSource = strCauseConditions;
+            rptCauseConditionsEdit.DataBind();
 
-            //rptPersonalFactorsEdit.DataSource = strPersonalFactors;
-            //rptPersonalFactorsEdit.DataBind();
+            rptPersonalFactorsEdit.DataSource = strPersonalFactors;
+            rptPersonalFactorsEdit.DataBind();
 
-            //rptJobFactorsEdit.DataSource = strJobFactors;
-            //rptJobFactorsEdit.DataBind();
-
+            rptJobFactorsEdit.DataSource = strJobFactors;
+            rptJobFactorsEdit.DataBind();
 
             #endregion
 
@@ -213,9 +211,8 @@ public partial class Exposures_Investigation : clsBasePage
                         Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc", true);
                     }
                     ComboHelper.FillContributing_Factor(new DropDownList[] { drpFk_LU_Contributing_Factor }, true);
-                    ComboHelper.FillFocusAreaCauseCode(new DropDownList[] { drpCauseOfIncident }, true);
-
-                    //bool bLocInfoComplete = objInvestigation.Location_Information_Complete;
+                    
+                    //bool bLocInfoComplete = objInvestigation.Location_Information_Complete; 
                     //bool bIsRegOfficer = new Security(Convert.ToDecimal(clsSession.UserID)).IsRegionalOfficer;
                     //if ((!bIsRegOfficer && bLocInfoComplete) || Module_Access_Mode == AccessType.View_Only)
                     //    Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc", true);
@@ -267,9 +264,9 @@ public partial class Exposures_Investigation : clsBasePage
             }
         }
 
-        // javascript validations edited 3356
-        //((RadioButtonList)rptCauseConditionsEdit.Items[21].FindControl("rdoValue")).Attributes.Add("onclick", "javascript:checkOtherDesc(this.id)");
-        //((RadioButtonList)rptJobFactorsEdit.Items[10].FindControl("rdoValue")).Attributes.Add("onclick", "javascript:checkPersonal_Job_Fectors(this.id)");
+        // javascript validations
+        ((RadioButtonList)rptCauseConditionsEdit.Items[21].FindControl("rdoValue")).Attributes.Add("onclick", "javascript:checkOtherDesc(this.id)");
+        ((RadioButtonList)rptJobFactorsEdit.Items[10].FindControl("rdoValue")).Attributes.Add("onclick", "javascript:checkPersonal_Job_Fectors(this.id)");
     }
 
     #endregion
@@ -327,130 +324,119 @@ public partial class Exposures_Investigation : clsBasePage
             objInvestigation.FK_LU_Location_ID = Convert.ToInt32(FK_LU_Location);
             objInvestigation.FK_WC_FR_ID = FK_WC_FR;
 
-            // get values from page controls -- edited 3356
+            // get values from page controls
             #region "Causes"
-            // objInvestigation.Cause_1 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[0].FindControl("rdoValue")));
-            //objInvestigation.Cause_2 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[1].FindControl("rdoValue")));
-            //objInvestigation.Cause_3 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[2].FindControl("rdoValue")));
-            //objInvestigation.Cause_4 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[3].FindControl("rdoValue")));
-            //objInvestigation.Cause_5 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[4].FindControl("rdoValue")));
-            //objInvestigation.Cause_6 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[5].FindControl("rdoValue")));
-            //objInvestigation.Cause_7 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[6].FindControl("rdoValue")));
-            //objInvestigation.Cause_8 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[7].FindControl("rdoValue")));
-            //objInvestigation.Cause_9 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[8].FindControl("rdoValue")));
-            //objInvestigation.Cause_10 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[9].FindControl("rdoValue")));
-            //objInvestigation.Cause_11 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[10].FindControl("rdoValue")));
-            //objInvestigation.Cause_12 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[11].FindControl("rdoValue")));
-            //objInvestigation.Cause_13 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[12].FindControl("rdoValue")));
-            //objInvestigation.Cause_14 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[13].FindControl("rdoValue")));
-            //objInvestigation.Cause_15 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[14].FindControl("rdoValue")));
-            //objInvestigation.Cause_16 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[15].FindControl("rdoValue")));
-            //objInvestigation.Cause_17 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[16].FindControl("rdoValue")));
-            //objInvestigation.Cause_18 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[17].FindControl("rdoValue")));
-            //objInvestigation.Cause_19 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[18].FindControl("rdoValue")));
-            //objInvestigation.Cause_20 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[19].FindControl("rdoValue")));
+            objInvestigation.Cause_1 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[0].FindControl("rdoValue")));
+            objInvestigation.Cause_2 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[1].FindControl("rdoValue")));
+            objInvestigation.Cause_3 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[2].FindControl("rdoValue")));
+            objInvestigation.Cause_4 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[3].FindControl("rdoValue")));
+            objInvestigation.Cause_5 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[4].FindControl("rdoValue")));
+            objInvestigation.Cause_6 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[5].FindControl("rdoValue")));
+            objInvestigation.Cause_7 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[6].FindControl("rdoValue")));
+            objInvestigation.Cause_8 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[7].FindControl("rdoValue")));
+            objInvestigation.Cause_9 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[8].FindControl("rdoValue")));
+            objInvestigation.Cause_10 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[9].FindControl("rdoValue")));
+            objInvestigation.Cause_11 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[10].FindControl("rdoValue")));
+            objInvestigation.Cause_12 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[11].FindControl("rdoValue")));
+            objInvestigation.Cause_13 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[12].FindControl("rdoValue")));
+            objInvestigation.Cause_14 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[13].FindControl("rdoValue")));
+            objInvestigation.Cause_15 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[14].FindControl("rdoValue")));
+            objInvestigation.Cause_16 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[15].FindControl("rdoValue")));
+            objInvestigation.Cause_17 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[16].FindControl("rdoValue")));
+            objInvestigation.Cause_18 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[17].FindControl("rdoValue")));
+            objInvestigation.Cause_19 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[18].FindControl("rdoValue")));
+            objInvestigation.Cause_20 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseBehavioursEdit.Items[19].FindControl("rdoValue")));
 
-            //objInvestigation.Cause_21 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[0].FindControl("rdoValue")));
-            //objInvestigation.Cause_22 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[1].FindControl("rdoValue")));
-            //objInvestigation.Cause_23 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[2].FindControl("rdoValue")));
-            //objInvestigation.Cause_24 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[3].FindControl("rdoValue")));
-            //objInvestigation.Cause_25 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[4].FindControl("rdoValue")));
-            //objInvestigation.Cause_26 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[5].FindControl("rdoValue")));
-            //objInvestigation.Cause_27 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[6].FindControl("rdoValue")));
-            //objInvestigation.Cause_28 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[7].FindControl("rdoValue")));
-            //objInvestigation.Cause_29 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[8].FindControl("rdoValue")));
-            //objInvestigation.Cause_30 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[9].FindControl("rdoValue")));
-            //objInvestigation.Cause_31 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[10].FindControl("rdoValue")));
-            //objInvestigation.Cause_32 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[11].FindControl("rdoValue")));
-            //objInvestigation.Cause_33 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[12].FindControl("rdoValue")));
-            //objInvestigation.Cause_34 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[13].FindControl("rdoValue")));
-            //objInvestigation.Cause_35 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[14].FindControl("rdoValue")));
-            //objInvestigation.Cause_36 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[15].FindControl("rdoValue")));
-            //objInvestigation.Cause_37 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[16].FindControl("rdoValue")));
-            //objInvestigation.Cause_38 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[17].FindControl("rdoValue")));
-            //objInvestigation.Cause_39 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[18].FindControl("rdoValue")));
-            //objInvestigation.Cause_40 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[19].FindControl("rdoValue")));
-            //objInvestigation.Cause_41 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[20].FindControl("rdoValue")));
-            //objInvestigation.Cause_42 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[21].FindControl("rdoValue")));
-            //objInvestigation.Cause_42_detail = (objInvestigation.Cause_42 == true) ? txtCause_42_detail.Text.Trim() : string.Empty;
+            objInvestigation.Cause_21 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[0].FindControl("rdoValue")));
+            objInvestigation.Cause_22 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[1].FindControl("rdoValue")));
+            objInvestigation.Cause_23 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[2].FindControl("rdoValue")));
+            objInvestigation.Cause_24 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[3].FindControl("rdoValue")));
+            objInvestigation.Cause_25 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[4].FindControl("rdoValue")));
+            objInvestigation.Cause_26 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[5].FindControl("rdoValue")));
+            objInvestigation.Cause_27 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[6].FindControl("rdoValue")));
+            objInvestigation.Cause_28 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[7].FindControl("rdoValue")));
+            objInvestigation.Cause_29 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[8].FindControl("rdoValue")));
+            objInvestigation.Cause_30 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[9].FindControl("rdoValue")));
+            objInvestigation.Cause_31 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[10].FindControl("rdoValue")));
+            objInvestigation.Cause_32 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[11].FindControl("rdoValue")));
+            objInvestigation.Cause_33 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[12].FindControl("rdoValue")));
+            objInvestigation.Cause_34 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[13].FindControl("rdoValue")));
+            objInvestigation.Cause_35 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[14].FindControl("rdoValue")));
+            objInvestigation.Cause_36 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[15].FindControl("rdoValue")));
+            objInvestigation.Cause_37 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[16].FindControl("rdoValue")));
+            objInvestigation.Cause_38 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[17].FindControl("rdoValue")));
+            objInvestigation.Cause_39 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[18].FindControl("rdoValue")));
+            objInvestigation.Cause_40 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[19].FindControl("rdoValue")));
+            objInvestigation.Cause_41 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[20].FindControl("rdoValue")));
+            objInvestigation.Cause_42 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptCauseConditionsEdit.Items[21].FindControl("rdoValue")));
             #endregion
-            hdnFocusArea.Value = objInvestigation.Focus_Area;
-            objInvestigation.Cause_Comment = txtCause_Comment.Text.Trim();
-            if (drpFk_LU_Contributing_Factor.SelectedIndex > 0) { objInvestigation.FK_LU_Contributing_Factor = Convert.ToDecimal(drpFk_LU_Contributing_Factor.SelectedValue); }
 
+            objInvestigation.Cause_42_detail = (objInvestigation.Cause_42 == true) ? txtCause_42_detail.Text.Trim() : string.Empty;
+            objInvestigation.Cause_Comment = txtCause_Comment.Text.Trim();
+            if (drpFk_LU_Contributing_Factor.SelectedIndex > 0) objInvestigation.FK_LU_Contributing_Factor = Convert.ToDecimal(drpFk_LU_Contributing_Factor.SelectedValue);
             if (txtContributingFactor_Other.Text != "") objInvestigation.Contributing_Factor_Other = txtContributingFactor_Other.Text.Trim();
             else
                 objInvestigation.Contributing_Factor_Other = txtContributingFactor_Other.Text = "";
 
-            objInvestigation.Focus_Area = drpCauseOfIncident.SelectedIndex > 0 ? drpCauseOfIncident.SelectedItem.Text : string.Empty;
-            #region "Personal / Job Factors" edited 3356
-            //objInvestigation.Personal_Job_Factors_1 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptPersonalFactorsEdit.Items[0].FindControl("rdoValue")));
-            //objInvestigation.Personal_Job_Factors_2 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptPersonalFactorsEdit.Items[1].FindControl("rdoValue")));
-            //objInvestigation.Personal_Job_Factors_3 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptPersonalFactorsEdit.Items[2].FindControl("rdoValue")));
-            //objInvestigation.Personal_Job_Factors_4 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptPersonalFactorsEdit.Items[3].FindControl("rdoValue")));
-            //objInvestigation.Personal_Job_Factors_5 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptPersonalFactorsEdit.Items[4].FindControl("rdoValue")));
-            //objInvestigation.Personal_Job_Factors_6 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptPersonalFactorsEdit.Items[5].FindControl("rdoValue")));
-            //objInvestigation.Personal_Job_Factors_7 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptPersonalFactorsEdit.Items[6].FindControl("rdoValue")));
-            //objInvestigation.Personal_Job_Factors_8 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptPersonalFactorsEdit.Items[7].FindControl("rdoValue")));
+            #region "Personal / Job Factors"
+            objInvestigation.Personal_Job_Factors_1 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptPersonalFactorsEdit.Items[0].FindControl("rdoValue")));
+            objInvestigation.Personal_Job_Factors_2 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptPersonalFactorsEdit.Items[1].FindControl("rdoValue")));
+            objInvestigation.Personal_Job_Factors_3 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptPersonalFactorsEdit.Items[2].FindControl("rdoValue")));
+            objInvestigation.Personal_Job_Factors_4 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptPersonalFactorsEdit.Items[3].FindControl("rdoValue")));
+            objInvestigation.Personal_Job_Factors_5 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptPersonalFactorsEdit.Items[4].FindControl("rdoValue")));
+            objInvestigation.Personal_Job_Factors_6 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptPersonalFactorsEdit.Items[5].FindControl("rdoValue")));
+            objInvestigation.Personal_Job_Factors_7 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptPersonalFactorsEdit.Items[6].FindControl("rdoValue")));
+            objInvestigation.Personal_Job_Factors_8 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptPersonalFactorsEdit.Items[7].FindControl("rdoValue")));
 
-            //objInvestigation.Personal_Job_Factors_9 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptJobFactorsEdit.Items[0].FindControl("rdoValue")));
-            //objInvestigation.Personal_Job_Factors_10 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptJobFactorsEdit.Items[1].FindControl("rdoValue")));
-            //objInvestigation.Personal_Job_Factors_11 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptJobFactorsEdit.Items[2].FindControl("rdoValue")));
-            //objInvestigation.Personal_Job_Factors_12 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptJobFactorsEdit.Items[3].FindControl("rdoValue")));
-            //objInvestigation.Personal_Job_Factors_13 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptJobFactorsEdit.Items[4].FindControl("rdoValue")));
-            //objInvestigation.Personal_Job_Factors_14 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptJobFactorsEdit.Items[5].FindControl("rdoValue")));
-            //objInvestigation.Personal_Job_Factors_15 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptJobFactorsEdit.Items[6].FindControl("rdoValue")));
-            //objInvestigation.Personal_Job_Factors_16 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptJobFactorsEdit.Items[7].FindControl("rdoValue")));
-            //objInvestigation.Personal_Job_Factors_17 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptJobFactorsEdit.Items[8].FindControl("rdoValue")));
-            //objInvestigation.Personal_Job_Factors_18 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptJobFactorsEdit.Items[9].FindControl("rdoValue")));
-            //objInvestigation.Personal_Job_Factors_19 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptJobFactorsEdit.Items[10].FindControl("rdoValue")));
-
-
-            //objInvestigation.Personal_Job_Factors_17_Details = objInvestigation.Personal_Job_Factors_19 == true ? txtPersonal_Job_Factors_19_Detail.Text.Trim() : string.Empty;
-            //objInvestigation.Personal_Job_Comment = txtPersonal_Job_Comment.Text.Trim();
-            //objInvestigation.Conclusions = txtConclusions.Text.Trim();
-            //lblOSHARecordable.Text = hdnOSHARecordable.Value;
-
-            //if (lblOSHARecordable.Text != "")
-            //{
-            //    objInvestigation.OSHA_Recordable = lblOSHARecordable.Text == "Yes" ? true : false;
-            //}
-
-            //objInvestigation.Original_Sonic_S0_Cause_Code = txtOriginalSonicCode.Text.Trim();
-            //objInvestigation.Sonic_S0_Cause_Code_Promoted = rdoSonicCodePromoted.SelectedValue;
-            //objInvestigation.Date_Sonic_S0_Cause_Code_Promoted = clsGeneral.FormatNullDateToStore(txtDateSonicCodePromoted.Text);
-
-            //objInvestigation.Sonic_Cause_Code = ddlSonic_Cause_Code.SelectedIndex > 0 ? ddlSonic_Cause_Code.SelectedItem.Text : string.Empty;
-
-            //if (hdnOriginalSonicCode.Value != "")
-            //{
-            //    if (hdnOriginalSonicCode.Value.IndexOf("S0") > -1 && ddlSonic_Cause_Code.SelectedItem.Text.IndexOf("S0") == -1 && hdnOriginalSonicCode.Value != ddlSonic_Cause_Code.SelectedItem.Text)
-            //    {
-            //        objInvestigation.Original_Sonic_S0_Cause_Code = hdnOriginalSonicCode.Value;
-            //        objInvestigation.Sonic_S0_Cause_Code_Promoted = "Y";
-            //        objInvestigation.Date_Sonic_S0_Cause_Code_Promoted = DateTime.Now;
-
-            //        txtOriginalSonicCode.Text = hdnOriginalSonicCode.Value;
-            //        rdoSonicCodePromoted.SelectedValue = "Y";
-            //        txtDateSonicCodePromoted.Text = DateTime.Today.ToString("MM/dd/yyyy");
-
-            //    }
-            //}
+            objInvestigation.Personal_Job_Factors_9 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptJobFactorsEdit.Items[0].FindControl("rdoValue")));
+            objInvestigation.Personal_Job_Factors_10 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptJobFactorsEdit.Items[1].FindControl("rdoValue")));
+            objInvestigation.Personal_Job_Factors_11 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptJobFactorsEdit.Items[2].FindControl("rdoValue")));
+            objInvestigation.Personal_Job_Factors_12 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptJobFactorsEdit.Items[3].FindControl("rdoValue")));
+            objInvestigation.Personal_Job_Factors_13 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptJobFactorsEdit.Items[4].FindControl("rdoValue")));
+            objInvestigation.Personal_Job_Factors_14 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptJobFactorsEdit.Items[5].FindControl("rdoValue")));
+            objInvestigation.Personal_Job_Factors_15 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptJobFactorsEdit.Items[6].FindControl("rdoValue")));
+            objInvestigation.Personal_Job_Factors_16 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptJobFactorsEdit.Items[7].FindControl("rdoValue")));
+            objInvestigation.Personal_Job_Factors_17 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptJobFactorsEdit.Items[8].FindControl("rdoValue")));
+            objInvestigation.Personal_Job_Factors_18 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptJobFactorsEdit.Items[9].FindControl("rdoValue")));
+            objInvestigation.Personal_Job_Factors_19 = clsGeneral.FormatYesNoToStore(((RadioButtonList)rptJobFactorsEdit.Items[10].FindControl("rdoValue")));
             #endregion
-            hdnOriginalSonicCode.Value = ddlSonic_Cause_Code.SelectedItem.Text;
 
+            objInvestigation.Personal_Job_Factors_17_Details = objInvestigation.Personal_Job_Factors_19 == true ? txtPersonal_Job_Factors_19_Detail.Text.Trim() : string.Empty;
+            objInvestigation.Personal_Job_Comment = txtPersonal_Job_Comment.Text.Trim();
+            objInvestigation.Conclusions = txtConclusions.Text.Trim();
+            lblOSHARecordable.Text = hdnOSHARecordable.Value;
+
+            if (lblOSHARecordable.Text != "")
+            {
+                objInvestigation.OSHA_Recordable = lblOSHARecordable.Text == "Yes" ? true : false;
+            }
+
+            objInvestigation.Original_Sonic_S0_Cause_Code = txtOriginalSonicCode.Text.Trim();
+            objInvestigation.Sonic_S0_Cause_Code_Promoted = rdoSonicCodePromoted.SelectedValue;
+            objInvestigation.Date_Sonic_S0_Cause_Code_Promoted = clsGeneral.FormatNullDateToStore(txtDateSonicCodePromoted.Text);
+
+            objInvestigation.Sonic_Cause_Code = ddlSonic_Cause_Code.SelectedIndex > 0 ? ddlSonic_Cause_Code.SelectedItem.Text : string.Empty;
+
+            if (hdnOriginalSonicCode.Value != "")
+            {
+                if (hdnOriginalSonicCode.Value.IndexOf("S0") > -1 && ddlSonic_Cause_Code.SelectedItem.Text.IndexOf("S0") == -1 && hdnOriginalSonicCode.Value != ddlSonic_Cause_Code.SelectedItem.Text)
+                {
+                    objInvestigation.Original_Sonic_S0_Cause_Code = hdnOriginalSonicCode.Value;
+                    objInvestigation.Sonic_S0_Cause_Code_Promoted = "Y";
+                    objInvestigation.Date_Sonic_S0_Cause_Code_Promoted = DateTime.Now;
+
+                    txtOriginalSonicCode.Text = hdnOriginalSonicCode.Value;
+                    rdoSonicCodePromoted.SelectedValue = "Y";
+                    txtDateSonicCodePromoted.Text = DateTime.Today.ToString("MM/dd/yyyy");
+
+                }
+            }
+            hdnOriginalSonicCode.Value = ddlSonic_Cause_Code.SelectedItem.Text;
             // insert or update the Investigation record as per the PK available
             if (PK_Investigation_ID > 0)
                 objInvestigation.Update();
             else
                 PK_Investigation_ID = objInvestigation.Insert();
-
-            //delete old cause determination data
-            if ((hdnFocusArea.Value.ToString() != drpCauseOfIncident.SelectedItem.Text) && (!string.IsNullOrEmpty(hdnFocusArea.Value) || Convert.ToInt32(drpCauseOfIncident.SelectedValue) == 0))
-            {
-                clsInvestigation_Cause_Information.DeleteByInvestigationID(Convert.ToDecimal(PK_Investigation_ID));
-            }
-
 
             BindDetailsForEdit();
             //Open Next Panel.
@@ -478,19 +464,12 @@ public partial class Exposures_Investigation : clsBasePage
             // get values from page controls
             objInvestigation.FK_LU_Location_ID = Convert.ToInt32(FK_LU_Location);
             objInvestigation.FK_WC_FR_ID = FK_WC_FR;
-            //objInvestigation.Corrective_Action_Description = txtCorrective_Action_Description.Text.Trim();
+            objInvestigation.Corrective_Action_Description = txtCorrective_Action_Description.Text.Trim();
             objInvestigation.Assigned_To = txtAssigned_To.Text.Trim();
             objInvestigation.AssignedBy = txtAssigned_By.Text.Trim();
             objInvestigation.To_Be_Competed_by = clsGeneral.FormatDateToStore(txtTo_Be_Competed_by);
             objInvestigation.Status = ddlStatus.SelectedIndex > 0 ? ddlStatus.SelectedItem.Text : string.Empty;
             objInvestigation.Lessons_Learned = txtLessons_Learned.Text.Trim();
-            objInvestigation.Communicated = rdoCommunicated.SelectedValue;
-
-            objInvestigation.Date_Communicated = clsGeneral.FormatNullDateToStore(txtDateCommunicated.Text);
-          
-                objInvestigation.No_Communication_Explanation = txtNo_Communication_Explanation.Text.Trim();
-            
-
 
             // insert or update the investigation record as per the PK available
             if (PK_Investigation_ID > 0)
@@ -518,7 +497,7 @@ public partial class Exposures_Investigation : clsBasePage
                     ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Mail sent successfully')", true);
                     //Open Next Panel.
                     if (Request.QueryString["isStatus"] == null)
-                        ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
+                        ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);", true);
                     else
                         Response.Redirect("FirstReportStatus.aspx", true);
                 }
@@ -533,7 +512,7 @@ public partial class Exposures_Investigation : clsBasePage
         else
         {
             //Open Next Panel.
-            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);alert('Please select any First Report')", true);
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);alert('Please select any First Report')", true);
         }
     }
 
@@ -560,7 +539,7 @@ public partial class Exposures_Investigation : clsBasePage
             objInvestigation.RLCM_Comments = txtRLCMComments.Text.Trim();
             objInvestigation.Date_RLCM_Review_Completed = clsGeneral.FormatNullDateToStore(txtDateReviewCompletedByRLCM.Text);
             if (drpInvestigative.SelectedIndex > 0) objInvestigation.Investigative_Quality = drpInvestigative.SelectedValue;
-
+            
             objInvestigation.Timing = rdbTime.SelectedValue;
             objInvestigation.Timing_Comment = CtrlMultiLineTiming.Text;
 
@@ -572,7 +551,7 @@ public partial class Exposures_Investigation : clsBasePage
 
             objInvestigation.SLT_Visit = rdbSLTVisit.SelectedValue;
             objInvestigation.SLT_Visit_Comment = CtrlMultiLineSLTVisit.Text;
-
+            
             objInvestigation.Root_Causes = rdbRoot.SelectedValue;
             objInvestigation.Root_Causes_Comment = CtrlMultiLineRoot.Text;
 
@@ -596,7 +575,7 @@ public partial class Exposures_Investigation : clsBasePage
         else
         {
             //Open Next Panel.
-            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);alert('Please select any First Report')", true);
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);alert('Please select any First Report')", true);
         }
     }
 
@@ -699,108 +678,6 @@ public partial class Exposures_Investigation : clsBasePage
         //Response.Redirect("FirstReportStatus.aspx", true);
     }
 
-    /// <summary>
-    /// Button Click Event-Root Causes Determination SaveContinue Button
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void btnRootCausesDetermSaveContinue_Click(object sender, EventArgs e)
-    {
-        if (FK_WC_FR > 0)
-        {
-            // declare the object for investigation
-            Investigation objInvestigation = new Investigation(PK_Investigation_ID);
-
-            // set the FKs
-            objInvestigation.FK_LU_Location_ID = Convert.ToInt32(FK_LU_Location);
-            objInvestigation.FK_WC_FR_ID = FK_WC_FR;
-
-            //objInvestigation.Original_Sonic_S0_Cause_Code = txtOriginalSonicCode.Text.Trim();
-            //objInvestigation.Sonic_S0_Cause_Code_Promoted = rdoSonicCodePromoted.SelectedValue;
-            //objInvestigation.Date_Sonic_S0_Cause_Code_Promoted = clsGeneral.FormatNullDateToStore(txtDateSonicCodePromoted.Text);
-            //objInvestigation.Sonic_Cause_Code = ddlSonic_Cause_Code.SelectedIndex > 0 ? ddlSonic_Cause_Code.SelectedItem.Text : string.Empty;
-            //hdnOriginalSonicCode.Value = ddlSonic_Cause_Code.SelectedItem.Text;
-
-            objInvestigation.Conclusions = txtConclusions.Text.Trim();
-
-            objInvestigation.OSHA_Recordable = Convert.ToString(rdoOSHARecordable.SelectedValue) == "Y" ? true : false;
-
-            lblOSHARecordable.Text = hdnOSHARecordable.Value;
-            objInvestigation.Original_Sonic_S0_Cause_Code = txtOriginalSonicCode.Text.Trim();
-            objInvestigation.Sonic_S0_Cause_Code_Promoted = rdoSonicCodePromoted.SelectedValue;
-            objInvestigation.Date_Sonic_S0_Cause_Code_Promoted = clsGeneral.FormatNullDateToStore(txtDateSonicCodePromoted.Text);
-
-            objInvestigation.Sonic_Cause_Code = ddlSonic_Cause_Code.SelectedIndex > 0 ? ddlSonic_Cause_Code.SelectedItem.Text : string.Empty;
-
-            if (hdnOriginalSonicCode.Value != "")
-            {
-                if (hdnOriginalSonicCode.Value.IndexOf("S0") > -1 && ddlSonic_Cause_Code.SelectedItem.Text.IndexOf("S0") == -1 && hdnOriginalSonicCode.Value != ddlSonic_Cause_Code.SelectedItem.Text)
-                {
-                    objInvestigation.Original_Sonic_S0_Cause_Code = hdnOriginalSonicCode.Value;
-                    objInvestigation.Sonic_S0_Cause_Code_Promoted = "Y";
-                    objInvestigation.Date_Sonic_S0_Cause_Code_Promoted = DateTime.Now;
-
-                    txtOriginalSonicCode.Text = hdnOriginalSonicCode.Value;
-                    rdoSonicCodePromoted.SelectedValue = "Y";
-                    txtDateSonicCodePromoted.Text = DateTime.Today.ToString("MM/dd/yyyy");
-
-                }
-
-            }
-            hdnOriginalSonicCode.Value = ddlSonic_Cause_Code.SelectedItem.Text;
-            // insert or update the Investigation record as per the PK available
-            if (PK_Investigation_ID > 0)
-                objInvestigation.Update();
-            else
-                PK_Investigation_ID = objInvestigation.Insert();
-
-
-
-            hdnFocusArea.Value = drpCauseOfIncident.SelectedItem.Text;
-
-            if (rptRootCauseDetermination.Items.Count > 0)
-            {
-
-                foreach (RepeaterItem item in rptRootCauseDetermination.Items)
-                {
-
-                    HiddenField fk_lu_cause_code_info = item.FindControl("hdnFK_LU_Cause_Info") as HiddenField;
-                    RadioButtonList rdlResponse = item.FindControl("rdoRootCauseTypeList") as RadioButtonList;
-                    RadioButtonList rdlGuidanceReoccurance = rptRootCauseDeterminationRecmndation.Items[item.ItemIndex].FindControl("rdoRootCauseGuidanceList") as RadioButtonList;
-
-                    HiddenField hdnPK_Investigation_Cause_Information = item.FindControl("hdnPK_Investigation_Cause_Information") as HiddenField;
-                    clsInvestigation_Cause_Information objInvestigation_Cause_Information = new clsInvestigation_Cause_Information();
-                    objInvestigation_Cause_Information.FK_Investigation = PK_Investigation_ID;
-                    objInvestigation_Cause_Information.FK_LU_Cause_Code_Information = Convert.ToDecimal(fk_lu_cause_code_info.Value);
-                    objInvestigation_Cause_Information.Response = Convert.ToString(rdlResponse.SelectedValue);
-                    objInvestigation_Cause_Information.Prevent_Reoccurrence = Convert.ToString(rdlGuidanceReoccurance.SelectedValue);
-                    objInvestigation_Cause_Information.Updated_By = clsSession.UserName;
-                    objInvestigation_Cause_Information.Update_Date = DateTime.Now;
-                    objInvestigation_Cause_Information.PK_Investigation_Cause_Information = Convert.ToDecimal(hdnPK_Investigation_Cause_Information.Value);
-
-                    if (objInvestigation_Cause_Information.PK_Investigation_Cause_Information > 0)
-                    {
-                        objInvestigation_Cause_Information.Update();
-                    }
-                    else
-                    {
-                        int pk_Investigation_Cause_Information = objInvestigation_Cause_Information.Insert();
-                    }
-                }
-            }
-
-
-            BindDetailsForEdit();
-            //Open Next Panel.
-            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);", true);
-        }
-        else
-        {
-            //Open Next Panel.
-            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);alert('Please select any First Report')", true);
-        }
-    }
-
     #endregion
 
     #region "Other Methods"
@@ -862,146 +739,142 @@ public partial class Exposures_Investigation : clsBasePage
 
         #region "Causes"
 
-        //DataTable dtCauseBehaviour = new DataTable();
-        //DataColumn dcCauseBehaviourDesc = new DataColumn("Description", typeof(string));
-        //DataColumn dcCauseBehaviourVal = new DataColumn("Value", typeof(object));
-        //dtCauseBehaviour.Columns.Add(dcCauseBehaviourDesc);
-        //dtCauseBehaviour.Columns.Add(dcCauseBehaviourVal);
-        //foreach (string str in strCauseBahaviour)
-        //{
-        //    DataRow drCauseBehaviour = dtCauseBehaviour.NewRow();
-        //    drCauseBehaviour[0] = str;
-        //    dtCauseBehaviour.Rows.Add(drCauseBehaviour);
-        //}
-        //dtCauseBehaviour.Rows[0][1] = objInvestigation.Cause_1;
-        //dtCauseBehaviour.Rows[1][1] = objInvestigation.Cause_2;
-        //dtCauseBehaviour.Rows[2][1] = objInvestigation.Cause_3;
-        //dtCauseBehaviour.Rows[3][1] = objInvestigation.Cause_4;
-        //dtCauseBehaviour.Rows[4][1] = objInvestigation.Cause_5;
-        //dtCauseBehaviour.Rows[5][1] = objInvestigation.Cause_6;
-        //dtCauseBehaviour.Rows[6][1] = objInvestigation.Cause_7;
-        //dtCauseBehaviour.Rows[7][1] = objInvestigation.Cause_8;
-        //dtCauseBehaviour.Rows[8][1] = objInvestigation.Cause_9;
-        //dtCauseBehaviour.Rows[9][1] = objInvestigation.Cause_10;
-        //dtCauseBehaviour.Rows[10][1] = objInvestigation.Cause_11;
-        //dtCauseBehaviour.Rows[11][1] = objInvestigation.Cause_12;
-        //dtCauseBehaviour.Rows[12][1] = objInvestigation.Cause_13;
-        //dtCauseBehaviour.Rows[13][1] = objInvestigation.Cause_14;
-        //dtCauseBehaviour.Rows[14][1] = objInvestigation.Cause_15;
-        //dtCauseBehaviour.Rows[15][1] = objInvestigation.Cause_16;
-        //dtCauseBehaviour.Rows[16][1] = objInvestigation.Cause_17;
-        //dtCauseBehaviour.Rows[17][1] = objInvestigation.Cause_18;
-        //dtCauseBehaviour.Rows[18][1] = objInvestigation.Cause_19;
-        //dtCauseBehaviour.Rows[19][1] = objInvestigation.Cause_20;
+        DataTable dtCauseBehaviour = new DataTable();
+        DataColumn dcCauseBehaviourDesc = new DataColumn("Description", typeof(string));
+        DataColumn dcCauseBehaviourVal = new DataColumn("Value", typeof(object));
+        dtCauseBehaviour.Columns.Add(dcCauseBehaviourDesc);
+        dtCauseBehaviour.Columns.Add(dcCauseBehaviourVal);
+        foreach (string str in strCauseBahaviour)
+        {
+            DataRow drCauseBehaviour = dtCauseBehaviour.NewRow();
+            drCauseBehaviour[0] = str;
+            dtCauseBehaviour.Rows.Add(drCauseBehaviour);
+        }
+        dtCauseBehaviour.Rows[0][1] = objInvestigation.Cause_1;
+        dtCauseBehaviour.Rows[1][1] = objInvestigation.Cause_2;
+        dtCauseBehaviour.Rows[2][1] = objInvestigation.Cause_3;
+        dtCauseBehaviour.Rows[3][1] = objInvestigation.Cause_4;
+        dtCauseBehaviour.Rows[4][1] = objInvestigation.Cause_5;
+        dtCauseBehaviour.Rows[5][1] = objInvestigation.Cause_6;
+        dtCauseBehaviour.Rows[6][1] = objInvestigation.Cause_7;
+        dtCauseBehaviour.Rows[7][1] = objInvestigation.Cause_8;
+        dtCauseBehaviour.Rows[8][1] = objInvestigation.Cause_9;
+        dtCauseBehaviour.Rows[9][1] = objInvestigation.Cause_10;
+        dtCauseBehaviour.Rows[10][1] = objInvestigation.Cause_11;
+        dtCauseBehaviour.Rows[11][1] = objInvestigation.Cause_12;
+        dtCauseBehaviour.Rows[12][1] = objInvestigation.Cause_13;
+        dtCauseBehaviour.Rows[13][1] = objInvestigation.Cause_14;
+        dtCauseBehaviour.Rows[14][1] = objInvestigation.Cause_15;
+        dtCauseBehaviour.Rows[15][1] = objInvestigation.Cause_16;
+        dtCauseBehaviour.Rows[16][1] = objInvestigation.Cause_17;
+        dtCauseBehaviour.Rows[17][1] = objInvestigation.Cause_18;
+        dtCauseBehaviour.Rows[18][1] = objInvestigation.Cause_19;
+        dtCauseBehaviour.Rows[19][1] = objInvestigation.Cause_20;
 
-        //rptCauseBehaviours.DataSource = dtCauseBehaviour;
-        //rptCauseBehaviours.DataBind();
-        //dtCauseBehaviour.Dispose();
+        rptCauseBehaviours.DataSource = dtCauseBehaviour;
+        rptCauseBehaviours.DataBind();
+        dtCauseBehaviour.Dispose();
 
-        //DataTable dtCauseConditions = new DataTable();
-        //DataColumn dcCauseConditionsDesc = new DataColumn("Description", typeof(string));
-        //DataColumn dcCauseConditionsVal = new DataColumn("Value", typeof(object));
-        //dtCauseConditions.Columns.Add(dcCauseConditionsDesc);
-        //dtCauseConditions.Columns.Add(dcCauseConditionsVal);
-        //foreach (string str in strCauseConditions)
-        //{
-        //    DataRow drCauseConditions = dtCauseConditions.NewRow();
-        //    drCauseConditions[0] = str;
-        //    dtCauseConditions.Rows.Add(drCauseConditions);
-        //}
-        //dtCauseConditions.Rows[0][1] = objInvestigation.Cause_21;
-        //dtCauseConditions.Rows[1][1] = objInvestigation.Cause_22;
-        //dtCauseConditions.Rows[2][1] = objInvestigation.Cause_23;
-        //dtCauseConditions.Rows[3][1] = objInvestigation.Cause_24;
-        //dtCauseConditions.Rows[4][1] = objInvestigation.Cause_25;
-        //dtCauseConditions.Rows[5][1] = objInvestigation.Cause_26;
-        //dtCauseConditions.Rows[6][1] = objInvestigation.Cause_27;
-        //dtCauseConditions.Rows[7][1] = objInvestigation.Cause_28;
-        //dtCauseConditions.Rows[8][1] = objInvestigation.Cause_29;
-        //dtCauseConditions.Rows[9][1] = objInvestigation.Cause_30;
-        //dtCauseConditions.Rows[10][1] = objInvestigation.Cause_31;
-        //dtCauseConditions.Rows[11][1] = objInvestigation.Cause_32;
-        //dtCauseConditions.Rows[12][1] = objInvestigation.Cause_33;
-        //dtCauseConditions.Rows[13][1] = objInvestigation.Cause_34;
-        //dtCauseConditions.Rows[14][1] = objInvestigation.Cause_35;
-        //dtCauseConditions.Rows[15][1] = objInvestigation.Cause_36;
-        //dtCauseConditions.Rows[16][1] = objInvestigation.Cause_37;
-        //dtCauseConditions.Rows[17][1] = objInvestigation.Cause_38;
-        //dtCauseConditions.Rows[18][1] = objInvestigation.Cause_39;
-        //dtCauseConditions.Rows[19][1] = objInvestigation.Cause_40;
-        //dtCauseConditions.Rows[20][1] = objInvestigation.Cause_41;
-        //dtCauseConditions.Rows[21][1] = objInvestigation.Cause_42;
-        //rptCauseConditions.DataSource = dtCauseConditions;
-        //rptCauseConditions.DataBind();
-        //dtCauseConditions.Dispose();
+        DataTable dtCauseConditions = new DataTable();
+        DataColumn dcCauseConditionsDesc = new DataColumn("Description", typeof(string));
+        DataColumn dcCauseConditionsVal = new DataColumn("Value", typeof(object));
+        dtCauseConditions.Columns.Add(dcCauseConditionsDesc);
+        dtCauseConditions.Columns.Add(dcCauseConditionsVal);
+        foreach (string str in strCauseConditions)
+        {
+            DataRow drCauseConditions = dtCauseConditions.NewRow();
+            drCauseConditions[0] = str;
+            dtCauseConditions.Rows.Add(drCauseConditions);
+        }
+        dtCauseConditions.Rows[0][1] = objInvestigation.Cause_21;
+        dtCauseConditions.Rows[1][1] = objInvestigation.Cause_22;
+        dtCauseConditions.Rows[2][1] = objInvestigation.Cause_23;
+        dtCauseConditions.Rows[3][1] = objInvestigation.Cause_24;
+        dtCauseConditions.Rows[4][1] = objInvestigation.Cause_25;
+        dtCauseConditions.Rows[5][1] = objInvestigation.Cause_26;
+        dtCauseConditions.Rows[6][1] = objInvestigation.Cause_27;
+        dtCauseConditions.Rows[7][1] = objInvestigation.Cause_28;
+        dtCauseConditions.Rows[8][1] = objInvestigation.Cause_29;
+        dtCauseConditions.Rows[9][1] = objInvestigation.Cause_30;
+        dtCauseConditions.Rows[10][1] = objInvestigation.Cause_31;
+        dtCauseConditions.Rows[11][1] = objInvestigation.Cause_32;
+        dtCauseConditions.Rows[12][1] = objInvestigation.Cause_33;
+        dtCauseConditions.Rows[13][1] = objInvestigation.Cause_34;
+        dtCauseConditions.Rows[14][1] = objInvestigation.Cause_35;
+        dtCauseConditions.Rows[15][1] = objInvestigation.Cause_36;
+        dtCauseConditions.Rows[16][1] = objInvestigation.Cause_37;
+        dtCauseConditions.Rows[17][1] = objInvestigation.Cause_38;
+        dtCauseConditions.Rows[18][1] = objInvestigation.Cause_39;
+        dtCauseConditions.Rows[19][1] = objInvestigation.Cause_40;
+        dtCauseConditions.Rows[20][1] = objInvestigation.Cause_41;
+        dtCauseConditions.Rows[21][1] = objInvestigation.Cause_42;
+        rptCauseConditions.DataSource = dtCauseConditions;
+        rptCauseConditions.DataBind();
+        dtCauseConditions.Dispose();
 
         #endregion
 
-        //lblCause_42_detail.Text = (objInvestigation.Cause_42 == true) ? objInvestigation.Cause_42_detail : string.Empty;
+        lblCause_42_detail.Text = (objInvestigation.Cause_42 == true) ? objInvestigation.Cause_42_detail : string.Empty;
         lblCause_Comment.Text = objInvestigation.Cause_Comment;
         if (objInvestigation.FK_LU_Contributing_Factor != null) lblContributingFactor.Text = new clsLU_Contributing_Factor((decimal)objInvestigation.FK_LU_Contributing_Factor).Field_Description;
         if (objInvestigation.Contributing_Factor_Other != "") lblContributingFactor_Other.Text = objInvestigation.Contributing_Factor_Other;
-        lblCuase_Of_Incident.Text = objInvestigation.Focus_Area;
-        //#region "Personal / Job Factors"
 
-        //DataTable dtPersonalFactors = new DataTable();
-        //DataColumn dcPersonalFactorsDesc = new DataColumn("Description", typeof(string));
-        //DataColumn dcPersonalFactorsVal = new DataColumn("Value", typeof(object));
-        //dtPersonalFactors.Columns.Add(dcPersonalFactorsDesc);
-        //dtPersonalFactors.Columns.Add(dcPersonalFactorsVal);
-        //foreach (string str in strPersonalFactors)
-        //{
-        //    DataRow drPersonalFactors = dtPersonalFactors.NewRow();
-        //    drPersonalFactors[0] = str;
-        //    dtPersonalFactors.Rows.Add(drPersonalFactors);
-        //}
-        //dtPersonalFactors.Rows[0][1] = objInvestigation.Personal_Job_Factors_1;
-        //dtPersonalFactors.Rows[1][1] = objInvestigation.Personal_Job_Factors_2;
-        //dtPersonalFactors.Rows[2][1] = objInvestigation.Personal_Job_Factors_3;
-        //dtPersonalFactors.Rows[3][1] = objInvestigation.Personal_Job_Factors_4;
-        //dtPersonalFactors.Rows[4][1] = objInvestigation.Personal_Job_Factors_5;
-        //dtPersonalFactors.Rows[5][1] = objInvestigation.Personal_Job_Factors_6;
-        //dtPersonalFactors.Rows[6][1] = objInvestigation.Personal_Job_Factors_7;
-        //dtPersonalFactors.Rows[7][1] = objInvestigation.Personal_Job_Factors_8;
-        //rptPersonalFactors.DataSource = dtPersonalFactors;
-        //rptPersonalFactors.DataBind();
-        //dtPersonalFactors.Dispose();
+        #region "Personal / Job Factors"
 
-        //DataTable dtJobFactors = new DataTable();
-        //DataColumn dcJobFactorsDesc = new DataColumn("Description", typeof(string));
-        //DataColumn dcJobFactorsVal = new DataColumn("Value", typeof(object));
-        //dtJobFactors.Columns.Add(dcJobFactorsDesc);
-        //dtJobFactors.Columns.Add(dcJobFactorsVal);
-        //foreach (string str in strJobFactors)
-        //{
-        //    DataRow drJobFactors = dtJobFactors.NewRow();
-        //    drJobFactors[0] = str;
-        //    dtJobFactors.Rows.Add(drJobFactors);
-        //}
-        //dtJobFactors.Rows[0][1] = objInvestigation.Personal_Job_Factors_9;
-        //dtJobFactors.Rows[1][1] = objInvestigation.Personal_Job_Factors_10;
-        //dtJobFactors.Rows[2][1] = objInvestigation.Personal_Job_Factors_11;
-        //dtJobFactors.Rows[3][1] = objInvestigation.Personal_Job_Factors_12;
-        //dtJobFactors.Rows[4][1] = objInvestigation.Personal_Job_Factors_13;
-        //dtJobFactors.Rows[5][1] = objInvestigation.Personal_Job_Factors_14;
-        //dtJobFactors.Rows[6][1] = objInvestigation.Personal_Job_Factors_15;
-        //dtJobFactors.Rows[7][1] = objInvestigation.Personal_Job_Factors_16;
-        //dtJobFactors.Rows[8][1] = objInvestigation.Personal_Job_Factors_17;
-        //dtJobFactors.Rows[9][1] = objInvestigation.Personal_Job_Factors_18;
-        //dtJobFactors.Rows[10][1] = objInvestigation.Personal_Job_Factors_19;
-        //rptJobFactors.DataSource = dtJobFactors;
-        //rptJobFactors.DataBind();
-        //dtJobFactors.Dispose();
-        //#endregion
+        DataTable dtPersonalFactors = new DataTable();
+        DataColumn dcPersonalFactorsDesc = new DataColumn("Description", typeof(string));
+        DataColumn dcPersonalFactorsVal = new DataColumn("Value", typeof(object));
+        dtPersonalFactors.Columns.Add(dcPersonalFactorsDesc);
+        dtPersonalFactors.Columns.Add(dcPersonalFactorsVal);
+        foreach (string str in strPersonalFactors)
+        {
+            DataRow drPersonalFactors = dtPersonalFactors.NewRow();
+            drPersonalFactors[0] = str;
+            dtPersonalFactors.Rows.Add(drPersonalFactors);
+        }
+        dtPersonalFactors.Rows[0][1] = objInvestigation.Personal_Job_Factors_1;
+        dtPersonalFactors.Rows[1][1] = objInvestigation.Personal_Job_Factors_2;
+        dtPersonalFactors.Rows[2][1] = objInvestigation.Personal_Job_Factors_3;
+        dtPersonalFactors.Rows[3][1] = objInvestigation.Personal_Job_Factors_4;
+        dtPersonalFactors.Rows[4][1] = objInvestigation.Personal_Job_Factors_5;
+        dtPersonalFactors.Rows[5][1] = objInvestigation.Personal_Job_Factors_6;
+        dtPersonalFactors.Rows[6][1] = objInvestigation.Personal_Job_Factors_7;
+        dtPersonalFactors.Rows[7][1] = objInvestigation.Personal_Job_Factors_8;
+        rptPersonalFactors.DataSource = dtPersonalFactors;
+        rptPersonalFactors.DataBind();
+        dtPersonalFactors.Dispose();
 
-        //lblPersonal_Job_Factors_19_Detail.Text = objInvestigation.Personal_Job_Factors_19 == true ? objInvestigation.Personal_Job_Factors_17_Details : string.Empty;
-        //lblPersonal_Job_Comment.Text = objInvestigation.Personal_Job_Comment;
-
+        DataTable dtJobFactors = new DataTable();
+        DataColumn dcJobFactorsDesc = new DataColumn("Description", typeof(string));
+        DataColumn dcJobFactorsVal = new DataColumn("Value", typeof(object));
+        dtJobFactors.Columns.Add(dcJobFactorsDesc);
+        dtJobFactors.Columns.Add(dcJobFactorsVal);
+        foreach (string str in strJobFactors)
+        {
+            DataRow drJobFactors = dtJobFactors.NewRow();
+            drJobFactors[0] = str;
+            dtJobFactors.Rows.Add(drJobFactors);
+        }
+        dtJobFactors.Rows[0][1] = objInvestigation.Personal_Job_Factors_9;
+        dtJobFactors.Rows[1][1] = objInvestigation.Personal_Job_Factors_10;
+        dtJobFactors.Rows[2][1] = objInvestigation.Personal_Job_Factors_11;
+        dtJobFactors.Rows[3][1] = objInvestigation.Personal_Job_Factors_12;
+        dtJobFactors.Rows[4][1] = objInvestigation.Personal_Job_Factors_13;
+        dtJobFactors.Rows[5][1] = objInvestigation.Personal_Job_Factors_14;
+        dtJobFactors.Rows[6][1] = objInvestigation.Personal_Job_Factors_15;
+        dtJobFactors.Rows[7][1] = objInvestigation.Personal_Job_Factors_16;
+        dtJobFactors.Rows[8][1] = objInvestigation.Personal_Job_Factors_17;
+        dtJobFactors.Rows[9][1] = objInvestigation.Personal_Job_Factors_18;
+        dtJobFactors.Rows[10][1] = objInvestigation.Personal_Job_Factors_19;
+        rptJobFactors.DataSource = dtJobFactors;
+        rptJobFactors.DataBind();
+        dtJobFactors.Dispose();
         #endregion
 
-        #region Root cause determination
-
+        lblPersonal_Job_Factors_19_Detail.Text = objInvestigation.Personal_Job_Factors_19 == true ? objInvestigation.Personal_Job_Factors_17_Details : string.Empty;
+        lblPersonal_Job_Comment.Text = objInvestigation.Personal_Job_Comment;
         lblConclusions.Text = objInvestigation.Conclusions;
+
         if (objInvestigation.OSHA_Recordable != null)
         {
             lblOSHARecordableView.Text = objInvestigation.OSHA_Recordable == true ? "Yes" : "No";
@@ -1012,44 +885,17 @@ public partial class Exposures_Investigation : clsBasePage
         lblSonicCodePromoted.Text = objInvestigation.Sonic_S0_Cause_Code_Promoted == "Y" ? "Yes" : "No";
         lblDateSonicCodePromoted.Text = clsGeneral.FormatDBNullDateToDisplay(objInvestigation.Date_Sonic_S0_Cause_Code_Promoted);
 
-        DataSet ds = null;
-
-        ds = clsInvestigation_Cause_Information.SelectByInvestigationID(Convert.ToDecimal(PK_Investigation_ID));
-
-
-
-
-        rptRootCauseDeterminationView.DataSource = ds;
-        rptRootCauseDeterminationView.DataBind();
-        rptRootCauseDeterminationRecmndationView.DataSource = ds;
-        rptRootCauseDeterminationRecmndationView.DataBind();
-
-        DataTable dtRootCauseDetermination = ds.Tables[0];
-        for (int i = 0; i < dtRootCauseDetermination.Rows.Count; i++)
-        {
-            Label lblRootCauseTypeList = (Label)rptRootCauseDeterminationView.Items[i].FindControl("lblRootCauseTypeList");
-            lblRootCauseTypeList.Text = Convert.ToString(dtRootCauseDetermination.Rows[i]["Response"]) == "Y" ? "Yes" : "No";
-        }
-        for (int i = 0; i < dtRootCauseDetermination.Rows.Count; i++)
-        {
-            Label lblRootCauseTypeList = (Label)rptRootCauseDeterminationRecmndationView.Items[i].FindControl("lblRootCauseGuidanceReoccurance");
-            lblRootCauseTypeList.Text = Convert.ToString(dtRootCauseDetermination.Rows[i]["Prevent_Reoccurrence"]) == "Y" ? "Yes" : "No";
-        }
-
         #endregion
 
         #region " CORRECTIVE ACTIONS "
 
-        //lblCorrective_Action_Description.Text = objInvestigation.Corrective_Action_Description;
+        lblCorrective_Action_Description.Text = objInvestigation.Corrective_Action_Description;
         lblAssigned_To.Text = objInvestigation.Assigned_To;
         lblAssigned_By.Text = objInvestigation.AssignedBy;
         lblTo_Be_Competed_by.Text = clsGeneral.FormatDateToDisplay(objInvestigation.To_Be_Competed_by);
         lblStatus.Text = objInvestigation.Status;
         lblLessons_Learned.Text = objInvestigation.Lessons_Learned;
-        lblNoCommunicationExplanation.Text = objInvestigation.No_Communication_Explanation;
-        lblDateCommunicated.Text = clsGeneral.FormatDBNullDateToDisplay(objInvestigation.Date_Communicated);
-        lblCommunicatedToAssociate.Text = objInvestigation.Communicated == "Y" ? "Yes" : "No";
-        //lblDateInvestigation_Submitted_View.Text = clsGeneral.FormatDBNullDateToDisplay(objInvestigation.Date_Submitted_by_Store);
+        lblDateInvestigation_Submitted_View.Text = clsGeneral.FormatDBNullDateToDisplay(objInvestigation.Date_Submitted_by_Store);
         #endregion
 
         #region " REVIEW "
@@ -1057,22 +903,22 @@ public partial class Exposures_Investigation : clsBasePage
         lblCause_Reviewed.Text = clsGeneral.FormatDateToDisplay(objInvestigation.Cause_Reviewed);
         lblAction_Reviewed.Text = clsGeneral.FormatDateToDisplay(objInvestigation.Action_Reviewed);
 
-        lblTiming_View.Text = objInvestigation.Timing != "" ? objInvestigation.Timing == "Y" ? "Yes" : "No" : "";
+        lblTiming_View.Text = objInvestigation.Timing != "" ? objInvestigation.Timing == "Y" ? "Yes" : "No" : "";  
         CtrlMultiLineTiming_view.Text = objInvestigation.Timing_Comment;
 
-        lblSLT_View.Text = objInvestigation.SLT_Involvement != "" ? objInvestigation.SLT_Involvement == "Y" ? "Yes" : "No" : "";
-        CtrlMultiLineSLT_View.Text = objInvestigation.SLT_Involvement_Comment;
+        lblSLT_View.Text = objInvestigation.SLT_Involvement != "" ? objInvestigation.SLT_Involvement == "Y" ? "Yes" : "No" : "";  
+        CtrlMultiLineSLT_View.Text = objInvestigation.SLT_Involvement_Comment ;
 
-        lblSLTVisit_View.Text = objInvestigation.SLT_Visit != "" ? objInvestigation.SLT_Visit == "Y" ? "Yes" : "No" : "";
+        lblSLTVisit_View.Text = objInvestigation.SLT_Visit != "" ? objInvestigation.SLT_Visit == "Y" ? "Yes" : "No" : "";  
         CtrlMultiLineSLTVisit_View.Text = objInvestigation.SLT_Visit_Comment;
 
-        lblWitness_View.Text = objInvestigation.Witnesses != "" ? objInvestigation.Witnesses == "Y" ? "Yes" : "No" : "";
+        lblWitness_View.Text = objInvestigation.Witnesses != "" ? objInvestigation.Witnesses == "Y" ? "Yes" : "No" : "";  
         CtrlMultiLineWitness_View.Text = objInvestigation.Witnesses_Comment;
 
-        lblRootCause_View.Text = objInvestigation.Root_Causes != "" ? objInvestigation.Root_Causes == "Y" ? "Yes" : "No" : "";
+        lblRootCause_View.Text = objInvestigation.Root_Causes != "" ? objInvestigation.Root_Causes == "Y" ? "Yes" : "No" : "";  
         CtrlMultiLineRoot_View.Text = objInvestigation.Root_Causes_Comment;
 
-        lblActionPlan_View.Text = objInvestigation.Action_Plan != "" ? objInvestigation.Action_Plan == "Y" ? "Yes" : "No" : "";
+        lblActionPlan_View.Text = objInvestigation.Action_Plan != "" ? objInvestigation.Action_Plan == "Y" ? "Yes" : "No" : "";  
         CtrlMultiLineActionPlan_View.Text = objInvestigation.Action_Plan_Comment;
 
         lblRLCMComplete.Text = objInvestigation.RLCM_Complete ? "Yes" : "No";
@@ -1091,7 +937,7 @@ public partial class Exposures_Investigation : clsBasePage
         btnInvestigationSave.Visible = false;
         // Check if User has right To Add or Edit 
 
-        CtrlViewAttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.Investigation, PK_Investigation_ID, false, 6);
+        CtrlViewAttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.Investigation, PK_Investigation_ID, false, 5);
         CtrlViewAttachDetails.Bind();
 
         //if ((!bIsRegionalOfficer && bLocInfoComplete) || Module_Access_Mode == AccessType.View_Only)
@@ -1120,152 +966,94 @@ public partial class Exposures_Investigation : clsBasePage
 
         #region "Causes"
 
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[0].FindControl("rdoValue"), objInvestigation.Cause_1);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[1].FindControl("rdoValue"), objInvestigation.Cause_2);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[2].FindControl("rdoValue"), objInvestigation.Cause_3);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[3].FindControl("rdoValue"), objInvestigation.Cause_4);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[4].FindControl("rdoValue"), objInvestigation.Cause_5);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[5].FindControl("rdoValue"), objInvestigation.Cause_6);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[6].FindControl("rdoValue"), objInvestigation.Cause_7);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[7].FindControl("rdoValue"), objInvestigation.Cause_8);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[8].FindControl("rdoValue"), objInvestigation.Cause_9);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[9].FindControl("rdoValue"), objInvestigation.Cause_10);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[10].FindControl("rdoValue"), objInvestigation.Cause_11);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[11].FindControl("rdoValue"), objInvestigation.Cause_12);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[12].FindControl("rdoValue"), objInvestigation.Cause_13);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[13].FindControl("rdoValue"), objInvestigation.Cause_14);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[14].FindControl("rdoValue"), objInvestigation.Cause_15);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[15].FindControl("rdoValue"), objInvestigation.Cause_16);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[16].FindControl("rdoValue"), objInvestigation.Cause_17);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[17].FindControl("rdoValue"), objInvestigation.Cause_18);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[18].FindControl("rdoValue"), objInvestigation.Cause_19);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[19].FindControl("rdoValue"), objInvestigation.Cause_20);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[0].FindControl("rdoValue"), objInvestigation.Cause_1);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[1].FindControl("rdoValue"), objInvestigation.Cause_2);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[2].FindControl("rdoValue"), objInvestigation.Cause_3);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[3].FindControl("rdoValue"), objInvestigation.Cause_4);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[4].FindControl("rdoValue"), objInvestigation.Cause_5);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[5].FindControl("rdoValue"), objInvestigation.Cause_6);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[6].FindControl("rdoValue"), objInvestigation.Cause_7);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[7].FindControl("rdoValue"), objInvestigation.Cause_8);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[8].FindControl("rdoValue"), objInvestigation.Cause_9);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[9].FindControl("rdoValue"), objInvestigation.Cause_10);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[10].FindControl("rdoValue"), objInvestigation.Cause_11);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[11].FindControl("rdoValue"), objInvestigation.Cause_12);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[12].FindControl("rdoValue"), objInvestigation.Cause_13);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[13].FindControl("rdoValue"), objInvestigation.Cause_14);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[14].FindControl("rdoValue"), objInvestigation.Cause_15);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[15].FindControl("rdoValue"), objInvestigation.Cause_16);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[16].FindControl("rdoValue"), objInvestigation.Cause_17);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[17].FindControl("rdoValue"), objInvestigation.Cause_18);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[18].FindControl("rdoValue"), objInvestigation.Cause_19);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseBehavioursEdit.Items[19].FindControl("rdoValue"), objInvestigation.Cause_20);
 
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[0].FindControl("rdoValue"), objInvestigation.Cause_21);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[1].FindControl("rdoValue"), objInvestigation.Cause_22);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[2].FindControl("rdoValue"), objInvestigation.Cause_23);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[3].FindControl("rdoValue"), objInvestigation.Cause_24);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[4].FindControl("rdoValue"), objInvestigation.Cause_25);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[5].FindControl("rdoValue"), objInvestigation.Cause_26);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[6].FindControl("rdoValue"), objInvestigation.Cause_27);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[7].FindControl("rdoValue"), objInvestigation.Cause_28);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[8].FindControl("rdoValue"), objInvestigation.Cause_29);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[9].FindControl("rdoValue"), objInvestigation.Cause_30);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[10].FindControl("rdoValue"), objInvestigation.Cause_31);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[11].FindControl("rdoValue"), objInvestigation.Cause_32);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[12].FindControl("rdoValue"), objInvestigation.Cause_33);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[13].FindControl("rdoValue"), objInvestigation.Cause_34);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[14].FindControl("rdoValue"), objInvestigation.Cause_35);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[15].FindControl("rdoValue"), objInvestigation.Cause_36);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[16].FindControl("rdoValue"), objInvestigation.Cause_37);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[17].FindControl("rdoValue"), objInvestigation.Cause_38);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[18].FindControl("rdoValue"), objInvestigation.Cause_39);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[19].FindControl("rdoValue"), objInvestigation.Cause_40);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[20].FindControl("rdoValue"), objInvestigation.Cause_41);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[21].FindControl("rdoValue"), objInvestigation.Cause_42);
-        //txtCause_42_detail.Text = objInvestigation.Cause_42 == true ? objInvestigation.Cause_42_detail : string.Empty;
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[0].FindControl("rdoValue"), objInvestigation.Cause_21);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[1].FindControl("rdoValue"), objInvestigation.Cause_22);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[2].FindControl("rdoValue"), objInvestigation.Cause_23);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[3].FindControl("rdoValue"), objInvestigation.Cause_24);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[4].FindControl("rdoValue"), objInvestigation.Cause_25);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[5].FindControl("rdoValue"), objInvestigation.Cause_26);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[6].FindControl("rdoValue"), objInvestigation.Cause_27);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[7].FindControl("rdoValue"), objInvestigation.Cause_28);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[8].FindControl("rdoValue"), objInvestigation.Cause_29);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[9].FindControl("rdoValue"), objInvestigation.Cause_30);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[10].FindControl("rdoValue"), objInvestigation.Cause_31);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[11].FindControl("rdoValue"), objInvestigation.Cause_32);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[12].FindControl("rdoValue"), objInvestigation.Cause_33);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[13].FindControl("rdoValue"), objInvestigation.Cause_34);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[14].FindControl("rdoValue"), objInvestigation.Cause_35);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[15].FindControl("rdoValue"), objInvestigation.Cause_36);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[16].FindControl("rdoValue"), objInvestigation.Cause_37);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[17].FindControl("rdoValue"), objInvestigation.Cause_38);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[18].FindControl("rdoValue"), objInvestigation.Cause_39);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[19].FindControl("rdoValue"), objInvestigation.Cause_40);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[20].FindControl("rdoValue"), objInvestigation.Cause_41);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptCauseConditionsEdit.Items[21].FindControl("rdoValue"), objInvestigation.Cause_42);
+
         #endregion
 
-
+        txtCause_42_detail.Text = objInvestigation.Cause_42 == true ? objInvestigation.Cause_42_detail : string.Empty;
         txtCause_Comment.Text = objInvestigation.Cause_Comment;
-        //trOtherDesc.Style["display"] = objInvestigation.Cause_42 == true ? "block" : "none";
+        trOtherDesc.Style["display"] = objInvestigation.Cause_42 == true ? "block" : "none";
         if (objInvestigation.FK_LU_Contributing_Factor != null) drpFk_LU_Contributing_Factor.SelectedValue = objInvestigation.FK_LU_Contributing_Factor.ToString();
         if (objInvestigation.Contributing_Factor_Other != "") txtContributingFactor_Other.Text = objInvestigation.Contributing_Factor_Other;
 
-        drpCauseOfIncident.ClearSelection();
-
-        if (objInvestigation.Focus_Area == string.Empty)
-            drpCauseOfIncident.SelectedIndex = 0;
-        else
-        {
-            ListItem lst = drpCauseOfIncident.Items.FindByText(objInvestigation.Focus_Area);
-            if (lst != null)
-                lst.Selected = true;
-        }
 
         #region "Personal / Job Factors"
 
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptPersonalFactorsEdit.Items[0].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_1);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptPersonalFactorsEdit.Items[1].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_2);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptPersonalFactorsEdit.Items[2].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_3);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptPersonalFactorsEdit.Items[3].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_4);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptPersonalFactorsEdit.Items[4].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_5);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptPersonalFactorsEdit.Items[5].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_6);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptPersonalFactorsEdit.Items[6].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_7);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptPersonalFactorsEdit.Items[7].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_8);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptPersonalFactorsEdit.Items[0].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_1);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptPersonalFactorsEdit.Items[1].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_2);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptPersonalFactorsEdit.Items[2].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_3);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptPersonalFactorsEdit.Items[3].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_4);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptPersonalFactorsEdit.Items[4].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_5);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptPersonalFactorsEdit.Items[5].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_6);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptPersonalFactorsEdit.Items[6].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_7);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptPersonalFactorsEdit.Items[7].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_8);
 
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptJobFactorsEdit.Items[0].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_9);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptJobFactorsEdit.Items[1].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_10);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptJobFactorsEdit.Items[2].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_11);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptJobFactorsEdit.Items[3].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_12);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptJobFactorsEdit.Items[4].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_13);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptJobFactorsEdit.Items[5].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_14);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptJobFactorsEdit.Items[6].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_15);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptJobFactorsEdit.Items[7].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_16);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptJobFactorsEdit.Items[8].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_17);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptJobFactorsEdit.Items[9].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_18);
-        //clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptJobFactorsEdit.Items[10].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_19);
-
-        //txtPersonal_Job_Factors_19_Detail.Text = objInvestigation.Personal_Job_Factors_19 == true ? objInvestigation.Personal_Job_Factors_17_Details : string.Empty;
-        //trPersonal_Job_Factors_Details.Style["display"] = objInvestigation.Personal_Job_Factors_19 == true ? "block" : "none";
-        //txtPersonal_Job_Comment.Text = objInvestigation.Personal_Job_Comment;
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptJobFactorsEdit.Items[0].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_9);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptJobFactorsEdit.Items[1].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_10);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptJobFactorsEdit.Items[2].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_11);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptJobFactorsEdit.Items[3].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_12);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptJobFactorsEdit.Items[4].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_13);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptJobFactorsEdit.Items[5].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_14);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptJobFactorsEdit.Items[6].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_15);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptJobFactorsEdit.Items[7].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_16);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptJobFactorsEdit.Items[8].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_17);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptJobFactorsEdit.Items[9].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_18);
+        clsGeneral.FormatYesNoToDisplayForEdit((RadioButtonList)rptJobFactorsEdit.Items[10].FindControl("rdoValue"), objInvestigation.Personal_Job_Factors_19);
 
         #endregion
-        //if (objInvestigation.OSHA_Recordable != null)
-        //{
-        //    lblOSHARecordable.Text = objInvestigation.OSHA_Recordable == true ? "Yes" : "No";
-        //    hdnOSHARecordable.Value = lblOSHARecordable.Text;
-        //}
-        #endregion
 
-        #region Root Cause Determination
-        DataSet ds = null;
-
-        if ((hdnFocusArea.Value.ToString() == drpCauseOfIncident.SelectedItem.Text) || (string.IsNullOrEmpty(hdnFocusArea.Value) && Convert.ToInt32(drpCauseOfIncident.SelectedValue) > 0))
-        {
-            ds = clsInvestigation_Cause_Information.SelectByInvestigationID(Convert.ToDecimal(PK_Investigation_ID));
-            if (ds == null || ds.Tables[0].Rows.Count <= 0)
-            {
-                ds = Investigation.SelectAllCauseCodeInformationByMasterNode(Convert.ToInt32(drpCauseOfIncident.SelectedValue));
-            }
-
-        }
-        else { ds = Investigation.SelectAllCauseCodeInformationByMasterNode(Convert.ToInt32(drpCauseOfIncident.SelectedValue)); }
-
-
-
-
-        rptRootCauseDetermination.DataSource = ds;
-        rptRootCauseDetermination.DataBind();
-        rptRootCauseDeterminationRecmndation.DataSource = ds;
-        rptRootCauseDeterminationRecmndation.DataBind();
-
-        DataTable dtRootCauseDetermination = ds.Tables[0];
-        for (int i = 0; i < dtRootCauseDetermination.Rows.Count; i++)
-        {
-            RadioButtonList rdoValue = (RadioButtonList)rptRootCauseDetermination.Items[i].FindControl("rdoRootCauseTypeList");
-            rdoValue.SelectedValue = Convert.ToString(dtRootCauseDetermination.Rows[i]["Response"]) == "Y" ? "Y" : "N";
-        }
-        for (int i = 0; i < dtRootCauseDetermination.Rows.Count; i++)
-        {
-            RadioButtonList rdoValue = (RadioButtonList)rptRootCauseDeterminationRecmndation.Items[i].FindControl("rdoRootCauseGuidanceList");
-            rdoValue.SelectedValue = Convert.ToString(dtRootCauseDetermination.Rows[i]["Prevent_Reoccurrence"]) == "Y" ? "Y" : "N";
-        }
+        txtPersonal_Job_Factors_19_Detail.Text = objInvestigation.Personal_Job_Factors_19 == true ? objInvestigation.Personal_Job_Factors_17_Details : string.Empty;
+        trPersonal_Job_Factors_Details.Style["display"] = objInvestigation.Personal_Job_Factors_19 == true ? "block" : "none";
+        txtPersonal_Job_Comment.Text = objInvestigation.Personal_Job_Comment;
+        txtConclusions.Text = objInvestigation.Conclusions;
 
         if (objInvestigation.OSHA_Recordable != null)
         {
-            rdoOSHARecordable.SelectedValue = objInvestigation.OSHA_Recordable == true ? "Y" : "N";
-
             lblOSHARecordable.Text = objInvestigation.OSHA_Recordable == true ? "Yes" : "No";
             hdnOSHARecordable.Value = lblOSHARecordable.Text;
         }
-
-        //if (objInvestigation.OSHA_Recordable != null)
-        //{
-        //    lblOSHARecordable.Text = objInvestigation.OSHA_Recordable == true ? "Yes" : "No";
-        //    hdnOSHARecordable.Value = lblOSHARecordable.Text;
-        //}
-
         hdnOriginalSonicCode.Value = objInvestigation.Sonic_Cause_Code;
         ddlSonic_Cause_Code.ClearSelection();
 
@@ -1277,21 +1065,19 @@ public partial class Exposures_Investigation : clsBasePage
             if (lst != null)
                 lst.Selected = true;
         }
-
         txtOriginalSonicCode.Text = objInvestigation.Original_Sonic_S0_Cause_Code;
         rdoSonicCodePromoted.SelectedValue = objInvestigation.Sonic_S0_Cause_Code_Promoted == "Y" ? "Y" : "N";
         txtDateSonicCodePromoted.Text = clsGeneral.FormatDBNullDateToDisplay(objInvestigation.Date_Sonic_S0_Cause_Code_Promoted);
-        txtConclusions.Text = objInvestigation.Conclusions;
 
         #endregion
 
         #region " CORRECTIVE ACTIONS "
 
-        //txtCorrective_Action_Description.Text = objInvestigation.Corrective_Action_Description;
+        txtCorrective_Action_Description.Text = objInvestigation.Corrective_Action_Description;
         txtAssigned_To.Text = objInvestigation.Assigned_To;
         txtAssigned_By.Text = objInvestigation.AssignedBy;
         txtTo_Be_Competed_by.Text = clsGeneral.FormatDateToDisplay(objInvestigation.To_Be_Competed_by);
-        // txtDateInves_Submitted.Text = clsGeneral.FormatDBNullDateToDisplay(objInvestigation.Date_Submitted_by_Store);
+        txtDateInves_Submitted.Text = clsGeneral.FormatDBNullDateToDisplay(objInvestigation.Date_Submitted_by_Store);
         ddlStatus.ClearSelection();
 
         if (objInvestigation.Status == string.Empty)
@@ -1300,19 +1086,6 @@ public partial class Exposures_Investigation : clsBasePage
             ddlStatus.Items.FindByText(objInvestigation.Status).Selected = true;
 
         txtLessons_Learned.Text = objInvestigation.Lessons_Learned;
-        rdoCommunicated.SelectedValue = objInvestigation.Communicated == "Y" ? "Y" : "N";
-
-
-        if (rdoCommunicated.SelectedValue == "Y")
-        {
-            txtDateCommunicated.Text = clsGeneral.FormatDBNullDateToDisplay(objInvestigation.Date_Communicated);
-            txtNo_Communication_Explanation.Enabled = false;
-        }
-        else
-        {
-            txtNo_Communication_Explanation.Text = objInvestigation.No_Communication_Explanation;
-            txtDateCommunicated.Enabled = false;
-        }
         //chkLocInfoComplete.Checked = objInvestigation.Location_Information_Complete;
 
         #endregion
@@ -1357,7 +1130,7 @@ public partial class Exposures_Investigation : clsBasePage
             lblDate_Review_Completed_by_RLCM.Text = clsGeneral.FormatDBNullDateToDisplay(objInvestigation.Date_RLCM_Review_Completed);
             if (objInvestigation.Lag_Time != null) lblIncident_Review_LagTime.Text = objInvestigation.Lag_Time.ToString();
         }
-
+        
         if (objInvestigation.RLCM_Complete)
         {
             txtCause_Reviewed.Enabled = false;
@@ -1368,7 +1141,7 @@ public partial class Exposures_Investigation : clsBasePage
         #endregion
 
 
-        CtrlAttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.Investigation, PK_Investigation_ID, true, 6);
+        CtrlAttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.Investigation, PK_Investigation_ID, true, 5);
         CtrlAttachDetails.Bind();
 
         if (objInvestigation.Investigative_Quality != null)
@@ -1394,7 +1167,7 @@ public partial class Exposures_Investigation : clsBasePage
             {
                 string strBody = GenerateInvestigatorReportBody();
 
-                string strTo = Convert.ToString(drOfficer["Email"]);
+                string strTo = Convert.ToString(drOfficer["Email"]);                
                 string strSubject = "Location " + objLocation.Sonic_Location_Code + " - " + objLocation.dba + " has completed the Investigation associated with WC-" + objWCFR.WC_FR_Number;
 
                 clsGeneral.SendMailMessage(AppConfig.MailFrom, strTo, "", AppConfig.MailCC, strSubject, strBody.ToString(), true);
@@ -1479,222 +1252,131 @@ public partial class Exposures_Investigation : clsBasePage
 
         #endregion
 
-        //#region "Causes"
-
-        //strBody.Append("<div style='" + bandHeaderRow + "'>&nbsp;Causes</div>");
-        //strBody.Append("<table cellpadding='3' cellspacing=1 border=0 width='100%'" + strFontStyle + ">");
-        //strBody.Append("<tr><td colspan='6' width='100%'><b>What were the immediate causes of the accident?</b></td></tr>");
-        //strBody.Append("<tr><td colspan='6' width='100%'>SUBSTANDARD BEHAVIORS</td></tr>");
-
-        //#region "Cause Behaviours"
-
-        //StringBuilder causeBehaviours = new StringBuilder();
-        //causeBehaviours.Append("<table cellpadding='0' cellspacing='0' width='100%'" + strFontStyle + ">");
-        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[0] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_1) + "</td></tr>");
-        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[1] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_2) + "</td></tr>");
-        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[2] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_3) + "</td></tr>");
-        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[3] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_4) + "</td></tr>");
-        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[4] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_5) + "</td></tr>");
-        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[5] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_6) + "</td></tr>");
-        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[6] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_7) + "</td></tr>");
-        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[7] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_8) + "</td></tr>");
-        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[8] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_9) + "</td></tr>");
-        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[9] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_10) + "</td></tr>");
-        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[10] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_11) + "</td></tr>");
-        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[11] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_12) + "</td></tr>");
-        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[12] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_13) + "</td></tr>");
-        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[13] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_14) + "</td></tr>");
-        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[14] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_15) + "</td></tr>");
-        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[15] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_16) + "</td></tr>");
-        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[16] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_17) + "</td></tr>");
-        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[17] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_18) + "</td></tr>");
-        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[18] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_19) + "</td></tr>");
-        //causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[19] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_20) + "</td></tr>");
-        //causeBehaviours.Append("</table>");
-
-        //#endregion
-
-        //strBody.Append("<tr><td colspan='6'>" + causeBehaviours.ToString() + "</td></tr>");
-        //strBody.Append("<tr><td colspan='6' width='100%'>&nbsp;</td></tr>");
-        //strBody.Append("<tr><td colspan='6' width='100%'>SUBSTANDARD CONDITIONS</td>");
-
-        //#region "Cause Conditions"
-
-        //StringBuilder sbCauseConditions = new StringBuilder();
-        //sbCauseConditions.Append("<table cellpadding='0' cellspacing='0' width='100%'" + strFontStyle + ">");
-        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[0] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_21) + "</td></tr>");
-        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[1] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_22) + "</td></tr>");
-        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[2] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_23) + "</td></tr>");
-        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[3] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_24) + "</td></tr>");
-        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[4] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_25) + "</td></tr>");
-        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[5] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_26) + "</td></tr>");
-        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[6] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_27) + "</td></tr>");
-        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[7] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_28) + "</td></tr>");
-        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[8] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_29) + "</td></tr>");
-        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[9] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_30) + "</td></tr>");
-        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[10] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_31) + "</td></tr>");
-        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[11] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_32) + "</td></tr>");
-        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[12] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_33) + "</td></tr>");
-        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[13] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_34) + "</td></tr>");
-        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[14] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_35) + "</td></tr>");
-        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[15] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_36) + "</td></tr>");
-        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[16] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_37) + "</td></tr>");
-        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[17] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_38) + "</td></tr>");
-        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[18] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_39) + "</td></tr>");
-        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[19] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_40) + "</td></tr>");
-        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[20] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_41) + "</td></tr>");
-        //sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[21] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_42) + "</td></tr>");
-        //sbCauseConditions.Append("</table>");
-
-        //#endregion
-
-        //strBody.Append("<tr><td colspan='6'>" + sbCauseConditions.ToString() + "</td></tr>");
-        //if (objInvestigation.Cause_42 == true)
-        //    strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Cause_42_detail + "</td></tr>");
-
-        //strBody.Append("<tr><td align='left'>Comment</td></tr>");
-        //strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Cause_Comment + "</td></tr>");
-        //strBody.Append("<tr><td align='left' colspan='6'>What are the basic causes that led to the immediate causes above?</td></tr>");
-        //strBody.Append("<tr><td colspan='6' align='left'>");
-
-        //strBody.Append("<table cellpadding='3' cellspacing='1' border='0' width='100%'" + strFontStyle + "><tr>");
-        //strBody.Append("<td align='left' colspan='2' style='width:50%'>PERSONAL FACTORS</td>");
-        //strBody.Append("<td align='left' colspan='2' style='width:50%'>JOB FACTORS</td></tr>");
-
-        //#region "Personal Factors"
-
-        //StringBuilder sbPersonalFactors = new StringBuilder();
-        //sbPersonalFactors.Append("<table cellpadding='0' cellspacing='0' width='100%'" + strFontStyle + ">");
-        //sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[0] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_1) + "</td></tr>");
-        //sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[1] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_2) + "</td></tr>");
-        //sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[2] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_3) + "</td></tr>");
-        //sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[3] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_4) + "</td></tr>");
-        //sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[4] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_5) + "</td></tr>");
-        //sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[5] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_6) + "</td></tr>");
-        //sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[6] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_7) + "</td></tr>");
-        //sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[7] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_8) + "</td></tr>");
-        //sbPersonalFactors.Append("</table>");
-
-        //#endregion
-
-        //#region "Job Factors"
-
-        //StringBuilder sbJobFactors = new StringBuilder();
-        //sbJobFactors.Append("<table cellpadding='0' cellspacing='0' width='100%'" + strFontStyle + ">");
-        //sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[0] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_9) + "</td></tr>");
-        //sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[1] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_10) + "</td></tr>");
-        //sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[2] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_11) + "</td></tr>");
-        //sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[3] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_12) + "</td></tr>");
-        //sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[4] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_13) + "</td></tr>");
-        //sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[5] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_14) + "</td></tr>");
-        //sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[6] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_15) + "</td></tr>");
-        //sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[7] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_16) + "</td></tr>");
-        //sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[8] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_17) + "</td></tr>");
-        //sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[9] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_18) + "</td></tr>");
-        //sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[10] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_19) + "</td></tr>");
-        //sbJobFactors.Append("</table>");
-        //#endregion
-
-        //strBody.Append("<tr><td colspan='2' align='left' valign='top'>" + sbPersonalFactors.ToString() + "</td><td align='left' colspan='2' valign='top'>" + sbJobFactors.ToString() + "</td></tr>");
-
-        //if (objInvestigation.Personal_Job_Factors_19 == true)
-        //    strBody.Append("<tr><td align='left'>&nbsp;</td><td align='left'>&nbsp;</td><td align='left'>" + objInvestigation.Personal_Job_Factors_17_Details + "</td></tr>");
-        //strBody.Append("</table></td>");
-
-        //strBody.Append("<tr><td align='left' colspan='6'>");
-        //strBody.Append("<table width='100%' " + strFontStyle + ">");
-
-        //if (strOperation == "edit")
-        //{
-
-        //    if (drpFk_LU_Contributing_Factor.SelectedItem.Text == "Other" || lblContributingFactor.Text == "Other")
-        //    {
-        //        strBody.Append("<tr><td align='left' width='18%'>Contributing Factor</td><td align='center' width='4%'>:</td>");
-        //        strBody.Append("<td align='left' width='28%'>" + new clsLU_Contributing_Factor((decimal)objInvestigation.FK_LU_Contributing_Factor).Field_Description + "</td>");
-        //        strBody.Append("<td align='left' width='18%'>Contributing Factor - Other</td><td align='center' width='4%'>:</td>");
-        //        strBody.Append("<td align='left' width='28%'>" + objInvestigation.Contributing_Factor_Other + "</td></tr>");
-        //    }
-        //    else
-        //    {
-        //        strBody.Append("<tr><td align='left' style='width:18%'>Contributing Factor</td><td align='center' style='width:4%'>:</td>");
-        //        if (drpFk_LU_Contributing_Factor.SelectedIndex > 0)
-        //        {
-        //            strBody.Append("<td align='left' colspan='4'>" + new clsLU_Contributing_Factor((decimal)objInvestigation.FK_LU_Contributing_Factor).Field_Description + "</td></tr>");
-        //        }
-        //        else
-        //        {
-        //            strBody.Append("<td align='left' colspan='4'>" + string.Empty + "</td></tr>");
-        //        }
-        //    }
-
-        //    strBody.Append("</table></td></tr>");
-        //}
-        //else
-        //{
-        //    if (lblContributingFactor.Text == "Other")
-        //    {
-        //        strBody.Append("<tr><td align='left' width='18%'>Contributing Factor</td><td align='center' width='4%'>:</td>");
-        //        strBody.Append("<td align='left' width='28%'>" + new clsLU_Contributing_Factor((decimal)objInvestigation.FK_LU_Contributing_Factor).Field_Description + "</td>");
-        //        strBody.Append("<td align='left' width='18%'>Contributing Factor - Other</td><td align='center' width='4%'>:</td>");
-        //        strBody.Append("<td align='left' width='28%'>" + objInvestigation.Contributing_Factor_Other + "</td></tr>");
-        //    }
-        //    else
-        //    {
-        //        strBody.Append("<tr><td align='left' style='width:18%'>Contributing Factor</td><td align='center' style='width:4%'>:</td>");
-        //        if (objInvestigation.FK_LU_Contributing_Factor != null)
-        //        {
-        //            strBody.Append("<td align='left' colspan='4'>" + new clsLU_Contributing_Factor((decimal)objInvestigation.FK_LU_Contributing_Factor).Field_Description + "</td></tr>");
-        //        }
-        //        else
-        //        {
-        //            strBody.Append("<td align='left' colspan='4'>" + string.Empty + "</td></tr>");
-        //        }
-        //    }
-
-        //    strBody.Append("</table></td></tr>");
-        //}
-
-        //strBody.Append("<tr><td align='left' colspan='6'>Comment</td></tr>");
-        //strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Personal_Job_Comment + "</td></tr>");
-        //strBody.Append("<tr><td align='left' colspan='6'>Conclusions/Impressions</td></tr>");
-        //strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Conclusions + "</td></tr>");
-        //strBody.Append("<tr><td align='left' width='18%' valign='top'>OSHA Recordable</td><td align='center' width='4%' valign='top'>:</td>");
-        //strBody.Append("<td colspan='4' valign='top'>" + clsGeneral.FormatYesNoToDisplayForView(objInvestigation.OSHA_Recordable) + "</td></tr>");
-        //strBody.Append("<tr><td align='left' colspan='6'><table cellpadding='0' cellspacing='0' border='0' width='100%'" + strFontStyle + ">");
-        //strBody.Append("<tr><td align='left' style='width:18%'>Sonic Cause Code</td><td align='center' style='width:4%'>:</td>");
-        //strBody.Append("<td align='left' colspan='4'>" + objInvestigation.Sonic_Cause_Code + "</td></tr></table></td></tr>");
-
-        //strBody.Append("</table>");
-
-        //#endregion
-
-        //#region "Corrective Actions"
-
-        //strBody.Append("<div style='" + bandHeaderRow + "'>&nbsp;Corrective Actions</div>");
-        //strBody.Append("<table cellpadding='3' cellspacing=1 border=0 width='100%'" + strFontStyle + ">");
-        //strBody.Append("<tr><td align='left' colspan='6'>Description</td></tr>");
-        //strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Corrective_Action_Description + "</td></tr>");
-        //strBody.Append("<tr><td align='left' width='18%'>Assigned To</td><td align='center' width='4%'>:</td>");
-        //strBody.Append("<td align='left' width='28%'>" + objInvestigation.Assigned_To + "</td>");
-        //strBody.Append("<td align='left' width='18%'>Assigned By</td><td align='center' width='4%'>:</td>");
-        //strBody.Append("<td align='left' width='28%'>" + objInvestigation.AssignedBy + "</td></tr>");
-        //strBody.Append("<tr><td align='left'>To Be Completed by</td><td align='center'>:</td>");
-        //strBody.Append("<td align='left'>" + clsGeneral.FormatDateToDisplay(objInvestigation.To_Be_Competed_by) + "</td>");
-        //strBody.Append("<td align='left'>Status</td><td align='center'>:</td>");
-        //strBody.Append("<td align='left'>" + objInvestigation.Status + "</td></tr>");
-        //strBody.Append("<tr><td align='left' colspan='6'>Lessons Learned</td></tr>");
-        //strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Lessons_Learned + "</td></tr>");
-        //strBody.Append("</table>");
-
-        //#endregion
-
         #region "Causes"
 
         strBody.Append("<div style='" + bandHeaderRow + "'>&nbsp;Causes</div>");
         strBody.Append("<table cellpadding='3' cellspacing=1 border=0 width='100%'" + strFontStyle + ">");
+        strBody.Append("<tr><td colspan='6' width='100%'><b>What were the immediate causes of the accident?</b></td></tr>");
+        strBody.Append("<tr><td colspan='6' width='100%'>SUBSTANDARD BEHAVIORS</td></tr>");
+
+        #region "Cause Behaviours"
+
+        StringBuilder causeBehaviours = new StringBuilder();
+        causeBehaviours.Append("<table cellpadding='0' cellspacing='0' width='100%'" + strFontStyle + ">");
+        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[0] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_1) + "</td></tr>");
+        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[1] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_2) + "</td></tr>");
+        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[2] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_3) + "</td></tr>");
+        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[3] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_4) + "</td></tr>");
+        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[4] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_5) + "</td></tr>");
+        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[5] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_6) + "</td></tr>");
+        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[6] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_7) + "</td></tr>");
+        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[7] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_8) + "</td></tr>");
+        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[8] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_9) + "</td></tr>");
+        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[9] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_10) + "</td></tr>");
+        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[10] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_11) + "</td></tr>");
+        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[11] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_12) + "</td></tr>");
+        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[12] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_13) + "</td></tr>");
+        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[13] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_14) + "</td></tr>");
+        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[14] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_15) + "</td></tr>");
+        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[15] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_16) + "</td></tr>");
+        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[16] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_17) + "</td></tr>");
+        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[17] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_18) + "</td></tr>");
+        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[18] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_19) + "</td></tr>");
+        causeBehaviours.Append("<tr><td width='50%' align='left'>" + strCauseBahaviour[19] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_20) + "</td></tr>");
+        causeBehaviours.Append("</table>");
+
+        #endregion
+
+        strBody.Append("<tr><td colspan='6'>" + causeBehaviours.ToString() + "</td></tr>");
         strBody.Append("<tr><td colspan='6' width='100%'>&nbsp;</td></tr>");
-        strBody.Append("<tr><td align='left'>Describe how the event occurred</td><td align='center' width='4%'>:</td>");
-        strBody.Append("<td  align='left' colspan='4'>" + objInvestigation.Cause_Comment + "</td></tr>");
+        strBody.Append("<tr><td colspan='6' width='100%'>SUBSTANDARD CONDITIONS</td>");
+
+        #region "Cause Conditions"
+
+        StringBuilder sbCauseConditions = new StringBuilder();
+        sbCauseConditions.Append("<table cellpadding='0' cellspacing='0' width='100%'" + strFontStyle + ">");
+        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[0] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_21) + "</td></tr>");
+        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[1] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_22) + "</td></tr>");
+        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[2] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_23) + "</td></tr>");
+        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[3] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_24) + "</td></tr>");
+        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[4] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_25) + "</td></tr>");
+        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[5] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_26) + "</td></tr>");
+        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[6] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_27) + "</td></tr>");
+        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[7] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_28) + "</td></tr>");
+        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[8] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_29) + "</td></tr>");
+        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[9] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_30) + "</td></tr>");
+        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[10] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_31) + "</td></tr>");
+        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[11] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_32) + "</td></tr>");
+        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[12] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_33) + "</td></tr>");
+        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[13] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_34) + "</td></tr>");
+        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[14] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_35) + "</td></tr>");
+        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[15] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_36) + "</td></tr>");
+        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[16] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_37) + "</td></tr>");
+        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[17] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_38) + "</td></tr>");
+        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[18] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_39) + "</td></tr>");
+        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[19] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_40) + "</td></tr>");
+        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[20] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_41) + "</td></tr>");
+        sbCauseConditions.Append("<tr><td width='50%' align='left'>" + strCauseConditions[21] + "</td><td align='left'>" + GetYesNo(objInvestigation.Cause_42) + "</td></tr>");
+        sbCauseConditions.Append("</table>");
+
+        #endregion
+
+        strBody.Append("<tr><td colspan='6'>" + sbCauseConditions.ToString() + "</td></tr>");
+        if (objInvestigation.Cause_42 == true)
+            strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Cause_42_detail + "</td></tr>");
+
+        strBody.Append("<tr><td align='left'>Comment</td></tr>");
+        strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Cause_Comment + "</td></tr>");
+        strBody.Append("<tr><td align='left' colspan='6'>What are the basic causes that led to the immediate causes above?</td></tr>");
+        strBody.Append("<tr><td colspan='6' align='left'>");
+
+        strBody.Append("<table cellpadding='3' cellspacing='1' border='0' width='100%'" + strFontStyle + "><tr>");
+        strBody.Append("<td align='left' colspan='2' style='width:50%'>PERSONAL FACTORS</td>");
+        strBody.Append("<td align='left' colspan='2' style='width:50%'>JOB FACTORS</td></tr>");
+
+        #region "Personal Factors"
+
+        StringBuilder sbPersonalFactors = new StringBuilder();
+        sbPersonalFactors.Append("<table cellpadding='0' cellspacing='0' width='100%'" + strFontStyle + ">");
+        sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[0] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_1) + "</td></tr>");
+        sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[1] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_2) + "</td></tr>");
+        sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[2] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_3) + "</td></tr>");
+        sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[3] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_4) + "</td></tr>");
+        sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[4] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_5) + "</td></tr>");
+        sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[5] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_6) + "</td></tr>");
+        sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[6] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_7) + "</td></tr>");
+        sbPersonalFactors.Append("<tr><td width='70%' align='left'>" + strPersonalFactors[7] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_8) + "</td></tr>");
+        sbPersonalFactors.Append("</table>");
+
+        #endregion
+
+        #region "Job Factors"
+
+        StringBuilder sbJobFactors = new StringBuilder();
+        sbJobFactors.Append("<table cellpadding='0' cellspacing='0' width='100%'" + strFontStyle + ">");
+        sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[0] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_9) + "</td></tr>");
+        sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[1] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_10) + "</td></tr>");
+        sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[2] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_11) + "</td></tr>");
+        sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[3] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_12) + "</td></tr>");
+        sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[4] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_13) + "</td></tr>");
+        sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[5] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_14) + "</td></tr>");
+        sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[6] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_15) + "</td></tr>");
+        sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[7] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_16) + "</td></tr>");
+        sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[8] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_17) + "</td></tr>");
+        sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[9] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_18) + "</td></tr>");
+        sbJobFactors.Append("<tr><td width='70%' align='left'>" + strJobFactors[10] + "</td><td align='left'>" + GetYesNo(objInvestigation.Personal_Job_Factors_19) + "</td></tr>");
+        sbJobFactors.Append("</table>");
+        #endregion
+
+        strBody.Append("<tr><td colspan='2' align='left' valign='top'>" + sbPersonalFactors.ToString() + "</td><td align='left' colspan='2' valign='top'>" + sbJobFactors.ToString() + "</td></tr>");
+
+        if (objInvestigation.Personal_Job_Factors_19 == true)
+            strBody.Append("<tr><td align='left'>&nbsp;</td><td align='left'>&nbsp;</td><td align='left'>" + objInvestigation.Personal_Job_Factors_17_Details + "</td></tr>");
+        strBody.Append("</table></td>");
+
+        strBody.Append("<tr><td align='left' colspan='6'>");
+        strBody.Append("<table width='100%' " + strFontStyle + ">");
+
         if (strOperation == "edit")
         {
 
@@ -1745,45 +1427,10 @@ public partial class Exposures_Investigation : clsBasePage
             strBody.Append("</table></td></tr>");
         }
 
-        strBody.Append("<tr><td align='left'>What is the Cause of this Incident?</td><td align='center' width='4%'>:</td><td align='left' colspan='4'>" + objInvestigation.Focus_Area + "</td></tr>");
-        strBody.Append("</table>");
-
-        #endregion
-
-        #region  "Root Cause Determination "
-
-        strBody.Append("<div style='" + bandHeaderRow + "'>&nbsp;Root Cause Determination</div>");
-        strBody.Append("<table cellpadding='3' cellspacing=1 border=0 width='100%'" + strFontStyle + ">");
-        DataSet dsRootCause = clsInvestigation_Cause_Information.SelectByInvestigationID(Convert.ToDecimal(PK_Investigation_ID));
-        DataTable dtroot = dsRootCause.Tables[0];
-
-        #region "Cause Deter"
-        
-        StringBuilder sbRootCausequestion = new StringBuilder();
-        sbRootCausequestion.Append("<table cellpadding='0' cellspacing='0' width='100%'" + strFontStyle + ">");
-        foreach (DataRow dr in dtroot.Rows)
-        {
-            string response = Convert.ToString(dr["Response"]) == "Y" ? "Yes" : "No";
-            sbRootCausequestion.Append("<tr><td width='70%' valign='Top' align='left'>" + Convert.ToString(dr["Question"]) + "</td><td valign='Top' align='center' width='4%'>:</td><td align='left' valign='Top'>" + response + "</td></tr>");
-        }
-        sbRootCausequestion.Append("</table>");
-        strBody.Append("<tr><td align='left' valign='Top'>Root Cause Determination</td><td valign='Top' align='center' width='4%'>:</td><td align='left' colspan='4'>" + sbRootCausequestion.ToString() + "</td></tr>");
-        #endregion
-
-        #region "Cause Deter Reference"
-
-        StringBuilder sbRootCauseGuidance= new StringBuilder();
-        sbRootCauseGuidance.Append("<table cellpadding='0' cellspacing='0' width='100%'" + strFontStyle + ">");
-        foreach (DataRow dr in dtroot.Rows)
-        {
-            sbRootCauseGuidance.Append("<tr><td align='left'>" + dr["Guidance"] + "</td></tr>");
-        }
-        sbRootCauseGuidance.Append("</table>");
-
-        strBody.Append("<tr><td align='left' valign='Top'>Recommendation(s) to Prevent Reoccurrence</td><td valign='Top' align='center' width='4%'>:</td><td align='left' colspan='4'>" + sbRootCauseGuidance.ToString() + "</td></tr>");
-        #endregion
-        strBody.Append("<tr><td align='left' valign='Top'>What is your impression/conclusion on how the event occurred?</td><td valign='Top' align='center' width='4%'>:</td><td  valign='Top' align='left' colspan='4'>" + objInvestigation.Conclusions + "</td></tr>");
-        
+        strBody.Append("<tr><td align='left' colspan='6'>Comment</td></tr>");
+        strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Personal_Job_Comment + "</td></tr>");
+        strBody.Append("<tr><td align='left' colspan='6'>Conclusions/Impressions</td></tr>");
+        strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Conclusions + "</td></tr>");
         strBody.Append("<tr><td align='left' width='18%' valign='top'>OSHA Recordable</td><td align='center' width='4%' valign='top'>:</td>");
         strBody.Append("<td colspan='4' valign='top'>" + clsGeneral.FormatYesNoToDisplayForView(objInvestigation.OSHA_Recordable) + "</td></tr>");
         strBody.Append("<tr><td align='left' colspan='6'><table cellpadding='0' cellspacing='0' border='0' width='100%'" + strFontStyle + ">");
@@ -1798,7 +1445,8 @@ public partial class Exposures_Investigation : clsBasePage
 
         strBody.Append("<div style='" + bandHeaderRow + "'>&nbsp;Corrective Actions</div>");
         strBody.Append("<table cellpadding='3' cellspacing=1 border=0 width='100%'" + strFontStyle + ">");
-        strBody.Append("<tr><td align='left' valign='Top'>What has been done to prevent a similar accident from happening again?</td><td valign='Top' align='center' width='4%'>:</td><td valign='top' align='left' colspan='4'>" + objInvestigation.Lessons_Learned + "</td></tr>");
+        strBody.Append("<tr><td align='left' colspan='6'>Description</td></tr>");
+        strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Corrective_Action_Description + "</td></tr>");
         strBody.Append("<tr><td align='left' width='18%'>Assigned To</td><td align='center' width='4%'>:</td>");
         strBody.Append("<td align='left' width='28%'>" + objInvestigation.Assigned_To + "</td>");
         strBody.Append("<td align='left' width='18%'>Assigned By</td><td align='center' width='4%'>:</td>");
@@ -1807,10 +1455,8 @@ public partial class Exposures_Investigation : clsBasePage
         strBody.Append("<td align='left'>" + clsGeneral.FormatDateToDisplay(objInvestigation.To_Be_Competed_by) + "</td>");
         strBody.Append("<td align='left'>Status</td><td align='center'>:</td>");
         strBody.Append("<td align='left'>" + objInvestigation.Status + "</td></tr>");
-        string communicated = Convert.ToString(objInvestigation.Communicated) == "Y" ? "Yes" : "No";
-        strBody.Append("<tr><td align='left' colspan='4'>Have the above changes been communicated to associates with similar job tasks?</td><td align='center'>:</td><td align='left'>" + communicated + "</td></tr>");
-        strBody.Append("<tr><td align='left' >If Yes, Date Communicated</td><td align='center'>:</td><td align='left'>" + clsGeneral.FormatDBNullDateToDisplay(objInvestigation.Date_Communicated) + "</td></tr>");
-        strBody.Append("<tr><td align='left' valign='Top'>If No, Explain Why</td><td valign='Top' align='center' width='4%'>:</td><td align='left' colspan='4'>" + objInvestigation.No_Communication_Explanation + "</td></tr>");
+        strBody.Append("<tr><td align='left' colspan='6'>Lessons Learned</td></tr>");
+        strBody.Append("<tr><td align='left' colspan='6'>" + objInvestigation.Lessons_Learned + "</td></tr>");
         strBody.Append("</table>");
 
         #endregion
@@ -1834,158 +1480,158 @@ public partial class Exposures_Investigation : clsBasePage
         strBody.Append("<tr>");
         strBody.Append("<td colspan='3' align='left'>");
         strBody.Append("<table cellpadding='3' cellspacing=1 border=0 width='100%'" + strFontStyle + ">");
-        strBody.Append("<tr>");
+		strBody.Append("<tr>");
         strBody.Append("<td colspan='3' align='left'>");
-        strBody.Append("<b>Investigative Quality Scoring Guidelines</b>");
-        strBody.Append("</td>");
-        strBody.Append("</tr>");
-        strBody.Append("<tr>");
-        strBody.Append("<td align='left' width='40%'>Was the store’s investigation completed within 7 days of the Date of Loss?");
-        strBody.Append("</td>");
-        strBody.Append("<td align='center' width='2%'>:");
-        strBody.Append("</td>");
-        strBody.Append("<td align='left' width='38%'>");
-        strBody.Append(objInvestigation.Timing != "" ? objInvestigation.Timing == "Y" ? "Yes" : "No" : "");
-        strBody.Append("</td>");
-        strBody.Append("</tr>");
-        strBody.Append("<tr>");
-        strBody.Append("<td colspan='3' align='left'>");
+		strBody.Append("<b>Investigative Quality Scoring Guidelines</b>");
+		strBody.Append("</td>");
+		strBody.Append("</tr>");
+		strBody.Append("<tr>");
+		strBody.Append("<td align='left' width='40%'>Was the store’s investigation completed within 7 days of the Date of Loss?");
+		strBody.Append("</td>");
+		strBody.Append("<td align='center' width='2%'>:");
+		strBody.Append("</td>");
+		strBody.Append("<td align='left' width='38%'>");
+		strBody.Append(objInvestigation.Timing != "" ? objInvestigation.Timing == "Y" ? "Yes" : "No" : "");
+		strBody.Append("</td>");
+		strBody.Append("</tr>");
+		strBody.Append("<tr>");
+		strBody.Append("<td colspan='3' align='left'>");
         strBody.Append("<table cellpadding='3' cellspacing=1 border=0 width='100%'" + strFontStyle + ">");
-        strBody.Append("<tr>");
-        strBody.Append("<td align='left' width='8%' >Comments");
-        strBody.Append("</td>");
-        strBody.Append("<td align='center' width='2%' >:");
-        strBody.Append("</td>");
+		strBody.Append("<tr>");
+		strBody.Append("<td align='left' width='8%' >Comments");
+		strBody.Append("</td>");
+		strBody.Append("<td align='center' width='2%' >:");
+		strBody.Append("</td>");
         strBody.Append("<td align='left' width='90%'>");
-        strBody.Append(objInvestigation.Timing_Comment);
-        strBody.Append("</td>");
-        strBody.Append("</tr>");
-        strBody.Append("</table>");
-        strBody.Append("</td>");
-        strBody.Append("</tr>");
-        strBody.Append("<tr>");
-        strBody.Append("<td align='left'>Was a member of the SLT involved in the initial investigation?");
-        strBody.Append("</td>");
-        strBody.Append("<td align='center'>:");
-        strBody.Append("</td>");
-        strBody.Append("<td align='left'>");
-        strBody.Append(objInvestigation.SLT_Involvement != "" ? objInvestigation.SLT_Involvement == "Y" ? "Yes" : "No" : "");
-        strBody.Append("</td>");
-        strBody.Append("</tr>");
-        strBody.Append("<tr>");
-        strBody.Append("<td colspan='3' align='left'>");
+		strBody.Append(objInvestigation.Timing_Comment);
+		strBody.Append("</td>");
+		strBody.Append("</tr>");
+		strBody.Append("</table>");
+		strBody.Append("</td>");
+		strBody.Append("</tr>");
+		strBody.Append("<tr>");
+		strBody.Append("<td align='left'>Was a member of the SLT involved in the initial investigation?") ;
+		strBody.Append("</td>");
+		strBody.Append("<td align='center'>:");
+		strBody.Append("</td>");
+		strBody.Append("<td align='left'>");
+		strBody.Append(objInvestigation.SLT_Involvement != "" ? objInvestigation.SLT_Involvement == "Y" ? "Yes" : "No" : "");
+		strBody.Append("</td>");
+		strBody.Append("</tr>");
+		strBody.Append("<tr>");
+		strBody.Append("<td colspan='3' align='left'>");
         strBody.Append("<table cellpadding='3' cellspacing=1 border=0 width='100%'" + strFontStyle + ">");
-        strBody.Append("<tr>");
-        strBody.Append("<td align='left' width='8%' >Comments");
-        strBody.Append("</td>");
-        strBody.Append("<td align='center' width='2% '>:");
-        strBody.Append("</td>");
-        strBody.Append("<td align='left' width='90%'>");
-        strBody.Append(objInvestigation.SLT_Involvement_Comment);
-        strBody.Append("</td>");
-        strBody.Append("</tr>");
-        strBody.Append("</table>");
-        strBody.Append("</td>");
-        strBody.Append("</tr>");
-        strBody.Append("<tr>");
-        strBody.Append("<td align='left'>Were all the facts of the incident gathered and presented clearly (i.e. incident description, work conditions, witness statements, etc.)? ");
-        strBody.Append("</td>");
-        strBody.Append("<td align='center'>:");
-        strBody.Append("</td>");
-        strBody.Append("<td align='left'>");
-        strBody.Append(objInvestigation.Witnesses != "" ? objInvestigation.Witnesses == "Y" ? "Yes" : "No" : "");
-        strBody.Append("</td>");
-        strBody.Append("</tr>");
-        strBody.Append("<tr>");
-        strBody.Append("<td colspan='3' align='left'>");
+		strBody.Append("<tr>");
+		strBody.Append("<td align='left' width='8%' >Comments");
+		strBody.Append("</td>");
+		strBody.Append("<td align='center' width='2% '>:");
+		strBody.Append("</td>");
+		strBody.Append("<td align='left' width='90%'>");
+		strBody.Append(objInvestigation.SLT_Involvement_Comment);
+		strBody.Append("</td>");
+		strBody.Append("</tr>");
+		strBody.Append("</table>");
+		strBody.Append("</td>");
+		strBody.Append("</tr>");
+		strBody.Append("<tr>");
+		strBody.Append("<td align='left'>Were all the facts of the incident gathered and presented clearly (i.e. incident description, work conditions, witness statements, etc.)? ");
+		strBody.Append("</td>");
+		strBody.Append("<td align='center'>:");
+		strBody.Append("</td>");
+		strBody.Append("<td align='left'>");
+        strBody.Append(objInvestigation.Witnesses != "" ? objInvestigation.Witnesses == "Y" ? "Yes" : "No" : "");   
+		strBody.Append("</td>");
+		strBody.Append("</tr>");
+		strBody.Append("<tr>");
+		strBody.Append("<td colspan='3' align='left'>");
         strBody.Append("<table cellpadding='3' cellspacing=1 border=0 width='100%'" + strFontStyle + ">");
-        strBody.Append("<tr>");
-        strBody.Append("<td align='left' width='8%' >Comments");
-        strBody.Append("</td>");
-        strBody.Append("<td align='center' width='2%' >:");
-        strBody.Append("</td>");
-        strBody.Append("<td align='left' width='90%'>");
+		strBody.Append("<tr>");
+		strBody.Append("<td align='left' width='8%' >Comments");
+		strBody.Append("</td>");
+		strBody.Append("<td align='center' width='2%' >:");
+		strBody.Append("</td>");
+		strBody.Append("<td align='left' width='90%'>");
         strBody.Append(objInvestigation.Witnesses_Comment);
-        strBody.Append("</td>");
-        strBody.Append("</tr>");
-        strBody.Append("</table>");
-        strBody.Append("</td>");
-        strBody.Append("</tr>");
-        strBody.Append("<tr>");
-        strBody.Append("<td align='left'>Were the true root cause(s) identified correctly? ");
-        strBody.Append("</td>");
-        strBody.Append("<td align='center'>:");
-        strBody.Append("</td>");
-        strBody.Append("<td align='left'>");
-        strBody.Append(objInvestigation.SLT_Visit != "" ? objInvestigation.SLT_Visit == "Y" ? "Yes" : "No" : "");
-        strBody.Append("</td>");
-        strBody.Append("</tr>");
-        strBody.Append("<tr>");
-        strBody.Append("<td colspan='3' align='left'>");
+		strBody.Append("</td>");
+		strBody.Append("</tr>");
+		strBody.Append("</table>");
+		strBody.Append("</td>");
+		strBody.Append("</tr>");
+		strBody.Append("<tr>");
+		strBody.Append("<td align='left'>Were the true root cause(s) identified correctly? ");
+		strBody.Append("</td>");
+		strBody.Append("<td align='center'>:");
+		strBody.Append("</td>");
+		strBody.Append("<td align='left'>");		  
+        strBody.Append(objInvestigation.SLT_Visit != "" ? objInvestigation.SLT_Visit == "Y" ? "Yes" : "No" : "");     
+		strBody.Append("</td>");
+		strBody.Append("</tr>");
+		strBody.Append("<tr>");
+		strBody.Append("<td colspan='3' align='left'>");
         strBody.Append("<table cellpadding='3' cellspacing=1 border=0 width='100%'" + strFontStyle + ">");
-        strBody.Append("<tr>");
-        strBody.Append("<td align='left' width='8%'>Comments");
-        strBody.Append("</td>");
-        strBody.Append("<td align='center' width='2%'>:");
-        strBody.Append("</td>");
-        strBody.Append("<td align='left' width='90%'>");
-        strBody.Append(objInvestigation.SLT_Visit_Comment);
-        strBody.Append("</td>");
-        strBody.Append("</tr>");
-        strBody.Append("</table>");
-        strBody.Append("</td>");
-        strBody.Append("</tr>");
-        strBody.Append("<tr>");
-        strBody.Append("<td align='left'>Was an action plan implemented to prevent similar incidents from reoccurring?");
-        strBody.Append("</td>");
-        strBody.Append("<td align='center'>:");
-        strBody.Append("</td>");
-        strBody.Append("<td align='left'>");
-        strBody.Append(objInvestigation.Root_Causes != "" ? objInvestigation.Root_Causes == "Y" ? "Yes" : "No" : "");
-        strBody.Append("</td>");
-        strBody.Append("</tr>");
-        strBody.Append("<tr>");
-        strBody.Append("<td colspan='3' align='left'>");
+		strBody.Append("<tr>");
+		strBody.Append("<td align='left' width='8%'>Comments");
+		strBody.Append("</td>");
+		strBody.Append("<td align='center' width='2%'>:");
+		strBody.Append("</td>");
+		strBody.Append("<td align='left' width='90%'>");
+        strBody.Append(objInvestigation.SLT_Visit_Comment);		
+		strBody.Append("</td>");
+		strBody.Append("</tr>");
+		strBody.Append("</table>");
+		strBody.Append("</td>");
+		strBody.Append("</tr>");
+		strBody.Append("<tr>");
+		strBody.Append("<td align='left'>Was an action plan implemented to prevent similar incidents from reoccurring?");
+		strBody.Append("</td>");
+		strBody.Append("<td align='center'>:");
+		strBody.Append("</td>");
+		strBody.Append("<td align='left'>");
+		strBody.Append(objInvestigation.Root_Causes != "" ? objInvestigation.Root_Causes == "Y" ? "Yes" : "No" : "");
+		strBody.Append("</td>");
+		strBody.Append("</tr>");
+		strBody.Append("<tr>");
+		strBody.Append("<td colspan='3' align='left'>");
         strBody.Append("<table cellpadding='3' cellspacing=1 border=0 width='100%'" + strFontStyle + ">");
-        strBody.Append("<tr>");
-        strBody.Append("<td align='left' width='8%' >Comments");
-        strBody.Append("</td>");
-        strBody.Append("<td align='center' width='2%'>:");
-        strBody.Append("</td>");
-        strBody.Append("<td align='left' width='90%'>");
-        strBody.Append(objInvestigation.Root_Causes_Comment);
-        strBody.Append("</td>");
-        strBody.Append("</tr>");
-        strBody.Append("</table>");
-        strBody.Append("</td>");
-        strBody.Append("</tr>");
-        strBody.Append("<tr>");
-        strBody.Append("<td align='left'>Was the action plan effectively communicated to the associates?");
-        strBody.Append("</td>");
-        strBody.Append("<td align='center'>:");
-        strBody.Append("</td>");
-        strBody.Append("<td align='left'>");
+		strBody.Append("<tr>");
+		strBody.Append("<td align='left' width='8%' >Comments");
+		strBody.Append("</td>");
+		strBody.Append("<td align='center' width='2%'>:");
+		strBody.Append("</td>");
+		strBody.Append("<td align='left' width='90%'>");
+		strBody.Append(objInvestigation.Root_Causes_Comment);
+		strBody.Append("</td>");
+		strBody.Append("</tr>");
+		strBody.Append("</table>");
+		strBody.Append("</td>");
+		strBody.Append("</tr>");
+		strBody.Append("<tr>");
+		strBody.Append("<td align='left'>Was the action plan effectively communicated to the associates?");
+		strBody.Append("</td>");
+		strBody.Append("<td align='center'>:");
+		strBody.Append("</td>");
+		strBody.Append("<td align='left'>");		
         strBody.Append(objInvestigation.Action_Plan != "" ? objInvestigation.Action_Plan == "Y" ? "Yes" : "No" : "");
-        strBody.Append("</td>");
-        strBody.Append("</tr>");
-        strBody.Append("<tr>");
-        strBody.Append("<td colspan='3' align='left'>");
+		strBody.Append("</td>");
+		strBody.Append("</tr>");
+		strBody.Append("<tr>");
+		strBody.Append("<td colspan='3' align='left'>");
         strBody.Append("<table cellpadding='3' cellspacing=1 border=0 width='100%'" + strFontStyle + ">");
-        strBody.Append("<tr>");
-        strBody.Append("<td align='left' width='8%' >Comments");
-        strBody.Append("</td>");
-        strBody.Append("<td align='center' width='2%'>:");
-        strBody.Append("</td>");
-        strBody.Append("<td align='left' width='90%'>");
-        strBody.Append(objInvestigation.Action_Plan_Comment);
-        strBody.Append("</td>");
-        strBody.Append("</tr>");
-        strBody.Append("</table>");
-        strBody.Append("</td>");
-        strBody.Append("</tr>");
-        strBody.Append("</table>");
-        strBody.Append("</td>");
-        strBody.Append("</tr>");
+		strBody.Append("<tr>");
+		strBody.Append("<td align='left' width='8%' >Comments");
+		strBody.Append("</td>");
+		strBody.Append("<td align='center' width='2%'>:");
+		strBody.Append("</td>");
+		strBody.Append("<td align='left' width='90%'>");
+		strBody.Append(objInvestigation.Action_Plan_Comment);
+		strBody.Append("</td>");
+		strBody.Append("</tr>");
+		strBody.Append("</table>");
+		strBody.Append("</td>");
+		strBody.Append("</tr>");
+		strBody.Append("</table>");
+		strBody.Append("</td>");
+		strBody.Append("</tr>");
         strBody.Append("<tr><td align='left'>Investigative Quality</td><td align='center'>:</td>");
         strBody.Append("<td align='left' colspan='4'>" + objInvestigation.Investigative_Quality + "</td></tr>");
         strBody.Append("<tr><td align='left'>RLCM Complete</td><td align='center'>:</td><td align='left' colspan='6'>" + GetYesNo(objInvestigation.RLCM_Complete) + "</td></tr>");
@@ -2015,7 +1661,7 @@ public partial class Exposures_Investigation : clsBasePage
 
         // Used to Bind Grid with Attached Data
         CtrlAttachDetails.Bind();
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);", true);
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
     }
 
     #endregion
@@ -2032,8 +1678,6 @@ public partial class Exposures_Investigation : clsBasePage
         string strCorrectiveMessages = "";
         string strReviewIDs = "";
         string strReviewMessages = "";
-        string strRootCauseIDs = "";
-        string strRootCauseErrormsg = "";
 
         #region "Causes"
         DataTable dtFields = clsScreen_Validators.SelectByScreen(133).Tables[0];
@@ -2048,36 +1692,36 @@ public partial class Exposures_Investigation : clsBasePage
             #region " set validation control IDs and messages "
             switch (Convert.ToString(drField["Field_Name"]))
             {
-                case "Describe how the event occurred":
+                case "What was the associate doing at the time of incident?":
                     strCtrlsIDs += "ctl00_ContentPlaceHolder1_txtCause_Comment_txtNote,";
-                    strMessages += "Please enter [Causes]/Describe how the event occurred" + ",";
+                    strMessages += "Please enter [Causes]/What was the associate doing at the time of incident?" + ",";
                     Span2.Style["display"] = "inline-block";
                     break;
-                //case "What could the associate have done differently to avoid the incident?":
-                //    strCtrlsIDs += "ctl00_ContentPlaceHolder1_txtPersonal_Job_Comment_txtNote,";
-                //    strMessages += "Please enter [Causes]/What could the associate have done differently to avoid the incident?" + ",";
-                //    Span4.Style["display"] = "inline-block";
-                //    break;
-                //case "What is your Conclusion/Impression of how the event occurred?":
-                //    strCtrlsIDs += "ctl00_ContentPlaceHolder1_txtCause_Comment_txtNote,";
-                //    strMessages += "Please enter [Causes]/What is your Conclusion/Impression of how the event occurred?" + ",";
-                //    Span1.Style["display"] = "inline-block";
-                //    break;
-                case "What is the Nature of this Incident?":
-                    strCtrlsIDs += drpCauseOfIncident.ClientID + ",";
-                    strMessages += "Please select [Causes]/What is the Nature of this Incident?" + ",";
-                    span101.Style["display"] = "inline-block";
+                case "What could the associate have done differently to avoid the incident?":
+                    strCtrlsIDs += "ctl00_ContentPlaceHolder1_txtPersonal_Job_Comment_txtNote,";
+                    strMessages += "Please enter [Causes]/What could the associate have done differently to avoid the incident?" + ",";
+                    Span4.Style["display"] = "inline-block";
+                    break;
+                case "What is your Conclusion/Impression of how the situation occurred?":
+                    strCtrlsIDs += "ctl00_ContentPlaceHolder1_txtConclusions_txtNote,";
+                    strMessages += "Please enter [Causes]/What is your Conclusion/Impression of how the situation occurred?" + ",";
+                    Span1.Style["display"] = "inline-block";
+                    break;
+                case "Sonic Cause Code":
+                    strCtrlsIDs += ddlSonic_Cause_Code.ClientID + ",";
+                    strMessages += "Please select [Causes]/Sonic Cause Code" + ",";
+                    Span3.Style["display"] = "inline-block";
                     break;
                 case "Contributing Factor":
                     strCtrlsIDs += drpFk_LU_Contributing_Factor.ClientID + ",";
                     strMessages += "Please select [Causes]/Contributing Factor" + ",";
                     Span17.Style["display"] = "inline-block";
                     break;
-                //case "OSHA Recordable":
-                //    strCtrlsIDs += hdnOSHARecordable.ClientID + ",";
-                //    strMessages += "Please select [Causes]/OSHA Recordable" + ",";
-                //    Span19.Style["display"] = "inline-block";
-                //    break;
+                case "OSHA Recordable":
+                    strCtrlsIDs += hdnOSHARecordable.ClientID + ",";
+                    strMessages += "Please select [Causes]/OSHA Recordable" + ",";
+                    Span19.Style["display"] = "inline-block";
+                    break;
             }
             #endregion
         }
@@ -2088,57 +1732,12 @@ public partial class Exposures_Investigation : clsBasePage
         hdnErrorMsgs.Value = strMessages;
         #endregion
 
-
-        #region "Root Cause Determination"
-        dtFields = clsScreen_Validators.SelectByScreen(221).Tables[0];
-        dtFields.DefaultView.RowFilter = "IsRequired = '1'";
-        dtFields = dtFields.DefaultView.ToTable();
-
-        Label MenuAsterisk5 = (Label)mnuProperty.Controls[2].FindControl("MenuAsterisk");
-        MenuAsterisk5.Style["display"] = (dtFields.Select("LeftMenuIndex = 5").Length > 0) ? "inline-block" : "none";
-
-        foreach (DataRow drField in dtFields.Rows)
-        {
-            #region " set validation control IDs and messages "
-            switch (Convert.ToString(drField["Field_Name"]))
-            {
-
-                case "What is your impression/conclusion on how the event occurred?":
-                    strRootCauseIDs += "ctl00_ContentPlaceHolder1_txtConclusions_txtNote,";
-                    strRootCauseErrormsg += "Please enter [Causes]/What is your impression/conclusion on how the event occurred?" + ",";
-                    Span1.Style["display"] = "inline-block";
-                    break;
-                case "Cause Code Determination":
-                    strRootCauseIDs += ddlSonic_Cause_Code.ClientID + ",";
-                    strRootCauseErrormsg += "Please select [Causes]/Cause Code Determination" + ",";
-                    Span3.Style["display"] = "inline-block";
-                    break;
-                //case "Root Cause Determination":
-                //    strRootCauseIDs += rptRootCauseDetermination.ClientID + ",";
-                //    strRootCauseErrormsg += "Please select [Causes]/Root Cause Determination " + ",";
-                //    Span4.Style["display"] = "inline-block";
-                //    break;
-                case "OSHA Recordable":
-                    strRootCauseIDs += hdnOSHARecordable.ClientID + ",";
-                    strRootCauseErrormsg += "Please select [Causes]/OSHA Recordable" + ",";
-                    Span19.Style["display"] = "inline-block";
-                    break;
-            }
-            #endregion
-        }
-        strRootCauseIDs = strRootCauseIDs.TrimEnd(',');
-        strRootCauseErrormsg = strRootCauseErrormsg.TrimEnd(',');
-
-        hdnRootCauseIDs.Value = strRootCauseIDs;
-        hdnRootCauseErrormsg.Value = strRootCauseErrormsg;
-        #endregion
-
         #region "Corrective Actions"
         dtFields = clsScreen_Validators.SelectByScreen(134).Tables[0];
         dtFields.DefaultView.RowFilter = "IsRequired = '1'";
         dtFields = dtFields.DefaultView.ToTable();
 
-        Label MenuAsterisk3 = (Label)mnuProperty.Controls[3].FindControl("MenuAsterisk");
+        Label MenuAsterisk3 = (Label)mnuProperty.Controls[2].FindControl("MenuAsterisk");
         MenuAsterisk3.Style["display"] = (dtFields.Select("LeftMenuIndex = 3").Length > 0) ? "inline-block" : "none";
 
         foreach (DataRow drField in dtFields.Rows)
@@ -2146,13 +1745,13 @@ public partial class Exposures_Investigation : clsBasePage
             #region " set validation control IDs and messages "
             switch (Convert.ToString(drField["Field_Name"]))
             {
-                //case "Description ":
-                //    strCorrectiveIDs += "ctl00_ContentPlaceHolder1_txtCorrective_Action_Description_txtNote,";
-                //    strCorrectiveMessages += "Please enter [Corrective Actions]/Description " + ",";
-                //    //if (chkLocInfoComplete.Checked == true)
-                //    //Span5.Style["display"] = "inline-block";
-                //    //else Span5.Style["display"] = "none";
-                //    break;
+                case "Description ":
+                    strCorrectiveIDs += "ctl00_ContentPlaceHolder1_txtCorrective_Action_Description_txtNote,";
+                    strCorrectiveMessages += "Please enter [Corrective Actions]/Description " + ",";
+                    //if (chkLocInfoComplete.Checked == true)
+                    Span5.Style["display"] = "inline-block";
+                    //else Span5.Style["display"] = "none";
+                    break;
                 case "Assigned To":
                     strCorrectiveIDs += txtAssigned_To.ClientID + ",";
                     strCorrectiveMessages += "Please enter [Corrective Actions]/Assigned To" + ",";
@@ -2181,9 +1780,9 @@ public partial class Exposures_Investigation : clsBasePage
                     Span9.Style["display"] = "inline-block";
                     //else Span9.Style["display"] = "none";
                     break;
-                case "What has been done to prevent a similar accident from happening again?":
+                case "Lessons Learned":
                     strCorrectiveIDs += "ctl00_ContentPlaceHolder1_txtLessons_Learned_txtNote,";
-                    strCorrectiveMessages += "Please enter [Corrective Actions]/What has been done to prevent a similar accident from happening again?" + ",";
+                    strCorrectiveMessages += "Please enter [Corrective Actions]/Lessons Learned" + ",";
                     //if chkLocInfoComplete.Checked == true)
                     Span10.Style["display"] = "inline-block";
                     //else Span10.Style["display"] = "none";
@@ -2203,7 +1802,7 @@ public partial class Exposures_Investigation : clsBasePage
         dtFields.DefaultView.RowFilter = "IsRequired = '1'";
         dtFields = dtFields.DefaultView.ToTable();
 
-        Label MenuAsterisk4 = (Label)mnuProperty.Controls[4].FindControl("MenuAsterisk");
+        Label MenuAsterisk4 = (Label)mnuProperty.Controls[3].FindControl("MenuAsterisk");
         MenuAsterisk4.Style["display"] = (dtFields.Select("LeftMenuIndex = 4").Length > 0) ? "inline-block" : "none";
 
         foreach (DataRow drField in dtFields.Rows)
@@ -2228,7 +1827,7 @@ public partial class Exposures_Investigation : clsBasePage
                 case "Was the store’s investigation completed within 7 days of the Date of Loss?":
                     strReviewIDs += rdbTime.ClientID + "|";
                     strReviewMessages += "Please select [Review]/Was the store’s investigation completed within 7 days of the Date of Loss?" + "|";
-                    Span18.Style["display"] = "inline-block";
+                    Span18.Style["display"] = "inline-block";                    
                     break;
                 case "Was the SLT involved in the investigation?":
                     strReviewIDs += rdbSLT.ClientID + "|";
@@ -2272,30 +1871,5 @@ public partial class Exposures_Investigation : clsBasePage
         hdnReviewErrorMsgs.Value = strReviewMessages;
         #endregion
     }
-    #endregion
-
-    #region event
-    /// <summary>
-    /// RDOCommunicated change event
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void rdoCommunicated_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        if (rdoCommunicated.SelectedValue == "Y")
-        {
-            txtDateCommunicated.Enabled = true;
-            txtNo_Communication_Explanation.Enabled = false;
-            txtNo_Communication_Explanation.Text = "";
-        }
-        else
-        {
-            txtNo_Communication_Explanation.Enabled = true;
-            txtDateCommunicated.Enabled = false;
-            txtDateCommunicated.Text = "";
-        }
-
-    }
-
     #endregion
 }

@@ -2,7 +2,7 @@
     Inherits="Exposures_Investigation" Title="eRIMS Sonic :: Exposures :: Investigation" %>
 
 <%@ Register Src="~/Controls/ExposuresTab/ExposuresTab.ascx" TagName="CtlTab" TagPrefix="uc" %>
-<%@ Register Src="~/Controls/NotesWithSpellCheck/Notes.ascx" TagName="ctrlMultiLineTextBox" TagPrefix="uc" %>
+<%@ Register Src="~/Controls/Notes/Notes.ascx" TagName="ctrlMultiLineTextBox" TagPrefix="uc" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <%@ Register Src="~/Controls/InvestigationInfo/InvestigationInfo.ascx" TagName="ctrlExposureInfo"
@@ -20,7 +20,7 @@
     <script type="text/javascript" language="javascript" src="../../JavaScript/calendar-en.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/Calendar.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/Validator.js"></script>
-
+    
     <script type="text/javascript">
         var GB_ROOT_DIR = '<%=AppConfig.SiteURL%>greybox/';
         //OPen Audit Popup
@@ -86,6 +86,7 @@
                 for (i = 0; i < ctrlIDs.length; i++) {
                     var bEmpty = false;
                     var ctrl = document.getElementById(ctrlIDs[i]);
+                    debugger;
                     switch (ctrl.type) {
                         case "hidden":
                         case "textarea":
@@ -110,6 +111,7 @@
         }
 
         function ValidateFieldsCorrective(sender, args) {
+            debugger;
             var msg = '';
             var ctrlIDs = document.getElementById('<%=hdnCorrectiveControlIDs.ClientID%>').value.split(',');
             var Messages = document.getElementById('<%=hdnCorrectiveErrorMsgs.ClientID%>').value.split(',');
@@ -224,7 +226,7 @@
     <asp:ValidationSummary ID="valCauses" runat="server" ValidationGroup="valCauses"
         ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following fields"
         BorderWidth="1" BorderColor="DimGray" CssClass="errormessage" />
-    <asp:ValidationSummary ID="valRootCause" runat="server" ValidationGroup="valRootCause"
+     <asp:ValidationSummary ID="valRootCause" runat="server" ValidationGroup="valRootCause"
         ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following fields"
         BorderWidth="1" BorderColor="DimGray" CssClass="errormessage" />
     <table cellpadding="0" cellspacing="0" width="100%">
@@ -771,7 +773,7 @@
                                                                 </td>
                                                                 <td align="left" colspan="4">
                                                                     <uc:ctrlMultiLineTextBox runat="server" ID="txtCause_Comment" ControlType="TextBox"
-                                                                        MaxLength="4000" ValidationGroup="valCauses" />
+                                                                        MaxLength="4000" ValidationGroup="valCauses"  />
                                                                 </td>
                                                             </tr>
 
@@ -802,12 +804,12 @@
                                                             </tr>
                                                             <tr>
 
-                                                                <td align="left">What is the Nature of this Incident?&nbsp;<span id="span101" style="color: Red; display: none;" runat="server">*</span>
+                                                                <td align="left">What is the cause of this incident?&nbsp;<span id="span101" style="color: Red; display: none;" runat="server">*</span>
                                                                 </td>
                                                                 <td align="center" width="2%">:
                                                                 </td>
                                                                 <td align="left" colspan="4">
-                                                                    <asp:DropDownList ID="drpCauseOfIncident" ValidationGroup="valCauses" runat="server">
+                                                                    <asp:DropDownList ID="drpCauseOfIncident" ValidationGroup="valCauses" runat="server" >
                                                                     </asp:DropDownList>
                                                                     <input type="hidden" id="hdnFocusArea" runat="server" />
                                                                 </td>
@@ -845,23 +847,23 @@
                                                                 <td align="center" valign="top" width="4%">:
                                                                 </td>
                                                                 <td>
-                                                                    <asp:Repeater runat="server" ID="rptRootCauseDetermination">
+                                                                    <asp:Repeater runat="server" ID="rptRootCauseDetermination" >
                                                                         <ItemTemplate>
                                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                                 <tr>
                                                                                     <td align="center" width="2%" valign="top">
-                                                                                        <%#Container.ItemIndex + 1%>.
+                                                                                        <%#Container.ItemIndex + 1%>
                                                                                     </td>
-                                                                                    <td align="left" width="70%" valign="top">
-                                                                                        <%#Eval("Question")%>
-                                                                                        <asp:HiddenField runat="server" ID="hdnFK_LU_Cause_Info" Value='<%#Eval("PK_LU_Cause_Code_Information")%>'></asp:HiddenField>
-                                                                                        <asp:HiddenField runat="server" ID="hdnPK_Investigation_Cause_Information" Value='<%#Eval("PK_Investigation_Cause_Information")%>'></asp:HiddenField>
-
+                                                                                    <td align="left" width="70%">
+                                                                                       <%#Eval("Question")%>
+                                                                                        <asp:HiddenField runat="server" id="hdnFK_LU_Cause_Info" Value='<%#Eval("PK_LU_Cause_Code_Information")%>'></asp:HiddenField> 
+                                                                                        <asp:HiddenField runat="server" id="hdnPK_Investigation_Cause_Information" Value='<%#Eval("PK_Investigation_Cause_Information")%>'></asp:HiddenField> 
+                                                                                  
+                                                                                         </td>
+                                                                                    <td align="center" width="2%">:
                                                                                     </td>
-                                                                                    <td align="center" width="2%" valign="top">:
-                                                                                    </td>
-                                                                                    <td align="left" width="26%" valign="top">
-                                                                                        <asp:RadioButtonList ID="rdoRootCauseTypeList" runat="server" SkinID="YesNoType"
+                                                                                    <td align="left" width="26%">
+                                                                                        <asp:RadioButtonList ID="rdoRootCauseTypeList" runat="server" SkinID="YesNoType" 
                                                                                             Width="100px" />
                                                                                     </td>
                                                                                 </tr>
@@ -869,17 +871,6 @@
 
                                                                         </ItemTemplate>
                                                                     </asp:Repeater>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td colspan="2"></td>
-                                                                <td align="left">
-                                                                    <table cellpadding="3" cellspacing="1" border="0" width="100%">
-                                                                        <tr>
-                                                                           <td></td>
-                                                                            <td width="4%">
-                                                                            </td> <td width="26%">Yes = Recommendation applies to this Incident.<br />
-                                                                    No = Recommendation does NOT apply to this Incident.</td> </tr> </table>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -897,17 +888,12 @@
                                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                                 <tr>
                                                                                     <td align="center" width="2%" valign="top">
-                                                                                        <%#Container.ItemIndex + 1%>.
+                                                                                        <%#Container.ItemIndex + 1%>
                                                                                     </td>
-                                                                                    <td align="left" width="70%" valign="top">
+                                                                                    <td align="left" width="98%">
                                                                                         <%#Eval("Guidance")%>
                                                                                     </td>
-                                                                                    <td align="center" valign="top" width="2%">:
-                                                                                    </td>
-                                                                                    <td align="left" width="26%" valign="top">
-                                                                                        <asp:RadioButtonList ID="rdoRootCauseGuidanceList" runat="server" SkinID="YesNoType"
-                                                                                            Width="100px" />
-                                                                                    </td>
+                                                                                    
                                                                                 </tr>
                                                                             </table>
 
@@ -936,10 +922,10 @@
                                                                 <td align="center" width="4%" valign="top">:
                                                                 </td>
                                                                 <td colspan="4" valign="top">
-                                                                    <asp:RadioButtonList ID="rdoOSHARecordable" runat="server" SkinID="YesNoType"
-                                                                        Enabled="false" ValidationGroup="valRootCause" />
-                                                                    <asp:Label ID="lblOSHARecordable" runat="server" ValidationGroup="valRootCause" Style="display: none" />
-                                                                    <input type="hidden" id="hdnOSHARecordable" runat="server" />
+                                                                    <asp:RadioButtonList ID="rdoOshaRecordable" runat="server" SkinID="YesNoType"
+                                                                        Enabled="false" ValidationGroup="valRootCause"  />
+                                                                    <asp:Label ID="lblOSHARecordable" runat="server"  ValidationGroup="valRootCause" />
+                                                                    <input type="hidden" id="hdnOSHARecordable" runat="server"  />
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -1083,7 +1069,7 @@
                                                                     <asp:RangeValidator ID="revTo_Be_Competed_by" ControlToValidate="txtTo_Be_Competed_by"
                                                                         MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date" ErrorMessage="To Be Competed by Date is not valid."
                                                                         runat="server" SetFocusOnError="true" ValidationGroup="vsCorrectiveAction" Display="none" />
-
+                                                                    
                                                                 </td>
                                                                 <td style="width: 24%;" align="left">Status&nbsp;<span id="Span9" style="color: Red; display: none; position: absolute"
                                                                     runat="server">*</span>
@@ -1849,7 +1835,7 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td align="left">What is the Nature of this Incident?
+                                                                <td align="left">What is the Cause of this Incident?
                                                                 </td>
                                                                 <td align="center">:
                                                                 </td>
@@ -1882,15 +1868,15 @@
                                                                                         <%#Container.ItemIndex + 1%>
                                                                                     </td>
                                                                                     <td align="left" width="70%">
-                                                                                        <%#Eval("Question")%>
-                                                                                        <asp:HiddenField runat="server" ID="hdnFK_LU_Cause_Info" Value='<%#Eval("PK_LU_Cause_Code_Information")%>'></asp:HiddenField>
-                                                                                        <asp:HiddenField runat="server" ID="hdnPK_Investigation_Cause_Information" Value='<%#Eval("PK_Investigation_Cause_Information")%>'></asp:HiddenField>
-
-                                                                                    </td>
+                                                                                       <%#Eval("Question")%>
+                                                                                        <asp:HiddenField runat="server" id="hdnFK_LU_Cause_Info" Value='<%#Eval("PK_LU_Cause_Code_Information")%>'></asp:HiddenField> 
+                                                                                        <asp:HiddenField runat="server" id="hdnPK_Investigation_Cause_Information" Value='<%#Eval("PK_Investigation_Cause_Information")%>'></asp:HiddenField> 
+                                                                                  
+                                                                                         </td>
                                                                                     <td align="center" width="2%">:
                                                                                     </td>
                                                                                     <td align="left" width="26%">
-                                                                                        <asp:Label ID="lblRootCauseTypeList" runat="server"
+                                                                                        <asp:Label ID="lblRootCauseTypeList" runat="server"  
                                                                                             Width="100px" />
                                                                                     </td>
                                                                                 </tr>
@@ -1898,17 +1884,6 @@
 
                                                                         </ItemTemplate>
                                                                     </asp:Repeater>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td colspan="2"></td>
-                                                                <td align="left">
-                                                                    <table cellpadding="3" cellspacing="1" border="0" width="100%">
-                                                                        <tr>
-                                                                           <td></td>
-                                                                            <td width="4%">
-                                                                            </td> <td width="26%">Yes = Recommendation applies to this Incident.<br />
-                                                                    No = Recommendation does NOT apply to this Incident.</td> </tr> </table>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -1925,15 +1900,10 @@
                                                                                     <td align="center" width="2%" valign="top">
                                                                                         <%#Container.ItemIndex + 1%>
                                                                                     </td>
-                                                                                    <td align="left" width="68%" valign="top">
+                                                                                    <td align="left" width="98%">
                                                                                         <%#Eval("Guidance")%>
                                                                                     </td>
-                                                                                     <td align="center" width="2%" valign="top">:
-                                                                                    </td>
-                                                                                    <td align="left" width="26%" valign="top">
-                                                                                        <asp:Label ID="lblRootCauseGuidanceReoccurance" runat="server"
-                                                                                            Width="100px" />
-                                                                                    </td>
+                                                                                    
                                                                                 </tr>
                                                                             </table>
 
@@ -2079,11 +2049,11 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td align="left" valign="top">If No, Explain Why
+                                                                <td align="left">If No, Explain Why
                                                                 </td>
-                                                                <td align="center" valign="top">:
+                                                                <td align="center">:
                                                                 </td>
-                                                                <td align="left" colspan="4" valign="top">
+                                                                <td align="left" colspan="4">
                                                                     <uc:ctrlMultiLineTextBox runat="server" ID="lblNoCommunicationExplanation" ControlType="Label" />
                                                                 </td>
                                                             </tr>
