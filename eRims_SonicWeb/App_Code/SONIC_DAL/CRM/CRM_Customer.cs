@@ -18,6 +18,8 @@ namespace ERIMS.DAL
         private decimal? _FK_LU_CRM_Source;
         private string _Last_Name;
         private string _First_Name;
+        private string _Last_Name_Co_Buyer;
+        private string _First_Name_Co_Buyer;
         private string _Address;
         private string _City;
         private decimal? _FK_State;
@@ -114,6 +116,24 @@ namespace ERIMS.DAL
         {
             get { return _First_Name; }
             set { _First_Name = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Last_Name_Co_Buyer value.
+        /// </summary>
+        public string Last_Name_Co_Buyer
+        {
+            get { return _Last_Name_Co_Buyer; }
+            set { _Last_Name_Co_Buyer = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the First_Name_Co_Buyer value.
+        /// </summary>
+        public string First_Name_Co_Buyer
+        {
+            get { return _First_Name_Co_Buyer; }
+            set { _First_Name_Co_Buyer = value; }
         }
 
         /// <summary>
@@ -570,6 +590,8 @@ namespace ERIMS.DAL
             this._FK_LU_CRM_Source = null;
             this._Last_Name = null;
             this._First_Name = null;
+            this._First_Name_Co_Buyer = null;
+            this._Last_Name_Co_Buyer = null;
             this._Address = null;
             this._City = null;
             this._FK_State = null;
@@ -660,6 +682,16 @@ namespace ERIMS.DAL
                     this._First_Name = null;
                 else
                     this._First_Name = (string)drCRM_Customer["First_Name"];
+
+                if (drCRM_Customer["Last_Name_Co_Buyer"] == DBNull.Value)
+                    this._Last_Name_Co_Buyer = null;
+                else
+                    this._Last_Name_Co_Buyer = (string)drCRM_Customer["Last_Name_Co_Buyer"];
+
+                if (drCRM_Customer["First_Name_Co_Buyer"] == DBNull.Value)
+                    this._First_Name_Co_Buyer = null;
+                else
+                    this._First_Name_Co_Buyer = (string)drCRM_Customer["First_Name_Co_Buyer"];
 
                 if (drCRM_Customer["Address"] == DBNull.Value)
                     this._Address = null;
@@ -914,6 +946,8 @@ namespace ERIMS.DAL
                 this._FK_LU_CRM_Source = null;
                 this._Last_Name = null;
                 this._First_Name = null;
+                this._First_Name_Co_Buyer = null;
+                this._Last_Name_Co_Buyer = null;
                 this._Address = null;
                 this._City = null;
                 this._FK_State = null;
@@ -992,6 +1026,16 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "First_Name", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "First_Name", DbType.String, this._First_Name);
+
+            if (string.IsNullOrEmpty(this._Last_Name_Co_Buyer))
+                db.AddInParameter(dbCommand, "Last_Name_Co_Buyer", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Last_Name_Co_Buyer", DbType.String, this._Last_Name_Co_Buyer);
+
+            if (string.IsNullOrEmpty(this._First_Name_Co_Buyer))
+                db.AddInParameter(dbCommand, "First_Name_Co_Buyer", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "First_Name_Co_Buyer", DbType.String, this._First_Name_Co_Buyer);
 
             if (string.IsNullOrEmpty(this._Address))
                 db.AddInParameter(dbCommand, "Address", DbType.String, DBNull.Value);
@@ -1229,6 +1273,16 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "First_Name", DbType.String, this._First_Name);
 
+            if (string.IsNullOrEmpty(this._Last_Name_Co_Buyer))
+                db.AddInParameter(dbCommand, "Last_Name_Co_Buyer", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Last_Name_Co_Buyer", DbType.String, this._Last_Name_Co_Buyer);
+
+            if (string.IsNullOrEmpty(this._First_Name_Co_Buyer))
+                db.AddInParameter(dbCommand, "First_Name_Co_Buyer", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "First_Name_Co_Buyer", DbType.String, this._First_Name_Co_Buyer);
+
             if (string.IsNullOrEmpty(this._Address))
                 db.AddInParameter(dbCommand, "Address", DbType.String, DBNull.Value);
             else
@@ -1432,6 +1486,8 @@ namespace ERIMS.DAL
         /// <param name="FK_LU_CRM_Source"></param>
         /// <param name="Last_Name"></param>
         /// <param name="First_Name"></param>
+        /// <param name="Last_Name_Co_Buyer"></param>
+        /// <param name="First_Name_Co_Buyer"></param>
         /// <param name="FK_LU_CRM_Department"></param>
         /// <param name="FK_LU_Location"></param>
         /// <param name="Update_Date_From"></param>
@@ -1450,7 +1506,7 @@ namespace ERIMS.DAL
         /// <param name="intPageSize"></param>
         /// <returns></returns>
         public static DataSet CRM_Customer_Search(decimal PK_CRM_Customer, Nullable<DateTime> Report_Date_From, Nullable<DateTime> Report_Date_To, decimal FK_LU_CRM_Source,
-            string Last_Name, string First_Name, decimal FK_LU_CRM_Department, decimal FK_LU_Location, Nullable<DateTime> Update_Date_From, Nullable<DateTime> Update_Date_To,
+            string Last_Name, string First_Name, string Last_Name_Co_Buyer, string First_Name_Co_Buyer, decimal FK_LU_CRM_Department, decimal FK_LU_Location, Nullable<DateTime> Update_Date_From, Nullable<DateTime> Update_Date_To,
             string Last_Action, string Complete, Nullable<DateTime> Close_Date_From, Nullable<DateTime> Close_Date_To, string Resolution_Letter_To_Customer,
             Nullable<DateTime> Date_Resolution_Letter_Sent_From, Nullable<DateTime> Date_Resolution_Letter_Sent_To, string LetterNA,
             string strOrderBy, string strOrder, int intPageNo, int intPageSize)
@@ -1464,6 +1520,8 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "FK_LU_CRM_Source", DbType.Decimal, FK_LU_CRM_Source);
             db.AddInParameter(dbCommand, "Last_Name", DbType.String, Last_Name);
             db.AddInParameter(dbCommand, "First_Name", DbType.String, First_Name);
+            db.AddInParameter(dbCommand, "Last_Name_Co_Buyer", DbType.String, Last_Name_Co_Buyer);
+            db.AddInParameter(dbCommand, "First_Name_Co_Buyer", DbType.String, First_Name_Co_Buyer);
             db.AddInParameter(dbCommand, "FK_LU_CRM_Department", DbType.Decimal, FK_LU_CRM_Department);
             db.AddInParameter(dbCommand, "FK_LU_Location", DbType.Decimal, FK_LU_Location);
             db.AddInParameter(dbCommand, "Update_Date_From", DbType.DateTime, Update_Date_From);
@@ -1490,7 +1548,7 @@ namespace ERIMS.DAL
         /// </summary>
         /// <returns></returns>
         public static DataSet CRM_NonCustomer_Search(decimal PK_CRM_Non_Customer, Nullable<DateTime> Report_Date_From, Nullable<DateTime> Report_Date_To, decimal FK_LU_CRM_Source,
-            string Last_Name, decimal FK_LU_Location, decimal FK_LU_CRM_Category, string Response_Sent, Nullable<DateTime> Response_Date_From, Nullable<DateTime> Response_Date_To,
+            string Last_Name, string First_Name, decimal FK_LU_Location, decimal FK_LU_CRM_Category, string Response_Sent, Nullable<DateTime> Response_Date_From, Nullable<DateTime> Response_Date_To,
             string Response_NA,string Company_Name, string strOrderBy, string strOrder, int intPageNo, int intPageSize)
         {
             Database db = DatabaseFactory.CreateDatabase();
@@ -1501,6 +1559,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Report_Date_To", DbType.DateTime, Report_Date_To);
             db.AddInParameter(dbCommand, "FK_LU_CRM_Source", DbType.Decimal, FK_LU_CRM_Source);
             db.AddInParameter(dbCommand, "Last_Name", DbType.String, Last_Name);
+            db.AddInParameter(dbCommand, "First_Name", DbType.String, First_Name);
             db.AddInParameter(dbCommand, "FK_LU_Location", DbType.Decimal, FK_LU_Location);
             db.AddInParameter(dbCommand, "FK_LU_CRM_Category", DbType.Decimal, FK_LU_CRM_Category);
             db.AddInParameter(dbCommand, "Response_Sent", DbType.String, Response_Sent);

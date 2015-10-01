@@ -353,6 +353,8 @@ namespace ERIMS.DAL
             sbBody = sbBody.Replace("[Source]", Convert.ToString(strSource));
             sbBody = sbBody.Replace("[LastName]", Convert.ToString(objCRMCustomer.Last_Name));
             sbBody = sbBody.Replace("[FirstName]", Convert.ToString(objCRMCustomer.First_Name));
+            sbBody = sbBody.Replace("[LastNameCoBuyer]", Convert.ToString(objCRMCustomer.Last_Name_Co_Buyer));
+            sbBody = sbBody.Replace("[FirstNameCoBuyer]", Convert.ToString(objCRMCustomer.First_Name_Co_Buyer));
             sbBody = sbBody.Replace("[Address]", Convert.ToString(objCRMCustomer.Address));
             sbBody = sbBody.Replace("[City]", Convert.ToString(objCRMCustomer.City));
             if (objCRMCustomer.FK_State != null)

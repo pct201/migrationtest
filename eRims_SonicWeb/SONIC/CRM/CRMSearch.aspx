@@ -61,6 +61,8 @@
             document.getElementById('ctl00_ContentPlaceHolder1_drpSource_Cust').selectedIndex = 0;
             document.getElementById('ctl00_ContentPlaceHolder1_txtLastName_Cust').value = '';
             document.getElementById('ctl00_ContentPlaceHolder1_txtFirstName_Cust').value = '';
+            document.getElementById('ctl00_ContentPlaceHolder1_txtLastNameCoBuyer_Cust').value = '';
+            document.getElementById('ctl00_ContentPlaceHolder1_txtFirstNameCoBuyer_Cust').value = '';
             document.getElementById('ctl00_ContentPlaceHolder1_drpDepartment_Cust').selectedIndex = 0;
             document.getElementById('ctl00_ContentPlaceHolder1_drpLocationDBA_Cust').selectedIndex = 0;
             document.getElementById('ctl00_ContentPlaceHolder1_txtLastUpdateFrom_Cust').value = '';
@@ -103,6 +105,7 @@
             document.getElementById('ctl00_ContentPlaceHolder1_txtResponseDateFrom_NonCust').value = '';
             document.getElementById('ctl00_ContentPlaceHolder1_txtResponseDateTo_NonCust').value = '';
             document.getElementById('ctl00_ContentPlaceHolder1_txtLastName_NonCust').value = '';
+            document.getElementById('ctl00_ContentPlaceHolder1_txtFirstName_NonCust').value = '';
             document.getElementById('ctl00_ContentPlaceHolder1_drpSoruce_NonCust').selectedIndex = 0;
 
             var rdbReponseNA_NonCust = document.getElementById('ctl00_ContentPlaceHolder1_rdbReponseNA_NonCust');
@@ -304,6 +307,27 @@
                                             </td>
                                             <td align="left" colspan="4">
                                                 <asp:TextBox ID="txtFirstName_Cust" Width="190px" runat="server" MaxLength="50"></asp:TextBox>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left">
+                                                Last Name Co-Buyer or Caller
+                                            </td>
+                                            <td align="center">
+                                                :
+                                            </td>
+                                            <td align="left" colspan="4">
+                                                <asp:TextBox ID="txtLastNameCoBuyer_Cust" Width="190px" runat="server" MaxLength="75"></asp:TextBox>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left">
+                                                First Name Co-Buyer or Caller                                            </td>
+                                            <td align="center">
+                                                :
+                                            </td>
+                                            <td align="left" colspan="4">
+                                                <asp:TextBox ID="txtFirstNameCoBuyer_Cust" Width="190px" runat="server" MaxLength="75"></asp:TextBox>
                                             </td>
                                         </tr>
                                         <tr>
@@ -636,6 +660,17 @@
                                             </td>
                                             <td align="left" colspan="4">
                                                 <asp:TextBox ID="txtLastName_NonCust" Width="190px" runat="server" MaxLength="50"></asp:TextBox>
+                                            </td>
+                                        </tr>
+                                         <tr>
+                                            <td align="left">
+                                                First Name
+                                            </td>
+                                            <td align="center">
+                                                :
+                                            </td>
+                                            <td align="left" colspan="4">
+                                                <asp:TextBox ID="txtFirstName_NonCust" Width="190px" runat="server" MaxLength="50"></asp:TextBox>
                                             </td>
                                         </tr>
                                         <tr>

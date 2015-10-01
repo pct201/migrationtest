@@ -420,6 +420,26 @@
                                                     </tr>
                                                     <tr>
                                                         <td align="left" valign="top">
+                                                            Last Name Co-Buyer or Caller&nbsp;<span id="spnLastNameCaller" style="color: Red; display: none;" runat="server">*</span>
+                                                        </td>
+                                                        <td align="center" valign="top">
+                                                            :
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:TextBox ID="txtLast_Name_Co_Buyer" runat="server" Width="170px" MaxLength="50" />
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            First Name Co-Buyer or Caller&nbsp;<span id="spnFirstNameCaller" style="color: Red; display: none;" runat="server">*</span>
+                                                        </td>
+                                                        <td align="center" valign="top">
+                                                            :
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:TextBox ID="txtFirst_Name_Co_Buyer" runat="server" Width="170px" MaxLength="50" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">
                                                             Address&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
                                                         <td align="center" valign="top">
@@ -1419,6 +1439,26 @@
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblFirst_Name" runat="server"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">
+                                                            Last Name Co-Buyer or Caller
+                                                        </td>
+                                                        <td align="center" valign="top">
+                                                            :
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblLast_Name_Co_Buyer" runat="server"></asp:Label>
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            First Name Co-Buyer or Caller
+                                                        </td>
+                                                        <td align="center" valign="top">
+                                                            :
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblFirst_Name_Co_Buyer" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>

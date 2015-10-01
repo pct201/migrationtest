@@ -104,7 +104,7 @@ public partial class SONIC_CRM_CRMSearch : clsBasePage
         DateTime? dtIncidentTo = clsGeneral.FormatNullDateToStore(txtIncidentDateTo_Cust.Text.Trim());
 
         DataSet dsSearchResult = CRM_Customer.CRM_Customer_Search(ComplaintNumber, dtIncidentFrom, dtIncidentTo, Convert.ToDecimal(drpSource_Cust.SelectedValue), txtLastName_Cust.Text.Trim().Replace("'", "''"),
-            txtFirstName_Cust.Text.Trim().Replace("'", "''"), Convert.ToDecimal(drpDepartment_Cust.SelectedValue), Convert.ToDecimal(drpLocationDBA_Cust.SelectedValue), clsGeneral.FormatNullDateToStore(txtLastUpdateFrom_Cust.Text.Trim()),
+            txtFirstName_Cust.Text.Trim().Replace("'", "''"), txtLastNameCoBuyer_Cust.Text.Trim().Replace("'", "''"), txtFirstNameCoBuyer_Cust.Text.Trim().Replace("'", "''"), Convert.ToDecimal(drpDepartment_Cust.SelectedValue), Convert.ToDecimal(drpLocationDBA_Cust.SelectedValue), clsGeneral.FormatNullDateToStore(txtLastUpdateFrom_Cust.Text.Trim()),
             clsGeneral.FormatNullDateToStore(txtLastUpdateTo_Cust.Text.Trim()), txtLastAction_Cust.Text.Trim().Replace("'", "''"), Convert.ToString(rdbComplete_Cust.SelectedValue), clsGeneral.FormatNullDateToStore(txtCloseDateFrom_Cust.Text.Trim()),
             clsGeneral.FormatNullDateToStore(txtCloseDateTo_Cust.Text.Trim()), Convert.ToString(rdbResolutionLetter_Cust.SelectedValue), clsGeneral.FormatNullDateToStore(txtDateResolutionLetterFrom_Cust.Text.Trim()),
              clsGeneral.FormatNullDateToStore(txtDateResolutionLetterTo_Cust.Text.Trim()), Convert.ToString(rdbLetterNA_Cust.SelectedValue), SortBy, SortOrder, PageNumber, PageSize);
@@ -132,7 +132,7 @@ public partial class SONIC_CRM_CRMSearch : clsBasePage
         DateTime? dtContactFrom = clsGeneral.FormatNullDateToStore(txtContactDateFrom_NonCust.Text.Trim());
         DateTime? dtContactTo = clsGeneral.FormatNullDateToStore(txtContactDateTo_NonCust.Text.Trim());
 
-        DataSet dsSearchResult = CRM_Customer.CRM_NonCustomer_Search(ContactNumber, dtContactFrom, dtContactTo, Convert.ToDecimal(drpSoruce_NonCust.SelectedValue), txtLastName_NonCust.Text.Trim().Replace("'", "''"),
+        DataSet dsSearchResult = CRM_Customer.CRM_NonCustomer_Search(ContactNumber, dtContactFrom, dtContactTo, Convert.ToDecimal(drpSoruce_NonCust.SelectedValue), txtLastName_NonCust.Text.Trim().Replace("'", "''"), txtFirstName_NonCust.Text.Trim().Replace("'", "''"),
             Convert.ToDecimal(drpLocationDBA_NonCust.SelectedValue), Convert.ToDecimal(drpCategory_NonCust.SelectedValue), Convert.ToString(rdbReponseSent_NonCust.SelectedValue), clsGeneral.FormatNullDateToStore(txtResponseDateFrom_NonCust.Text.Trim()),
             clsGeneral.FormatNullDateToStore(txtResponseDateTo_NonCust.Text.Trim()), Convert.ToString(rdbReponseNA_NonCust.SelectedValue), txtCompany_name.Text, SortBy, SortOrder, PageNumber, PageSize);
         gvIncident.DataSource = dsSearchResult.Tables[0];

@@ -182,6 +182,8 @@ public partial class SONIC_CRM_CRM_Customer : clsBasePage
         if (objCRM_Customer.FK_LU_CRM_Source != null) drpFK_LU_CRM_Source.SelectedValue = objCRM_Customer.FK_LU_CRM_Source.ToString();
         txtLast_Name.Text = objCRM_Customer.Last_Name;
         txtFirst_Name.Text = objCRM_Customer.First_Name;
+        txtFirst_Name_Co_Buyer.Text = objCRM_Customer.First_Name_Co_Buyer;
+        txtLast_Name_Co_Buyer.Text = objCRM_Customer.Last_Name_Co_Buyer;
         txtAddress.Text = objCRM_Customer.Address;
         txtCity.Text = objCRM_Customer.City;
         if (objCRM_Customer.FK_State != null) drpFK_State.SelectedValue = objCRM_Customer.FK_State.ToString();
@@ -290,6 +292,8 @@ public partial class SONIC_CRM_CRM_Customer : clsBasePage
             lblFK_LU_CRM_Source.Text = new LU_CRM_Source((decimal)objCRM_Customer.FK_LU_CRM_Source).Fld_Desc;
         lblLast_Name.Text = objCRM_Customer.Last_Name;
         lblFirst_Name.Text = objCRM_Customer.First_Name;
+        lblFirst_Name_Co_Buyer.Text = objCRM_Customer.First_Name_Co_Buyer;
+        lblLast_Name_Co_Buyer.Text = objCRM_Customer.Last_Name_Co_Buyer;
         lblAddress.Text = objCRM_Customer.Address;
         lblCity.Text = objCRM_Customer.City;
         if (objCRM_Customer.FK_State != null)
@@ -390,6 +394,8 @@ public partial class SONIC_CRM_CRM_Customer : clsBasePage
         if (drpFK_LU_CRM_Source.SelectedIndex > 0) objCRM_Customer.FK_LU_CRM_Source = Convert.ToDecimal(drpFK_LU_CRM_Source.SelectedValue);
         objCRM_Customer.Last_Name = txtLast_Name.Text.Trim();
         objCRM_Customer.First_Name = txtFirst_Name.Text.Trim();
+        objCRM_Customer.First_Name_Co_Buyer = txtFirst_Name_Co_Buyer.Text.Trim();
+        objCRM_Customer.Last_Name_Co_Buyer = txtLast_Name_Co_Buyer.Text.Trim();
         objCRM_Customer.Address = txtAddress.Text.Trim();
         objCRM_Customer.City = txtCity.Text.Trim();
         if (drpFK_State.SelectedIndex > 0) objCRM_Customer.FK_State = Convert.ToDecimal(drpFK_State.SelectedValue);
@@ -1093,6 +1099,16 @@ public partial class SONIC_CRM_CRM_Customer : clsBasePage
                     strCtrlsIDs += txtResolution_Summary.ClientID + ",";
                     strMessages += "Please enter [Customer Information]/Resolution Summary" + ",";
                     Span15.Style["display"] = "inline-block";
+                    break;
+                case "First Name Co-Buyer or Caller":
+                    strCtrlsIDs += txtFirst_Name_Co_Buyer.ClientID + ",";
+                    strMessages += "Please enter [Customer Information]/First Name Co-Buyer or Caller" + ",";
+                    spnFirstNameCaller.Style["display"] = "inline-block";
+                    break;
+                case "Last Name Co-Buyer or Caller":
+                    strCtrlsIDs += txtLast_Name_Co_Buyer.ClientID + ",";
+                    strMessages += "Please enter [Customer Information]/Last Name Co-Buyer or Caller" + ",";
+                    spnLastNameCaller.Style["display"] = "inline-block";
                     break;
             }
             #endregion
