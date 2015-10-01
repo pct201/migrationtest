@@ -10,6 +10,9 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using ERIMS.DAL;
 using BAL;
+using System.Text;
+using System.IO;
+using Aspose.Words;
 
 /// <summary>
 /// Date : 14 NOV 2008
@@ -177,11 +180,11 @@ public partial class SONIC_WCClaimInfo : clsBasePage
         if (e.CommandName == "View")
         {
             //Get the Claim Transaction Id
-            long PK_ID = Convert.ToInt64(e.CommandArgument);
+            string PK_ID = Convert.ToString(e.CommandArgument);
 
             //Fill the Claim Transaction detail. and make transaction panel visible
-            if (BindClaimTransactionDetails(PK_ID))
-                pnlTransactionDetail.Visible = true;
+            BindClaimTransactionDetails(PK_ID);
+            //pnlTransactionDetail.Visible = true;
         }
     }
 
@@ -312,7 +315,7 @@ public partial class SONIC_WCClaimInfo : clsBasePage
                 ddlCompanionClaim.Visible = false;
                 lnkClaim.Visible = true;
 
-                if(drWorkers_Comp_Claims["PK_GL_Prop_RO_ID"] != DBNull.Value)
+                if (drWorkers_Comp_Claims["PK_GL_Prop_RO_ID"] != DBNull.Value)
                 {
                     lnkClaim.InnerText = Convert.ToString(drWorkers_Comp_Claims["TX_NS_Companion_Claim_Number"]);
                     lnkClaim.HRef = "PLClaimInfo.aspx?id=" + Encryption.Encrypt(Convert.ToString(drWorkers_Comp_Claims["PK_GL_Prop_RO_ID"]));
@@ -321,7 +324,7 @@ public partial class SONIC_WCClaimInfo : clsBasePage
                 {
                     lnkClaim.InnerText = Convert.ToString(drWorkers_Comp_Claims["TX_NS_Companion_Claim_Number"]);
                     lnkClaim.HRef = "WCClaimInfo.aspx?id=" + Encryption.Encrypt(Convert.ToString(drWorkers_Comp_Claims["PkID"]));
-                }                
+                }
                 else
                 {
                     lnkClaim.InnerText = Convert.ToString(drWorkers_Comp_Claims["TX_NS_Companion_Claim_Number"]);
@@ -363,7 +366,7 @@ public partial class SONIC_WCClaimInfo : clsBasePage
             decimal _decFR_Number;
             if (drWorkers_Comp_Claims["WC_FR_Number"] != DBNull.Value)
             {
-                if (decimal.TryParse(Convert.ToString(drWorkers_Comp_Claims["WC_FR_Number"]).Replace("NS-","").Replace("WC-",""), out _decFR_Number))
+                if (decimal.TryParse(Convert.ToString(drWorkers_Comp_Claims["WC_FR_Number"]).Replace("NS-", "").Replace("WC-", ""), out _decFR_Number))
                 {
                     // set WC_FR_Number for claim navigation
                     First_Report_Number = _decFR_Number;
@@ -388,8 +391,8 @@ public partial class SONIC_WCClaimInfo : clsBasePage
             }
 
             lblName.Text = Convert.ToString(drWorkers_Comp_Claims["Employee_Name"]);
-            lblDataOrigin.Text = Convert.ToString(drWorkers_Comp_Claims["Data_Origin"]);
-            lblOriginKeyClaimNumber.Text = Convert.ToString(drWorkers_Comp_Claims["Origin_Key_Claim_Number"]);
+            //lblDataOrigin.Text = Convert.ToString(drWorkers_Comp_Claims["Data_Origin"]);
+            //lblOriginKeyClaimNumber.Text = Convert.ToString(drWorkers_Comp_Claims["Origin_Key_Claim_Number"]);
             lblDateofUpdate.Text = drWorkers_Comp_Claims["Date_of_Update"] == DBNull.Value ? "" : clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drWorkers_Comp_Claims["Date_of_Update"]));
             lblDataSource.Text = Convert.ToString(drWorkers_Comp_Claims["Data_Origin"]);
             lblClaimNumber2.Text = Convert.ToString(drWorkers_Comp_Claims["Origin_Claim_Number"]).Trim();
@@ -599,7 +602,7 @@ public partial class SONIC_WCClaimInfo : clsBasePage
                 lblReason5.Text = Convert.ToString(objDs.Tables[0].Rows[0]["Fld_Desc5"].ToString());
 
             }
-            
+
 
 
         }
@@ -635,43 +638,61 @@ public partial class SONIC_WCClaimInfo : clsBasePage
     /// </summary>
     /// <param name="PK_ID">Claim Transaction PK Id</param>
     /// <returns></returns>
-    public bool BindClaimTransactionDetails(Int64 PK_ID)
+    public bool BindClaimTransactionDetails(string PK_IDs)
     {
-        DataTable dtClaims_Transactions = Claims_Transaction.SelectByPK(PK_ID).Tables[0];
+        DataTable dtClaims_Transactions = Claims_Transaction.SelectByPKIDs(PK_IDs).Tables[0];
         if (dtClaims_Transactions.Rows.Count > 0)
         {
-            DataRow drClaims_Transactions = dtClaims_Transactions.Rows[0];
 
-            lblDataOrigin.Text = Convert.ToString(drClaims_Transactions["Data_Origin"]);
-            lblOriginKeyClaimNumber.Text = Convert.ToString(drClaims_Transactions["Origin_Claim_Number"]);
-            lblOriginKeyClaimNumber.Text = Convert.ToString(drClaims_Transactions["Origin_Key_Claim_Number"]);
-            lblClaimantSequenceNumber3.Text = Convert.ToString(drClaims_Transactions["Claimant_Sequence_Number"]);
-            lblPolicyNumber.Text = Convert.ToString(drClaims_Transactions["Policy_Number"]);
-            lblCarrierpolicynumber2.Text = Convert.ToString(drClaims_Transactions["Carrier_policy_number"]);
-            lblTransactionEntrydate.Text = drClaims_Transactions["Transaction_Entry_date"] == DBNull.Value ? "" : clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drClaims_Transactions["Transaction_Entry_date"]));
-            lblTransactionAmount.Text = drClaims_Transactions["Transaction_Amount"] == DBNull.Value ? "" : String.Format("$ {0:N2}", Convert.ToDecimal(drClaims_Transactions["Transaction_Amount"]));
-            lblTransactionSequenceNumber.Text = Convert.ToString(drClaims_Transactions["Transaction_Sequence_Number"]);
-            lblClaimStatus2.Text = Convert.ToString(drClaims_Transactions["Claim_Status"]);
+            if (dtClaims_Transactions.Rows.Count == 1)
+            {
+                DataRow drClaims_Transactions = dtClaims_Transactions.Rows[0];
+                lblDataOrigin.Text = Convert.ToString(drClaims_Transactions["Data_Origin"]);
+                lblOriginKeyClaimNumber.Text = Convert.ToString(drClaims_Transactions["Origin_Claim_Number"]);
+                lblOriginKeyClaimNumber.Text = Convert.ToString(drClaims_Transactions["Origin_Key_Claim_Number"]);
+                lblClaimantSequenceNumber3.Text = Convert.ToString(drClaims_Transactions["Claimant_Sequence_Number"]);
+                lblPolicyNumber.Text = Convert.ToString(drClaims_Transactions["Policy_Number"]);
+                lblCarrierpolicynumber2.Text = Convert.ToString(drClaims_Transactions["Carrier_policy_number"]);
+                lblTransactionEntrydate.Text = drClaims_Transactions["Transaction_Entry_date"] == DBNull.Value ? "" : clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drClaims_Transactions["Transaction_Entry_date"]));
+                lblTransactionAmount.Text = drClaims_Transactions["Transaction_Amount"] == DBNull.Value ? "" : String.Format("$ {0:N2}", Convert.ToDecimal(drClaims_Transactions["Transaction_Amount"]));
+                lblTransactionSequenceNumber.Text = Convert.ToString(drClaims_Transactions["Transaction_Sequence_Number"]);
+                lblClaimStatus2.Text = Convert.ToString(drClaims_Transactions["Claim_Status"]);
 
-            lblEntryCodeModifier.Text = Convert.ToString(drClaims_Transactions["Entry_Code_Modifier_Desc"]);
-            lblEntryCode.Text = Convert.ToString(drClaims_Transactions["Entry_Code_Desc"]);
-            lblNatureofBenefitCode2.Text = Convert.ToString(drClaims_Transactions["Nature_of_Benefit_Code_Desc"]);
-            lblTransactionNatureofBenefit.Text = Convert.ToString(drClaims_Transactions["Transaction_Nature_of_Benefit_Desc"]);
+                lblEntryCodeModifier.Text = Convert.ToString(drClaims_Transactions["Entry_Code_Modifier_Desc"]);
+                lblEntryCode.Text = Convert.ToString(drClaims_Transactions["Entry_Code_Desc"]);
+                lblNatureofBenefitCode2.Text = Convert.ToString(drClaims_Transactions["Nature_of_Benefit_Code_Desc"]);
+                lblTransactionNatureofBenefit.Text = Convert.ToString(drClaims_Transactions["Transaction_Nature_of_Benefit_Desc"]);
 
-            lblNatureofPaymentStatement.Text = Convert.ToString(drClaims_Transactions["Nature_of_Payment_Statement"]);
-            lblCheckNumber.Text = Convert.ToString(drClaims_Transactions["Check_Number"]);
-            lblCheckIssueDate.Text = drClaims_Transactions["Check_Issue_Date"] == DBNull.Value ? "" : clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drClaims_Transactions["Check_Issue_Date"]));
-            lblPayeeName1.Text = Convert.ToString(drClaims_Transactions["Payee_Name1"]);
-            lblPayeeName2.Text = Convert.ToString(drClaims_Transactions["Payee_Name2"]);
-            lblPayeeName3.Text = Convert.ToString(drClaims_Transactions["Payee_Name3"]);
-            lblPayeeStreetAddress.Text = Convert.ToString(drClaims_Transactions["Payee_Street_Address"]);
-            lblPayeeCity.Text = Convert.ToString(drClaims_Transactions["Payee_City"]);
-            lblPayeeState.Text = Convert.ToString(drClaims_Transactions["Payee_State"]);
-            lblPayeeZip.Text = Convert.ToString(drClaims_Transactions["Payee_Zip"]);
-            lblPayeeID.Text = Convert.ToString(drClaims_Transactions["Payee_Tax_Number"]) + " - " + Convert.ToString(drClaims_Transactions["Payee_SSN_FEIN"]);
-            lblSRSRecoveryOfficeCode.Text = Convert.ToString(drClaims_Transactions["SRS_Recovery_Office_Code"]);
-            lblSRSDraftIssueOfficeCode.Text = Convert.ToString(drClaims_Transactions["SRS_Draft_Issue_Office_Code"]);
-            lblRecoverySequenceNumber.Text = Convert.ToString(drClaims_Transactions["Recovery_Sequence_Number"]);
+                lblNatureofPaymentStatement.Text = Convert.ToString(drClaims_Transactions["Nature_of_Payment_Statement"]);
+                lblCheckNumber.Text = Convert.ToString(drClaims_Transactions["Check_Number"]);
+                lblCheckIssueDate.Text = drClaims_Transactions["Check_Issue_Date"] == DBNull.Value ? "" : clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drClaims_Transactions["Check_Issue_Date"]));
+                lblPayeeName1.Text = Convert.ToString(drClaims_Transactions["Payee_Name1"]);
+                lblPayeeName2.Text = Convert.ToString(drClaims_Transactions["Payee_Name2"]);
+                lblPayeeName3.Text = Convert.ToString(drClaims_Transactions["Payee_Name3"]);
+                lblPayeeStreetAddress.Text = Convert.ToString(drClaims_Transactions["Payee_Street_Address"]);
+                lblPayeeCity.Text = Convert.ToString(drClaims_Transactions["Payee_City"]);
+                lblPayeeState.Text = Convert.ToString(drClaims_Transactions["Payee_State"]);
+                lblPayeeZip.Text = Convert.ToString(drClaims_Transactions["Payee_Zip"]);
+                lblPayeeID.Text = Convert.ToString(drClaims_Transactions["Payee_Tax_Number"]) + " - " + Convert.ToString(drClaims_Transactions["Payee_SSN_FEIN"]);
+                lblSRSRecoveryOfficeCode.Text = Convert.ToString(drClaims_Transactions["SRS_Recovery_Office_Code"]);
+                lblSRSDraftIssueOfficeCode.Text = Convert.ToString(drClaims_Transactions["SRS_Draft_Issue_Office_Code"]);
+                lblRecoverySequenceNumber.Text = Convert.ToString(drClaims_Transactions["Recovery_Sequence_Number"]);
+
+                pnlTransactionDetail.Visible = false;
+                pnlSingleTransactionDetail.Visible = true;
+                pnlTransGrid.Visible = true;
+
+                //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowHideTranCheckbox();", true);
+            }
+            else
+            {
+                rptTransDetail.DataSource = dtClaims_Transactions;
+                rptTransDetail.DataBind();
+
+                pnlTransactionDetail.Visible = true;
+                pnlSingleTransactionDetail.Visible = false;
+                pnlTransGrid.Visible = false;
+            }
 
             return true;
         }
@@ -1237,10 +1258,10 @@ public partial class SONIC_WCClaimInfo : clsBasePage
     /// This method is added for export Girdview To Excel which contains SubGridview.
     /// </summary>
     /// <param name="control"></param>
-    public override void VerifyRenderingInServerForm(Control control)
-    {
-        return;
-    }
+    //public override void VerifyRenderingInServerForm(Control control)
+    //{
+    //    return;
+    //}
 
     #endregion
 
@@ -1349,4 +1370,292 @@ public partial class SONIC_WCClaimInfo : clsBasePage
     }
 
     #endregion
+
+    #region Transaction View, Print and Mail
+
+    protected void btnViewSelectedTrans_Click(object sender, EventArgs e)
+    {
+        string strPK = "";
+
+        foreach (GridViewRow gRow in gvWCTransList.Rows)
+        {
+            if (((CheckBox)gRow.FindControl("chkTranSelect")).Checked)
+                strPK = strPK + ((HtmlInputHidden)gRow.FindControl("hdnID")).Value + ",";
+        }
+        strPK = strPK.TrimEnd(',');
+
+        if (strPK != string.Empty)
+        {
+            BindClaimTransactionDetails(strPK);
+        }
+    }
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        pnlTransactionDetail.Visible = false;
+        pnlTransGrid.Visible = true;
+    }
+    private void PrintTransaction()
+    {
+        string strPK = "";
+
+        foreach (GridViewRow gRow in gvWCTransList.Rows)
+        {
+            if (((CheckBox)gRow.FindControl("chkTranSelect")).Checked)
+                strPK = strPK + ((HtmlInputHidden)gRow.FindControl("hdnID")).Value + ",";
+        }
+        strPK = strPK.TrimEnd(',');
+
+        if (strPK != string.Empty)
+        {
+            DataTable dtClaim = WC_ClaimInfo.SelectByPK(PK_WC_CI_ID).Tables[0]; ;
+            DataTable dtClaims_Transactions = Claims_Transaction.SelectByPKIDs(strPK).Tables[0];
+            StringBuilder sbHTML = new StringBuilder();
+
+            #region " Generate HTML Text "
+
+            string strTDBlue = "style='background-color:#95B3D7;border-top:black 1px solid;border-left:black 1px solid;'";
+            string strTDWhite = "style='border-top:black 1px solid;border-left:black 1px solid;border-bottom:black 1px solid;'";
+            sbHTML.Append("<HTML><Body>");
+            sbHTML.Append("<b>eRIMS2 Sonic - Selected Claim Transactions</b>");
+            sbHTML.Append("<br /></br />");
+            sbHTML.Append("<table cellpadding='3' cellspacing='1' border='0' width='100%'>");
+            sbHTML.Append("<tr>");
+            sbHTML.Append("<td width='25%' align='left' " + strTDBlue + ">");
+            sbHTML.Append("<span style='color:white'><b>Claim Number</b></span>");
+            sbHTML.Append("</td>");
+            sbHTML.Append("<td width='25%' align='left' " + strTDBlue + ">");
+            sbHTML.Append("<span style='color:white'><b>Sonic Location d/b/a</b></span>");
+            sbHTML.Append("</td>");
+            sbHTML.Append("<td width='25%' align='left' " + strTDBlue + ">");
+            sbHTML.Append("<span style='color:white'><b>Name</b></span>");
+            sbHTML.Append("</td>");
+            sbHTML.Append("<td width='25%' align='left' " + strTDBlue.TrimEnd('\'') + "border-right:black 1px solid;'>");
+            sbHTML.Append("<span style='color:white'><b>Date of Incident</b></span>");
+            sbHTML.Append("</td>");
+            sbHTML.Append("</tr>");
+            sbHTML.Append("<tr>");
+            sbHTML.Append("<td align='left' " + strTDWhite + ">" + Convert.ToString(dtClaim.Rows[0]["Origin_Claim_Number"]) + "</td>");
+            sbHTML.Append("<td align='left' " + strTDWhite + ">" + Convert.ToString(dtClaim.Rows[0]["dba1"]) + "</td>");
+            sbHTML.Append("<td align='left' " + strTDWhite + ">" + Convert.ToString(dtClaim.Rows[0]["Employee_Name"]) + "</td>");
+            sbHTML.Append("<td align='left' " + strTDWhite.TrimEnd('\'') + "border-right:black 1px solid;'>" + clsGeneral.FormatDBNullDateToDisplay(dtClaim.Rows[0]["Date_Of_Accident"]) + "</td>");
+            sbHTML.Append("</tr>");
+            sbHTML.Append("</table>");
+            sbHTML.Append("<br />");
+
+            sbHTML.Append("<table cellpadding='3' cellspacing='1' width='100%'>");
+            int i = 0;
+            foreach (DataRow drClaims_Transactions in dtClaims_Transactions.Rows)
+            {
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Date </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + clsGeneral.FormatDBNullDateToDisplay(Convert.ToDateTime(drClaims_Transactions["Transaction_Entry_date"])) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Data Source </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Data_Origin"]) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Payee Name 1 </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Payee_Name1"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Key Claim Number </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Origin_Key_Claim_Number"]) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Payee Name 2 </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Payee_Name2"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Claimant Sequence Number </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Claimant_Sequence_Number"]) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Payee Name 3 </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Payee_Name3"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Policy Number </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Policy_Number"]) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Payee Street Address </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Payee_Street_Address"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Carrier Policy Number </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Carrier_policy_number"]) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Payee City </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Payee_City"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'></td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'></td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Payee State </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Payee_State"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Transaction Amount </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + (drClaims_Transactions["Transaction_Amount"] == DBNull.Value ? "" : String.Format("$ {0:N2}", Convert.ToDecimal(drClaims_Transactions["Transaction_Amount"]))) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Payee Zip </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Payee_Zip"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Transaction Sequence Number </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Transaction_Sequence_Number"]) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Payee ID </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + (Convert.ToString(drClaims_Transactions["Payee_Tax_Number"]) + " - " + Convert.ToString(drClaims_Transactions["Payee_SSN_FEIN"])) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Claim Status </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Claim_Status"]) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Entry Code </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Entry_Code_Desc"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Entry Code Modiifer </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Entry_Code_Modifier_Desc"]) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Nature of Benefit </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Nature_of_Benefit_Code_Desc"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Transaction Nature of Benefit </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Transaction_Nature_of_Benefit_Desc"]) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Nature of Payment Statement </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Nature_of_Payment_Statement"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Check Number </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Check_Number"]) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>SRS Recovery Office Code </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["SRS_Recovery_Office_Code"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Check Issue Date </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + (drClaims_Transactions["Check_Issue_Date"] == DBNull.Value ? "" : clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drClaims_Transactions["Check_Issue_Date"]))) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>SRS Draft Issue Office Code </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["SRS_Draft_Issue_Office_Code"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Recovery Sequence Number </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Recovery_Sequence_Number"]) + "</td>");
+                sbHTML.Append("</tr>");
+
+                if (i < dtClaims_Transactions.Rows.Count - 1)
+                {
+                    sbHTML.Append("<tr style='height:30px'>");
+                    sbHTML.Append("<td colspan='6' style='vertical-align:middle'><hr size='1' color='Black' /></td>");
+                    sbHTML.Append("</tr>");
+                }
+
+                i++;
+            }
+
+            sbHTML.Append("</table>");
+            sbHTML.Append("</Body></HTML>");
+
+            #endregion
+
+            #region " Generate WORD Doc "
+            string strLisenceFile = HttpContext.Current.Server.MapPath(HttpContext.Current.Request.ApplicationPath) + "\\" + ("Bin") + "\\Aspose.Words.lic";
+
+            if (File.Exists(strLisenceFile))
+            {
+                //This shows how to license Aspose.Words, if you don't specify a license, 
+                //Aspose.Words works in evaluation mode.
+                Aspose.Words.License license = new Aspose.Words.License();
+                license.SetLicense(strLisenceFile);
+            }
+
+            Aspose.Words.Document doc = new Aspose.Words.Document();
+
+            //Build string builder to transport to Doc
+            //Once the builder is created, its cursor is positioned at the beginning of the document.
+            Aspose.Words.DocumentBuilder builder = new Aspose.Words.DocumentBuilder(doc);
+            builder.PageSetup.BottomMargin = 15;
+            builder.PageSetup.TopMargin = 15;
+            builder.PageSetup.LeftMargin = 15;
+            builder.PageSetup.RightMargin = 15;
+            builder.Font.Size = 10;
+            builder.Font.Bold = false;
+            builder.Font.Color = System.Drawing.Color.Black;
+            builder.Font.Name = "Arial";
+            builder.InsertParagraph();
+            builder.InsertHtml(sbHTML.ToString());
+
+            //Don't need merge fields in the document anymore.
+            doc.MailMerge.DeleteFields();
+            builder.MoveToSection(0);
+            builder.MoveToHeaderFooter(HeaderFooterType.FooterPrimary);
+            builder.PageSetup.PageNumberStyle = NumberStyle.Number;
+            builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+            builder.Write("Page ");
+            builder.InsertField("PAGE", "");
+            builder.Write(" of ");
+            builder.InsertField("NUMPAGES", "");
+            Section section = doc.Sections[0];
+            section.PageSetup.PageStartingNumber = 1;
+            section.PageSetup.RestartPageNumbering = true;
+            section.PageSetup.PageNumberStyle = NumberStyle.Arabic;
+
+            // Remove content from merged cells.
+            // Get collection of cells in the docuemnt.
+            NodeCollection cells = doc.GetChildNodes(NodeType.Cell, true);
+
+            foreach (Aspose.Words.Tables.Cell cell in cells)
+            {
+                // Check whether cell is merged with previouse.
+                if (cell.CellFormat.HorizontalMerge == Aspose.Words.Tables.CellMerge.Previous || cell.CellFormat.VerticalMerge == Aspose.Words.Tables.CellMerge.Previous)
+                {
+                    // Remove content from the cell.
+                    cell.RemoveAllChildren();
+                }
+            }
+
+            Aspose.Words.Tables.Table table = (Aspose.Words.Tables.Table)doc.GetChild(NodeType.Table, 0, true);
+            table.AllowAutoFit = false;
+            //doc.Save("ClaimNotes.doc", Aspose.Words.SaveFormat.Doc, Aspose.Words.SaveType.OpenInWord, Response);
+            doc.Save(Response, "ClaimTransactions.doc", ContentDisposition.Attachment, Aspose.Words.Saving.SaveOptions.CreateSaveOptions(SaveFormat.Doc));
+            Response.Flush();
+
+            #endregion
+        }
+    }
+
+    #endregion
+    protected void btnPrintSelectedTrans_Click(object sender, EventArgs e)
+    {
+        PrintTransaction();
+    }
 }

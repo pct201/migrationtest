@@ -202,6 +202,16 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        public static DataSet SelectByPKIDs(string PKIDs)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Claims_TransactionsSelectByPKIDs");
+
+            db.AddInParameter(dbCommand, "PKIDs", DbType.String, PKIDs);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
         public static DataSet SelectByOriginClaimNumber(String origin_Claim_Number, int intPageNo, int intPageSize)
         {
             Database db = DatabaseFactory.CreateDatabase();

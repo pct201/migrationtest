@@ -427,6 +427,81 @@
             $("#<%=txtClaimant_Attorney_Telephone.ClientID%>").mask("999-999-9999");
             $("#<%=txtDefense_Council_Telephone.ClientID%>").mask("999-999-9999");
         });
+
+        function SelectDeselectAllTrans(bChecked, bFromGrid) {
+
+            var ctrls = document.getElementsByTagName('input');
+            var i, chkID;
+            var cnt = 0;
+            chkID = (bFromGrid == true ? "chkTranSelect" : "chkRptTransSelect");
+            for (i = 0; i < ctrls.length; i++) {
+                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
+                    ctrls[i].checked = bChecked;
+                }
+            }
+        }
+
+        function SelectDeselectTransHeader(bFromGrid) {
+
+            var ctrls = document.getElementsByTagName('input');
+            var i, chkID;
+            var cnt = 0;
+            chkID = (bFromGrid == true ? "chkTranSelect" : "chkRptTransSelect");
+            for (i = 0; i < ctrls.length; i++) {
+                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
+                    if (ctrls[i].checked)
+                        cnt++;
+                }
+            }
+
+            var rowCnt = 0;
+            if (bFromGrid)
+                rowCnt = document.getElementById('<%=gvWCTransList.ClientID %>').rows.length - 1;
+            else
+                rowCnt = document.getElementById('<%=gvWCTransList.ClientID %>').value;
+
+            var headerChkID = bFromGrid ? 'chkMultiSelectTrans' : 'chkRptMultiSelectAdjNotes';
+
+            if (cnt == rowCnt)
+                document.getElementById(headerChkID).checked = true;
+            else
+                document.getElementById(headerChkID).checked = false;
+
+        }
+
+        function CheckSelectedTrans(buttonType, bFromGrid) {
+            var ctrls = document.getElementsByTagName('input');
+            var i, chkID;
+            var cnt = 0;
+            chkID = (bFromGrid == true ? "chkTranSelect" : "chkRptTransSelect");
+            for (i = 0; i < ctrls.length; i++) {
+                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
+                    if (ctrls[i].checked)
+                        cnt++;
+                }
+            }
+
+            if (cnt == 0) {
+                if (buttonType == "View")
+                    alert("Please select Transaction(s) to View");
+                else if (buttonType == "Mail")
+                    alert("Please select Transaction(s) to Mail");
+                else
+                    alert("Please select Transaction(s) to Print");
+
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        function ShowHideTranCheckbox() {
+            $("#trMultiselectTran").css("display", "none");
+            $("#trSelectTran").css("display", "none");
+
+        }
+
     </script>
     <div>
         <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
@@ -1398,7 +1473,7 @@
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblReason5" runat="server"></asp:Label>
-                                                            
+
                                                         </td>
                                                         <td></td>
                                                         <td align="center"></td>
@@ -1878,51 +1953,74 @@
                                                     <ContentTemplate>
                                                         Click For Detail
                                                         <br />
-                                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                                            <tr>
-                                                                <td width="45%"></td>
-                                                                <td valign="top" align="right">
-                                                                    <uc:ctrlPaging ID="ctrlPageTransaction" runat="server" OnGetPage="GetPage" />
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                        <br>
-                                                        <br></br>
-                                                        <div id="divTransactionList" style="width: 99%; height: 200px; overflow-y: scroll; border: solid 1px #000000;">
-                                                            <asp:GridView ID="gvWCTransList" runat="server" AutoGenerateColumns="false" OnRowCommand="gvWCTransList_RowCommand" OnRowDataBound="gvWCTransList_RowDataBound" Width="98%">
-                                                                <HeaderStyle HorizontalAlign="Center" />
-                                                                <Columns>
-                                                                    <asp:TemplateField HeaderText="Date">
-                                                                        <ItemStyle HorizontalAlign="Center" Width="40px" />
-                                                                        <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkTransaction_Entry_date" runat="server" CommandArgument='<%#Eval("PK_Claims_Transactions_ID")%>' CommandName="View">
+                                                        <asp:Panel ID="pnlTransGrid" runat="server" Width="100%">
+                                                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                                <tr>
+                                                                    <td width="45%"></td>
+                                                                    <td valign="top" align="right">
+                                                                        <uc:ctrlPaging ID="ctrlPageTransaction" runat="server" OnGetPage="GetPage" />
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td colspan="2">
+                                                                        <br />
+                                                                        <div id="divTransactionList" style="width: 99%; height: 200px; overflow-y: scroll; border: solid 1px #000000;">
+                                                                            <asp:GridView ID="gvWCTransList" runat="server" AutoGenerateColumns="false" OnRowCommand="gvWCTransList_RowCommand" OnRowDataBound="gvWCTransList_RowDataBound" Width="98%">
+                                                                                <HeaderStyle HorizontalAlign="Center" />
+                                                                                <Columns>
+                                                                                    <asp:TemplateField ItemStyle-VerticalAlign="Top" ItemStyle-Width="10%" HeaderStyle-HorizontalAlign="Left">
+                                                                                        <HeaderTemplate>
+                                                                                            <input type="checkbox" id="chkMultiSelectTrans" onclick="SelectDeselectAllTrans(this.checked, true);" />Select
+                                                                                        </HeaderTemplate>
+                                                                                        <ItemTemplate>
+                                                                                            <asp:CheckBox ID="chkTranSelect" runat="server" onclick="SelectDeselectTransHeader(true);" />
+                                                                                            <input type="hidden" id="hdnID" runat="server" value='<%#Eval("PK_Claims_Transactions_ID")%>' />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="Date">
+                                                                                        <ItemStyle HorizontalAlign="Center" Width="40px" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkTransaction_Entry_date" runat="server" CommandArgument='<%#Eval("PK_Claims_Transactions_ID")%>' CommandName="View">
                                                                         <%#Eval("Transaction_Entry_date")%>
-                                                                            </asp:LinkButton>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:BoundField DataField="Transaction_Nature_of_Benefit_Desc" HeaderText="Transaction Type" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="20%" />
-                                                                    <asp:BoundField DataField="Payee_Name1" HeaderText="Payee" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="20%" />
-                                                                    <asp:BoundField DataField="Nature_of_Payment_Statement" HeaderText="Nature Of Payment" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="20%" />
-                                                                    <asp:TemplateField HeaderText="Amount">
-                                                                        <ItemStyle HorizontalAlign="Right" />
-                                                                        <ItemTemplate>
-                                                                            <%# string.Format("{0:C2}",Eval("Transaction_Amount"))%>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <%--<asp:BoundField HeaderText="Amount" DataField="Transaction_Amount" DataFormatString="$ {0:C2}" ItemStyle-HorizontalAlign="Right" />--%>
-                                                                </Columns>
-                                                                <EmptyDataTemplate>
-                                                                    <table cellpadding="4" cellspacing="0" width="100%">
-                                                                        <tr>
-                                                                            <td align="center" style="border: 1px solid #cccccc;" width="100%">
-                                                                                <asp:Label ID="lblEmptyHeaderGridMessage" runat="server" Text="No Record Found"></asp:Label>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </EmptyDataTemplate>
-                                                            </asp:GridView>
-                                                        </div>
-                                                        <asp:Panel ID="pnlTransactionDetail" runat="server" Visible="false" Width="100%">
+                                                                                            </asp:LinkButton>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:BoundField DataField="Transaction_Nature_of_Benefit_Desc" HeaderText="Transaction Type" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="20%" />
+                                                                                    <asp:BoundField DataField="Payee_Name1" HeaderText="Payee" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="20%" />
+                                                                                    <asp:BoundField DataField="Nature_of_Payment_Statement" HeaderText="Nature Of Payment" ItemStyle-HorizontalAlign="Left" ItemStyle-Width="20%" />
+                                                                                    <asp:TemplateField HeaderText="Amount">
+                                                                                        <ItemStyle HorizontalAlign="Right" />
+                                                                                        <ItemTemplate>
+                                                                                            <%# string.Format("{0:C2}",Eval("Transaction_Amount"))%>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <%--<asp:BoundField HeaderText="Amount" DataField="Transaction_Amount" DataFormatString="$ {0:C2}" ItemStyle-HorizontalAlign="Right" />--%>
+                                                                                </Columns>
+                                                                                <EmptyDataTemplate>
+                                                                                    <table cellpadding="4" cellspacing="0" width="100%">
+                                                                                        <tr>
+                                                                                            <td align="center" style="border: 1px solid #cccccc;" width="100%">
+                                                                                                <asp:Label ID="lblEmptyHeaderGridMessage" runat="server" Text="No Record Found"></asp:Label>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </EmptyDataTemplate>
+                                                                            </asp:GridView>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="center" colspan="2">
+                                                                        <br />
+                                                                        <asp:Button ID="btnViewSelectedTrans" runat="server" Text=" View "
+                                                                            OnClientClick="return CheckSelectedTrans('View',true);" OnClick="btnViewSelectedTrans_Click" />&nbsp;
+                                                                    <asp:Button ID="btnPrintSelectedTrans" runat="server" Text=" Print " OnClick="btnPrintSelectedTrans_Click"/>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </asp:Panel>
+                                                        <asp:Panel ID="pnlSingleTransactionDetail" runat="server" Visible="false" Width="100%">
                                                             <table border="0" cellpadding="3" cellspacing="1" width="100%">
                                                                 <tr>
                                                                     <td width="20%">Date </td>
@@ -2092,8 +2190,224 @@
                                                                 </tr>
                                                             </table>
                                                         </asp:Panel>
+                                                        <asp:Panel ID="pnlTransactionDetail" runat="server" Visible="false" Width="100%">
+                                                            <input type="hidden" id="hdnRptRows" runat="server" />
+                                                            <table cellpadding="1" cellspacing="1" width="100%">
+                                                                <tr>
+                                                                    <td width="100%">
+                                                                        <div style="width: 785px; height: 370px; overflow-x: hidden; overflow-y: scroll;">
+                                                                            <asp:Repeater ID="rptTransDetail" runat="server">
+
+                                                                                <ItemTemplate>
+                                                                                    <table border="0" cellpadding="3" cellspacing="1" width="100%">
+                                                                                        <tr style='display: <%# Container.ItemIndex == 0  ? "block" : "none" %>' id="trMultiselectTran">
+                                                                                            <td colspan="2" align="left" valign="bottom">
+                                                                                                <input type="checkbox" id="chkRptMultiSelectTrans" onclick="SelectDeselectAllTrans(this.checked, false);" />Select
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td width="5%" align="left" valign="top" id="trSelectTran">
+                                                                                                <asp:CheckBox ID="chkRptTransSelect" runat="server" onclick="SelectDeselectHeader(false);" />
+                                                                                                <input type="hidden" id="hdnID" runat="server" value='<%#Eval("PK_Claims_Transactions_ID")%>' />
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+
+                                                                                            <td width="20%">Date </td>
+                                                                                            <td width="4%">: </td>
+                                                                                            <td width="26%">
+                                                                                                <%#clsGeneral.FormatDBNullDateToDisplay(Eval("Transaction_Entry_date"))%>
+                                                                                            </td>
+                                                                                            <td width="20%">Data Source </td>
+                                                                                            <td width="4%">: </td>
+                                                                                            <td width="26%">
+                                                                                                <%#Eval("Data_Origin")%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Payee Name 1 </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Payee_Name1")%>
+                                                                                            </td>
+                                                                                            <td>Key Claim Number </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Origin_Key_Claim_Number")%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Payee Name 2 </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Payee_Name2")%>
+                                                                                            </td>
+                                                                                            <td>Claimant Sequence Number </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Claimant_Sequence_Number")%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Payee Name 3 </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Payee_Name3")%>
+                                                                                            </td>
+                                                                                            <td>Policy Number </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Policy_Number")%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Payee Street_Address </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Payee_Street_Address")%>
+                                                                                            </td>
+                                                                                            <td>Carrier Policy Number </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Carrier_policy_number")%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Payee City </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Payee_City")%>
+                                                                                            </td>
+                                                                                            <td></td>
+                                                                                            <td></td>
+                                                                                            <td></td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Payee State </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Payee_State")%>
+                                                                                            </td>
+                                                                                            <td>Transaction Amount </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Transaction_Amount") == DBNull.Value ? "" : String.Format("$ {0:N2}", Convert.ToDecimal(Eval("Transaction_Amount")))%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Payee Zip </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Payee_Zip")%>
+                                                                                            </td>
+                                                                                            <td>Transaction Sequence Number </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Transaction_Sequence_Number")%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Payee ID </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Convert.ToString(Eval("Payee_Tax_Number")) + " - " + Convert.ToString(Eval("Payee_SSN_FEIN"))%>
+                                                                                            </td>
+                                                                                            <td>Claim Status </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Claim_Status")%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Entry Code </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Entry_Code_Desc")%>
+                                                                                            </td>
+                                                                                            <td>Entry Code Modiifer </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Entry_Code_Modifier_Desc")%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Nature of Benefit </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Nature_of_Benefit_Code_Desc")%>
+                                                                                            </td>
+                                                                                            <td>Transaction Nature of Benefit </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Transaction_Nature_of_Benefit_Desc")%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Nature of Payment Statement </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Nature_of_Payment_Statement")%>
+                                                                                            </td>
+                                                                                            <td>Check Number </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Check_Number")%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>SRS Recovery Office Code </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("SRS_Recovery_Office_Code")%>
+                                                                                            </td>
+                                                                                            <td>Check Issue Date </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#clsGeneral.FormatDBNullDateToDisplay(Eval("Check_Issue_Date"))%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>SRS Draft Issue Office Code </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("SRS_Draft_Issue_Office_Code")%>
+                                                                                            </td>
+                                                                                            <td>Recovery Sequence Number </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Recovery_Sequence_Number")%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </ItemTemplate>
+                                                                            </asp:Repeater>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="center" colspan="2">
+                                                                        <br />
+                                                                        <asp:Button ID="btnPrintSelectedTransInner" runat="server" Text=" Print "
+                                                                            OnClientClick="return CheckSelectedTrans('Print',false);" />&nbsp;
+                                                                        <asp:Button ID="btnCancel" runat="server" Text=" Cancel "  OnClick="btnCancel_Click"/>
+                                                                        <asp:Button ID="btnMailTrans" runat="server" Text=" Mail " />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </asp:Panel>
                                                         </br>
                                                     </ContentTemplate>
+                                                    <Triggers>
+                                                        <asp:PostBackTrigger ControlID="btnPrintSelectedTrans" />
+                                                    </Triggers>
                                                 </asp:UpdatePanel>
                                             </asp:Panel>
                                             <asp:Panel ID="pnlReturnToWork" runat="server">
@@ -2909,7 +3223,7 @@
                                                         <td align="center">:
                                                         </td>
                                                         <td align="left">
-                                                            <asp:RadioButtonList runat="server" ID="rdoFullFinalClincher" runat="server" SkinID="YesNoType" />
+                                                            <asp:RadioButtonList runat="server" ID="rdoFullFinalClincher" SkinID="YesNoType" />
                                                         </td>
                                                         <td colspan="3">&nbsp;
                                                         </td>
