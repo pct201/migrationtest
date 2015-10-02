@@ -41,8 +41,8 @@
         </tr>
         <tr>
             <td colspan="2">
-                <div style="overflow: hidden; width: 600px;" id="divNonCustomer_Header" runat="server">
-                    <table cellpadding="9" cellspacing="0" style="width: 600px; border-collapse: collapse;"> 
+                 <div style="overflow: hidden; width: 600px;" id="divNonCustomer_Header" runat="server">
+                    <table cellpadding="4" cellspacing="0" style="width: 600px; border-collapse: collapse;">
                         <tbody>
                             <tr style="background-color: #95B3D7; color: White; font-size: 12px; font-weight: bold;"
                                 align="left">
@@ -56,61 +56,61 @@
                                     <span style="display: inline-block; width: 120px;">Date of Incident </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 140px;">Source</span>
+                                    <span style="display: inline-block; width: 130px;">Source</span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 130px;">Last Name</span>
+                                    <span style="display: inline-block; width: 120px;">Last Name</span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 130px;">First Name</span>
+                                    <span style="display: inline-block; width: 120px;">First Name</span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 140px;">Last Name Co-Buyer or Caller</span>
+                                    <span style="display: inline-block; width: 120px;">Last Name Co-Buyer or Caller</span>
                                 </th>
                                 <th class="cols">
                                     <span style="display: inline-block; width: 120px;">First Name Co-Buyer or Caller</span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 120px;">Address</span>
+                                    <span style="display: inline-block; width: 130px;">Address</span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 290px;">City</span>
+                                    <span style="display: inline-block; width: 100px;">City</span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 150px;">State</span>
+                                    <span style="display: inline-block; width: 100px;">State</span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 150px;">Zip </span>
+                                    <span style="display: inline-block; width: 100px;">Zip </span>
                                 </th>
                                 <th class="cols">
                                     <span style="display: inline-block; width: 130px;">Email</span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 130px;">Home Telephone </span>
+                                    <span style="display: inline-block; width: 140px;">Home Telephone </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 130px;">Cell Telephone </span>
+                                    <span style="display: inline-block; width: 140px;">Cell Telephone </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 130px;">Work Telephone </span>
+                                    <span style="display: inline-block; width: 140px;">Work Telephone </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 155px;">Work Telephone Extension </span>
+                                    <span style="display: inline-block; width: 165px;">Work Telephone Extension </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 290px;">Summary </span>
+                                    <span style="display: inline-block; width: 300px;">Summary </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 120px;">Department </span>
+                                    <span style="display: inline-block; width: 130px;">Department </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 150px;">Department Detail </span>
+                                    <span style="display: inline-block; width: 130px;">Department Detail </span>
                                 </th>
                                 <th class="cols">
                                     <span style="display: inline-block; width: 120px;">Date of Service</span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 130px;">Date of Service Estimated? </span>
+                                    <span style="display: inline-block; width: 140px;">Date of Service Estimated? </span>
                                 </th>
                                 <th class="cols">
                                     <span style="display: inline-block; width: 120px;">Dealer </span>
@@ -122,97 +122,97 @@
                                     <span style="display: inline-block; width: 150px;">Model </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 290px;">Year </span>
+                                    <span style="display: inline-block; width: 100px;">Year </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 290px;">CRM Contacted </span>
+                                    <span style="display: inline-block; width: 130px;">CRM Contacted </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 120px;">Resolution Manager </span>
+                                    <span style="display: inline-block; width: 130px;">Resolution Manager </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 150px;">Resolution Manager Name </span>
+                                    <span style="display: inline-block; width: 160px;">Resolution Manager Name </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 150px;">Resolution Manager Email </span>
+                                    <span style="display: inline-block; width: 160px;">Resolution Manager Email </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 130px;">Customer Contacted GM? </span>
+                                    <span style="display: inline-block; width: 140px;">Customer Contacted GM? </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 120px;">Date of Contact GM </span>
+                                    <span style="display: inline-block; width: 130px;">Date of Contact GM </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 120px;">GM Name </span>
+                                    <span style="display: inline-block; width: 130px;">GM Name </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 120px;">Date of Contact RVP </span>
+                                    <span style="display: inline-block; width: 130px;">Date of Contact RVP </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 120px;">RVP Name </span>
+                                    <span style="display: inline-block; width: 130px;">RVP Name </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 120px;">Date of Contact DFOD</span>
+                                    <span style="display: inline-block; width: 130px;">Date of Contact DFOD</span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 120px;">DFOD </span>
+                                    <span style="display: inline-block; width: 130px;">DFOD </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 150px;">Other Contact Name </span>
+                                    <span style="display: inline-block; width: 160px;">Other Contact Name </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 120px;">Legal/Attorney General?</span>
+                                    <span style="display: inline-block; width: 130px;">Legal/Attorney General?</span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 120px;">Legal Email </span>
+                                    <span style="display: inline-block; width: 130px;">Legal Email </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 120px;">Demand Letter? </span>
+                                    <span style="display: inline-block; width: 130px;">Demand Letter? </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 120px;">Date of Last Update</span>
+                                    <span style="display: inline-block; width: 130px;">Date of Last Update</span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 150px;">Last Action </span>
+                                    <span style="display: inline-block; width: 160px;">Last Action </span>
                                 </th>   
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 290px;">Field Resolution Information  </span>
+                                    <span style="display: inline-block; width: 300px;">Field Resolution Information  </span>
                                 </th>                                
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 290px;">Resolution Summary</span>
+                                    <span style="display: inline-block; width: 300px;">Resolution Summary</span>
                                 </th>                               
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 120px;">Complete? </span>
+                                    <span style="display: inline-block; width: 130px;">Complete? </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 120px;">Close Date </span>
+                                    <span style="display: inline-block; width: 130px;">Close Date </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 120px;">Days to Close</span>
+                                    <span style="display: inline-block; width: 130px;">Days to Close</span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 140px;">Customer Call Back After Resolved? </span>
+                                    <span style="display: inline-block; width: 150px;">Customer Call Back After Resolved? </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 130px;">Resolution Letter to Customer? </span>
+                                    <span style="display: inline-block; width: 140px;">Resolution Letter to Customer? </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 130px;">Date Resolution Letter Sent </span>
+                                    <span style="display: inline-block; width: 140px;">Date Resolution Letter Sent </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 130px;">Sent By </span>
+                                    <span style="display: inline-block; width: 140px;">Sent By </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 120px;">Letter N/A? </span>
+                                    <span style="display: inline-block; width: 130px;">Letter N/A? </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 120px;">Letter N/A Reason </span>
+                                    <span style="display: inline-block; width: 130px;">Letter N/A Reason </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 290px;">Letter N/A Note </span>
+                                    <span style="display: inline-block; width: 300px;">Letter N/A Note </span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 120px;">Updated_By</span>
+                                    <span style="display: inline-block; width: 130px;">Updated_By</span>
                                 </th>
                                 <th class="cols">
                                     <span style="display: inline-block; width: 167px;">Updated_Date</span>
@@ -223,15 +223,16 @@
                 </div>
                 <div style="overflow: scroll; width: 600px; height: 500px;" id="divNonCustomer_Grid"
                     runat="server">
-                    <asp:GridView ID="gvNonCustomer" runat="server" AutoGenerateColumns="False" CellPadding="9"
-                        EnableTheming="True" EmptyDataText="No records found!" ShowHeader="false">
+                    <asp:GridView ID="gvNonCustomer" runat="server" AutoGenerateColumns="False" CellPadding="4"
+                        EnableTheming="True" EmptyDataText="No records found!" ShowHeader="false"  Style="word-wrap: normal; word-break: break-all;">
                         <RowStyle HorizontalAlign="Left" VerticalAlign="Top" />
                         <Columns>
                             <asp:TemplateField HeaderText="Audit_DateTime" SortExpression="Audit_DateTime">
-                                <ItemStyle CssClass="cols"/>
+                                <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
                                     <asp:Label ID="lblAudit_DateTime" runat="server" Text='<%# Convert.ToDateTime(Eval("Audit_DateTime")).ToString("yyyy-MM-dd HH:mm")%>'
-                                        ToolTip='<%# Convert.ToDateTime(Eval("Audit_DateTime")).ToString("yyyy-MM-dd HH:mm")%>'  Width="120px"></asp:Label>
+                                        ToolTip='<%# Convert.ToDateTime(Eval("Audit_DateTime")).ToString("yyyy-MM-dd HH:mm")%>'
+                                        Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>                          
                             <asp:TemplateField HeaderText="Complaint Number">
@@ -242,17 +243,17 @@
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Date of Contact">
-                                <ItemStyle CssClass="cols"/>
+                                <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
                                     <asp:Label ID="lblRecord_Date" runat="server" Text='<%#Eval("Record_Date") != DBNull.Value ? clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Record_Date"))) : ""%>'
                                         Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Source">
-                                <ItemStyle CssClass="cols"/>
+                                <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
                                     <asp:Label ID="lblFK_LU_CRM_Source" runat="server" Text='<%#Eval("FK_LU_CRM_Source")%>'
-                                        Width="120px"></asp:Label>
+                                        Width="130px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Last Name">
@@ -268,7 +269,7 @@
                                     <asp:Label ID="lblFirst_Name" runat="server" Text='<%#Eval("First_Name")%>' Width="120px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                             <asp:TemplateField HeaderText="Last Name Co-Buyer or Caller">
+                            <asp:TemplateField HeaderText="Last Name Co-Buyer or Caller">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
                                     <asp:Label ID="lblLast_Name_Co_Buyer" runat="server" Text='<%#Eval("Last_Name_Co_Buyer")%>'
@@ -288,9 +289,9 @@
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="City">
-                                <ItemStyle CssClass="cols"/>
+                                <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblCity" runat="server" Text='<%#Eval("City")%>' Width="100px" CssClass="TextClip"></asp:Label>
+                                    <asp:Label ID="lblCity" runat="server" Text='<%#Eval("City")%>' Width="100px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="State">
@@ -405,7 +406,7 @@
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
                                     <asp:Label ID="lblFK_LU_CRM_Contacted_Resolution_2" runat="server" Text='<%#Eval("FK_LU_CRM_Contacted_Resolution_2")%>'
-                                        Width="100px"></asp:Label>
+                                        Width="130px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                              <asp:TemplateField HeaderText="FK_LU_CRM_Contacted_Resolution_1">

@@ -462,6 +462,10 @@ namespace ERIMS.DAL
             sbBody = sbBody.Replace("[Attachments]", GetAttachmentDetails(_PK_CRM_Customer));
             #endregion
 
+            if (!Directory.Exists(AppConfig.SitePath + @"\Documents\CRMCustomer"))
+            {
+                Directory.CreateDirectory(AppConfig.SitePath + @"\Documents\CRMCustomer");
+            }
             FileStream fsMailCreate = null;
             fsMailCreate = new FileStream(AppConfig.SitePath + @"\Documents\CRMCustomer\CRM_Customer_Email.htm", FileMode.Create, FileAccess.Write);
             StreamWriter sw = new StreamWriter(fsMailCreate);
