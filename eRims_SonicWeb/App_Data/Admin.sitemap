@@ -63,6 +63,7 @@
         <siteMapNode url="COIReports/Default.aspx" title="Certificate of Insurance" />
         <siteMapNode url="SONIC/ClaimInfo/rptDefault.aspx" title="Claim Reports" description="Claim Reports" />
         <siteMapNode url="SONIC/CRM/rptDefault.aspx" title="Customer Relationship Management Reports" description="CRM Reports"/>
+        <siteMapNode url="UserAccessRequest/rptUserAccessRequest.aspx" title="User Access Request Reports" description="UserAccessRequest Reports"/>
         <siteMapNode url="DashBoard/rptDefault.aspx" title="Dashboard Reports" description="Dashboard Reports"/>
         <siteMapNode url="ExecutiveRisk/RptDefault.aspx" title="Executive Risk"/>
         <siteMapNode url="SONIC/Exposures/rptDefault.aspx" title="Exposures" description="Exposures" />
