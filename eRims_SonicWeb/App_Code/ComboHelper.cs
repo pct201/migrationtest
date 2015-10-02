@@ -5676,4 +5676,27 @@ public class ComboHelper
         }
     }
 
+    /// <summary>
+    /// Used to Bind State DropDown
+    /// </summary>
+    /// <param name="dropDowns">Dropdown Lists</param>
+    /// <param name="intID">used to selected a value using this param</param>
+    /// <param name="addSelectAsFirstElement">Require to add "--Select--" as a first element of dropdown</param>
+    public static void FillLossCategory(DropDownList[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.LU_PL_Loss_Category.SelectAllActive();
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Description";
+            ddlToFill.DataValueField = "PK_LU_PL_Loss_Category";
+            ddlToFill.DataSource = dsData;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
 }

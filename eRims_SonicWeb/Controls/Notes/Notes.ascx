@@ -6,14 +6,14 @@ function ExpandNotes(bExpand,imgPlusId,imgMinusId,txtId)
     if(bExpand)
     {
         document.getElementById(txtId).rows=30;
-        document.getElementById(imgMinusId).style.display = "block";
+        document.getElementById(imgMinusId).style.display = "";
         document.getElementById(imgPlusId).style.display = "none";
     }
     else
     {
         document.getElementById(txtId).rows=5;
         document.getElementById(imgMinusId).style.display = "none";
-        document.getElementById(imgPlusId).style.display = "block";
+        document.getElementById(imgPlusId).style.display = "";
     }
 }
 </script>

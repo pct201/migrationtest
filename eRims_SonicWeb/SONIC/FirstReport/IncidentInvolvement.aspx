@@ -4,7 +4,7 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <asp:Content ContentPlaceHolderID="ContentPlaceHolder1" ID="Content1" runat="server">
     <script type="text/javascript" src="../../JavaScript/JFunctions.js"></script>
-     <script type="text/javascript" src="../../JavaScript/Validator.js"></script>
+    <script type="text/javascript" src="../../JavaScript/Validator.js"></script>
     <script type="text/javascript">
         function SetMenuStyle(index) {
             var i;
@@ -93,33 +93,28 @@
     </div>
     <table cellpadding="0" cellspacing="0" width="100%">
         <tr>
-            <td>
-                &nbsp;
+            <td>&nbsp;
             </td>
         </tr>
         <tr>
-            <td class="ghc" align="left">
-            </td>
+            <td class="ghc" align="left"></td>
         </tr>
         <tr>
             <td>
                 <table cellpadding="0" cellspacing="0" width="100%">
                     <tr>
-                        <td class="Spacer" style="height: 15px;" colspan="2">
-                        </td>
+                        <td class="Spacer" style="height: 15px;" colspan="2"></td>
                     </tr>
                     <tr>
                         <td class="leftMenu">
                             <table cellpadding="5" cellspacing="0" width="100%">
                                 <tr>
-                                    <td style="height: 18px;" class="Spacer">
-                                    </td>
+                                    <td style="height: 18px;" class="Spacer"></td>
                                 </tr>
                                 <tr>
                                     <td align="left" width="100%">
                                         <span id="Menu1" onclick="javascript:ShowPanel(1);" class="LeftMenuStatic">Incident
-                                            Involvement Grid</span> <span id="MenuAsterisk1" runat="server" style="color: Red;
-                                                display: none">*</span>
+                                            Involvement Grid</span> <span id="MenuAsterisk1" runat="server" style="color: Red; display: none">*</span>
                                     </td>
                                 </tr>
                             </table>
@@ -127,263 +122,277 @@
                         <td valign="top">
                             <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                 <tr>
-                                    <td width="5px" class="Spacer">
-                                        &nbsp;
+                                    <td width="5px" class="Spacer">&nbsp;
                                     </td>
                                     <td class="dvContainer">
                                         <div id="dvEdit" runat="server" width="794px">
                                             <asp:Panel ID="pnl1" runat="server" Style="display: none;">
                                                 <div class="bandHeaderRow">
-                                                    Incident Involvement Grid</div>
-                                                <table cellpadding="3" cellspacing="1" border="0" width="100%">
-                                                    <tr>
-                                                        <td align="left" width="18%" valign="top">
-                                                            Type&nbsp;<span id="Span1" style="color: Red; display: none;" runat="server">*</span>
-                                                        </td>
-                                                        <td align="center" width="4%" valign="top">
-                                                            :
-                                                        </td>
-                                                        <td align="left" width="28%" valign="top">
-                                                            <asp:DropDownList ID="drpFK_LU_PL_Involvement" Width="175px" runat="server" SkinID="dropGen">
-                                                            </asp:DropDownList>
-                                                        </td>
-                                                        <td align="left" width="18%" valign="top">
-                                                            Name&nbsp;<span id="Span2" style="color: Red; display: none;" runat="server">*</span>
-                                                        </td>
-                                                        <td align="center" width="4%" valign="top">
-                                                            :
-                                                        </td>
-                                                        <td align="left" width="28%" valign="top">
-                                                            <asp:TextBox ID="txtName" runat="server" Width="170px" MaxLength="75" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top">
-                                                            Address 1&nbsp;<span id="Span3" style="color: Red; display: none;" runat="server">*</span>
-                                                        </td>
-                                                        <td align="center" valign="top">
-                                                            :
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtAddress_1" runat="server" Width="170px" MaxLength="50" />
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            Address 2&nbsp;<span id="Span4" style="color: Red; display: none;" runat="server">*</span>
-                                                        </td>
-                                                        <td align="center" valign="top">
-                                                            :
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtAddress_2" runat="server" Width="170px" MaxLength="50" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top">
-                                                            City&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server">*</span>
-                                                        </td>
-                                                        <td align="center" valign="top">
-                                                            :
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtCity" runat="server" Width="170px" MaxLength="30" />
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            State&nbsp;<span id="Span6" style="color: Red; display: none;" runat="server">*</span>
-                                                        </td>
-                                                        <td align="center" valign="top">
-                                                            :
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:DropDownList ID="drpFK_State" Width="175px" runat="server" SkinID="dropGen">
-                                                            </asp:DropDownList>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top">
-                                                            Zip Code (XXXXX-XXXX)&nbsp;<span id="Span7" style="color: Red; display: none;" runat="server">*</span>
-                                                        </td>
-                                                        <td align="center" valign="top">
-                                                            :
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtZip_Code" runat="server" Width="170px" MaxLength="10" onKeyPress="javascript:return FormatZipCode(event,this.id);"/>
-                                                             <asp:RegularExpressionValidator ID="revZipCode" runat="server" ErrorMessage="Please enter valid Zip Code"
-                                                                    Display="none" ControlToValidate="txtZip_Code" ValidationExpression="\b[0-9]{5}-[0-9]{4}\b|\b[0-9]{5}\b"
-                                                                    ValidationGroup="vsErrorGroup" SetFocusOnError="true" />
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            Home Telephone (XXX-XXX-XXXX)&nbsp;<span id="Span8" style="color: Red; display: none;"
-                                                                runat="server">*</span>
-                                                        </td>
-                                                        <td align="center" valign="top">
-                                                            :
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtHome_Telephone" runat="server" Width="170px" MaxLength="12"  onKeyPress="javascript:return FormatPhone(event,this.id);"/>
-                                                            <asp:RegularExpressionValidator ID="revContactPhone" runat="server" ErrorMessage="Please enter valid Home Telephone"
-                                                                ControlToValidate="txtHome_Telephone" ValidationExpression="\b[0-9]{3}-[0-9]{3}-[0-9]{4}\b"
-                                                                Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top">
-                                                            Work Telephone (XXX-XXX-XXXX)&nbsp;<span id="Span9" style="color: Red; display: none;"
-                                                                runat="server">*</span>
-                                                        </td>
-                                                        <td align="center" valign="top">
-                                                            :
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtWork_Telephone" runat="server" Width="170px" MaxLength="12" onKeyPress="javascript:return FormatPhone(event,this.id);"/>
-                                                             <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ErrorMessage="Please enter valid Work Telephone"
-                                                                ControlToValidate="txtWork_Telephone" ValidationExpression="\b[0-9]{3}-[0-9]{3}-[0-9]{4}\b"
-                                                                Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true" />
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            Cell Telephone (XXX-XXX-XXXX)&nbsp;<span id="Span10" style="color: Red; display: none;"
-                                                                runat="server">*</span>
-                                                        </td>
-                                                        <td align="center" valign="top">
-                                                            :
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtCell_Telephone" runat="server" Width="170px" MaxLength="12"  onKeyPress="javascript:return FormatPhone(event,this.id);"/>
-                                                             <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ErrorMessage="Please enter valid Cell Telephone"
-                                                                ControlToValidate="txtCell_Telephone" ValidationExpression="\b[0-9]{3}-[0-9]{3}-[0-9]{4}\b"
-                                                                Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" valign="top">
-                                                            E-Mail Address&nbsp;<span id="Span11" style="color: Red; display: none;" runat="server">*</span>
-                                                        </td>
-                                                        <td align="center" valign="top">
-                                                            :
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:TextBox ID="txtEmail" runat="server" Width="170px" MaxLength="255" />
-                                                             <asp:RegularExpressionValidator ID="revEmail" runat="server" ErrorMessage="Please enter valid E-Mail Address"
-                                                        ControlToValidate="txtEmail" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"
-                                                        Display="None" SetFocusOnError="true" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
-                                                        </td>
-                                                    </tr>
-                                                </table>
+                                                    Incident Involvement Grid
+                                                </div>
+                                                <asp:UpdatePanel runat="server" ID="updLossInformation">
+                                                    <ContentTemplate>
+                                                        <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                            <tr>
+                                                                <td align="left" width="18%" valign="top">Type&nbsp;<span id="Span1" style="color: Red; display: none;" runat="server">*</span>
+                                                                </td>
+                                                                <td align="center" width="4%" valign="top">:
+                                                                </td>
+                                                                <td align="left" width="28%" valign="top">
+                                                                    <asp:DropDownList ID="drpFK_LU_PL_Involvement" Width="175px" runat="server" SkinID="dropGen">
+                                                                    </asp:DropDownList>
+                                                                </td>
+                                                                <td align="left" width="18%" valign="top">Name&nbsp;<span id="Span2" style="color: Red; display: none;" runat="server">*</span>
+                                                                </td>
+                                                                <td align="center" width="4%" valign="top">:
+                                                                </td>
+                                                                <td align="left" width="28%" valign="top">
+                                                                    <asp:TextBox ID="txtName" runat="server" Width="170px" MaxLength="75" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" valign="top">Address 1&nbsp;<span id="Span3" style="color: Red; display: none;" runat="server">*</span>
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left" valign="top">
+                                                                    <asp:TextBox ID="txtAddress_1" runat="server" Width="170px" MaxLength="50" />
+                                                                </td>
+                                                                <td align="left" valign="top">Address 2&nbsp;<span id="Span4" style="color: Red; display: none;" runat="server">*</span>
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left" valign="top">
+                                                                    <asp:TextBox ID="txtAddress_2" runat="server" Width="170px" MaxLength="50" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" valign="top">City&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server">*</span>
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left" valign="top">
+                                                                    <asp:TextBox ID="txtCity" runat="server" Width="170px" MaxLength="30" />
+                                                                </td>
+                                                                <td align="left" valign="top">State&nbsp;<span id="Span6" style="color: Red; display: none;" runat="server">*</span>
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left" valign="top">
+                                                                    <asp:DropDownList ID="drpFK_State" Width="175px" runat="server" SkinID="dropGen">
+                                                                    </asp:DropDownList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" valign="top">Zip Code (XXXXX-XXXX)&nbsp;<span id="Span7" style="color: Red; display: none;" runat="server">*</span>
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left" valign="top">
+                                                                    <asp:TextBox ID="txtZip_Code" runat="server" Width="170px" MaxLength="10" onKeyPress="javascript:return FormatZipCode(event,this.id);" />
+                                                                    <asp:RegularExpressionValidator ID="revZipCode" runat="server" ErrorMessage="Please enter valid Zip Code"
+                                                                        Display="none" ControlToValidate="txtZip_Code" ValidationExpression="\b[0-9]{5}-[0-9]{4}\b|\b[0-9]{5}\b"
+                                                                        ValidationGroup="vsErrorGroup" SetFocusOnError="true" />
+                                                                </td>
+                                                                <td align="left" valign="top">Home Telephone (XXX-XXX-XXXX)&nbsp;<span id="Span8" style="color: Red; display: none;"
+                                                                    runat="server">*</span>
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left" valign="top">
+                                                                    <asp:TextBox ID="txtHome_Telephone" runat="server" Width="170px" MaxLength="12" onKeyPress="javascript:return FormatPhone(event,this.id);" />
+                                                                    <asp:RegularExpressionValidator ID="revContactPhone" runat="server" ErrorMessage="Please enter valid Home Telephone"
+                                                                        ControlToValidate="txtHome_Telephone" ValidationExpression="\b[0-9]{3}-[0-9]{3}-[0-9]{4}\b"
+                                                                        Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" valign="top">Work Telephone (XXX-XXX-XXXX)&nbsp;<span id="Span9" style="color: Red; display: none;"
+                                                                    runat="server">*</span>
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left" valign="top">
+                                                                    <asp:TextBox ID="txtWork_Telephone" runat="server" Width="170px" MaxLength="12" onKeyPress="javascript:return FormatPhone(event,this.id);" />
+                                                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ErrorMessage="Please enter valid Work Telephone"
+                                                                        ControlToValidate="txtWork_Telephone" ValidationExpression="\b[0-9]{3}-[0-9]{3}-[0-9]{4}\b"
+                                                                        Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true" />
+                                                                </td>
+                                                                <td align="left" valign="top">Cell Telephone (XXX-XXX-XXXX)&nbsp;<span id="Span10" style="color: Red; display: none;"
+                                                                    runat="server">*</span>
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left" valign="top">
+                                                                    <asp:TextBox ID="txtCell_Telephone" runat="server" Width="170px" MaxLength="12" onKeyPress="javascript:return FormatPhone(event,this.id);" />
+                                                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ErrorMessage="Please enter valid Cell Telephone"
+                                                                        ControlToValidate="txtCell_Telephone" ValidationExpression="\b[0-9]{3}-[0-9]{3}-[0-9]{4}\b"
+                                                                        Display="none" ValidationGroup="vsErrorGroup" SetFocusOnError="true" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" valign="top">E-Mail Address&nbsp;<span id="Span11" style="color: Red; display: none;" runat="server">*</span>
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left" valign="top">
+                                                                    <asp:TextBox ID="txtEmail" runat="server" Width="170px" MaxLength="255" />
+                                                                    <asp:RegularExpressionValidator ID="revEmail" runat="server" ErrorMessage="Please enter valid E-Mail Address"
+                                                                        ControlToValidate="txtEmail" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"
+                                                                        Display="None" SetFocusOnError="true" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" valign="top">Gender
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left" valign="top">
+                                                                    <asp:CheckBox runat="server" ID="chkMale" Text="Male" AutoPostBack="true" OnCheckedChanged="chkMale_CheckedChanged" />
+                                                                    <asp:CheckBox runat="server" ID="chkFemale" Text="Female" AutoPostBack="true" OnCheckedChanged="chkFemale_CheckedChanged" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left">Medical Attention Required?
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left">
+                                                                    <asp:RadioButtonList ID="rdoMedicalAttentionRequired" SkinID="YesNoType" runat="server">
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                                <td align="left">Medical Attention Declined?
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left">
+                                                                    <asp:RadioButtonList ID="rdoMedicalAttentionDeclined" SkinID="YesNoType" runat="server">
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </ContentTemplate>
+                                                </asp:UpdatePanel>
                                             </asp:Panel>
                                         </div>
                                         <div id="dvView" runat="server" width="794px">
                                             <asp:Panel ID="pnl1View" runat="server" Style="display: none;">
                                                 <div class="bandHeaderRow">
-                                                    Incident Involvement Grid</div>
+                                                    Incident Involvement Grid
+                                                </div>
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                     <tr>
-                                                        <td align="left" width="18%" valign="top">
-                                                            Type
+                                                        <td align="left" width="18%" valign="top">Type
                                                         </td>
-                                                        <td align="center" width="4%" valign="top">
-                                                            :
+                                                        <td align="center" width="4%" valign="top">:
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:Label ID="lblFK_LU_PL_Involvement" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left" width="18%" valign="top">
-                                                            Name
+                                                        <td align="left" width="18%" valign="top">Name
                                                         </td>
-                                                        <td align="center" width="4%" valign="top">
-                                                            :
+                                                        <td align="center" width="4%" valign="top">:
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:Label ID="lblName" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">
-                                                            Address 1
+                                                        <td align="left" valign="top">Address 1
                                                         </td>
-                                                        <td align="center" valign="top">
-                                                            :
+                                                        <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblAddress_1" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left" valign="top">
-                                                            Address 2
+                                                        <td align="left" valign="top">Address 2
                                                         </td>
-                                                        <td align="center" valign="top">
-                                                            :
+                                                        <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblAddress_2" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">
-                                                            City
+                                                        <td align="left" valign="top">City
                                                         </td>
-                                                        <td align="center" valign="top">
-                                                            :
+                                                        <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblCity" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left" valign="top">
-                                                            State
+                                                        <td align="left" valign="top">State
                                                         </td>
-                                                        <td align="center" valign="top">
-                                                            :
+                                                        <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblFK_State" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">
-                                                            Zip Code (XXXXX-XXXX)
+                                                        <td align="left" valign="top">Zip Code (XXXXX-XXXX)
                                                         </td>
-                                                        <td align="center" valign="top">
-                                                            :
+                                                        <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblZip_Code" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left" valign="top">
-                                                            Home Telephone (XXX-XXX-XXXX)
+                                                        <td align="left" valign="top">Home Telephone (XXX-XXX-XXXX)
                                                         </td>
-                                                        <td align="center" valign="top">
-                                                            :
+                                                        <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblHome_Telephone" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">
-                                                            Work Telephone (XXX-XXX-XXXX)
+                                                        <td align="left" valign="top">Work Telephone (XXX-XXX-XXXX)
                                                         </td>
-                                                        <td align="center" valign="top">
-                                                            :
+                                                        <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblWork_Telephone" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left" valign="top">
-                                                            Cell Telephone (XXX-XXX-XXXX)
+                                                        <td align="left" valign="top">Cell Telephone (XXX-XXX-XXXX)
                                                         </td>
-                                                        <td align="center" valign="top">
-                                                            :
+                                                        <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblCell_Telephone" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">
-                                                            E-Mail Address
+                                                        <td align="left" valign="top">E-Mail Address
                                                         </td>
-                                                        <td align="center" valign="top">
-                                                            :
+                                                        <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblEmail" runat="server"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Gender
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:Label ID="lblGender" runat="server"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">Medical Attention Required?
+                                                        </td>
+                                                        <td align="center">:
+                                                        </td>
+                                                        <td align="left" colspan="4">
+                                                            <asp:Label ID="lblMedicalAttentionRequired" runat="server"></asp:Label>
+                                                        </td>
+                                                        <td align="left">Medical Attention Declined?
+                                                        </td>
+                                                        <td align="center">:
+                                                        </td>
+                                                        <td align="left" colspan="4">
+                                                            <asp:Label ID="lblMedicalAttentionDeclined" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -395,8 +404,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>
-                            &nbsp;
+                        <td>&nbsp;
                         </td>
                         <td align="center">
                             <div id="dvSave" runat="server">
@@ -407,7 +415,7 @@
                                                 CausesValidation="true" ValidationGroup="vsErrorGroup" />&nbsp;&nbsp;
                                             <asp:Button ID="btnReturn" runat="server" Text=" Return " OnClick="btnReturn_Click" />&nbsp;&nbsp;
                                             <asp:Button ID="btnRevert" runat="server" Text=" Revert " OnClick="btnRevert_Click" />&nbsp;&nbsp;
-                                            <asp:Button ID="btnAuditTrail" runat="server" Text=" Audit Trail " OnClientClick="javascript:return OpenAuditPopUp();"/>
+                                            <asp:Button ID="btnAuditTrail" runat="server" Text=" Audit Trail " OnClientClick="javascript:return OpenAuditPopUp();" />
                                         </td>
                                     </tr>
                                 </table>
@@ -418,7 +426,7 @@
                                         <td align="center">
                                             <asp:Button ID="btnEdit" runat="server" Text=" Edit " OnClick="btnEdit_Click" />&nbsp;&nbsp;
                                             <asp:Button ID="btnReturnView" runat="server" Text=" Return " OnClick="btnReturn_Click" />&nbsp;&nbsp;
-                                            <asp:Button ID="btnAuditTrailView" runat="server" Text=" Audit Trail " OnClientClick="javascript:return OpenAuditPopUp();"/>
+                                            <asp:Button ID="btnAuditTrailView" runat="server" Text=" Audit Trail " OnClientClick="javascript:return OpenAuditPopUp();" />
                                         </td>
                                     </tr>
                                 </table>

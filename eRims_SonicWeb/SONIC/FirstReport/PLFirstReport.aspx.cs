@@ -75,7 +75,7 @@ public partial class SONIC_PLFirstReport : clsBasePage
         CtrlAttachment.btnHandler += new Sonic_Attachment.OnButtonClick(Upload_File);
         if (!Page.IsPostBack)
         {
-            btnSendMail.Visible = (UserAccessType == AccessType.Administrative_Access);            
+            btnSendMail.Visible = (UserAccessType == AccessType.Administrative_Access);
             if (Request.QueryString["WZ_ID"] != null)
             {
                 int WZ_ID;
@@ -154,8 +154,11 @@ public partial class SONIC_PLFirstReport : clsBasePage
                 #endregion
 
                 #region Loss Information Panel
+                
                 //Fill State
                 ComboHelper.FillState(new DropDownList[] { ddlClaimant_State }, 0, true);
+                ComboHelper.FillLossCategory(new DropDownList[] { ddlLossCategory }, true);
+
                 #endregion
 
                 #region Product Information Panel
@@ -216,6 +219,7 @@ public partial class SONIC_PLFirstReport : clsBasePage
                 #region Loss Information Panel
                 //Fill State
                 ComboHelper.FillState(new DropDownList[] { ddlClaimant_State }, 0, true);
+                ComboHelper.FillLossCategory(new DropDownList[] { ddlLossCategory }, true);
                 #endregion
 
                 #region Product Information Panel
@@ -540,6 +544,7 @@ public partial class SONIC_PLFirstReport : clsBasePage
     #endregion
 
     #region Loss Information Panel Events
+
     /// <summary>
     /// Used to Update Loss Informaiton
     /// </summary>
@@ -596,6 +601,7 @@ public partial class SONIC_PLFirstReport : clsBasePage
             objPL_FR.Case_Number = "";
             objPL_FR.Police_telephone = "";
         }
+        objPL_FR.FK_PL_Loss_Category = Convert.ToDecimal(ddlLossCategory.SelectedValue);
         objPL_FR.Loss_Category = txtLoss_Category.Text;
         //use to check selected value if it is "-1" than value set to null.
         if (rdoPersonal_Bodily_Injury.SelectedValue != "-1")
@@ -844,6 +850,29 @@ public partial class SONIC_PLFirstReport : clsBasePage
             //}
             #endregion
         }
+
+        #region Insert New Values For Module 3381
+
+        objPL_FR.Conditions_Of_Area = txtConditionOfAreaProperty.Text.Trim();
+        objPL_FR.Visible_Impairments = rdoVisibleImpairments.SelectedValue.ToString();
+        if (objPL_FR.Visible_Impairments == "Y")
+        {
+            objPL_FR.Describe_Impairments = txtVisibleImpairmentsDescription.Text.Trim();
+        }
+
+        if (chkIndoorLightingCondidions.Checked)
+        {
+            objPL_FR.Lighting_Conditions = "I";
+        }
+
+        if (chkOutdoorLightingCondidions.Checked)
+        {
+            objPL_FR.Lighting_Conditions = "O";
+        }
+        objPL_FR.Describe_Lighting = txtLightingConditionsDescription.Text.Trim();
+
+        #endregion
+
         //check PK id is greater than 0.if yes than update Info. into PL_FR table
         if (PK_PL_FR_ID > 0)
         {
@@ -1250,7 +1279,12 @@ public partial class SONIC_PLFirstReport : clsBasePage
                 lblCase_Number.Text = objPL_FR.Case_Number;
                 lblPolice_telephone.Text = objPL_FR.Police_telephone;
             }
-            lblLoss_Category.Text = objPL_FR.Loss_Category;
+            lblLoss_Category.Text = objPL_FR.FK_PL_Loss_Category.HasValue ? new LU_PL_Loss_Category(objPL_FR.FK_PL_Loss_Category.Value).Description : "";
+            if (!string.IsNullOrEmpty(lblLoss_Category.Text) && lblLoss_Category.Text.ToUpper() == "OTHER - DESCRIBE")
+            {                
+                lblLoss_CategoryDescription.Text = objPL_FR.Loss_Category;
+            }
+             
             //check value if it is null than display "nuknown" else if it is truw than display "Yes" else "no"
             if (objPL_FR.Personal_Bodily_Injury != null)
             {
@@ -1436,6 +1470,35 @@ public partial class SONIC_PLFirstReport : clsBasePage
                 lblProduct_Zip_Code.Text = objPL_FR.Product_Zip_Code;
                 lblProduct_Location.Text = objPL_FR.Product_Location;
             }
+
+            #region Insert New Values For Module 3381
+
+            lblConditionOfAreaProperty.Text = objPL_FR.Conditions_Of_Area;
+            if (!string.IsNullOrEmpty(objPL_FR.Visible_Impairments) && objPL_FR.Visible_Impairments == "Y")
+            {
+                lblVisibleImpairments.Text = "Yes";
+                trLabelVisibleImpairmentsDescription.Visible = true;
+                lblVisibleImpairmentsDescription.Text = objPL_FR.Describe_Impairments;
+            }
+            else
+            {
+                lblVisibleImpairments.Text = "No";
+            }            
+
+            if (objPL_FR.Lighting_Conditions == "I")
+            {
+                lblLightingCondidions.Text = "Indoor";
+            }
+
+            if (objPL_FR.Lighting_Conditions == "O")
+            {
+                lblLightingCondidions.Text = "Outdoor";
+            }
+
+            lblLightingConditionsDescription.Text = objPL_FR.Describe_Lighting;
+
+            #endregion
+
             #endregion
 
             #region "Involvement grid"
@@ -1456,6 +1519,7 @@ public partial class SONIC_PLFirstReport : clsBasePage
             Response.Redirect("FirstReportSearch.aspx", true);
         }
     }
+
     #endregion
 
     #region Bind Page in Edit MOde
@@ -1559,6 +1623,7 @@ public partial class SONIC_PLFirstReport : clsBasePage
             #endregion
 
             #region Loss Information
+
             //Set values to object
             ListItem lstCS = new ListItem();
             lstCS = ddlClaimant_State.Items.FindByValue(objPL_FR.Claimant_State.ToString());
@@ -1601,7 +1666,13 @@ public partial class SONIC_PLFirstReport : clsBasePage
                 txtCase_Number.Text = objPL_FR.Case_Number;
                 txtPolice_telephone.Text = objPL_FR.Police_telephone;
             }
-            txtLoss_Category.Text = objPL_FR.Loss_Category;
+            
+            ddlLossCategory.SelectedValue = objPL_FR.FK_PL_Loss_Category.HasValue ? objPL_FR.FK_PL_Loss_Category.Value.ToString() : "0";
+            if (ddlLossCategory.SelectedItem.Text.ToUpper() == "OTHER - DESCRIBE")
+            {
+                txtLoss_Category.Enabled = true;
+                txtLoss_Category.Text = objPL_FR.Loss_Category;
+            }
             //used to check if the value is null than set values to radio button is "-1"and if the value is not null than and else if value is true than set value to radio button is "Y" else "N"
             if (objPL_FR.Personal_Bodily_Injury != null)
             {
@@ -1835,6 +1906,31 @@ public partial class SONIC_PLFirstReport : clsBasePage
                 txtProduct_Zip_Code.Text = objPL_FR.Product_Zip_Code;
                 txtProduct_Location.Text = objPL_FR.Product_Location;
             }
+
+            #region Insert New Values For Module 3381
+
+            txtConditionOfAreaProperty.Text = objPL_FR.Conditions_Of_Area;
+            rdoVisibleImpairments.SelectedValue = objPL_FR.Visible_Impairments;
+            if (objPL_FR.Visible_Impairments == "Y")
+            {
+                trVisibleImpairmentsDescription.Visible = true;
+                txtVisibleImpairmentsDescription.Text = objPL_FR.Describe_Impairments;
+            }
+
+            if (objPL_FR.Lighting_Conditions == "I")
+            {
+                chkIndoorLightingCondidions.Checked = true;
+            }
+
+            if (objPL_FR.Lighting_Conditions == "O")
+            {
+                chkOutdoorLightingCondidions.Checked = true;
+            }
+
+            txtLightingConditionsDescription.Text = objPL_FR.Describe_Lighting;
+
+            #endregion
+
             #endregion
 
             #region "Involvement grid"
@@ -2071,7 +2167,9 @@ public partial class SONIC_PLFirstReport : clsBasePage
                     strEbdy = strEbdy.Replace("<!--[PolicNotification] -->", "<!--");
                     strEbdy = strEbdy.Replace("<!--[#PolicNotification] -->", "-->");
                 }
-                strEbdy = strEbdy.Replace("[lblLoss_Category]", objPL_FR.Loss_Category);
+
+                strEbdy = strEbdy.Replace("[lblLoss_Category]", objPL_FR.FK_PL_Loss_Category.HasValue ? new LU_PL_Loss_Category(objPL_FR.FK_PL_Loss_Category.Value).Description : "");
+                strEbdy = strEbdy.Replace("[lblLoss_CategoryDescription]", objPL_FR.Loss_Category);
                 //check value if it is null than display "nuknown" else if it is truw than display "Yes" else "no"
                 if (objPL_FR.Personal_Bodily_Injury != null)
                 {
@@ -2322,6 +2420,38 @@ public partial class SONIC_PLFirstReport : clsBasePage
                     strEbdy = strEbdy.Replace("<!--[divProduct] -->", "<!--");
                     strEbdy = strEbdy.Replace("<!--[#divProduct] -->", " -->");
                 }
+
+                #region Insert New Values For Module 3381
+
+                strEbdy = strEbdy.Replace("[lblConditionOfAreaProperty]", objPL_FR.Conditions_Of_Area);
+                if (!string.IsNullOrEmpty(objPL_FR.Visible_Impairments) && objPL_FR.Visible_Impairments == "Y")
+                {
+                    strEbdy = strEbdy.Replace("[lblVisibleImpairments]", "Yes");
+                    strEbdy = strEbdy.Replace("[lblVisibleImpairmentsDescription]", objPL_FR.Describe_Impairments);
+                }
+                else
+                {
+                    strEbdy = strEbdy.Replace("[lblVisibleImpairments]", "No");                    
+                    strEbdy = strEbdy.Replace("[lblVisibleImpairmentsDescription]", "");
+                }
+
+                if (objPL_FR.Lighting_Conditions == "I")
+                {                    
+                    strEbdy = strEbdy.Replace("[lblLightingCondidions]", "Indoor");
+                }
+                else if (objPL_FR.Lighting_Conditions == "O")
+                {
+                    strEbdy = strEbdy.Replace("[lblLightingCondidions]", "Outdoor");                    
+                }
+                else
+                {
+                    strEbdy = strEbdy.Replace("[lblLightingCondidions]", "");
+                }
+
+                strEbdy = strEbdy.Replace("[lblLightingConditionsDescription]", objPL_FR.Describe_Lighting);                
+
+                #endregion
+
                 #endregion
 
                 strEbdy = strEbdy.Replace("[lblComments]", objPL_FR.Comments);
@@ -2647,10 +2777,13 @@ public partial class SONIC_PLFirstReport : clsBasePage
                 case "Date Reported to Sonic": strCtrlsIDsLossInfo += txtDate_Reported_To_Sonic.ClientID + ","; strMessagesLossInfo += "Please enter [Loss Information]/Date Reported to Sonic" + ","; Span9.Style["display"] = ""; break;
                 case "Weather Conditions": strCtrlsIDsLossInfo += txtWeather_Conditions.ClientID + ","; strMessagesLossInfo += "Please enter [Loss Information]/Weather Conditions" + ","; Span10.Style["display"] = ""; break;
                 case "Road Conditions": strCtrlsIDsLossInfo += txtRoad_Conditions.ClientID + ","; strMessagesLossInfo += "Please enter [Loss Information]/Road Conditions" + ","; Span11.Style["display"] = ""; break;
-                case "Loss Category": strCtrlsIDsLossInfo += txtLoss_Category.ClientID + ","; strMessagesLossInfo += "Please enter [Loss Information]/Loss Category" + ","; Span15.Style["display"] = ""; break;
+                case "Loss Category": strCtrlsIDsLossInfo += txtLoss_Category.ClientID + ","; strMessagesLossInfo += "Please enter [Loss Information]/Loss Category - Other Description" + ","; Span15.Style["display"] = ""; break;
                 case "Police": strCtrlsIDsLossInfo += txtPolice_Organization.ClientID + ","; strMessagesLossInfo += "Please enter [Loss Information]/Police" + ","; Span12.Style["display"] = ""; break;
                 case "Case Number": strCtrlsIDsLossInfo += txtCase_Number.ClientID + ","; strMessagesLossInfo += "Please enter [Loss Information]/Case Number" + ","; Span13.Style["display"] = ""; break;
                 case "Station Phone Number ": strCtrlsIDsLossInfo += txtPolice_telephone.ClientID + ","; strMessagesLossInfo += "Please enter [Loss Information]/Station Phone Number " + ","; Span14.Style["display"] = ""; break;
+                case "Conditions Of Area": strCtrlsIDsLossInfo += txtConditionOfAreaProperty.ClientID + ","; strMessagesLossInfo += "Please enter [Loss Information]/Condition Of Area Property " + ","; Span73.Style["display"] = ""; break;
+                case "Describe Lighting": strCtrlsIDsLossInfo += txtLightingConditionsDescription.ClientID + ","; strMessagesLossInfo += "Please enter [Loss Information]/Describe Lighting Conditions " + ","; Span74.Style["display"] = ""; break;
+                case "FK_Loss Category": strCtrlsIDsLossInfo += txtLightingConditionsDescription.ClientID + ","; strMessagesLossInfo += "Please select [Loss Information]/Loss Category" + ","; Span75.Style["display"] = ""; break;
             }
 
             #endregion
@@ -2884,11 +3017,70 @@ public partial class SONIC_PLFirstReport : clsBasePage
 
     #endregion
 
+    #region Events
+
+    /// <summary>
+    /// Event to show hide Impairments Description TextBox based on radio change
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void rdoVisibleImpairments_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        trVisibleImpairmentsDescription.Visible = false;
+        if (rdoVisibleImpairments.SelectedValue == "Y")
+        {
+            trVisibleImpairmentsDescription.Visible = true;
+        }
+    }
+
+    /// <summary>
+    /// Event to set Lighting Condidions Indoor / Outdoor
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void chkIndoorLightingCondidions_CheckedChanged(object sender, EventArgs e)
+    {
+        if (chkIndoorLightingCondidions.Checked == true)
+        {
+            chkOutdoorLightingCondidions.Checked = false;
+        }
+    }
+
+    /// <summary>
+    /// Event to set Lighting Condidions Indoor / Outdoor
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void chkOutdoorLightingCondidions_CheckedChanged(object sender, EventArgs e)
+    {
+        if (chkOutdoorLightingCondidions.Checked == true)
+        {
+            chkIndoorLightingCondidions.Checked = false;
+        }
+    }
+
+    /// <summary>
+    /// Loss Category Index Change Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void ddlLossCategory_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        txtLoss_Category.Enabled = false;
+        txtLoss_Category.Text = "";
+        if (ddlLossCategory.SelectedItem.Text.ToUpper() == "OTHER - DESCRIBE")
+        {
+            txtLoss_Category.Enabled = true;
+        }
+    }
+
+    #endregion
+
     private void SendFROI()
     {
         clsFROI_Output objFROI = new clsFROI_Output();
         objFROI.FROI_Type = "PL";
         objFROI.FROI_Number = Convert.ToDecimal(((Label)SonicInfo.FindControl("lblFirstReportNumber")).Text.Trim().Replace("PL-", ""));
         objFROI.Insert();
-    }
+    }    
 }

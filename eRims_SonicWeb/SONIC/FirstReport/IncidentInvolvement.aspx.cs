@@ -122,6 +122,25 @@ public partial class SONIC_FirstReport_IncidentInvolvement : clsBasePage
         txtCell_Telephone.Text = objFR_PL_Involvement.Cell_Telephone;
         txtEmail.Text = objFR_PL_Involvement.Email;
         FK_PL_FR_ID = Convert.ToDecimal(objFR_PL_Involvement.FK_PL_FR_ID);
+
+        if (objFR_PL_Involvement.Gender == "M")
+        {
+            chkMale.Checked = true;
+        }
+        else if (objFR_PL_Involvement.Gender == "F")
+        {
+            chkFemale.Checked = true;
+        }
+
+        if (!string.IsNullOrEmpty(objFR_PL_Involvement.Medical_Attention_Required))
+        {
+            rdoMedicalAttentionRequired.SelectedValue = objFR_PL_Involvement.Medical_Attention_Required;
+        }
+
+        if (!string.IsNullOrEmpty(objFR_PL_Involvement.Medical_Attention_Declined))
+        {
+            rdoMedicalAttentionDeclined.SelectedValue = objFR_PL_Involvement.Medical_Attention_Declined;
+        }
     }
 
     /// <summary>
@@ -146,6 +165,34 @@ public partial class SONIC_FirstReport_IncidentInvolvement : clsBasePage
         lblWork_Telephone.Text = objFR_PL_Involvement.Work_Telephone;
         lblCell_Telephone.Text = objFR_PL_Involvement.Cell_Telephone;
         lblEmail.Text = objFR_PL_Involvement.Email;
+
+        if (objFR_PL_Involvement.Gender == "M")
+        {
+            lblGender.Text = "Male";
+        }
+        else if (objFR_PL_Involvement.Gender == "F")
+        {
+            lblGender.Text = "Female";
+        }
+
+        if (!string.IsNullOrEmpty(objFR_PL_Involvement.Medical_Attention_Required) && objFR_PL_Involvement.Medical_Attention_Required == "Y")
+        {
+            lblMedicalAttentionRequired.Text = "Yes";
+        }
+        else
+        {
+            lblMedicalAttentionRequired.Text = "No";
+        }
+
+        if (!string.IsNullOrEmpty(objFR_PL_Involvement.Medical_Attention_Declined) && objFR_PL_Involvement.Medical_Attention_Declined == "Y")
+        {
+            lblMedicalAttentionDeclined.Text = "Yes";
+        }
+        else
+        {
+            lblMedicalAttentionDeclined.Text = "No";
+        }
+
         FK_PL_FR_ID = Convert.ToDecimal(objFR_PL_Involvement.FK_PL_FR_ID);
     }
 
@@ -193,6 +240,18 @@ public partial class SONIC_FirstReport_IncidentInvolvement : clsBasePage
         objFR_PL_Involvement.Email = txtEmail.Text.Trim();
         objFR_PL_Involvement.Update_Date = DateTime.Now;
         objFR_PL_Involvement.Updated_By = clsSession.UserName;
+        
+        if(chkMale.Checked)
+        {
+            objFR_PL_Involvement.Gender = "M";
+        }
+        else if (chkFemale.Checked)
+        {
+            objFR_PL_Involvement.Gender = "F";
+        }
+
+        objFR_PL_Involvement.Medical_Attention_Required = rdoMedicalAttentionRequired.SelectedValue;
+        objFR_PL_Involvement.Medical_Attention_Declined = rdoMedicalAttentionDeclined.SelectedValue;
 
         if (PK_FR_PL_Involvement > 0)
             objFR_PL_Involvement.Update();
@@ -233,6 +292,32 @@ public partial class SONIC_FirstReport_IncidentInvolvement : clsBasePage
     {
         BindDetailsForEdit();
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+    }
+
+    /// <summary>
+    /// Event to Change Gender
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void chkMale_CheckedChanged(object sender, EventArgs e)
+    {
+        if (chkMale.Checked)
+        {
+            chkFemale.Checked = false;
+        }
+    }
+
+    /// <summary>
+    /// Event to Change Gender
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void chkFemale_CheckedChanged(object sender, EventArgs e)
+    {
+        if (chkFemale.Checked)
+        {
+            chkMale.Checked = false;
+        }
     }
 
     #endregion
@@ -326,5 +411,4 @@ public partial class SONIC_FirstReport_IncidentInvolvement : clsBasePage
     }
 
     #endregion
-
 }

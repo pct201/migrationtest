@@ -182,7 +182,7 @@ public partial class Download : System.Web.UI.Page
             {
                 try
                 {
-                    string fileName = Convert.ToString(Request.QueryString["fileName"]).Replace(",", "");
+                    string fileName = Convert.ToString(Request.QueryString["fileName"]);
                     string orgName = Convert.ToString(Request.QueryString["orgName"]).Replace(",", "");
 
                     string strFilePath = AppConfig.strFCPDocumentPath + "\\" + fileName;
@@ -202,7 +202,7 @@ public partial class Download : System.Web.UI.Page
                         ClientScript.RegisterStartupScript(GetType(), "errormessage", "javascript: alert('No file found.');", true);
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
                     ClientScript.RegisterStartupScript(GetType(), "errormessage", "javascript: alert(No file found.);", true);
                 }
@@ -211,7 +211,7 @@ public partial class Download : System.Web.UI.Page
             {
                 try
                 {
-                    string fileName = Convert.ToString(Request.QueryString["fileName"]).Replace(",", "");
+                    string fileName = Convert.ToString(Request.QueryString["fileName"]);
                     string orgName = Convert.ToString(Request.QueryString["orgName"]).Replace(",", "");
 
                     string strFilePath = AppConfig.BuildingAttachDocPath + "\\" + fileName;
@@ -240,7 +240,7 @@ public partial class Download : System.Web.UI.Page
             {
                 try
                 {
-                    string fileName = Convert.ToString(Request.QueryString["fileName"]).Replace(",", "");
+                    string fileName = Convert.ToString(Request.QueryString["fileName"]);
 
                     string strFilePath = AppConfig.LeaseSubleaseDocPath + "\\" + fileName;
                     string orgName = Convert.ToString(Request.QueryString["orgName"]).Replace(",", "");
@@ -269,7 +269,7 @@ public partial class Download : System.Web.UI.Page
             {
                 try
                 {
-                    string fileName = Convert.ToString(Request.QueryString["fileName"]).Replace(",", "");
+                    string fileName = Convert.ToString(Request.QueryString["fileName"]);
 
                     string strFilePath = AppConfig.PropertyCOIDocPath + "\\" + fileName;
                     string orgName = Convert.ToString(Request.QueryString["orgName"]).Replace(",", "");

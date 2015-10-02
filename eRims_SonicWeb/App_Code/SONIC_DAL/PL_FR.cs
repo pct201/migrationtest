@@ -105,10 +105,17 @@ namespace ERIMS.DAL
         private DateTime _Updated_Date;
         private Nullable<bool> _Security_Video_System;
         private decimal _FK_SLT_Incident_Review;
+        private string _Conditions_Of_Area;
+        private string _Visible_Impairments;
+        private string _Describe_Impairments;
+        private string _Lighting_Conditions;
+        private string _Describe_Lighting;
+        private decimal? _FK_PL_Loss_Category;
+
         #endregion
 
 
-        #region Properties
+        #region Properties        
 
         public Nullable<bool> Security_Video_System
         {
@@ -1016,6 +1023,60 @@ namespace ERIMS.DAL
             set { _FK_SLT_Incident_Review = value; }
         }
 
+        /// <summary>
+        /// Gets or sets Condition_Of_Area value.
+        /// </summary>
+        public string Conditions_Of_Area
+        {
+            get { return _Conditions_Of_Area; }
+            set { _Conditions_Of_Area = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Condition_Of_Area value.
+        /// </summary>
+        public string Visible_Impairments
+        {
+            get { return _Visible_Impairments; }
+            set { _Visible_Impairments = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Describe_Impairments value.
+        /// </summary>
+        public string Describe_Impairments
+        {
+            get { return _Describe_Impairments; }
+            set { _Describe_Impairments = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Lighting_Conditions value.
+        /// </summary>
+        public string Lighting_Conditions
+        {
+            get { return _Lighting_Conditions; }
+            set { _Lighting_Conditions = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Describe_Lighting value.
+        /// </summary>
+        public string Describe_Lighting
+        {
+            get { return _Describe_Lighting; }
+            set { _Describe_Lighting = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets FK_PL_Loss_Category value.
+        /// </summary>
+        public decimal? FK_PL_Loss_Category
+        {
+            get { return _FK_PL_Loss_Category; }
+            set { _FK_PL_Loss_Category = value; }
+        }
+
         #endregion
 
 
@@ -1121,6 +1182,12 @@ namespace ERIMS.DAL
             this._Updated_Date = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
             this._Security_Video_System = false;
             this._FK_SLT_Incident_Review = -1;
+            this._Conditions_Of_Area = "";
+            this._Visible_Impairments = "";
+            this._Describe_Impairments = "";
+            this._Lighting_Conditions = "";
+            this._Describe_Lighting = "";
+            this._FK_PL_Loss_Category = -1;
         }
 
 
@@ -1246,11 +1313,16 @@ namespace ERIMS.DAL
                 if (drPL_FR["Security_Video_System"] != DBNull.Value)
                     this._Security_Video_System = Convert.ToBoolean(drPL_FR["Security_Video_System"]);
                 this._FK_SLT_Incident_Review = drPL_FR["FK_SLT_Incident_Review"] != DBNull.Value ? Convert.ToDecimal(drPL_FR["FK_SLT_Incident_Review"]) : 0;
-            }
 
+                this._Conditions_Of_Area = Convert.ToString(drPL_FR["Conditions_Of_Area"]);
+                this._Visible_Impairments = Convert.ToString(drPL_FR["Visible_Impairments"]);
+                this._Describe_Impairments = Convert.ToString(drPL_FR["Describe_Impairments"]);
+                this._Lighting_Conditions = Convert.ToString(drPL_FR["Lighting_Conditions"]);
+                this._Describe_Lighting = Convert.ToString(drPL_FR["Describe_Lighting"]);
+                this._FK_PL_Loss_Category = drPL_FR["FK_PL_Loss_Category"] != DBNull.Value ? Convert.ToDecimal(drPL_FR["FK_PL_Loss_Category"]) : 0;
+            }
             else
             {
-
                 this._PK_PL_FR_ID = -1;
                 this._PL_FR_Number = -1;
                 this._Owner_Alternate_Telephone = "";
@@ -1343,6 +1415,13 @@ namespace ERIMS.DAL
                 this._Updated_Date = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
                 this._Security_Video_System = false;
                 this._FK_SLT_Incident_Review = -1;
+                
+                this._Conditions_Of_Area = "";
+                this._Visible_Impairments = "";
+                this._Describe_Impairments = "";
+                this._Lighting_Conditions = "";
+                this._Describe_Lighting = "";
+                this._FK_PL_Loss_Category = -1;
             }
 
         }
@@ -1353,12 +1432,10 @@ namespace ERIMS.DAL
         /// </summary>
         public PL_FR(decimal PK,bool temp)
         {
-
             DataTable dtPL_FR = SelectByPL_FR_Number(PK).Tables[0];
 
             if (dtPL_FR.Rows.Count > 0)
             {
-
                 DataRow drPL_FR = dtPL_FR.Rows[0];
 
                 this._PK_PL_FR_ID = drPL_FR["PK_PL_FR_ID"] != DBNull.Value ? Convert.ToDecimal(drPL_FR["PK_PL_FR_ID"]) : 0;
@@ -1466,8 +1543,14 @@ namespace ERIMS.DAL
                 if (drPL_FR["Security_Video_System"] != DBNull.Value)
                     this._Security_Video_System = Convert.ToBoolean(drPL_FR["Security_Video_System"]);
                 this._FK_SLT_Incident_Review = drPL_FR["FK_SLT_Incident_Review"] != DBNull.Value ? Convert.ToDecimal(drPL_FR["FK_SLT_Incident_Review"]) : 0;
-            }
 
+                this._Conditions_Of_Area = Convert.ToString(drPL_FR["Conditions_Of_Area"]);
+                this._Visible_Impairments = Convert.ToString(drPL_FR["Visible_Impairments"]);
+                this._Describe_Impairments = Convert.ToString(drPL_FR["Describe_Impairments"]);
+                this._Lighting_Conditions = Convert.ToString(drPL_FR["Lighting_Conditions"]);
+                this._Describe_Lighting = Convert.ToString(drPL_FR["Describe_Lighting"]);
+                this._FK_PL_Loss_Category = drPL_FR["FK_PL_Loss_Category"] != DBNull.Value ? Convert.ToDecimal(drPL_FR["FK_PL_Loss_Category"]) : 0;
+            }
             else
             {
 
@@ -1563,9 +1646,17 @@ namespace ERIMS.DAL
                 this._Updated_Date = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
                 this.Security_Video_System = false;
                 this._FK_SLT_Incident_Review = -1;
+
+                this._Conditions_Of_Area = "";
+                this._Visible_Impairments = "";
+                this._Describe_Impairments = "";
+                this._Lighting_Conditions = "";
+                this._Describe_Lighting = "";
+                this._FK_PL_Loss_Category = -1;
             }
 
         }
+
         #endregion
 
 
@@ -1578,7 +1669,7 @@ namespace ERIMS.DAL
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("PL_FRInsert");
-
+            
             db.AddInParameter(dbCommand, "PL_FR_Number", DbType.Decimal, this._PL_FR_Number);
             db.AddInParameter(dbCommand, "Owner_Alternate_Telephone", DbType.String, this._Owner_Alternate_Telephone);
             db.AddInParameter(dbCommand, "Witness_Name", DbType.String, this._Witness_Name);
@@ -1714,6 +1805,21 @@ namespace ERIMS.DAL
             {
                 db.AddInParameter(dbCommand, "Security_Video_System", DbType.Boolean, this._Security_Video_System);
             }
+
+            db.AddInParameter(dbCommand, "Conditions_Of_Area", DbType.String, this._Conditions_Of_Area);
+            db.AddInParameter(dbCommand, "Visible_Impairments", DbType.String, this._Visible_Impairments);
+            db.AddInParameter(dbCommand, "Describe_Impairments", DbType.String, this._Describe_Impairments);
+            db.AddInParameter(dbCommand, "Lighting_Conditions", DbType.String, this._Lighting_Conditions);
+            db.AddInParameter(dbCommand, "Describe_Lighting", DbType.String, this._Describe_Lighting);
+            if (this._FK_PL_Loss_Category != 0)
+            {
+                db.AddInParameter(dbCommand, "FK_PL_Loss_Category", DbType.Decimal, this._FK_PL_Loss_Category);
+            }
+            else
+            {
+                db.AddInParameter(dbCommand, "FK_PL_Loss_Category", DbType.Decimal, DBNull.Value);
+            }
+
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -1919,6 +2025,21 @@ namespace ERIMS.DAL
             {
                 db.AddInParameter(dbCommand, "Security_Video_System", DbType.Boolean, this._Security_Video_System);
             }
+
+            db.AddInParameter(dbCommand, "Conditions_Of_Area", DbType.String, this._Conditions_Of_Area);
+            db.AddInParameter(dbCommand, "Visible_Impairments", DbType.String, this._Visible_Impairments);
+            db.AddInParameter(dbCommand, "Describe_Impairments", DbType.String, this._Describe_Impairments);
+            db.AddInParameter(dbCommand, "Lighting_Conditions", DbType.String, this._Lighting_Conditions);
+            db.AddInParameter(dbCommand, "Describe_Lighting", DbType.String, this._Describe_Lighting);
+            if (this._FK_PL_Loss_Category != 0)
+            {
+                db.AddInParameter(dbCommand, "FK_PL_Loss_Category", DbType.Decimal, this._FK_PL_Loss_Category);
+            }
+            else
+            {
+                db.AddInParameter(dbCommand, "FK_PL_Loss_Category", DbType.Decimal, DBNull.Value);
+            }
+
             db.ExecuteNonQuery(dbCommand);
         }
 

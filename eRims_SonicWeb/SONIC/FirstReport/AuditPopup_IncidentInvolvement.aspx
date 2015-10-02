@@ -80,7 +80,16 @@
                                     <span style="display: inline-block; width: 100px;">Cell Telephone</span>
                                 </th>
                                 <th class="cols">
-                                    <span style="display: inline-block; width: 100px;">Email</span>
+                                    <span style="display: inline-block; width: 150px;">Email</span>
+                                </th>
+                                <th class="cols">
+                                    <span style="display: inline-block; width: 100px;">Gender</span>
+                                </th>
+                                <th class="cols">
+                                    <span style="display: inline-block; width: 100px;">Medical Attention Required?</span>
+                                </th>
+                                <th class="cols">
+                                    <span style="display: inline-block; width: 100px;">Medical Attention Declined?</span>
                                 </th>
                                 <th class="cols">
                                     <span style="display: inline-block; width: 100px;">Update Date</span>
@@ -173,7 +182,25 @@
                             <asp:TemplateField HeaderText="Email">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblEmail" runat="server" Text='<%#Eval("Email")%>' Width="100px"></asp:Label>
+                                    <asp:Label ID="lblEmail" runat="server" Text='<%#Eval("Email")%>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Gender">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblGender" runat="server" Text='<%#Eval("Gender")%>' Width="100px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Medical_Attention_Required">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblMedical_Attention_Required" runat="server" Text='<%#Eval("Medical_Attention_Required")%>' Width="100px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Medical_Attention_Declined">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblMedical_Attention_Declined" runat="server" Text='<%#Eval("Medical_Attention_Declined")%>' Width="100px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Update_Date">
