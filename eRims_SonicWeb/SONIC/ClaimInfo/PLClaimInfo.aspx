@@ -1542,7 +1542,7 @@
                                                                 <tr>
                                                                     <td colspan="2">
                                                             <br />
-                                                            <div id="divTransactionList" style="width: 99%; height: 100px; overflow-y: scroll; border: solid 1px #000000">
+                                                            <div id="divTransactionList" style="width: 99%; height: 200px; overflow-y: scroll; border: solid 1px #000000">
                                                                 <asp:GridView ID="gvPLTransList" runat="server" AutoGenerateColumns="false" Width="98%"
                                                                     OnRowCommand="gvPLTransList_RowCommand" OnRowDataBound="gvPLTransList_RowDataBound">
                                                                     <HeaderStyle HorizontalAlign="Center" />
