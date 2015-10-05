@@ -2,7 +2,7 @@
     Inherits="Exposures_Investigation" Title="eRIMS Sonic :: Exposures :: Investigation" %>
 
 <%@ Register Src="~/Controls/ExposuresTab/ExposuresTab.ascx" TagName="CtlTab" TagPrefix="uc" %>
-<%@ Register Src="~/Controls/Notes/Notes.ascx" TagName="ctrlMultiLineTextBox" TagPrefix="uc" %>
+<%@ Register Src="~/Controls/NotesWithSpellCheck/Notes.ascx" TagName="ctrlMultiLineTextBox" TagPrefix="uc" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <%@ Register Src="~/Controls/InvestigationInfo/InvestigationInfo.ascx" TagName="ctrlExposureInfo"
@@ -20,6 +20,7 @@
     <script type="text/javascript" language="javascript" src="../../JavaScript/calendar-en.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/Calendar.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/Validator.js"></script>
+
     <script type="text/javascript">
         var GB_ROOT_DIR = '<%=AppConfig.SiteURL%>greybox/';
         //OPen Audit Popup
@@ -75,8 +76,40 @@
                 args.IsValid = true;
             }
         }
-        function ValidateFieldsCorrective(sender, args) {
+        function ValidateFieldsRootCausesDetermination(sender, args) {
+            var msg = '';
+            var ctrlIDs = document.getElementById('<%=hdnRootCauseIDs.ClientID%>').value.split(',');
+            var Messages = document.getElementById('<%=hdnRootCauseErrormsg.ClientID%>').value.split(',');
+            var focusCtrlID = "";
+            if (document.getElementById('<%=hdnRootCauseIDs.ClientID%>').value != "") {
+                var i = 0;
+                for (i = 0; i < ctrlIDs.length; i++) {
+                    var bEmpty = false;
+                    var ctrl = document.getElementById(ctrlIDs[i]);
+                    switch (ctrl.type) {
+                        case "hidden":
+                        case "textarea":
+                        case "text": if (ctrl.value == '') bEmpty = true; break;
+                        case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
+                        case "select-multiple": if (ctrl.selectedIndex == -1) bEmpty = true; break;
 
+                    }
+                    if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
+                    if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
+                }
+                if (msg.length > 0) {
+                    sender.errormessage = msg;
+                    args.IsValid = false;
+                }
+                else
+                    args.IsValid = true;
+            }
+            else {
+                args.IsValid = true;
+            }
+        }
+
+        function ValidateFieldsCorrective(sender, args) {
             var msg = '';
             var ctrlIDs = document.getElementById('<%=hdnCorrectiveControlIDs.ClientID%>').value.split(',');
             var Messages = document.getElementById('<%=hdnCorrectiveErrorMsgs.ClientID%>').value.split(',');
@@ -189,6 +222,9 @@
         ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following fields"
         BorderWidth="1" BorderColor="DimGray" CssClass="errormessage" />--%>
     <asp:ValidationSummary ID="valCauses" runat="server" ValidationGroup="valCauses"
+        ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following fields"
+        BorderWidth="1" BorderColor="DimGray" CssClass="errormessage" />
+    <asp:ValidationSummary ID="valRootCause" runat="server" ValidationGroup="valRootCause"
         ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following fields"
         BorderWidth="1" BorderColor="DimGray" CssClass="errormessage" />
     <table cellpadding="0" cellspacing="0" width="100%">
@@ -449,7 +485,7 @@
                                                 </div>
                                                 <asp:UpdatePanel runat="server" ID="updCauses">
                                                     <ContentTemplate>
-                                                        <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                        <%--<table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                             <tr>
                                                                 <td colspan="6" width="100%">
                                                                     <b>What were the immediate causes of the accident?</b>
@@ -724,6 +760,265 @@
                                                             <tr>
                                                                 <td colspan="6" class="Spacer" style="height: 10px;"></td>
                                                             </tr>
+                                                        </table>--%>
+                                                        <table cellpadding="3" cellspacing="1" border="0" width="100%">
+
+                                                            <tr>
+                                                                <td valign="top" align="left">Describe how the event occurred&nbsp;<span id="Span2"
+                                                                    style="color: Red; display: none;" runat="server">*</span>
+                                                                </td>
+                                                                <td valign="top" align="center" width="2%">:
+                                                                </td>
+                                                                <td align="left" colspan="4">
+                                                                    <uc:ctrlMultiLineTextBox runat="server" ID="txtCause_Comment" ControlType="TextBox"
+                                                                        MaxLength="4000" ValidationGroup="valCauses" />
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+
+                                                                <td align="left" width="24%">Contributing Factor&nbsp;<span id="Span17" style="color: Red; display: none;" runat="server">*</span>
+                                                                </td>
+                                                                <td align="center" width="2%">:
+                                                                </td>
+                                                                <td align="left" width="24%">
+                                                                    <asp:DropDownList ID="drpFk_LU_Contributing_Factor" runat="server" SkinID="ddlSONIC" ValidationGroup="valCauses"
+                                                                        onchange="SetContributioFactorOther();">
+                                                                    </asp:DropDownList>
+                                                                </td>
+                                                                <td align="left" width="24%">Contributing Factor - Other
+                                                                </td>
+                                                                <td align="center" width="2%">:
+                                                                </td>
+                                                                <td align="left" width="24%">
+                                                                    <asp:TextBox ID="txtContributingFactor_Other" runat="server" Enabled="false" MaxLength="50" />
+                                                                    <asp:HiddenField ID="hdnContributingFactor_Other" runat="server" />
+                                                                    <asp:CustomValidator ID="csmvtxtContributingFactor_Other" runat="server" ErrorMessage="Please enter [Causes]/Contributing Factor Other"
+                                                                        ControlToValidate="txtContributingFactor_Other" Display="None" SetFocusOnError="true"
+                                                                        ClientValidationFunction="CheckContributingFactorOther" ValidationGroup="valCauses"
+                                                                        ValidateEmptyText="true" />
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+
+                                                                <td align="left">What is the Nature of this Incident?&nbsp;<span id="span101" style="color: Red; display: none;" runat="server">*</span>
+                                                                </td>
+                                                                <td align="center" width="2%">:
+                                                                </td>
+                                                                <td align="left" colspan="4">
+                                                                    <asp:DropDownList ID="drpCauseOfIncident" ValidationGroup="valCauses" runat="server">
+                                                                    </asp:DropDownList>
+                                                                    <input type="hidden" id="hdnFocusArea" runat="server" />
+                                                                </td>
+
+
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td colspan="6" class="Spacer" style="height: 10px;"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="center" colspan="6">
+                                                                    <asp:Button runat="server" ID="btnCausesSaveContinue" Text="Save & Next" OnClick="btnCausesSaveContinue_Click"
+                                                                        CausesValidation="true" ValidationGroup="valCauses" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="6" class="Spacer" style="height: 10px;"></td>
+                                                            </tr>
+                                                        </table>
+                                                    </ContentTemplate>
+                                                </asp:UpdatePanel>
+                                            </asp:Panel>
+                                            <asp:Panel ID="pnlRootCauseDetermination" runat="server" Width="100%">
+                                                <div class="bandHeaderRow">
+                                                    Root Causes Determination
+                                                </div>
+                                                <asp:UpdatePanel runat="server" ID="updRootCauseDetermination">
+                                                    <ContentTemplate>
+                                                        <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                            <tr>
+                                                                <td align="left" valign="top">Root Cause Determination&nbsp;<span id="Span4"
+                                                                    style="color: Red; display: none;" runat="server">*</span>
+                                                                </td>
+                                                                <td align="center" valign="top" width="4%">:
+                                                                </td>
+                                                                <td>
+                                                                    <asp:Repeater runat="server" ID="rptRootCauseDetermination">
+                                                                        <ItemTemplate>
+                                                                            <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                                                <tr>
+                                                                                    <td align="center" width="2%" valign="top">
+                                                                                        <%#Container.ItemIndex + 1%>.
+                                                                                    </td>
+                                                                                    <td align="left" width="70%" valign="top">
+                                                                                        <%#Eval("Question")%>
+                                                                                        <asp:HiddenField runat="server" ID="hdnFK_LU_Cause_Info" Value='<%#Eval("PK_LU_Cause_Code_Information")%>'></asp:HiddenField>
+                                                                                        <asp:HiddenField runat="server" ID="hdnPK_Investigation_Cause_Information" Value='<%#Eval("PK_Investigation_Cause_Information")%>'></asp:HiddenField>
+
+                                                                                    </td>
+                                                                                    <td align="center" width="2%" valign="top">:
+                                                                                    </td>
+                                                                                    <td align="left" width="26%" valign="top">
+                                                                                        <asp:RadioButtonList ID="rdoRootCauseTypeList" runat="server" SkinID="YesNoType"
+                                                                                            Width="100px" />
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+
+                                                                        </ItemTemplate>
+                                                                    </asp:Repeater>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="2"></td>
+                                                                <td align="left">
+                                                                    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                                        <tr>
+                                                                           <td></td>
+                                                                            <td width="4%">
+                                                                            </td> <td width="26%">Yes = Recommendation applies to this Incident.<br />
+                                                                    No = Recommendation does NOT apply to this Incident.</td> </tr> </table>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" valign="top">Recommendation(s) to Prevent Reoccurrence&nbsp;<span id="Span5"
+                                                                    runat="server"
+                                                                    conclusion="" event="" how="" impression="" is="" occurred="" on=""
+                                                                    style="color: Red; display: none;"
+                                                                    the="" what="" your="">*</span>
+                                                                </td>
+                                                                <td align="center" valign="top" width="4%">:
+                                                                </td>
+                                                                <td>
+                                                                    <asp:Repeater runat="server" ID="rptRootCauseDeterminationRecmndation">
+                                                                        <ItemTemplate>
+                                                                            <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                                                <tr>
+                                                                                    <td align="center" width="2%" valign="top">
+                                                                                        <%#Container.ItemIndex + 1%>.
+                                                                                    </td>
+                                                                                    <td align="left" width="70%" valign="top">
+                                                                                        <%#Eval("Guidance")%>
+                                                                                    </td>
+                                                                                    <td align="center" valign="top" width="2%">:
+                                                                                    </td>
+                                                                                    <td align="left" width="26%" valign="top">
+                                                                                        <asp:RadioButtonList ID="rdoRootCauseGuidanceList" runat="server" SkinID="YesNoType"
+                                                                                            Width="100px" />
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+
+                                                                        </ItemTemplate>
+                                                                    </asp:Repeater>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" valign="top">What is your impression/conclusion on how the event occurred?&nbsp;<span id="Span1"
+                                                                    style="color: Red; display: none;" runat="server">*</span>
+                                                                </td>
+                                                                <td align="center" width="4%" valign="top">:
+                                                                </td>
+                                                                <td align="left" colspan="4">
+                                                                    <uc:ctrlMultiLineTextBox runat="server" ID="txtConclusions" ControlType="TextBox"
+                                                                        MaxLength="4000" ValidationGroup="valRootCause" />
+                                                                </td>
+
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td align="left" width="18%" valign="top">OSHA Recordable&nbsp;<span id="Span19" style="color: Red; display: none;" runat="server">*</span><br />
+                                                                    <input type="button" value="Start Wizard" onclick="OpenWizardPopup();" style="width: 95px;"
+                                                                        class="btn" />
+                                                                </td>
+                                                                <td align="center" width="4%" valign="top">:
+                                                                </td>
+                                                                <td colspan="4" valign="top">
+                                                                    <asp:RadioButtonList ID="rdoOSHARecordable" runat="server" SkinID="YesNoType"
+                                                                        Enabled="false" ValidationGroup="valRootCause" />
+                                                                    <asp:Label ID="lblOSHARecordable" runat="server" ValidationGroup="valRootCause" Style="display: none" />
+                                                                    <input type="hidden" id="hdnOSHARecordable" runat="server" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" colspan="4">
+                                                                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                                        <tr>
+                                                                            <td align="left" style="width: 18%">Cause Code Determination&nbsp;<span id="Span3" style="color: Red; display: none;" runat="server">*</span>
+                                                                            </td>
+                                                                            <td align="center" style="width: 4%">:
+                                                                            </td>
+                                                                            <td align="left" colspan="4">
+                                                                                <asp:DropDownList runat="server" ID="ddlSonic_Cause_Code" ValidationGroup="valRootCause">
+                                                                                    <asp:ListItem Text="--SELECT--"></asp:ListItem>
+                                                                                    <asp:ListItem Text="S0-1 - Strain, Sprain or Repetitive Motion"></asp:ListItem>
+                                                                                    <asp:ListItem Text="S0-2 - Slip, Trip, or Fall"></asp:ListItem>
+                                                                                    <asp:ListItem Text="S0-3 - Vehicle Related (included Golf Cart)"></asp:ListItem>
+                                                                                    <asp:ListItem Text="S0-4 - Struck By an Object or Struck an Object"></asp:ListItem>
+                                                                                    <asp:ListItem Text="S0-5 - Miscellaneous"></asp:ListItem>
+                                                                                    <asp:ListItem Text="S1 - Strain, Sprain or Repetitive Motion"></asp:ListItem>
+                                                                                    <asp:ListItem Text="S2 - Slip, Trip, or Fall"></asp:ListItem>
+                                                                                    <asp:ListItem Text="S3 - Vehicle Related (included Golf Cart)"></asp:ListItem>
+                                                                                    <asp:ListItem Text="S4 - Struck By an Object or Struck an Object"></asp:ListItem>
+                                                                                    <asp:ListItem Text="S5 - Miscellaneous"></asp:ListItem>
+                                                                                    <asp:ListItem Text="S-1 Denied"></asp:ListItem>
+                                                                                    <asp:ListItem Text="S-2 Denied"></asp:ListItem>
+                                                                                    <asp:ListItem Text="S-3 Denied"></asp:ListItem>
+                                                                                    <asp:ListItem Text="S-4 Denied"></asp:ListItem>
+                                                                                    <asp:ListItem Text="S-5 Denied"></asp:ListItem>
+                                                                                </asp:DropDownList>
+                                                                                <input type="hidden" id="hdnOriginalSonicCode" runat="server" />
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" valign="top">Original Sonic S0 Cause Code
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left" valign="top" colspan="4">
+                                                                    <asp:TextBox ID="txtOriginalSonicCode" runat="server" MaxLength="100" Width="490px"
+                                                                        Enabled="false" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" valign="top">Sonic S0 Cause Code Promoted?
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left" valign="top">
+                                                                    <asp:RadioButtonList ID="rdoSonicCodePromoted" runat="server" SkinID="YesNoType"
+                                                                        Enabled="false" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" valign="top">Date Sonic S0 Cause Code Promoted
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left" valign="top" colspan="4">
+                                                                    <asp:TextBox ID="txtDateSonicCodePromoted" runat="server" SkinID="txtDate" Enabled="false" />
+                                                                    <asp:RangeValidator ID="RangeValidator3" ControlToValidate="txtDateSonicCodePromoted"
+                                                                        MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date" ErrorMessage="To Be Competed by Date is not valid."
+                                                                        runat="server" SetFocusOnError="true" ValidationGroup="valRootCause" Display="none" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="6" class="Spacer" style="height: 10px;"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="center" colspan="6">
+                                                                    <asp:Button runat="server" ID="btnRootCausesDetermSaveContinue" Text="Save & Next" OnClick="btnRootCausesDetermSaveContinue_Click"
+                                                                        CausesValidation="true" ValidationGroup="valRootCause" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="6" class="Spacer" style="height: 10px;"></td>
+                                                            </tr>
                                                         </table>
                                                     </ContentTemplate>
                                                 </asp:UpdatePanel>
@@ -735,7 +1030,7 @@
                                                 <asp:UpdatePanel runat="server" ID="updCorrectiveActions">
                                                     <ContentTemplate>
                                                         <table cellpadding="3" cellspacing="1" border="0" width="100%">
-                                                            <tr>
+                                                            <%--   <tr>
                                                                 <td align="left" colspan="6">Description&nbsp;<span id="Span5" style="color: Red; display: none; position: absolute"
                                                                     runat="server">*</span>
                                                                 </td>
@@ -745,49 +1040,57 @@
                                                                     <uc:ctrlMultiLineTextBox runat="server" ID="txtCorrective_Action_Description" ControlType="TextBox"
                                                                         MaxLength="4000" ValidationGroup="vsCorrectiveAction" Width="740" />
                                                                 </td>
-                                                            </tr>
+                                                            </tr>--%>
                                                             <tr>
-                                                                <td align="left" width="18%">Assigned To&nbsp;<span id="Span6" style="color: Red; display: none; position: absolute"
+                                                                <td width="24%" align="left" valign="top">What has been done to prevent a similar accident from happening again?&nbsp;<span id="Span10" style="color: Red; display: none; position: absolute"
                                                                     runat="server">*</span>
                                                                 </td>
-                                                                <td align="center" width="4%">:
-                                                                </td>
-                                                                <td align="left" width="28%">
-                                                                    <asp:TextBox ID="txtAssigned_To" runat="server" Width="170px" MaxLength="50"></asp:TextBox>
-                                                                </td>
-                                                                <td align="left" width="18%">Assigned By&nbsp;<span id="Span7" style="color: Red; display: none; position: absolute"
-                                                                    runat="server">*</span>
-                                                                </td>
-                                                                <td align="center" width="4%">:
-                                                                </td>
-                                                                <td align="left" width="28%">
-                                                                    <asp:TextBox ID="txtAssigned_By" runat="server" Width="170px" MaxLength="50"></asp:TextBox>
+                                                                <td align="center" valign="top" style="width: 2%;">:</td>
+                                                                <td align="left" colspan="4">
+                                                                    <uc:ctrlMultiLineTextBox runat="server" ID="txtLessons_Learned" ControlType="TextBox"
+                                                                        MaxLength="4000" ValidationGroup="vsCorrectiveAction" />
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td align="left">To Be Completed by&nbsp;<span id="Span8" style="color: Red; display: none; position: absolute"
+                                                                <td align="left" style="width: 24%;">Assigned To&nbsp;<span id="Span6" style="color: Red; display: none; position: absolute"
                                                                     runat="server">*</span>
                                                                 </td>
-                                                                <td align="center">:
+                                                                <td align="center" style="width: 2%;">:
                                                                 </td>
-                                                                <td align="left">
+                                                                <td align="left" style="width: 24%;">
+                                                                    <asp:TextBox ID="txtAssigned_To" runat="server" MaxLength="50"></asp:TextBox>
+                                                                </td>
+                                                                <td align="left" style="width: 24%;">Assigned By&nbsp;<span id="Span7" style="color: Red; display: none; position: absolute"
+                                                                    runat="server">*</span>
+                                                                </td>
+                                                                <td align="center" style="width: 2%;">:
+                                                                </td>
+                                                                <td align="left" style="width: 24%;">
+                                                                    <asp:TextBox ID="txtAssigned_By" runat="server" MaxLength="50"></asp:TextBox>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="width: 24%;" align="left">To Be Completed by&nbsp;<span id="Span8" style="color: Red; display: none; position: absolute"
+                                                                    runat="server">*</span>
+                                                                </td>
+                                                                <td style="width: 2%;" align="center">:
+                                                                </td>
+                                                                <td style="width: 24%;" align="left">
                                                                     <asp:TextBox ID="txtTo_Be_Competed_by" runat="server" Width="170px" SkinID="txtDate"></asp:TextBox>
-                                                                    <img alt="To Be Competed by" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtTo_Be_Competed_by', 'mm/dd/y');"
+                                                                    <img alt="To Be Competed by" style="vertical-align: middle" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtTo_Be_Competed_by', 'mm/dd/y');"
                                                                         onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
                                                                         align="middle" /><br />
                                                                     <asp:RangeValidator ID="revTo_Be_Competed_by" ControlToValidate="txtTo_Be_Competed_by"
                                                                         MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date" ErrorMessage="To Be Competed by Date is not valid."
                                                                         runat="server" SetFocusOnError="true" ValidationGroup="vsCorrectiveAction" Display="none" />
-                                                                    <asp:RangeValidator ID="revTo_Be_Competed_by1" ControlToValidate="txtTo_Be_Competed_by"
-                                                                        MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date" ErrorMessage="To Be Competed by Date is not valid."
-                                                                        runat="server" SetFocusOnError="true" ValidationGroup="vsCorrectiveAction2" Display="none" />
+
                                                                 </td>
-                                                                <td align="left">Status&nbsp;<span id="Span9" style="color: Red; display: none; position: absolute"
+                                                                <td style="width: 24%;" align="left">Status&nbsp;<span id="Span9" style="color: Red; display: none; position: absolute"
                                                                     runat="server">*</span>
                                                                 </td>
-                                                                <td align="center">:
+                                                                <td style="width: 2%;" align="center">:
                                                                 </td>
-                                                                <td align="left">
+                                                                <td style="width: 24%;" align="left">
                                                                     <asp:DropDownList ID="ddlStatus" runat="server" SkinID="ddlExposure">
                                                                         <asp:ListItem Text="--SELECT--" Value="0"></asp:ListItem>
                                                                         <asp:ListItem Text="Pending" Value="Pending"></asp:ListItem>
@@ -797,14 +1100,37 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td align="left" colspan="6">Lessons Learned&nbsp;<span id="Span10" style="color: Red; display: none; position: absolute"
-                                                                    runat="server">*</span>
+                                                                <td colspan="4" align="left">Have the above changes been communicated to associates with similar job tasks? &nbsp;
+                                                                </td>
+                                                                <td align="center" width="2%">:</td>
+                                                                <td align="left" style="width: 24%;">
+                                                                    <asp:RadioButtonList ID="rdoCommunicated" AutoPostBack="true" runat="server" OnSelectedIndexChanged="rdoCommunicated_SelectedIndexChanged" ValidationGroup="vsCorrectiveAction" SkinID="YesNoType"></asp:RadioButtonList>
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td align="left" colspan="6">
-                                                                    <uc:ctrlMultiLineTextBox runat="server" ID="txtLessons_Learned" ControlType="TextBox"
-                                                                        MaxLength="4000" ValidationGroup="vsCorrectiveAction" Width="740" />
+                                                                <td align="left">If Yes, Date Communicated
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left">
+                                                                    <asp:TextBox ID="txtDateCommunicated" runat="server" Width="170px" SkinID="txtDate"></asp:TextBox>
+                                                                    <img style="vertical-align: middle" alt="Date Communicated" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtDateCommunicated', 'mm/dd/y');"
+                                                                        onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
+                                                                        align="middle" /><br />
+                                                                    <asp:RangeValidator ID="RangeValidator1" ControlToValidate="txtDateCommunicated"
+                                                                        MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date" ErrorMessage="Date Communicated is not valid."
+                                                                        runat="server" SetFocusOnError="true" ValidationGroup="vsCorrectiveAction" Display="none" />
+
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" valign="top">If No, Explain Why&nbsp;
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left" colspan="4">
+                                                                    <uc:ctrlMultiLineTextBox runat="server" ID="txtNo_Communication_Explanation" ControlType="TextBox"
+                                                                        MaxLength="4000" />
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -814,23 +1140,14 @@
                                                                 <td align="left" colspan="3">
                                                                     <asp:CheckBox ID="chkLocInfoComplete" runat="server" Text="Investigation Complete – Ready for RLCM Scoring"
                                                                         onClick="CheckInvestigation();" Visible="false" />
-                                                                    <%--onclick="return CheckInvestigativeQuality(this);" --%>
                                                                 </td>
-                                                                <td align="left">Date Investigation Submitted by Store
+                                                                <td align="left"><%--Date Investigation Submitted by Store--%>
                                                                 </td>
                                                                 <td align="center">:
                                                                 </td>
                                                                 <td align="left">
-                                                                    <asp:TextBox ID="txtDateInves_Submitted" runat="server" Width="175px" SkinID="txtDisabled"></asp:TextBox>
-                                                                    <%--<img alt=" Date Investigation Submitted by Store" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtDateInves_Submitted', 'mm/dd/y');"
-                                                                        onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
-                                                                        align="middle" /><br />
-                                                                    <asp:RangeValidator ID="RangeValidator1" ControlToValidate="txtDateInves_Submitted"
-                                                                        MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date" ErrorMessage=" Date Investigation Submitted by Store is not valid."
-                                                                        runat="server" SetFocusOnError="true" ValidationGroup="vsCorrectiveAction" Display="none" />
-                                                                        <asp:RangeValidator ID="RangeValidator11" ControlToValidate="txtDateInves_Submitted"
-                                                                        MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date" ErrorMessage=" Date Investigation Submitted by Store is not valid."
-                                                                        runat="server" SetFocusOnError="true" ValidationGroup="vsCorrectiveAction2" Display="none" /> --%>
+                                                                    <%-- <asp:TextBox ID="txtDateInves_Submitted" runat="server" Width="175px" SkinID="txtDisabled"></asp:TextBox>--%>
+                                                                    
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -932,14 +1249,14 @@
                                                                     <asp:RangeValidator ID="RangeValidator22" ControlToValidate="txtDateReviewCompletedByRLCM"
                                                                         MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date" ErrorMessage="[Review]/Date Review Completed by RLCM is not valid."
                                                                         runat="server" SetFocusOnError="true" ValidationGroup="vsReview1" Display="none" />
-                                                                    <asp:CompareValidator ID="cmpReview" runat="server" ValidationGroup="vsReview" Display="None"
+                                                                    <%-- <asp:CompareValidator ID="cmpReview" runat="server" ValidationGroup="vsReview" Display="None"
                                                                         ErrorMessage="[Review]/Date Review Completed by RLCM should be greater than or euqal to Date Investigation Submitted by Store"
                                                                         ControlToValidate="txtDateReviewCompletedByRLCM" ControlToCompare="txtDateInves_Submitted"
                                                                         SetFocusOnError="true" Operator="GreaterThanEqual" Type="Date"></asp:CompareValidator>
                                                                     <asp:CompareValidator ID="cmpReview23" runat="server" ValidationGroup="vsReview1"
                                                                         Display="None" ErrorMessage="[Review]/Date Review Completed by RLCM should be greater than or euqal to Date Investigation Submitted by Store"
                                                                         ControlToValidate="txtDateReviewCompletedByRLCM" ControlToCompare="txtDateInves_Submitted"
-                                                                        SetFocusOnError="true" Operator="GreaterThanEqual" Type="Date"></asp:CompareValidator>
+                                                                        SetFocusOnError="true" Operator="GreaterThanEqual" Type="Date"></asp:CompareValidator>--%>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -1292,7 +1609,7 @@
                                                         <div class="bandHeaderRow">
                                                             Causes
                                                         </div>
-                                                        <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                        <%--<table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                             <tr>
                                                                 <td colspan="6" width="100%">
                                                                     <b>What were the immediate causes of the accident?</b>
@@ -1465,7 +1782,7 @@
                                                             <tr>
                                                                 <%--<td align="left" colspan="6">
                                                                     <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                                                                        <tr>--%>
+                                                                        <tr>
                                                                 <td align="left" style="width: 18%">Sonic Cause Code
                                                                 </td>
                                                                 <td align="center" style="width: 4%">:
@@ -1475,9 +1792,7 @@
                                             
                                                                     </asp:Label>
                                                                 </td>
-                                                                <%--  </tr>
-                                                                    </table>
-                                                                </td>--%>
+                                                                
                                                             </tr>
                                                             <tr>
                                                                 <td align="left" valign="top">Original Sonic S0 Cause Code
@@ -1506,6 +1821,184 @@
                                                                     <asp:Label ID="lblDateSonicCodePromoted" runat="server" />
                                                                 </td>
                                                             </tr>
+                                                        </table>--%>
+                                                        <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                            <tr>
+                                                                <td align="left" valign="top">Describe how the event occurred
+                                                                </td>
+                                                                <td align="center" width="2%" valign="top">:
+                                                                </td>
+                                                                <td align="left" colspan="4">
+                                                                    <uc:ctrlMultiLineTextBox runat="server" ID="lblCause_Comment" ControlType="Label" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" width="24%">Contributing Factor
+                                                                </td>
+                                                                <td align="center" width="2%">:
+                                                                </td>
+                                                                <td align="left" width="24%">
+                                                                    <asp:Label ID="lblContributingFactor" runat="server" />
+                                                                </td>
+                                                                <td align="left" width="24%">Contributing Factor - Other
+                                                                </td>
+                                                                <td align="center" width="2%">:
+                                                                </td>
+                                                                <td align="left" width="24%">
+                                                                    <asp:Label ID="lblContributingFactor_Other" runat="server" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left">What is the Nature of this Incident?
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left" colspan="4">
+                                                                    <asp:Label runat="server" ID="lblCuase_Of_Incident">
+                                            
+                                                                    </asp:Label>
+                                                                </td>
+
+                                                            </tr>
+                                                        </table>
+                                                    </asp:Panel>
+                                                    <asp:Panel ID="pnlViewRootCauseDetermin" runat="server" Width="100%">
+                                                        <div class="bandHeaderRow">
+                                                            Root Causes Determination
+                                                        </div>
+                                                        <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                            <tr>
+                                                                <td align="left" valign="top">Root Cause Determination&nbsp;<span id="Span25"
+                                                                    style="color: Red; display: none;" runat="server">*</span>
+                                                                </td>
+                                                                <td align="center" valign="top" width="4%">:
+                                                                </td>
+                                                                <td colspan="4">
+                                                                    <asp:Repeater runat="server" ID="rptRootCauseDeterminationView">
+                                                                        <ItemTemplate>
+                                                                            <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                                                <tr>
+                                                                                    <td align="center" width="2%" valign="top">
+                                                                                        <%#Container.ItemIndex + 1%>
+                                                                                    </td>
+                                                                                    <td align="left" width="70%">
+                                                                                        <%#Eval("Question")%>
+                                                                                        <asp:HiddenField runat="server" ID="hdnFK_LU_Cause_Info" Value='<%#Eval("PK_LU_Cause_Code_Information")%>'></asp:HiddenField>
+                                                                                        <asp:HiddenField runat="server" ID="hdnPK_Investigation_Cause_Information" Value='<%#Eval("PK_Investigation_Cause_Information")%>'></asp:HiddenField>
+
+                                                                                    </td>
+                                                                                    <td align="center" width="2%">:
+                                                                                    </td>
+                                                                                    <td align="left" width="26%">
+                                                                                        <asp:Label ID="lblRootCauseTypeList" runat="server"
+                                                                                            Width="100px" />
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+
+                                                                        </ItemTemplate>
+                                                                    </asp:Repeater>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="2"></td>
+                                                                <td align="left">
+                                                                    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                                        <tr>
+                                                                           <td></td>
+                                                                            <td width="4%">
+                                                                            </td> <td width="26%">Yes = Recommendation applies to this Incident.<br />
+                                                                    No = Recommendation does NOT apply to this Incident.</td> </tr> </table>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" valign="top">Recommendation(s) to Prevent Reoccurrence&nbsp;<span id="Span26"
+                                                                    style="color: Red; display: none;" runat="server">*</span>
+                                                                </td>
+                                                                <td align="center" valign="top" width="4%">:
+                                                                </td>
+                                                                <td colspan="4">
+                                                                    <asp:Repeater runat="server" ID="rptRootCauseDeterminationRecmndationView">
+                                                                        <ItemTemplate>
+                                                                            <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                                                <tr>
+                                                                                    <td align="center" width="2%" valign="top">
+                                                                                        <%#Container.ItemIndex + 1%>
+                                                                                    </td>
+                                                                                    <td align="left" width="68%" valign="top">
+                                                                                        <%#Eval("Guidance")%>
+                                                                                    </td>
+                                                                                     <td align="center" width="2%" valign="top">:
+                                                                                    </td>
+                                                                                    <td align="left" width="26%" valign="top">
+                                                                                        <asp:Label ID="lblRootCauseGuidanceReoccurance" runat="server"
+                                                                                            Width="100px" />
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+
+                                                                        </ItemTemplate>
+                                                                    </asp:Repeater>
+                                                                </td>
+                                                            </tr>
+
+
+                                                            <tr>
+                                                                <td align="left" valign="top">What is your Conclusion/Impression of how the event occurred?
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left" colspan="4" valign="top">
+                                                                    <uc:ctrlMultiLineTextBox runat="server" ID="lblConclusions" ControlType="Label" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" width="24%" valign="top">OSHA Recordable
+                                                                </td>
+                                                                <td align="center" width="2%" valign="top">:
+                                                                </td>
+                                                                <td colspan="4" valign="top">
+                                                                    <asp:Label ID="lblOSHARecordableView" runat="server" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" style="width: 24%">Cause Code Determination
+                                                                </td>
+                                                                <td align="center" style="width: 2%">:
+                                                                </td>
+                                                                <td align="left" colspan="4">
+                                                                    <asp:Label runat="server" ID="lblSonic_Cause_Code">
+                                            
+                                                                    </asp:Label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" valign="top">Original Sonic S0 Cause Code
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left" valign="top" colspan="4">
+                                                                    <asp:Label ID="lblOriginalSonicCode" runat="server" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" valign="top">Sonic S0 Cause Code Promoted?
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left" valign="top" colspan="4">
+                                                                    <asp:Label ID="lblSonicCodePromoted" runat="server" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" valign="top">Date Sonic S0 Cause Code Promoted
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left" valign="top" colspan="4">
+                                                                    <asp:Label ID="lblDateSonicCodePromoted" runat="server" />
+                                                                </td>
+                                                            </tr>
                                                         </table>
                                                     </asp:Panel>
                                                     <asp:Panel ID="pnlViewCorrectiveActions" runat="server" Width="100%">
@@ -1513,7 +2006,7 @@
                                                             Corrective Actions
                                                         </div>
                                                         <table cellpadding="3" cellspacing="1" border="0" width="100%">
-                                                            <tr>
+                                                            <%--<tr>
                                                                 <td align="left" colspan="6">Description
                                                                 </td>
                                                             </tr>
@@ -1521,20 +2014,29 @@
                                                                 <td align="left" colspan="6">
                                                                     <uc:ctrlMultiLineTextBox runat="server" ID="lblCorrective_Action_Description" ControlType="Label" />
                                                                 </td>
+                                                            </tr>--%>
+                                                            <tr>
+                                                                <td align="left" valign="top" style="width: 24%;">What has been done to prevent a similar accident from happening again?
+                                                                </td>
+                                                                <td align="center" valign="top" width="2%">:
+                                                                </td>
+                                                                <td align="left" colspan="4">
+                                                                    <uc:ctrlMultiLineTextBox runat="server" ID="lblLessons_Learned" ControlType="Label" />
+                                                                </td>
                                                             </tr>
                                                             <tr>
-                                                                <td align="left" width="18%">Assigned To
+                                                                <td align="left" width="24%">Assigned To
                                                                 </td>
-                                                                <td align="center" width="4%">:
+                                                                <td align="center" width="2%">:
                                                                 </td>
-                                                                <td align="left" width="28%">
+                                                                <td align="left" width="24%">
                                                                     <asp:Label ID="lblAssigned_To" runat="server"></asp:Label>
                                                                 </td>
-                                                                <td align="left" width="18%">Assigned By
+                                                                <td align="left" width="24%">Assigned By
                                                                 </td>
-                                                                <td align="center" width="4%">:
+                                                                <td align="center" width="2%">:
                                                                 </td>
-                                                                <td align="left" width="28%">
+                                                                <td align="left" width="24%">
                                                                     <asp:Label ID="lblAssigned_By" runat="server"></asp:Label>
                                                                 </td>
                                                             </tr>
@@ -1556,28 +2058,33 @@
                                                                     </asp:Label>
                                                                 </td>
                                                             </tr>
+
                                                             <tr>
-                                                                <td align="left" colspan="6">Lessons Learned
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" colspan="6">
-                                                                    <uc:ctrlMultiLineTextBox runat="server" ID="lblLessons_Learned" ControlType="Label" />
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="Spacer" style="height: 5px;"></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" valign="top"></td>
-                                                                <td align="center" valign="top"></td>
-                                                                <td align="left" valign="top"></td>
-                                                                <td align="left">Date Investigation Submitted by Store
+                                                                <td align="left" colspan="4">Have the above changes been communicated to associates with similar job tasks? 
                                                                 </td>
                                                                 <td align="center">:
                                                                 </td>
                                                                 <td align="left">
-                                                                    <asp:Label ID="lblDateInvestigation_Submitted_View" runat="server"></asp:Label>
+                                                                    <asp:Label ID="lblCommunicatedToAssociate" runat="server"></asp:Label>
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left">If Yes, Date Communicated
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left" colspan="4">
+                                                                    <asp:Label ID="lblDateCommunicated" runat="server"></asp:Label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" valign="top">If No, Explain Why
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left" colspan="4" valign="top">
+                                                                    <uc:ctrlMultiLineTextBox runat="server" ID="lblNoCommunicationExplanation" ControlType="Label" />
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -1890,34 +2397,13 @@
         </tr>
     </table>
     <script type="text/javascript" language="javascript">
+
         function OpenWizardPopup() {
             GB_showCenter('Investigation Wizard', '<%=AppConfig.SiteURL%>SONIC/FirstReport/InvestigationWzard.aspx?ctrlid=<%=lblOSHARecordable.ClientID%>', 300, 500);
         }
 
-        //used to Hide/Display Perosnal job Fectors description
-        function checkPersonal_Job_Fectors(chkID) {
-            ctl = document.getElementById(chkID + "_0");
-            if (ctl.checked == true) {
-                document.getElementById('<%=trPersonal_Job_Factors_Details.ClientID %>').style.display = "block";
-                ValidatorEnable(document.getElementById('<%=rfvJobFactor19Details.ClientID%>'), true);
-            }
-            else {
-                document.getElementById('<%=trPersonal_Job_Factors_Details.ClientID %>').style.display = "none";
-                ValidatorEnable(document.getElementById('<%=rfvJobFactor19Details.ClientID%>'), false);
-            }
-        }
-        //used to check Other Description
-        function checkOtherDesc(chkID) {
-            ctl = document.getElementById(chkID + "_0");
-            if (ctl.checked == true) {
-                document.getElementById('<%=trOtherDesc.ClientID %>').style.display = "block";
-                ValidatorEnable(document.getElementById('<%=rfvCause42.ClientID%>'), true);
-            }
-            else {
-                document.getElementById('<%=trOtherDesc.ClientID %>').style.display = "none";
-                ValidatorEnable(document.getElementById('<%=rfvCause42.ClientID%>'), false);
-            }
-        }
+
+
         //used to check Incident Information
         function checkIncidentInfo() {
             document.getElementById('<%=tblIncidentInfo.ClientID %>').style.display = "block";
@@ -1952,19 +2438,21 @@
             }
             else {
                 document.getElementById("<%=dvView.ClientID %>").style.display = "none";
-                //check if index is 1 than display Property Cope Section.
+                //check if index is 1 than display information Section.
                 if (index == 1) {
                     document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "block";
                     document.getElementById("<%=pnlCauses.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlRootCauseDetermination.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlCorrectiveActions.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlReview.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlReviewView.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlAttachments.ClientID%>").style.display = "none";
                 }
-                //check if index is 2 than display Building Informaiton Section.
+                //check if index is 2 than display Casuses Section.
                 if (index == 2) {
                     document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlCauses.ClientID%>").style.display = "block";
+                    document.getElementById("<%=pnlRootCauseDetermination.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlCorrectiveActions.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlReview.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlReviewView.ClientID%>").style.display = "none";
@@ -1981,19 +2469,32 @@
                     }
                     document.getElementById("<%=pnlAttachments.ClientID%>").style.display = "none";
                 }
-                //check if index is 3 than display Owner ship Details Section.
+                //check if index is 3 than display Root cause determination Section.
                 if (index == 3) {
                     document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlCauses.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlRootCauseDetermination.ClientID%>").style.display = "block";
+                    document.getElementById("<%=pnlCorrectiveActions.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlReview.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlReviewView.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlAttachments.ClientID%>").style.display = "none";
+                }
+
+                //check if index is 4 than display Coorective Actions Section.
+                if (index == 4) {
+                    document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlCauses.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlRootCauseDetermination.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlCorrectiveActions.ClientID%>").style.display = "block";
                     document.getElementById("<%=pnlReview.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlReviewView.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlAttachments.ClientID%>").style.display = "none";
                 }
-                //check if index is 4 than display CProperty Condition Section.
-                if (index == 4) {
+                //check if index is 5 than display review  Section.
+                if (index == 5) {
                     document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlCauses.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlRootCauseDetermination.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlCorrectiveActions.ClientID%>").style.display = "none";
                     if (IsUserRegOfficer == "False") {
                         document.getElementById("<%=pnlReviewView.ClientID%>").style.display = "block";
@@ -2003,10 +2504,11 @@
                     }
                     document.getElementById("<%=pnlAttachments.ClientID%>").style.display = "none";
                 }
-                //check if index is 5 than display Attachment Section.
-                if (index == 5) {
+                //check if index is 6 than display Attachment Section.
+                if (index == 6) {
                     document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlCauses.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlRootCauseDetermination.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlCorrectiveActions.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlReview.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlReviewView.ClientID%>").style.display = "none";
@@ -2016,41 +2518,57 @@
         }
 
         function ShowPanelView(index) {
-            //check if index is 1 than display Property Cope Section.
+            //check if index is 1 than display information Section.
             if (index == 1) {
                 document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "block";
                 document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewCorrectiveActions.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "none";
             }
-            //check if index is 2 than display Building Informaiton Section.
+            //check if index is 2 than display Causes Section.
             if (index == 2) {
                 document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "block";
+                document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewCorrectiveActions.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewAttachments.ClientID%>").style.display = "none";
             }
-            //check if index is 3 than display Owner ship Details Section.
+
+            //check if index is 3 than display Root cause determination Section.
             if (index == 3) {
                 document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "block";
+                document.getElementById("<%=pnlViewCorrectiveActions.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewAttachments.ClientID%>").style.display = "none";
+            }
+
+            //check if index is 4 than display Coorective Actions Section.
+            if (index == 4) {
+                document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewCorrectiveActions.ClientID%>").style.display = "block";
                 document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewAttachments.ClientID%>").style.display = "none";
             }
-            //check if index is 4 than display CProperty Condition Section.
-            if (index == 4) {
+            //check if index is 5 than display review  Section.
+            if (index == 5) {
                 document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewCorrectiveActions.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "block";
                 document.getElementById("<%=pnlViewAttachments.ClientID%>").style.display = "none";
             }
-            //check if index is 5 than display Attachment Section.
-            if (index == 5) {
+            //check if index is 6 than display Attachment Section.
+            if (index == 6) {
                 document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewCorrectiveActions.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewAttachments.ClientID%>").style.display = "block";
@@ -2080,24 +2598,14 @@
 
             var ctl = document.getElementById('<%=chkLocInfoComplete.ClientID %>');
             if (ctl.checked == true) {
-                document.getElementById('<%=Span5.ClientID %>').style.display = "block";
                 document.getElementById('<%=Span6.ClientID %>').style.display = "block";
                 document.getElementById('<%=Span7.ClientID %>').style.display = "block";
                 document.getElementById('<%=Span8.ClientID %>').style.display = "block";
                 document.getElementById('<%=Span9.ClientID %>').style.display = "block";
                 document.getElementById('<%=Span10.ClientID %>').style.display = "block";
-                if (document.getElementById('<%=txtDateInves_Submitted.ClientID %>').value == '') {
-                    var today = new Date();
-                    var dd = today.getDate();
-                    var mm = today.getMonth() + 1; //January is 0!
-                    var yyyy = today.getFullYear();
-                    if (dd < 10) { dd = '0' + dd }
-                    if (mm < 10) { mm = '0' + mm }
-                    document.getElementById('<%=txtDateInves_Submitted.ClientID %>').value = mm + '/' + dd + '/' + yyyy;
-                }
+
             }
             else {
-                document.getElementById('<%=Span5.ClientID %>').style.display = "none";
                 document.getElementById('<%=Span6.ClientID %>').style.display = "none";
                 document.getElementById('<%=Span7.ClientID %>').style.display = "none";
                 document.getElementById('<%=Span8.ClientID %>').style.display = "none";
@@ -2175,4 +2683,8 @@
         Display="None" ValidationGroup="vsReview" />
     <input id="hdnReviewIDs" runat="server" type="hidden" />
     <input id="hdnReviewErrorMsgs" runat="server" type="hidden" />
+    <asp:CustomValidator ID="CustomValidator4" runat="server" ErrorMessage="" ClientValidationFunction="ValidateFieldsRootCausesDetermination"
+        Display="None" ValidationGroup="valRootCause" />
+    <input id="hdnRootCauseIDs" runat="server" type="hidden" />
+    <input id="hdnRootCauseErrormsg" runat="server" type="hidden" />
 </asp:Content>

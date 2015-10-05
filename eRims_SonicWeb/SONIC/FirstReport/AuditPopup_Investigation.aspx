@@ -14,7 +14,7 @@
        
         divHeader.style.width = window.screen.availWidth - 225 + "px";
         divGrid.style.width = window.screen.availWidth - 225 + "px";
-         
+        
         divheight = divGrid.style.height;        
         i = divheight.indexOf('px');        
         
@@ -63,7 +63,7 @@
                                     <th class="cols">
                                         <span style="display: inline-block; width: 150px">FK_LU_Location_ID</span>
                                     </th>
-                                    <th class="cols">
+                                    <%--<th class="cols">
                                         <span style="display: inline-block; width: 180px">Operating equipment without authority</span>
                                     </th>
                                     <th class="cols">
@@ -254,6 +254,9 @@
                                     </th>
                                     <th class="cols">
                                         <span style="display: inline-block; width: 180px">Other-Describe-Details</span>
+                                    </th>--%>
+                                     <th class="cols">
+                                        <span style="display: inline-block; width: 400px">Describe how the event occurred</span>
                                     </th>
                                     <th class="cols">
                                         <span style="display: inline-block; width: 180px">Contributing Factor</span>
@@ -261,9 +264,9 @@
                                     <th class="cols">
                                         <span style="display: inline-block; width: 180px">Contributing Factor - Other</span>
                                     </th>
-                                    <th class="cols">
+                                    <%--<th class="cols">
                                         <span style="display: inline-block; width: 400px">What could the associate have done differently to avoid the incident? </span>
-                                    </th>
+                                    </th>--%>
                                     <th class="cols">
                                         <span style="display: inline-block; width: 400px">What is your Conclusion/Impression of how the situation occurred? </span>
                                     </th>
@@ -271,10 +274,13 @@
                                         <span style="display: inline-block; width: 180px">OSHA_Recordable</span>
                                     </th>
                                     <th class="cols">
-                                        <span style="display: inline-block; width: 180px">Sonic_Cause_Code</span>
+                                        <span style="display: inline-block; width: 180px">Cause Code Determination</span>
                                     </th>
-                                    <th class="cols">
+                                    <%--<th class="cols">
                                         <span style="display: inline-block; width: 200px">Corrective_Action_Description</span>
+                                    </th>--%>
+                                     <th class="cols">
+                                        <span style="display: inline-block; width: 150px">What has been done to prevent a similar accident from happening again?</span>
                                     </th>
                                     <th class="cols">
                                         <span style="display: inline-block; width: 180px">Assigned_To</span>
@@ -288,9 +294,7 @@
                                     <th class="cols">
                                         <span style="display: inline-block; width: 100px">Status</span>
                                     </th>
-                                    <th class="cols">
-                                        <span style="display: inline-block; width: 150px">Lessons_Learned</span>
-                                    </th>
+                                   
                                     <th class="cols">
                                         <span style="display: inline-block; width: 150px">Cause_Reviewed</span>
                                     </th>
@@ -351,12 +355,25 @@
                                     <th class="cols">
                                         <span style="display: inline-block; width: 150px">RLCM_Complete</span>
                                     </th>
+                                     <th class="cols">
+                                        <span style="display: inline-block; width: 220px">What is the Nature of this Incident?</span>
+                                    </th>
+                                      <th class="cols">
+                                        <span style="display: inline-block; width: 170px">Have the above changes been communicated to associates with similar job tasks?</span>
+                                    </th> 
+                                     <th class="cols">
+                                        <span style="display: inline-block; width: 110px">If Yes, Date Communicated</span>
+                                    </th>
+                                      <th class="cols">
+                                        <span style="display: inline-block; width: 220px">If No, Explain Why</span>
+                                    </th>
                                     <th class="cols">
                                         <span style="display: inline-block; width: 150px">Updated_By</span>
                                     </th>
                                     <th class="cols">
                                         <span style="display: inline-block; width: 117px">Updated_Date</span>
                                     </th>
+                                   
                                 </tr>
                             </tbody>
                         </table>
@@ -393,7 +410,7 @@
                                         <asp:Label ID="FK_LU_Location_ID" runat="server" Text='<%# Eval("FK_LU_Location_ID") %>' Width="150px"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField>
+                               <%-- <asp:TemplateField>
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
                                         <asp:Label ID="Cause_1" runat="server" Text='<%# clsGeneral.FormatYesNoToDisplayForView(Eval("Cause_1")) %>' Width="180px"></asp:Label>
@@ -796,6 +813,12 @@
                                         <asp:Label ID="Personal_Job_Factors_17_Details" runat="server" Text='<%# Eval("Personal_Job_Factors_17_Details") %>'
                                             Width="180px"></asp:Label>
                                     </ItemTemplate>
+                                </asp:TemplateField>--%>
+                                 <asp:TemplateField>
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Cause_Comment" runat="server" Text='<%# Eval("Cause_Comment") %>' Width="400px" CssClass="TextClip"></asp:Label>
+                                    </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField>
                                     <ItemStyle CssClass="cols" />
@@ -811,13 +834,13 @@
                                             Width="180px"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField>
+                               <%-- <asp:TemplateField>
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
                                         <asp:Label ID="Personal_Job_Comment" runat="server" Text='<%# Eval("Personal_Job_Comment") %>' CssClass="TextClip"
                                             Width="400px"></asp:Label>
                                     </ItemTemplate>
-                                </asp:TemplateField>
+                                </asp:TemplateField>--%>
                                 <asp:TemplateField>
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
@@ -836,11 +859,17 @@
                                         <asp:Label ID="Sonic_Cause_Code" runat="server" Text='<%# Eval("Sonic_Cause_Code") %>' Width="180px"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField>
+                                <%--<asp:TemplateField>
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
                                         <asp:Label ID="Corrective_Action_Description" runat="server" Text='<%# Eval("Corrective_Action_Description") %>' CssClass="TextClip"
                                             Width="200px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>--%>
+                                <asp:TemplateField>
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Lessons_Learned" runat="server" Text='<%# Eval("Lessons_Learned") %>' Width="150px" CssClass="TextClip"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField>
@@ -867,12 +896,7 @@
                                         <asp:Label ID="Status" runat="server" Text='<%# Eval("Status") %>' Width="100px"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField>
-                                    <ItemStyle CssClass="cols" />
-                                    <ItemTemplate>
-                                        <asp:Label ID="Lessons_Learned" runat="server" Text='<%# Eval("Lessons_Learned") %>' Width="150px" CssClass="TextClip"></asp:Label>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
+                                
                                 <asp:TemplateField>
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
@@ -1003,11 +1027,35 @@
                                         <asp:Label ID="lblAction_PlanComment" runat="server" Text='<%# Eval("Investigative_Quality") %>' Width="220px"></asp:Label>                                            
                                     </ItemTemplate>
                                 </asp:TemplateField>
-
                                 <asp:TemplateField>
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
                                         <asp:Label ID="RLCM_Complete" runat="server" Text='<%# clsGeneral.FormatYesNoToDisplayForView(Eval("RLCM_Complete")) %>' Width="150px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField>
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Focus_Area" runat="server" Text='<%# Eval("Focus_Area") %>' Width="220px" ></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                 <asp:TemplateField>
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Communicated" runat="server" Text='<%# clsGeneral.FormatYesNoToDisplay(Eval("Communicated")) %>' Width="170px" ></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                 <asp:TemplateField>
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Date_Communicated" runat="server" Text='<%#clsGeneral.FormatDateToDisplay(!string.IsNullOrEmpty(Convert.ToString(Eval("Date_Communicated"))) ? Convert.ToDateTime(Eval("Date_Communicated")) : (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue) %>' Width="110px" ></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                 <asp:TemplateField>
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="No_Communication_Explanation" runat="server" Text='<%# Eval("No_Communication_Explanation") %>' Width="220px" ></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField>
@@ -1019,9 +1067,11 @@
                                 <asp:TemplateField>
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
-                                        <asp:Label ID="Updated_Date" runat="server" Text='<%#clsGeneral.FormatDateToDisplay(!string.IsNullOrEmpty(Convert.ToString(Eval("Updated_Date"))) ? Convert.ToDateTime(Eval("Updated_Date")) : (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue) %>' Width="100px"></asp:Label>
+                                        <asp:Label ID="Updated_Date" runat="server"  Text='<%#clsGeneral.FormatDateToDisplay(!string.IsNullOrEmpty(Convert.ToString(Eval("Updated_Date"))) ? Convert.ToDateTime(Eval("Updated_Date")) : (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue) %>' Width="100px"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
+                                
+
                             </Columns>
                         </asp:GridView>
                     </div>
