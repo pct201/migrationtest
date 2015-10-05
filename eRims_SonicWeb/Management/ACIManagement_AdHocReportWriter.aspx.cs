@@ -1517,6 +1517,10 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
                     {
                         ComboHelper.FillStateList(new ListBox[] { lst_F }, false);
                     }
+                    else if (lstAdHoc[0].Field_Header.ToUpper() == "APPROVAL SUBMISSION")
+                    {
+                        ComboHelper.FillApproval_Submission(new ListBox[] { lst_F }, false);
+                    }
 
                     else
                     {

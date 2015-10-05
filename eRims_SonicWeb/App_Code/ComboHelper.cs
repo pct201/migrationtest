@@ -5214,7 +5214,7 @@ public class ComboHelper
         lst.Items.Add(new ListItem("Withdrawn", "Withdrawn"));
         lst.Items.Add(new ListItem("Enrolled but not started", "Enrolled but not started"));
         lst.Items.Add(new ListItem("Completed", "Completed"));
-        lst.Items.Add(new ListItem("Started", "Started"));       
+        lst.Items.Add(new ListItem("Started", "Started"));
     }
 
     /// <summary>
@@ -5290,6 +5290,30 @@ public class ComboHelper
     }
 
     /// <summary>
+    /// Used to bind Approval Submission dropdown of ACI Management screen
+    /// </summary>
+    /// <param name="dropDownList"></param>
+    /// <param name="p"></param>
+    public static void FillApproval_Submission(ListBox[] listBox, bool p)
+    {
+        DataSet dsData = clsLU_Approval_Submission.SelectAll();
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y'";
+        foreach (ListBox listToFill in listBox)
+        {
+            listToFill.Items.Clear();
+            listToFill.DataTextField = "Fld_Desc";
+            listToFill.DataValueField = "PK_LU_Approval_Submission";
+            listToFill.DataSource = dsData.Tables[0].DefaultView;
+            listToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (p)
+            {
+                listToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary>
     /// Fill Event Level Drop downs
     /// </summary>
     /// <param name="dropDownList">All dropDownList</param>
@@ -5297,7 +5321,7 @@ public class ComboHelper
     public static void FillEventLevel(DropDownList[] dropDownList, bool booladdSelectAsFirstElement)
     {
         DataSet dsData = ERIMS.DAL.clsLU_Event_Level.SelectAll();
-        
+
         foreach (DropDownList ddlToFill in dropDownList)
         {
             ddlToFill.Items.Clear();
@@ -5348,7 +5372,7 @@ public class ComboHelper
         lst.Items.Add(new ListItem("1-5 Miles", "1-5 Miles"));
         lst.Items.Add(new ListItem("5-10 Miles", "5-10 Miles"));
         lst.Items.Add(new ListItem(">10 Miles", ">10 Miles"));
-        
+
     }
     /// <summary>
     /// fill fire department types-building
