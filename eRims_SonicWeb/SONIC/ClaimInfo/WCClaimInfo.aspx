@@ -202,6 +202,14 @@
             obj.focus();
             return false;
         }
+
+        function OpenTransMailPopUp(tab, strPKs, FK_Table_Name, FK_Claim) {
+
+            SelectDeselectTransHeader(false);
+            var oWnd = window.open('<%=AppConfig.SiteURL%>SONIC/Exposures/Asset_Protection_SendMail.aspx?Tab=' + tab + '&PK_Fields=' + strPKs + '&Table_Name=' + FK_Table_Name + '&Claim_ID=' + FK_Claim, "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=600,height=300");
+             oWnd.moveTo(450, 300);
+             return false;
+         }
     </script>
     <script type="text/javascript" language="javascript">
         function ShowPrevNext(index) {
@@ -428,6 +436,7 @@
             $("#<%=txtDefense_Council_Telephone.ClientID%>").mask("999-999-9999");
         });
 
+
         function SelectDeselectAllTrans(bChecked, bFromGrid) {
 
             var ctrls = document.getElementsByTagName('input');
@@ -441,6 +450,8 @@
             }
         }
 
+
+
         function SelectDeselectTransHeader(bFromGrid) {
 
             var ctrls = document.getElementsByTagName('input');
@@ -453,14 +464,14 @@
                         cnt++;
                 }
             }
-
+            
             var rowCnt = 0;
             if (bFromGrid)
                 rowCnt = document.getElementById('<%=gvWCTransList.ClientID %>').rows.length - 1;
             else
-                rowCnt = document.getElementById('<%=gvWCTransList.ClientID %>').value;
+                rowCnt = document.getElementById('<%=hdnRptRows.ClientID %>').value;
 
-            var headerChkID = bFromGrid ? 'chkMultiSelectTrans' : 'chkRptMultiSelectAdjNotes';
+            var headerChkID = bFromGrid ? 'chkMultiSelectTrans' : 'chkRptMultiSelectTrans';
 
             if (cnt == rowCnt)
                 document.getElementById(headerChkID).checked = true;
@@ -468,7 +479,7 @@
                 document.getElementById(headerChkID).checked = false;
 
         }
-
+     
         function CheckSelectedTrans(buttonType, bFromGrid) {
             var ctrls = document.getElementsByTagName('input');
             var i, chkID;
@@ -2015,7 +2026,7 @@
                                                                         <br />
                                                                         <asp:Button ID="btnViewSelectedTrans" runat="server" Text=" View "
                                                                             OnClientClick="return CheckSelectedTrans('View',true);" OnClick="btnViewSelectedTrans_Click" />&nbsp;
-                                                                    <asp:Button ID="btnPrintSelectedTrans" runat="server" Text=" Print " OnClick="btnPrintSelectedTrans_Click"/>
+                                                                    <asp:Button ID="btnPrintSelectedTrans" runat="server" Text=" Print " OnClick="btnPrintSelectedTrans_Click"  OnClientClick="return CheckSelectedTrans('Print',true);" />
                                                                     </td>
                                                                 </tr>
                                                             </table>
@@ -2195,7 +2206,7 @@
                                                             <table cellpadding="1" cellspacing="1" width="100%">
                                                                 <tr>
                                                                     <td width="100%">
-                                                                        <div style="width: 785px; height: 370px; overflow-x: hidden; overflow-y: scroll;">
+                                                                        <div style="width: 770px; height: 370px; overflow-x: hidden; overflow-y: scroll;">
                                                                             <asp:Repeater ID="rptTransDetail" runat="server">
 
                                                                                 <ItemTemplate>
@@ -2207,7 +2218,7 @@
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <td width="5%" align="left" valign="top" id="trSelectTran">
-                                                                                                <asp:CheckBox ID="chkRptTransSelect" runat="server" onclick="SelectDeselectHeader(false);" />
+                                                                                                <asp:CheckBox ID="chkRptTransSelect" runat="server" onclick="SelectDeselectTransHeader(false);" />
                                                                                                 <input type="hidden" id="hdnID" runat="server" value='<%#Eval("PK_Claims_Transactions_ID")%>' />
                                                                                             </td>
                                                                                         </tr>
@@ -2392,9 +2403,9 @@
                                                                     <td align="center" colspan="2">
                                                                         <br />
                                                                         <asp:Button ID="btnPrintSelectedTransInner" runat="server" Text=" Print "
-                                                                            OnClientClick="return CheckSelectedTrans('Print',false);" />&nbsp;
+                                                                            OnClientClick="return CheckSelectedTrans('Print',false);" OnClick="btnPrintSelectedTransInner_Click" />&nbsp;
                                                                         <asp:Button ID="btnCancel" runat="server" Text=" Cancel "  OnClick="btnCancel_Click"/>
-                                                                        <asp:Button ID="btnMailTrans" runat="server" Text=" Mail " />
+                                                                        <asp:Button ID="btnMailTrans" runat="server" Text=" Mail " OnClick="btnMailTrans_Click" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -2403,10 +2414,10 @@
                                                                 </tr>
                                                             </table>
                                                         </asp:Panel>
-                                                        </br>
                                                     </ContentTemplate>
                                                     <Triggers>
                                                         <asp:PostBackTrigger ControlID="btnPrintSelectedTrans" />
+                                                        <asp:PostBackTrigger ControlID="btnPrintSelectedTransInner" />
                                                     </Triggers>
                                                 </asp:UpdatePanel>
                                             </asp:Panel>

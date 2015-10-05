@@ -246,6 +246,13 @@
                 return true;
             }
         }
+
+        function OpenTransMailPopUp(tab, strPKs, FK_Table_Name, FK_Claim) {
+            SelectDeselectTransHeader(false);
+            var oWnd = window.open('<%=AppConfig.SiteURL%>SONIC/Exposures/Asset_Protection_SendMail.aspx?Tab=' + tab + '&PK_Fields=' + strPKs + '&Table_Name=' + FK_Table_Name + '&Claim_ID=' + FK_Claim, "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=600,height=300");
+             oWnd.moveTo(450, 300);
+             return false;
+         }
     </script>
     <script language="javascript" type="text/javascript">
         function CheckNumericVal(Ctl) {
@@ -433,24 +440,95 @@
             $("#<%=txtPresident_Last_Email_Date.ClientID%>").mask("99/99/9999");
             $("#<%=txtPresident_Response_Date.ClientID%>").mask("99/99/9999");
         });
+
+        function SelectDeselectAllTrans(bChecked, bFromGrid) {
+
+            var ctrls = document.getElementsByTagName('input');
+            var i, chkID;
+            var cnt = 0;
+            chkID = (bFromGrid == true ? "chkTranSelect" : "chkRptTransSelect");
+            for (i = 0; i < ctrls.length; i++) {
+                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
+                    ctrls[i].checked = bChecked;
+                }
+            }
+        }
+
+        function SelectDeselectTransHeader(bFromGrid) {
+
+            var ctrls = document.getElementsByTagName('input');
+            var i, chkID;
+            var cnt = 0;
+            chkID = (bFromGrid == true ? "chkTranSelect" : "chkRptTransSelect");
+            for (i = 0; i < ctrls.length; i++) {
+                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
+                    if (ctrls[i].checked)
+                        cnt++;
+                }
+            }
+
+            var rowCnt = 0;
+            if (bFromGrid)
+                rowCnt = document.getElementById('<%=gvPLTransList.ClientID %>').rows.length - 1;
+            else
+                rowCnt = document.getElementById('<%=hdnRptRows.ClientID %>').value;
+            
+            var headerChkID = bFromGrid ? 'chkMultiSelectTrans' : 'chkRptMultiSelectTrans';
+
+            if (cnt == rowCnt)
+                document.getElementById(headerChkID).checked = true;
+            else
+                document.getElementById(headerChkID).checked = false;
+
+        }
+
+        function CheckSelectedTrans(buttonType, bFromGrid) {
+            var ctrls = document.getElementsByTagName('input');
+            var i, chkID;
+            var cnt = 0;
+            chkID = (bFromGrid == true ? "chkTranSelect" : "chkRptTransSelect");
+            for (i = 0; i < ctrls.length; i++) {
+                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
+                    if (ctrls[i].checked)
+                        cnt++;
+                }
+            }
+
+            if (cnt == 0) {
+                if (buttonType == "View")
+                    alert("Please select Transaction(s) to View");
+                else if (buttonType == "Mail")
+                    alert("Please select Transaction(s) to Mail");
+                else
+                    alert("Please select Transaction(s) to Print");
+
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        function ShowHideTranCheckbox() {
+            $("#trMultiselectTran").css("display", "none");
+            $("#trSelectTran").css("display", "none");
+
+        }
     </script>
     <div>
         <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
             HeaderText="Verify the following fields in Risk Management Worksheet Panel:"
-            BorderWidth="1" BorderColor="DimGray" ValidationGroup="vsWorkSheetGroup" CssClass="errormessage">
-        </asp:ValidationSummary>
+            BorderWidth="1" BorderColor="DimGray" ValidationGroup="vsWorkSheetGroup" CssClass="errormessage"></asp:ValidationSummary>
         <asp:ValidationSummary ID="vsAttchments" runat="server" ShowSummary="false" ShowMessageBox="true"
             HeaderText="Verify the following fields in Attachment:" BorderWidth="1" BorderColor="DimGray"
             ValidationGroup="AddAttachment" CssClass="errormessage"></asp:ValidationSummary>
         <asp:ValidationSummary ID="ValidationSummary2" runat="server" ShowSummary="false"
             ShowMessageBox="true" HeaderText="Verify the following fields in Attachment:"
-            BorderWidth="1" BorderColor="DimGray" ValidationGroup="AddAttachment1" CssClass="errormessage">
-        </asp:ValidationSummary>
+            BorderWidth="1" BorderColor="DimGray" ValidationGroup="AddAttachment1" CssClass="errormessage"></asp:ValidationSummary>
         <table cellpadding="0" cellspacing="0" width="100%">
             <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowSummary="false"
                 ShowMessageBox="true" HeaderText="Verify the following fields in Attachment:"
-                BorderWidth="1" BorderColor="DimGray" ValidationGroup="AddClaimAttachment" CssClass="errormessage">
-            </asp:ValidationSummary>
+                BorderWidth="1" BorderColor="DimGray" ValidationGroup="AddClaimAttachment" CssClass="errormessage"></asp:ValidationSummary>
     </div>
     <table cellpadding="0" cellspacing="0" width="100%">
         <tr>
@@ -524,15 +602,13 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="Spacer" style="height: 15px;" colspan="2">
-                        </td>
+                        <td class="Spacer" style="height: 15px;" colspan="2"></td>
                     </tr>
                     <tr>
                         <td class="leftMenu" valign="top">
                             <table cellpadding="0" cellspacing="0">
                                 <tr>
-                                    <td style="height: 18px;" class="Spacer">
-                                    </td>
+                                    <td style="height: 18px;" class="Spacer"></td>
                                 </tr>
                                 <tr>
                                     <td width="100%">
@@ -560,8 +636,7 @@
                                             <tr>
                                                 <td nowrap="nowrap">
                                                     <span id="WCMenu5" href="#" onclick="javascript:CheckValueChange(5,null);">Risk Management
-                                                        Worksheet</span>&nbsp;<span id="MenuAsterisk5" runat="server" style="color: Red;
-                                                            display: none">*</span>
+                                                        Worksheet</span>&nbsp;<span id="MenuAsterisk5" runat="server" style="color: Red; display: none">*</span>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -578,8 +653,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="height: 5px;" class="Spacer">
-                                    </td>
+                                    <td style="height: 5px;" class="Spacer"></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -591,8 +665,7 @@
                                         <asp:UpdateProgress runat="server" ID="upProgress" DisplayAfter="100">
                                             <ProgressTemplate>
                                                 <div class="UpdatePanelloading" id="divProgress" style="width: 100%;">
-                                                    <table id="ProgressTable" cellpadding="0" cellspacing="0" border="0" style="width: 100%;
-                                                        height: 100%;">
+                                                    <table id="ProgressTable" cellpadding="0" cellspacing="0" border="0" style="width: 100%; height: 100%;">
                                                         <tr align="center" valign="middle">
                                                             <td class="LoadingText" align="center" valign="middle">
                                                                 <img src="../../Images/indicator.gif" alt="Loading" />&nbsp;&nbsp;&nbsp;Please Wait..
@@ -609,574 +682,456 @@
                         <td valign="top">
                             <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                 <tr>
-                                    <td width="5px">
-                                        &nbsp;
+                                    <td width="5px">&nbsp;
                                     </td>
                                     <td width="794px" valign="top" class="dvContainer" style="height: 200px;">
                                         <div id="dvView" runat="server" style="width: 100%;">
                                             <asp:Panel ID="pnlClaimIdentification" runat="server" Width="100%">
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                     <tr>
-                                                        <td align="left" width="20%">
-                                                            Date of Update
+                                                        <td align="left" width="20%">Date of Update
                                                         </td>
-                                                        <td align="center" width="4%">
-                                                            :
+                                                        <td align="center" width="4%">:
                                                         </td>
                                                         <td align="left" width="26%">
                                                             <asp:Label ID="lblDateofUpdate" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left" width="20%">
-                                                            Data Source
+                                                        <td align="left" width="20%">Data Source
                                                         </td>
-                                                        <td align="center" width="4%">
-                                                            :
+                                                        <td align="center" width="4%">:
                                                         </td>
                                                         <td align="left" width="26%">
                                                             <asp:Label ID="lblDataSource" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Employee Name
+                                                        <td>Employee Name
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblEmployeeName" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Claim Number
+                                                        <td>Claim Number
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblClaimNumber2" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Claimant First Name
+                                                        <td>Claimant First Name
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblClaimantFirstName" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Associated First Report
+                                                        <td>Associated First Report
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblAssociatedFirstReport" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Claimant Last Name
+                                                        <td>Claimant Last Name
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblClaimantLastName" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Key Claim Number
+                                                        <td>Key Claim Number
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblKeyClaimNumber" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Employee Street
+                                                        <td>Employee Street
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblEmployeeStreet" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Claimant Sequence Number
+                                                        <td>Claimant Sequence Number
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblClaimantSequenceNumber" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Employee City
+                                                        <td>Employee City
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblEmployeeCity" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Employee Gender
+                                                        <td>Employee Gender
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblEmployeeGender" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Employee State
+                                                        <td>Employee State
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblEmployeeState" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Employee SSN
+                                                        <td>Employee SSN
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblEmployeeSSN" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Employee Zip
+                                                        <td>Employee Zip
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblEmployeeZip" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Employee Marital Status
+                                                        <td>Employee Marital Status
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblEmployeeMaritalStatus" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Date of Birth
+                                                        <td>Date of Birth
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblDateofBirth" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            State of Jurisdiction
+                                                        <td>State of Jurisdiction
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblStateofJurisdiction" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            State of Accident
+                                                        <td>State of Accident
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblStateofAccident" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Date Reported to Insurer
+                                                        <td>Date Reported to Insurer
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblDateReportedtoInsurer" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Date of Accident
+                                                        <td>Date of Accident
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblDateofAccident" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Claim Status
+                                                        <td>Claim Status
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblClaimStatus" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Claim Sub Status
+                                                        <td>Claim Sub Status
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblClaim_substatus" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Time of Loss
+                                                        <td>Time of Loss
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblTimeofLoss" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Date Closed
+                                                        <td>Date Closed
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblDateClosed" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Date Entered
+                                                        <td>Date Entered
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblDateEntered" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Coverage Code
+                                                        <td>Coverage Code
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblCoverageCode" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Location Code
+                                                        <td>Location Code
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblLocationCode" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Date Suit Filed
+                                                        <td>Date Suit Filed
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblDateSuitFiled" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Law Suit Y/N
+                                                        <td>Law Suit Y/N
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblLawSuitYN" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Suit Result Code
+                                                        <td>Suit Result Code
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblSuitResultCode" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Suit Type Code
+                                                        <td>Suit Type Code
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblSuitTypeCode" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            TPA Policy Number
+                                                        <td>TPA Policy Number
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblSRSPolicyNumber" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Plaintiff Attorney Code
+                                                        <td>Plaintiff Attorney Code
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblPlaintiffAttorneyCode" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            TPA Policy Begin Date
+                                                        <td>TPA Policy Begin Date
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblPolicyEffectiveDate" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            TPA Policy End Date
+                                                        <td>TPA Policy End Date
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblPolicyExpirationDate" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Carrier Policy Number
+                                                        <td>Carrier Policy Number
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblOtherCarrierPolicyNumber" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Carrier Policy Begin Date
+                                                        <td>Carrier Policy Begin Date
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblCarrierEffectiveDate" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Carrier Policy End Date
+                                                        <td>Carrier Policy End Date
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblCarrierExpirationDate" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Claim Made Y/N
+                                                        <td>Claim Made Y/N
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblClaimsMadeIndicator" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Claim Made Date
+                                                        <td>Claim Made Date
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblClaimsMadeDate" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Retroactive Date
+                                                        <td>Retroactive Date
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblRetroactiveDate" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Accident City/Town
+                                                        <td>Accident City/Town
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblAccidentCityTown" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Catastrophe Code
+                                                        <td>Catastrophe Code
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblCatastropheCode" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                        </td>
-                                                        <td align="center">
-                                                        </td>
-                                                        <td>
-                                                        </td>
+                                                        <td></td>
+                                                        <td align="center"></td>
+                                                        <td></td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Location/Product Name
+                                                        <td>Location/Product Name
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblLocationProductName" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            NCCI Cause of Injury Code
+                                                        <td>NCCI Cause of Injury Code
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblNCCICauseofinjurycode" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            NCCI Body Part Code
+                                                        <td>NCCI Body Part Code
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblNCCIBodyPartCode" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            NCCI Nature of Injury Code
+                                                        <td>NCCI Nature of Injury Code
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblNCCINatureofInjurycode" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Description and Cause of Accident
+                                                        <td>Description and Cause of Accident
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblAccidentDescription" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Claim Status Description
+                                                        <td>Claim Status Description
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblClaimStatusDescription" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Cause of Injury Code
+                                                        <td>Cause of Injury Code
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblCauseofInjuryCode" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Nature of Injury Code
+                                                        <td>Nature of Injury Code
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblNatureofInjuryCode" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Part of Body Code
+                                                        <td>Part of Body Code
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblPartofBodycode" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                        </td>
-                                                        <td align="center">
-                                                        </td>
-                                                        <td>
-                                                        </td>
+                                                        <td></td>
+                                                        <td align="center"></td>
+                                                        <td></td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Previous TPA Claim Number
+                                                        <td>Previous TPA Claim Number
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblPreviousTPAClaimNumTakeover" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                        </td>
-                                                        <td>
-                                                        </td>
-                                                        <td>
-                                                        </td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6" align="left">
@@ -1274,7 +1229,7 @@
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblReason5" runat="server"></asp:Label>
-                                                            
+
                                                         </td>
                                                         <td></td>
                                                         <td align="center"></td>
@@ -1288,379 +1243,285 @@
                                                         <td align="left" width="20%">
                                                             <b>Loss</b>
                                                         </td>
-                                                        <td align="center" width="4%">
-                                                        </td>
-                                                        <td width="26%">
-                                                        </td>
+                                                        <td align="center" width="4%"></td>
+                                                        <td width="26%"></td>
                                                         <td align="left" width="20%">
                                                             <b>Expense</b>
                                                         </td>
-                                                        <td align="center" width="4%">
-                                                        </td>
-                                                        <td width="26%">
-                                                        </td>
+                                                        <td align="center" width="4%"></td>
+                                                        <td width="26%"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Gross Paid
+                                                        <td align="left">Gross Paid
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblLossGrossPaid" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Gross Paid
+                                                        <td>Gross Paid
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblExpenseGrossPaid" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Net Paid
+                                                        <td align="left">Net Paid
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblNetLossPaid" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Net Paid
+                                                        <td>Net Paid
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblNetExpensePaid" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Net Recovered
+                                                        <td align="left">Net Recovered
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblLossNetRecovered" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Net Recovered
+                                                        <td>Net Recovered
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblExpenseNetRecovered" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Total Incurred
+                                                        <td align="left">Total Incurred
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblLossIncurred" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Total Incurred
+                                                        <td>Total Incurred
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblExpenseIncurred" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Outstanding
+                                                        <td align="left">Outstanding
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblLossOutstanding" runat="server"></asp:Label>
                                                         </td>
-                                                        <td>
-                                                            Outstanding
+                                                        <td>Outstanding
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblExpenseOutstanding" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                        </td>
-                                                        <td align="center">
-                                                        </td>
-                                                        <td align="left">
-                                                        </td>
-                                                        <td align="left">
-                                                        </td>
-                                                        <td align="center">
-                                                        </td>
-                                                        <td align="left">
-                                                        </td>
+                                                        <td align="left"></td>
+                                                        <td align="center"></td>
+                                                        <td align="left"></td>
+                                                        <td align="left"></td>
+                                                        <td align="center"></td>
+                                                        <td align="left"></td>
                                                     </tr>
                                                     <tr>
                                                         <td align="left">
                                                             <b>ALE</b>
                                                         </td>
-                                                        <td align="center">
-                                                        </td>
-                                                        <td align="left">
-                                                        </td>
+                                                        <td align="center"></td>
+                                                        <td align="left"></td>
                                                         <td align="left">
                                                             <b>Loss Subrogation</b>
                                                         </td>
-                                                        <td align="center">
-                                                        </td>
-                                                        <td align="left">
-                                                        </td>
+                                                        <td align="center"></td>
+                                                        <td align="left"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Gross Subrogation
+                                                        <td align="left">Gross Subrogation
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblAleGrossSubrogation" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left">
-                                                            Gross
+                                                        <td align="left">Gross
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblLossGrossSubrogation" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Gross Salvage
+                                                        <td align="left">Gross Salvage
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblAleGrossSalvage" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left">
-                                                            Expense
+                                                        <td align="left">Expense
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblLossSubrogationExpense" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Gross Refund
+                                                        <td align="left">Gross Refund
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblAleGrossRefund" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left">
-                                                            Gross Salvage
+                                                        <td align="left">Gross Salvage
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblLossGrossSalvage" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Refund Expense
+                                                        <td align="left">Refund Expense
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblAleRefundExpense" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left">
-                                                            Salvage Expense
+                                                        <td align="left">Salvage Expense
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblLossSalvageExpense" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
+                                                        <td align="left"></td>
+                                                        <td align="center"></td>
+                                                        <td align="left"></td>
+                                                        <td align="left">Loss Gross Refund
                                                         </td>
-                                                        <td align="center">
-                                                        </td>
-                                                        <td align="left">
-                                                        </td>
-                                                        <td align="left">
-                                                            Loss Gross Refund
-                                                        </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblLossGrossRefund" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                        </td>
-                                                        <td align="center">
-                                                        </td>
-                                                        <td align="left">
-                                                        </td>
-                                                        <td align="left">
-                                                        </td>
-                                                        <td align="center">
-                                                        </td>
-                                                        <td align="left">
-                                                        </td>
+                                                        <td align="left"></td>
+                                                        <td align="center"></td>
+                                                        <td align="left"></td>
+                                                        <td align="left"></td>
+                                                        <td align="center"></td>
+                                                        <td align="left"></td>
                                                     </tr>
                                                     <tr>
                                                         <td align="left">
                                                             <b>Previous TPA</b>
                                                         </td>
-                                                        <td align="center">
-                                                        </td>
-                                                        <td align="left">
-                                                        </td>
+                                                        <td align="center"></td>
+                                                        <td align="left"></td>
                                                         <td align="left">
                                                             <b>Legal</b>
                                                         </td>
-                                                        <td align="center">
-                                                        </td>
-                                                        <td align="left">
-                                                        </td>
+                                                        <td align="center"></td>
+                                                        <td align="left"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Indemnity Paid
+                                                        <td align="left">Indemnity Paid
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblPreviousTPAIndemnityPaid" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left">
-                                                            Legal Expense Incurred
+                                                        <td align="left">Legal Expense Incurred
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblLegalExpenseIncurred" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Medical Paid
+                                                        <td align="left">Medical Paid
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblPreviousTPAMedicalPaid" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left">
-                                                            Legal Expense Paid
+                                                        <td align="left">Legal Expense Paid
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblLegalExpensePaidtoDate" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Expense Paid
+                                                        <td align="left">Expense Paid
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblPreviousTPAExpensePaid" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left">
-                                                        </td>
-                                                        <td align="center">
-                                                        </td>
-                                                        <td align="left">
-                                                        </td>
+                                                        <td align="left"></td>
+                                                        <td align="center"></td>
+                                                        <td align="left"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                        </td>
-                                                        <td align="center">
-                                                        </td>
-                                                        <td align="left">
-                                                        </td>
-                                                        <td align="left">
-                                                        </td>
-                                                        <td align="center">
-                                                        </td>
-                                                        <td align="left">
-                                                        </td>
+                                                        <td align="left"></td>
+                                                        <td align="center"></td>
+                                                        <td align="left"></td>
+                                                        <td align="left"></td>
+                                                        <td align="center"></td>
+                                                        <td align="left"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Recovered Loss Deductible Amount
+                                                        <td align="left">Recovered Loss Deductible Amount
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblRecoveredLossDeductibleAmount" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left">
-                                                        </td>
-                                                        <td align="center">
-                                                        </td>
-                                                        <td align="left">
-                                                        </td>
+                                                        <td align="left"></td>
+                                                        <td align="center"></td>
+                                                        <td align="left"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Recovered Expense Deductible Amount
+                                                        <td align="left">Recovered Expense Deductible Amount
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblRecoveredExpenseDeductibleAmount" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left">
-                                                        </td>
-                                                        <td align="center">
-                                                        </td>
-                                                        <td align="left">
-                                                        </td>
+                                                        <td align="left"></td>
+                                                        <td align="center"></td>
+                                                        <td align="left"></td>
                                                     </tr>
                                                 </table>
                                             </asp:Panel>
@@ -1668,73 +1529,92 @@
                                                 <asp:UpdatePanel runat="Server" ID="updTrans" UpdateMode="Always">
                                                     <ContentTemplate>
                                                         Click For Detail
-                                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                                            <tr>
-                                                                <td width="45%">
-                                                                </td>
-                                                                <td valign="top" align="right">
-                                                                    <uc:ctrlPaging ID="ctrlPageTransaction" runat="server" OnGetPage="GetPage" />
-                                                                </td>
-                                                            </tr>
-                                                        </table>
                                                         <br />
-                                                        <div id="divTransactionList" style="width: 99%; height: 100px; overflow-y: scroll;
-                                                            border: solid 1px #000000">
-                                                            <asp:GridView ID="gvWCTransList" runat="server" AutoGenerateColumns="false" Width="98%"
-                                                                OnRowCommand="gvWCTransList_RowCommand" OnRowDataBound="gvWCTransList_RowDataBound">
-                                                                <HeaderStyle HorizontalAlign="Center" />
-                                                                <Columns>
-                                                                    <asp:TemplateField HeaderText="Date">
-                                                                        <ItemStyle HorizontalAlign="Center" Width="40px" />
-                                                                        <ItemTemplate>
-                                                                            <asp:LinkButton runat="server" ID="lnkTransaction_Entry_date" CommandName="View"
-                                                                                CommandArgument='<%#Eval("PK_Claims_Transactions_ID")%>'>
+                                                        <asp:Panel ID="pnlTransGrid" runat="server" Width="100%">
+                                                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                                <tr>
+                                                                    <td width="45%"></td>
+                                                                    <td valign="top" align="right">
+                                                                        <uc:ctrlPaging ID="ctrlPageTransaction" runat="server" OnGetPage="GetPage" />
+                                                                    </td>
+                                                                </tr>
+                                                           <%-- </table>--%>
+                                                                <tr>
+                                                                    <td colspan="2">
+                                                            <br />
+                                                            <div id="divTransactionList" style="width: 99%; height: 100px; overflow-y: scroll; border: solid 1px #000000">
+                                                                <asp:GridView ID="gvPLTransList" runat="server" AutoGenerateColumns="false" Width="98%"
+                                                                    OnRowCommand="gvPLTransList_RowCommand" OnRowDataBound="gvPLTransList_RowDataBound">
+                                                                    <HeaderStyle HorizontalAlign="Center" />
+                                                                    <Columns>
+                                                                        <asp:TemplateField ItemStyle-VerticalAlign="Top" ItemStyle-Width="10%" HeaderStyle-HorizontalAlign="Left">
+                                                                            <HeaderTemplate>
+                                                                                <input type="checkbox" id="chkMultiSelectTrans" onclick="SelectDeselectAllTrans(this.checked, true);" />Select
+                                                                            </HeaderTemplate>
+                                                                            <ItemTemplate>
+                                                                                <asp:CheckBox ID="chkTranSelect" runat="server" onclick="SelectDeselectTransHeader(true);" />
+                                                                                <input type="hidden" id="hdnID" runat="server" value='<%#Eval("PK_Claims_Transactions_ID")%>' />
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                        <asp:TemplateField HeaderText="Date">
+                                                                            <ItemStyle HorizontalAlign="Center" Width="40px" />
+                                                                            <ItemTemplate>
+                                                                                <asp:LinkButton runat="server" ID="lnkTransaction_Entry_date" CommandName="View"
+                                                                                    CommandArgument='<%#Eval("PK_Claims_Transactions_ID")%>'>
                                                                         <%#Eval("Transaction_Entry_date")%>
-                                                                            </asp:LinkButton>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:BoundField HeaderText="Transaction Type" DataField="Transaction_Nature_of_Benefit"
-                                                                        ItemStyle-Width="20%" ItemStyle-HorizontalAlign="Left" />
-                                                                    <asp:BoundField HeaderText="Payee" DataField="Payee_Name1" ItemStyle-Width="20%"
-                                                                        ItemStyle-HorizontalAlign="Left" />
-                                                                    <asp:BoundField HeaderText="Nature Of Payment" DataField="Nature_of_Payment_Statement"
-                                                                        ItemStyle-Width="20%" ItemStyle-HorizontalAlign="Left" />
-                                                                    <asp:TemplateField HeaderText="Amount">
-                                                                        <ItemStyle HorizontalAlign="Right" />
-                                                                        <ItemTemplate>
-                                                                            <%# string.Format("{0:C2}",Eval("Transaction_Amount"))%>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <%--<asp:BoundField HeaderText="Amount" DataField="Transaction_Amount" DataFormatString="$ {0:N2}" ItemStyle-HorizontalAlign="Right" />--%>
-                                                                </Columns>
-                                                                <EmptyDataTemplate>
-                                                                    <table cellpadding="4" cellspacing="0" width="100%">
-                                                                        <tr>
-                                                                            <td width="100%" align="center" style="border: 1px solid #cccccc;">
-                                                                                <asp:Label ID="lblEmptyHeaderGridMessage" runat="server" Text="No Record Found"></asp:Label>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </EmptyDataTemplate>
-                                                            </asp:GridView>
-                                                        </div>
-                                                        <asp:Panel ID="pnlTransactionDetail" runat="server" Visible="false" Width="100%">
+                                                                                </asp:LinkButton>
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                        <asp:BoundField HeaderText="Transaction Type" DataField="Transaction_Nature_of_Benefit"
+                                                                            ItemStyle-Width="20%" ItemStyle-HorizontalAlign="Left" />
+                                                                        <asp:BoundField HeaderText="Payee" DataField="Payee_Name1" ItemStyle-Width="20%"
+                                                                            ItemStyle-HorizontalAlign="Left" />
+                                                                        <asp:BoundField HeaderText="Nature Of Payment" DataField="Nature_of_Payment_Statement"
+                                                                            ItemStyle-Width="20%" ItemStyle-HorizontalAlign="Left" />
+                                                                        <asp:TemplateField HeaderText="Amount">
+                                                                            <ItemStyle HorizontalAlign="Right" />
+                                                                            <ItemTemplate>
+                                                                                <%# string.Format("{0:C2}",Eval("Transaction_Amount"))%>
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                        <%--<asp:BoundField HeaderText="Amount" DataField="Transaction_Amount" DataFormatString="$ {0:N2}" ItemStyle-HorizontalAlign="Right" />--%>
+                                                                    </Columns>
+                                                                    <EmptyDataTemplate>
+                                                                        <table cellpadding="4" cellspacing="0" width="100%">
+                                                                            <tr>
+                                                                                <td width="100%" align="center" style="border: 1px solid #cccccc;">
+                                                                                    <asp:Label ID="lblEmptyHeaderGridMessage" runat="server" Text="No Record Found"></asp:Label>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </EmptyDataTemplate>
+                                                                </asp:GridView>
+                                                            </div>
+                                                            </td>
+                                                          </tr>
+                                                                <tr>
+                                                                    <td align="center" colspan="2">
+                                                                        <br />
+                                                                        <asp:Button ID="btnViewSelectedTrans" runat="server" Text=" View "
+                                                                            OnClientClick="return CheckSelectedTrans('View',true);" OnClick="btnViewSelectedTrans_Click" />&nbsp;
+                                                                    <asp:Button ID="btnPrintSelectedTrans" runat="server" Text=" Print " OnClick="btnPrintSelectedTrans_Click" OnClientClick="return CheckSelectedTrans('Print',true);"/>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </asp:Panel>
+                                                        <asp:Panel ID="pnlSingleTransactionDetail" runat="server" Visible="false" Width="100%">
                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                 <tr>
-                                                                    <td width="20%">
-                                                                        Date
+                                                                    <td width="20%">Date
                                                                     </td>
-                                                                    <td width="4%">
-                                                                        :
+                                                                    <td width="4%">:
                                                                     </td>
                                                                     <td width="26%">
                                                                         <asp:Label ID="lblTransactionEntrydate" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td width="20%">
-                                                                        Data Source
+                                                                    <td width="20%">Data Source
                                                                     </td>
-                                                                    <td width="4%">
-                                                                        :
+                                                                    <td width="4%">:
                                                                     </td>
                                                                     <td width="26%">
                                                                         <asp:Label ID="lblDataOrigin" runat="server"></asp:Label><asp:Label ID="Label158"
@@ -1742,260 +1622,208 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>
-                                                                        Payee Name 1
+                                                                    <td>Payee Name 1
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblPayeeName1" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td>
-                                                                        Key Claim Number
+                                                                    <td>Key Claim Number
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblOriginKeyClaimNumber" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>
-                                                                        Payee Name 2
+                                                                    <td>Payee Name 2
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblPayeeName2" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td>
-                                                                        Claimant Sequence Number
+                                                                    <td>Claimant Sequence Number
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblClaimantSequenceNumber3" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>
-                                                                        Payee Name 3
+                                                                    <td>Payee Name 3
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblPayeeName3" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td>
-                                                                        Policy Number
+                                                                    <td>Policy Number
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblPolicyNumber" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>
-                                                                        Payee Street_Address
+                                                                    <td>Payee Street_Address
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblPayeeStreetAddress" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td>
-                                                                        Carrier Policy Number
+                                                                    <td>Carrier Policy Number
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblCarrierpolicynumber2" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>
-                                                                        Payee City
+                                                                    <td>Payee City
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblPayeeCity" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td>
-                                                                        Employee Marital Status
+                                                                    <td>Employee Marital Status
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblEmployeeMaritalStatus2" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>
-                                                                        Payee State
+                                                                    <td>Payee State
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblPayeeState" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td>
-                                                                        Transaction Amount
+                                                                    <td>Transaction Amount
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblTransactionAmount" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>
-                                                                        Payee Zip
+                                                                    <td>Payee Zip
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblPayeeZip" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td>
-                                                                        Transaction Sequence Number
+                                                                    <td>Transaction Sequence Number
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblTransactionSequenceNumber" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>
-                                                                        Payee ID
+                                                                    <td>Payee ID
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblPayeeID" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td>
-                                                                        Claim Status
+                                                                    <td>Claim Status
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblClaimStatus2" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>
-                                                                        Entry Code
+                                                                    <td>Entry Code
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblEntryCode" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td>
-                                                                        Entry Code Modiifer
+                                                                    <td>Entry Code Modiifer
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblEntryCodeModifier" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>
-                                                                        Nature of Benefit
+                                                                    <td>Nature of Benefit
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblNatureofBenefitCode2" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td>
-                                                                        Transaction Nature of Benefit
+                                                                    <td>Transaction Nature of Benefit
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblTransactionNatureofBenefit" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>
-                                                                        Nature of Payment Statement
+                                                                    <td>Nature of Payment Statement
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblNatureofPaymentStatement" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td>
-                                                                        Check Number
+                                                                    <td>Check Number
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblCheckNumber" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>
-                                                                        SRS Recovery Office Code
+                                                                    <td>SRS Recovery Office Code
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblSRSRecoveryOfficeCode" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td>
-                                                                        Check Issue Date
+                                                                    <td>Check Issue Date
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblCheckIssueDate" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>
-                                                                        SRS Draft Issue Office Code
+                                                                    <td>SRS Draft Issue Office Code
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblSRSDraftIssueOfficeCode" runat="server"></asp:Label>
                                                                     </td>
-                                                                    <td>
-                                                                        Recovery Sequence Number
+                                                                    <td>Recovery Sequence Number
                                                                     </td>
-                                                                    <td>
-                                                                        :
+                                                                    <td>:
                                                                     </td>
                                                                     <td>
                                                                         <asp:Label ID="lblRecoverySequenceNumber" runat="server"></asp:Label>
@@ -2003,7 +1831,224 @@
                                                                 </tr>
                                                             </table>
                                                         </asp:Panel>
+                                                         <asp:Panel ID="pnlTransactionDetail" runat="server" Visible="false" Width="100%">
+                                                            <input type="hidden" id="hdnRptRows" runat="server" />
+                                                            <table cellpadding="1" cellspacing="1" width="100%">
+                                                                <tr>
+                                                                    <td width="100%">
+                                                                        <div style="width: 770px; height: 370px; overflow-x: hidden; overflow-y: scroll;">
+                                                                            <asp:Repeater ID="rptTransDetail" runat="server">
+
+                                                                                <ItemTemplate>
+                                                                                    <table border="0" cellpadding="3" cellspacing="1" width="100%">
+                                                                                        <tr style='display: <%# Container.ItemIndex == 0  ? "block" : "none" %>' id="trMultiselectTran">
+                                                                                            <td colspan="2" align="left" valign="bottom">
+                                                                                                <input type="checkbox" id="chkRptMultiSelectTrans" onclick="SelectDeselectAllTrans(this.checked, false);" />Select
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td width="5%" align="left" valign="top" id="trSelectTran">
+                                                                                                <asp:CheckBox ID="chkRptTransSelect" runat="server" onclick="SelectDeselectTransHeader(false);" />
+                                                                                                <input type="hidden" id="hdnID" runat="server" value='<%#Eval("PK_Claims_Transactions_ID")%>' />
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+
+                                                                                            <td width="20%">Date </td>
+                                                                                            <td width="4%">: </td>
+                                                                                            <td width="26%">
+                                                                                                <%#clsGeneral.FormatDBNullDateToDisplay(Eval("Transaction_Entry_date"))%>
+                                                                                            </td>
+                                                                                            <td width="20%">Data Source </td>
+                                                                                            <td width="4%">: </td>
+                                                                                            <td width="26%">
+                                                                                                <%#Eval("Data_Origin")%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Payee Name 1 </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Payee_Name1")%>
+                                                                                            </td>
+                                                                                            <td>Key Claim Number </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Origin_Key_Claim_Number")%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Payee Name 2 </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Payee_Name2")%>
+                                                                                            </td>
+                                                                                            <td>Claimant Sequence Number </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Claimant_Sequence_Number")%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Payee Name 3 </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Payee_Name3")%>
+                                                                                            </td>
+                                                                                            <td>Policy Number </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Policy_Number")%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Payee Street_Address </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Payee_Street_Address")%>
+                                                                                            </td>
+                                                                                            <td>Carrier Policy Number </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Carrier_policy_number")%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Payee City </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Payee_City")%>
+                                                                                            </td>
+                                                                                            <td></td>
+                                                                                            <td></td>
+                                                                                            <td></td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Payee State </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Payee_State")%>
+                                                                                            </td>
+                                                                                            <td>Transaction Amount </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Transaction_Amount") == DBNull.Value ? "" : String.Format("$ {0:N2}", Convert.ToDecimal(Eval("Transaction_Amount")))%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Payee Zip </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Payee_Zip")%>
+                                                                                            </td>
+                                                                                            <td>Transaction Sequence Number </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Transaction_Sequence_Number")%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Payee ID </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Convert.ToString(Eval("Payee_Tax_Number")) + " - " + Convert.ToString(Eval("Payee_SSN_FEIN"))%>
+                                                                                            </td>
+                                                                                            <td>Claim Status </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Claim_Status")%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Entry Code </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Entry_Code_Desc")%>
+                                                                                            </td>
+                                                                                            <td>Entry Code Modiifer </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Entry_Code_Modifier_Desc")%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Nature of Benefit </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Nature_of_Benefit_Code_Desc")%>
+                                                                                            </td>
+                                                                                            <td>Transaction Nature of Benefit </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Transaction_Nature_of_Benefit_Desc")%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>Nature of Payment Statement </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Nature_of_Payment_Statement")%>
+                                                                                            </td>
+                                                                                            <td>Check Number </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Check_Number")%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>SRS Recovery Office Code </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("SRS_Recovery_Office_Code")%>
+                                                                                            </td>
+                                                                                            <td>Check Issue Date </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#clsGeneral.FormatDBNullDateToDisplay(Eval("Check_Issue_Date"))%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>SRS Draft Issue Office Code </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("SRS_Draft_Issue_Office_Code")%>
+                                                                                            </td>
+                                                                                            <td>Recovery Sequence Number </td>
+                                                                                            <td>: </td>
+                                                                                            <td>
+                                                                                                <%#Eval("Recovery_Sequence_Number")%>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </ItemTemplate>
+                                                                            </asp:Repeater>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="center" colspan="2">
+                                                                        <br />
+                                                                        <asp:Button ID="btnPrintSelectedTransInner" runat="server" Text=" Print "
+                                                                            OnClientClick="return CheckSelectedTrans('Print',false);" OnClick="btnPrintSelectedTransInner_Click" />&nbsp;
+                                                                        <asp:Button ID="btnCancel" runat="server" Text=" Cancel "  OnClick="btnCancel_Click"/>
+                                                                        <asp:Button ID="btnMailTrans" runat="server" Text=" Mail " OnClick="btnMailTrans_Click"/>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </asp:Panel>
                                                     </ContentTemplate>
+                                                     <Triggers>
+                                                        <asp:PostBackTrigger ControlID="btnPrintSelectedTrans" />
+                                                        <asp:PostBackTrigger ControlID="btnPrintSelectedTransInner" />
+                                                    </Triggers>
                                                 </asp:UpdatePanel>
                                             </asp:Panel>
                                             <asp:Panel ID="pnlNotes" runat="server" Width="100%">
@@ -2018,133 +2063,107 @@
                                             <asp:Panel ID="pnlWorksheet" runat="server" Width="100%">
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                     <tr>
-                                                        <td width="20%" align="left">
-                                                            Claim Number
+                                                        <td width="20%" align="left">Claim Number
                                                         </td>
-                                                        <td width="4%" align="center">
-                                                            :
+                                                        <td width="4%" align="center">:
                                                         </td>
                                                         <td width="26%" align="left">
                                                             <asp:Label ID="lblOrigin_Claim_Number" runat="server" />
                                                         </td>
-                                                        <td width="20%" align="left">
-                                                            Date of Incident
+                                                        <td width="20%" align="left">Date of Incident
                                                         </td>
-                                                        <td width="4%" align="center">
-                                                            :
+                                                        <td width="4%" align="center">:
                                                         </td>
                                                         <td width="26%" align="left">
                                                             <asp:Label ID="lblDate_of_Accident" runat="server" />
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Claim Made Date
+                                                        <td align="left">Claim Made Date
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblDate_Entered" runat="server" />
                                                         </td>
-                                                        <td align="left">
-                                                            Date Reported to Insurer
+                                                        <td align="left">Date Reported to Insurer
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblDate_Reported_To_Insurer" runat="server" />
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Location Code
+                                                        <td align="left">Location Code
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblFK_Insured_Location_Code" runat="server" />
                                                         </td>
-                                                        <td align="left">
-                                                            Region
+                                                        <td align="left">Region
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblRegion" runat="server" />
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            State of Accident
+                                                        <td align="left">State of Accident
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblState_Of_Accident" runat="server" />
                                                         </td>
-                                                        <td align="left">
-                                                            State of Jurisdiction
+                                                        <td align="left">State of Jurisdiction
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblState_of_Jurisdiction" runat="server" />
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Claimant's Name
+                                                        <td align="left">Claimant's Name
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left" colspan="4">
                                                             <asp:Label ID="lblClaimantNameWorksheet" runat="server" />
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Claimant a Customer?
+                                                        <td align="left">Claimant a Customer?
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:RadioButtonList ID="rdoClaimant_Customer" runat="server" SkinID="YesNoTypeNullSelection" />
                                                         </td>
-                                                        <td align="left">
-                                                            Claimant a Third Party?
+                                                        <td align="left">Claimant a Third Party?
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:RadioButtonList ID="rdoClaimant_Third_Party" runat="server" SkinID="YesNoTypeNullSelection" />
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">
-                                                            Description and Cause of Accident
+                                                        <td align="left" valign="top">Description and Cause of Accident
                                                         </td>
-                                                        <td align="center" valign="top">
-                                                            :
+                                                        <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" colspan="4" valign="top">
                                                             <asp:Label ID="lblAccident_Description" runat="server" />
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">
-                                                            Liability Analysis&nbsp;<span id="Span1" style="color: Red; display: none;" runat="server">*</span>
+                                                        <td align="left" valign="top">Liability Analysis&nbsp;<span id="Span1" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
-                                                        <td align="center" valign="top">
-                                                            :
+                                                        <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" colspan="4" valign="top">
                                                             <uc:CtrlMultiLineText_Claim ID="txtLiability_Analysis" runat="server" />
@@ -2152,85 +2171,70 @@
                                                     </tr>
                                                 </table>
                                                 <div class="bandHeaderRow">
-                                                    Legal</div>
+                                                    Legal
+                                                </div>
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                     <tr>
-                                                        <td width="20%" align="left">
-                                                            Plaintiff Represented
+                                                        <td width="20%" align="left">Plaintiff Represented
                                                         </td>
-                                                        <td width="4%" align="center">
-                                                            :
+                                                        <td width="4%" align="center">:
                                                         </td>
                                                         <td width="26%" align="left">
                                                             <asp:Label ID="lblPlaintiff_Attorney_Code" runat="server" />
                                                         </td>
-                                                        <td width="20%" align="left">
-                                                            Law Suit Y/N
+                                                        <td width="20%" align="left">Law Suit Y/N
                                                         </td>
-                                                        <td width="4%" align="center">
-                                                            :
+                                                        <td width="4%" align="center">:
                                                         </td>
                                                         <td width="26%" align="left">
                                                             <asp:Label ID="lblLitigationYN" runat="server" />
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Date Suit Filed
+                                                        <td align="left">Date Suit Filed
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblDate_Suit_Filed" runat="server" />
                                                         </td>
-                                                        <td align="left">
-                                                            Demand?
+                                                        <td align="left">Demand?
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:RadioButtonList ID="rdoDemand" runat="server" SkinID="YesNoTypeNullSelection" />
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Suit Type Code
+                                                        <td align="left">Suit Type Code
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblFK_Suit_Type_Code" runat="server" />
                                                         </td>
-                                                        <td align="left">
-                                                            Suit Result Code
+                                                        <td align="left">Suit Result Code
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label ID="lblFK_Suit_Result_Code" runat="server" />
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Name of Claimant Counsel&nbsp;<span id="Span2" style="color: Red; display: none;"
-                                                                runat="server">*</span>
+                                                        <td align="left">Name of Claimant Counsel&nbsp;<span id="Span2" style="color: Red; display: none;"
+                                                            runat="server">*</span>
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:TextBox ID="txtClaimant_Counsel_Name" runat="server" MaxLength="75" />
                                                         </td>
-                                                        <td align="left">
-                                                            Name of Plaintiff Counsel&nbsp;<span id="Span3" style="color: Red; display: none;"
-                                                                runat="server">*</span>
+                                                        <td align="left">Name of Plaintiff Counsel&nbsp;<span id="Span3" style="color: Red; display: none;"
+                                                            runat="server">*</span>
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:TextBox ID="txtPlantiff_Counsel_Name" runat="server" MaxLength="75" />
@@ -2238,137 +2242,117 @@
                                                     </tr>
                                                 </table>
                                                 <div class="bandHeaderRow">
-                                                    Property Damage</div>
+                                                    Property Damage
+                                                </div>
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                     <tr>
-                                                        <td width="20%" align="left">
-                                                            Property Damaged?
+                                                        <td width="20%" align="left">Property Damaged?
                                                         </td>
-                                                        <td width="4%" align="center">
-                                                            :
+                                                        <td width="4%" align="center">:
                                                         </td>
                                                         <td align="left" colspan="4">
                                                             <asp:RadioButtonList ID="rdoProperty_Damaged" runat="server" SkinID="YesNoTypeNullSelection" />
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">
-                                                            Description of Property Damages&nbsp;<span id="Span4" style="color: Red; display: none;"
-                                                                runat="server">*</span>
+                                                        <td align="left" valign="top">Description of Property Damages&nbsp;<span id="Span4" style="color: Red; display: none;"
+                                                            runat="server">*</span>
                                                         </td>
-                                                        <td align="center" valign="top">
-                                                            :
+                                                        <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" colspan="4" valign="top">
                                                             <uc:CtrlMultiLineText_Claim ID="txtProperty_Damages_Description" runat="server" />
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Damage Amount&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server">*</span>
+                                                        <td align="left">Damage Amount&nbsp;<span id="Span5" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
-                                                        <td align="left" colspan="4">
-                                                            $&nbsp;<asp:TextBox ID="txtDamage_Amount" runat="server" onKeyPress="OnChangeFunction();return currencyFormat(this,',','.',event);"
-                                                                OnBlur="CheckNumericVal(this);" />
+                                                        <td align="left" colspan="4">$&nbsp;<asp:TextBox ID="txtDamage_Amount" runat="server" onKeyPress="OnChangeFunction();return currencyFormat(this,',','.',event);"
+                                                            OnBlur="CheckNumericVal(this);" />
                                                         </td>
                                                     </tr>
                                                 </table>
                                                 <div class="bandHeaderRow">
-                                                    Bodily Injury</div>
+                                                    Bodily Injury
+                                                </div>
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                     <tr>
-                                                        <td width="20%" align="left">
-                                                            Bodily Injury?
+                                                        <td width="20%" align="left">Bodily Injury?
                                                         </td>
-                                                        <td width="4%" align="center">
-                                                            :
+                                                        <td width="4%" align="center">:
                                                         </td>
                                                         <td align="left" colspan="4">
                                                             <asp:RadioButtonList ID="rdoBodily_Injury" runat="server" SkinID="YesNoTypeNullSelection" />
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">
-                                                            Description of Injuries&nbsp;<span id="Span6" style="color: Red; display: none;"
-                                                                runat="server">*</span>
+                                                        <td align="left" valign="top">Description of Injuries&nbsp;<span id="Span6" style="color: Red; display: none;"
+                                                            runat="server">*</span>
                                                         </td>
-                                                        <td align="center" valign="top">
-                                                            :
+                                                        <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" colspan="4" valign="top">
                                                             <uc:CtrlMultiLineText_Claim ID="txtInjury_Description" runat="server" />
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Body Parts Affected
+                                                        <td align="left">Body Parts Affected
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left" colspan="4">
                                                             <asp:Label ID="lblPart_of_Body_Code" runat="server" />
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Cause of Injury Code
+                                                        <td align="left">Cause of Injury Code
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left" colspan="4">
                                                             <asp:Label ID="lblCause_of_Injury_Code" runat="server" />
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Nature of Injury
+                                                        <td align="left">Nature of Injury
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left" colspan="4">
                                                             <asp:Label ID="lblNCCI_Nature_of_Injury_Code" runat="server" />
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">
-                                                            Description of Medical Treatment&nbsp;<span id="Span7" style="color: Red; display: none;"
-                                                                runat="server">*</span>
+                                                        <td align="left" valign="top">Description of Medical Treatment&nbsp;<span id="Span7" style="color: Red; display: none;"
+                                                            runat="server">*</span>
                                                         </td>
-                                                        <td align="center" valign="top">
-                                                            :
+                                                        <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" colspan="4" valign="top">
                                                             <uc:CtrlMultiLineText_Claim ID="txtMedical_Treatment_Description" runat="server" />
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Total Medical Cost&nbsp;<span id="Span8" style="color: Red; display: none;" runat="server">*</span>
+                                                        <td align="left">Total Medical Cost&nbsp;<span id="Span8" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
-                                                        <td align="left" colspan="4">
-                                                            $&nbsp;<asp:TextBox ID="txtMedical_Cost" runat="server" onKeyPress="OnChangeFunction();return currencyFormat(this,',','.',event);"
-                                                                OnBlur="CheckNumericVal(this);" />
+                                                        <td align="left" colspan="4">$&nbsp;<asp:TextBox ID="txtMedical_Cost" runat="server" onKeyPress="OnChangeFunction();return currencyFormat(this,',','.',event);"
+                                                            OnBlur="CheckNumericVal(this);" />
                                                         </td>
                                                     </tr>
                                                 </table>
                                                 <div class="bandHeaderRow">
-                                                    Reserves and Payments</div>
+                                                    Reserves and Payments
+                                                </div>
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                     <tr>
                                                         <td colspan="6">
                                                             <table cellpadding="0" cellspacing="0" width="100%">
                                                                 <tr>
-                                                                    <td width="20%" align="left">
-                                                                        &nbsp;
+                                                                    <td width="20%" align="left">&nbsp;
                                                                     </td>
                                                                     <td width="20%" align="left">
                                                                         <b>Loss</b>
@@ -2384,8 +2368,7 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="Spacer" style="height: 10px;">
-                                                                    </td>
+                                                                    <td class="Spacer" style="height: 10px;"></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td align="left">
@@ -2394,8 +2377,7 @@
                                                                     <td align="left">
                                                                         <asp:Label ID="lblLoss_Incurred" runat="server" />
                                                                     </td>
-                                                                    <td align="left">
-                                                                        &nbsp;
+                                                                    <td align="left">&nbsp;
                                                                     </td>
                                                                     <td align="left">
                                                                         <asp:Label ID="lblExpense_Incurred" runat="server" />
@@ -2405,8 +2387,7 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="Spacer" style="height: 10px;">
-                                                                    </td>
+                                                                    <td class="Spacer" style="height: 10px;"></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td align="left">
@@ -2415,8 +2396,7 @@
                                                                     <td align="left">
                                                                         <asp:Label ID="lblLoss_Gross_Paid" runat="server" />
                                                                     </td>
-                                                                    <td align="left">
-                                                                        &nbsp;
+                                                                    <td align="left">&nbsp;
                                                                     </td>
                                                                     <td align="left">
                                                                         <asp:Label ID="lblExpense_Gross_Paid" runat="server" />
@@ -2426,8 +2406,7 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="Spacer" style="height: 10px;">
-                                                                    </td>
+                                                                    <td class="Spacer" style="height: 10px;"></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td align="left">
@@ -2436,19 +2415,16 @@
                                                                     <td align="left">
                                                                         <asp:Label ID="lblLoss_Outstanding" runat="server" />
                                                                     </td>
-                                                                    <td align="left">
-                                                                        &nbsp;
+                                                                    <td align="left">&nbsp;
                                                                     </td>
                                                                     <td align="left">
                                                                         <asp:Label ID="lblExpense_Outstanding" runat="server" />
                                                                     </td>
-                                                                    <td align="left">
-                                                                        &nbsp;
+                                                                    <td align="left">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="Spacer" style="height: 10px;">
-                                                                    </td>
+                                                                    <td class="Spacer" style="height: 10px;"></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td align="left">
@@ -2460,71 +2436,59 @@
                                                                     <td align="left">
                                                                         <asp:Label ID="lblAle_Gross_Subrogation" runat="server" />
                                                                     </td>
-                                                                    <td align="left">
-                                                                        &nbsp;
+                                                                    <td align="left">&nbsp;
                                                                     </td>
-                                                                    <td align="left">
-                                                                        &nbsp;
+                                                                    <td align="left">&nbsp;
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td class="Spacer" style="height: 10px;">
-                                                                    </td>
+                                                                    <td class="Spacer" style="height: 10px;"></td>
                                                                 </tr>
                                                             </table>
                                                         </td>
                                                     </tr>
                                                 </table>
                                                 <div class="bandHeaderRow">
-                                                    Settlement Approvals</div>
+                                                    Settlement Approvals
+                                                </div>
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                     <tr>
-                                                        <td align="left">
-                                                            Requested Amount&nbsp;<span id="Span9" style="color: Red; display: none;" runat="server">*</span>
+                                                        <td align="left">Requested Amount&nbsp;<span id="Span9" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
-                                                        <td align="left">
-                                                            $&nbsp;<asp:TextBox ID="txtRequested_Amount" runat="server" onKeyPress="OnChangeFunction();return currencyFormat(this,',','.',event);"
-                                                                OnBlur="CheckNumericVal(this);" />
+                                                        <td align="left">$&nbsp;<asp:TextBox ID="txtRequested_Amount" runat="server" onKeyPress="OnChangeFunction();return currencyFormat(this,',','.',event);"
+                                                            OnBlur="CheckNumericVal(this);" />
                                                         </td>
-                                                        <td align="left">
-                                                            Potential Total Exposure&nbsp;<span id="Span10" style="color: Red; display: none;"
-                                                                runat="server">*</span>
+                                                        <td align="left">Potential Total Exposure&nbsp;<span id="Span10" style="color: Red; display: none;"
+                                                            runat="server">*</span>
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
-                                                        <td align="left">
-                                                            $&nbsp;<asp:TextBox ID="txtPotential_Total_Exposure" runat="server" onKeyPress="OnChangeFunction();return currencyFormat(this,',','.',event);"
-                                                                OnBlur="CheckNumericVal(this);" />
+                                                        <td align="left">$&nbsp;<asp:TextBox ID="txtPotential_Total_Exposure" runat="server" onKeyPress="OnChangeFunction();return currencyFormat(this,',','.',event);"
+                                                            OnBlur="CheckNumericVal(this);" />
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left">
-                                                            Settled?
+                                                        <td align="left">Settled?
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
                                                         <td align="left">
                                                             <asp:RadioButtonList ID="rdoSettled" runat="server" SkinID="YesNoTypeNullSelection" />
                                                         </td>
-                                                        <td align="left">
-                                                            Settled Amount&nbsp;<span id="Span11" style="color: Red; display: none;" runat="server">*</span>
+                                                        <td align="left">Settled Amount&nbsp;<span id="Span11" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
-                                                        <td align="center">
-                                                            :
+                                                        <td align="center">:
                                                         </td>
-                                                        <td align="left">
-                                                            $&nbsp;<asp:TextBox ID="txtSettled_Amount" runat="server" onKeyPress="OnChangeFunction();return currencyFormat(this,',','.',event);"
-                                                                OnBlur="CheckNumericVal(this);" />
+                                                        <td align="left">$&nbsp;<asp:TextBox ID="txtSettled_Amount" runat="server" onKeyPress="OnChangeFunction();return currencyFormat(this,',','.',event);"
+                                                            OnBlur="CheckNumericVal(this);" />
                                                         </td>
                                                     </tr>
                                                 </table>
                                                 <div class="bandHeaderRow">
-                                                    Approvals</div>
+                                                    Approvals
+                                                </div>
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                     <tr>
                                                         <td colspan="6">
@@ -2532,35 +2496,29 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="6">
-                                                            &nbsp;
+                                                        <td colspan="6">&nbsp;
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="6" runat="server" id="trGMTitle" style="display: block;">
-                                                            GM
+                                                        <td colspan="6" runat="server" id="trGMTitle" style="display: block;">GM
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6" style="width: 100%; display: block;" runat="server" id="trGM">
                                                             <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                 <tr>
-                                                                    <td align="left" width="20%">
-                                                                        E-Mail To&nbsp;<span id="Span12" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="20%">E-Mail To&nbsp;<span id="Span12" style="color: Red; display: none;" runat="server">*</span>
                                                                         <br />
                                                                         --<a href="#" onclick="OpenWizardPopup(<%=ViewState["PL_CI_ID"] %>,'GM');">Email GM</a>--
                                                                     </td>
-                                                                    <td align="center" width="4%">
-                                                                        :
+                                                                    <td align="center" width="4%">:
                                                                     </td>
                                                                     <td align="left" width="26%">
                                                                         <asp:TextBox runat="server" ID="txtGM_Email_To"></asp:TextBox>
                                                                     </td>
-                                                                    <td align="left" width="20%">
-                                                                        Last E-Mail Date&nbsp;<span id="Span13" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span13" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" width="4%">
-                                                                        :
+                                                                    <td align="center" width="4%">:
                                                                     </td>
                                                                     <td align="left" width="26%">
                                                                         <asp:TextBox ID="txtGM_Last_Email_Date" runat="server"></asp:TextBox>
@@ -2577,21 +2535,17 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left">
-                                                                        Decision
+                                                                    <td align="left">Decision
                                                                     </td>
-                                                                    <td align="center">
-                                                                        :
+                                                                    <td align="center">:
                                                                     </td>
                                                                     <td align="left">
                                                                         <asp:RadioButtonList runat="server" ID="rdoGM_Decision" SkinID="ApprovedNotApprovedTypeNullSelection">
                                                                         </asp:RadioButtonList>
                                                                     </td>
-                                                                    <td align="left">
-                                                                        GM Response Date&nbsp;<span id="Span14" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left">GM Response Date&nbsp;<span id="Span14" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center">
-                                                                        :
+                                                                    <td align="center">:
                                                                     </td>
                                                                     <td align="left">
                                                                         <asp:TextBox ID="txtGM_Response_Date" runat="server"></asp:TextBox>
@@ -2610,30 +2564,25 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="6" runat="server" id="trCRMTitle" style="display: block;">
-                                                            CRM
+                                                        <td colspan="6" runat="server" id="trCRMTitle" style="display: block;">CRM
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6" style="width: 100%; display: block;" runat="server" id="trCRM">
                                                             <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                 <tr>
-                                                                    <td align="left" width="20%">
-                                                                        E-Mail To&nbsp;<span id="Span15" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="20%">E-Mail To&nbsp;<span id="Span15" style="color: Red; display: none;" runat="server">*</span>
                                                                         <br />
                                                                         --<a href="#" onclick="OpenWizardPopup(<%=ViewState["PL_CI_ID"] %>,'CRM');">Email CRM</a>--
                                                                     </td>
-                                                                    <td align="center" width="4%">
-                                                                        :
+                                                                    <td align="center" width="4%">:
                                                                     </td>
                                                                     <td align="left" width="26%">
                                                                         <asp:TextBox runat="server" ID="txtCRM_Email_To"></asp:TextBox>
                                                                     </td>
-                                                                    <td align="left" width="20%">
-                                                                        Last E-Mail Date&nbsp;<span id="Span16" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span16" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" width="4%">
-                                                                        :
+                                                                    <td align="center" width="4%">:
                                                                     </td>
                                                                     <td align="left" width="26%">
                                                                         <asp:TextBox ID="txtCRM_Last_Email_Date" runat="server"></asp:TextBox>
@@ -2649,21 +2598,17 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left">
-                                                                        Decision
+                                                                    <td align="left">Decision
                                                                     </td>
-                                                                    <td align="center">
-                                                                        :
+                                                                    <td align="center">:
                                                                     </td>
                                                                     <td align="left">
                                                                         <asp:RadioButtonList runat="server" ID="rdoCRM_Decision" SkinID="ApprovedNotApprovedTypeNullSelection">
                                                                         </asp:RadioButtonList>
                                                                     </td>
-                                                                    <td align="left">
-                                                                        CRM Response Date&nbsp;<span id="Span17" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left">CRM Response Date&nbsp;<span id="Span17" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center">
-                                                                        :
+                                                                    <td align="center">:
                                                                     </td>
                                                                     <td align="left">
                                                                         <asp:TextBox ID="txtCRM_Response_Date" runat="server"></asp:TextBox>
@@ -2682,30 +2627,25 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="6" runat="server" id="trAGCTitle" style="display: block;">
-                                                            AGC
+                                                        <td colspan="6" runat="server" id="trAGCTitle" style="display: block;">AGC
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6" style="width: 100%; display: block;" runat="server" id="trAGC">
                                                             <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                 <tr>
-                                                                    <td align="left" width="20%">
-                                                                        E-Mail To&nbsp;<span id="Span18" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="20%">E-Mail To&nbsp;<span id="Span18" style="color: Red; display: none;" runat="server">*</span>
                                                                         <br />
                                                                         --<a href="#" onclick="OpenWizardPopup(<%=ViewState["PL_CI_ID"] %>,'AGC');">Email AGC</a>--
                                                                     </td>
-                                                                    <td align="center" width="4%">
-                                                                        :
+                                                                    <td align="center" width="4%">:
                                                                     </td>
                                                                     <td align="left" width="26%">
                                                                         <asp:TextBox runat="server" ID="txtAGC_Email_To"></asp:TextBox>
                                                                     </td>
-                                                                    <td align="left" width="20%">
-                                                                        Last E-Mail Date&nbsp;<span id="Span19" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span19" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" width="4%">
-                                                                        :
+                                                                    <td align="center" width="4%">:
                                                                     </td>
                                                                     <td align="left" width="26%">
                                                                         <asp:TextBox ID="txtAGC_Last_Email_Date" runat="server"></asp:TextBox>
@@ -2721,21 +2661,17 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left">
-                                                                        Decision
+                                                                    <td align="left">Decision
                                                                     </td>
-                                                                    <td align="center">
-                                                                        :
+                                                                    <td align="center">:
                                                                     </td>
                                                                     <td align="left">
                                                                         <asp:RadioButtonList runat="server" ID="rdoAGC_Decision" SkinID="ApprovedNotApprovedTypeNullSelection">
                                                                         </asp:RadioButtonList>
                                                                     </td>
-                                                                    <td align="left">
-                                                                        AGC Response Date&nbsp;<span id="Span20" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left">AGC Response Date&nbsp;<span id="Span20" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center">
-                                                                        :
+                                                                    <td align="center">:
                                                                     </td>
                                                                     <td align="left">
                                                                         <asp:TextBox ID="txtAGC_Response_Date" runat="server"></asp:TextBox>
@@ -2754,30 +2690,25 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="6" runat="server" id="trRVPTitle" style="display: block;">
-                                                            RVP
+                                                        <td colspan="6" runat="server" id="trRVPTitle" style="display: block;">RVP
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6" style="width: 100%; display: block;" runat="server" id="trRVP">
                                                             <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                 <tr>
-                                                                    <td align="left" width="20%">
-                                                                        E-Mail To&nbsp;<span id="Span21" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="20%">E-Mail To&nbsp;<span id="Span21" style="color: Red; display: none;" runat="server">*</span>
                                                                         <br />
                                                                         --<a href="#" onclick="OpenWizardPopup(<%=ViewState["PL_CI_ID"] %>,'RVP');">Email RVP</a>--
                                                                     </td>
-                                                                    <td align="center" width="4%">
-                                                                        :
+                                                                    <td align="center" width="4%">:
                                                                     </td>
                                                                     <td align="left" width="26%">
                                                                         <asp:TextBox runat="server" ID="txtRVP_Email_To"></asp:TextBox>
                                                                     </td>
-                                                                    <td align="left" width="20%">
-                                                                        Last E-Mail Date&nbsp;<span id="Span22" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span22" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" width="4%">
-                                                                        :
+                                                                    <td align="center" width="4%">:
                                                                     </td>
                                                                     <td align="left" width="26%">
                                                                         <asp:TextBox ID="txtRVP_Last_Email_Date" runat="server"></asp:TextBox>
@@ -2793,21 +2724,17 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left">
-                                                                        Decision
+                                                                    <td align="left">Decision
                                                                     </td>
-                                                                    <td align="center">
-                                                                        :
+                                                                    <td align="center">:
                                                                     </td>
                                                                     <td align="left">
                                                                         <asp:RadioButtonList runat="server" ID="rdoRVP_Decision" SkinID="ApprovedNotApprovedTypeNullSelection">
                                                                         </asp:RadioButtonList>
                                                                     </td>
-                                                                    <td align="left">
-                                                                        RVP Response Date&nbsp;<span id="Span23" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left">RVP Response Date&nbsp;<span id="Span23" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center">
-                                                                        :
+                                                                    <td align="center">:
                                                                     </td>
                                                                     <td align="left">
                                                                         <asp:TextBox ID="txtRVP_Response_Date" runat="server"></asp:TextBox>
@@ -2826,30 +2753,25 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="6" runat="server" id="trDRMTitle" style="display: block;">
-                                                            DRM
+                                                        <td colspan="6" runat="server" id="trDRMTitle" style="display: block;">DRM
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6" style="width: 100%; display: block;" runat="server" id="trDRM">
                                                             <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                 <tr>
-                                                                    <td align="left" width="20%">
-                                                                        E-Mail To&nbsp;<span id="Span24" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="20%">E-Mail To&nbsp;<span id="Span24" style="color: Red; display: none;" runat="server">*</span>
                                                                         <br />
                                                                         --<a href="#" onclick="OpenWizardPopup(<%=ViewState["PL_CI_ID"] %>,'DRM');">Email DRM</a>--
                                                                     </td>
-                                                                    <td align="center" width="4%">
-                                                                        :
+                                                                    <td align="center" width="4%">:
                                                                     </td>
                                                                     <td align="left" width="26%">
                                                                         <asp:TextBox runat="server" ID="txtDRM_Email_To"></asp:TextBox>
                                                                     </td>
-                                                                    <td align="left" width="20%">
-                                                                        Last E-Mail Date&nbsp;<span id="Span25" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span25" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" width="4%">
-                                                                        :
+                                                                    <td align="center" width="4%">:
                                                                     </td>
                                                                     <td align="left" width="26%">
                                                                         <asp:TextBox ID="txtDRM_Last_Email_Date" runat="server"></asp:TextBox>
@@ -2865,21 +2787,17 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left">
-                                                                        Decision
+                                                                    <td align="left">Decision
                                                                     </td>
-                                                                    <td align="center">
-                                                                        :
+                                                                    <td align="center">:
                                                                     </td>
                                                                     <td align="left">
                                                                         <asp:RadioButtonList runat="server" ID="rdoDRM_Decision" SkinID="ApprovedNotApprovedTypeNullSelection">
                                                                         </asp:RadioButtonList>
                                                                     </td>
-                                                                    <td align="left">
-                                                                        DRM Response Date&nbsp;<span id="Span26" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left">DRM Response Date&nbsp;<span id="Span26" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center">
-                                                                        :
+                                                                    <td align="center">:
                                                                     </td>
                                                                     <td align="left">
                                                                         <asp:TextBox ID="txtDRM_Response_Date" runat="server"></asp:TextBox>
@@ -2898,30 +2816,25 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="6" runat="server" id="trCFOTitle" style="display: block;">
-                                                            CFO
+                                                        <td colspan="6" runat="server" id="trCFOTitle" style="display: block;">CFO
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6" style="width: 100%; display: block;" runat="server" id="trCFO">
                                                             <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                 <tr>
-                                                                    <td align="left" width="20%">
-                                                                        E-Mail To&nbsp;<span id="Span27" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="20%">E-Mail To&nbsp;<span id="Span27" style="color: Red; display: none;" runat="server">*</span>
                                                                         <br />
                                                                         --<a href="#" onclick="OpenWizardPopup(<%=ViewState["PL_CI_ID"] %>,'CFO');">Email CFO</a>--
                                                                     </td>
-                                                                    <td align="center" width="4%">
-                                                                        :
+                                                                    <td align="center" width="4%">:
                                                                     </td>
                                                                     <td align="left" width="26%">
                                                                         <asp:TextBox runat="server" ID="txtCFO_Email_To"></asp:TextBox>
                                                                     </td>
-                                                                    <td align="left" width="20%">
-                                                                        Last E-Mail Date&nbsp;<span id="Span28" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span28" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" width="4%">
-                                                                        :
+                                                                    <td align="center" width="4%">:
                                                                     </td>
                                                                     <td align="left" width="26%">
                                                                         <asp:TextBox ID="txtCFO_Last_Email_Date" runat="server"></asp:TextBox>
@@ -2937,21 +2850,17 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left">
-                                                                        Decision
+                                                                    <td align="left">Decision
                                                                     </td>
-                                                                    <td align="center">
-                                                                        :
+                                                                    <td align="center">:
                                                                     </td>
                                                                     <td align="left">
                                                                         <asp:RadioButtonList runat="server" ID="rdoCFO_Decision" SkinID="ApprovedNotApprovedTypeNullSelection">
                                                                         </asp:RadioButtonList>
                                                                     </td>
-                                                                    <td align="left">
-                                                                        CFO Response Date&nbsp;<span id="Span29" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left">CFO Response Date&nbsp;<span id="Span29" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center">
-                                                                        :
+                                                                    <td align="center">:
                                                                     </td>
                                                                     <td align="left">
                                                                         <asp:TextBox ID="txtCFO_Response_Date" runat="server"></asp:TextBox>
@@ -2970,30 +2879,25 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="6" runat="server" id="trCOOTitle" style="display: block;">
-                                                            COO
+                                                        <td colspan="6" runat="server" id="trCOOTitle" style="display: block;">COO
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6" style="width: 100%; display: block;" runat="server" id="trCOO">
                                                             <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                 <tr>
-                                                                    <td align="left" width="20%">
-                                                                        E-Mail To&nbsp;<span id="Span30" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="20%">E-Mail To&nbsp;<span id="Span30" style="color: Red; display: none;" runat="server">*</span>
                                                                         <br />
                                                                         --<a href="#" onclick="OpenWizardPopup(<%=ViewState["PL_CI_ID"] %>,'COO');">Email COO</a>--
                                                                     </td>
-                                                                    <td align="center" width="4%">
-                                                                        :
+                                                                    <td align="center" width="4%">:
                                                                     </td>
                                                                     <td align="left" width="26%">
                                                                         <asp:TextBox runat="server" ID="txtCOO_Email_To"></asp:TextBox>
                                                                     </td>
-                                                                    <td align="left" width="20%">
-                                                                        Last E-Mail Date&nbsp;<span id="Span31" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span31" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" width="4%">
-                                                                        :
+                                                                    <td align="center" width="4%">:
                                                                     </td>
                                                                     <td align="left" width="26%">
                                                                         <asp:TextBox ID="txtCOO_Last_Email_Date" runat="server"></asp:TextBox>
@@ -3009,21 +2913,17 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left">
-                                                                        Decision
+                                                                    <td align="left">Decision
                                                                     </td>
-                                                                    <td align="center">
-                                                                        :
+                                                                    <td align="center">:
                                                                     </td>
                                                                     <td align="left">
                                                                         <asp:RadioButtonList runat="server" ID="rdoCOO_Decision" SkinID="ApprovedNotApprovedTypeNullSelection">
                                                                         </asp:RadioButtonList>
                                                                     </td>
-                                                                    <td align="left">
-                                                                        COO Response Date&nbsp;<span id="Span32" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left">COO Response Date&nbsp;<span id="Span32" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center">
-                                                                        :
+                                                                    <td align="center">:
                                                                     </td>
                                                                     <td align="left">
                                                                         <asp:TextBox ID="txtCOO_Response_Date" runat="server"></asp:TextBox>
@@ -3042,31 +2942,26 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="6" runat="server" id="trPRESIDENTTitle" style="display: block;">
-                                                            President
+                                                        <td colspan="6" runat="server" id="trPRESIDENTTitle" style="display: block;">President
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6" style="width: 100%; display: block;" runat="server" id="trPRESIDENT">
                                                             <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                 <tr>
-                                                                    <td align="left" width="20%">
-                                                                        E-Mail To&nbsp;<span id="Span33" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="20%">E-Mail To&nbsp;<span id="Span33" style="color: Red; display: none;" runat="server">*</span>
                                                                         <br />
                                                                         --<a href="#" onclick="OpenWizardPopup(<%=ViewState["PL_CI_ID"] %>,'President');">Email
                                                                             President</a>--
                                                                     </td>
-                                                                    <td align="center" width="4%">
-                                                                        :
+                                                                    <td align="center" width="4%">:
                                                                     </td>
                                                                     <td align="left" width="26%">
                                                                         <asp:TextBox runat="server" ID="txtPresident_Email_To"></asp:TextBox>
                                                                     </td>
-                                                                    <td align="left" width="20%">
-                                                                        Last E-Mail Date&nbsp;<span id="Span34" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="20%">Last E-Mail Date&nbsp;<span id="Span34" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center" width="4%">
-                                                                        :
+                                                                    <td align="center" width="4%">:
                                                                     </td>
                                                                     <td align="left" width="26%">
                                                                         <asp:TextBox ID="txtPresident_Last_Email_Date" runat="server"></asp:TextBox>
@@ -3082,22 +2977,18 @@
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left">
-                                                                        Decision
+                                                                    <td align="left">Decision
                                                                     </td>
-                                                                    <td align="center">
-                                                                        :
+                                                                    <td align="center">:
                                                                     </td>
                                                                     <td align="left">
                                                                         <asp:RadioButtonList runat="server" ID="rdoPresident_Decision" SkinID="ApprovedNotApprovedTypeNullSelection">
                                                                         </asp:RadioButtonList>
                                                                     </td>
-                                                                    <td align="left">
-                                                                        President Response Date&nbsp;<span id="Span35" style="color: Red; display: none;"
-                                                                            runat="server">*</span>
+                                                                    <td align="left">President Response Date&nbsp;<span id="Span35" style="color: Red; display: none;"
+                                                                        runat="server">*</span>
                                                                     </td>
-                                                                    <td align="center">
-                                                                        :
+                                                                    <td align="center">:
                                                                     </td>
                                                                     <td align="left">
                                                                         <asp:TextBox ID="txtPresident_Response_Date" runat="server"></asp:TextBox>
@@ -3119,11 +3010,9 @@
                                                         <td>
                                                             <table cellpadding="0" cellspacing="0" width="100%" border="0">
                                                                 <tr>
-                                                                    <td align="left" width="20%" valign="top">
-                                                                        Comments&nbsp;<span id="Span36" style="color: Red; display: none;" runat="server">*</span>
+                                                                    <td align="left" width="20%" valign="top">Comments&nbsp;<span id="Span36" style="color: Red; display: none;" runat="server">*</span>
                                                                     </td>
-                                                                    <td align="left" width="4%" valign="top">
-                                                                        :
+                                                                    <td align="left" width="4%" valign="top">:
                                                                     </td>
                                                                     <td colspan="4">
                                                                         <uc:CtrlMultiLineText_Claim ID="txtComments" runat="server" ControlType="TextBox" />
@@ -3133,8 +3022,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr class="bandHeaderRow">
-                                                        <td colspan="6">
-                                                            Attachment
+                                                        <td colspan="6">Attachment
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -3272,12 +3160,12 @@
                             <table cellpadding="5" cellspacing="1" border="0" width="100%">
                                 <tr>
                                     <td align="right" width="50%">
-                                        <input type="button" id="btnPrev" value="Previous" style="display: none; font-weight: bold;
-                                            color: #000080;" onclick="javascript:CheckValueChange(null,-1);" />
+                                        <input type="button" id="btnPrev" value="Previous" style="display: none; font-weight: bold; color: #000080;"
+                                            onclick="javascript: CheckValueChange(null, -1);" />
                                     </td>
                                     <td align="left" width="50%">
                                         <input type="button" id="btnNext" value="Next" style="font-weight: bold; color: #000080;"
-                                            onclick="javascript:CheckValueChange(null,1);" />
+                                            onclick="javascript: CheckValueChange(null, 1);" />
                                     </td>
                                 </tr>
                             </table>

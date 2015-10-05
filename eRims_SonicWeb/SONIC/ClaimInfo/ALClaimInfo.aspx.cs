@@ -9,6 +9,9 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using ERIMS.DAL;
+using System.Text;
+using System.IO;
+using Aspose.Words;
 
 /// <summary>
 /// Date : 14 NOV 2008
@@ -138,7 +141,7 @@ public partial class SONIC_ALClaimInfo : clsBasePage
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void gvWCTransList_RowDataBound(object sender, GridViewRowEventArgs e)
+    protected void gvALTransList_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         //check Rowtype
         if (e.Row.RowType == DataControlRowType.DataRow)
@@ -155,17 +158,17 @@ public partial class SONIC_ALClaimInfo : clsBasePage
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void gvWCTransList_RowCommand(object sender, GridViewCommandEventArgs e)
+    protected void gvALTransList_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         //check Command Name
         if (e.CommandName == "View")
         {
             //Get the Claim Transaction Id
-            long PK_ID = Convert.ToInt64(e.CommandArgument);
+            string PK_ID = Convert.ToString(e.CommandArgument);
 
             //Fill the Claim Transaction detail. and make transaction panel visible
-            if (BindClaimTransactionDetails(PK_ID))
-                pnlTransactionDetail.Visible = true;
+            BindClaimTransactionDetails(PK_ID);
+              //  pnlTransactionDetail.Visible = true;
         }
     }
 
@@ -458,6 +461,103 @@ public partial class SONIC_ALClaimInfo : clsBasePage
     //    clsPrintClaimNotes.PrintSelectedSonicNotes(strPK, clsGeneral.Claim_Tables.ALClaim.ToString(), PK_AL_CI_ID);
     //}
 
+    /// <summary>
+    ///  Handles Print button click event for Transaction Grid
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnPrintSelectedTrans_Click(object sender, EventArgs e)
+    {
+        string strPK = "";
+
+        foreach (GridViewRow gRow in gvALTransList.Rows)
+        {
+            if (((CheckBox)gRow.FindControl("chkTranSelect")).Checked)
+                strPK = strPK + ((HtmlInputHidden)gRow.FindControl("hdnID")).Value + ",";
+        }
+        strPK = strPK.TrimEnd(',');
+        PrintTransaction(strPK);
+    }
+
+    /// <summary>
+    ///  Handles Mail button click event for Transaction Repeater
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnMailTrans_Click(object sender, EventArgs e)
+    {
+        string strPKs = "";
+        string tab = string.Empty;
+        tab = "AL";
+        foreach (RepeaterItem rptItem in rptTransDetail.Items)
+        {
+            if (((CheckBox)rptItem.FindControl("chkRptTransSelect")).Checked)
+                strPKs = strPKs + ((HtmlInputHidden)rptItem.FindControl("hdnID")).Value + ",";
+        }
+        strPKs = strPKs.TrimEnd(',');
+        if (strPKs != "")
+        {
+            ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "OpenTransMailPopUp('" + "Transactions" + "','" + strPKs + "','" + tab + "','" + PK_AL_CI_ID + "');", true);
+        }
+        else
+        {
+            ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "javascript:alert('Please select Transaction(s) to mail');", true);
+        }
+    }
+
+    /// <summary>
+    ///  Handles Print button click event for Transaction Repeater
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnPrintSelectedTransInner_Click(object sender, EventArgs e)
+    {
+        string strPK = "";
+
+        foreach (RepeaterItem rptItem in rptTransDetail.Items)
+        {
+            if (((CheckBox)rptItem.FindControl("chkRptTransSelect")).Checked)
+                strPK = strPK + ((HtmlInputHidden)rptItem.FindControl("hdnID")).Value + ",";
+        }
+        strPK = strPK.TrimEnd(',');
+        PrintTransaction(strPK);
+    }
+
+    /// <summary>
+    /// Button CLick Event - Button View
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnViewSelectedTrans_Click(object sender, EventArgs e)
+    {
+        string strPK = "";
+
+        foreach (GridViewRow gRow in gvALTransList.Rows)
+        {
+            if (((CheckBox)gRow.FindControl("chkTranSelect")).Checked)
+                strPK = strPK + ((HtmlInputHidden)gRow.FindControl("hdnID")).Value + ",";
+        }
+        strPK = strPK.TrimEnd(',');
+
+        if (strPK != string.Empty)
+        {
+            BindClaimTransactionDetails(strPK);
+        }
+    }
+
+    /// <summary>
+    /// Button CLick Event - Button Cancel
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        pnlTransactionDetail.Visible = false;
+        pnlTransGrid.Visible = true;
+
+        ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "SelectDeselectTransHeader(true);", true);
+    }
+
     protected void GetPage()
     {
         BindWCTransList(lblOriginClaimNumber.Text, ctrlPageTransaction.CurrentPage, ctrlPageTransaction.PageSize);        
@@ -630,19 +730,22 @@ public partial class SONIC_ALClaimInfo : clsBasePage
         ctrlPageTransaction.CurrentPage = (dsWCTransList.Tables.Count >= 2) ? Convert.ToInt32(dsWCTransList.Tables[1].Rows[0][2]) : 0;
         ctrlPageTransaction.RecordsToBeDisplayed = dsWCTransList.Tables[0].Rows.Count;
         ctrlPageTransaction.SetPageNumbers();
-        gvWCTransList.DataSource = dtWCTransList;
-        gvWCTransList.DataBind();
+        gvALTransList.DataSource = dtWCTransList;
+        gvALTransList.DataBind();
     }
+
     /// <summary>
     /// Function to bind the transaction detials when click on transaction list
     /// </summary>
     /// <param name="PK_ID">Claim Transaction PK Id</param>
     /// <returns></returns>
-    public bool BindClaimTransactionDetails(Int64 PK_ID)
+    public bool BindClaimTransactionDetails(String PK_IDs)
     {
-        DataTable dtClaims_Transactions = Claims_Transaction.SelectByPK(PK_ID).Tables[0];
+        DataTable dtClaims_Transactions = Claims_Transaction.SelectByPKIDs(PK_IDs).Tables[0];
         if (dtClaims_Transactions.Rows.Count > 0)
         {
+          if (dtClaims_Transactions.Rows.Count == 1)
+           {
             DataRow drClaims_Transactions = dtClaims_Transactions.Rows[0];
 
             lblDataOrigin.Text = Convert.ToString(drClaims_Transactions["Data_Origin"]);
@@ -675,6 +778,22 @@ public partial class SONIC_ALClaimInfo : clsBasePage
             lblSRSRecoveryOfficeCode.Text = Convert.ToString(drClaims_Transactions["SRS_Recovery_Office_Code"]);
             lblSRSDraftIssueOfficeCode.Text = Convert.ToString(drClaims_Transactions["SRS_Draft_Issue_Office_Code"]);
             lblRecoverySequenceNumber.Text = Convert.ToString(drClaims_Transactions["Recovery_Sequence_Number"]);
+
+            pnlTransactionDetail.Visible = false;
+            pnlSingleTransactionDetail.Visible = true;
+            pnlTransGrid.Visible = true;
+            ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "SelectDeselectTransHeader(true);", true);
+            }
+              else
+              {
+                  rptTransDetail.DataSource = dtClaims_Transactions;
+                  rptTransDetail.DataBind();
+                  hdnRptRows.Value = dtClaims_Transactions.Rows.Count.ToString();
+
+                  pnlTransactionDetail.Visible = true;
+                  pnlSingleTransactionDetail.Visible = false;
+                  pnlTransGrid.Visible = false;
+              }
 
             return true;
         }
@@ -1316,4 +1435,256 @@ public partial class SONIC_ALClaimInfo : clsBasePage
     }
     #endregion
 
+    #region Transaction View, Print and Mail
+    
+    private void PrintTransaction(string strPK)
+    {
+        if (strPK != string.Empty)
+        {
+            DataTable dtClaim = AL_ClaimInfo.SelectByPK(PK_AL_CI_ID).Tables[0]; ;
+            DataTable dtClaims_Transactions = Claims_Transaction.SelectByPKIDs(strPK).Tables[0];
+            StringBuilder sbHTML = new StringBuilder();
+
+            #region " Generate HTML Text "
+
+            string strTDBlue = "style='background-color:#95B3D7;border-top:black 1px solid;border-left:black 1px solid;'";
+            string strTDWhite = "style='border-top:black 1px solid;border-left:black 1px solid;border-bottom:black 1px solid;'";
+            sbHTML.Append("<HTML><Body>");
+            sbHTML.Append("<b>eRIMS2 Sonic - Selected Claim Transactions</b>");
+            sbHTML.Append("<br /></br />");
+            sbHTML.Append("<table cellpadding='3' cellspacing='1' border='0' width='100%'>");
+            sbHTML.Append("<tr>");
+            sbHTML.Append("<td width='25%' align='left' " + strTDBlue + ">");
+            sbHTML.Append("<span style='color:white'><b>Claim Number</b></span>");
+            sbHTML.Append("</td>");
+            sbHTML.Append("<td width='25%' align='left' " + strTDBlue + ">");
+            sbHTML.Append("<span style='color:white'><b>Sonic Location d/b/a</b></span>");
+            sbHTML.Append("</td>");
+            sbHTML.Append("<td width='25%' align='left' " + strTDBlue + ">");
+            sbHTML.Append("<span style='color:white'><b>Name</b></span>");
+            sbHTML.Append("</td>");
+            sbHTML.Append("<td width='25%' align='left' " + strTDBlue.TrimEnd('\'') + "border-right:black 1px solid;'>");
+            sbHTML.Append("<span style='color:white'><b>Date of Incident</b></span>");
+            sbHTML.Append("</td>");
+            sbHTML.Append("</tr>");
+            sbHTML.Append("<tr>");
+            sbHTML.Append("<td align='left' " + strTDWhite + ">" + Convert.ToString(dtClaim.Rows[0]["Origin_Claim_Number"]) + "</td>");
+            sbHTML.Append("<td align='left' " + strTDWhite + ">" + Convert.ToString(dtClaim.Rows[0]["dba1"]) + "</td>");
+            sbHTML.Append("<td align='left' " + strTDWhite + ">" + Convert.ToString(dtClaim.Rows[0]["Employee_Name"]) + "</td>");
+            sbHTML.Append("<td align='left' " + strTDWhite.TrimEnd('\'') + "border-right:black 1px solid;'>" + clsGeneral.FormatDBNullDateToDisplay(dtClaim.Rows[0]["Date_Of_Accident"]) + "</td>");
+            sbHTML.Append("</tr>");
+            sbHTML.Append("</table>");
+            sbHTML.Append("<br />");
+            sbHTML.Append("<table cellpadding='3' cellspacing='1' width='100%'>");
+            int i = 0;
+            foreach (DataRow drClaims_Transactions in dtClaims_Transactions.Rows)
+            {
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Date </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + clsGeneral.FormatDBNullDateToDisplay(Convert.ToDateTime(drClaims_Transactions["Transaction_Entry_date"])) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Data Source </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Data_Origin"]) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Payee Name 1 </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Payee_Name1"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Key Claim Number </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Origin_Key_Claim_Number"]) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Payee Name 2 </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Payee_Name2"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Claimant Sequence Number </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Claimant_Sequence_Number"]) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Payee Name 3 </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Payee_Name3"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Policy Number </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Policy_Number"]) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Payee Street Address </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Payee_Street_Address"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Carrier Policy Number </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Carrier_policy_number"]) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Payee City </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Payee_City"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'></td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'></td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Payee State </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Payee_State"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Transaction Amount </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + (drClaims_Transactions["Transaction_Amount"] == DBNull.Value ? "" : String.Format("$ {0:N2}", Convert.ToDecimal(drClaims_Transactions["Transaction_Amount"]))) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Payee Zip </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Payee_Zip"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Transaction Sequence Number </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Transaction_Sequence_Number"]) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Payee ID </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + (Convert.ToString(drClaims_Transactions["Payee_Tax_Number"]) + " - " + Convert.ToString(drClaims_Transactions["Payee_SSN_FEIN"])) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Claim Status </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Claim_Status"]) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Entry Code </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Entry_Code_Desc"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Entry Code Modiifer </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Entry_Code_Modifier_Desc"]) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Nature of Benefit </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Nature_of_Benefit_Code_Desc"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Transaction Nature of Benefit </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Transaction_Nature_of_Benefit_Desc"]) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Nature of Payment Statement </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Nature_of_Payment_Statement"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Check Number </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Check_Number"]) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>SRS Recovery Office Code </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["SRS_Recovery_Office_Code"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Check Issue Date </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + (drClaims_Transactions["Check_Issue_Date"] == DBNull.Value ? "" : clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drClaims_Transactions["Check_Issue_Date"]))) + "</td>");
+                sbHTML.Append("</tr>");
+
+                sbHTML.Append("<tr>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>SRS Draft Issue Office Code </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["SRS_Draft_Issue_Office_Code"]) + "</td>");
+                sbHTML.Append("<td width='20%' align='left' valign='top'>Recovery Sequence Number </td>");
+                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                sbHTML.Append("<td width='26%' align='left' valign='top'>" + Convert.ToString(drClaims_Transactions["Recovery_Sequence_Number"]) + "</td>");
+                sbHTML.Append("</tr>");
+
+                if (i < dtClaims_Transactions.Rows.Count - 1)
+                {
+                    sbHTML.Append("<tr style='height:30px'>");
+                    sbHTML.Append("<td colspan='6' style='vertical-align:middle'><hr size='1' color='Black' /></td>");
+                    sbHTML.Append("</tr>");
+                }
+
+                i++;
+            }
+
+            sbHTML.Append("</table>");
+            sbHTML.Append("</Body></HTML>");
+
+            #endregion
+
+            #region " Generate WORD Doc "
+            string strLisenceFile = HttpContext.Current.Server.MapPath(HttpContext.Current.Request.ApplicationPath) + "\\" + ("Bin") + "\\Aspose.Words.lic";
+
+            if (File.Exists(strLisenceFile))
+            {
+                //This shows how to license Aspose.Words, if you don't specify a license, 
+                //Aspose.Words works in evaluation mode.
+                Aspose.Words.License license = new Aspose.Words.License();
+                license.SetLicense(strLisenceFile);
+            }
+
+            Aspose.Words.Document doc = new Aspose.Words.Document();
+
+            //Build string builder to transport to Doc
+            //Once the builder is created, its cursor is positioned at the beginning of the document.
+            Aspose.Words.DocumentBuilder builder = new Aspose.Words.DocumentBuilder(doc);
+            builder.PageSetup.BottomMargin = 15;
+            builder.PageSetup.TopMargin = 15;
+            builder.PageSetup.LeftMargin = 15;
+            builder.PageSetup.RightMargin = 15;
+            builder.Font.Size = 10;
+            builder.Font.Bold = false;
+            builder.Font.Color = System.Drawing.Color.Black;
+            builder.Font.Name = "Arial";
+            builder.InsertParagraph();
+            builder.InsertHtml(sbHTML.ToString());
+
+            //Don't need merge fields in the document anymore.
+            doc.MailMerge.DeleteFields();
+            builder.MoveToSection(0);
+            builder.MoveToHeaderFooter(HeaderFooterType.FooterPrimary);
+            builder.PageSetup.PageNumberStyle = NumberStyle.Number;
+            builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+            builder.Write("Page ");
+            builder.InsertField("PAGE", "");
+            builder.Write(" of ");
+            builder.InsertField("NUMPAGES", "");
+            Section section = doc.Sections[0];
+            section.PageSetup.PageStartingNumber = 1;
+            section.PageSetup.RestartPageNumbering = true;
+            section.PageSetup.PageNumberStyle = NumberStyle.Arabic;
+
+            // Remove content from merged cells.
+            // Get collection of cells in the docuemnt.
+            NodeCollection cells = doc.GetChildNodes(NodeType.Cell, true);
+
+            foreach (Aspose.Words.Tables.Cell cell in cells)
+            {
+                // Check whether cell is merged with previouse.
+                if (cell.CellFormat.HorizontalMerge == Aspose.Words.Tables.CellMerge.Previous || cell.CellFormat.VerticalMerge == Aspose.Words.Tables.CellMerge.Previous)
+                {
+                    // Remove content from the cell.
+                    cell.RemoveAllChildren();
+                }
+            }
+
+            Aspose.Words.Tables.Table table = (Aspose.Words.Tables.Table)doc.GetChild(NodeType.Table, 0, true);
+            table.AllowAutoFit = false;
+            //doc.Save("ClaimNotes.doc", Aspose.Words.SaveFormat.Doc, Aspose.Words.SaveType.OpenInWord, Response);
+            doc.Save(Response, "ClaimTransactions.doc", ContentDisposition.Attachment, Aspose.Words.Saving.SaveOptions.CreateSaveOptions(SaveFormat.Doc));
+            Response.Flush();
+
+            #endregion
+        }
+    }
+
+    #endregion
 }

@@ -295,6 +295,69 @@ public partial class SONIC_WCClaimInfo : clsBasePage
         BindWCTransList(lblClaimNumber2.Text, ctrlPageTransaction.CurrentPage, ctrlPageTransaction.PageSize);
     }
 
+    /// <summary>
+    /// Button Print Click Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnPrintSelectedTrans_Click(object sender, EventArgs e)
+    {
+        string strPK = "";
+
+        foreach (GridViewRow gRow in gvWCTransList.Rows)
+        {
+            if (((CheckBox)gRow.FindControl("chkTranSelect")).Checked)
+                strPK = strPK + ((HtmlInputHidden)gRow.FindControl("hdnID")).Value + ",";
+        }
+        strPK = strPK.TrimEnd(',');
+        PrintTransaction(strPK);
+    }
+
+    /// <summary>
+    /// Button Mail Click Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnMailTrans_Click(object sender, EventArgs e)
+    {
+        string strPKs = "";
+        string tab = string.Empty;
+        tab = "WC";
+
+        foreach (RepeaterItem rptItem in rptTransDetail.Items)
+        {
+            if (((CheckBox)rptItem.FindControl("chkRptTransSelect")).Checked)
+                strPKs = strPKs + ((HtmlInputHidden)rptItem.FindControl("hdnID")).Value + ",";
+        }
+        strPKs = strPKs.TrimEnd(',');
+        if (strPKs != "")
+        {
+            ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "OpenTransMailPopUp('" + "Transactions" + "','" + strPKs + "','" + tab + "','" + PK_WC_CI_ID + "');", true);
+        }
+        else
+        {
+            ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "javascript:alert('Please select Transaction(s) to mail');", true);
+        }
+    }
+
+    /// <summary>
+    /// Button Print Click Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnPrintSelectedTransInner_Click(object sender, EventArgs e)
+    {
+        string strPK = "";
+
+        foreach (RepeaterItem rptItem in rptTransDetail.Items)
+        {
+            if (((CheckBox)rptItem.FindControl("chkRptTransSelect")).Checked)
+                strPK = strPK + ((HtmlInputHidden)rptItem.FindControl("hdnID")).Value + ",";
+        }
+        strPK = strPK.TrimEnd(',');
+        PrintTransaction(strPK);
+    }
+
     #endregion
 
     #region Private Methods
@@ -643,7 +706,6 @@ public partial class SONIC_WCClaimInfo : clsBasePage
         DataTable dtClaims_Transactions = Claims_Transaction.SelectByPKIDs(PK_IDs).Tables[0];
         if (dtClaims_Transactions.Rows.Count > 0)
         {
-
             if (dtClaims_Transactions.Rows.Count == 1)
             {
                 DataRow drClaims_Transactions = dtClaims_Transactions.Rows[0];
@@ -681,14 +743,14 @@ public partial class SONIC_WCClaimInfo : clsBasePage
                 pnlTransactionDetail.Visible = false;
                 pnlSingleTransactionDetail.Visible = true;
                 pnlTransGrid.Visible = true;
-
-                //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowHideTranCheckbox();", true);
+                ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "SelectDeselectTransHeader(true);", true);
             }
             else
             {
                 rptTransDetail.DataSource = dtClaims_Transactions;
                 rptTransDetail.DataBind();
 
+                hdnRptRows.Value = dtClaims_Transactions.Rows.Count.ToString();
                 pnlTransactionDetail.Visible = true;
                 pnlSingleTransactionDetail.Visible = false;
                 pnlTransGrid.Visible = false;
@@ -1373,6 +1435,11 @@ public partial class SONIC_WCClaimInfo : clsBasePage
 
     #region Transaction View, Print and Mail
 
+    /// <summary>
+    /// Button View Click for Transaction
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void btnViewSelectedTrans_Click(object sender, EventArgs e)
     {
         string strPK = "";
@@ -1386,25 +1453,29 @@ public partial class SONIC_WCClaimInfo : clsBasePage
 
         if (strPK != string.Empty)
         {
-            BindClaimTransactionDetails(strPK);
+             BindClaimTransactionDetails(strPK);
         }
     }
+
+    /// <summary>
+    /// Button Cancel Click for Transaction
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void btnCancel_Click(object sender, EventArgs e)
     {
         pnlTransactionDetail.Visible = false;
         pnlTransGrid.Visible = true;
+       
+        ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "SelectDeselectTransHeader(true);", true);
     }
-    private void PrintTransaction()
+
+    /// <summary>
+    /// Print Transaction Method
+    /// </summary>
+    /// <param name="strPK"></param>
+    private void PrintTransaction(string strPK)
     {
-        string strPK = "";
-
-        foreach (GridViewRow gRow in gvWCTransList.Rows)
-        {
-            if (((CheckBox)gRow.FindControl("chkTranSelect")).Checked)
-                strPK = strPK + ((HtmlInputHidden)gRow.FindControl("hdnID")).Value + ",";
-        }
-        strPK = strPK.TrimEnd(',');
-
         if (strPK != string.Empty)
         {
             DataTable dtClaim = WC_ClaimInfo.SelectByPK(PK_WC_CI_ID).Tables[0]; ;
@@ -1654,8 +1725,5 @@ public partial class SONIC_WCClaimInfo : clsBasePage
     }
 
     #endregion
-    protected void btnPrintSelectedTrans_Click(object sender, EventArgs e)
-    {
-        PrintTransaction();
-    }
+   
 }
