@@ -38,7 +38,7 @@ public partial class SONIC_Exposures_Asset_Protection_SendMail : System.Web.UI.P
             if (EmailType == 0)
             {
                 trAttachment.Visible = false;
-                if (TableName == "DPD")
+                if (TableName == "DPD" || TableName == "WC" || TableName == "PL")
                 {
                     if (!string.IsNullOrEmpty(Request.QueryString["PK_Fields"]) && !string.IsNullOrEmpty(Request.QueryString["Table_Name"]) && !string.IsNullOrEmpty(Request.QueryString["Claim_ID"]))
                     {
@@ -171,7 +171,7 @@ public partial class SONIC_Exposures_Asset_Protection_SendMail : System.Web.UI.P
                         arrAttachments = new string[AttachmentIds.Length];
 
                         DataTable dtClaim = null;
-                        if (FK_Table_Name == "AL")
+                        if (FK_Table_Name.ToLower() == clsGeneral.Claim_Tables.ALClaim.ToString().ToLower())
                             dtClaim = AL_ClaimInfo.SelectByPK(Convert.ToInt64(Claim_ID)).Tables[0];
 
                         DataTable dtNotes = Claims_Adjustor_Notes.SelectByPK(PK_Fields).Tables[0];
@@ -199,12 +199,15 @@ public partial class SONIC_Exposures_Asset_Protection_SendMail : System.Web.UI.P
                         sbHTML.Append("<span style='color:white'><b>Date of Incident</b></span>");
                         sbHTML.Append("</td>");
                         sbHTML.Append("</tr>");
-                        sbHTML.Append("<tr>");
-                        sbHTML.Append("<td align='left' " + strTDWhite + ">" + Convert.ToString(dtClaim.Rows[0]["Origin_Claim_Number"]) + "</td>");
-                        sbHTML.Append("<td align='left' " + strTDWhite + ">" + Convert.ToString(dtClaim.Rows[0]["dba1"]) + "</td>");
-                        sbHTML.Append("<td align='left' " + strTDWhite + ">" + Convert.ToString(dtClaim.Rows[0]["Employee_Name"]) + "</td>");
-                        sbHTML.Append("<td align='left' " + strTDWhite.TrimEnd('\'') + "border-right:black 1px solid;'>" + clsGeneral.FormatDBNullDateToDisplay(dtClaim.Rows[0]["Date_Of_Accident"]) + "</td>");
-                        sbHTML.Append("</tr>");
+                        if (dtClaim != null && dtClaim.Rows.Count > 0)
+                        {
+                            sbHTML.Append("<tr>");
+                            sbHTML.Append("<td align='left' " + strTDWhite + ">" + Convert.ToString(dtClaim.Rows[0]["Origin_Claim_Number"]) + "</td>");
+                            sbHTML.Append("<td align='left' " + strTDWhite + ">" + Convert.ToString(dtClaim.Rows[0]["dba1"]) + "</td>");
+                            sbHTML.Append("<td align='left' " + strTDWhite + ">" + Convert.ToString(dtClaim.Rows[0]["Employee_Name"]) + "</td>");
+                            sbHTML.Append("<td align='left' " + strTDWhite.TrimEnd('\'') + "border-right:black 1px solid;'>" + clsGeneral.FormatDBNullDateToDisplay(dtClaim.Rows[0]["Date_Of_Accident"]) + "</td>");
+                            sbHTML.Append("</tr>");
+                        }
                         sbHTML.Append("</table>");
                         sbHTML.Append("<br />");
 
@@ -366,9 +369,9 @@ public partial class SONIC_Exposures_Asset_Protection_SendMail : System.Web.UI.P
                         long  Claim_ID = Convert.ToInt64(Request.QueryString["Claim_ID"]);
                         DataTable dtClaim = null;
                         string strFileName = string.Empty;
-                        strFileName = "Selected PL Transaction.doc";
+                        strFileName = "Selected Claim Transaction.doc";
 
-                        string[] AttachmentIds = Request.QueryString["PK_Fields"].Split(',');
+                        string[] AttachmentIds = Request.QueryString["Claim_ID"].Split(',');
                         arrAttachments = new string[AttachmentIds.Length];
                         if (FK_Table_Name == "WC")
                         {

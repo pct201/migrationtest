@@ -1528,9 +1528,9 @@
                                             <asp:Panel ID="pnlTransactions" runat="server" Width="100%">
                                                 <asp:UpdatePanel runat="Server" ID="updTrans" UpdateMode="Always">
                                                     <ContentTemplate>
-                                                        Click For Detail
-                                                        <br />
                                                         <asp:Panel ID="pnlTransGrid" runat="server" Width="100%">
+                                                           Click For Detail
+                                                             <br />
                                                             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                                                 <tr>
                                                                     <td width="45%"></td>
