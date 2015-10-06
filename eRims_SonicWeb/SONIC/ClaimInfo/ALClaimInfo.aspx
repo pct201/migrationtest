@@ -492,7 +492,7 @@
             else
                 rowCnt = document.getElementById('<%=hdnRptRows.ClientID %>').value;
 
-            var headerChkID = bFromGrid ? 'chkMultiSelectTrans' : 'chkRptMultiSelectTrans';
+            var headerChkID = bFromGrid ? 'ctl00_ContentPlaceHolder1_gvALTransList_ctl01_chkMultiSelectTrans' : 'ctl00_ContentPlaceHolder1_rptTransDetail_ctl00_chkRptMultiSelectTrans';
 
             if (cnt == rowCnt)
                 document.getElementById(headerChkID).checked = true;
@@ -1587,7 +1587,7 @@
                                                                                 <Columns>
                                                                                     <asp:TemplateField ItemStyle-VerticalAlign="Top" ItemStyle-Width="10%" HeaderStyle-HorizontalAlign="Left">
                                                                                         <HeaderTemplate>
-                                                                                            <input type="checkbox" id="chkMultiSelectTrans" onclick="SelectDeselectAllTrans(this.checked, true);" />Select
+                                                                                            <input type="checkbox" id="chkMultiSelectTrans" runat="server" onclick="SelectDeselectAllTrans(this.checked, true);" />Select
                                                                                         </HeaderTemplate>
                                                                                         <ItemTemplate>
                                                                                             <asp:CheckBox ID="chkTranSelect" runat="server" onclick="SelectDeselectTransHeader(true);" />
@@ -1817,7 +1817,7 @@
                                                                                         <table border="0" cellpadding="3" cellspacing="1" width="100%">
                                                                                             <tr id="trMultiselectTran" style='display: <%# Container.ItemIndex == 0  ? "block" : "none" %>'>
                                                                                                 <td align="left" colspan="2" valign="bottom">
-                                                                                                    <input type="checkbox" id="chkRptMultiSelectTrans" onclick="SelectDeselectAllTrans(this.checked, false);" />
+                                                                                                    <input type="checkbox" id="chkRptMultiSelectTrans" runat="server" onclick="SelectDeselectAllTrans(this.checked, false);" />
                                                                                                     Select </td>
                                                                                             </tr>
                                                                                             <tr>

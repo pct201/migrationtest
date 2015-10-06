@@ -473,7 +473,7 @@
             else
                 rowCnt = document.getElementById('<%=hdnRptRows.ClientID %>').value;
             
-            var headerChkID = bFromGrid ? 'chkMultiSelectTrans' : 'chkRptMultiSelectTrans';
+            var headerChkID = bFromGrid ? 'ctl00_ContentPlaceHolder1_gvPLTransList_ctl01_chkMultiSelectTrans' : 'ctl00_ContentPlaceHolder1_rptTransDetail_ctl00_chkRptMultiSelectTrans';
 
             if (cnt == rowCnt)
                 document.getElementById(headerChkID).checked = true;
@@ -1549,7 +1549,7 @@
                                                                     <Columns>
                                                                         <asp:TemplateField ItemStyle-VerticalAlign="Top" ItemStyle-Width="10%" HeaderStyle-HorizontalAlign="Left">
                                                                             <HeaderTemplate>
-                                                                                <input type="checkbox" id="chkMultiSelectTrans" onclick="SelectDeselectAllTrans(this.checked, true);" />Select
+                                                                                <input type="checkbox" runat="server" id="chkMultiSelectTrans" onclick="SelectDeselectAllTrans(this.checked, true);" />Select
                                                                             </HeaderTemplate>
                                                                             <ItemTemplate>
                                                                                 <asp:CheckBox ID="chkTranSelect" runat="server" onclick="SelectDeselectTransHeader(true);" />
@@ -1843,7 +1843,7 @@
                                                                                     <table border="0" cellpadding="3" cellspacing="1" width="100%">
                                                                                         <tr style='display: <%# Container.ItemIndex == 0  ? "block" : "none" %>' id="trMultiselectTran">
                                                                                             <td colspan="2" align="left" valign="bottom">
-                                                                                                <input type="checkbox" id="chkRptMultiSelectTrans" onclick="SelectDeselectAllTrans(this.checked, false);" />Select
+                                                                                                <input type="checkbox" runat="server" id="chkRptMultiSelectTrans" onclick="SelectDeselectAllTrans(this.checked, false);" />Select
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
