@@ -51,14 +51,12 @@ public partial class Management_AuditPopup_Management : System.Web.UI.Page
     /// </summary>
     private void BindManagement()
     {
-        DataTable dt = new DataTable();
-
         // show Case Grid 
         divgvManagement_Audit_Grid.Visible = true;
         lbltable_Name.Text = "Management Audit";
 
         // Fill grid with audit table
-        dt = Audit_Trail.GetManagement_AuditTrail(PK).Tables[0];
+        DataTable dt = Audit_Trail.GetManagement_AuditTrail(PK).Tables[0];
         gvManagement_Audit.DataSource = dt;
         gvManagement_Audit.DataBind();
 

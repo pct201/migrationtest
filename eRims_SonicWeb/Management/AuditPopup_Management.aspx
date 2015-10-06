@@ -57,6 +57,9 @@
                                     <span style="display: inline-block; width: 150px;">Company Phone</span>
                                 </th>--%>
                                 <th class="cols">
+                                    <span style="display: inline-block; width: 150px;">Reference Number</span>
+                                </th>
+                                <th class="cols">
                                     <span style="display: inline-block; width: 150px;">DBA</span>
                                 </th>
                                 <%--<th class="cols">
@@ -179,6 +182,12 @@
                                         Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>--%>
+                            <asp:TemplateField HeaderText="Reference Number">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblReference_Number" runat="server" Text='<%#Eval("Reference_Number")%>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
                             <asp:TemplateField HeaderText="Location">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
