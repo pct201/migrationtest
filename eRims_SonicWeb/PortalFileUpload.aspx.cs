@@ -158,6 +158,19 @@ public partial class PortalFileUpload : System.Web.UI.Page
                             System.IO.File.Delete(insurancefiles[0]);
                         }
                         break;
+                    case "DELETEOUTLOOK":
+                        string deleteOutlookAttachmentPath = string.Concat(AppConfig.strFCPDocumentPath, "\\");
+                        string deleteOutlookFileName = Convert.ToString(Request.QueryString["fileName"]); // System.IO.Path.GetFileName(Request.Files[0].FileName);
+
+                        string[] outlookFiles = Directory.GetFiles(deleteOutlookAttachmentPath, deleteOutlookFileName);
+                        if (outlookFiles != null && outlookFiles.Length > 0)
+                        {
+                            if (File.Exists(outlookFiles[0]))
+                            {
+                                System.IO.File.Delete(outlookFiles[0]);
+                            }
+                        }
+                        break;
 
                     default: break;
                 }
