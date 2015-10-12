@@ -296,7 +296,19 @@
                         <asp:RequiredFieldValidator ID="rfvddlAlertMethod" ControlToValidate="ddlAlertMethod" Display="None"
                             ValidationGroup="vsErrorGroup" Text="*" InitialValue="0" runat="server" ErrorMessage="Please select atleast one Alert Method."></asp:RequiredFieldValidator>
                     </td>
-
+                    <td align="left">Dashboard<span style="color: Red;">*</span>
+                    </td>
+                    <td align="center">:
+                    </td>
+                    <td align="left">
+                        <asp:DropDownList ID="ddlDashboardType" runat="server" Width="170px" SkinID="ddlSONIC">
+                            <asp:ListItem Value="0">-- Select --</asp:ListItem>
+                            <asp:ListItem Value="1">Pie Charts</asp:ListItem>
+                            <asp:ListItem Value="2">Task List</asp:ListItem>
+                        </asp:DropDownList>
+                        <asp:RequiredFieldValidator ID="rfvddlDashboard" ControlToValidate="ddlDashboardType" Display="None"
+                            ValidationGroup="vsErrorGroup" Text="*" InitialValue="0" runat="server" ErrorMessage="Please select atleast one Dashboard."></asp:RequiredFieldValidator>
+                    </td>
                 </tr>
 
                 <tr>
@@ -521,12 +533,19 @@
                     </td>
                 </tr>
                 <tr>
-                    <td align="left" style="width: 18%;">Alert Method
+                    <td align="left">Alert Method
+                    </td>
+                    <td align="center">:
+                    </td>
+                    <td align="left">
+                        <asp:Label runat="server" Style="word-wrap: normal; word-break: break-all" ID="lblAlertMethod"></asp:Label>
+                    </td>
+                    <td align="left" style="width: 18%;">Dashboard
                     </td>
                     <td align="center" style="width: 4%;">:
                     </td>
                     <td align="left" style="width: 28%;">
-                        <asp:Label runat="server" Style="word-wrap: normal; word-break: break-all" ID="lblAlertMethod"></asp:Label>
+                        <asp:Label runat="server" Style="word-wrap: normal; word-break: break-all" ID="lblDashboardType"></asp:Label>
                     </td>
                 </tr>
                 <tr>

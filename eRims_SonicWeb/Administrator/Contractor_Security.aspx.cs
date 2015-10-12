@@ -105,7 +105,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
                     DivEditContractorSecuirty.Style.Add("display", "none");
                     DivViewSecurity.Style.Add("display", "none");
                 }
-            }            
+            }
         }
         else
         {
@@ -114,7 +114,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
             {
                 PK_Contactor_Security = clsGeneral.GetDecimal(Session["PK_Contactor_Security"]);
                 EditRecords();
-            }            
+            }
         }
         Session["PK_Contactor_Security"] = null;
     }
@@ -157,21 +157,21 @@ public partial class Administrator_Contractor_Security : clsBasePage
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void btnDelete_Click(object sender, EventArgs e)
-    {        
-            string strSelected = Request.Form["chkItem"].ToString();
-            foreach (GridViewRow gRow in gvContractorSecurity.Rows)
+    {
+        string strSelected = Request.Form["chkItem"].ToString();
+        foreach (GridViewRow gRow in gvContractorSecurity.Rows)
+        {
+            if (((Button)gRow.FindControl("btnEdit")).Enabled == false)
             {
-                if (((Button)gRow.FindControl("btnEdit")).Enabled == false)
-                {
-                    strSelected = strSelected.Replace(gvContractorSecurity.DataKeys[gRow.RowIndex].Value.ToString(), "");
-                    strSelected = strSelected.Replace(",,", "");
-                    strSelected = strSelected.TrimStart(',');
-                    strSelected = strSelected.TrimEnd(',');
-                }
+                strSelected = strSelected.Replace(gvContractorSecurity.DataKeys[gRow.RowIndex].Value.ToString(), "");
+                strSelected = strSelected.Replace(",,", "");
+                strSelected = strSelected.TrimStart(',');
+                strSelected = strSelected.TrimEnd(',');
             }
-            if (strSelected.Length > 0)
-                Contractor_Security.DeleteByPKs(strSelected);
-        
+        }
+        if (strSelected.Length > 0)
+            Contractor_Security.DeleteByPKs(strSelected);
+
         //Bind Grid
         BindGrid(ctrlPageProperty.CurrentPage, ctrlPageProperty.PageSize);
     }
@@ -192,7 +192,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
     protected void btnEdit_Click(object sender, EventArgs e)
     {
         if (PK_Contactor_Security > 0)
-            Response.Redirect("Contractor_Security.aspx?op=edit&id=" + Encryption.Encrypt(Convert.ToString(PK_Contactor_Security))) ;
+            Response.Redirect("Contractor_Security.aspx?op=edit&id=" + Encryption.Encrypt(Convert.ToString(PK_Contactor_Security)));
     }
 
     /// <summary>
@@ -213,6 +213,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
         objContractorSecurity.Address_1 = txtAddress1.Text.Trim().Replace("'", "\'");
         objContractorSecurity.Address_2 = txtAddress2.Text.Trim().Replace("'", "\'");
         objContractorSecurity.City = txtCity.Text.Trim().Replace("'", "\'");
+        objContractorSecurity.Dashboard_Type = Convert.ToInt16(ddlDashboardType.SelectedValue);
 
         //
         objContractorSecurity.Previous_Password_1 = "";
@@ -547,6 +548,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
         HdnPK_Contactor_Security.Value = Convert.ToString(objContractorSecurity.PK_Contactor_Security);
         PK_Contactor_Security = Convert.ToInt32(objContractorSecurity.PK_Contactor_Security);
         txtLoginUserName.Text = Convert.ToString(objContractorSecurity.User_Name);
+        ddlDashboardType.SelectedValue = Convert.ToString(objContractorSecurity.Dashboard_Type);
 
         if (!string.IsNullOrEmpty(objContractorSecurity.Password))
         {
@@ -563,7 +565,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
         txtFirstName.Text = Convert.ToString(objContractorSecurity.First_Name);
         txtLastName.Text = Convert.ToString(objContractorSecurity.Last_Name);
         //txtContractorCompany.Text = Convert.ToString(objContractorSecurity.Contractor_Company_Name);
-        txtAddress1.Text = Convert.ToString(objContractorSecurity.Address_1);   
+        txtAddress1.Text = Convert.ToString(objContractorSecurity.Address_1);
         txtAddress2.Text = Convert.ToString(objContractorSecurity.Address_2);
         txtCity.Text = Convert.ToString(objContractorSecurity.City);
 
@@ -612,7 +614,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
         Contractor_Security objContractorSecurity = new Contractor_Security(PK_Contactor_Security);
         lblLoginUserName.Text = Convert.ToString(objContractorSecurity.User_Name);
         lblFirstName.Text = Convert.ToString(objContractorSecurity.First_Name);
-        lblLastName.Text =Convert.ToString(objContractorSecurity.Last_Name);
+        lblLastName.Text = Convert.ToString(objContractorSecurity.Last_Name);
         //lblContractorCompany.Text = Convert.ToString(objContractorSecurity.Contractor_Company_Name);
         lblAddress1.Text = Convert.ToString(objContractorSecurity.Address_1);
         lblAddress2.Text = Convert.ToString(objContractorSecurity.Address_2);
@@ -623,18 +625,27 @@ public partial class Administrator_Contractor_Security : clsBasePage
         if (objContractorSecurity.FK_Contractor_Firm != null)
             lblContractorFirm.Text = new Contractor_Firm(Convert.ToDecimal(objContractorSecurity.FK_Contractor_Firm)).Contractor_Firm_Name;
 
-            if (objContractorSecurity.FK_LU_Contractor_Type != null)
+        if (objContractorSecurity.FK_LU_Contractor_Type != null)
             lblContractorType.Text = new clsLU_Contractor_Type(Convert.ToDecimal(objContractorSecurity.FK_LU_Contractor_Type)).CT_Desc;
 
-            if (objContractorSecurity.FL_LU_FACILITY_CONSTRUCTION_ALERT_METHOD != null)
-                lblAlertMethod.Text = new LU_Facility_Construction_Alert_Method(Convert.ToDecimal(objContractorSecurity.FL_LU_FACILITY_CONSTRUCTION_ALERT_METHOD)).Alert_Method;
+        if (objContractorSecurity.FL_LU_FACILITY_CONSTRUCTION_ALERT_METHOD != null)
+            lblAlertMethod.Text = new LU_Facility_Construction_Alert_Method(Convert.ToDecimal(objContractorSecurity.FL_LU_FACILITY_CONSTRUCTION_ALERT_METHOD)).Alert_Method;
 
-            lblZipCode.Text =  Convert.ToString(objContractorSecurity.Zip_Code);
-            lblOfficeTelephone.Text = Convert.ToString(objContractorSecurity.Office_Telephone);
-            lblCellPhone.Text = Convert.ToString(objContractorSecurity.Cell_Telephone);
-            lblPager.Text = Convert.ToString(objContractorSecurity.Pager);
+        lblZipCode.Text = Convert.ToString(objContractorSecurity.Zip_Code);
+        lblOfficeTelephone.Text = Convert.ToString(objContractorSecurity.Office_Telephone);
+        lblCellPhone.Text = Convert.ToString(objContractorSecurity.Cell_Telephone);
+        lblPager.Text = Convert.ToString(objContractorSecurity.Pager);
         lblEmail.Text = Convert.ToString(objContractorSecurity.Email);
-            
+        
+        if (objContractorSecurity.Dashboard_Type == 1)
+        {
+            lblDashboardType.Text = "Pie Charts";
+        }
+        else if (objContractorSecurity.Dashboard_Type == 2)
+        {
+            lblDashboardType.Text = "Task List";
+        }
+
     }
 
     /// <summary>
@@ -670,10 +681,10 @@ public partial class Administrator_Contractor_Security : clsBasePage
             {
                 ddlToFill.Items.Insert(0, new ListItem("-- Select --", "0"));
             }
-            
+
         }
     }
 
     #endregion
-    
+
 }
