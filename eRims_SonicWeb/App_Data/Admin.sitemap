@@ -223,16 +223,16 @@
           <siteMapNode url="Administrator/LU_FCP_Project_Type.aspx" title ="Facility Project Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_Punchlist_Item_Type.aspx" title ="Facility Punchlist Item Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_Origin_Type.aspx" title ="Origin Type" description="" roles="" />
-        <siteMapNode url="Administrator/LU_Facility_Area.aspx" title ="Facility Area" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Facility_Area.aspx" title ="Facility Area" description="" roles="" />
           <siteMapNode url="Administrator/LU_Facility_Specific_Location.aspx" title ="Facility Specific Location" description="" roles="" />
           <siteMapNode url="Administrator/LU_Construction_Firm_Type.aspx" title ="Firm Type" description="" roles="" />
+          <siteMapNode url="Administrator/LU_CO_Type.aspx" title ="CO Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_Contract_Type.aspx" title ="Contract Type" description="" roles="" />
-          <siteMapNode url="Administrator/LU_PunchList_Status.aspx" title ="Punch List Status" description="" roles="" />
-        
+          <siteMapNode url="Administrator/LU_PunchList_Status.aspx" title ="Punch List Status" description="" roles="" />          
         </siteMapNode>
         <siteMapNode url="" title="First Reports" description="">
           <siteMapNode url="Administrator/IncidentInvolvementType.aspx" title="Incident Involvement Type" description=""></siteMapNode>
-          <!--<siteMapNode url="Administrator/LU_PL_Loss_Category.aspx" title="Loss Category" description=""></siteMapNode>-->
+          <siteMapNode url="Administrator/LU_PL_Loss_Category.aspx" title="Loss Category" description=""></siteMapNode>
         </siteMapNode>
         <siteMapNode url="" title="Franchise" description="">
           <siteMapNode url="Administrator/Franchise_Additional_Land.aspx" title="Additional Land" description=""></siteMapNode>
