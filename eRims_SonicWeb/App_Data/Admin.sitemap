@@ -206,6 +206,8 @@
           <siteMapNode url="Administrator/LU_Tank_Material.aspx" title ="Tank Material" description="" roles="" />
           <siteMapNode url="Administrator/LU_Units.aspx" title ="Units" description="" roles="" />
           <siteMapNode url="Administrator/Utility_Type.aspx" title ="Utility Type" description="" roles="" />
+          <!--3407-->
+          <siteMapNode url="Administrator/LU_VOC_Category.aspx" title ="VOC Category" description="" roles="" />
           <siteMapNode url="Administrator/LU_Waste_Type.aspx" title ="Waste Type" description="" roles="" />
         </siteMapNode>
         <siteMapNode url="" title="Executive Risk" description="">
@@ -228,7 +230,14 @@
           <siteMapNode url="Administrator/LU_Construction_Firm_Type.aspx" title ="Firm Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_CO_Type.aspx" title ="CO Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_Contract_Type.aspx" title ="Contract Type" description="" roles="" />
-          <siteMapNode url="Administrator/LU_PunchList_Status.aspx" title ="Punch List Status" description="" roles="" />          
+          <siteMapNode url="Administrator/LU_PunchList_Status.aspx" title ="Punch List Status" description="" roles="" />
+          <!--3408-->
+          <siteMapNode url="Administrator/LU_Facility_Inspection_Focus_Area.aspx" title ="Facility Inspection Focus Area" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Facility_Maintenance_Scope.aspx" title ="Facility Maintenance Scope" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Facility_Inspection_Condition.aspx" title ="Facility Inspection Condition" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Facility_Maintenance_Status.aspx" title ="Facility Maintenance Status" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Facility_Maintenance_Type.aspx" title ="Facility Maintenance Type" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Lease_Responsible_Party.aspx" title ="Lease Responsible Party" description="" roles="" />
         </siteMapNode>
         <siteMapNode url="" title="First Reports" description="">
           <siteMapNode url="Administrator/IncidentInvolvementType.aspx" title="Incident Involvement Type" description=""></siteMapNode>
