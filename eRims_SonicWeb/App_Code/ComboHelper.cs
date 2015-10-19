@@ -5817,4 +5817,51 @@ public class ComboHelper
             }
         }
     }
+
+    /// <summary>
+    /// Fill Inspection Area Drop downs
+    /// </summary>
+    /// <param name="dropDownList">All dropDownList</param>
+    /// <param name="booladdSelectAsFirstElement">Add --select-- to first item in each drop down or not</param>
+    public static void FillPaintCategory(DropDownList[] dropDownList, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.clsLU_VOC_Category.SelectAll().Tables[0];
+        dtData.DefaultView.RowFilter = " Active = 'Y' ";
+        dtData = dtData.DefaultView.ToTable();
+
+        foreach (DropDownList ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Category";
+            ddlToFill.DataValueField = "PK_LU_VOC_Category";
+            ddlToFill.DataSource = dtData;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    public static void FillYear(DropDownList[] ddlYear, bool booladdSelectAsFirstElement)
+    {
+        foreach (DropDownList ddlToFill in ddlYear)
+        {
+            ddlToFill.Items.Clear();
+            int intMinYear, intMaxYear;
+            intMinYear = 2000;
+            intMaxYear = DateTime.Now.Year;
+            for (int i = intMaxYear; i >= intMinYear; i--)
+            {
+                ddlToFill.Items.Add(new ListItem(i.ToString(), i.ToString()));
+            }
+
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
 }
