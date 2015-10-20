@@ -249,6 +249,11 @@ public partial class Administrator_Contractor_Security : clsBasePage
         objContractorSecurity.Updated_By = clsSession.UserID;
         objContractorSecurity.Update_Date = DateTime.Now;
 
+        if (ddlContractType.SelectedIndex > 0)
+            objContractorSecurity.FK_LU_Contract_Type = Convert.ToDecimal(ddlContractType.SelectedValue);
+
+        objContractorSecurity.Vendor_Number = txtVendorNumber.Text;
+
         if (PK_Contactor_Security > 0)
         {
             int RtnVal = objContractorSecurity.Update();
@@ -275,6 +280,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
                 return;
             }
         }
+
         BindGrid(ctrlPageProperty.CurrentPage, ctrlPageProperty.PageSize);
         ViewRecords();
     }
@@ -455,6 +461,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
         ComboHelper.FillState(new DropDownList[] { ddlState }, 0, true);
         ComboHelper.FillContractorType(new DropDownList[] { ddlContractoType }, 0, true);
         ComboHelper.FillContractorFirm(new DropDownList[] { ddlContractorfirm }, 0, true);
+        ComboHelper.FillContractType(new DropDownList[] { ddlContractType }, true);
         FillAlertMethod(new DropDownList[] { ddlAlertMethod }, 0, true);
     }
     /// <summary>
@@ -549,6 +556,8 @@ public partial class Administrator_Contractor_Security : clsBasePage
         PK_Contactor_Security = Convert.ToInt32(objContractorSecurity.PK_Contactor_Security);
         txtLoginUserName.Text = Convert.ToString(objContractorSecurity.User_Name);
         ddlDashboardType.SelectedValue = Convert.ToString(objContractorSecurity.Dashboard_Type);
+        ddlContractType.SelectedValue = objContractorSecurity.FK_LU_Contract_Type.HasValue ? Convert.ToString(objContractorSecurity.FK_LU_Contract_Type) : "0";
+        txtVendorNumber.Text = Convert.ToString(objContractorSecurity.Vendor_Number);
 
         if (!string.IsNullOrEmpty(objContractorSecurity.Password))
         {
@@ -636,7 +645,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
         lblCellPhone.Text = Convert.ToString(objContractorSecurity.Cell_Telephone);
         lblPager.Text = Convert.ToString(objContractorSecurity.Pager);
         lblEmail.Text = Convert.ToString(objContractorSecurity.Email);
-        
+
         if (objContractorSecurity.Dashboard_Type == 1)
         {
             lblDashboardType.Text = "Pie Charts";
@@ -646,6 +655,8 @@ public partial class Administrator_Contractor_Security : clsBasePage
             lblDashboardType.Text = "Task List";
         }
 
+        lblVendorNumber.Text = objContractorSecurity.Vendor_Number;
+        lblContractType.Text = objContractorSecurity.FK_LU_Contract_Type.HasValue ? new LU_Contract_Type(Convert.ToDecimal(objContractorSecurity.FK_LU_Contract_Type.Value)).Descr : "";
     }
 
     /// <summary>

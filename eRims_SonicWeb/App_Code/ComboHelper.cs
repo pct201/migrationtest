@@ -5864,4 +5864,28 @@ public class ComboHelper
             }
         }
     }
+
+    /// <summary>
+    /// Fill Contract_Type Area Drop downs
+    /// </summary>
+    /// <param name="dropDownList">All dropDownList</param>
+    /// <param name="booladdSelectAsFirstElement">Add --select-- to first item in each drop down or not</param>
+    public static void FillContractType(DropDownList[] dropDownList, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.LU_Contract_Type.SelectAll();
+
+        foreach (DropDownList ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Descr";
+            ddlToFill.DataValueField = "PK_LU_Contract_Type";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
 }

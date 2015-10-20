@@ -39,6 +39,8 @@ namespace ERIMS.DAL
         private decimal? _FK_LU_Contractor_Type;
         private decimal? _FK_Contractor_Firm;
         private int _Dashboard_Type;
+        private string _Vendor_Number;
+        private decimal? _FK_LU_Contract_Type;
 
         #endregion
 
@@ -275,6 +277,24 @@ namespace ERIMS.DAL
             set { _Dashboard_Type = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the Vendor_Number value.
+        /// </summary>
+        public string Vendor_Number
+        {
+            get { return _Vendor_Number; }
+            set { _Vendor_Number = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the FK_LU_Contract_Type value.
+        /// </summary>
+        public decimal? FK_LU_Contract_Type
+        {
+            get { return _FK_LU_Contract_Type; }
+            set { _FK_LU_Contract_Type = value; }
+        }
+
         #endregion
 
         #region Default Constructors
@@ -303,7 +323,6 @@ namespace ERIMS.DAL
             {
                 SetValue(dtContractor_Security.Rows[0]);
             }
-
         }
 
 
@@ -432,6 +451,16 @@ namespace ERIMS.DAL
             else
                 this._FK_Contractor_Firm = (decimal?)drContractor_Security["FK_Contractor_Firm"];
 
+            if (drContractor_Security["Vendor_Number"] == DBNull.Value)
+                this._Vendor_Number = null;
+            else
+                this._Vendor_Number = (string)drContractor_Security["Vendor_Number"];
+
+            if (drContractor_Security["FK_LU_Contract_Type"] == DBNull.Value)
+                this._FK_LU_Contract_Type = null;
+            else
+                this._FK_LU_Contract_Type = (decimal?)drContractor_Security["FK_LU_Contract_Type"];
+
             this._Dashboard_Type = (int)drContractor_Security["Dashboard_Type"];
         }
 
@@ -547,9 +576,19 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "FK_LU_Contractor_Type", DbType.Decimal, this._FK_LU_Contractor_Type);
 
-            db.AddInParameter(dbCommand, "FK_Contractor_Firm", DbType.Decimal, this._FK_Contractor_Firm);
+            if (!(this._FK_Contractor_Firm.HasValue))
+                db.AddInParameter(dbCommand, "FK_Contractor_Firm", DbType.Decimal, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "FK_Contractor_Firm", DbType.Decimal, this._FK_Contractor_Firm);
 
             db.AddInParameter(dbCommand, "Dashboard_Type", DbType.Decimal, this._Dashboard_Type);
+
+            db.AddInParameter(dbCommand, "Vendor_Number", DbType.String, this._Vendor_Number);
+
+            if (!(this._FK_LU_Contract_Type.HasValue))
+                db.AddInParameter(dbCommand, "FK_LU_Contract_Type", DbType.Decimal, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "FK_LU_Contract_Type", DbType.Decimal, this._FK_LU_Contract_Type);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -615,6 +654,14 @@ namespace ERIMS.DAL
             db.ExecuteScalar(dbCommand);
         }
 
+        public static DataSet GetContractorSecurityByLocation(Int32 locationID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetContractorSecurityByLocation");
+            db.AddInParameter(dbCommand, "PK_LU_Location_ID", DbType.Decimal, locationID);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
 
         /// <summary>
         /// Updates a record in the Contractor_Security table.
@@ -725,9 +772,19 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "FK_LU_Contractor_Type", DbType.Decimal, this._FK_LU_Contractor_Type);
 
-            db.AddInParameter(dbCommand, "FK_Contractor_Firm", DbType.Decimal, this._FK_Contractor_Firm);
+            if (!(this._FK_Contractor_Firm.HasValue))
+                db.AddInParameter(dbCommand, "FK_Contractor_Firm", DbType.Decimal, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "FK_Contractor_Firm", DbType.Decimal, this._FK_Contractor_Firm);
 
             db.AddInParameter(dbCommand, "Dashboard_Type", DbType.Decimal, this._Dashboard_Type);
+
+            db.AddInParameter(dbCommand, "Vendor_Number", DbType.String, this._Vendor_Number);
+
+            if (!(this._FK_LU_Contract_Type.HasValue))
+                db.AddInParameter(dbCommand, "FK_LU_Contract_Type", DbType.Decimal, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "FK_LU_Contract_Type", DbType.Decimal, this._FK_LU_Contract_Type);
 
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
             return returnValue;

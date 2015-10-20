@@ -416,7 +416,7 @@
                     </td>
                     <td align="center">:
                     </td>
-                    <td colspan="4">
+                    <td align="left">
                         <asp:TextBox runat="server" ID="txtEmail" MaxLength="100" Width="170px"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="rfvtxtEmail" ControlToValidate="txtEmail" Display="None"
                             runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Email."></asp:RequiredFieldValidator>
@@ -424,8 +424,25 @@
                             ValidationGroup="vsErrorGroup" Display="None" ErrorMessage="Email Address Is Invalid."
                             SetFocusOnError="True" Text="*" ToolTip="Email Address Is Invalid" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*">*</asp:RegularExpressionValidator>
                     </td>
+                    <td align="left">Vendor Number
+                    </td>
+                    <td align="center">:
+                    </td>
+                    <td align="left">
+                        <asp:TextBox runat="server" ID="txtVendorNumber" MaxLength="50" Width="170px"></asp:TextBox>                                                
+                    </td>
                 </tr>
+                <tr>
+                    <td align="left">Firm/Contract Type
+                    </td>
+                    <td style="width: 4%;" align="center">:
+                    </td>
+                    <td align="left" width="26%" colspan="4">
+                        <asp:DropDownList ID="ddlContractType" runat="server" Width="170px" SkinID="ddlSONIC">
+                        </asp:DropDownList>
+                    </td>
 
+                </tr>
                 <tr>
                     <td align="left" valign="top">Location/Project Access Grid<br />
                         <asp:LinkButton ID="lnkAddLocationProjectAccessGrid" runat="server" Text="--Add--"
@@ -623,11 +640,26 @@
                     </td>
                     <td align="center">:
                     </td>
-                    <td colspan="4">
+                    <td>
                         <asp:Label runat="server" ID="lblEmail" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                     </td>
-
+                    <td align="left">Vendor Number
+                    </td>
+                    <td align="center">:
+                    </td>
+                    <td>
+                        <asp:Label runat="server" ID="lblVendorNumber" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                    </td>
                 </tr>
+                <tr>
+                    <td align="left">Firm/Contract Type
+                    </td>
+                    <td align="center">:
+                    </td>
+                    <td>
+                        <asp:Label runat="server" ID="lblContractType" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                    </td>
+                </tr
                 <tr>
                     <td align="left" valign="top">Location/Project Access Grid<br />
 
