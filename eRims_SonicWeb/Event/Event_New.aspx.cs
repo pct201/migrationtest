@@ -1436,7 +1436,7 @@ public partial class Event_Event_New : clsBasePage
     private void BindReapterEventType()
     {
         DataSet dsData = clsLU_Event_Type.SelectAll();
-        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y'";
+        dsData.Tables[0].DefaultView.RowFilter = "Active = 'Y' AND Is_Actionable = 'Y' AND Fld_Desc <> 'FROI Event/Other'"; //#Issue 3422
 
         rptEventType.DataSource = dsData.Tables[0].DefaultView.ToTable();
         rptEventType.DataBind();
@@ -1785,10 +1785,16 @@ public partial class Event_Event_New : clsBasePage
             strBody = strBody.Replace("[ACI_Event_ID]", Convert.ToString(dtEvent.Rows[0]["ACI_EventID"]));
 
             string strActionableEvent = string.Empty;
-            if (dtActionable_Event.Rows.Count > 0)
+
+            if (!Is_Sonic_Event)
+                dtActionable_Event.DefaultView.RowFilter = "Actionable_Event_Desc <> 'FROI Event/Other'"; //#Issue 3422
+
+            DataTable dtFiltered_Event = dtActionable_Event.DefaultView.ToTable();
+
+            if (dtFiltered_Event.Rows.Count > 0)
             {
                 strActionableEvent = "<table cellpadding='4' cellspacing='0' width='100%'>";
-                foreach (DataRow drEvent_Type in dtActionable_Event.Rows)
+                foreach (DataRow drEvent_Type in dtFiltered_Event.Rows)
                 {
                     if (Convert.ToBoolean(drEvent_Type["Is_Checked"]))
                     {
