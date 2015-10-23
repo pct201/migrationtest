@@ -71,7 +71,7 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
             ClearAllFilterPanel();
             // Reset Scroll Position
             ResetScrollPosition();
-            //Receoipient List
+            //Recipient List
             ComboHelper.GetRecipientList(ddlRecipientList);
             //Hide Hidden Button
             btnHdnScheduling.Style["display"] = "none";
@@ -1520,6 +1520,14 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
                     else if (lstAdHoc[0].Field_Header.ToUpper() == "APPROVAL SUBMISSION")
                     {
                         ComboHelper.FillApproval_Submission(new ListBox[] { lst_F }, false);
+                        #region " To check Null value #Issue 3420 "
+                        List<ListItem> liItem = new List<ListItem>();
+                        liItem.Add(new ListItem("None", "0"));
+                        for (int i = 0; i < liItem.Count; i++)
+                        {
+                            lst_F.Items.Add((ListItem)liItem[i]);
+                        } 
+                        #endregion
                     }
 
                     else
@@ -1703,9 +1711,17 @@ public partial class Management_ACIManagement_AdHocReportWriter : clsBasePage
             {
                 if (lstWhereFiels == "[C].Fk_LU_Police_Report_Audit")
                     strWhere = " And (" + lstWhereFiels + " NOT IN (" + strCondition + ") OR " + lstWhereFiels + " Is Null)";
+                else if (lstWhereFiels == "[LAS].PK_LU_Approval_Submission" && strCondition == "0")
+                    strWhere = " And " + lstWhereFiels + " IS NOT NULL ";
+                else if (lstWhereFiels == "[LAS].PK_LU_Approval_Submission" && strCondition != "0")
+                    strWhere = " And (" + lstWhereFiels + " IS NOT NULL " + " OR " + lstWhereFiels + " NOT IN (" + strCondition + ") )";
                 else
                     strWhere = " And " + lstWhereFiels + " NOT IN (" + strCondition + ") ";
             }
+            else if (lstWhereFiels == "[LAS].PK_LU_Approval_Submission" && strCondition == "0")
+                strWhere = " And " + lstWhereFiels + " IS NULL ";
+            else if (lstWhereFiels == "[LAS].PK_LU_Approval_Submission" && strCondition.Contains("0"))
+                strWhere = " And ( " + lstWhereFiels + " IS NULL " + " OR " + lstWhereFiels + " IN (" + strCondition + ")) ";
             else
                 strWhere = " And " + lstWhereFiels + " IN (" + strCondition + ") ";
         }

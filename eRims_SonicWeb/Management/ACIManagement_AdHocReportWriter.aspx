@@ -264,7 +264,7 @@
                             <td align="left">
                                 <asp:CheckBoxList ID="rblCoverage" RepeatDirection="Horizontal" runat="server" AutoPostBack="True"
                                     Visible="false" OnSelectedIndexChanged="rblCoverage_SelectedIndexChanged" onclick="SaveScrollPositions();Page_ClientValidate('dummy')">
-                                    <asp:ListItem Text="Event" Value="999" Selected="True" Enabled="false" />
+                                    <asp:ListItem Text="Management" Value="999" Selected="True" Enabled="false" />
                                 </asp:CheckBoxList>
                             </td>
                         </tr>
