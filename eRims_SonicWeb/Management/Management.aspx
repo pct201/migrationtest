@@ -182,6 +182,52 @@
 
         }
 
+        function SetCRApprovedDate(selectedText) {
+            if (selectedText == 'Yes') {
+                var date = new Date();
+                var yyyy = date.getFullYear().toString();
+                var mm = (date.getMonth() + 1).toString();
+                var dd = date.getDate().toString();
+
+                var mmChars = mm.split('');
+                var ddChars = dd.split('');
+
+                dateString = (mmChars[1] ? mm : "0" + mmChars[0]) + '/' + (ddChars[1] ? dd : "0" + ddChars[0]) + '/' + yyyy;
+                document.getElementById('<%=txtCR_Approved.ClientID%>').value = dateString;
+            }
+        }
+
+        function SetApprovalSubmission() {//set approval submission dropdown and "CR approved" date #Issue 3402 point 1-d,e
+            var rdoGMStatus = document.getElementById('<%=rdoGM_Decision.ClientID %>');
+            var rdoRLCMStatus = document.getElementById('<%=rdoRLCM_Decision.ClientID %>');
+            var rdoNAPMStatus = document.getElementById('<%=rdoNAPM_Decision.ClientID %>');
+            var rdoDRMStatus = document.getElementById('<%=rdoDRM_Decision.ClientID %>');
+            var drpLU_Approval_Submission = document.getElementById('<%=drpFK_LU_Approval_Submission.ClientID %>');
+
+            for (var i = 0; i < rdoGMStatus.rows.length; ++i) {//all radio button have same value
+
+                if ((rdoGMStatus.rows[i].cells[1].firstChild.checked && rdoRLCMStatus.rows[i].cells[1].firstChild.checked && rdoNAPMStatus.rows[i].cells[1].firstChild.checked && rdoDRMStatus.rows[i].cells[1].firstChild.checked)
+                    || ((rdoGMStatus.rows[i].cells[0].firstChild.checked && rdoRLCMStatus.rows[i].cells[0].firstChild.checked && rdoNAPMStatus.rows[i].cells[0].firstChild.checked && rdoDRMStatus.rows[i].cells[0].firstChild.checked)))
+                {
+                    for (var i = 0; i < drpLU_Approval_Submission.options.length; i++) {
+                        if (drpLU_Approval_Submission.options[i].text === 'Yes') {
+                            drpLU_Approval_Submission.selectedIndex = i;//drpLU_Approval_Submission.value = drpLU_Approval_Submission.options[i].value;
+                            break;
+                        }
+                    }
+                    SetCRApprovedDate('Yes');
+                }
+                else {
+                    for (var i = 0; i < drpLU_Approval_Submission.options.length; i++) {
+                        if (drpLU_Approval_Submission.options[i].text === '-- Select --') {
+                            drpLU_Approval_Submission.selectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
     </script>
     <div>
         <asp:ValidationSummary ID="vsError" runat="server" CssClass="errormessage" ValidationGroup="vsErrorGroup"
@@ -403,11 +449,11 @@
                                                                 :
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:TextBox ID="txtdate_Scheduled" runat="server" SkinID="txtDate" />
+                                                                <asp:TextBox ID="txtdate_Scheduled" runat="server" SkinID="txtDate" Enabled="false"/>
                                                                 <asp:TextBox ID="txtCurrentDate" runat="server" Width="180px" MaxLength="10" Style="display: none;"></asp:TextBox>
-                                                                <img alt="Scheduled Date" onclick="return showCalendar('<%= txtdate_Scheduled.ClientID %>', 'mm/dd/y');"
+                                                              <%--  <img alt="Scheduled Date" onclick="return showCalendar('<%= txtdate_Scheduled.ClientID %>', 'mm/dd/y');"
                                                                     onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
-                                                                    align="middle" />
+                                                                    align="middle" />--%>
                                                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ValidationGroup="vsErrorGroup"
                                                                     Display="none" ErrorMessage="Scheduled Date is not a valid date" SetFocusOnError="true"
                                                                     ControlToValidate="txtdate_Scheduled" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
@@ -492,14 +538,14 @@
                                                                 <%--$<asp:TextBox ID="txtService_Repair_Cost" runat="server" MaxLength="10" onKeyPress="return(currencyFormat_New(this,',','.',10,event))"
                                                                     OnBlur="CheckNumericVal(this,20);" Width="170px" AutoComplete="off"></asp:TextBox>--%>
                                                                 $<asp:TextBox ID="txtService_Repair_Cost" runat="server" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);"  onpaste="return false;"
-                                                                    OnBlur="CheckNumericVal(this,20);" Width="170px" AutoComplete="off"></asp:TextBox>
+                                                                    OnBlur="CheckNumericVal(this,20);" Width="170px" AutoComplete="off" Enabled="false"></asp:TextBox>
                                                             </td>
                                                             <td align="left" valign="top">Approval Submission
                                                             </td>
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:DropDownList ID="drpFK_LU_Approval_Submission" runat="server" Width="175px" SkinID="dropGen">
+                                                                <asp:DropDownList ID="drpFK_LU_Approval_Submission" runat="server" Width="175px" SkinID="dropGen" onchange="SetCRApprovedDate(this.options[this.selectedIndex].text);">
                                                                 </asp:DropDownList>
                                                             </td>
                                                            
@@ -543,7 +589,7 @@
                                                                 :
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:TextBox ID="txtJob" MaxLength="50" runat="server" Width="170px"></asp:TextBox>
+                                                                <asp:TextBox ID="txtJob" MaxLength="50" runat="server" Width="170px" Enabled="false"></asp:TextBox>
                                                             </td>
                                                              <td align="left" valign="top">
                                                                 Other
@@ -564,10 +610,10 @@
                                                                 :
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:TextBox ID="txtOrderDate" runat="server" SkinID="txtDate" />
-                                                                <img alt="Order Date" onclick="return showCalendar('<%= txtOrderDate.ClientID %>', 'mm/dd/y');"
+                                                                <asp:TextBox ID="txtOrderDate" runat="server" SkinID="txtDate" Enabled="false"/>
+                                                               <%-- <img alt="Order Date" onclick="return showCalendar('<%= txtOrderDate.ClientID %>', 'mm/dd/y');"
                                                                     onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
-                                                                    align="middle" />
+                                                                    align="middle" />--%>
                                                                 <asp:RegularExpressionValidator ID="rgvtxtOrderDate" runat="server" ValidationGroup="vsErrorGroup"
                                                                     Display="none" ErrorMessage="Order Date is not a valid date" SetFocusOnError="true"
                                                                     ControlToValidate="txtOrderDate" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
@@ -582,7 +628,7 @@
                                                                 :
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:TextBox ID="txtOrder" MaxLength="50" runat="server" Width="170px"></asp:TextBox>
+                                                                <asp:TextBox ID="txtOrder" MaxLength="50" runat="server" Width="170px" Enabled="false"></asp:TextBox>
                                                             </td>
                                                         </tr>
                                                         <%--<tr>
@@ -638,7 +684,7 @@
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 $<asp:TextBox ID="txtPreviousContractAmount" autocomplete="off" onpaste="return false;" OnBlur="CheckNumericVal(this,20);" 
-                                                                    runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" />
+                                                                    runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" Enabled="false"/>
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 Revised Contract Amount
@@ -648,7 +694,7 @@
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 $<asp:TextBox ID="txtRevisedContractAmount" autocomplete="off" onpaste="return false;"  OnBlur="CheckNumericVal(this,20);" 
-                                                                    runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" />
+                                                                    runat="server" Width="165px" onkeypress="javascript:return FormatNumber(event,this.id,12,false,true);" Enabled="false"/>
                                                             </td>
                                                         </tr>
                                                         <%--  <tr>
@@ -1074,7 +1120,7 @@
                                                                             :
                                                                         </td>
                                                                         <td align="left">
-                                                                            <asp:RadioButtonList runat="server" ID="rdoGM_Decision" SkinID="ApprovedNotApprovedTypeNullSelection">
+                                                                            <asp:RadioButtonList runat="server" ID="rdoGM_Decision" SkinID="ApprovedNotApprovedTypeNullSelection" onclick="SetApprovalSubmission();">
                                                                             </asp:RadioButtonList>
                                                                         </td>
                                                                         <td align="left">
@@ -1150,7 +1196,7 @@
                                                                             :
                                                                         </td>
                                                                         <td align="left">
-                                                                            <asp:RadioButtonList runat="server" ID="rdoRLCM_Decision" SkinID="ApprovedNotApprovedTypeNullSelection">
+                                                                            <asp:RadioButtonList runat="server" ID="rdoRLCM_Decision" SkinID="ApprovedNotApprovedTypeNullSelection" onclick="SetApprovalSubmission();">
                                                                             </asp:RadioButtonList>
                                                                         </td>
                                                                         <td align="left">
@@ -1226,7 +1272,7 @@
                                                                             :
                                                                         </td>
                                                                         <td align="left">
-                                                                            <asp:RadioButtonList runat="server" ID="rdoNAPM_Decision" SkinID="ApprovedNotApprovedTypeNullSelection">
+                                                                            <asp:RadioButtonList runat="server" ID="rdoNAPM_Decision" SkinID="ApprovedNotApprovedTypeNullSelection" onclick="SetApprovalSubmission();">
                                                                             </asp:RadioButtonList>
                                                                         </td>
                                                                         <td align="left">
@@ -1299,7 +1345,7 @@
                                                                             :
                                                                         </td>
                                                                         <td align="left">
-                                                                            <asp:RadioButtonList runat="server" ID="rdoDRM_Decision" SkinID="ApprovedNotApprovedTypeNullSelection">
+                                                                            <asp:RadioButtonList runat="server" ID="rdoDRM_Decision" SkinID="ApprovedNotApprovedTypeNullSelection" onclick="SetApprovalSubmission();">
                                                                             </asp:RadioButtonList>
                                                                         </td>
                                                                         <td align="left">

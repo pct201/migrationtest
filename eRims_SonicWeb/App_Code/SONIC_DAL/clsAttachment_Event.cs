@@ -471,5 +471,40 @@ namespace ERIMS.DAL
 
             db.ExecuteNonQuery(dbCommand);
         }
+
+        /// <summary>
+        /// Get management attachments name by pk
+        /// </summary>
+        /// <param name="str_PK_Attachment"></param>
+        /// <returns></returns>
+        public static string GetAttachmentsName(string str_PK_Attachment)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Get_Attachmets_Name");
+            db.AddInParameter(dbCommand, "str_PK_Attachment", DbType.String, str_PK_Attachment);
+            string returnValue = Convert.ToString(db.ExecuteScalar(dbCommand));
+
+            return returnValue;
+        }
+
+
+        /// <summary>
+        /// return all attachments of management
+        /// </summary>
+        /// <returns></returns>
+        public static DataSet Get_Management_Attachments(DateTime? Event_From_Date, DateTime? Event_To_Date, string strOrderBy, string strOrder, int intPageNo, int intPageSize)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Get_Management_Attachments");
+
+            db.AddInParameter(dbCommand, "Event_From_Date", DbType.DateTime, Event_From_Date);
+            db.AddInParameter(dbCommand, "Event_To_Date", DbType.DateTime, Event_To_Date);
+            db.AddInParameter(dbCommand, "strOrderBy", DbType.String, strOrderBy);
+            db.AddInParameter(dbCommand, "strOrder", DbType.String, strOrder);
+            db.AddInParameter(dbCommand, "intPageNo", DbType.Int32, intPageNo);
+            db.AddInParameter(dbCommand, "intPageSize", DbType.Int32, intPageSize);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
 	}
 }

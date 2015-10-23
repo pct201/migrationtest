@@ -10,7 +10,7 @@
       
         $(document).ready(function(){
             $('#<%= gvReports.ClientID %> > tbody > tr > td > input[type="button"]').each(function(){
-                if($(this).attr('onclick') == "return openWindowSchedule('66    ');"){
+                if($(this).attr('onclick') == "return openWindowSchedule('66');" || $(this).attr('onclick') == "return openWindowSchedule('70');"){
                     $(this).hide();
                 }
             });
@@ -85,7 +85,7 @@
                         <asp:TemplateField>
                             <ItemStyle Width="12%" HorizontalAlign="Center"></ItemStyle>
                             <ItemTemplate>
-                                <input type="button" value="Schedule" title="Schedule Report" class="btn" onclick="return openWindowSchedule('<%# Eval("PK_ReportID") %>    ');" />
+                                <input type="button" value="Schedule" title="Schedule Report" class="btn" onclick="return openWindowSchedule('<%# Eval("PK_ReportID") %>');" />
                             </ItemTemplate>
                         </asp:TemplateField>
                     </Columns>

@@ -20,6 +20,9 @@ using Winnovative.WnvHtmlConvert;
 using System.ComponentModel;
 using System.Collections;
 using System.Text.RegularExpressions;
+using ICSharpCode.SharpZipLib.Zip;
+using ICSharpCode.SharpZipLib.Core;
+
 /// <summary>
 /// Summary description for clsGeneral
 /// </summary>
@@ -3316,6 +3319,153 @@ public class clsGeneral : System.Web.UI.Page
         db.AddInParameter(dbCommand, "DirectoryName", DbType.String, DirectoryName);
 
         db.ExecuteNonQuery(dbCommand);
+    }
+
+    public static string SaveFileLandscape(string strFileText, string strPath, string strFileName)
+    {
+        string strRetVal = "";
+        // set path.
+        if (!strPath.EndsWith("\\"))
+        {
+            strPath = string.Concat(strPath, "\\");
+        }
+        if (strPath.Contains("/"))
+            strPath = strPath.Replace('/', '\\');
+
+        clsGeneral.CreateDirectory(strPath);
+
+        // now check for file name exists or not. and option for overwrite
+        string strFulleName = string.Concat(strPath, strFileName);
+
+        // if overwrite is not allowed then get filename to save.
+        strFulleName = GetFileNameToSave(strFulleName);
+
+        string strLisenceFile = HttpContext.Current.Server.MapPath(HttpContext.Current.Request.ApplicationPath) + "\\" + ("Bin") + "\\Aspose.Words.lic";
+
+        if (File.Exists(strLisenceFile))
+        {
+            //This shows how to license Aspose.Words, if you don't specify a license, 
+            //Aspose.Words works in evaluation mode.
+            Aspose.Words.License license = new Aspose.Words.License();
+            license.SetLicense(strLisenceFile);
+        }
+
+        Aspose.Words.Document doc = new Aspose.Words.Document();
+
+        //Build string builder to transport to Doc
+        //Once the builder is created, its cursor is positioned at the beginning of the document.
+        Aspose.Words.DocumentBuilder builder = new Aspose.Words.DocumentBuilder(doc);
+        //builder.Font.Size = 12;
+        //builder.Font.Bold = false;
+        //builder.Font.Color = System.Drawing.Color.Black;
+        builder.PageSetup.PaperSize = PaperSize.Letter;
+        builder.PageSetup.BottomMargin = 40;
+        builder.PageSetup.TopMargin = 40;
+        builder.PageSetup.LeftMargin = 40;
+        builder.PageSetup.RightMargin = 40;
+        builder.PageSetup.Orientation = Aspose.Words.Orientation.Landscape;
+        //builder.Font.Name = "Arial";
+        builder.InsertParagraph();
+        builder.InsertHtml(strFileText);
+        //builder.Write(litLetter.Text);
+
+        doc.MailMerge.DeleteFields();
+        doc.Save(strFulleName, Aspose.Words.SaveFormat.Doc);
+
+        // set return value = only filename.
+        strRetVal = clsGeneral.GetFileName(strFulleName);
+
+        return strRetVal;
+    }
+
+    public static int GetIntMajorCoverage(string strMajor_Coverage)
+    {
+        if (!string.IsNullOrEmpty(strMajor_Coverage))
+            return (int)(clsGeneral.Major_Coverage)Enum.Parse(typeof(clsGeneral.Major_Coverage), strMajor_Coverage, true);
+        else
+            return 0;
+    }
+
+    /// <summary>
+    /// Set Directory to create new zip file
+    /// </summary>
+    /// <param name="strAttachments"></param>
+    /// <param name="strzipDir"></param>
+    public static void SetZipDirectory(string[] strAttachments, string strzipDir)
+    {
+        //if (Directory.Exists(strzipDir)) Directory.Delete(strzipDir, true);
+        if (Directory.Exists(strzipDir))
+        {
+            string[] files = Directory.GetFiles(strzipDir);
+            foreach (string file in files)
+            {
+                File.SetAttributes(file, FileAttributes.Normal);
+                File.Delete(file);
+            }
+        }
+        if (File.Exists(strzipDir + ".Zip")) File.Delete(strzipDir + ".Zip");
+        Directory.CreateDirectory(strzipDir);
+        for (int j = 0; j < strAttachments.Length; j++)
+        {
+            if (strAttachments[j] != null)
+            {
+                string Attachmentname = strAttachments[j];
+                FileInfo fi = new FileInfo(Attachmentname);
+                FileInfo fiTo = new FileInfo(strzipDir + "\\" + fi.Name);//if in destination same file name already exist then not copied
+                if (fi.Exists && !fiTo.Exists)
+                {
+                    File.Copy(Attachmentname, strzipDir + "\\" + fi.Name);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Download Zip
+    /// </summary>
+    /// <param name="SourcePath"></param>
+    public static void DownloadZIP(string SourcePath)
+    {
+        ConvertZIP(SourcePath);
+        System.IO.FileInfo file = new System.IO.FileInfo(SourcePath + ".Zip");
+        HttpContext.Current.Response.Clear();
+        HttpContext.Current.Response.AddHeader("Content-Type", "binary/octet-stream");
+        HttpContext.Current.Response.AddHeader("Content-Disposition", ("attachment; filename=" + file.Name + "; size=") + file.Length.ToString());
+        HttpContext.Current.Response.Flush();
+        HttpContext.Current.Response.WriteFile(file.FullName);
+        HttpContext.Current.Response.Flush();
+        HttpContext.Current.Response.End();
+    }
+
+    /// <summary>
+    /// Create Zip file
+    /// </summary>
+    /// <param name="SourcePath"></param>
+    public static void ConvertZIP(string SourcePath)
+    {
+        string destinationPath = SourcePath + ".Zip";
+        FastZipEvents events = new FastZipEvents();
+        events.ProcessFile = ProcessFileMethod;
+        FastZip fZip = new FastZip();
+        fZip.CreateZip(destinationPath, SourcePath, true, "");
+    }
+
+    /// <summary>
+    /// Used to create zip file
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private static void ProcessFileMethod(object sender, ScanEventArgs args)
+    {
+        try
+        {
+            string str = args.Name;
+        }
+        catch (Exception ex)
+        {
+
+        }
+
     }
 
 }

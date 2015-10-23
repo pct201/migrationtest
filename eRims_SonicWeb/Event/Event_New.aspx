@@ -8,6 +8,7 @@
 <%@ Register Src="~/Controls/Attachment_Event/AttachmentEvent.ascx" TagName="Attachment" TagPrefix="uc" %>
 <%@ Register Src="~/Controls/EventInfo/EventInfo.ascx" TagName="EventInfo" TagPrefix="uc" %>
 <%@ Register Src="~/Controls/Navigation/Navigation.ascx" TagName="ctrlPaging" TagPrefix="uc" %>
+<%@ Register Src="~/Controls/AbstractLetters/AbstractLetters.ascx" TagName="ctrlAbstractLetters" TagPrefix="uc" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <script type="text/javascript" language="javascript" src="../JavaScript/Calendar_new.js"></script>
@@ -295,7 +296,7 @@
 
         function SetMenuStyle(index) {
             var i;
-            for (i = 1; i <= 5; i++) {
+            for (i = 1; i <= 6; i++) {
                 var tb = document.getElementById("Menu" + i);
                 if (i == index) {
                     tb.className = "LeftMenuSelected";
@@ -372,6 +373,7 @@
                     document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i).style.display = (i == index) ? "block" : "none";
                 }
                 document.getElementById('<%=pnlAttachment.ClientID%>').style.display = (index == 5) ? "block" : "none";
+                document.getElementById('<%=pnl6.ClientID%>').style.display = (index == 6) ? "block" : "none";
             }
             //			if (index == 1) document.getElementById("ctl00_ContentPlaceHolder1_btnPreviousStep").style.display = "none";
             //			else document.getElementById("ctl00_ContentPlaceHolder1_btnPreviousStep").style.display = "block";
@@ -521,6 +523,11 @@
             PoliceReportSonic.value = PoliceReport;
         }
 
+        function setIncidentReportSonic()
+        {
+            alert('98647');
+        }
+
         function setPolicecalledSonic()
         {
             var rdopolice = document.getElementById("<%=rdoPolice_Called.ClientID%>");
@@ -627,6 +634,11 @@
                                 <tr>
                                     <td align="left" width="100%">
                                         <span id="Menu4" onclick="javascript:ShowPanel(4);" class="LeftMenuStatic">Insurance Type Claim</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="left" width="100%">
+                                        <span id="Menu6" onclick="javascript:ShowPanel(6);" class="LeftMenuStatic">Abstracts & Custom Letters</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -1132,6 +1144,306 @@
                                                                     </td>
                                                                 </tr>
                                                             </table>
+                                                        </td>
+                                                    </tr>
+                                                     <tr runat="server" id="trACIVehicle_Information" style="display: none;">
+                                                        <td colspan="6">
+                                                            <table width="100%">
+                                                                <tr>
+                                                                    <td align="left" valign="top">
+                                                                        Vehicle Information Grid
+                                                                    </td>
+                                                                    <td align="center" valign="top" colspan="5">&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" width="19%">Make
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="2%">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" style="padding-left: 5px;">
+                                                                        <asp:TextBox ID="txtMake" runat="server" MaxLength="30" Width="170px"></asp:TextBox>
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="19%">Model
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="2%">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" style="padding-left: 5px;">
+                                                                        <asp:TextBox ID="txtModel" runat="server" MaxLength="30" Width="170px"></asp:TextBox>
+                                                                    </td>
+                                                                </tr>
+                                                                    <tr>
+                                                                    <td align="left" valign="top" width="19%">Color
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="2%">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" style="padding-left: 5px;">
+                                                                        <asp:TextBox ID="txtColor" runat="server" MaxLength="30" Width="170px"></asp:TextBox>
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="19%">License
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="2%">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" style="padding-left: 5px;">
+                                                                        <asp:TextBox ID="txtLicense" runat="server" MaxLength="30" Width="170px"></asp:TextBox>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" width="19%">State
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="2%">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" style="padding-left: 5px;">
+                                                                        <asp:DropDownList ID="ddlVehicle_InfoState" runat="server" Width="170px">
+                                                                            </asp:DropDownList>
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="19%">Suspects Vehicle
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="2%">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" style="padding-left: 5px;">
+                                                                    <asp:RadioButtonList ID="rdoSuspect_Vehicle" runat="server">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N" Selected="True"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left"></td>
+                                                                    <td align="center"></td>
+                                                                    <td align="left" colspan="4">
+                                                                        <asp:Button ID="btnVehicle_InfoAdd" OnClick="btnVehicle_InfoAdd_Click" runat="server"
+                                                                            ValidationGroup="vsErrorGroup" Text="Add" Width="70px"></asp:Button>&nbsp;&nbsp;&nbsp;&nbsp; 
+                                                                        <%--OnClientClick="javascript:return valSaveEvent();"--%>
+                                                                        <asp:Button ID="btnVehicle_Info" OnClick="btnVehicle_InfoCancel_Click" runat="server"
+                                                                            Text="Cancel" Width="70px"></asp:Button>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                   
+                                                    <tr runat="server" id="trACIVehicle_InformationGrid">
+                                                        <td colspan="6">
+                                                            <table width="100%">
+                                                                <tr>
+                                                                    <td align="left" valign="top">
+                                                                        Vehicle Information Grid :
+                                                                    </td>
+                                                                    <td align="center" valign="top">&nbsp;
+                                                                     </td>
+                                                                    <td align="center" valign="top" colspan="5">&nbsp;
+                                                                     </td>
+                                                                </tr>
+                                                                <tr>
+                                                                <td align="left" valign="top" colspan="7">
+                                                                    <asp:GridView ID="gvVehicle_Information" runat="server" Width="100%" AutoGenerateColumns="false"
+                                                                        PageSize="6" EnableViewState="true" AllowPaging="true" OnRowCommand="gvVehicle_Information_RowCommand"
+                                                                        OnPageIndexChanging="gvVehicle_Information_PageIndexChanging" >
+                                                                        <Columns>
+                                                                            <asp:TemplateField>
+                                                                                <ItemStyle Width="1%" />
+                                                                                <ItemTemplate>
+                                                                                    <asp:HiddenField ID="hdnPK_Vehicle_Information" runat="server" Value='<%# Eval("PK_Vehicle_Information") %>' />
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Make">
+                                                                                <ItemStyle Width="15%" />
+                                                                                <ItemTemplate>
+                                                                                    <asp:Label ID="lblMake" CssClass="TextClip" runat="server" Text='<%# Eval("Make")%>' Width="100px"></asp:Label>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Model">
+                                                                                <ItemStyle Width="15%" />
+                                                                                <ItemTemplate>
+                                                                                    <asp:Label ID="lblModel" CssClass="TextClip" runat="server" Text='<%# Eval("Model")%>' Width="100px"></asp:Label>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Color">
+                                                                                <ItemStyle Width="15%" />
+                                                                                <ItemTemplate>
+                                                                                    <asp:Label ID="lblColor" CssClass="TextClip" runat="server" Text='<%# Eval("Color")%>' Width="100px"></asp:Label>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="License">
+                                                                                <ItemStyle Width="15%" />
+                                                                                <ItemTemplate>
+                                                                                    <asp:Label ID="lblLicense" CssClass="TextClip" runat="server" Text='<%# Eval("License")%>' Width="100px"></asp:Label>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="State">
+                                                                                <ItemStyle Width="15%" />
+                                                                                <ItemTemplate>
+                                                                                    <%# Eval("STATE")%>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Suspect Vehicle">
+                                                                                <ItemStyle Width="10%" />
+                                                                                <ItemTemplate>
+                                                                                    <%# Eval("Suspect_Vehicle")%>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
+                                                                                <ItemStyle Width="10%" HorizontalAlign="Center" />
+                                                                                <ItemTemplate>
+                                                                                    <asp:LinkButton runat="server" ID="lnkEdit" Text=" Edit " CommandName="EditRecord"
+                                                                                        CommandArgument='<%#Eval("PK_Vehicle_Information") %>' Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>'>
+                                                                                    </asp:LinkButton>
+                                                                                    &nbsp;&nbsp;&nbsp;
+                                                                                    <asp:LinkButton ID="lnkRemove" runat="server" Text="Delete" CommandArgument='<%#Eval("PK_Vehicle_Information") %>'
+                                                                                        CommandName="RemoveVehicleInformation" OnClientClick="return confirm('Are you sure to remove Vehicle Information record?');"
+                                                                                        CausesValidation="false" Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>' />
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                        </Columns>
+                                                                        <EmptyDataTemplate>
+                                                                            <table cellpadding="4" cellspacing="0" width="100%">
+                                                                                <tr>
+                                                                                    <td width="100%" align="center" style="border: 1px solid #cccccc;">
+                                                                                        <asp:Label ID="lblEmptyHeaderGridMessage" runat="server" Text="No Record Found"></asp:Label>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </EmptyDataTemplate>
+                                                                    </asp:GridView>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding-bottom: 5px;">
+                                                                    <asp:LinkButton Style="display: inline" ID="lnkAddVehicleInfo" OnClick="lnkAddVehicleInfo_Click"
+                                                                        runat="server" Text="Add New" OnClientClick="return CheckEvent();"></asp:LinkButton>&nbsp;&nbsp;&nbsp;
+                                                                    <asp:LinkButton Style="display: none" ID="LinkButton2" runat="server" Text="Cancel"></asp:LinkButton>
+                                                                </td>
+                                                            </tr>
+                                                             </table>
+                                                            </td>
+                                                        </tr>
+                                                    <tr>
+                                                        <td colspan="6">&nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr runat="server" id="trACISuspect_Information" style="display: none;">
+                                                        <td colspan="6">
+                                                            <table width="100%">
+                                                                <tr>
+                                                                    <td align="left" valign="top">
+                                                                        Suspect Information Grid
+                                                                    </td>
+                                                                    <td align="center" valign="top" colspan="5">&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" width="19%">Sex
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="2%">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" style="padding-left: 5px;">
+                                                                    <asp:RadioButtonList ID="rdoSex" runat="server">
+                                                                        <asp:ListItem Text="Male" Value="M"></asp:ListItem>
+                                                                        <asp:ListItem Text="Female" Value="F" Selected="True"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" width="19%">Note
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="2%">:
+                                                                    </td>
+                                                                    <td align="left" valign="top" style="padding-left: 5px;">
+                                                                        <uc:ctrlMultiLineTextBox ID="txtSuspect_Information_Note" runat="server" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left"></td>
+                                                                    <td align="center"></td>
+                                                                    <td align="left" colspan="4">
+                                                                        <asp:Button ID="btnSuspect_InfoAdd" OnClick="btnSuspect_InfoAdd_Click" runat="server"
+                                                                            ValidationGroup="vsErrorGroup" Text="Add" Width="70px"></asp:Button>&nbsp;&nbsp;&nbsp;&nbsp; 
+                                                                        <asp:Button ID="btnSuspect_InfoCancel" OnClick="btnSuspect_InfoCancel_Click" runat="server"
+                                                                            Text="Cancel" Width="70px"></asp:Button>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    
+                                                    <tr runat="server" id="trACISuspect_InformationGrid">
+                                                    <td colspan="6">
+                                                        <table width="100%">
+                                                            <tr>
+                                                                <td align="left" valign="top">
+                                                                    Suspect Information Grid :
+                                                                </td>
+                                                                <td align="center" valign="top">&nbsp;
+                                                                    </td>
+                                                                <td align="center" valign="top" colspan="5">&nbsp;
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                            <td align="left" valign="top" colspan="7">
+                                                                <asp:GridView ID="gvSuspect_Information" runat="server" Width="100%" AutoGenerateColumns="false"
+                                                                    PageSize="6" EnableViewState="true" AllowPaging="true" OnRowCommand="gvSuspect_Information_RowCommand"
+                                                                    OnPageIndexChanging="gvSuspect_Information_PageIndexChanging" Style="word-wrap: normal; word-break: break-all;">
+                                                                    <Columns>
+                                                                        <asp:TemplateField>
+                                                                            <ItemStyle Width="1%" />
+                                                                            <ItemTemplate>
+                                                                                <asp:HiddenField ID="hdnPK_Suspect_Information" runat="server" Value='<%# Eval("PK_Suspect_Information") %>' />
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                        <asp:TemplateField HeaderText="Sex">
+                                                                            <ItemStyle Width="15%" />
+                                                                            <ItemTemplate>
+                                                                                <%# Eval("Sex")%>
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                        <asp:TemplateField HeaderText="Description">
+                                                                            <ItemStyle Width="45%" />
+                                                                            <ItemTemplate>
+                                                                                <asp:Label ID="lblDesc" CssClass="TextClip" runat="server" Text='<%# Eval("Description")%>' Width="250px"></asp:Label>
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
+                                                                            <ItemStyle Width="10%" HorizontalAlign="Center" />
+                                                                            <ItemTemplate>
+                                                                                <asp:LinkButton runat="server" ID="lnkEdit" Text=" Edit " CommandName="EditRecord"
+                                                                                    CommandArgument='<%#Eval("PK_Suspect_Information") %>' Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>'>
+                                                                                </asp:LinkButton>
+                                                                                &nbsp;&nbsp;&nbsp;
+                                                                                <asp:LinkButton ID="lnkRemove" runat="server" Text="Delete" CommandArgument='<%#Eval("PK_Suspect_Information") %>'
+                                                                                    CommandName="RemoveSuspectInformation" OnClientClick="return confirm('Are you sure to remove Suspect Information record?');"
+                                                                                    CausesValidation="false" Visible='<%#Convert.ToBoolean(!Is_Closed_Event) %>' />
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                    </Columns>
+                                                                    <EmptyDataTemplate>
+                                                                        <table cellpadding="4" cellspacing="0" width="100%">
+                                                                            <tr>
+                                                                                <td width="100%" align="center" style="border: 1px solid #cccccc;">
+                                                                                    <asp:Label ID="lblEmptyHeaderGridMessage" runat="server" Text="No Record Found"></asp:Label>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </EmptyDataTemplate>
+                                                                </asp:GridView>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="padding-bottom: 5px;">
+                                                                <asp:LinkButton Style="display: inline" ID="lnkAddSuspectInfo" OnClick="lnkAddSuspectInfo_Click"
+                                                                    runat="server" Text="Add New" OnClientClick="return CheckEvent();"></asp:LinkButton>&nbsp;&nbsp;&nbsp;
+                                                                <asp:LinkButton Style="display: none" ID="LinkButton3" runat="server" Text="Cancel"></asp:LinkButton>
+                                                            </td>
+                                                        </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="vertical-align:top;">Incident Report
+                                                        </td>
+                                                        <td style="vertical-align:top;">:</td>
+                                                        <td colspan="4">
+                                                            <uc:ctrlMultiLineTextBox ID="txtIncident_Report" runat="server" Width="500" onblur="setIncidentReportSonic();"/>
                                                         </td>
                                                     </tr>
                                                     <tr runat="server" id="trACINotes" style="display: none;">
@@ -1830,7 +2142,7 @@
                                                     <tr>
                                                         <td style="padding-bottom: 5px;">
                                                             <asp:LinkButton Style="display: inline" ID="lnkAddEvent_CameraNew_Sonic" OnClick="lnkAddEvent_CameraNew_Sonic_Click"
-                                                                runat="server" Text="Add New"></asp:LinkButton>&nbsp;&nbsp;&nbsp;
+                                                                runat="server" Text="Add New" OnClientClick="return CheckEvent();"></asp:LinkButton>&nbsp;&nbsp;&nbsp;
                                                             <asp:LinkButton Style="display: none" ID="lnkEvent_CameraSonicCancel" runat="server"
                                                                 Text="Cancel"></asp:LinkButton>
                                                         </td>
@@ -2147,6 +2459,18 @@
                                                 </table>
                                             </asp:Panel>
                                         </div>
+                                        <asp:Panel ID="pnl6" runat="server" Style="display: none;" Width="794px">
+                                            <div class="bandHeaderRow">
+                                                Abstracts & Custom Letters
+                                            </div>
+                                            <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                <tr>
+                                                    <td align="left" valign="top">
+                                                        <uc:ctrlAbstractLetters ID="ucAbstractLetter" runat="server" PanelNumber="6" />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </asp:Panel>
                                         <asp:Panel ID="pnlAttachment" runat="server" Style="display: none;" Width="794px">
                                             <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                                 <tr>

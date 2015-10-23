@@ -157,15 +157,22 @@ public partial class Download : System.Web.UI.Page
 
                         strFileName = strFilePath + objAttachment.Attachment_Name;
                         System.IO.FileInfo file = new System.IO.FileInfo(strFileName);
-                        // Transfer File
-                        HttpContext.Current.Response.Clear();
-                        HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", strUserFileName));
-                        HttpContext.Current.Response.AddHeader("Content-Length", file.Length.ToString());
-                        HttpContext.Current.Response.ContentType = "application/octet-stream";//ReturnExtension(clsGeneral.GetExtension(objAttachment.Attachment_Name));
-                        HttpContext.Current.Response.TransmitFile(strFileName);
-                        HttpContext.Current.Response.Flush();
-                        //HttpContext.Current.ApplicationInstance.CompleteRequest();
-                        HttpContext.Current.Response.End();
+                        if (file.Exists)
+                        {
+                            // Transfer File
+                            HttpContext.Current.Response.Clear();
+                            HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", strUserFileName));
+                            HttpContext.Current.Response.AddHeader("Content-Length", file.Length.ToString());
+                            HttpContext.Current.Response.ContentType = "application/octet-stream";//ReturnExtension(clsGeneral.GetExtension(objAttachment.Attachment_Name));
+                            HttpContext.Current.Response.TransmitFile(strFileName);
+                            HttpContext.Current.Response.Flush();
+                            //HttpContext.Current.ApplicationInstance.CompleteRequest();
+                            HttpContext.Current.Response.End();
+                        }
+                        else
+                        {
+                            this.Page.ClientScript.RegisterStartupScript(this.GetType(), DateTime.Now.ToString(), "alert('Selected attachment(s) are not found.','false');close();", true);
+                        }
 
                     }
                     catch (Exception ex)

@@ -105,6 +105,7 @@ namespace ERIMS.DAL
         private string _Sonic_Contact_Phone;
         private string _Sonic_Contact_Email;
         private string _Video_Requested_By_Sonic;
+        private string _Incident_Report_Desc;
 
         #endregion
 
@@ -920,6 +921,14 @@ namespace ERIMS.DAL
             set { _Video_Requested_By_Sonic = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the Incident_Report_Desc value.
+        /// </summary>
+        public string Incident_Report_Desc
+        {
+            get { return _Incident_Report_Desc; }
+            set { _Incident_Report_Desc = value; }
+        }
         #endregion
 
         #region Default Constructors
@@ -1401,6 +1410,11 @@ namespace ERIMS.DAL
                 this._Video_Requested_By_Sonic = null;
             else
                 this._Video_Requested_By_Sonic = (string)drEvent["Video_Requested_By_Sonic"];
+
+            if (drEvent["Incident_Report_Desc"] == DBNull.Value)
+                this._Incident_Report_Desc = null;
+            else
+                this._Incident_Report_Desc = (string)drEvent["Incident_Report_Desc"];
         }
 
         #endregion
@@ -1772,6 +1786,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Video_Requested_By_Sonic", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Video_Requested_By_Sonic", DbType.String, this._Video_Requested_By_Sonic);
+
+            if (string.IsNullOrEmpty(this._Incident_Report_Desc))
+                db.AddInParameter(dbCommand, "Incident_Report_Desc", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Incident_Report_Desc", DbType.String, this._Incident_Report_Desc);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -2174,6 +2193,11 @@ namespace ERIMS.DAL
             else
                 db.AddInParameter(dbCommand, "Video_Requested_By_Sonic", DbType.String, this._Video_Requested_By_Sonic);
 
+            if (string.IsNullOrEmpty(this._Incident_Report_Desc))
+                db.AddInParameter(dbCommand, "Incident_Report_Desc", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Incident_Report_Desc", DbType.String, this._Incident_Report_Desc);
+
             db.ExecuteNonQuery(dbCommand);
         }
 
@@ -2512,6 +2536,23 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "FK_LU_Location", DbType.Decimal, FK_LU_Location);
             db.AddInParameter(dbCommand, "Month", DbType.Int32, Month);
             db.AddInParameter(dbCommand, "year", DbType.Int32, year);
+            dbCommand.CommandTimeout = 1000;
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// Get Event Custom Report
+        /// </summary>
+        /// <param name="strSelectedEvents"></param>
+        /// <returns></returns>
+        public static DataSet GetACI_Custom_Report(DateTime? Event_From_Date, DateTime? Event_To_Date)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetACI_Custom_Report");
+
+            db.AddInParameter(dbCommand, "Event_From_Date", DbType.DateTime, Event_From_Date);
+            db.AddInParameter(dbCommand, "Event_To_Date", DbType.DateTime, Event_To_Date);
             dbCommand.CommandTimeout = 1000;
 
             return db.ExecuteDataSet(dbCommand);

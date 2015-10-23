@@ -47,6 +47,30 @@ public partial class Event_Event_New : clsBasePage
     /// <summary>
     /// Denotes the Primary Key
     /// </summary>
+    public decimal _PK_Vehicle_Information
+    {
+        get
+        {
+            return clsGeneral.GetInt(ViewState["PK_Vehicle_Information"]);
+        }
+        set { ViewState["PK_Vehicle_Information"] = value; }
+    }
+
+    /// <summary>
+    /// Denotes the Primary Key
+    /// </summary>
+    public decimal _PK_Suspect_Information
+    {
+        get
+        {
+            return clsGeneral.GetInt(ViewState["PK_Suspect_Information"]);
+        }
+        set { ViewState["PK_Suspect_Information"] = value; }
+    }
+
+    /// <summary>
+    /// Denotes the Primary Key
+    /// </summary>
     public decimal _PK_ACI_Notes
     {
         get
@@ -194,6 +218,8 @@ public partial class Event_Event_New : clsBasePage
                 {
                     lblMenu2.Text = lblMenu2Header.Text = "Acadian Investigations";
                 }
+
+                ucAbstractLetter.FK_Event = PK_Event;
             }
             else
             {
@@ -369,6 +395,40 @@ public partial class Event_Event_New : clsBasePage
     }
 
     /// <summary>
+    /// Add Vehicle Click
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void lnkAddVehicleInfo_Click(object sender, EventArgs e)
+    {
+        _PK_Vehicle_Information = 0;
+        ComboHelper.FillState(new DropDownList[] { ddlVehicle_InfoState },0, true);
+        trACIVehicle_InformationGrid.Style.Add("display", "none");
+        trACIVehicle_Information.Style.Add("display", "");
+        btnVehicle_Info.Style.Add("display", "inline");
+        btnVehicle_InfoAdd.Text = "Add";
+        txtMake.Text = txtModel.Text = txtLicense.Text = txtColor.Text = string.Empty;
+        ddlVehicle_InfoState.SelectedIndex = 0;
+        rdoSuspect_Vehicle.SelectedValue = "N";
+    }
+
+    /// <summary>
+    /// Add Suspect Click
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void lnkAddSuspectInfo_Click(object sender, EventArgs e)
+    {
+        _PK_Suspect_Information = 0;
+        trACISuspect_InformationGrid.Style.Add("display", "none");
+        trACISuspect_Information.Style.Add("display", "");
+        btnSuspect_InfoCancel.Style.Add("display", "inline");
+        btnSuspect_InfoAdd.Text = "Add";
+        txtSuspect_Information_Note.Text = string.Empty;
+        rdoSex.SelectedValue = "F";
+    }
+
+    /// <summary>
     /// Add ACI Notes Click
     /// </summary>
     /// <param name="sender"></param>
@@ -383,6 +443,98 @@ public partial class Event_Event_New : clsBasePage
         txtACI_Notes.Text = string.Empty;
         btnACINotesAdd.Text = "Add";
         //((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtACI_Notes_Date);
+    }
+
+    /// <summary>
+    /// Save Vehicle Information
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnVehicle_InfoAdd_Click(object sender, EventArgs e)
+    {
+        SaveRecord();
+
+        clsVehicle_Information objVehicleInformation = new clsVehicle_Information();
+        objVehicleInformation.PK_Vehicle_Information = _PK_Vehicle_Information;
+        objVehicleInformation.FK_Event = PK_Event;
+        objVehicleInformation.Make = txtMake.Text.Trim();
+        objVehicleInformation.Model = txtModel.Text.Trim();
+        objVehicleInformation.License = txtLicense.Text.Trim();
+        objVehicleInformation.Color = txtColor.Text.Trim();
+        if (ddlVehicle_InfoState.SelectedIndex > 0)
+            objVehicleInformation.FK_LU_State = Convert.ToDecimal(ddlVehicle_InfoState.SelectedValue);
+        objVehicleInformation.Suspect_Vehicle = rdoSuspect_Vehicle.SelectedValue;
+
+        if (_PK_Vehicle_Information > 0)
+        {
+            objVehicleInformation.Update();
+        }
+        else
+        {
+            objVehicleInformation.Insert();
+        }
+
+        BindVehicle_InformationGrid();
+        btnVehicle_InfoCancel_Click(null, null);
+    }
+
+    /// <summary>
+    /// Cancel Vehicle Information link
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnVehicle_InfoCancel_Click(object sender, EventArgs e)
+    {
+        trACIVehicle_InformationGrid.Style.Add("display", "");
+        trACIVehicle_Information.Style.Add("display", "none");
+        btnVehicle_Info.Style.Add("display", "none");
+        txtMake.Text = txtColor.Text = txtModel.Text = txtLicense.Text = string.Empty;
+        ddlVehicle_InfoState.SelectedIndex = 0;
+        rdoSuspect_Vehicle.SelectedValue = "N";
+
+    }
+
+    /// <summary>
+    /// Save Vehicle Information
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnSuspect_InfoAdd_Click(object sender, EventArgs e)
+    {
+        SaveRecord();
+
+        clsSuspect_Information objSuspectInformation = new clsSuspect_Information();
+        objSuspectInformation.PK_Suspect_Information = _PK_Suspect_Information;
+        objSuspectInformation.FK_Event = PK_Event;
+        objSuspectInformation.Description = txtSuspect_Information_Note.Text.Trim();
+        objSuspectInformation.Sex = rdoSex.SelectedValue;
+
+        if (_PK_Suspect_Information > 0)
+        {
+            objSuspectInformation.Update();
+        }
+        else
+        {
+            objSuspectInformation.Insert();
+        }
+
+        BindSuspect_InformationGrid();
+        btnSuspect_InfoCancel_Click(null, null);
+    }
+
+    /// <summary>
+    /// Cancel Suspect Information link
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnSuspect_InfoCancel_Click(object sender, EventArgs e)
+    {
+        trACISuspect_InformationGrid.Style.Add("display", "");
+        trACISuspect_Information.Style.Add("display", "none");
+        btnSuspect_InfoCancel.Style.Add("display", "none");
+        txtSuspect_Information_Note.Text = string.Empty;
+        rdoSex.SelectedValue = "F";
+
     }
 
     /// <summary>
@@ -767,6 +919,7 @@ public partial class Event_Event_New : clsBasePage
         txtOfficer_Name.Text = objEvent.Officer_Name;
         txtOfficer_Phone.Text = objEvent.Officer_Phone;
         txtPolice_Report_Number.Text = objEvent.Police_Report_Number;
+        txtIncident_Report.Text = objEvent.Incident_Report_Desc;
         if (objEvent.Status != null)
             rdoStatus.SelectedValue = Convert.ToString(objEvent.Status);
         txtDate_Closed.Text = clsGeneral.FormatDBNullDateToDisplay(objEvent.Date_Closed);
@@ -870,6 +1023,8 @@ public partial class Event_Event_New : clsBasePage
             clsGeneral.SetDropdownValue(ddlEvent_Level_Sonic, eventLevelCodeOld, true);
 
             BindEvent_CameraGrid();
+            BindVehicle_InformationGrid();
+            BindSuspect_InformationGrid();
             BindACINoteGrid(ctrlPageAcadianNotes.CurrentPage, ctrlPageAcadianNotes.PageSize);
             BindReapterInvest_Images();
             BindBuilding_ACI();
@@ -962,6 +1117,7 @@ public partial class Event_Event_New : clsBasePage
         objEvent.Investigator_Name = Convert.ToString(txtInvestigator_Name.Text);
         objEvent.Investigator_Email = Convert.ToString(txtInvestigator_Email.Text);
         objEvent.Investigator_Phone = Convert.ToString(txtInvestigator_Phone.Text);
+        objEvent.Incident_Report_Desc = Convert.ToString(txtIncident_Report.Text);
 
         if (Is_Sonic_Event)
         {
@@ -1194,6 +1350,47 @@ public partial class Event_Event_New : clsBasePage
             btnSonicNoteView.Visible = btnSonicPrint.Visible = btnSonicSpecificNote.Visible = ctrlPageSonicNotes.Visible = false;
             dvSonicNOtes.Style["Height"] = "31px";
         }
+    }
+
+    /// <summary>
+    /// Bind Suspect Information Grid
+    /// </summary>
+    private void BindSuspect_InformationGrid()
+    {
+        DataSet dsSuspect_Information = clsSuspect_Information.SelectByFK_Event(PK_Event);
+
+        if (dsSuspect_Information != null && dsSuspect_Information.Tables.Count > 0)
+        {
+            gvSuspect_Information.DataSource = dsSuspect_Information;
+            gvSuspect_Information.DataBind();
+        }
+        else
+        {
+            gvSuspect_Information.DataSource = null;
+            gvSuspect_Information.DataBind();
+        }
+
+    }
+
+    /// <summary>
+    /// Bind Vehicle Information Grid
+    /// </summary>
+    private void BindVehicle_InformationGrid()
+    {
+        //DataSet dsEvent_Camera = clsEvent_Camera.SelectByFK_Event(PK_Event);
+        DataSet dsVehicle_Information = clsVehicle_Information.SelectByFK_Event(PK_Event);
+
+        if (dsVehicle_Information != null && dsVehicle_Information.Tables.Count > 0)
+        {
+            gvVehicle_Information.DataSource = dsVehicle_Information;
+            gvVehicle_Information.DataBind();
+        }
+        else
+        {
+            gvVehicle_Information.DataSource = null;
+            gvVehicle_Information.DataBind();
+        }
+
     }
 
     /// <summary>
@@ -1448,7 +1645,10 @@ public partial class Event_Event_New : clsBasePage
             txtOfficer_Name.Enabled = false;
             txtOfficer_Phone.Enabled = false;
             txtPolice_Report_Number.Enabled = false;
+            txtIncident_Report.Enable = false;
             lnkAddACINotesNew.Visible = false;
+            lnkAddSuspectInfo.Visible = false;
+            lnkAddVehicleInfo.Visible = false;
             rdoStatus.Enabled = false;
             txtDate_Closed.Enabled = false;
             imgDate_Closed.Visible = false;
@@ -1559,6 +1759,9 @@ public partial class Event_Event_New : clsBasePage
             DataTable dtCamera = dsEvent.Tables[3];
             DataTable dtACINotes = dsEvent.Tables[4];
             DataTable dtSonicNotes = dsEvent.Tables[5];
+            DataTable dtEventImages = dsEvent.Tables[6];
+            DataTable dtVehicleInformation = dsEvent.Tables[7];
+            DataTable dtSuspectInformation = dsEvent.Tables[8];
 
             FileStream fsMail = null;
 
@@ -1660,7 +1863,10 @@ public partial class Event_Event_New : clsBasePage
             strBody = strBody.Replace("[Officer_Name]", Convert.ToString(dtEvent.Rows[0]["Officer_Name"]));
             strBody = strBody.Replace("[Phone_#]", Convert.ToString(dtEvent.Rows[0]["Officer_Phone"]));
             strBody = strBody.Replace("[Police_Report_#]", Convert.ToString(dtEvent.Rows[0]["Police_Report_Number"]));
+            strBody = strBody.Replace("[Incident_Report_Desc]", Convert.ToString(dtEvent.Rows[0]["Incident_Report_Desc"]));
 
+            strBody = strBody.Replace("[Vehicle_Information_Grid]", GetVehicleDetails(dtVehicleInformation));
+            strBody = strBody.Replace("[Suspect_Information_Grid]", GetSuspectDetails(dtSuspectInformation));
             strBody = strBody.Replace("[Acadian_Notes_Grid]", GetACINotesDetails(dtACINotes));
 
             if (Is_Sonic_Event)
@@ -1742,6 +1948,72 @@ public partial class Event_Event_New : clsBasePage
                 sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Camera_Number"]);
                 sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Event_Time_From"]);
                 sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Event_Time_To"]);
+                sbGrid.Append("</tr>");
+            }
+            sbGrid.Append("</table>");
+        }
+        else
+        {
+            sbGrid.Append("No Records found.");
+        }
+
+        return sbGrid.ToString();
+    }
+
+    public static string GetVehicleDetails(DataTable dtVehicle)
+    {
+        StringBuilder sbGrid = new StringBuilder(string.Empty);
+        sbGrid = new StringBuilder(string.Empty);
+        if (dtVehicle.Rows.Count > 0)
+        {
+            sbGrid.Append("<table width='100%'>");
+            sbGrid.Append("<tr style='background-color: #7f7f7f; font-family: Arial; color: white; font-size: 12px; font-weight: bold' valign=top>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> Make </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> Model </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> Color </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> License </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> State </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> Suspect Vehicle </td>");
+            sbGrid.Append("</tr>");
+
+            foreach (DataRow dr in dtVehicle.Rows)
+            {
+                sbGrid.Append("<tr valign=top>");
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Make"]);
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Model"]);
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Color"]);
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["License"]);
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["STATE"]);
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Suspect_Vehicle"]);
+                sbGrid.Append("</tr>");
+            }
+            sbGrid.Append("</table>");
+        }
+        else
+        {
+            sbGrid.Append("No Records found.");
+        }
+
+        return sbGrid.ToString();
+    }
+
+    public static string GetSuspectDetails(DataTable dtSuspect)
+    {
+        StringBuilder sbGrid = new StringBuilder(string.Empty);
+        sbGrid = new StringBuilder(string.Empty);
+        if (dtSuspect.Rows.Count > 0)
+        {
+            sbGrid.Append("<table width='100%'>");
+            sbGrid.Append("<tr style='background-color: #7f7f7f; font-family: Arial; color: white; font-size: 12px; font-weight: bold' valign=top>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> Sex </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> Notes </td>");
+            sbGrid.Append("</tr>");
+
+            foreach (DataRow dr in dtSuspect.Rows)
+            {
+                sbGrid.Append("<tr valign=top>");
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Sex"]);
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Description"]);
                 sbGrid.Append("</tr>");
             }
             sbGrid.Append("</table>");
@@ -1920,6 +2192,111 @@ public partial class Event_Event_New : clsBasePage
         gvEvent_Camera_Sonic.PageIndex = e.NewPageIndex; //Page new index call
         BindEvent_Camera_SonicGrid();
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);", true);
+    }
+
+    /// <summary>
+    /// gvSuspect_Information on Edit Or Delete
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvSuspect_Information_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "RemoveSuspectInformation")
+        {
+            #region
+            clsSuspect_Information.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
+
+            BindSuspect_InformationGrid();
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
+            #endregion
+        }
+        else if (e.CommandName == "ViewEventCamera")
+        {
+            Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:AciNotePopup('" + Encryption.Encrypt(e.CommandArgument.ToString()) + "','" + Encryption.Encrypt(PK_Event.ToString()) + "','" + Encryption.Encrypt(FK_Incident.ToString()) + "','" + StrOperation + "','ACI');", true);
+        }
+        else if (e.CommandName == "EditRecord")
+        {
+            _PK_Suspect_Information = Convert.ToDecimal(e.CommandArgument);
+            // show and hide Add-edit row
+            trACISuspect_InformationGrid.Style.Add("display", "none");
+            trACISuspect_Information.Style.Add("display", "");
+            btnSuspect_InfoCancel.Style.Add("display", "inline");
+            btnSuspect_InfoAdd.Text = "Update";
+
+            clsSuspect_Information objSuspect_Information = new clsSuspect_Information(_PK_Suspect_Information);
+            txtSuspect_Information_Note.Text = objSuspect_Information.Description;
+
+            if (objSuspect_Information.Sex != null)
+                rdoSex.SelectedValue = Convert.ToString(objSuspect_Information.Sex);
+            ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtSuspect_Information_Note);
+        }
+    }
+
+    /// <summary>
+    /// gvVehicle_Information on Edit Or Delete
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvVehicle_Information_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "RemoveVehicleInformation")
+        {
+            #region
+            clsVehicle_Information.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
+
+            BindVehicle_InformationGrid();
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
+            #endregion
+        }
+        else if (e.CommandName == "ViewEventCamera")
+        {
+            Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:AciNotePopup('" + Encryption.Encrypt(e.CommandArgument.ToString()) + "','" + Encryption.Encrypt(PK_Event.ToString()) + "','" + Encryption.Encrypt(FK_Incident.ToString()) + "','" + StrOperation + "','ACI');", true);
+        }
+        else if (e.CommandName == "EditRecord")
+        {
+            ComboHelper.FillState(new DropDownList[] { ddlVehicle_InfoState },0, true);
+            _PK_Vehicle_Information = Convert.ToDecimal(e.CommandArgument);
+            // show and hide Add-edit row
+            trACIVehicle_InformationGrid.Style.Add("display", "none");
+            trACIVehicle_Information.Style.Add("display", "");
+            btnVehicle_Info.Style.Add("display", "inline");
+            btnVehicle_InfoAdd.Text = "Update";
+
+            clsVehicle_Information objVehicle_Information = new clsVehicle_Information(_PK_Vehicle_Information);
+            txtMake.Text = objVehicle_Information.Make;
+            txtModel.Text = objVehicle_Information.Model;
+            txtLicense.Text = objVehicle_Information.License;
+            txtColor.Text = objVehicle_Information.Color;
+            if (objVehicle_Information.FK_LU_State != null)
+                ddlVehicle_InfoState.SelectedValue = Convert.ToString(objVehicle_Information.FK_LU_State);
+            if (objVehicle_Information.Suspect_Vehicle != null)
+                rdoSuspect_Vehicle.SelectedValue = Convert.ToString(objVehicle_Information.Suspect_Vehicle);
+            ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtMake);
+        }
+    }
+
+    /// <summary>
+    /// Paging event of gvSuspect_Information
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvSuspect_Information_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        gvSuspect_Information.PageIndex = e.NewPageIndex;
+        BindVehicle_InformationGrid();
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
+    }
+
+    /// <summary>
+    /// Paging event of gvVehicle_Information
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvVehicle_Information_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        gvVehicle_Information.PageIndex = e.NewPageIndex;
+        BindVehicle_InformationGrid();
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
     }
 
     /// <summary>

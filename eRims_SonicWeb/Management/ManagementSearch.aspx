@@ -191,6 +191,23 @@
                                 <asp:RadioButtonList ID="rdbTaskComplete" runat="server" SkinID="YesNoTypeNullSelection" />
                             </td>
                         </tr>
+                         <tr>
+                              <td align="left" valign="top">
+                                Reference Number
+                            </td>
+                            <td align="center" valign="top">:</td>
+                            <td align="left" valign="top">
+                                <asp:TextBox ID="txtReference_Number" runat="server" MaxLength="20" Width="200px"></asp:TextBox>
+                            </td>
+                            <td align="left" valign="top">Approval Submission
+                            </td>
+                            <td align="center" valign="top">:
+                            </td>
+                            <td align="left" valign="top">
+                                <asp:DropDownList ID="drpFK_LU_Approval_Submission" runat="server" Width="205px" SkinID="dropGen">
+                                </asp:DropDownList>
+                            </td>
+                        </tr>
                         <tr>
                             <td align="left" valign="top">Record Type
                             </td>
@@ -231,13 +248,6 @@
                             </td>
                             <td align="left" valign="top">
                                 <asp:TextBox ID="txtCreatedBy" runat="server" MaxLength="50" Width="200px"></asp:TextBox>
-                            </td>
-                            <td align="left" valign="top">
-                                Reference Number
-                            </td>
-                            <td align="center" valign="top">:</td>
-                            <td align="left" valign="top">
-                                <asp:TextBox ID="txtReference_Number" runat="server" MaxLength="20" Width="200px"></asp:TextBox>
                             </td>
                         </tr>
                         <%--<tr>
@@ -410,7 +420,7 @@
                                 <div style="overflow-x: scroll; overflow-y: none; text-align: left; width: 998px;"
                                     id="dvSearchResult" runat="server">
                                     <asp:GridView ID="gvManagement" runat="server" GridLines="None" CellPadding="4" CellSpacing="0"
-                                        AutoGenerateColumns="false" AllowSorting="true" Width="660px" EnableTheming="false" Style="word-wrap: normal; word-break: break-all;"
+                                        AutoGenerateColumns="false" AllowSorting="true" Width="660px" EnableTheming="false" Style="word-wrap: normal;"
                                         OnRowCommand="gvManagement_RowCommand" OnRowCreated="gvManagement_RowCreated"
                                         OnSorting="gvManagement_Sorting" OnRowDataBound="gvManagement_RowDataBound">
                                         <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
@@ -513,6 +523,13 @@
                                                 <ItemStyle Width="110px" />
                                                 <ItemTemplate>
                                                     <%# Eval("Created_By")%>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Approved?" HeaderStyle-HorizontalAlign="Left" ItemStyle-HorizontalAlign="Left"
+                                                SortExpression="Approved">
+                                                <ItemStyle Width="110px" />
+                                                <ItemTemplate>
+                                                    <span style="word-break:break-all; word-wrap:normal"><%#Eval("Approved")%></span>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                         </Columns>

@@ -57,6 +57,8 @@ public partial class SONIC_ClaimInfo_rptDefault : clsBasePage
             {
                 rptLink.HRef = "rptSafetyTrainingByRegionLocation.aspx";
             }
+            else if (Report_ID == 70)
+                rptLink.HRef = "ACI_Custom_Report.aspx";
         }
     }
     #endregion

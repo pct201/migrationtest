@@ -4825,3 +4825,82 @@ function disableDeleteBackSpace() {
     else
         event.returnValue = false;
 }
+
+//Call this function as - TocheckUncheck("GridViewID.ClientID", "HeaderCheckBoxId", "ItemCheckBoxId", "HiddenFieldID.ClientID");
+function TocheckUncheck(gridId, chkHeaderId, chkItemId, hiddenId) {
+    var chkHeader = true;
+    //Remember selection while paging(post back)
+    $('#' + gridId + ' tr').find('input[type="checkbox"]').each(function () {
+        if ($(this).attr('id') != $('#' + gridId + ' tr').find('input[id*="' + chkHeaderId + '"]').attr('id')) {
+            if ($('#' + hiddenId).val().indexOf('-' + $(this).val() + '-') >= 0) {
+                $(this).prop('checked', true);
+            }
+            else {
+                $(this).prop('checked', false);
+                chkHeader = false;
+            }
+        }
+    });
+
+    //Remember header selection while paging(post back)
+    $('#' + gridId + ' tr').find('input[id*="' + chkHeaderId + '"]').prop('checked', chkHeader);
+
+    //check un_check all check-boxes based on there change event
+    $('#' + gridId + ' tr').find('input[type="checkbox"]').change(function () {
+        if ($(this).attr('id').indexOf(chkHeaderId) >= 0) {
+            if ($(this).is(":checked")) {
+                CheckUncheckAllCheckBoxes(gridId, chkHeaderId, chkItemId, true, true, hiddenId);
+            }
+            else {
+                CheckUncheckAllCheckBoxes(gridId, chkHeaderId, chkItemId, false, true, hiddenId);
+            }
+        }
+        else if ($(this).attr('id').indexOf(chkItemId) >= 0) {
+            if ($(this).is(":checked")) {
+                CheckUncheckAllCheckBoxes(gridId, chkHeaderId, chkItemId, true, false, hiddenId);
+            }
+            else {
+                if ($('#' + hiddenId).val().indexOf('-' + $(this).val() + '-') >= 0) {
+                    $('#' + hiddenId).val($('#' + hiddenId).val().replace('-' + $(this).val() + '-', ''));
+                }
+                $('#' + gridId + ' tr').find('input[id*="' + chkHeaderId + '"]').prop("checked", false);
+            }
+        }
+    });
+}
+
+function CheckUncheckAllCheckBoxes(gridId, chkHeaderId, chkItemId, boolValue, isHeader, hiddenId) {
+    var headerCheckUncheck = true;
+    $('#' + gridId + ' tr').find('input[id*="' + chkItemId + '"]').each(function () {
+        if (isHeader) {
+            $(this).prop('checked', boolValue);
+            if (boolValue) {
+                if ($('#' + hiddenId).val().indexOf('-' + $(this).val() + '-') < 0) {
+                    $('#' + hiddenId).val($('#' + hiddenId).val() + '-' + $(this).val() + '-')
+                }
+            }
+            else {
+                if ($('#' + hiddenId).val().indexOf('-' + $(this).val() + '-') >= 0) {
+                    $('#' + hiddenId).val($('#' + hiddenId).val().replace('-' + $(this).val() + '-', ''));
+                }
+            }
+        }
+        else {
+            if ($(this).is(":checked")) {
+                if ($('#' + hiddenId).val().indexOf('-' + $(this).val() + '-') < 0) {
+                    $('#' + hiddenId).val($('#' + hiddenId).val() + '-' + $(this).val() + '-')
+                }
+            }
+            else {
+                if ($('#' + hiddenId).val().indexOf('-' + $(this).val() + '-') >= 0) {
+                    $('#' + hiddenId).val($('#' + hiddenId).val().replace('-' + $(this).val() + '-', ''));
+                }
+                headerCheckUncheck = false;
+            }
+        }
+    });
+
+    if (!isHeader) {
+        $('#' + gridId + ' tr').find('input[id*="' + chkHeaderId + '"]').prop("checked", headerCheckUncheck);
+    }
+}

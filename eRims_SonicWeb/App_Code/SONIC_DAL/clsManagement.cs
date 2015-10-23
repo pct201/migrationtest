@@ -1297,7 +1297,7 @@ namespace ERIMS.DAL
 		}
 
         public static DataSet ManagementSearch(decimal? FK_LU_Location, decimal? FK_LU_Work_Completed, string Work_To_Complete_Other, decimal? FK_LU_Record_Type, string Record_Type_Other, string Created_By, string Job, string Order, DateTime? Date_Scheduled_From, DateTime? Date_Scheduled_To,
-            DateTime? Date_Complete_From, DateTime? Date_Complete_To, DateTime? CR_Approved_From, DateTime? CR_Approved_To, decimal? Location_Code, bool? Work_Completed_By, bool? Task_Complete, string strOrderBy, string strOrder, int intPageNo, int intPageSize, string ReferenceNumber)
+            DateTime? Date_Complete_From, DateTime? Date_Complete_To, DateTime? CR_Approved_From, DateTime? CR_Approved_To, decimal? Location_Code, bool? Work_Completed_By, bool? Task_Complete, string strOrderBy, string strOrder, int intPageNo, int intPageSize, string ReferenceNumber, decimal? FK_LU_Approval_Submission)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("ManagementSearch");
@@ -1336,6 +1336,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Order", DbType.String, Order);
             db.AddInParameter(dbCommand, "Work_Completed_By", DbType.Boolean, Work_Completed_By);
             db.AddInParameter(dbCommand, "ReferenceNumber", DbType.String, ReferenceNumber);
+            db.AddInParameter(dbCommand, "FK_LU_Approval_Submission", DbType.Decimal, FK_LU_Approval_Submission);
 
             return db.ExecuteDataSet(dbCommand);
         }

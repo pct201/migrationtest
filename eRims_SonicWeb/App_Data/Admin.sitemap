@@ -55,7 +55,10 @@
     </siteMapNode>
     <siteMapNode url="" title="ACI"  description="" roles="">
       <siteMapNode url="Event/EventSearch_New.aspx" title="ACI Event Search" description="" roles=""></siteMapNode>
-      <siteMapNode url="Management/ManagementSearch.aspx" title="ACI Management" description="" roles=""></siteMapNode>
+      <siteMapNode url="" title="ACI Management" description="">
+          <siteMapNode url="Management/ManagementSearch.aspx" title="ACI Management Search" description="" roles=""></siteMapNode>
+          <siteMapNode title="Attachment Download" description="Search" url="Management/ACI_Management_Attachment_Download.aspx" roles=""></siteMapNode>
+      </siteMapNode>
       <siteMapNode url="https://www.amsvideo.com" title="Immix Webportal" description="" roles=""></siteMapNode>
     </siteMapNode>
     <siteMapNode url="" title="Reports"  description="" roles="">
@@ -260,7 +263,7 @@
           <siteMapNode url="Administrator/Contributing Factor.aspx" title="Contributing Factor" description="Contributing Factor" roles=""></siteMapNode>
         </siteMapNode>
         <siteMapNode url="" title ="Management" description="" roles="" >
-          <siteMapNode url="Administrator/LU_Approval_Submission.aspx" title="Approval Submission" description="" roles=""></siteMapNode>
+          <!--<siteMapNode url="Administrator/LU_Approval_Submission.aspx" title="Approval Submission" description="" roles=""></siteMapNode>-->
           <siteMapNode url="Administrator/LU_Record_Type.aspx" title ="Record Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_Work_Completed.aspx" title ="Work Completed" description="" roles="" />
         </siteMapNode>
