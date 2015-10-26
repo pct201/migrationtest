@@ -12973,7 +12973,7 @@ namespace ERIMS_Sonic_ReportScheduler
                 decimal Fk_RecipientList = Convert.ToDecimal(drReportSchedule["Fk_RecipientList"]);
                 decimal FK_Security_Id = Convert.ToDecimal(drReportSchedule["FK_Security_Id"]);
                 string strReportSchedulerName = Convert.ToString(drReportSchedule["ReportSchedulerName"]);
-                
+
                 //Get Report criteria for the scheduled report
                 DataSet ds = new DataSet();
                 ds = Report.SelectFilterCriteria(67, pK_Schedule_ID);
@@ -13060,36 +13060,61 @@ namespace ERIMS_Sonic_ReportScheduler
 
         private void SendMail(String strReportTitle, String strFileNameToSave, String strFirstName, String strLastName, String strMailFrom, StringWriter sw, DataTable dtRecipients)
         {
+
+            string strPath = AppDomain.CurrentDomain.BaseDirectory + @"temp\" + strFileNameToSave.Replace(".xls", "") + System.DateTime.Now.ToString("MMddyyhhmmss") + ".xls";
+
+            File.WriteAllText(strPath, sw.ToString());
+
+            bool blnHTML2Excel = false;
+            string outputFiles = string.Empty;
+            if (File.Exists(strPath))
+            {
+                string data = File.ReadAllText(strPath);
+                data = data.Trim();
+                HTML2Excel objHtml2Excel = new HTML2Excel(data);
+                outputFiles = Path.GetFullPath(strPath).Replace(".xls", ".xlsx");
+                blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+            }
+
             MemoryStream memorystream = new MemoryStream();
-            byte[] _bytes = Encoding.UTF8.GetBytes(sw.ToString());
-            memorystream.Write(_bytes, 0, _bytes.Length);
-            memorystream.Seek(0, SeekOrigin.Begin);
+            //byte[] _bytes = Encoding.UTF8.GetBytes(sw.ToString());
+            //memorystream.Write(_bytes, 0, _bytes.Length);
+            //memorystream.Seek(0, SeekOrigin.Begin);
 
             //strMailFrom = "kunal.dobaria@server1.com";
-
-            MailMessage mail = new MailMessage();
-            mail.From = new MailAddress(strMailFrom);
-            mail.Subject = "eRIMS :: " + strReportTitle;
-            mail.Attachments.Add(new Attachment(memorystream, strFileNameToSave));
-
-            SmtpClient mSmtpClient = new SmtpClient();
-            mSmtpClient.Host = System.Configuration.ConfigurationManager.AppSettings.Get("SMTPServer");
-            mSmtpClient.Credentials = new System.Net.NetworkCredential(System.Configuration.ConfigurationManager.AppSettings.Get("SMTPmail"), System.Configuration.ConfigurationManager.AppSettings.Get("SMTPPwd"));
-            try
+            if (blnHTML2Excel)
             {
-                for (int i = 0; i < dtRecipients.Rows.Count; i++)
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress(strMailFrom);
+                mail.Subject = "eRIMS :: " + strReportTitle;
+                memorystream = new MemoryStream(File.ReadAllBytes(outputFiles));
+                Attachment atts = new Attachment(memorystream, strFileNameToSave.Replace(".xls",".xlsx"));
+                mail.Attachments.Add(atts);
+
+                SmtpClient mSmtpClient = new SmtpClient();
+                mSmtpClient.Host = System.Configuration.ConfigurationManager.AppSettings.Get("SMTPServer");
+                mSmtpClient.Credentials = new System.Net.NetworkCredential(System.Configuration.ConfigurationManager.AppSettings.Get("SMTPmail"), System.Configuration.ConfigurationManager.AppSettings.Get("SMTPPwd"));
+                try
                 {
-                    mail.Body = dtRecipients.Rows[i]["FirstName"].ToString() + " " + dtRecipients.Rows[i]["LastName"].ToString() + ",<br />Please find the " + strReportTitle + " Attached with this mail.<br /><br /><br />Thankyou!<br />" + strFirstName + " " + strLastName;
-                    mail.Body += "<br /> This is system generated message. Please do not reply.";
-                    mail.IsBodyHtml = true;
-                    mail.To.Add(new MailAddress(dtRecipients.Rows[i]["Email"].ToString()));
-                    mSmtpClient.Send(mail);
-                    mail.To.Clear();
+                    for (int i = 0; i < dtRecipients.Rows.Count; i++)
+                    {
+                        mail.Body = dtRecipients.Rows[i]["FirstName"].ToString() + " " + dtRecipients.Rows[i]["LastName"].ToString() + ",<br />Please find the " + strReportTitle + " Attached with this mail.<br /><br /><br />Thankyou!<br />" + strFirstName + " " + strLastName;
+                        mail.Body += "<br /> This is system generated message. Please do not reply.";
+                        mail.IsBodyHtml = true;
+                        mail.To.Add(new MailAddress(dtRecipients.Rows[i]["Email"].ToString()));
+                        mSmtpClient.Send(mail);
+                        mail.To.Clear();
+                    }
                 }
+                catch (Exception ex)
+                {
+                    EventLog.WriteEntry("Error in Sending Mail for " + strReportTitle + ", " + ex.Message);
+                }
+                atts.Dispose();
             }
-            catch (Exception ex)
+            else
             {
-                EventLog.WriteEntry("Error in Sending Mail for " + strReportTitle + ", " + ex.Message);
+                EventLog.WriteEntry("Error in converting Report to excel for " + strReportTitle);
             }
         }
 
@@ -13110,34 +13135,56 @@ namespace ERIMS_Sonic_ReportScheduler
             MemoryStream memorystream = new MemoryStream();
             //strMailFrom = "kunal.dobaria@server1.com";
 
-            MailMessage mail = new MailMessage();
-            mail.From = new MailAddress(strMailFrom);
-            mail.Subject = "eRIMS Sonic :: " + strReportTitle;
-            mail.Attachments.Add(new Attachment(strFilePath));
-
-            SmtpClient mSmtpClient = new SmtpClient();
-            mSmtpClient.Port = Convert.ToInt16(System.Configuration.ConfigurationManager.AppSettings.Get("Port"));
-            mSmtpClient.Host = System.Configuration.ConfigurationManager.AppSettings.Get("SMTPServer");
-            mSmtpClient.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["SMTPmail"], ConfigurationManager.AppSettings["SMTPPwd"]);
-            try
+            bool blnHTML2Excel = false;
+            string outputFiles = string.Empty;
+            if (File.Exists(strFilePath))
             {
-                dtTemp = dtRecipients.Copy();
-                //dtTemp.DefaultView.RowFilter = "ISNULL(Use_Folder,0) = 0";
-                DataTable dtRecipientMails = dtTemp.DefaultView.ToTable();
-
-                for (int i = 0; i < dtRecipientMails.Rows.Count; i++)
-                {
-                    mail.Body = dtRecipientMails.Rows[i]["FirstName"].ToString() + " " + dtRecipientMails.Rows[i]["LastName"].ToString() + ",<br /><br />Please find the " + strReportTitle + " Attached with this mail.<br /><br /><br />Thank You!<br />" + strFirstName + " " + strLastName;
-                    mail.Body += "<br /><br /> This is system generated message. Please do not reply.";
-                    mail.IsBodyHtml = true;
-                    mail.To.Add(new MailAddress(dtRecipientMails.Rows[i]["Email"].ToString()));
-                    mSmtpClient.Send(mail);
-                    mail.To.Clear();
-                }
+                string data = File.ReadAllText(strFilePath);
+                data = data.Trim();
+                HTML2Excel objHtml2Excel = new HTML2Excel(data);
+                outputFiles = Path.GetFullPath(strFilePath).Replace(".xls", ".xlsx");
+                blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
             }
-            catch (Exception ex)
+
+            if (blnHTML2Excel)
             {
-                EventLog.WriteEntry("Error in Sending Mail for " + strReportTitle + ", " + ex.Message);
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress(strMailFrom);
+                mail.Subject = "eRIMS Sonic :: " + strReportTitle;
+                memorystream = new MemoryStream(File.ReadAllBytes(outputFiles));
+                Attachment att = new Attachment(memorystream, strFileNameToSave.Replace(".xls", ".xlsx"));
+                mail.Attachments.Add(att);
+
+                SmtpClient mSmtpClient = new SmtpClient();
+                mSmtpClient.Port = Convert.ToInt16(System.Configuration.ConfigurationManager.AppSettings.Get("Port"));
+                mSmtpClient.Host = System.Configuration.ConfigurationManager.AppSettings.Get("SMTPServer");
+                mSmtpClient.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["SMTPmail"], ConfigurationManager.AppSettings["SMTPPwd"]);
+                try
+                {
+                    dtTemp = dtRecipients.Copy();
+                    //dtTemp.DefaultView.RowFilter = "ISNULL(Use_Folder,0) = 0";
+                    DataTable dtRecipientMails = dtTemp.DefaultView.ToTable();
+
+                    for (int i = 0; i < dtRecipientMails.Rows.Count; i++)
+                    {
+                        mail.Body = dtRecipientMails.Rows[i]["FirstName"].ToString() + " " + dtRecipientMails.Rows[i]["LastName"].ToString() + ",<br /><br />Please find the " + strReportTitle + " Attached with this mail.<br /><br /><br />Thank You!<br />" + strFirstName + " " + strLastName;
+                        mail.Body += "<br /><br /> This is system generated message. Please do not reply.";
+                        mail.IsBodyHtml = true;
+                        mail.To.Add(new MailAddress(dtRecipientMails.Rows[i]["Email"].ToString()));
+                        mSmtpClient.Send(mail);
+                        mail.To.Clear();
+                    }
+                }
+
+                catch (Exception ex)
+                {
+                    EventLog.WriteEntry("Error in Sending Mail for " + strReportTitle + ", " + ex.Message);
+                }
+                att.Dispose();
+            }
+            else
+            {
+                EventLog.WriteEntry("Error in converting Report to excel for " + strReportTitle);
             }
         }
 
