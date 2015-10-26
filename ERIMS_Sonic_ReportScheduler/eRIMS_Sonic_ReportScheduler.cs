@@ -73,21 +73,21 @@ namespace ERIMS_Sonic_ReportScheduler
             TSendMail.CurrentCulture = new System.Globalization.CultureInfo("en-US");
         }
 
-        //public void OnStart()
-        //{
-        //    // TODO: Add code here to start your service.
+        public void OnStart()
+        {
+            // TODO: Add code here to start your service.
 
-        //    //Make event log entry to indicate starting of service
-        //    EventLog.WriteEntry("eRIMS_Sonic Report Scheduler Started At : " + DateTime.Now.ToString());
+            //Make event log entry to indicate starting of service
+            EventLog.WriteEntry("eRIMS_Sonic Report Scheduler Started At : " + DateTime.Now.ToString());
 
-        //    //Create a thread for the function which send email
-        //    Thread TSendMail = default(Thread);
-        //    TSendMail = new System.Threading.Thread(SendReportAsAttachment);
+            //Create a thread for the function which send email
+            Thread TSendMail = default(Thread);
+            TSendMail = new System.Threading.Thread(SendReportAsAttachment);
 
-        //    //Start the thread
-        //    TSendMail.Start();
-        //    TSendMail.CurrentCulture = new System.Globalization.CultureInfo("en-US");
-        //}
+            //Start the thread
+            TSendMail.Start();
+            TSendMail.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+        }
 
         /// <summary>
         /// Being Executed when Scheduler service stops
@@ -13081,6 +13081,7 @@ namespace ERIMS_Sonic_ReportScheduler
             //memorystream.Write(_bytes, 0, _bytes.Length);
             //memorystream.Seek(0, SeekOrigin.Begin);
 
+            //HTML2Excel objHtml2Excel = new HTML2Excel(data);
             //strMailFrom = "kunal.dobaria@server1.com";
             if (blnHTML2Excel)
             {
@@ -15818,6 +15819,12 @@ namespace ERIMS_Sonic_ReportScheduler
                         else
                             strWhere = " And " + strTableName + ".[" + strField + "] NOT IN ('" + strConditionValue.Replace(",", "','") + "') ";
                     }
+                    else if (strField == "PK_LU_Approval_Submission" && strConditionValue == "0")
+                        strWhere = " And " + strTableName + ".[" + strField + "] IS NOT NULL ";
+                    else if (strField == "PK_LU_Approval_Submission" && strConditionValue.Contains("0"))
+                        strWhere = " And (" + strTableName + ".[" + strField + "] IS NOT NULL " + " AND " + strTableName + ".[" + strField + "] NOT IN (" + strConditionValue + ") )";
+                    else if (strField == "PK_LU_Approval_Submission" && !strConditionValue.Contains("0"))
+                        strWhere = " And (" + strTableName + ".[" + strField + "] IS NULL " + " OR " + strTableName + ".[" + strField + "] NOT IN (" + strConditionValue + ") )";
                     else
                         strWhere = " And " + strTableName + ".[" + strField + "] NOT IN (" + strConditionValue + ") ";
                 }
@@ -15828,6 +15835,10 @@ namespace ERIMS_Sonic_ReportScheduler
                     else
                         strWhere = " And " + strTableName + ".[" + strField + "] IN ('" + strConditionValue.Replace(",", "','") + "') ";
                 }
+                else if (strField == "PK_LU_Approval_Submission" && strConditionValue == "0")
+                    strWhere = " And " + strTableName + ".[" + strField + "] IS NULL ";
+                else if (strField == "PK_LU_Approval_Submission" && strConditionValue.Contains("0"))
+                    strWhere = " And ( " + strTableName + ".[" + strField + "] IS NULL " + " OR " + strField + " IN (" + strConditionValue + ")) ";
                 else
                     strWhere = " And " + strTableName + ".[" + strField + "] IN (" + strConditionValue + ") ";
             }
