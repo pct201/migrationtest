@@ -241,6 +241,8 @@
           <siteMapNode url="Administrator/LU_Facility_Maintenance_Status.aspx" title ="Facility Maintenance Status" description="" roles="" />
           <siteMapNode url="Administrator/LU_Facility_Maintenance_Type.aspx" title ="Facility Maintenance Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_Lease_Responsible_Party.aspx" title ="Lease Responsible Party" description="" roles="" />
+          <!--<3432>-->
+          <siteMapNode url="Administrator/LU_Facility_Spec_Section.aspx" title ="Facility Specification Section" description="" roles="" />
         </siteMapNode>
         <siteMapNode url="" title="First Reports" description="">
           <siteMapNode url="Administrator/IncidentInvolvementType.aspx" title="Incident Involvement Type" description=""></siteMapNode>
