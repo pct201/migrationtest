@@ -204,9 +204,12 @@
         function SetApprovalSubmissionOnSaveButton() {
             if (Page_ClientValidate('vsErrorGroup')) {
                 var drpLU_Approval_Submission = document.getElementById('<%=drpFK_LU_Approval_Submission.ClientID %>');
+                var hdnApprovalSubmission = document.getElementById('<%=hdnApprovalSubmission.ClientID %>');
                 //alert(drpLU_Approval_Submission.value);
                 if (drpLU_Approval_Submission.value == '0')
                     SetApprovalSubmission();
+                else
+                    hdnApprovalSubmission.value = drpLU_Approval_Submission.value;
             }
             else
                 return false;
