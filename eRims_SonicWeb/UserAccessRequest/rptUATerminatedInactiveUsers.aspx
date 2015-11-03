@@ -31,7 +31,7 @@
                             <asp:TextBox runat="server" ID="txtDateApprovedDeniedBegin" Width="140px" SkinID="txtDate"></asp:TextBox>
                             <img alt="Date Approved Denied Begin" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtDateApprovedDeniedBegin', 'mm/dd/y');"
                                 onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif" align="middle" /><br />
-                            <asp:RequiredFieldValidator ID="rfvDate" runat="server" ControlToValidate="txtDateApprovedDeniedBegin" ErrorMessage="Please enter Date Approved Denied Begin"
+                            <asp:RequiredFieldValidator ID="rfvDate" runat="server" ControlToValidate="txtDateApprovedDeniedBegin" ErrorMessage="Please enter Moved to Terminated Status Begin Date"
                                 SetFocusOnError="true" ValidationGroup="vsErrorGroup" Display="none" />
                             <asp:RangeValidator ID="revDate" ControlToValidate="txtDateApprovedDeniedBegin" MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date"
                                 ErrorMessage="DateApprovedDeniedBegin is not valid." runat="server" SetFocusOnError="true" ValidationGroup="vsErrorGroup" Display="none" />
@@ -46,7 +46,7 @@
                             <asp:TextBox runat="server" ID="txtDateApprovedDeniedEnd" Width="140px" SkinID="txtDate"></asp:TextBox>
                             <img alt="Date Approved Denied End" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtDateApprovedDeniedEnd', 'mm/dd/y');"
                                 onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif" align="middle" /><br />
-                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtDateApprovedDeniedBegin" ErrorMessage="Please enter Date Approved Denied End"
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtDateApprovedDeniedBegin" ErrorMessage="Please enter Moved to Terminated Status End Date"
                                 SetFocusOnError="true" ValidationGroup="vsErrorGroup" Display="none" />
                             <asp:RangeValidator ID="RangeValidator1" ControlToValidate="txtDateApprovedDeniedEnd" MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date"
                                 ErrorMessage="DateApprovedDeniedBegin is not valid." runat="server" SetFocusOnError="true" ValidationGroup="vsErrorGroup" Display="none" />
