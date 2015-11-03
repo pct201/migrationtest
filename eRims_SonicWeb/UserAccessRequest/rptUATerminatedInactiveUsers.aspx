@@ -23,11 +23,11 @@
             <td align="center" width="100%">
                 <table border="0" cellpadding="5" cellspacing="1" width="45%" align="center">
                     <tr>
-                        <td align="left" valign="top" width="40%">Date Approved/Denied Begin &nbsp;<span style="color: Red; font-weight: bold;">*</span>
+                        <td align="left" valign="top" width="45%">Moved to Terminated Status Begin &nbsp;<span style="color: Red; font-weight: bold;">*</span>
                         </td>
                         <td align="center" valign="top" width="5%">:
                         </td>
-                        <td align="left" width="60%">
+                        <td align="left" width="55%">
                             <asp:TextBox runat="server" ID="txtDateApprovedDeniedBegin" Width="140px" SkinID="txtDate"></asp:TextBox>
                             <img alt="Date Approved Denied Begin" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtDateApprovedDeniedBegin', 'mm/dd/y');"
                                 onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif" align="middle" /><br />
@@ -38,11 +38,11 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="left" valign="top" width="40%">Date Approved/Denied End &nbsp;<span style="color: Red; font-weight: bold;">*</span>
+                        <td align="left" valign="top" width="45%">Moved to Terminated Status End &nbsp;<span style="color: Red; font-weight: bold;">*</span>
                         </td>
                         <td align="center" valign="top" width="5%">:
                         </td>
-                        <td align="left" width="60%">
+                        <td align="left" width="55%">
                             <asp:TextBox runat="server" ID="txtDateApprovedDeniedEnd" Width="140px" SkinID="txtDate"></asp:TextBox>
                             <img alt="Date Approved Denied End" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtDateApprovedDeniedEnd', 'mm/dd/y');"
                                 onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif" align="middle" /><br />

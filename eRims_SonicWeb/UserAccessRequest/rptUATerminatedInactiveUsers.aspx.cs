@@ -125,8 +125,8 @@ public partial class UserAccessRequest_rptUATerminatedInactiveUsers : clsBasePag
             sbRecorords.Append("<td ></td>");
             sbRecorords.Append("</tr>");
             sbRecorords.Append("<td align='left' style='font-size:9pt'  colspan='8'><b> Filter Conditions :  </b></td></tr>");
-            sbRecorords.Append("<td align='left' style='font-size:9pt'  colspan='8'><b>Date Approved/Denied Begin: </b>" + txtDateApprovedDeniedBegin.Text + "</td></tr>");
-            sbRecorords.Append("<td align='left' style='font-size:9pt'  colspan='8'><b>New User Approved/Denied Report: </b>" + txtDateApprovedDeniedEnd.Text + "</td></tr>");            
+            sbRecorords.Append("<td align='left' style='font-size:9pt'  colspan='8'><b>Moved to Terminated Status Begin : </b>" + txtDateApprovedDeniedBegin.Text + "</td></tr>");
+            sbRecorords.Append("<td align='left' style='font-size:9pt'  colspan='8'><b>Moved to Terminated Status End : </b>" + txtDateApprovedDeniedEnd.Text + "</td></tr>");            
             sbRecorords.Append("<td align='left' style='font-size:9pt'  colspan='8'><b> Report Columns :  </b></td></tr>");
             sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'>");
             sbRecorords.Append("<td class='cols_' width='12.5%'>Last Name</td>");
