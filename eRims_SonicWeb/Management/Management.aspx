@@ -39,7 +39,7 @@
         jQuery(function ($) {
             $("#<%=txtdate_Scheduled.ClientID%>").mask("99/99/9999");
             $("#<%=txtDate_Completed.ClientID%>").mask("99/99/9999");
-            $("#<%=txtCR_Approved.ClientID%>").mask("99/99/9999");
+            //$("#<%=txtCR_Approved.ClientID%>").mask("99/99/9999");
             $("#<%=txtGM_Last_Email_Date.ClientID%>").mask("99/99/9999");
             $("#<%=txtGM_Response_Date.ClientID%>").mask("99/99/9999");
             $("#<%=txtRLCM_Last_Email_Date.ClientID%>").mask("99/99/9999");
