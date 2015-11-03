@@ -51,7 +51,7 @@
                             <asp:RangeValidator ID="RangeValidator1" ControlToValidate="txtDateApprovedDeniedEnd" MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date"
                                 ErrorMessage="DateApprovedDeniedBegin is not valid." runat="server" SetFocusOnError="true" ValidationGroup="vsErrorGroup" Display="none" />
                             <asp:CompareValidator ID="cvDate" runat="server" Type="Date" ControlToValidate="txtDateApprovedDeniedEnd" ControlToCompare="txtDateApprovedDeniedBegin"
-                                Operator="GreaterThanEqual" ErrorMessage="End Date must be greater than Start Date" Display="None" SetFocusOnError="true" ValidationGroup="vsErrorGroup" />
+                                Operator="GreaterThanEqual" ErrorMessage="End Date must be greater than Begin Date" Display="None" SetFocusOnError="true" ValidationGroup="vsErrorGroup" />
                         </td>
                     </tr>
                     <tr>
