@@ -213,10 +213,10 @@ public partial class Management_Management : clsBasePage
         else
             objRecord.FK_LU_Record_Type = null;
 
-        if (drpFK_LU_Approval_Submission.SelectedIndex > 0)
-            objRecord.FK_LU_Approval_Submission = Convert.ToDecimal(drpFK_LU_Approval_Submission.SelectedValue);
-        else
-            objRecord.FK_LU_Approval_Submission = null;
+        //if (drpFK_LU_Approval_Submission.SelectedIndex > 0)
+        objRecord.FK_LU_Approval_Submission = clsGeneral.GetDecimal(hdnApprovalSubmission.Value); //Convert.ToDecimal(drpFK_LU_Approval_Submission.SelectedValue);
+        //else
+            //objRecord.FK_LU_Approval_Submission = null;
 
         objRecord.Work_To_Complete_Other = txtWork_To_Complete_Other.Text;
 

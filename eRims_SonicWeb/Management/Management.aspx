@@ -195,37 +195,73 @@
                 dateString = (mmChars[1] ? mm : "0" + mmChars[0]) + '/' + (ddChars[1] ? dd : "0" + ddChars[0]) + '/' + yyyy;
                 document.getElementById('<%=txtCR_Approved.ClientID%>').value = dateString;
             }
+            else
+            {
+                document.getElementById('<%=txtCR_Approved.ClientID%>').value = '';
+            }
         }
 
-        function SetApprovalSubmission() {//set approval submission dropdown and "CR approved" date #Issue 3402 point 1-d,e
-            var rdoGMStatus = document.getElementById('<%=rdoGM_Decision.ClientID %>');
-            var rdoRLCMStatus = document.getElementById('<%=rdoRLCM_Decision.ClientID %>');
-            var rdoNAPMStatus = document.getElementById('<%=rdoNAPM_Decision.ClientID %>');
-            var rdoDRMStatus = document.getElementById('<%=rdoDRM_Decision.ClientID %>');
-            var drpLU_Approval_Submission = document.getElementById('<%=drpFK_LU_Approval_Submission.ClientID %>');
+        function SetApprovalSubmissionOnSaveButton() {
+            if (Page_ClientValidate('vsErrorGroup')) {
+                var drpLU_Approval_Submission = document.getElementById('<%=drpFK_LU_Approval_Submission.ClientID %>');
+                //alert(drpLU_Approval_Submission.value);
+                if (drpLU_Approval_Submission.value == '0')
+                    SetApprovalSubmission();
+            }
+            else
+                return false;
+        }
+
+        function SetApprovalSubmission() {
+
+                //set approval submission dropdown and "CR approved" date #Issue 3402 point 1-d,e
+                var rdoGMStatus = document.getElementById('<%=rdoGM_Decision.ClientID %>');
+                var rdoRLCMStatus = document.getElementById('<%=rdoRLCM_Decision.ClientID %>');
+                var rdoNAPMStatus = document.getElementById('<%=rdoNAPM_Decision.ClientID %>');
+                var rdoDRMStatus = document.getElementById('<%=rdoDRM_Decision.ClientID %>');
+                var drpLU_Approval_Submission = document.getElementById('<%=drpFK_LU_Approval_Submission.ClientID %>');
+                var hdnApprovalSubmission = document.getElementById('<%=hdnApprovalSubmission.ClientID %>');
 
             for (var i = 0; i < rdoGMStatus.rows.length; ++i) {//all radio button have same value
-
-                if ((rdoGMStatus.rows[i].cells[1].firstChild.checked && rdoRLCMStatus.rows[i].cells[1].firstChild.checked && rdoNAPMStatus.rows[i].cells[1].firstChild.checked && rdoDRMStatus.rows[i].cells[1].firstChild.checked)
-                    || ((rdoGMStatus.rows[i].cells[0].firstChild.checked && rdoRLCMStatus.rows[i].cells[0].firstChild.checked && rdoNAPMStatus.rows[i].cells[0].firstChild.checked && rdoDRMStatus.rows[i].cells[0].firstChild.checked)))
-                {
+                //alert(rdoGMStatus.rows[i].cells[0].firstChild.value + '  and  ' + rdoGMStatus.rows[i].cells[1].firstChild.value);
+                //rdoGMStatus.rows[i].cells[0].firstChild.value  for Approved and cells[1] = NotApproved
+                if (rdoGMStatus.rows[i].cells[0].firstChild.checked && rdoRLCMStatus.rows[i].cells[0].firstChild.checked && rdoNAPMStatus.rows[i].cells[0].firstChild.checked && rdoDRMStatus.rows[i].cells[0].firstChild.checked) {
+                    //all radio buttons are approved then Approval Submission = Yes 
                     for (var i = 0; i < drpLU_Approval_Submission.options.length; i++) {
                         if (drpLU_Approval_Submission.options[i].text === 'Yes') {
-                            drpLU_Approval_Submission.selectedIndex = i;//drpLU_Approval_Submission.value = drpLU_Approval_Submission.options[i].value;
+                            //drpLU_Approval_Submission.selectedIndex = i;//drpLU_Approval_Submission.value = drpLU_Approval_Submission.options[i].value;
+                            drpLU_Approval_Submission.value = drpLU_Approval_Submission.options[i].value;
+                            hdnApprovalSubmission.value = drpLU_Approval_Submission.options[i].value;
                             break;
                         }
                     }
                     SetCRApprovedDate('Yes');
                 }
-                else {
+                else if (rdoGMStatus.rows[i].cells[1].firstChild.checked || rdoRLCMStatus.rows[i].cells[1].firstChild.checked || rdoNAPMStatus.rows[i].cells[1].firstChild.checked || rdoDRMStatus.rows[i].cells[1].firstChild.checked) {
+                    //any radio buttons are Not Approved then Approval Submission = No
                     for (var i = 0; i < drpLU_Approval_Submission.options.length; i++) {
-                        if (drpLU_Approval_Submission.options[i].text === '-- Select --') {
-                            drpLU_Approval_Submission.selectedIndex = i;
+                        if (drpLU_Approval_Submission.options[i].text === 'No') {
+                            //drpLU_Approval_Submission.selectedIndex = i;
+                            drpLU_Approval_Submission.value = drpLU_Approval_Submission.options[i].value;
+                            hdnApprovalSubmission.value = drpLU_Approval_Submission.options[i].value;
                             break;
                         }
                     }
+                    SetCRApprovedDate('No');
+                }
+                else {
+                    for (var i = 0; i < drpLU_Approval_Submission.options.length; i++) {
+                        if (drpLU_Approval_Submission.options[i].text === '-- Select --') {
+                            //drpLU_Approval_Submission.selectedIndex = i;
+                            drpLU_Approval_Submission.value = drpLU_Approval_Submission.options[i].value;
+                            hdnApprovalSubmission.value = drpLU_Approval_Submission.options[i].value;
+                            break;
+                        }
+                    }
+                    SetCRApprovedDate('-- Select --');
                 }
             }
+           
         }
 
     </script>
@@ -545,7 +581,7 @@
                                                             <td align="center" valign="top">:
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:DropDownList ID="drpFK_LU_Approval_Submission" runat="server" Width="175px" SkinID="dropGen" onchange="SetCRApprovedDate(this.options[this.selectedIndex].text);">
+                                                                <asp:DropDownList ID="drpFK_LU_Approval_Submission" Enabled="false" runat="server" Width="175px" SkinID="dropGen" ><%--onchange="SetCRApprovedDate(this.options[this.selectedIndex].text);"--%>
                                                                 </asp:DropDownList>
                                                             </td>
                                                            
@@ -568,10 +604,10 @@
                                                                 :
                                                             </td>
                                                             <td align="left" valign="top">
-                                                                <asp:TextBox ID="txtCR_Approved" runat="server" SkinID="txtDate" />
-                                                                <img alt="CR Approved Date" onclick="return showCalendar('<%= txtCR_Approved.ClientID %>', 'mm/dd/y');"
+                                                                <asp:TextBox ID="txtCR_Approved" runat="server" SkinID="txtDate" onkeydown="javascript:return disableDeleteBackSpace();" CssClass="disbled" onpaste="return false;" />
+                                                                <%--<img alt="CR Approved Date" onclick="return showCalendar('<%= txtCR_Approved.ClientID %>', 'mm/dd/y');"
                                                                     onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
-                                                                    align="middle" />
+                                                                    align="middle" />--%>
                                                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server" ValidationGroup="vsErrorGroup"
                                                                     Display="none" ErrorMessage="CR Approved Date is not a valid date" SetFocusOnError="true"
                                                                     ControlToValidate="txtCR_Approved" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
@@ -2508,7 +2544,7 @@
                                     CausesValidation="false" OnClientClick="return  onPreviousStep();" />
                                 &nbsp; &nbsp;
                                 <asp:Button ID="btnSave" runat="server" Text="Save" CausesValidation="true" ValidationGroup="vsErrorGroup"
-                                    OnClick="btnSave_Click" />
+                                    OnClick="btnSave_Click" ToolTip="Save" OnClientClick="javascript:return SetApprovalSubmissionOnSaveButton();"/>
                                 <asp:Button ID="btnEdit" runat="server" Text=" Edit " CausesValidation="false" OnClick="btnEdit_Click"
                                     Visible="false" />
                                 &nbsp; &nbsp;
@@ -2590,4 +2626,5 @@
     <script type="text/javascript" src="<%=AppConfig.SiteURL%>greybox/AJS_fx.js"></script>
     <script type="text/javascript" src="<%=AppConfig.SiteURL%>greybox/gb_scripts.js"></script>
     <asp:HiddenField ID="hdnPanel" runat="server" Value="1" />
+    <asp:HiddenField ID="hdnApprovalSubmission" runat="server" Value="0" />
 </asp:Content>
