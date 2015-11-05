@@ -26,18 +26,18 @@ namespace ERIMS_Sonic_ReportScheduler
             ServiceBase.Run(ServicesToRun);
 
 
-            ////Uncomment below code for debug
+            //Uncomment below code for debug
             //System.ServiceProcess.ServiceBase[] ServicesToRun;
             //ServicesToRun = new System.ServiceProcess.ServiceBase[] { new eRIMS_Sonic_ReportScheduler() };
             //System.ServiceProcess.ServiceBase.Run(ServicesToRun);
-            ////#else
-            ////Debug code: this allows the process to run as a non-service.
+            //#else
+            //Debug code: this allows the process to run as a non-service.
 
-            ////It will kick off the service start point, but never kill it.
+            //It will kick off the service start point, but never kill it.
 
-            ////Shut down the debugger to exit
-            //eRIMS_Sonic_ReportScheduler service = new eRIMS_Sonic_ReportScheduler();
-            //service.OnStart();
+            //Shut down the debugger to exit
+            eRIMS_Sonic_ReportScheduler service = new eRIMS_Sonic_ReportScheduler();
+            service.OnStart();
             //System.Threading.Thread.Sleep(System.Threading.Timeout.Infinite);
 
         }

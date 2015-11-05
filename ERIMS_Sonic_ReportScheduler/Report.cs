@@ -1249,6 +1249,15 @@ namespace ERIMS_Sonic_ReportScheduler
             return db.ExecuteDataSet(dbCommand);
         }
 
+        public static DataSet GetACI_Key_Contact_Report(string strDBA, string strJob_Titles)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("rptACI_Key_Contact_Report");
+            db.AddInParameter(dbCommand, "DBA", DbType.String, strDBA);
+            db.AddInParameter(dbCommand, "Job_Titles", DbType.String, strJob_Titles);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
         #endregion
 
         #region " Policy Report "

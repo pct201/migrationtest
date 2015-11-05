@@ -215,11 +215,14 @@ public class HTML2Excel
                 {
                     for (int tempCol1 = tempCol; tempCol1 < currColumnNumber; tempCol1++)
                     {
-                        ExcelRichTextCollection rtfCollection1 = excelWorksheet.Cells[GetExcelColumnName(tempCol1, currRowNumber)].RichText;
-                        rtfCollection1[0].Color = color;
-                        rtfCollection1[0].Bold = bold;
-                        rtfCollection1[0].FontName = fontFamilty;
-                        rtfCollection1[0].Size = font_size;
+                        if (excelWorksheet.Cells[GetExcelColumnName(tempCol1, currRowNumber)].IsRichText)
+                        {
+                            ExcelRichTextCollection rtfCollection1 = excelWorksheet.Cells[GetExcelColumnName(tempCol1, currRowNumber)].RichText;
+                            rtfCollection1[0].Color = color;
+                            rtfCollection1[0].Bold = bold;
+                            rtfCollection1[0].FontName = fontFamilty;
+                            rtfCollection1[0].Size = font_size;
+                        }
                     }
                 }
 
@@ -256,6 +259,7 @@ public class HTML2Excel
         Color color = Color.Black;
 
         bool isBold = false;
+        int tempColspanCol = currColumnNumber;
 
         #region Style Attributes
         foreach (HtmlAttribute tdAttrib in hNode.Attributes)
@@ -264,8 +268,21 @@ public class HTML2Excel
             switch (tdAttrib.Name)
             {
                 case "colspan":
-                    string mergeCells = GetExcelColumnName(currColumnNumber, currRowNumber) + ":" + GetExcelColumnName(currColumnNumber + Convert.ToInt32(tdAttrib.Value), currRowNumber);
-                    excelWorksheet.Cells[mergeCells].Merge = true;
+                    try
+                    {
+                        string mergeCells = GetExcelColumnName(currColumnNumber, currRowNumber) + ":" + GetExcelColumnName(currColumnNumber + Convert.ToInt32(tdAttrib.Value) - 1, currRowNumber);
+                        excelWorksheet.Cells[mergeCells].Merge = true;
+                        tempColspanCol = currColumnNumber + Convert.ToInt32(tdAttrib.Value) - 1;
+                        using (ExcelRange range = excelWorksheet.Cells[mergeCells])
+                        {
+                            range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+                            Border border = range.Style.Border;
+                            border.Bottom.Style = border.Top.Style = border.Left.Style = border.Right.Style = ExcelBorderStyle.Thin;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
                     break;
                 case "style":
                     string styleVal = tdAttrib.Value;
@@ -298,6 +315,16 @@ public class HTML2Excel
                     if (tdAttrib.Value.ToLower() == "right")
                     {
                         excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+
+                    }
+                    if (tdAttrib.Value.ToLower() == "left")
+                    {
+                        excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+
+                    }
+                    if (tdAttrib.Value.ToLower() == "center")
+                    {
+                        excelWorksheet.Cells[GetExcelColumnName(currColumnNumber, currRowNumber)].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
                     }
                     break;
@@ -380,10 +407,13 @@ public class HTML2Excel
                             if (!htGridCells.Contains(currColumnNumber))
                             {
                                 excelWorksheet.InsertColumn(currColumnNumber + 1, innerTableDef.noOfColumn - 1);
-                                string tempMergeCells = GetExcelColumnName(innerTableDef.ColumnID, currRowNumber) + ":" + GetExcelColumnName(innerTableDef.ColumnID, currRowNumber + innerTableDef.noOfRow - 1);
-                                if (excelWorksheet.Cells[tempMergeCells].Merge)
-                                    excelWorksheet.Cells[tempMergeCells].Merge = false;
-
+                                try
+                                {
+                                    string tempMergeCells = GetExcelColumnName(innerTableDef.ColumnID, currRowNumber) + ":" + GetExcelColumnName(innerTableDef.ColumnID, currRowNumber + innerTableDef.noOfRow - 1);
+                                    if (excelWorksheet.Cells[tempMergeCells].Merge)
+                                        excelWorksheet.Cells[tempMergeCells].Merge = false;
+                                }
+                                catch (Exception) { }
                                 ArrayList afterCells = new ArrayList();
                                 Hashtable htGridCells_Copy = (Hashtable)htGridCells.Clone();
                                 foreach (DictionaryEntry entry in htGridCells_Copy)
@@ -512,6 +542,7 @@ public class HTML2Excel
                         break;
                 }
             }
+            currColumnNumber = tempColspanCol;
         }
         else
         {

@@ -350,17 +350,20 @@ namespace ERIMS_Sonic_ReportScheduler
                         case 67:
                             BindConstructionAdHocReport(dtScheduleReports.Rows[i]);
                             break;
+                        case 71:
+                            BindACIKeyContactReport(dtScheduleReports.Rows[i]);
+                            break;
                         default:
                             break;
                     }
                 }
-                //Make evenlog entry on successful completion of sending mail.
+                //Make event log entry on successful completion of sending mail.
                 EventLog.WriteEntry("eRIMS_Sonic Scheduled Reports sent successfully on " + dtSchduleDate.ToString());
             }
             catch (Exception ex)
             {
                 //write exception to event log
-                EventLog.WriteEntry("Error Occured while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message);
+                EventLog.WriteEntry("Error Occurred while sending eRIMS_Sonic Scheduled Reports on " + dtSchduleDate.ToString() + ", " + ex.Message);
             }
         }
 
@@ -13054,6 +13057,137 @@ namespace ERIMS_Sonic_ReportScheduler
             }
         }
 
+        //Report 71
+        private void BindACIKeyContactReport(DataRow drReportSchedule)
+        {
+            decimal pK_Schedule_ID = Convert.ToDecimal(drReportSchedule["PK_Schedule"]);
+            decimal Fk_RecipientList = Convert.ToDecimal(drReportSchedule["Fk_RecipientList"]);
+            decimal FK_Security_Id = Convert.ToDecimal(drReportSchedule["FK_Security_Id"]);
+
+            //Get Report criteria for the scheduled report
+            DataTable dtFilter = Report.SelectFilterCriteria(71, pK_Schedule_ID).Tables[0];
+            if (dtFilter.Rows.Count > 0)
+            {
+                //Get the recipient from the recipient list 
+                DataTable dtRecipients = Report.SelectOneRecordWithRecipientList(Fk_RecipientList).Tables[0];
+
+                //Get the user who has scheduled the report
+                DataTable dtUser = Report.SelectSecurityByPK(FK_Security_Id).Tables[0];
+
+                String strFirstName, strLastName, strMailFrom;
+                strFirstName = strLastName = strMailFrom = "";
+                if (dtUser.Rows.Count > 0)
+                {
+                    strFirstName = Convert.ToString(dtUser.Rows[0]["FIRST_NAME"]).Trim();
+                    strLastName = Convert.ToString(dtUser.Rows[0]["LAST_NAME"]).Trim();
+                    strMailFrom = Convert.ToString(dtUser.Rows[0]["Email"]).Trim();
+                }
+               
+                string strDBA = Convert.ToString(dtFilter.Rows[0]["DBA"]).Trim();
+                //string strInspector = Convert.ToString(dtFilter.Rows[0]["Inspector_Name"]).Trim();
+                //string strInspectionArea = Convert.ToString(dtFilter.Rows[0]["InspectionArea"]).Trim();
+                string strJob_Titles = Convert.ToString(dtFilter.Rows[0]["Job_Title"]).Trim();
+
+                //Get the all Unique records for Selected group (default - last name -sort) by search criteria
+                DataSet dsResult = Report.GetACI_Key_Contact_Report(strDBA, strJob_Titles);
+
+                //Create HTML for the report and write into HTML Write object
+                StringBuilder strHTML = new StringBuilder();
+                System.IO.StringWriter stringWrite = new System.IO.StringWriter();
+                System.Web.UI.HtmlTextWriter htmlWrite = new System.Web.UI.HtmlTextWriter(stringWrite);
+
+                #region "Report Title"
+
+                //Add Report Title and Schedule Date
+                strHTML.Append("<br />");
+                strHTML.Append("<b>Report Title : ACI Key Contact Report</b>");
+                strHTML.Append("<br /><br />");
+                strHTML.Append("Schedule Date : " + Convert.ToDateTime(drReportSchedule["Scheduled_Date"]).ToString(DateDisplayFormat));
+                strHTML.Append("&nbsp;&nbsp;&nbsp;&nbsp;Schedule End Date : " + Convert.ToDateTime(drReportSchedule["Schedule_End_Date"]).ToString(DateDisplayFormat));
+                strHTML.Append("<br />");
+                strHTML.Append("Recurring Period : " + drReportSchedule["Recurring_Period"].ToString());
+                strHTML.Append("<br />");
+                strHTML.Append("Recurring Date : " + dtSchduleDate.ToString(DateDisplayFormat));
+
+                //Add Report Filter Criteria 
+                strHTML.Append("<br /><br />");//<table> <tr> <td>
+                strHTML.Append("<b>Report Filters </b>");
+                strHTML.Append("<br /><table> <tr> <td>");
+                strHTML.Append("Location D/B/A   : " + ((!string.IsNullOrEmpty(strDBA)) ? Report.GetCommaSeperatedDescFromVal("LU_Location", "dba", "PK_LU_Location_ID", strDBA) : ""));
+                strHTML.Append("</td> </tr>");
+                strHTML.Append("<tr> <td>");
+                strHTML.Append("ACI Key Contact Report : " + strJob_Titles);
+                strHTML.Append("</td> </tr>");
+                strHTML.Append("<tr> <td>");
+                strHTML.Append("</td></tr></table> ");
+
+                #endregion
+
+                #region "Report Grid header"
+                //Top Header
+                strHTML.Append("<table border='1'>");
+                strHTML.Append("<tr style='font-weight: bold;' valign='bottom' align='left'>");
+                strHTML.Append("<td align='left' >Sonic Automotive</td>");
+                strHTML.Append("<td align='center' colspan='11'>ACI Key Contact Report</td>");
+                strHTML.Append("<td align='right' > " + DateTime.Now.ToString() + " </td>");
+                strHTML.Append("</tr>");
+
+                //Sub Header
+                strHTML.Append("<tr valign='bottom' align='left' style='font-weight: bold'>");
+                strHTML.Append("<td width='250'>Location D/B/A</td>");
+                strHTML.Append("<td width='150'>Store Address 1</td>");
+                strHTML.Append("<td width='150'>Store Address 2</td>");
+                strHTML.Append("<td width='100'>Store City</td>");
+                strHTML.Append("<td width='100'>Store State</td>");
+                strHTML.Append("<td width='80'>Store Zip</td>");
+                strHTML.Append("<td width='80' align='right'>Location Code</td>");
+                strHTML.Append("<td width='120' align='right'>Job Title</td>");
+                strHTML.Append("<td width='100' align='right'>First Name</td>");
+                strHTML.Append("<td width='100' align='right'>Last Name</td>");
+                strHTML.Append("<td width='170' align='right'>Email Address</td>");
+                strHTML.Append("<td width='100' align='right'>Cell Phone</td>");
+                strHTML.Append("<td width='100' align='right'>Work Phone</td>");
+                strHTML.Append("</tr>");
+
+                //Check Whether Record Exists or Not
+                if (dsResult != null && dsResult.Tables.Count > 0 && dsResult.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow dr in dsResult.Tables[0].Rows)
+                    {
+                        strHTML.Append("<tr valign='top' align='left'>");
+
+                        strHTML.Append("<td width='250'>" + Convert.ToString(dr["dba"]) + "</td>");
+                        strHTML.Append("<td width='150'>" + Convert.ToString(dr["address_1"]) + "</td>");
+                        strHTML.Append("<td width='150'>" + Convert.ToString(dr["address_2"]) + "</td>");
+                        strHTML.Append("<td width='100'>" + Convert.ToString(dr["city"]) + "</td>");
+                        strHTML.Append("<td width='100'>" + Convert.ToString(dr["State"]) + "</td>");
+                        strHTML.Append("<td width='80'>" + Convert.ToString(dr["zip_code"]) + "</td>");
+                        strHTML.Append("<td width='80'>" + Convert.ToString(dr["Sonic_Location_Code"]) + "</td>");
+                        strHTML.Append("<td width='120'>" + Convert.ToString(dr["job_title"]) + "</td>");
+                        strHTML.Append("<td width='100'>" + Convert.ToString(dr["first_name"]) + "</td>");
+                        strHTML.Append("<td width='100'>" + Convert.ToString(dr["last_name"]) + "</td>");
+                        strHTML.Append("<td width='170'>" + Convert.ToString(dr["email"]) + "</td>");
+                        strHTML.Append("<td width='100'>" + Convert.ToString(dr["employee_cell_Phone"]) + "</td>");
+                        strHTML.Append("<td width='100'>" + Convert.ToString(dr["work_Phone"]) + "</td>");
+                        strHTML.Append("</tr>");
+                    }
+                }
+                else
+                {
+                    //Add No record found line for year
+                    strHTML.Append("<tr><td align='left' colspan='13'>No Record Found!</td></tr>");
+                }
+                strHTML.Append("</table>");
+                //strHTML.Append("</td></tr></table>");
+
+                #endregion
+
+                //Write HTML in to HtmlWriter
+                htmlWrite.WriteLine(strHTML.ToString());
+                //Send Mail
+                SendMail("ACI Key Contact Report", "ACI_Key_Contact_Report.xls", strFirstName, strLastName, strMailFrom, stringWrite, dtRecipients);
+            }
+        }
         #endregion
 
         #region Mail Send Method
