@@ -273,12 +273,12 @@ public class HTML2Excel
                         string mergeCells = GetExcelColumnName(currColumnNumber, currRowNumber) + ":" + GetExcelColumnName(currColumnNumber + Convert.ToInt32(tdAttrib.Value) - 1, currRowNumber);
                         excelWorksheet.Cells[mergeCells].Merge = true;
                         tempColspanCol = currColumnNumber + Convert.ToInt32(tdAttrib.Value) - 1;
-                        using (ExcelRange range = excelWorksheet.Cells[mergeCells])
-                        {
-                            range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
-                            Border border = range.Style.Border;
-                            border.Bottom.Style = border.Top.Style = border.Left.Style = border.Right.Style = ExcelBorderStyle.Thin;
-                        }
+                        //using (ExcelRange range = excelWorksheet.Cells[mergeCells])
+                        //{
+                        //    range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+                        //    Border border = range.Style.Border;
+                        //    border.Bottom.Style = border.Top.Style = border.Left.Style = border.Right.Style = ExcelBorderStyle.Thin;
+                        //}
                     }
                     catch (Exception)
                     {
