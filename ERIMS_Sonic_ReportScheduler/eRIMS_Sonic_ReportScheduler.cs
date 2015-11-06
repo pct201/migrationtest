@@ -13112,15 +13112,24 @@ namespace ERIMS_Sonic_ReportScheduler
                 //Add Report Filter Criteria 
                 strHTML.Append("<br /><br />");//<table> <tr> <td>
                 strHTML.Append("<b>Report Filters </b>");
-                strHTML.Append("<br /><table> <tr> <td>");
-                strHTML.Append("Location D/B/A   : " + ((!string.IsNullOrEmpty(strDBA)) ? Report.GetCommaSeperatedDescFromVal("LU_Location", "dba", "PK_LU_Location_ID", strDBA) : ""));
-                strHTML.Append("</td> </tr>");
-                strHTML.Append("<tr> <td>");
-                strHTML.Append("ACI Key Contact Report : " + strJob_Titles);
-                strHTML.Append("</td> </tr>");
-                strHTML.Append("<tr> <td>");
-                strHTML.Append("</td></tr></table> ");
+                //strHTML.Append("<br /><table> <tr> <td>");
+                //strHTML.Append("Location D/B/A   : " + ((!string.IsNullOrEmpty(strDBA)) ? Report.GetCommaSeperatedDescFromVal("LU_Location", "dba", "PK_LU_Location_ID", strDBA) : ""));
+                //strHTML.Append("</td> </tr>");
+                //strHTML.Append("<tr> <td>");
+                //strHTML.Append("ACI Key Contact Report : " + strJob_Titles);
+                //strHTML.Append("</td> </tr>");
+                //strHTML.Append("<tr> <td>");
+                //strHTML.Append("</td></tr></table> ");
 
+
+                strHTML.Append("<br /><br />");
+                strHTML.Append("Location D/B/A   : " + ((!string.IsNullOrEmpty(strDBA)) ? Report.GetCommaSeperatedDescFromVal("LU_Location", "dba", "PK_LU_Location_ID", strDBA) : ""));
+                strHTML.Append("<br />");
+                //strHTML.Append("<tr> <td>");
+                strHTML.Append("ACI Key Contact Report : " + strJob_Titles);
+                strHTML.Append("<br /><br />");
+                //strHTML.Append("<tr> <td>");
+                //strHTML.Append("</td></tr></table> ");
                 #endregion
 
                 #region "Report Grid header"
@@ -13134,12 +13143,12 @@ namespace ERIMS_Sonic_ReportScheduler
 
                 //Sub Header
                 strHTML.Append("<tr valign='bottom' align='left' style='font-weight: bold'>");
-                strHTML.Append("<td width='250'>Location D/B/A</td>");
-                strHTML.Append("<td width='150'>Store Address 1</td>");
-                strHTML.Append("<td width='150'>Store Address 2</td>");
-                strHTML.Append("<td width='100'>Store City</td>");
-                strHTML.Append("<td width='100'>Store State</td>");
-                strHTML.Append("<td width='80'>Store Zip</td>");
+                strHTML.Append("<td width='250' align='right'>Location D/B/A</td>");
+                strHTML.Append("<td width='150' align='right'>Store Address 1</td>");
+                strHTML.Append("<td width='150' align='right'>Store Address 2</td>");
+                strHTML.Append("<td width='100' align='right'>Store City</td>");
+                strHTML.Append("<td width='100' align='right'>Store State</td>");
+                strHTML.Append("<td width='80' align='right'>Store Zip</td>");
                 strHTML.Append("<td width='80' align='right'>Location Code</td>");
                 strHTML.Append("<td width='120' align='right'>Job Title</td>");
                 strHTML.Append("<td width='100' align='right'>First Name</td>");
