@@ -31,6 +31,10 @@
                 schedulePopUp = "SchedulerptInspectionLagTime.aspx?PK_ReportID=" + PK_ReportID;
                 obj = window.open(schedulePopUp, null, 'width=800,height=560,left=' + (window.screen.width - 800) / 2 + ',top=' + (window.screen.height - 560) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
             }
+            else if (PK_ReportID == 71) {
+                schedulePopUp = "SchedulerptACI_Key_Contact_Report.aspx?PK_ReportID=" + PK_ReportID;
+                obj = window.open(schedulePopUp, null, 'width=800,height=560,left=' + (window.screen.width - 800) / 2 + ',top=' + (window.screen.height - 560) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+            }
 
             obj.focus();
         }
