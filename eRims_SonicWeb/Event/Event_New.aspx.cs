@@ -1078,7 +1078,8 @@ public partial class Event_Event_New : clsBasePage
     /// </summary>
     private void BindDropDownList()
     {
-        ComboHelper.FillLocationDBA_All(new DropDownList[] { ddlLocation, ddlLocation_Sonic }, 0, true);
+        //ComboHelper.FillLocationDBA_All(new DropDownList[] { ddlLocation, ddlLocation_Sonic }, 0, true);
+        ComboHelper.FillLocationByACIUser_New((new DropDownList[] { ddlLocation, ddlLocation_Sonic }), Convert.ToDecimal(clsSession.UserID), true);
         ComboHelper.FillEventLevel(new DropDownList[] { ddlEvent_Level, ddlEvent_Level_Sonic }, true);
         BindReapterEventType();
         BindReapterEventTypeSonic();

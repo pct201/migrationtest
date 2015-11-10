@@ -2386,6 +2386,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Event_Date_To", DbType.DateTime, Event_Date_To);
             db.AddInParameter(dbCommand, "Sonic_Event", DbType.String, Sonic_Event);
             db.AddInParameter(dbCommand, "Is_Actionable", DbType.String, Is_Actionable);
+            db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Int32, Convert.ToInt32(clsSession.UserID));
             db.AddInParameter(dbCommand, "strOrderBy", DbType.String, strOrderBy);
             db.AddInParameter(dbCommand, "strOrder", DbType.String, strOrder);
             db.AddInParameter(dbCommand, "intPageNo", DbType.Int32, intPageNo);
