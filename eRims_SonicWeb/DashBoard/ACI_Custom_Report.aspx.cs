@@ -176,7 +176,7 @@ public partial class ACI_Custom_Report : clsBasePage
                 sbRecorords.Append("<td class='cols_' align='right'>" + string.Format("{0:N0}", drRecords["Theft Event COUNT"]) + "</td>");
                 sbRecorords.Append("<td class='cols_' align='right'>" + string.Format("{0:N0}", drRecords["ACI_Event"]) + "</td>");
                 sbRecorords.Append("<td class='cols_' align='right'>" + string.Format("{0:N0}", drRecords["Sonic_Event"]) + "</td>");
-                sbRecorords.Append("<td class='cols_' align='right'>" + string.Format("{0:N1}", drRecords["ACI_Event_Percent"]) + "</td>");
+                sbRecorords.Append("<td class='cols_' align='right'>" + string.Format("{0:N2}", drRecords["ACI_Event_Percent"]) + "</td>");
                 //sbRecorords.Append("<td class='cols_' align='right'>" + string.Empty + "</td>");
                 sbRecorords.Append("<td  class='cols_' align='left' >&nbsp;&nbsp;&nbsp;" + Convert.ToString(drRecords["Resulting_Score"]) + "</td>");
                 sbRecorords.Append("</tr>");
@@ -195,7 +195,7 @@ public partial class ACI_Custom_Report : clsBasePage
             sbRecorords.Append("<td class='cols_' align='right'><b>" + string.Format("{0:N0}", dtReportTotal.Rows[0]["Theft_Total"]) + "</b></td>");
             sbRecorords.Append("<td class='cols_' align='right'><b>" + string.Format("{0:N0}", dtReportTotal.Rows[0]["ACI_Total_Event"]) + "</b></td>");
             sbRecorords.Append("<td class='cols_' align='right'><b>" + string.Format("{0:N0}", dtReportTotal.Rows[0]["Sonic_Event_Total"]) + "</b></td>");
-            sbRecorords.Append("<td class='cols_' align='right'><b>" + string.Format("{0:N0}", dtReportTotal.Rows[0]["Total_Percent"]) + "</b></td>");//string.Format("{0:N1}", dtReport.Compute("(SUM(ACI_Event) * 100)/(SUM([Sonic_Event])+SUM([ACI_Event]))", ""))
+            sbRecorords.Append("<td class='cols_' align='right'><b>" + string.Format("{0:N2}", dtReportTotal.Rows[0]["Total_Percent"]) + "</b></td>");//string.Format("{0:N1}", dtReport.Compute("(SUM(ACI_Event) * 100)/(SUM([Sonic_Event])+SUM([ACI_Event]))", ""))
             //sbRecorords.Append("<td class='cols_' align='right'><b>" + string.Empty + "</b></td>");
             sbRecorords.Append("<td class='cols_'><b>&nbsp;&nbsp;&nbsp;" + string.Format("{0:N0}", dtReportTotal.Rows[0]["Resulting_Score"]) + "</b></td>"); 
 
