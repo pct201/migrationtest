@@ -130,11 +130,11 @@ public partial class ACI_Custom_Report : clsBasePage
 
             sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='995px'>");//Sub Table
             sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25'>"); //Title
-            sbRecorords.Append("<td align='center' class='cols_' style='font-size:9pt;' colspan='12'><b>ACI Event Custom Report</b></td></tr>");
+            sbRecorords.Append("<td align='center' class='cols_' style='font-size:9pt;' colspan='14'><b>ACI Event Custom Report</b></td></tr>");
             sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25'>");
-            sbRecorords.Append("<td align='left' style='font-size:9pt;' colspan='12'>Date From: " + clsGeneral.FormatDBNullDateToDisplay(txtFrom_Date_Of_Event.Text) + "</td></tr>");
+            sbRecorords.Append("<td align='left' style='font-size:9pt;' colspan='14'>Date From: " + clsGeneral.FormatDBNullDateToDisplay(txtFrom_Date_Of_Event.Text) + "</td></tr>");
             sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25'>"); //Title
-            sbRecorords.Append("<td align='left' style='font-size:9pt;' colspan='12'>Date To: " + clsGeneral.FormatDBNullDateToDisplay(txtTo_Date_Of_Event.Text) + "</td></tr>");
+            sbRecorords.Append("<td align='left' style='font-size:9pt;' colspan='14'>Date To: " + clsGeneral.FormatDBNullDateToDisplay(txtTo_Date_Of_Event.Text) + "</td></tr>");
 
             sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:8.5pt'>");
             sbRecorords.Append("<td class='cols_' width='120px'>Region</td>");
@@ -147,6 +147,8 @@ public partial class ACI_Custom_Report : clsBasePage
             sbRecorords.Append("<td class='cols_' width='120px' align='right'>UVE Event Count</td>");
             sbRecorords.Append("<td class='cols_' width='120px' align='right'>DP Event Count</td>");
             sbRecorords.Append("<td class='cols_' width='120px' align='right'>Theft Event Count</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>ARE Event Count</td>");
+            sbRecorords.Append("<td class='cols_' width='120px' align='right'>SRE Event Count</td>");
             sbRecorords.Append("<td class='cols_' width='120px' align='right'>ACI Event% Results</td>");
             //sbRecorords.Append("<td class='cols_' width='10px' align='right'>&nbsp;</td>");
             sbRecorords.Append("<td class='cols_' width='220px'>&nbsp;&nbsp;&nbsp;Resulting Score</td>");
@@ -172,6 +174,8 @@ public partial class ACI_Custom_Report : clsBasePage
                 sbRecorords.Append("<td class='cols_' align='right'>" + string.Format("{0:N0}", drRecords["UVE Event COUNT"]) + "</td>");
                 sbRecorords.Append("<td class='cols_' align='right'>" + string.Format("{0:N0}", drRecords["DP Event COUNT"]) + "</td>");
                 sbRecorords.Append("<td class='cols_' align='right'>" + string.Format("{0:N0}", drRecords["Theft Event COUNT"]) + "</td>");
+                sbRecorords.Append("<td class='cols_' align='right'>" + string.Format("{0:N0}", drRecords["ACI_Event"]) + "</td>");
+                sbRecorords.Append("<td class='cols_' align='right'>" + string.Format("{0:N0}", drRecords["Sonic_Event"]) + "</td>");
                 sbRecorords.Append("<td class='cols_' align='right'>" + string.Format("{0:N1}", drRecords["ACI_Event_Percent"]) + "</td>");
                 //sbRecorords.Append("<td class='cols_' align='right'>" + string.Empty + "</td>");
                 sbRecorords.Append("<td  class='cols_' align='left' >&nbsp;&nbsp;&nbsp;" + Convert.ToString(drRecords["Resulting_Score"]) + "</td>");
@@ -189,6 +193,8 @@ public partial class ACI_Custom_Report : clsBasePage
             sbRecorords.Append("<td class='cols_' align='right'><b>" + string.Format("{0:N0}", dtReportTotal.Rows[0]["UVE_Total"]) + "</b></td>");
             sbRecorords.Append("<td class='cols_' align='right'><b>" + string.Format("{0:N0}", dtReportTotal.Rows[0]["DP_Total"]) + "</b></td>");
             sbRecorords.Append("<td class='cols_' align='right'><b>" + string.Format("{0:N0}", dtReportTotal.Rows[0]["Theft_Total"]) + "</b></td>");
+            sbRecorords.Append("<td class='cols_' align='right'><b>" + string.Format("{0:N0}", dtReportTotal.Rows[0]["ACI_Total_Event"]) + "</b></td>");
+            sbRecorords.Append("<td class='cols_' align='right'><b>" + string.Format("{0:N0}", dtReportTotal.Rows[0]["Sonic_Event_Total"]) + "</b></td>");
             sbRecorords.Append("<td class='cols_' align='right'><b>" + string.Format("{0:N0}", dtReportTotal.Rows[0]["Total_Percent"]) + "</b></td>");//string.Format("{0:N1}", dtReport.Compute("(SUM(ACI_Event) * 100)/(SUM([Sonic_Event])+SUM([ACI_Event]))", ""))
             //sbRecorords.Append("<td class='cols_' align='right'><b>" + string.Empty + "</b></td>");
             sbRecorords.Append("<td class='cols_'><b>&nbsp;&nbsp;&nbsp;" + string.Format("{0:N0}", dtReportTotal.Rows[0]["Resulting_Score"]) + "</b></td>"); 
