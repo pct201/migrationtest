@@ -183,18 +183,8 @@ public partial class Administrator_Contractor_Firm : clsBasePage
         objContractorFirm.Address_1 = txtAddress1.Text.Trim().Replace("'", "\'");
         objContractorFirm.Address_2 = txtAddress2.Text.Trim().Replace("'", "\'");
         objContractorFirm.City = txtCity.Text.Trim().Replace("'", "\'");
-
-
-        if (ddlState.SelectedIndex > 0)
-            objContractorFirm.FK_State = Convert.ToDecimal(ddlState.SelectedValue);
-        else
-            objContractorFirm.FK_State = 0;
-
-        if (ddlFirmType.SelectedIndex > 0)
-            objContractorFirm.FK_State = Convert.ToDecimal(ddlState.SelectedValue);
-        else
-            objContractorFirm.FK_State = 0;
-
+        objContractorFirm.FK_State = Convert.ToDecimal(ddlState.SelectedValue);
+        objContractorFirm.FK_LU_Firm_type = Convert.ToDecimal(ddlFirmType.SelectedValue);
         objContractorFirm.Zip_Code = Convert.ToString(txtZipCode.Text);
 
         objContractorFirm.Office_Telephone = Convert.ToString(txtOfficeTelephone.Text);
@@ -204,8 +194,6 @@ public partial class Administrator_Contractor_Firm : clsBasePage
         objContractorFirm.Email = txtEmail.Text.Trim().Replace("'", "\'");
         objContractorFirm.Updated_By = clsSession.UserID;
         objContractorFirm.Update_Date = DateTime.Now;
-
-        objContractorFirm.FK_LU_Firm_type = Convert.ToDecimal(ddlFirmType.SelectedValue);
         objContractorFirm.Contact_Name = Convert.ToString(txtContactName.Text);
         objContractorFirm.Facsimile_Number = Convert.ToString(txtFacsimile_Number.Text);
 
@@ -248,7 +236,7 @@ public partial class Administrator_Contractor_Firm : clsBasePage
         Response.Redirect("Contractor_Firm.aspx");
     }
 
-   
+
     /// <summary>
     /// Implement event for Paging control when clicking on Go button
     /// </summary>
@@ -335,9 +323,9 @@ public partial class Administrator_Contractor_Firm : clsBasePage
             PK_Contractor_Firm = Convert.ToInt32(e.CommandArgument.ToString());
             ViewRecords();
         }
-    }    
+    }
 
-    
+
     #endregion
 
     #region Methods

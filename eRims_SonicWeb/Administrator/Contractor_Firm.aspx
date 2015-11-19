@@ -205,7 +205,7 @@
                 </tr>                         
 
                 <tr>
-                    <td align="left" width="20%">Contractor Firm Name<span style="color: Red;">*</span>
+                    <td align="left" width="20%">Contractor Firm Name <span style="color: Red;">*</span>
                     </td>
                     <td align="center" width="4%">:
                     </td>
@@ -256,13 +256,15 @@
                         <%--<asp:RequiredFieldValidator ID="rfvtxtCity" ControlToValidate="txtCity" Display="None"
                             runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter City."></asp:RequiredFieldValidator>--%>
                     </td>
-                    <td align="left">State<%--<span style="color: Red;">*</span>--%>
+                    <td align="left">State <span style="color: Red;">*</span>
                     </td>
                     <td align="center">:
                     </td>
                     <td align="left">
                         <asp:DropDownList ID="ddlState" runat="server" Width="170px" SkinID="ddlSONIC">
                         </asp:DropDownList>
+                        <asp:RequiredFieldValidator ID="rfvddlState" ControlToValidate="ddlState" Display="None"
+                            runat="server" InitialValue="0" ValidationGroup="vsErrorGroup" ErrorMessage="Please select State."></asp:RequiredFieldValidator>
 
                     </td>
                 </tr>
@@ -342,7 +344,7 @@
 
                 </tr>
                 <tr>
-                    <td align="left">Email<span style="color: Red;">*</span>
+                    <td align="left">Email <span style="color: Red;">*</span>
                     </td>
                     <td align="center">:
                     </td>
