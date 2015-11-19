@@ -354,8 +354,15 @@
                                                             </td>
                                                             <td align="center" width="4%" valign="top">:
                                                             </td>
-                                                            <td align="left" width="28%" valign="top" colspan="4">
+                                                            <td align="left" width="28%" valign="top">
                                                                 <asp:TextBox ID="txtReferenceNumber" autocomplete="off" runat="server" SkinID="txtDisabled" Width="170px"></asp:TextBox>
+                                                            </td>
+                                                            <td align="left" width="18%" valign="top">Date Entered
+                                                            </td>
+                                                            <td align="center" width="4%" valign="top">:
+                                                            </td>
+                                                            <td align="left" width="28%" valign="top">
+                                                                <asp:TextBox ID="txtDate_Entered" autocomplete="off" runat="server" SkinID="txtDisabled" Width="170px"></asp:TextBox>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -1613,8 +1620,15 @@
                                                             </td>
                                                             <td align="center" width="4%" valign="top">:
                                                             </td>
-                                                            <td align="left" width="28%" valign="top" colspan="4">
+                                                            <td align="left" width="28%" valign="top">
                                                                 <asp:Label ID="lblReference_Number" runat="server"></asp:Label>
+                                                            </td>
+                                                            <td align="left" width="18%" valign="top">Date Entered
+                                                            </td>
+                                                            <td align="center" width="4%" valign="top">:
+                                                            </td>
+                                                            <td align="left" width="28%" valign="top">
+                                                                <asp:Label ID="lblDate_Entered" runat="server"></asp:Label>
                                                             </td>
                                                         </tr>
                                                         <tr>

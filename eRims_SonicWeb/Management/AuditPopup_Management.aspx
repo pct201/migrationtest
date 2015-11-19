@@ -60,6 +60,9 @@
                                     <span style="display: inline-block; width: 150px;">Reference Number</span>
                                 </th>
                                 <th class="cols">
+                                    <span style="display: inline-block; width: 150px;">Date Entered</span>
+                                </th>
+                                <th class="cols">
                                     <span style="display: inline-block; width: 150px;">DBA</span>
                                 </th>
                                 <%--<th class="cols">
@@ -186,6 +189,12 @@
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
                                     <asp:Label ID="lblReference_Number" runat="server" Text='<%#Eval("Reference_Number")%>' Width="150px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Date Entered">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblDate_Entered" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("Date_Entered"))%>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Location">

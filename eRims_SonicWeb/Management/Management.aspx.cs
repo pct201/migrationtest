@@ -317,6 +317,7 @@ public partial class Management_Management : clsBasePage
                 PK_Management = Convert.ToDecimal(objRecord.PK_Management_ID);
 
             txtReferenceNumber.Text = Convert.ToString(objRecord.Reference_Number);
+            txtDate_Entered.Text = clsGeneral.FormatDBNullDateToDisplay(objRecord.Date_Entered);
 
             //txtCompany.Text = objRecord.Company != null ? objRecord.Company : "";
             //txtCompany_Phone.Text = objRecord.Company_Phone != null ? objRecord.Company_Phone : "";
@@ -469,6 +470,7 @@ public partial class Management_Management : clsBasePage
         if (PK_Management > 0)
         {
             lblReference_Number.Text = Convert.ToString(objRecord.Reference_Number);
+            lblDate_Entered.Text = clsGeneral.FormatDBNullDateToDisplay(objRecord.Date_Entered);
             //lblCompany.Text = objRecord.Company != null ? objRecord.Company : "";
             //lblCompany_Phone.Text = objRecord.Company_Phone != null ? objRecord.Company_Phone : "";
             //lblCity.Text = objRecord.City != null ? objRecord.City : "";
@@ -843,6 +845,7 @@ public partial class Management_Management : clsBasePage
 
             strBody = strBody.Replace("[DBA]", Convert.ToString(dtManagementDetail.Rows[0]["DBA"]));
             strBody = strBody.Replace("[Reference_Number]", Convert.ToString(dtManagementDetail.Rows[0]["Reference_Number"]));
+            strBody = strBody.Replace("[Date_Entered]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["Date_Entered"]));
             strBody = strBody.Replace("[LocationCode]", Convert.ToString(dtManagementDetail.Rows[0]["Location_Code"]));
             strBody = strBody.Replace("[DateScheduled]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["Date_Scheduled"]));
             strBody = strBody.Replace("[DateCompleted]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["Date_Complete"]));

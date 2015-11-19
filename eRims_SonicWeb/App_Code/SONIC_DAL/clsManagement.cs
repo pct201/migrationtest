@@ -68,6 +68,7 @@ namespace ERIMS.DAL
         private string _Comment;
         private string _Reference_Number;
         private decimal? _FK_LU_Approval_Submission;
+        private DateTime? _Date_Entered;
 
 		#endregion
 
@@ -567,6 +568,16 @@ namespace ERIMS.DAL
             get { return _FK_LU_Approval_Submission; }
             set { _FK_LU_Approval_Submission = value; }
         }
+
+        /// <summary>
+        /// Gets or sets the Date_Entered value.
+        /// </summary>
+        public DateTime? Date_Entered
+        {
+            get { return _Date_Entered; }
+            set { _Date_Entered = value; }
+        }
+
 		#endregion
 
 		#region Default Constructors
@@ -879,6 +890,11 @@ namespace ERIMS.DAL
                     this._FK_LU_Approval_Submission = null;
                 else
                     this._FK_LU_Approval_Submission = (decimal?)drManagement["FK_LU_Approval_Submission"];
+
+                if (drManagement["Date_Entered"] == DBNull.Value)
+                    this._Date_Entered = null;
+                else
+                    this._Date_Entered = (DateTime?)drManagement["Date_Entered"];
 		}
 
 		#endregion
