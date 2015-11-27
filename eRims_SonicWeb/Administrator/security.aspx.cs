@@ -92,6 +92,9 @@ public partial class Administrator_security : clsBasePage
         set { ViewState["pkID"] = value; }
     }
 
+    string strCCEmail1="Martin.Walsh@sonicautomotive.com";
+    string strCCEmail2="timothy.hallice@sonicautomotive.com";
+    
     #endregion
 
     #region Main Events
@@ -552,6 +555,7 @@ public partial class Administrator_security : clsBasePage
         //used to send Email
         if (pkID > 0)
         {
+
             //generate FIle and store it on disk
             clsGeneral.CreateDirectory(AppConfig.SitePath + "SONIC-Email/" + "FN" + "_" + "LN" + "/U_A_request/" + DateTime.Today.ToString("MM-dd-yyyy"));
 
@@ -559,18 +563,19 @@ public partial class Administrator_security : clsBasePage
             {
                 EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
 
+
                 if (Convert.ToBoolean(ViewState["blnRadio"]) == true && Convert.ToBoolean(ViewState["blnFacility"]) == true)
                 {
                     string[] strCC = new string[2];
-                    strCC[0] = "mrunal.parekh@server1.com";//Martin.Walsh@sonicautomotive.com
-                    strCC[1] = "prashant.sagar@server1.com";//timothy.hallice@sonicautomotive.com
+                    strCC[0] =  strCCEmail1;
+                    strCC[1] =  strCCEmail2;
 
                     objEmail.SendMail(AppConfig.MailFrom, "Admin", EmailTo, "eRIMS2 Access E-Mail 1 of 2", HtmlBody, false, null, strCC);
                 }
                 else if (Convert.ToBoolean(ViewState["blnRadio"]) == false && Convert.ToBoolean(ViewState["blnFacility"]) == true)
                 {
                     string[] strCCFacility = new string[1];
-                    strCCFacility[0] = "mrunal.parekh@server1.com";//Martin.Walsh@sonicautomotive.com
+                    strCCFacility[0] = strCCEmail1;
 
                     objEmail.SendMail(AppConfig.MailFrom, "Admin", EmailTo, "eRIMS2 Access E-Mail 1 of 2", HtmlBody, false, null, strCCFacility);
                 }
@@ -677,15 +682,15 @@ public partial class Administrator_security : clsBasePage
                 if (Convert.ToBoolean(ViewState["blnRadio"]) == true && Convert.ToBoolean(ViewState["blnFacility"]) == true)
                 {
                     string[] strCC = new string[2];
-                    strCC[0] = "mrunal.parekh@server1.com";///Martin.Walsh@sonicautomotive.com
-                    strCC[1] = "prashant.sagar@server1.com";//timothy.hallice@sonicautomotive.com
+                    strCC[0] = strCCEmail1;
+                    strCC[1] = strCCEmail2;
 
                     objEmail.SendMail(AppConfig.MailFrom, "Admin", EmailTo, "eRIMS2 Access E-Mail 2 of 2", HtmlBody, false, null, strCC);
                 }
                 else if (Convert.ToBoolean(ViewState["blnRadio"]) == false && Convert.ToBoolean(ViewState["blnFacility"]) == true)
                 {
                     string[] strCCFacility = new string[1];
-                    strCCFacility[0] = "mrunal.parekh@server1.com"; ///Martin.Walsh@sonicautomotive.com
+                    strCCFacility[0] = strCCEmail1;
 
                     objEmail.SendMail(AppConfig.MailFrom, "Admin", EmailTo, "eRIMS2 Access E-Mail 2 of 2", HtmlBody, false, null, strCCFacility);
                 }
