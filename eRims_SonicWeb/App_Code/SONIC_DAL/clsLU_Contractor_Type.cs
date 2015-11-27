@@ -185,5 +185,16 @@ namespace ERIMS.DAL
 
            return ret;
         }
+
+        public static decimal SelectPKByContractor()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_Contractor_TypeSelectPKByContractorType");
+
+            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
+
+            return returnValue;
+
+        }
     }
 }

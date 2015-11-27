@@ -880,5 +880,19 @@ namespace ERIMS.DAL
             PK_Contactor_Security = returnValue;
             return Convert.ToString(db.GetParameterValue(dbCommand, "Status"));
         }
+
+        /// <summary>
+        /// Selects a single record from the Security table by a primary key.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectByUserName(string pUser_Name)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("ContractorSecuritySelectByUserName");
+
+            db.AddInParameter(dbCommand, "User_Name", DbType.String, pUser_Name);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
     }
 }

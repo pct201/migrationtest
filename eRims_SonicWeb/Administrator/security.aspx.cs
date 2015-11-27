@@ -71,6 +71,26 @@ public partial class Administrator_security : clsBasePage
         set { ViewState["DiaryRightId"] = value; }
     }
 
+    /// <summary>
+    /// Get and Set Contactor Security ID
+    /// </summary>
+    private Int32 PK_Contactor_Security
+    {
+        get { return (!clsGeneral.IsNull(ViewState["PK_Contactor_Security"]) ? Convert.ToInt32(ViewState["PK_Contactor_Security"]) : 0); }
+        set { ViewState["PK_Contactor_Security"] = value; }
+    }
+
+    /// <summary>
+    /// Denotes the Primary Key
+    /// </summary>
+    public int pkID
+    {
+        get
+        {
+            return clsGeneral.GetInt(ViewState["pkID"]);
+        }
+        set { ViewState["pkID"] = value; }
+    }
 
     #endregion
 
@@ -205,6 +225,8 @@ public partial class Administrator_security : clsBasePage
                 txtPhone.Text = Convert.ToString(dt.Rows[0]["Telephone"]);
                 rdoIsSonicEmployee.SelectedValue = Convert.ToString(dt.Rows[0]["EmployeeName"]) == "" ? "0" : "1";
                 rdoIsSonicEmployee_OnSelectedIndexChanged(sender, e);
+                ViewState["blnRadio"] = Convert.ToBoolean(dt.Rows[0]["blnRadio"]);
+                ViewState["blnFacility"] = Convert.ToBoolean(dt.Rows[0]["blnFacility"]);
 
                 if (HdnEmployeeID.Value != "")
                     BindFROIeMailRecipients(true, Convert.ToInt32(HdnEmployeeID.Value));
@@ -260,132 +282,89 @@ public partial class Administrator_security : clsBasePage
     /// <param name="e"></param>
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        Security objSecurity = new Security(PK_Security_ID);
-        objSecurity.PK_Security_ID = PK_Security_ID;
+        DataTable dtSecurity = Security.SelectByUserName(txtUserID.Text).Tables[0];
+        DataTable dtContractorSecurity = Contractor_Security.SelectByUserName(txtUserID.Text).Tables[0];
 
-        // set value of Security object
-        objSecurity.FIRST_NAME = txtFirstName.Text.Trim().Replace("'", "\'");
-        objSecurity.LAST_NAME = txtLastName.Text.Trim().Replace("'", "\'");
-        objSecurity.PASSWORD = Encryption.Encrypt(txtPassword.Text.Trim().Replace("'", "\'").ToString());
-        objSecurity.USER_NAME = txtUserID.Text.Trim().Replace("'", "\'");
-        objSecurity.Email = txtEmail.Text.Trim().Replace("'", "\'");
-        objSecurity.Cost_Center = "";
-        objSecurity.Phone = txtPhone.Text.ToString();
-        objSecurity.UPDATED_BY = clsSession.UserID;
-        objSecurity.UPDATE_DATE = DateTime.Now;
-        objSecurity.Corporate_User = rdCorporateUser.SelectedValue;
-        string strAllowedReport = "";
-        foreach (ListItem objLstReport in lstReportType.Items)
+        if (Convert.ToBoolean(ViewState["blnRadio"]) == true && Convert.ToBoolean(ViewState["blnFacility"]) == true)
         {
-            if (objLstReport.Selected == true)
-                strAllowedReport = strAllowedReport + objLstReport.Value.ToString() + ",";
-        }
-        objSecurity.AllowedReportType = strAllowedReport.ToString().TrimEnd(Convert.ToChar(","));
-
-        if (rdoIsSonicEmployee.SelectedValue == "1")
-        {
-            objSecurity.Employee_Id = (HdnEmployeeID.Value.ToString() != string.Empty) ? Convert.ToDecimal(HdnEmployeeID.Value) : 0;
-            objSecurity.IsRegionalOfficer = rdoIsRegionalOfficer.SelectedValue == "1" ? true : false;
-        }
-        else
-        {
-            objSecurity.Employee_Id = 0;
-            objSecurity.IsRegionalOfficer = false;
-            //objSecurity.AllowedReportType = "";
-        }
-        objSecurity.USER_ROLE = rdoAdminRole.SelectedValue == "Y" ? Convert.ToDecimal(1) : Convert.ToDecimal(0);
-
-        Employee objEmp = new Employee(Convert.ToDecimal(objSecurity.Employee_Id));
-        string emp_name = string.Empty;
-
-        if (objEmp.Last_Name != null)
-            emp_name = Convert.ToString(objEmp.Last_Name).Trim();
-
-        if (objEmp.First_Name != null)
-            emp_name += Convert.ToString(objEmp.First_Name).Trim();
-
-        if (Convert.ToDecimal(objEmp.PK_Employee_ID) > 0)
-        {
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "AssignValue('" + emp_name.ToString().Replace("'", "\\'").Trim() + "','" + objSecurity.Employee_Id + "');", true);
-        }
-
-        string strRegions = "";
-
-        //if (clsSession.IsUserRegionalOfficer && PK_Security_ID.ToString() != clsSession.UserID)
-        //{
-        foreach (ListItem itm in lstRegion.Items)
-        {
-            if (itm.Selected)
-                strRegions = strRegions + itm.Text + ",";
-        }
-        strRegions = strRegions.TrimEnd(',');
-        //}
-        objSecurity.Region = strRegions;
-
-        if (PK_Security_ID > 0)
-        {
-            int RtnVal = objSecurity.Update();
-            // Used to Check Duplicate user ID?
-            if (RtnVal == -2)
+            if (dtContractorSecurity != null && dtContractorSecurity.Rows.Count > 0 && dtSecurity != null && dtSecurity.Rows.Count > 0)
             {
-                lblError.Text = "User ID already exists.";
+                lblError.Text = "User Id for Security and Facilities Contractor Security Already Exists.";
                 return;
             }
-
-        }
-        else
-        {
-            if (clsGeneral.CheckPassword(txtPassword.Text) == false)
+            else if (dtContractorSecurity != null && dtContractorSecurity.Rows.Count > 0)
             {
-                ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Password must have at least 7 characters, one character, one digit and one special character!')", true);
+                lblError.Text = "User Id for Facilities Contractor Security Already Exists.";
                 return;
             }
-            PK_Security_ID = objSecurity.Insert();
-
-            // Used to Check Duplicate User ID?
-            if (PK_Security_ID == -2)
+            else if (dtSecurity != null && dtSecurity.Rows.Count > 0)
             {
-                lblError.Text = "User ID already exists.";
+                lblError.Text = "User Id for Security Already Exists .";
                 return;
             }
             else
             {
-                if (Session["dtPromote"] != null)
+                Int32 val = InsertDataForSecurity();
+                Int32 valFacility = InsertDataForFacilityConstruction();
+
+                if (val > 0 && valFacility > 0)
                 {
-                    if (SendUserAccessRequestName())
-                    {
-                        if (SendUserAccessRequestPassword())
-                        {
-                            DataTable dt = (DataTable)Session["dtPromote"];
-                            if (dt.Rows.Count > 0)
-                            {
-                                if (!string.IsNullOrEmpty(dt.Rows[0]["PK_U_A_Request"].ToString()))
-                                {
-                                    U_A_Request u_a_request = new U_A_Request(Convert.ToDecimal(dt.Rows[0]["PK_U_A_Request"]));
-                                    u_a_request.Deny = false;
-                                    u_a_request.Update_Date = DateTime.Now;
-                                    if (!string.IsNullOrEmpty(clsSession.UserID))
-                                        u_a_request.Updated_By = clsSession.UserID;
-                                    else
-                                        u_a_request.Updated_By = "New User";
-
-                                    if (Convert.ToDecimal(dt.Rows[0]["PK_U_A_Request"].ToString()) > 0)
-                                    {
-                                        u_a_request.Update();
-                                    }
-
-                                }
-                            }
-                        }
-                        else
-                        {
-                            ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Emails couldn't be sent due to technical Issue!')", true);
-                        }
-                    }
+                    // InsertDataForFacilityConstruction();
+                    SendEmail();
+                }
+                else if (val == -3 || valFacility == -3)
+                {
+                    ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Password must have at least 7 characters, one character, one digit and one special character!')", true);
+                    return;
                 }
             }
-
         }
+        else if (Convert.ToBoolean(ViewState["blnRadio"]) == false && Convert.ToBoolean(ViewState["blnFacility"]) == true)
+        {
+
+            Int32 valFacility = InsertDataForFacilityConstruction();
+
+            if (dtContractorSecurity != null && dtContractorSecurity.Rows.Count > 0)
+            {
+                lblError.Text = "User Id for Facility Contractor Security Already Exists.";
+                return;
+            }
+            else
+            {
+                if (valFacility > 0)
+                {
+                    SendEmail();
+                }
+                else if (valFacility == -3)
+                {
+                    ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Password must have at least 7 characters, one character, one digit and one special character!')", true);
+                    return;
+                }
+            }
+        }
+        else
+        {
+            Int32 val = InsertDataForSecurity();
+
+            if (dtSecurity != null && dtSecurity.Rows.Count > 0)
+            {
+                lblError.Text = "User Id for Security Already Exists.";
+                return;
+            }
+            else
+            {
+                if (val > 0)
+                {
+                    SendEmail();
+                }
+                else if (val == -3)
+                {
+                    ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Password must have at least 7 characters, one character, one digit and one special character!')", true);
+                    return;
+                }
+            }
+        }
+
         //deleting Assoc user group
         Assoc_User_Group.DeleteByUserID(PK_Security_ID);
         //Adding Group value to database
@@ -511,33 +490,94 @@ public partial class Administrator_security : clsBasePage
     private bool SendUserAccessRequestName()
     {
         bool flag = false;
+        string HtmlBody = string.Empty;
+        int pkContractorID;
+        string[] EmailTo = new string[1];
 
-        //used to send Email
-        if (PK_Security_ID > 0)
+        if (Convert.ToBoolean(ViewState["blnRadio"]) == true && Convert.ToBoolean(ViewState["blnFacility"]) == true)
         {
-            string[] EmailTo = new string[1];
+            pkID = PK_Security_ID;
+            pkContractorID = PK_Contactor_Security;
 
-            Security objSecurity = new Security(PK_Security_ID);
-
-            if (string.IsNullOrEmpty(ViewState["Email"].ToString()))
+            if (pkID > 0 && pkContractorID > 0)
             {
-                EmailTo[0] = objSecurity.Email;
+                Security objSecurity = new Security(pkID);
+                Contractor_Security objContractorSecurity = new Contractor_Security(pkContractorID);
+
+                HtmlBody = "You have been granted access to the Sonic eRIMS2 system and Sonic Facilities Construction. The URL of the software Sonic eRIMS2 is https://sonic.erims2.com and Sonic Facilities Construction is https://sonicconstruction.erims2.com. Your User Id for Sonic eRIMS2 is " + objSecurity.USER_NAME + " and User Id for Sonic Facilities Construction is " + objContractorSecurity.User_Name + ". Your password will be forwarded to you in a separate e-mail.";
+
+                if (string.IsNullOrEmpty(ViewState["Email"].ToString()))
+                {
+                    EmailTo[0] = objSecurity.Email;
+                }
+                else
+                    EmailTo[0] = Convert.ToString(ViewState["Email"]);
             }
-            else
-                EmailTo[0] = Convert.ToString(ViewState["Email"]);
+        }
+        else if (Convert.ToBoolean(ViewState["blnRadio"]) == false && Convert.ToBoolean(ViewState["blnFacility"]) == true)
+        {
+            pkID = PK_Contactor_Security;
 
+            if (pkID > 0)
+            {
+                Contractor_Security objContractorSecurity = new Contractor_Security(pkID);
+                HtmlBody = "You have been granted access to the Sonic Facilities Construction. The URL of the software is https://sonicconstruction.erims2.com. Your User Id is " + objContractorSecurity.User_Name + ". Your password will be forwarded to you in a separate e-mail.";
 
-            string HtmlBody = "You have been granted access to the Sonic eRIMS2 system. The URL of the software is https://sonic.erims2.com. Your User Id is " + objSecurity.USER_NAME + ". Your password will be forwarded to you in a separate e-mail.";
+                if (string.IsNullOrEmpty(ViewState["Email"].ToString()))
+                {
+                    EmailTo[0] = objContractorSecurity.Email;
+                }
+                else
+                    EmailTo[0] = Convert.ToString(ViewState["Email"]);
+            }
+        }
+        else
+        {
+            pkID = PK_Security_ID;
 
+            if (pkID > 0)
+            {
+                Security objSecurity = new Security(pkID);
+                HtmlBody = "You have been granted access to the Sonic eRIMS2 system. The URL of the software is https://sonic.erims2.com. Your User Id is " + objSecurity.USER_NAME + ". Your password will be forwarded to you in a separate e-mail.";
+
+                if (string.IsNullOrEmpty(ViewState["Email"].ToString()))
+                {
+                    EmailTo[0] = objSecurity.Email;
+                }
+                else
+                    EmailTo[0] = Convert.ToString(ViewState["Email"]);
+            }
+
+        }
+        //used to send Email
+        if (pkID > 0)
+        {
             //generate FIle and store it on disk
             clsGeneral.CreateDirectory(AppConfig.SitePath + "SONIC-Email/" + "FN" + "_" + "LN" + "/U_A_request/" + DateTime.Today.ToString("MM-dd-yyyy"));
-
-
 
             if (EmailTo.Length > 0)
             {
                 EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
-                objEmail.SendMailMessage(AppConfig.MailFrom, "Admin", EmailTo, "eRIMS2 Access E-Mail 1 of 2", HtmlBody, false, null, string.Empty);
+
+                if (Convert.ToBoolean(ViewState["blnRadio"]) == true && Convert.ToBoolean(ViewState["blnFacility"]) == true)
+                {
+                    string[] strCC = new string[2];
+                    strCC[0] = "mrunal.parekh@server1.com";//Martin.Walsh@sonicautomotive.com
+                    strCC[1] = "prashant.sagar@server1.com";//timothy.hallice@sonicautomotive.com
+
+                    objEmail.SendMail(AppConfig.MailFrom, "Admin", EmailTo, "eRIMS2 Access E-Mail 1 of 2", HtmlBody, false, null, strCC);
+                }
+                else if (Convert.ToBoolean(ViewState["blnRadio"]) == false && Convert.ToBoolean(ViewState["blnFacility"]) == true)
+                {
+                    string[] strCCFacility = new string[1];
+                    strCCFacility[0] = "mrunal.parekh@server1.com";//Martin.Walsh@sonicautomotive.com
+
+                    objEmail.SendMail(AppConfig.MailFrom, "Admin", EmailTo, "eRIMS2 Access E-Mail 1 of 2", HtmlBody, false, null, strCCFacility);
+                }
+                else
+                {
+                    objEmail.SendMailMessage(AppConfig.MailFrom, "Admin", EmailTo, "eRIMS2 Access E-Mail 1 of 2", HtmlBody, false, null, string.Empty);
+                }
 
                 flag = true;
             }
@@ -561,33 +601,98 @@ public partial class Administrator_security : clsBasePage
     private bool SendUserAccessRequestPassword()
     {
         bool flag = false;
+        int pk, pkContractor;
+        string[] EmailTo = new string[1];
+        string HtmlBody = string.Empty;
+        U_A_Request_Admin objU_A_Request_Admin = new U_A_Request_Admin(1);
+
+        if (Convert.ToBoolean(ViewState["blnRadio"]) == true && Convert.ToBoolean(ViewState["blnFacility"]) == true)
+        {
+            pk = PK_Security_ID;
+            pkContractor = PK_Contactor_Security;
+            if (pk > 0 && pkContractor > 0)
+            {
+                Security objSecurity = new Security(pk);
+                Contractor_Security objContractorSecurity = new Contractor_Security(pkContractor);
+
+                if (string.IsNullOrEmpty(ViewState["Email"].ToString()))
+                {
+                    EmailTo[0] = objContractorSecurity.Email;
+                }
+                else
+                    EmailTo[0] = Convert.ToString(ViewState["Email"]);
+
+                HtmlBody = "Your initial Sonic eRIMS2 password is " + Encryption.Decrypt(objSecurity.PASSWORD) + ".Your initial Sonic Facilities Construction password is " + Encryption.Decrypt(objContractorSecurity.Password) + ". The password must be changed every 45 days. " +
+                "If you have questions using Sonic’s eRIMS2, please contact " + Convert.ToString(objU_A_Request_Admin.Name) + " at " + Convert.ToString(objU_A_Request_Admin.Admin_EMail) +
+                ". If you have questions using Sonic’s Facilities Construction, please contact " + Convert.ToString(objU_A_Request_Admin.Name) + " at " + Convert.ToString(objU_A_Request_Admin.Admin_EMail);
+            }
+        }
+        else if (Convert.ToBoolean(ViewState["blnRadio"]) == false && Convert.ToBoolean(ViewState["blnFacility"]) == true)
+        {
+            pk = PK_Contactor_Security;
+            if (pk > 0)
+            {
+                Contractor_Security objContractorSecurity = new Contractor_Security(pk);
+
+                if (string.IsNullOrEmpty(ViewState["Email"].ToString()))
+                {
+                    EmailTo[0] = objContractorSecurity.Email;
+                }
+                else
+                    EmailTo[0] = Convert.ToString(ViewState["Email"]);
+
+                HtmlBody = "Your initial Sonic Facilities Construction password is " + Encryption.Decrypt(objContractorSecurity.Password) + ". The password must be changed every 45 days. " +
+                "If you have questions using Sonic’s Facilities Construction, please contact " + Convert.ToString(objU_A_Request_Admin.Name) + " at " + Convert.ToString(objU_A_Request_Admin.Admin_EMail);
+            }
+        }
+        else
+        {
+            pk = PK_Security_ID;
+            if (pk > 0)
+            {
+                Security objSecurity = new Security(pk);
+
+                if (string.IsNullOrEmpty(ViewState["Email"].ToString()))
+                {
+                    EmailTo[0] = objSecurity.Email;
+                }
+                else
+                    EmailTo[0] = Convert.ToString(ViewState["Email"]);
+
+                HtmlBody = "Your initial Sonic eRIMS2 password is " + Encryption.Decrypt(objSecurity.PASSWORD) + ". The password must be changed every 45 days. " +
+                "If you have questions using Sonic’s eRIMS2, please contact " + Convert.ToString(objU_A_Request_Admin.Name) + " at " + Convert.ToString(objU_A_Request_Admin.Admin_EMail);
+            }
+        }
 
         //used to send Email
-        if (PK_Security_ID > 0)
+        if (pk > 0)
         {
-            string[] EmailTo = new string[1];
-            Security objSecurity = new Security(PK_Security_ID);
-            U_A_Request_Admin objU_A_Request_Admin = new U_A_Request_Admin(1);
-            if (string.IsNullOrEmpty(ViewState["Email"].ToString()))
-            {
-                EmailTo[0] = objSecurity.Email;
-            }
-            else
-                EmailTo[0] = Convert.ToString(ViewState["Email"]);
-
-            string HtmlBody = "Your initial Sonic eRIMS2 password is " + Encryption.Decrypt(objSecurity.PASSWORD) + ". The password must be changed every 45 days." +
-                "If you have questions using Sonic’s eRIMS2, please contact " + Convert.ToString(objU_A_Request_Admin.Name) + " at " + Convert.ToString(objU_A_Request_Admin.Admin_EMail);
-
             //generate FIle and store it on disk
             clsGeneral.CreateDirectory(AppConfig.SitePath + "SONIC-Email/" + "FN" + "_" + "LN" + "/U_A_request/" + DateTime.Today.ToString("MM-dd-yyyy"));
-
-
 
             if (EmailTo.Length > 0)
             {
                 EmailHelper objEmail = new EmailHelper(AppConfig.SMTPServer, AppConfig.MailFrom, AppConfig.SMTPpwd, Convert.ToInt32(AppConfig.Port));
 
-                objEmail.SendMailMessage(AppConfig.MailFrom, "Admin", EmailTo, "eRIMS2 Access E-Mail 2 of 2", HtmlBody, false, null, string.Empty);
+                if (Convert.ToBoolean(ViewState["blnRadio"]) == true && Convert.ToBoolean(ViewState["blnFacility"]) == true)
+                {
+                    string[] strCC = new string[2];
+                    strCC[0] = "mrunal.parekh@server1.com";///Martin.Walsh@sonicautomotive.com
+                    strCC[1] = "prashant.sagar@server1.com";//timothy.hallice@sonicautomotive.com
+
+                    objEmail.SendMail(AppConfig.MailFrom, "Admin", EmailTo, "eRIMS2 Access E-Mail 2 of 2", HtmlBody, false, null, strCC);
+                }
+                else if (Convert.ToBoolean(ViewState["blnRadio"]) == false && Convert.ToBoolean(ViewState["blnFacility"]) == true)
+                {
+                    string[] strCCFacility = new string[1];
+                    strCCFacility[0] = "mrunal.parekh@server1.com"; ///Martin.Walsh@sonicautomotive.com
+
+                    objEmail.SendMail(AppConfig.MailFrom, "Admin", EmailTo, "eRIMS2 Access E-Mail 2 of 2", HtmlBody, false, null, strCCFacility);
+                }
+                else
+                {
+                    objEmail.SendMailMessage(AppConfig.MailFrom, "Admin", EmailTo, "eRIMS2 Access E-Mail 2 of 2", HtmlBody, false, null, string.Empty);
+                }
 
                 ViewState["Email"] = null;
 
@@ -1558,6 +1663,191 @@ public partial class Administrator_security : clsBasePage
     // }
     // }
     //}
+
+    /// <summary>
+    /// Insert/Update data for Security Table
+    /// </summary>
+    /// <returns></returns>
+    private Int32 InsertDataForSecurity()
+    {
+        Security objSecurity = new Security(PK_Security_ID);
+
+        objSecurity.PK_Security_ID = PK_Security_ID;
+        // set value of Security object
+        objSecurity.FIRST_NAME = txtFirstName.Text.Trim().Replace("'", "\'");
+        objSecurity.LAST_NAME = txtLastName.Text.Trim().Replace("'", "\'");
+        objSecurity.PASSWORD = Encryption.Encrypt(txtPassword.Text.Trim().Replace("'", "\'").ToString());
+        objSecurity.USER_NAME = txtUserID.Text.Trim().Replace("'", "\'");
+        objSecurity.Email = txtEmail.Text.Trim().Replace("'", "\'");
+        objSecurity.Cost_Center = "";
+        objSecurity.Phone = txtPhone.Text.ToString();
+        objSecurity.UPDATED_BY = clsSession.UserID;
+        objSecurity.UPDATE_DATE = DateTime.Now;
+        objSecurity.Corporate_User = rdCorporateUser.SelectedValue;
+        string strAllowedReport = "";
+
+        foreach (ListItem objLstReport in lstReportType.Items)
+        {
+            if (objLstReport.Selected == true)
+                strAllowedReport = strAllowedReport + objLstReport.Value.ToString() + ",";
+        }
+        objSecurity.AllowedReportType = strAllowedReport.ToString().TrimEnd(Convert.ToChar(","));
+
+        if (rdoIsSonicEmployee.SelectedValue == "1")
+        {
+            objSecurity.Employee_Id = (HdnEmployeeID.Value.ToString() != string.Empty) ? Convert.ToDecimal(HdnEmployeeID.Value) : 0;
+            objSecurity.IsRegionalOfficer = rdoIsRegionalOfficer.SelectedValue == "1" ? true : false;
+        }
+        else
+        {
+            objSecurity.Employee_Id = 0;
+            objSecurity.IsRegionalOfficer = false;
+            //objSecurity.AllowedReportType = "";
+        }
+        objSecurity.USER_ROLE = rdoAdminRole.SelectedValue == "Y" ? Convert.ToDecimal(1) : Convert.ToDecimal(0);
+
+        Employee objEmp = new Employee(Convert.ToDecimal(objSecurity.Employee_Id));
+        string emp_name = string.Empty;
+
+        if (objEmp.Last_Name != null)
+            emp_name = Convert.ToString(objEmp.Last_Name).Trim();
+
+        if (objEmp.First_Name != null)
+            emp_name += Convert.ToString(objEmp.First_Name).Trim();
+
+        if (Convert.ToDecimal(objEmp.PK_Employee_ID) > 0)
+        {
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "AssignValue('" + emp_name.ToString().Replace("'", "\\'").Trim() + "','" + objSecurity.Employee_Id + "');", true);
+        }
+
+        string strRegions = "";
+
+        //if (clsSession.IsUserRegionalOfficer && PK_Security_ID.ToString() != clsSession.UserID)
+        //{
+        foreach (ListItem itm in lstRegion.Items)
+        {
+            if (itm.Selected)
+                strRegions = strRegions + itm.Text + ",";
+        }
+        strRegions = strRegions.TrimEnd(',');
+        //}
+        objSecurity.Region = strRegions;
+
+        if (PK_Security_ID > 0)
+        {
+            int RtnVal = objSecurity.Update();
+            // Used to Check Duplicate user ID?
+            if (RtnVal == -2)
+            {
+                lblError.Text = "User ID for Security already exists.";
+                return RtnVal;
+            }
+        }
+        else
+        {
+            if (clsGeneral.CheckPassword(txtPassword.Text) == false)
+            {                
+                return -3;
+            }
+
+            PK_Security_ID = objSecurity.Insert();
+        }
+
+        return PK_Security_ID;
+    }
+
+    /// <summary>
+    /// Insert/Update data for Facility Construction Table
+    /// </summary>
+    /// <returns></returns>
+    private Int32 InsertDataForFacilityConstruction()
+    {
+        Contractor_Security objContractorSecurity = new Contractor_Security(PK_Contactor_Security);
+
+        objContractorSecurity.PK_Contactor_Security = PK_Contactor_Security;
+        objContractorSecurity.First_Name = txtFirstName.Text.Trim().Replace("'", "\'");
+        objContractorSecurity.Last_Name = txtLastName.Text.Trim().Replace("'", "\'");
+        objContractorSecurity.Password = Encryption.Encrypt(txtPassword.Text.Trim().Replace("'", "\'").ToString());
+        objContractorSecurity.User_Name = txtUserID.Text.Trim().Replace("'", "\'");
+        objContractorSecurity.Email = txtEmail.Text.Trim().Replace("'", "\'");
+        objContractorSecurity.Updated_By = clsSession.UserID;
+        objContractorSecurity.Update_Date = DateTime.Now;
+        objContractorSecurity.FL_LU_FACILITY_CONSTRUCTION_ALERT_METHOD = LU_Facility_Construction_Alert_Method.SelectPKByAlertMethod();
+        objContractorSecurity.Dashboard_Type = 2;
+        objContractorSecurity.FK_Contractor_Firm = null;
+        objContractorSecurity.FK_LU_Contractor_Type = clsLU_Contractor_Type.SelectPKByContractor();
+
+        if (PK_Contactor_Security > 0)
+        {
+            int RtnVal = objContractorSecurity.Update();
+            // Used to Check Duplicate user ID?
+            if (RtnVal == -2)
+            {
+                lblError.Text = "User ID Facility Construction Module already exists.";
+                return RtnVal;
+            }
+        }
+        else
+        {
+            if (clsGeneral.CheckPassword(txtPassword.Text) == false)
+            {
+                ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Password must have at least 7 characters, one character, one digit and one special character!')", true);
+                return -3;
+            }
+            PK_Contactor_Security = objContractorSecurity.Insert();
+        }
+
+        return PK_Contactor_Security;
+    }
+
+    /// <summary>
+    /// Send Mail
+    /// </summary>
+    private void SendEmail()
+    {
+        // Used to Check Duplicate User ID?
+        if (PK_Security_ID == -2 || PK_Contactor_Security == -2)
+        {
+            lblError.Text = "User ID already exists.";
+            return;
+        }
+        else
+        {
+            if (Session["dtPromote"] != null)
+            {
+                if (SendUserAccessRequestName())
+                {
+                    if (SendUserAccessRequestPassword())
+                    {
+                        DataTable dt = (DataTable)Session["dtPromote"];
+                        if (dt.Rows.Count > 0)
+                        {
+                            if (!string.IsNullOrEmpty(dt.Rows[0]["PK_U_A_Request"].ToString()))
+                            {
+                                U_A_Request u_a_request = new U_A_Request(Convert.ToDecimal(dt.Rows[0]["PK_U_A_Request"]));
+                                u_a_request.Deny = false;
+                                u_a_request.Update_Date = DateTime.Now;
+                                if (!string.IsNullOrEmpty(clsSession.UserID))
+                                    u_a_request.Updated_By = clsSession.UserID;
+                                else
+                                    u_a_request.Updated_By = "New User";
+
+                                if (Convert.ToDecimal(dt.Rows[0]["PK_U_A_Request"].ToString()) > 0)
+                                {
+                                    u_a_request.Update();
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Emails couldn't be sent due to technical Issue!')", true);
+                    }
+                }
+            }
+        }
+    }
+
     #endregion
 
     #region Grid Events

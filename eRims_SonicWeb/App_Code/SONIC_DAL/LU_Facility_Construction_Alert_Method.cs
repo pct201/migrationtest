@@ -207,5 +207,16 @@ namespace ERIMS.DAL
 
             db.ExecuteNonQuery(dbCommand);
         }
+
+        public static decimal SelectPKByAlertMethod()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_Facility_Construction_Alert_MethodSelectPKByAlertMethod");
+
+            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
+
+            return returnValue;
+        }
+
     }
 }

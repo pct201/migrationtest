@@ -45,6 +45,24 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
         set { ViewState["SortOrder"] = value; }
     }
 
+    /// <summary>
+    /// Denotes value of Radio button
+    /// </summary>
+    private bool blnRadio
+    {
+        get { return Convert.ToBoolean(clsGeneral.GetNullBooleanValue(ViewState["blnRadio"])); }
+        set { ViewState["blnRadio"] = value; }
+    }
+    
+    /// <summary>
+    /// Denotes value of Radio button
+    /// </summary>
+    private bool blnFacility
+    {
+        get { return Convert.ToBoolean(clsGeneral.GetNullBooleanValue(ViewState["blnFacility"])); }
+        set { ViewState["blnFacility"] = value; }
+    }
+
     ///// <summary>
     ///// Get and Set Security ID
     ///// </summary>
@@ -285,9 +303,9 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
             u_a_request.SLT_Access = false;
 
         if (rdlFacilities_Construction_Access.SelectedValue == "1")
-            u_a_request.Facilities_Construction_Access = true;
+            u_a_request.Facilities_Construction_Access = blnFacility = true;
         else
-            u_a_request.Facilities_Construction_Access = false;
+            u_a_request.Facilities_Construction_Access = blnFacility = false;
 
         if (!string.IsNullOrEmpty(clsSession.UserID))
             u_a_request.Updated_By = clsSession.UserID;
@@ -299,6 +317,14 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
         if (PK_U_A_Request == 0)
             u_a_request.Created_Date = DateTime.Now;
 
+       if (rdlSecurity_Access.SelectedValue == "1" || rdlRegional_Market_Area_Associate.SelectedValue == "1" || rdlMultiple_Locations.SelectedValue == "1" || rdlBuilding_Access.SelectedValue == "1" || rdlE_S_H_Access.SelectedValue == "1" || rdlClaim_Report_Access.SelectedValue == "1" || rdlClaim_View_Access.SelectedValue == "1" || rdlSLT_Access.SelectedValue == "1")
+       {
+           blnRadio = true;
+       }
+       else
+       {
+           blnRadio = false;
+       }
 
         //u_a_request.Deny = null;
 
@@ -399,7 +425,9 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
         dt.Columns.Add("EmployeeId");
         dt.Columns.Add("EmployeeName");
         dt.Columns.Add("PK_U_A_Request");
-        dt.Rows.Add(lblFirstName.Text, lblLastName.Text, lblEmail.Text, lblTelephone.Text, lblEmployeeId.Text, lblAssociateName.Text, PK_U_A_Request);
+        dt.Columns.Add("blnRadio");
+        dt.Columns.Add("blnFacility");
+        dt.Rows.Add(lblFirstName.Text, lblLastName.Text, lblEmail.Text, lblTelephone.Text, lblEmployeeId.Text, lblAssociateName.Text, PK_U_A_Request, blnRadio, blnFacility);
         Session["dtPromote"] = dt;
         Response.Redirect(AppConfig.SiteURL + "Administrator/security.aspx");
     }
@@ -732,6 +760,24 @@ public partial class UserAccessRequestForm : System.Web.UI.Page
         lblSecurity_Access.Text = objU_A_Request.Security_Access == true ? "Yes" : "No";
         lblSLT_Access.Text = objU_A_Request.SLT_Access == true ? "Yes" : "No";
         lblFacilities_Construction_Access.Text = objU_A_Request.Facilities_Construction_Access == true ? "Yes" : "No";
+
+       if (objU_A_Request.SLT_Access == true || objU_A_Request.Security_Access == true || objU_A_Request.Claim_View_Access == true ||  objU_A_Request.Building_Access == true || objU_A_Request.E_S_H_Access == true || objU_A_Request.Claim_Report_Access == true)
+       {
+           blnRadio = true;
+       }
+       else
+       {
+           blnRadio = false;
+       }
+
+       if (objU_A_Request.Facilities_Construction_Access == true)
+       {
+           blnFacility = true;
+       }
+       else 
+       {  
+           blnFacility = false;
+       }
 
         ShowHideHomeOffice();
         ShowHideFieldOperation();
