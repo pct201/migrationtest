@@ -92,9 +92,9 @@ public partial class Administrator_security : clsBasePage
         set { ViewState["pkID"] = value; }
     }
 
-    string strCCEmail1="Martin.Walsh@sonicautomotive.com";
-    string strCCEmail2="timothy.hallice@sonicautomotive.com";
-    
+    string strCCEmail1 = ConfigurationManager.AppSettings["SecurityEmailCC1"].ToString();
+    string strCCEmail2 = ConfigurationManager.AppSettings["SecurityEmailCC2"].ToString();
+
     #endregion
 
     #region Main Events
@@ -567,8 +567,8 @@ public partial class Administrator_security : clsBasePage
                 if (Convert.ToBoolean(ViewState["blnRadio"]) == true && Convert.ToBoolean(ViewState["blnFacility"]) == true)
                 {
                     string[] strCC = new string[2];
-                    strCC[0] =  strCCEmail1;
-                    strCC[1] =  strCCEmail2;
+                    strCC[0] = strCCEmail1;
+                    strCC[1] = strCCEmail2;
 
                     objEmail.SendMail(AppConfig.MailFrom, "Admin", EmailTo, "eRIMS2 Access E-Mail 1 of 2", HtmlBody, false, null, strCC);
                 }
@@ -1751,7 +1751,7 @@ public partial class Administrator_security : clsBasePage
         else
         {
             if (clsGeneral.CheckPassword(txtPassword.Text) == false)
-            {                
+            {
                 return -3;
             }
 
