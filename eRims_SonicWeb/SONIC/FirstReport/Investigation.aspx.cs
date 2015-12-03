@@ -2329,7 +2329,7 @@ public partial class Exposures_Investigation : clsBasePage
         dtFields.DefaultView.RowFilter = "IsRequired = '1'";
         dtFields = dtFields.DefaultView.ToTable();
 
-        Label MenuAsterisk4 = (Label)mnuProperty.Controls[4].FindControl("MenuAsterisk");
+        Label MenuAsterisk4 = (Label)mnuProperty.Controls[5].FindControl("MenuAsterisk");
         MenuAsterisk4.Style["display"] = (dtFields.Select("LeftMenuIndex = 4").Length > 0) ? "inline-block" : "none";
 
         foreach (DataRow drField in dtFields.Rows)
