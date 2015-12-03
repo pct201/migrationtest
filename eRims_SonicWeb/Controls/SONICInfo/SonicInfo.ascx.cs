@@ -309,6 +309,27 @@ public partial class Controls_SONICInfo_SonicInfo : System.Web.UI.UserControl
         }
         else
         {
+            if (!string.IsNullOrEmpty(Convert.ToString(WC_FR_ID_For_Investigation)))
+            {
+                WC_FR objWC_FR = new WC_FR(WC_FR_ID_For_Investigation);
+
+                objInv.Physician_Other_Professional = objWC_FR.Physician_Other_Professional;
+                objInv.Facility = objWC_FR.Facility;
+                objInv.Facility_Address = objWC_FR.Facility_Address;
+                objInv.Facility_City = objWC_FR.Facility_City;
+
+                if (objWC_FR.FK_State_Facility > 0)
+                {
+                    objInv.FK_State_Facility = objWC_FR.FK_State_Facility;
+                }
+
+                objInv.Facility_Zip_Code = objWC_FR.Facility_Zip_Code;
+                objInv.Emergency_Room = objWC_FR.Emergency_Room;
+                objInv.Time_Began_Work = objWC_FR.Time_Began_Work;
+                objInv.Activity_Before_Incident = objWC_FR.Activity_Before_Incident;
+                objInv.Object_Substance_Involved = objWC_FR.Object_Substance_Involved;
+            }
+
             objInv.FK_WC_FR_ID = Convert.ToInt32(WC_FR_ID_For_Investigation);
             objInv.FK_LU_Location_ID = Convert.ToInt32(new WC_FR(WC_FR_ID_For_Investigation).FK_LU_Location);
             objInv.Updated_Date = System.DateTime.Now;

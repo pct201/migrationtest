@@ -368,6 +368,46 @@
                                         <span style="display: inline-block; width: 220px">If No, Explain Why</span>
                                     </th>
                                     <th class="cols">
+                                        <span style="display: inline-block; width: 160px">Classify the Incident</span>
+                                    </th> 
+                                     <th class="cols">
+                                        <span style="display: inline-block; width: 160px">Type of Injury</span>
+                                    </th>
+                                      <th class="cols">
+                                        <span style="display: inline-block; width: 160px">RLCM Reviewed and Approved</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 180px">Name of Physician or Other Health Care Professional </span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 160px">If Treatment is Given Away from the Worksite, Facility Where it Was Given </span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 160px">Treatment Facility Address </span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 160px">Treatment Facility City </span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 160px">Treatment Facility State </span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 160px">Facility_Zip_Code</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 160px">Emergency_Room</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 160px">Time_Began_Work</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 400px">Activity_Before_Incident</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 400px">Object_Substance_Involved</span>
+                                    </th>
+
+                                    <th class="cols">
                                         <span style="display: inline-block; width: 150px">Updated_By</span>
                                     </th>
                                     <th class="cols">
@@ -1024,7 +1064,7 @@
                                 <asp:TemplateField>
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
-                                        <asp:Label ID="lblAction_PlanComment" runat="server" Text='<%# Eval("Investigative_Quality") %>' Width="220px"></asp:Label>                                            
+                                        <asp:Label ID="lblInvestigative_Quality" runat="server" Text='<%# Eval("Investigative_Quality") %>' Width="220px"></asp:Label>                                            
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField>
@@ -1058,6 +1098,101 @@
                                         <asp:Label ID="No_Communication_Explanation" runat="server" Text='<%# Eval("No_Communication_Explanation") %>' Width="220px" ></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
+                                 
+                                <asp:TemplateField >
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblFK_LU_OSHA_Incident" runat="server" Text='<%# Eval("FK_LU_OSHA_Incident") %>'
+                                            Width="160px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField >
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblFK_LU_OSHA_Injury" runat="server" Text='<%# Eval("FK_LU_OSHA_Injury") %>'
+                                            Width="160px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField >
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblRLCM_Review_Approve" runat="server" Text='<%# clsGeneral.FormatYesNoToDisplay(Eval("RLCM_Review_Approve")) %>'
+                                            Width="160px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField >
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Physician_Other_Professional" runat="server" Text='<%# Eval("Physician_Other_Professional") %>'
+                                            Width="180px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField >
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Facility" runat="server" Text='<%# Eval("Facility") %>'
+                                            Width="160px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField >
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Facility_Address" runat="server" Text='<%# Eval("Facility_Address") %>'
+                                            Width="160px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField >
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Facility_City" runat="server" Text='<%# Eval("Facility_City") %>'
+                                            Width="160px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField >
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="FK_State_Facility" runat="server" Text='<%# Eval("FK_State_Facility") %>'
+                                            Width="160px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField >
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Facility_Zip_Code" runat="server" Text='<%# Eval("Facility_Zip_Code") %>'
+                                            Width="160px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField >
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Emergency_Room" runat="server" Text='<%# !String.IsNullOrEmpty(Convert.ToString(Eval("Emergency_Room"))) ? (Convert.ToString(Eval("Emergency_Room")) == "Y" ? "Yes" : "No") : "" %>'
+                                            Width="160px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField >
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Time_Began_Work" runat="server" Text='<%# Eval("Time_Began_Work") %>'
+                                            Width="160px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField >
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Activity_Before_Incident" runat="server" Text='<%# Eval("Activity_Before_Incident") %>'
+                                            Width="400px" CssClass="TextClip"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField >
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Object_Substance_Involved" runat="server" Text='<%# Eval("Object_Substance_Involved") %>'
+                                            Width="400px" CssClass="TextClip"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+
                                 <asp:TemplateField>
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>

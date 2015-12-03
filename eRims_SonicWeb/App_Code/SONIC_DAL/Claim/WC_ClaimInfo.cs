@@ -178,6 +178,12 @@ namespace ERIMS.DAL
         private string _RTW_Reason_For_Termination;
         private decimal _FK_Claim_Sub_Status;
         private decimal _FK_SLT_Claims_Management;
+        private DateTime? _OSHA_Start_Away_From_Work;
+        private DateTime? _OSHA_End_Away_From_Work;
+        private int? _OSHA_Days_Away_From_Work;
+        private DateTime? _OSHA_Start_Job_Transfer_Restriction;
+        private DateTime? _OSHA_End_Job_Transfer_Restriction;
+        private int? _OSHA_Days_Job_Transfer_Restriction;
         #endregion
 
         #region Properties
@@ -1693,6 +1699,61 @@ namespace ERIMS.DAL
             get { return _FK_SLT_Claims_Management; }
             set { _FK_SLT_Claims_Management = value; }
         }
+
+        /// <summary>
+        /// Gets or sets the OSHA_Start_Away_From_Work value.
+        /// </summary>
+        public DateTime? OSHA_Start_Away_From_Work
+        {
+            get { return _OSHA_Start_Away_From_Work; }
+            set { _OSHA_Start_Away_From_Work = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the OSHA_End_Away_From_Work value.
+        /// </summary>
+        public DateTime? OSHA_End_Away_From_Work
+        {
+            get { return _OSHA_End_Away_From_Work; }
+            set { _OSHA_End_Away_From_Work = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the OSHA_Days_Away_From_Work value.
+        /// </summary>
+        public int? OSHA_Days_Away_From_Work
+        {
+            get { return _OSHA_Days_Away_From_Work; }
+            set { _OSHA_Days_Away_From_Work = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the OSHA_Start_Job_Transfer_Restriction value.
+        /// </summary>
+        public DateTime? OSHA_Start_Job_Transfer_Restriction
+        {
+            get { return _OSHA_Start_Job_Transfer_Restriction; }
+            set { _OSHA_Start_Job_Transfer_Restriction = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the OSHA_End_Job_Transfer_Restriction value.
+        /// </summary>
+        public DateTime? OSHA_End_Job_Transfer_Restriction
+        {
+            get { return _OSHA_End_Job_Transfer_Restriction; }
+            set { _OSHA_End_Job_Transfer_Restriction = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the OSHA_Days_Job_Transfer_Restriction value.
+        /// </summary>
+        public int? OSHA_Days_Job_Transfer_Restriction
+        {
+            get { return _OSHA_Days_Job_Transfer_Restriction; }
+            set { _OSHA_Days_Job_Transfer_Restriction = value; }
+        }
+
         #endregion
 
         #region Constructors
@@ -1841,6 +1902,12 @@ namespace ERIMS.DAL
             this._FK_Claim_Sub_Status = -1;
             this._FK_SLT_Claims_Management = -1;
 
+            this.OSHA_Start_Away_From_Work = null;
+            this._OSHA_End_Away_From_Work = null;
+            this.OSHA_Days_Away_From_Work = null;
+            this._OSHA_Start_Job_Transfer_Restriction = null;
+            this._OSHA_End_Job_Transfer_Restriction = null;
+            this._OSHA_Days_Job_Transfer_Restriction = null;
         }
 
 
@@ -1990,6 +2057,37 @@ namespace ERIMS.DAL
                 this._Voca_Rehab_Education_PTD = drWorkers_Comp_Claims["Voca_Rehab_Education_PTD"] != DBNull.Value ? Convert.ToDecimal(drWorkers_Comp_Claims["Voca_Rehab_Education_PTD"]) : 0;
                 this._FK_Claim_Sub_Status = drWorkers_Comp_Claims["FK_Claim_Sub_Status"] != DBNull.Value ? Convert.ToDecimal(drWorkers_Comp_Claims["FK_Claim_Sub_Status"]) : 0;
                 this._FK_SLT_Claims_Management = drWorkers_Comp_Claims["FK_SLT_Claims_Management"] != DBNull.Value ? Convert.ToDecimal(drWorkers_Comp_Claims["FK_SLT_Claims_Management"]) : 0;
+
+                if (drWorkers_Comp_Claims["OSHA_Start_Away_From_Work"] == DBNull.Value)
+                    this._OSHA_Start_Away_From_Work = null;
+                else
+                    this._OSHA_Start_Away_From_Work = (DateTime?)drWorkers_Comp_Claims["OSHA_Start_Away_From_Work"];
+
+                if (drWorkers_Comp_Claims["OSHA_End_Away_From_Work"] == DBNull.Value)
+                    this._OSHA_End_Away_From_Work = null;
+                else
+                    this._OSHA_End_Away_From_Work = (DateTime?)drWorkers_Comp_Claims["OSHA_End_Away_From_Work"];
+
+                if (drWorkers_Comp_Claims["OSHA_Days_Away_From_Work"] == DBNull.Value)
+                    this._OSHA_Days_Away_From_Work = null;
+                else
+                    this._OSHA_Days_Away_From_Work = (int?)drWorkers_Comp_Claims["OSHA_Days_Away_From_Work"];
+
+                if (drWorkers_Comp_Claims["OSHA_Start_Job_Transfer_Restriction"] == DBNull.Value)
+                    this._OSHA_Start_Job_Transfer_Restriction = null;
+                else
+                    this._OSHA_Start_Job_Transfer_Restriction = (DateTime?)drWorkers_Comp_Claims["OSHA_Start_Job_Transfer_Restriction"];
+
+                if (drWorkers_Comp_Claims["OSHA_End_Job_Transfer_Restriction"] == DBNull.Value)
+                    this._OSHA_End_Job_Transfer_Restriction = null;
+                else
+                    this._OSHA_End_Job_Transfer_Restriction = (DateTime?)drWorkers_Comp_Claims["OSHA_End_Job_Transfer_Restriction"];
+
+                if (drWorkers_Comp_Claims["OSHA_Days_Job_Transfer_Restriction"] == DBNull.Value)
+                    this._OSHA_Days_Job_Transfer_Restriction = null;
+                else
+                    this._OSHA_Days_Job_Transfer_Restriction = (int?)drWorkers_Comp_Claims["OSHA_Days_Job_Transfer_Restriction"];
+
             }
             else
             {
@@ -2130,6 +2228,13 @@ namespace ERIMS.DAL
                 this._Voca_Rehab_Education_PTD = -1;
                 this._FK_Claim_Sub_Status = -1;
                 this._FK_SLT_Claims_Management = -1;
+
+                this.OSHA_Start_Away_From_Work = null;
+                this._OSHA_End_Away_From_Work = null;
+                this.OSHA_Days_Away_From_Work = null;
+                this._OSHA_Start_Job_Transfer_Restriction = null;
+                this._OSHA_End_Job_Transfer_Restriction = null;
+                this._OSHA_Days_Job_Transfer_Restriction = null;
             }
         }
 
@@ -2272,7 +2377,25 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void UpdateOSHA_Dates()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Workers_Comp_ClaimsUpdate_OSHA_Dates");
+
+            db.AddInParameter(dbCommand, "PK_Workers_Comp_Claims_ID", DbType.Int64, PK_Workers_Comp_Claims_ID);
+            db.AddInParameter(dbCommand, "OSHA_Start_Away_From_Work", DbType.DateTime, OSHA_Start_Away_From_Work);
+            db.AddInParameter(dbCommand, "OSHA_End_Away_From_Work", DbType.DateTime, OSHA_End_Away_From_Work);
+            db.AddInParameter(dbCommand, "OSHA_Days_Away_From_Work", DbType.Int32, OSHA_Days_Away_From_Work);
+            db.AddInParameter(dbCommand, "OSHA_Start_Job_Transfer_Restriction", DbType.DateTime, OSHA_Start_Job_Transfer_Restriction);
+            db.AddInParameter(dbCommand, "OSHA_End_Job_Transfer_Restriction", DbType.DateTime, OSHA_End_Job_Transfer_Restriction);
+            db.AddInParameter(dbCommand, "OSHA_Days_Job_Transfer_Restriction", DbType.Int32, OSHA_Days_Job_Transfer_Restriction);
+
+            db.ExecuteNonQuery(dbCommand);
+        }
         #endregion
     }
 }

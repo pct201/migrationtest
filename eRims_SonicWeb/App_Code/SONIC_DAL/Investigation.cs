@@ -122,6 +122,21 @@ namespace ERIMS.DAL
         private string _Communicated;
         private DateTime? _Date_Communicated;
         private string _No_Communication_Explanation;
+        private decimal? _FK_LU_OSHA_Incident;
+        private decimal? _FK_LU_OSHA_Injury;
+        private string _RLCM_Review_Approve;
+
+        private string _Physician_Other_Professional;
+        private string _Facility;
+        private string _Facility_Address;
+        private string _Facility_City;
+        private decimal? _FK_State_Facility;
+        private string _Facility_Zip_Code;
+        private string _Emergency_Room;
+        private string _Time_Began_Work;
+        private string _Activity_Before_Incident;
+        private string _Object_Substance_Involved;
+
         #endregion
 
 
@@ -1134,6 +1149,122 @@ namespace ERIMS.DAL
             set { _No_Communication_Explanation = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the FK_LU_OSHA_Incident value.
+        /// </summary>
+        public decimal? FK_LU_OSHA_Incident
+        {
+            get { return _FK_LU_OSHA_Incident; }
+            set { _FK_LU_OSHA_Incident = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the FK_LU_OSHA_Injury value.
+        /// </summary>
+        public decimal? FK_LU_OSHA_Injury
+        {
+            get { return _FK_LU_OSHA_Injury; }
+            set { _FK_LU_OSHA_Injury = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the RLCM_Review_Approve value.
+        /// </summary>
+        public string RLCM_Review_Approve
+        {
+            get { return _RLCM_Review_Approve; }
+            set { _RLCM_Review_Approve = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Physician_Other_Professional value
+        /// </summary>
+        public string Physician_Other_Professional
+        {
+            get { return _Physician_Other_Professional; }
+            set { _Physician_Other_Professional = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Facility value
+        /// </summary>
+        public string Facility
+        {
+            get { return _Facility; }
+            set { _Facility = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Facility_Address value
+        /// </summary>
+        public string Facility_Address
+        {
+            get { return _Facility_Address; }
+            set { _Facility_Address = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Facility_City value
+        /// </summary>
+        public string Facility_City
+        {
+            get { return _Facility_City; }
+            set { _Facility_City = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets FK_State_Facility value
+        /// </summary>
+        public decimal? FK_State_Facility
+        {
+            get { return _FK_State_Facility; }
+            set { _FK_State_Facility = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Facility_Zip_Code value
+        /// </summary>
+        public string Facility_Zip_Code
+        {
+            get { return _Facility_Zip_Code; }
+            set { _Facility_Zip_Code = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Emergency_Room value
+        /// </summary>
+        public string Emergency_Room
+        {
+            get { return _Emergency_Room; }
+            set { _Emergency_Room = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Time_Began_Work value
+        /// </summary>
+        public string Time_Began_Work
+        {
+            get { return _Time_Began_Work; }
+            set { _Time_Began_Work = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Activity_Before_Incident value
+        /// </summary>
+        public string Activity_Before_Incident
+        {
+            get { return _Activity_Before_Incident; }
+            set { _Activity_Before_Incident = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Object_Substance_Involved value
+        /// </summary>
+        public string Object_Substance_Involved
+        {
+            get { return _Object_Substance_Involved; }
+            set { _Object_Substance_Involved = value; }
+        }
 
         #endregion
 
@@ -1174,6 +1305,20 @@ namespace ERIMS.DAL
             this._RLCM_Comments = null;
             this.FK_LU_Contributing_Factor = null;
             this.Contributing_Factor_Other = "";
+            this.FK_LU_OSHA_Incident = null;
+            this.FK_LU_OSHA_Injury = null;
+            this.RLCM_Review_Approve = string.Empty;
+
+            this._Physician_Other_Professional = string.Empty;
+            this._Facility = string.Empty;
+            this._Facility_Address = string.Empty;
+            this._Facility_City = string.Empty;
+            this._FK_State_Facility = null;
+            this._Facility_Zip_Code = string.Empty;
+            this._Emergency_Room = string.Empty;
+            this._Time_Began_Work = string.Empty;
+            this._Activity_Before_Incident = string.Empty;
+            this._Object_Substance_Involved = string.Empty;
         }
 
         /// <summary> 
@@ -1323,7 +1468,7 @@ namespace ERIMS.DAL
                     this._Contributing_Factor_Other = null;
                 else
                     this._Contributing_Factor_Other = (string)drInvestigation["Contributing_Factor_Other"];
-                
+
                 if (drInvestigation["Timing"] == DBNull.Value)
                     this._Timing = null;
                 else
@@ -1385,24 +1530,55 @@ namespace ERIMS.DAL
                     this._Action_Plan_Comment = (string)drInvestigation["Action_Plan_Comment"];
 
                 if (drInvestigation["Focus_Area"] == DBNull.Value)
-					this._Focus_Area = null;
-				else
-					this._Focus_Area = (string)drInvestigation["Focus_Area"];
+                    this._Focus_Area = null;
+                else
+                    this._Focus_Area = (string)drInvestigation["Focus_Area"];
 
-				if (drInvestigation["Communicated"] == DBNull.Value)
-					this._Communicated = null;
-				else
-					this._Communicated = (string)drInvestigation["Communicated"];
+                if (drInvestigation["Communicated"] == DBNull.Value)
+                    this._Communicated = null;
+                else
+                    this._Communicated = (string)drInvestigation["Communicated"];
 
-				if (drInvestigation["Date_Communicated"] == DBNull.Value)
-					this._Date_Communicated = null;
-				else
-					this._Date_Communicated = (DateTime?)drInvestigation["Date_Communicated"];
+                if (drInvestigation["Date_Communicated"] == DBNull.Value)
+                    this._Date_Communicated = null;
+                else
+                    this._Date_Communicated = (DateTime?)drInvestigation["Date_Communicated"];
 
-				if (drInvestigation["No_Communication_Explanation"] == DBNull.Value)
-					this._No_Communication_Explanation = null;
-				else
-					this._No_Communication_Explanation = (string)drInvestigation["No_Communication_Explanation"];
+                if (drInvestigation["No_Communication_Explanation"] == DBNull.Value)
+                    this._No_Communication_Explanation = null;
+                else
+                    this._No_Communication_Explanation = (string)drInvestigation["No_Communication_Explanation"];
+
+                if (drInvestigation["FK_LU_OSHA_Incident"] == DBNull.Value)
+                    this._FK_LU_OSHA_Incident = null;
+                else
+                    this._FK_LU_OSHA_Incident = (decimal?)drInvestigation["FK_LU_OSHA_Incident"];
+
+                if (drInvestigation["FK_LU_OSHA_Injury"] == DBNull.Value)
+                    this._FK_LU_OSHA_Injury = null;
+                else
+                    this._FK_LU_OSHA_Injury = (decimal?)drInvestigation["FK_LU_OSHA_Injury"];
+
+                if (drInvestigation["RLCM_Review_Approve"] == DBNull.Value)
+                    this._RLCM_Review_Approve = null;
+                else
+                    this._RLCM_Review_Approve = (string)drInvestigation["RLCM_Review_Approve"];
+
+                this._Physician_Other_Professional = Convert.ToString(drInvestigation["Physician_Other_Professional"]);
+                this._Facility = Convert.ToString(drInvestigation["Facility"]);
+                this._Facility_Address = Convert.ToString(drInvestigation["Facility_Address"]);
+                this._Facility_City = Convert.ToString(drInvestigation["Facility_City"]);
+
+                if (drInvestigation["FK_State_Facility"] == DBNull.Value)
+                    this._FK_State_Facility = null;
+                else
+                    this._FK_State_Facility = Convert.ToDecimal(drInvestigation["FK_State_Facility"]);
+
+                this._Facility_Zip_Code = Convert.ToString(drInvestigation["Facility_Zip_Code"]);
+                this._Emergency_Room = Convert.ToString(drInvestigation["Emergency_Room"]);
+                this._Time_Began_Work = Convert.ToString(drInvestigation["Time_Began_Work"]);
+                this._Activity_Before_Incident = Convert.ToString(drInvestigation["Activity_Before_Incident"]);
+                this._Object_Substance_Involved = Convert.ToString(drInvestigation["Object_Substance_Involved"]);
 
             }
             else
@@ -1450,9 +1626,24 @@ namespace ERIMS.DAL
                 this.Action_Plan = string.Empty;
                 this.Action_Plan_Comment = string.Empty;
                 this.Focus_Area = string.Empty;
-                this.Communicated= string.Empty;
-                this.Date_Communicated =(DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
+                this.Communicated = string.Empty;
+                this.Date_Communicated = (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue;
                 this.No_Communication_Explanation = string.Empty;
+
+                this.FK_LU_OSHA_Incident = null;
+                this.FK_LU_OSHA_Injury = null;
+                this.RLCM_Review_Approve = string.Empty;
+
+                this._Physician_Other_Professional = string.Empty;
+                this._Facility = string.Empty;
+                this._Facility_Address = string.Empty;
+                this._Facility_City = string.Empty;
+                this._FK_State_Facility = null;
+                this._Facility_Zip_Code = string.Empty;
+                this._Emergency_Room = string.Empty;
+                this._Time_Began_Work = string.Empty;
+                this._Activity_Before_Incident = string.Empty;
+                this._Object_Substance_Involved = string.Empty;
             }
         }
 
@@ -1614,23 +1805,43 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Root_Causes_Comment", DbType.String, this._Root_Causes_Comment);
             db.AddInParameter(dbCommand, "Action_Plan", DbType.String, this._Action_Plan);
             db.AddInParameter(dbCommand, "Action_Plan_Comment", DbType.String, this._Action_Plan_Comment);
-            
+
             if (string.IsNullOrEmpty(this._Focus_Area))
-				db.AddInParameter(dbCommand, "Focus_Area", DbType.String, DBNull.Value);
-			else
-				db.AddInParameter(dbCommand, "Focus_Area", DbType.String, this._Focus_Area);
-			
-			if (string.IsNullOrEmpty(this._Communicated))
-				db.AddInParameter(dbCommand, "Communicated", DbType.String, DBNull.Value);
-			else
-				db.AddInParameter(dbCommand, "Communicated", DbType.String, this._Communicated);
-			
-			db.AddInParameter(dbCommand, "Date_Communicated", DbType.DateTime, this._Date_Communicated);
-			
-			if (string.IsNullOrEmpty(this._No_Communication_Explanation))
-				db.AddInParameter(dbCommand, "No_Communication_Explanation", DbType.String, DBNull.Value);
-			else
-				db.AddInParameter(dbCommand, "No_Communication_Explanation", DbType.String, this._No_Communication_Explanation);
+                db.AddInParameter(dbCommand, "Focus_Area", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Focus_Area", DbType.String, this._Focus_Area);
+
+            if (string.IsNullOrEmpty(this._Communicated))
+                db.AddInParameter(dbCommand, "Communicated", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Communicated", DbType.String, this._Communicated);
+
+            db.AddInParameter(dbCommand, "Date_Communicated", DbType.DateTime, this._Date_Communicated);
+
+            if (string.IsNullOrEmpty(this._No_Communication_Explanation))
+                db.AddInParameter(dbCommand, "No_Communication_Explanation", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "No_Communication_Explanation", DbType.String, this._No_Communication_Explanation);
+
+            db.AddInParameter(dbCommand, "FK_LU_OSHA_Incident", DbType.Decimal, this._FK_LU_OSHA_Incident);
+
+            db.AddInParameter(dbCommand, "FK_LU_OSHA_Injury", DbType.Decimal, this._FK_LU_OSHA_Injury);
+
+            if (string.IsNullOrEmpty(this._RLCM_Review_Approve))
+                db.AddInParameter(dbCommand, "RLCM_Review_Approve", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "RLCM_Review_Approve", DbType.String, this._RLCM_Review_Approve);
+
+            db.AddInParameter(dbCommand, "Physician_Other_Professional", DbType.String, this._Physician_Other_Professional);
+            db.AddInParameter(dbCommand, "Facility", DbType.String, this._Facility);
+            db.AddInParameter(dbCommand, "Facility_Address", DbType.String, this._Facility_Address);
+            db.AddInParameter(dbCommand, "Facility_City", DbType.String, this._Facility_City);
+            db.AddInParameter(dbCommand, "FK_State_Facility", DbType.Decimal, this._FK_State_Facility);
+            db.AddInParameter(dbCommand, "Facility_Zip_Code", DbType.String, this._Facility_Zip_Code);
+            db.AddInParameter(dbCommand, "Emergency_Room", DbType.String, this._Emergency_Room);
+            db.AddInParameter(dbCommand, "Time_Began_Work", DbType.String, this._Time_Began_Work);
+            db.AddInParameter(dbCommand, "Activity_Before_Incident", DbType.String, this._Activity_Before_Incident);
+            db.AddInParameter(dbCommand, "Object_Substance_Involved", DbType.String, this._Object_Substance_Involved);
 
 
             // Execute the query and return the new identity value
@@ -1819,21 +2030,41 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Action_Plan", DbType.String, this._Action_Plan);
             db.AddInParameter(dbCommand, "Action_Plan_Comment", DbType.String, this._Action_Plan_Comment);
             if (string.IsNullOrEmpty(this._Focus_Area))
-				db.AddInParameter(dbCommand, "Focus_Area", DbType.String, DBNull.Value);
-			else
-				db.AddInParameter(dbCommand, "Focus_Area", DbType.String, this._Focus_Area);
-			
-			if (string.IsNullOrEmpty(this._Communicated))
-				db.AddInParameter(dbCommand, "Communicated", DbType.String, DBNull.Value);
-			else
-				db.AddInParameter(dbCommand, "Communicated", DbType.String, this._Communicated);
-			
-			db.AddInParameter(dbCommand, "Date_Communicated", DbType.DateTime, this._Date_Communicated);
-			
-			if (string.IsNullOrEmpty(this._No_Communication_Explanation))
-				db.AddInParameter(dbCommand, "No_Communication_Explanation", DbType.String, DBNull.Value);
-			else
-				db.AddInParameter(dbCommand, "No_Communication_Explanation", DbType.String, this._No_Communication_Explanation);
+                db.AddInParameter(dbCommand, "Focus_Area", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Focus_Area", DbType.String, this._Focus_Area);
+
+            if (string.IsNullOrEmpty(this._Communicated))
+                db.AddInParameter(dbCommand, "Communicated", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Communicated", DbType.String, this._Communicated);
+
+            db.AddInParameter(dbCommand, "Date_Communicated", DbType.DateTime, this._Date_Communicated);
+
+            if (string.IsNullOrEmpty(this._No_Communication_Explanation))
+                db.AddInParameter(dbCommand, "No_Communication_Explanation", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "No_Communication_Explanation", DbType.String, this._No_Communication_Explanation);
+
+            db.AddInParameter(dbCommand, "FK_LU_OSHA_Incident", DbType.Decimal, this._FK_LU_OSHA_Incident);
+
+            db.AddInParameter(dbCommand, "FK_LU_OSHA_Injury", DbType.Decimal, this._FK_LU_OSHA_Injury);
+
+            if (string.IsNullOrEmpty(this._RLCM_Review_Approve))
+                db.AddInParameter(dbCommand, "RLCM_Review_Approve", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "RLCM_Review_Approve", DbType.String, this._RLCM_Review_Approve);
+
+            db.AddInParameter(dbCommand, "Physician_Other_Professional", DbType.String, this._Physician_Other_Professional);
+            db.AddInParameter(dbCommand, "Facility", DbType.String, this._Facility);
+            db.AddInParameter(dbCommand, "Facility_Address", DbType.String, this._Facility_Address);
+            db.AddInParameter(dbCommand, "Facility_City", DbType.String, this._Facility_City);
+            db.AddInParameter(dbCommand, "FK_State_Facility", DbType.Decimal, this._FK_State_Facility);
+            db.AddInParameter(dbCommand, "Facility_Zip_Code", DbType.String, this._Facility_Zip_Code);
+            db.AddInParameter(dbCommand, "Emergency_Room", DbType.String, this._Emergency_Room);
+            db.AddInParameter(dbCommand, "Time_Began_Work", DbType.String, this._Time_Began_Work);
+            db.AddInParameter(dbCommand, "Activity_Before_Incident", DbType.String, this._Activity_Before_Incident);
+            db.AddInParameter(dbCommand, "Object_Substance_Involved", DbType.String, this._Object_Substance_Involved);
 
             db.ExecuteNonQuery(dbCommand);
         }

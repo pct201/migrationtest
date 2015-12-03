@@ -98,6 +98,12 @@
         <siteMapNode url="" title="ACI Event" description="">
           <siteMapNode url="Event/ACI_Event_Report.aspx" title="ACI Event Report" description="ACI Event Report"/>
         </siteMapNode>
+
+        <siteMapNode url="" title="OSHA" description="">
+          <siteMapNode url="SONIC/FirstReport/rptOSHA300.aspx" title="300 and 300A" description="300 and 300A Report"/>
+          <siteMapNode url="SONIC/FirstReport/rptOSHA301.aspx" title="301" description="301 Report"/>
+        </siteMapNode>
+        
       </siteMapNode>
       <siteMapNode url="" title="Ad-Hoc Report Writer" description="">
         <siteMapNode url="SONIC/Exposures/AssetProtection_AdHocReportWriter.aspx" title="Asset Protection" description="Asset Protection"/>

@@ -201,6 +201,10 @@ public partial class Exposures_Investigation : clsBasePage
 
             bIsUserRLCMOfficer = ((objLU_Location.FK_Employee_Id != null && objLU_Location.FK_Employee_Id == clsSession.CurrentLoginEmployeeId) || IsUserSystemAdmin);
 
+            rblRLCM_Reviewed_and_Approved.Enabled = bIsUserRLCMOfficer;
+            ComboHelper.FillOSHA_Incident(new DropDownList[] { ddlClassify_Incident }, true);
+            ComboHelper.FillOSHA_Injury(new DropDownList[] { ddlType_of_Injury }, true);
+
             if (strOperation != string.Empty)
             {
                 // check for the operation whether edit or view
@@ -214,6 +218,7 @@ public partial class Exposures_Investigation : clsBasePage
                     }
                     ComboHelper.FillContributing_Factor(new DropDownList[] { drpFk_LU_Contributing_Factor }, true);
                     ComboHelper.FillFocusAreaCauseCode(new DropDownList[] { drpCauseOfIncident }, true);
+                    ComboHelper.FillState(new DropDownList[] { ddlFK_State_Facility }, 0, true);
 
                     //bool bLocInfoComplete = objInvestigation.Location_Information_Complete;
                     //bool bIsRegOfficer = new Security(Convert.ToDecimal(clsSession.UserID)).IsRegionalOfficer;
@@ -537,6 +542,48 @@ public partial class Exposures_Investigation : clsBasePage
         }
     }
 
+    /// <summary>
+    /// Handles Save & Next button click in WC OSHA section
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnWC_OSHA_Click(object sender, EventArgs e)
+    {
+        // check if FK is available or not
+        if (FK_WC_FR > 0)
+        {
+            // declare the object for investigation
+            Investigation objInvestigation = new Investigation(PK_Investigation_ID);
+
+            objInvestigation.Physician_Other_Professional = txtPhysician_Other_Professional.Text.Trim();
+            objInvestigation.Facility = txtFacility.Text.Trim();
+            objInvestigation.Facility_Address = txtFacility_Address.Text.Trim();
+            objInvestigation.Facility_City = txtFacility_City.Text.Trim();
+            objInvestigation.FK_State_Facility = (ddlFK_State_Facility.SelectedIndex > 0) ? Convert.ToDecimal(ddlFK_State_Facility.SelectedValue) : 0;
+            objInvestigation.Facility_Zip_Code = txtFacility_Zip_Code.Text;
+            objInvestigation.Emergency_Room = rblEmergency_Room.SelectedValue;
+            objInvestigation.Time_Began_Work = txtTime_Began_Work.Text;
+            objInvestigation.Activity_Before_Incident = txtActivity_Before_Incident.Text.Trim();
+            objInvestigation.Object_Substance_Involved = txtObject_Substance_Involved.Text.Trim();
+
+            // insert or update the Investigation record as per the PK available
+            if (PK_Investigation_ID > 0)
+                objInvestigation.Update();
+            else
+                PK_Investigation_ID = objInvestigation.Insert();
+
+            BindDetailsForEdit();
+            //Open Next Panel.
+            //ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);", true);
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);", true);
+        }
+        else
+        {
+            //Open Next Panel.
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);alert('Please select any First Report')", true);
+        }
+    }
+
 
     /// <summary>
     /// Handles Save & View button click in Review Panel
@@ -596,7 +643,7 @@ public partial class Exposures_Investigation : clsBasePage
         else
         {
             //Open Next Panel.
-            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);alert('Please select any First Report')", true);
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);alert('Please select any First Report')", true);
         }
     }
 
@@ -731,6 +778,26 @@ public partial class Exposures_Investigation : clsBasePage
             objInvestigation.Date_Sonic_S0_Cause_Code_Promoted = clsGeneral.FormatNullDateToStore(txtDateSonicCodePromoted.Text);
 
             objInvestigation.Sonic_Cause_Code = ddlSonic_Cause_Code.SelectedIndex > 0 ? ddlSonic_Cause_Code.SelectedItem.Text : string.Empty;
+
+            if (ddlClassify_Incident.SelectedIndex > 0)
+            {
+                objInvestigation.FK_LU_OSHA_Incident = Convert.ToDecimal(ddlClassify_Incident.SelectedValue); 
+            }
+            else
+            {
+                objInvestigation.FK_LU_OSHA_Incident = null;
+            }
+
+            if (ddlType_of_Injury.SelectedIndex > 0) 
+            {
+                objInvestigation.FK_LU_OSHA_Injury = Convert.ToDecimal(ddlType_of_Injury.SelectedValue);
+            }
+            else
+            {
+                objInvestigation.FK_LU_OSHA_Injury = null;
+            }
+
+            objInvestigation.RLCM_Review_Approve = Convert.ToString(rblRLCM_Reviewed_and_Approved.SelectedValue);
 
             if (hdnOriginalSonicCode.Value != "")
             {
@@ -1012,6 +1079,10 @@ public partial class Exposures_Investigation : clsBasePage
         lblSonicCodePromoted.Text = objInvestigation.Sonic_S0_Cause_Code_Promoted == "Y" ? "Yes" : "No";
         lblDateSonicCodePromoted.Text = clsGeneral.FormatDBNullDateToDisplay(objInvestigation.Date_Sonic_S0_Cause_Code_Promoted);
 
+        if (objInvestigation.FK_LU_OSHA_Incident != null) lblClassify_Incident.Text = new clsLU_OSHA_Incident(Convert.ToDecimal(objInvestigation.FK_LU_OSHA_Incident)).Description;
+        if (objInvestigation.FK_LU_OSHA_Injury != null) lblType_of_Injury.Text = new clsLU_OSHA_Injury(Convert.ToDecimal(objInvestigation.FK_LU_OSHA_Injury)).Description;
+        lblRLCM_Reviewed_and_Approved.Text = objInvestigation.RLCM_Review_Approve == "Y" ? "Yes" : "No";
+
         DataSet ds = null;
 
         ds = clsInvestigation_Cause_Information.SelectByInvestigationID(Convert.ToDecimal(PK_Investigation_ID));
@@ -1081,6 +1152,27 @@ public partial class Exposures_Investigation : clsBasePage
         lblDateReviewCompletedByRLCM.Text = clsGeneral.FormatDBNullDateToDisplay(objInvestigation.Date_RLCM_Review_Completed);
         if (objInvestigation.Lag_Time != null) lblIncidentReviewLagTime_View.Text = objInvestigation.Lag_Time.ToString();
         #endregion
+
+        #region "WC OSHA"
+
+        lblPhysician_Other_Professional.Text = objInvestigation.Physician_Other_Professional;
+        lblFacility.Text = objInvestigation.Facility;
+        lblFacility_Address.Text = objInvestigation.Facility_Address;
+        lblFacility_City.Text = objInvestigation.Facility_City;
+
+        if (objInvestigation.FK_State_Facility > 0)
+        {
+            lblFK_State_Facility.Text = new State(String.IsNullOrEmpty(Convert.ToString(objInvestigation.FK_State_Facility)) ? 0 : Convert.ToDecimal(objInvestigation.FK_State_Facility)).FLD_state;
+        }
+
+        lblFacility_Zip_Code.Text = objInvestigation.Facility_Zip_Code;
+        lblEmergency_Room.Text = (objInvestigation.Emergency_Room == "Y") ? "Yes" : "No";
+        lblTime_Began_Work.Text = objInvestigation.Time_Began_Work;
+        lblActivity_Before_Incident.Text = objInvestigation.Activity_Before_Incident;
+        lblObject_Substance_Involved.Text = objInvestigation.Object_Substance_Involved;
+
+        #endregion
+
         if (bIsUserRLCMOfficer)
         {
             btnEMailto_DistributionView.Visible = true;
@@ -1252,12 +1344,23 @@ public partial class Exposures_Investigation : clsBasePage
             rdoValue.SelectedValue = Convert.ToString(dtRootCauseDetermination.Rows[i]["Prevent_Reoccurrence"]) == "Y" ? "Y" : "N";
         }
 
+        if (objInvestigation.FK_LU_OSHA_Incident != null) ddlClassify_Incident.SelectedValue = objInvestigation.FK_LU_OSHA_Incident.ToString();
+        if (objInvestigation.FK_LU_OSHA_Injury != null) ddlType_of_Injury.SelectedValue = objInvestigation.FK_LU_OSHA_Injury.ToString();
+        if (!string.IsNullOrEmpty(objInvestigation.RLCM_Review_Approve)) 
+            rblRLCM_Reviewed_and_Approved.SelectedValue = objInvestigation.RLCM_Review_Approve;
+
         if (objInvestigation.OSHA_Recordable != null)
         {
             rdoOSHARecordable.SelectedValue = objInvestigation.OSHA_Recordable == true ? "Y" : "N";
 
+            lblOSHARecordable_Fields.Style["display"] =  objInvestigation.OSHA_Recordable == true ? "inline-block":"none";
             lblOSHARecordable.Text = objInvestigation.OSHA_Recordable == true ? "Yes" : "No";
             hdnOSHARecordable.Value = lblOSHARecordable.Text;
+            ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString() + "0", "javascript:CheckOSHA_Fields_Validation(" + objInvestigation.OSHA_Recordable.ToString().ToLower() + ");", true);
+        }
+        else
+        {
+            ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString() + "1", "javascript:CheckOSHA_Fields_Validation(false);", true);
         }
 
         //if (objInvestigation.OSHA_Recordable != null)
@@ -1367,7 +1470,30 @@ public partial class Exposures_Investigation : clsBasePage
 
         #endregion
 
+        #region "WC OSHA"
 
+        txtPhysician_Other_Professional.Text = objInvestigation.Physician_Other_Professional;
+        txtFacility.Text = objInvestigation.Facility;
+        txtFacility_Address.Text = objInvestigation.Facility_Address;
+        txtFacility_City.Text = objInvestigation.Facility_City;
+
+        if (objInvestigation.FK_State_Facility > 0)
+        {
+            ddlFK_State_Facility.SelectedValue = Convert.ToString(objInvestigation.FK_State_Facility);
+        }
+        else
+        {
+            ddlFK_State_Facility.SelectedValue = "0";
+        }
+
+        txtFacility_Zip_Code.Text = objInvestigation.Facility_Zip_Code;
+        rblEmergency_Room.SelectedValue = objInvestigation.Emergency_Room == "Y" ? objInvestigation.Emergency_Room : "N";
+        txtTime_Began_Work.Text = objInvestigation.Time_Began_Work;
+        txtActivity_Before_Incident.Text = objInvestigation.Activity_Before_Incident;
+        txtObject_Substance_Involved.Text = objInvestigation.Object_Substance_Involved;
+
+        #endregion
+        
         CtrlAttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.Investigation, PK_Investigation_ID, true, 6);
         CtrlAttachDetails.Bind();
 
@@ -2015,7 +2141,7 @@ public partial class Exposures_Investigation : clsBasePage
 
         // Used to Bind Grid with Attached Data
         CtrlAttachDetails.Bind();
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);", true);
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(7);", true);
     }
 
     #endregion

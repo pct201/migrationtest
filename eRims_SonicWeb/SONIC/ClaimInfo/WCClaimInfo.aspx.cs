@@ -244,6 +244,31 @@ public partial class SONIC_WCClaimInfo : clsBasePage
     }
 
     /// <summary>
+    /// Save Return To Work Click Dates and Days
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnSaveReturn_To_Work_Click(object sender, EventArgs e)
+    {
+        WC_ClaimInfo objWC_ClaimInfo = new WC_ClaimInfo(PK_WC_CI_ID);
+       
+        objWC_ClaimInfo.OSHA_Start_Away_From_Work = clsGeneral.FormatNullDateToStore(txtFrom_Work_Began.Text.Trim());
+        objWC_ClaimInfo.OSHA_End_Away_From_Work = clsGeneral.FormatNullDateToStore(txtFrom_Work_End.Text.Trim());
+        //if (!string.IsNullOrEmpty(txtDays_Away_From_Work.Text))
+        //    objWC_ClaimInfo.OSHA_Days_Away_From_Work = Convert.ToInt32(txtDays_Away_From_Work.Text);
+        
+        objWC_ClaimInfo.OSHA_Start_Job_Transfer_Restriction = clsGeneral.FormatNullDateToStore(txtDate_On_Job_Began.Text.Trim());
+        objWC_ClaimInfo.OSHA_End_Job_Transfer_Restriction = clsGeneral.FormatNullDateToStore(txtDate_On_Job_End.Text.Trim());
+        //if (!string.IsNullOrEmpty(txtDays_On_Job.Text))
+        //    objWC_ClaimInfo.OSHA_Days_Job_Transfer_Restriction = Convert.ToInt32(txtDays_On_Job.Text);
+
+        objWC_ClaimInfo.UpdateOSHA_Dates();
+
+        BindWCClaimInfo();
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
+    }
+
+    /// <summary>
     /// Add New Note Click Event
     /// </summary>
     /// <param name="sender"></param>
@@ -631,6 +656,14 @@ public partial class SONIC_WCClaimInfo : clsBasePage
             lblNumberRestrictedWorkDays.Text = drWorkers_Comp_Claims["RTW_Number_Restricted_Work_Days"] != DBNull.Value ? String.Format("{0:N0}", Convert.ToDecimal(drWorkers_Comp_Claims["RTW_Number_Restricted_Work_Days"])) : "";
 
             lblReasonForTermination.Text = Convert.ToString(drWorkers_Comp_Claims["RTW_Reason_For_Termination"]);
+
+            txtFrom_Work_Began.Text = clsGeneral.FormatDBNullDateToDisplay(drWorkers_Comp_Claims["OSHA_Start_Away_From_Work"]);
+            txtFrom_Work_End.Text = clsGeneral.FormatDBNullDateToDisplay(drWorkers_Comp_Claims["OSHA_End_Away_From_Work"]);
+            txtDays_Away_From_Work.Text = Convert.ToString(drWorkers_Comp_Claims["OSHA_Days_Away_From_Work"]);
+
+            txtDate_On_Job_Began.Text = clsGeneral.FormatDBNullDateToDisplay(drWorkers_Comp_Claims["OSHA_Start_Job_Transfer_Restriction"]);
+            txtDate_On_Job_End.Text = clsGeneral.FormatDBNullDateToDisplay(drWorkers_Comp_Claims["OSHA_End_Job_Transfer_Restriction"]);
+            txtDays_On_Job.Text = Convert.ToString(drWorkers_Comp_Claims["OSHA_Days_Job_Transfer_Restriction"]);
 
             BindWCTransList(lblClaimNumber2.Text, ctrlPageTransaction.CurrentPage, ctrlPageTransaction.PageSize);
             //gvWCTransList.DataSource = Claims_Transaction.SelectByOriginClaimNumber(lblClaimNumber2.Text,);
@@ -1279,12 +1312,12 @@ public partial class SONIC_WCClaimInfo : clsBasePage
         if (Workers_Comp_RMW.SelectByFK(PK_WC_CI_ID).Tables[0].Rows.Count > 0)
         {
             objWCR.UpdateByFK();
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('The Risk Management Worksheet data has been saved.');ShowPanel(5);", true);
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('The Risk Management Worksheet data has been saved.');ShowPanel(6);", true);
         }
         else
         {
             PK_Workers_Comp_RMW = objWCR.Insert();
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('The Risk Management Worksheet data has been saved.');ShowPanel(5);", true);
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('The Risk Management Worksheet data has been saved.');ShowPanel(6);", true);
         }
         ctlAttchment.Add(clsGeneral.Claim_Tables.WCClaim, Convert.ToInt32(PK_WC_CI_ID));
         ctlAttchmentDetails.Bind();
@@ -1300,7 +1333,7 @@ public partial class SONIC_WCClaimInfo : clsBasePage
 
         // Used to Bind Grid with Attached Data
         ctlAttchmentDetails.Bind();
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);", true);
     }
 
     /// <summary>
@@ -1313,7 +1346,7 @@ public partial class SONIC_WCClaimInfo : clsBasePage
         CtrlAttachment_Cliam.Add(clsGeneral.Tables.WCClaim, Convert.ToInt32(PK_WC_CI_ID));
         // Used to Bind Grid with Attached Data
         CtlAttachDetail_Cliam.Bind();
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(7);", true);
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(8);", true);
     }
 
     /// <summary>

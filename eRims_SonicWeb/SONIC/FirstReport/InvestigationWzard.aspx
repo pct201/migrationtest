@@ -41,6 +41,16 @@
         var ctrlID = '<%=Request.QueryString["ctrlid"]%>';
 
         function RedierctBack() {
+
+            if (parent.parent.document.getElementById(ctrlID).innerHTML.toLowerCase() === 'yes') {
+                parent.parent.document.getElementById(ctrlID + "_Fields").style.display = 'inline-block'
+                parent.parent.CheckOSHA_Fields_Validation(true);
+            }
+            else {
+                parent.parent.document.getElementById(ctrlID + "_Fields").style.display = 'none'
+                parent.parent.CheckOSHA_Fields_Validation(false);
+            }
+
             parent.parent.GB_hide();
             return false;
         }

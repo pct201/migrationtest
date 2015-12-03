@@ -153,6 +153,9 @@
         function OnChangeFunction() {
             if (CheckChangeVal == false)
                 CheckChangeVal = true;
+
+            days_between();
+            days_between_Job();
         }
         function CheckValueChange(Panelid, IndexVal) {
             if (CheckChangeVal == true) {
@@ -258,11 +261,11 @@
                 document.getElementById("<%=pnlClaimIdentification.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlFinancial.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlTransactions.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlNotes.ClientID%>").style.display = "block";
+                document.getElementById("<%=pnlNotes.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlRiskManagementWorksheet.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlAttachment.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlSonicNotes.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlReturnToWork.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlReturnToWork.ClientID%>").style.display = "block";
                 document.getElementById("btnPrev").style.display = "block";
                 document.getElementById("btnNext").style.display = "";
             }
@@ -270,8 +273,8 @@
                 document.getElementById("<%=pnlClaimIdentification.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlFinancial.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlTransactions.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlNotes.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlRiskManagementWorksheet.ClientID%>").style.display = "block";
+                document.getElementById("<%=pnlNotes.ClientID%>").style.display = "block";
+                document.getElementById("<%=pnlRiskManagementWorksheet.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlAttachment.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlSonicNotes.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlReturnToWork.ClientID%>").style.display = "none";
@@ -284,9 +287,9 @@
                 document.getElementById("<%=pnlFinancial.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlTransactions.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlNotes.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlRiskManagementWorksheet.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlRiskManagementWorksheet.ClientID%>").style.display = "block";
                 document.getElementById("<%=pnlAttachment.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlSonicNotes.ClientID%>").style.display = "block";
+                document.getElementById("<%=pnlSonicNotes.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlReturnToWork.ClientID%>").style.display = "none";
                 document.getElementById("btnPrev").style.display = "block";
                 document.getElementById("btnNext").style.display = "";
@@ -298,11 +301,11 @@
                 document.getElementById("<%=pnlTransactions.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlNotes.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlRiskManagementWorksheet.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlAttachment.ClientID%>").style.display = "block";
-                document.getElementById("<%=pnlSonicNotes.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlAttachment.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlSonicNotes.ClientID%>").style.display = "block";
                 document.getElementById("<%=pnlReturnToWork.ClientID%>").style.display = "none";
                 document.getElementById("btnPrev").style.display = "block";
-                document.getElementById("btnNext").style.display = "none";
+                document.getElementById("btnNext").style.display = "";
                 TextChange();
             }
             if (index == 8) {
@@ -311,9 +314,9 @@
                 document.getElementById("<%=pnlTransactions.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlNotes.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlRiskManagementWorksheet.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlAttachment.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlAttachment.ClientID%>").style.display = "block";
                 document.getElementById("<%=pnlSonicNotes.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlReturnToWork.ClientID%>").style.display = "block";
+                document.getElementById("<%=pnlReturnToWork.ClientID%>").style.display = "none";
                 document.getElementById("btnPrev").style.display = "block";
                 document.getElementById("btnNext").style.display = "none";
                 TextChange();
@@ -513,6 +516,65 @@
 
         }
 
+        function days_between() {
+
+            var date1 = document.getElementById('<%=txtFrom_Work_Began.ClientID %>').value;
+            var date2 = document.getElementById('<%=txtFrom_Work_End.ClientID %>').value;
+            var days = '<%=txtDays_Away_From_Work.ClientID %>';
+
+            if (date1 != '' && date2 != '') {
+                // The number of milliseconds in one day
+                var ONE_DAY = 1000 * 60 * 60 * 24
+
+                // Convert both dates to milliseconds
+                var date1_ms = new Date(date1);
+                var date2_ms = new Date(date2);
+
+                // Calculate the difference in milliseconds
+                var difference_ms = Math.abs(date2_ms - date1_ms)
+
+                // Convert back to days and return
+                if (isNaN(difference_ms))
+                    document.getElementById(days).value = 0;
+                else
+                    document.getElementById(days).value = Math.round(difference_ms / ONE_DAY)
+            }
+            else
+            {
+                document.getElementById(days).value = 0;
+            }
+            return false;
+        }
+
+        function days_between_Job() {
+
+            var date1 = document.getElementById('<%=txtDate_On_Job_Began.ClientID %>').value;
+            var date2 = document.getElementById('<%=txtDate_On_Job_End.ClientID %>').value;
+            var days = '<%=txtDays_On_Job.ClientID %>';
+
+            if (date1 != '' && date2 != '') {
+                // The number of milliseconds in one day
+                var ONE_DAY = 1000 * 60 * 60 * 24
+
+                // Convert both dates to milliseconds
+                var date1_ms = new Date(date1);
+                var date2_ms = new Date(date2);
+
+                // Calculate the difference in milliseconds
+                var difference_ms = Math.abs(date2_ms - date1_ms)
+
+                // Convert back to days and return
+                if (isNaN(difference_ms))
+                    document.getElementById(days).value = 0;
+                else
+                    document.getElementById(days).value = Math.round(difference_ms / ONE_DAY)
+            }
+            else {
+                document.getElementById(days).value = 0;
+            }
+            return false;
+        }
+
     </script>
     <div>
         <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
@@ -640,29 +702,29 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <span id="WCMenu8" href="#" onclick="javascript:CheckValueChange(8,null);">Return To
+                                                    <span id="WCMenu4" href="#" onclick="javascript:CheckValueChange(4,null);">Return To
                                                         Work</span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <span id="WCMenu4" href="#" onclick="javascript:CheckValueChange(4,null);">Notes</span>
+                                                    <span id="WCMenu5" href="#" onclick="javascript:CheckValueChange(5,null);">Notes</span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td nowrap="nowrap">
-                                                    <span id="WCMenu5" href="#" onclick="javascript:CheckValueChange(5,null);">Risk Management
+                                                    <span id="WCMenu6" href="#" onclick="javascript:CheckValueChange(6,null);">Risk Management
                                                         Worksheet</span>&nbsp;<span id="MenuAsterisk5" runat="server" style="color: Red; display: none">*</span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <span id="WCMenu6" href="#" onclick="javascript:CheckValueChange(6,null);">Sonic Notes</span>
+                                                    <span id="WCMenu7" href="#" onclick="javascript:CheckValueChange(7,null);">Sonic Notes</span>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <span id="WCMenu7" href="#" onclick="javascript:CheckValueChange(7,null);">Attachment</span>
+                                                    <span id="WCMenu8" href="#" onclick="javascript:CheckValueChange(8,null);">Attachment</span>
                                                 </td>
                                             </tr>
                                         </table>
@@ -1384,7 +1446,7 @@
                                                                 Display="None">
                                                             </asp:CustomValidator>
                                                             <asp:CompareValidator ID="cmpRestrictedWorkDate" runat="server" ControlToCompare="txtDateRestrictedWorkBegan"
-                                                                ControlToValidate="txtDateRestrictedWorkEnd" Type="Date" Display="None" ErrorMessage="Date Restricted Work End must be grater than Date Restricted Work Began"
+                                                                ControlToValidate="txtDateRestrictedWorkEnd" Type="Date" Display="None" ErrorMessage="Date Restricted Work End must be greater than Date Restricted Work Began"
                                                                 Operator="GreaterThanEqual" ValidationGroup="vsWCClaimGroup"></asp:CompareValidator>
                                                         </td>
                                                     </tr>
@@ -2680,6 +2742,102 @@
                                                         <td></td>
                                                         <td align="center"></td>
                                                         <td></td>
+                                                    </tr>
+                                                       <tr>
+                                                        <td align="left">Date Away From Work Began
+                                                        </td>
+                                                        <td align="center">:
+                                                        </td>
+                                                        <td>
+                                                            <asp:TextBox ID="txtFrom_Work_Began" runat="server" MaxLength="10" SkinID="txtdate"
+                                                                Width="120px" onblur="days_between()"></asp:TextBox>
+                                                            <img onmouseover="javascript:this.style.cursor='hand';" onclick="return showCalendar('<%=txtFrom_Work_Began.ClientID %>', 'mm/dd/y',OnChangeFunction);" 
+                                                                alt="Date Away From Work Began" src="../../Images/iconPicDate.gif" align="middle" /><br />
+                                                            <asp:CustomValidator ID="CustomValidator4" runat="server" ControlToValidate="txtFrom_Work_Began"
+                                                                ValidationGroup="vsWCClaimGroup" ClientValidationFunction="CheckDate" ErrorMessage="Date Away From Work Began is not valid."
+                                                                Display="None">
+                                                            </asp:CustomValidator>
+                                                        </td>
+                                                        <td align="left">Date Away From Work End
+                                                        </td>
+                                                        <td align="center">:
+                                                        </td>
+                                                        <td>
+                                                            <asp:TextBox ID="txtFrom_Work_End" runat="server" MaxLength="10" SkinID="txtdate"
+                                                                Width="120px" onblur="days_between()"></asp:TextBox>
+                                                            <img onmouseover="javascript:this.style.cursor='hand';" onclick="return showCalendar('<%=txtFrom_Work_End.ClientID %>', 'mm/dd/y',OnChangeFunction);"
+                                                                alt="Date Away From Work End" src="../../Images/iconPicDate.gif" align="middle" /><br />
+                                                            <asp:CustomValidator ID="CustomValidator3" runat="server" ControlToValidate="txtFrom_Work_End"
+                                                                ValidationGroup="vsWCClaimGroup" ClientValidationFunction="CheckDate" ErrorMessage="Date Away From Work Ended is not valid."
+                                                                Display="None">
+                                                            </asp:CustomValidator>
+                                                            <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToCompare="txtFrom_Work_Began"
+                                                                ControlToValidate="txtFrom_Work_End" Type="Date" Display="None" ErrorMessage="Date Away From Work End must be greater than Date Away From Work Began"
+                                                                Operator="GreaterThanEqual" ValidationGroup="vsWCClaimGroup"></asp:CompareValidator>
+                                                        </td>
+                                                    </tr>
+                                                     <tr>
+                                                        <td align="left">Days Away From Work
+                                                        </td>
+                                                        <td align="center">:
+                                                        </td>
+                                                        <td>
+                                                            <asp:TextBox runat="server" ID="txtDays_Away_From_Work" Enabled="false"></asp:TextBox>
+                                                        </td>
+                                                        <td></td>
+                                                        <td align="center"></td>
+                                                        <td></td>
+                                                    </tr>
+                                                       <tr>
+                                                        <td align="left">Date On Job Transfer or Restriction Began
+                                                        </td>
+                                                        <td align="center">:
+                                                        </td>
+                                                        <td>
+                                                            <asp:TextBox ID="txtDate_On_Job_Began" runat="server" MaxLength="10" SkinID="txtdate"
+                                                                Width="120px" onblur="days_between_Job()"></asp:TextBox>
+                                                            <img onmouseover="javascript:this.style.cursor='hand';" onclick="return showCalendar('<%=txtDate_On_Job_Began.ClientID %>', 'mm/dd/y',OnChangeFunction);" 
+                                                                alt="Date On Job Transfer or Restriction Began" src="../../Images/iconPicDate.gif" align="middle" /><br />
+                                                            <asp:CustomValidator ID="CustomValidator5" runat="server" ControlToValidate="txtDate_On_Job_Began"
+                                                                ValidationGroup="vsWCClaimGroup" ClientValidationFunction="CheckDate" ErrorMessage="Date On Job Transfer or Restriction Began is not valid."
+                                                                Display="None">
+                                                            </asp:CustomValidator>
+                                                        </td>
+                                                        <td align="left">Date On Job Transfer or Restriction End
+                                                        </td>
+                                                        <td align="center">:
+                                                        </td>
+                                                        <td>
+                                                            <asp:TextBox ID="txtDate_On_Job_End" runat="server" MaxLength="10" SkinID="txtdate"
+                                                                Width="120px" onblur="days_between_Job()"></asp:TextBox>
+                                                            <img onmouseover="javascript:this.style.cursor='hand';" onclick="return showCalendar('<%=txtDate_On_Job_End.ClientID %>', 'mm/dd/y',OnChangeFunction);"
+                                                                alt="Date On Job Transfer or Restriction End" src="../../Images/iconPicDate.gif" align="middle" /><br />
+                                                            <asp:CustomValidator ID="CustomValidator6" runat="server" ControlToValidate="txtDate_On_Job_End"
+                                                                ValidationGroup="vsWCClaimGroup" ClientValidationFunction="CheckDate" ErrorMessage="Date On Job Transfer or Restriction Ended is not valid."
+                                                                Display="None">
+                                                            </asp:CustomValidator>
+                                                            <asp:CompareValidator ID="CompareValidator2" runat="server" ControlToCompare="txtDate_On_Job_Began"
+                                                                ControlToValidate="txtDate_On_Job_End" Type="Date" Display="None" ErrorMessage="Date On Job Transfer or Restriction End must be greater than Date On Job Transfer or Restriction Began"
+                                                                Operator="GreaterThanEqual" ValidationGroup="vsWCClaimGroup"></asp:CompareValidator>
+                                                        </td>
+                                                    </tr>
+                                                     <tr>
+                                                        <td align="left">Days On Job Transfer or Restriction
+                                                        </td>
+                                                        <td align="center">:
+                                                        </td>
+                                                        <td>
+                                                            <asp:TextBox runat="server" ID="txtDays_On_Job" Enabled="false"></asp:TextBox>
+                                                        </td>
+                                                        <td></td>
+                                                        <td align="center"></td>
+                                                        <td></td>
+                                                    </tr>
+                                                     <tr>
+                                                        <td colspan="6" align="center">
+                                                            <asp:Button ID="btnSaveReturn_To_Work" runat="server" Text="Save" Width="90px" OnClick="btnSaveReturn_To_Work_Click"
+                                                                ValidationGroup="vsWCClaimGroup" />
+                                                        </td>
                                                     </tr>
                                                 </table>
                                             </asp:Panel>

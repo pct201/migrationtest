@@ -20,6 +20,8 @@
     <script type="text/javascript" language="javascript" src="../../JavaScript/calendar-en.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/Calendar.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/Validator.js"></script>
+    <script type="text/javascript" language="javascript" src="../../JavaScript/jquery-1.5.min.js"></script>
+    <script type="text/javascript" language="javascript" src="../../JavaScript/jquery.maskedinput.js"></script>
 
     <script type="text/javascript">
         var GB_ROOT_DIR = '<%=AppConfig.SiteURL%>greybox/';
@@ -204,6 +206,46 @@
             }
         }
 
+        function CheckOSHA_Fields_Validation(Is_Valid) {
+            if (Is_Valid) {
+                document.getElementById('<%= Span_Classify.ClientID %>').style.display = 'inline-block';
+                document.getElementById('<%= Span_Injury.ClientID %>').style.display = 'inline-block';
+
+                document.getElementById('<%= rfv_Classify.ClientID %>').enabled = true;
+                document.getElementById('<%= rfvType_of_Injury.ClientID %>').enabled = true;
+            }
+            else {
+                document.getElementById('<%= Span_Classify.ClientID %>').style.display = 'none';
+                document.getElementById('<%= Span_Injury.ClientID %>').style.display = 'none';
+                document.getElementById('<%= rfv_Classify.ClientID %>').enabled = false;
+                document.getElementById('<%= rfvType_of_Injury.ClientID %>').enabled = false;
+            }
+        }
+
+        jQuery(function ($) {
+             $("#<%=txtFacility_Zip_Code.ClientID%>").mask("99999-9999");
+             $("#<%=txtTime_Began_Work.ClientID%>").mask("99:99");
+        });
+
+        // Make Validation for OSHA Information Panel
+        function CheckValidationOSHAInfo() {
+            //if number is "___-___-____" than set it to ""
+          
+            if (document.getElementById('<%=txtFacility_Zip_Code.ClientID%>').value == "_____-____")
+                document.getElementById('<%=txtFacility_Zip_Code.ClientID%>').value = "";
+            //if time is "__:__" than set it to ""
+            if (document.getElementById('<%=txtTime_Began_Work.ClientID%>').value == "__:__")
+                document.getElementById('<%=txtTime_Began_Work.ClientID%>').value = "";
+            //if time is containing "a" or "p" or "A" or "P" work than prompt the alert message and blank time value
+           
+            //Validate Page by passed Validation Group ID
+            if (Page_ClientValidate("vsOSHAInfoGroup")) {
+                return true;
+            }
+            else
+                return false;
+        }
+
     </script>
     <link href="<%=AppConfig.SiteURL%>greybox/gb_styles.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="<%=AppConfig.SiteURL%>greybox/AJS.js"></script>
@@ -225,6 +267,9 @@
         ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following fields"
         BorderWidth="1" BorderColor="DimGray" CssClass="errormessage" />
     <asp:ValidationSummary ID="valRootCause" runat="server" ValidationGroup="valRootCause"
+        ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following fields"
+        BorderWidth="1" BorderColor="DimGray" CssClass="errormessage" />
+    <asp:ValidationSummary ID="valOSHA" runat="server" ValidationGroup="vsOSHAInfoGroup"
         ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following fields"
         BorderWidth="1" BorderColor="DimGray" CssClass="errormessage" />
     <table cellpadding="0" cellspacing="0" width="100%">
@@ -876,10 +921,12 @@
                                                                 <td align="left">
                                                                     <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                         <tr>
-                                                                           <td></td>
-                                                                            <td width="4%">
-                                                                            </td> <td width="26%">Yes = Recommendation applies to this Incident.<br />
-                                                                    No = Recommendation does NOT apply to this Incident.</td> </tr> </table>
+                                                                            <td></td>
+                                                                            <td width="4%"></td>
+                                                                            <td width="26%">Yes = Recommendation applies to this Incident.<br />
+                                                                                No = Recommendation does NOT apply to this Incident.</td>
+                                                                        </tr>
+                                                                    </table>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -921,7 +968,7 @@
                                                                 </td>
                                                                 <td align="center" width="4%" valign="top">:
                                                                 </td>
-                                                                <td align="left" colspan="4">
+                                                                <td align="left">
                                                                     <uc:ctrlMultiLineTextBox runat="server" ID="txtConclusions" ControlType="TextBox"
                                                                         MaxLength="4000" ValidationGroup="valRootCause" />
                                                                 </td>
@@ -935,11 +982,54 @@
                                                                 </td>
                                                                 <td align="center" width="4%" valign="top">:
                                                                 </td>
-                                                                <td colspan="4" valign="top">
-                                                                    <asp:RadioButtonList ID="rdoOSHARecordable" runat="server" SkinID="YesNoType"
-                                                                        Enabled="false" ValidationGroup="valRootCause" />
+                                                                <td valign="top">
+                                                                    <asp:RadioButtonList ID="rdoOSHARecordable" Style="float: left; overflow: hidden; clear: both;" runat="server" SkinID="YesNoType" Enabled="false" ValidationGroup="valRootCause" />
+                                                                    <asp:Label ID="lblOSHARecordable_Fields" runat="server" ValidationGroup="valRootCause" Style="display: none; float: left; padding: 5px 0px 0px 30px;" Text="If Yes, see Claim Information Return to Work Section" Font-Italic="true" />
                                                                     <asp:Label ID="lblOSHARecordable" runat="server" ValidationGroup="valRootCause" Style="display: none" />
                                                                     <input type="hidden" id="hdnOSHARecordable" runat="server" />
+
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" valign="top" colspan="3">
+                                                                    <table cellpadding="3" cellspacing="1" width="100%">
+                                                                        <tr>
+                                                                            <td colspan="6" style="font-size: 15px;"><b>OSHA Fields</b></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td align="left" width="19%" valign="top">Classify the Incident &nbsp;<span id="Span_Classify" style="color: Red;" runat="server">*</span>
+                                                                            </td>
+                                                                            <td align="left" width="4%" valign="top">:
+                                                                            </td>
+                                                                            <td align="left" width="23%" valign="top">
+                                                                                <asp:DropDownList ID="ddlClassify_Incident" runat="server" Width="170"></asp:DropDownList>
+                                                                                <asp:RequiredFieldValidator ID="rfv_Classify" runat="server" InitialValue="0" ControlToValidate="ddlClassify_Incident" Display="None"
+                                                                                    ErrorMessage="Please select [Causes]/Classify the Incident" SetFocusOnError="true" ValidationGroup="valRootCause">
+                                                                                </asp:RequiredFieldValidator>
+
+                                                                            </td>
+                                                                            <td align="left" width="25%" valign="top">Type of Injury &nbsp;<span id="Span_Injury" style="color: Red;" runat="server">*</span>
+                                                                            </td>
+                                                                            <td align="left" width="4%" valign="top">:
+                                                                            </td>
+                                                                            <td align="left" width="25%" valign="top">
+                                                                                <asp:DropDownList ID="ddlType_of_Injury" runat="server" Width="170"></asp:DropDownList>
+                                                                                <asp:RequiredFieldValidator ID="rfvType_of_Injury" runat="server" InitialValue="0" ControlToValidate="ddlType_of_Injury" Display="None"
+                                                                                    ErrorMessage="Please Select [Causes]/Type of Injury" SetFocusOnError="true" ValidationGroup="valRootCause">
+                                                                                </asp:RequiredFieldValidator>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td align="left" valign="top">RLCM Reviewed and Approved
+                                                                            </td>
+                                                                            <td align="left" valign="top">:
+                                                                            </td>
+                                                                            <td align="left" valign="top" colspan="4">
+                                                                                <asp:RadioButtonList ID="rblRLCM_Reviewed_and_Approved" runat="server" SkinID="YesNoType" />
+
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -1167,6 +1257,131 @@
                                                     </ContentTemplate>
                                                 </asp:UpdatePanel>
                                             </asp:Panel>
+
+                                            <asp:Panel ID="pnlWC_OSHA" runat="server" Width="100%">
+                                                <div class="bandHeaderRow">
+                                                    OSHA Fields
+                                                </div>
+                                                <table cellpadding="3" cellspacing="1" border="0" width="100%">
+
+                                                    <tr>
+                                                        <td align="left" style="width: 24%;">Name of Physician or Other Health Care Professional
+                                                        </td>
+                                                        <td align="center" style="width: 2%;">:
+                                                        </td>
+                                                        <td align="left" style="width: 24%;">
+                                                            <asp:TextBox runat="server" ID="txtPhysician_Other_Professional" Width="170px" MaxLength="75"></asp:TextBox>
+                                                        </td>
+                                                        <td align="left" style="width: 24%;">&nbsp;
+                                                        </td>
+                                                        <td align="center" style="width: 2%;">&nbsp;
+                                                        </td>
+                                                        <td align="left" style="width: 24%;">&nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">If Treatment is Given Away from the Worksite, Facility Where it Was Given
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:TextBox runat="server" ID="txtFacility" Width="170px" MaxLength="75"></asp:TextBox>
+                                                        </td>
+                                                        <td align="left">Treatment Facility Address
+                                                        </td>
+                                                        <td align="center">:
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:TextBox ID="txtFacility_Address" runat="server" Width="170px" MaxLength="50"></asp:TextBox>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">Treatment Facility City
+                                                        </td>
+                                                        <td align="center">:
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:TextBox runat="server" ID="txtFacility_City" Width="170px" MaxLength="50"></asp:TextBox>
+                                                        </td>
+                                                        <td align="left">Treatment Facility State
+                                                        </td>
+                                                        <td align="center">:
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:DropDownList ID="ddlFK_State_Facility" runat="server" SkinID="ddlSONIC"></asp:DropDownList>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">Treatment Facility Zip Code (XXXXX-XXXX)
+                                                        </td>
+                                                        <td align="center">:
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:TextBox runat="server" ID="txtFacility_Zip_Code" Width="170px" MaxLength="10"></asp:TextBox>
+                                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="txtFacility_Zip_Code"
+                                                                runat="server" ValidationGroup="vsOSHAInfoGroup" ErrorMessage="Please Enter txtFacility_Zip_Code in XXXXX-XXXX format."
+                                                                Display="none" ValidationExpression="((\(\d{2}\) ?)|(\d{5}-))?\d{4}$"></asp:RegularExpressionValidator>
+                                                        </td>
+                                                        <td align="left">&nbsp;
+                                                        </td>
+                                                        <td align="center">&nbsp;
+                                                        </td>
+                                                        <td align="left">&nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left">Was Associate Treated in an Emergency Room?
+                                                        </td>
+                                                        <td align="center">:
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:RadioButtonList ID="rblEmergency_Room" runat="server" SkinID="YesNoType">
+                                                            </asp:RadioButtonList>
+                                                        </td>
+                                                        <td align="left">Time Associate Began Work (HH:MM)
+                                                        </td>
+                                                        <td align="center">:
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:TextBox ID="txtTime_Began_Work" runat="server" Width="170px"></asp:TextBox>
+                                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="txtTime_Began_Work"
+                                                                ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
+                                                                ErrorMessage="Invalid Time Associate Began Work." Display="none" ValidationGroup="vsOSHAInfoGroup"
+                                                                SetFocusOnError="true"></asp:RegularExpressionValidator>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">What was the associate doing just before the incident occurred?
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" colspan="4">
+                                                            <uc:ctrlMultiLineTextBox ID="txtActivity_Before_Incident" runat="server" MaxLength="1000"
+                                                                ValidationGroup="vsOSHAInfoGroup" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">Describe any object or substance that directly harmed the associate
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" colspan="4">
+                                                            <uc:ctrlMultiLineTextBox ID="txtObject_Substance_Involved" runat="server" MaxLength="1000"
+                                                                ValidationGroup="vsOSHAInfoGroup" />
+                                                        </td>
+                                                    </tr>
+                                                     <tr>
+                                                            <td colspan="6" width="100%" align="center">
+                                                                <asp:Button runat="server" ID="btnWC_OSHA" Text="Save & Next" OnClick="btnWC_OSHA_Click" OnClientClick="return CheckValidationOSHAInfo();"
+                                                                    CausesValidation="true" ValidationGroup="vsOSHAInfoGroup"/>
+                                                            </td>
+                                                        </tr>
+                                                </table>
+
+
+                                            </asp:Panel>
+
+
                                             <asp:Panel ID="pnlReview" runat="server" Width="100%">
                                                 <div class="bandHeaderRow">
                                                     Review 
@@ -1905,10 +2120,12 @@
                                                                 <td align="left">
                                                                     <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                                         <tr>
-                                                                           <td></td>
-                                                                            <td width="4%">
-                                                                            </td> <td width="26%">Yes = Recommendation applies to this Incident.<br />
-                                                                    No = Recommendation does NOT apply to this Incident.</td> </tr> </table>
+                                                                            <td></td>
+                                                                            <td width="4%"></td>
+                                                                            <td width="26%">Yes = Recommendation applies to this Incident.<br />
+                                                                                No = Recommendation does NOT apply to this Incident.</td>
+                                                                        </tr>
+                                                                    </table>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -1928,7 +2145,7 @@
                                                                                     <td align="left" width="68%" valign="top">
                                                                                         <%#Eval("Guidance")%>
                                                                                     </td>
-                                                                                     <td align="center" width="2%" valign="top">:
+                                                                                    <td align="center" width="2%" valign="top">:
                                                                                     </td>
                                                                                     <td align="left" width="26%" valign="top">
                                                                                         <asp:Label ID="lblRootCauseGuidanceReoccurance" runat="server"
@@ -1959,6 +2176,40 @@
                                                                 </td>
                                                                 <td colspan="4" valign="top">
                                                                     <asp:Label ID="lblOSHARecordableView" runat="server" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" valign="top" colspan="6">
+                                                                    <table cellpadding="3" cellspacing="1" width="100%">
+                                                                        <tr>
+                                                                            <td colspan="6" style="font-size: 15px;"><b>OSHA Fields</b></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td align="left" width="23%" valign="top">Classify the Incident
+                                                                            </td>
+                                                                            <td align="left" width="4%" valign="top">:
+                                                                            </td>
+                                                                            <td align="left" width="23%" valign="top">
+                                                                                <asp:Label ID="lblClassify_Incident" runat="server"></asp:Label>
+                                                                            </td>
+                                                                            <td align="left" width="24%" valign="top">Type of Injury 
+                                                                            </td>
+                                                                            <td align="left" width="4%" valign="top">:
+                                                                            </td>
+                                                                            <td align="left" width="22%" valign="top">
+                                                                                <asp:Label ID="lblType_of_Injury" runat="server"></asp:Label>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td align="left" valign="top">RLCM Reviewed and Approved
+                                                                            </td>
+                                                                            <td align="left" valign="top">:
+                                                                            </td>
+                                                                            <td align="left" valign="top" colspan="4">
+                                                                                <asp:Label ID="lblRLCM_Reviewed_and_Approved" runat="server"></asp:Label>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -2092,6 +2343,114 @@
                                                             </tr>
                                                         </table>
                                                     </asp:Panel>
+
+                                                    <asp:Panel ID="pnlViewWC_OSHA" runat="server" Width="100%">
+                                                        <div class="bandHeaderRow">
+                                                            OSHA Fields
+                                                        </div>
+                                                        <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                            <tr>
+                                                                <td align="left" style="width: 24%;">Name of Physician or Other Health Care Professional
+                                                                </td>
+                                                                <td align="center" style="width: 2%;">:
+                                                                </td>
+                                                                <td align="left" style="width: 24%;">
+                                                                    <asp:Label runat="server" ID="lblPhysician_Other_Professional"></asp:Label>
+                                                                </td>
+                                                                <td align="left" style="width: 24%;">&nbsp;
+                                                                </td>
+                                                                <td align="center" style="width: 2%;">&nbsp;
+                                                                </td>
+                                                                <td align="left" style="width: 24%;">&nbsp;
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" valign="top">If Treatment is Given Away from the Worksite, Facility Where it Was Given
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left">
+                                                                    <asp:Label runat="server" ID="lblFacility"></asp:Label>
+                                                                </td>
+                                                                <td align="left">Treatment Facility Address
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left">
+                                                                    <asp:Label runat="server" ID="lblFacility_Address"></asp:Label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left">Treatment Facility City
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left">
+                                                                    <asp:Label runat="server" ID="lblFacility_City"></asp:Label>
+                                                                </td>
+                                                                <td align="left">Treatment Facility State
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left">
+                                                                    <asp:Label runat="server" ID="lblFK_State_Facility"></asp:Label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left">Treatment Facility Zip Code (XXXXX-XXXX)
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left">
+                                                                    <asp:Label runat="server" ID="lblFacility_Zip_Code"></asp:Label>
+                                                                </td>
+                                                                <td align="left">&nbsp;
+                                                                </td>
+                                                                <td align="center">&nbsp;
+                                                                </td>
+                                                                <td align="left">&nbsp;
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left">Was Associate Treated in an Emergency Room?
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left">
+                                                                    <asp:Label runat="server" ID="lblEmergency_Room"></asp:Label>
+                                                                </td>
+                                                                <td align="left">Time Associate Began Work (HH:MM)
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left">
+                                                                    <asp:Label runat="server" ID="lblTime_Began_Work"></asp:Label>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" valign="top">What was the associate doing just before the incident occurred?
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left" colspan="4">
+                                                                    <uc:ctrlMultiLineTextBox ID="lblActivity_Before_Incident" runat="server" MaxLength="1000"
+                                                                        ControlType="Label" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" valign="top">Describe any object or substance that directly harmed the associate
+                                                                </td>
+                                                                <td align="center" valign="top">:
+                                                                </td>
+                                                                <td align="left" colspan="4">
+                                                                    <uc:ctrlMultiLineTextBox ID="lblObject_Substance_Involved" runat="server" MaxLength="1000"
+                                                                        ControlType="Label" />
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </asp:Panel>
+
+
                                                     <asp:Panel ID="pnlViewReview" runat="server" Width="100%">
                                                         <div class="bandHeaderRow">
                                                             Review
@@ -2411,7 +2770,7 @@
         //Used to set Menu Style
         function SetMenuStyle(index) {
             var i;
-            for (i = 1; i <= 4; i++) {
+            for (i = 1; i <= 7; i++) {
                 var tb = document.getElementById("InvestigationMenu" + i);
                 if (i == index) {
                     tb.className = "LeftMenuSelected";
@@ -2444,6 +2803,7 @@
                     document.getElementById("<%=pnlCauses.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlRootCauseDetermination.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlCorrectiveActions.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlWC_OSHA.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlReview.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlReviewView.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlAttachments.ClientID%>").style.display = "none";
@@ -2454,6 +2814,7 @@
                     document.getElementById("<%=pnlCauses.ClientID%>").style.display = "block";
                     document.getElementById("<%=pnlRootCauseDetermination.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlCorrectiveActions.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlWC_OSHA.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlReview.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlReviewView.ClientID%>").style.display = "none";
 
@@ -2475,6 +2836,7 @@
                     document.getElementById("<%=pnlCauses.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlRootCauseDetermination.ClientID%>").style.display = "block";
                     document.getElementById("<%=pnlCorrectiveActions.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlWC_OSHA.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlReview.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlReviewView.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlAttachments.ClientID%>").style.display = "none";
@@ -2486,6 +2848,7 @@
                     document.getElementById("<%=pnlCauses.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlRootCauseDetermination.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlCorrectiveActions.ClientID%>").style.display = "block";
+                    document.getElementById("<%=pnlWC_OSHA.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlReview.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlReviewView.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlAttachments.ClientID%>").style.display = "none";
@@ -2496,6 +2859,18 @@
                     document.getElementById("<%=pnlCauses.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlRootCauseDetermination.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlCorrectiveActions.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlWC_OSHA.ClientID%>").style.display = "block";
+                    document.getElementById("<%=pnlReviewView.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlReview.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlAttachments.ClientID%>").style.display = "none";
+                }
+                //check if index is 6 than display review  Section.
+                if (index == 6) {
+                    document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlCauses.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlRootCauseDetermination.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlCorrectiveActions.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlWC_OSHA.ClientID%>").style.display = "none";
                     if (IsUserRegOfficer == "False") {
                         document.getElementById("<%=pnlReviewView.ClientID%>").style.display = "block";
                     }
@@ -2504,12 +2879,13 @@
                     }
                     document.getElementById("<%=pnlAttachments.ClientID%>").style.display = "none";
                 }
-                //check if index is 6 than display Attachment Section.
-                if (index == 6) {
+                //check if index is 7 than display Attachment Section.
+                if (index == 7) {
                     document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlCauses.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlRootCauseDetermination.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlCorrectiveActions.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlWC_OSHA.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlReview.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlReviewView.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlAttachments.ClientID%>").style.display = "block";
@@ -2524,6 +2900,7 @@
                 document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewCorrectiveActions.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewWC_OSHA.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "none";
             }
             //check if index is 2 than display Causes Section.
@@ -2532,6 +2909,7 @@
                 document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "block";
                 document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewCorrectiveActions.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewWC_OSHA.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewAttachments.ClientID%>").style.display = "none";
             }
@@ -2542,6 +2920,7 @@
                 document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "block";
                 document.getElementById("<%=pnlViewCorrectiveActions.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewWC_OSHA.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewAttachments.ClientID%>").style.display = "none";
             }
@@ -2552,24 +2931,37 @@
                 document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewCorrectiveActions.ClientID%>").style.display = "block";
+                document.getElementById("<%=pnlViewWC_OSHA.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewAttachments.ClientID%>").style.display = "none";
             }
-            //check if index is 5 than display review  Section.
+            //check if index is 5 than display Coorective Actions Section.
             if (index == 5) {
                 document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewCorrectiveActions.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "block";
+                document.getElementById("<%=pnlViewWC_OSHA.ClientID%>").style.display = "block";
+                document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewAttachments.ClientID%>").style.display = "none";
             }
-            //check if index is 6 than display Attachment Section.
+            //check if index is 6 than display review  Section.
             if (index == 6) {
                 document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewCorrectiveActions.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewWC_OSHA.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "block";
+                document.getElementById("<%=pnlViewAttachments.ClientID%>").style.display = "none";
+            }
+            //check if index is 7 than display Attachment Section.
+            if (index == 7) {
+                document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewCorrectiveActions.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewWC_OSHA.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewAttachments.ClientID%>").style.display = "block";
             }

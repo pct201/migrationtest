@@ -94,6 +94,18 @@ namespace ERIMS.DAL
         private decimal _FK_SLT_Incident_Review;
         private string _Telephone_Nurse_Consultation;
         private string _Supervisor_Involved_In_Consultation;
+
+        private string _Physician_Other_Professional;
+        private string _Facility;
+        private string _Facility_Address;
+        private string _Facility_City;
+        private decimal? _FK_State_Facility;
+        private string _Facility_Zip_Code;
+        private string _Emergency_Room	;
+        private string _Time_Began_Work;
+        private string _Activity_Before_Incident;
+        private string _Object_Substance_Involved;
+
         #endregion
 
         #region Properties
@@ -885,6 +897,97 @@ namespace ERIMS.DAL
             get { return _Supervisor_Involved_In_Consultation; }
             set { _Supervisor_Involved_In_Consultation = value; }
         }
+
+        /// <summary>
+        /// Gets or sets Physician_Other_Professional value
+        /// </summary>
+        public string Physician_Other_Professional
+        {
+            get { return _Physician_Other_Professional; }
+            set { _Physician_Other_Professional = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Facility value
+        /// </summary>
+        public string Facility
+        {
+            get { return _Facility; }
+            set { _Facility = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Facility_Address value
+        /// </summary>
+        public string Facility_Address
+        {
+            get { return _Facility_Address; }
+            set { _Facility_Address = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Facility_City value
+        /// </summary>
+        public string Facility_City
+        {
+            get { return _Facility_City; }
+            set { _Facility_City = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets FK_State_Facility value
+        /// </summary>
+        public decimal? FK_State_Facility
+        {
+            get { return _FK_State_Facility; }
+            set { _FK_State_Facility = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Facility_Zip_Code value
+        /// </summary>
+        public string Facility_Zip_Code
+        {
+            get { return _Facility_Zip_Code; }
+            set { _Facility_Zip_Code = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Emergency_Room value
+        /// </summary>
+        public string Emergency_Room
+        {
+            get { return _Emergency_Room; }
+            set { _Emergency_Room = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Time_Began_Work value
+        /// </summary>
+        public string Time_Began_Work
+        {
+            get { return _Time_Began_Work; }
+            set { _Time_Began_Work = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Activity_Before_Incident value
+        /// </summary>
+        public string Activity_Before_Incident
+        {
+            get { return _Activity_Before_Incident; }
+            set { _Activity_Before_Incident = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Object_Substance_Involved value
+        /// </summary>
+        public string Object_Substance_Involved
+        {
+            get { return _Object_Substance_Involved; }
+            set { _Object_Substance_Involved = value; }
+        }
+                
         #endregion
 
         #region Constructors
@@ -977,7 +1080,19 @@ namespace ERIMS.DAL
             this._Initial_Claim_Classification = string.Empty;
             this._FK_SLT_Incident_Review = -1;
             this._Telephone_Nurse_Consultation = null;
-            this._Supervisor_Involved_In_Consultation = null; 
+            this._Supervisor_Involved_In_Consultation = null;
+
+            this._Physician_Other_Professional = string.Empty;
+            this._Facility = string.Empty;
+            this._Facility_Address = string.Empty;
+            this._Facility_City = string.Empty;
+            this._FK_State_Facility = null;
+            this._Facility_Zip_Code = string.Empty;
+            this._Emergency_Room = string.Empty;
+            this._Time_Began_Work = string.Empty;
+            this._Activity_Before_Incident = string.Empty;
+            this._Object_Substance_Involved = string.Empty;
+
         }
 
         /// <summary> 
@@ -1086,6 +1201,17 @@ namespace ERIMS.DAL
                 this._FK_SLT_Incident_Review = drWC_FR["FK_SLT_Incident_Review"] != DBNull.Value ? Convert.ToDecimal(drWC_FR["FK_SLT_Incident_Review"]) : 0;
                 this._Telephone_Nurse_Consultation = Convert.ToString(drWC_FR["Telephone_Nurse_Consultation"]);
                 this._Supervisor_Involved_In_Consultation = Convert.ToString(drWC_FR["Supervisor_Involved_In_Consultation"]);
+
+                this._Physician_Other_Professional = Convert.ToString(drWC_FR["Physician_Other_Professional"]);
+                this._Facility = Convert.ToString(drWC_FR["Facility"]);
+                this._Facility_Address = Convert.ToString(drWC_FR["Facility_Address"]);
+                this._Facility_City = Convert.ToString(drWC_FR["Facility_City"]);
+                this._FK_State_Facility = drWC_FR["FK_State_Facility"] != DBNull.Value ? Convert.ToDecimal(drWC_FR["FK_State_Facility"]) : 0;
+                this._Facility_Zip_Code = Convert.ToString(drWC_FR["Facility_Zip_Code"]);
+                this._Emergency_Room = Convert.ToString(drWC_FR["Emergency_Room"]);
+                this._Time_Began_Work = Convert.ToString(drWC_FR["Time_Began_Work"]);
+                this._Activity_Before_Incident = Convert.ToString(drWC_FR["Activity_Before_Incident"]);
+                this._Object_Substance_Involved = Convert.ToString(drWC_FR["Object_Substance_Involved"]);
             }
 
             else
@@ -1172,6 +1298,17 @@ namespace ERIMS.DAL
                 this._FK_SLT_Incident_Review = -1;
                 this._Telephone_Nurse_Consultation = null;
                 this._Supervisor_Involved_In_Consultation = null;
+
+                this._Physician_Other_Professional = string.Empty;
+                this._Facility = string.Empty;
+                this._Facility_Address = string.Empty;
+                this._Facility_City = string.Empty;
+                this._FK_State_Facility = null;
+                this._Facility_Zip_Code = string.Empty;
+                this._Emergency_Room = string.Empty;
+                this._Time_Began_Work = string.Empty;
+                this._Activity_Before_Incident = string.Empty;
+                this._Object_Substance_Involved = string.Empty;
             }
 
         }
@@ -1646,6 +1783,18 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Telephone_Nurse_Consultation", DbType.String, this._Telephone_Nurse_Consultation);
             db.AddInParameter(dbCommand, "Supervisor_Involved_In_Consultation", DbType.String, this._Supervisor_Involved_In_Consultation);
 
+            db.AddInParameter(dbCommand, "Physician_Other_Professional", DbType.String, this._Physician_Other_Professional);
+            db.AddInParameter(dbCommand, "Facility", DbType.String, this._Facility);
+            db.AddInParameter(dbCommand, "Facility_Address", DbType.String, this._Facility_Address);
+            db.AddInParameter(dbCommand, "Facility_City", DbType.String, this._Facility_City);
+            db.AddInParameter(dbCommand, "FK_State_Facility", DbType.Decimal, this._FK_State_Facility);
+            db.AddInParameter(dbCommand, "Facility_Zip_Code", DbType.String, this._Facility_Zip_Code);
+            db.AddInParameter(dbCommand, "Emergency_Room", DbType.String, this._Emergency_Room);
+            db.AddInParameter(dbCommand, "Time_Began_Work", DbType.String, this._Time_Began_Work);
+            db.AddInParameter(dbCommand, "Activity_Before_Incident", DbType.String, this._Activity_Before_Incident);
+            db.AddInParameter(dbCommand, "Object_Substance_Involved", DbType.String, this._Object_Substance_Involved);
+
+            
             db.ExecuteNonQuery(dbCommand);
         }
 

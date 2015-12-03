@@ -8,26 +8,23 @@
 </head>
 
 <script language="javascript" type="text/javascript">
-    function showAudit(divHeader,divGrid)
-    {        
-        var divheight,i;
-       
+    function showAudit(divHeader, divGrid) {
+        var divheight, i;
+
         divHeader.style.width = window.screen.availWidth - 225 + "px";
         divGrid.style.width = window.screen.availWidth - 225 + "px";
-        
-        divheight = divGrid.style.height;        
-        i = divheight.indexOf('px');        
-        
-        if(i > -1)        
-            divheight = divheight.substring(0,i);
-        if (divheight > (window.screen.availHeight - 350) && divGrid.style.height != "")
-        {            
+
+        divheight = divGrid.style.height;
+        i = divheight.indexOf('px');
+
+        if (i > -1)
+            divheight = divheight.substring(0, i);
+        if (divheight > (window.screen.availHeight - 350) && divGrid.style.height != "") {
             divGrid.style.height = window.screen.availHeight - 350;
         }
     }
-    
-    function ChangeScrollBar(f,s)
-    {
+
+    function ChangeScrollBar(f, s) {
         s.scrollTop = f.scrollTop;
         s.scrollLeft = f.scrollLeft;
     }
@@ -164,6 +161,36 @@
                                     </th>
                                     <th class="cols">
                                         <span style="display: inline-block; width: 160px">Fatality</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 180px">Physician_Other_Professional</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 160px">Facility</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 160px">Facility_Address</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 160px">Facility_City</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 160px">FK_State_Facility</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 160px">Facility_Zip_Code</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 160px">Emergency_Room</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 160px">Time_Began_Work</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 400px">Activity_Before_Incident</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 400px">Object_Substance_Involved</span>
                                     </th>
                                     <th class="cols">
                                         <span style="display: inline-block; width: 160px">Initial_Medical_Treatment</span>
@@ -344,8 +371,8 @@
                                 <asp:TemplateField HeaderText="Date_Of_Incident" SortExpression="Date_Of_Incident">
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
-                                        <asp:Label ID="Date_Of_Incident" runat="server"  Text='<%#clsGeneral.FormatDateToDisplay(!string.IsNullOrEmpty(Convert.ToString(Eval("Date_Of_Incident"))) ? Convert.ToDateTime(Eval("Date_Of_Incident")) : (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue) %>'
-                                        Width="160px"></asp:Label>
+                                        <asp:Label ID="Date_Of_Incident" runat="server" Text='<%#clsGeneral.FormatDateToDisplay(!string.IsNullOrEmpty(Convert.ToString(Eval("Date_Of_Incident"))) ? Convert.ToDateTime(Eval("Date_Of_Incident")) : (DateTime)System.Data.SqlTypes.SqlDateTime.MinValue) %>'
+                                            Width="160px"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Time_Of_Incident" SortExpression="Time_Of_Incident">
@@ -548,9 +575,81 @@
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
                                         <asp:Label ID="Fatality" runat="server" Text='<%# !String.IsNullOrEmpty(Convert.ToString(Eval("Fatality"))) ? (Convert.ToString(Eval("Fatality")) == "True" ? "Yes" : "No") : "" %>'
-                                         Width="160px"></asp:Label>
+                                            Width="160px"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Physician_Other_Professional" SortExpression="Physician_Other_Professional">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Physician_Other_Professional" runat="server" Text='<%# Eval("Physician_Other_Professional") %>'
+                                            Width="180px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Facility" SortExpression="Facility">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Facility" runat="server" Text='<%# Eval("Facility") %>'
+                                            Width="160px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Facility_Address" SortExpression="Facility_Address">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Facility_Address" runat="server" Text='<%# Eval("Facility_Address") %>'
+                                            Width="160px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Facility_City" SortExpression="Facility_City">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Facility_City" runat="server" Text='<%# Eval("Facility_City") %>'
+                                            Width="160px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="FK_State_Facility" SortExpression="FK_State_Facility">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="FK_State_Facility" runat="server" Text='<%# Eval("FK_State_Facility") %>'
+                                            Width="160px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Facility_Zip_Code" SortExpression="Facility_Zip_Code">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Facility_Zip_Code" runat="server" Text='<%# Eval("Facility_Zip_Code") %>'
+                                            Width="160px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Emergency_Room" SortExpression="Emergency_Room">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Emergency_Room" runat="server" Text='<%# !String.IsNullOrEmpty(Convert.ToString(Eval("Emergency_Room"))) ? (Convert.ToString(Eval("Emergency_Room")) == "Y" ? "Yes" : "No") : "" %>'
+                                            Width="160px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Time_Began_Work" SortExpression="Time_Began_Work">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Time_Began_Work" runat="server" Text='<%# Eval("Time_Began_Work") %>'
+                                            Width="160px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Activity_Before_Incident" SortExpression="Activity_Before_Incident">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Activity_Before_Incident" runat="server" Text='<%# Eval("Activity_Before_Incident") %>'
+                                            Width="400px" CssClass="TextClip"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Object_Substance_Involved" SortExpression="Object_Substance_Involved">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="Object_Substance_Involved" runat="server" Text='<%# Eval("Object_Substance_Involved") %>'
+                                            Width="400px" CssClass="TextClip"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
                                 <asp:TemplateField HeaderText="Initial_Medical_Treatment" SortExpression="Initial_Medical_Treatment">
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
