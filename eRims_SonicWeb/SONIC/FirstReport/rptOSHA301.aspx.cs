@@ -10,7 +10,7 @@ using Winnovative.WnvHtmlConvert;
 using ERIMS.DAL;
 using Winnovative.WnvHtmlConvert.PdfDocument;
 
-public partial class SONIC_FirstReport_rptOSHA301 : System.Web.UI.Page
+public partial class SONIC_FirstReport_rptOSHA301 : clsBasePage
 {
     private const string strPageBreak = "<br style=\"page-break-before: always\" />";
 
