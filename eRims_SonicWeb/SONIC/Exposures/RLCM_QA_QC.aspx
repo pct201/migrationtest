@@ -187,6 +187,22 @@
                 </Columns>
             </asp:GridView>
             <br />
+             <table width="50%">
+                <tr>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="vsErrorGroup" />
+                    </td>
+                    <td align="left">
+                        <asp:Button ID="btnCancel" runat="server" Text="Canel" ValidationGroup="vsErrorGroup" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
         </asp:Panel>
     </div>
 
