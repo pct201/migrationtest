@@ -75,13 +75,13 @@ public class clsGeneral : System.Web.UI.Page
     /// </summary>
     public static string[] TableNames = { "WC_FR", "AL_FR", "DPD_FR", "Property_FR", "PL_FR", "Executive_Risk", "Executive_Risk_Carrier", "Defense_Attorney", "Plaintiff_Attorney", "Executive_Risk_Expenses", "Investigator_Notes", "Executive_Risk_Contacts", "WCClaim", "ALClaim", "PLClaim", "DPDClaim", "PropertyClaim", "Purchasing_Asset", "Purchasing_Service_Contract", "Purchasing_LR_Agreement", "RE_Information", "Policy", "Policy_Features", "Additional_Insured", "Automobile_Liability_Policies", "Insurance_Companies", "General_Liability_Policies", "Property_Policies", "Risk_Profile", "Producers", "WC_Policies", "Certificates_of_Insurance", "COI_Liquor_Policies", "Location", "Letter_History", "Owners", "Professional_Liability_Policies", "Excess_Liability_Policies", "Copies", "Insureds", "Franchise", "CRM_Customer", "CRM_Non_Customer", "Investigation" };
 
-    public static string[] ExposureTableNames = { "Property_Building", "Property_Ownership_SubLease", "Property_Assessment", "Inspection", "Inspection_Responses", "SLT_Safety_Walk_Attachments" };
+    public static string[] ExposureTableNames = { "Property_Building", "Property_Ownership_SubLease", "Property_Assessment", "Inspection", "Inspection_Responses", "SLT_Safety_Walk_Attachments", "SLT_BT_Security_Walk_Attachments" };
 
     public static string[] ClaimTableName = { "WCClaim", "ALClaim", "PLClaim" };
 
     public static string[] PollutionTableName = { "PM_SI_UP_Attachments", "PM_SI_FI_Attachments", "PM_Permits_Attachments", "PM_CR_CI_Attachments", "PM_CR_PI_Attachments", "PM_Receiving_TSDF_Attachments", "PM_Waste_Hauler_Attachments", "PM_Waste_Removal_Attachments", "PM_Frequency_Attachments", "PM_Phase_I_Attachments", "PM_EPA_Inspection_Attachments", "PM_Remediation_Grid_Attachments", "PM_Violation_Attachments", "PM_Attachments", "PM_Equipment_Attachments", "PM_Equipment_Tank", "PM_Equipment_Spray_Booth", "PM_Equipment_OWS", "PM_Equipment_Hydraulic_Lift", "PM_Equipment_PGCC", "PM_CR_Grids_Attachments", "PM_Compliance_Reporting_OSHA_Attachments" };
 
-    public static string[] SLT_TablesNames = { "SLT_Safety_Walk", "SLT_Training" };
+    public static string[] SLT_TablesNames = { "SLT_Safety_Walk", "SLT_Training", "SLT_Meeting_Review", "Main_Wall_Attachment", "SLT_BT_Security_Walk", "Dashboard_Wall_Attachment" };
 
     /// <summary>
     /// enum is used to get table name to be used.
@@ -172,7 +172,8 @@ public class clsGeneral : System.Web.UI.Page
         Property_Assessment = 2,
         Inspection = 3,
         Inspection_Responses = 4,
-        SLT_Safety_Walk_Attachments = 5
+        SLT_Safety_Walk_Attachments = 5,
+        SLT_BT_Security_Walk_Attachments = 6
     }
 
     public enum Exposure_Enviroment_Table
@@ -231,7 +232,11 @@ public class clsGeneral : System.Web.UI.Page
     public enum SLT_Tables : int
     {
         SLT_Safety_Walk = 0,
-        SLT_Training = 1
+        SLT_Training = 1,
+        SLT_Meeting_Review = 2, //#Issue 3439 pt. 4
+        Main_Wall_Attachment = 3,
+        SLT_BT_Security_Walk = 4,
+        Dashboard_Wall_Attachment = 5
     }
     //public enum TextBoxCssClass
     //{
@@ -567,6 +572,10 @@ public class clsGeneral : System.Web.UI.Page
         {
             strUploadPath = AppConfig.strSLT_SafetyWalkDocPath;
         }
+        else if (tbl == SLT_TablesNames[(int)clsGeneral.SLT_Tables.SLT_BT_Security_Walk])
+        {
+            strUploadPath = AppConfig.strSLT_BTSecurityWalkDocPath;
+        }
         else if (tbl == SLT_TablesNames[(int)clsGeneral.SLT_Tables.SLT_Training])
         {
             strUploadPath = AppConfig.strSLT_TrainingDocsPath;
@@ -575,9 +584,25 @@ public class clsGeneral : System.Web.UI.Page
         {
             strUploadPath = AppConfig.strSLT_SafetyWalkDocPath;
         }
+        else if (tbl == ExposureTableNames[(int)clsGeneral.Exposure_Tables.SLT_BT_Security_Walk_Attachments])
+        {
+            strUploadPath = AppConfig.strSLT_BTSecurityWalkDocPath;
+        }
         else if (tbl == TableNames[(int)clsGeneral.Tables.Investigation])
         {
             strUploadPath = AppConfig.InvestigationDocPath;
+        }
+        else if (tbl == SLT_TablesNames[(int)clsGeneral.SLT_Tables.SLT_Meeting_Review])
+        {
+            strUploadPath = AppConfig.strSLT_MeetingReviewDocsPath;
+        }
+        else if (tbl == SLT_TablesNames[(int)clsGeneral.SLT_Tables.Main_Wall_Attachment])
+        {
+            strUploadPath = AppConfig.strMain_Wall_Attachment;
+        }
+        else if (tbl == SLT_TablesNames[(int)clsGeneral.SLT_Tables.Dashboard_Wall_Attachment])
+        {
+            strUploadPath = AppConfig.strDashboard_Wall_Attachment;
         }
         return strUploadPath;
     }
@@ -1539,6 +1564,14 @@ public class clsGeneral : System.Web.UI.Page
             return string.Empty;
     }
 
+    public static string FormatDBNullDateTimeToDisplay(object objDate)
+    {
+        if (objDate == DBNull.Value || objDate == null)
+            return string.Empty;
+        else
+            return Convert.ToDateTime(objDate).ToString(AppConfig.DisplayDateFormat.Replace("HH:mm", "").Trim() + " HH:mm");
+    }
+
     /// <summary>
     /// return Date in short date format if it is null then it return minimum value 
     /// </summary>
@@ -1600,7 +1633,7 @@ public class clsGeneral : System.Web.UI.Page
     }
 
     /// <summary>
-    /// Sets the dates for the labels which are not mendatory fields,
+    /// Sets the dates for the labels which are not mandatory fields,
     /// it may have null value which should return an empty string
     /// </summary>
     /// <param name="objDate"></param>
@@ -1639,7 +1672,7 @@ public class clsGeneral : System.Web.UI.Page
     }
 
     /// <summary>
-    /// Sets the dates for the labels which are not mendatory fields,
+    /// Sets the dates for the labels which are not mandatory fields,
     /// it may have null value which should return an empty string
     /// </summary>
     /// <param name="objDate"></param>
@@ -3466,6 +3499,39 @@ public class clsGeneral : System.Web.UI.Page
 
         }
 
+    }
+
+    public static void ResizeImage(string OriginalFile, string NewFile, int NewWidth, int MaxHeight, bool OnlyResizeIfWider)
+    {
+        System.Drawing.Image FullsizeImage = System.Drawing.Image.FromFile(OriginalFile);
+
+        // Prevent using images internal thumbnail
+        FullsizeImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
+        FullsizeImage.RotateFlip(System.Drawing.RotateFlipType.Rotate180FlipNone);
+
+        if (OnlyResizeIfWider)
+        {
+            if (FullsizeImage.Width <= NewWidth)
+            {
+                NewWidth = FullsizeImage.Width;
+            }
+        }
+
+        int NewHeight = FullsizeImage.Height * NewWidth / FullsizeImage.Width;
+        if (NewHeight > MaxHeight)
+        {
+            // Resize with height instead
+            NewWidth = FullsizeImage.Width * MaxHeight / FullsizeImage.Height;
+            NewHeight = MaxHeight;
+        }
+
+        System.Drawing.Image NewImage = FullsizeImage.GetThumbnailImage(NewWidth, NewHeight, null, IntPtr.Zero);
+
+        // Clear handle to original file so that we can overwrite it if necessary
+        FullsizeImage.Dispose();
+
+        // Save resized picture
+        NewImage.Save(NewFile);
     }
 
 }

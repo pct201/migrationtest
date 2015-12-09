@@ -246,7 +246,11 @@ public class AppConfig
     private static string _strPM_Equipment_AttachmentImageURL;
 
     private static string _strSLT_TrainingDocsPath;
+    private static string _strSLT_MeetingReviewDocsPath;
+    private static string _strMain_Wall_Attachment;
+    private static string _strDashboard_Wall_Attachment;
     private static string _strSLT_TrainingImageURL;
+    private static string _strSLT_BTSecurityWalkDocPath;
     private static string _strSLT_SafetyWalkDocPath;
     private static string _strSLT_SafetyWalkImageURL;
 
@@ -1176,6 +1180,10 @@ public class AppConfig
         get { return _strPM_Equipment_AttachmentImageURL; }
     }
 
+    public static string strSLT_BTSecurityWalkDocPath
+    {
+        get { return _strSLT_BTSecurityWalkDocPath; }
+    }
     public static string strSLT_SafetyWalkDocPath
     {
         get { return _strSLT_SafetyWalkDocPath; }
@@ -1187,6 +1195,18 @@ public class AppConfig
     public static string strSLT_TrainingDocsPath
     {
         get { return _strSLT_TrainingDocsPath; }
+    }
+    public static string strSLT_MeetingReviewDocsPath
+    {
+        get { return _strSLT_MeetingReviewDocsPath; }
+    }
+    public static string strMain_Wall_Attachment
+    {
+        get { return _strMain_Wall_Attachment; }
+    }
+    public static string strDashboard_Wall_Attachment
+    {
+        get { return _strDashboard_Wall_Attachment; }
     }
     public static string strSLT_TrainingImageURL
     {
@@ -1582,9 +1602,13 @@ public class AppConfig
         _strPM_Equipment_AttachmentDocPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["PM_Equipment_AttachmentsDocs"] + "\\");
         _strPM_Equipment_AttachmentImageURL = string.Concat(SiteURL, AttachmentDocPath, "/", ConfigurationManager.AppSettings["PM_Equipment_AttachmentsDocs"] + "/");
 
+        _strSLT_BTSecurityWalkDocPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["SLT_BTSecurityWalkDocs"] + "\\");
         _strSLT_SafetyWalkDocPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["SLT_SafetyWalkDocs"] + "\\");
         _strSLT_SafetyWalkImageURL = string.Concat(SiteURL, AttachmentDocPath, "/", ConfigurationManager.AppSettings["SLT_SafetyWalkDocs"] + "/");
         _strSLT_TrainingDocsPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["SLT_TrainingDocs"] + "\\");
+        _strSLT_MeetingReviewDocsPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["SLT_MeetingReviewDocs"] + "\\");
+        _strMain_Wall_Attachment = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["Main_Wall_Attachment"] + "\\");
+        _strDashboard_Wall_Attachment = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["Dashboard_Wall_Attachment"] + "\\");
         _strSLT_TrainingImageURL = string.Concat(SiteURL, AttachmentDocPath, "/", ConfigurationManager.AppSettings["SLT_TrainingDocs"] + "/");
 
         _strEPMDocumentPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["EPM_Docs"] + "\\");
