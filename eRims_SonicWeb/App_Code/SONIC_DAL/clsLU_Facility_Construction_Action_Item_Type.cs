@@ -182,5 +182,17 @@ namespace ERIMS.DAL
 
             return (Convert.ToDecimal(db.ExecuteScalar(dbCommand)));
 		}
+
+        /// <summary>
+        /// Selects all Active records from the LU_Facility_Construction_Action_Item_Type table.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectAllActiveActionItemType()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_Facility_Construction_Action_Item_TypeSelectAllActive");
+
+            return db.ExecuteDataSet(dbCommand);
+        }
 	}
 }
