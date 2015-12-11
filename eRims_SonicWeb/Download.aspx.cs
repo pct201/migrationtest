@@ -34,6 +34,17 @@ public partial class Download : System.Web.UI.Page
                         HttpContext.Current.Response.Flush();
                         HttpContext.Current.Response.End();
                     }
+                    else if (Request.QueryString["SLT"] == "BTSecuritywalk")
+                    {
+                        strFilePath = clsGeneral.GetAttachmentDocPath(clsGeneral.SLT_TablesNames[(int)clsGeneral.SLT_Tables.SLT_BT_Security_Walk]) + strFileName;
+                        HttpContext.Current.Response.Clear();
+                        HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", strFileName.Substring(12)));
+                        HttpContext.Current.Response.ContentType = "application/ms-word";
+                        HttpContext.Current.Response.TransmitFile(strFilePath);
+                        HttpContext.Current.Response.Flush();
+                        HttpContext.Current.Response.End();
+
+                    }
                     else if (Request.QueryString["SLT"] == "training")
                     {
                         strFilePath = clsGeneral.GetAttachmentDocPath(clsGeneral.SLT_TablesNames[(int)clsGeneral.SLT_Tables.SLT_Training]) + strFileName;
