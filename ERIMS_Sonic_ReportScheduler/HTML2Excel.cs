@@ -85,8 +85,8 @@ public class HTML2Excel
         //    range.Style.Font.Size = 10;
         //}
 
-        excelWorksheet.Cells.AutoFitColumns();
-        //excelWorksheet.Cells.AutoFitColumns(12, 42);
+        //excelWorksheet.Cells.AutoFitColumns();
+        excelWorksheet.Cells.AutoFitColumns(12, 50);
         excelWorksheet.Cells.Style.WrapText = true;
 
         Byte[] bin = excelWorkbook.GetAsByteArray();
