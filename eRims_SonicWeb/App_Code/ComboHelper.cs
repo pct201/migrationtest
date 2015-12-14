@@ -5959,4 +5959,37 @@ public class ComboHelper
             }
         }
     }
+
+    /// <summary>
+    /// Fill Location by RLCM
+    /// </summary>
+    /// <param name="dropDowns">Dropdown Lists</param>
+    /// <param name="intID">used to selected a value using this param</param>
+    /// <param name="addSelectAsFirstElement">Require to add "--Select--" as a first element of dropdown</param>
+    public static void FillLocationByRLCM(DropDownList[] dropDowns,decimal? fK_Employee_Id, bool booladdSelectAsFirstElement, bool IsShow_On_Dashboard)
+    {
+        DataTable dtData = ERIMS.DAL.LU_Location.SelectLocation_By_RLCM(fK_Employee_Id).Tables[0];
+
+        if (IsShow_On_Dashboard)
+        {
+            dtData.DefaultView.Sort = "dba";
+            dtData.DefaultView.RowFilter = " Show_On_Dashboard = 'Y' ";
+        }
+
+        dtData = dtData.DefaultView.ToTable();
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "dba";
+            ddlToFill.DataValueField = "PK_LU_Location_ID";
+            ddlToFill.DataSource = dtData;
+            //ddlToFill.Style.Add("font-size", "x-small");
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
 }

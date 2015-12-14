@@ -923,6 +923,17 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "PK_LU_Location_ID", DbType.Decimal, PK_LU_Location_ID);
             return db.ExecuteDataSet(dbCommand);
         }
+
+        public static DataSet SelectLocation_By_RLCM(decimal? fK_Employee_Id)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Location_By_RLCM");
+
+            db.AddInParameter(dbCommand, "FK_Employee_Id", DbType.Decimal, fK_Employee_Id);
+            dbCommand.CommandTimeout = 1000;
+            return db.ExecuteDataSet(dbCommand);
+        }
+
         #endregion
     }
 }
