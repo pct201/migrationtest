@@ -34,7 +34,7 @@
 
         function RedirectToCalendar() {
 
-            window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/EHS_Dates_Calendar.aspx';
+            window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/EHS_Dates_Calendar.aspx?RLCM=<%=Encryption.Encrypt(Convert.ToString(PK_RLCM))%>';
             return false;
         }
     </script>

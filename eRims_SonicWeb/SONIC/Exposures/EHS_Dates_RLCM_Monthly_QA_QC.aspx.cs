@@ -11,7 +11,7 @@ public partial class SONIC_Exposures_EHS_Dates_RLCM_Monthly_QA_QC : clsBasePage
 {
     #region ::Properties::
 
-    private decimal? PK_RLCM
+    public decimal? PK_RLCM
     {
         get { return clsGeneral.GetDecimal(ViewState["PK_RLCM"]); }
         set { ViewState["PK_RLCM"] = value; }
