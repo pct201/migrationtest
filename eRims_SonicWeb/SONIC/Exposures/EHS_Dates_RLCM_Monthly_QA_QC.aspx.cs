@@ -16,7 +16,20 @@ public partial class SONIC_Exposures_EHS_Dates_RLCM_Monthly_QA_QC : clsBasePage
         get { return clsGeneral.GetDecimal(ViewState["PK_RLCM"]); }
         set { ViewState["PK_RLCM"] = value; }
     }
-    
+
+
+    public int? Month
+    {
+        get { return clsGeneral.GetInt(ViewState["Month"]); }
+        set { ViewState["Month"] = value; }
+    }
+
+    public int? Year
+    {
+        get { return clsGeneral.GetInt(ViewState["Year"]); }
+        set { ViewState["Year"] = value; }
+    }
+
     #endregion
 
     #region ::Page Load::
@@ -25,9 +38,6 @@ public partial class SONIC_Exposures_EHS_Dates_RLCM_Monthly_QA_QC : clsBasePage
     {
         if (!IsPostBack)
         {
-            int? Month = null;
-            int? Year = null;
-
             if (!string.IsNullOrEmpty(Request.QueryString["Mnt"]))
             {
                 Month = Convert.ToInt32(Encryption.Decrypt(Convert.ToString(Request.QueryString["Mnt"])));
@@ -41,16 +51,7 @@ public partial class SONIC_Exposures_EHS_Dates_RLCM_Monthly_QA_QC : clsBasePage
                 PK_RLCM = Convert.ToDecimal(Encryption.Decrypt(Convert.ToString(Request.QueryString["RLCM"])));
             }
 
-            DataSet ds = clsEHS_Calendar.EHS_Show_Calendar(Year, Month, PK_RLCM);
-
-            if (ds.Tables[0].Rows.Count > 0)
-            {
-                BindTable(ds);
-            }
-            else
-            {
-                lblMsg.Text = "No Dates are associated for this month and year.";
-            }
+            BindData();
         }
     }
 
@@ -59,12 +60,29 @@ public partial class SONIC_Exposures_EHS_Dates_RLCM_Monthly_QA_QC : clsBasePage
     #region ::Methods::
 
     /// <summary>
+    /// Bind Data.
+    /// </summary>
+    public void BindData()
+    {
+        DataSet ds = clsEHS_Calendar.EHS_Show_Calendar(Year, Month, PK_RLCM);
+
+        if (ds.Tables[0].Rows.Count > 0)
+        {
+            BindTable(ds);
+        }
+        else
+        {
+            lblMsg.Text = "No Dates are associated for this month and year.";
+        }
+    }
+
+    /// <summary>
     /// Bind dynamic grid for each location.
     /// </summary>
     /// <param name="dtClone"></param>
     /// <param name="dr"></param>
     /// <param name="pnlGrid"></param>
-    protected void BindData(DataTable dtClone, DataRow[] dr, Panel pnlGrid)
+    protected void BindGrid(DataTable dtClone, DataRow[] dr, Panel pnlGrid)
     {
         DataTable dt = dtClone;
 
@@ -174,22 +192,37 @@ public partial class SONIC_Exposures_EHS_Dates_RLCM_Monthly_QA_QC : clsBasePage
             cell = new HtmlTableCell();
             HtmlImage img = new HtmlImage();
             img.ID = "img" + i;
-            img.Src = AppConfig.ImageURL + "/down-arrow.gif";
+            if (hdnOpenLocation.Value.Contains(Convert.ToString(dtDistinct_Location.Rows[i]["Location"])))
+            {
+                img.Src = AppConfig.ImageURL + "/up-arrow.gif";
+            }
+            else
+            {
+                img.Src = AppConfig.ImageURL + "/down-arrow.gif";
+            }
+
             img.Style.Add("cursor", "pointer");
-            img.Attributes.Add("onclick", "ExpandCollapse('ctl00_ContentPlaceHolder1_" + img.ID + "')");
+            img.Attributes.Add("onclick", "ExpandCollapse('ctl00_ContentPlaceHolder1_" + img.ID + "','" + Convert.ToString(dtDistinct_Location.Rows[i]["Location"]).Replace("'","\\\'") + "')");
             cell.Controls.Add(img);
             row.Cells.Add(cell);
 
             cell = new HtmlTableCell();
             cell.ColSpan = 4;
             cell.ID = "col" + i;
-            cell.Style.Add("display", "none");
+            if (hdnOpenLocation.Value.Contains(Convert.ToString(dtDistinct_Location.Rows[i]["Location"])))
+            {
+                cell.Style.Add("display", "");
+            }
+            else
+            {
+                cell.Style.Add("display", "none");
+            }
 
             ////Dynamic div panel inside third cell (ColSpan=4).
             Panel dynamicPanel = new Panel();
             dynamicPanel.ID = "Pnl" + i;
             cell.Controls.Add(dynamicPanel);
-            BindData(dt.Clone(), dt.Select("Location = '" + Convert.ToString(dtDistinct_Location.Rows[i]["Location"]).Replace("'", "''") + "'"), dynamicPanel);
+            BindGrid(dt.Clone(), dt.Select("Location = '" + Convert.ToString(dtDistinct_Location.Rows[i]["Location"]).Replace("'", "''") + "'"), dynamicPanel);
 
             row.Cells.Add(cell);
 
@@ -255,6 +288,16 @@ public partial class SONIC_Exposures_EHS_Dates_RLCM_Monthly_QA_QC : clsBasePage
         }
     }
 
+    /// <summary>
+    /// Refresh button
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnRefresh_Click(object sender, EventArgs e)
+    {
+        BindData();
+    }
+
     #endregion
 
     #region ::Item Temple for dynamic grid::
@@ -270,4 +313,5 @@ public partial class SONIC_Exposures_EHS_Dates_RLCM_Monthly_QA_QC : clsBasePage
     }
 
     #endregion
+    
 }

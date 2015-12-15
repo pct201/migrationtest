@@ -128,7 +128,7 @@ public partial class SONIC_Exposures_User_Added_EHS_Dates : System.Web.UI.Page
     /// </summary>
     private void ClosePage()
     {
-        Page.ClientScript.RegisterStartupScript(typeof(string), "keyclosewindow", " window.opener.location.reload(true); window.close();", true);
+        Page.ClientScript.RegisterStartupScript(typeof(string), "keyclosewindow", " window.opener.document.getElementById('ctl00_ContentPlaceHolder1_btnRefresh').click(); window.close();", true);
     } 
 
     #endregion

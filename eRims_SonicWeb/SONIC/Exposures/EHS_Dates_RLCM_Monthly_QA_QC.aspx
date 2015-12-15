@@ -5,17 +5,20 @@
 
     <script language="javascript" type="text/javascript">
 
-        function ExpandCollapse(img_id) {
-            var div, img;
+        function ExpandCollapse(img_id,Location_Name) {
+            var div, img,Open_loc;
             div = document.getElementById(img_id.replace('img', 'col'));
             img = document.getElementById(img_id);
+            Open_loc = document.getElementById('<%=hdnOpenLocation.ClientID%>');
 
             if (div.style.display == "none") {
                 div.style.display = "";
                 img.src = '<%=AppConfig.ImageURL%>' + "/up-arrow.gif";
+                Open_loc.value += Location_Name + ',';
             } else {
                 div.style.display = "none";
                 img.src = '<%=AppConfig.ImageURL%>' + "/down-arrow.gif";
+                Open_loc.value = Open_loc.value.replace(Location_Name + ',','');
             }
         }
 
@@ -27,7 +30,7 @@
         }
 
         function OpenUserEHSDates(id, RLCM) {
-            var oWnd = window.open('<%=AppConfig.SiteURL%>SONIC/Exposures/User_Added_EHS_Dates.aspx?id=' + id + '&RLCM=' + RLCM, "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=860,height=300");
+            var oWnd = window.open('<%=AppConfig.SiteURL%>SONIC/Exposures/User_Added_EHS_Dates.aspx?id=' + id + '&RLCM=' + RLCM, "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=860,height=400");
             oWnd.moveTo(450, 300);
             return false;
         }
@@ -71,6 +74,8 @@
                 </td>
             </tr>
         </table>
+        <asp:HiddenField ID="hdnOpenLocation" runat="server" />
+        <asp:Button ID="btnRefresh" runat="server" style="display:none;" OnClick="btnRefresh_Click" />
     </div>
 
 </asp:Content>
