@@ -696,6 +696,56 @@ function ValidateFieldsOwnership(sender, args) {
                                                         </table>
                                                     </td>
                                                 </tr>
+                                                <tr id="ctl00_ContentPlaceHolder1_mnuPropertyn5" onkeyup="Menu_Key(this)" onmouseover="Menu_HoverStatic(this)"
+                                                    onmouseout="Menu_Unhover(this)">
+                                                    <td>
+                                                        <table cellspacing="0" cellpadding="0" width="100%" border="0">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style="width: 100%; white-space: nowrap">
+                                                                        <a href="javascript:void(7);">
+                                                                            <table cellspacing="0" cellpadding="5" width="100%">
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td align="left" width="100%">
+                                                                                            <span class="LeftMenuStatic" id="Span12" onclick="javascript:RedirectTo(10);">Facility Maintenance
+                                                                                            </span>&nbsp;<span id="Span23" runat="server" style="color: Red; display: none;">*</span>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr id="ctl00_ContentPlaceHolder1_mnuPropertyn4" onkeyup="Menu_Key(this)" onmouseover="Menu_HoverStatic(this)"
+                                                    onmouseout="Menu_Unhover(this)">
+                                                    <td>
+                                                        <table cellspacing="0" cellpadding="0" width="100%" border="0">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style="width: 100%; white-space: nowrap">
+                                                                        <a href="javascript:void(6);">
+                                                                            <table cellspacing="0" cellpadding="5" width="100%">
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td align="left" width="100%">
+                                                                                            <span class="LeftMenuStatic" id="PropertyMenu6" onclick="javascript:RedirectTo(9);">Facility Inspection
+                                                                                            </span>&nbsp;<span id="MenuAsterisk5" runat="server" style="color: Red; display: none;">*</span>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </td>
