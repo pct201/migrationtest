@@ -3333,11 +3333,44 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);            
         }
 
+        /// <summary>
+        /// Selects Building For Building Improvements by Location ID
+        /// </summary>
+        /// <param name="fK_LU_Location_ID"></param>
+        /// <returns></returns>
         public static DataSet SelectBuildingForBuildingImprovements(int fK_LU_Location_ID)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("SelectBuildingForBuildingImprovements");
             db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Int32, fK_LU_Location_ID);
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// Selects Building By Project Id
+        /// </summary>
+        /// <param name="fK_Facility_Construction_Project"></param>
+        /// <returns></returns>
+        public static DataSet SelectBuildingByProjectNumber(Int32 fK_Facility_Construction_Project)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("BuildingSelectByProjectNumberForDropDown");
+            db.AddInParameter(dbCommand, "FK_Facility_Construction_PM", DbType.Int32, fK_Facility_Construction_Project);
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// Selects Building For Facility Inspection By Location ID and PK_Facility_Construction_Inspection
+        /// </summary>
+        /// <param name="fK_LU_Location_ID"></param>
+        /// <param name="pK_Facility_Construction_Inspection"></param>
+        /// <returns></returns>
+        public static DataSet SelectBuildingForFacilityInspection(Int32 fK_LU_Location_ID, Int32 pK_Facility_Construction_Inspection)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("SelectBuildingForFacilityInspection");
+            db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Int32, fK_LU_Location_ID);
+            db.AddInParameter(dbCommand, "PK_Facility_Construction_Inspection", DbType.Int32, pK_Facility_Construction_Inspection);
             return db.ExecuteDataSet(dbCommand);
         }
 
