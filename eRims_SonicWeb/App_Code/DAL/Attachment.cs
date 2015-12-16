@@ -295,6 +295,20 @@ namespace ERIMS.DAL
 
             db.ExecuteNonQuery(dbCommand);
         }
+
+        /// <summary>
+        /// select a record from the Attachment table by a composite primary key.
+        /// </summary>
+        public static DataSet SelectByID(String strIDs)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("SelectAttachmentByIDs");
+
+            db.AddInParameter(dbCommand, "strIDs", DbType.String, strIDs);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
 		/// <summary>
 		/// Deletes a record from the Attachment table by a foreign key.
 		/// </summary>
@@ -337,6 +351,19 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "Attachment_Table", DbType.String, Attachment_Table);
             db.AddInParameter(dbCommand, "Foreign_Key", DbType.Decimal, Foreign_Key);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        public static DataSet SelectByTableName(string Attachment_Table, int Foreign_Key, string strOrderBy, string strOrder)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("AttachmentSelectByTableNameWithSorting");
+
+            db.AddInParameter(dbCommand, "Attachment_Table", DbType.String, Attachment_Table);
+            db.AddInParameter(dbCommand, "Foreign_Key", DbType.Int32, Foreign_Key);
+            db.AddInParameter(dbCommand, "strOrderBy", DbType.String, strOrderBy);
+            db.AddInParameter(dbCommand, "strOrder", DbType.String, strOrder);
 
             return db.ExecuteDataSet(dbCommand);
         }
