@@ -65,6 +65,12 @@ namespace ERIMS.DAL
         private string _Regional_Controller;
         private string _Updated_By;
         private DateTime? _Update_Date;
+        private decimal? _FK_HVAC_Capital;
+        private decimal? _FK_HVAC_Repairs;
+        private decimal? _FK_Roof_Capital;
+        private decimal? _FK_Roof_Repairs;
+        private string _Other_Repairs;
+        private string _Maintenance_Notes;
 
         #endregion
 
@@ -522,6 +528,61 @@ namespace ERIMS.DAL
             get { return _Regional_Controller; }
             set { _Regional_Controller = value; }
         }
+
+        /// <summary>
+        /// Gets or sets the FK_HVAC_Capital.
+        /// </summary>
+        public decimal? FK_HVAC_Capital
+        {
+            get { return _FK_HVAC_Capital; }
+            set { _FK_HVAC_Capital = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the FK_HVAC_Repairs.
+        /// </summary>
+        public decimal? FK_HVAC_Repairs
+        {
+            get { return _FK_HVAC_Repairs; }
+            set { _FK_HVAC_Repairs = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the FK_Roof_Capital.
+        /// </summary>
+        public decimal? FK_Roof_Capital
+        {
+            get { return _FK_Roof_Capital; }
+            set { _FK_Roof_Capital = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the FK_Roof_Repairs.
+        /// </summary>
+        public decimal? FK_Roof_Repairs
+        {
+            get { return _FK_Roof_Repairs; }
+            set { _FK_Roof_Repairs = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Other_Repairs.
+        /// </summary>
+        public string Other_Repairs
+        {
+            get { return _Other_Repairs; }
+            set { _Other_Repairs = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Maintenance_Notes.
+        /// </summary>
+        public string Maintenance_Notes
+        {
+            get { return _Maintenance_Notes; }
+            set { _Maintenance_Notes = value; }
+        }
+
         #endregion
 
         #region Default Constructors
@@ -781,7 +842,7 @@ namespace ERIMS.DAL
                 this._Landlord_Legal_Entity = Convert.ToString(drRE_Information["Landlord_Legal_Entity"]);
                 this._Amendment_Info = Convert.ToString(drRE_Information["Amendment_Info"]);
                 this._Assignment_Info = Convert.ToString(drRE_Information["Assignment_Info"]);
-              
+
                 if (drRE_Information["Updated_By"] == DBNull.Value)
                     this._Updated_By = null;
                 else
@@ -792,6 +853,37 @@ namespace ERIMS.DAL
                 else
                     this._Update_Date = (DateTime?)drRE_Information["Update_Date"];
                 this._Regional_Controller = Convert.ToString(drRE_Information["Regional_Controller"]);
+
+                if (drRE_Information["FK_HVAC_Capital"] == DBNull.Value)
+                    this._FK_HVAC_Capital = null;
+                else
+                    this._FK_HVAC_Capital = (decimal?)drRE_Information["FK_HVAC_Capital"];
+
+                if (drRE_Information["FK_HVAC_Repairs"] == DBNull.Value)
+                    this._FK_HVAC_Repairs = null;
+                else
+                    this._FK_HVAC_Repairs = (decimal?)drRE_Information["FK_HVAC_Repairs"];
+
+                if (drRE_Information["FK_Roof_Capital"] == DBNull.Value)
+                    this._FK_Roof_Capital = null;
+                else
+                    this._FK_Roof_Capital = (decimal?)drRE_Information["FK_Roof_Capital"];
+
+                if (drRE_Information["FK_Roof_Repairs"] == DBNull.Value)
+                    this._FK_Roof_Repairs = null;
+                else
+                    this._FK_Roof_Repairs = (decimal?)drRE_Information["FK_Roof_Repairs"];
+
+                if (drRE_Information["Other_Repairs"] == DBNull.Value)
+                    this._Other_Repairs = null;
+                else
+                    this._Other_Repairs = (string)drRE_Information["Other_Repairs"];
+
+                if (drRE_Information["Maintenance_Notes"] == DBNull.Value)
+                    this._Maintenance_Notes = null;
+                else
+                    this._Maintenance_Notes = (string)drRE_Information["Maintenance_Notes"];
+
             }
             else
             {
@@ -1043,7 +1135,7 @@ namespace ERIMS.DAL
                 this._Landlord_Legal_Entity = Convert.ToString(drRE_Information["Landlord_Legal_Entity"]);
                 this._Amendment_Info = Convert.ToString(drRE_Information["Amendment_Info"]);
                 this._Assignment_Info = Convert.ToString(drRE_Information["Assignment_Info"]);
-               
+
                 if (drRE_Information["Updated_By"] == DBNull.Value)
                     this._Updated_By = null;
                 else
@@ -1055,6 +1147,36 @@ namespace ERIMS.DAL
                     this._Update_Date = (DateTime?)drRE_Information["Update_Date"];
 
                 this._Regional_Controller = Convert.ToString(drRE_Information["Regional_Controller"]);
+
+                if (drRE_Information["FK_HVAC_Capital"] == DBNull.Value)
+                    this._FK_HVAC_Capital = null;
+                else
+                    this._FK_HVAC_Capital = (decimal?)drRE_Information["FK_HVAC_Capital"];
+
+                if (drRE_Information["FK_HVAC_Repairs"] == DBNull.Value)
+                    this._FK_HVAC_Repairs = null;
+                else
+                    this._FK_HVAC_Repairs = (decimal?)drRE_Information["FK_HVAC_Repairs"];
+
+                if (drRE_Information["FK_Roof_Capital"] == DBNull.Value)
+                    this._FK_Roof_Capital = null;
+                else
+                    this._FK_Roof_Capital = (decimal?)drRE_Information["FK_Roof_Capital"];
+
+                if (drRE_Information["FK_Roof_Repairs"] == DBNull.Value)
+                    this._FK_Roof_Repairs = null;
+                else
+                    this._FK_Roof_Repairs = (decimal?)drRE_Information["FK_Roof_Repairs"];
+
+                if (drRE_Information["Other_Repairs"] == DBNull.Value)
+                    this._Other_Repairs = null;
+                else
+                    this._Other_Repairs = (string)drRE_Information["Other_Repairs"];
+
+                if (drRE_Information["Maintenance_Notes"] == DBNull.Value)
+                    this._Maintenance_Notes = null;
+                else
+                    this._Maintenance_Notes = (string)drRE_Information["Maintenance_Notes"];
             }
             else
             {
@@ -1071,7 +1193,7 @@ namespace ERIMS.DAL
             this._FK_LU_Location = null;
             this._FK_Building_ID = null;
             this._Federal_Id = null;
-            this._FK_LU_Status = null;            
+            this._FK_LU_Status = null;
             this._Tax_Parcel_Number = null;
             this._FK_LU_Lease_Type = null;
             this._Landlord = null;
@@ -1119,6 +1241,12 @@ namespace ERIMS.DAL
             this._Updated_By = null;
             this._Update_Date = null;
             this._Regional_Controller = null;
+            this._FK_HVAC_Capital = null;
+            this._FK_Roof_Capital = null;
+            this._FK_HVAC_Repairs = null;
+            this._FK_Roof_Repairs = null;
+            this._Other_Repairs = null;
+            this._Maintenance_Notes = null;
         }
 
         /// <summary>
@@ -1142,7 +1270,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "FK_LU_Status", DbType.Decimal, this._FK_LU_Status);
 
-          
+
             if (string.IsNullOrEmpty(this._Tax_Parcel_Number))
                 db.AddInParameter(dbCommand, "Tax_Parcel_Number", DbType.String, DBNull.Value);
             else
@@ -1305,7 +1433,7 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Assignment_Info", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Assignment_Info", DbType.String, this._Assignment_Info);
-           
+
             if (string.IsNullOrEmpty(this._Updated_By))
                 db.AddInParameter(dbCommand, "Updated_By", DbType.String, DBNull.Value);
             else
@@ -1317,6 +1445,25 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Regional_Controller", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Regional_Controller", DbType.String, this._Regional_Controller);
+
+            db.AddInParameter(dbCommand, "FK_HVAC_Repairs", DbType.Decimal, this._FK_HVAC_Repairs);
+
+            db.AddInParameter(dbCommand, "FK_HVAC_Capital", DbType.Decimal, this._FK_HVAC_Capital);
+
+            db.AddInParameter(dbCommand, "FK_Roof_Capital", DbType.Decimal, this._FK_Roof_Capital);
+
+            db.AddInParameter(dbCommand, "FK_Roof_Repairs", DbType.Decimal, this._FK_Roof_Repairs);
+
+            if (string.IsNullOrEmpty(this._Other_Repairs))
+                db.AddInParameter(dbCommand, "Other_Repairs", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Other_Repairs", DbType.String, this._Other_Repairs);
+
+            if (string.IsNullOrEmpty(this._Maintenance_Notes))
+                db.AddInParameter(dbCommand, "Maintenance_Notes", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Maintenance_Notes", DbType.String, this._Maintenance_Notes);
+
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -1532,7 +1679,7 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Assignment_Info", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Assignment_Info", DbType.String, this._Assignment_Info);
-          
+
             if (string.IsNullOrEmpty(this._Updated_By))
                 db.AddInParameter(dbCommand, "Updated_By", DbType.String, DBNull.Value);
             else
@@ -1544,6 +1691,24 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Regional_Controller", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Regional_Controller", DbType.String, this._Regional_Controller);
+
+            db.AddInParameter(dbCommand, "FK_HVAC_Repairs", DbType.Decimal, this._FK_HVAC_Repairs);
+
+            db.AddInParameter(dbCommand, "FK_HVAC_Capital", DbType.Decimal, this._FK_HVAC_Capital);
+
+            db.AddInParameter(dbCommand, "FK_Roof_Capital", DbType.Decimal, this._FK_Roof_Capital);
+
+            db.AddInParameter(dbCommand, "FK_Roof_Repairs", DbType.Decimal, this._FK_Roof_Repairs);
+
+            if (string.IsNullOrEmpty(this._Other_Repairs))
+                db.AddInParameter(dbCommand, "Other_Repairs", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Other_Repairs", DbType.String, this._Other_Repairs);
+
+            if (string.IsNullOrEmpty(this._Maintenance_Notes))
+                db.AddInParameter(dbCommand, "Maintenance_Notes", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Maintenance_Notes", DbType.String, this._Maintenance_Notes);
 
             db.ExecuteNonQuery(dbCommand);
         }

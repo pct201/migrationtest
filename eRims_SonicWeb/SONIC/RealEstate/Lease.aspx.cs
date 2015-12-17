@@ -214,7 +214,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
             {
                 _StrOperation = Request.QueryString["op"].ToString();
             }
-            clsSession.Str_RE_Operation = _StrOperation;          
+            clsSession.Str_RE_Operation = _StrOperation;
 
             // Bind location information
             ucCtrlExposureInfo.PK_LU_Location = FK_LU_Location_ID;
@@ -489,6 +489,34 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         txtLandlordLegalEntity.Text = objRE_Information.Landlord_Legal_Entity;
         txtAmendmentInfo.Text = objRE_Information.Amendment_Info;
         txtAssignementInfo.Text = objRE_Information.Assignment_Info;
+
+        #endregion
+
+        #region " Bind Lease Maint Obligation Information "
+
+        if (objRE_Information.FK_HVAC_Capital != null)
+            drpFK_HVAC_Capital.SelectedValue = objRE_Information.FK_HVAC_Capital.ToString();
+        else
+            drpFK_HVAC_Capital.SelectedIndex = 0;
+
+        if (objRE_Information.FK_HVAC_Repairs != null)
+            drpFK_HVAC_Repairs.SelectedValue = objRE_Information.FK_HVAC_Repairs.ToString();
+        else
+            drpFK_HVAC_Repairs.SelectedIndex = 0;
+
+        if (objRE_Information.FK_Roof_Capital != null)
+            drpFK_Roof_Capital.SelectedValue = objRE_Information.FK_Roof_Capital.ToString();
+        else
+            drpFK_Roof_Capital.SelectedIndex = 0;
+
+        if (objRE_Information.FK_Roof_Repairs != null)
+            drpFK_Roof_Repairs.SelectedValue = objRE_Information.FK_Roof_Repairs.ToString();
+        else
+            drpFK_Roof_Repairs.SelectedIndex = 0;
+
+        txtOtherRepairs.Text = objRE_Information.Other_Repairs;
+        txtMaintenanceNotes.Text = objRE_Information.Maintenance_Notes;
+
         #endregion
 
         #region " Bind Rent Information "
@@ -829,6 +857,17 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         lblAssignementInfo.Text = objRE_Information.Assignment_Info;
         #endregion
 
+        #region " Bind Lease Maint Obligation Information "
+
+        if (objRE_Information.FK_HVAC_Capital != null) lblHVACCapital.Text = new LU_HVAC_Capital((decimal)objRE_Information.FK_HVAC_Capital).Description;
+        if (objRE_Information.FK_HVAC_Repairs != null) lblHVACRepairs.Text = new LU_HVAC_Repairs((decimal)objRE_Information.FK_HVAC_Repairs).Description;
+        if (objRE_Information.FK_Roof_Capital != null) lblRoofCapital.Text = new LU_Roof_Capital((decimal)objRE_Information.FK_Roof_Capital).Description;
+        if (objRE_Information.FK_Roof_Repairs != null) lblRoofRepairs.Text = new LU_Roof_Repairs((decimal)objRE_Information.FK_Roof_Repairs).Description;
+        lblOtherRepairs.Text = objRE_Information.Other_Repairs;
+        lblMaintenanceNotes.Text = objRE_Information.Maintenance_Notes;
+
+        #endregion
+
         #region " Bind Rent Information "
 
         // check if PK for RE_Rent_Projections record is available
@@ -1126,6 +1165,41 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         drpFK_LU_Security_Deposit_Held.DataBind();
         drpFK_LU_Security_Deposit_Held.Items.Insert(0, new ListItem("--Select--", "0"));
 
+        // bind Roof Capital dropdown
+        DataTable dtRoofCapital = LU_Roof_Capital.SelectAll().Tables[0];
+        dtRoofCapital = dtRoofCapital.DefaultView.ToTable();
+        drpFK_Roof_Capital.DataSource = dtRoofCapital;
+        drpFK_Roof_Capital.DataTextField = "Description";
+        drpFK_Roof_Capital.DataValueField = "PK_LU_Roof_Capital";
+        drpFK_Roof_Capital.DataBind();
+        drpFK_Roof_Capital.Items.Insert(0, new ListItem("--Select--", "0"));
+
+        // bind Roof Repairs dropdown
+        DataTable dtRoofRepairs = LU_Roof_Repairs.SelectAll().Tables[0];
+        dtRoofRepairs = dtRoofRepairs.DefaultView.ToTable();
+        drpFK_Roof_Repairs.DataSource = dtRoofRepairs;
+        drpFK_Roof_Repairs.DataTextField = "Description";
+        drpFK_Roof_Repairs.DataValueField = "PK_LU_Roof_Repairs";
+        drpFK_Roof_Repairs.DataBind();
+        drpFK_Roof_Repairs.Items.Insert(0, new ListItem("--Select--", "0"));
+
+        // bind HVAC Repairs dropdown
+        DataTable dtHVACRepairs = LU_HVAC_Repairs.SelectAll().Tables[0];
+        dtHVACRepairs = dtHVACRepairs.DefaultView.ToTable();
+        drpFK_HVAC_Repairs.DataSource = dtHVACRepairs;
+        drpFK_HVAC_Repairs.DataTextField = "Description";
+        drpFK_HVAC_Repairs.DataValueField = "PK_LU_HVAC_Repairs";
+        drpFK_HVAC_Repairs.DataBind();
+        drpFK_HVAC_Repairs.Items.Insert(0, new ListItem("--Select--", "0"));
+
+        // bind HVAC Capital dropdown
+        DataTable dtHVACCapital = LU_HVAC_Capital.SelectAll().Tables[0];
+        dtHVACCapital = dtHVACCapital.DefaultView.ToTable();
+        drpFK_HVAC_Capital.DataSource = dtHVACCapital;
+        drpFK_HVAC_Capital.DataTextField = "Description";
+        drpFK_HVAC_Capital.DataValueField = "PK_LU_HVAC_Capital";
+        drpFK_HVAC_Capital.DataBind();
+        drpFK_HVAC_Capital.Items.Insert(0, new ListItem("--Select--", "0"));
     }
 
     /// <summary>
@@ -1514,6 +1588,21 @@ public partial class SONIC_Exposures_Lease : clsBasePage
             objRE_Information.Assignment_Info = txtAssignementInfo.Text.Trim();
             objRE_Information.Update_Date = DateTime.Now;
             objRE_Information.Updated_By = clsSession.UserID;
+
+            if (drpFK_HVAC_Capital.SelectedIndex > 0)
+                objRE_Information.FK_HVAC_Capital = Convert.ToDecimal(drpFK_HVAC_Capital.SelectedValue);
+
+            if (drpFK_HVAC_Repairs.SelectedIndex > 0)
+                objRE_Information.FK_HVAC_Repairs = Convert.ToDecimal(drpFK_HVAC_Repairs.SelectedValue);
+
+            if (drpFK_Roof_Capital.SelectedIndex > 0)
+                objRE_Information.FK_Roof_Capital = Convert.ToDecimal(drpFK_Roof_Capital.SelectedValue);
+
+            if (drpFK_Roof_Repairs.SelectedIndex > 0)
+                objRE_Information.FK_Roof_Repairs = Convert.ToDecimal(drpFK_Roof_Repairs.SelectedValue);
+
+            objRE_Information.Other_Repairs = txtOtherRepairs.Text.Trim();
+            objRE_Information.Maintenance_Notes = txtMaintenanceNotes.Text.Trim();
 
             // save the information as per the PK availability
             if (_PK_RE_Information > 0)
@@ -2892,7 +2981,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
     /// <param name="e"></param>
     protected void lnkAddTRSSubTenant_Click(object sender, EventArgs e)
     {
-        SaveSubtenanatInformation();        
+        SaveSubtenanatInformation();
         // save data and redirect to Subtenant Term Rent Schedule page with edit mode
         SaveData(2, AppConfig.SiteURL + "SONIC/RealEstate/SubtenantTRS.aspx?loc=" + Request.QueryString["loc"] + "&Subtenant=" + Encryption.Encrypt(Convert.ToString(_PK_RE_Subtenant)));
     }
@@ -2904,7 +2993,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
     /// <param name="e"></param>
     protected void lnkAddORSSubTenant_Click(object sender, EventArgs e)
     {
-        SaveSubtenanatInformation();        
+        SaveSubtenanatInformation();
         // save data and redirect to Subtenant Option Rent Schedule page with edit mode
         SaveData(4, AppConfig.SiteURL + "SONIC/RealEstate/SubtenantORS.aspx?loc=" + Request.QueryString["loc"] + "&Subtenant=" + Encryption.Encrypt(Convert.ToString(_PK_RE_Subtenant)));
     }
@@ -4489,6 +4578,61 @@ public partial class SONIC_Exposures_Lease : clsBasePage
             #endregion
         }
         #endregion
+
+        #region "Lease Maint Obligation "
+
+        dtFields = clsScreen_Validators.SelectByScreen(218).Tables[0];
+        dtFields.DefaultView.RowFilter = "IsRequired = '1'";
+        dtFields = dtFields.DefaultView.ToTable();
+        // set menu 1 asterisk display
+        MenuAsterisk11.Style["display"] = (dtFields.Select("LeftMenuIndex =8").Length > 0) ? "inline-block" : "none";
+
+        foreach (DataRow drField in dtFields.Rows)
+        {
+            #region " set validation control IDs and messages "
+            switch (Convert.ToString(drField["Field_Name"]))
+            {
+                case "HVAC Repairs":
+                    strCtrlsIDs += drpFK_HVAC_Repairs.ClientID + ",";
+                    strMessages += "Please select [Lease Maint Obligation]/HVAC Repairs" + ",";
+                    spanHVACRepairs.Style["display"] = "inline-block";
+                    break;
+
+                case "HVAC Capital":
+                    strCtrlsIDs += drpFK_HVAC_Capital.ClientID + ",";
+                    strMessages += "Please select [Lease Maint Obligation]/HVAC Capital" + ",";
+                    spanCapital.Style["display"] = "inline-block";
+                    break;
+
+                case "Roof Repairs":
+                    strCtrlsIDs += drpFK_Roof_Repairs.ClientID + ",";
+                    strMessages += "Please select [Lease Maint Obligation]/Roof Repairs" + ",";
+                    span36.Style["display"] = "inline-block";
+                    break;
+
+                case "Roof Capital":
+                    strCtrlsIDs += drpFK_Roof_Capital.ClientID + ",";
+                    strMessages += "Please select [Lease Maint Obligation]/Roof Capital" + ",";
+                    span160.Style["display"] = "inline-block";
+                    break;
+
+                case "Other Repairs":
+                    strCtrlsIDs += txtOtherRepairs.ClientID + ",";
+                    strMessages += "Please enter [Lease Maint Obligation]/Other Repairs" + ",";
+                    Span161.Style["display"] = "inline-block";
+                    break;
+
+                case "Maintenance Notes":
+                    strCtrlsIDs += txtMaintenanceNotes.ClientID + ",";
+                    strMessages += "Please enter [Lease Maint Obligation]/Maintenance Notes" + ",";
+                    Span162.Style["display"] = "inline-block";
+                    break;
+            }
+            #endregion
+        }
+
+        #endregion
+
 
         strCtrlsIDs = strCtrlsIDs.TrimEnd(',');
         strMessages = strMessages.TrimEnd(',');

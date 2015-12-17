@@ -30,7 +30,7 @@
 
         function SetMenuStyle(index) {
             var i;
-            for (i = 1; i <= 10; i++) {
+            for (i = 1; i <= 11; i++) {
                 var tb = document.getElementById("Menu" + i);
                 if (i == index) {
                     tb.className = "LeftMenuSelected";
@@ -74,13 +74,23 @@
 
                     document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";
+                    document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11).style.display = "none";
+                    
                 }
                 else {
                     for (i = 1; i <= 9; i++) {
                         document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i).style.display = "none";
+                        document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11).style.display = "none";
                     }
                     document.getElementById("<%=dvAttachment.ClientID%>").style.display = "block";
                     document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "block";
+
+                    if (index == 11) {
+
+                        document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11).style.display = "block";
+                        document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
+                        document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";
+                    }
                 }
             }
         }
@@ -95,13 +105,21 @@
                 }
                 document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";
+                document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11 + "View").style.display = "none";
             }
             else {
                 for (i = 1; i <= 9; i++) {
                     document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i + "View").style.display = "none";
+                    document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11 + "View").style.display = "none";
                 }
                 document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "block";
+
+                if (index == 11) {
+                    document.getElementById("ctl00_ContentPlaceHolder1_pnl" + 11 + "View").style.display = "block";
+                    document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";
+                }
             }
         }
 
@@ -715,6 +733,12 @@
                                                 <td align="left" width="100%">
                                                     <span id="Menu7" onclick="javascript:ShowPanel(7);" class="LeftMenuStatic">Surrender
                                                         Obligations&nbsp;<span id="MenuAsterisk7" runat="server" style="color: Red;display:none">*</span></span>
+                                                </td>
+                                            </tr>
+                                              <tr>
+                                                <td align="left" width="100%">
+                                                    <span id="Menu11" onclick="javascript:ShowPanel(11);" class="LeftMenuStatic">Lease Maint Obligations&nbsp;
+                                                        <span id="MenuAsterisk11" runat="server" style="color: Red;display:none">*</span></span>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -2154,530 +2178,327 @@
                                                                 </tr>                                                               
                                                             </table>    
                                                             <table id="tblSubtenant" runat="server" cellpadding="3" cellspacing="1" border="0" width="100%" style="display:none;">
-                                                                Option Rent Schedule Grid
-                                                                <tr>
-                                                                    <td colspan="6" align="left" class="BlueItalicText">
-                                                                        The data for the blue italicized fields on this screen are derived from the Property
-                                                                        module for the same location.
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>
-                                                                        &nbsp;
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">
-                                                                        Subtenant/DBA
-                                                                    </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" width="27%" valign="top">
-                                                                        <asp:TextBox ID="txtSubtenant_DBA" runat="server" Width="170px" MaxLength="75" Enabled="false" />
-                                                                    </td>
-                                                                    <td align="left" width="19%" valign="top">
-                                                                        &nbsp;
-                                                                    </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        &nbsp;
-                                                                    </td>
-                                                                    <td align="center" width="27%" valign="top">
-                                                                        &nbsp;
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" width="19%" valign="top">
-                                                                        Subtenant Mailing Address 1&nbsp;<span id="Span47" style="color: Red; display: none;" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" width="4%" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" width="27%" valign="top">
-                                                                        <asp:TextBox ID="txtSubtenant_Mailing_Address1" runat="server" Width="170px" MaxLength="50" />
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        Subtenant Mailing Address 2&nbsp;<span id="Span48" style="color: Red; display: none;" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtSubtenant_Mailing_Address2" runat="server" Width="170px" MaxLength="50" />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Subtenant Mailing City&nbsp;<span id="Span49" style="color: Red; display: none;" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtSubtenant_Mailing_City" runat="server" Width="170px" MaxLength="50" />
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        Subtenant Mailing State&nbsp;<span id="Span50" style="color: Red; display: none;" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:DropDownList ID="drpSubtenantMailingState" runat="server" Width="175px" SkinID="dropGen" />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Subtenant Mailing Zip Code (XXXXX-XXXX)&nbsp;<span id="Span51" style="color: Red; display: none;" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtSubtenant_Mailing_Zip_Code" runat="server" Width="170px" MaxLength="10"
-                                                                            onKeyPress="javascript:return FormatZipCode(event,this.id);" />
-                                                                        <asp:RegularExpressionValidator ID="revSubtenant_Mailing_Zip_Code" ControlToValidate="txtSubtenant_Mailing_Zip_Code"
-                                                                            runat="server" ValidationGroup="vgSubtenant" ErrorMessage="Please Enter [Subtenant Information]/Subtenant Mailing Zip Code in xxxxx-xxxx format."
-                                                                            Display="none" ValidationExpression="\d{5}(-\d{4})?"></asp:RegularExpressionValidator>
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        Subtenant Telephone&nbsp;<span id="Span52" style="color: Red; display: none;" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtSubtenantTelephone" runat="server" Width="170px" MaxLength="12"
-                                                                            onKeyPress="javascript:return FormatPhone(event,this.id);" />
-                                                                        <asp:RegularExpressionValidator ID="revSubtenantTelephone" ControlToValidate="txtSubtenantTelephone"
-                                                                            runat="server" ValidationGroup="vgSubtenant" ErrorMessage="Please Enter [Subtenant Information]/Subtenant Telephone in xxx-xxx-xxxx format."
-                                                                            Display="none" ValidationExpression="\d{3}(-\d{3})(-\d{4})"></asp:RegularExpressionValidator>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Lease Commencement Date&nbsp;<span id="Span53" style="color: Red; display: none;" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:Label ID="lblSubTenantLeaseCommencementDate" runat="server" />
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        Lease Term in Months&nbsp;<span id="Span54" style="color: Red; display: none;" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:Label ID="lblSubTenantLeaseTerm" runat="server" />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Lease Expiration Date&nbsp;<span id="Span55" style="color: Red; display: none;" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:Label ID="lblSubTenantLeaseExpDate" runat="server" />
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        Prior Lease Commencement Date&nbsp;<span id="Span56" style="color: Red; display: none;" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:Label ID="lblSubTenantPriorLeaseDate" runat="server" />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Sublease Commencement Date&nbsp;<span id="Span57" style="color: Red; display: none;" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtSubLease_Commencement_Date" runat="server" Width="145px" />
-                                                                        <img alt="Notification Due Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtSubLease_Commencement_Date', 'mm/dd/y');"
+                                                                <caption>
+                                                                    Option Rent Schedule Grid
+                                                                    <tr>
+                                                                        <td align="left" class="BlueItalicText" colspan="6">The data for the blue italicized fields on this screen are derived from the Property module for the same location. </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>&nbsp; </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left" class="BlueItalicText" valign="top" width="19%">Subtenant/DBA </td>
+                                                                        <td align="center" valign="top" width="4%">: </td>
+                                                                        <td align="left" valign="top" width="27%">
+                                                                            <asp:TextBox ID="txtSubtenant_DBA" runat="server" Enabled="false" MaxLength="75" Width="170px" />
+                                                                        </td>
+                                                                        <td align="left" valign="top" width="19%">&nbsp; </td>
+                                                                        <td align="center" valign="top" width="4%">&nbsp; </td>
+                                                                        <td align="center" valign="top" width="27%">&nbsp; </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left" valign="top" width="19%">Subtenant Mailing Address 1&nbsp;<span id="Span47" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                                        <td align="center" valign="top" width="4%">: </td>
+                                                                        <td align="left" valign="top" width="27%">
+                                                                            <asp:TextBox ID="txtSubtenant_Mailing_Address1" runat="server" MaxLength="50" Width="170px" />
+                                                                        </td>
+                                                                        <td align="left" valign="top">Subtenant Mailing Address 2&nbsp;<span id="Span48" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" valign="top">
+                                                                            <asp:TextBox ID="txtSubtenant_Mailing_Address2" runat="server" MaxLength="50" Width="170px" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left" valign="top">Subtenant Mailing City&nbsp;<span id="Span49" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" valign="top">
+                                                                            <asp:TextBox ID="txtSubtenant_Mailing_City" runat="server" MaxLength="50" Width="170px" />
+                                                                        </td>
+                                                                        <td align="left" valign="top">Subtenant Mailing State&nbsp;<span id="Span50" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" valign="top">
+                                                                            <asp:DropDownList ID="drpSubtenantMailingState" runat="server" SkinID="dropGen" Width="175px" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left" valign="top">Subtenant Mailing Zip Code (XXXXX-XXXX)&nbsp;<span id="Span51" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" valign="top">
+                                                                            <asp:TextBox ID="txtSubtenant_Mailing_Zip_Code" runat="server" MaxLength="10" onKeyPress="javascript:return FormatZipCode(event,this.id);" Width="170px" />
+                                                                            <asp:RegularExpressionValidator ID="revSubtenant_Mailing_Zip_Code" runat="server" ControlToValidate="txtSubtenant_Mailing_Zip_Code" Display="none" ErrorMessage="Please Enter [Subtenant Information]/Subtenant Mailing Zip Code in xxxxx-xxxx format." ValidationExpression="\d{5}(-\d{4})?" ValidationGroup="vgSubtenant"></asp:RegularExpressionValidator>
+                                                                        </td>
+                                                                        <td align="left" valign="top">Subtenant Telephone&nbsp;<span id="Span52" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" valign="top">
+                                                                            <asp:TextBox ID="txtSubtenantTelephone" runat="server" MaxLength="12" onKeyPress="javascript:return FormatPhone(event,this.id);" Width="170px" />
+                                                                            <asp:RegularExpressionValidator ID="revSubtenantTelephone" runat="server" ControlToValidate="txtSubtenantTelephone" Display="none" ErrorMessage="Please Enter [Subtenant Information]/Subtenant Telephone in xxx-xxx-xxxx format." ValidationExpression="\d{3}(-\d{3})(-\d{4})" ValidationGroup="vgSubtenant"></asp:RegularExpressionValidator>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left" valign="top">Lease Commencement Date&nbsp;<span id="Span53" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" valign="top">
+                                                                            <asp:Label ID="lblSubTenantLeaseCommencementDate" runat="server" />
+                                                                        </td>
+                                                                        <td align="left" valign="top">Lease Term in Months&nbsp;<span id="Span54" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" valign="top">
+                                                                            <asp:Label ID="lblSubTenantLeaseTerm" runat="server" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left" valign="top">Lease Expiration Date&nbsp;<span id="Span55" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" valign="top">
+                                                                            <asp:Label ID="lblSubTenantLeaseExpDate" runat="server" />
+                                                                        </td>
+                                                                        <td align="left" valign="top">Prior Lease Commencement Date&nbsp;<span id="Span56" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" valign="top">
+                                                                            <asp:Label ID="lblSubTenantPriorLeaseDate" runat="server" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left" valign="top">Sublease Commencement Date&nbsp;<span id="Span57" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" valign="top">
+                                                                            <asp:TextBox ID="txtSubLease_Commencement_Date" runat="server" Width="145px" />
+                                                                            <img alt="Notification Due Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtSubLease_Commencement_Date', 'mm/dd/y');"
                                                                             onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
-                                                                            align="middle" /><br />
-                                                                        <cc1:MaskedEditExtender ID="mskSubLease_Commencement_Date" runat="server" AcceptNegative="Left"
-                                                                            DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true"
-                                                                            OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtSubLease_Commencement_Date"
-                                                                            CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
-                                                                        </cc1:MaskedEditExtender>
-                                                                        <cc1:MaskedEditValidator ID="mskvSubLease_Commencement_Date" runat="server" ControlExtender="mskSubLease_Commencement_Date"
-                                                                            ControlToValidate="txtSubLease_Commencement_Date" Display="none" IsValidEmpty="true"
-                                                                            Enabled="false" MaximumValue="" InvalidValueMessage="Date is invalid." MaximumValueMessage=""
-                                                                            MinimumValueMessage="" TooltipMessage="" MinimumValue=""></cc1:MaskedEditValidator>
-                                                                        <asp:RegularExpressionValidator ID="revSubLease_Commencement_Date" runat="server"
-                                                                            ControlToValidate="txtSubLease_Commencement_Date" ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
-                                                                            ErrorMessage="Please Enter [Subtenant]/Sublease Commencement Date in valid format"
-                                                                            Display="none" ValidationGroup="vgSubtenant" SetFocusOnError="true"></asp:RegularExpressionValidator>
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        Sublease Expiration Date&nbsp;<span id="Span58" style="color: Red; display: none;" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtSubLease_Expiration_Date" runat="server" Width="145px" />
-                                                                        <img alt="Lease Expiration Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtSubLease_Expiration_Date', 'mm/dd/y');"
+                                                                            align="middle" />
+                                                                            <br />
+                                                                            <cc1:MaskedEditExtender ID="mskSubLease_Commencement_Date" runat="server" AcceptNegative="Left" AutoComplete="true" AutoCompleteValue="05/23/1964" CultureName="en-US" DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtSubLease_Commencement_Date">
+                                                                            </cc1:MaskedEditExtender>
+                                                                            <cc1:MaskedEditValidator ID="mskvSubLease_Commencement_Date" runat="server" ControlExtender="mskSubLease_Commencement_Date" ControlToValidate="txtSubLease_Commencement_Date" Display="none" Enabled="false" InvalidValueMessage="Date is invalid." IsValidEmpty="true" MaximumValue="" MaximumValueMessage="" MinimumValue="" MinimumValueMessage="" TooltipMessage=""></cc1:MaskedEditValidator>
+                                                                            <asp:RegularExpressionValidator ID="revSubLease_Commencement_Date" runat="server" ControlToValidate="txtSubLease_Commencement_Date" Display="none" ErrorMessage="Please Enter [Subtenant]/Sublease Commencement Date in valid format" SetFocusOnError="true" ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$" ValidationGroup="vgSubtenant"></asp:RegularExpressionValidator>
+                                                                        </td>
+                                                                        <td align="left" valign="top">Sublease Expiration Date&nbsp;<span id="Span58" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" valign="top">
+                                                                            <asp:TextBox ID="txtSubLease_Expiration_Date" runat="server" Width="145px" />
+                                                                            <img alt="Lease Expiration Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtSubLease_Expiration_Date', 'mm/dd/y');"
                                                                             onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
-                                                                            align="middle" /><br />
-                                                                        <cc1:MaskedEditExtender ID="mskSubLease_Expiration_Date" runat="server" AcceptNegative="Left"
-                                                                            DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true"
-                                                                            OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtSubLease_Expiration_Date"
-                                                                            CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
-                                                                        </cc1:MaskedEditExtender>
-                                                                        <cc1:MaskedEditValidator ID="mskvSubLease_Expiration_Date" runat="server" ControlExtender="mskSubLease_Expiration_Date"
-                                                                            ControlToValidate="txtSubLease_Expiration_Date" Display="none" IsValidEmpty="true"
-                                                                            Enabled="false" MaximumValue="" InvalidValueMessage="Date is invalid." MaximumValueMessage=""
-                                                                            MinimumValueMessage="" TooltipMessage="" MinimumValue=""></cc1:MaskedEditValidator>
-                                                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator14" runat="server"
-                                                                            ControlToValidate="txtSubLease_Expiration_Date" ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
-                                                                            ErrorMessage="Please Enter [Subtenant]/Sublease Expiration Date in valid format"
-                                                                            Display="none" ValidationGroup="vgSubtenant" SetFocusOnError="true"></asp:RegularExpressionValidator>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Rent Details&nbsp;<span id="Span59" style="color: Red; display: none;" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" colspan="4" valign="top">
-                                                                        <uc:ctrlMultiLineTextBox ID="txtCancel_OptionsSubtenant" runat="server" />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Renew Options&nbsp;<span id="Span60" style="color: Red; display: none;" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" colspan="4" valign="top">
-                                                                        <uc:ctrlMultiLineTextBox ID="txtRenew_OptionsSubtenant" runat="server" />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Late Fees&nbsp;<span id="Span61" style="color: Red; display: none;" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" colspan="4" valign="top">
-                                                                        <uc:ctrlMultiLineTextBox ID="txtOpen_NotificationSubtenant" runat="server" />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Other Requirements&nbsp;<span id="Span62" style="color: Red; display: none;" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" colspan="4" valign="top">
-                                                                        <uc:ctrlMultiLineTextBox ID="txtOther_Requirements" runat="server" />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Notification Due Date&nbsp;<span id="Span63" style="color: Red; display: none;" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtNotification_Due_DateSubtenant" runat="server" Width="145px" />
-                                                                        <img alt="Notification Due Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtNotification_Due_DateSubtenant', 'mm/dd/y');"
+                                                                            align="middle" />
+                                                                            <br />
+                                                                            <cc1:MaskedEditExtender ID="mskSubLease_Expiration_Date" runat="server" AcceptNegative="Left" AutoComplete="true" AutoCompleteValue="05/23/1964" CultureName="en-US" DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtSubLease_Expiration_Date">
+                                                                            </cc1:MaskedEditExtender>
+                                                                            <cc1:MaskedEditValidator ID="mskvSubLease_Expiration_Date" runat="server" ControlExtender="mskSubLease_Expiration_Date" ControlToValidate="txtSubLease_Expiration_Date" Display="none" Enabled="false" InvalidValueMessage="Date is invalid." IsValidEmpty="true" MaximumValue="" MaximumValueMessage="" MinimumValue="" MinimumValueMessage="" TooltipMessage=""></cc1:MaskedEditValidator>
+                                                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator14" runat="server" ControlToValidate="txtSubLease_Expiration_Date" Display="none" ErrorMessage="Please Enter [Subtenant]/Sublease Expiration Date in valid format" SetFocusOnError="true" ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$" ValidationGroup="vgSubtenant"></asp:RegularExpressionValidator>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left" valign="top">Rent Details&nbsp;<span id="Span59" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" colspan="4" valign="top">
+                                                                            <uc:ctrlMultiLineTextBox ID="txtCancel_OptionsSubtenant" runat="server" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left" valign="top">Renew Options&nbsp;<span id="Span60" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" colspan="4" valign="top">
+                                                                            <uc:ctrlMultiLineTextBox ID="txtRenew_OptionsSubtenant" runat="server" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left" valign="top">Late Fees&nbsp;<span id="Span61" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" colspan="4" valign="top">
+                                                                            <uc:ctrlMultiLineTextBox ID="txtOpen_NotificationSubtenant" runat="server" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left" valign="top">Other Requirements&nbsp;<span id="Span62" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" colspan="4" valign="top">
+                                                                            <uc:ctrlMultiLineTextBox ID="txtOther_Requirements" runat="server" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left" valign="top">Notification Due Date&nbsp;<span id="Span63" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" valign="top">
+                                                                            <asp:TextBox ID="txtNotification_Due_DateSubtenant" runat="server" Width="145px" />
+                                                                            <img alt="Notification Due Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtNotification_Due_DateSubtenant', 'mm/dd/y');"
                                                                             onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
-                                                                            align="middle" /><br />
-                                                                        <cc1:MaskedEditExtender ID="mskNotification_Due_DateSubtenant" runat="server" AcceptNegative="Left"
-                                                                            DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true"
-                                                                            OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtNotification_Due_DateSubtenant"
-                                                                            CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
-                                                                        </cc1:MaskedEditExtender>
-                                                                        <cc1:MaskedEditValidator ID="mskvNotification_Due_DateSubtenant" runat="server" ControlExtender="mskNotification_Due_DateSubtenant"
-                                                                            ControlToValidate="txtNotification_Due_DateSubtenant" Display="none" IsValidEmpty="true"
-                                                                            Enabled="false" MaximumValue="" InvalidValueMessage="Date is invalid." MaximumValueMessage=""
-                                                                            MinimumValueMessage="" TooltipMessage="" MinimumValue=""></cc1:MaskedEditValidator>
-                                                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator9" runat="server" ControlToValidate="txtNotification_Due_DateSubtenant"
-                                                                            ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$"
-                                                                            ErrorMessage="Please Enter [Subtenant Information]/Notification Due Date in valid format"
-                                                                            Display="none" ValidationGroup="vgSubtenant" SetFocusOnError="true"></asp:RegularExpressionValidator>
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Subtenant Annual Rent&nbsp;<span id="Span64" style="color: Red; display: none;" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        $&nbsp;<asp:TextBox ID="txtSubtenant_Base_RentSubtenant" runat="server" Width="160px"
-                                                                            onpaste="return false" onkeypress="return currencyFormat(this,',','.',event);" />
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Subtenant Monthly Rent&nbsp;<span id="Span65" style="color: Red; display: none;" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        $&nbsp;<asp:TextBox ID="txtSubtenant_Monthly_RentSubtenant" runat="server" Width="160px"
-                                                                            onpaste="return false" onkeypress="return FormatNumber(event,this.id,9,false);"
-                                                                            onchange="UpdateSubtenantMonthlyRent();" />
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Security Deposit&nbsp;<span id="Span66" style="color: Red; display: none;" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        $&nbsp;<asp:TextBox ID="txtSecurityDeposit" runat="server" Width="160px" onpaste="return false"
-                                                                            onkeypress="return currencyFormat(this,',','.',event);" />
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Escalation&nbsp;<span id="Span67" style="color: Red; display: none;" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:DropDownList ID="drpFK_LU_EscalationSubtenant" Width="175px" SkinID="dropGen"
-                                                                            runat="server" AutoPostBack="true" OnSelectedIndexChanged="drpFK_LU_EscalationSubtenant_SelectedIndexChanged">
-                                                                        </asp:DropDownList>
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        Percentage Rate&nbsp;<span id="Span169" style="color: Red; display: none;position:absolute" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtPercentage_RateSubtenant" runat="server" Width="170px" Enabled="false"
-                                                                            onpaste="return false" onkeypress="return FormatNumber(event,this.id,5,false);"
-                                                                            onchange="CalculateMonthlyRent('Subtenant');" />
-                                                                        <asp:Button ID="btnUpdateRentSubtenant" runat="server" Style="display: none" CausesValidation="false"
-                                                                            OnClick="btnUpdateRentSubtenant_Click" />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Increase&nbsp;<span id="Span68" style="color: Red; display: none;" runat="server">*</span>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        <asp:TextBox ID="txtIncreaseSubtenant" runat="server" Width="170px" onpaste="return false"
-                                                                            onkeypress="return currencyFormat(this,',','.',event);" />
-                                                                    </td>
-                                                                    <td align="left" valign="top">
-                                                                        &nbsp;
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        &nbsp;
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Term Rent Schedule Grid<br />
-                                                                        <asp:LinkButton ID="lnkAddTRSSubTenant" runat="server" OnClientClick="javascript:return AddSubTenantRentSchedule('Add');"
-                                                                            OnClick="lnkAddTRSSubTenant_Click" CausesValidation="false">--Add--</asp:LinkButton>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" valign="top" colspan="4">
-                                                                        <asp:GridView ID="gvSubtenantTRS" runat="server" Width="100%" EmptyDataText="No Record Found"
-                                                                            OnRowCommand="gvSubtenantTRS_RowCommand">
-                                                                            <Columns>
-                                                                                <asp:TemplateField HeaderText="Year">
-                                                                                    <ItemStyle Width="10%" />
-                                                                                    <ItemTemplate>
-                                                                                        <asp:LinkButton ID="lnkYear" runat="server" Text='<%#Eval("Year")%>' CommandName="ShowDetails"
-                                                                                            CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>' OnClientClick="javascript:return AddSubTenantRentSchedule('Edit');" />
-                                                                                        <input type="hidden" id="hdnPK_subtenant_TRS" runat="server" value='<%#Eval("PK_RE_Subtenant_TRS") %>' />
-                                                                                        <input type="hidden" id="hdnPercentage" runat="server" value='<%#Eval("Percentage_Rate") %>' />
-                                                                                    </ItemTemplate>
-                                                                                </asp:TemplateField>
-                                                                                <asp:TemplateField HeaderText="From">
-                                                                                    <ItemStyle Width="15%" />
-                                                                                    <ItemTemplate>
-                                                                                        <asp:LinkButton ID="lnkFrom" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("From_Date"))%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>'
-                                                                                            OnClientClick="javascript:return AddSubTenantRentSchedule('Edit');" /></ItemTemplate>
-                                                                                </asp:TemplateField>
-                                                                                <asp:TemplateField HeaderText="To">
-                                                                                    <ItemStyle Width="15%" />
-                                                                                    <ItemTemplate>
-                                                                                        <asp:LinkButton ID="lnkTo" runat="server" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("To_Date"))%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>'
-                                                                                            OnClientClick="javascript:return AddSubTenantRentSchedule('Edit');" /></ItemTemplate>
-                                                                                </asp:TemplateField>
-                                                                                <asp:TemplateField HeaderText="Months">
-                                                                                    <ItemStyle Width="10%" />
-                                                                                    <ItemTemplate>
-                                                                                        <asp:LinkButton ID="lnkMonths" runat="server" Text='<%#DataBinder.Eval(Container.DataItem,"Months", "{0:N1}")%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>'
-                                                                                            OnClientClick="javascript:return AddSubTenantRentSchedule('Edit');" /></ItemTemplate>
-                                                                                </asp:TemplateField>
-                                                                                <asp:TemplateField HeaderText="Additions" ItemStyle-HorizontalAlign="Right" HeaderStyle-HorizontalAlign="Right">
-                                                                                    <ItemStyle Width="15%" />
-                                                                                    <ItemTemplate>
-                                                                                        <asp:LinkButton ID="lnkAdditions" runat="server" Text='<%#clsGeneral.GetStringValue(Eval("Additions"))%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>'
-                                                                                            OnClientClick="javascript:return AddSubTenantRentSchedule('Edit');" /></ItemTemplate>
-                                                                                </asp:TemplateField>
-                                                                                <asp:TemplateField HeaderText="Total Monthly Rent" ItemStyle-HorizontalAlign="Right"
-                                                                                    HeaderStyle-HorizontalAlign="Right">
-                                                                                    <ItemStyle Width="20%" />
-                                                                                    <ItemTemplate>
-                                                                                        <asp:LinkButton ID="lnkMonthlyRent" runat="server" Text='<%#clsGeneral.GetStringValue(Eval("Monthly_Rent"))%>'
-                                                                                            CommandName="ShowDetails" CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>'
-                                                                                            OnClientClick="javascript:return AddSubTenantRentSchedule('Edit');" /></ItemTemplate>
-                                                                                </asp:TemplateField>
-                                                                                <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center">
-                                                                                    <ItemStyle Width="15%" HorizontalAlign="Center" />
-                                                                                    <ItemTemplate>
-                                                                                        <asp:LinkButton ID="lnkRemove" runat="server" Text="Remove" Visible="false" CommandName="RemoveTRS"
-                                                                                            CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>' OnClientClick="return ConfirmDelete();" />
-                                                                                    </ItemTemplate>
-                                                                                </asp:TemplateField>
-                                                                            </Columns>
-                                                                        </asp:GridView>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align="left" valign="top">
-                                                                        Option Rent Schedule Grid<br />
-                                                                        <asp:LinkButton ID="lnkAddORSSubTenant" runat="server" OnClientClick="javascript:return AddSubTenantRentSchedule('Add');"
-                                                                            OnClick="lnkAddORSSubTenant_Click">--Add--</asp:LinkButton>
-                                                                    </td>
-                                                                    <td align="center" valign="top">
-                                                                        :
-                                                                    </td>
-                                                                    <td align="left" valign="top" colspan="4">
-                                                                        <asp:GridView ID="gvSubtenantORS" runat="server" Width="100%" EmptyDataText="No Record Found"
-                                                                            OnRowCommand="gvSubtenantORS_RowCommand">
-                                                                            <Columns>
-                                                                                <asp:TemplateField HeaderText="Option">
-                                                                                    <ItemStyle Width="13%" />
-                                                                                    <ItemTemplate>
-                                                                                        <asp:LinkButton ID="lnkOption" runat="server" CommandArgument='<%#Eval("PK_RE_SubTenant_ORS") %>'
-                                                                                            CommandName="ShowDetails" Text='<%#Eval("Option_Period")%>' OnClientClick="javascript:return AddSubTenantRentSchedule('Edit');"></asp:LinkButton>
-                                                                                        <input type="hidden" id="hdnPK_subtenant_ORS" runat="server" value='<%#Eval("PK_RE_SubTenant_ORS") %>' />
-                                                                                    </ItemTemplate>
-                                                                                </asp:TemplateField>
-                                                                                <asp:TemplateField HeaderText="From">
-                                                                                    <ItemStyle Width="18%" />
-                                                                                    <ItemTemplate>
-                                                                                        <asp:LinkButton ID="lnkFromDate" runat="server" CommandArgument='<%#Eval("PK_RE_SubTenant_ORS") %>'
-                                                                                            CommandName="ShowDetails" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("From_Date"))%>'
-                                                                                            OnClientClick="javascript:return AddSubTenantRentSchedule('Edit');"></asp:LinkButton></ItemTemplate>
-                                                                                </asp:TemplateField>
-                                                                                <asp:TemplateField HeaderText="To">
-                                                                                    <ItemStyle Width="18%" />
-                                                                                    <ItemTemplate>
-                                                                                        <asp:LinkButton ID="lnkToDate" runat="server" CommandArgument='<%#Eval("PK_RE_SubTenant_ORS") %>'
-                                                                                            CommandName="ShowDetails" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("To_Date"))%>'
-                                                                                            OnClientClick="javascript:return AddSubTenantRentSchedule('Edit');"></asp:LinkButton></ItemTemplate>
-                                                                                </asp:TemplateField>
-                                                                                <asp:TemplateField HeaderText="Months">
-                                                                                    <ItemStyle Width="13%" />
-                                                                                    <ItemTemplate>
-                                                                                        <asp:LinkButton ID="lnkMonths" runat="server" CommandArgument='<%#Eval("PK_RE_SubTenant_ORS") %>'
-                                                                                            CommandName="ShowDetails" Text='<%#DataBinder.Eval(Container.DataItem,"Months", "{0:N1}")%>'
-                                                                                            OnClientClick="javascript:return AddSubTenantRentSchedule('Edit');"></asp:LinkButton></ItemTemplate>
-                                                                                </asp:TemplateField>
-                                                                                <asp:TemplateField HeaderText="Base Monthly Rent" HeaderStyle-HorizontalAlign="Right"
-                                                                                    ItemStyle-HorizontalAlign="Right">
-                                                                                    <ItemStyle Width="23%" />
-                                                                                    <ItemTemplate>
-                                                                                        <asp:LinkButton ID="lnkMonthlyRent" runat="server" CommandArgument='<%#Eval("PK_RE_SubTenant_ORS") %>'
-                                                                                            CommandName="ShowDetails" Text='<%#clsGeneral.GetStringValue(Eval("Monthly_Rent"))%>'
-                                                                                            OnClientClick="javascript:return AddSubTenantRentSchedule('Edit');"></asp:LinkButton></ItemTemplate>
-                                                                                </asp:TemplateField>
-                                                                                <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center">
-                                                                                    <ItemStyle Width="15%" HorizontalAlign="Center" />
-                                                                                    <ItemTemplate>
-                                                                                        <asp:LinkButton ID="lnkRemove" runat="server" Text="Remove" Visible="false" CommandArgument='<%#Eval("PK_RE_SubTenant_ORS") %>'
-                                                                                            CommandName="RemoveORS" OnClientClick="return ConfirmDelete();" />
-                                                                                    </ItemTemplate>
-                                                                                </asp:TemplateField>
-                                                                            </Columns>
-                                                                        </asp:GridView>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td colspan="2">
-                                                                    </td>                                       
-                                                                    <td align="left" valign="top" colspan="4">
-                                                                        <asp:Button ID="btnSaveSubtenantInformation" Text="Save" runat="server" OnClick="btnSaveSubtenantInformation_OnClick" ValidationGroup="vgSubtenant" CausesValidation="true" />
-                                                                        &nbsp;                                                                        
-                                                                        <asp:Button ID="btnCancelSubtenantInformation" Text="Cancel" runat="server" OnClick="btnCancelSubtenantInformation_OnClick" />
-                                                                        &nbsp;                                                                    
-                                                                        <asp:Button ID="btnSubtenantAudit" runat="server" Text="View Audit Trail" OnClientClick="javascript:return AuditPopUp(2);" />
-                                                                    </td>                                                                   
-                                                                </tr>
+                                                                            align="middle" />
+                                                                            <br />
+                                                                            <cc1:MaskedEditExtender ID="mskNotification_Due_DateSubtenant" runat="server" AcceptNegative="Left" AutoComplete="true" AutoCompleteValue="05/23/1964" CultureName="en-US" DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtNotification_Due_DateSubtenant">
+                                                                            </cc1:MaskedEditExtender>
+                                                                            <cc1:MaskedEditValidator ID="mskvNotification_Due_DateSubtenant" runat="server" ControlExtender="mskNotification_Due_DateSubtenant" ControlToValidate="txtNotification_Due_DateSubtenant" Display="none" Enabled="false" InvalidValueMessage="Date is invalid." IsValidEmpty="true" MaximumValue="" MaximumValueMessage="" MinimumValue="" MinimumValueMessage="" TooltipMessage=""></cc1:MaskedEditValidator>
+                                                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator9" runat="server" ControlToValidate="txtNotification_Due_DateSubtenant" Display="none" ErrorMessage="Please Enter [Subtenant Information]/Notification Due Date in valid format" SetFocusOnError="true" ValidationExpression="^((0?[13578]|10|12)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[01]?))(-|\/)((19)([2-9])(\d{1})|(20)([0-9])(\d{1}))|(0?[2469]|11)(-|\/)(([1-9])|(0[1-9])|([12])([0-9]?)|(3[0]?))(-|\/)((19)([0-9])(\d{1})|(20)([0-9])(\d{1})))$" ValidationGroup="vgSubtenant"></asp:RegularExpressionValidator>
+                                                                        </td>
+                                                                        <td align="left" valign="top">&nbsp; </td>
+                                                                        <td align="center" valign="top">&nbsp; </td>
+                                                                        <td align="center" valign="top">&nbsp; </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left" valign="top">Subtenant Annual Rent&nbsp;<span id="Span64" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" valign="top">$&nbsp;<asp:TextBox ID="txtSubtenant_Base_RentSubtenant" runat="server" onkeypress="return currencyFormat(this,',','.',event);" onpaste="return false" Width="160px" />
+                                                                        </td>
+                                                                        <td align="left" valign="top">&nbsp; </td>
+                                                                        <td align="center" valign="top">&nbsp; </td>
+                                                                        <td align="center" valign="top">&nbsp; </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left" valign="top">Subtenant Monthly Rent&nbsp;<span id="Span65" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" valign="top">$&nbsp;<asp:TextBox ID="txtSubtenant_Monthly_RentSubtenant" runat="server" onchange="UpdateSubtenantMonthlyRent();" onkeypress="return FormatNumber(event,this.id,9,false);" onpaste="return false" Width="160px" />
+                                                                        </td>
+                                                                        <td align="left" valign="top">&nbsp; </td>
+                                                                        <td align="center" valign="top">&nbsp; </td>
+                                                                        <td align="center" valign="top">&nbsp; </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left" valign="top">Security Deposit&nbsp;<span id="Span66" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" valign="top">$&nbsp;<asp:TextBox ID="txtSecurityDeposit" runat="server" onkeypress="return currencyFormat(this,',','.',event);" onpaste="return false" Width="160px" />
+                                                                        </td>
+                                                                        <td align="left" valign="top">&nbsp; </td>
+                                                                        <td align="center" valign="top">&nbsp; </td>
+                                                                        <td align="center" valign="top">&nbsp; </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left" valign="top">Escalation&nbsp;<span id="Span67" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" valign="top">
+                                                                            <asp:DropDownList ID="drpFK_LU_EscalationSubtenant" runat="server" AutoPostBack="true" OnSelectedIndexChanged="drpFK_LU_EscalationSubtenant_SelectedIndexChanged" SkinID="dropGen" Width="175px">
+                                                                            </asp:DropDownList>
+                                                                        </td>
+                                                                        <td align="left" valign="top">Percentage Rate&nbsp;<span id="Span169" runat="server" style="color: Red; display: none;position:absolute">*</span> </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" valign="top">
+                                                                            <asp:TextBox ID="txtPercentage_RateSubtenant" runat="server" Enabled="false" onchange="CalculateMonthlyRent('Subtenant');" onkeypress="return FormatNumber(event,this.id,5,false);" onpaste="return false" Width="170px" />
+                                                                            <asp:Button ID="btnUpdateRentSubtenant" runat="server" CausesValidation="false" OnClick="btnUpdateRentSubtenant_Click" Style="display: none" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left" valign="top">Increase&nbsp;<span id="Span68" runat="server" style="color: Red; display: none;">*</span> </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" valign="top">
+                                                                            <asp:TextBox ID="txtIncreaseSubtenant" runat="server" onkeypress="return currencyFormat(this,',','.',event);" onpaste="return false" Width="170px" />
+                                                                        </td>
+                                                                        <td align="left" valign="top">&nbsp; </td>
+                                                                        <td align="center" valign="top">&nbsp; </td>
+                                                                        <td align="center" valign="top">&nbsp; </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left" valign="top">Term Rent Schedule Grid<br />
+                                                                            <asp:LinkButton ID="lnkAddTRSSubTenant" runat="server" CausesValidation="false" OnClick="lnkAddTRSSubTenant_Click" OnClientClick="javascript:return AddSubTenantRentSchedule('Add');">--Add--</asp:LinkButton>
+                                                                        </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" colspan="4" valign="top">
+                                                                            <asp:GridView ID="gvSubtenantTRS" runat="server" EmptyDataText="No Record Found" OnRowCommand="gvSubtenantTRS_RowCommand" Width="100%">
+                                                                                <Columns>
+                                                                                    <asp:TemplateField HeaderText="Year">
+                                                                                        <ItemStyle Width="10%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkYear" runat="server" CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>' CommandName="ShowDetails" OnClientClick="javascript:return AddSubTenantRentSchedule('Edit');" Text='<%#Eval("Year")%>' />
+                                                                                            <input type="hidden" id="hdnPK_subtenant_TRS" runat="server" value='<%#Eval("PK_RE_Subtenant_TRS") %>' />
+                                                                                            <input type="hidden" id="hdnPercentage" runat="server" value='<%#Eval("Percentage_Rate") %>' />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="From">
+                                                                                        <ItemStyle Width="15%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkFrom" runat="server" CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>' CommandName="ShowDetails" OnClientClick="javascript:return AddSubTenantRentSchedule('Edit');" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("From_Date"))%>' />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="To">
+                                                                                        <ItemStyle Width="15%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkTo" runat="server" CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>' CommandName="ShowDetails" OnClientClick="javascript:return AddSubTenantRentSchedule('Edit');" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("To_Date"))%>' />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="Months">
+                                                                                        <ItemStyle Width="10%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkMonths" runat="server" CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>' CommandName="ShowDetails" OnClientClick="javascript:return AddSubTenantRentSchedule('Edit');" Text='<%#DataBinder.Eval(Container.DataItem,"Months", "{0:N1}")%>' />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderStyle-HorizontalAlign="Right" HeaderText="Additions" ItemStyle-HorizontalAlign="Right">
+                                                                                        <ItemStyle Width="15%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkAdditions" runat="server" CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>' CommandName="ShowDetails" OnClientClick="javascript:return AddSubTenantRentSchedule('Edit');" Text='<%#clsGeneral.GetStringValue(Eval("Additions"))%>' />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderStyle-HorizontalAlign="Right" HeaderText="Total Monthly Rent" ItemStyle-HorizontalAlign="Right">
+                                                                                        <ItemStyle Width="20%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkMonthlyRent" runat="server" CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>' CommandName="ShowDetails" OnClientClick="javascript:return AddSubTenantRentSchedule('Edit');" Text='<%#clsGeneral.GetStringValue(Eval("Monthly_Rent"))%>' />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderText="Remove">
+                                                                                        <ItemStyle HorizontalAlign="Center" Width="15%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkRemove" runat="server" CommandArgument='<%#Eval("PK_RE_Subtenant_TRS") %>' CommandName="RemoveTRS" OnClientClick="return ConfirmDelete();" Text="Remove" Visible="false" />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                </Columns>
+                                                                            </asp:GridView>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left" valign="top">Option Rent Schedule Grid<br />
+                                                                            <asp:LinkButton ID="lnkAddORSSubTenant" runat="server" OnClick="lnkAddORSSubTenant_Click" OnClientClick="javascript:return AddSubTenantRentSchedule('Add');">--Add--</asp:LinkButton>
+                                                                        </td>
+                                                                        <td align="center" valign="top">: </td>
+                                                                        <td align="left" colspan="4" valign="top">
+                                                                            <asp:GridView ID="gvSubtenantORS" runat="server" EmptyDataText="No Record Found" OnRowCommand="gvSubtenantORS_RowCommand" Width="100%">
+                                                                                <Columns>
+                                                                                    <asp:TemplateField HeaderText="Option">
+                                                                                        <ItemStyle Width="13%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkOption" runat="server" CommandArgument='<%#Eval("PK_RE_SubTenant_ORS") %>' CommandName="ShowDetails" OnClientClick="javascript:return AddSubTenantRentSchedule('Edit');" Text='<%#Eval("Option_Period")%>'></asp:LinkButton>
+                                                                                            <input type="hidden" id="hdnPK_subtenant_ORS" runat="server" value='<%#Eval("PK_RE_SubTenant_ORS") %>' />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="From">
+                                                                                        <ItemStyle Width="18%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkFromDate" runat="server" CommandArgument='<%#Eval("PK_RE_SubTenant_ORS") %>' CommandName="ShowDetails" OnClientClick="javascript:return AddSubTenantRentSchedule('Edit');" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("From_Date"))%>'></asp:LinkButton>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="To">
+                                                                                        <ItemStyle Width="18%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkToDate" runat="server" CommandArgument='<%#Eval("PK_RE_SubTenant_ORS") %>' CommandName="ShowDetails" OnClientClick="javascript:return AddSubTenantRentSchedule('Edit');" Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("To_Date"))%>'></asp:LinkButton>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderText="Months">
+                                                                                        <ItemStyle Width="13%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkMonths" runat="server" CommandArgument='<%#Eval("PK_RE_SubTenant_ORS") %>' CommandName="ShowDetails" OnClientClick="javascript:return AddSubTenantRentSchedule('Edit');" Text='<%#DataBinder.Eval(Container.DataItem,"Months", "{0:N1}")%>'></asp:LinkButton>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderStyle-HorizontalAlign="Right" HeaderText="Base Monthly Rent" ItemStyle-HorizontalAlign="Right">
+                                                                                        <ItemStyle Width="23%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkMonthlyRent" runat="server" CommandArgument='<%#Eval("PK_RE_SubTenant_ORS") %>' CommandName="ShowDetails" OnClientClick="javascript:return AddSubTenantRentSchedule('Edit');" Text='<%#clsGeneral.GetStringValue(Eval("Monthly_Rent"))%>'></asp:LinkButton>
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField HeaderStyle-HorizontalAlign="Center" HeaderText="Remove">
+                                                                                        <ItemStyle HorizontalAlign="Center" Width="15%" />
+                                                                                        <ItemTemplate>
+                                                                                            <asp:LinkButton ID="lnkRemove" runat="server" CommandArgument='<%#Eval("PK_RE_SubTenant_ORS") %>' CommandName="RemoveORS" OnClientClick="return ConfirmDelete();" Text="Remove" Visible="false" />
+                                                                                        </ItemTemplate>
+                                                                                    </asp:TemplateField>
+                                                                                </Columns>
+                                                                            </asp:GridView>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="2"></td>
+                                                                        <td align="left" colspan="4" valign="top">
+                                                                            <asp:Button ID="btnSaveSubtenantInformation" runat="server" CausesValidation="true" OnClick="btnSaveSubtenantInformation_OnClick" Text="Save" ValidationGroup="vgSubtenant" />
+                                                                            &nbsp;
+                                                                            <asp:Button ID="btnCancelSubtenantInformation" runat="server" OnClick="btnCancelSubtenantInformation_OnClick" Text="Cancel" />
+                                                                            &nbsp;
+                                                                            <asp:Button ID="btnSubtenantAudit" runat="server" OnClientClick="javascript:return AuditPopUp(2);" Text="View Audit Trail" />
+                                                                        </td>
+                                                                    </tr>
+                                                                </caption>
                                                             </table>
                                                         </asp:Panel>
                                                         <asp:Panel ID="pnl4" runat="server" Style="display: none;">
@@ -4272,6 +4093,82 @@
                                                                 </tr>
                                                             </table>
                                                         </asp:Panel>
+                                                        <asp:Panel ID="pnl11" runat="server" Style="display: none;">
+                                                            <div class="bandHeaderRow">
+                                                               Lease Maintenance Obligations
+                                                            </div>
+                                                             <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                                <tr>
+                                                                    <td align="left" valign="top">
+                                                                        HVAC Repairs&nbsp;<span id="spanHVACRepairs" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:DropDownList ID="drpFK_HVAC_Repairs" Width="175px" SkinID="dropGen" runat="server">
+                                                                        </asp:DropDownList>
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        HVAC Capital&nbsp;<span id="spanCapital" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top">
+                                                                       :
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:DropDownList ID="drpFK_HVAC_Capital" Width="175px" SkinID="dropGen" runat="server">
+                                                                        </asp:DropDownList>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top">
+                                                                        Roof Repairs&nbsp;<span id="span36" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:DropDownList ID="drpFK_Roof_Repairs" Width="175px" SkinID="dropGen" runat="server">
+                                                                        </asp:DropDownList>
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        Roof Capital&nbsp;<span id="span160" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top">
+                                                                       :
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <asp:DropDownList ID="drpFK_Roof_Capital" Width="175px" SkinID="dropGen" runat="server">
+                                                                        </asp:DropDownList>
+                                                                    </td>
+                                                                </tr>
+                                                                  <tr>
+                                                                    <td align="left" valign="top">
+                                                                        Other Repairs&nbsp;<span id="Span161" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" valign="top">
+                                                                        <uc:ctrlMultiLineTextBox ID="txtOtherRepairs" runat="server" Width="200"  MaxLength="255"/>
+                                                                    </td>
+                                                                      <td align="left" valign="top">
+                                                                        Maintenance Notes&nbsp;<span id="Span162" style="color: Red; display: none;" runat="server">*</span>
+                                                                    </td>
+                                                                    <td align="center" valign="top">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" valign="top" >
+                                                                        <uc:ctrlMultiLineTextBox ID="txtMaintenanceNotes" runat="server" Width="200" MaxLength="255" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="6" align="center">
+                                                                        <asp:Button ID="btnLeaseMaintAuditView" runat="server" Text="View Audit Trail" OnClientClick="javascript:return AuditPopUp(1);" />
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                         </asp:Panel>
                                                         <div id="dvAttachment" runat="server" style="display: none;">
                                                             <table cellpadding="0" cellspacing="0" width="100%">
                                                                 <tr>
@@ -7237,6 +7134,82 @@
                                                                 </tr>
                                                             </table>
                                                         </asp:Panel>
+                                                        <asp:Panel ID="pnl11View" runat="server" Style="display: none;">
+                                                            <div class="bandHeaderRow">
+                                                                 Lease Maintenance Obligations
+                                                            </div>
+                                                            <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                                <tr>
+                                                                    <td align="left" valign="top" width="18%">
+                                                                        HVAC Repairs
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="4%">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="28%">
+                                                                        <asp:Label ID="lblHVACRepairs" runat="server">
+                                                                        </asp:Label>
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="18%">
+                                                                        HVAC Capital
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="4%">
+                                                                       :
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="28%">
+                                                                        <asp:Label ID="lblHVACCapital" runat="server">
+                                                                        </asp:Label>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top" width="18%">
+                                                                        Roof Repairs
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="4%">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="28%">
+                                                                        <asp:Label ID="lblRoofRepairs" runat="server">
+                                                                        </asp:Label>
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="18%">
+                                                                        Roof Capital
+                                                                    </td>
+                                                                    <td align="center" valign="top"width="4%">
+                                                                       :
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="28%">
+                                                                        <asp:Label ID="lblRoofCapital" runat="server">
+                                                                        </asp:Label>
+                                                                    </td>
+                                                                </tr>
+                                                                  <tr>
+                                                                    <td align="left" valign="top" width="18%">
+                                                                        Other Repairs
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="4%">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="28%">
+                                                                        <uc:ctrlMultiLineTextBox ID="lblOtherRepairs" runat="server" ControlType="Label" width="200"/>
+                                                                    </td>
+                                                                      <td align="left" valign="top" width="18%">
+                                                                        Maintenance Notes
+                                                                    </td>
+                                                                    <td align="center" valign="top" width="4%">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" valign="top" width="28%">
+                                                                        <uc:ctrlMultiLineTextBox ID="lblMaintenanceNotes" runat="server" ControlType="Label"  Width="200"/>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="6" align="center">
+                                                                        <asp:Button ID="Button7" runat="server" Text="View Audit Trail" OnClientClick="javascript:return AuditPopUp(1);" />
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                            </asp:Panel>
                                                     </div>
                                                     <asp:Panel ID="pnlAttachmentDetails" runat="server" Style="display: none;">
                                                         <table cellpadding="0" cellspacing="0" width="100%">

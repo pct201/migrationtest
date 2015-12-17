@@ -199,7 +199,25 @@
                                 </th>
                                 <th class="cols">
 	                                <span style="display: inline-block;width:300px;">Assignment Info</span>
-                                </th>                                                                   
+                                </th>  
+                                <th class="cols">
+	                                <span style="display: inline-block;width:200px;">HVAC Repairs</span>
+                                </th>  
+                                <th class="cols">
+	                                <span style="display: inline-block;width:200px;">HVAC Capital</span>
+                                </th> 
+                                <th class="cols">
+	                                <span style="display: inline-block;width:200px;">Roof Repairs </span>
+                                </th> 
+                                <th class="cols">
+	                                <span style="display: inline-block;width:200px;">Roof Capital</span>
+                                </th> 
+                                <th class="cols">
+	                                <span style="display: inline-block;width:300px;">Other Repairs</span>
+                                </th> 
+                                <th class="cols">
+	                                <span style="display: inline-block;width:300px;">Maintenance Notes</span>
+                                </th>                                                                
                                 <th class="cols">
                                     <span style="display: inline-block; width: 110px;">Updated_By</span>
                                 </th>
@@ -512,9 +530,45 @@
 	                            </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Assignment_Info" >
-	                            <ItemStyle CssClass="cols" />
+                                 <ItemStyle CssClass="cols" />
 	                            <ItemTemplate>
 		                            <asp:Label ID="lblAssignment_Info" runat="server" Text='<%# Eval("Assignment_Info")%>' Width="300px" CssClass="TextClip"></asp:Label>
+	                            </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="HVAC Repairs" >
+	                            <ItemStyle CssClass="cols" />
+	                            <ItemTemplate>
+		                             <asp:Label ID="lblFK_HVAC_Repairs" runat="server" Text='<%# Eval("FK_HVAC_Repairs")%>' Width="200px"></asp:Label>
+	                            </ItemTemplate>
+                            </asp:TemplateField>
+                             <asp:TemplateField HeaderText="HVAC Capital" >
+	                            <ItemStyle CssClass="cols" />
+	                            <ItemTemplate>
+		                            <asp:Label ID="lblFK_HVAC_Capital" runat="server" Text='<%# Eval("FK_HVAC_Capital")%>' Width="200px"></asp:Label>
+	                            </ItemTemplate>
+                            </asp:TemplateField> 
+                            <asp:TemplateField HeaderText="Roof Repairs" >
+	                            <ItemStyle CssClass="cols" />
+	                            <ItemTemplate>
+		                            <asp:Label ID="lblFK_Roof_Repairs" runat="server" Text='<%# Eval("FK_Roof_Repairs")%>' Width="200px"></asp:Label>
+	                            </ItemTemplate>
+                            </asp:TemplateField> 
+                            <asp:TemplateField HeaderText="Roof Capital" >
+	                            <ItemStyle CssClass="cols" />
+	                            <ItemTemplate>
+		                            <asp:Label ID="lblFK_Roof_Capital" runat="server" Text='<%# Eval("FK_Roof_Capital")%>' Width="200px"></asp:Label>
+	                            </ItemTemplate>
+                            </asp:TemplateField> 
+                            <asp:TemplateField HeaderText="Other Repairs" >
+	                            <ItemStyle CssClass="cols" />
+	                            <ItemTemplate>
+		                            <asp:Label ID="lblOtherRepairs" runat="server" Text='<%# Eval("Other_Repairs")%>' Width="300px" CssClass="TextClip"></asp:Label>
+	                            </ItemTemplate>
+                            </asp:TemplateField> 
+                            <asp:TemplateField HeaderText="Maintenance Notes" >
+	                            <ItemStyle CssClass="cols" />
+	                            <ItemTemplate>
+		                            <asp:Label ID="lblMaintenance_Notes" runat="server" Text='<%# Eval("Maintenance_Notes")%>' Width="300px" CssClass="TextClip"></asp:Label>
 	                            </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Updated_By">
