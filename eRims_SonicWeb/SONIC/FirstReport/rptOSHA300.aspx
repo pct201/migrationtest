@@ -42,13 +42,33 @@
             <td align="center">:
             </td>
             <td align="left">
-                <asp:DropDownList ID="ddlOSHA_Coordinator" runat="server" Width="200px" SkinID="dropGen">
+                <asp:DropDownList ID="ddlOSHA_Coordinator" runat="server" Width="200px" SkinID="dropGen" OnSelectedIndexChanged="ddlOSHA_Coordinator_SelectedIndexChanged" AutoPostBack="true">
                 </asp:DropDownList>
                 <asp:RequiredFieldValidator runat="server" ID="rfvOSHA_Coordinator" ControlToValidate="ddlOSHA_Coordinator" InitialValue="0" ErrorMessage="Please select OSHA Coordinator"
                     Display="None" ValidationGroup="vsErrorGroup">  </asp:RequiredFieldValidator>
             </td>
 
         </tr>
+        <tr>
+            <td colspan="3">&nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <b>Location </b><span id="Span3" style="color: Red;" runat="server">*</span>
+            </td>
+            <td align="center">:
+            </td>
+            <td align="left">
+                <asp:DropDownList ID="ddlLocation" runat="server" Width="200px" SkinID="dropGen">
+                    <asp:ListItem Selected="True" Text="-- Select --" Value="0"></asp:ListItem>
+                </asp:DropDownList>
+                 <asp:RequiredFieldValidator runat="server" ID="rfvLocation" ControlToValidate="ddlLocation" InitialValue="0" ErrorMessage="Please select Location"
+                    Display="None" ValidationGroup="vsErrorGroup">  </asp:RequiredFieldValidator>
+            </td>
+
+        </tr>
+
         <tr>
             <td colspan="6">&nbsp;
             </td>

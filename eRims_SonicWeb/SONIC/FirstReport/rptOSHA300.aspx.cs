@@ -26,6 +26,12 @@ public partial class SONIC_FirstReport_rptOSHA300 : clsBasePage
     #endregion
 
     #region "Control Events"
+
+    /// <summary>
+    /// generate template.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void btnGenerate_Click(object sender, EventArgs e)
     {
         StringBuilder strBody = new StringBuilder();
@@ -41,7 +47,7 @@ public partial class SONIC_FirstReport_rptOSHA300 : clsBasePage
         if (!Directory.Exists(strDir))
             Directory.CreateDirectory(strDir);
 
-        DataSet dsReport = clsOSHA.GetReportOSHA300(Convert.ToInt32(ddlYear.SelectedItem.Text), Page_Size, Convert.ToDecimal(ddlOSHA_Coordinator.SelectedValue));
+        DataSet dsReport = clsOSHA.GetReportOSHA300(Convert.ToInt32(ddlYear.SelectedItem.Text), Page_Size, Convert.ToDecimal(ddlOSHA_Coordinator.SelectedValue), Convert.ToDecimal(ddlLocation.SelectedValue));
         DataTable dtPrintRow = null;
         DataTable dtTotals = null;
         DataTable dtLocation = null;
@@ -196,13 +202,32 @@ public partial class SONIC_FirstReport_rptOSHA300 : clsBasePage
         OpenFile(strDir);
 
     }
+
+    /// <summary>
+    /// Location bind
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void ddlOSHA_Coordinator_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (ddlOSHA_Coordinator.SelectedIndex > 0)
+        {
+            ComboHelper.FillLocationByRLCM(new DropDownList[] { ddlLocation }, Convert.ToDecimal(ddlOSHA_Coordinator.SelectedValue), true, true);
+        }
+        else
+        {
+            ddlLocation.Items.Clear();
+            ddlLocation.Items.Add(new ListItem("-- Select --", "0"));
+        }
+    }
+
     #endregion
 
     #region "Methods"
 
     private void BindDropDownList()
     {
-        for (int i = DateTime.Now.Year; i >= 2015; i--)
+        for (int i = DateTime.Now.Year; i >= 2013; i--)
         {
             ddlYear.Items.Add(new ListItem(i.ToString(), i.ToString()));
         }
@@ -288,15 +313,34 @@ public partial class SONIC_FirstReport_rptOSHA300 : clsBasePage
             HttpContext.Current.Response.Flush();
             HttpContext.Current.Response.WriteFile(file.FullName);
             HttpContext.Current.Response.Flush();
-            System.IO.Directory.Delete(strzipDir, true);
+            //System.IO.Directory.Delete(strzipDir, true);
+            if (Directory.Exists(strzipDir))
+            {
+                string[] files = Directory.GetFiles(strzipDir);
+                foreach (string file_Name in files)
+                {
+                    File.SetAttributes(file_Name, FileAttributes.Normal);
+                    File.Delete(file_Name);
+                }
+            }
             System.IO.File.Delete(strzipDir + ".Zip");
             HttpContext.Current.Response.End();
         }
         else
         {
-            System.IO.Directory.Delete(strzipDir, true);
+            //System.IO.Directory.Delete(strzipDir, true);
+            if (Directory.Exists(strzipDir))
+            {
+                string[] files = Directory.GetFiles(strzipDir);
+                foreach (string file_Name in files)
+                {
+                    File.SetAttributes(file_Name, FileAttributes.Normal);
+                    File.Delete(file_Name);
+                }
+            }
             Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:alert('No data available to generate report for selected OSHA Coordinator/year.');", true);
         }
+
 
         //HttpContext.Current.Response.Clear();
         //HttpContext.Current.Response.AddHeader("Content-Type", "binary/octet-stream");

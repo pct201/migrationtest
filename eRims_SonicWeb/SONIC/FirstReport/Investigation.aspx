@@ -1245,7 +1245,7 @@
                                                             </tr>
                                                             <tr>
                                                                 <td align="center" colspan="6">
-                                                                    <asp:Button ID="btnSave_And_Mail_RLCM" Text="Save & E-Mail to RLCM" runat="server"
+                                                                    <asp:Button ID="btnSave_And_Mail_RLCM" Text="Save & Next" runat="server"
                                                                         OnClick="btnSave_And_Mail_RLCM_OnClick" ValidationGroup="vsCorrectiveAction"
                                                                         Width="170px" />
                                                                 </td>
@@ -1372,7 +1372,8 @@
                                                     </tr>
                                                      <tr>
                                                             <td colspan="6" width="100%" align="center">
-                                                                <asp:Button runat="server" ID="btnWC_OSHA" Text="Save & Next" OnClick="btnWC_OSHA_Click" OnClientClick="return CheckValidationOSHAInfo();"
+                                                                <%-- Save & E-Mail to RLCM button is shifted over here. --%>
+                                                                <asp:Button runat="server" ID="btnWC_OSHA" Text="Save & E-Mail to RLCM" OnClick="btnWC_OSHA_Click" OnClientClick="return CheckValidationOSHAInfo();"
                                                                     CausesValidation="true" ValidationGroup="vsOSHAInfoGroup"/>
                                                             </td>
                                                         </tr>
@@ -2853,8 +2854,19 @@
                     document.getElementById("<%=pnlReviewView.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlAttachments.ClientID%>").style.display = "none";
                 }
-                //check if index is 5 than display review  Section.
+                //check if index is 5 than display Attachment Section.
                 if (index == 5) {
+                    document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlCauses.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlRootCauseDetermination.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlCorrectiveActions.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlWC_OSHA.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlReview.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlReviewView.ClientID%>").style.display = "none";
+                    document.getElementById("<%=pnlAttachments.ClientID%>").style.display = "block";
+                }
+                //check if index is 6 than display review  Section.
+                if (index == 6) {
                     document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlCauses.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlRootCauseDetermination.ClientID%>").style.display = "none";
@@ -2864,8 +2876,8 @@
                     document.getElementById("<%=pnlReview.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlAttachments.ClientID%>").style.display = "none";
                 }
-                //check if index is 6 than display review  Section.
-                if (index == 6) {
+                //check if index is 7 than display review  Section.
+                if (index == 7) {
                     document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlCauses.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlRootCauseDetermination.ClientID%>").style.display = "none";
@@ -2879,17 +2891,7 @@
                     }
                     document.getElementById("<%=pnlAttachments.ClientID%>").style.display = "none";
                 }
-                //check if index is 7 than display Attachment Section.
-                if (index == 7) {
-                    document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
-                    document.getElementById("<%=pnlCauses.ClientID%>").style.display = "none";
-                    document.getElementById("<%=pnlRootCauseDetermination.ClientID%>").style.display = "none";
-                    document.getElementById("<%=pnlCorrectiveActions.ClientID%>").style.display = "none";
-                    document.getElementById("<%=pnlWC_OSHA.ClientID%>").style.display = "none";
-                    document.getElementById("<%=pnlReview.ClientID%>").style.display = "none";
-                    document.getElementById("<%=pnlReviewView.ClientID%>").style.display = "none";
-                    document.getElementById("<%=pnlAttachments.ClientID%>").style.display = "block";
-                }
+                
             }
         }
 
@@ -2935,28 +2937,8 @@
                 document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewAttachments.ClientID%>").style.display = "none";
             }
-            //check if index is 5 than display Coorective Actions Section.
+            //check if index is 5 than display Attachment Section.
             if (index == 5) {
-                document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlViewCorrectiveActions.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlViewWC_OSHA.ClientID%>").style.display = "block";
-                document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlViewAttachments.ClientID%>").style.display = "none";
-            }
-            //check if index is 6 than display review  Section.
-            if (index == 6) {
-                document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlViewCorrectiveActions.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlViewWC_OSHA.ClientID%>").style.display = "none";
-                document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "block";
-                document.getElementById("<%=pnlViewAttachments.ClientID%>").style.display = "none";
-            }
-            //check if index is 7 than display Attachment Section.
-            if (index == 7) {
                 document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "none";
@@ -2965,6 +2947,27 @@
                 document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewAttachments.ClientID%>").style.display = "block";
             }
+            //check if index is 6 than display Coorective Actions Section.
+            if (index == 6) {
+                document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewCorrectiveActions.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewWC_OSHA.ClientID%>").style.display = "block";
+                document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewAttachments.ClientID%>").style.display = "none";
+            }
+            //check if index is 7 than display review  Section.
+            if (index == 7) {
+                document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewCorrectiveActions.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewWC_OSHA.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "block";
+                document.getElementById("<%=pnlViewAttachments.ClientID%>").style.display = "none";
+            }
+           
         }
 
         function ConfirmDelete() {

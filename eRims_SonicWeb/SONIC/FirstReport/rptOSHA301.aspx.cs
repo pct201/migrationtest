@@ -26,6 +26,12 @@ public partial class SONIC_FirstReport_rptOSHA301 : clsBasePage
     #endregion
 
     #region "Control Events"
+
+    /// <summary>
+    /// Generate template.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void btnGenerate_Click(object sender, EventArgs e)
     {
         StringBuilder strBody = new StringBuilder();
@@ -33,7 +39,7 @@ public partial class SONIC_FirstReport_rptOSHA301 : clsBasePage
         StringBuilder SbTemp2 = new StringBuilder(string.Empty);
         int Page_Cntr = 1;
 
-        DataSet dsReport = clsOSHA.GetReportOSHA301(Convert.ToDateTime(txtIncident_Begin.Text), Convert.ToDateTime(txtIncident_End.Text), Convert.ToDecimal(ddlOSHA_Coordinator.SelectedValue));
+        DataSet dsReport = clsOSHA.GetReportOSHA301(Convert.ToDateTime(txtIncident_Begin.Text), Convert.ToDateTime(txtIncident_End.Text), Convert.ToDecimal(ddlOSHA_Coordinator.SelectedValue), Convert.ToDecimal(ddlLocation.SelectedValue));
 
         DataTable dtRecords = dsReport.Tables[0];
 
@@ -216,6 +222,23 @@ public partial class SONIC_FirstReport_rptOSHA301 : clsBasePage
         }
     }
 
+    /// <summary>
+    /// Location bind
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void ddlOSHA_Coordinator_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (ddlOSHA_Coordinator.SelectedIndex > 0)
+        {
+            ComboHelper.FillLocationByRLCM(new DropDownList[] { ddlLocation }, Convert.ToDecimal(ddlOSHA_Coordinator.SelectedValue), true, true);
+        }
+        else
+        {
+            ddlLocation.Items.Clear();
+            ddlLocation.Items.Add(new ListItem("-- Select --", "0"));
+        }
+    }
     #endregion
 
     #region "Methods"

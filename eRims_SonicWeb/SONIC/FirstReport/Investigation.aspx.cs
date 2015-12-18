@@ -124,6 +124,8 @@ public partial class Exposures_Investigation : clsBasePage
         else
             btnClaimReview.Visible = false;
         CtrlAttachment.btnHandler += new Sonic_Attachment.OnButtonClick(Upload_File);
+        CtrlAttachment.FindControl("btnNext").Visible = true;
+
         //used to check Page Post Back Event
         if (!IsPostBack)
         {
@@ -503,37 +505,10 @@ public partial class Exposures_Investigation : clsBasePage
             else
                 PK_Investigation_ID = objInvestigation.Insert();
 
-            string Email = "";
-            WC_FR objWCFR = new WC_FR(FK_WC_FR);
-            LU_Location objLocation = new LU_Location(FK_LU_Location);
-            if (objLocation.FK_Employee_Id != null)
-            {
-                DataTable dtEmail = Security.GetSecurityByEmployee_ID(Convert.ToDecimal(objLocation.FK_Employee_Id)).Tables[0];
-                if (dtEmail.Rows.Count > 0)
-                {
-                    Email = dtEmail.Rows[0]["Email"] != DBNull.Value ? dtEmail.Rows[0]["Email"].ToString() : "";
-                }
-                if (!String.IsNullOrEmpty(Email))
-                {
-                    string strBody = GenerateInvestigatorReportBody();
-                    string strTo = Email;
-                    string strSubject = "Location " + objLocation.Sonic_Location_Code + " - " + objLocation.dba + " has completed the Investigation associated with WC-" + objWCFR.WC_FR_Number;
+            BindDetailsForEdit();
 
-                    clsGeneral.SendMailMessage(AppConfig.MailFrom, strTo, string.Empty, string.Empty, strSubject, strBody.ToString(), true);
-                    ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Mail sent successfully')", true);
-                    //Open Next Panel.
-                    if (Request.QueryString["isStatus"] == null)
-                        ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
-                    else
-                        Response.Redirect("FirstReportStatus.aspx", true);
-                }
-
-                BindDetailsForEdit();
-            }
-            else
-            {
-                ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('No RLCM exist for the Location " + objLocation.dba + ".')", true);
-            }
+            //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
         }
         else
         {
@@ -572,15 +547,47 @@ public partial class Exposures_Investigation : clsBasePage
             else
                 PK_Investigation_ID = objInvestigation.Insert();
 
-            BindDetailsForEdit();
+            //BindDetailsForEdit();
             //Open Next Panel.
             //ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);", true);
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);", true);
+           // Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);", true);
+
+            string Email = "";
+            WC_FR objWCFR = new WC_FR(FK_WC_FR);
+            LU_Location objLocation = new LU_Location(FK_LU_Location);
+            if (objLocation.FK_Employee_Id != null)
+            {
+                DataTable dtEmail = Security.GetSecurityByEmployee_ID(Convert.ToDecimal(objLocation.FK_Employee_Id)).Tables[0];
+                if (dtEmail.Rows.Count > 0)
+                {
+                    Email = dtEmail.Rows[0]["Email"] != DBNull.Value ? dtEmail.Rows[0]["Email"].ToString() : "";
+                }
+                if (!String.IsNullOrEmpty(Email))
+                {
+                    string strBody = GenerateInvestigatorReportBody();
+                    string strTo = Email;
+                    string strSubject = "Location " + objLocation.Sonic_Location_Code + " - " + objLocation.dba + " has completed the Investigation associated with WC-" + objWCFR.WC_FR_Number;
+
+                    clsGeneral.SendMailMessage(AppConfig.MailFrom, strTo, string.Empty, string.Empty, strSubject, strBody.ToString(), true);
+                    ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Mail sent successfully');", true);
+                    //Open Next Panel.
+                    if (Request.QueryString["isStatus"] == null)
+                        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(7);", true);
+                    else
+                        Response.Redirect("FirstReportStatus.aspx", true);
+                }
+
+                BindDetailsForEdit();
+            }
+            else
+            {
+                ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('No RLCM exist for the Location " + objLocation.dba + ".')", true);
+            }
         }
         else
         {
             //Open Next Panel.
-            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);alert('Please select any First Report')", true);
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);alert('Please select any First Report')", true);
         }
     }
 
@@ -1494,7 +1501,7 @@ public partial class Exposures_Investigation : clsBasePage
 
         #endregion
         
-        CtrlAttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.Investigation, PK_Investigation_ID, true, 6);
+        CtrlAttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.Investigation, PK_Investigation_ID, true, 5);
         CtrlAttachDetails.Bind();
 
         if (objInvestigation.Investigative_Quality != null)
@@ -2141,7 +2148,8 @@ public partial class Exposures_Investigation : clsBasePage
 
         // Used to Bind Grid with Attached Data
         CtrlAttachDetails.Bind();
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(7);", true);
+        
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
     }
 
     #endregion
@@ -2216,7 +2224,7 @@ public partial class Exposures_Investigation : clsBasePage
 
 
         #region "Root Cause Determination"
-        dtFields = clsScreen_Validators.SelectByScreen(221).Tables[0];
+        dtFields = clsScreen_Validators.SelectByScreen(217).Tables[0];
         dtFields.DefaultView.RowFilter = "IsRequired = '1'";
         dtFields = dtFields.DefaultView.ToTable();
 
@@ -2329,7 +2337,7 @@ public partial class Exposures_Investigation : clsBasePage
         dtFields.DefaultView.RowFilter = "IsRequired = '1'";
         dtFields = dtFields.DefaultView.ToTable();
 
-        Label MenuAsterisk4 = (Label)mnuProperty.Controls[5].FindControl("MenuAsterisk");
+        Label MenuAsterisk4 = (Label)mnuProperty.Controls[6].FindControl("MenuAsterisk");
         MenuAsterisk4.Style["display"] = (dtFields.Select("LeftMenuIndex = 4").Length > 0) ? "inline-block" : "none";
 
         foreach (DataRow drField in dtFields.Rows)

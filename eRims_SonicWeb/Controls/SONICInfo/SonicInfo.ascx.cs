@@ -313,17 +313,17 @@ public partial class Controls_SONICInfo_SonicInfo : System.Web.UI.UserControl
             {
                 WC_FR objWC_FR = new WC_FR(WC_FR_ID_For_Investigation);
 
-                objInv.Physician_Other_Professional = objWC_FR.Physician_Other_Professional;
-                objInv.Facility = objWC_FR.Facility;
-                objInv.Facility_Address = objWC_FR.Facility_Address;
-                objInv.Facility_City = objWC_FR.Facility_City;
+                objInv.Physician_Other_Professional = objWC_FR.Treating_Physician_Name;
+                objInv.Facility = objWC_FR.Medical_Facility_Name;
+                objInv.Facility_Address = objWC_FR.Medical_Facility_Address1;
+                objInv.Facility_City = objWC_FR.Medical_Facility_City;
 
-                if (objWC_FR.FK_State_Facility > 0)
+                if (!string.IsNullOrEmpty(objWC_FR.Medical_Facility_State))
                 {
-                    objInv.FK_State_Facility = objWC_FR.FK_State_Facility;
+                    objInv.FK_State_Facility = clsGeneral.GetDecimal(objWC_FR.Medical_Facility_State);
                 }
 
-                objInv.Facility_Zip_Code = objWC_FR.Facility_Zip_Code;
+                objInv.Facility_Zip_Code = objWC_FR.Medical_Facility_Zip;
                 objInv.Emergency_Room = objWC_FR.Emergency_Room;
                 objInv.Time_Began_Work = objWC_FR.Time_Began_Work;
                 objInv.Activity_Before_Incident = objWC_FR.Activity_Before_Incident;

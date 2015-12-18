@@ -219,8 +219,8 @@
                 document.getElementById('<%=txtWitness_2_Phone.ClientID%>').value = "";
             if (document.getElementById('<%=txtWitness_3_Phone.ClientID%>').value == "___-___-____")
                 document.getElementById('<%=txtWitness_3_Phone.ClientID%>').value = "";
-            if (document.getElementById('<%=txtFacility_Zip_Code.ClientID%>').value == "_____-____")
-                document.getElementById('<%=txtFacility_Zip_Code.ClientID%>').value = "";
+          <%--  if (document.getElementById('<%=txtFacility_Zip_Code.ClientID%>').value == "_____-____")
+                document.getElementById('<%=txtFacility_Zip_Code.ClientID%>').value = "";--%>
             //if time is "__:__" than set it to ""
             if (document.getElementById('<%=txtTime_Of_Incident.ClientID%>').value == "__:__")
                 document.getElementById('<%=txtTime_Of_Incident.ClientID%>').value = "";
@@ -698,7 +698,7 @@
             $("#<%=txtContactDetailFaxNumber.ClientID%>").mask("999-999-9999");
             $("#<%=txtContactRLCMTelephone1.ClientID%>").mask("999-999-9999");
             $("#<%=txtContactRLCMTelephone2.ClientID%>").mask("999-999-9999");
-            $("#<%=txtFacility_Zip_Code.ClientID%>").mask("99999-9999");
+            <%--$("#<%=txtFacility_Zip_Code.ClientID%>").mask("99999-9999");--%>
             $("#<%=txtTime_Of_Incident.ClientID%>").mask("99:99");
             $("#<%=txtContactBestTime.ClientID%>").mask("99:99");
             $("#<%=txtTime_Began_Work.ClientID%>").mask("99:99");
@@ -1683,7 +1683,7 @@
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                    <tr>
+                                                  <%--  <tr>
                                                         <td align="left">Name of Physician or Other Health Care Professional
                                                         </td>
                                                         <td align="center">:
@@ -1747,7 +1747,7 @@
                                                         </td>
                                                         <td align="left">&nbsp;
                                                         </td>
-                                                    </tr>
+                                                    </tr>--%>
                                                     <tr>
                                                         <td align="left">Was Associate Treated in an Emergency Room?
                                                         </td>
@@ -1946,6 +1946,9 @@
                                                         </td>
                                                         <td align="left" colspan="4">
                                                             <asp:TextBox runat="server" ID="txtMedical_Facility_Zip" Width="170px" MaxLength="10"></asp:TextBox>
+                                                            <asp:RegularExpressionValidator ID="reMedical_Facility_Zip" ControlToValidate="txtMedical_Facility_Zip"
+                                                                runat="server" ValidationGroup="vsMedicalGroup" ErrorMessage="Please Enter Medical Facility Zip Code in XXXXX-XXXX format."
+                                                                Display="none" ValidationExpression="((\(\d{2}\) ?)|(\d{5}-))?\d{4}$"></asp:RegularExpressionValidator>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -3168,7 +3171,7 @@
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                    <tr>
+                                                   <%-- <tr>
                                                         <td align="left">Name of Physician or Other Health Care Professional
                                                         </td>
                                                         <td align="center">:
@@ -3229,7 +3232,7 @@
                                                         </td>
                                                         <td align="left">&nbsp;
                                                         </td>
-                                                    </tr>
+                                                    </tr>--%>
                                                     <tr>
                                                         <td align="left">Was Associate Treated in an Emergency Room?
                                                         </td>

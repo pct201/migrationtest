@@ -163,7 +163,7 @@ public partial class SONIC_WCFirstReport : clsBasePage
 
                 #region Incident Information Panel
                 //Fill State Dropdown
-                ComboHelper.FillState(new DropDownList[] { ddlFiling_State, ddlOffsite_State, ddlFK_State_Facility }, 0, true);
+                ComboHelper.FillState(new DropDownList[] { ddlFiling_State, ddlOffsite_State }, 0, true);
                 //Fill Nature of Injury Dropdown
                 ComboHelper.FillNatureofInjury(new DropDownList[] { ddlFK_Nature_Of_Injury }, 0, true);
                 //Fill Nature of Injury Dropdown
@@ -222,7 +222,7 @@ public partial class SONIC_WCFirstReport : clsBasePage
 
                 #region Incident Information Panel
                 //Fill State Dropdown
-                ComboHelper.FillState(new DropDownList[] { ddlFiling_State, ddlOffsite_State ,ddlFK_State_Facility}, 0, true);
+                ComboHelper.FillState(new DropDownList[] { ddlFiling_State, ddlOffsite_State}, 0, true);
                 //Fill Nature of Injury Dropdown
                 ComboHelper.FillNatureofInjury(new DropDownList[] { ddlFK_Nature_Of_Injury }, 0, true);
                 //Fill Nature of Injury Dropdown
@@ -855,12 +855,12 @@ public partial class SONIC_WCFirstReport : clsBasePage
         objWC_FR.Witness_3_Phone = txtWitness_3_Phone.Text;
         objWC_FR.Fatality = (rdoFatality.SelectedValue == "1") ? true : false;
 
-        objWC_FR.Physician_Other_Professional = txtPhysician_Other_Professional.Text.Trim();
-        objWC_FR.Facility = txtFacility.Text.Trim();
-        objWC_FR.Facility_Address = txtFacility_Address.Text.Trim();
-        objWC_FR.Facility_City = txtFacility_City.Text.Trim();
-        objWC_FR.FK_State_Facility = (ddlFK_State_Facility.SelectedIndex > 0) ?  Convert.ToDecimal(ddlFK_State_Facility.SelectedValue) : 0;
-        objWC_FR.Facility_Zip_Code = txtFacility_Zip_Code.Text;
+        //objWC_FR.Physician_Other_Professional = txtPhysician_Other_Professional.Text.Trim();
+        //objWC_FR.Facility = txtFacility.Text.Trim();
+        //objWC_FR.Facility_Address = txtFacility_Address.Text.Trim();
+        //objWC_FR.Facility_City = txtFacility_City.Text.Trim();
+        //objWC_FR.FK_State_Facility = (ddlFK_State_Facility.SelectedIndex > 0) ?  Convert.ToDecimal(ddlFK_State_Facility.SelectedValue) : 0;
+        //objWC_FR.Facility_Zip_Code = txtFacility_Zip_Code.Text;
         objWC_FR.Emergency_Room = rblEmergency_Room.SelectedValue;
         objWC_FR.Time_Began_Work = txtTime_Began_Work.Text;
         objWC_FR.Activity_Before_Incident = txtActivity_Before_Incident.Text.Trim();
@@ -1484,17 +1484,17 @@ public partial class SONIC_WCFirstReport : clsBasePage
                 lblPhysician_Phone.Text = objWC_FR.Physician_Phone;
             }
 
-            lblPhysician_Other_Professional.Text = objWC_FR.Physician_Other_Professional;
-            lblFacility.Text = objWC_FR.Facility;
-            lblFacility_Address.Text = objWC_FR.Facility_Address;
-            lblFacility_City.Text = objWC_FR.Facility_City;
+            //lblPhysician_Other_Professional.Text = objWC_FR.Physician_Other_Professional;
+            //lblFacility.Text = objWC_FR.Facility;
+            //lblFacility_Address.Text = objWC_FR.Facility_Address;
+            //lblFacility_City.Text = objWC_FR.Facility_City;
 
-            if (objWC_FR.FK_State_Facility > 0)
-            {
-                lblFK_State_Facility.Text = new State(String.IsNullOrEmpty(Convert.ToString(objWC_FR.FK_State_Facility)) ? 0 : Convert.ToDecimal(objWC_FR.FK_State_Facility)).FLD_state;
-            }
+            //if (objWC_FR.FK_State_Facility > 0)
+            //{
+            //    lblFK_State_Facility.Text = new State(String.IsNullOrEmpty(Convert.ToString(objWC_FR.FK_State_Facility)) ? 0 : Convert.ToDecimal(objWC_FR.FK_State_Facility)).FLD_state;
+            //}
 
-            lblFacility_Zip_Code.Text = objWC_FR.Facility_Zip_Code;
+            //lblFacility_Zip_Code.Text = objWC_FR.Facility_Zip_Code;
             lblEmergency_Room.Text = (objWC_FR.Emergency_Room == "Y") ? "Yes" : "No";
             lblTime_Began_Work.Text = objWC_FR.Time_Began_Work;
             lblActivity_Before_Incident.Text = objWC_FR.Activity_Before_Incident;
@@ -2008,21 +2008,21 @@ public partial class SONIC_WCFirstReport : clsBasePage
                 txtPhysician_Phone.Text = objWC_FR.Physician_Phone;
             }
 
-            txtPhysician_Other_Professional.Text = objWC_FR.Physician_Other_Professional;
-            txtFacility.Text = objWC_FR.Facility;
-            txtFacility_Address.Text = objWC_FR.Facility_Address;
-            txtFacility_City.Text = objWC_FR.Facility_City;
+            //txtPhysician_Other_Professional.Text = objWC_FR.Physician_Other_Professional;
+            //txtFacility.Text = objWC_FR.Facility;
+            //txtFacility_Address.Text = objWC_FR.Facility_Address;
+            //txtFacility_City.Text = objWC_FR.Facility_City;
 
-            if (objWC_FR.FK_State_Facility > 0)
-            {
-                ddlFK_State_Facility.SelectedValue = Convert.ToString(objWC_FR.FK_State_Facility);
-            }
-            else
-            {
-                ddlFK_State_Facility.SelectedValue = "0";
-            }
+            //if (objWC_FR.FK_State_Facility > 0)
+            //{
+            //    ddlFK_State_Facility.SelectedValue = Convert.ToString(objWC_FR.FK_State_Facility);
+            //}
+            //else
+            //{
+            //    ddlFK_State_Facility.SelectedValue = "0";
+            //}
 
-            txtFacility_Zip_Code.Text = objWC_FR.Facility_Zip_Code;
+            //txtFacility_Zip_Code.Text = objWC_FR.Facility_Zip_Code;
             rblEmergency_Room.SelectedValue = objWC_FR.Emergency_Room == "Y" ? objWC_FR.Emergency_Room : "N";
             txtTime_Began_Work.Text = objWC_FR.Time_Began_Work;
             txtActivity_Before_Incident.Text = objWC_FR.Activity_Before_Incident;

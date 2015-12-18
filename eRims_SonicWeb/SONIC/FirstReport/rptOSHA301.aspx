@@ -12,7 +12,7 @@
 
         jQuery(function ($) {
             $("#<%=txtIncident_Begin.ClientID%>").mask("99/99/9999");
-             $("#<%=txtIncident_End.ClientID%>").mask("99/99/9999");
+            $("#<%=txtIncident_End.ClientID%>").mask("99/99/9999");
         });
 
         function CheckDates() {
@@ -47,8 +47,7 @@
         </tr>
 
         <tr>
-            <td width="23%" align="right">
-                Incident Date Begin <span id="Span1" style="color: Red;" runat="server">*</span>
+            <td width="23%" align="right">Incident Date Begin <span id="Span1" style="color: Red;" runat="server">*</span>
             </td>
             <td width="4%" align="center">:
             </td>
@@ -60,8 +59,7 @@
                 <asp:RequiredFieldValidator runat="server" ID="rfvIncident_Begin" ControlToValidate="txtIncident_Begin" ErrorMessage="Please Enter Incident Date Begin"
                     Display="None" ValidationGroup="vsErrorGroup">  </asp:RequiredFieldValidator>
             </td>
-            <td width="23%" align="right">
-               Incident Date End <span id="Span3" style="color: Red;" runat="server">*</span>
+            <td width="23%" align="right">Incident Date End <span id="Span3" style="color: Red;" runat="server">*</span>
             </td>
             <td width="4%" align="center">:
             </td>
@@ -79,19 +77,28 @@
             </td>
         </tr>
         <tr>
-            <td align="right">
-               OSHA Coordinator <span id="Span2" style="color: Red;" runat="server">*</span>
+            <td align="right">OSHA Coordinator <span id="Span2" style="color: Red;" runat="server">*</span>
             </td>
             <td align="center">:
             </td>
             <td align="left">
-                <asp:DropDownList ID="ddlOSHA_Coordinator" runat="server" Width="200px" SkinID="dropGen">
+                <asp:DropDownList ID="ddlOSHA_Coordinator" runat="server" Width="200px" SkinID="dropGen"  OnSelectedIndexChanged="ddlOSHA_Coordinator_SelectedIndexChanged" AutoPostBack="true">
                 </asp:DropDownList>
                 <asp:RequiredFieldValidator runat="server" ID="rfvOSHA_Coordinator" ControlToValidate="ddlOSHA_Coordinator" InitialValue="0" ErrorMessage="Please select OSHA Coordinator"
                     Display="None" ValidationGroup="vsErrorGroup">  </asp:RequiredFieldValidator>
             </td>
-            <td colspan="3"></td>
-
+            <td align="right">
+                Location <span id="Span4" style="color: Red;" runat="server">*</span>
+            </td>
+            <td align="center">:
+            </td>
+            <td align="left">
+                <asp:DropDownList ID="ddlLocation" runat="server" Width="200px" SkinID="dropGen">
+                    <asp:ListItem Selected="True" Text="-- Select --" Value="0"></asp:ListItem>
+                </asp:DropDownList>
+                <asp:RequiredFieldValidator runat="server" ID="rfvLocation" ControlToValidate="ddlLocation" InitialValue="0" ErrorMessage="Please select Location"
+                    Display="None" ValidationGroup="vsErrorGroup">  </asp:RequiredFieldValidator>
+            </td>
         </tr>
         <tr>
             <td colspan="6">&nbsp;
@@ -99,7 +106,7 @@
         </tr>
         <tr>
             <td colspan="6" align="center">
-                <asp:Button ID="btnGenerate" runat="server" Text="Generate Report" ValidationGroup="vsErrorGroup" OnClick="btnGenerate_Click"  OnClientClick="return CheckDates();"/>
+                <asp:Button ID="btnGenerate" runat="server" Text="Generate Report" ValidationGroup="vsErrorGroup" OnClick="btnGenerate_Click" OnClientClick="return CheckDates();" />
             </td>
         </tr>
         <tr>
