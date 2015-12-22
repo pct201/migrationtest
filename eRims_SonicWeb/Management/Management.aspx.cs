@@ -291,12 +291,12 @@ public partial class Management_Management : clsBasePage
         if (PK_Management > 0)
         {
             objRecord.Update();
-            ViewState.Remove("EmailAbsratact");
+            //ViewState.Remove("EmailAbsratact");
         }
         else
         {
             PK_Management = objRecord.Insert();
-            ViewState["EmailAbsratact"] = PK_Management;
+            //ViewState["EmailAbsratact"] = PK_Management;
         }
     }
 
@@ -1197,14 +1197,14 @@ public partial class Management_Management : clsBasePage
     /// <param name="e"></param>
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        ViewState.Remove("EmailAbsratact");
+        //ViewState.Remove("EmailAbsratact");
 
         SaveRecord();
 
-        if (ViewState["EmailAbsratact"] != null)
-        {
-            SendAbstractViaEmailWhileInsert();
-        }
+        //if (ViewState["EmailAbsratact"] != null)
+        //{
+        //    SendAbstractViaEmailWhileInsert();
+        //}
 
         if (StrOperation.ToLower() == "add" || StrOperation.ToLower() == "addto" || StrOperation.ToLower() == "")
         {
@@ -1508,7 +1508,16 @@ public partial class Management_Management : clsBasePage
     /// <param name="e"></param>
     protected void btnResendManagementAbstract_Click(object sender, EventArgs e)
     {
-        SendAbstractViaEmailWhileInsert();
+        if (StrOperation.ToLower() == "edit")
+        {
+            SaveRecord();
+            SendAbstractViaEmailWhileInsert();
+            Response.Redirect("Management.aspx?id=" + Encryption.Encrypt(PK_Management.ToString()) + "&pnl=" + hdnPanel.Value + "&mode=edit", true);
+        }
+        else
+        {
+            SendAbstractViaEmailWhileInsert();
+        }
     }
     #endregion
 

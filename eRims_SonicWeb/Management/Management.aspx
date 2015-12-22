@@ -2565,8 +2565,8 @@
                                 <asp:Button ID="btnEdit" runat="server" Text=" Edit " CausesValidation="false" OnClick="btnEdit_Click"
                                     Visible="false" />
                                 &nbsp; &nbsp;
-                                <asp:Button ID="btnResendManagementAbstract" runat="server" Text="Resend Management Abstract" CausesValidation="true" Visible="false"
-                                    OnClick="btnResendManagementAbstract_Click" />
+                                <asp:Button ID="btnResendManagementAbstract" runat="server" Text="Save and Send Management Abstract" CausesValidation="true" Visible="false"
+                                    OnClick="btnResendManagementAbstract_Click" ValidationGroup="vsErrorGroup" />
                                 &nbsp; &nbsp;
                                 <asp:Button ID="btnCancel" runat="server" Text="Cancel" CausesValidation="false"
                                     OnClick="btnCancel_Click" />
