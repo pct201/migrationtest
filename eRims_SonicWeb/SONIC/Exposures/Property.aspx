@@ -404,6 +404,11 @@ function ValidateFieldsOwnership(sender, args) {
 
         }
 
+        function MainBuildingAlert(pgURL) {
+             alert("Another building at this location already has been designated as the Main building. If you wish to designate this building as the Main building for the location, please uncheck the Occupancy Main checkbox for the other building at this location, save it and return to this building to check the Occupancy Main checkbox to designate this building as the Main building at the location.");
+                window.location.href = pgURL;
+        }
+
         function ValidateFieldsST(sender, args) {
             var msg = '';
             var ctrlIDs = document.getElementById('<%=hdnControlIDsST.ClientID%>').value.split(',');
@@ -1441,7 +1446,7 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                         <asp:ListItem Text="Service"></asp:ListItem>
                                                                                         <asp:ListItem Text="Office"></asp:ListItem>
                                                                                         <asp:ListItem Text="Car Wash"></asp:ListItem>
-                                                                                        <asp:ListItem Text="1"></asp:ListItem>
+                                                                                        <asp:ListItem Text="Main"></asp:ListItem>
                                                                                         <asp:ListItem Text="2"></asp:ListItem>
                                                                                         <asp:ListItem Text="Photo Booth"></asp:ListItem>
                                                                                     </asp:CheckBoxList>

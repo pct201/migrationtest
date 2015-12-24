@@ -2430,19 +2430,21 @@ public partial class Event_Event_New : clsBasePage
             bool bOccupancy_Raw_Land = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Raw_Land"));
             bool bOccupancy_Service = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Service"));
             bool bOccupancy_Ofifce = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Ofifce"));
+            bool bOccupancy_Main = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Main"));
 
 
             string strOccupancy = ""; // used to set the comma seperated occupancies
 
             // append occupancy text with comma seperation depending on the values
-            if (bOccupancy_Sales_New) strOccupancy = "Sales - New";
-            if (bOccupancy_Body_Shop) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Body Shop" : "Body Shop";
-            if (bOccupancy_Parking_Lot) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Parking Lot" : "Parking Lot";
-            if (bOccupancy_Sales_Used) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Sales - Used" : "Sales - Used";
-            if (bOccupancy_Parts) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Parts" : "Parts";
-            if (bOccupancy_Raw_Land) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Raw Land" : "Raw Land";
-            if (bOccupancy_Service) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Service" : "Service";
-            if (bOccupancy_Ofifce) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Office" : "Office";
+            if (bOccupancy_Main) strOccupancy = "Main";
+            if (bOccupancy_Sales_New) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Sales - New" : "Sales - New";
+            if (bOccupancy_Body_Shop) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Body Shop" : "Body Shop";
+            if (bOccupancy_Parking_Lot) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Parking Lot" : "Parking Lot";
+            if (bOccupancy_Sales_Used) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Sales - Used" : "Sales - Used";
+            if (bOccupancy_Parts) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Parts" : "Parts";
+            if (bOccupancy_Raw_Land) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Raw Land" : "Raw Land";
+            if (bOccupancy_Service) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Service" : "Service";
+            if (bOccupancy_Ofifce) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Office" : "Office";
 
             // set text in occupancy column
             lblOccupancy.Text = strOccupancy;
@@ -2469,19 +2471,21 @@ public partial class Event_Event_New : clsBasePage
             bool bOccupancy_Raw_Land = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Raw_Land"));
             bool bOccupancy_Service = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Service"));
             bool bOccupancy_Ofifce = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Ofifce"));
+            bool bOccupancy_Main = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Main"));
 
 
             string strOccupancy = ""; // used to set the comma seperated occupancies
 
             // append occupancy text with comma seperation depending on the values
-            if (bOccupancy_Sales_New) strOccupancy = "Sales - New";
-            if (bOccupancy_Body_Shop) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Body Shop" : "Body Shop";
-            if (bOccupancy_Parking_Lot) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Parking Lot" : "Parking Lot";
-            if (bOccupancy_Sales_Used) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Sales - Used" : "Sales - Used";
-            if (bOccupancy_Parts) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Parts" : "Parts";
-            if (bOccupancy_Raw_Land) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Raw Land" : "Raw Land";
-            if (bOccupancy_Service) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Service" : "Service";
-            if (bOccupancy_Ofifce) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Office" : "Office";
+            if (bOccupancy_Main) strOccupancy = "Main";
+            if (bOccupancy_Sales_New) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Sales - New" : "Sales - New";
+            if (bOccupancy_Body_Shop) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Body Shop" : "Body Shop";
+            if (bOccupancy_Parking_Lot) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Parking Lot" : "Parking Lot";
+            if (bOccupancy_Sales_Used) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Sales - Used" : "Sales - Used";
+            if (bOccupancy_Parts) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Parts" : "Parts";
+            if (bOccupancy_Raw_Land) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Raw Land" : "Raw Land";
+            if (bOccupancy_Service) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Service" : "Service";
+            if (bOccupancy_Ofifce) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Office" : "Office";
 
             // set text in occupancy column
             lblOccupancy.Text = strOccupancy;

@@ -60,6 +60,77 @@ public partial class SONIC_FirstReport_rptOSHA300 : clsBasePage
             dtTotals = dsReport.Tables[1];
             dtLocation = dsReport.Tables[2];
             dtTotals_300A = dsReport.Tables[5];
+
+            clsPM_Complaince_Reporting_OSHA objPM_Complaince_Reporting_OSHA = new clsPM_Complaince_Reporting_OSHA();
+            PM_Compliance_Reporting objPM_Complaince_Reporting = new PM_Compliance_Reporting();
+
+            DataSet dsDetails = clsOSHA.SelectByPKLocation(Convert.ToDecimal(ddlLocation.SelectedValue));
+            DataTable dtPK = dsDetails.Tables[0];
+            DataTable dtTotalAssociates = dsDetails.Tables[1];
+            DataTable dtLU_SIC = dsDetails.Tables[2];
+
+            if (dtRecords_300A.Rows.Count > 0)
+            {
+                if (dtPK.Rows.Count > 0)
+                {
+                    if (!string.IsNullOrEmpty(Convert.ToString(dtPK.Rows[0]["PK_Building_ID"])))
+                    {
+                        int PK_PM_Compliance_Reporting, PK_PM_Site_Information = 0;
+                        bool blnLog = (Convert.ToDateTime(DateTime.Now) >= Convert.ToDateTime("01-01-" + DateTime.Now.Year) && Convert.ToDateTime(DateTime.Now) <= Convert.ToDateTime("02-01-" + DateTime.Now.Year));
+
+                        objPM_Complaince_Reporting_OSHA.Date_Completed = DateTime.Now;
+                        objPM_Complaince_Reporting_OSHA.Log_Posted_Feb_1 = (blnLog) ? "Y" : "N";
+                        objPM_Complaince_Reporting_OSHA.OSHA_Recordable = Convert.ToInt32(dtTotals_300A.Rows[0]["Total_G"]) + Convert.ToInt32(dtTotals_300A.Rows[0]["Total_H"]) + Convert.ToInt32(dtTotals_300A.Rows[0]["Total_I"]) + Convert.ToInt32(dtTotals_300A.Rows[0]["Total_J"]);
+                        objPM_Complaince_Reporting_OSHA.Restsricted_Work_Days = Convert.ToInt32(dtTotals_300A.Rows[0]["Total_L"]);
+                        objPM_Complaince_Reporting_OSHA.Lost_Work_Days = Convert.ToInt32(dtTotals_300A.Rows[0]["Total_K"]);
+                        objPM_Complaince_Reporting_OSHA.Total_Associates = Convert.ToInt32(dtTotalAssociates.Rows[0]["Total_Associates"]);
+                        objPM_Complaince_Reporting_OSHA.Updated_Date = DateTime.Now;
+                        objPM_Complaince_Reporting_OSHA.Updated_By = clsSession.UserID;
+
+                        if (!string.IsNullOrEmpty(Convert.ToString(dtPK.Rows[0]["PK_PM_Compliance_Reporting_OSHA"])))
+                        {
+                            objPM_Complaince_Reporting_OSHA.FK_PM_Complaince_Reporting = Convert.ToInt32(dtPK.Rows[0]["PK_PM_Compliance_Reporting"]);
+                            objPM_Complaince_Reporting_OSHA.PK_PM_Compliance_Reporting_OSHA = Convert.ToInt32(dtPK.Rows[0]["PK_PM_Compliance_Reporting_OSHA"]);
+                            objPM_Complaince_Reporting_OSHA.Update();
+                        }
+                        else
+                        {
+                            if (string.IsNullOrEmpty(Convert.ToString(dtPK.Rows[0]["PK_PM_Compliance_Reporting"])))
+                            {
+                                if (string.IsNullOrEmpty(Convert.ToString(dtPK.Rows[0]["PK_PM_Site_Information"])))
+                                {
+                                    PM_Site_Information objPM_Site_Info = new PM_Site_Information();
+
+                                    objPM_Site_Info.FK_Building = Convert.ToInt32(dtPK.Rows[0]["PK_Building_ID"]);
+                                    objPM_Site_Info.FK_LU_Location = Convert.ToDecimal(ddlLocation.SelectedValue);
+                                    objPM_Site_Info.FK_LU_SIC = Convert.ToInt32(dtLU_SIC.Rows[0]["FK_LU_SIC"]);
+                                    objPM_Site_Info.Updated_By = "OSHA";
+                                    objPM_Site_Info.Update_Date = DateTime.Now;
+
+                                    PK_PM_Site_Information = objPM_Site_Info.Insert();
+                                    objPM_Complaince_Reporting.FK_PM_Site_Information = PK_PM_Site_Information;
+                                }
+                                else
+                                {
+                                    objPM_Complaince_Reporting.FK_PM_Site_Information = Convert.ToInt32(dtPK.Rows[0]["PK_PM_Site_Information"]);
+                                }
+
+                                objPM_Complaince_Reporting.Updated_By = "OSHA";
+                                objPM_Complaince_Reporting.Update_Date = DateTime.Now;
+
+                                PK_PM_Compliance_Reporting = objPM_Complaince_Reporting.Insert();
+                                objPM_Complaince_Reporting_OSHA.FK_PM_Complaince_Reporting = PK_PM_Compliance_Reporting;
+                            }
+                            else
+                            {
+                                objPM_Complaince_Reporting_OSHA.FK_PM_Complaince_Reporting = Convert.ToInt32(dtPK.Rows[0]["PK_PM_Compliance_Reporting"]);
+                            }
+
+                            objPM_Complaince_Reporting_OSHA.Insert();
+                        }
+                    }
+                }
+            }
         }
 
         if (dtPrintRow != null && dtPrintRow.Rows.Count > 0)

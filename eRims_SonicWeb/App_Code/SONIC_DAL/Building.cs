@@ -193,6 +193,7 @@ namespace ERIMS.DAL
         private decimal? _FK_LU_Phase_Power;
         private decimal? _FK_LU_Power_Service;
         private decimal? _FK_LU_Voltage_Security;
+        private bool _Occupancy_Main;
 
         #endregion
 
@@ -1918,6 +1919,12 @@ namespace ERIMS.DAL
             get { return _Total_Amperage_Required; }
             set { _Total_Amperage_Required = value; }
         }
+
+        public bool Occupancy_Main
+        {
+            get { return _Occupancy_Main; }
+            set { _Occupancy_Main = value; }
+        }
         
         #endregion
 
@@ -2111,7 +2118,8 @@ namespace ERIMS.DAL
             this._FK_LU_Phase_Power = null;
             this._FK_LU_Cable_Length = null;	
             this._Cable_Length_Other = null;
-            this._Total_Amperage_Required = null;	
+            this._Total_Amperage_Required = null;
+            this._Occupancy_Main = false;
         }
 
 
@@ -2393,6 +2401,7 @@ namespace ERIMS.DAL
                 this._Power_Service_Other = Convert.ToString(drBuilding["Power_Service_Other"]);
                 this._Cable_Length_Other = Convert.ToString(drBuilding["Cable_Length_Other"]);
                 this._Total_Amperage_Required = Convert.ToString(drBuilding["Total_Amperage_Required"]);
+                this._Occupancy_Main = drBuilding["Occupancy_Main"] != DBNull.Value ? Convert.ToBoolean(drBuilding["Occupancy_Main"]) : false;
             }
             else
             {
@@ -2576,7 +2585,8 @@ namespace ERIMS.DAL
                 this._FK_LU_Phase_Power = null;
                 this._FK_LU_Cable_Length = null;
                 this._Cable_Length_Other = null;
-                this._Total_Amperage_Required = null;	
+                this._Total_Amperage_Required = null;
+                this._Occupancy_Main = false;
             }
         }
 
@@ -2877,6 +2887,9 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Total_Amperage_Required", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Total_Amperage_Required", DbType.String, this._Total_Amperage_Required);
+
+            db.AddInParameter(dbCommand, "Occupancy_Main", DbType.Boolean, this._Occupancy_Main);
+
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -3226,6 +3239,9 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Total_Amperage_Required", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Total_Amperage_Required", DbType.String, this._Total_Amperage_Required);
+
+            db.AddInParameter(dbCommand, "Occupancy_Main", DbType.Boolean, this._Occupancy_Main);
+
             db.ExecuteNonQuery(dbCommand);
         }
 
@@ -3399,6 +3415,20 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "strOrder", DbType.String, strOrder);
             db.AddInParameter(dbCommand, "intPageNo", DbType.String, intPageNo);
             db.AddInParameter(dbCommand, "intPageSize", DbType.String, intPageSize);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// Selects a  record from the Building table by Loction ID and Occupancy main.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectByFKLocationOccupancyMain(int fK_Location_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("BuildingSelectByFKLocationOccupancyMain");
+
+            db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Int32, fK_Location_ID);
 
             return db.ExecuteDataSet(dbCommand);
         }

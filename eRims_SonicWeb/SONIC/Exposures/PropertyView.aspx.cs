@@ -328,26 +328,28 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
             bool bOccupancy_Body_Shop = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Body_Shop"));
             bool bOccupancy_Parking_Lot = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Parking_Lot"));
             bool bOccupancy_Sales_Used = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Sales_Used"));
-            bool bOccupancy_Parts = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Parts"));
+            bool bOccupancy_Parts = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Parts"));  
             bool bOccupancy_Raw_Land = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Raw_Land"));
             bool bOccupancy_Service = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Service"));
             bool bOccupancy_Ofifce = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Ofifce"));
             bool bOccupancy_Car_Wash = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Car_Wash"));
             bool bOccupancy_Photo_Booth = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Photo_Booth"));
+            bool bOccupancy_Main = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Main"));
 
             string strOccupancy = ""; // used to set the comma seperated occupancies
 
             // append occupancy text with comma seperation depending on the values
-            if (bOccupancy_Sales_New) strOccupancy = "Sales - New";
-            if (bOccupancy_Body_Shop) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Body Shop" : "Body Shop";
-            if (bOccupancy_Parking_Lot) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Parking Lot" : "Parking Lot";
-            if (bOccupancy_Sales_Used) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Sales - Used" : "Sales - Used";
-            if (bOccupancy_Parts) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Parts" : "Parts";
-            if (bOccupancy_Raw_Land) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Raw Land" : "Raw Land";
-            if (bOccupancy_Service) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Service" : "Service";
-            if (bOccupancy_Ofifce) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Office" : "Office";
-            if (bOccupancy_Car_Wash) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Car Wash" : "Car Wash";
-            if (bOccupancy_Photo_Booth) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Photo Booth" : "Photo Booth";
+            if (bOccupancy_Main) strOccupancy = "Main";
+            if (bOccupancy_Sales_New) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Sales - New" : "Sales - New";
+            if (bOccupancy_Body_Shop) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Body Shop" : "Body Shop";
+            if (bOccupancy_Parking_Lot) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Parking Lot" : "Parking Lot";
+            if (bOccupancy_Sales_Used) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Sales - Used" : "Sales - Used";
+            if (bOccupancy_Parts) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Parts" : "Parts";
+            if (bOccupancy_Raw_Land) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Raw Land" : "Raw Land";
+            if (bOccupancy_Service) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Service" : "Service";
+            if (bOccupancy_Ofifce) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Office" : "Office";
+            if (bOccupancy_Car_Wash) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Car Wash" : "Car Wash";
+            if (bOccupancy_Photo_Booth) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Photo Booth" : "Photo Booth";
 
             // set text in occupancy column
             lblOccupancy.Text = strOccupancy;
@@ -808,6 +810,7 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
         lblOccupancyOffice.Text = objBuilding.Occupancy_Ofifce ? "Yes" : "";
         lblOccupancyCarWash.Text = objBuilding.Occupancy_Car_Wash ? "Yes" : "";
         lblOccupancyPhotoBooth.Text = objBuilding.Occupancy_Photo_Booth ? "Yes" : "";
+        lblOccupancyMain.Text = objBuilding.Occupancy_Main ? "Yes" : "";
 
         lblBuildingAddress_1.Text = objBuilding.Address_1;
         lblBuildingAddress_2.Text = objBuilding.Address_2;

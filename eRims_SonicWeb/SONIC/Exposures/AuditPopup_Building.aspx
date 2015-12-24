@@ -118,6 +118,9 @@
                                         <span style="display: inline-block; width: 150px;">Occupancy_Ofifce</span>
                                     </th>
                                     <th class="cols">
+                                        <span style="display: inline-block; width: 150px;">Occupancy_Main</span>
+                                    </th>
+                                    <th class="cols">
                                         <span style="display: inline-block; width: 150px;">Address_1</span>
                                     </th>
                                     <th class="cols">
@@ -709,6 +712,13 @@
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
                                         <asp:Label ID="lblOccupancy_Ofifce" runat="server" Text='<%# clsGeneral.FormatYesNoToDisplayForView(Eval("Occupancy_Ofifce")) %>'
+                                            Width="150px"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                 <asp:TemplateField HeaderText="Occupancy_Main">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblOccupancy_Main" runat="server" Text='<%# clsGeneral.FormatYesNoToDisplayForView(Eval("Occupancy_Main")) %>'
                                             Width="150px"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>

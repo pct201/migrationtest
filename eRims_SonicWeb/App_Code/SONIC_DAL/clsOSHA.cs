@@ -50,5 +50,19 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "PK_LU_Location_ID", DbType.Decimal, pK_LU_Location_ID);
             return db.ExecuteDataSet(dbCommand);
         }
+
+        ///<summary>
+        ///Select data by Location
+        ///</summary>
+        ///
+        public static DataSet SelectByPKLocation(decimal pK_LU_Location_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("OSHASelect");
+
+            db.AddInParameter(dbCommand, "PK_LU_Location_ID", DbType.Decimal, pK_LU_Location_ID);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
     }
 }

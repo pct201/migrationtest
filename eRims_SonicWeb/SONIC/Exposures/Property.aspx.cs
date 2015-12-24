@@ -247,7 +247,7 @@ public partial class Exposures_Property : clsBasePage
                 }
                 //else if (Request.QueryString["FK_Property_Cope"] != null)
                 //{
-                    
+
                 //    ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);", true);
                 //}
                 else if (Request.QueryString["panel"] != null)//used for Event_New.aspx page
@@ -554,6 +554,7 @@ public partial class Exposures_Property : clsBasePage
         objBuilding.Occupancy_Ofifce = chkLstOccupancy.Items[7].Selected;
         objBuilding.Occupancy_Car_Wash = chkLstOccupancy.Items[8].Selected;
         objBuilding.Occupancy_Photo_Booth = chkLstOccupancy.Items[11].Selected;
+        objBuilding.Occupancy_Main=chkLstOccupancy.Items[9].Selected;
         objBuilding.Address_1 = txtBuildingAddress_1.Text.Trim();
         objBuilding.Address_2 = txtBuildingAddress_2.Text.Trim();
         objBuilding.City = txtBuilding_City.Text.Trim();
@@ -695,12 +696,28 @@ public partial class Exposures_Property : clsBasePage
 
         objBuilding.Updated_By = Convert.ToDecimal(clsSession.UserID);
         objBuilding.Updated_Date = DateTime.Now;
+
+        DataTable dtOccupancyMain = Building.SelectByFKLocationOccupancyMain(FK_LU_Location_ID).Tables[0];
+
+        if (dtOccupancyMain != null && dtOccupancyMain.Rows.Count > 0 && Convert.ToInt32(dtOccupancyMain.Rows[0]["PK_Building_ID"]) != PK_Building_ID)
+        {
+            if (chkLstOccupancy.Items[9].Selected == true)
+            {
+                objBuilding.Occupancy_Main = false;
+
+                // redirect to PropertyView page to display all information in view mode
+                string strURL = "PropertyView.aspx?loc=" + Request.QueryString["loc"];
+                ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:MainBuildingAlert('" + strURL + "');", true);
+                chkLstOccupancy.Items[9].Selected = false;
+            }
+        }
+        
         // insert or update the information as per the primary key avaialble
         if (PK_Building_ID > 0)
             objBuilding.Update();
         else
             PK_Building_ID = objBuilding.Insert();
-
+        
         //Insert and update Insurance cope
         InsertUpdateInsuranceCope(PK_Building_ID);
 
@@ -1112,16 +1129,16 @@ public partial class Exposures_Property : clsBasePage
                 objContact.After_Hours_Contact_Cell_Phone = txtAfter_Hours_Contact_Cell_Phone.Text.Trim();
                 objContact.Updated_By = Convert.ToDecimal(clsSession.UserID);
                 objContact.Updated_Date = DateTime.Now;
-                objContact.Fire_Alarm_Monitoring_Company_Name = txtCompanyName.Text.Trim();	
-                objContact.Fire_Alarm_Monitoring_Contact_Name = txtContactName.Text.Trim();	
-                objContact.Fire_Alarm_Monitoring_Address = txtAddress.Text.Trim();		
+                objContact.Fire_Alarm_Monitoring_Company_Name = txtCompanyName.Text.Trim();
+                objContact.Fire_Alarm_Monitoring_Contact_Name = txtContactName.Text.Trim();
+                objContact.Fire_Alarm_Monitoring_Address = txtAddress.Text.Trim();
                 objContact.Fire_Alarm_Monitoring_City = txtCity1.Text.Trim();
                 if (ddlContactState.SelectedIndex > 0)
                     objContact.FK_Fire_Alarm_Monitoring_State = Convert.ToInt32(ddlContactState.SelectedValue);
                 else
                     objContact.FK_Fire_Alarm_Monitoring_State = 0;
-                objContact.Fire_Alarm_Monitoring_Zip_Code = txtZipCode.Text;		
-                objContact.Fire_Alarm_Monitoring_Telephone = txtTelephone1.Text.Trim();		
+                objContact.Fire_Alarm_Monitoring_Zip_Code = txtZipCode.Text;
+                objContact.Fire_Alarm_Monitoring_Telephone = txtTelephone1.Text.Trim();
                 objContact.Fire_Alarm_Monitoring_Account_Number = txtAccountNumber.Text.Trim();
                 objContact.Fire_Alarm_Monitoring_Monthly_Amount = clsGeneral.GetDecimalNullableValue(txtMonthlyMonitoringAmount);
                 objContact.Fire_Alarm_Monitoring_Control_Panel = txtControlPanel.Text.Trim();
@@ -1383,20 +1400,22 @@ public partial class Exposures_Property : clsBasePage
             bool bOccupancy_Ofifce = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Ofifce"));
             bool bOccupancy_Car_Wash = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Car_Wash"));
             bool bOccupancy_Photo_Booth = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Photo_Booth"));
+            bool bOccupancy_Main = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Main"));
 
             string strOccupancy = ""; // used to set the comma seperated occupancies
 
             // append occupancy text with comma seperation depending on the values
-            if (bOccupancy_Sales_New) strOccupancy = "Sales - New";
-            if (bOccupancy_Body_Shop) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Body Shop" : "Body Shop";
-            if (bOccupancy_Parking_Lot) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Parking Lot" : "Parking Lot";
-            if (bOccupancy_Sales_Used) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Sales - Used" : "Sales - Used";
-            if (bOccupancy_Parts) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Parts" : "Parts";
-            if (bOccupancy_Raw_Land) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Raw Land" : "Raw Land";
-            if (bOccupancy_Service) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Service" : "Service";
-            if (bOccupancy_Ofifce) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Office" : "Office";
-            if (bOccupancy_Car_Wash) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Car Wash" : "Car Wash";
-            if (bOccupancy_Photo_Booth) strOccupancy = strOccupancy != "" ? strOccupancy + "," + "Photo Booth" : "Photo Booth";
+            if (bOccupancy_Main) strOccupancy = "Main";
+            if (bOccupancy_Sales_New) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Sales - New" : "Sales - New";
+            if (bOccupancy_Body_Shop) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Body Shop" : "Body Shop";
+            if (bOccupancy_Parking_Lot) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Parking Lot" : "Parking Lot";
+            if (bOccupancy_Sales_Used) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Sales - Used" : "Sales - Used";
+            if (bOccupancy_Parts) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Parts" : "Parts";
+            if (bOccupancy_Raw_Land) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Raw Land" : "Raw Land";
+            if (bOccupancy_Service) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Service" : "Service";
+            if (bOccupancy_Ofifce) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Office" : "Office";
+            if (bOccupancy_Car_Wash) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Car Wash" : "Car Wash";
+            if (bOccupancy_Photo_Booth) strOccupancy = strOccupancy != "" ? strOccupancy + ", " + "Photo Booth" : "Photo Booth";
 
             // set text in occupancy column
             lblOccupancy.Text = strOccupancy;
@@ -2114,10 +2133,10 @@ public partial class Exposures_Property : clsBasePage
                 ddlVoltageSecurity.SelectedValue = Convert.ToString(objBuilding.FK_LU_Voltage_Security);
             }
             else
-            { 
-                ddlVoltageSecurity.SelectedValue = "0"; 
+            {
+                ddlVoltageSecurity.SelectedValue = "0";
             }
-         }
+        }
 
         if (objBuilding.FK_LU_Power_Service != 0)
         {
@@ -2127,7 +2146,7 @@ public partial class Exposures_Property : clsBasePage
             }
             else
             {
-                ddlPowerService.SelectedValue = "0"; 
+                ddlPowerService.SelectedValue = "0";
             }
         }
 
@@ -2187,6 +2206,7 @@ public partial class Exposures_Property : clsBasePage
         chkLstOccupancy.Items[7].Selected = objBuilding.Occupancy_Ofifce;
         chkLstOccupancy.Items[8].Selected = objBuilding.Occupancy_Car_Wash;
         chkLstOccupancy.Items[11].Selected = objBuilding.Occupancy_Photo_Booth;
+        chkLstOccupancy.Items[9].Selected = objBuilding.Occupancy_Main;
 
         txtBuildingAddress_1.Text = objBuilding.Address_1;
         txtBuildingAddress_2.Text = objBuilding.Address_2;
@@ -2572,7 +2592,7 @@ public partial class Exposures_Property : clsBasePage
             ddlContactState.SelectedValue = Convert.ToString(objContact.FK_Fire_Alarm_Monitoring_State);
         else
             ddlContactState.SelectedIndex = 0;
-        txtZipCode.Text = objContact.Fire_Alarm_Monitoring_Zip_Code;  
+        txtZipCode.Text = objContact.Fire_Alarm_Monitoring_Zip_Code;
         txtTelephone1.Text = objContact.Fire_Alarm_Monitoring_Telephone;
         txtAccountNumber.Text  = objContact.Fire_Alarm_Monitoring_Account_Number;
         txtMonthlyMonitoringAmount.Text = clsGeneral.FormatCommaSeperatorCurrency(objContact.Fire_Alarm_Monitoring_Monthly_Amount);
@@ -2697,7 +2717,7 @@ public partial class Exposures_Property : clsBasePage
         DataTable dtVoltageSecurity = dsVoltageSecurity.Tables[0];
         ddlVoltageSecurity.DataSource = dtVoltageSecurity;
         ddlVoltageSecurity.DataTextField = "Fld_Desc";
-        ddlVoltageSecurity.DataValueField = "PK_LU_Voltage_Security";        
+        ddlVoltageSecurity.DataValueField = "PK_LU_Voltage_Security";
         ddlVoltageSecurity.DataBind();
         ddlVoltageSecurity.Items.Insert(0, new ListItem("--SELECT--", "0"));
 
@@ -2707,7 +2727,7 @@ public partial class Exposures_Property : clsBasePage
         DataTable dtPhasePower = dsPhasePower.Tables[0];
         ddlPhasePower.DataSource = dtPhasePower;
         ddlPhasePower.DataTextField = "Fld_Desc";
-        ddlPhasePower.DataValueField = "PK_LU_Phase_Power";        
+        ddlPhasePower.DataValueField = "PK_LU_Phase_Power";
         ddlPhasePower.DataBind();
         ddlPhasePower.Items.Insert(0, new ListItem("--SELECT--", "0"));
 
@@ -2717,7 +2737,7 @@ public partial class Exposures_Property : clsBasePage
         DataTable dtPowerService = dsPowerService.Tables[0];
         ddlPowerService.DataSource = dtPowerService;
         ddlPowerService.DataTextField = "Fld_Desc";
-        ddlPowerService.DataValueField = "PK_LU_Power_Service";        
+        ddlPowerService.DataValueField = "PK_LU_Power_Service";
         ddlPowerService.DataBind();
         ddlPowerService.Items.Insert(0, new ListItem("--SELECT--", "0"));
 
@@ -2726,7 +2746,7 @@ public partial class Exposures_Property : clsBasePage
         DataTable dtRequiredCableLength = dsRequiredCableLength.Tables[0];
         ddlRequiredCableLength.DataSource = dtRequiredCableLength;
         ddlRequiredCableLength.DataTextField = "Fld_Desc";
-        ddlRequiredCableLength.DataValueField = "PK_LU_Cable_Length";        
+        ddlRequiredCableLength.DataValueField = "PK_LU_Cable_Length";
         ddlRequiredCableLength.DataBind();
         ddlRequiredCableLength.Items.Insert(0, new ListItem("--SELECT--", "0"));
     }
@@ -2814,6 +2834,7 @@ public partial class Exposures_Property : clsBasePage
         chkLstOccupancy.Items[7].Selected = false;
         chkLstOccupancy.Items[8].Selected = false;
         chkLstOccupancy.Items[11].Selected = false;
+        chkLstOccupancy.Items[9].Selected = false;
         txtBuildingAddress_1.Text = "";
         txtBuildingAddress_2.Text = "";
         txtBuilding_City.Text = "";
@@ -3784,7 +3805,7 @@ public partial class Exposures_Property : clsBasePage
                 case "Required Cable Length Other": strCtrlsIDsBuild += txtRequiredCableLengthOther.ClientID + ","; strMessagesBuild += "Please select [Building Information]/Power Requirements - Required Cable Length Other" + ","; spnRequiredCableLengthOther.Style["display"] = "inline-block"; break;
                 case "Power Service Other": strCtrlsIDsBuild += txtPowerServiceOther.ClientID + ","; strMessagesBuild += "Please select [Building Information]/Power Requirements - Power Service Other" + ","; spnPowerServiceOther.Style["display"] = "inline-block"; break;
                 case "Total Amperage Required": strCtrlsIDsBuild += txtTotalAmperageRequired.ClientID + ","; strMessagesBuild += "Please select [Building Information]/Power Requirements - Total Amepred Required" + ","; spnTotalAmperageRequired.Style["display"] = "inline-block"; break;
-                }
+            }
 
             #endregion
         }
@@ -4159,6 +4180,6 @@ public partial class Exposures_Property : clsBasePage
 
     #endregion
 
-    
+
 }
 

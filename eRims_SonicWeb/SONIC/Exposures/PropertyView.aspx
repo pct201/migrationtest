@@ -887,8 +887,10 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td width="23%" align="left"></td>
-                                                                                            <td width="10%" align="left"></td>
+                                                                                            <td width="23%" align="left">Main</td>
+                                                                                            <td width="10%" align="left">
+                                                                                                 <asp:Label runat="server" ID="lblOccupancyMain"></asp:Label>
+                                                                                            </td>
                                                                                             <td width="23%" align="left"></td>
                                                                                             <td width="10%" align="left"></td>
                                                                                             <td width="24%" align="left">Photo Booth
