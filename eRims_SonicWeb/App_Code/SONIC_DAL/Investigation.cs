@@ -136,6 +136,7 @@ namespace ERIMS.DAL
         private string _Time_Began_Work;
         private string _Activity_Before_Incident;
         private string _Object_Substance_Involved;
+        private Nullable<bool> _Admitted_to_Hospital;
 
         #endregion
 
@@ -1266,6 +1267,15 @@ namespace ERIMS.DAL
             set { _Object_Substance_Involved = value; }
         }
 
+        /// <summary> 
+        /// Gets or sets the Admitted_to_Hospital value.
+        /// </summary>
+        public Nullable<bool> Admitted_to_Hospital
+        {
+            get { return _Admitted_to_Hospital; }
+            set { _Admitted_to_Hospital = value; }
+        }
+
         #endregion
 
         #region Constructors
@@ -1319,6 +1329,7 @@ namespace ERIMS.DAL
             this._Time_Began_Work = string.Empty;
             this._Activity_Before_Incident = string.Empty;
             this._Object_Substance_Involved = string.Empty;
+            this._Admitted_to_Hospital = false;
         }
 
         /// <summary> 
@@ -1580,6 +1591,9 @@ namespace ERIMS.DAL
                 this._Activity_Before_Incident = Convert.ToString(drInvestigation["Activity_Before_Incident"]);
                 this._Object_Substance_Involved = Convert.ToString(drInvestigation["Object_Substance_Involved"]);
 
+                if (drInvestigation["Admitted_to_Hospital"] != DBNull.Value)
+                    this._Admitted_to_Hospital = Convert.ToBoolean(drInvestigation["Admitted_to_Hospital"]);
+
             }
             else
             {
@@ -1644,6 +1658,7 @@ namespace ERIMS.DAL
                 this._Time_Began_Work = string.Empty;
                 this._Activity_Before_Incident = string.Empty;
                 this._Object_Substance_Involved = string.Empty;
+                this._Admitted_to_Hospital = false;
             }
         }
 
@@ -1842,7 +1857,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Time_Began_Work", DbType.String, this._Time_Began_Work);
             db.AddInParameter(dbCommand, "Activity_Before_Incident", DbType.String, this._Activity_Before_Incident);
             db.AddInParameter(dbCommand, "Object_Substance_Involved", DbType.String, this._Object_Substance_Involved);
-
+            db.AddInParameter(dbCommand, "Admitted_to_Hospital", DbType.Boolean, this._Admitted_to_Hospital);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -2065,6 +2080,14 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Time_Began_Work", DbType.String, this._Time_Began_Work);
             db.AddInParameter(dbCommand, "Activity_Before_Incident", DbType.String, this._Activity_Before_Incident);
             db.AddInParameter(dbCommand, "Object_Substance_Involved", DbType.String, this._Object_Substance_Involved);
+            if (this._Admitted_to_Hospital != true && this.Admitted_to_Hospital != false)
+            {
+                db.AddInParameter(dbCommand, "Admitted_to_Hospital", DbType.Boolean, DBNull.Value);
+            }
+            else
+            {
+                db.AddInParameter(dbCommand, "Admitted_to_Hospital", DbType.Boolean, this._Admitted_to_Hospital);
+            }
 
             db.ExecuteNonQuery(dbCommand);
         }

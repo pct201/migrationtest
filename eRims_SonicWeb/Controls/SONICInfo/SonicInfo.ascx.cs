@@ -328,6 +328,7 @@ public partial class Controls_SONICInfo_SonicInfo : System.Web.UI.UserControl
                 objInv.Time_Began_Work = objWC_FR.Time_Began_Work;
                 objInv.Activity_Before_Incident = objWC_FR.Activity_Before_Incident;
                 objInv.Object_Substance_Involved = objWC_FR.Object_Substance_Involved;
+                objInv.Admitted_to_Hospital = objWC_FR.Admitted_to_Hospital;
             }
 
             objInv.FK_WC_FR_ID = Convert.ToInt32(WC_FR_ID_For_Investigation);

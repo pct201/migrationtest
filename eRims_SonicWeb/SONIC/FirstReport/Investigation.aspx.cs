@@ -540,6 +540,21 @@ public partial class Exposures_Investigation : clsBasePage
             objInvestigation.Time_Began_Work = txtTime_Began_Work.Text;
             objInvestigation.Activity_Before_Incident = txtActivity_Before_Incident.Text.Trim();
             objInvestigation.Object_Substance_Involved = txtObject_Substance_Involved.Text.Trim();
+            //use to check selected value if it is "-1" than value set to null.
+            if (rdoAdmitted_to_Hospital.SelectedValue != "-1")
+            {
+                //use to check selected value if it is "Y" than set true else false
+                if (rdoAdmitted_to_Hospital.SelectedValue == "Y")
+                {
+                    objInvestigation.Admitted_to_Hospital = true;
+                }
+                else
+                {
+                    objInvestigation.Admitted_to_Hospital = false;
+                }
+            }
+            else
+                objInvestigation.Admitted_to_Hospital = null;
 
             // insert or update the Investigation record as per the PK available
             if (PK_Investigation_ID > 0)
@@ -581,7 +596,8 @@ public partial class Exposures_Investigation : clsBasePage
             }
             else
             {
-                ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('No RLCM exist for the Location " + objLocation.dba + ".')", true);
+                ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "No RLCM", "alert('No RLCM exist for the Location " + objLocation.dba + ".');", true);
+                Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);", true);
             }
         }
         else
@@ -1178,6 +1194,18 @@ public partial class Exposures_Investigation : clsBasePage
         lblActivity_Before_Incident.Text = objInvestigation.Activity_Before_Incident;
         lblObject_Substance_Involved.Text = objInvestigation.Object_Substance_Involved;
 
+        //check object value if it null than display "unknown"
+        if (objInvestigation.Admitted_to_Hospital != null)
+        {
+            //check if object value is true than display "Yes" else display "No"
+            if (objInvestigation.Admitted_to_Hospital == true)
+                lblAdmitted_to_Hospital.Text = "Yes";
+            else
+                lblAdmitted_to_Hospital.Text = "No";
+        }
+        else
+            lblAdmitted_to_Hospital.Text = "unknown";
+
         #endregion
 
         if (bIsUserRLCMOfficer)
@@ -1498,6 +1526,18 @@ public partial class Exposures_Investigation : clsBasePage
         txtTime_Began_Work.Text = objInvestigation.Time_Began_Work;
         txtActivity_Before_Incident.Text = objInvestigation.Activity_Before_Incident;
         txtObject_Substance_Involved.Text = objInvestigation.Object_Substance_Involved;
+
+        //used to check if the value is null than set values to radio button is "-1"and 
+        //if the value is not null than and else if value is true than set value to radio button is "Y" else "N"
+        if (objInvestigation.Admitted_to_Hospital != null)
+        {
+            if (objInvestigation.Admitted_to_Hospital == true)
+                rdoAdmitted_to_Hospital.SelectedValue = "Y";
+            else
+                rdoAdmitted_to_Hospital.SelectedValue = "N";
+        }
+        else
+            rdoAdmitted_to_Hospital.SelectedValue = "-1";
 
         #endregion
         

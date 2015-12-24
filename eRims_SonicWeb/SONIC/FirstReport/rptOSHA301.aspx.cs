@@ -129,12 +129,12 @@ public partial class SONIC_FirstReport_rptOSHA301 : clsBasePage
                     strBody = strBody.Replace("[img_N01]", ImgUnchecked);
                 }
 
-                if (strHospitalized == "1")
+                if (strHospitalized.ToLower() == "true")
                 {
                     strBody = strBody.Replace("[Img_Yes2]", ImgChecked);
                     strBody = strBody.Replace("[Img_No2]", ImgUnchecked);
                 }
-                else if (strHospitalized == "0")
+                else if (strHospitalized.ToLower() == "false")
                 {
                     strBody = strBody.Replace("[Img_Yes2]", ImgUnchecked);
                     strBody = strBody.Replace("[Img_No2]", ImgChecked);

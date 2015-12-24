@@ -1282,22 +1282,22 @@
                     </tr>
                     <tr>
                         <td valign="top">
-                            <asp:ListBox ID="lstOutputFields" runat="server" SelectionMode="Multiple" Height=" 150px"></asp:ListBox>
+                            <asp:ListBox ID="lstOutputFields" runat="server" SelectionMode="Multiple" Height=" 150px" Width="210px"></asp:ListBox>
                             <asp:ImageButton ID="imgUp" ImageUrl="~/Images/up-arrow.gif" runat="server" ImageAlign="top"
                                 OnClientClick="return MoveItemUp();" />
                             <asp:ImageButton ID="imgDown" ImageUrl="~/Images/down-arrow.gif" runat="server" ImageAlign="top"
                                 OnClientClick="return MoveItemDown();" />
                         </td>
                         <td class="ic" style="width: 25%" align="left">
-                            <asp:ListBox ID="lstFirstSort" runat="server" Height="150px" AutoPostBack="false"
+                            <asp:ListBox ID="lstFirstSort" runat="server" Height="150px" AutoPostBack="false" Width="220px"
                                 SelectionMode="Single" onclick="javascript:return ListFirst(this.id,this.selectedIndex);"></asp:ListBox>
                         </td>
                         <td class="ic" style="width: 25%" align="left">
-                            <asp:ListBox ID="lstSecondSort" runat="server" Height="150px" AutoPostBack="false"
+                            <asp:ListBox ID="lstSecondSort" runat="server" Height="150px" AutoPostBack="false" Width="220px"
                                 SelectionMode="Single" onclick="javascript:return ListSecond(this.id,this.selectedIndex);"></asp:ListBox>
                         </td>
                         <td class="ic" style="width: 25%" align="left">
-                            <asp:ListBox ID="lstThirdSort" runat="server" Height="150px" AutoPostBack="false"
+                            <asp:ListBox ID="lstThirdSort" runat="server" Height="150px" AutoPostBack="false" Width="220px"
                                 SelectionMode="Single" onclick="javascript:return ListThird(this.id,this.selectedIndex);"></asp:ListBox>
                         </td>
                     </tr>

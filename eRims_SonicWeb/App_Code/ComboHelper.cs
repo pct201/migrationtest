@@ -5914,6 +5914,30 @@ public class ComboHelper
     }
 
     /// <summary>
+    /// Fill OSHA Incident Drop downs
+    /// </summary>
+    /// <param name="dropDownList">All dropDownList</param>
+    /// <param name="booladdSelectAsFirstElement">Add --select-- to first item in each drop down or not</param>
+    public static void FillOSHA_Incident(ListBox[] dropDownList, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.clsLU_OSHA_Incident.SelectAll();
+
+        foreach (ListBox ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Description";
+            ddlToFill.DataValueField = "PK_LU_OSHA_Incident";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary>
     /// Fill OSHA Injury Drop downs
     /// </summary>
     /// <param name="dropDownList">All dropDownList</param>
@@ -5923,6 +5947,30 @@ public class ComboHelper
         DataSet dsData = ERIMS.DAL.clsLU_OSHA_Injury.SelectAll();
 
         foreach (DropDownList ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Description";
+            ddlToFill.DataValueField = "PK_LU_OSHA_Injury";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Fill OSHA Injury Drop downs
+    /// </summary>
+    /// <param name="dropDownList">All dropDownList</param>
+    /// <param name="booladdSelectAsFirstElement">Add --select-- to first item in each drop down or not</param>
+    public static void FillOSHA_Injury(ListBox[] dropDownList, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.clsLU_OSHA_Injury.SelectAll();
+
+        foreach (ListBox ddlToFill in dropDownList)
         {
             ddlToFill.Items.Clear();
             ddlToFill.DataTextField = "Description";

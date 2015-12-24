@@ -68,5 +68,7 @@
   <Field Title="Factor 19. Other-Describe" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
   <Field Title="OSHA Recordable" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
   <Field Title="RLCM Complete" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
+
+  <Field Title="Admitted to Hospital" TableName="drpYesNo" Type="drpYesNoInt" HasCode="N" ></Field>
   
 </AdHocReportField>

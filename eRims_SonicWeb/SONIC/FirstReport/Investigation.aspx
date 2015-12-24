@@ -1350,6 +1350,17 @@
                                                                 SetFocusOnError="true"></asp:RegularExpressionValidator>
                                                         </td>
                                                     </tr>
+                                                     <tr>
+                                                        <td align="left">Admitted to Hospital
+                                                        </td>
+                                                        <td align="center">:
+                                                        </td>
+                                                        <td align="left">
+                                                            <asp:RadioButtonList runat="server" ID="rdoAdmitted_to_Hospital" SkinID="YesNoUnknownType">
+                                                            </asp:RadioButtonList>
+                                                        </td>
+                                                         <td colspan="3">&nbsp;</td>
+                                                    </tr>
                                                     <tr>
                                                         <td align="left" valign="top">What was the associate doing just before the incident occurred?
                                                         </td>
@@ -2427,6 +2438,17 @@
                                                                 <td align="left">
                                                                     <asp:Label runat="server" ID="lblTime_Began_Work"></asp:Label>
                                                                 </td>
+                                                            </tr>
+                                                            <tr>
+                                                     
+                                                                 <td align="left">Admitted to Hospital
+                                                                 </td>
+                                                                 <td align="center">:
+                                                                 </td>
+                                                                 <td align="left">
+                                                                     <asp:Label runat="server" ID="lblAdmitted_to_Hospital"></asp:Label>
+                                                                 </td>
+                                                                  <td colspan="3">&nbsp;</td>
                                                             </tr>
                                                             <tr>
                                                                 <td align="left" valign="top">What was the associate doing just before the incident occurred?

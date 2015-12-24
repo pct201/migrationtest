@@ -1155,7 +1155,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
                     {
                         ComboHelper.FillBodyPartAffected(new ListBox[] { lst_F }, false);
                     }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "state")
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "state" || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "treatment facility state")
                     {
                         ComboHelper.FillStateList(new ListBox[] { lst_F }, false);
                     }
@@ -1261,6 +1261,14 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
                     else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "what is the cause of this incident?")
                     {
                         ComboHelper.FillFocusAreaCauseCode(new ListBox[]{lst_F} , false);
+                    }
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "classify the incident")
+                    {
+                        ComboHelper.FillOSHA_Incident(new ListBox[] { lst_F }, false);
+                    }
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "type of injury")
+                    {
+                        ComboHelper.FillOSHA_Injury(new ListBox[] { lst_F }, false);
                     }
                     else
                     {
@@ -2863,7 +2871,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
             lst_F.Items.Add(new ListItem("Daily Rental", "Daily Rental"));
         }
         else if (Convert.ToString(Field_Header).ToLower().Trim() == "location state" || Convert.ToString(Field_Header).ToLower().Trim() == "location state (cause of loss)" ||
-            Convert.ToString(Field_Header).ToLower().Trim() == "loss location state")
+            Convert.ToString(Field_Header).ToLower().Trim() == "loss location state" || Convert.ToString(Field_Header).ToLower().Trim() == "treatment facility state")
         {
             ComboHelper.FillStateList(new ListBox[] { lst_F }, false);
         }
@@ -2875,9 +2883,17 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
         //{
         //    ComboHelper.Fill_LU_DPD(new ListBox[] { lst_F }, false, ComboHelper.LU_DPD.LU_DPD_Additional_Brand_Image);
         //}
+        else if (Convert.ToString(Field_Header).ToLower().Trim() == "classify the incident")
+        {
+            ComboHelper.FillOSHA_Incident(new ListBox[] { lst_F }, false);
+        }
+        else if (Convert.ToString(Field_Header).ToLower().Trim() == "type of injury")
+        {
+            ComboHelper.FillOSHA_Injury(new ListBox[] { lst_F }, false);
+        }
         else
         {
-            AdHocReportHelper.FillFilterDropDown(Field_Header, new ListBox[] { lst_F }, false, "DPD");
+            AdHocReportHelper.FillFilterDropDown(Field_Header, new ListBox[] { lst_F }, false, "Investigation");
         }
 
         //Set ListBox ToolTip
