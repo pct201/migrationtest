@@ -9,7 +9,7 @@ public partial class SONIC_Exposures_User_Added_EHS_Dates : System.Web.UI.Page
 {
 
     #region ::Properties::
-    
+
     private decimal PK_RLCM_QA_QC_EHS_Dates
     {
         get { return clsGeneral.GetDecimal(ViewState["PK_RLCM_QA_QC_EHS_Dates"]); }
@@ -20,35 +20,39 @@ public partial class SONIC_Exposures_User_Added_EHS_Dates : System.Web.UI.Page
     {
         get { return clsGeneral.GetDecimal(ViewState["PK_RLCM"]); }
         set { ViewState["PK_RLCM"] = value; }
-    } 
+    }
 
     #endregion
 
     #region ::Page Load::
-    
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-            if (!string.IsNullOrEmpty(Request.QueryString["RLCM"]))
+            int intRLCM;
+            int intID;
+            //if (!string.IsNullOrEmpty(Request.QueryString["RLCM"]))
+            if (int.TryParse(Encryption.Decrypt(Request.QueryString["RLCM"]), out intRLCM))
             {
-                PK_RLCM = clsGeneral.GetDecimal(Encryption.Decrypt(Convert.ToString(Request.QueryString["RLCM"])));
+                PK_RLCM = intRLCM;
                 ComboHelper.FillLocationByRLCM(new DropDownList[] { ddlLocation }, PK_RLCM, true, false);
             }
 
 
-            if (!string.IsNullOrEmpty(Request.QueryString["id"]))
+            //if (!string.IsNullOrEmpty(Request.QueryString["id"]))
+            if (int.TryParse(Encryption.Decrypt(Request.QueryString["id"]), out intID))
             {
-                PK_RLCM_QA_QC_EHS_Dates = Convert.ToDecimal(Encryption.Decrypt(Convert.ToString(Request.QueryString["id"])));
+                PK_RLCM_QA_QC_EHS_Dates = intID;
                 Edit();
             }
         }
-    } 
+    }
 
     #endregion
 
     #region ::Click Event::
-    
+
     /// <summary>
     /// Save click.
     /// </summary>
@@ -91,12 +95,12 @@ public partial class SONIC_Exposures_User_Added_EHS_Dates : System.Web.UI.Page
     {
         clsRLCM_QA_QC_EHS_Dates.DeleteByPK(PK_RLCM_QA_QC_EHS_Dates);
         ClosePage();
-    } 
+    }
 
     #endregion
 
     #region ::Methods::
-    
+
     /// <summary>
     /// Edit Mode.
     /// </summary>
@@ -129,7 +133,7 @@ public partial class SONIC_Exposures_User_Added_EHS_Dates : System.Web.UI.Page
     private void ClosePage()
     {
         Page.ClientScript.RegisterStartupScript(typeof(string), "keyclosewindow", " window.opener.document.getElementById('ctl00_ContentPlaceHolder1_btnRefresh').click(); window.close();", true);
-    } 
+    }
 
     #endregion
 }

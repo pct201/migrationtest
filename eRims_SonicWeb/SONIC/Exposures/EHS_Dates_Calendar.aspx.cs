@@ -23,10 +23,15 @@ public partial class SONIC_Exposures_EHS_Dates_Calendar : clsBasePage
         if (!IsPostBack)
         {
             lblYear.Text = DateTime.Now.Year.ToString();
-
-            if (!string.IsNullOrEmpty(Request.QueryString["RLCM"]))
+            int intRLCM;
+            //if (!string.IsNullOrEmpty(Request.QueryString["RLCM"]))
+            if (int.TryParse(Encryption.Decrypt(Request.QueryString["RLCM"]), out intRLCM))
             {
-                PK_RLCM = Convert.ToDecimal(Encryption.Decrypt(Convert.ToString(Request.QueryString["RLCM"])));
+                PK_RLCM = intRLCM;
+            }
+            else
+            {
+                Response.Redirect("RLCM_QA_QC.aspx");
             }
             //PK_RLCM = 14058;
 

@@ -38,17 +38,38 @@ public partial class SONIC_Exposures_EHS_Dates_RLCM_Monthly_QA_QC : clsBasePage
     {
         if (!IsPostBack)
         {
-            if (!string.IsNullOrEmpty(Request.QueryString["Mnt"]))
+            int intMonth;
+            int intYear;
+            int intRLCM;
+
+            //if (!string.IsNullOrEmpty(Request.QueryString["Mnt"]))
+            if (int.TryParse(Encryption.Decrypt(Request.QueryString["Mnt"]), out intMonth))
             {
-                Month = Convert.ToInt32(Encryption.Decrypt(Convert.ToString(Request.QueryString["Mnt"])));
+                Month = intMonth;
             }
-            if (!string.IsNullOrEmpty(Request.QueryString["yr"]))
+            else
             {
-                Year = Convert.ToInt32(Encryption.Decrypt(Convert.ToString(Request.QueryString["yr"])));
+                Response.Redirect("RLCM_QA_QC.aspx");
             }
-            if (!string.IsNullOrEmpty(Request.QueryString["RLCM"]))
+
+            //if (!string.IsNullOrEmpty(Request.QueryString["yr"]))
+            if (int.TryParse(Encryption.Decrypt(Request.QueryString["yr"]), out intYear))
             {
-                PK_RLCM = Convert.ToDecimal(Encryption.Decrypt(Convert.ToString(Request.QueryString["RLCM"])));
+                Year = intYear;
+            }
+            else
+            {
+                Response.Redirect("RLCM_QA_QC.aspx");
+            }
+
+            //if (!string.IsNullOrEmpty(Request.QueryString["RLCM"]))
+            if (int.TryParse(Encryption.Decrypt(Request.QueryString["RLCM"]), out intRLCM))
+            {
+                PK_RLCM = intRLCM;
+            }
+            else
+            {
+                Response.Redirect("RLCM_QA_QC.aspx");
             }
 
             BindData();
@@ -202,7 +223,7 @@ public partial class SONIC_Exposures_EHS_Dates_RLCM_Monthly_QA_QC : clsBasePage
             }
 
             img.Style.Add("cursor", "pointer");
-            img.Attributes.Add("onclick", "ExpandCollapse('ctl00_ContentPlaceHolder1_" + img.ID + "','" + Convert.ToString(dtDistinct_Location.Rows[i]["Location"]).Replace("'","\\\'") + "')");
+            img.Attributes.Add("onclick", "ExpandCollapse('ctl00_ContentPlaceHolder1_" + img.ID + "','" + Convert.ToString(dtDistinct_Location.Rows[i]["Location"]).Replace("'", "\\\'") + "')");
             cell.Controls.Add(img);
             row.Cells.Add(cell);
 
@@ -313,5 +334,5 @@ public partial class SONIC_Exposures_EHS_Dates_RLCM_Monthly_QA_QC : clsBasePage
     }
 
     #endregion
-    
+
 }

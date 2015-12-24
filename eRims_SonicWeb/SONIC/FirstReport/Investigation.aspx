@@ -1041,7 +1041,7 @@
                                                                             <td align="center" style="width: 4%">:
                                                                             </td>
                                                                             <td align="left" colspan="4">
-                                                                                <asp:DropDownList runat="server" ID="ddlSonic_Cause_Code" ValidationGroup="valRootCause">
+                                                                                <asp:DropDownList runat="server" ID="ddlSonic_Cause_Code" ValidationGroup="valRootCause" AutoPostBack="true"  OnSelectedIndexChanged="ddlSonic_Cause_Code_SelectedIndexChanged">
                                                                                     <asp:ListItem Text="--SELECT--"></asp:ListItem>
                                                                                     <asp:ListItem Text="S0-1 - Strain, Sprain or Repetitive Motion"></asp:ListItem>
                                                                                     <asp:ListItem Text="S0-2 - Slip, Trip, or Fall"></asp:ListItem>

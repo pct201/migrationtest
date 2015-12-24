@@ -2471,5 +2471,20 @@ public partial class Exposures_Investigation : clsBasePage
 
     }
 
+    /// <summary>
+    /// On change of Cause Code from what was previously saved, automatically start the OSHA wizard
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void ddlSonic_Cause_Code_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (hdnOriginalSonicCode.Value != ddlSonic_Cause_Code.SelectedItem.Text && ddlSonic_Cause_Code.SelectedItem.Text.IndexOf("--SELECT--") == -1)
+        {
+            ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:OpenWizardPopup();", true);
+        }
+
+        lblOSHARecordable_Fields.Style["display"] = hdnOSHARecordable.Value.ToLower() == "yes" ? "inline-block" : "none";
+    }
+
     #endregion
 }
