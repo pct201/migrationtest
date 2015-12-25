@@ -360,7 +360,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         Tab.SetSelectedTab(Controls_ExposuresTab_ExposuresTab.Tab.AssetProtection);
         if (!Page.IsPostBack)
         {
-            if(App_Access == AccessType.NotAssigned && App_Assest_Protection != AccessType.View_Only)
+            if (App_Access == AccessType.NotAssigned && App_Assest_Protection != AccessType.View_Only)
                 Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc");
 
             LocationID = clsGeneral.GetQueryStringID(Request.QueryString["loc"]);
@@ -472,6 +472,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 BindCalAtlanticEventGrid();
                 BindFraudEventGrid();
                 SetValidation();
+
+                if (!string.IsNullOrEmpty(Request.QueryString["DEST"])) { BindOpenDPDFROIs(Convert.ToString(Request.QueryString["DEST"])); }
             }
         }
         else
@@ -1157,7 +1159,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 clsSession.First_Report_Wizard_ID = Convert.ToInt32(arg[2]);
                 FK_DPD_FR_Vehicle_ID = Convert.ToDecimal(arg[3]);
                 PK_DPD_Claims_ID = Convert.ToDecimal(arg[4]);
-                
+
             }
         }
 
@@ -4036,7 +4038,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             clsAP_Property_Security objPropertySec = new clsAP_Property_Security(PK_AP_Property_Security);
             txttotalHoursMonitoredPerWeek.Text = objPropertySec.Total_Hours_CCTV_Monitored_Per_Week;
 
-        }        
+        }
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
 
@@ -4126,7 +4128,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             }
             else if (StrOperation.ToLower() == "view")
             {
-                
+
                 BindDetailsForViewForDPD_FROIs();
             }
         }
@@ -5026,6 +5028,24 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
 
     #endregion
 
+    #region For RLCM QA QC Module
+    private void BindOpenDPDFROIs(string Dest)
+    {
+        if (Dest == "DPD")
+        {
+            rdoFROIs.SelectedIndex = 0;
+            rdoDPD_FROIsView.SelectedIndex = 0;
+            BindAP_DPD_FROIs_Grid(CtrlPagingDPD_FROIs.CurrentPage, CtrlPagingDPD_FROIs.PageSize);
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
+        }
+        else if (Dest == "AL")
+        {
+            rdoAL_FROIs.SelectedIndex = 0;
+            rdoAL_FROIsView.SelectedIndex = 0;
+            BindAP_AL_FROIs_Grid(CtrlPagingAL_FROIsView.CurrentPage, CtrlPagingAL_FROIsView.PageSize);
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);", true);
+        }
+    }
+    #endregion
 
-    
 }

@@ -1,7 +1,74 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Default.master" AutoEventWireup="true" CodeFile="RLCM_QA_QC.aspx.cs" Inherits="SONIC_Exposures_RLCM_QA_QC" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    
+    <script type="text/javascript" src="../../JavaScript/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        <%--function SetFROIAllowedTab(FroiType) {
+
+            alert(number[0]);
+            if (number[0] === "WC") '<%=clsSession.AllowedTab %>' = "1";
+        }--%>
+
+        function SetFROIAllowedTab(Hyperlink) {
+
+            if (Hyperlink) {
+                var number = Hyperlink.split("&");
+                //e.preventDefault();
+                if (number.length > 0) {
+                    var Jsondata = {};
+                    if (Hyperlink.indexOf("FirstReport") > -1) {
+                        Jsondata.WizardID = number[1].substring(number[1].indexOf("=") + 1);
+                        Jsondata.Type = "FirstReport";
+                        Jsondata.ClaimType = "";
+                    }
+                    else {
+                        Jsondata.WizardID = number[0].substring(number[0].indexOf("=") + 1);
+                        Jsondata.Type = "Claim";
+                        Jsondata.ClaimType = number[0].substring(number[0].indexOf("/", 5) + 1, number[0].indexOf("?", 5));
+                    }
+
+                    $.ajax({
+
+                        type: "POST",
+                        url: "RLCM_QA_QC.aspx/SetSessionTab",
+                        //data: '{ strWizardID: "' + WizardID + '" }',
+                        //data: { "Hyperlink": Jsondata.WizardID, "Type": Jsondata.Type },
+                        data: "{'Hyperlink':'" + Jsondata.WizardID + "', 'Type':'" + Jsondata.Type + "', 'ClaimType':'" + Jsondata.ClaimType + "'}",
+                        contentType: "application/json; charset=utf-8",
+                        async: false,
+                        dataType: "json",
+                        success: function (response) {
+                            window.open(Hyperlink, "_blank");
+                        },
+                        failure: function (response) {
+
+                        },
+                        error: function (xhr, status, error) {
+                            alert(xhr.responseText);
+                        }
+                    });
+                }
+            }
+        }
+
+        $(document).ready(function () {
+
+            $('a').each(function () {
+
+                if ($(this).text().trim() == 'N/A' || $(this).text().trim() == 'Monthly Review Complete' ) {
+                    $(this).css('cursor', 'default').css('text-decoration', 'none').css('pointer-events', 'none').css('color', 'WindowText');
+                    $(this).removeAttr("href");
+                    $(this).on("onclick", function (e) {
+                        e.preventDefault();
+                    });
+                }
+
+            });
+            
+        });
+
+        
+    </script>
     <div>
         <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
             HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
@@ -51,7 +118,7 @@
                     <td align="right" class="lc" valign="top">:
                     </td>
                     <td align="left" class="lc">
-                        <asp:DropDownList ID="ddlMonth" runat="server" Width="180px" SkinID="ddlSONIC" >
+                        <asp:DropDownList ID="ddlMonth" runat="server" Width="180px" SkinID="ddlSONIC">
                         </asp:DropDownList>
                         <asp:RequiredFieldValidator ID="rfvMonth" Display="none" runat="server" ControlToValidate="ddlMonth"
                             ErrorMessage="Please Select Month." Text="*" ValidationGroup="vsErrorGroup" InitialValue="0">
@@ -129,52 +196,53 @@
                 </tr>
             </table>
             <br />
-            <asp:GridView ID="gvRLCM" runat="server" AutoGenerateColumns="false" Width="100%" EmptyDataText="No Record Found." OnRowDataBound="gvRLCM_RowDataBound">
+            <asp:GridView ID="gvRLCM" runat="server" AutoGenerateColumns="false" Width="97%" EmptyDataText="No Record Found." OnRowDataBound="gvRLCM_RowDataBound" BorderWidth="1px" GridLines="Both">
                 <Columns>
-                    <asp:TemplateField HeaderText="Module" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
+                    <asp:TemplateField HeaderText="Module" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                         <ItemStyle Width="10%" />
                         <ItemTemplate>
                             <asp:Label ID="lblModule" runat="server" Text='<%# Eval("Module")%>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="System" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
+                    <asp:TemplateField HeaderText="System" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                         <ItemStyle Width="10%" />
                         <ItemTemplate>
                             <asp:Label ID="lblSystem" runat="server" Text='<%# Eval("System") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Task" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
-                        <ItemStyle Width="30%" />
+                        <ItemStyle Width="40%" />
                         <ItemTemplate>
                             <asp:Label ID="lblTask" runat="server" Text='<%# Eval("Task")%>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Category" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
-                        <ItemStyle Width="30%" />
+                        <ItemStyle Width="10%" />
                         <ItemTemplate>
                             <asp:Label ID="lblCategory" runat="server" Text='<%# Eval("Category")%>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Identifier &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Status" ItemStyle-HorizontalAlign="left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
-                        <ItemStyle Width="20%" />
+                    <asp:TemplateField HeaderText="Identifier &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Status" ItemStyle-HorizontalAlign="left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
+                        <ItemStyle Width="30%" />
                         <ItemTemplate>
-                            <table cellpadding="0" cellspacing="0" width="100%" >
+                            <table cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
                                     <td>
-                                        <asp:GridView ID="gvChildGrid" dontUseScrolls="true" runat="server" AutoGenerateColumns="false" GridLines="None" Width="100%" ShowHeader="False" OnRowDataBound="gvChildGrid_RowDataBound">
+                                        <asp:GridView ID="gvChildGrid" dontUseScrolls="true" runat="server" AutoGenerateColumns="false" GridLines="Both" Width="100%" ShowHeader="False" OnRowDataBound="gvChildGrid_RowDataBound">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="Identifier" ItemStyle-HorizontalAlign="left" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
-                                                    <ItemStyle Width="50%" />
-                                                     <ItemTemplate>
-                                                        <asp:LinkButton ID="lblIdentifier_Link" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_RLCM_QA_QC") %>'
-                                                            Text='<%# Eval("Number")%>'></asp:LinkButton>
+                                                    <ItemStyle Width="70%" />
+                                                    <ItemTemplate>
+                                                        <%--<asp:LinkButton ID="lblIdentifier_Link" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_RLCM_QA_QC") %>'
+                                                            Text='<%# Eval("Number")%>'></asp:LinkButton> || --%>
+                                                        <a href="#" onclick="javascript:SetFROIAllowedTab('<%# Eval("Hyperlink")%>')" id="lnkIdentifier"><%# Eval("Number")%></a>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White" >
-                                                   <ItemStyle Width="50%" />
+                                                <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
+                                                    <ItemStyle Width="30%" />
                                                     <ItemTemplate>
-                                                        <asp:CheckBox ID="chkStatus" runat="server"  Text='<%# Convert.ToBoolean(Eval("Status"))%>'></asp:CheckBox>
-                                                        <asp:HiddenField ID="hdnStatus" runat="server"  Value='<%# Convert.ToBoolean(Eval("Status"))%>' />
+                                                        <asp:CheckBox ID="chkStatus" runat="server" CssClass="checkbox"></asp:CheckBox>
+                                                        <asp:HiddenField ID="hdnStatus" runat="server" Value='<%# Eval("PK_RLCM_QA_QC")%>'/>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>
@@ -182,25 +250,27 @@
                                     </td>
                                 </tr>
                             </table>
-                        </ItemTemplate>
+                        </ItemTemplate>                        
                     </asp:TemplateField>
                 </Columns>
+
+
             </asp:GridView>
             <br />
-             <table width="50%">
+            <table width="80%">
                 <tr>
-                    <td>&nbsp;</td>
+                    <td colspan="2">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td>
-                        <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="vsErrorGroup" />
+                    <td align="right" style="padding-right:35px" width="50%">
+                        <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="vsErrorGroup" OnClick="btnSave_Click" />
                     </td>
-                    <td align="left">
-                        <asp:Button ID="btnCancel" runat="server" Text="Canel" ValidationGroup="vsErrorGroup" />
+                    <td align="left" style="padding-left:35px" width="50%">
+                        <asp:Button ID="btnCancel" runat="server" Text="Canel" ValidationGroup="vsErrorGroup" OnClick="btnCancel_Click" />
                     </td>
                 </tr>
                 <tr>
-                    <td>&nbsp;</td>
+                    <td colspan="2">&nbsp;</td>
                 </tr>
             </table>
         </asp:Panel>

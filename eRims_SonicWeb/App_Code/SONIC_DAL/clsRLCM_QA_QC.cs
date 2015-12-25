@@ -433,5 +433,30 @@ namespace ERIMS.DAL
            
             return db.ExecuteDataSet(dbCommand);
         }
+
+        public static void UpdateStatus(string strPK_RLCM_QA_QC_Checked, string strPK_RLCM_QA_QC_UnChecked, string Updated_By)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("RLCM_QA_QCUpdateStatus");
+
+            db.AddInParameter(dbCommand, "strPK_RLCM_QA_QC_Checked", DbType.String, strPK_RLCM_QA_QC_Checked);
+            db.AddInParameter(dbCommand, "strPK_RLCM_QA_QC_UnChecked", DbType.String, strPK_RLCM_QA_QC_UnChecked);
+            db.AddInParameter(dbCommand, "Updated_By", DbType.String, Updated_By);
+
+            db.ExecuteNonQuery(dbCommand);
+        }
+
+        public static void RLCM_QA_QC_CompleteInsertUpdateStatus(decimal rlcm, decimal year, decimal month, bool status, string Updated_By)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("RLCM_QA_QC_CompleteInsertUpdateStatus");
+            db.AddInParameter(dbCommand, "RLCM", DbType.Decimal, rlcm);
+            db.AddInParameter(dbCommand, "Year", DbType.Decimal, year);
+            db.AddInParameter(dbCommand, "Month", DbType.Decimal, month);
+            db.AddInParameter(dbCommand, "status", DbType.Boolean, status);
+            db.AddInParameter(dbCommand, "Updated_By", DbType.String, Updated_By);
+            db.ExecuteNonQuery(dbCommand);
+        }
+
 	}
 }
