@@ -2028,6 +2028,25 @@ public class ComboHelper
 
     }
 
+    public static void FillRlcmDropDownList(DropDownList[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.LU_Location.GetAllRlcm();
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Name";
+            ddlToFill.DataValueField = "FK_Employee_Id";
+            ddlToFill.DataSource = dsData;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+
+    }
+
     /// <summary>
     /// Used to bind Distinct Year for workers_comp_charges
     /// </summary>
