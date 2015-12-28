@@ -338,7 +338,7 @@ namespace ERIMS.DAL
 
         public SLT_Meeting_Schedule(decimal FK_SLT_Meeting, bool Status, DateTime? Actual_Meeting_DateFrom, DateTime? Actual_Meeting_DateTo, int Year, int Month)
         {
-            DataTable dtSLT_Meeting_Schedule = SelectBYFK(FK_SLT_Meeting, Actual_Meeting_DateFrom, Actual_Meeting_DateTo, Year, Month).Tables[0];
+            DataTable dtSLT_Meeting_Schedule = SelectBYFK(FK_SLT_Meeting, Actual_Meeting_DateFrom, Actual_Meeting_DateTo, Year, Month, "Actual_Meeting_Date", "DESC").Tables[0];//Default value of order by
 
             if (dtSLT_Meeting_Schedule.Rows.Count == 1)
             {
@@ -747,7 +747,7 @@ namespace ERIMS.DAL
         /// Selects all records from the SLT_Meeting_Schedule table By FK.
         /// </summary>
         /// <returns>DataSet</returns>
-        public static DataSet SelectBYFK(decimal FK_SLT_Meeting, DateTime? Actual_Meeting_DateFrom, DateTime? Actual_Meeting_DateTo, int Year, int Month)
+        public static DataSet SelectBYFK(decimal FK_SLT_Meeting, DateTime? Actual_Meeting_DateFrom, DateTime? Actual_Meeting_DateTo, int Year, int Month, string strOrderBy, string strOrder)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("SelectSLT_Meeting_ScheduleBYFK");
@@ -756,6 +756,8 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Actual_Meeting_DateTo", DbType.DateTime, Actual_Meeting_DateTo);
             db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);
             db.AddInParameter(dbCommand, "Month", DbType.Int32, Month);
+            db.AddInParameter(dbCommand, "strOrderBy", DbType.String, strOrderBy);
+            db.AddInParameter(dbCommand, "strOrder", DbType.String, strOrder);
             return db.ExecuteDataSet(dbCommand);
         }
         /// <summary>

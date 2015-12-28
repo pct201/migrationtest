@@ -551,5 +551,14 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "IsAnnual", DbType.Boolean, IsAnnual);
             db.ExecuteNonQuery(dbCommand);
         }
+
+        public static DataSet GetSLTQuestions_OfNextMeeting(decimal FK_SLT_Meeting, decimal FK_SLT_Meeting_Schedule)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("GetSLTQuestions_OfNextMeeting");
+            db.AddInParameter(dbCommand, "PK_SLT_Meeting_Schedule", DbType.Decimal, FK_SLT_Meeting_Schedule);
+            db.AddInParameter(dbCommand, "FK_SLT_Meeting", DbType.Decimal, FK_SLT_Meeting);
+            return db.ExecuteDataSet(dbCommand);
+        }
 	}
 }

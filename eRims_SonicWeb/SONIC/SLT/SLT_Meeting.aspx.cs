@@ -102,6 +102,15 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         set { ViewState["PK_SLT_Safety_Walk"] = value; }
     }
 
+    public decimal PK_SLT_BT_Security_Walk
+    {
+        get
+        {
+            return clsGeneral.GetInt(ViewState["PK_SLT_BT_Security_Walk"]);
+        }
+        set { ViewState["PK_SLT_BT_Security_Walk"] = value; }
+    }
+
     public decimal PK_SLT_Suggestion
     {
         get
@@ -250,6 +259,12 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         set { ViewState["UserGroup"] = value; }
     }
 
+    private bool IsUserRLCM
+    {
+        get { if (ViewState["IsUserRLCM"] != null)return Convert.ToBoolean(ViewState["IsUserRLCM"]); else return false; }
+        set { ViewState["IsUserRLCM"] = value; }
+    }
+
     private int _Quarter;
 
     public int Quarter
@@ -265,6 +280,22 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         get { return _AssociateStatus; }
         set { _AssociateStatus = value; }
     }
+
+    private string SortBy_Meeting
+    {
+        get { return (!clsGeneral.IsNull(ViewState["SortBy_Meeting"]) ? ViewState["SortBy_Meeting"].ToString() : "Actual_Meeting_Date"); }
+        set { ViewState["SortBy_Meeting"] = value; }
+    }
+
+    /// <summary>
+    /// Denotes ascending or descending order
+    /// </summary>
+    private string SortOrder_Meeting
+    {
+        get { return (!clsGeneral.IsNull(ViewState["SortOrder_Meeting"]) ? ViewState["SortOrder_Meeting"].ToString() : "DESC"); }
+        set { ViewState["SortOrder_Meeting"] = value; }
+    }
+
     #region Incident Review
     public string Year
     {
@@ -322,14 +353,17 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
 
             //Menu5.Attributes.Add("onclick", "javascript:ShowPanel(5);");
             lblSLTWalk.Text = "Monthly SLT Safety Walk Grid for " + DateTime.Now.Year.ToString();
+            lblBTWalk.Text = "Monthly SLT BT Security Walk Grid for " + DateTime.Now.Year.ToString();
             if (PK_SLT_Meeting_Schedule > 0)
             {
                 gvSLTSafetyWalk.Enabled = true;
+                gvBTSecurityWalk.Enabled = true;
                 //btnSave_SLTSafety.Visible = true;
             }
             else
             {
                 gvSLTSafetyWalk.Enabled = false;
+                gvBTSecurityWalk.Enabled = false;
                 //btnSave_SLTSafety.Visible = false;
             }
             // shows the first panel
@@ -343,7 +377,12 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                     FillIncident_Review();
                     // Bind Controls
                     BindDropDownsForView();
-                    if (App_Access == AccessType.View_Only) btnEdit.Visible = false;
+                    if (App_Access == AccessType.View_Only)
+                    {
+                        btnEdit.Visible = false;
+                        Attachments_SLT.isViewOnly = true;
+                        AttachDetails.isViewOnly = true;
+                    }
                     else btnEdit.Visible = false;
                     BindDetailsForView();
 
@@ -369,14 +408,24 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                     //    gvMeeting.Columns[gvMeeting.Columns.Count - 1].Visible = false;
                     //}
                     DataSet dtTemp = Security.SelectGroupByUserID(Convert.ToDecimal(clsSession.UserID));
-                    if (dtTemp != null && dtTemp.Tables.Count > 0 && dtTemp.Tables[0].Rows.Count > 0)
+                    if (dtTemp != null && dtTemp.Tables.Count > 0)
                     {
-                        DataRow[] drTmpRows = dtTemp.Tables[0].Select(" Group_Name = 'Administrative' ");
-                        if (drTmpRows.Length > 0)
-                            IsUserInAdministrativeGroup = true;
-                        else
-                            IsUserInAdministrativeGroup = false;
+                        if (dtTemp.Tables[0].Rows.Count > 0)
+                        {
+                            DataRow[] drTmpRows = dtTemp.Tables[0].Select(" Group_Name = 'Administrative' ");
+                            //if (drTmpRows.Length > 0)
+                            //    IsUserInAdministrativeGroup = true;
+                            //else
+                            //    IsUserInAdministrativeGroup = false;
+                            IsUserInAdministrativeGroup = (drTmpRows.Length > 0);
+                        }
+                        IsUserRLCM = (dtTemp.Tables[1].Rows.Count > 0);//if RLCM user #Issue 3439 Pt. 5
+                        //if (dtTemp.Tables[1].Rows.Count > 0)//if RLCM user #Issue 3439 Pt. 5
+                        //    IsUserRLCM = true;
+                        //else
+                        //    IsUserRLCM = false;
                     }
+
                 }
                 if (meetingIsEditable != true)
                 {
@@ -387,13 +436,17 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 pnl16.Style["Display"] = "none";
                 pnl15View.Style["Display"] = "";
                 pnl16View.Style["Display"] = "none";
+
+                pnlBTSecurityGrid.Style["Display"] = "";
+                pnlBTSecurity.Style["Display"] = "none";
+                pnlBTSecurityGridView.Style["Display"] = "";
+                pnlBTSecurityView.Style["Display"] = "none";
             }
-
             if (!string.IsNullOrEmpty(Request.QueryString["PSMS"])) { BindMeetingDataForRLCMQAQC(); }
-
             txtCurrent_Date.Text = DateTime.Now.ToShortDateString();
         }
-
+        else
+            txtMeeting_Comment.Width = txtSuggestion_Description.Width = txtSuggestion_Notes.Width = 527;
         //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
     #endregion
@@ -481,32 +534,32 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     public void FillIncident_Review()
     {
         FillIncident_ReviewGrid();
-        //if (StrOperation == "view")
-        //{
-        #region
-        IncidentReview_WC.Year = Year;//IncidentReview_AL.Year = IncidentReview_PL.Year = IncidentReview_DPD.Year = IncidentReview_Property.Year =
-        IncidentReview_WC.Month = Month;//IncidentReview_AL.Month = IncidentReview_PL.Month = IncidentReview_DPD.Month = IncidentReview_Property.Month = 
-        IncidentReview_WC.FK_LU_Location_ID = FK_LU_Location_ID;
-        IncidentReview_WC.FK_SLT_Meeting = PK_SLT_Meeting;
-        if (meetingIsEditable == false)
-            IncidentReview_WC.StrOperation = "view";
-        else
-            IncidentReview_WC.StrOperation = StrOperation;
-        IncidentReview_WC.FillAllIncident_Grid();
-        #endregion
-        #region View Mode
-        IncidentReview_WC_View.Year = Year;
-        IncidentReview_WC_View.Month = Month;
-        IncidentReview_WC_View.FK_LU_Location_ID = FK_LU_Location_ID;
-        IncidentReview_WC_View.FK_SLT_Meeting = PK_SLT_Meeting;
-        IncidentReview_WC_View.StrOperation = "view";
-        IncidentReview_WC_View.FillAllIncident_Grid();
-        #endregion
-        //}
-        //else
-        //{
 
-        //}
+        if (StrOperation == "view")
+        {
+            #region View Mode
+            IncidentReview_WC_View.Year = Year;
+            IncidentReview_WC_View.Month = Month;
+            IncidentReview_WC_View.FK_LU_Location_ID = FK_LU_Location_ID;
+            IncidentReview_WC_View.FK_SLT_Meeting = PK_SLT_Meeting;
+            IncidentReview_WC_View.StrOperation = "view";
+            IncidentReview_WC_View.FillAllIncident_Grid();
+            #endregion
+        }
+        else
+        {
+            #region
+            IncidentReview_WC.Year = Year;//IncidentReview_AL.Year = IncidentReview_PL.Year = IncidentReview_DPD.Year = IncidentReview_Property.Year =
+            IncidentReview_WC.Month = Month;//IncidentReview_AL.Month = IncidentReview_PL.Month = IncidentReview_DPD.Month = IncidentReview_Property.Month = 
+            IncidentReview_WC.FK_LU_Location_ID = FK_LU_Location_ID;
+            IncidentReview_WC.FK_SLT_Meeting = PK_SLT_Meeting;
+            if (meetingIsEditable == false)
+                IncidentReview_WC.StrOperation = "view";
+            else
+                IncidentReview_WC.StrOperation = StrOperation;
+            IncidentReview_WC.FillAllIncident_Grid();
+            #endregion
+        }
     }
     /// <summary>
     /// Set Year and Month for All Incident Types
@@ -652,6 +705,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             BindSLTMemberYearGrid();
             BindSaftyWalkGrid();
             BindSaftyWalkGridNew();
+
             if (PK_SLT_Meeting_Schedule > 0 || PK_SLT_Meeting_Schedule == -1)
             {
                 BindAttendeesGrid();
@@ -745,7 +799,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 Year = Convert.ToInt32(drpMeeting_AgendaYear.SelectedValue);
                 Month = Convert.ToInt32(drpMeeting_AgendaMonth.SelectedValue);
             }
-            DataTable Dtmeeting_ScheduleEdit = SLT_Meeting_Schedule.SelectBYFK(PK_SLT_Meeting, FromDate, TOdate, Year, Month).Tables[0];
+            DataTable Dtmeeting_ScheduleEdit = SLT_Meeting_Schedule.SelectBYFK(PK_SLT_Meeting, FromDate, TOdate, Year, Month, SortBy_Meeting, SortOrder_Meeting).Tables[0];
             gvMeeting.DataSource = Dtmeeting_ScheduleEdit;
             gvMeeting.DataBind();
         }
@@ -761,7 +815,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 Year = Convert.ToInt32(drpMeeting_AgendaYearView.SelectedValue);
                 Month = Convert.ToInt32(drpMeeting_AgendaMonthView.SelectedValue);
             }
-            DataTable Dtmeeting_ScheduleView = SLT_Meeting_Schedule.SelectBYFK(PK_SLT_Meeting, FromDate, TOdate, Year, Month).Tables[0];
+            DataTable Dtmeeting_ScheduleView = SLT_Meeting_Schedule.SelectBYFK(PK_SLT_Meeting, FromDate, TOdate, Year, Month, SortBy_Meeting, SortOrder_Meeting).Tables[0];
             gvMeetingView.DataSource = Dtmeeting_ScheduleView;
             gvMeetingView.DataBind();
         }
@@ -908,11 +962,13 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             if (PK_SLT_Meeting_Schedule > 0)
             {
                 gvSLTSafetyWalk.Enabled = true;
+                gvBTSecurityWalk.Enabled = true;
                 //btnSave_SLTSafety.Visible = true;
             }
             else
             {
                 gvSLTSafetyWalk.Enabled = false;
+                gvBTSecurityWalk.Enabled = false;
                 //btnSave_SLTSafety.Visible = false;
             }
             BindSafetyWalkDetails();
@@ -1122,11 +1178,13 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         BindGridTrainingSuggstions();
         BindSaftyWalkGridNew();
         BindSaftyWalkGrid();
+        BindBTSecurityGrid();
         BindGridInspection();
         BindClaimManagementGrid();
         BindInspection_ResponseGrid();
         gvSafetywalkAttachmentDetails.DataBind();
         BindTrainingAttachment();
+        Bind_Meeting_Review_AttachmentDetails();
         ShowTraining_QuarterResults();
     }
 
@@ -1182,6 +1240,8 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         gvMeetingAttendeesView.DataBind();
         BindSaftyWalkGridNew();
         BindSaftyWalkGrid();
+        BindBTSecurityGrid();
+        BindBTSecurityWalkGrid();
         BindGridNewProcedures();
         BindGridSuggestions();
         BindGridInspection();
@@ -1190,6 +1250,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         BindGridTrainingSuggstions();
         gvSafetywalkAttachmentView.DataBind();
         BindTrainingAttachment();
+        Bind_Meeting_Review_AttachmentDetails();
         ShowTraining_QuarterResults();
     }
     #endregion
@@ -1232,6 +1293,41 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         }
     }
 
+    private void BindBTSecurityGrid()
+    {
+        string month;
+        int Year;
+
+        month = Convert.ToString(Actual_Meeting_Date.Month);
+        Year = Actual_Meeting_Date.Year;
+        DataTable dtSlt_members = clsLU_SLT_BT_Security_Walk_Focus_Area.GetMonthlySLTSafetyWalkGrid(PK_SLT_Meeting, Convert.ToInt32(month), PK_SLT_Meeting_Schedule, Year).Tables[0];
+        if (StrOperation != "view" && meetingIsEditable == true)
+        {
+            gvBTSecurityWalk.DataSource = dtSlt_members;
+            gvBTSecurityWalk.DataBind();
+        }
+        else
+        {
+            gvSLTBTSecurityWalkView.DataSource = dtSlt_members;
+            gvSLTBTSecurityWalkView.DataBind();
+        }
+    }
+
+    private void BindBTSecurityWalkGrid()
+    {
+        DataTable dtSlt_members = SLT_Members.SLT_MembersSelectByFk(PK_SLT_Meeting, 0, PK_SLT_Meeting_Schedule).Tables[0];
+        if (StrOperation != "view" && meetingIsEditable == true)
+        {
+            gvMonBTSecurityWalk.DataSource = dtSlt_members;
+            gvMonBTSecurityWalk.DataBind();
+        }
+        else
+        {
+            gvMonBTSecurityWalkView.DataSource = dtSlt_members;
+            gvMonBTSecurityWalkView.DataBind();
+        }
+    }
+
     private void BindSafetyWalkAttachment()
     {
         DataTable dtAttachment = ERIMSAttachment.SelectByTableName("SLT_Safety_Walk", Convert.ToInt32(PK_SLT_Safety_Walk)).Tables[0];
@@ -1246,6 +1342,22 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             gvSafetywalkAttachmentView.DataBind();
         }
     }
+
+    private void BindBTSecurityWalkAttachment()
+    {
+        DataTable dtAttachment = ERIMSAttachment.SelectByTableName("SLT_BT_Security_Walk", Convert.ToInt32(PK_SLT_BT_Security_Walk)).Tables[0];
+        if (StrOperation != "view" && meetingIsEditable == true)
+        {
+            gvBTSecuritywalkAttachmentDetails.DataSource = dtAttachment;
+            gvBTSecuritywalkAttachmentDetails.DataBind();
+        }
+        else
+        {
+            gvBTSecuritywalkAttachmentView.DataSource = dtAttachment;
+            gvBTSecuritywalkAttachmentView.DataBind();
+        }
+    }
+
     protected void Upload_SaftyWalk_Attachment()
     {
         if (PK_SLT_Meeting_Schedule > 0)
@@ -1260,6 +1372,26 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         else
         {
             Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);alert('Please add or select meeting agenda record');", true);
+        }
+    }
+
+    /// <summary>
+    /// called when uploading T Security attachment
+    /// </summary>
+    protected void Upload_BTSecurityWalk_Attachment()
+    {
+        if (PK_SLT_Meeting_Schedule > 0)
+        {
+            SaveBTSecurityWalk();
+            //add attachment
+            BTSecwalkAttachment.AddSLTAttachment(clsGeneral.SLT_Tables.SLT_BT_Security_Walk, PK_SLT_BT_Security_Walk);
+            trBTSecWalkAttachment.Style.Add("display", "none");
+            BindBTSecurityWalkAttachment();
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(15);", true);
+        }
+        else
+        {
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(15);alert('Please add or select meeting agenda record');", true);
         }
     }
 
@@ -1326,6 +1458,74 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         else
         {
             Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);alert('Please add or select meeting agenda record');", true);
+        }
+        #endregion
+    }
+
+    private void SaveBTSecurityWalk()
+    {
+        #region "SLT_BT_Security_Walk"
+        if (PK_SLT_Meeting_Schedule > 0)
+        {
+            clsSLT_BT_Security_Walk objSLT_BT_Security_Walk = new clsSLT_BT_Security_Walk(PK_SLT_Meeting_Schedule, true);
+            objSLT_BT_Security_Walk.PK_SLT_BT_Security_Walk = PK_SLT_BT_Security_Walk;
+            objSLT_BT_Security_Walk.FK_SLT_Meeting = PK_SLT_Meeting;
+            objSLT_BT_Security_Walk.FK_SLT_Meeting_Schedule = PK_SLT_Meeting_Schedule;
+            objSLT_BT_Security_Walk.BT_Security_Walk_Comp = rdoBTSecurity_Walk_Comp.SelectedValue == "Y";
+            objSLT_BT_Security_Walk.BT_Security_Walk_Comp_Date = clsGeneral.FormatNullDateToStore(txtBTSecurity_Walk_Comp_Date.Text);
+            objSLT_BT_Security_Walk.Sales_Reviewed = rdoBTSecSales_Reviewed.SelectedValue;
+            objSLT_BT_Security_Walk.Sales_Deficiencies = rdoBTSecSales_Deficiencies.SelectedValue;
+            objSLT_BT_Security_Walk.Sales_Comments = txtBTSecSales_Comments.Text.Trim();
+            objSLT_BT_Security_Walk.Parts_Reviewed = rdoBTSecParts_Reviewed.SelectedValue;
+            objSLT_BT_Security_Walk.Parts_Deficiencies = rdoBTSecParts_Deficiencies.SelectedValue;
+            objSLT_BT_Security_Walk.Parts_Comments = txtBTSecParts_Comments.Text.Trim();
+            objSLT_BT_Security_Walk.Service_Facility_Reviewed = rdoBTSecService_Facility_Reviewed.SelectedValue;
+            objSLT_BT_Security_Walk.Service_Deficiencies = rdoBTSecService_Deficiencies.SelectedValue;
+            objSLT_BT_Security_Walk.Service_Comments = txtBTSecService_Comments.Text.Trim();
+            objSLT_BT_Security_Walk.Body_Shop_Reviewed = rdoBTSecBody_Shop_Reviewed.SelectedValue;
+            objSLT_BT_Security_Walk.Body_Shop_Deficiencies = rdoBTSecBody_Shop_Deficiencies.SelectedValue;
+            objSLT_BT_Security_Walk.Body_Shop_Comments = txtBTSecBody_Shop_Comments.Text.Trim();
+            objSLT_BT_Security_Walk.Bus_Off_Reviewed = rdoBTSecBus_Off_Reviewed.SelectedValue;
+            objSLT_BT_Security_Walk.Bus_Off_Deficiencies = rdoBTSecBus_Off_Deficiencies.SelectedValue;
+            objSLT_BT_Security_Walk.Bus_Off_Comments = txtBTSecBus_Off_Comments.Text.Trim();
+            objSLT_BT_Security_Walk.Detail_Area_Reviewed = rdoBTSecDetail_Area_Reviewed.SelectedValue;
+            objSLT_BT_Security_Walk.Detail_Deficiencies = rdoBTSecDetail_Deficiencies.SelectedValue;
+            objSLT_BT_Security_Walk.Detail_Comments = txtBTSecDetail_Comments.Text.Trim();
+            objSLT_BT_Security_Walk.Car_Wash_Reviewed = rdoBTSecCar_Wash_Reviewed.SelectedValue;
+            objSLT_BT_Security_Walk.Car_Wash_Deficiencies = rdoBTSecCar_Wash_Deficiencies.SelectedValue;
+            objSLT_BT_Security_Walk.Car_Wash_Comments = txtBTSecCar_Wash_Comments.Text.Trim();
+            objSLT_BT_Security_Walk.Parking_Lot_Reviewed = rdoBTSecParking_Lot_Reviewed.SelectedValue;
+            objSLT_BT_Security_Walk.Parking_Deficiencies = rdoBTSecParking_Deficiencies.SelectedValue;
+            objSLT_BT_Security_Walk.Parking_Comments = txtBTSecParking_Comments.Text.Trim();
+            objSLT_BT_Security_Walk.Update_Date = System.DateTime.Now;
+            objSLT_BT_Security_Walk.Updated_By = clsSession.UserID;
+
+            if (PK_SLT_BT_Security_Walk > 0)
+                objSLT_BT_Security_Walk.Update();
+            else
+                PK_SLT_BT_Security_Walk = objSLT_BT_Security_Walk.Insert();
+
+            foreach (GridViewRow gRow1 in gvMonBTSecurityWalk.Rows)
+            {
+                if (((HiddenField)(gRow1.FindControl("hdnFK_SLT_Member"))).Value != "")
+                    PK_SLT_Member = Convert.ToDecimal(((HiddenField)(gRow1.FindControl("hdnFK_SLT_Member"))).Value);
+
+                clsSLT_BT_Security_Walk_Members objSLT_BT_Security_Walk_Members = new clsSLT_BT_Security_Walk_Members(PK_SLT_Member, true, PK_SLT_BT_Security_Walk);
+                objSLT_BT_Security_Walk_Members.FK_SLT_BT_Security_Walk = PK_SLT_BT_Security_Walk;
+                objSLT_BT_Security_Walk_Members.FK_SLT_Members = PK_SLT_Member;
+                objSLT_BT_Security_Walk_Members.Participated = ((RadioButtonList)(gRow1.FindControl("rdoBTSecParticipated"))).SelectedValue == "Y";
+                if (objSLT_BT_Security_Walk_Members.PK_SLT_BT_Security_Walk_Members > 0)
+                    objSLT_BT_Security_Walk_Members.Update();
+                else
+                    objSLT_BT_Security_Walk_Members.Insert();
+            }
+
+            //GetSLT_Score();//BT Security Walk is to NOT be included in the scoring of the SLT Meeting AS PER REQUIREMENT DOC
+            //BindMeetingScheduleGrid();
+        }
+        else
+        {
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(15);alert('Please add or select meeting agenda record');", true);
         }
         #endregion
     }
@@ -1482,6 +1682,145 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         }
         BindSafetyWalkAttachment();
     }
+
+    private void BindBTSecurityWalkDetails()
+    {
+        if (StrOperation.ToLower() != "view" && meetingIsEditable == true)
+        {
+            #region "SLT_BT_Security_Walk Edit Mode"
+            clsSLT_BT_Security_Walk objSLT_BT_Security_Walk = new clsSLT_BT_Security_Walk(PK_SLT_Meeting_Schedule, true);
+            PK_SLT_BT_Security_Walk = Convert.ToDecimal(objSLT_BT_Security_Walk.PK_SLT_BT_Security_Walk);
+            if (objSLT_BT_Security_Walk.BT_Security_Walk_Comp != null) rdoBTSecurity_Walk_Comp.SelectedValue = Convert.ToBoolean(objSLT_BT_Security_Walk.BT_Security_Walk_Comp) == true ? "Y" : "N";
+            txtBTSecurity_Walk_Comp_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objSLT_BT_Security_Walk.BT_Security_Walk_Comp_Date);
+            rdoBTSecSales_Reviewed.SelectedValue = objSLT_BT_Security_Walk.Sales_Reviewed == null ? "N" : objSLT_BT_Security_Walk.Sales_Reviewed;
+            if (objSLT_BT_Security_Walk.Sales_Reviewed == "Y")
+                trBTSecSales.Style.Add("display", "");
+            else
+                trBTSecSales.Style.Add("display", "none");
+
+            rdoBTSecSales_Deficiencies.SelectedValue = objSLT_BT_Security_Walk.Sales_Deficiencies == null ? "2" : objSLT_BT_Security_Walk.Sales_Deficiencies;
+            txtBTSecSales_Comments.Text = objSLT_BT_Security_Walk.Sales_Comments;
+            rdoBTSecParts_Reviewed.SelectedValue = objSLT_BT_Security_Walk.Parts_Reviewed == null ? "N" : objSLT_BT_Security_Walk.Parts_Reviewed;
+            if (objSLT_BT_Security_Walk.Parts_Reviewed == "Y")
+                trBTSecParts.Style.Add("display", "");
+            else
+                trBTSecParts.Style.Add("display", "none");
+            rdoBTSecParts_Deficiencies.SelectedValue = objSLT_BT_Security_Walk.Parts_Deficiencies == null ? "2" : objSLT_BT_Security_Walk.Parts_Deficiencies;
+            txtBTSecParts_Comments.Text = objSLT_BT_Security_Walk.Parts_Comments;
+            rdoBTSecService_Facility_Reviewed.SelectedValue = objSLT_BT_Security_Walk.Service_Facility_Reviewed == null ? "N" : objSLT_BT_Security_Walk.Service_Facility_Reviewed;
+            if (objSLT_BT_Security_Walk.Service_Facility_Reviewed == "Y")
+                trBTSecService.Style.Add("display", "");
+            else
+                trBTSecService.Style.Add("display", "none");
+            rdoBTSecService_Deficiencies.SelectedValue = objSLT_BT_Security_Walk.Service_Deficiencies == null ? "2" : objSLT_BT_Security_Walk.Service_Deficiencies;
+            txtBTSecService_Comments.Text = objSLT_BT_Security_Walk.Service_Comments;
+            rdoBTSecBody_Shop_Reviewed.SelectedValue = objSLT_BT_Security_Walk.Body_Shop_Reviewed == null ? "N" : objSLT_BT_Security_Walk.Body_Shop_Reviewed;
+            if (objSLT_BT_Security_Walk.Body_Shop_Reviewed == "Y")
+                trBTSecBody_Shop.Style.Add("display", "");
+            else
+                trBTSecBody_Shop.Style.Add("display", "none");
+            rdoBTSecBody_Shop_Deficiencies.SelectedValue = objSLT_BT_Security_Walk.Body_Shop_Deficiencies == null ? "2" : objSLT_BT_Security_Walk.Body_Shop_Deficiencies;
+            txtBTSecBody_Shop_Comments.Text = objSLT_BT_Security_Walk.Body_Shop_Comments;
+            rdoBTSecBus_Off_Reviewed.SelectedValue = objSLT_BT_Security_Walk.Bus_Off_Reviewed == null ? "N" : objSLT_BT_Security_Walk.Bus_Off_Reviewed;
+            if (objSLT_BT_Security_Walk.Bus_Off_Reviewed == "Y")
+                trBTSecBusiness.Style.Add("display", "");
+            else
+                trBTSecBusiness.Style.Add("display", "none");
+            rdoBTSecBus_Off_Deficiencies.SelectedValue = objSLT_BT_Security_Walk.Bus_Off_Deficiencies == null ? "2" : objSLT_BT_Security_Walk.Bus_Off_Deficiencies;
+            txtBTSecBus_Off_Comments.Text = objSLT_BT_Security_Walk.Bus_Off_Comments;
+            rdoBTSecDetail_Area_Reviewed.SelectedValue = objSLT_BT_Security_Walk.Detail_Area_Reviewed == null ? "N" : objSLT_BT_Security_Walk.Detail_Area_Reviewed;
+            if (objSLT_BT_Security_Walk.Detail_Area_Reviewed == "Y")
+                trBTSecDetailArea.Style.Add("display", "");
+            else
+                trBTSecDetailArea.Style.Add("display", "none");
+            rdoBTSecDetail_Deficiencies.SelectedValue = objSLT_BT_Security_Walk.Detail_Deficiencies == null ? "2" : objSLT_BT_Security_Walk.Detail_Deficiencies;
+            txtBTSecDetail_Comments.Text = objSLT_BT_Security_Walk.Detail_Comments;
+            rdoBTSecCar_Wash_Reviewed.SelectedValue = objSLT_BT_Security_Walk.Car_Wash_Reviewed == null ? "N" : objSLT_BT_Security_Walk.Car_Wash_Reviewed;
+            if (objSLT_BT_Security_Walk.Car_Wash_Reviewed == "Y")
+                trBTSecCarWash.Style.Add("display", "");
+            else
+                trBTSecCarWash.Style.Add("display", "none");
+            rdoBTSecCar_Wash_Deficiencies.SelectedValue = objSLT_BT_Security_Walk.Car_Wash_Deficiencies == null ? "2" : objSLT_BT_Security_Walk.Car_Wash_Deficiencies;
+            txtBTSecCar_Wash_Comments.Text = objSLT_BT_Security_Walk.Car_Wash_Comments;
+            rdoBTSecParking_Lot_Reviewed.SelectedValue = objSLT_BT_Security_Walk.Parking_Lot_Reviewed == null ? "N" : objSLT_BT_Security_Walk.Parking_Lot_Reviewed;
+            if (objSLT_BT_Security_Walk.Parking_Lot_Reviewed == "Y")
+                trBTSecParking.Style.Add("display", "");
+            else
+                trBTSecParking.Style.Add("display", "none");
+            rdoBTSecParking_Deficiencies.SelectedValue = objSLT_BT_Security_Walk.Parking_Deficiencies == null ? "2" : objSLT_BT_Security_Walk.Parking_Deficiencies;
+            txtBTSecParking_Comments.Text = objSLT_BT_Security_Walk.Parking_Comments;
+
+            #endregion
+        }
+        else
+        {
+            #region "Slt_BTSecuirtyWalk View"
+            clsSLT_BT_Security_Walk objSLT_BT_Security_Walk = new clsSLT_BT_Security_Walk(PK_SLT_Meeting_Schedule, true);
+            PK_SLT_BT_Security_Walk = Convert.ToDecimal(objSLT_BT_Security_Walk.PK_SLT_BT_Security_Walk);
+            lblBT_Security_Walk_Comp.Text = Convert.ToBoolean(objSLT_BT_Security_Walk.BT_Security_Walk_Comp) == true ? "Yes" : "No";
+            lblBT_Security_Walk_Comp_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objSLT_BT_Security_Walk.BT_Security_Walk_Comp_Date);
+            lblBTSecSales_Reviewed.Text = objSLT_BT_Security_Walk.Sales_Reviewed == "Y" ? "Yes" : "No";
+            if (objSLT_BT_Security_Walk.Sales_Reviewed == "Y")
+                trBTSecSalesView.Style.Add("display", "");
+            else
+                trBTSecSalesView.Style.Add("display", "none");
+            lblBTSecSales_Deficiencies.Text = objSLT_BT_Security_Walk.Sales_Deficiencies == null ? " " : SetYesNoNone(objSLT_BT_Security_Walk.Sales_Deficiencies);
+            lblBTSecSales_Comments.Text = objSLT_BT_Security_Walk.Sales_Comments;
+            lblBTSecParts_Reviewed.Text = objSLT_BT_Security_Walk.Parts_Reviewed == "Y" ? "Yes" : "No";
+            if (objSLT_BT_Security_Walk.Parts_Reviewed == "Y")
+                trBTSecPartsView.Style.Add("display", "");
+            else
+                trBTSecPartsView.Style.Add("display", "none");
+            lblBTSecParts_Deficiencies.Text = objSLT_BT_Security_Walk.Parts_Deficiencies == null ? " " : SetYesNoNone(objSLT_BT_Security_Walk.Parts_Deficiencies);
+            lblBTSecParts_Comments.Text = objSLT_BT_Security_Walk.Parts_Comments;
+            lblBTSecService_Facility_Reviewed.Text = objSLT_BT_Security_Walk.Service_Facility_Reviewed == "Y" ? "Yes" : "No";
+            if (objSLT_BT_Security_Walk.Service_Facility_Reviewed == "Y")
+                trBTSecServiceView.Style.Add("display", "");
+            else
+                trBTSecServiceView.Style.Add("display", "none");
+            lblBTSecService_Deficiencies.Text = objSLT_BT_Security_Walk.Service_Deficiencies == null ? " " : SetYesNoNone(objSLT_BT_Security_Walk.Service_Deficiencies);
+            lblBTSecService_Comments.Text = objSLT_BT_Security_Walk.Service_Comments;
+            lblBTSecBody_Shop_Reviewed.Text = objSLT_BT_Security_Walk.Body_Shop_Reviewed == "Y" ? "Yes" : "No";
+            if (objSLT_BT_Security_Walk.Body_Shop_Reviewed == "Y")
+                trBTSecBody_ShopView.Style.Add("display", "");
+            else
+                trBTSecBody_ShopView.Style.Add("display", "none");
+            lblBTSecBody_Shop_Deficiencies.Text = objSLT_BT_Security_Walk.Body_Shop_Deficiencies == null ? " " : SetYesNoNone(objSLT_BT_Security_Walk.Body_Shop_Deficiencies);
+            lblBTSecBody_Shop_Comments.Text = objSLT_BT_Security_Walk.Body_Shop_Comments;
+            lblBTSecBus_Off_Reviewed.Text = objSLT_BT_Security_Walk.Bus_Off_Reviewed == "Y" ? "Yes" : "No";
+            if (objSLT_BT_Security_Walk.Bus_Off_Reviewed == "Y")
+                trBTSecBusinessView.Style.Add("display", "");
+            else
+                trBTSecBusinessView.Style.Add("display", "none");
+            lblBTSecBus_Off_Deficiencies.Text = objSLT_BT_Security_Walk.Bus_Off_Deficiencies == null ? " " : SetYesNoNone(objSLT_BT_Security_Walk.Bus_Off_Deficiencies);
+            lblBTSecBus_Off_Comments.Text = objSLT_BT_Security_Walk.Bus_Off_Comments;
+            lblBTSecDetail_Area_Reviewed.Text = objSLT_BT_Security_Walk.Detail_Area_Reviewed == "Y" ? "Yes" : "No";
+            if (objSLT_BT_Security_Walk.Detail_Area_Reviewed == "Y")
+                trBTSecDetailAreaView.Style.Add("display", "");
+            else
+                trBTSecDetailAreaView.Style.Add("display", "none");
+            lblBTSecDetail_Deficiencies.Text = objSLT_BT_Security_Walk.Detail_Deficiencies == null ? " " : SetYesNoNone(objSLT_BT_Security_Walk.Detail_Deficiencies);
+            lblBTSecDetail_Comments.Text = objSLT_BT_Security_Walk.Detail_Comments;
+            lblBTSecCar_Wash_Reviewed.Text = objSLT_BT_Security_Walk.Car_Wash_Reviewed == "Y" ? "Yes" : "No";
+            if (objSLT_BT_Security_Walk.Car_Wash_Reviewed == "Y")
+                trBTSecCarWashView.Style.Add("display", "");
+            else
+                trBTSecCarWashView.Style.Add("display", "none");
+            lblBTSecCar_Wash_Deficiencies.Text = objSLT_BT_Security_Walk.Car_Wash_Deficiencies == null ? " " : SetYesNoNone(objSLT_BT_Security_Walk.Car_Wash_Deficiencies);
+            lblBTSecCar_Wash_Comments.Text = objSLT_BT_Security_Walk.Car_Wash_Comments;
+            lblBTSecParking_Lot_Reviewed.Text = objSLT_BT_Security_Walk.Parking_Lot_Reviewed == "Y" ? "Yes" : "No";
+            if (objSLT_BT_Security_Walk.Parking_Lot_Reviewed == "Y")
+                trBTSecParkingView.Style.Add("display", "");
+            else
+                trBTSecParkingView.Style.Add("display", "none");
+            lblBTSecParking_Deficiencies.Text = objSLT_BT_Security_Walk.Parking_Deficiencies == null ? " " : SetYesNoNone(objSLT_BT_Security_Walk.Parking_Deficiencies);
+            lblBTSecParking_Comments.Text = objSLT_BT_Security_Walk.Parking_Comments;
+
+            #endregion
+        }
+        BindBTSecurityWalkAttachment();
+
+    }
     #endregion
     #region "NewProcedures"
     private void BindGridNewProcedures()
@@ -1592,6 +1931,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             else objSLT_Suggestion.FK_LU_Importance = null;
             objSLT_Suggestion.Target_Completion_Date = clsGeneral.FormatNullDateToStore(txtTarget_Completion_Date_Sugg.Text);
             objSLT_Suggestion.Suggestion_Description = txtSuggestion_Description.Text.Trim();
+            objSLT_Suggestion.Suggestion_Notes = txtSuggestion_Notes.Text.Trim();
             objSLT_Suggestion.Action_Item = txtAction_Item_Sugg.Text.Trim();
             objSLT_Suggestion.Date_Completed = clsGeneral.FormatNullDateToStore(txtDate_Completed_Sugg.Text);
             if (drpFK_LU_Item_Status_Sugg.SelectedIndex > 0) objSLT_Suggestion.FK_LU_Item_Status = Convert.ToDecimal(drpFK_LU_Item_Status_Sugg.SelectedValue);
@@ -1618,6 +1958,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         drpFK_LU_Importance_Sugg.SelectedIndex = -1;
         txtTarget_Completion_Date_Sugg.Text = "";
         txtSuggestion_Description.Text = "";
+        txtSuggestion_Notes.Text = "";
         txtAction_Item_Sugg.Text = "";
         txtDate_Completed_Sugg.Text = "";
         drpFK_LU_Item_Status_Sugg.SelectedIndex = -1;
@@ -2095,7 +2436,10 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         {
             if (drpTrainingYearView.SelectedIndex >= 0)
                 intYear = Convert.ToInt32(drpTrainingYearView.SelectedValue);
-            DataSet dsDetail = Charts.GetSabaTrainingDetail1(Convert.ToInt32(intYear), DBA, Sonic_Location_Code, 0, null);
+            //DataSet dsDetail = Charts.GetSabaTrainingDetail1(Convert.ToInt32(intYear), DBA, Sonic_Location_Code, 0, null);
+            DataSet dsDetail = Charts.GetSabaTrainingDetail2(Convert.ToInt32(intYear), DBA, Sonic_Location_Code, 0, null);
+            //DataSet dsDetail = Charts.GetSabaTrainingDetail(Convert.ToInt32(intYear), DBA, Sonic_Location_Code);
+
             DataTable dtResult = dsDetail.Tables[0];
 
             if (dsDetail.Tables[0] != null && dsDetail.Tables[0].Rows.Count > 0)
@@ -2130,7 +2474,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                         lblTrainingQ3View.Text = string.Format("{0:0.0#}", result3[0]["Percentage"]) + "%";
                 }
 
-                DataRow[] result4 = dsDetail.Tables[1].Select("AssociateQuarter = '4'");
+                DataRow[] result4 = dsDetail.Tables[0].Select("AssociateQuarter = '4'");
 
                 if (result4.Length > 0)
                 {
@@ -2140,7 +2484,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                         lblTrainingQ4View.Text = string.Format("{0:0.0#}", result1[0]["Percentage"]) + "%";
                 }
 
-                DataRow[] result5 = dsDetail.Tables[1].Select("AssociateQuarter In ('All Pro','Starter', 'Second String', 'Water boy', 'Spectator')");
+                DataRow[] result5 = dsDetail.Tables[1].Select("PerformanceLevel In ('All Pro','Starter', 'Second String', 'Water boy', 'Spectator')");
 
                 if (result5.Length > 0)
                 {
@@ -2214,6 +2558,23 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             gvSLT_TrainingAttachmentView.DataBind();
         }
     }
+
+    private void Bind_Meeting_Review_AttachmentDetails()
+    {
+        if (StrOperation != "view" && meetingIsEditable == true)
+        {
+            AttachDetails.InitializeAttachmentDetails(Convert.ToInt32(PK_SLT_Meeting), clsGeneral.SLT_Tables.SLT_Meeting_Review, true, Convert.ToInt32("14"));//hdnPanel.Value
+            AttachDetails.Bind();
+            AttachDetails.FindControl("gvAttachment").DataBind();
+        }
+        else
+        {
+            AttachmentDetails_Meeting_Review.InitializeAttachmentDetails(Convert.ToInt32(PK_SLT_Meeting), clsGeneral.SLT_Tables.SLT_Meeting_Review, true, Convert.ToInt32("14"));
+            AttachmentDetails_Meeting_Review.Bind();
+            AttachmentDetails_Meeting_Review.FindControl("gvAttachment").DataBind();
+        }
+    }
+
     protected void Upload_Training_Attachment()
     {
         //add attachment
@@ -2487,7 +2848,9 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         BindSaftyWalkGrid();
         BindCallToOrderDetails();
         BindMeetingReview();
-
+        BindBTSecurityWalkDetails();
+        BindBTSecurityGrid();
+        BindBTSecurityWalkGrid();
         BindSLTMemberGrid();
         if (gvSLT_Members.Rows.Count > 0)
             //PK_SLT_Member = Convert.ToDecimal(DataBinder.Eval(gvSLT_Members.Rows[0].DataItem, "PK_SLT_Member"));
@@ -3008,7 +3371,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                     SaveNewSafetyWalk(true);
                 }
             }
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);", true);
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(15);", true);
         }
         else if (hdnPanel2.Value == "6")
         {
@@ -3065,6 +3428,30 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             {
                 SaveSuggestion("13");
             }
+        }
+        else if (hdnPanel2.Value == "15")//here save "BT security walk" screen data
+        {
+            //if (meetingIsEditable == true)
+            //{
+            //    TimeSpan tsTmp;
+            //    DateTime startOfMonth = new DateTime(AppConfig.New_SLT_Safety_Walk_Date.Year, AppConfig.New_SLT_Safety_Walk_Date.Month, 1);
+            //    SLT_Meeting_Schedule objSLT_Meeting_Schedule = new SLT_Meeting_Schedule(PK_SLT_Meeting_Schedule);
+            //    if (objSLT_Meeting_Schedule.Actual_Meeting_Date != null)
+            //        tsTmp = objSLT_Meeting_Schedule.Actual_Meeting_Date.Value.Subtract(startOfMonth); //AppConfig.New_SLT_Safety_Walk_Date);
+            //    else tsTmp = Actual_Meeting_Date.Subtract(startOfMonth);
+
+            //    objSLT_Meeting_Schedule = null;
+
+            //    if (tsTmp.Days < 0)
+            //    {
+            //        SaveSafetyWalk();
+            //    }
+            //    else
+            //    {
+            //        SaveNewSafetyWalk(true);
+            //    }
+            //}
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);", true);
         }
 
     }
@@ -3843,6 +4230,28 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         }
     }
     #endregion
+    #region "BT Security"
+    protected void btnSave_BTSecWalk_Click(object sender, EventArgs e)
+    {
+        if (meetingIsEditable == false)
+        {
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('You cannot edit data once SLT meeting is reviewed by RLCM.');ShowPanel(15);", true);
+        }
+        else
+        {
+            SaveBTSecurityWalk();
+
+            if (PK_SLT_BT_Security_Walk > 0)
+                btnView_auditBTSecWalk.Visible = true;
+            else
+                btnView_auditBTSecWalk.Visible = false;
+            BindBTSecurityWalkDetails();
+
+            //GetSLT_Score();
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(15);", true);
+        }
+    }
+    #endregion
     #region "ClaimManagment"
     protected void btnSaveClaimmanagement_Click(object sender, EventArgs e)
     {
@@ -3918,6 +4327,29 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             File.Delete(DocPath + Attachment_name);
     }
     #endregion
+
+    /// <summary>
+    /// handles Add Attachment button click
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnAddAttachment_Click(string sender)
+    {
+        if (PK_SLT_Meeting > 0)
+        {
+            //Attachments_SLT.FK_Sedgwick_Claim_Review = PK_SLT_Training;
+            //Attachments_SLT.Add();
+            Attachments_SLT.AddSLTAttachment(clsGeneral.SLT_Tables.SLT_Meeting_Review, PK_SLT_Meeting);
+
+            Bind_Meeting_Review_AttachmentDetails();// Bind the attachment detail to view the added attachments
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + hdnPanel.Value + ");", true);
+            //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(14);", true);
+        }
+        else
+        {
+            ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "javascript:alert('Please save the record first');", true);
+        }
+    }
     #endregion
 
     #region "Grid Events"
@@ -4220,7 +4652,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     #region "SLT_Meeting_Schedule"
     protected void gvMeeting_RowCommand(object senders, GridViewCommandEventArgs e)
     {
-        if (e.CommandName != "Page")
+        if (e.CommandName != "Page" && e.CommandName != "Sort")
         {
             PK_SLT_Meeting_Schedule = 0;
             string[] arg = new string[2];
@@ -4244,11 +4676,13 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             if (PK_SLT_Meeting_Schedule > 0)
             {
                 gvSLTSafetyWalk.Enabled = true;
+                gvBTSecurityWalk.Enabled = true;
                 //btnSave_SLTSafety.Visible = true;
             }
             else
             {
                 gvSLTSafetyWalk.Enabled = false;
+                gvBTSecurityWalk.Enabled = false;
                 //btnSave_SLTSafety.Visible = false;
             }
 
@@ -4288,6 +4722,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 BindNextMeetingSchedule();
                 BindAttendeesGrid();
                 BindSafetyWalkDetails();
+                BindBTSecurityWalkDetails();
                 if (PK_SLT_Safety_Walk > 0)
                     btnsaftety_walkAudit_view.Visible = true;
                 else
@@ -4316,6 +4751,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 SLT_Meeting_Attendees.DeleteByFK(PK_SLT_Meeting_Schedule);
                 PK_SLT_Meeting_Schedule = 0;
                 gvSLTSafetyWalk.Enabled = false;
+                gvBTSecurityWalk.Enabled = false;
                 BindMeetingScheduleGrid();
                 BindDetailsForEdit();
                 Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
@@ -4384,6 +4820,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 pnl16.Style["Display"] = "";
                 pnl15View.Style["Display"] = "none";
                 pnl16View.Style["Display"] = "";
+
+                pnlBTSecurityGrid.Style["Display"] = "none";
+                pnlBTSecurity.Style["Display"] = "";
+                pnlBTSecurityGridView.Style["Display"] = "none";
+                pnlBTSecurityView.Style["Display"] = "";
             }
             else
             {
@@ -4391,6 +4832,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 pnl16.Style["Display"] = "none";
                 pnl15View.Style["Display"] = "";
                 pnl16View.Style["Display"] = "none";
+
+                pnlBTSecurityGrid.Style["Display"] = "";
+                pnlBTSecurity.Style["Display"] = "none";
+                pnlBTSecurityGridView.Style["Display"] = "";
+                pnlBTSecurityView.Style["Display"] = "none";
             }
 
         }
@@ -4407,6 +4853,34 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         gvMeeting.PageIndex = e.NewPageIndex; //Page new index call
         BindMeetingScheduleGrid();
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
+    }
+
+    protected void gvMeetingView_RowCreated(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.Header)
+        {
+            // if sort field already available
+            if (String.Empty != SortBy_Meeting)
+            {
+                // update sort image beside the column header 
+                AddSortImage(e.Row);
+            }
+            else
+            {
+                // add sort image beside the column header 
+                Image sortImage = new Image();
+                sortImage.ImageUrl = "~/Images/up-arrow.gif";
+                sortImage.AlternateText = "Descending Order";
+                e.Row.Cells[3].Controls.Add(sortImage);
+            }
+        }
+    }
+    protected void gvMeetingView_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        SortOrder_Meeting = (SortBy_Meeting == e.SortExpression) ? (SortOrder_Meeting == "ASC" ? "DESC" : "ASC") : "ASC";
+        SortBy_Meeting = e.SortExpression;
+        BindMeetingScheduleGrid();
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + hdnPanel2.Value + ");", true);
     }
 
     protected void gvMeeting_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -4427,7 +4901,8 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             //    ((Label)(e.Row.FindControl("lblSLT_RLCM_SCORE"))).Text = "";
             //}
 
-            if (IsUserInAdministrativeGroup || UserAccessType == AccessType.Administrative_Access)
+
+            if (IsUserInAdministrativeGroup || UserAccessType == AccessType.Administrative_Access || IsUserRLCM)
             {
                 e.Row.Cells[gvMeeting.Columns.Count - 1].Visible = true;
             }
@@ -4436,7 +4911,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         }
         else if (e.Row.RowType == DataControlRowType.Header)
         {
-            if (IsUserInAdministrativeGroup || UserAccessType == AccessType.Administrative_Access)
+            if (IsUserInAdministrativeGroup || UserAccessType == AccessType.Administrative_Access || IsUserRLCM)
             {
                 e.Row.Cells[gvMeeting.Columns.Count - 1].Visible = true;
             }
@@ -4444,6 +4919,90 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             { e.Row.Cells[gvMeeting.Columns.Count - 1].Visible = false; }
         }
     }
+
+    protected void gvMeeting_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        SortOrder_Meeting = (SortBy_Meeting == e.SortExpression) ? (SortOrder_Meeting == "ASC" ? "DESC" : "ASC") : "ASC";
+        SortBy_Meeting = e.SortExpression;
+        BindMeetingScheduleGrid();
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + hdnPanel2.Value + ");", true);
+    }
+
+    protected void gvMeeting_RowCreated(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.Header)
+        {
+            // if sort field already available
+            if (String.Empty != SortBy_Meeting)
+            {
+                // update sort image beside the column header 
+                AddSortImage(e.Row);
+            }
+            else
+            {
+                // add sort image beside the column header 
+                Image sortImage = new Image();
+                sortImage.ImageUrl = "~/Images/up-arrow.gif";
+                sortImage.AlternateText = "Descending Order";
+                e.Row.Cells[3].Controls.Add(sortImage);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Adds the sorting image beside the column in the grid on which 
+    /// sorting has been performed
+    /// </summary>
+    /// <param name="headerRow">Header Row of the grid</param>
+    private void AddSortImage(GridViewRow headerRow)
+    {
+        Int32 iCol = GetSortColumnIndex(SortBy_Meeting);
+        if (iCol == -1)
+        {
+            return;
+        }
+        // Create the sorting image based on the sort direction.
+        Image sortImage = new Image();
+        string strSortOrder = SortOrder_Meeting == "ASC" ? SortDirection.Ascending.ToString() : SortDirection.Descending.ToString();
+
+        // check for the order and
+        // set the images accordingly 
+        if (SortDirection.Ascending.ToString() == strSortOrder)
+        {
+            sortImage.ImageUrl = "~/Images/up-arrow.gif";
+            sortImage.AlternateText = "Descending Order";
+        }
+        else
+        {
+            sortImage.ImageUrl = "~/Images/down-arrow.gif";
+            sortImage.AlternateText = "Ascending Order";
+        }
+
+        // Add the image to the appropriate header cell.
+        headerRow.Cells[iCol].Controls.Add(sortImage);
+    }
+
+    /// <summary>
+    /// Returns the index of the column which contains particular sort expression
+    /// </summary>
+    /// <param name="strSortExp">The column on which the sorting is to be performed</param>
+    /// <returns>Integer</returns>
+    private int GetSortColumnIndex(string strSortExp)
+    {
+        int nRet = 0;
+        // Iterate through the Columns collection to determine the index
+        // of the column being sorted.
+        foreach (DataControlField field in gvMeeting.Columns)
+        {
+            //check Sort Expression value
+            if (field.SortExpression.ToString() == strSortExp)
+            {
+                nRet = gvMeeting.Columns.IndexOf(field);
+            }
+        }
+        return nRet;
+    }
+
     //protected void gvMeetingView_RowDataBound(object sender, GridViewRowEventArgs e)
     //{
     //    if (e.Row.RowType == DataControlRowType.DataRow)
@@ -4581,6 +5140,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             else
                 drpFK_LU_Suggestion_Source.SelectedIndex = 0;
             txtSuggestion_Description.Text = string.IsNullOrEmpty(objSLT_Suggestion.Suggestion_Description) ? "" : objSLT_Suggestion.Suggestion_Description;
+            txtSuggestion_Notes.Text = string.IsNullOrEmpty(objSLT_Suggestion.Suggestion_Notes) ? "" : objSLT_Suggestion.Suggestion_Notes;
             txtAction_Item_Sugg.Text = string.IsNullOrEmpty(objSLT_Suggestion.Action_Item) ? "" : objSLT_Suggestion.Action_Item;
             if (objSLT_Suggestion.Assigned_To != null)
             {
@@ -4628,6 +5188,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
                 lblFK_LU_Importance_Sugg.Text = new LU_Importance((decimal)objSLT_Suggestion.FK_LU_Importance).Fld_Desc;
             lblTarget_Completion_Date_Sugg.Text = clsGeneral.FormatDBNullDateToDisplay(objSLT_Suggestion.Target_Completion_Date);
             lblSuggestion_Description.Text = objSLT_Suggestion.Suggestion_Description;
+            lblSuggestion_Notes.Text = objSLT_Suggestion.Suggestion_Notes;
             lblAction_Item_Sugg.Text = objSLT_Suggestion.Action_Item;
             lblDate_Completed_Sugg.Text = clsGeneral.FormatDBNullDateToDisplay(objSLT_Suggestion.Date_Completed);
             if (objSLT_Suggestion.FK_LU_Item_Status != null)
@@ -4986,12 +5547,29 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         BindSaftyWalkGrid();
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
     }
+
+    protected void gvMonBTSecurityWalk_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        gvMonBTSecurityWalk.PageIndex = e.NewPageIndex; //Page new index call
+        BindBTSecurityWalkGrid();
+
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(15);", true);
+    }
+
     protected void gvSafetyWalkView_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         gvSafetyWalkView.PageIndex = e.NewPageIndex; //Page new index call
         BindSaftyWalkGrid();
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
     }
+
+    protected void gvMonBTSecurityWalkView_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        gvMonBTSecurityWalkView.PageIndex = e.NewPageIndex; //Page new index call
+        BindBTSecurityGrid();
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(15);", true);
+    }
+
     protected void gvSafetyWalk_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
@@ -5010,6 +5588,26 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             }
         }
     }
+
+    protected void gvMonBTSecurityWalk_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            if ((DataBinder.Eval(e.Row.DataItem, "PK_SLT_Members") != DBNull.Value))
+            {
+                PK_SLT_Member = Convert.ToDecimal(DataBinder.Eval(e.Row.DataItem, "PK_SLT_Members"));
+                DataTable dtSLTBTSecurity_Walk_Members = clsSLT_BT_Security_Walk_Members.SelectByFk(PK_SLT_Member, PK_SLT_BT_Security_Walk).Tables[0];
+                bool Participated = false;
+                if (dtSLTBTSecurity_Walk_Members.Rows.Count > 0)
+                {
+                    if (dtSLTBTSecurity_Walk_Members.Rows[0]["Participated"] != DBNull.Value)
+                        Participated = Convert.ToBoolean(dtSLTBTSecurity_Walk_Members.Rows[0]["Participated"]);
+                }
+                ((RadioButtonList)(e.Row.FindControl("rdoBTSecParticipated"))).SelectedValue = Participated == true ? "Y" : "N";
+            }
+        }
+    }
+
     protected void gvSafetyWalkView_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
@@ -5028,6 +5626,26 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             }
         }
     }
+
+    protected void gvMonBTSecurityWalkView_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            if ((DataBinder.Eval(e.Row.DataItem, "PK_SLT_Members") != DBNull.Value))
+            {
+                PK_SLT_Member = Convert.ToDecimal(DataBinder.Eval(e.Row.DataItem, "PK_SLT_Members"));
+                DataTable dtSLTSafety_Walk_Members = clsSLT_BT_Security_Walk_Members.SelectByFk(PK_SLT_Member, PK_SLT_BT_Security_Walk).Tables[0];
+                bool Participated = false;
+                if (dtSLTSafety_Walk_Members.Rows.Count > 0)
+                {
+                    if (dtSLTSafety_Walk_Members.Rows[0]["Participated"] != DBNull.Value)
+                        Participated = Convert.ToBoolean(dtSLTSafety_Walk_Members.Rows[0]["Participated"]);
+                }
+                ((Label)(e.Row.FindControl("lblBTSecparticipated"))).Text = Participated == true ? "Yes" : "No";
+            }
+        }
+    }
+
     #endregion
     #endregion
 
@@ -5060,7 +5678,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     }
 
     /// <summary>
-    /// Handles afty walk grid row data bound event
+    /// Handles safety walk grid row data bound event
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -5080,8 +5698,28 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             lnkSaftywalkAttachFile.Attributes.Add("onclick", "javascript:openWindowAbstract('../../Download.aspx?fname=" + Encryption.Encrypt(strFileName) + "&SLT=safetywalk');");
         }
     }
+
     /// <summary>
-    /// Handles Safty walk grid row data bound event in view mode
+    /// Handles safety walk grid row data bound event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvBTSecuritywalkAttachmentDetails_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            HtmlAnchor lnkBTSecuritywalkAttachFile = (HtmlAnchor)e.Row.FindControl("lnkBTSecuritywalkAttachFile");
+
+            string strFileName = DataBinder.Eval(e.Row.DataItem, "Attachment_Name").ToString();
+            // strFileName = AppConfig.strSLT_SafetyWalkDocPath + strFileName;
+
+            // set click attribute to open file on clicking the link
+            lnkBTSecuritywalkAttachFile.Attributes.Add("onclick", "javascript:openWindowAbstract('../../Download.aspx?fname=" + Encryption.Encrypt(strFileName) + "&SLT=BTSecuritywalk');");
+        }
+    }
+
+    /// <summary>
+    /// Handles Safety walk grid row data bound event in view mode
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -5099,6 +5737,18 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
 
             // set click attribute to open file on clicking the link
             lnkSaftywalkAttachFile.Attributes.Add("onclick", "javascript:window.open('../../Download.aspx?fname=" + Encryption.Encrypt(strFileName) + "&SLT=safetywalk');");
+        }
+    }
+
+    protected void gvBTSecuritywalkAttachmentView_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            HtmlAnchor lnkSaftywalkAttachFile = (HtmlAnchor)e.Row.FindControl("lnkBTSecwalkAttachFile");
+
+            string strFileName = DataBinder.Eval(e.Row.DataItem, "Attachment_Name").ToString();
+
+            lnkSaftywalkAttachFile.Attributes.Add("onclick", "javascript:window.open('../../Download.aspx?fname=" + Encryption.Encrypt(strFileName) + "&SLT=BTSecuritywalk');");
         }
     }
     #endregion
@@ -5165,6 +5815,33 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             // set click attribute to open file on clicking the link
             lnkTrainingAttachFile.Attributes.Add("onclick", "javascript:openWindowAbstract('../../Download.aspx?fname=" + Encryption.Encrypt(strFileName) + "&SLT=training');");
         }
+    }
+    #endregion
+    #region "BT Security"
+    /// <summary>
+    /// Handles building Attachment grid row command event 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvBTSecuritywalkAttachmentDetails_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        // if passed command is for removing attachment then
+        // delete the attachment record by PK passed in command argument and
+        // bind the grid
+        if (e.CommandName == "RemoveAttachment")
+        {
+            string[] strArgs = e.CommandArgument.ToString().Split(':');
+            int intPK = Convert.ToInt32(strArgs[0]);
+            string strFileName = strArgs[1];
+            ERIMSAttachment.DeleteByPK(intPK);
+            BindBTSecurityWalkAttachment();
+
+            // delete file
+            string strPath = clsGeneral.GetAttachmentDocPath(clsGeneral.SLT_TablesNames[(int)clsGeneral.SLT_Tables.SLT_BT_Security_Walk]) + strFileName;
+            if (File.Exists(strPath))
+                File.Delete(strPath);
+        }
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(15);", true);
     }
     #endregion
     #endregion
@@ -5486,6 +6163,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
 
     #endregion
 
+
     #region RLCM_QA_QC Module
     private void BindMeetingDataForRLCMQAQC()
     {
@@ -5616,6 +6294,128 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
         }
     }
+
+    protected void gvBTSecurityWalk_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName != "Page")
+        {
+            string[] strArgs = e.CommandArgument.ToString().Split(':');
+            #region "If Record is not added then first save and then open observation open pop up"
+            string strMonthName = strArgs[0].ToString(); //e.CommandArgument.ToString();
+            string strYear = Convert.ToString(Actual_Meeting_Date.Year);
+            decimal FK_SLTID = 0;
+
+            //if (strArgs[1] == "") //needs to update the record.
+            //{
+            GridViewRow gRow = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+            TextBox txtBTSecCompletedDate = (TextBox)gRow.FindControl("txtBTSecCompletedDate");
+            RadioButtonList rdoParticipated = (RadioButtonList)gRow.FindControl("rdoBTSecParticipated");
+            HiddenField hdnMonthNumber = (HiddenField)gRow.FindControl("hdnBTSecMonthNumber");
+            HiddenField hdnPK_SLT_BTSec_Walk = (HiddenField)gRow.FindControl("hdnPK_SLT_BTSec_Walk");
+            HiddenField hdnPK_SLT_Meeting_Schedule = (HiddenField)gRow.FindControl("hdnBTSecPK_SLT_Meeting_Schedule");
+
+            if (txtBTSecCompletedDate != null && txtBTSecCompletedDate.Enabled)
+            {
+                if (PK_SLT_Meeting_Schedule > 0)
+                {
+                    decimal temp_PK_SLT_Meeting_Schedule = 0;
+                    temp_PK_SLT_Meeting_Schedule = Convert.ToDecimal(hdnPK_SLT_Meeting_Schedule.Value);
+                    if (temp_PK_SLT_Meeting_Schedule > 0)
+                    {
+                        //SLT_Safety_Walk objSLT_Safety_Walk = new SLT_Safety_Walk(temp_PK_SLT_Meeting_Schedule, true);
+                        clsSLT_BT_Security_Walk objSLT_BT_Security_Walk = new clsSLT_BT_Security_Walk(temp_PK_SLT_Meeting_Schedule, true);
+
+                        objSLT_BT_Security_Walk.FK_SLT_Meeting = PK_SLT_Meeting;
+
+                        if (!string.IsNullOrEmpty(hdnPK_SLT_BTSec_Walk.Value))
+                            objSLT_BT_Security_Walk.PK_SLT_BT_Security_Walk = Convert.ToDecimal(hdnPK_SLT_BTSec_Walk.Value);
+
+                        objSLT_BT_Security_Walk.FK_SLT_Meeting_Schedule = temp_PK_SLT_Meeting_Schedule;
+                        objSLT_BT_Security_Walk.BT_Security_Walk_Comp = rdoParticipated.SelectedValue == "Y";
+                        objSLT_BT_Security_Walk.BT_Security_Walk_Comp_Date = clsGeneral.FormatNullDateToStore(txtBTSecCompletedDate.Text);
+                        objSLT_BT_Security_Walk.Update_Date = System.DateTime.Now;
+                        objSLT_BT_Security_Walk.Updated_By = clsSession.UserID;
+
+                        if (!string.IsNullOrEmpty(objSLT_BT_Security_Walk.PK_SLT_BT_Security_Walk.ToString()))
+                        {
+                            if (objSLT_BT_Security_Walk.PK_SLT_BT_Security_Walk > 0)
+                            {
+                                objSLT_BT_Security_Walk.Update();
+                                if (!string.IsNullOrEmpty(hdnPK_SLT_BTSec_Walk.Value))
+                                {
+                                    FK_SLTID = Convert.ToDecimal(hdnPK_SLT_BTSec_Walk.Value);
+                                }
+                                else
+                                {
+                                    FK_SLTID = Convert.ToDecimal(objSLT_BT_Security_Walk.PK_SLT_BT_Security_Walk);
+                                }
+                            }
+                            else
+                            {
+                                FK_SLTID = objSLT_BT_Security_Walk.Insert();
+                                //BindSaftyWalkGridNew();
+                                BindBTSecurityGrid();
+                            }
+                        }
+                        else
+                        {
+                            FK_SLTID = objSLT_BT_Security_Walk.Insert();
+                            //BindSaftyWalkGridNew();
+                            BindBTSecurityGrid();
+                        }
+                    }
+                }
+                else
+                {
+                    Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(15);alert('Please add or select meeting agenda record');", true);
+                }
+            }
+            //}
+            //else
+            //    FK_SLTID = Convert.ToInt32(strArgs[1].ToString());
+
+            #endregion
+            string openMode = "";
+            if (StrOperation != "view" && meetingIsEditable == true)
+                openMode = "edit";
+            else
+                openMode = "view";
+
+            GridViewRow gvRow = (GridViewRow)(((LinkButton)e.CommandSource).NamingContainer);
+            HiddenField hdnTmpPK_SLT_Meeting_Schedule = (HiddenField)gvRow.FindControl("hdnBTSecPK_SLT_Meeting_Schedule");
+            HiddenField hdnBTSecActualMeetingDate = (HiddenField)gvRow.FindControl("hdnBTSecActualMeetingDate");
+            decimal tmp_PK_SLT_Meeting_Schedule = 0;
+            if (Convert.ToDecimal(hdnTmpPK_SLT_Meeting_Schedule.Value) > 0)
+                tmp_PK_SLT_Meeting_Schedule = Convert.ToDecimal(hdnTmpPK_SLT_Meeting_Schedule.Value);
+            else
+                tmp_PK_SLT_Meeting_Schedule = PK_SLT_Meeting_Schedule;
+            if (e.CommandName == "ObservationOpen")
+            {
+                //DataSet dsQuestions = LU_SLT_Safety_Walk_Focus_Area.SelectByMonthAndYear(clsGeneral.GetInt(strYear), strMonthName, 0, PK_SLT_Meeting_Schedule);
+                DataSet dsQuestions = clsLU_SLT_BT_Security_Walk_Focus_Area.SelectByMonthAndYear(clsGeneral.GetInt(strYear), strMonthName, 0, PK_SLT_Meeting_Schedule);
+                if (dsQuestions != null)
+                {
+                    if (dsQuestions.Tables.Count > 0)
+                    {
+                        DataTable dtMonthlyQuestions = dsQuestions.Tables[0];
+                        dtMonthlyQuestions.DefaultView.RowFilter = " Complete_Status = 'Open'";
+                        dtMonthlyQuestions = dtMonthlyQuestions.DefaultView.ToTable();
+
+                        if (dtMonthlyQuestions.Rows.Count > 0)
+                            Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:window.open('../SLTBTSecurity/SLT_BTSecurityWalk_Questions_Popup.aspx?id=" + Encryption.Encrypt(dtMonthlyQuestions.Rows[0]["PK_LU_SLT_BT_Security_Walk_Focus_Area"].ToString()) + "&Month=" + Encryption.Encrypt(strMonthName) + "&Year=" + Encryption.Encrypt(strYear) + "&FK_SLTID=" + FK_SLTID.ToString() + "&PK_SLT_Meeting=" + PK_SLT_Meeting.ToString() + "&PK_MSID=" + tmp_PK_SLT_Meeting_Schedule + "&AM_date=" + hdnBTSecActualMeetingDate.Value + "&op=" + openMode + "','Erims','location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=900,height=750');", true);
+                        else
+                            Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:window.open('../SLTBTSecurity/SLT_BTSecurityWalk_Questions_Popup.aspx?id=" + Encryption.Encrypt(dsQuestions.Tables[0].Rows[0]["PK_LU_SLT_BT_Security_Walk_Focus_Area"].ToString()) + "&Month=" + Encryption.Encrypt(strMonthName) + "&Year=" + Encryption.Encrypt(strYear) + "&FK_SLTID=" + FK_SLTID.ToString() + "&PK_SLT_Meeting=" + PK_SLT_Meeting.ToString() + "&PK_MSID=" + tmp_PK_SLT_Meeting_Schedule + "&AM_date=" + hdnBTSecActualMeetingDate.Value + "&op=" + openMode + "','Erims','location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=900,height=750');", true);
+                    }
+                }
+            }
+            else if (e.CommandName == "Participation")
+            {
+                Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:window.open('../SLT/BT_Security_Walk_Participant_Popup.aspx?PK_SLT_Meeting=" + PK_SLT_Meeting.ToString() + "&FK_SLTID=" + FK_SLTID.ToString() + "&month=" + strMonthName.ToString() + "&year=" + strYear + "&op=" + openMode + "&AM_date=" + hdnBTSecActualMeetingDate.Value + "','Erims','location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=500,height=350');", true);
+            }
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(15);", true);
+        }
+    }
+
     protected void btnSave_SLTSafety_Click(object sender, EventArgs e)
     {
         SaveNewSafetyWalk(false);
@@ -5744,10 +6544,26 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             ((RadioButtonList)(e.Row.FindControl("rdoParticipated"))).SelectedValue = hdnSafety_Walk_Comp.Value == "True" ? "Y" : "N";
         }
     }
+
+    protected void gvBTSecurityWalk_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            HiddenField hdnBTSec_Walk_Comp = (HiddenField)e.Row.FindControl("hdnBTSec_Walk_Comp");
+            ((RadioButtonList)(e.Row.FindControl("rdoBTSecParticipated"))).SelectedValue = hdnBTSec_Walk_Comp.Value == "True" ? "Y" : "N";
+        }
+    }
+
     protected void btnhdnReload_Click(object sender, EventArgs e)
     {
         BindSaftyWalkGridNew();
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
+    }
+
+    protected void btnhdnBTSecurityReload_Click(object sender, EventArgs e)
+    {
+        BindBTSecurityGrid();
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(15);", true);
     }
 
     protected void btnReload_Participant_Click(object sender, EventArgs e)
@@ -5757,6 +6573,14 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         //gvMeeting_RowCommand("EditMeeting");        
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
     }
+
+    protected void btnReload_BTParticipant_Click(object sender, EventArgs e)
+    {
+        //GetSLT_Score();
+        BindMeetingScheduleGrid();
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(15);", true);
+    }
+
     protected void drpFK_Employee_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (drpFK_Employee.SelectedValue != "0")
@@ -5792,4 +6616,5 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         BindEmployeeGrid();
         Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
     }
+
 }

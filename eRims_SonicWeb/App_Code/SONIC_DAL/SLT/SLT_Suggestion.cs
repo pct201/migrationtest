@@ -26,6 +26,7 @@ namespace ERIMS.DAL
 		private string _Updated_By;
 		private DateTime? _Update_Date;
         private decimal? _FK_SLT_Meeting_Schedule;
+        private string _Suggestion_Notes;
 		#endregion
 
 		#region Public Property
@@ -146,6 +147,14 @@ namespace ERIMS.DAL
             set { _FK_SLT_Meeting_Schedule = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the Suggestion_Notes value.
+        /// </summary>
+        public string Suggestion_Notes
+        {
+            get { return _Suggestion_Notes; }
+            set { _Suggestion_Notes = value; }
+        }
 		#endregion
 
 		#region Default Constructors
@@ -263,6 +272,11 @@ namespace ERIMS.DAL
                 else
                     this._FK_SLT_Meeting_Schedule = (decimal?)drSLT_Suggestion["FK_SLT_Meeting_Schedule"];
 
+                if (drSLT_Suggestion["Suggestion_Notes"] == DBNull.Value)
+                    this._Suggestion_Notes = null;
+                else
+                    this._Suggestion_Notes = (string)drSLT_Suggestion["Suggestion_Notes"];
+
 		}
 
 		#endregion
@@ -308,6 +322,12 @@ namespace ERIMS.DAL
 			
 			db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
             db.AddInParameter(dbCommand, "FK_SLT_Meeting_Schedule", DbType.Decimal, this._FK_SLT_Meeting_Schedule);
+
+            if (string.IsNullOrEmpty(this._Suggestion_Notes))
+                db.AddInParameter(dbCommand, "Suggestion_Notes", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Suggestion_Notes", DbType.String, this._Suggestion_Notes);
+
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
@@ -382,6 +402,12 @@ namespace ERIMS.DAL
 			
 			db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
             db.AddInParameter(dbCommand, "FK_SLT_Meeting_Schedule", DbType.Decimal, this._FK_SLT_Meeting_Schedule);
+
+            if (string.IsNullOrEmpty(this._Suggestion_Notes))
+                db.AddInParameter(dbCommand, "Suggestion_Notes", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Suggestion_Notes", DbType.String, this._Suggestion_Notes);
+
 			db.ExecuteNonQuery(dbCommand);
 		}
 

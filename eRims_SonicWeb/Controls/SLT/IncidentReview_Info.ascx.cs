@@ -48,12 +48,12 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
    
     public string Year
     {
-        get { return ViewState["_Year"].ToString(); }
+        get { return Convert.ToString(ViewState["_Year"]); }
         set { ViewState["_Year"] = value; }
     }
     public string Month
     {
-        get { return ViewState["_Month"].ToString(); }
+        get { return Convert.ToString(ViewState["_Month"]); }
         set { ViewState["_Month"] = value; }
     }
     /// <summary>
@@ -214,16 +214,24 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
             {
                 if (string.IsNullOrEmpty(Year)) { Year = DateTime.Now.Year.ToString(); } else { ddlYear.SelectedValue = Year; }
                 if (string.IsNullOrEmpty(Month)) { Month = DateTime.Now.Month.ToString(); } else { ddlMonth.SelectedValue = Month; }
-                trIncident_Review_Edit.Visible = false;
-                trIncident_Review_View.Visible = true;
+                //trIncident_Review_Edit.Visible = false;
+                //trIncident_Review_View.Visible = true;
+
+                txtComments_View.Visible = lblSLT_Agree_Root_Cause.Visible = true;
+                Span6.Visible = txtComments.Visible = rdoRoot_Cause.Visible = false;
+                ShowHideRow();
             }
             else
             {
                 if (string.IsNullOrEmpty(Year)) { Year = DateTime.Now.Year.ToString(); } else { ddlYear.SelectedValue = Year; }
                 if (string.IsNullOrEmpty(Month)) { Month = DateTime.Now.Month.ToString(); } else { ddlMonth.SelectedValue = Month; }
-                trIncident_Review_Edit.Visible = true;
-                trIncident_Review_View.Visible = false;
+                //trIncident_Review_Edit.Visible = true;
+                //trIncident_Review_View.Visible = false;
+
+                txtComments_View.Visible = lblSLT_Agree_Root_Cause.Visible = false;
+                txtComments.Visible = rdoRoot_Cause.Visible = true;
             }
+            
         }
     }
     #endregion
@@ -245,54 +253,69 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
         foreach (DataRow drField in dtFields.Rows)
         {
             #region " set validation control IDs and messages "
-            switch (Convert.ToString(drField["Field_Name"]))
+
+            if (rdoRoot_Cause.SelectedValue == "N")
             {
-                case "What is the incidents root cause?":
-                    strCtrlsIDs += txtrootcause.ClientID + ",";
-                    strMessages +=  Validation_ScreenName +"/What is the incidents root cause?" + ",";
-                    Span1.Style["display"] = "inline-block";
-                    break;
-                case "How can the incident be prevented from happening again?":
-                    strCtrlsIDs += txtPreventedFromHappening.ClientID + ",";
-                    strMessages += Validation_ScreenName + "/How can the incident be prevented from happening again?" + ",";
-                    Span2.Style["display"] = "inline-block";
-                    break;
-                case "Who has been tasked with implementing practices/procedures to prevent re-occurrence?":
-                    strCtrlsIDs += txtConfirmation_Assign_To.ClientID + ",";
-                    strMessages += Validation_ScreenName + "/Who has been tasked with implementing practices/procedures to prevent re-occurrence?" + ",";
-                    Span3.Style["display"] = "inline-block";
-                    break;
-                case "Target Date of Completion":
-                    strCtrlsIDs += txtTargetDateCompletion.ClientID + ",";
-                    strMessages += Validation_ScreenName + "/Target Date of Completion" + ",";
-                    Span4.Style["display"] = "inline-block";
-                    break;
-                case "Status Due On":
-                    strCtrlsIDs += txtStatusDueOn.ClientID + ",";
-                    strMessages += Validation_ScreenName + "/Status Due On" + ",";
-                    Span5.Style["display"] = "inline-block";
-                    break;
-                case "Comments":
-                    strCtrlsIDs += txtComments.ClientID + ",";
-                    strMessages += Validation_ScreenName + "/Comments" + ",";
-                    Span6.Style["display"] = "inline-block";
-                    break;
-                case "Item Status":
-                    strCtrlsIDs += drpItemStatus.ClientID + ",";
-                    strMessages += Validation_ScreenName + "/Item Status" + ",";
-                    Span7.Style["display"] = "inline-block";
-                    break;
-                case "Incident Investigation":
-                    strCtrlsIDs += rdoIncidentInvestigation.ClientID + ",";
-                    strMessages += Validation_ScreenName + "/Incident Investigation" + ",";
-                    Span8.Style["display"] = "inline-block";
-                    break;
-                case "Date Reviewed":
-                    strCtrlsIDs += txtDateReviewed.ClientID + ",";
-                    strMessages += Validation_ScreenName + "/Date Reviewed" + ",";
-                    Span9.Style["display"] = "inline-block";
-                    break;
-                
+                switch (Convert.ToString(drField["Field_Name"]))
+                {
+                    case "What is the incidents root cause?":
+                        strCtrlsIDs += txtrootcause.ClientID + ",";
+                        strMessages += Validation_ScreenName + "/What is the incidents root cause?" + ",";
+                        Span1.Style["display"] = "inline-block";
+                        break;
+                    case "How can the incident be prevented from happening again?":
+                        strCtrlsIDs += txtPreventedFromHappening.ClientID + ",";
+                        strMessages += Validation_ScreenName + "/How can the incident be prevented from happening again?" + ",";
+                        Span2.Style["display"] = "inline-block";
+                        break;
+                    case "Who has been tasked with implementing practices/procedures to prevent re-occurrence?":
+                        strCtrlsIDs += txtConfirmation_Assign_To.ClientID + ",";
+                        strMessages += Validation_ScreenName + "/Who has been tasked with implementing practices/procedures to prevent re-occurrence?" + ",";
+                        Span3.Style["display"] = "inline-block";
+                        break;
+                    case "Target Date of Completion":
+                        strCtrlsIDs += txtTargetDateCompletion.ClientID + ",";
+                        strMessages += Validation_ScreenName + "/Target Date of Completion" + ",";
+                        Span4.Style["display"] = "inline-block";
+                        break;
+                    case "Status Due On":
+                        strCtrlsIDs += txtStatusDueOn.ClientID + ",";
+                        strMessages += Validation_ScreenName + "/Status Due On" + ",";
+                        Span5.Style["display"] = "inline-block";
+                        break;
+                    case "Comments":
+                        strCtrlsIDs += txtComments.ClientID + ",";
+                        strMessages += Validation_ScreenName + "/Comments" + ",";
+                        Span6.Style["display"] = "inline-block";
+                        break;
+                    //case "Item Status":
+                    //    strCtrlsIDs += drpItemStatus.ClientID + ",";
+                    //    strMessages += Validation_ScreenName + "/Item Status" + ",";
+                    //    Span7.Style["display"] = "inline-block";
+                    //    break;
+                    //case "Incident Investigation":
+                    //    strCtrlsIDs += rdoIncidentInvestigation.ClientID + ",";
+                    //    strMessages += Validation_ScreenName + "/Incident Investigation" + ",";
+                    //    Span8.Style["display"] = "inline-block";
+                    //    break;
+                    //case "Date Reviewed":
+                    //    strCtrlsIDs += txtDateReviewed.ClientID + ",";
+                    //    strMessages += Validation_ScreenName + "/Date Reviewed" + ",";
+                    //    Span9.Style["display"] = "inline-block";
+                    //    break;
+
+                }
+            }
+            else
+            {
+                switch (Convert.ToString(drField["Field_Name"]))
+                {
+                    case "Comments":
+                        strCtrlsIDs += txtComments.ClientID + ",";
+                        strMessages += Validation_ScreenName + "/Comments" + ",";
+                        Span6.Style["display"] = "inline-block";
+                        break;
+                }
             }
             #endregion
         }
@@ -317,8 +340,8 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
         revTargetDateCompletion.ErrorMessage = Validation_ScreenName + "/" + revTargetDateCompletion.ErrorMessage;
         revStatusDueOn.ValidationGroup = strValidation_Group;
         revStatusDueOn.ErrorMessage = Validation_ScreenName + "/" + revStatusDueOn.ErrorMessage;
-        revDateReviewed.ValidationGroup = strValidation_Group;
-        revDateReviewed.ErrorMessage = Validation_ScreenName + "/" + revDateReviewed.ErrorMessage;
+        //revDateReviewed.ValidationGroup = strValidation_Group;
+        //revDateReviewed.ErrorMessage = Validation_ScreenName + "/" + revDateReviewed.ErrorMessage;
         SetValidations(ScreenID, Validation_ScreenName);
     }
     /// <summary>
@@ -364,17 +387,17 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
     {
         FillYear();
         FillMonth();
-       DataSet ds= LU_Item_Status.SelectAll();
-       if (ds.Tables[0].Rows.Count > 0)
-       {
-           drpItemStatus.ClearSelection();
-           drpItemStatus.Items.Clear();
-           drpItemStatus.DataSource = ds.Tables[0];
-           drpItemStatus.DataTextField = "Fld_Desc";
-           drpItemStatus.DataValueField = "PK_LU_Item_Status";
-           drpItemStatus.DataBind();
-       }
-       drpItemStatus.Items.Insert(0, new ListItem("--Select--", "0"));
+       //DataSet ds= LU_Item_Status.SelectAll();
+       //if (ds.Tables[0].Rows.Count > 0)
+       //{
+       //    drpItemStatus.ClearSelection();
+       //    drpItemStatus.Items.Clear();
+       //    drpItemStatus.DataSource = ds.Tables[0];
+       //    drpItemStatus.DataTextField = "Fld_Desc";
+       //    drpItemStatus.DataValueField = "PK_LU_Item_Status";
+       //    drpItemStatus.DataBind();
+       //}
+       //drpItemStatus.Items.Insert(0, new ListItem("--Select--", "0"));
     }
     /// <summary>
     /// Fill Year In ddl
@@ -429,7 +452,10 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
     /// </summary>
     public void FillWC_FR()
     {
-        DataTable dtWC_Fr = SLT_Incident_Review.GetIncidentReviewByPK_WF_FR(PK_WC_FR_ID).Tables[0];
+        DataSet dsWC_Fr = SLT_Incident_Review.GetIncidentReviewByPK_WF_FR(PK_WC_FR_ID);
+        DataTable dtWC_Fr = dsWC_Fr.Tables[0];
+        DataTable dtWC_Allocation_Charge = dsWC_Fr.Tables[1];
+
         if (dtWC_Fr.Rows.Count > 0)
         {
             PK_Investigation_ID = Convert.ToDecimal(dtWC_Fr.Rows[0]["PK_Investigation_ID"].ToString());
@@ -444,6 +470,9 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
             lblNature_of_Injury_WC.Text = dtWC_Fr.Rows[0]["Nature_of_Injury"].ToString();
             lblBodyPartEffected_WC.Text = dtWC_Fr.Rows[0]["Body_Part_Effected"].ToString();
             txtDescription_Of_Incident_WC.Text = dtWC_Fr.Rows[0]["Incident_Description"].ToString();
+            lblLessons_Learned.Text = dtWC_Fr.Rows[0]["Lessons_Learned"].ToString();
+            lblNatureOfTheIncident.Text = dtWC_Fr.Rows[0]["Focus_Area"].ToString();
+            lblConclusions.Text = dtWC_Fr.Rows[0]["Conclusions"].ToString();
             #region Substances behavior and Conditions code
             DataTable dtCauseBehaviour = new DataTable();
             dtCauseBehaviour.Columns.Add("Description", typeof(string));
@@ -462,11 +491,11 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
                     startCount = startCount + 1;
                 }
             }
-            if (dtCauseBehaviour.Rows.Count > 0)
-            {
-                rptCauseBehaviours.DataSource = dtCauseBehaviour;
-                rptCauseBehaviours.DataBind();
-            }
+            //if (dtCauseBehaviour.Rows.Count > 0)
+            //{
+            //    rptCauseBehaviours.DataSource = dtCauseBehaviour;
+            //    rptCauseBehaviours.DataBind();
+            //}
             startCount = 0;
             DataTable dtCauseConditions = new DataTable();
             dtCauseConditions.Columns.Add("Description", typeof(string));
@@ -490,21 +519,74 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
                 rptCauseConditions.DataBind();
             }
             #endregion
-            txtCause_Comment.Text = dtWC_Fr.Rows[0]["Cause_Comment"].ToString();
-            txtPersonal_Job_Comment.Text = dtWC_Fr.Rows[0]["Personal_Job_Comment"].ToString();
-            lblOSHARecordable.Text = dtWC_Fr.Rows[0]["OSHA_Recordable"].ToString();
-            lblSonicCauseCode.Text = dtWC_Fr.Rows[0]["Sonic_Cause_Code"].ToString();
-            lblInvestigative.Text = dtWC_Fr.Rows[0]["Investigative_Quality"].ToString();
-            lblDescription_Corrective.Text = dtWC_Fr.Rows[0]["Corrective_Action_Description"].ToString();
+            //txtCause_Comment.Text = dtWC_Fr.Rows[0]["Cause_Comment"].ToString();
+            txtEvent_Cause_Comment.Text = dtWC_Fr.Rows[0]["Cause_Comment"].ToString();
+            //txtPersonal_Job_Comment.Text = dtWC_Fr.Rows[0]["Personal_Job_Comment"].ToString();
+            //lblOSHARecordable.Text = dtWC_Fr.Rows[0]["OSHA_Recordable"].ToString();
+            lblOSHARecordable_Root_Cause.Text = dtWC_Fr.Rows[0]["OSHA_Recordable"].ToString();
+            //lblSonicCauseCode.Text = dtWC_Fr.Rows[0]["Sonic_Cause_Code"].ToString();
+            lblSonicCauseCode_Root_Cause.Text = dtWC_Fr.Rows[0]["Sonic_Cause_Code"].ToString();
+            //lblInvestigative.Text = dtWC_Fr.Rows[0]["Investigative_Quality"].ToString();
+            //lblDescription_Corrective.Text = dtWC_Fr.Rows[0]["Corrective_Action_Description"].ToString();
             lblAssignedTo.Text = dtWC_Fr.Rows[0]["Assigned_To"].ToString();
-            lblAssignedBy.Text = dtWC_Fr.Rows[0]["AssignedBy"].ToString();
-            lblAssignedBy.Text = dtWC_Fr.Rows[0]["Lessons_Learned"].ToString();
-            lblIncidentReview_LagTime.Text = dtWC_Fr.Rows[0]["Lag_Time"].ToString();
-            lblRLCMComments.Text = dtWC_Fr.Rows[0]["RLCM_Comments"].ToString();
+            //lblAssignedBy.Text = dtWC_Fr.Rows[0]["AssignedBy"].ToString();
+            //lblAssignedBy.Text = dtWC_Fr.Rows[0]["Lessons_Learned"].ToString();
+            //lblIncidentReview_LagTime.Text = dtWC_Fr.Rows[0]["Lag_Time"].ToString();
+            //lblRLCMComments.Text = dtWC_Fr.Rows[0]["RLCM_Comments"].ToString();
             lblContributingFactor.Text = dtWC_Fr.Rows[0]["Contributing_Factor"].ToString();
             lblContributingFactor_Other.Text = dtWC_Fr.Rows[0]["Contributing_Factor_Other"].ToString();
+            lblCommunicatedToAssociate.Text = dtWC_Fr.Rows[0]["Communicated"].ToString() == "Y" ? "Yes" : "No";
+            
+            DataSet ds = null;
+            ds = clsInvestigation_Cause_Information.SelectByInvestigationID(Convert.ToDecimal(PK_Investigation_ID));
+
+            rptRootCauseDeterminationView.DataSource = ds;
+            rptRootCauseDeterminationView.DataBind();
+            rptRootCauseDeterminationRecmndationView.DataSource = ds;
+            rptRootCauseDeterminationRecmndationView.DataBind();
+
+            DataTable dtRootCauseDetermination = ds.Tables[0];
+            for (int i = 0; i < dtRootCauseDetermination.Rows.Count; i++)
+            {
+                Label lblRootCauseTypeList = (Label)rptRootCauseDeterminationView.Items[i].FindControl("lblRootCauseTypeList");
+                lblRootCauseTypeList.Text = Convert.ToString(dtRootCauseDetermination.Rows[i]["Response"]) == "Y" ? "Yes" : "No";
+            }
+
+            //Review 
+            lblTiming_View.Text = dtWC_Fr.Rows[0]["Timing"].ToString() != "" ? dtWC_Fr.Rows[0]["Timing"].ToString() == "Y" ? "Yes" : "No" : "";
+            lblSLTinvolvedInIntialInv.Text = dtWC_Fr.Rows[0]["SLT_Involvement"].ToString() != "" ? dtWC_Fr.Rows[0]["SLT_Involvement"].ToString() == "Y" ? "Yes" : "No" : "";
+            lblAllFactsClearly.Text = dtWC_Fr.Rows[0]["Witnesses"].ToString() != "" ? dtWC_Fr.Rows[0]["Witnesses"].ToString() == "Y" ? "Yes" : "No" : "";
+            lblRootCauseIdentifyCorrect.Text = dtWC_Fr.Rows[0]["SLT_Visit"].ToString() != "" ? dtWC_Fr.Rows[0]["SLT_Visit"].ToString() == "Y" ? "Yes" : "No" : "";
+            lblActionPlanPreventReoccuring.Text = dtWC_Fr.Rows[0]["Root_Causes"].ToString() != "" ? dtWC_Fr.Rows[0]["Root_Causes"].ToString() == "Y" ? "Yes" : "No" : "";
+            lblActionPlanCommunicatedtoAssociate.Text = dtWC_Fr.Rows[0]["Action_Plan"].ToString() != "" ? dtWC_Fr.Rows[0]["Action_Plan"].ToString() == "Y" ? "Yes" : "No" : "";
+            lblInvestigatescoreMetric.Text = dtWC_Fr.Rows[0]["Investigative_Quality"].ToString();
+
             Bind_SLT_Incident_Review();
         }
+
+        lblAllocation_Charge.Text = lblReporting_Credit.Text = lblInvestigation_Quality_Credit.Text = lblReporting_Charge.Text = lblTotal_Charge.Text =
+                lblNurse_Triage_Credit.Text = lblEarly_Close_Credit.Text = lblRe_Open_Charge.Text = string.Format("{0:C2}", 0.00);
+
+        if (dtWC_Allocation_Charge.Rows.Count > 0)
+        {
+            Int32 intTotal_Charge = 0;
+            
+            foreach (DataRow drChargeType in dtWC_Allocation_Charge.Rows)
+            {
+                if (Convert.ToString(drChargeType["Charge_Type"]) == "Nurse Triage Credit")
+                    lblNurse_Triage_Credit.Text = string.Format("{0:C2}", drChargeType["Charge_Total"]);
+                else if (Convert.ToString(drChargeType["Charge_Type"]) == "Early Close Credit")
+                    lblEarly_Close_Credit.Text = string.Format("{0:C2}", drChargeType["Charge_Total"]);
+                else if (Convert.ToString(drChargeType["Charge_Type"]) == "Reopen Charge")
+                    lblRe_Open_Charge.Text = string.Format("{0:C2}", drChargeType["Charge_Total"]);
+
+                if (Convert.ToString(drChargeType["Charge_Type"]) == "Nurse Triage Credit" || Convert.ToString(drChargeType["Charge_Type"]) == "Reporting Charge" ||
+                          Convert.ToString(drChargeType["Charge_Type"]) == "Early Close Credit" || Convert.ToString(drChargeType["Charge_Type"]) ==  "Reopen Charge")
+                    intTotal_Charge = intTotal_Charge + Convert.ToInt32(drChargeType["Charge_Total"]);
+            }
+            lblTotal_Charge.Text = string.Format("{0:C2}", intTotal_Charge);
+        }
+            
         
     }
     /// <summary>
@@ -531,7 +613,7 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
                 trWC_Fr.Visible = true;
                 btnSaveNext.Enabled = false;
                 btnAuditTrail_Edit.Visible = false;
-                btnAuditTrail_View.Visible = false;
+                //btnAuditTrail_View.Visible = false;
                 ClearFields_WC();
                 ClearFields_Edit();
                 ClearFields_View();
@@ -542,7 +624,7 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
             gvWc_fr.DataSource = null;
             gvWc_fr.DataBind();
             btnAuditTrail_Edit.Visible = false;
-            btnAuditTrail_View.Visible = false;
+            //btnAuditTrail_View.Visible = false;
             ClearFields_WC();
             ClearFields_Edit();
             ClearFields_View();
@@ -562,17 +644,20 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
         lblNature_of_Injury_WC.Text = "";
         lblBodyPartEffected_WC.Text = "";
         txtDescription_Of_Incident_WC.Text = "";
-        rptCauseBehaviours.DataSource = null;
-        rptCauseBehaviours.DataBind();
+        //rptCauseBehaviours.DataSource = null;
+        //rptCauseBehaviours.DataBind();
         rptCauseConditions.DataSource = null;
         rptCauseConditions.DataBind();
-        txtCause_Comment.Text = "";
-        txtPersonal_Job_Comment.Text = "";
-        lblOSHARecordable.Text = "";
-        lblSonicCauseCode.Text = "";
-        lblInvestigative.Text = "";
+        //txtCause_Comment.Text = "";
+        //txtPersonal_Job_Comment.Text = "";
+        //lblOSHARecordable.Text = "";
+        lblOSHARecordable_Root_Cause.Text = "";
+        //lblSonicCauseCode.Text = "";
+        lblSonicCauseCode_Root_Cause.Text = "";
+        //lblInvestigative.Text = "";
         lblContributingFactor.Text = "";
         lblContributingFactor_Other.Text = "";
+        txtEvent_Cause_Comment.Text = "";
     }
     #endregion
    
@@ -593,52 +678,70 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
                 lblConfirmation_Assign_To_View.Text = objSLT_Incident_Review.Confirmation_Assigned_To;
                 lblTargetCompletionDate_View.Text = clsGeneral.FormatDBNullDateToDisplay(objSLT_Incident_Review.Target_Comp_Date);
                 lblStatusDueOn_View.Text = clsGeneral.FormatDBNullDateToDisplay(objSLT_Incident_Review.Status_Due_On);
-                if (objSLT_Incident_Review.Incident_Investigation == "Y") { lblIncidentInvestigation_View.Text = "Yes"; }
-                else if (objSLT_Incident_Review.Incident_Investigation == "N") { lblIncidentInvestigation_View.Text = "No"; }
-                else { lblIncidentInvestigation_View.Text = ""; }
-                lblDateReceived_View.Text = clsGeneral.FormatDBNullDateToDisplay(objSLT_Incident_Review.DateReviewed);
-                lblComments_View.Text = objSLT_Incident_Review.Comments;
-                if (Convert.ToDecimal(objSLT_Incident_Review.FK_LU_Item_Status) > 0)
-                {
-                    LU_Item_Status objLU_Item_Status = new LU_Item_Status(Convert.ToDecimal(objSLT_Incident_Review.FK_LU_Item_Status));
-                    lblItemStatus.Text = objLU_Item_Status.Fld_Desc;
-                }
+                //if (objSLT_Incident_Review.Incident_Investigation == "Y") { lblIncidentInvestigation_View.Text = "Yes"; }
+                //else if (objSLT_Incident_Review.Incident_Investigation == "N") { lblIncidentInvestigation_View.Text = "No"; }
+                //else { lblIncidentInvestigation_View.Text = ""; }
+                //lblDateReceived_View.Text = clsGeneral.FormatDBNullDateToDisplay(objSLT_Incident_Review.DateReviewed);
+                //lblComments_View.Text = objSLT_Incident_Review.Comments;
+                //if (Convert.ToDecimal(objSLT_Incident_Review.FK_LU_Item_Status) > 0)
+                //{
+                //    LU_Item_Status objLU_Item_Status = new LU_Item_Status(Convert.ToDecimal(objSLT_Incident_Review.FK_LU_Item_Status));
+                //    lblItemStatus.Text = objLU_Item_Status.Fld_Desc;
+                //}
+
+                if (objSLT_Incident_Review.SLT_Agree_Root_Cause == "Y") { lblSLT_Agree_Root_Cause.Text = "Yes"; }
+                else if (objSLT_Incident_Review.SLT_Agree_Root_Cause == "N") { lblSLT_Agree_Root_Cause.Text = "No"; }
+                else { lblSLT_Agree_Root_Cause.Text = ""; }
+
+                txtComments_View.Text = objSLT_Incident_Review.Comments;
+                txtComments.Visible = false;
+
                 trIncident_Review_Edit.Visible = false;
-                trIncident_Review_View.Visible = true;
+                
+                //if (objSLT_Incident_Review.SLT_Agree_Root_Cause == "N")
+                //    trIncident_Review_View.Visible = true;
+                //else
+                //    trIncident_Review_View.Visible = false;
+
+                trIncident_Review_View.Visible = (objSLT_Incident_Review.SLT_Agree_Root_Cause == "N");
+
                 btnSaveNext.Visible = false;
-                btnAuditTrail_Edit.Visible = false;
-                btnAuditTrail_View.Visible = true;
+                //btnAuditTrail_Edit.Visible = false;
+                //btnAuditTrail_View.Visible = true;
+                btnAuditTrail_Edit.Visible = true;
             }
             else
             {
                 txtrootcause.Text = objSLT_Incident_Review.Root_Cause;
+                rdoRoot_Cause.SelectedValue = objSLT_Incident_Review.SLT_Agree_Root_Cause == null ? "N" : objSLT_Incident_Review.SLT_Agree_Root_Cause;
                 txtPreventedFromHappening.Text = objSLT_Incident_Review.Conclusions;
                 txtConfirmation_Assign_To.Text = objSLT_Incident_Review.Confirmation_Assigned_To;
                 txtTargetDateCompletion.Text = clsGeneral.FormatDBNullDateToDisplay(objSLT_Incident_Review.Target_Comp_Date);
                 txtStatusDueOn.Text = clsGeneral.FormatDBNullDateToDisplay(objSLT_Incident_Review.Status_Due_On);
-                rdoIncidentInvestigation.SelectedValue = objSLT_Incident_Review.Incident_Investigation;
-                txtDateReviewed.Text = clsGeneral.FormatDBNullDateToDisplay(objSLT_Incident_Review.DateReviewed); 
+                //rdoIncidentInvestigation.SelectedValue = objSLT_Incident_Review.Incident_Investigation;
+                //txtDateReviewed.Text = clsGeneral.FormatDBNullDateToDisplay(objSLT_Incident_Review.DateReviewed); 
                 txtComments.Text = objSLT_Incident_Review.Comments;
-                if (Convert.ToDecimal(objSLT_Incident_Review.FK_LU_Item_Status) > 0)
-                {
-                    LU_Item_Status objLU_Item_Status = new LU_Item_Status(Convert.ToDecimal(objSLT_Incident_Review.FK_LU_Item_Status));
-                    drpItemStatus.SelectedValue = objLU_Item_Status.PK_LU_Item_Status.ToString();
-                }
-                else
-                    drpItemStatus.SelectedIndex = -1;
+                txtComments_View.Visible = false;
+                //if (Convert.ToDecimal(objSLT_Incident_Review.FK_LU_Item_Status) > 0)
+                //{
+                //    LU_Item_Status objLU_Item_Status = new LU_Item_Status(Convert.ToDecimal(objSLT_Incident_Review.FK_LU_Item_Status));
+                //    drpItemStatus.SelectedValue = objLU_Item_Status.PK_LU_Item_Status.ToString();
+                //}
+                //else
+                //    drpItemStatus.SelectedIndex = -1;
                 trIncident_Review_Edit.Visible = true;
                 trIncident_Review_View.Visible = false;
                 btnSaveNext.Visible = true;
                 btnAuditTrail_Edit.Visible = true;
-                btnAuditTrail_View.Visible = false;
+                //btnAuditTrail_View.Visible = false;
             }
             btnAuditTrail_Edit.Attributes.Add("onclick", "return AuditPopUp('" + FK_SLT_Incident_Review + "','" + Incident_ReviewType + "');");
-            btnAuditTrail_View.Attributes.Add("onclick", "return AuditPopUp('" + FK_SLT_Incident_Review + "','" + Incident_ReviewType + "');");
+            //btnAuditTrail_View.Attributes.Add("onclick", "return AuditPopUp('" + FK_SLT_Incident_Review + "','" + Incident_ReviewType + "');");
             if (objSLT_Incident_Review.FK_LU_Item_Status == 2)
             {
                 FK_SLT_Incident_Review = 0;
                 btnAuditTrail_Edit.Visible = false;
-                btnAuditTrail_View.Visible = false;
+                //btnAuditTrail_View.Visible = false;
                 ClearFields_View();
                 ClearFields_Edit();
                 PK_Investigation_ID = 0;
@@ -654,22 +757,25 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
                 lblBodyPartEffected_WC.Text = "";
                 txtDescription_Of_Incident_WC.Text = "";
                 #region Substances behavior and Conditions code
-                    rptCauseBehaviours.DataSource = null;
-                    rptCauseBehaviours.DataBind();
+                    //rptCauseBehaviours.DataSource = null;
+                    //rptCauseBehaviours.DataBind();
                     rptCauseConditions.DataSource = null;
                     rptCauseConditions.DataBind();
                 #endregion
-                txtCause_Comment.Text = "";
-                txtPersonal_Job_Comment.Text = "";
-                lblOSHARecordable.Text = "";
-                lblSonicCauseCode.Text = "";
-                lblInvestigative.Text = "";
-                lblDescription_Corrective.Text = "";
+                //txtCause_Comment.Text = "";
+                txtEvent_Cause_Comment.Text = "";
+                //txtPersonal_Job_Comment.Text = "";
+                //lblOSHARecordable.Text = "";
+                lblOSHARecordable_Root_Cause.Text = "";
+                //lblSonicCauseCode.Text = "";
+                lblSonicCauseCode_Root_Cause.Text = "";
+                //lblInvestigative.Text = "";
+                //lblDescription_Corrective.Text = "";
                 lblAssignedTo.Text = "";
-                lblAssignedBy.Text = "";
-                lblAssignedBy.Text = "";
-                lblIncidentReview_LagTime.Text = "";
-                lblRLCMComments.Text ="";
+                //lblAssignedBy.Text = "";
+                //lblAssignedBy.Text = "";
+                //lblIncidentReview_LagTime.Text = "";
+                //lblRLCMComments.Text ="";
                 lblContributingFactor.Text = "";
                 lblContributingFactor_Other.Text = "";
             }
@@ -678,7 +784,7 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
         {
             FK_SLT_Incident_Review = 0;
             btnAuditTrail_Edit.Visible = false;
-            btnAuditTrail_View.Visible = false;
+            //btnAuditTrail_View.Visible = false;
             ClearFields_View();
             ClearFields_Edit();
         }
@@ -691,10 +797,10 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
         txtConfirmation_Assign_To.Text = "";
         txtTargetDateCompletion.Text = "";
         txtStatusDueOn.Text = "";
-        txtDateReviewed.Text = "";
-        rdoIncidentInvestigation.SelectedIndex = -1;
+        //txtDateReviewed.Text = "";
+        //rdoIncidentInvestigation.SelectedIndex = -1;
         txtComments.Text = "";
-        drpItemStatus.SelectedIndex = -1;
+        //drpItemStatus.SelectedIndex = -1;
     }
     public void ClearFields_View()
     {
@@ -703,8 +809,8 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
         lblConfirmation_Assign_To_View.Text = "";
         lblTargetCompletionDate_View.Text = "";
         lblStatusDueOn_View.Text = "";
-        lblComments_View.Text = "";
-        lblItemStatus.Text ="";
+        //lblComments_View.Text = "";
+        //lblItemStatus.Text ="";
     }
     public void SetPanel()
     {
@@ -728,14 +834,15 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
         objSLT_Incident_Review.FK_Investigation_ID = PK_Investigation_ID;
         objSLT_Incident_Review.FK_LU_Incident_Type = FK_LU_Incident_Type;
         objSLT_Incident_Review.Root_Cause = txtrootcause.Text.Trim();
+        objSLT_Incident_Review.SLT_Agree_Root_Cause = rdoRoot_Cause.SelectedValue;
         objSLT_Incident_Review.Conclusions = txtPreventedFromHappening.Text.Trim();
         objSLT_Incident_Review.Confirmation_Assigned_To = txtConfirmation_Assign_To.Text.Trim();
         if (txtTargetDateCompletion.Text.Trim() != "") { objSLT_Incident_Review.Target_Comp_Date = Convert.ToDateTime(txtTargetDateCompletion.Text.Trim()); }
         if (txtStatusDueOn.Text.Trim() != "") { objSLT_Incident_Review.Status_Due_On = Convert.ToDateTime(txtStatusDueOn.Text.Trim()); }
-        if (rdoIncidentInvestigation.SelectedIndex > -1) { objSLT_Incident_Review.Incident_Investigation = rdoIncidentInvestigation.SelectedValue; }
-        if (txtDateReviewed.Text.Trim() != "") { objSLT_Incident_Review.DateReviewed = Convert.ToDateTime(txtDateReviewed.Text.Trim()); }
+        //if (rdoIncidentInvestigation.SelectedIndex > -1) { objSLT_Incident_Review.Incident_Investigation = rdoIncidentInvestigation.SelectedValue; }
+        //if (txtDateReviewed.Text.Trim() != "") { objSLT_Incident_Review.DateReviewed = Convert.ToDateTime(txtDateReviewed.Text.Trim()); }
         objSLT_Incident_Review.Comments = txtComments.Text.Trim();
-        if (drpItemStatus.SelectedIndex > 0) { objSLT_Incident_Review.FK_LU_Item_Status = Convert.ToDecimal(drpItemStatus.SelectedValue); }
+        //if (drpItemStatus.SelectedIndex > 0) { objSLT_Incident_Review.FK_LU_Item_Status = Convert.ToDecimal(drpItemStatus.SelectedValue); }
         objSLT_Incident_Review.Updated_By = clsSession.UserID;
         objSLT_Incident_Review.Update_Date = DateTime.Now;
         if (FK_SLT_Incident_Review > 0)
@@ -748,6 +855,29 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
         ClearFields_Edit();
         FillWC_FR_Grid(false);
     }
+
+    public void ShowHideRow()
+    {
+        if (StrOperation == "view")
+        {
+            if (lblSLT_Agree_Root_Cause.Text == "No")
+                trIncident_Review_View.Visible = true;
+            else
+                trIncident_Review_View.Visible = trIncident_Review_Edit.Visible = false;//false than validation switch case change
+        }
+        else
+        {
+            if (rdoRoot_Cause.SelectedValue == "N")
+                trIncident_Review_Edit.Visible = true;
+            else
+                trIncident_Review_Edit.Visible = false;//false than validation switch case change
+            
+            Apply_Validation_Group("VSGroup_WC", 182, "[Investigations]");
+        }
+
+        
+    }
+
     #endregion
 
     #region Control Events
@@ -792,11 +922,19 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
             if (Incident_ReviewType == "WC")
             {
                     FillWC_FR();
+                    ShowHideRow();
                 if (UpdateSLTScore != null)
                     UpdateSLTScore();
                 Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(8);", true);
             }
         }
+    }
+
+    protected void rdoRoot_Cause_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ShowHideRow();
+
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(8);", true);
     }
 
     protected void btnSavennextHide_Click(object sender, EventArgs e)
@@ -846,11 +984,13 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
             FillWC_FR();
             trWC_Fr.Visible = true;
             btnSaveNext.Enabled = true;
+            //btnAuditTrail_Edit.Visible = true;
+            ShowHideRow();
             Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(8);", true);
         }
     }
     /// <summary>
-    /// Handles Page Undex Changing for Wc_Fr GRid
+    /// Handles Page Index Changing for Wc_Fr GRid
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -864,5 +1004,6 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
     
     #endregion
 
-   
+
+
 }

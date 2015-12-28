@@ -107,7 +107,7 @@ public partial class Controls_Navigation_Navigation : System.Web.UI.UserControl
         // if loaded first time
         if (!IsPostBack)
         {
-            // fills the records to be displyaed
+            // fills the records to be displayed
             FillDropDownRecords();
 
             // set pagenumber
@@ -117,6 +117,17 @@ public partial class Controls_Navigation_Navigation : System.Web.UI.UserControl
     #endregion
 
     #region "Methods"
+
+    public void setDrpRecordsValue()
+    {
+        ListItem lst = drpRecords.Items.FindByText(DefaultPageSize.ToString());
+        if (lst != null)
+        {
+            drpRecords.ClearSelection();
+            lst.Selected = true;
+        }
+    }
+
     /// <summary>
     /// Writes the current page number and total page numbers
     /// Also enables or disables next-previous links

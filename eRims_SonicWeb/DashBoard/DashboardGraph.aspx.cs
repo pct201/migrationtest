@@ -6,6 +6,7 @@ using System.Web.UI.WebControls;
 using InfoSoftGlobal;
 using ERIMS.DAL;
 using System.Data;
+using System.Web.UI.HtmlControls;
 
 public partial class DashboardGraph : clsBasePage
 {
@@ -22,15 +23,58 @@ public partial class DashboardGraph : clsBasePage
         get { return System.DateTime.Now; }
     }
 
+    /// <summary>
+    /// Data table to store attachment
+    /// </summary>
+    private DataTable dtAttachments
+    {
+        get
+        {
+            if (ViewState["dtAttachments"] != null)
+                return (DataTable)ViewState["dtAttachments"];
+            else
+                return null;
+        }
+        set
+        {
+            ViewState["dtAttachments"] = value;
+        }
+    }
+
+    /// <summary>
+    /// Data table to store Sub comments
+    /// </summary>
+    private DataTable dtComments
+    {
+        get
+        {
+            if (ViewState["dtComments"] != null)
+                return (DataTable)ViewState["dtComments"];
+            else
+                return null;
+        }
+        set
+        {
+            ViewState["dtComments"] = value;
+        }
+    }
+
     #endregion
 
+    #region "Page Event"
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
             FillYear();
+            BindPosts(1, 10);
+
+            btnAdd.Visible = App_Access == AccessType.Administrative_Access;//only editable by the eRIMS2 Administrator Users
+            pnlWall.Visible = true;
+            pnlSearch.Visible = false;
         }
-    }
+    } 
+    #endregion
 
     #region "Events"
 
@@ -87,7 +131,7 @@ public partial class DashboardGraph : clsBasePage
     }
 
     /// <summary>
-    /// Generate Aggrgate Performance By Region Chart
+    /// Generate Aggregate Performance By Region Chart
     /// </summary>
     /// <returns></returns>
     public string GetAggregatePerformanceByRegion()
@@ -485,5 +529,259 @@ public partial class DashboardGraph : clsBasePage
         ddlYear.SelectedValue = System.DateTime.Now.Year.ToString();
     }
 
+    #endregion
+
+    #region "Other Methods"
+
+    /// <summary>
+    /// Bind Wall Main Post
+    /// </summary>
+    /// <param name="PageNumber"></param>
+    /// <param name="PageSize"></param>
+    private void BindPosts(int PageNumber, int PageSize)
+    {
+        string strLastName = Convert.ToString(txtPosterLastName.Text.Trim().Replace("'", "''"));
+        string strFirstName = Convert.ToString(txtPosterFirstName.Text.Trim().Replace("'", "''"));
+        DateTime? dtPostDateFrom = clsGeneral.FormatNullDateToStore(txtDatePostFrom.Text);
+        DateTime? dtPostDateTo = clsGeneral.FormatNullDateToStore(txtDatePostTo.Text);
+        string strPostText = Convert.ToString(txtPostText.Text.Trim().Replace("'", "''"));
+        string strTopic = Convert.ToString(txtTopic.Text.Trim()).Replace("'", "''");
+
+        DataSet dsPosts = clsDashboard_Wall.SearchWallPosts(PageNumber, PageSize, strLastName, strFirstName, dtPostDateFrom, dtPostDateTo, strPostText, strTopic);
+
+        //// set values for paging control,so it shows values as needed.
+        ctrlPageWallPost.TotalRecords = (dsPosts.Tables.Count >= 3) ? Convert.ToInt32(dsPosts.Tables[1].Rows[0][0]) : 0;
+        ctrlPageWallPost.CurrentPage = (dsPosts.Tables.Count >= 3) ? Convert.ToInt32(dsPosts.Tables[2].Rows[0][2]) : 0;
+        ctrlPageWallPost.RecordsToBeDisplayed = dsPosts.Tables[0].Rows.Count;
+        ctrlPageWallPost.SetPageNumbers();
+
+
+        if (dsPosts.Tables.Count >= 5)
+        {
+            dtComments = dsPosts.Tables[3];
+            dtAttachments = dsPosts.Tables[4];
+        }
+
+        rptPosts.DataSource = dsPosts.Tables[0];
+        rptPosts.DataBind();
+
+        // set record numbers retrieved
+        lblNumber.Text = (dsPosts.Tables.Count >= 3) ? Convert.ToString(dsPosts.Tables[1].Rows[0][0]) : "0";
+    }
+
+    #endregion
+
+    #region "Other Events"
+
+    /// <summary>
+    /// Repeater Item Data Bound Event - main wall
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void rptPosts_ItemDataBound(object sender, RepeaterItemEventArgs e)
+    {
+        if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+        {
+            decimal _PK_Dashboard_Wall = Convert.ToDecimal(DataBinder.Eval(e.Item.DataItem, "PK_Dashboard_Wall"));
+
+            //get attachment for Main wall
+            DataRow[] drAttachment = dtAttachments.Select("FK_Dashboard_Wall=" + _PK_Dashboard_Wall);
+            if (drAttachment != null && drAttachment.Length > 0)
+            {
+                ///Get the File name to show and saved file
+                string strInput_File_Name = Convert.ToString(drAttachment[0]["Input_File_Name"]);
+                if (strInput_File_Name.ToLower().EndsWith(".jpg") || strInput_File_Name.ToLower().EndsWith(".jpeg") || strInput_File_Name.ToLower().EndsWith(".gif") ||
+                    strInput_File_Name.ToLower().EndsWith(".png") || strInput_File_Name.ToLower().EndsWith(".tif") || strInput_File_Name.ToLower().EndsWith(".tiff"))
+                {//for Image attachment
+                    Image imgAttachment = (Image)e.Item.FindControl("imgAttachment");
+                    imgAttachment.Visible = true;
+                    imgAttachment.Style.Add("cursor", "hand");
+                    imgAttachment.Style.Add("padding-top", "5px");
+                    imgAttachment.Style.Add("padding-left", "5px");
+
+                    // show thumbnail of the image
+                    string strFileName = clsGeneral.Encode_Url(Convert.ToString(drAttachment[0]["Stored_File_Name"]));
+                    string strThumbnail = strFileName.Substring(0, strFileName.LastIndexOf(".") - 1) + "_Thumb" + strFileName.Substring(strFileName.LastIndexOf("."));
+
+                    imgAttachment.ImageUrl = AppConfig.SiteURL + "Documents/Dashboard_Wall_Attachment/" + strThumbnail;
+                    imgAttachment.Attributes.Add("onclick", "javascript:return openWindow('" + AppConfig.SiteURL + "Documents/Dashboard_Wall_Attachment/" + strFileName + "');");
+                }
+                else
+                {///for documents
+                    LinkButton lnkAttchment = (LinkButton)e.Item.FindControl("lnkAttchment");
+                    lnkAttchment.Text = strInput_File_Name;
+                    lnkAttchment.Style.Add("cursor", "hand");
+                    lnkAttchment.Visible = true;
+                    lnkAttchment.OnClientClick = "javascript:return openWindow('" + AppConfig.SiteURL + "Documents/Dashboard_Wall_Attachment/" + clsGeneral.Encode_Url(Convert.ToString(drAttachment[0]["Stored_File_Name"])) + "');";
+                }
+            }
+            else
+            {
+                ((Label)e.Item.FindControl("lblAttchment")).Visible = false;
+            }
+
+            ///set the radio buttons and Bind inner grid
+            // RadioButtonList rdbThredTypeComment = (RadioButtonList)e.Item.FindControl("rdbThredTypeComment");
+            //rdbThredTypeComment.SelectedValue = rdbThredType.SelectedValue;
+            Repeater rptPostsComments = (Repeater)e.Item.FindControl("rptPostsComments");
+            //Label lblShowThread = (Label)e.Item.FindControl("lblShowThread");
+
+            //if (rdbThredType.SelectedIndex == 0)
+            //{
+            ///Select the records by FK wall
+            dtComments.DefaultView.RowFilter = "FK_Dashboard_Wall=" + _PK_Dashboard_Wall;
+            //dtComments.DefaultView.Sort = "Update_Date " + Convert.ToString(rdbCommentDateOrder.SelectedItem.Text);
+            rptPostsComments.DataSource = dtComments.DefaultView;
+            rptPostsComments.DataBind();
+            rptPostsComments.Visible = true;
+
+            ///set the Div height based on message length
+            HiddenField hdMessageLength = (HiddenField)e.Item.FindControl("hdMessageLength");
+            HtmlGenericControl dvMainMessage = (HtmlGenericControl)e.Item.FindControl("dvMainMessage");
+            int intMessageLength = Convert.ToInt32(Convert.ToString(DataBinder.Eval(e.Item.DataItem, "Message")).Length);
+            hdMessageLength.Value = intMessageLength.ToString();
+
+            ///check the Message length
+            if (intMessageLength >= 2500)
+            {
+                dvMainMessage.Style.Add("height", "200px");
+                ((HtmlContainerControl)e.Item.FindControl("tdExpandControls")).Visible = true;
+            }
+            else
+                ((HtmlContainerControl)e.Item.FindControl("tdExpandControls")).Visible = false;
+        }
+    }
+
+    /// <summary>
+    /// Repeater Main Wall item Command Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void rptPosts_ItemCommand(object sender, RepeaterCommandEventArgs e)
+    {
+        //check item command for add comment
+        if (e.CommandName.ToString() == "btnComment")
+        {
+            //redirect to add sub comment screen
+            decimal _PK_Dashboard_Wall = Convert.ToDecimal(e.CommandArgument);
+            //Response.Redirect("AddeRims2Wall.aspx?type=2&id=" + Encryption.Encrypt(_PK_Dashboard_Wall.ToString()) + "");
+        }
+    }
+
+    /// <summary>
+    /// Repeater Comments Item Data Bound Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void rptPostsComments_ItemDataBound(object sender, RepeaterItemEventArgs e)
+    {
+        if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+        {
+            ///set and get the Display file name and Save file name for attachment
+            string strInput_File_Name = Convert.ToString(DataBinder.Eval(e.Item.DataItem, "Input_File_Name"));
+            string strStored_File_Name = Convert.ToString(DataBinder.Eval(e.Item.DataItem, "Stored_File_Name"));
+            if (strInput_File_Name.Trim() != null && strInput_File_Name != "")
+            {
+                if (strInput_File_Name.ToLower().EndsWith(".jpg") || strInput_File_Name.ToLower().EndsWith(".jpeg") || strInput_File_Name.ToLower().EndsWith(".gif") ||
+                    strInput_File_Name.ToLower().EndsWith(".png") || strInput_File_Name.ToLower().EndsWith(".tif") || strInput_File_Name.ToLower().EndsWith(".tiff"))
+                {//for Image attachment
+                    Image imgAttachment = (Image)e.Item.FindControl("imgAttachmentComment");
+                    imgAttachment.Visible = true;
+                    imgAttachment.Style.Add("cursor", "hand");
+                    imgAttachment.Style.Add("padding-top", "5px");
+
+                    // show thumbnail of the image
+                    string strFileName = strStored_File_Name;
+                    string strThumbnail = strFileName.Substring(0, strFileName.LastIndexOf(".") - 1) + "_Thumb" + strFileName.Substring(strFileName.LastIndexOf("."));
+
+                    imgAttachment.ImageUrl = AppConfig.SiteURL + "Documents/Dashboard_Wall_Attachment/" + strThumbnail;
+                    imgAttachment.Attributes.Add("onclick", "javascript:window.open('" + AppConfig.SiteURL + "Documents/Dashboard_Wall_Attachment/" + strFileName + "')");
+                }
+                else
+                {///for documents
+                    LinkButton lnkAttchment = (LinkButton)e.Item.FindControl("lnkAttchmentComment");
+                    lnkAttchment.Text = strInput_File_Name;
+                    lnkAttchment.Style.Add("cursor", "hand");
+                    lnkAttchment.Visible = true;
+                    lnkAttchment.OnClientClick = "javascript:return openWindow('" + AppConfig.SiteURL + "Documents/Dashboard_Wall_Attachment/" + strStored_File_Name + "');";
+                }
+            }
+            else
+            {
+                ///if file name is null then disable the attachment option
+                ((Label)e.Item.FindControl("lblAttchmentComment")).Visible = false;
+            }
+
+            ///set the Div height based on message length
+            HiddenField hdCommentMsgLength = (HiddenField)e.Item.FindControl("hdCommentMsgLength");
+            HtmlGenericControl dvCommentMessage = (HtmlGenericControl)e.Item.FindControl("dvCommentMessage");
+            int intMessageLength = Convert.ToInt32(Convert.ToString(DataBinder.Eval(e.Item.DataItem, "Message")).Length);
+            hdCommentMsgLength.Value = intMessageLength.ToString();
+
+            ///check the message lengths
+            if (intMessageLength >= 2500)
+            {
+                //set div height and set visible
+                dvCommentMessage.Style.Add("height", "200px");
+                ((HtmlContainerControl)e.Item.FindControl("trExpandControls")).Visible = true;
+            }
+            else
+                ((HtmlContainerControl)e.Item.FindControl("trExpandControls")).Visible = false;
+
+        }
+    }
+
+    /// <summary>
+    /// Implement event for Paging control when clicking on Go button
+    /// </summary>
+    protected void GetPage()
+    {
+        BindPosts(ctrlPageWallPost.CurrentPage, ctrlPageWallPost.PageSize);
+    }
+
+    /// <summary>
+    /// Button Add Click Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnAdd_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("AddeRims2Wall.aspx?type=1");
+    }
+
+    /// <summary>
+    /// Button Search Click Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        pnlSearch.Visible = true;
+        pnlWall.Visible = false;
+
+        rptPosts.DataSource = null;
+        rptPosts.DataBind();
+
+        txtDatePostFrom.Text = "";
+        txtDatePostTo.Text = "";
+        txtPosterFirstName.Text = "";
+        txtPosterLastName.Text = "";
+        txtPostText.Text = "";
+        txtTopic.Text = "";
+    }
+
+    /// <summary>
+    /// Button Search result click event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnSearchResult_Click(object sender, EventArgs e)
+    {
+        pnlSearch.Visible = false;
+        pnlWall.Visible = true;
+
+        ctrlPageWallPost.setDrpRecordsValue();
+        BindPosts(1, 10);
+    }
     #endregion
 }

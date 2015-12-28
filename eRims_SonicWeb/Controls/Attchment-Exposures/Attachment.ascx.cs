@@ -211,11 +211,25 @@ public partial class Controls_Attchment_Exposures_Attachment : System.Web.UI.Use
             //Insert the attachment record
             objAttachment.Insert();
         }
+        else if (AttachmentTbl == clsGeneral.SLT_Tables.SLT_BT_Security_Walk)
+        {
+            ERIMSAttachment objAttachment = new ERIMSAttachment();
+            objAttachment.Attachment_Table = clsGeneral.SLT_TablesNames[(int)AttachmentTbl];
+            objAttachment.Foreign_Key = Foreign_Key;
+            objAttachment.FK_Attachment_Type = 0;
+            objAttachment.Attachment_Description = txtType.Text.Trim();
+            objAttachment.Updated_By = clsSession.UserID;
+            objAttachment.Update_Date = DateTime.Today;
+            string strUploadPath = clsGeneral.GetAttachmentDocPath(clsGeneral.SLT_TablesNames[(int)AttachmentTbl]);
+            string DocPath = string.Concat(strUploadPath, "\\");
+            objAttachment.Attachment_Name = clsGeneral.UploadFile(fpFile, DocPath, false, false);
+            objAttachment.Insert();
+        }
     }
     /// <summary>
     /// check if attachment type is valid or not. 
     /// mainly used when some file is selected but instead of add attachment save and close button is clicked
-    /// in that case no javascript validation will be fired. so server side validation is necesaary.
+    /// in that case no javascript validation will be fired. so server side validation is necessary.
     /// </summary>
     /// <returns></returns>
     private bool IsValidAttachmentType()

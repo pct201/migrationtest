@@ -1026,6 +1026,15 @@ public class AuditTrail
         db.AddInParameter(dbCommand, "PK_SLT_Safety_Walk", DbType.Decimal, PK_SLT_Safety_Walk);
         return db.ExecuteDataSet(dbCommand);
     }
+
+    public static DataSet GetSLT_BT_Security_Walk_AuditTrial(decimal PK_SLT_BT_Security_Walk)
+    {
+        Database db = DatabaseFactory.CreateDatabase();
+        DbCommand dbCommand = db.GetStoredProcCommand("SLT_BT_Security_Walk_AuditView");
+        db.AddInParameter(dbCommand, "PK_SLT_BT_Security_Walk", DbType.Decimal, PK_SLT_BT_Security_Walk);
+        return db.ExecuteDataSet(dbCommand);
+    }
+
     public static DataSet GetSLT_Safety_Walk_Responses_AuditTrial(decimal PK_SLT_Safety_Walk_Responses)
     {
         Database db = DatabaseFactory.CreateDatabase();

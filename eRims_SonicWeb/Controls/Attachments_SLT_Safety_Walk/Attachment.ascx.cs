@@ -52,6 +52,12 @@ public partial class Controls_Attachments_SLT_Safety_Walk_Attachment : System.We
         set { ViewState["FK_SLT_Safety_Walk_Responses"] = value; }
     }
 
+    public int FK_SLT_BT_Security_Walk_Responses
+    {
+        get { return Convert.ToInt32(ViewState["FK_SLT_BT_Security_Walk_Responses"]); }
+        set { ViewState["FK_SLT_BT_Security_Walk_Responses"] = value; }
+    }
+
     #endregion
 
     # region " Page Events "
@@ -81,12 +87,27 @@ public partial class Controls_Attachments_SLT_Safety_Walk_Attachment : System.We
             //IsValidAttachmentType() && drpAttachType.SelectedIndex != 0 && 
             if (!clsGeneral.IsNull(AttachmentTbl) && !clsGeneral.IsNull(fpFile.PostedFile.FileName))
             {
-                //used to check Attchment Table Type. according to that Data is added to related table
+                //used to check Attachment Table Type. according to that Data is added to related table
                 if (AttachmentTbl == clsGeneral.Exposure_Tables.SLT_Safety_Walk_Attachments)
                 {
                     //set values to store in database
                     SLT_Safety_Walk_Attachments objAttachment = new SLT_Safety_Walk_Attachments();
                     objAttachment.FK_SLT_Safety_Walk_Responses = FK_SLT_Safety_Walk_Responses;
+                    objAttachment.Attachment_Description = txtType.Text.Trim();
+                    // upload the document
+                    string strUploadPath = clsGeneral.GetAttachmentDocPath(clsGeneral.ExposureTableNames[(int)AttachmentTbl]);
+                    string DocPath = string.Concat(strUploadPath, "\\");
+                    objAttachment.Attachment_Filename = clsGeneral.UploadFile(fpFile, DocPath, false, false);
+                    objAttachment.Updated_By = clsSession.UserID;
+                    objAttachment.Updated_Date = DateTime.Today;
+                    //Insert the attachment record
+                    objAttachment.Insert();
+                }
+                else if (AttachmentTbl == clsGeneral.Exposure_Tables.SLT_BT_Security_Walk_Attachments)
+                {
+                    //set values to store in database
+                    clsSLT_BT_Security_Walk_Attachments objAttachment = new clsSLT_BT_Security_Walk_Attachments();
+                    objAttachment.FK_SLT_BT_Security_Walk_Responses = FK_SLT_BT_Security_Walk_Responses;
                     objAttachment.Attachment_Description = txtType.Text.Trim();
                     // upload the document
                     string strUploadPath = clsGeneral.GetAttachmentDocPath(clsGeneral.ExposureTableNames[(int)AttachmentTbl]);

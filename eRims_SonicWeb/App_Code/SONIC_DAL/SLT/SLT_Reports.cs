@@ -1016,7 +1016,6 @@ public class SLT_Reports : System.Web.UI.Page
             sbtbl.Append("<tr><td colspan='4'>&nbsp;</td></tr>");
             sbtbl.Append("</table>");
 
-
         }
         else
         {
@@ -1070,8 +1069,6 @@ public class SLT_Reports : System.Web.UI.Page
                 #endregion
             }
 
-
-
             sbtblPriorMnth.Append("<tr><td colspan='4'>&nbsp;</td></tr>");
             sbtblPriorMnth.Append("</table>");
         }
@@ -1080,6 +1077,62 @@ public class SLT_Reports : System.Web.UI.Page
             strBody.Replace("[SafetyWalk_Observation_PriorMonths]", "<span style='font-size: 11pt; font-family: Calibri'>No records Found</span>");
         }
         strBody = strBody.Replace("[SafetyWalk_Observation_PriorMonths]", sbtblPriorMnth.ToString());
+        #endregion
+
+
+
+
+        #region "Safety Walk Open Observation For Next Months"
+
+        StringBuilder sbNextMonth = new StringBuilder();
+
+        DataSet dsObservation = LU_SLT_Safety_Walk_Focus_Area.GetSLTQuestions_OfNextMeeting(objSLT_Meeting_Schedule.FK_SLT_Meeting.Value, objSLT_Meeting_Schedule.PK_SLT_Meeting_Schedule.Value);
+        DataTable dtNextMeetingOpenObservation = dsObservation.Tables[0];
+        if (dtNextMeetingOpenObservation.Rows.Count > 0)
+        {
+            string styleHeader = "<span style='font-family: Calibri;'>";
+            sbNextMonth.Append("<table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>");
+            sbNextMonth.Append("<tr><th align='left' valign='bottom' width='20%'>" + styleHeader + "Month</span></th>");
+            sbNextMonth.Append("<th align='left' valign='bottom' width='30%'>" + styleHeader + "Focus Area</span></th>");
+            sbNextMonth.Append("<th align='left' valign='bottom' width='20%'>" + styleHeader + "Date Completed</span></th>");
+            sbNextMonth.Append("<th align='center' valign='bottom' width='25%'>" + styleHeader + " Observations Open</span></th></tr>");
+            foreach (DataRow dr in dtNextMeetingOpenObservation.Rows)
+            {
+                string style = "<span style='font-size: 11pt; font-family: Calibri'>";
+                sbNextMonth.Append("<tr><td align='left' valign='top'>" + style + Convert.ToString(dr["Month"]) + "</span></td>");
+                sbNextMonth.Append("<td align='left' valign='top'>" + style + Convert.ToString(dr["Focus_Area"]) + "</span></td>");
+                sbNextMonth.Append("<td align='left' valign='top'>" + style + clsGeneral.FormatDBNullDateToDisplay(dr["Safety_Walk_Comp_Date"]) + "</span></td>");
+                sbNextMonth.Append("<td align='center' valign='top'>" + style + Convert.ToString(dr["Observations_Open"]) + "</span></td>");
+                sbNextMonth.Append("</tr>");
+            }
+
+            #region Bind Questions
+            sbNextMonth.Append("<tr><th align='left' valign='bottom' colspan='4'>" + styleHeader + "Questions</th></tr>");
+            DataTable dtNextMeetingQuestionOfOpenObservation = dsObservation.Tables[1];
+            sbNextMonth.Append("<tr><td colspan='4'><table cellpadding='0' cellspacing='0' border='0' width='100%' align='center'>");
+            foreach (DataRow drQue in dtNextMeetingQuestionOfOpenObservation.Rows)
+            {
+                string style = "<span style='font-size: 11pt; font-family: Calibri'>";
+                sbNextMonth.Append("<tr><td align='left' valign='top' style='width:5%;'>" + style + Convert.ToString(drQue["Sort_Order"]) + ". &nbsp;</span></td>");
+                sbNextMonth.Append("<td align='left' valign='top'>" + style + Convert.ToString(drQue["Question"]) + "</span></td>");
+                sbNextMonth.Append("</tr>");
+                sbNextMonth.Append("<tr><td colspan='2'>&nbsp;</td></tr>");
+            }
+            sbNextMonth.Append("</table></td></tr>");
+            #endregion
+
+            sbNextMonth.Append("<tr><td colspan='4'>&nbsp;</td></tr>");
+            sbNextMonth.Append("</table>");
+
+        }
+        else
+        {
+            strBody.Replace("[SafetyWalk_Observation_NextMonths]", "<span style='font-size: 11pt; font-family: Calibri'>No records Found</span>");
+        }
+        strBody = strBody.Replace("[SafetyWalk_Observation_NextMonths]", sbNextMonth.ToString());
+
+
+
         #endregion
 
         #region "Quarterly Facility Inspections"
@@ -1125,6 +1178,8 @@ public class SLT_Reports : System.Web.UI.Page
         string Incident_Month = Convert.ToString(DateTime.Now.Month);
         if (objSLT_Meeting_Schedule.Scheduled_Meeting_Date != null) Incident_Year = (Convert.ToDateTime(objSLT_Meeting_Schedule.Scheduled_Meeting_Date).Year).ToString();
         if (objSLT_Meeting_Schedule.Scheduled_Meeting_Date != null) Incident_Month = (Convert.ToDateTime(objSLT_Meeting_Schedule.Scheduled_Meeting_Date).Month).ToString();
+
+        #region " Comment "
         //if (Print_Email == "Email")
         //{
         //    #region "Incident_review"
@@ -1153,7 +1208,8 @@ public class SLT_Reports : System.Web.UI.Page
         //        strBody = strBody.Replace("[CM_Score]", "All Pro");
         //    strBody = strBody.Replace("[Claim_management_Info]", getCliamManagementDetails(Incident_Year, Incident_Month));
         //    #endregion
-        //}
+        //} 
+        #endregion
 
         #region "Claim Investigation"
         StringBuilder sbInvestigation = new StringBuilder();

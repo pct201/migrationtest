@@ -555,6 +555,20 @@ namespace ERIMS.DAL
             return (db.ExecuteDataSet(dbCommand));
         }
 
+        /// <summary>
+        /// Selects  from the SLT_BT_Security_Walk_Members table by a FK_SLT_Meeting.
+        /// </summary>
+        public static DataSet SLT_BT_Security_Walk_MembersSelectByPK_SLT_Meeting(decimal FK_SLT_Meeting, decimal FK_SLT_BT_Security_Walk, int Year)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("SLT_BT_Security_Walk_MembersSelectByPK_SLT_Meeting");
+
+            db.AddInParameter(dbCommand, "FK_SLT_Meeting", DbType.Decimal, FK_SLT_Meeting);
+            db.AddInParameter(dbCommand, "FK_SLT_BT_Security_Walk", DbType.Decimal, FK_SLT_BT_Security_Walk);
+            db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);
+            return (db.ExecuteDataSet(dbCommand));
+        }
+
         public static DataSet SelectSignedupEmployeeByLocation(int Year, string DBA, string Sonic_Location_Code)
         {
             Database db = DatabaseFactory.CreateDatabase();

@@ -9,6 +9,9 @@
     TagPrefix="uc1" %>
 <%@ Register Src="~/Controls/Attchment-Exposures/Attachment.ascx" TagName="ctrlAttachment"
     TagPrefix="uc" %>
+<%@ Register Src="~/Controls/Attchment-Exposures/Attachment_SLT.ascx" TagName="ctrlAttachment_SLT" TagPrefix="uc" %>
+<%@ Register Src="~/Controls/Attchment-Exposures/Attachment_Detail.ascx" TagName="ctrlAttachmentDetail" TagPrefix="uc" %>
+
 <asp:Content ContentPlaceHolderID="ContentPlaceHolder1" ID="Content1" runat="server">
     <script type="text/javascript" src="../../JavaScript/JFunctions.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/Calendar_new.js"></script>
@@ -61,8 +64,12 @@
                 var ID = '<%=ViewState["PK_SLT_Safety_Walk"]%>';
                     obj = window.open("../SLT/AuditPopup_SLTSafetyWalk.aspx?id=" + ID, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
                     obj.focus();
-
-                }
+            }
+            else if (Name == "SLTBTSecurityWalk") {
+                var ID = '<%=ViewState["PK_SLT_BT_Security_Walk"]%>';
+                obj = window.open("../SLT/AuditPopup_SLT_BT_Security_Walk.aspx?id=" + ID, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+                obj.focus();
+            }
     return false;
 }
 
@@ -187,7 +194,7 @@ function OpenPopupEmail(Doctype) {
 }
 function SetMenuStyle(index) {
     var i;
-    for (i = 1; i <= 14; i++) {
+    for (i = 1; i <= 15; i++) {
 
         //if (i == 5)
         //{
@@ -263,6 +270,11 @@ function ShowPanel(index) {
             document.getElementById("ctl00_ContentPlaceHolder1_btnSaveNnextCall").style.display = "none";
             HideDisplayReviewPanel();
         }
+        if (index == 15) {
+            ShowPanelView(index, 'false');
+            document.getElementById("ctl00_ContentPlaceHolder1_btnSaveNnextCall").style.display = "none";
+            document.getElementById("ctl00_ContentPlaceHolder1_btnSave").style.display = "none";
+        }
     }
     else {
         var i;
@@ -272,6 +284,17 @@ function ShowPanel(index) {
             document.getElementById("ctl00_ContentPlaceHolder1_pnl14").style.display = "none";
             document.getElementById("ctl00_ContentPlaceHolder1_btnSave").style.display = "none";
         }
+
+        if (index == 15) {
+            document.getElementById("ctl00_ContentPlaceHolder1_pnl17").style.display = (15 == index) ? "block" : "none";
+            document.getElementById("ctl00_ContentPlaceHolder1_pnl14View").style.display = "none";
+            document.getElementById("ctl00_ContentPlaceHolder1_pnl14").style.display = "none";
+            document.getElementById("ctl00_ContentPlaceHolder1_btnSave").style.display = "none";
+        }
+        else {
+            document.getElementById("ctl00_ContentPlaceHolder1_pnl17").style.display = "none";
+        }
+
 
         document.getElementById("ctl00_ContentPlaceHolder1_btnPrevious").style.display = (index == 1) ? "none" : "inline";
         document.getElementById("ctl00_ContentPlaceHolder1_btnSaveNnextCall").style.display = (index != 14 && index != 13) ? "inline" : "none";
@@ -338,8 +361,14 @@ function ShowPanelView(index, strStatus) {
     document.getElementById("ctl00_ContentPlaceHolder1_hdnPanel2").value = ActiveTabIndex;
     var i;
     for (i = 1; i <= 14; i++) {
-        document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i + "View").style.display = (i == index) ? "block" : "none";
+            document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i + "View").style.display = (i == index) ? "block" : "none";
     }
+
+    if (index == 15)
+        document.getElementById("ctl00_ContentPlaceHolder1_pnl17View").style.display = "block";
+    else
+        document.getElementById("ctl00_ContentPlaceHolder1_pnl17View").style.display = "none";
+
     document.getElementById("ctl00_ContentPlaceHolder1_btnPrevious").style.display = (index == 1) ? "none" : "inline";
     document.getElementById("ctl00_ContentPlaceHolder1_btnNextStep").style.display = (index == 14) ? "none" : "inline";
     //document.getElementById("ctl00_ContentPlaceHolder1_btnSendTO_RLCM").style.display = (index == 13) ? "inline" : "none";
@@ -348,13 +377,14 @@ function ShowPanelView(index, strStatus) {
 
         var rowscount = document.getElementById('<%=gvMeetingAttendeesView.ClientID%>').rows.length;
         var rowscount1 = '<%=PK_SLT_Member%>';
+        var Schedule_ID = '<%=PK_SLT_Meeting_Schedule %>';
         if (rowscount1 > 0) {
-            if (rowscount > 1) {
+            if (Schedule_ID > 0 || Schedule_ID == -1) {
 
                 document.getElementById("ctl00_ContentPlaceHolder1_pnl3View").style.display = "block";
             }
             else {
-                SetMenuStyle(meetingindex);
+                SetMenuStyle(meetingindex); //alert(meetingindex);
                 document.getElementById("ctl00_ContentPlaceHolder1_pnl" + meetingindex + "View").style.display = "block";
                 document.getElementById("ctl00_ContentPlaceHolder1_pnl3View").style.display = "none";
                 alert('Please Select SLT Meeting Agenda record first');
@@ -362,6 +392,7 @@ function ShowPanelView(index, strStatus) {
         }
         else {
             SetMenuStyle(meetingindex);
+            //dvView.visible = none;
             document.getElementById("ctl00_ContentPlaceHolder1_pnl" + meetingindex + "View").style.display = "block";
             document.getElementById("ctl00_ContentPlaceHolder1_pnl3View").style.display = "none";
             alert('No SLT Member record Found ');
@@ -388,6 +419,11 @@ function ShowHideExlpain(id) {
 function ShowHideComments(rdoID, type) {
     document.getElementById('ctl00_ContentPlaceHolder1_tr' + type).style.display = (document.getElementById(rdoID + '_0').checked) ? "" : "none";
 }
+
+function ShowHideBTSecComments(rdoID, type) {
+    document.getElementById('ctl00_ContentPlaceHolder1_trBTSec' + type).style.display = (document.getElementById(rdoID + '_0').checked) ? "" : "none";
+}
+
 var ActiveTabIndex = 1;
 function onNextStep() {
     var IsEditable = '<%=meetingIsEditable %>';
@@ -429,6 +465,9 @@ function onPreviousStep() {
     if (ActiveTabIndex == 3) {
         ShowPanel(2);
     }
+    else if (ActiveTabIndex == 5) {
+        ShowPanel(15);
+    }
     else
         ShowPanel(ActiveTabIndex);
     return false;
@@ -436,6 +475,11 @@ function onPreviousStep() {
 
 function CheckBeforeAddSaftyWalkAttach() {
     var trAttach = document.getElementById('<%=trSafetyWalkAttachment.ClientID%>');
+    trAttach.style.display = "block";
+}
+
+function CheckBeforeAddBTSecurityWalkAttach() {
+    var trAttach = document.getElementById('<%=trBTSecWalkAttachment.ClientID%>');
     trAttach.style.display = "block";
 }
 
@@ -495,36 +539,37 @@ function SetValidationGroup() {
         if (Schedule_id > 0) {
             if (Index == 4) ValidationGroups = "vsErrorcallToOrder";
             else if (Index == 5) ValidationGroups = "vsErrorSafetywalkGroup";
+            else if (Index == 15) ValidationGroups = "vsErrorBTSecuritywalkGroup";
             else if (Index == 6) {
                 var id_Q_Ins = '<%=ViewState["PK_SLT_Quarterly_Inspections"] %>';
-                    var id_Q_Res = '<%=ViewState["FK_Inspection_Responses_ID"] %>';
-                    if (parseInt(id_Q_Ins) > 0 && parseInt(id_Q_Res) > 0) {
-                        ValidationGroups = "vsErrorInspectionGroup";
-                    }
-                    else {
-                        ValidationGroups = "";
-                    }
+                var id_Q_Res = '<%=ViewState["FK_Inspection_Responses_ID"] %>';
+                if (parseInt(id_Q_Ins) > 0 && parseInt(id_Q_Res) > 0) {
+                    ValidationGroups = "vsErrorInspectionGroup";
                 }
-                else if (Index == 10) ValidationGroups = "vsErrorTrainingGroup";
-                else if (Index == 11) {
-                    if (document.getElementById("ctl00_ContentPlaceHolder1_tr_procedureAdd").style.display == "block") {
-                        ValidationGroups = "vsErrorProcedure";
-                    }
-                    else
-                        return true;
+                else {
+                    ValidationGroups = "";
                 }
-                else if (Index == 12) {
-                    if (document.getElementById("ctl00_ContentPlaceHolder1_tr_suggestionadd").style.display == "block") {
-                        ValidationGroups = "vsErrorSuggestion";
-                    }
-                    else
-                        return true;
+            }
+            else if (Index == 10) ValidationGroups = "vsErrorTrainingGroup";
+            else if (Index == 11) {
+                if (document.getElementById("ctl00_ContentPlaceHolder1_tr_procedureAdd").style.display == "block") {
+                    ValidationGroups = "vsErrorProcedure";
                 }
-    }
-    else {
-        alert('Please select meeting agenda record');
-        return false;
-    }
+                else
+                    return true;
+            }
+            else if (Index == 12) {
+                if (document.getElementById("ctl00_ContentPlaceHolder1_tr_suggestionadd").style.display == "block") {
+                    ValidationGroups = "vsErrorSuggestion";
+                }
+                else
+                    return true;
+            }
+}
+else {
+    alert('Please select meeting agenda record');
+    return false;
+}
 }
 else if (Index == 14) {
     if (temp_ID > 0 || Schedule_id > 0) {
@@ -653,17 +698,17 @@ function OpenWindow(navUrl) {
 
 jQuery(function ($) {
     $("#<%=txtMembersStart_Date.ClientID%>").mask("99/99/9999");
-            $("#<%=txtmemberEnd_date.ClientID%>").mask("99/99/9999");
-            $("#<%=txtActual_Meeting_Date.ClientID%>").mask("99/99/9999");
-            $("#<%=txtMeeting_Start_Time.ClientID%>").mask("99:99");
-            $("#<%=txtMeeting_End_Time.ClientID%>").mask("99:99");
-            $("#<%=txtScheduled_Meeting_Time.ClientID%>").mask("99:99");
-        });
+    $("#<%=txtmemberEnd_date.ClientID%>").mask("99/99/9999");
+    $("#<%=txtActual_Meeting_Date.ClientID%>").mask("99/99/9999");
+    $("#<%=txtMeeting_Start_Time.ClientID%>").mask("99:99");
+    $("#<%=txtMeeting_End_Time.ClientID%>").mask("99:99");
+    $("#<%=txtScheduled_Meeting_Time.ClientID%>").mask("99:99");
+});
 
-        function DisableButton() {
-            document.getElementById('<%= btnSaveNnextCall.ClientID %>').disabled = true;
-    document.getElementById('<%= btnSaveNnextCall.ClientID %>').value = 'Submitting...';
-}
+function DisableButton() {
+    document.getElementById('<%= btnSaveNnextCall.ClientID %>').disabled = true;
+            document.getElementById('<%= btnSaveNnextCall.ClientID %>').value = 'Submitting...';
+        }
 
     </script>
     <asp:ValidationSummary ID="ValidationSummary4" runat="server" ValidationGroup="vsErrorSLT_Members"
@@ -762,6 +807,14 @@ jQuery(function ($) {
                                                 </td>
                                             </tr>
                                             <tr>
+                                                <td align="right" valign="top">
+                                                    <img id="imgBTSecurityWalk" runat="server" alt="" src="~/Images/SLT_Menu_Icon.JPG" height="12" />
+                                                </td>
+                                                <td align="left" valign="top">
+                                                    <span id="Menu15" onclick="javascript:ShowPanel(15);" class="LeftMenuStatic">BT Security Walk</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
                                                 <td>&nbsp;
                                                 </td>
                                                 <td align="left" valign="top">
@@ -824,7 +877,7 @@ jQuery(function ($) {
                                                 <td>&nbsp;
                                                 </td>
                                                 <td align="left" valign="top">
-                                                    <span id="Menu12" onclick="javascript:ShowPanel(12);" class="LeftMenuStatic">Suggestions</span>
+                                                    <span id="Menu12" onclick="javascript:ShowPanel(12);" class="LeftMenuStatic">Suggestions/Comments/Notes</span>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -855,7 +908,7 @@ jQuery(function ($) {
                                     <td width="5px" class="Spacer">&nbsp;
                                     </td>
                                     <td class="dvContainer" valign="top">
-                                        <div id="dvEdit" runat="server" width="794px">
+                                        <div id="dvEdit" runat="server" width="794px" style="overflow-x: hidden; overflow-y: scroll;">
                                             <asp:Panel ID="pnl1" runat="server" Style="display: none;">
                                                 <div class="bandHeaderRow">
                                                     SLT Members
@@ -1212,8 +1265,9 @@ jQuery(function ($) {
                                                     <tr id="tr_Agenda_grid" runat="server" visible="false">
                                                         <td align="left" valign="top">
                                                             <asp:GridView ID="gvMeeting" runat="server" Width="100%" AutoGenerateColumns="false"
-                                                                PageSize="10" AllowPaging="true" OnPageIndexChanging="gvMeeting_PageIndexChanging"
-                                                                OnRowCommand="gvMeeting_RowCommand" OnRowDataBound="gvMeeting_RowDataBound">
+                                                                PageSize="10" AllowPaging="true" OnPageIndexChanging="gvMeeting_PageIndexChanging" AllowSorting="True"
+                                                                OnRowCommand="gvMeeting_RowCommand" OnRowDataBound="gvMeeting_RowDataBound" OnSorting="gvMeeting_Sorting"
+                                                                OnRowCreated="gvMeeting_RowCreated">
                                                                 <Columns>
                                                                     <asp:TemplateField>
                                                                         <ItemStyle Width="5%" />
@@ -1223,13 +1277,13 @@ jQuery(function ($) {
                                                                                 CausesValidation="false" />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
-                                                                    <asp:BoundField HeaderText="Scheduled Meeting Date" DataField="Scheduled_Meeting_Date"
+                                                                    <asp:BoundField HeaderText="Scheduled Meeting Date" DataField="Scheduled_Meeting_Date" SortExpression="Scheduled_Meeting_Date"
                                                                         DataFormatString="{0:MM/dd/yyyy}" ItemStyle-Width="18%" ItemStyle-HorizontalAlign="Left"
                                                                         HeaderStyle-HorizontalAlign="Left" />
                                                                     <asp:BoundField HeaderText="Date Meeting Minutes Sent" DataField="Date_Meeting_Minutes_Sent"
                                                                         DataFormatString="{0:MM/dd/yyyy}" ItemStyle-Width="18%" ItemStyle-HorizontalAlign="Left"
                                                                         HeaderStyle-HorizontalAlign="Left" />
-                                                                    <asp:TemplateField HeaderText="Actual Meeting Date">
+                                                                    <asp:TemplateField HeaderText="Actual Meeting Date" SortExpression="Actual_Meeting_Date">
                                                                         <ItemStyle Width="14%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
                                                                             <asp:Label ID="lblActual_Meeting_Date" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("Actual_Meeting_Date")) %>' />
@@ -1297,36 +1351,38 @@ jQuery(function ($) {
                                                                 OnClick="lnkAddMeeting_Click" />
                                                         </td>
                                                     </tr>
-                                                    <tr><td><b> Employee Details who Signed up for Training but have not completed yet :</b></td></tr>
+                                                    <tr>
+                                                        <td><b>Employee Details who Signed up for Training but have not completed yet :</b></td>
+                                                    </tr>
                                                     <tr>
                                                         <td>Year : 
                                                             <asp:DropDownList ID="ddlEmployeeSignedupYear" runat="server" Width="160px" SkinID="dropGen" runnat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlEmployeeSignedupYear_SelectedIndexChanged">
-                                                                        </asp:DropDownList>
+                                                            </asp:DropDownList>
                                                         </td>
                                                     </tr>
                                                     <tr id="tr4" runat="server">
                                                         <td align="left" valign="top">
                                                             <asp:GridView ID="gvEmployeeSignedUp" runat="server" Width="100%" AutoGenerateColumns="false"
                                                                 PageSize="7" AllowPaging="true" OnPageIndexChanging="gvEmployeeSignedUp_PageIndexChanging">
-                                                                <Columns>                                                                   
-                                                                    <asp:TemplateField HeaderText="Employee Name" >
-                                                                        <ItemStyle Width="14%"/>
+                                                                <Columns>
+                                                                    <asp:TemplateField HeaderText="Employee Name">
+                                                                        <ItemStyle Width="14%" />
                                                                         <ItemTemplate>
                                                                             <asp:Label ID="lblEmployeeName" runat="server" Text='<%# Eval("EmployeeName") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Status Description" >
+                                                                    <asp:TemplateField HeaderText="Status Description">
                                                                         <ItemStyle Width="15%" />
                                                                         <ItemTemplate>
                                                                             <asp:Label ID="lblStatusDescription" runat="server" Text='<%#Eval("StatusDescription") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="EnrollmentDate" >
+                                                                    <asp:TemplateField HeaderText="EnrollmentDate">
                                                                         <ItemStyle Width="12%" />
                                                                         <ItemTemplate>
                                                                             <asp:Label ID="lblEnrollmentDate" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("EnrollmentDate")) %>' />
                                                                         </ItemTemplate>
-                                                                    </asp:TemplateField>                                                                    
+                                                                    </asp:TemplateField>
                                                                 </Columns>
                                                                 <EmptyDataTemplate>
                                                                     <table cellpadding="4" cellspacing="0" width="100%">
@@ -2921,7 +2977,7 @@ jQuery(function ($) {
                                                 <table cellpadding="3" cellspacing="1" width="100%">
                                                     <tr>
                                                         <td width="100%" align="left">
-                                                            <asp:GridView ID="gvTrainingSuggestions" runat="server" Width="100%" AutoGenerateColumns="false"
+                                                            <asp:GridView ID="gvTrainingSuggestions" runat="server" Width="98%" AutoGenerateColumns="false"
                                                                 EmptyDataText="No Record Found" AllowPaging="true" PageSize="3" OnRowCommand="gvTrainingSuggestions_RowCommand"
                                                                 OnPageIndexChanging="gvTrainingSuggestions_PageIndexChanging">
                                                                 <Columns>
@@ -3023,6 +3079,73 @@ jQuery(function ($) {
                                                         <td colspan="6">
                                                             <asp:LinkButton ID="lnkAssociateSafetyCertificationTraining" Text="Associate Safety Certification Training" OnClientClick="OpenPopup(); return false;" runat="server"></asp:LinkButton><br />
                                                             <i>Click to view details</i>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6" align="left">
+                                                            <b>SABA Weekly Training Report Attachments</b><br />
+                                                            <i>Click to view details</i>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">&nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            <asp:GridView ID="gvSLT_TrainingAttachment" runat="server" Width="100%" OnRowDataBound="gvSLT_TrainingAttachment_RowDataBound"
+                                                                OnRowCommand="gvSLT_TrainingAttachment_RowCommand" EmptyDataText="Currently there is no attachment<br/>Please add one or more attachment">
+                                                                <Columns>
+                                                                    <asp:TemplateField HeaderText="File Name">
+                                                                        <ItemStyle Width="35%" />
+                                                                        <ItemTemplate>
+                                                                            <a id="lnkTrainingAttachFile" runat="server" href="#">
+                                                                                <%# Eval("Attachment_Name1")%>
+                                                                            </a>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Type">
+                                                                        <ItemStyle Width="35%" />
+                                                                        <ItemTemplate>
+                                                                            <%# Eval("Attachment_Description")%>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Remove">
+                                                                        <ItemStyle Width="30%" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkRemoveAttachment" runat="server" Text="Remove" CommandArgument='<%#Eval("PK_Attachment_Id") + ":" + Eval("Attachment_Name") %>'
+                                                                                CommandName="RemoveAttachment" OnClientClick="return confirm('Are you sure to remove the Attachment?');" />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                            </asp:GridView>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="Spacer" style="height: 10px;"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" colspan="6">
+                                                            <a href="javascript:CheckBeforeAddTrainingAttach();">Add New</a>
+                                                            <%--<input type="hidden" id="hdnBuildingID" runat="server" />--%>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="tr_training_Attachment" runat="server" style="display: none;">
+                                                        <td align="left" colspan="6">
+                                                            <uc:ctrlAttachment runat="server" ID="SLT_TrainingAttachmentADD" OnFileSelection="Upload_Training_Attachment" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>&nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center" colspan="6">
+                                                            <asp:Button ID="btnSaveTrainingSuggestion" runat="server" Text="Save" OnClick="btnSaveTrainingSuggestion_Click"
+                                                                CausesValidation="true" ValidationGroup="vsErrorTrainingGroup" />
+                                                            &nbsp;&nbsp;
+                                                            <asp:Button ID="btnTrainigAudit_Edit" runat="server" Text="View Audit Trail" Visible="false"
+                                                                OnClientClick="javascript:return AuditPopUpMeeting('SLTTraining');" />
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -3202,7 +3325,7 @@ jQuery(function ($) {
                                             </asp:Panel>
                                             <asp:Panel ID="pnl12" runat="server" Style="display: none;" Height="520px">
                                                 <div class="bandHeaderRow">
-                                                    Suggestions
+                                                    Suggestions/Comments/Notes
                                                 </div>
                                                 <table cellpadding="4" cellspacing="1" border="0" width="100%">
                                                     <tr id="tr_suggestiongrid" runat="server">
@@ -3246,17 +3369,18 @@ jQuery(function ($) {
                                                                             OnClick="lnkAdd_NewSuggestion_Click" />
                                                                     </td>
                                                                 </tr>
-                                                                <tr>
-                                                                    <td colspan="6">
-                                                                        <hr />
-                                                                    </td>
-                                                                </tr>
+                                                                
                                                             </table>
                                                         </td>
                                                     </tr>
                                                     <tr id="tr_suggestionadd" runat="server" style="display: none">
                                                         <td>
                                                             <table cellpadding="4" cellspacing="1" border="0" width="100%">
+                                                                <tr>
+                                                                    <td colspan="6">
+                                                                        <hr />
+                                                                    </td>
+                                                                </tr>
                                                                 <tr>
                                                                     <td align="left" width="18%" valign="top">Assigned To&nbsp;<span id="Span29" runat="server" style="color: Red; display: none">*</span>
                                                                     </td>
@@ -3305,7 +3429,7 @@ jQuery(function ($) {
                                                                     <td align="center" valign="top">:
                                                                     </td>
                                                                     <td align="left" colspan="4" valign="top">
-                                                                        <uc:ctrlMultiLineTextBox ID="txtSuggestion_Description" runat="server" />
+                                                                        <uc:ctrlMultiLineTextBox ID="txtSuggestion_Description" runat="server"/>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -3338,6 +3462,15 @@ jQuery(function ($) {
                                                                     <td align="left" valign="top">
                                                                         <asp:DropDownList ID="drpFK_LU_Item_Status_Sugg" Width="175px" runat="server" SkinID="dropGen">
                                                                         </asp:DropDownList>
+                                                                    </td>
+                                                                </tr>
+                                                                 <tr>
+                                                                    <td align="left" valign="top">Notes
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" colspan="4" valign="top">
+                                                                        <uc:ctrlMultiLineTextBox ID="txtSuggestion_Notes" runat="server" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -3614,71 +3747,35 @@ jQuery(function ($) {
                                                                 onkeypress="return FormatInteger(event);" onblur="CheckPoints(4, this);" />
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td colspan="6" align="left">
-                                                            <b>SABA Weekly Training Report Attachments</b><br />
-                                                            <i>Click to view details</i>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="6">&nbsp;
-                                                        </td>
-                                                    </tr>
+                                                    
+                                                    
                                                     <tr>
                                                         <td colspan="6">
-                                                            <asp:GridView ID="gvSLT_TrainingAttachment" runat="server" Width="100%" OnRowDataBound="gvSLT_TrainingAttachment_RowDataBound"
-                                                                OnRowCommand="gvSLT_TrainingAttachment_RowCommand" EmptyDataText="Currently there is no attachment<br/>Please add one or more attachment">
-                                                                <Columns>
-                                                                    <asp:TemplateField HeaderText="File Name">
-                                                                        <ItemStyle Width="35%" />
-                                                                        <ItemTemplate>
-                                                                            <a id="lnkTrainingAttachFile" runat="server" href="#">
-                                                                                <%# Eval("Attachment_Name1")%>
-                                                                            </a>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Type">
-                                                                        <ItemStyle Width="35%" />
-                                                                        <ItemTemplate>
-                                                                            <%# Eval("Attachment_Description")%>
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderText="Remove">
-                                                                        <ItemStyle Width="30%" />
-                                                                        <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkRemoveAttachment" runat="server" Text="Remove" CommandArgument='<%#Eval("PK_Attachment_Id") + ":" + Eval("Attachment_Name") %>'
-                                                                                CommandName="RemoveAttachment" OnClientClick="return confirm('Are you sure to remove the Attachment?');" />
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                </Columns>
-                                                            </asp:GridView>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="Spacer" style="height: 10px;"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="left" colspan="6">
-                                                            <a href="javascript:CheckBeforeAddTrainingAttach();">Add New</a>
-                                                            <%--<input type="hidden" id="hdnBuildingID" runat="server" />--%>
-                                                        </td>
-                                                    </tr>
-                                                    <tr id="tr_training_Attachment" runat="server" style="display: none;">
-                                                        <td align="left" colspan="6">
-                                                            <uc:ctrlAttachment runat="server" ID="SLT_TrainingAttachmentADD" OnFileSelection="Upload_Training_Attachment" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>&nbsp;
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td align="center" colspan="6">
-                                                            <asp:Button ID="btnSaveTrainingSuggestion" runat="server" Text="Save" OnClick="btnSaveTrainingSuggestion_Click"
-                                                                CausesValidation="true" ValidationGroup="vsErrorTrainingGroup" />
-                                                            &nbsp;&nbsp;
-                                                            <asp:Button ID="btnTrainigAudit_Edit" runat="server" Text="View Audit Trail" Visible="false"
-                                                                OnClientClick="javascript:return AuditPopUpMeeting('SLTTraining');" />
+                                                            <div id="dvAttachment" runat="server">
+                                                                <table cellpadding="0" cellspacing="0" width="100%" style="height: 230px;">
+                                                                    <tr style="background-color: #06537c; font-family: Tahoma; color: white; font-size: 10pt; font-weight: bold; padding: 2px;">
+                                                                        <td colspan="100%">Attachments</td>
+                                                                        <%--3439 Point 4--%>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td width="100%">
+                                                                            <uc:ctrlAttachment_SLT ID="Attachments_SLT" runat="Server" OnbtnHandler="btnAddAttachment_Click" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="Spacer" style="height: 20px;"></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                            <asp:Panel ID="pnlAttachmentDetails" runat="server" Width="714px">
+                                                                <table cellpadding="0" cellspacing="0" width="100%" style="height: 250px;">
+                                                                    <tr>
+                                                                        <td width="100%" valign="top">
+                                                                            <uc:ctrlAttachmentDetail ID="AttachDetails" runat="Server" />
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </asp:Panel>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -3689,7 +3786,444 @@ jQuery(function ($) {
                                                 <%--<asp:CustomValidator ID="cvPoints" runat="server" ClientValidationFunction="ValidatePoints" ErrorMessage="Please enter all points to overwrite" 
                                                 Display="None" ValidationGroup="vsErrorMeetingReview" />--%>
                                             </asp:Panel>
+                                            <asp:Panel ID="pnl17" runat="server" Style="display: none;">
 
+                                                <asp:Panel ID="pnlBTSecurity" runat="server">
+                                                    <div class="bandHeaderRow">
+                                                        BT Security Walk
+                                                    </div>
+                                                    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                        <tr>
+                                                            <td align="left" width="18%" valign="top">Monthly BT Security Walk Completed
+                                                            </td>
+                                                            <td align="center" width="4%" valign="top">:
+                                                            </td>
+                                                            <td align="left" width="28%" valign="top">
+                                                                <asp:RadioButtonList ID="rdoBTSecurity_Walk_Comp" runat="server" SkinID="YesNoType">
+                                                                </asp:RadioButtonList>
+                                                            </td>
+                                                            <td align="left" width="18%" valign="top">Date Completed&nbsp;<span id="Span44" runat="server" style="color: Red; display: none">*</span>
+                                                            </td>
+                                                            <td align="center" width="4%" valign="top">:
+                                                            </td>
+                                                            <td align="left" width="28%" valign="top">
+                                                                <asp:TextBox ID="txtBTSecurity_Walk_Comp_Date" runat="server" Width="150px" SkinID="txtDate" />
+                                                                <img alt="Date Completed" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtBTSecurity_Walk_Comp_Date', 'mm/dd/y');"
+                                                                    onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
+                                                                    align="middle" />
+                                                                <asp:RegularExpressionValidator ID="revBTSecurity_Walk_Comp_Date" runat="server" ValidationGroup="vsErrorBTSecuritywalkGroup"
+                                                                    Display="none" ErrorMessage="[BT Security Walk]/Date Completed is not a valid date"
+                                                                    SetFocusOnError="true" ControlToValidate="txtBTSecurity_Walk_Comp_Date" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
+                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator7" runat="server" ValidationGroup="vsErrorBTSecuritywalkGroup"
+                                                                    Display="none" ErrorMessage="[BT Security Walk]/Date Completed is not a valid date"
+                                                                    SetFocusOnError="true" ControlToValidate="txtBTSecurity_Walk_Comp_Date" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Monthly BT Security Walk Completed by the following SLT Members
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top" colspan="4">
+                                                                <asp:GridView ID="gvMonBTSecurityWalk" runat="server" Width="100%" AutoGenerateColumns="false"
+                                                                    AllowPaging="true" PageSize="10" EmptyDataText="No Record Found" OnPageIndexChanging="gvMonBTSecurityWalk_PageIndexChanging"
+                                                                    OnRowDataBound="gvMonBTSecurityWalk_RowDataBound">
+                                                                    <Columns>
+                                                                        <asp:BoundField HeaderText="First Name" DataField="First_Name" ItemStyle-HorizontalAlign="Left"
+                                                                            ItemStyle-Width="25%" />
+                                                                        <asp:BoundField HeaderText="Last Name" DataField="Last_Name" ItemStyle-HorizontalAlign="Left"
+                                                                            ItemStyle-Width="25%" />
+                                                                        <asp:BoundField HeaderText="SLT Role" DataField="SLT_Role" ItemStyle-HorizontalAlign="Left"
+                                                                            ItemStyle-Width="25%" />
+                                                                        <asp:TemplateField HeaderText="Participated">
+                                                                            <ItemTemplate>
+                                                                                <asp:RadioButtonList ID="rdoBTSecParticipated" runat="server" SkinID="YesNoType" />
+                                                                                <asp:HiddenField ID="hdnBTSecFK_SLT_Member" runat="server" Value='<%# Eval("PK_SLT_Members") %>' />
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                    </Columns>
+                                                                </asp:GridView>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6">
+                                                                <hr size="1" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" colspan="6">
+                                                                <b>Departments Reviewed</b>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6">&nbsp;
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Sales
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:RadioButtonList ID="rdoBTSecSales_Reviewed" runat="server" SkinID="YesNoType" onclick="ShowHideBTSecComments(this.id,'Sales');">
+                                                                </asp:RadioButtonList>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:RadioButtonList ID="rdoBTSecSales_Deficiencies" runat="server" SkinID="YesNoNone">
+                                                                </asp:RadioButtonList>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trBTSecSales" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="txtBTSecSales_Comments" runat="server" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Parts
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:RadioButtonList ID="rdoBTSecParts_Reviewed" runat="server" SkinID="YesNoType" onclick="ShowHideBTSecComments(this.id,'Parts');">
+                                                                </asp:RadioButtonList>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:RadioButtonList ID="rdoBTSecParts_Deficiencies" runat="server" SkinID="YesNoNone">
+                                                                </asp:RadioButtonList>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trBTSecParts" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="txtBTSecParts_Comments" runat="server" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Service Facility
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:RadioButtonList ID="rdoBTSecService_Facility_Reviewed" runat="server" SkinID="YesNoType"
+                                                                    onclick="ShowHideBTSecComments(this.id,'Service');">
+                                                                </asp:RadioButtonList>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:RadioButtonList ID="rdoBTSecService_Deficiencies" runat="server" SkinID="YesNoNone">
+                                                                </asp:RadioButtonList>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trBTSecService" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="txtBTSecService_Comments" runat="server" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Body Shop
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:RadioButtonList ID="rdoBTSecBody_Shop_Reviewed" runat="server" SkinID="YesNoType"
+                                                                    onclick="ShowHideBTSecComments(this.id,'Body_Shop');">
+                                                                </asp:RadioButtonList>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:RadioButtonList ID="rdoBTSecBody_Shop_Deficiencies" runat="server" SkinID="YesNoNone">
+                                                                </asp:RadioButtonList>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trBTSecBody_Shop" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="txtBTSecBody_Shop_Comments" runat="server" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Business Office
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:RadioButtonList ID="rdoBTSecBus_Off_Reviewed" runat="server" SkinID="YesNoType" onclick="ShowHideBTSecComments(this.id,'Business');">
+                                                                </asp:RadioButtonList>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:RadioButtonList ID="rdoBTSecBus_Off_Deficiencies" runat="server" SkinID="YesNoNone">
+                                                                </asp:RadioButtonList>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trBTSecBusiness" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="txtBTSecBus_Off_Comments" runat="server" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Detail Area
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:RadioButtonList ID="rdoBTSecDetail_Area_Reviewed" runat="server" SkinID="YesNoType"
+                                                                    onclick="ShowHideBTSecComments(this.id,'DetailArea');">
+                                                                </asp:RadioButtonList>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:RadioButtonList ID="rdoBTSecDetail_Deficiencies" runat="server" SkinID="YesNoNone">
+                                                                </asp:RadioButtonList>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trBTSecDetailArea" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="txtBTSecDetail_Comments" runat="server" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Car Wash
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:RadioButtonList ID="rdoBTSecCar_Wash_Reviewed" runat="server" SkinID="YesNoType"
+                                                                    onclick="ShowHideBTSecComments(this.id,'CarWash');">
+                                                                </asp:RadioButtonList>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:RadioButtonList ID="rdoBTSecCar_Wash_Deficiencies" runat="server" SkinID="YesNoNone">
+                                                                </asp:RadioButtonList>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trBTSecCarWash" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="txtBTSecCar_Wash_Comments" runat="server" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Parking Lot
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:RadioButtonList ID="rdoBTSecParking_Lot_Reviewed" runat="server" SkinID="YesNoType"
+                                                                    onclick="ShowHideBTSecComments(this.id,'Parking');">
+                                                                </asp:RadioButtonList>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:RadioButtonList ID="rdoBTSecParking_Deficiencies" runat="server" SkinID="YesNoNone">
+                                                                </asp:RadioButtonList>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trBTSecParking" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="txtBTSecParking_Comments" runat="server" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6">&nbsp;
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6" align="left">
+                                                                <b>BT Security Walk Attachments</b><br />
+                                                                <i>Click to view details</i>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6">&nbsp;
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6">
+                                                                <asp:GridView ID="gvBTSecuritywalkAttachmentDetails" runat="server" Width="100%" OnRowDataBound="gvBTSecuritywalkAttachmentDetails_RowDataBound"
+                                                                    OnRowCommand="gvBTSecuritywalkAttachmentDetails_RowCommand" EmptyDataText="Currently there is no attachment<br/>Please add one or more attachment">
+                                                                    <Columns>
+                                                                        <asp:TemplateField HeaderText="File Name">
+                                                                            <ItemStyle Width="35%" />
+                                                                            <ItemTemplate>
+                                                                                <a id="lnkBTSecuritywalkAttachFile" runat="server" href="#">
+                                                                                    <%# Eval("Attachment_Name1")%>
+                                                                                </a>
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                        <asp:TemplateField HeaderText="Type">
+                                                                            <ItemStyle Width="35%" />
+                                                                            <ItemTemplate>
+                                                                                <%# Eval("Attachment_Description")%>
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                        <asp:TemplateField HeaderText="Remove">
+                                                                            <ItemStyle Width="30%" />
+                                                                            <ItemTemplate>
+                                                                                <asp:LinkButton ID="lnkRemoveAttachment" runat="server" Text="Remove" CommandArgument='<%#Eval("PK_Attachment_Id") + ":" + Eval("Attachment_Name") %>'
+                                                                                    CommandName="RemoveAttachment" OnClientClick="return confirm('Are you sure to remove the Attachment?');" />
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                    </Columns>
+                                                                </asp:GridView>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="Spacer" style="height: 10px;"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" colspan="6">
+                                                                <asp:LinkButton ID="lnlADDAttachmentBTSecwalk" runat="server" CausesValidation="true"
+                                                                    Text="Add New" ValidationGroup="vsErrorBTSecuritywalkGroup" OnClientClick="javascript:CheckBeforeAddBTSecurityWalkAttach();return false;"></asp:LinkButton>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trBTSecWalkAttachment" runat="server" style="display: none;">
+                                                            <td align="left" colspan="6">
+                                                                <uc:ctrlAttachment runat="server" ID="BTSecwalkAttachment" OnFileSelection="Upload_BTSecurityWalk_Attachment" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6" align="center">
+                                                                <asp:Button ID="btnSave_BTSecWalk" runat="server" Text="Save" CausesValidation="true"
+                                                                    ValidationGroup="vsErrorBTSecuritywalkGroup" OnClick="btnSave_BTSecWalk_Click" />
+                                                                &nbsp;&nbsp;<asp:Button ID="btnView_auditBTSecWalk" runat="server" Text="View Audit Trail"
+                                                                    OnClientClick="javascript:return AuditPopUpMeeting('SLTBTSecurityWalk');" Visible="false" />
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </asp:Panel>
+
+                                                <asp:Panel ID="pnlBTSecurityGrid" runat="server">
+                                                    <table width="100%">
+                                                        <tr>
+                                                            <td class="bandHeaderRow">
+                                                                <asp:Label ID="lblBTWalk" runat="server"></asp:Label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div style="min-height: 302px;">
+                                                                    <asp:GridView ID="gvBTSecurityWalk" runat="server" Width="100%" AutoGenerateColumns="false" 
+                                                                        EmptyDataText="No Record Found" OnRowCommand="gvBTSecurityWalk_RowCommand" OnRowDataBound="gvBTSecurityWalk_RowDataBound">
+                                                                        <Columns>
+                                                                            <asp:TemplateField HeaderText="Month" ItemStyle-Width="15%">
+                                                                                <ItemTemplate>
+                                                                                    <asp:HiddenField ID="hdnBTSecMonthNumber" runat="server" Value='<%# Eval("MonthNum") %>' />
+                                                                                    <asp:HiddenField ID="hdnBTSecActualMeetingDate" runat="server" Value='<%# Eval("Actual_Meeting_Date") %>' />
+                                                                                    <asp:HiddenField ID="hdnBTSec_Walk_Comp" runat="server" Value='<%# Convert.ToBoolean(Eval("BT_Security_Walk_Comp")) %>' />
+                                                                                    <asp:HiddenField ID="hdnPK_SLT_BTSec_Walk" runat="server" Value='<%# Eval("PK_SLT_BT_Security_Walk") %>' />
+                                                                                    <asp:HiddenField ID="hdnBTSecPK_SLT_Meeting_Schedule" runat="server" Value='<%# Eval("PK_SLT_Meeting_Schedule") %>' />
+                                                                                    <%# Eval("Month") %>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Focus Area" ItemStyle-Width="20%">
+                                                                                <ItemTemplate>
+                                                                                    <%# Eval("Focus_Area") %>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Monthly BT Security Walk Completed?" ItemStyle-Width="20%">
+                                                                                <ItemTemplate>
+                                                                                    <asp:RadioButtonList ID="rdoBTSecParticipated" runat="server" SkinID="YesNoType" Enabled='<%# Convert.ToBoolean(Eval("IsEnable")) %>' />
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Date Completed" ItemStyle-Width="20%">
+                                                                                <ItemTemplate>
+                                                                                    <asp:TextBox ID="txtBTSecCompletedDate" runat="server" Width="80px" SkinID="txtDate" Enabled='<%# Convert.ToBoolean(Eval("IsEnable")) %>' Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("BT_Security_Walk_Comp_Date")) %>' />
+                                                                                    <asp:ImageButton ID="imgbtn" runat="server" ImageUrl="../../Images/iconPicDate.gif" ImageAlign="Middle" Enabled='<%# Convert.ToBoolean(Eval("IsEnable")) %>' OnClientClick="javascript:return false;" />
+                                                                                    <cc1:CalendarExtender ID="calCompletedDate" runat="server" TargetControlID="txtBTSecCompletedDate" PopupButtonID="imgbtn"></cc1:CalendarExtender>
+                                                                                    <asp:RegularExpressionValidator ID="revDate_Completed_Inspection" runat="server"
+                                                                                        ValidationGroup="vsErrorInspectionGroup" Display="none" ErrorMessage="Date Completed is not a valid date"
+                                                                                        SetFocusOnError="true" ControlToValidate="txtBTSecCompletedDate" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="BT Security Walk Participation" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="20%" HeaderStyle-HorizontalAlign="Center">
+                                                                                <ItemTemplate>
+                                                                                    <asp:LinkButton ID="lnkParticipation" runat="server" Text="Participants" CommandName="Participation"
+                                                                                        CommandArgument='<%#Eval("MonthNum") + ":" + Eval("PK_SLT_BT_Security_Walk") %>' Enabled='<%# Convert.ToBoolean(Eval("IsEnable")) %>'></asp:LinkButton>
+                                                                                    <%--<asp:HyperLink ID="SafetyWalkParticipation" runat="server" Text="Participants"></asp:HyperLink>--%>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Observations Open" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="15%">
+                                                                                <ItemTemplate>
+                                                                                    <asp:LinkButton ID="lnkObservationOpen" runat="server" Text='<%# Eval("Observations_Open") %>' CommandName="ObservationOpen"
+                                                                                        CommandArgument='<%#Eval("Month") + ":" + Eval("PK_SLT_BT_Security_Walk") %>' Enabled='<%# Convert.ToBoolean(Eval("IsEnable")) %>'>
+                                                                                    </asp:LinkButton>
+                                                                                    <%--<asp:HyperLink ID="ObservationsOpen" runat="server" Text='<%# Eval("Observations_Open") %>'></asp:HyperLink>--%>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                        </Columns>
+                                                                    </asp:GridView>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6" align="center">
+                                                                <asp:Button ID="btnSave_BTSecurity" runat="server" Text="Save" OnClick="btnSave_SLTSafety_Click" Visible="false" />
+                                                                &nbsp;&nbsp;<asp:Button ID="btnBTAudit" runat="server" Text="View Audit Trail"
+                                                                    OnClientClick="javascript:return AuditPopUpMeeting('SLTSafetyWalk');" Visible="false" />
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <asp:Button ID="btnhdnBTSecurityReload" runat="server" OnClick="btnhdnBTSecurityReload_Click" Style="display: none;" />
+                                                    <asp:Button ID="btnReload_BTParticipant" runat="server" OnClick="btnReload_BTParticipant_Click" Style="display: none;" />
+                                                </asp:Panel>
+                                            </asp:Panel>
                                         </div>
                                         <div id="dvView" runat="server" width="794px">
                                             <asp:Panel ID="pnl1View" runat="server" Style="display: none;">
@@ -3996,8 +4530,8 @@ jQuery(function ($) {
                                                     <tr id="tr_AgendaGridview" runat="server" visible="false">
                                                         <td align="left" valign="top" colspan="3">
                                                             <asp:GridView ID="gvMeetingView" runat="server" Width="100%" AutoGenerateColumns="false"
-                                                                PageSize="10" AllowPaging="true" OnPageIndexChanging="gvMeetingView_PageIndexChanging"
-                                                                OnRowCommand="gvMeeting_RowCommand">
+                                                                PageSize="10" AllowPaging="true" OnPageIndexChanging="gvMeetingView_PageIndexChanging" AllowSorting="True"
+                                                                OnRowCommand="gvMeeting_RowCommand" OnSorting="gvMeetingView_Sorting" OnRowCreated="gvMeetingView_RowCreated">
                                                                 <Columns>
                                                                     <asp:TemplateField>
                                                                         <ItemStyle Width="5%" />
@@ -4007,12 +4541,12 @@ jQuery(function ($) {
                                                                                 CausesValidation="false" />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
-                                                                    <asp:BoundField HeaderText="Scheduled Meeting Date" DataField="Scheduled_Meeting_Date"
+                                                                    <asp:BoundField HeaderText="Scheduled Meeting Date" DataField="Scheduled_Meeting_Date" SortExpression="Scheduled_Meeting_Date"
                                                                         DataFormatString="{0:MM/dd/yyyy}" ItemStyle-Width="20%" HeaderStyle-HorizontalAlign="Left" />
                                                                     <asp:BoundField HeaderText="Date Meeting Minutes Sent" DataField="Date_Meeting_Minutes_Sent"
                                                                         DataFormatString="{0:MM/dd/yyyy}" ItemStyle-Width="20%" ItemStyle-HorizontalAlign="Left"
                                                                         HeaderStyle-HorizontalAlign="Left" />
-                                                                    <asp:TemplateField HeaderText="Actual Meeting Date">
+                                                                    <asp:TemplateField HeaderText="Actual Meeting Date" SortExpression="Actual_Meeting_Date">
                                                                         <ItemStyle Width="16%" />
                                                                         <ItemTemplate>
                                                                             <asp:Label ID="lblActual_Meeting_Date" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("Actual_Meeting_Date")) %>' />
@@ -4068,7 +4602,7 @@ jQuery(function ($) {
                                                 </table>
                                             </asp:Panel>
                                         </div>
-                                        <div id="dvnonEditable" runat="server" width="794px">
+                                        <div id="dvnonEditable" runat="server" width="794px" style="overflow-x: hidden; overflow-y: scroll;">
                                             <asp:Panel ID="pnl3View" runat="server" Style="display: none;" Height="460px">
                                                 <div class="bandHeaderRow">
                                                     Meeting Attendees
@@ -5682,6 +6216,42 @@ jQuery(function ($) {
                                                         <td colspan="6">&nbsp;
                                                         </td>
                                                     </tr>
+
+                                                    <tr>
+                                                    <td colspan="6" align="left">
+                                                        <b>SABA Weekly Training Report Attachments</b>
+                                                        <br />
+                                                        <i>Click to view details</i>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="6">&nbsp;
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="6">
+                                                        <asp:GridView ID="gvSLT_TrainingAttachmentView" runat="server" Width="100%" OnRowDataBound="gvSLT_TrainingAttachmentView_RowDataBound"
+                                                            EmptyDataText="Currently there is no attachment<br/>Please add one or more attachment">
+                                                            <Columns>
+                                                                <asp:TemplateField HeaderText="File Name">
+                                                                    <ItemStyle Width="35%" />
+                                                                    <ItemTemplate>
+                                                                        <a id="lnkTrainingAttachFile" runat="server" href="#">
+                                                                            <%# Eval("Attachment_Name1")%>
+                                                                        </a>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:TemplateField HeaderText="Type">
+                                                                    <ItemStyle Width="35%" />
+                                                                    <ItemTemplate>
+                                                                        <%# Eval("Attachment_Description")%>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                            </Columns>
+                                                        </asp:GridView>
+                                                    </td>
+                                                </tr>
+
                                                 </table>
                                             </asp:Panel>
                                             <asp:Panel ID="pnl11View" runat="server" Style="display: none;" Height="460px">
@@ -5820,7 +6390,7 @@ jQuery(function ($) {
                                             </asp:Panel>
                                             <asp:Panel ID="pnl12View" runat="server" Style="display: none;" Height="460px">
                                                 <div class="bandHeaderRow">
-                                                    Suggestions
+                                                    Suggestions/Comments/Notes
                                                 </div>
                                                 <table cellpadding="4" cellspacing="1" border="0" width="100%">
                                                     <tr>
@@ -5849,14 +6419,15 @@ jQuery(function ($) {
                                                             </asp:GridView>
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td colspan="6">
-                                                            <hr />
-                                                        </td>
-                                                    </tr>
-                                                    <tr id="tr_suggview" runat="server">
+                                                    
+                                                    <tr id="tr_suggview" runat="server" style="display: none">
                                                         <td colspan="6">
                                                             <table cellpadding="4" cellspacing="1" border="0" width="100%">
+                                                                <tr>
+                                                                    <td colspan="6">
+                                                                        <hr />
+                                                                    </td>
+                                                                </tr>
                                                                 <tr>
                                                                     <td align="left" width="18%" valign="top">Assigned To
                                                                     </td>
@@ -5921,6 +6492,15 @@ jQuery(function ($) {
                                                                     </td>
                                                                     <td align="left" valign="top">
                                                                         <asp:Label ID="lblFK_LU_Item_Status_Sugg" runat="server"></asp:Label>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" valign="top">Notes 
+                                                                    </td>
+                                                                    <td align="center" valign="top">:
+                                                                    </td>
+                                                                    <td align="left" colspan="4" valign="top">
+                                                                        <uc:ctrlMultiLineTextBox ID="lblSuggestion_Notes" runat="server" ControlType="Label" />
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -5999,8 +6579,375 @@ jQuery(function ($) {
                                                     </tr>
                                                 </table>
                                             </asp:Panel>
+                                             <asp:Panel ID="pnl17View" runat="server" Style="display: none;">
+                                                 <asp:Panel ID="pnlBTSecurityView" runat="server">
+                                                     <div class="bandHeaderRow">
+                                                        BT Security Walk
+                                                    </div>
+                                                    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                        <tr>
+                                                            <td align="left" width="18%" valign="top">Monthly BT Security Walk Completed
+                                                            </td>
+                                                            <td align="center" width="4%" valign="top">:
+                                                            </td>
+                                                            <td align="left" width="28%" valign="top">
+                                                                <asp:Label ID="lblBT_Security_Walk_Comp" runat="server"></asp:Label>
+                                                            </td>
+                                                            <td align="left" width="18%" valign="top">Date Completed
+                                                            </td>
+                                                            <td align="center" width="4%" valign="top">:
+                                                            </td>
+                                                            <td align="left" width="28%" valign="top">
+                                                                <asp:Label ID="lblBT_Security_Walk_Comp_Date" runat="server"></asp:Label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Monthly BT Security Walk Completed by the following SLT Members
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top" colspan="4">
+                                                                <asp:GridView ID="gvMonBTSecurityWalkView" runat="server" Width="100%" AutoGenerateColumns="false"
+                                                                    PageSize="10" EmptyDataText="No Record Found" OnPageIndexChanging="gvMonBTSecurityWalkView_PageIndexChanging"
+                                                                    OnRowDataBound="gvMonBTSecurityWalkView_RowDataBound">
+                                                                    <Columns>
+                                                                        <asp:BoundField HeaderText="First Name" DataField="First_Name" ItemStyle-HorizontalAlign="Left"
+                                                                            ItemStyle-Width="25%" />
+                                                                        <asp:BoundField HeaderText="Last Name" DataField="Last_Name" ItemStyle-HorizontalAlign="Left"
+                                                                            ItemStyle-Width="25%" />
+                                                                        <asp:BoundField HeaderText="SLT Role" DataField="SLT_Role" ItemStyle-HorizontalAlign="Left"
+                                                                            ItemStyle-Width="25%" />
+                                                                        <asp:TemplateField HeaderText="Participated">
+                                                                            <ItemStyle Width="25%" />
+                                                                            <ItemTemplate>
+                                                                                <asp:Label ID="lblBTSecparticipated" runat="server"></asp:Label>
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                    </Columns>
+                                                                </asp:GridView>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6">
+                                                                <hr size="1" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left">
+                                                                <b>Departments Reviewed</b><br />
+                                                                <br />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Sales
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblBTSecSales_Reviewed" runat="server"></asp:Label>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblBTSecSales_Deficiencies" runat="server"></asp:Label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trBTSecSalesView" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="lblBTSecSales_Comments" runat="server" ControlType="Label" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Parts
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblBTSecParts_Reviewed" runat="server"></asp:Label>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblBTSecParts_Deficiencies" runat="server"></asp:Label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trBTSecPartsView" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="lblBTSecParts_Comments" runat="server" ControlType="Label" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Service Facility
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblBTSecService_Facility_Reviewed" runat="server"></asp:Label>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblBTSecService_Deficiencies" runat="server"></asp:Label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trBTSecServiceView" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="lblBTSecService_Comments" runat="server" ControlType="Label" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Body Shop
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblBTSecBody_Shop_Reviewed" runat="server"></asp:Label>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblBTSecBody_Shop_Deficiencies" runat="server"></asp:Label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trBTSecBody_ShopView" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="lblBTSecBody_Shop_Comments" runat="server" ControlType="Label" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Business Office
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblBTSecBus_Off_Reviewed" runat="server"></asp:Label>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblBTSecBus_Off_Deficiencies" runat="server"></asp:Label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trBTSecBusinessView" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="lblBTSecBus_Off_Comments" runat="server" ControlType="Label" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Detail Area
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblBTSecDetail_Area_Reviewed" runat="server"></asp:Label>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblBTSecDetail_Deficiencies" runat="server"></asp:Label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trBTSecDetailAreaView" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="lblBTSecDetail_Comments" runat="server" ControlType="Label" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Car Wash
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblBTSecCar_Wash_Reviewed" runat="server"></asp:Label>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblBTSecCar_Wash_Deficiencies" runat="server"></asp:Label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trBTSecCarWashView" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="lblBTSecCar_Wash_Comments" runat="server" ControlType="Label" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Parking Lot
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblBTSecParking_Lot_Reviewed" runat="server"></asp:Label>
+                                                            </td>
+                                                            <td align="left" valign="top">Deficiencies Corrected
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:Label ID="lblBTSecParking_Deficiencies" runat="server"></asp:Label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="trBTSecParkingView" runat="server" style="display: none;">
+                                                            <td align="left" valign="top">Comments
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" colspan="4" valign="top">
+                                                                <uc:ctrlMultiLineTextBox ID="lblBTSecParking_Comments" runat="server" ControlType="Label" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6">&nbsp;
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6" align="left">
+                                                                <b>BT Security Walk Attachments</b><br />
+                                                                <i>Click to view details</i>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6">&nbsp;
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6">
+                                                                <asp:GridView ID="gvBTSecuritywalkAttachmentView" runat="server" Width="100%" OnRowDataBound="gvBTSecuritywalkAttachmentView_RowDataBound"
+                                                                    EmptyDataText="Currently there is no attachment<br/>Please add one or more attachment">
+                                                                    <Columns>
+                                                                        <asp:TemplateField HeaderText="File Name">
+                                                                            <ItemStyle Width="35%" />
+                                                                            <ItemTemplate>
+                                                                                <a id="lnkBTSecwalkAttachFile" runat="server" href="#">
+                                                                                    <%# Eval("Attachment_Name1")%>
+                                                                                </a>
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                        <asp:TemplateField HeaderText="Type">
+                                                                            <ItemStyle Width="35%" />
+                                                                            <ItemTemplate>
+                                                                                <%# Eval("Attachment_Description")%>
+                                                                            </ItemTemplate>
+                                                                        </asp:TemplateField>
+                                                                    </Columns>
+                                                                </asp:GridView>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6">&nbsp;
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6" align="center">&nbsp;&nbsp;<asp:Button ID="btnBTSec_walkAudit_view" runat="server" Text="View Audit Trail"
+                                                                OnClientClick="javascript:return AuditPopUpMeeting('SLTBTSecurityWalk');" Visible="false" />
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                 </asp:Panel>
+                                                 <asp:Panel ID="pnlBTSecurityGridView" runat="server">
+                                                     <table>
+                                                        <tr>
+                                                            <td>
+                                                                <asp:Label ID="lblBTSecurityView" runat="server"></asp:Label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div style="min-height: 302px;">
+                                                                    <asp:GridView ID="gvSLTBTSecurityWalkView" runat="server" Width="100%" AutoGenerateColumns="false"
+                                                                        AllowPaging="true" PageSize="10" EmptyDataText="No Record Found" OnRowCommand="gvBTSecurityWalk_RowCommand">
+                                                                        <Columns>
+                                                                            <asp:TemplateField HeaderText="Month" ItemStyle-Width="15%">
+                                                                                <ItemTemplate>
+                                                                                   <asp:HiddenField ID="hdnBTSecMonthNumber" runat="server" Value='<%# Eval("MonthNum") %>' />
+                                                                                    <asp:HiddenField ID="hdnBTSecActualMeetingDate" runat="server" Value='<%# Eval("Actual_Meeting_Date") %>' />
+                                                                                    <asp:HiddenField ID="hdnBTSec_Walk_Comp" runat="server" Value='<%# Convert.ToBoolean(Eval("BT_Security_Walk_Comp")) %>' />
+                                                                                    <asp:HiddenField ID="hdnPK_SLT_BTSec_Walk" runat="server" Value='<%# Eval("PK_SLT_BT_Security_Walk") %>' />
+                                                                                    <asp:HiddenField ID="hdnBTSecPK_SLT_Meeting_Schedule" runat="server" Value='<%# Eval("PK_SLT_Meeting_Schedule") %>' />
+                                                                                    <%# Eval("Month") %>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Focus Area" ItemStyle-Width="20%">
+                                                                                <ItemTemplate>
+                                                                                    <%# Eval("Focus_Area") %>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Monthly BT Security Walk Completed?" ItemStyle-Width="20%">
+                                                                                <ItemTemplate>
+                                                                                    <%# clsGeneral.FormatYesNoToDisplayForView(Eval("BT_Security_Walk_Comp")) %>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Date Completed" ItemStyle-Width="20%">
+                                                                                <ItemTemplate>
+                                                                                    <%# clsGeneral.FormatDBNullDateToDisplay(Eval("BT_Security_Walk_Comp_Date")) %>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Safety Walk Participation" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="20%" HeaderStyle-HorizontalAlign="Center">
+                                                                                <ItemTemplate>
+                                                                                    <asp:LinkButton ID="lnkParticipation" runat="server" Text="Participants" CommandName="Participation"
+                                                                                        CommandArgument='<%#Eval("MonthNum") + ":" + Eval("PK_SLT_BT_Security_Walk") %>' Enabled='<%# Convert.ToBoolean(Eval("IsEnable")) %>'></asp:LinkButton>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Observations Open" ItemStyle-HorizontalAlign="Center" ItemStyle-Width="15%">
+                                                                                <ItemTemplate>
+                                                                                    <asp:LinkButton ID="lnkObservationOpen" runat="server" Text='<%# Eval("Observations_Open") %>' CommandName="ObservationOpen"
+                                                                                        CommandArgument='<%#Eval("Month") + ":" + Eval("PK_SLT_BT_Security_Walk") %>' Enabled='<%# Convert.ToBoolean(Eval("IsEnable")) %>'>
+                                                                                    </asp:LinkButton>
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>
+                                                                        </Columns>
+                                                                    </asp:GridView>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                 </asp:Panel>
+                                             </asp:Panel>
                                         </div>
-                                        <asp:Panel ID="pnl14View" runat="server" Style="display: none;" Height="460px">
+                                        <asp:Panel ID="pnl14View" runat="server" Style="display: none;">
+                                            <%--Height="610px"--%>
                                             <div class="bandHeaderRow">
                                                 Review
                                             </div>
@@ -6136,38 +7083,27 @@ jQuery(function ($) {
                                                     <td align="center" width="4%" valign="top"></td>
                                                     <td align="left" width="28%" valign="top"></td>
                                                 </tr>
-                                                <tr>
-                                                    <td colspan="6" align="left">
-                                                        <b>SABA Weekly Training Report Attachments</b>
-                                                        <br />
-                                                        <i>Click to view details</i>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="6">&nbsp;
-                                                    </td>
-                                                </tr>
+                                                
+
                                                 <tr>
                                                     <td colspan="6">
-                                                        <asp:GridView ID="gvSLT_TrainingAttachmentView" runat="server" Width="100%" OnRowDataBound="gvSLT_TrainingAttachmentView_RowDataBound"
-                                                            EmptyDataText="Currently there is no attachment<br/>Please add one or more attachment">
-                                                            <Columns>
-                                                                <asp:TemplateField HeaderText="File Name">
-                                                                    <ItemStyle Width="35%" />
-                                                                    <ItemTemplate>
-                                                                        <a id="lnkTrainingAttachFile" runat="server" href="#">
-                                                                            <%# Eval("Attachment_Name1")%>
-                                                                        </a>
-                                                                    </ItemTemplate>
-                                                                </asp:TemplateField>
-                                                                <asp:TemplateField HeaderText="Type">
-                                                                    <ItemStyle Width="35%" />
-                                                                    <ItemTemplate>
-                                                                        <%# Eval("Attachment_Description")%>
-                                                                    </ItemTemplate>
-                                                                </asp:TemplateField>
-                                                            </Columns>
-                                                        </asp:GridView>
+                                                        <div id="dvAttachmentView" runat="server">
+                                                            <table cellpadding="0" cellspacing="0" width="100%">
+                                                                <tr style="background-color: #06537c; font-family: Tahoma; color: white; font-size: 10pt; font-weight: bold; padding: 2px;">
+                                                                    <td colspan="100%">Attachments</td>
+                                                                    <%--3439 Point 4--%>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                        <asp:Panel ID="pnlAttachmentDetailsView" runat="server" Width="714px" >
+                                                            <table cellpadding="0" cellspacing="0" width="100%" style="height: 250px;">
+                                                                <tr>
+                                                                    <td width="100%" valign="top">
+                                                                        <uc:ctrlAttachmentDetail ID="AttachmentDetails_Meeting_Review" runat="Server" isViewOnly="true" />
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </asp:Panel>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -6245,6 +7181,8 @@ jQuery(function ($) {
     <input id="hdnErrorMsgscallToOrder" runat="server" type="hidden" />
     <asp:CustomValidator ID="CustomValidatorSafety" runat="server" ErrorMessage="" ClientValidationFunction="ValidateFields"
         Display="None" ValidationGroup="vsErrorSafetywalkGroup" />
+    <asp:CustomValidator ID="CustomValidatorBTSec" runat="server" ErrorMessage="" ClientValidationFunction="ValidateFields"
+        Display="None" ValidationGroup="vsErrorBTSecuritywalkGroup" />
     <input id="hdnControlIDsSafety" runat="server" type="hidden" />
     <input id="hdnErrorMsgsSafety" runat="server" type="hidden" />
     <asp:CustomValidator ID="CustomValidatorInspection" runat="server" ErrorMessage=""

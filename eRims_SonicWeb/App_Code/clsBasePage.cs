@@ -530,9 +530,11 @@ public class clsBasePage : System.Web.UI.Page
             {
                 if (clsSession.IsUserRegionalOfficer && (UserAccessType != AccessType.Administrative_Access))
                 {
-                    if (strUrl.IndexOf("/Administrator/") > -1 && Request.Url.Segments[Request.Url.Segments.Length - 1].ToString() != "security.aspx")
+                    if (strUrl.IndexOf("/Administrator/") > -1 && Request.Url.Segments[Request.Url.Segments.Length - 1].ToString() != "security.aspx"
+                        && Request.Url.Segments[Request.Url.Segments.Length - 1].ToString() != "WallSearchByLocation.aspx")
                         Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc");
-                    if (strUrl.IndexOf("/Sedgwick/") > -1 && Request.Url.Segments[Request.Url.Segments.Length - 1].ToString() != "security.aspx" && !boolAccessSet)
+                    if (strUrl.IndexOf("/Sedgwick/") > -1 && Request.Url.Segments[Request.Url.Segments.Length - 1].ToString() != "security.aspx" && !boolAccessSet
+                        && Request.Url.Segments[Request.Url.Segments.Length - 1].ToString() != "WallSearchByLocation.aspx")
                         Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc");
                 }
                 else
@@ -555,7 +557,8 @@ public class clsBasePage : System.Web.UI.Page
                     // check user have administrative access or not. if not than not able to enter into Admin section 
                     if (UserAccessType != AccessType.Administrative_Access)
                     {
-                        if ((UserAccessType == AccessType.View_Only) && strUrl.IndexOf("/Administrator/") > 0 && Request.Url.Segments[Request.Url.Segments.Length - 1].ToString() != "ChangePassword.aspx")
+                        if ((UserAccessType == AccessType.View_Only) && strUrl.IndexOf("/Administrator/") > 0 && Request.Url.Segments[Request.Url.Segments.Length - 1].ToString() != "ChangePassword.aspx"
+                            && Request.Url.Segments[Request.Url.Segments.Length - 1].ToString() != "WallSearch.aspx" && Request.Url.Segments[Request.Url.Segments.Length - 1].ToString() != "WallSearchByLocation.aspx")
                         {
                             Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc");
                         }

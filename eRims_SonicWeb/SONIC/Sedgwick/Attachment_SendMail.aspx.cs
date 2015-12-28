@@ -46,34 +46,53 @@ public partial class SONIC_Sedgwick_Attachment_SendMail : System.Web.UI.Page
                         trAttachment.Visible = true;
                         string[] AttachmentIds = Request.QueryString["AttachmentId"].Split(',');
                         arrAttachments = new string[AttachmentIds.Length];
-                        string PK_Field_Name = Convert.ToString(Request.QueryString["PK_Field_Name"]);
-                        for (int i = 0; i < AttachmentIds.Length; i++)
+
+                        if (TableName == "SLT_Meeting_Review")
                         {
-                            int intAttachmentId = clsGeneral.GetInt(AttachmentIds[i]);
+                            DataSet ds = ERIMSAttachment.SelectByID(Convert.ToString(Request.QueryString["AttachmentId"]));
 
-                            if (intAttachmentId == 0)
+                            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                             {
-                                // if attachment id is not passed.
-                                //lblMsg.Text = "Attachment Not Found";
-                            }
-                            else
-                            {
-                                string strSQL = "";
-                                strSQL = strSQL + "SELECT Atachment_Name_On_Disk";
-                                strSQL = strSQL + " FROM " + "Sedgwick_Attachments" + Environment.NewLine;
-                                strSQL = strSQL + " WHERE " + PK_Field_Name + " = " + intAttachmentId;
-
-                                Database db = DatabaseFactory.CreateDatabase();
-                                DataSet ds = db.ExecuteDataSet(System.Data.CommandType.Text, strSQL);
-
-                                string Attachment_Name = Convert.ToString(ds.Tables[0].Rows[0]["Atachment_Name_On_Disk"]);
+                                string Attachment_Name = Convert.ToString(ds.Tables[0].Rows[i]["Attachment_Name"]);
                                 lblAttachment.Text += " " + Attachment_Name.Substring(12) + ",";
-                                this.Page.Title = " Email Attachment ";
-                                string strAttachment = AppConfig.strAPDocumentPath + Attachment_Name;
+                                string strAttachment = AppConfig.strSLT_MeetingReviewDocsPath + Attachment_Name;
                                 arrAttachments[i] = strAttachment;
+                            }
+                            //this.Page.Title = " Email Attachment ";
 
+                        }
+                        else
+                        {
+                            string PK_Field_Name = Convert.ToString(Request.QueryString["PK_Field_Name"]);
+                            for (int i = 0; i < AttachmentIds.Length; i++)
+                            {
+                                int intAttachmentId = clsGeneral.GetInt(AttachmentIds[i]);
+
+                                if (intAttachmentId == 0)
+                                {
+                                    // if attachment id is not passed.
+                                    //lblMsg.Text = "Attachment Not Found";
+                                }
+                                else
+                                {
+                                    string strSQL = "";
+                                    strSQL = strSQL + "SELECT Atachment_Name_On_Disk";
+                                    strSQL = strSQL + " FROM " + "Sedgwick_Attachments" + Environment.NewLine;
+                                    strSQL = strSQL + " WHERE " + PK_Field_Name + " = " + intAttachmentId;
+
+                                    Database db = DatabaseFactory.CreateDatabase();
+                                    DataSet ds = db.ExecuteDataSet(System.Data.CommandType.Text, strSQL);
+
+                                    string Attachment_Name = Convert.ToString(ds.Tables[0].Rows[0]["Atachment_Name_On_Disk"]);
+                                    lblAttachment.Text += " " + Attachment_Name.Substring(12) + ",";
+                                    //this.Page.Title = " Email Attachment ";
+                                    string strAttachment = AppConfig.strAPDocumentPath + Attachment_Name;
+                                    arrAttachments[i] = strAttachment;
+
+                                }
                             }
                         }
+                        this.Page.Title = " Email Attachment ";
                         lblAttachment.Text = lblAttachment.Text.TrimEnd(',');
 
 

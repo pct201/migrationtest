@@ -33,6 +33,7 @@ namespace ERIMS.DAL
 		private decimal? _FK_PL_FR_ID;
 		private decimal? _FK_DPD_FR_ID;
 		private decimal? _FK_Property_FR_ID;
+        private string _SLT_Agree_Root_Cause;
 
 		#endregion
 
@@ -218,6 +219,14 @@ namespace ERIMS.DAL
 			set { _FK_Property_FR_ID = value; }
 		}
 
+        /// <summary>
+        /// Gets or sets the SLT_Agree_Root_Cause value.
+        /// </summary>
+        public string SLT_Agree_Root_Cause
+        {
+            get { return _SLT_Agree_Root_Cause; }
+            set { _SLT_Agree_Root_Cause = value; }
+        }
 
 		#endregion
 
@@ -358,6 +367,11 @@ namespace ERIMS.DAL
 				else
 					this._FK_Property_FR_ID = (decimal?)drSLT_Incident_Review["FK_Property_FR_ID"];
 
+                if (drSLT_Incident_Review["SLT_Agree_Root_Cause"] == DBNull.Value)
+                    this._SLT_Agree_Root_Cause = null;
+                else
+                    this._SLT_Agree_Root_Cause = (string)drSLT_Incident_Review["SLT_Agree_Root_Cause"];
+
 
 		}
 
@@ -428,6 +442,11 @@ namespace ERIMS.DAL
 			db.AddInParameter(dbCommand, "FK_DPD_FR_ID", DbType.Decimal, this._FK_DPD_FR_ID);
 			
 			db.AddInParameter(dbCommand, "FK_Property_FR_ID", DbType.Decimal, this._FK_Property_FR_ID);
+
+            if (string.IsNullOrEmpty(this._SLT_Agree_Root_Cause))
+                db.AddInParameter(dbCommand, "SLT_Agree_Root_Cause", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "SLT_Agree_Root_Cause", DbType.String, this._SLT_Agree_Root_Cause);
 
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -527,6 +546,11 @@ namespace ERIMS.DAL
 			db.AddInParameter(dbCommand, "FK_DPD_FR_ID", DbType.Decimal, this._FK_DPD_FR_ID);
 			
 			db.AddInParameter(dbCommand, "FK_Property_FR_ID", DbType.Decimal, this._FK_Property_FR_ID);
+
+            if (string.IsNullOrEmpty(this._SLT_Agree_Root_Cause))
+                db.AddInParameter(dbCommand, "SLT_Agree_Root_Cause", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "SLT_Agree_Root_Cause", DbType.String, this._SLT_Agree_Root_Cause);
 
 			db.ExecuteNonQuery(dbCommand);
 		}
