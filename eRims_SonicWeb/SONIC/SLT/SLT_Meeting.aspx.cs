@@ -535,7 +535,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     {
         FillIncident_ReviewGrid();
 
-        if (StrOperation == "view")
+        if ((StrOperation == "view") || (StrOperation != "view" && meetingIsEditable == false))
         {
             #region View Mode
             IncidentReview_WC_View.Year = Year;
