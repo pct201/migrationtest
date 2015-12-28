@@ -278,6 +278,16 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
                 txtProjectDescription.Text = string.Empty;
             }
 
+            if (dsProjectDetail.Tables[0].Rows[0]["Title"] != null)
+            {
+                lbTitle.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Title"]);
+                txtTitle.Text = Convert.ToString(dsProjectDetail.Tables[0].Rows[0]["Title"]);
+            }
+            else
+            {
+                lbTitle.Text = string.Empty;
+                txtTitle.Text = string.Empty;
+            }
             FillBuildings();
         }
         else
@@ -318,6 +328,50 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
     private void DeleteBuildings()
     {
         Facility_Construction_PM_Buildings.DeleteBuildingsByConstructionProjectId(ConstructionProjectId);
+    }
+
+    /// <summary>
+    /// Save new building improvements
+    /// </summary>
+    private void SaveBuildingImprovement()
+    {
+        Building_Improvements building_Improvements = new Building_Improvements();
+        if (!string.IsNullOrEmpty(txtProjectNumber.Text.Trim()))
+        {
+            building_Improvements.Project_Number = Convert.ToString(txtProjectNumber.Text.Trim());
+        }
+        else
+        {
+            building_Improvements.Project_Number = null;
+        }
+
+        if (!string.IsNullOrEmpty(txtEstimatedStartDate.Text.Trim()))
+        {
+            building_Improvements.Start_Date = Convert.ToDateTime(txtEstimatedStartDate.Text.Trim());
+        }
+        else
+        {
+            building_Improvements.Start_Date = null;
+        }
+
+        if (!string.IsNullOrEmpty(txtEstimatedEndDate.Text.Trim()))
+        {
+            building_Improvements.Completion_Date = Convert.ToDateTime(txtEstimatedEndDate.Text.Trim());
+        }
+        else
+        {
+            building_Improvements.Completion_Date = null;
+        }
+
+        if (!string.IsNullOrEmpty(txtProjectDescription.Text.Trim()))
+        {
+            building_Improvements.Improvement_Description = Convert.ToString(txtProjectDescription.Text.Trim());
+        }
+        else
+        {
+            building_Improvements.Improvement_Description = null;
+        }
+        building_Improvements.Insert();
     }
 
     #endregion
@@ -369,6 +423,15 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
             facility_Construction_Project.Project_Description = null;
         }
 
+        if (!string.IsNullOrEmpty(txtTitle.Text.Trim()))
+        {
+            facility_Construction_Project.Title = Convert.ToString(txtTitle.Text.Trim());
+        }
+        else
+        {
+            facility_Construction_Project.Title = null;
+        }
+
         facility_Construction_Project.FK_Location = LocationID;
         facility_Construction_Project.FK_LU_Facility_Project_Type = Convert.ToDecimal(ddProjectType.SelectedValue);
         facility_Construction_Project.UpdatedBy = clsSession.UserID;
@@ -385,6 +448,7 @@ public partial class SONIC_Exposures_ConstructionProjectsView : clsBasePage
         {
             ConstructionProjectId = facility_Construction_Project.Insert();
             SaveBuildings();
+            SaveBuildingImprovement();
             Session["ConstructionProjectId"] = ConstructionProjectId;
         }
 

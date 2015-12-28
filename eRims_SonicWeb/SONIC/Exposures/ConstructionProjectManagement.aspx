@@ -71,6 +71,12 @@
                                                         <a style="word-break:break-all; word-wrap:normal; display:inline-block;" href='ConstructionProjectsView.aspx?loc=<%# Encryption.Encrypt(Eval("FK_Location").ToString()) %>&prjId=<%# Encryption.Encrypt(Eval("PK_Facility_construction_Project").ToString()) %>'><%# Eval("Project_Number") %></a>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Title" SortExpression="Title">
+                                                    <ItemStyle Width="15%"  />
+                                                    <ItemTemplate>
+                                                        <a style="word-break:break-all; word-wrap:normal; display:inline-block;" href='ConstructionProjectsView.aspx?loc=<%# Encryption.Encrypt(Eval("FK_Location").ToString()) %>&prjId=<%# Encryption.Encrypt(Eval("PK_Facility_construction_Project").ToString()) %>'><%# Eval("Title") %></a>
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Building" SortExpression="Building_Number">
                                                     <ItemStyle Width="15%"  />
                                                     <ItemTemplate>

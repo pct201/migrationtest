@@ -363,7 +363,7 @@
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top" width="28%">
-                                                            <asp:TextBox ID="txtProject_Number" Width="170px" runat="server" />
+                                                            <asp:TextBox ID="txtProject_Number" Width="170px" MaxLength="20" runat="server" />
                                                         </td>
                                                         <td align="left" valign="top">Project Start Date &nbsp;<span id="Span11" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>

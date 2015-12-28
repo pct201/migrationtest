@@ -25,6 +25,7 @@ namespace ERIMS.DAL
         private string _UpdatedBy;
         private DateTime? _UpdatedDate;
         private string _Sonic_Location_Code;
+        private string _Title;
 
         #endregion
 
@@ -137,6 +138,15 @@ namespace ERIMS.DAL
             get{ return _Sonic_Location_Code; }
             set { _Sonic_Location_Code = value; }
         }
+
+        /// <summary>
+        /// Gets or Sets Project_Title Value
+        /// </summary>
+        public string Title
+        {
+            get { return _Title; }
+            set { _Title = value; }
+        }
         #endregion
 
         #region Default Constructors
@@ -219,6 +229,11 @@ namespace ERIMS.DAL
                 this._UpdatedDate = null;
             else
                 this._UpdatedDate = (DateTime?)drFacility_Construction_Project["UpdatedDate"];
+
+            if (drFacility_Construction_Project["Title"] == DBNull.Value)
+                this._Title = null;
+            else
+                this._Title = Convert.ToString(drFacility_Construction_Project["Title"]);
         }
 
         #endregion
@@ -254,6 +269,11 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "UpdatedBy", DbType.String, this._UpdatedBy);
             
             db.AddInParameter(dbCommand, "UpdatedDate", DbType.DateTime, this._UpdatedDate);
+
+            if (string.IsNullOrEmpty(this._Title))
+                db.AddInParameter(dbCommand, "Title", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Title", DbType.String, this._Title);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -315,6 +335,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Project_Description", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Project_Description", DbType.String, this._Project_Description);
+
+            if (string.IsNullOrEmpty(this._Title))
+                db.AddInParameter(dbCommand, "Title", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Title", DbType.String, this._Title);
 
             db.AddInParameter(dbCommand, "UpdatedBy", DbType.String, this._UpdatedBy);
             

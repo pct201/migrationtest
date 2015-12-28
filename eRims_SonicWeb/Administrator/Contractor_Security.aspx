@@ -469,6 +469,13 @@
                                             CommandName="EditDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Title" HeaderStyle-HorizontalAlign="Center">
+                                    <ItemStyle Width="20%" HorizontalAlign="Center" />
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="lnkTitle" Style="word-wrap: normal; word-break: break-all;" runat="server" Text='<%# Eval("Title") %>'
+                                            CommandName="EditDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Project Start Date" HeaderStyle-HorizontalAlign="Center">
                                     <ItemStyle Width="20%" HorizontalAlign="Center" />
                                     <ItemTemplate>

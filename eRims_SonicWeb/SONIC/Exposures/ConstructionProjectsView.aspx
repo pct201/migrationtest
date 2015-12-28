@@ -212,6 +212,15 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
+                                                        <td align="left" valign="top" width="20%">Project Title
+                                                        </td>
+                                                        <td align="center" valign="top" width="4%">:
+                                                        </td>
+                                                        <td align="left" valign="top" colspan="4">
+                                                            <asp:Label ID="lbTitle" runat="server" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
                                                         <td align="left" valign="top" width="20%">Building(s)
                                                         </td>
                                                         <td align="center" valign="top" width="4%">:
@@ -241,7 +250,7 @@
                                                         <td align="center" valign="top" width="4%">:
                                                         </td>
                                                         <td align="left" valign="top" width="26%">
-                                                            <asp:TextBox ID="txtProjectNumber" runat="server" Width="170px" MaxLength="100" />
+                                                            <asp:TextBox ID="txtProjectNumber" runat="server" Width="170px" MaxLength="20" />
                                                         </td>
                                                         <td align="left" valign="top" width="20%">Estimated Start Date&nbsp;<span id="spnEstimatedStartDate" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
@@ -280,6 +289,15 @@
                                                             <asp:RegularExpressionValidator ID="revEstimatedEndDate" runat="server" ValidationGroup="vsErrorIdentification"
                                                                 Display="none" ErrorMessage="[Consultant and Schedule]/Estimated End Date is not a valid date"
                                                                 SetFocusOnError="true" ControlToValidate="txtEstimatedEndDate" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top" width="20%">Project Title
+                                                        </td>
+                                                        <td align="center" valign="top" width="4%">:
+                                                        </td>
+                                                        <td align="left" valign="top" width="26%">
+                                                            <asp:TextBox ID="txtTitle" runat="server" Width="170px" MaxLength="100" />
                                                         </td>
                                                     </tr>
                                                     <tr>
