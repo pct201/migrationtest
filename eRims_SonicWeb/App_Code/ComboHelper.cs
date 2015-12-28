@@ -4701,6 +4701,26 @@ public class ComboHelper
         }
     }
 
+    public static void FillSLT_BTSecurity_DepartmentObserved(ListBox[] dropDowns)
+    {
+        DataSet dsDepartment = clsLU_SLT_BT_Security_Walk_Department.SelectAll();
+        if (dsDepartment != null)
+        {
+            foreach (ListBox ddlToFill in dropDowns)
+            {
+                DataTable dtDepartment = dsDepartment.Tables[0];
+                // bind the grid.
+                ddlToFill.Items.Clear();
+                dtDepartment.DefaultView.RowFilter = " Active = 'Y'";
+                dtDepartment = dtDepartment.DefaultView.ToTable();
+                ddlToFill.DataTextField = "Department";
+                ddlToFill.DataValueField = "PK_LU_SLT_BT_Security_Walk_Department";
+                ddlToFill.DataSource = dtDepartment;
+                ddlToFill.DataBind();
+            }
+        }
+    }
+
     public static void FillAssociate(DropDownList[] dropDowns, bool booladdSelectAsFirstElement)
     {
         DataSet dsAssociate = Workers_Comp_Claims_OH.GetAssociateList();
