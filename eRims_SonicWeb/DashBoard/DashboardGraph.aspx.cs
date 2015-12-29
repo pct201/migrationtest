@@ -7,6 +7,7 @@ using InfoSoftGlobal;
 using ERIMS.DAL;
 using System.Data;
 using System.Web.UI.HtmlControls;
+using System.IO;
 
 public partial class DashboardGraph : clsBasePage
 {
@@ -603,8 +604,19 @@ public partial class DashboardGraph : clsBasePage
                     string strFileName = clsGeneral.Encode_Url(Convert.ToString(drAttachment[0]["Stored_File_Name"]));
                     string strThumbnail = strFileName.Substring(0, strFileName.LastIndexOf(".") - 1) + "_Thumb" + strFileName.Substring(strFileName.LastIndexOf("."));
 
-                    imgAttachment.ImageUrl = AppConfig.SiteURL + "Documents/Dashboard_Wall_Attachment/" + strThumbnail;
-                    imgAttachment.Attributes.Add("onclick", "javascript:return openWindow('" + AppConfig.SiteURL + "Documents/Dashboard_Wall_Attachment/" + strFileName + "');");
+                    if (File.Exists(AppConfig.SitePath + "Documents/Dashboard_Wall_Attachment/" + Convert.ToString(drAttachment[0]["Stored_File_Name"])))
+                    {
+                        imgAttachment.ImageUrl = AppConfig.SiteURL + "Documents/Dashboard_Wall_Attachment/" + strThumbnail;
+                        imgAttachment.Attributes.Add("onclick", "javascript:return openWindow('" + AppConfig.SiteURL + "Documents/Dashboard_Wall_Attachment/" + strFileName + "');");
+                    }
+                    else
+                    {
+                        imgAttachment.ImageUrl = AppConfig.SiteURL + "Images/NoImage.jpg";
+                        imgAttachment.Attributes.Add("onclick", "javascript:return openWindow('" + AppConfig.SiteURL + "Images/NoImage.jpg" +"');");
+                    }
+
+                    //imgAttachment.ImageUrl = AppConfig.SiteURL + "Documents/Dashboard_Wall_Attachment/" + strThumbnail;
+                    //imgAttachment.Attributes.Add("onclick", "javascript:return openWindow('" + AppConfig.SiteURL + "Documents/Dashboard_Wall_Attachment/" + strFileName + "');");
                 }
                 else
                 {///for documents
@@ -612,7 +624,11 @@ public partial class DashboardGraph : clsBasePage
                     lnkAttchment.Text = strInput_File_Name;
                     lnkAttchment.Style.Add("cursor", "hand");
                     lnkAttchment.Visible = true;
-                    lnkAttchment.OnClientClick = "javascript:return openWindow('" + AppConfig.SiteURL + "Documents/Dashboard_Wall_Attachment/" + clsGeneral.Encode_Url(Convert.ToString(drAttachment[0]["Stored_File_Name"])) + "');";
+
+                    if (File.Exists(AppConfig.SitePath + "Documents/Dashboard_Wall_Attachment/" + Convert.ToString(drAttachment[0]["Stored_File_Name"])))
+                        lnkAttchment.OnClientClick = "javascript:return openWindow('" + AppConfig.SiteURL + "Documents/Dashboard_Wall_Attachment/" + clsGeneral.Encode_Url(Convert.ToString(drAttachment[0]["Stored_File_Name"])) + "');";
+                    else
+                        lnkAttchment.OnClientClick = "javascript:alert('Attachment Not Found');return false;";
                 }
             }
             else
