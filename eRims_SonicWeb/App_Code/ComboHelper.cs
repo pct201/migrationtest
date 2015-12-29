@@ -5838,6 +5838,26 @@ public class ComboHelper
     /// </summary>
     /// <param name="dropDownList">All dropDownList</param>
     /// <param name="booladdSelectAsFirstElement">Add --select-- to first item in each drop down or not</param>
+
+    public static void FillInspectionArea(DropDownList[] dropDownList, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.clsLU_Facility_Inspection_Focus_Area.SelectAll();
+
+        foreach (DropDownList ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Description";
+            ddlToFill.DataValueField = "PK_LU_Facility_Inspection_Focus_Area";
+            ddlToFill.DataSource = dsData.Tables[0].DefaultView;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }   
+
     public static void FillPaintCategory(DropDownList[] dropDownList, bool booladdSelectAsFirstElement)
     {
         DataTable dtData = ERIMS.DAL.clsLU_VOC_Category.SelectAll().Tables[0];
