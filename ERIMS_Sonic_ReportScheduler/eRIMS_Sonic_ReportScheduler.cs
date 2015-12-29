@@ -16832,30 +16832,24 @@ namespace ERIMS_Sonic_ReportScheduler
             string strWhere = string.Empty;
             for (int i = 0; i < lstFilter.Count; i++)
             {
-                AdhocReportFields obj = new AdhocReportFields();
-                List<AdhocReportFields> lstAdhoc = obj.GetAdHocReportFieldByPk(Convert.ToDecimal(lstFilter[i].FK_AdHocReportFields));
-                string strConditionType = lstFilter[i].ConditionType;
-                string strConditionValue = lstFilter[i].ConditionValue;
-                string strField = lstAdhoc[0].WhereField;
-
                 Construction_AdhocReportFields construction_AdhocReportFields = listConstruction_AdHocReportFields.Find(a => a.Pk_AdhocReportFields == lstFilter[i].FK_AdHocReportFields);
 
                 if (construction_AdhocReportFields.Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.TextBox)
                 {
-                    strWhere += BindTextCondition(lstFilter[i].ConditionType, lstFilter[i].ConditionValue, lstAdhoc[0].Field_Name, lstAdhoc[0].Table_Name, Convert.ToBoolean(lstFilter[i].IsNotSelected));
+                    strWhere += BindTextCondition(lstFilter[i].ConditionType, lstFilter[i].ConditionValue, construction_AdhocReportFields.Field_Name, construction_AdhocReportFields.Table_Name, Convert.ToBoolean(lstFilter[i].IsNotSelected));
                 }
                 else if (construction_AdhocReportFields.Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.MultiSelectList && lstFilter[i].ConditionValue != null)
                 {
-                    strWhere += BindDropDownCondition(lstFilter[i].ConditionType, lstFilter[i].ConditionValue, lstAdhoc[0].WhereField, lstAdhoc[0].Table_Name, Convert.ToBoolean(lstFilter[i].IsNotSelected));
+                    strWhere += BindDropDownCondition(lstFilter[i].ConditionType, lstFilter[i].ConditionValue, construction_AdhocReportFields.WhereField, construction_AdhocReportFields.Table_Name, Convert.ToBoolean(lstFilter[i].IsNotSelected));
 
                 }
                 else if (construction_AdhocReportFields.Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.DateControl)
                 {
-                    strWhere += BindDateCondition(lstFilter[i], lstAdhoc[0].Field_Name, lstAdhoc[0].Table_Name, Convert.ToBoolean(lstFilter[i].IsNotSelected));
+                    strWhere += BindDateCondition(lstFilter[i], construction_AdhocReportFields.Field_Name, construction_AdhocReportFields.Table_Name, Convert.ToBoolean(lstFilter[i].IsNotSelected));
                 }
                 else if (construction_AdhocReportFields.Fk_ControlType.Value == (int)AdHocReportHelper.AdHocControlType.AmountControl)
                 {
-                    strWhere += BindAmountCondition(lstFilter[i], lstFilter[i].ConditionType, lstFilter[i].ConditionValue, lstAdhoc[0].Field_Name, lstAdhoc[0].Table_Name, Convert.ToBoolean(lstFilter[i].IsNotSelected));
+                    strWhere += BindAmountCondition(lstFilter[i], lstFilter[i].ConditionType, lstFilter[i].ConditionValue, construction_AdhocReportFields.Field_Name, construction_AdhocReportFields.Table_Name, Convert.ToBoolean(lstFilter[i].IsNotSelected));
                 }
             }
             return strWhere;
@@ -17590,7 +17584,7 @@ namespace ERIMS_Sonic_ReportScheduler
             catch (Exception ex)
             {
                 //EventLog.WriteEntry("ERROR in Ad Hoc Report Writer , " + ex.Message);
-                EventLog.WriteEntry("ERROR in ACI Ad Hoc Report Writer , " + ex.Message);
+                EventLog.WriteEntry("ERROR in Construction Ad Hoc Report Writer , " + ex.Message);
             }
             finally
             {
