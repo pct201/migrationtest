@@ -321,12 +321,17 @@ namespace ERIMS.DAL
         /// Selects a single record from the Contractor_Job_Security table by FK_Contactor_Security.
         /// </summary>
         /// <returns>DataSet</returns>
-        public static DataSet SelectByFKContactorSecurity(decimal FK_Contactor_Security)
+        public static DataSet SelectByFKContactorSecurity(decimal FK_Contactor_Security, string orderBy, string direction)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Contractor_Job_SecuritySelectByFKCS");
 
             db.AddInParameter(dbCommand, "FK_Contactor_Security", DbType.Decimal, FK_Contactor_Security);
+
+            if(string.IsNullOrEmpty(orderBy))
+                db.AddInParameter(dbCommand, "OrderBy", DbType.String, "Project_Number ASC");
+            else
+                db.AddInParameter(dbCommand, "OrderBy", DbType.String, orderBy + " " + direction);
 
             return db.ExecuteDataSet(dbCommand);
         }

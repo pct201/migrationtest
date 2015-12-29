@@ -52,6 +52,23 @@ public partial class Administrator_Contractor_Security : clsBasePage
         set { ViewState["strOperation"] = value; }
     }
 
+    /// <summary>
+    /// Denotes the sort field for Project grid
+    /// </summary>
+    public string SortByProjectGrid
+    {
+        get { return Convert.ToString(ViewState["SortByProjectGrid"]); }
+        set { ViewState["SortByProjectGrid"] = value; }
+    }
+
+    /// <summary>
+    /// Denotes the ascending or descending order for project grid
+    /// </summary>
+    public string SortOrderProjectGrid
+    {
+        get { return Convert.ToString(ViewState["SortOrderProjectGrid"]); }
+        set { ViewState["SortOrderProjectGrid"] = value; }
+    }
     #endregion
 
     #region Main Events
@@ -65,6 +82,8 @@ public partial class Administrator_Contractor_Security : clsBasePage
             // set the default sort field and sort order
             SortBy = "User_Name";
             SortOrder = "Asc";
+            SortByProjectGrid = "Project_Number";
+            SortOrderProjectGrid = "Asc";
             //Bind Admin Grid
             BindGrid(1, 10);
             FillDropDown();
@@ -133,7 +152,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
         trPassword.Style.Add("display", "block");
         btnEdit.Visible = false;
         btnSave.Visible = true;
-        BindLocationProjectAccessGridsView();
+        BindLocationProjectAccessGridsView("", "");
         lnkAddLocationProjectAccessGrid.Style.Add("display", "none");
         PK_Contactor_Security = 0;
         txtLoginUserName.Text = "";
@@ -429,7 +448,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
         else if (e.CommandName == "RemoveDetails")
         {
             Contractor_Job_Security.Delete(Convert.ToDecimal(e.CommandArgument));
-            BindLocationProjectAccessGridsView();
+            BindLocationProjectAccessGridsView(SortByProjectGrid, SortOrderProjectGrid);
         }
     }
 
@@ -550,7 +569,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
         //trPassword.Style.Add("diplay", "none");
         btnSave.Visible = true;
         btnEdit.Visible = false;
-        BindLocationProjectAccessGridsView();
+        BindLocationProjectAccessGridsView(SortByProjectGrid, SortOrderProjectGrid);
         Contractor_Security objContractorSecurity = new Contractor_Security(PK_Contactor_Security);
         HdnPK_Contactor_Security.Value = Convert.ToString(objContractorSecurity.PK_Contactor_Security);
         PK_Contactor_Security = Convert.ToInt32(objContractorSecurity.PK_Contactor_Security);
@@ -619,7 +638,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
         trPassword.Style.Add("display", "none");
         btnSave.Visible = false;
         btnEdit.Visible = true;
-        BindLocationProjectAccessGridsView();
+        BindLocationProjectAccessGridsView(SortByProjectGrid, SortOrderProjectGrid);
         Contractor_Security objContractorSecurity = new Contractor_Security(PK_Contactor_Security);
         lblLoginUserName.Text = Convert.ToString(objContractorSecurity.User_Name);
         lblFirstName.Text = Convert.ToString(objContractorSecurity.First_Name);
@@ -662,9 +681,9 @@ public partial class Administrator_Contractor_Security : clsBasePage
     /// <summary>
     /// Binds all grids on the page
     /// </summary>
-    private void BindLocationProjectAccessGridsView()
+    private void BindLocationProjectAccessGridsView(string orderBy, string direction)
     {
-        DataSet dsGrids = Contractor_Job_Security.SelectByFKContactorSecurity(PK_Contactor_Security);
+        DataSet dsGrids = Contractor_Job_Security.SelectByFKContactorSecurity(PK_Contactor_Security, orderBy, direction);
         gvLocationProjectAccess.DataSource = dsGrids;
         gvViewLocationProjectAccess.DataSource = dsGrids;
         gvLocationProjectAccess.DataBind();
@@ -698,4 +717,16 @@ public partial class Administrator_Contractor_Security : clsBasePage
 
     #endregion
 
+    protected void gvLocationProjectAccess_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        SortOrderProjectGrid = (SortByProjectGrid == e.SortExpression) ? (SortOrderProjectGrid == "asc" ? "desc" : "asc") : "asc";
+        SortByProjectGrid = e.SortExpression;
+        BindLocationProjectAccessGridsView(SortByProjectGrid, SortOrderProjectGrid);
+    }
+    protected void gvViewLocationProjectAccess_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        SortOrderProjectGrid = (SortByProjectGrid == e.SortExpression) ? (SortOrderProjectGrid == "asc" ? "desc" : "asc") : "asc";
+        SortByProjectGrid = e.SortExpression;
+        BindLocationProjectAccessGridsView(SortByProjectGrid, SortOrderProjectGrid);
+    }
 }

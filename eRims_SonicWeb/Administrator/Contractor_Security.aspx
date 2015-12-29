@@ -452,8 +452,8 @@
                     <td align="center" valign="top">:
                     </td>
                     <td colspan="4" align="left" valign="top">
-                        <asp:GridView ID="gvLocationProjectAccess" runat="server" Width="100%" AutoGenerateColumns="false"
-                            EmptyDataText="No Record Exists" OnRowCommand="gvLocationProjectAccess_RowCommand">
+                        <asp:GridView ID="gvLocationProjectAccess" runat="server" Width="100%" AutoGenerateColumns="false" 
+                            EmptyDataText="No Record Exists" OnRowCommand="gvLocationProjectAccess_RowCommand" AllowSorting="true" OnSorting="gvLocationProjectAccess_Sorting">
                             <Columns>
                                 <asp:TemplateField HeaderText="Location" HeaderStyle-HorizontalAlign="Center">
                                     <ItemStyle Width="20%" HorizontalAlign="Center" />
@@ -462,14 +462,14 @@
                                             CommandName="EditDetails" Style="word-wrap: normal; word-break: break-all;" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Project Number" HeaderStyle-HorizontalAlign="Center">
+                                <asp:TemplateField HeaderText="Project Number" HeaderStyle-HorizontalAlign="Center" SortExpression="Project_Number">
                                     <ItemStyle Width="20%" HorizontalAlign="Center" />
                                     <ItemTemplate>
                                         <asp:LinkButton ID="lnkProject_Number" Style="word-wrap: normal; word-break: break-all;" runat="server" Text='<%# Eval("Project_Number") %>'
                                             CommandName="EditDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Title" HeaderStyle-HorizontalAlign="Center">
+                                <asp:TemplateField HeaderText="Title" HeaderStyle-HorizontalAlign="Center" SortExpression="Title">
                                     <ItemStyle Width="20%" HorizontalAlign="Center" />
                                     <ItemTemplate>
                                         <asp:LinkButton ID="lnkTitle" Style="word-wrap: normal; word-break: break-all;" runat="server" Text='<%# Eval("Title") %>'
@@ -674,7 +674,7 @@
                     <td align="center" valign="top">:
                     </td>
                     <td colspan="4" align="left" valign="top">
-                        <asp:GridView ID="gvViewLocationProjectAccess" runat="server" Width="100%" AutoGenerateColumns="false"
+                        <asp:GridView ID="gvViewLocationProjectAccess" runat="server" Width="100%" AutoGenerateColumns="false" AllowSorting="true" OnSorting="gvViewLocationProjectAccess_Sorting"
                             EmptyDataText="No Record Exists" OnRowCommand="gvViewLocationProjectAccess_RowCommand">
                             <Columns>
                                 <asp:TemplateField HeaderText="Location">
@@ -684,10 +684,17 @@
                                             CommandName="ViewDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Project Number">
+                                <asp:TemplateField HeaderText="Project Number" SortExpression="Project_Number">
                                     <ItemStyle Width="20%" HorizontalAlign="Left" />
                                     <ItemTemplate>
                                         <asp:LinkButton ID="lnkProject_NumberView" runat="server" Text='<%# Eval("Project_Number") %>'
+                                            CommandName="ViewDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Title" HeaderStyle-HorizontalAlign="Center" SortExpression="Title">
+                                    <ItemStyle Width="20%" HorizontalAlign="Center" />
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="lnkTitle" Style="word-wrap: normal; word-break: break-all;" runat="server" Text='<%# Eval("Title") %>'
                                             CommandName="ViewDetails" CommandArgument='<%# Eval("PK_Contractor_Job_Security") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
