@@ -894,5 +894,24 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Selects the Contractor Users From Loaction ID and ProjectID.
+        /// </summary>
+        /// <param name="userID">The user identifier.</param>
+        /// <returns></returns>
+        public static DataSet SelectContractorUserByLoactionIDAndProjectID(decimal PK_LocationID, decimal PK_Facility_construction_ProjectID)
+        {
+            // Create Database object
+            Database db = DatabaseFactory.CreateDatabase();
+            // Create a suitable command type and add the required parameter
+            using (DbCommand dbCommand = db.GetStoredProcCommand("getContractorUserFromLoactionIDAndProjectID"))
+            {
+                db.AddInParameter(dbCommand, "PK_Facility_construction_ProjectID", DbType.Int32, PK_Facility_construction_ProjectID);
+                db.AddInParameter(dbCommand, "PK_LU_Location_ID", DbType.Int32, PK_LocationID);
+                db.AddInParameter(dbCommand, "TableName", DbType.String, "Contractor_Security");
+                return db.ExecuteDataSet(dbCommand);
+            }
+        }
     }
 }

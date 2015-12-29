@@ -73,7 +73,7 @@ public class clsGeneral : System.Web.UI.Page
     /// <summary>
     /// string array used to get table name depending on the table array.
     /// </summary>
-    public static string[] TableNames = { "WC_FR", "AL_FR", "DPD_FR", "Property_FR", "PL_FR", "Executive_Risk", "Executive_Risk_Carrier", "Defense_Attorney", "Plaintiff_Attorney", "Executive_Risk_Expenses", "Investigator_Notes", "Executive_Risk_Contacts", "WCClaim", "ALClaim", "PLClaim", "DPDClaim", "PropertyClaim", "Purchasing_Asset", "Purchasing_Service_Contract", "Purchasing_LR_Agreement", "RE_Information", "Policy", "Policy_Features", "Additional_Insured", "Automobile_Liability_Policies", "Insurance_Companies", "General_Liability_Policies", "Property_Policies", "Risk_Profile", "Producers", "WC_Policies", "Certificates_of_Insurance", "COI_Liquor_Policies", "Location", "Letter_History", "Owners", "Professional_Liability_Policies", "Excess_Liability_Policies", "Copies", "Insureds", "Franchise", "CRM_Customer", "CRM_Non_Customer", "Investigation" };
+    public static string[] TableNames = { "WC_FR", "AL_FR", "DPD_FR", "Property_FR", "PL_FR", "Executive_Risk", "Executive_Risk_Carrier", "Defense_Attorney", "Plaintiff_Attorney", "Executive_Risk_Expenses", "Investigator_Notes", "Executive_Risk_Contacts", "WCClaim", "ALClaim", "PLClaim", "DPDClaim", "PropertyClaim", "Purchasing_Asset", "Purchasing_Service_Contract", "Purchasing_LR_Agreement", "RE_Information", "Policy", "Policy_Features", "Additional_Insured", "Automobile_Liability_Policies", "Insurance_Companies", "General_Liability_Policies", "Property_Policies", "Risk_Profile", "Producers", "WC_Policies", "Certificates_of_Insurance", "COI_Liquor_Policies", "Location", "Letter_History", "Owners", "Professional_Liability_Policies", "Excess_Liability_Policies", "Copies", "Insureds", "Franchise", "CRM_Customer", "CRM_Non_Customer", "Investigation", "", "", "Maintenance", "InspectionReport" };
 
     public static string[] ExposureTableNames = { "Property_Building", "Property_Ownership_SubLease", "Property_Assessment", "Inspection", "Inspection_Responses", "SLT_Safety_Walk_Attachments", "SLT_BT_Security_Walk_Attachments" };
 
@@ -135,7 +135,9 @@ public class clsGeneral : System.Web.UI.Page
         Investigation = 43,
 
         Event = 44,
-        Management = 45
+        Management = 45,
+        Maintenance = 46,
+        InspectionReport = 47
     }
 
     public enum Major_Coverage : int
@@ -604,7 +606,17 @@ public class clsGeneral : System.Web.UI.Page
         {
             strUploadPath = AppConfig.strDashboard_Wall_Attachment;
         }
+        else if (tbl == TableNames[(int)clsGeneral.Tables.Maintenance])
+        {
+            strUploadPath = AppConfig.MaintenanceDocPath;
+        }
+        else if (tbl == TableNames[(int)clsGeneral.Tables.InspectionReport])
+        {
+            strUploadPath = AppConfig.InspectionDocPath;
+        }
+
         return strUploadPath;
+
     }
 
     /// <summary>

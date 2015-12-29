@@ -135,7 +135,7 @@ namespace ERIMS.DAL
         /// </summary>
         public string Sonic_Location_Code
         {
-            get{ return _Sonic_Location_Code; }
+            get { return _Sonic_Location_Code; }
             set { _Sonic_Location_Code = value; }
         }
 
@@ -267,7 +267,7 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Project_Description", DbType.String, this._Project_Description);
 
             db.AddInParameter(dbCommand, "UpdatedBy", DbType.String, this._UpdatedBy);
-            
+
             db.AddInParameter(dbCommand, "UpdatedDate", DbType.DateTime, this._UpdatedDate);
 
             if (string.IsNullOrEmpty(this._Title))
@@ -342,7 +342,7 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Title", DbType.String, this._Title);
 
             db.AddInParameter(dbCommand, "UpdatedBy", DbType.String, this._UpdatedBy);
-            
+
             db.AddInParameter(dbCommand, "UpdatedDate", DbType.DateTime, this._UpdatedDate);
 
             db.ExecuteNonQuery(dbCommand);
@@ -386,6 +386,66 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "PK_Facility_construction_Project", DbType.Decimal, PK_Facility_construction_Project);
 
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// Selects all Facility Construction Project By Location Id
+        /// </summary>
+        /// <param name="fk_location"></param>
+        /// <returns></returns>
+        public static DataSet SelectFacilityConstructionProjectByLocation(decimal fk_location)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Facility_Construction_ProjectSelectByLocation");
+            db.AddInParameter(dbCommand, "FK_Location", DbType.Decimal, fk_location);
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// Gets Facility Construction Search Result By Search Values
+        /// </summary>
+        /// <param name="strLocationId"></param>
+        /// <param name="strProjectNumberId"></param>
+        /// <param name="strAssignedById"></param>
+        /// <param name="strOrderBy"></param>
+        /// <param name="strOrder"></param>
+        /// <param name="intPageNo"></param>
+        /// <param name="intPageSize"></param>
+        /// <param name="strAssignedToId"></param>
+        /// <param name="strCompletedBy"></param>
+        /// <param name="strStatus"></param>
+        /// <param name="strActionItemType"></param>
+        /// <param name="strDateDueFrom"></param>
+        /// <param name="strDateDueTo"></param>
+        /// <param name="strDateAssignedFrom"></param>
+        /// <param name="strDateAssignedTo"></param>
+        /// <param name="strDateCompletedFrom"></param>
+        /// <param name="strDateCompletedTo"></param>
+        /// <returns></returns>
+        public static DataSet GetFacilityConstructionSearchResult(string strLocationId, string strProjectNumberId, string strAssignedById, string strOrderBy, int intPageNo, int intPageSize,
+                        string strAssignedToId, string strCompletedBy, string strStatus, string strActionItemType, string strDateDueFrom, string strDateDueTo,
+                        string strDateAssignedFrom, string strDateAssignedTo, string strDateCompletedFrom, string strDateCompletedTo)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Facility_Construction_Action_ItemsSearch");
+
+            db.AddInParameter(dbCommand, "LocationID", DbType.String, strLocationId);
+            db.AddInParameter(dbCommand, "@ProjectNumberID", DbType.String, strProjectNumberId);
+            db.AddInParameter(dbCommand, "@AssignedByID", DbType.String, strAssignedById);
+            db.AddInParameter(dbCommand, "@AssignedToID", DbType.String, strAssignedToId);
+            db.AddInParameter(dbCommand, "@CompletedBy", DbType.String, strCompletedBy);
+            db.AddInParameter(dbCommand, "@ActionItemType", DbType.String, strActionItemType);
+            db.AddInParameter(dbCommand, "@DateDueFrom", DbType.String, strDateDueFrom);
+            db.AddInParameter(dbCommand, "@DateDueTo", DbType.String, strDateDueTo);
+            db.AddInParameter(dbCommand, "@DateAssignedFrom", DbType.String, strDateAssignedFrom);
+            db.AddInParameter(dbCommand, "@DateAssignedTo", DbType.String, strDateAssignedTo);
+            db.AddInParameter(dbCommand, "@DateCompletedFrom", DbType.String, strDateCompletedFrom);
+            db.AddInParameter(dbCommand, "@DateCompletedTo", DbType.String, strDateCompletedTo);
+            db.AddInParameter(dbCommand, "@Status", DbType.String, strStatus);
+            db.AddInParameter(dbCommand, "@PageSize", DbType.Int32, intPageSize);
+            db.AddInParameter(dbCommand, "@PageNumber", DbType.Int32, intPageNo);
+            db.AddInParameter(dbCommand, "@OrderBy", DbType.String, strOrderBy);
             return db.ExecuteDataSet(dbCommand);
         }
     }

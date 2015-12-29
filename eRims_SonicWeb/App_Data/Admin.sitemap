@@ -243,11 +243,16 @@
           <siteMapNode url="Administrator/LU_PunchList_Status.aspx" title ="Punch List Status" description="" roles="" />
           <!--3408-->
           <siteMapNode url="Administrator/LU_Facility_Inspection_Focus_Area.aspx" title ="Facility Inspection Focus Area" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Facility_Inspection_Item.aspx" title ="Facility Inspection Item" description="" roles="" />
           <siteMapNode url="Administrator/LU_Facility_Maintenance_Scope.aspx" title ="Facility Maintenance Scope" description="" roles="" />
           <siteMapNode url="Administrator/LU_Facility_Inspection_Condition.aspx" title ="Facility Inspection Condition" description="" roles="" />
           <siteMapNode url="Administrator/LU_Facility_Maintenance_Status.aspx" title ="Facility Maintenance Status" description="" roles="" />
           <siteMapNode url="Administrator/LU_Facility_Maintenance_Type.aspx" title ="Facility Maintenance Type" description="" roles="" />
           <siteMapNode url="Administrator/LU_Lease_Responsible_Party.aspx" title ="Lease Responsible Party" description="" roles="" />
+          <siteMapNode url="Administrator/LU_HVAC_Capital.aspx" title ="HVAC Capital" description="" roles="" />
+          <siteMapNode url="Administrator/LU_HVAC_Repairs.aspx" title ="HVAC Repairs" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Roof_Capital.aspx" title ="Roof Capital" description="" roles="" />
+          <siteMapNode url="Administrator/LU_Roof_Repairs.aspx" title ="Roof Repairs" description="" roles="" />
           <!--<3432>-->
           <siteMapNode url="Administrator/LU_Facility_Spec_Section.aspx" title ="Facility Specification Section" description="" roles="" />
         </siteMapNode>

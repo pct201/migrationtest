@@ -740,7 +740,7 @@
                                                     <span id="Menu11" onclick="javascript:ShowPanel(11);" class="LeftMenuStatic">Lease Maint Obligations&nbsp;
                                                         <span id="MenuAsterisk11" runat="server" style="color: Red;display:none">*</span></span>
                                                 </td>
-                                            </tr>
+                                            </tr>                                           
                                             <tr>
                                                 <td align="left" width="100%">
                                                     <span id="Menu8" onclick="javascript:ShowPanel(8);" class="LeftMenuStatic">Notices&nbsp;<span id="MenuAsterisk8" runat="server" style="color: Red;display:none">*</span></span>

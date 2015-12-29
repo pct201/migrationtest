@@ -444,7 +444,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         txtLandlord_Mailing_Zip_Code.Text = objRE_Information.Landlord_Mailing_Zip_Code;
         txtLandlord_Telephone.Text = objRE_Information.Landlord_Telephone;
         txtLandlord_Email.Text = objRE_Information.Landlord_Email;
-        rdoSublease.SelectedValue = objRE_Information.Sublease.ToString();
+        rdoSublease.SelectedValue = !string.IsNullOrEmpty(objRE_Information.Sublease) ? objRE_Information.Sublease : "N";
         txtSubtenant.Text = objRE_Information.Subtenant;
         txtLease_Id.Text = objRE_Information.Lease_Id;
         txtLease_Commencement_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objRE_Information.Lease_Commencement_Date);

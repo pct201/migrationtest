@@ -19,8 +19,10 @@
         <td id="tab5" class="tab" onclick="RedirectTo(5);">Leases
         </td>
         <td id="tab8" class="tab" onclick="RedirectTo(8);">Construction
+        </td>        
+        <td id="tab9" class="tab" onclick="RedirectTo(9);">Facility Inspection
         </td>
-        <td>&nbsp;
+        <td id="tab10" class="tab" onclick="RedirectTo(10);">Maintenance
         </td>
         <td>&nbsp;
         </td>
@@ -32,9 +34,8 @@
 </table>
 <script type="text/javascript">
     //set the tab style if tab is active than apply class name is "tabselected" else "tab".
-    function SetTabStyle(index) {
-        var i;
-        for (i = 1; i <= 8; i++) {
+    function SetTabStyle(index) {        
+        for (var i = 1; i <= 10; i++) {
             var tb = document.getElementById("tab" + i);
             if (i == index)
                 tb.className = "tabSelected";
@@ -47,22 +48,39 @@
         var loc = '<%=Session["ExposureLocation"]%>';
         if (loc > 0) {
             loc = '<%=Encryption.Encrypt(Session["ExposureLocation"].ToString()) %>';
-            if (index == 1)
-                window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/PropertyView.aspx?loc=' + loc;
-            else if (index == 2)
-                window.location.href = '<%=AppConfig.SiteURL%>SONIC/Franchise/FranchiseGrid.aspx?loc=' + loc;
-            else if (index == 3)
-                window.location.href = '<%=AppConfig.SiteURL%>SONIC/Pollution/BuildingList.aspx?op=view&loc=' + loc;
-            else if (index == 4)
-                window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/Inspections.aspx?loc=' + loc;
-            else if (index == 5)
-                window.location.href = '<%=AppConfig.SiteURL%>SONIC/RealEstate/Lease.aspx?loc=' + loc;
-            else if (index == 6)
-                window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/Project_Management_Add.aspx?loc=' + loc;
-            else if (index == 7)
-                window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/Asset_Protection.aspx?loc=' + loc;
-            else if (index == 8)
-                window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/ConstructionProjectManagement.aspx?loc=' + loc;
-}
-}
+
+            switch (index) {
+                case 1:
+                    window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/PropertyView.aspx?loc=' + loc;
+                    break;
+                case 2:
+                    window.location.href = '<%=AppConfig.SiteURL%>SONIC/Franchise/FranchiseGrid.aspx?loc=' + loc;
+                    break;
+                case 3:
+                    window.location.href = '<%=AppConfig.SiteURL%>SONIC/Pollution/BuildingList.aspx?op=view&loc=' + loc;
+                    break;
+                case 4:
+                    window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/Inspections.aspx?loc=' + loc;
+                    break;
+                case 5:
+                    window.location.href = '<%=AppConfig.SiteURL%>SONIC/RealEstate/Lease.aspx?loc=' + loc;
+                    break;
+                case 6:
+                    window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/Project_Management_Add.aspx?loc=' + loc;
+                    break;
+                case 7:
+                    window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/Asset_Protection.aspx?loc=' + loc;
+                    break;
+                case 8:
+                    window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/ConstructionProjectManagement.aspx?loc=' + loc;
+                    break;
+                case 9:
+                    window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/FacilityInspectionList.aspx?loc=' + loc;
+                    break;
+                case 10:
+                    window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/FacilityMaintenance_ItemList.aspx?loc=' + loc;
+                        break;
+            }
+        }
+    }
 </script>

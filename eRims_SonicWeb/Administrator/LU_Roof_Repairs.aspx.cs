@@ -1,24 +1,25 @@
 ﻿using ERIMS.DAL;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class Administrator_LU_Facility_Inspection_Item : clsBasePage
+public partial class Administrator_LU_Roof_Repairs : System.Web.UI.Page
 {
     #region "Properties"
 
     /// <summary>
     /// Denotes the Primary Key
     /// </summary>
-    public decimal _PK_ID
+    public decimal _PK_LU_Roof_Repairs
     {
         get
         {
-            return clsGeneral.GetInt(ViewState["PK_ID"]);
+            return clsGeneral.GetInt(ViewState["PK_LU_Roof_Repairs"]);
         }
-        set { ViewState["PK_ID"] = value; }
+        set { ViewState["PK_LU_Roof_Repairs"] = value; }
     }
 
     #endregion
@@ -32,12 +33,10 @@ public partial class Administrator_LU_Facility_Inspection_Item : clsBasePage
     /// <param name="e"></param>
     protected void Page_Load(object sender, EventArgs e)
     {
-        /// Clear Error Message on postback
-        lblError.Text = "";
         //check Is Page Post Back
         if (!IsPostBack)
         {
-            //Bind Grid Function            
+            //Bind Grid Function
             BindGrid();
         }
     }
@@ -53,13 +52,11 @@ public partial class Administrator_LU_Facility_Inspection_Item : clsBasePage
     /// <param name="e"></param>
     protected void lnkAddNew_Click(object sender, EventArgs e)
     {
-        BindDropDowns();
         btnAdd.Text = "Add";
-        _PK_ID = 0;
-        trStatusAdd.Style.Remove("display");
+        _PK_LU_Roof_Repairs = 0;
+        trStatusAdd.Style.Add("display", "block");
         lnkCancel.Style.Add("display", "inline");
         txtDescription.Text = "";
-        ddlFocusArea.SelectedIndex = -1;
         ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtDescription);
     }
 
@@ -73,7 +70,6 @@ public partial class Administrator_LU_Facility_Inspection_Item : clsBasePage
         trStatusAdd.Style.Add("display", "none");
         lnkCancel.Style.Add("display", "none");
         txtDescription.Text = "";
-        ddlFocusArea.SelectedIndex = -1;
     }
 
     /// <summary>
@@ -83,34 +79,37 @@ public partial class Administrator_LU_Facility_Inspection_Item : clsBasePage
     /// <param name="e"></param>
     protected void btnAdd_Click(object sender, EventArgs e)
     {
-        LU_Facility_Inspection_Item objLU_Facility_Inspection_Item = new LU_Facility_Inspection_Item();
         decimal _retVal;
+        LU_Roof_Repairs objLU_Roof_Repairs = new LU_Roof_Repairs();
+        objLU_Roof_Repairs.Description = txtDescription.Text.Trim();
+        objLU_Roof_Repairs.PK_LU_Roof_Repairs = _PK_LU_Roof_Repairs;
 
-        objLU_Facility_Inspection_Item.PK_LU_Facility_Inspection_Item = _PK_ID;
-        objLU_Facility_Inspection_Item.Description = txtDescription.Text.Trim();
-        objLU_Facility_Inspection_Item.FK_Facility_Inspection_Focus_Area = Convert.ToDecimal(ddlFocusArea.SelectedValue);
 
-        if (_PK_ID > 0)
+        if (_PK_LU_Roof_Repairs > 0)
         {
-            _retVal = objLU_Facility_Inspection_Item.Update();
+            _retVal = objLU_Roof_Repairs.Update();
+            // Used to Check Duplicate Media ID?
+            if (_retVal == -2)
+            {
+                lblError.Text = "The Description that you are trying to add already exists in the Roof Repairs table.";
+                ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtDescription);
+                return;
+            }
+            btnAdd.Text = "Add";
         }
         else
         {
-            _retVal = objLU_Facility_Inspection_Item.Insert();
+            _retVal = objLU_Roof_Repairs.Insert();
+            // Used to Check Duplicate Media ID?
+            if (_retVal == -2)
+            {
+                lblError.Text = "The Description that you are trying to add already exists in the Roof Repairs table.";
+                ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtDescription);
+                return;
+            }
+            _PK_LU_Roof_Repairs = _retVal;
         }
-
-
-        if (_retVal == -2)
-        {
-            lblError.Text = "The Description you are trying to enter already exists";
-            ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtDescription);
-        }
-        else
-        {
-            _PK_ID = _retVal;
-        }
-
-        //clear Control
+        //claer Control
         ClearControls();
         //Bind Grid Function
         BindGrid();
@@ -121,37 +120,33 @@ public partial class Administrator_LU_Facility_Inspection_Item : clsBasePage
     #endregion
 
     #region "Grid Event"
-
     /// <summary>
-    /// Event for paging
+    /// Page Index Change Event
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void gvInspection_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    protected void gvRepairs_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
-        gvInspection.PageIndex = e.NewPageIndex; //Page new index call
+        gvRepairs.PageIndex = e.NewPageIndex; //Page new index call
         BindGrid();
     }
-
     /// <summary>
-    /// Row command event for Edit and update
+    /// Row Command Event
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void gvInspection_RowCommand(object sender, GridViewCommandEventArgs e)
+    protected void gvRepairs_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         if (e.CommandName == "EditRecord")
         {
-            BindDropDowns();
-            _PK_ID = Convert.ToDecimal(e.CommandArgument);
+            _PK_LU_Roof_Repairs = Convert.ToDecimal(e.CommandArgument);
             // show and hide Add-edit row
-            trStatusAdd.Style.Remove("display");
+            trStatusAdd.Style.Add("display", "block");
             lnkCancel.Style.Add("display", "inline");
             btnAdd.Text = "Update";
             // get record from database
-            LU_Facility_Inspection_Item objLU_Facility_Inspection_Item = new LU_Facility_Inspection_Item(_PK_ID);
-            txtDescription.Text = objLU_Facility_Inspection_Item.Description.ToString();            
-            clsGeneral.SetDropdownValue(ddlFocusArea, objLU_Facility_Inspection_Item.FK_Facility_Inspection_Focus_Area, true);
+            LU_Roof_Repairs objLU_Roof_Repairs = new LU_Roof_Repairs(_PK_LU_Roof_Repairs);
+            txtDescription.Text = objLU_Roof_Repairs.Description.ToString();
             ((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtDescription);
         }
     }
@@ -160,13 +155,15 @@ public partial class Administrator_LU_Facility_Inspection_Item : clsBasePage
 
     #region Methods
     /// <summary>
-    /// Bind Manufacturer Grid
+    /// Bind Facility Inspection Focus Area Grid
     /// </summary>
     private void BindGrid()
     {
-        //Get Record into Grid
-        gvInspection.DataSource = LU_Facility_Inspection_Item.SelectAll();
-        gvInspection.DataBind();
+        //Get Record into Dataset
+        DataSet dsGroup = LU_Roof_Repairs.SelectAll();
+        //Apply Dataset to Grid
+        gvRepairs.DataSource = dsGroup;
+        gvRepairs.DataBind();
     }
 
     /// Used to Claer the controls
@@ -174,17 +171,7 @@ public partial class Administrator_LU_Facility_Inspection_Item : clsBasePage
     private void ClearControls()
     {
         //clear control
-        _PK_ID = 0;
-        txtDescription.Text = "";        
-        ddlFocusArea.SelectedIndex = -1;
-    }
-
-    /// <summary>
-    /// Bind All DropDowns
-    /// </summary>
-    private void BindDropDowns()
-    {
-        ComboHelper.FillInspectionFocusArea(new DropDownList[] { ddlFocusArea }, true);
+        _PK_LU_Roof_Repairs = 0;
     }
 
     #endregion

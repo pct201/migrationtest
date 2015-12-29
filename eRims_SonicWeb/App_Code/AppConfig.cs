@@ -276,6 +276,10 @@ public class AppConfig
 
     private static string _InvestigationDocPath;
 
+    private static string _MaintenanceDocPath;
+
+    private static string _InspectionReportDocPath;
+
     # endregion
 
     # region " Public Properties "
@@ -1277,9 +1281,21 @@ public class AppConfig
     public static string InvestigationDocPath
     {
         get { return _InvestigationDocPath; }
-        set { _InvestigationDocPath = value; }
-        
+        set { _InvestigationDocPath = value; }        
     }
+
+    public static string MaintenanceDocPath
+    {
+        get { return _MaintenanceDocPath; }
+        set { _MaintenanceDocPath = value; }
+    }
+
+    public static string InspectionReportDocPath
+    {
+        get { return _InspectionReportDocPath; }
+        set { _InspectionReportDocPath = value; }
+    }    
+
     #endregion
 
     # region " Public Functions "
@@ -1627,9 +1643,14 @@ public class AppConfig
         _strAPDocumentURL = string.Concat(SiteURL, AttachmentDocPath, "/", ConfigurationManager.AppSettings["Asset_Protection_Docs"] + "/");
 
         _InvestigationDocPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["Investigation"] + "\\");
-        
+                        
+        _MaintenanceDocPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["MaintenanceDocs"] + "\\");
+
+        _InspectionReportDocPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["InspectionReportDocs"] + "\\");        
+
         _strGeneralDocument = string.Concat(SitePath, AttachmentDocPath);
     }
+
     # endregion
 }
 

@@ -554,7 +554,7 @@ public partial class Exposures_Property : clsBasePage
         objBuilding.Occupancy_Ofifce = chkLstOccupancy.Items[7].Selected;
         objBuilding.Occupancy_Car_Wash = chkLstOccupancy.Items[8].Selected;
         objBuilding.Occupancy_Photo_Booth = chkLstOccupancy.Items[11].Selected;
-        objBuilding.Occupancy_Main=chkLstOccupancy.Items[9].Selected;
+        objBuilding.Occupancy_Main = chkLstOccupancy.Items[9].Selected;
         objBuilding.Address_1 = txtBuildingAddress_1.Text.Trim();
         objBuilding.Address_2 = txtBuildingAddress_2.Text.Trim();
         objBuilding.City = txtBuilding_City.Text.Trim();
@@ -680,7 +680,7 @@ public partial class Exposures_Property : clsBasePage
         #endregion
 
         #region "Power Requirements"
-        
+
         objBuilding.FK_LU_Voltage_Security = Convert.ToDecimal(ddlVoltageSecurity.SelectedValue);
         objBuilding.FK_LU_Power_Service = Convert.ToDecimal(ddlPowerService.SelectedValue);
         objBuilding.FK_LU_Phase_Power = Convert.ToDecimal(ddlPhasePower.SelectedValue);
@@ -690,34 +690,30 @@ public partial class Exposures_Property : clsBasePage
         objBuilding.Power_Service_Other = txtPowerServiceOther.Text.Trim();
         objBuilding.Cable_Length_Other = txtRequiredCableLengthOther.Text.Trim();
         objBuilding.Total_Amperage_Required = txtTotalAmperageRequired.Text.Trim();
-        
+
         #endregion
         #endregion
 
         objBuilding.Updated_By = Convert.ToDecimal(clsSession.UserID);
         objBuilding.Updated_Date = DateTime.Now;
+        bool isLocationHasMainBuilding = false;
 
-        DataTable dtOccupancyMain = Building.SelectByFKLocationOccupancyMain(FK_LU_Location_ID).Tables[0];
-
-        if (dtOccupancyMain != null && dtOccupancyMain.Rows.Count > 0 && Convert.ToInt32(dtOccupancyMain.Rows[0]["PK_Building_ID"]) != PK_Building_ID)
+        if (chkLstOccupancy.Items[9].Selected)
         {
-            if (chkLstOccupancy.Items[9].Selected == true)
+            DataTable dtOccupancyMain = Building.SelectByFKLocationOccupancyMain(FK_LU_Location_ID).Tables[0];
+            if (dtOccupancyMain != null && dtOccupancyMain.Rows.Count > 0 && Convert.ToInt32(dtOccupancyMain.Rows[0]["PK_Building_ID"]) != PK_Building_ID)
             {
-                objBuilding.Occupancy_Main = false;
-
-                // redirect to PropertyView page to display all information in view mode
-                string strURL = "PropertyView.aspx?loc=" + Request.QueryString["loc"];
-                ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:MainBuildingAlert('" + strURL + "');", true);
-                chkLstOccupancy.Items[9].Selected = false;
+                isLocationHasMainBuilding = true;
+                objBuilding.Occupancy_Main = chkLstOccupancy.Items[9].Selected = false;                
             }
         }
-        
+
         // insert or update the information as per the primary key avaialble
         if (PK_Building_ID > 0)
             objBuilding.Update();
         else
             PK_Building_ID = objBuilding.Insert();
-        
+
         //Insert and update Insurance cope
         InsertUpdateInsuranceCope(PK_Building_ID);
 
@@ -743,8 +739,18 @@ public partial class Exposures_Property : clsBasePage
             gridSubLease.Style["Display"] = "none";
             trAddNewLease.Style["Display"] = "none";
         }
-        // show next panel
-        ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:window.scrollTo(0, 0);ShowPanel(" + (rdoOwnership.SelectedIndex == -1 ? "4" : "3") + ");", true); //seLocationBuildingNumber('" + strLocationCode + "');
+
+        if (isLocationHasMainBuilding)
+        {
+            // redirect to PropertyView page to display all information in view mode
+            string strURL = "PropertyView.aspx?loc=" + Request.QueryString["loc"];
+            ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:MainBuildingAlert('" + strURL + "');", true);
+        }
+        else
+        {
+            // show next panel
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:window.scrollTo(0, 0);ShowPanel(" + (rdoOwnership.SelectedIndex == -1 ? "4" : "3") + ");", true); //seLocationBuildingNumber('" + strLocationCode + "');
+        }
     }
 
     /// <summary>
@@ -1568,7 +1574,7 @@ public partial class Exposures_Property : clsBasePage
     {
         if (e.CommandName == "ShowDetails")
         {
-            Response.Redirect("BuildingImprovements.aspx?build=" + Encryption.Encrypt(PK_Building_ID.ToString()) + "&id=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&FK_Property_Cope=" + Encryption.Encrypt(PK_Property_Cope_ID.ToString()) +"&op=edit");
+            Response.Redirect("BuildingImprovements.aspx?build=" + Encryption.Encrypt(PK_Building_ID.ToString()) + "&id=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&FK_Property_Cope=" + Encryption.Encrypt(PK_Property_Cope_ID.ToString()) + "&op=edit");
         }
         else if (e.CommandName == "RemoveDetails")
         {
@@ -2159,7 +2165,7 @@ public partial class Exposures_Property : clsBasePage
         }
         if (objBuilding.FK_LU_Cable_Length != 0)
         {
-            if(ddlRequiredCableLength.Items.Contains(ddlRequiredCableLength.Items.FindByValue(objBuilding.FK_LU_Cable_Length.ToString())))
+            if (ddlRequiredCableLength.Items.Contains(ddlRequiredCableLength.Items.FindByValue(objBuilding.FK_LU_Cable_Length.ToString())))
                 ddlRequiredCableLength.SelectedValue = Convert.ToString(objBuilding.FK_LU_Cable_Length);
             else
                 ddlRequiredCableLength.SelectedValue = "0";
@@ -2594,7 +2600,7 @@ public partial class Exposures_Property : clsBasePage
             ddlContactState.SelectedIndex = 0;
         txtZipCode.Text = objContact.Fire_Alarm_Monitoring_Zip_Code;
         txtTelephone1.Text = objContact.Fire_Alarm_Monitoring_Telephone;
-        txtAccountNumber.Text  = objContact.Fire_Alarm_Monitoring_Account_Number;
+        txtAccountNumber.Text = objContact.Fire_Alarm_Monitoring_Account_Number;
         txtMonthlyMonitoringAmount.Text = clsGeneral.FormatCommaSeperatorCurrency(objContact.Fire_Alarm_Monitoring_Monthly_Amount);
         txtControlPanel.Text = objContact.Fire_Alarm_Monitoring_Control_Panel;
 

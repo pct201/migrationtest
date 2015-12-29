@@ -597,6 +597,20 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+		
+		/// <summary>
+        /// Selects all records from the Facility Construction table by a Location Id, FacilityConstructionProjectId and tableName.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectUserByLocationIdProjectId(decimal pK_LU_Location_ID, decimal pK_Facility_construction_ProjectID, string tableName)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("getContractorUserFromLoactionIDAndProjectID");
+            db.AddInParameter(dbCommand, "PK_LU_Location_ID", DbType.Decimal, pK_LU_Location_ID);
+            db.AddInParameter(dbCommand, "PK_Facility_construction_ProjectID", DbType.Decimal, pK_Facility_construction_ProjectID);
+            db.AddInParameter(dbCommand, "TableName", DbType.String, tableName);
+            return db.ExecuteDataSet(dbCommand);
+        }
 
         public static DataSet GetEmailsByLocationForEvent(decimal? FK_LU_Location_ID)
         {

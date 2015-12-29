@@ -24,7 +24,6 @@ namespace ERIMS.DAL
 
         #endregion
 
-
         #region Properties
 
 
@@ -111,7 +110,6 @@ namespace ERIMS.DAL
 
         #endregion
 
-
         #region Constructors
 
         /// <summary> 
@@ -181,7 +179,6 @@ namespace ERIMS.DAL
 
 
         #endregion
-
 
         #region "Methods"
 
@@ -282,7 +279,6 @@ namespace ERIMS.DAL
 			db.ExecuteNonQuery(dbCommand);
 		}
 
-
         /// <summary>
         /// Deletes a record from the Attachment table by a composite primary key.
         /// </summary>
@@ -355,6 +351,14 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        /// <summary>
+        /// Method to Get Attachment Details By table Name
+        /// </summary>
+        /// <param name="Attachment_Table"></param>
+        /// <param name="Foreign_Key"></param>
+        /// <param name="strOrderBy"></param>
+        /// <param name="strOrder"></param>
+        /// <returns></returns>
         public static DataSet SelectByTableName(string Attachment_Table, int Foreign_Key, string strOrderBy, string strOrder)
         {
             Database db = DatabaseFactory.CreateDatabase();
@@ -367,6 +371,24 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Selects  records of attachment type Image depending on table name and related foreign key for the table
+        /// </summary>
+        /// <param name="Attachment_Table">Table name for which to store the record</param>
+        /// <param name="Foreign_Key">Primary key value of the table</param>
+        /// <returns></returns>
+        public static DataSet SelectAttachmentTableNameForeignKey(string Attachment_Table, string Foreign_Key)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("AttachmentSelectByFKTableName");
+
+            db.AddInParameter(dbCommand, "Attachment_Table", DbType.String, Attachment_Table);
+            db.AddInParameter(dbCommand, "Foreign_Key", DbType.String, string.IsNullOrEmpty(Foreign_Key) ? "0" : Foreign_Key);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
         #endregion
     }
 }

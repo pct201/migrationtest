@@ -412,9 +412,22 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "@intPageNo", DbType.Decimal, intPageNo);
             db.AddInParameter(dbCommand, "@intPageSize", DbType.Decimal, intPageSize);
 
-
 			return db.ExecuteDataSet(dbCommand);
 		}
+
+        /// <summary>
+        /// Selects a single record from the Contractor_Firm table By UserID.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectByUserId(decimal fK_Contractor_Security)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Contractor_FirmByUserID");
+
+            db.AddInParameter(dbCommand, "FK_Contractor_Security", DbType.Decimal, fK_Contractor_Security);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
 
 		/// <summary>
 		/// Updates a record in the Contractor_Firm table.

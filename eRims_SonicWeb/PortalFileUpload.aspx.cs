@@ -92,6 +92,27 @@ public partial class PortalFileUpload : System.Web.UI.Page
                         { Response.Write("Project ID Not found"); }
                         #endregion
                         break;
+                    case "MAINTENANCE":
+                        #region Construction Module
+                        if (Request.QueryString["PrjID"] != null)
+                        {
+                            string strUploadPath = AppConfig.MaintenanceDocPath;
+                            string strSaveFilePathTemp = string.Concat(strUploadPath, "\\");
+                            string strFilePath = Convert.ToString(Request.QueryString["FileName"]);
+                            string strFulleName = string.Concat(strSaveFilePathTemp, strFilePath);
+
+                            if (System.IO.Directory.Exists(strSaveFilePathTemp) == false)
+                            {
+                                System.IO.Directory.CreateDirectory(strSaveFilePathTemp);
+                            }
+
+                            //String strSaveFilePath = clsGeneral.GetFileNameToSave(strFulleName);
+                            Request.Files[0].SaveAs(strFulleName);
+                        }
+                        else
+                        { Response.Write("Project ID Not found"); }
+                        #endregion
+                        break;
                     case "BUILDINGATTACHMENTS":
                         string uploadPath = string.Concat(AppConfig.BuildingAttachDocPath, "\\");
                         string strattachFilePath = System.IO.Path.GetFileName(Request.Files[0].FileName);
@@ -168,6 +189,19 @@ public partial class PortalFileUpload : System.Web.UI.Page
                             if (File.Exists(outlookFiles[0]))
                             {
                                 System.IO.File.Delete(outlookFiles[0]);
+                            }
+                        }
+                        break;
+                    case "DELETEMAINTENANCE":
+                        string deleteMaintenanceAttachmentPath = string.Concat(AppConfig.MaintenanceDocPath, "\\");
+                        string deleteMaintenanceFileName = Convert.ToString(Request.QueryString["fileName"]); // System.IO.Path.GetFileName(Request.Files[0].FileName);
+
+                        string[] maintenanceFiles = Directory.GetFiles(deleteMaintenanceAttachmentPath, deleteMaintenanceFileName);
+                        if (maintenanceFiles != null && maintenanceFiles.Length > 0)
+                        {
+                            if (File.Exists(maintenanceFiles[0]))
+                            {
+                                System.IO.File.Delete(maintenanceFiles[0]);
                             }
                         }
                         break;
