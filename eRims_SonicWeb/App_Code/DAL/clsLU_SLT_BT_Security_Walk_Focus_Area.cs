@@ -517,5 +517,20 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "FK_SLT_Meeting_Schedule", DbType.Decimal, FK_SLT_Meeting_Schedule);
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Update Sort Order a record from the EditFocusArea table by a composite primary key.
+        /// </summary>
+        public static void EditFocusArea(Int32 Year, string Month, string Focus_Area, bool IsAnnual)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("BT_Security_EditFocusArea");
+
+            db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);
+            db.AddInParameter(dbCommand, "Month", DbType.String, Month);
+            db.AddInParameter(dbCommand, "Focus_Area", DbType.String, Focus_Area);
+            db.AddInParameter(dbCommand, "IsAnnual", DbType.Boolean, IsAnnual);
+            db.ExecuteNonQuery(dbCommand);
+        }
 	}
 }

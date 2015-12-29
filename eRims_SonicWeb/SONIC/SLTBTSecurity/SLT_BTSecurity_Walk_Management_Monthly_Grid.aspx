@@ -8,7 +8,7 @@
         function OpenEditFocusArea() {
             var lblYear = document.getElementById('<%=lblYear.ClientID%>').innerText;
             var lblMonth = document.getElementById('<%=lblMonth.ClientID%>').innerText;
-            GB_showCenter('Edit Focus Area', '<%=AppConfig.SiteURL%>SONIC/SLTSafetyWalk/EditFocusArea.aspx?Year=' + lblYear + '&Month=' + lblMonth + '&IsAnnual=false', 120, 350, '');
+            GB_showCenter('Edit Focus Area', '<%=AppConfig.SiteURL%>SONIC/SLTBTSecurity/EditFocusArea.aspx?Year=' + lblYear + '&Month=' + lblMonth + '&IsAnnual=false', 120, 350, '');
             return false;
         }
 

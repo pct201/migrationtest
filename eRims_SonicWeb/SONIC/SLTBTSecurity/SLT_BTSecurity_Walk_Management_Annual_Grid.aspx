@@ -7,7 +7,7 @@
          var GB_ROOT_DIR = '<%=AppConfig.SiteURL%>' + 'greybox/';
          function OpenEditFocusArea() {
              var lblYear = document.getElementById('<%=lblYear.ClientID%>').innerText;
-             GB_showCenter('Edit Focus Area', '<%=AppConfig.SiteURL%>SONIC/SLTSafetyWalk/EditFocusArea.aspx?Year=' + lblYear + '&IsAnnual=true', 120, 350, '');
+             GB_showCenter('Edit Focus Area', '<%=AppConfig.SiteURL%>SONIC/SLTBTSecurity/EditFocusArea.aspx?Year=' + lblYear + '&IsAnnual=true', 120, 350, '');
             return false;
         }
 
