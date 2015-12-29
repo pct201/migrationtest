@@ -72,7 +72,10 @@ public partial class Administrator_WallSearch : clsBasePage
             if (IsUserInAdministrativeGroup || IsUserRLCM)
                 btnDelete.Visible = true;
             else
+            {
                 btnDelete.Visible = false;
+                Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc");
+            }
 
 
             btnDelete.Attributes.Add("onclick", "return ConfirmDelete('chkItem');");
