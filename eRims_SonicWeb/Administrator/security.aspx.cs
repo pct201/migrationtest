@@ -285,7 +285,7 @@ public partial class Administrator_security : clsBasePage
     /// <param name="e"></param>
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        DataTable dtSecurity = Security.SelectByUserName(txtUserID.Text).Tables[0];
+        DataTable dtSecurity = Security.SelectByUserName(txtUserID.Text, PK_Security_ID).Tables[0];
         DataTable dtContractorSecurity = Contractor_Security.SelectByUserName(txtUserID.Text).Tables[0];
 
         if (Convert.ToBoolean(ViewState["blnRadio"]) == true && Convert.ToBoolean(ViewState["blnFacility"]) == true)
@@ -302,7 +302,7 @@ public partial class Administrator_security : clsBasePage
             }
             else if (dtSecurity != null && dtSecurity.Rows.Count > 0)
             {
-                lblError.Text = "User Id for Security Already Exists .";
+                lblError.Text = "User Id for Security Already Exists.";
                 return;
             }
             else

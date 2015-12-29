@@ -244,7 +244,7 @@ namespace ERIMS.DAL
         /// </summary>
         public Security(string pUSER_NAME,bool IsUserID)
         {
-            DataTable dtSecurity = SelectByUserName(pUSER_NAME).Tables[0];
+            DataTable dtSecurity = SelectByUserName(pUSER_NAME,PK_Security_ID).Tables[0];
             if (dtSecurity.Rows.Count > 0)
             {
                 DataRow drSecurity = dtSecurity.Rows[0];
@@ -351,12 +351,14 @@ namespace ERIMS.DAL
         /// Selects a single record from the Security table by a primary key.
         /// </summary>
         /// <returns>DataSet</returns>
-        public static DataSet SelectByUserName(string pUser_Name)
+        public static DataSet SelectByUserName(string pUser_Name, decimal pkSecurityID)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("SecuritySelectByUserName");
 
             db.AddInParameter(dbCommand, "User_Name", DbType.String, pUser_Name);
+
+            db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, pkSecurityID);
 
             return db.ExecuteDataSet(dbCommand);
         }
