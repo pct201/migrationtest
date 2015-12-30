@@ -1578,6 +1578,7 @@
                         Visible="false" />
                     <asp:HiddenField ID="hdnScheduleID" runat="server" Value="0" />
                     <asp:Button ID="btnHdnScheduling" runat="server" OnClick="btnHdnScheduling_Click" />
+                    <asp:LinkButton ID="lnkGenerateReport" runat="server" Text="Generate VOC Report" OnClick="lnkGenerateReport_Click" ValidationGroup="vsErrorGroup"></asp:LinkButton>
                 </td>
             </tr>
             <tr>

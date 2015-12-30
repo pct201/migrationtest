@@ -188,5 +188,21 @@ namespace ERIMS.DAL
 
 			db.ExecuteNonQuery(dbCommand);
 		}
+
+        /// <summary>
+        /// Selects a single record from the LU_VOC_Category table by a primary key.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static int SelectByCategory(string category)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_VOC_SelectByCategory");
+
+            db.AddInParameter(dbCommand, "Category", DbType.String, category);
+
+            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
+
+            return returnValue;
+        }
 	}
 }

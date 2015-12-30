@@ -1190,7 +1190,7 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
                         lst_F.DataBind();
                         lst_F.Items.Insert(0, new ListItem("-- select --", "0"));
                     }
-                    else if (Convert.ToString(lstAdHoc[0].WhereField).ToLower().Trim() == "pure_mixture")
+                    else if (!string.IsNullOrEmpty(Convert.ToString(lstAdHoc[0].WhereField)) && Convert.ToString(lstAdHoc[0].WhereField).ToLower().Trim() == "pure_mixture")
                     {
                         List<ListItem> liItem = new List<ListItem>();
 
@@ -1256,6 +1256,26 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
                         {
                             lst_F.Items.Add((ListItem)liItem[i]);
                         }
+                    }
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "voc year")
+                    {
+                        ComboHelper.FillSedgwickYear(new ListBox[] { lst_F });
+                    }
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "month")
+                    {
+                        ComboHelper.BindMonth(lst_F);
+                    }
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "paint category")
+                    {
+                        // ComboHelper.FillPaintCategory(lst_F, false);
+                        DataTable dtData = ERIMS.DAL.clsLU_VOC_Category.SelectAll().Tables[0];
+                        dtData.DefaultView.RowFilter = " Active = 'Y' ";
+                        dtData = dtData.DefaultView.ToTable();
+                        lst_F.Items.Clear();
+                        lst_F.DataSource = dtData;
+                        lst_F.DataTextField = "Category";
+                        lst_F.DataValueField = "PK_LU_VOC_Category";
+                        lst_F.DataBind();
                     }
                     else
                         AdHocReportHelper.FillFilterDropDown(lstAdHoc[0].Field_Header, new ListBox[] { lst_F }, false, "Pollution");
@@ -1959,14 +1979,60 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
                     strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F1, false));
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
-                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From1.Text, txtDate_To1.Text, lstDate1.SelectedItem.Value);
+                {
+                    if (lstAdhoc[iSelected].Field_Name.ToUpper() == "VOC_EMMISSION_DATE")
+                    {
+                        int fromYear = 1990; int toYear = 1990;
+                        int fromMonth = 1; int toMonth = 1;
+                        string fromWhere = string.Empty;
+                        string toWhere = string.Empty;
+                        switch (lstDate1.SelectedItem.Value)
+                        {
+                            case "O":
+                                fromYear = Convert.ToDateTime(txtDate_From1.Text).Year;
+                                fromMonth = Convert.ToDateTime(txtDate_From1.Text).Month;
+                                strWhere = " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year=" + fromYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month=" + fromMonth; 
+                                break;
+                            case "B":
+                                fromYear = Convert.ToDateTime(txtDate_From1.Text).Year;
+                                fromMonth = Convert.ToDateTime(txtDate_From1.Text).Month;
+                                toYear = Convert.ToDateTime(txtDate_To1.Text).Year;
+                                toMonth = Convert.ToDateTime(txtDate_To1.Text).Month;
+                                strWhere = " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year>=" + fromYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month>=" + fromMonth + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year<=" + toYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month<=" + toMonth; 
+                                break;
+                            case "A":
+                                toYear = Convert.ToDateTime(txtDate_From1.Text).Year;
+                                toMonth = Convert.ToDateTime(txtDate_From1.Text).Month;
+                                strWhere = " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year>" + fromYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month>" + fromMonth;
+                                break;
+                            case "BF":
+                                fromYear = Convert.ToDateTime(txtDate_From1.Text).Year;
+                                fromMonth = Convert.ToDateTime(txtDate_From1.Text).Month;
+                                strWhere = " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year<" + toYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month<" + toMonth; 
+                                break;
+                        }  
+                    }
+                    else
+                    {
+                        strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From1.Text, txtDate_To1.Text, lstDate1.SelectedItem.Value);
+                    }
+                }
                 else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
                 {
                     // It takes Filed Header when Table is Transaction otherwist it take Filed Name.
                     if (lstAdhoc[iSelected].Table_Name == "T")
                         strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
                     else
-                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
+                    {
+                        string fieldName = lstAdhoc[iSelected].Field_Name;
+                        if (fieldName.ToUpper() == "QUANTITY" || fieldName.ToUpper() == "UNIT" || fieldName.ToUpper() == "GALLONS" || fieldName.ToUpper() == "VOC EMISSIONS")
+                        {
+                            string caseCondition = " Cast([" + lstAdhoc[iSelected].Table_Name + "]." + fieldName + " AS Numeric)";
+                            strWhere += GetDateAmountCondtion(caseCondition, txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
+                        }
+                        else
+                            strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
+                    }
                 }
             }
             if (drpFilter2.SelectedIndex > 0)
@@ -2979,6 +3045,26 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
                 lst_F.Items.Add((ListItem)liItem[i]);
             }
         }
+        else if (Convert.ToString(Field_Header).ToLower().Trim() == "month")
+        {
+            ComboHelper.BindMonth(lst_F);
+        }
+        else if (Convert.ToString(Field_Header).ToLower().Trim() == "voc year")
+        {
+            ComboHelper.FillSedgwickYear(new ListBox[] { lst_F });
+        }
+        else if (Convert.ToString(Field_Header).ToLower().Trim() == "paint category")
+        {
+            // ComboHelper.FillPaintCategory(lst_F, false);
+            DataTable dtData = ERIMS.DAL.clsLU_VOC_Category.SelectAll().Tables[0];
+            dtData.DefaultView.RowFilter = " Active = 'Y' ";
+            dtData = dtData.DefaultView.ToTable();
+            lst_F.Items.Clear();
+            lst_F.DataSource = dtData;
+            lst_F.DataTextField = "Category";
+            lst_F.DataValueField = "PK_LU_VOC_Category";
+            lst_F.DataBind();
+        }
         else
             AdHocReportHelper.FillFilterDropDown(Field_Header, new ListBox[] { lst_F }, false, "Polluton");
 
@@ -3191,4 +3277,8 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
     }
 
     #endregion
+    protected void lnkGenerateReport_Click(object sender, EventArgs e)
+    {
+
+    }
 }
