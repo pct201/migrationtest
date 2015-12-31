@@ -58,6 +58,11 @@ public partial class Controls_SonicClaimNotes_AdjusterNotes : System.Web.UI.User
         get { return Convert.ToInt32(ViewState["PageSize"]); }
         set { ViewState["PageSize"] = value; }
     }
+    public bool SpecificNotes
+    {
+        get { return Convert.ToBoolean(ViewState["SpecificNotes"]); }
+        set { ViewState["SpecificNotes"] = value; }
+    }
 
     /// <summary>
     /// Denotes Sort Field to sort all records by
@@ -103,7 +108,7 @@ public partial class Controls_SonicClaimNotes_AdjusterNotes : System.Web.UI.User
                 btnShowAPEVNotes.Visible = false;
             }
         }
-
+        SpecificNotes = false;
         //if (!IsPostBack)
         //{
         //    //btnShowAPEVNotes.Text = "Show AP/EV Notes Only";
@@ -145,7 +150,10 @@ public partial class Controls_SonicClaimNotes_AdjusterNotes : System.Web.UI.User
 
     public void BindGridNotes(string strClaimNumber)
     {
-        CurrentPage = ctrlPageNotes.CurrentPage;
+        if (!SpecificNotes)
+            CurrentPage = ctrlPageNotes.CurrentPage;
+        else
+            CurrentPage = 1;
         PageSize = ctrlPageNotes.PageSize;
 
         string strDateOrder = string.Empty;
@@ -450,6 +458,7 @@ public partial class Controls_SonicClaimNotes_AdjusterNotes : System.Web.UI.User
         {
             btnShowAPEVNotes.Text = "Show Specific Notes Only";
         }
+        SpecificNotes = true;
         BindGridNotes(ClaimNumber);
     }
 
