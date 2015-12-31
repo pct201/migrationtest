@@ -33,6 +33,26 @@
             window.open(navigationurl, "popup", "toolbar=no,menubar=no,scrollbars=yes,resizable=yes,width=" + popW + ",height=" + popH + ",top=" + topPos + ",left=" + leftPos);
         }
 
+        function ExpandNotes(bExpand, index) {
+            var intMsgLen = document.getElementById("ctl00_ContentPlaceHolder1_rptPosts_ctl0" + index + "_hdMessageLength").value;
+            if (bExpand) {
+                if (intMsgLen >= 3500)
+                    document.getElementById("ctl00_ContentPlaceHolder1_rptPosts_ctl0" + index + "_dvMainMessage").style.height = "400px";
+                else
+                    document.getElementById("ctl00_ContentPlaceHolder1_rptPosts_ctl0" + index + "_dvMainMessage").style.height = "";
+                document.getElementById("imgMinus" + index).style.display = "block";
+                document.getElementById("imgPlus" + index).style.display = "none";
+            }
+            else {
+                if (intMsgLen >= 2500)
+                    document.getElementById("ctl00_ContentPlaceHolder1_rptPosts_ctl0" + index + "_dvMainMessage").style.height = "200px";
+                else
+                    document.getElementById("ctl00_ContentPlaceHolder1_rptPosts_ctl0" + index + "_dvMainMessage").style.height = "";
+                document.getElementById("imgMinus" + index).style.display = "none";
+                document.getElementById("imgPlus" + index).style.display = "block";
+            }
+        }
+
         function openWindow(strURL) {
             oWnd = window.open(strURL, "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=500,height=300");
             oWnd.moveTo(260, 180);
@@ -202,6 +222,15 @@
                                                                         </tr>
                                                                     </table>
                                                                 </ItemTemplate>
+                                                                <FooterTemplate>
+                                                                    <table width="100%" cellpadding="4" cellspacing="1" border="0" style="font-size: 11px; font-family: Verdana;">
+                                                                    <tr id="trEmpty" runat="server" visible="false">
+                                                                        <td colspan = "3" align = "center">
+                                                                            No records found.
+                                                                        </td>
+                                                                    </tr>
+                                                                    </table>
+                                                                </FooterTemplate>
                                                             </asp:Repeater>
                                                         </td>
                                                     </tr>

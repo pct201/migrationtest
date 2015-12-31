@@ -566,6 +566,12 @@ public partial class DashboardGraph : clsBasePage
         rptPosts.DataSource = dsPosts.Tables[0];
         rptPosts.DataBind();
 
+        if (dsPosts.Tables[0].Rows.Count == 0)
+        {
+            Control FooterTemplate = rptPosts.Controls[rptPosts.Controls.Count - 1].Controls[0];
+            FooterTemplate.FindControl("trEmpty").Visible = true;
+        }
+
         // set record numbers retrieved
         lblNumber.Text = (dsPosts.Tables.Count >= 3) ? Convert.ToString(dsPosts.Tables[1].Rows[0][0]) : "0";
     }
