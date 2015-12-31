@@ -92,10 +92,18 @@ public partial class Controls_SonicClaimNotes_AdjusterNotes : System.Web.UI.User
             gvNotesList.DataBind();
         }
 
-        if (CurrentClaimType == ClaimType.WC)
+        if ((CurrentClaimType == ClaimType.WC || CurrentClaimType == ClaimType.AL || CurrentClaimType == ClaimType.DPD || CurrentClaimType == ClaimType.PL) && IsMailVisible == false)
         {
-            btnShowAPEVNotes.Visible = true;
+            if (gvNotesList.Rows.Count > 0)
+            {
+                btnShowAPEVNotes.Visible = true;
+            }
+            else
+            {
+                btnShowAPEVNotes.Visible = false;
+            }
         }
+
         //if (!IsPostBack)
         //{
         //    //btnShowAPEVNotes.Text = "Show AP/EV Notes Only";
@@ -143,6 +151,7 @@ public partial class Controls_SonicClaimNotes_AdjusterNotes : System.Web.UI.User
         string strDateOrder = string.Empty;
 
         bool isShowAPEVNotesOnly = false;
+        string strClaimType = string.Empty;
 
         if (SortBy != string.Empty && SortOrder != string.Empty)
         {
@@ -156,9 +165,17 @@ public partial class Controls_SonicClaimNotes_AdjusterNotes : System.Web.UI.User
         if (btnShowAPEVNotes.Text == "Show All" && btnShowAPEVNotes.Visible)
         {
             isShowAPEVNotesOnly = true;
+            if (CurrentClaimType == ClaimType.WC)
+            {
+                strClaimType = "WC";
+            }
+            else if (CurrentClaimType == ClaimType.AL || CurrentClaimType == ClaimType.DPD || CurrentClaimType == ClaimType.PL)
+            {
+                strClaimType = "Other";
+            }
         }
 
-        DataSet dsNotes = Claims_Adjustor_Notes.SelectBySourceUniqueClaimNumber(strClaimNumber, CurrentPage, PageSize, strDateOrder, isShowAPEVNotesOnly);
+        DataSet dsNotes = Claims_Adjustor_Notes.SelectBySourceUniqueClaimNumber(strClaimNumber, CurrentPage, PageSize, strDateOrder, isShowAPEVNotesOnly, strClaimType);
         //DataSet dsNotes = Claims_Adjustor_Notes.SelectBySourceUniqueClaimNumber(strClaimNumber, CurrentPage, PageSize);
 
         DataTable dtNotes = dsNotes.Tables[0];
@@ -171,6 +188,15 @@ public partial class Controls_SonicClaimNotes_AdjusterNotes : System.Web.UI.User
 
         btnView.Visible = dtNotes.Rows.Count > 0;
         btnPrint.Visible = dtNotes.Rows.Count > 0;
+
+        if (!((dtNotes.Rows.Count > 0) || isShowAPEVNotesOnly))
+        {
+            btnShowAPEVNotes.Visible = false;
+        }
+        else
+        {
+            btnShowAPEVNotes.Visible = true;
+        }
     }
 
     private void PrintSelectedNotes(string strPKs)

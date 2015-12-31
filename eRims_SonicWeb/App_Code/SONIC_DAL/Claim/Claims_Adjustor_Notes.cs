@@ -127,7 +127,7 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public static DataSet SelectBySourceUniqueClaimNumber(String source_Unique_Claim_Number, int intPageNo, int intPageSize, string strOrder, bool isShowAPEVNotesOnly)
+        public static DataSet SelectBySourceUniqueClaimNumber(String source_Unique_Claim_Number, int intPageNo, int intPageSize, string strOrder, bool isShowAPEVNotesOnly, string strClaimType)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Claims_Adjustor_NotesSelectBySource_Unique_Claim_Number");
@@ -137,6 +137,8 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "@intPageSize", DbType.String, intPageSize);
             db.AddInParameter(dbCommand, "DateOrder", DbType.String, strOrder);
             db.AddInParameter(dbCommand, "isShowAPEVNotesOnly", DbType.Boolean, isShowAPEVNotesOnly);
+            db.AddInParameter(dbCommand, "Claim_Type", DbType.String, strClaimType);
+
             dbCommand.CommandTimeout = 10000000;
             return db.ExecuteDataSet(dbCommand);
         }
