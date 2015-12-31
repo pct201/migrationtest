@@ -320,11 +320,11 @@ public partial class SONIC_Exposures_FacilityInspection : System.Web.UI.Page
         {
             if (PK_Facility_Construction_Inspection <= 0)
             {
-                ClientScript.RegisterStartupScript(GetType(), "savemessage", "javascript: alert('Please save Inspection Details First.');", true);
+                ScriptManager.RegisterStartupScript(this, GetType(), "savemessage", "javascript: alert('Please save Inspection Details First.');", true);
             }
             else
             {
-                ClientScript.RegisterStartupScript(GetType(), "savemessage", "javascript: alert('Please select Project First.');", true);
+                ScriptManager.RegisterStartupScript(this, GetType(), "savemessage", "javascript: alert('Please select Project First.');", true);
             }
         }
     }
