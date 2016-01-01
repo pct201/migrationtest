@@ -154,6 +154,20 @@ namespace ERIMS.DAL
             return (Convert.ToDecimal(db.ExecuteScalar(dbCommand)));
 		}
 
+        /// <summary>
+        /// Selects a single record from the LU_Facility_Maintenance_Status table by a primary key.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectByDescription(string description)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_Facility_Maintenance_StatusSelectByDescription");
+
+            db.AddInParameter(dbCommand, "Description", DbType.String, description);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
 		/// <summary>
 		/// Deletes a record from the LU_Facility_Maintenance_Status table by a composite primary key.
 		/// </summary>

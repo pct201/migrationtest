@@ -286,6 +286,13 @@ public partial class SONIC_Exposures_FacilityInspection : System.Web.UI.Page
             {
                 // Save Inspection Details
                 SaveInspectionDetails();
+
+                DataTable dtMaintenanceStatus = clsLU_Facility_Maintenance_Status.SelectByDescription("Queued").Tables[0];
+                if (dtMaintenanceStatus != null && dtMaintenanceStatus.Rows.Count > 0)
+                {
+                    facility_Construction_Maintenance_Item.FK_Facility_Maintenance_Status = Convert.ToInt32(dtMaintenanceStatus.Rows[0]["PK_LU_Facility_Maintenance_Status"]);
+                }
+
                 facility_Construction_Maintenance_Item.FK_Facility_Inspection_Item_Link = Convert.ToInt32(hdnFacility_Construction_Inspection_Item.Value);
                 facility_Construction_Maintenance_Item.FK_Focus_Area = Convert.ToInt32(ddlFocusArea.SelectedValue);
                 facility_Construction_Maintenance_Item.FK_Facility_Inspection_Item = fK_Facility_Inspection_Item;
