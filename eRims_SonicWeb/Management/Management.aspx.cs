@@ -7,6 +7,8 @@ using System.Web.UI.WebControls;
 using ERIMS.DAL;
 using System.Text;
 using System.IO;
+using System.Web.UI.HtmlControls;
+using System.Net.Mail;
 
 
 public partial class Management_Management : clsBasePage
@@ -59,6 +61,35 @@ public partial class Management_Management : clsBasePage
         set { ViewState["PK_ID_ACI"] = value; }
     }
 
+    /// <summary>
+    /// Denotes the Primary Key
+    /// </summary>
+    public decimal _PK_Management_Notes
+    {
+        get
+        {
+            return clsGeneral.GetInt(ViewState["PK_Management_Notes"]);
+        }
+        set { ViewState["PK_Management_Notes"] = value; }
+    }
+
+    /// <summary>
+    /// Denotes Sort Field to sort all records by
+    /// </summary>
+    private string SortBy
+    {
+        get { return (!clsGeneral.IsNull(ViewState["SortBy"]) ? ViewState["SortBy"].ToString() : string.Empty); }
+        set { ViewState["SortBy"] = value; }
+    }
+
+    /// <summary>
+    /// Denotes ascending or descending order
+    /// </summary>
+    private string SortOrder
+    {
+        get { return (!clsGeneral.IsNull(ViewState["SortOrder"]) ? ViewState["SortOrder"].ToString() : string.Empty); }
+        set { ViewState["SortOrder"] = value; }
+    }
     #endregion
 
     #region "Page Events"
@@ -76,6 +107,7 @@ public partial class Management_Management : clsBasePage
                 //drpFacilitiesIssue.SelectedValue = "Y";
                 //drpFacilitiesIssue.Enabled = false;
                 dvView.Visible = false;
+                btnManagementNoteView.Visible = btnManagementPrint.Visible = btnManagementSpecificNote.Visible = false;
             }
             if (PK_Management > 0)
             {
@@ -408,7 +440,7 @@ public partial class Management_Management : clsBasePage
 
             txtComments.Text = Convert.ToString(objRecord.Comment);
             //********************* Approval screen end**********************//
-
+            BindManagementNoteGrid(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
         }
     }
 
@@ -812,6 +844,53 @@ public partial class Management_Management : clsBasePage
             //    strEmailIds[0] = string.Empty;
             //}
         }
+    }
+
+    /// Used to Clear the controls
+    /// </summary>
+    private void ClearManagementNoteControls()
+    {
+        //clear control
+        _PK_Management_Notes = 0;
+        txtManagement_Notes.Text = string.Empty;
+        //txtACI_Notes_Date.Text = string.Empty;
+    }
+
+    /// <summary>
+    /// 
+    /// Bind Sonic Notes Grid
+    /// </summary>
+    private void BindManagementNoteGrid(int PageNumber, int PageSize)
+    {
+        DataSet dsManagement_Note = clsSonic_Management_Notes.SelectByFK_Management_WithPaging(PK_Management, PageNumber, PageSize, SortBy, SortOrder);
+
+        DataTable dtNotes = dsManagement_Note.Tables[0];
+        ctrlPageSonicNotes.TotalRecords = (dsManagement_Note.Tables.Count >= 2) ? Convert.ToInt32(dsManagement_Note.Tables[1].Rows[0][0]) : 0;
+        ctrlPageSonicNotes.CurrentPage = (dsManagement_Note.Tables.Count >= 2) ? Convert.ToInt32(dsManagement_Note.Tables[1].Rows[0][2]) : 0;
+        ctrlPageSonicNotes.RecordsToBeDisplayed = dsManagement_Note.Tables[0].Rows.Count;
+        ctrlPageSonicNotes.SetPageNumbers();
+        if (dsManagement_Note != null && dsManagement_Note.Tables.Count > 0 && dsManagement_Note.Tables[0].Rows.Count > 0)
+        {
+            gvManagement_Notes.DataSource = dsManagement_Note;
+            gvManagement_Notes.DataBind();
+            btnManagementNoteView.Visible = btnManagementPrint.Visible = btnManagementSpecificNote.Visible = ctrlPageSonicNotes.Visible = true;
+            dvManagementNotes.Style["Height"] = "200px";
+        }
+        else
+        {
+            gvManagement_Notes.DataSource = null;
+            gvManagement_Notes.DataBind();
+            btnManagementNoteView.Visible = btnManagementPrint.Visible = btnManagementSpecificNote.Visible = ctrlPageSonicNotes.Visible = false;
+            dvManagementNotes.Style["Height"] = "31px";
+        }
+    }
+
+    /// <summary>
+    /// Implement event for Paging control when clicking on Go button
+    /// </summary>
+    protected void GetManagementPage()
+    {
+        BindManagementNoteGrid(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
     }
 
     public StringBuilder Management_AbstractReport(decimal _PK_Management)
@@ -1502,6 +1581,89 @@ public partial class Management_Management : clsBasePage
     }
 
     /// <summary>
+    /// Add Management Notes Click
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void lnkAddManagementNotesNew_Click(object sender, EventArgs e)
+    {
+        
+        _PK_Management_Notes = 0;
+        trManagementNotesGrid.Style.Add("display", "none");
+        trManagementNotes.Style.Add("display", "");
+        btnManagementNotesCancel.Style.Add("display", "inline");
+        btnManagementNotesAdd.Text = "Add";
+        //txtACI_Notes_Date.Text = string.Empty;
+        txtManagement_Notes.Text = string.Empty;
+        //((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtACI_Notes_Date);
+    }
+
+    /// <summary>
+    /// Save Management Notes
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnManagementNotesAdd_Click(object sender, EventArgs e)
+    {
+        SaveRecord();
+
+        clsSonic_Management_Notes objManagement_Notes = new clsSonic_Management_Notes();
+
+        objManagement_Notes.PK_Sonic_Management_Notes = _PK_Management_Notes;
+        //objACI_Notes.Note_Date = clsGeneral.FormatNullDateToStore(txtACI_Notes_Date.Text);
+        objManagement_Notes.Note = txtManagement_Notes.Text.Trim();
+        objManagement_Notes.FK_Management = PK_Management;
+        objManagement_Notes.Updated_by = Convert.ToDecimal(clsSession.UserID);
+
+        if (_PK_Management_Notes > 0)
+        {
+            objManagement_Notes.Update();
+        }
+        else
+        {
+            objManagement_Notes.Insert();
+        }
+
+        //clear Control
+        ClearManagementNoteControls();
+        //Bind Grid Function
+        BindManagementNoteGrid(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
+        //Cancel CLick
+        btnManagementNotesCancel_Click(null, null);
+    }
+
+    /// <summary>
+    /// Cancel Sonic Notes link
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnManagementNotesCancel_Click(object sender, EventArgs e)
+    {
+        trManagementNotesGrid.Style.Add("display", "");
+        trManagementNotes.Style.Add("display", "none");
+        btnManagementNotesCancel.Style.Add("display", "none");
+        //txtACI_Notes_Date.Text = string.Empty;
+        txtManagement_Notes.Text = string.Empty;
+    }
+
+    /// <summary>
+    /// Print ACI Notes
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnManagementPrint_Click(object sender, EventArgs e)
+    {
+        string strSelected = "";
+        foreach (GridViewRow gRow in gvManagement_Notes.Rows)
+        {
+            if (((CheckBox)gRow.FindControl("chkSelectSonicACINotes")).Checked)
+                strSelected = strSelected + ((HtmlInputHidden)gRow.FindControl("hdnPK_Sonic_Management_Notes")).Value + ",";
+        }
+        strSelected = strSelected.TrimEnd(',');
+        clsPrintManagementNotes.PrintSelectedNotes(strSelected, PK_Management, "Management");
+    }
+
+    /// <summary>
     /// Resend Management Abstract Click Event
     /// </summary>
     /// <param name="sender"></param>
@@ -1595,6 +1757,18 @@ public partial class Management_Management : clsBasePage
     {
         gvACIContact.PageIndex = e.NewPageIndex; //Page new index call
         BindACIGrid();
+    }
+
+    /// <summary>
+    /// Paging event of gvManagement_Notes
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvManagement_Notes_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        gvManagement_Notes.PageIndex = e.NewPageIndex; //Page new index call
+        BindManagementNoteGrid(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
 
     /// <summary>
@@ -1769,6 +1943,74 @@ public partial class Management_Management : clsBasePage
         }
     }
 
+    /// <summary>
+    /// GridView Sorting Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvManagement_Notes_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        // update sort field and sort order and bind the grid
+        SortOrder = (SortBy == e.SortExpression) ? (SortOrder == "asc" ? "desc" : "asc") : "asc";
+        SortBy = e.SortExpression;
+        BindManagementNoteGrid(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
+    }
+
+    protected void gvManagement_Notes_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            if (StrOperation == "view")
+            {
+                ((LinkButton)e.Row.Cells[0].FindControl("lnkRemove")).Visible = false;
+                ((LinkButton)e.Row.Cells[0].FindControl("lnkEdit")).Visible = false;
+            }
+            else
+            {
+                ((LinkButton)e.Row.Cells[0].FindControl("lnkRemove")).Visible = true;
+                ((LinkButton)e.Row.Cells[0].FindControl("lnkEdit")).Visible = true;
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// gvMaangement_Notes on Edit Or Delete
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvManagement_Notes_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "RemoveManagementNote")
+        {
+            #region
+            clsSonic_Management_Notes.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
+
+            BindManagementNoteGrid(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
+            #endregion
+        }
+        else if (e.CommandName == "ViewNote")
+        {
+            Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:AciNotePopup('" + Encryption.Encrypt(e.CommandArgument.ToString()) + "','" + Encryption.Encrypt(PK_Management.ToString()) + "','0','" + StrOperation + "','Management');", true);
+        }
+        else if (e.CommandName == "EditRecord")
+        {
+            _PK_Management_Notes = Convert.ToDecimal(e.CommandArgument);
+            // show and hide Add-edit row
+            trManagementNotesGrid.Style.Add("display", "none");
+            trManagementNotes.Style.Add("display", "");
+            btnManagementNotesCancel.Style.Add("display", "inline");
+            btnManagementNotesAdd.Text = "Update";
+            // get record from database
+
+            clsSonic_Management_Notes objACI_Management_Notes = new clsSonic_Management_Notes(_PK_Management_Notes);
+
+            //txtACI_Notes_Date.Text = clsGeneral.FormatDBNullDateToDisplay(objACI_Event_Notes.Note_Date);
+            txtManagement_Notes.Text = Convert.ToString(objACI_Management_Notes.Note);
+            //((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtSonic_Notes);
+        }
+    }
     #endregion
     
 }

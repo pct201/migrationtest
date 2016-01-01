@@ -6,6 +6,8 @@
 <%@ Register Src="~/Controls/ManagementTab/ManagementTab.ascx" TagName="ctrlManagementTab"
     TagPrefix="uc" %>
 <%@ Register Src="~/Controls/Attachment_Event/AttachmentEvent.ascx" TagName="Attachment" TagPrefix="uc" %>
+<%@ register src="~/Controls/Navigation/Navigation.ascx" tagname="ctrlPaging" tagprefix="uc" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
      <script language="javascript" type="text/javascript">
          var GB_ROOT_DIR = '<%=AppConfig.SiteURL%>' + 'greybox/';
@@ -266,7 +268,105 @@
             }
            
         }
+        function checkLengthSonic() {
+            var oObject = document.getElementById('ctl00_ContentPlaceHolder1_txtManagement_Notes_txtNote')
+            if (oObject.value.length < 50) {
+                alert("Please enter minimum 50 Characters for Notes.");
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+        function SelectDeselectAllACISonicNotes(bChecked) {
+            var ctrls = document.getElementsByTagName('input');
+            var i, chkID;
+            var cnt = 0;
+            chkID = "chkSelectSonicACINotes";
+            for (i = 0; i < ctrls.length; i++) {
+                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
+                    ctrls[i].checked = bChecked;
+                }
+            }
+        }
+        function SelectDeselectSonicNoteHeader() {
+            var ctrls = document.getElementsByTagName('input');
+            var i, chkID;
+            var cnt = 0;
+            chkID = "chkSelectSonicACINotes";
+            for (i = 0; i < ctrls.length; i++) {
+                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
+                    if (ctrls[i].checked)
+                        cnt++;
+                }
+            }
+            var rowCnt = document.getElementById('<%=gvManagement_Notes.ClientID%>').rows.length - 1;
+            var headerChkID = 'chkMultiSelectSonicACINotes';
 
+            if (cnt == rowCnt)
+                document.getElementById(headerChkID).checked = true;
+            else
+                document.getElementById(headerChkID).checked = false;
+        }
+        function CheckSelectedSonicNotes(buttonType) {
+
+            var gv = document.getElementById('<%=dvManagementNotes.ClientID%>');
+            var ctrls = gv.getElementsByTagName('input');
+            var i;
+            var cnt = 0;
+            var m_strAttIds = '';
+            for (i = 0; i < ctrls.length; i++) {
+                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf("chkSelectSonicACINotes") > 0) {
+                    if (ctrls[i].checked) {
+                        var ctrlId = ctrls[i].id;
+                        ctrlId = ctrlId.substring(ctrlId.lastIndexOf("_") - 2);
+                        var hdnpk = ctrlId.replace("chkSelectSonicACINotes", "hdnPK_Sonic_Management_Notes");
+                        //index = Number(index) - 2;
+                        var id = document.getElementById('ctl00_ContentPlaceHolder1_gvManagement_Notes_ctl' + hdnpk).value;
+                        if (m_strAttIds == "")
+                            m_strAttIds = id;
+                        else {
+                            m_strAttIds = m_strAttIds + "," + id;
+                        }
+                        cnt++;
+                    }
+                }
+            }
+
+            if (cnt == 0) {
+                if (buttonType == "View")
+                    alert("Please select Note(s) to View");
+                else
+                    alert("Please select Note(s)");
+
+                return false;
+            }
+            else {
+                if (buttonType != 'Print') {
+                    SonicSelectedNotePopup(m_strAttIds, buttonType);
+                    return false;
+                }
+                else
+                    return true;
+            }
+        }
+
+        function SonicSelectedNotePopup(NoteId, type) {  
+            var winHeight = 450;
+            var winWidth = 750;
+            var EventId = <%=ViewState["PK_Management"]%>;            
+            obj = window.open("Management_Note.aspx?viewIDs=" +  NoteId + "&id=" + '<%=ViewState["PK_Management"]%>' + "&type=" + type, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',resizable=yes,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+              obj.focus();
+              return false;
+        }
+
+        function SonicNotePopup(NoteId, type) {            
+            var winHeight = 500;
+            var winWidth = 500;
+            var ManagementId = <%=ViewState["PK_Management"]%>;            
+            obj = window.open("Management_Note.aspx?nid=" + NoteId + "&id=" + '<%=ViewState["PK_Management"]%>' + "&type=" + type, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+            obj.focus();
+        }
     </script>
     <div>
         <asp:ValidationSummary ID="vsError" runat="server" CssClass="errormessage" ValidationGroup="vsErrorGroup"
@@ -784,6 +884,151 @@
                                                             <td align="left" valign="top" colspan="4">
                                                                 <uc:ctrlMultiLineTextBox ID="ctrlRecommendation" runat="server" IsRequired="true"
                                                                     ValidationGroup="vsErrorGroup" RequiredFieldMessage="Please Enter Recommendation" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6">
+                                                                &nbsp;
+                                                            </td>
+                                                        </tr>
+                                                        <tr runat="server" id="trManagementNotes" style="display: none;">
+                                                            <td colspan="6">
+                                                                <table width="100%">
+                                                                    <tr>
+                                                                        <td align="left" valign="top">
+                                                                            <b>Management Notes Grid </b>
+                                                                        </td>
+                                                                        <td align="center" valign="top" colspan="5">
+                                                                            &nbsp;
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left" valign="top" width="19%">
+                                                                            Note
+                                                                        </td>
+                                                                        <td align="center" valign="top" width="2%">
+                                                                            :
+                                                                        </td>
+                                                                        <td align="left" valign="top" style="padding-left: 5px;">
+                                                                            <uc:ctrlMultiLineTextBox ID="txtManagement_Notes" runat="server" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td align="left">
+                                                                        </td>
+                                                                        <td align="center">
+                                                                        </td>
+                                                                        <td align="left" colspan="4">
+                                                                            <asp:Button ID="btnManagementNotesAdd" OnClick="btnManagementNotesAdd_Click" runat="server"
+                                                                                ValidationGroup="vsErrorGroup" OnClientClick="javascript:return checkLengthSonic();"
+                                                                                Text="Add" Width="70px"></asp:Button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                            <asp:Button ID="btnManagementNotesCancel" OnClick="btnManagementNotesCancel_Click"
+                                                                                runat="server" Text="Cancel" Width="70px"></asp:Button>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6">
+                                                                &nbsp;
+                                                            </td>
+                                                        </tr>
+                                                        <tr runat="server" id="trManagementNotesGrid">
+                                                            <td colspan="6">
+                                                                <table width="100%">
+                                                                    <tr>
+                                                                        <td align="left" valign="top" width="17%">
+                                                                            Management Notes Grid
+                                                                        </td>
+                                                                        <td align="center" valign="top" width="5%">
+                                                                            :
+                                                                        </td>
+                                                                        <td align="left" valign="top" colspan="4">
+                                                                            <uc:ctrlPaging ID="ctrlPageSonicNotes" runat="server" OnGetPage="GetManagementPage" RecordPerPage="true" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="6">
+                                                                            <div runat="server" id="dvManagementNotes" style="width: 99%; overflow-y: scroll;
+                                                                                border: solid 1px #000000;">
+                                                                                <asp:GridView ID="gvManagement_Notes" runat="server" Width="97%" AutoGenerateColumns="false"
+                                                                                    OnSorting="gvManagement_Notes_Sorting" EnableViewState="true" AllowPaging="false"
+                                                                                    OnRowCommand="gvManagement_Notes_RowCommand" AllowSorting="true" OnRowDataBound="gvManagement_Notes_RowDataBound"
+                                                                                    OnPageIndexChanging="gvManagement_Notes_PageIndexChanging" Style="word-wrap: normal;
+                                                                                    word-break: break-all;">
+                                                                                    <Columns>
+                                                                                        <asp:TemplateField ItemStyle-VerticalAlign="Top" ItemStyle-Width="12%">
+                                                                                            <HeaderTemplate>
+                                                                                                <input type="checkbox" id="chkMultiSelectSonicACINotes" onclick="SelectDeselectAllACISonicNotes(this.checked);" />Select
+                                                                                            </HeaderTemplate>
+                                                                                            <ItemTemplate>
+                                                                                                <asp:CheckBox ID="chkSelectSonicACINotes" runat="server" onclick="SelectDeselectSonicNoteHeader();" />
+                                                                                                <input type="hidden" id="hdnPK_Sonic_Management_Notes" runat="server" value='<%#Eval("PK_Sonic_Management_Notes") %>' />
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderText="Date" SortExpression="Note_Date">
+                                                                                            <ItemStyle Width="10%" />
+                                                                                            <ItemTemplate>
+                                                                                                <a href="javascript:function(){return false};" onclick="SonicNotePopup('<%#Eval("PK_Sonic_Management_Notes") %>','SONIC');">
+                                                                                                    <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Note_Date")) %></a>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderText="User">
+                                                                                            <ItemStyle Width="15%" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:Label ID="lblUpdated_By" runat="server" Text='<%# Eval("Updated_by_Name") %>'
+                                                                                                    Style="word-wrap: normal; word-break: break-all;"></asp:Label>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderText="Notes">
+                                                                                            <ItemStyle Width="45%" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:Label ID="lbtNotes" runat="server" Text='<%# Eval("Note") %>' Style="word-wrap: normal;
+                                                                                                    word-break: break-all;" Width="310px" CssClass="TextClip"></asp:Label>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
+                                                                                            <ItemStyle Width="10%" HorizontalAlign="Center" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:LinkButton runat="server" ID="lnkEdit" Text=" Edit " CommandName="EditRecord"
+                                                                                                    CommandArgument='<%#Eval("PK_Sonic_Management_Notes") %>' >
+                                                                                                </asp:LinkButton>
+                                                                                                &nbsp;&nbsp;&nbsp;
+                                                                                                <asp:LinkButton ID="lnkRemove" runat="server" Text="Delete" CommandArgument='<%#Eval("PK_Sonic_Management_Notes") %>'
+                                                                                                    CommandName="RemoveManagementNote" OnClientClick="return confirm('Are you sure to remove Management Note record?');"
+                                                                                                    CausesValidation="false" />
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                    </Columns>
+                                                                                    <EmptyDataTemplate>
+                                                                                        <table cellpadding="4" cellspacing="0" width="100%">
+                                                                                            <tr>
+                                                                                                <td width="100%" align="center" style="border: 1px solid #cccccc;">
+                                                                                                    <asp:Label ID="lblEmptyHeaderGridMessage" runat="server" Text="No Record Found"></asp:Label>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </table>
+                                                                                    </EmptyDataTemplate>
+                                                                                </asp:GridView>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="padding-bottom: 5px;" colspan="6">
+                                                                            <asp:LinkButton Style="display: inline" ID="lnkAddManagementNotesNew" OnClick="lnkAddManagementNotesNew_Click"
+                                                                                runat="server" Text="Add New"></asp:LinkButton>&nbsp;&nbsp;&nbsp;
+                                                                            <asp:Button ID="btnManagementNoteView" runat="server" Text=" View" OnClientClick="return SonicSelectedNotePopup('','ManagementView');" />&nbsp;&nbsp;
+                                                                            <asp:Button ID="btnManagementPrint" runat="server" Text=" Print " OnClick="btnManagementPrint_Click"
+                                                                                OnClientClick="return CheckSelectedSonicNotes('Print');" />
+                                                                            &nbsp;&nbsp;
+                                                                            <asp:Button ID="btnManagementSpecificNote" runat="server" CausesValidation="false" Text=" Show Specific Notes Only "
+                                                                                OnClientClick="javascript:return CheckSelectedSonicNotes('ManagementSpecificNote');" />
+                                                                            <asp:LinkButton Style="display: none" ID="lnkManagementNotesCancel" runat="server"
+                                                                                Text="Cancel"></asp:LinkButton>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
                                                             </td>
                                                         </tr>
                                                         <tr>
