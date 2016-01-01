@@ -80,7 +80,7 @@ public partial class SONIC_Exposures_FacilityInspection : System.Web.UI.Page
                         pnlInspectionView.Visible = true;
                     }
                 }
-                
+
                 if (PK_Facility_Construction_Inspection > 0)
                 {
                     BindInspectionDetails();
@@ -148,12 +148,37 @@ public partial class SONIC_Exposures_FacilityInspection : System.Web.UI.Page
     /// <param name="e"></param>
     protected void ddlFocusArea_SelectedIndexChanged(object sender, EventArgs e)
     {
-        rptFocusAreaItem.DataSource = null;
-        rptFocusAreaItem.DataBind();
+        DtInspection = new DataTable();
         if (ddlFocusArea.SelectedValue != "0")
         {
-            DtInspection = null;
-            rptFocusAreaItem.DataSource = LU_Facility_Inspection_Item.SelectByFKFocusArea(Convert.ToInt32(ddlFocusArea.SelectedValue)).Tables[0];
+            if (PK_Facility_Construction_Inspection > 0)
+            {
+                DataTable dtInspectionData = Facility_Construction_Inspection.SelectByPkInpsection(PK_Facility_Construction_Inspection).Tables[0];
+                DtInspection = dtInspectionData.Clone();
+                DataRow[] drInspectionData = dtInspectionData.Select("FK_Facility_Inspection_Area=" + Convert.ToInt32(ddlFocusArea.SelectedValue));
+                if (drInspectionData != null && drInspectionData.Length > 0)
+                {
+                    foreach (DataRow drInspectionRow in drInspectionData)
+                    {
+                        DtInspection.ImportRow(drInspectionRow);
+                    }
+                }
+            }
+
+            if (DtInspection == null || DtInspection.Rows.Count == 0)
+            {
+                rptFocusAreaItem.DataSource = LU_Facility_Inspection_Item.SelectByFKFocusArea(Convert.ToInt32(ddlFocusArea.SelectedValue)).Tables[0];
+                rptFocusAreaItem.DataBind();
+            }
+            else
+            {
+                rptFocusAreaItem.DataSource = DtInspection;
+                rptFocusAreaItem.DataBind();
+            }
+        }
+        else
+        {
+            rptFocusAreaItem.DataSource = null;
             rptFocusAreaItem.DataBind();
         }
     }
@@ -168,8 +193,15 @@ public partial class SONIC_Exposures_FacilityInspection : System.Web.UI.Page
         try
         {
             // Save Inspection Details
-            SaveInspectionDetails();            
-            ScriptManager.RegisterStartupScript(this, GetType(), "savemessage", "javascript: alert('Inspection Details Saved Successfully.'); location.href = '" + String.Format("FacilityInspection.aspx?loc={0}&item={1}&op={2}", Request.QueryString["loc"].ToString(), Encryption.Encrypt(PK_Facility_Construction_Inspection.ToString()), "View") + "'", true);            
+            SaveInspectionDetails();
+            if (ddlFocusArea.SelectedIndex > 0)
+            {
+                ScriptManager.RegisterStartupScript(this, GetType(), "savemessage", "javascript: alert('Inspection Details Saved Successfully.'); location.href = '" + String.Format("FacilityInspection.aspx?loc={0}&item={1}&op={2}&area={3}", Request.QueryString["loc"].ToString(), Encryption.Encrypt(PK_Facility_Construction_Inspection.ToString()), "View", Encryption.Encrypt(ddlFocusArea.SelectedValue.ToString())) + "'", true);
+            }
+            else
+            {
+                ScriptManager.RegisterStartupScript(this, GetType(), "savemessage", "javascript: alert('Inspection Details Saved Successfully.'); location.href = '" + String.Format("FacilityInspection.aspx?loc={0}&item={1}&op={2}&area={3}", Request.QueryString["loc"].ToString(), Encryption.Encrypt(PK_Facility_Construction_Inspection.ToString()), "View") + "'", true);
+            }
         }
         catch
         {
@@ -197,15 +229,11 @@ public partial class SONIC_Exposures_FacilityInspection : System.Web.UI.Page
     {
         BindBuildingDropDown();
         BindContractorSecurityDropDown(ddlInspector);
-
-        //if (rptFocusAreaItem.Items.Count > 0)
-        //{
         foreach (RepeaterItem item in rptFocusAreaItem.Items)
         {
             DropDownList ddlAssignedTo = (DropDownList)item.FindControl("ddlAssignedTo");
             BindContractorSecurityDropDown(ddlAssignedTo);
-        }
-        //}
+        }        
     }
 
     /// <summary>
@@ -405,32 +433,48 @@ public partial class SONIC_Exposures_FacilityInspection : System.Web.UI.Page
     private void BindInspectionDetails()
     {
         DataTable dtInspection = Facility_Construction_Inspection.SelectByPkInpsection(PK_Facility_Construction_Inspection).Tables[0];
+        DtInspection = dtInspection.Clone();
         if (dtInspection != null && dtInspection.Rows.Count > 0)
-        {
-            DtInspection = dtInspection;
+        {            
             ddlProject.SelectedValue = dtInspection.Rows[0]["FK_Facility_Construction_Project"].ToString();
             txtInspectionDate.Text = lblInspectionDate.Text = clsGeneral.FormatDBNullDateToDisplay(dtInspection.Rows[0]["Inspection_Date"].ToString());
             BindContractorSecurityDropDown(ddlInspector);
             ddlInspector.SelectedValue = dtInspection.Rows[0]["FK_Inspector"] != DBNull.Value ? dtInspection.Rows[0]["FK_Inspector"].ToString() : "0";
             lblInspector.Text = Convert.ToString(dtInspection.Rows[0]["Inspector"]);
             ddlFocusArea.SelectedValue = (dtInspection.Rows[0]["FK_Facility_Inspection_Area"] != DBNull.Value) ? dtInspection.Rows[0]["FK_Facility_Inspection_Area"].ToString() : "0";
-            if (ddlFocusArea.SelectedIndex > 0)
+            if (Request.QueryString["area"] != null)
             {
-                ddlFocusArea.Enabled = false;
+                Int32 focusArea;
+                if (int.TryParse(Encryption.Decrypt(Request.QueryString["area"].ToString()), out focusArea))
+                {
+                    ddlFocusArea.SelectedValue = focusArea.ToString();
+                }
             }
 
-            lblFocusArea.Text = dtInspection.Rows[0]["FocusArea"].ToString();            
+            if (ddlFocusArea.SelectedIndex > 0)
+            {
+                lblFocusArea.Text = ddlFocusArea.SelectedItem.Text;
+            }
+
             BindBuildingDropDown();
             ddlBuilding.SelectedValue = dtInspection.Rows[0]["FK_Building"].ToString();
             lblBuilding.Text = dtInspection.Rows[0]["Building_Number"].ToString();
             lblProject.Text = (ddlProject.SelectedIndex > 0) ? ddlProject.SelectedItem.Text : "";
             if (ddlFocusArea.SelectedIndex > 0)
             {
-                rptFocusAreaItem.DataSource = rptFocusAreaItemView.DataSource = dtInspection;
+                DataRow[] drInspectionData = dtInspection.Select("FK_Facility_Inspection_Area=" + Convert.ToInt32(ddlFocusArea.SelectedValue));
+                if (drInspectionData != null && drInspectionData.Length > 0)
+                {
+                    foreach (DataRow drInspectionRow in drInspectionData)
+                    {
+                        DtInspection.ImportRow(drInspectionRow);
+                    }
+                }
+
+                rptFocusAreaItem.DataSource = rptFocusAreaItemView.DataSource = DtInspection;
                 rptFocusAreaItem.DataBind();
                 rptFocusAreaItemView.DataBind();
             }
-
         }
         else
         {
@@ -489,8 +533,6 @@ public partial class SONIC_Exposures_FacilityInspection : System.Web.UI.Page
                     hdnFacility_Construction_Inspection_Item.Value = objFacility_Construction_Inspection_Item.Insert().ToString();
                 }
             }
-
-            ddlFocusArea.Enabled = false;
         }
     }
 
