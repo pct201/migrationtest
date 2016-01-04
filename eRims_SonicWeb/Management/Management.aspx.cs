@@ -141,6 +141,10 @@ public partial class Management_Management : clsBasePage
                 BindStoreGrid();
                 BindACIGrid();
 
+                gvManagement_Notes.DataSource = null;
+                gvManagement_Notes.DataBind();
+                btnManagementNoteView.Visible = btnManagementPrint.Visible = btnManagementSpecificNote.Visible = ctrlPageSonicNotes.Visible = false;
+
                 btnResendManagementAbstract.Visible = false;
             }
 
@@ -702,6 +706,8 @@ public partial class Management_Management : clsBasePage
            
             lblComments.Text = Convert.ToString(objRecord.Comment);
             //********************* Approval screen end**********************//
+
+            BindManagementNoteGridView(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
         }
 
     }
@@ -886,11 +892,48 @@ public partial class Management_Management : clsBasePage
     }
 
     /// <summary>
+    /// 
+    /// Bind Sonic Notes Grid
+    /// </summary>
+    private void BindManagementNoteGridView(int PageNumber, int PageSize)
+    {
+        DataSet dsManagement_Note = clsSonic_Management_Notes.SelectByFK_Management_WithPaging(PK_Management, PageNumber, PageSize, SortBy, SortOrder);
+
+        DataTable dtNotes = dsManagement_Note.Tables[0];
+        ctrlPageSonicNotesView.TotalRecords = (dsManagement_Note.Tables.Count >= 2) ? Convert.ToInt32(dsManagement_Note.Tables[1].Rows[0][0]) : 0;
+        ctrlPageSonicNotesView.CurrentPage = (dsManagement_Note.Tables.Count >= 2) ? Convert.ToInt32(dsManagement_Note.Tables[1].Rows[0][2]) : 0;
+        ctrlPageSonicNotesView.RecordsToBeDisplayed = dsManagement_Note.Tables[0].Rows.Count;
+        ctrlPageSonicNotesView.SetPageNumbers();
+        if (dsManagement_Note != null && dsManagement_Note.Tables.Count > 0 && dsManagement_Note.Tables[0].Rows.Count > 0)
+        {
+            gvManagement_NotesView.DataSource = dsManagement_Note;
+            gvManagement_NotesView.DataBind();
+            btnManagementNoteView_View.Visible = btnManagementPrintView.Visible = btnManagementSpecificNote_View.Visible = ctrlPageSonicNotesView.Visible = true;
+            dvManagementNotesView.Style["Height"] = "200px";
+        }
+        else
+        {
+            gvManagement_NotesView.DataSource = null;
+            gvManagement_NotesView.DataBind();
+            btnManagementNoteView_View.Visible = btnManagementPrintView.Visible = btnManagementSpecificNote_View.Visible = ctrlPageSonicNotesView.Visible = false;
+            dvManagementNotesView.Style["Height"] = "31px";
+        }
+    }
+
+    /// <summary>
     /// Implement event for Paging control when clicking on Go button
     /// </summary>
     protected void GetManagementPage()
     {
         BindManagementNoteGrid(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
+    }
+
+    /// <summary>
+    /// Implement event for Paging control when clicking on Go button
+    /// </summary>
+    protected void GetManagementPageView()
+    {
+        BindManagementNoteGridView(ctrlPageSonicNotesView.CurrentPage, ctrlPageSonicNotesView.PageSize);
     }
 
     public StringBuilder Management_AbstractReport(decimal _PK_Management)
@@ -906,6 +949,7 @@ public partial class Management_Management : clsBasePage
             DataTable dtACIContactDetails = dsAbstractManagement.Tables[2];
             DataTable dtProjectCostDetails = dsAbstractManagement.Tables[3];
             DataTable dtInvoiceDetails = dsAbstractManagement.Tables[4];
+            DataTable dtManagementNotes = dsAbstractManagement.Tables[5];
 
             FileStream fsMail = null;
 
@@ -1086,6 +1130,8 @@ public partial class Management_Management : clsBasePage
             strBody = strBody.Replace("[DRM_ResponseDate]", clsGeneral.FormatDBNullDateToDisplay(dtManagementDetail.Rows[0]["DRM_Response_Date"]));
             strBody = strBody.Replace("[Comments]", Convert.ToString(dtManagementDetail.Rows[0]["Comment"]));
 
+            strBody = strBody.Replace("[Management_Notes_Grid]", GetManagementNotesDetails(dtManagementNotes));
+
             #endregion
 
             #region "Store and ACI Contact Details"
@@ -1265,6 +1311,38 @@ public partial class Management_Management : clsBasePage
 
         return sbGrid.ToString();
     }
+
+    public static string GetManagementNotesDetails(DataTable dtManagementNote)
+    {
+        StringBuilder sbGrid = new StringBuilder(string.Empty);
+        sbGrid = new StringBuilder(string.Empty);
+        if (dtManagementNote.Rows.Count > 0)
+        {
+            sbGrid.Append("<table width='100%'>");
+            sbGrid.Append("<tr style='background-color: #7f7f7f; font-family: Arial; color: white; font-size: 12px; font-weight: bold' valign=top>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> Note Date </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> User </td>");
+            sbGrid.Append("<td  style='font-family: Arial; font-size: 12px;' align='left'> Notes </td>");
+            sbGrid.Append("</tr>");
+
+            foreach (DataRow dr in dtManagementNote.Rows)
+            {
+                sbGrid.Append("<tr valign=top>");
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", clsGeneral.FormatDBNullDateToDisplay(dr["Note_Date"]));
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Updated_by_Name"]);
+                sbGrid.AppendFormat("<td  style='font-family: Arial; font-size: 12px;' align='left'>  {0} </td>", dr["Note"]);
+                sbGrid.Append("</tr>");
+            }
+            sbGrid.Append("</table>");
+        }
+        else
+        {
+            sbGrid.Append("No Records found.");
+        }
+
+        return sbGrid.ToString();
+    }
+
     #endregion
 
     #region "Other Event"
@@ -1664,6 +1742,23 @@ public partial class Management_Management : clsBasePage
     }
 
     /// <summary>
+    /// Print ACI Notes
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnManagementPrintView_Click(object sender, EventArgs e)
+    {
+        string strSelected = "";
+        foreach (GridViewRow gRow in gvManagement_NotesView.Rows)
+        {
+            if (((CheckBox)gRow.FindControl("chkSelectSonicACINotesView")).Checked)
+                strSelected = strSelected + ((HtmlInputHidden)gRow.FindControl("hdnPK_Sonic_Management_NotesView")).Value + ",";
+        }
+        strSelected = strSelected.TrimEnd(',');
+        clsPrintManagementNotes.PrintSelectedNotes(strSelected, PK_Management, "Management");
+    }
+
+    /// <summary>
     /// Resend Management Abstract Click Event
     /// </summary>
     /// <param name="sender"></param>
@@ -1987,7 +2082,7 @@ public partial class Management_Management : clsBasePage
             clsSonic_Management_Notes.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
 
             BindManagementNoteGrid(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
             #endregion
         }
         else if (e.CommandName == "ViewNote")
@@ -2010,6 +2105,44 @@ public partial class Management_Management : clsBasePage
             txtManagement_Notes.Text = Convert.ToString(objACI_Management_Notes.Note);
             //((ScriptManager)this.Master.FindControl("scMain")).SetFocus(txtSonic_Notes);
         }
+    }
+
+    /// <summary>
+    /// gvMaangement_Notes on Edit Or Delete
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvManagement_NotesView_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "ViewNote")
+        {
+            Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:AciNotePopup('" + Encryption.Encrypt(e.CommandArgument.ToString()) + "','" + Encryption.Encrypt(PK_Management.ToString()) + "','0','" + StrOperation + "','Management');", true);
+        }
+    }
+
+    /// <summary>
+    /// GridView Sorting Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvManagement_NotesView_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        // update sort field and sort order and bind the grid
+        SortOrder = (SortBy == e.SortExpression) ? (SortOrder == "asc" ? "desc" : "asc") : "asc";
+        SortBy = e.SortExpression;
+        BindManagementNoteGridView(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
+    }
+
+    /// <summary>
+    /// Paging event of gvManagement_Notes
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvManagement_NotesView_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        gvManagement_NotesView.PageIndex = e.NewPageIndex; //Page new index call
+        BindManagementNoteGridView(ctrlPageSonicNotes.CurrentPage, ctrlPageSonicNotes.PageSize);
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
     #endregion
     

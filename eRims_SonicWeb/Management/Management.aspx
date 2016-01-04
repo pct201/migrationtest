@@ -367,6 +367,104 @@
             obj = window.open("Management_Note.aspx?nid=" + NoteId + "&id=" + '<%=ViewState["PK_Management"]%>' + "&type=" + type, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
             obj.focus();
         }
+
+        function CheckManagement() {
+            var values = '<%=ViewState["PK_Management"]%>';
+                    if (values == '' || values == '0') {
+                        alert('Please Save Management Record First');
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+        }
+
+        function SelectDeselectAllACINotesView(bChecked) {
+            var ctrls = document.getElementsByTagName('input');
+            var i, chkID;
+            var cnt = 0;
+            chkID = "chkSelectSonicACINotesView";
+            for (i = 0; i < ctrls.length; i++) {
+                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
+                    ctrls[i].checked = bChecked;
+                }
+            }
+        }
+
+        function SelectDeselectSonicNoteHeaderView() {
+            var ctrls = document.getElementsByTagName('input');
+            var i, chkID;
+            var cnt = 0;
+            chkID = "chkSelectSonicACINotesView";
+            for (i = 0; i < ctrls.length; i++) {
+                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
+                    if (ctrls[i].checked)
+                        cnt++;
+                }
+            }
+            var rowCnt = document.getElementById('<%=gvManagement_NotesView.ClientID%>').rows.length - 1;
+            var headerChkID = 'chkMultiSelectSonicACINotesView';
+
+            if (cnt == rowCnt)
+                document.getElementById(headerChkID).checked = true;
+            else
+                document.getElementById(headerChkID).checked = false;
+        }
+
+        function SelectDeselectAllSonicNotesView(bChecked) {
+            var ctrls = document.getElementsByTagName('input');
+            var i, chkID;
+            var cnt = 0;
+            chkID = "chkSelectSonicNotesView";
+            for (i = 0; i < ctrls.length; i++) {
+                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf(chkID) > 0) {
+                    ctrls[i].checked = bChecked;
+                }
+            }
+        }
+
+        function CheckSelectedSonicNotesView(buttonType) {
+
+            var gv = document.getElementById('<%=dvManagementNotesView.ClientID%>');
+            var ctrls = gv.getElementsByTagName('input');
+            var i;
+            var cnt = 0;
+            var m_strAttIds = '';
+            for (i = 0; i < ctrls.length; i++) {
+                if (ctrls[i].type == "checkbox" && ctrls[i].id.indexOf("chkSelectSonicACINotesView") > 0) {
+                    if (ctrls[i].checked) {
+                        var ctrlId = ctrls[i].id;
+                        ctrlId = ctrlId.substring(ctrlId.lastIndexOf("_") - 2);
+                        var hdnpk = ctrlId.replace("chkSelectSonicACINotesView", "hdnPK_Sonic_Management_NotesView");
+                        //index = Number(index) - 2;
+                        var id = document.getElementById('ctl00_ContentPlaceHolder1_gvManagement_NotesView_ctl' + hdnpk).value;
+                        if (m_strAttIds == "")
+                            m_strAttIds = id;
+                        else {
+                            m_strAttIds = m_strAttIds + "," + id;
+                        }
+                        cnt++;
+                    }
+                }
+            }
+
+            if (cnt == 0) {
+                if (buttonType == "View")
+                    alert("Please select Note(s) to View");
+                else
+                    alert("Please select Note(s)");
+
+                return false;
+            }
+            else {
+                if (buttonType != 'Print') {
+                    SonicSelectedNotePopup(m_strAttIds, buttonType);
+                    return false;
+                }
+                else
+                    return true;
+            }
+        }
     </script>
     <div>
         <asp:ValidationSummary ID="vsError" runat="server" CssClass="errormessage" ValidationGroup="vsErrorGroup"
@@ -1017,7 +1115,7 @@
                                                                     <tr>
                                                                         <td style="padding-bottom: 5px;" colspan="6">
                                                                             <asp:LinkButton Style="display: inline" ID="lnkAddManagementNotesNew" OnClick="lnkAddManagementNotesNew_Click"
-                                                                                runat="server" Text="Add New"></asp:LinkButton>&nbsp;&nbsp;&nbsp;
+                                                                                runat="server" Text="Add New" OnClientClick="return CheckManagement();"></asp:LinkButton>&nbsp;&nbsp;&nbsp;
                                                                             <asp:Button ID="btnManagementNoteView" runat="server" Text=" View" OnClientClick="return SonicSelectedNotePopup('','ManagementView');" />&nbsp;&nbsp;
                                                                             <asp:Button ID="btnManagementPrint" runat="server" Text=" Print " OnClick="btnManagementPrint_Click"
                                                                                 OnClientClick="return CheckSelectedSonicNotes('Print');" />
@@ -1064,19 +1162,19 @@
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                     <asp:TemplateField HeaderText="Phone">
-                                                                                        <ItemStyle Width="20%" />
+                                                                                        <ItemStyle Width="15%" />
                                                                                         <ItemTemplate>
                                                                                             <%#Eval("Phone")%>
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                     <asp:TemplateField HeaderText="Email">
-                                                                                        <ItemStyle Width="20%" />
+                                                                                        <ItemStyle Width="30%" />
                                                                                         <ItemTemplate>
                                                                                             <%#Eval("Email")%>
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                     <asp:TemplateField HeaderText="">
-                                                                                        <ItemStyle Width="10%" />
+                                                                                        <ItemStyle Width="15%" />
                                                                                         <ItemTemplate>
                                                                                             <asp:LinkButton runat="server" ID="lnkEdit" Text=" Edit " CommandName="EditRecord"
                                                                                                 CommandArgument='<%#Eval("PK_Management_Sonic_Contact") %>'>
@@ -2211,6 +2309,94 @@
                                                                 &nbsp;
                                                             </td>
                                                         </tr>
+                                                         <tr runat="server" id="trManagementNotesGridView">
+                                                            <td colspan="6">
+                                                                <table width="100%">
+                                                                    <tr>
+                                                                        <td align="left" valign="top" width="17%">
+                                                                            Management Notes Grid
+                                                                        </td>
+                                                                        <td align="center" valign="top" width="5%">
+                                                                            :
+                                                                        </td>
+                                                                        <td align="left" valign="top" colspan="4">
+                                                                            <uc:ctrlPaging ID="ctrlPageSonicNotesView" runat="server" OnGetPage="GetManagementPageView" RecordPerPage="true" />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="6">
+                                                                            <div runat="server" id="dvManagementNotesView" style="width: 99%; overflow-y: scroll;
+                                                                                border: solid 1px #000000;">
+                                                                                <asp:GridView ID="gvManagement_NotesView" runat="server" Width="97%" AutoGenerateColumns="false"
+                                                                                    OnSorting="gvManagement_NotesView_Sorting" EnableViewState="true" AllowPaging="false"
+                                                                                    OnRowCommand="gvManagement_NotesView_RowCommand" AllowSorting="true"
+                                                                                    OnPageIndexChanging="gvManagement_NotesView_PageIndexChanging" Style="word-wrap: normal;
+                                                                                    word-break: break-all;">
+                                                                                    <Columns>
+                                                                                        <asp:TemplateField ItemStyle-VerticalAlign="Top" ItemStyle-Width="12%">
+                                                                                            <HeaderTemplate>
+                                                                                                <input type="checkbox" id="chkMultiSelectSonicACINotesView" onclick="SelectDeselectAllACINotesView(this.checked);" />Select
+                                                                                            </HeaderTemplate>
+                                                                                            <ItemTemplate>
+                                                                                                <asp:CheckBox ID="chkSelectSonicACINotesView" runat="server" onclick="SelectDeselectSonicNoteHeaderView();" />
+                                                                                                <input type="hidden" id="hdnPK_Sonic_Management_NotesView" runat="server" value='<%#Eval("PK_Sonic_Management_Notes") %>' />
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderText="Date" SortExpression="Note_Date">
+                                                                                            <ItemStyle Width="10%" />
+                                                                                            <ItemTemplate>
+                                                                                                <a href="javascript:function(){return false};" onclick="SonicNotePopup('<%#Eval("PK_Sonic_Management_Notes") %>','SONIC');">
+                                                                                                    <%# clsGeneral.FormatDBNullDateToDisplay(Eval("Note_Date")) %></a>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderText="User">
+                                                                                            <ItemStyle Width="15%" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:Label ID="lblUpdated_By" runat="server" Text='<%# Eval("Updated_by_Name") %>'
+                                                                                                    Style="word-wrap: normal; word-break: break-all;"></asp:Label>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                        <asp:TemplateField HeaderText="Notes">
+                                                                                            <ItemStyle Width="45%" />
+                                                                                            <ItemTemplate>
+                                                                                                <asp:Label ID="lbtNotes" runat="server" Text='<%# Eval("Note") %>' Style="word-wrap: normal;
+                                                                                                    word-break: break-all;" Width="310px" CssClass="TextClip"></asp:Label>
+                                                                                            </ItemTemplate>
+                                                                                        </asp:TemplateField>
+                                                                                    </Columns>
+                                                                                    <EmptyDataTemplate>
+                                                                                        <table cellpadding="4" cellspacing="0" width="100%">
+                                                                                            <tr>
+                                                                                                <td width="100%" align="center" style="border: 1px solid #cccccc;">
+                                                                                                    <asp:Label ID="lblEmptyHeaderGridMessage" runat="server" Text="No Record Found"></asp:Label>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </table>
+                                                                                    </EmptyDataTemplate>
+                                                                                </asp:GridView>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="padding-bottom: 5px;" colspan="6">
+                                                                            <asp:Button ID="btnManagementNoteView_View" runat="server" Text=" View" OnClientClick="return SonicSelectedNotePopup('','ManagementView');" />&nbsp;&nbsp;
+                                                                            <asp:Button ID="btnManagementPrintView" runat="server" Text=" Print " OnClick="btnManagementPrintView_Click"
+                                                                                OnClientClick="return CheckSelectedSonicNotesView('Print');" />
+                                                                            &nbsp;&nbsp;
+                                                                            <asp:Button ID="btnManagementSpecificNote_View" runat="server" CausesValidation="false" Text=" Show Specific Notes Only "
+                                                                                OnClientClick="javascript:return CheckSelectedSonicNotesView('ManagementSpecificNote');" />
+                                                                            <asp:LinkButton Style="display: none" ID="lnkManagementNotesCancelView" runat="server"
+                                                                                Text="Cancel"></asp:LinkButton>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6">
+                                                                &nbsp;
+                                                            </td>
+                                                        </tr>
                                                         <tr runat="server" id="trgridstoreview">
                                                             <td align="left" valign="top">
                                                                 <b>Store Contact</b>
@@ -2244,7 +2430,7 @@
                                                                                         </ItemTemplate>
                                                                                     </asp:TemplateField>
                                                                                     <asp:TemplateField HeaderText="Email">
-                                                                                        <ItemStyle Width="20%" />
+                                                                                        <ItemStyle Width="40%" />
                                                                                         <ItemTemplate>
                                                                                             <%#Eval("Email")%>&nbsp;
                                                                                         </ItemTemplate>

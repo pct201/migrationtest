@@ -40,7 +40,7 @@ public class clsPrintManagementNotes
         string strTDWhite = "style='border-top:black 1px solid;border-left:black 1px solid;border-bottom:black 1px solid;'";
         sbHTML.Append("<HTML><Body>");
 
-        sbHTML.Append("<b>eRIMS2 ACI - Selected Management Notes</b>");
+        sbHTML.Append("<b>eRIMS2 - Selected Management Notes</b>");
 
         sbHTML.Append("<br /></br />");
 
