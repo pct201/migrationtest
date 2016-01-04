@@ -116,6 +116,7 @@ public partial class Management_Management : clsBasePage
                 {
                     BindDetailsForView();
                     ucAttachmentView.FK_Table = PK_Management;
+                    btnResendManagementAbstract.Text = "Send Management Abstract";
                 }
                 else if (StrOperation.ToLower() == "edit")
                 {
@@ -123,6 +124,7 @@ public partial class Management_Management : clsBasePage
                     BindDetailsForEdit();
                     ucAttachment.FK_Table = PK_Management;
                     ucAttachment.ReadOnly = false;
+                    btnResendManagementAbstract.Text = "Save and Send Management Abstract";
                 }
                 BindStoreGrid();
                 BindACIGrid();
