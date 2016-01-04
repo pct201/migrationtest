@@ -239,7 +239,8 @@ public partial class SONIC_Exposures_FacilityInspectionList : System.Web.UI.Page
 
         if (!string.IsNullOrEmpty(Convert.ToString(drInspectionRow["FK_Facility_Inspection_Area"])))
         {
-            ws.Cells["A9"].Value = Convert.ToString(drInspectionRow["FocusArea"]).ToUpper();
+            string focusArea = Convert.ToString(drInspectionRow["FocusArea"]).ToUpper();
+            ws.Cells["A9"].Value = focusArea;
             ws.Cells["A9"].Style.WrapText = true;
             ws.Cells["A9"].Style.Font.Bold = true;
             ws.Cells["A9:E9"].Merge = true;
@@ -250,8 +251,21 @@ public partial class SONIC_Exposures_FacilityInspectionList : System.Web.UI.Page
 
             foreach (DataRow drInspectionItem in dtInspection.Rows)
             {
-                string dataCellRow = startCharData.ToString() + startIndexData;
+                if (!string.IsNullOrEmpty(Convert.ToString(drInspectionItem["FocusArea"])) && !focusArea.Equals(Convert.ToString(drInspectionItem["FocusArea"]).ToUpper()))
+                {
+                    focusArea = Convert.ToString(drInspectionItem["FocusArea"]).ToUpper();
+                    ws.Cells["A" + startIndexData].Value = focusArea;
+                    ws.Cells["A" + startIndexData].Style.WrapText = true;
+                    ws.Cells["A" + startIndexData].Style.Font.Bold = true;
+                    ws.Cells["A" + startIndexData + ":E" + startIndexData].Merge = true;
+                    ws.Cells["A" + startIndexData + ":E" + startIndexData].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    ws.Cells["A" + startIndexData + ":E" + startIndexData].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    ws.Cells["A" + startIndexData + ":E" + startIndexData].Style.Fill.BackgroundColor.SetColor(colFromHex);
+                    startCharData = 'A';
+                    startIndexData++;
+                }
 
+                string dataCellRow = startCharData.ToString() + startIndexData;
                 ws.Cells[dataCellRow].Value = Convert.ToString(drInspectionItem["Description"]);
                 ws.Cells[dataCellRow].Style.WrapText = true;
                 ws.Cells[dataCellRow].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
@@ -288,7 +302,6 @@ public partial class SONIC_Exposures_FacilityInspectionList : System.Web.UI.Page
         #endregion
 
         // Save data to file
-
         // Flush the workbook to the Response.OutputStream
         using (MemoryStream memoryStream = new MemoryStream())
         {
