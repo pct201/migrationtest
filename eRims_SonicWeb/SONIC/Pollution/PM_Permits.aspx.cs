@@ -305,7 +305,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
                         dtVOC.Rows.Add(drVOCEmission.ItemArray);
                     }
 
-                    dtVOC.Rows.Add("0", "0", category, CurrentYear, GetMonthString(CurrentMonth), totalGallons, totalVOC_Emissions, SubTotalText, "", 0);
+                    dtVOC.Rows.Add("0", "0", category + " Sub Total", CurrentYear, GetMonthString(CurrentMonth), totalGallons, totalVOC_Emissions, SubTotalText, totalGallons + totalVOC_Emissions,0);
                 }
             }
         }
@@ -791,6 +791,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
 
             if (Convert.ToInt16(lnkHidden.Value) == 0)
             {
+                e.Row.CssClass = "SubTotalRowStyle"; 
                 ((LinkButton)e.Row.FindControl("lnkRemove")).Visible = false;
                 ((LinkButton)e.Row.FindControl("lnkYear")).Enabled = false;
                 ((LinkButton)e.Row.FindControl("lnkMonth")).Enabled = false;

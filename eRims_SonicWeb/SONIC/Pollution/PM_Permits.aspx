@@ -12,6 +12,17 @@
 <%@ Register Src="~/Controls/ExposureInfo/EnviroExposureInfo.ascx" TagName="ctrlExposureInfo"
     TagPrefix="uc" %>
 <asp:Content ContentPlaceHolderID="ContentPlaceHolder1" ID="Content1" runat="server">
+    <style type="text/css">
+     .SubTotalRowStyle
+        {
+	        font-size: 10px;
+	        background-image: url(../../images/TableHeader1.gif);
+	        background-repeat: repeat-x;
+	        font-family: Verdana, Arial, Helvetica, sans-serif;
+	        background-color: #8ab2d7;
+            color: black;
+        }
+     </style>
     <script type="text/javascript" src="../../JavaScript/Validator.js"></script>
     <script type="text/javascript" src="../../JavaScript/JFunctions.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/Calendar_new.js"></script>

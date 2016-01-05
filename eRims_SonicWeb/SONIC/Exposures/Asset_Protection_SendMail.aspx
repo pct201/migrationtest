@@ -9,6 +9,20 @@
 </head>
 <body>
     <form id="form1" runat="server">
+         <script type="text/javascript">
+             function SendVOC_Graph() {
+                 if (Page_ClientValidate("vsErrorGroup")) {
+                     window.opener.document.getElementById('ctl00_ContentPlaceHolder1_hdnto').value = document.getElementById('<%=txtTo.ClientID %>').value;
+                     window.opener.document.getElementById('ctl00_ContentPlaceHolder1_hdnSubject').value = document.getElementById('<%=txtSubject.ClientID %>').value;
+                     window.opener.document.getElementById('ctl00_ContentPlaceHolder1_hdnBody').value = document.getElementById('<%=txtBody.ClientID %>').value;
+                     window.opener.document.getElementById("ctl00_ContentPlaceHolder1_btnReload").click();
+                     // alert('Mail Sent Successfully'); window.close();
+                     return false;
+                 }
+                 else
+                     return false;
+             }
+          </script>
     <%--<div style="text-align:center;">
         <asp:Label ID="lblMsg" runat="Server" CssClass="msg1" EnableViewState="False"></asp:Label>
     </div>--%>

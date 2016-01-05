@@ -79,28 +79,20 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
     /// <param name="e"></param>
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
-        string filename, path;
-        filename = string.Empty;
-        path = string.Empty;
+        string filename = string.Empty;
+        string strUploadedFile = clsGeneral.UploadFile(fpFile, AppConfig.strGeneralDocument, Session.SessionID, false, false);
         try
         {
-            DataSet ds = null;
-
-            //string strUploadedFile = clsGeneral.UploadFile(fpFile, AppConfig.strGeneralDocument, Session.SessionID, false, false);
-
             if (fpFile.HasFile)
             {
-                //filename = AppConfig.strGeneralDocument + strUploadedFile;
-                filename = fpFile.PostedFile.FileName;
+                filename = AppConfig.strGeneralDocument + strUploadedFile;
                 clsPM_Permits_VOC_Emissions objVOCEmission = new clsPM_Permits_VOC_Emissions();
-                ds = objVOCEmission.InsertData(filename);
-                DataTable dt = ds.Tables[0];
-                string paintCategory = string.Empty, subTotalText = string.Empty, strFinal, strFinalUpdate, subtotalTextUpdate = string.Empty, fkCategoryIds = string.Empty;
-                int month, year, retValue, FK_LU_VOC_Category = 0;
-                month = Convert.ToInt32(ddlMonth.SelectedItem.Value);
-                year = Convert.ToInt32(ddlYear.SelectedItem.Value);
-                retValue = 0;
-                strFinal = strFinalUpdate = "<ImportXML>";
+                DataTable dt = objVOCEmission.InsertData(filename).Tables[0];
+                string paintCategory = string.Empty, subTotalText = string.Empty, subtotalTextUpdate = string.Empty, fkCategoryIds = string.Empty;
+                int retValue = 0, fK_LU_VOC_Category = 0;
+                int month = Convert.ToInt32(ddlMonth.SelectedItem.Value);
+                int year = Convert.ToInt32(ddlYear.SelectedItem.Value);
+                string strFinal, strFinalUpdate = "<ImportXML>";
                 decimal subTotal = 0, subtotalUpdate = 0;
 
                 if (dt != null && dt.Rows.Count > 0)
@@ -110,25 +102,21 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                         if (!string.IsNullOrEmpty(Convert.ToString(dr["Paint_Category"])) && paintCategory.ToUpper() != (Convert.ToString(dr["Paint_Category"])).ToUpper())
                         {
                             paintCategory = Convert.ToString(dr["Paint_Category"]);
-                            paintCategory=paintCategory.Replace("\"","");
-                         //   paintCategory = paintCategory.Replace("", "");
-                            FK_LU_VOC_Category = clsLU_VOC_Category.SelectByCategory(paintCategory);
-
-                            fkCategoryIds += FK_LU_VOC_Category + ",";
-
+                            paintCategory = paintCategory.Replace("\"", "");
+                            fK_LU_VOC_Category = clsLU_VOC_Category.SelectByCategory(paintCategory);
+                            fkCategoryIds += fK_LU_VOC_Category + ",";
                             subTotalText = subtotalTextUpdate = string.Empty;
                             subTotal = subtotalUpdate = 0;
                         }
 
                         string part_Number = Convert.ToString(dr["Part_Number"]);
-
-                        if (FK_LU_VOC_Category == 0)
+                        if (fK_LU_VOC_Category == 0)
                         {
                             retValue = 0;
                         }
-                        else if ((FK_LU_VOC_Category > 0) && !string.IsNullOrEmpty(part_Number))
+                        else if ((fK_LU_VOC_Category > 0) && !string.IsNullOrEmpty(part_Number))
                         {
-                            retValue = clsPM_Permits_VOC_Emissions.CheckRecord(month, year, FK_LU_VOC_Category, FK_LU_Location, PK_PM_Permits, part_Number);
+                            retValue = clsPM_Permits_VOC_Emissions.CheckRecord(month, year, fK_LU_VOC_Category, FK_LU_Location, PK_PM_Permits, part_Number);
                         }
                         else
                         {
@@ -138,35 +126,32 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                         if (retValue == 1 && !string.IsNullOrEmpty(part_Number))
                         {
                             subTotal = subTotal + clsGeneral.GetDecimal(dr["Gallons"]) * clsGeneral.GetDecimal(dr["Quantity"]);
-
                             if (!string.IsNullOrEmpty(subTotalText))
                             {
                                 strFinal = strFinal.Replace(">" + subTotalText + "<", ">" + paintCategory + subTotal + "<");
                             }
 
                             subTotalText = paintCategory + subTotal;
-                            strFinal = strFinal + "<Section><FK_PM_Permits>" + PK_PM_Permits + "</FK_PM_Permits><Year>" + year + "</Year><Month>" + month + "</Month><Paint_Category>" + FK_LU_VOC_Category + "</Paint_Category><Part_Number>" + Convert.ToString(dr["Part_Number"]) + "</Part_Number><Unit>" + Convert.ToString(dr["Unit"]).Replace("\"","") + "</Unit><Quantity>" + clsGeneral.GetDecimal(dr["Quantity"]) + "</Quantity><Gallons>" + clsGeneral.GetDecimal(dr["Gallons"]) + "</Gallons><VOC_Emissions>" + clsGeneral.GetDecimal(dr["VOC_Total"]) + "</VOC_Emissions><SubTotal_Text>" + subTotalText + "</SubTotal_Text><Updated_By>" + clsSession.UserID + "</Updated_By></Section>";
-                            clsPM_Permits_VOC_Emissions.UpdateSubTotal(subTotalText, FK_LU_VOC_Category, PK_PM_Permits, month, year, Convert.ToString(DateTime.Now), Convert.ToString(clsSession.UserID));
+                            strFinal = strFinal + "<Section><FK_PM_Permits>" + PK_PM_Permits + "</FK_PM_Permits><Year>" + year + "</Year><Month>" + month + "</Month><Paint_Category>" + fK_LU_VOC_Category + "</Paint_Category><Part_Number>" + Convert.ToString(dr["Part_Number"]) + "</Part_Number><Unit>" + Convert.ToString(dr["Unit"]).Replace("\"", "") + "</Unit><Quantity>" + clsGeneral.GetDecimal(dr["Quantity"]) + "</Quantity><Gallons>" + clsGeneral.GetDecimal(dr["Gallons"]) + "</Gallons><VOC_Emissions>" + clsGeneral.GetDecimal(dr["VOC_Total"]) + "</VOC_Emissions><SubTotal_Text>" + subTotalText + "</SubTotal_Text><Updated_By>" + clsSession.UserID + "</Updated_By></Section>";
+                            clsPM_Permits_VOC_Emissions.UpdateSubTotal(subTotalText, fK_LU_VOC_Category, PK_PM_Permits, month, year, Convert.ToString(DateTime.Now), Convert.ToString(clsSession.UserID));
                         }
 
                         if (retValue == 2 && !string.IsNullOrEmpty(part_Number))
                         {
                             subtotalUpdate = subtotalUpdate + clsGeneral.GetDecimal(dr["Gallons"]) * clsGeneral.GetDecimal(dr["Quantity"]);
-
                             if (!string.IsNullOrEmpty(subtotalTextUpdate))
                             {
                                 strFinalUpdate = strFinalUpdate.Replace(">" + subtotalTextUpdate + "<", ">" + paintCategory + subtotalUpdate + "<");
                             }
 
                             subtotalTextUpdate = paintCategory + subtotalUpdate;
-                            strFinalUpdate = strFinalUpdate + "<Section><FK_PM_Permits>" + PK_PM_Permits + "</FK_PM_Permits><Year>" + year + "</Year><Month>" + month + "</Month><Paint_Category>" + FK_LU_VOC_Category + "</Paint_Category><Part_Number>" + Convert.ToString(dr["Part_Number"]) + "</Part_Number><Unit>" + Convert.ToString(dr["Unit"]).Replace("\"","") + "</Unit><Quantity>" + clsGeneral.GetDecimal(dr["Quantity"]) + "</Quantity><Gallons>" + clsGeneral.GetDecimal(dr["Gallons"]) + "</Gallons><VOC_Emissions>" + clsGeneral.GetDecimal(dr["VOC_Total"]) + "</VOC_Emissions><SubTotal_Text>" + subtotalTextUpdate + "</SubTotal_Text><Updated_By>" + clsSession.UserID + "</Updated_By></Section>";
-                            clsPM_Permits_VOC_Emissions.UpdateSubTotal(subtotalTextUpdate, FK_LU_VOC_Category, PK_PM_Permits, month, year, Convert.ToString(DateTime.Now), Convert.ToString(clsSession.UserID));
+                            strFinalUpdate = strFinalUpdate + "<Section><FK_PM_Permits>" + PK_PM_Permits + "</FK_PM_Permits><Year>" + year + "</Year><Month>" + month + "</Month><Paint_Category>" + fK_LU_VOC_Category + "</Paint_Category><Part_Number>" + Convert.ToString(dr["Part_Number"]) + "</Part_Number><Unit>" + Convert.ToString(dr["Unit"]).Replace("\"", "") + "</Unit><Quantity>" + clsGeneral.GetDecimal(dr["Quantity"]) + "</Quantity><Gallons>" + clsGeneral.GetDecimal(dr["Gallons"]) + "</Gallons><VOC_Emissions>" + clsGeneral.GetDecimal(dr["VOC_Total"]) + "</VOC_Emissions><SubTotal_Text>" + subtotalTextUpdate + "</SubTotal_Text><Updated_By>" + clsSession.UserID + "</Updated_By></Section>";
+                            clsPM_Permits_VOC_Emissions.UpdateSubTotal(subtotalTextUpdate, fK_LU_VOC_Category, PK_PM_Permits, month, year, Convert.ToString(DateTime.Now), Convert.ToString(clsSession.UserID));
                         }
                     }
 
-                    strFinal = strFinal + "</ImportXML>";
+                    strFinal += "</ImportXML>";
                     strFinalUpdate += "</ImportXML>";
-
                     clsPM_Permits_VOC_Emissions.ImportXML(strFinal, strFinalUpdate);
 
                     if (!string.IsNullOrEmpty(fkCategoryIds))
@@ -178,31 +163,53 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                             if (!string.IsNullOrEmpty(categoryId) && categoryId != "0")
                             {
                                 clsPM_Permits_VOC_Emissions objPM_Permits_VOC_Emissions = new clsPM_Permits_VOC_Emissions();
-
                                 objPM_Permits_VOC_Emissions.PK_PM_Permits_VOC_Emissions = PK_PM_Permits_VOC_Emissions;
                                 objPM_Permits_VOC_Emissions.FK_LU_VOC_Category = Convert.ToDecimal(categoryId);
                                 objPM_Permits_VOC_Emissions.Month = month;
                                 objPM_Permits_VOC_Emissions.Year = year;
-
                                 DataTable dtVOC = objPM_Permits_VOC_Emissions.SelectByFK(PK_PM_Permits).Tables[0];
                                 subTotalText = subtotalTextUpdate = new clsLU_VOC_Category((decimal)objPM_Permits_VOC_Emissions.FK_LU_VOC_Category).Category + (GetSubTotal(dtVOC)).ToString();
                                 clsPM_Permits_VOC_Emissions.UpdateSubTotal(subTotalText, objPM_Permits_VOC_Emissions.FK_LU_VOC_Category.Value, PK_PM_Permits, month, year, Convert.ToString(DateTime.Now), Convert.ToString(clsSession.UserID));
                             }
                         }
                     }
+
                     Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('File Imported Successfully');", true);
                 }
             }
         }
-        catch (Exception ex)
+        catch
         {
             Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('Selected file can not be imported');", true);
+        }
+        finally
+        {
+            // delete uploaded file
+            DeleteUploadedFile(strUploadedFile);
         }
     }
 
     #endregion
 
     #region "Methods"
+
+    /// <summary>
+    /// Deletes exported spreadsheet
+    /// </summary>
+    /// <param name="strFile">Filename along with path which is to be deleted</param>
+    private void DeleteUploadedFile(string strFile)
+    {
+        // check if filename is not blank
+        if (strFile != "")
+        {
+            // check whether file exists or not
+            if (File.Exists(AppConfig.BuildingAttachDocPath + strFile))
+            {
+                // delete the file
+                File.Delete(AppConfig.BuildingAttachDocPath + strFile);
+            }
+        }
+    }
 
     /// <summary>
     /// Binds all dropdowns
@@ -239,6 +246,6 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
 
     protected void btnCancel_Click(object sender, EventArgs e)
     {
-         Response.Redirect("PM_Permits.aspx?id=" + Encryption.Encrypt(PK_PM_Permits.ToString()) + "&op=edit" + "&loc=" + Encryption.Encrypt(Convert.ToString(FK_LU_Location)));
+        Response.Redirect("PM_Permits.aspx?id=" + Encryption.Encrypt(PK_PM_Permits.ToString()) + "&op=edit" + "&loc=" + Encryption.Encrypt(Convert.ToString(FK_LU_Location)));
     }
 }

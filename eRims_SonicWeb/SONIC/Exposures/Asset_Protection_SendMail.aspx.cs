@@ -570,6 +570,10 @@ public partial class SONIC_Exposures_Asset_Protection_SendMail : System.Web.UI.P
                         arrAttachments[0] = strAttachment;
                     }
                 }
+                else if (TableName == "VOC_Graph")
+                {
+                    btnSend.OnClientClick = "return SendVOC_Graph();alert('Mail Sent Successfully');window.close();";
+                }
                 else
                     ClosePage();
             }

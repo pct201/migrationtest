@@ -535,5 +535,18 @@ namespace ERIMS.DAL
 
             db.ExecuteNonQuery(dbCommand);
         }
+
+
+        public static DataSet GetVOCGraphReport(int StartYear, int EndYear, int StartMonth, int EndMonth, string Locations)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("VOC_Graph_Report");
+            db.AddInParameter(dbCommand, "StartYear", DbType.Int16, StartYear);
+            db.AddInParameter(dbCommand, "EndYear", DbType.Int16, EndYear);
+            db.AddInParameter(dbCommand, "StartMonth", DbType.Int16, StartMonth);
+            db.AddInParameter(dbCommand, "EndMonth", DbType.Int16, EndMonth);
+            db.AddInParameter(dbCommand, "Location", DbType.String, Locations);
+            return db.ExecuteDataSet(dbCommand);
+        }
 	}
 }
