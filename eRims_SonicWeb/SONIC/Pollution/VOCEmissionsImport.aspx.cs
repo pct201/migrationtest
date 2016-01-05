@@ -85,7 +85,7 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
         {
             if (fpFile.HasFile)
             {
-                filename = AppConfig.strGeneralDocument + strUploadedFile;
+                filename = AppConfig.strGeneralDocument + "\\" + strUploadedFile;
                 clsPM_Permits_VOC_Emissions objVOCEmission = new clsPM_Permits_VOC_Emissions();
                 DataTable dt = objVOCEmission.InsertData(filename).Tables[0];
                 string paintCategory = string.Empty, subTotalText = string.Empty, subtotalTextUpdate = string.Empty, fkCategoryIds = string.Empty;
