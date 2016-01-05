@@ -92,7 +92,7 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                 int retValue = 0, fK_LU_VOC_Category = 0;
                 int month = Convert.ToInt32(ddlMonth.SelectedItem.Value);
                 int year = Convert.ToInt32(ddlYear.SelectedItem.Value);
-                string strFinal, strFinalUpdate = "<ImportXML>";
+                string strFinal = "<ImportXML>", strFinalUpdate = "<ImportXML>";
                 decimal subTotal = 0, subtotalUpdate = 0;
 
                 if (dt != null && dt.Rows.Count > 0)
