@@ -116,6 +116,11 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
         Attachment.btnHandler += new Attachment_Pollution.OnButtonClick(Upload_File);
         if (!Page.IsPostBack)
         {
+            if (App_Access != AccessType.Administrative_Access && App_Access != AccessType.VOC_Import)
+                lnkImport.Visible = false;
+            else
+                lnkImport.Visible = true;
+
             DateTime date = DateTime.Now;
             CurrentYear = date.Year;
             CurrentMonth = date.Month;
