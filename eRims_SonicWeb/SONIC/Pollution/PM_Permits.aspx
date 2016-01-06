@@ -127,6 +127,15 @@
             obj.focus();
             return false;
         }
+
+        function OpenVOCAuditPopUp(id) {            
+            var winHeight = window.screen.availHeight - 400;
+            var winWidth = window.screen.availWidth - 500;            
+            obj = window.open('AuditPopup_PM_Permits_VOC_Emissions.aspx?id=' + id, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
+            obj.focus();
+            return false;
+        }
+
         function ValidateFields(sender, args) {
             var msg = '';
             var ctrlIDs = document.getElementById('<%=hdnControlIDs.ClientID%>').value.split(',');
@@ -759,7 +768,7 @@
                                                         <tr>
                                                             <td colspan="6" align="center">
                                                                 <asp:Button ID="btnSaveVOCData" OnClick="btnSaveVOCData_Click" runat="server" Text="Save"></asp:Button>&nbsp;
-                                                                <asp:Button ID="btnVOCAuditTrail" OnClick="btnVOCAuditTrail_Click" runat="server" Text="View Audit Trail"></asp:Button>&nbsp;
+                                                                <asp:Button ID="btnVOCAuditTrail" runat="server" Text="View Audit Trail" OnClick="btnVOCAuditTrail_Click"></asp:Button>&nbsp;
                                                                 <asp:Button ID="lnkCancel" OnClick="lnkCancel_Click" runat="server" Text="Revert And Return"></asp:Button>
                                                             </td>
                                                         </tr>

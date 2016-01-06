@@ -292,9 +292,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
     /// </summary>
     public void BindVOCGrid()
     {
-        clsPM_Permits_VOC_Emissions objPM_Permits = new clsPM_Permits_VOC_Emissions(PK_PM_Permits);
-
-        DataTable dtVOCEmission = objPM_Permits.SelectByFKPermit(PK_PM_Permits, CurrentMonth, CurrentYear).Tables[0];
+        DataTable dtVOCEmission = clsPM_Permits_VOC_Emissions.SelectByFKPermit(PK_PM_Permits, CurrentMonth, CurrentYear).Tables[0];
         DataTable dtVOC = dtVOCEmission.Clone();
         DataTable dtCategory = clsLU_VOC_Category.SelectAll().Tables[0];
 
@@ -317,7 +315,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
                         dtVOC.Rows.Add(drVOCEmission.ItemArray);
                     }
 
-                    dtVOC.Rows.Add("0", "0", category + " Sub Total", CurrentYear, GetMonthString(CurrentMonth), totalGallons, totalVOC_Emissions, SubTotalText, totalGallons + totalVOC_Emissions,0);
+                    dtVOC.Rows.Add("0", "0", category + " Sub Total", CurrentYear, GetMonthString(CurrentMonth), totalGallons, totalVOC_Emissions, SubTotalText, totalGallons + totalVOC_Emissions, 0);
                 }
             }
         }
@@ -337,7 +335,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
         }
         else
         {
-            lnkAddNew.Visible = true;            
+            lnkAddNew.Visible = true;
             lnkImport.Visible = true;
         }
     }
@@ -516,16 +514,6 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
     }
 
     /// <summary>
-    /// Button VOC Audit Trail Click Event
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void btnVOCAuditTrail_Click(object sender, EventArgs e)
-    {        
-        Response.Redirect("AuditPopup_PM_Permits_VOC_Emissions.aspx?item=" + Encryption.Encrypt(PK_PM_Permits_VOC_Emissions.ToString()));
-    }
-
-    /// <summary>
     /// Add new button link event
     /// </summary>
     /// <param name="sender"></param>
@@ -552,7 +540,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
             ddlMonth.SelectedIndex = 0;
             ddlYear.SelectedIndex = 0;
             drpPaintCategory.SelectedIndex = 0;
-            pnlVOCEdit.Visible = true;         
+            pnlVOCEdit.Visible = true;
         }
     }
 
@@ -649,7 +637,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
     protected void lnkCancel_Click(object sender, EventArgs e)
     {
         pnlVOCEdit.Visible = false;
-        lnkAddNew.Visible = true;        
+        lnkAddNew.Visible = true;
     }
 
     /// <summary>
@@ -701,7 +689,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
         else
         {
             Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Please save Permit details first.');", true);
-        }        
+        }
     }
 
     /// <summary>
@@ -817,7 +805,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
         }
         else
         {
-            Response.Redirect("VOC/VOCEmissionsImport.aspx?id=" + Encryption.Encrypt(Convert.ToString(PK_PM_Permits)) + "&loc=" + Encryption.Encrypt(Convert.ToString(FK_LU_Location_ID)) + "&fid=" + Encryption.Encrypt(Convert.ToString(FK_PM_Site_Information)));
+            Response.Redirect("VOCEmissionsImport.aspx?id=" + Encryption.Encrypt(Convert.ToString(PK_PM_Permits)) + "&loc=" + Encryption.Encrypt(Convert.ToString(FK_LU_Location_ID)) + "&fid=" + Encryption.Encrypt(Convert.ToString(FK_PM_Site_Information)));
         }
     }
 
@@ -834,7 +822,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
 
             if (Convert.ToInt16(lnkHidden.Value) == 0)
             {
-                e.Row.CssClass = "SubTotalRowStyle"; 
+                e.Row.CssClass = "SubTotalRowStyle";
                 ((LinkButton)e.Row.FindControl("lnkRemove")).Visible = false;
                 ((LinkButton)e.Row.FindControl("lnkYear")).Enabled = false;
                 ((LinkButton)e.Row.FindControl("lnkMonth")).Enabled = false;
@@ -853,5 +841,15 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
         {
             dvVOCGrid.Visible = true;
         }
+    }
+
+    /// <summary>
+    /// VOC Audit Trail Button Click Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnVOCAuditTrail_Click(object sender, EventArgs e)
+    {
+        ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:OpenVOCAuditPopUp(" + PK_PM_Permits_VOC_Emissions.ToString() + ");", true);
     }
 }
