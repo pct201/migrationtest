@@ -685,14 +685,16 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
 
             DataTable dtVOC = objPM_Permits_VOC_Emissions.SelectByFK(PK_PM_Permits).Tables[0];
 
-            if (dtVOC != null && dtVOC.Rows.Count > 0)
-            {
-                objPM_Permits_VOC_Emissions.SubTotal_Text = drpPaintCategory.SelectedItem.Text + ((clsGeneral.GetDecimal(txtQuantity.Text) * (clsGeneral.GetDecimal(txtGallons.Text))) + GetSubTotal(dtVOC)).ToString();
-            }
-            else
-            {
-                objPM_Permits_VOC_Emissions.SubTotal_Text = drpPaintCategory.SelectedItem.Text + (clsGeneral.GetDecimal(txtQuantity.Text) * (clsGeneral.GetDecimal(txtGallons.Text)));
-            }
+            //if (dtVOC != null && dtVOC.Rows.Count > 0)
+            //{
+            //    objPM_Permits_VOC_Emissions.SubTotal_Text = drpPaintCategory.SelectedItem.Text + ((clsGeneral.GetDecimal(txtQuantity.Text) * (clsGeneral.GetDecimal(txtGallons.Text))) + GetSubTotal(dtVOC)).ToString();
+            //}
+            //else
+            //{
+            //    objPM_Permits_VOC_Emissions.SubTotal_Text = drpPaintCategory.SelectedItem.Text + (clsGeneral.GetDecimal(txtQuantity.Text) * (clsGeneral.GetDecimal(txtGallons.Text)));
+            //}
+
+            objPM_Permits_VOC_Emissions.SubTotal_Text = drpPaintCategory.SelectedItem.Text;
 
             if (PK_PM_Permits_VOC_Emissions > 0)
                 objPM_Permits_VOC_Emissions.Update();
