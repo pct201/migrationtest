@@ -437,11 +437,10 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public DataSet SelectByFKPermit(decimal FK_PM_Permits,int Month,int Year)
+        public static DataSet SelectByFKPermit(decimal FK_PM_Permits,int Month,int Year)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("PM_Permits_VOC_EmissionsSelectByFKPermit");
-
             db.AddInParameter(dbCommand, "FK_PM_Permits", DbType.Decimal, FK_PM_Permits);
             db.AddInParameter(dbCommand, "Month", DbType.Int16, Month);
             db.AddInParameter(dbCommand, "Year", DbType.Int16, Year);
