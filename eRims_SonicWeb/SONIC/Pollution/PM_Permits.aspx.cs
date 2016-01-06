@@ -817,7 +817,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
         }
         else
         {
-            Response.Redirect("VOCEmissionsImport.aspx?id=" + Encryption.Encrypt(Convert.ToString(PK_PM_Permits)) + "&loc=" + Encryption.Encrypt(Convert.ToString(FK_LU_Location_ID)) + "&fid=" + Encryption.Encrypt(Convert.ToString(FK_PM_Site_Information)));
+            Response.Redirect("VOC/VOCEmissionsImport.aspx?id=" + Encryption.Encrypt(Convert.ToString(PK_PM_Permits)) + "&loc=" + Encryption.Encrypt(Convert.ToString(FK_LU_Location_ID)) + "&fid=" + Encryption.Encrypt(Convert.ToString(FK_PM_Site_Information)));
         }
     }
 
