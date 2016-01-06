@@ -146,6 +146,7 @@
                 <table width="100%">
                     <tr>
                         <td style="width: 100%">
+                            
                             <asp:Label ID="lblReport" runat="server"></asp:Label>
                         </td>
                     </tr>
