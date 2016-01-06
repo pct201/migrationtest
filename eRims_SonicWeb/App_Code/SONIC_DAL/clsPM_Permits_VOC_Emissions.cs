@@ -548,5 +548,20 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Location", DbType.String, Locations);
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Get Audit View details
+        /// </summary>
+        /// <param name="pK_PM_SI_Utility_Provider"></param>
+        /// <returns></returns>
+        public static DataSet GetAuditView(decimal pK_PM_Permits_VOC_Emission)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("PM_Permits_VOC_Emissions_AuditView");
+
+            db.AddInParameter(dbCommand, "PK_PM_Permits_VOC_Emissions", DbType.Decimal, pK_PM_Permits_VOC_Emission);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
 	}
 }
