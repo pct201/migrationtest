@@ -1261,7 +1261,7 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
                     {
                         ComboHelper.FillSedgwickYear(new ListBox[] { lst_F });
                     }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "month")
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "voc month")
                     {
                         ComboHelper.BindMonth(lst_F);
                     }
@@ -3045,7 +3045,7 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
                 lst_F.Items.Add((ListItem)liItem[i]);
             }
         }
-        else if (Convert.ToString(Field_Header).ToLower().Trim() == "month")
+        else if (Convert.ToString(Field_Header).ToLower().Trim() == "voc month")
         {
             ComboHelper.BindMonth(lst_F);
         }
@@ -3279,6 +3279,6 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
     #endregion
     protected void lnkGenerateReport_Click(object sender, EventArgs e)
     {
-
+        Response.Redirect(AppConfig.SiteURL + "UserAccessRequest/rptVOCEmissions.aspx");
     }
 }

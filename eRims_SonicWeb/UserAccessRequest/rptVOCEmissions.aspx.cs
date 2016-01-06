@@ -327,64 +327,6 @@ public partial class UserAccessRequest_rptVOCEmissions : clsBasePage
 
     #region Methods
 
-    /// <summary>
-    /// Bind VOC Grid
-    /// </summary>
-    //public void BindVOCGrid()
-    //{
-    //    DataSet dsVOCEmmission = clsPM_Permits_VOC_Emissions.SelectByFKPermit(PK_PM_Permits, CurrentMonth, CurrentYear);
-    //    DataTable dtVOCEmission = dsVOCEmmission.Tables[0];
-    //    DataTable dtCategoryGrandTotal = dsVOCEmmission.Tables[1];
-    //    DataTable dtGrandTotal = dsVOCEmmission.Tables[2];
-    //    DataTable dtVOC = dtVOCEmission.Clone();
-    //    DataTable dtCategory = clsLU_VOC_Category.SelectAll().Tables[0];
-
-    //    if (dtCategory != null && dtCategory.Rows.Count > 0)
-    //    {
-    //        foreach (DataRow drCategory in dtCategory.Rows)
-    //        {
-    //            string category = Convert.ToString(drCategory["Category"]);
-    //            DataRow[] drVOCEmissions = dtVOCEmission.Select("Category = '" + category + "'");
-    //            decimal totalGallons = 0, totalVOC_Emissions = 0;
-    //            string SubTotalText = string.Empty;
-
-    //            if (drVOCEmissions != null && drVOCEmissions.Length > 0)
-    //            {
-    //                foreach (DataRow drVOCEmission in drVOCEmissions)
-    //                {
-    //                    totalGallons += clsGeneral.GetDecimal(drVOCEmission["Gallons"]);
-    //                    totalVOC_Emissions += clsGeneral.GetDecimal(drVOCEmission["VOC_Emissions"]);
-    //                    SubTotalText = Convert.ToString(drVOCEmission["Subtotal_Text"]);
-    //                    dtVOC.Rows.Add(drVOCEmission.ItemArray);
-    //                }
-
-    //                // dtVOC.Rows.Add("0", "0", category + " Sub Total", CurrentYear, GetMonthString(CurrentMonth), totalGallons, totalVOC_Emissions, SubTotalText, totalGallons + totalVOC_Emissions, 0);
-    //                dtVOC.Rows.Add("0", "0", category + " Sub Total", CurrentYear, GetMonthString(CurrentMonth), totalGallons, totalVOC_Emissions, SubTotalText, "", 0);
-
-    //                if (dtCategoryGrandTotal != null && dtCategoryGrandTotal.Rows.Count > 0)
-    //                {
-    //                    DataRow[] drCategoryGrandTotal = dtCategoryGrandTotal.Select("Category = '" + category + "'");
-    //                    dtVOC.Rows.Add("0", "0", category + " Grand Total", CurrentYear, "", clsGeneral.GetDecimal(drCategoryGrandTotal[0]["Gallons"]), clsGeneral.GetDecimal(drCategoryGrandTotal[0]["VOC_Emmisions"]), "", "", 0);
-    //                }
-    //            }
-    //        }
-
-    //        if (dtVOCEmission != null && dtVOCEmission.Rows.Count > 0)
-    //        {
-    //            dtVOC.Rows.Add("0", "0", " Grand Total", CurrentYear, "", clsGeneral.GetDecimal(dtGrandTotal.Rows[0]["Gallons"]), clsGeneral.GetDecimal(dtGrandTotal.Rows[0]["VOC_Emmisions"]), "", "", 0);
-    //        }
-    //    }
-
-    //    gvVOCEmission.DataSource = dtVOC;
-
-    //    if (dtVOCEmission == null || dtVOCEmission.Rows.Count <= 0)
-    //        //Assign text when no record found
-    //        gvVOCEmission.EmptyDataText = "No Other VOC Records Found for Month&nbsp;" + GetMonthString(CurrentMonth) + " and Year " + CurrentYear;
-
-    //    gvVOCEmission.DataBind();
-
-    //}
-
     private System.Text.StringBuilder GenerateVOCReport()
     {
         int startYear, endYear, startMonth, endMonth;
@@ -399,14 +341,13 @@ public partial class UserAccessRequest_rptVOCEmissions : clsBasePage
         // get data tables from dataset
         DataTable dtCategory = dsReport.Tables[0];
         DataTable dtRegions = dsReport.Tables[1];
+        DataTable dtGrand_Total = dsReport.Tables[2];
         System.Text.StringBuilder sbRecorords = new System.Text.StringBuilder("");
         
         lbtExportToExcel.Visible = dtRegions.Rows.Count > 0;
-        
-        // Check if record found or not.
-        if (dtRegions.Rows.Count > 0)
+
+        if (dtCategory != null && dtCategory.Rows.Count > 0)
         {
-            //sbRecorords.Append("<style type='text/css'></style><table border='0' style='border: black 0.5px solid;border-collapse: collapse;' cellpadding='0' cellspacing='0'  Width='100%px'><tr><td class='cols_' >");
             sbRecorords.Append("<table style='padding-left:4px;font-size:8.5pt;font-family:Tahoma' cellpadding='4' cellspacing='0' Width='996px'>");
             sbRecorords.Append("<tr style='font-weight: bold;background-color:#7f7f7f;color:White;font-size:11pt;height:25'>");
             sbRecorords.Append("<td align='left' style='font-size:9pt'  colspan='5'>VOC Report: " + DateTime.Now.ToString("MM/dd/yyy HH:mm tt") + "</td></tr>");
@@ -424,25 +365,51 @@ public partial class UserAccessRequest_rptVOCEmissions : clsBasePage
             sbRecorords.Append("<td class='cols_' width='12.5%'align='left'>Gallons</td>");
             sbRecorords.Append("<td class='cols_' width='12.5%'align='left'>VOC total</td>");
             sbRecorords.Append("</tr>");
-            for (int intI3 = 0; intI3 < dtRegions.Rows.Count; intI3++)
-            {
-                DataRow drRecords = dtRegions.Rows[intI3];
-                int intRes;
-                int intDiv = System.Math.DivRem(intI3, 2, out intRes);
-                if (intRes == 0)
-                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;'>");
-                else
-                    sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'>");
 
-                sbRecorords.Append("<td  class='cols_' align='left' style='word-wrap:normal;word-break:break-all'>" + Convert.ToString(drRecords["Part_Number"]) + "</td>");
-                sbRecorords.Append("<td class='cols_' style='word-wrap:normal;word-break:break-all'>" + Convert.ToString(drRecords["Unit"]) + "</td>");
-                sbRecorords.Append("<td class='cols_' align='left' style='word-wrap:normal;word-break:break-all'>" + Convert.ToString(drRecords["Quantity"]) + "</td>");
-                sbRecorords.Append("<td class='cols_' align='left' style='word-wrap:normal;word-break:break-all'>" + Convert.ToString(drRecords["Gallons"]) + "</td>");
-                sbRecorords.Append("<td class='cols_' align='left' style='word-wrap:normal;word-break:break-all'>" + Convert.ToString(drRecords["VOC_Emissions"]) + "</td>");
-                sbRecorords.Append("</tr>");
+            //now category 
+            foreach (DataRow drCategory in dtCategory.Rows)
+            {
+                sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:white; color:#ff9c09;font-size:8.5pt'><td align='left' style='font-size:9pt'  colspan='5'><b>Category : " + Convert.ToString(drCategory["Category"]) + "</b></td></tr>");
+                string category = Convert.ToString(drCategory["Category"]);
+                DataRow[] drVOCEmissions = dtRegions.Select("Category = '" + category + "'");
+                decimal totalGallons = 0, totalVOC_Emissions = 0;
+                string SubTotalText = string.Empty;
+
+                if (drVOCEmissions != null && drVOCEmissions.Length > 0)
+                {
+                    int intRes = 0;
+                    foreach (DataRow drVOCEmission in drVOCEmissions)
+                    {
+                        totalGallons += clsGeneral.GetDecimal(drVOCEmission["Gallons"]);
+                        totalVOC_Emissions += clsGeneral.GetDecimal(drVOCEmission["VOC_Emissions"]);
+                        SubTotalText = Convert.ToString(drVOCEmission["Subtotal_Text"]);
+
+                        intRes += 1;
+                        if (intRes % 2 == 0)
+                            sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#EAEAEA;font-family:Tahoma;'>");
+                        else
+                            sbRecorords.Append("<tr align='left' style='font-size:8pt;background-color:#FFFFFF;font-family:Tahoma;'>");
+
+                        sbRecorords.Append("<td  class='cols_' align='left' style='word-wrap:normal;word-break:break-all'>" + Convert.ToString(drVOCEmission["Part_Number"]) + "</td>");
+                        sbRecorords.Append("<td class='cols_' style='word-wrap:normal;word-break:break-all'>" + Convert.ToString(drVOCEmission["Unit"]) + "</td>");
+                        sbRecorords.Append("<td class='cols_' align='left' style='word-wrap:normal;word-break:break-all'>" + Convert.ToString(drVOCEmission["Quantity"]) + "</td>");
+                        sbRecorords.Append("<td class='cols_' align='left' style='word-wrap:normal;word-break:break-all'>" + Convert.ToString(drVOCEmission["Gallons"]) + "</td>");
+                        sbRecorords.Append("<td class='cols_' align='left' style='word-wrap:normal;word-break:break-all'>" + Convert.ToString(drVOCEmission["VOC_Emissions"]) + "</td>");
+                        sbRecorords.Append("</tr>");
+                    }
+                    //add subtotal by category
+                    sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:yellow;color:black;font-size:8.5pt'><td align='left' style='font-size:9pt'  colspan='3'>Sub Total For " + Convert.ToString(drCategory["Category"]) + " : </td>");
+                    sbRecorords.Append("<td align='left' style='font-size:9pt' ><b>" + totalGallons + " </b></td>");
+                    sbRecorords.Append("<td align='left' style='font-size:9pt' ><b>" + totalVOC_Emissions + " </b></td></tr>");
+                }
             }
+
+            //add grand by category
+            sbRecorords.Append("<tr align='left'  style='font-weight: bold;background-color:blue;color:White;font-size:8.5pt'><td align='left' style='font-size:9pt'  colspan='3'> Grand Totals :</td>");
+            sbRecorords.Append("<td align='left' style='font-size:9pt' ><b>" + dtGrand_Total.Rows[0]["Total_Gallons"] + " </b></td>");
+            sbRecorords.Append("<td align='left' style='font-size:9pt' ><b>" + dtGrand_Total.Rows[0]["VOC_Emissions"] + " </b></td></tr>");
+
             sbRecorords.Append("</table>");
-            //sbRecorords.Append("</table>");
             trGrid.Visible = true;
         }
         else
@@ -452,6 +419,7 @@ public partial class UserAccessRequest_rptVOCEmissions : clsBasePage
             sbRecorords.Append("<tr style='background-color:#F2F2F2;color:Black;'>");
             sbRecorords.Append("<td align='center' style='font-size:9pt;'>No Records found.</td></tr></table>");
         }
+        
         return sbRecorords;
     }
 
