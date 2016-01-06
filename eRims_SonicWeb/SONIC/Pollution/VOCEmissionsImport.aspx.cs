@@ -59,6 +59,9 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
     {
         if (!Page.IsPostBack)
         {
+            if (App_Import != AccessType.VOC_Import && !IsUserSystemAdmin && !Convert.ToBoolean(Convert.ToInt32(clsSession.UserRole)))
+                Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc");
+
             BindDropdowns();
             decimal FK_PM_Site_Information;
             PK_PM_Permits = clsGeneral.GetQueryStringID(Request.QueryString["id"]);

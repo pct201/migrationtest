@@ -116,10 +116,10 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
         Attachment.btnHandler += new Attachment_Pollution.OnButtonClick(Upload_File);
         if (!Page.IsPostBack)
         {
-            //if (App_Access != AccessType.Administrative_Access && App_Access != AccessType.VOC_Import)
-            //    lnkImport.Visible = false;
-            //else
-            //    lnkImport.Visible = true;
+            if (App_Import == AccessType.VOC_Import || IsUserSystemAdmin || Convert.ToBoolean(Convert.ToInt32(clsSession.UserRole)))
+                lnkImport.Visible = true;
+            else
+                lnkImport.Visible = false;
 
             DateTime date = DateTime.Now;
             CurrentYear = date.Year;
@@ -356,7 +356,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
         else
         {
             lnkAddNew.Visible = true;
-            lnkImport.Visible = true;
+            lnkImport.Visible = (App_Import == AccessType.VOC_Import || IsUserSystemAdmin || Convert.ToBoolean(Convert.ToInt32(clsSession.UserRole)));
         }
     }
 

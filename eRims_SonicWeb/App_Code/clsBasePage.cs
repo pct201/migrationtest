@@ -21,6 +21,7 @@ public class clsBasePage : System.Web.UI.Page
     public AccessType App_Access;
     public AccessType App_RealEstateAccess;
     public AccessType App_Assest_Protection;
+    public AccessType App_Import;
 
     /// <summary>
     /// get Module Access
@@ -55,7 +56,8 @@ public class clsBasePage : System.Web.UI.Page
         Ohio_Claim_Access = 12,
         Delete = 13,
         Construction_AddEdit = 14,
-        Construction_ViewOnly = 15
+        Construction_ViewOnly = 15,
+        VOC_Import = 16
     }
 
     /// <summary>
@@ -150,7 +152,17 @@ public class clsBasePage : System.Web.UI.Page
                         if (strModule == "Exposures/")
                             App_RealEstateAccess = AccessType.Administrative_Access;
                     }
+
                     #endregion
+                }
+
+                if (strModule == "Pollution/")
+                {
+                    DataRow[] drVOC_Import = dsRight.Tables[0].Select("RightType_ID=9 and ModuleName='VOC'");
+                    if (drVOC_Import != null && drVOC_Import.Length > 0)
+                    {
+                        App_Import = AccessType.VOC_Import;
+                    }
                 }
 
                 if (strModule == "CalAtlantic/")
@@ -442,6 +454,14 @@ public class clsBasePage : System.Web.UI.Page
                                 }
                             }
                         }
+                        //else if (strModule == "VOC/")
+                        //{
+                        //    if (boolAccessSet == false && dsRight.Tables[0].Rows[iCount]["RightType_ID"].ToString() == "9")
+                        //    {
+                        //        boolAccessSet = true;
+                        //        App_Access = AccessType.VOC_Import;
+                        //    }
+                        //}
                         else
                         {
                             //check once right is set for the module and also check current right is administrative.
