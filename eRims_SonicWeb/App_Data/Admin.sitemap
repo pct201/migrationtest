@@ -71,6 +71,7 @@
         <siteMapNode url="DashBoard/rptDefault.aspx" title="Dashboard Reports" description="Dashboard Reports"/>
         <siteMapNode url="ExecutiveRisk/RptDefault.aspx" title="Executive Risk"/>
         <siteMapNode url="SONIC/Exposures/rptDefault.aspx" title="Exposures" description="Exposures" />
+        <siteMapNode url="UserAccessRequest/rptVOCEmissions.aspx" title="VOC Report" />
         <siteMapNode url="SONIC/Franchise/AdHocReportWriter.aspx" title="Franchise Reports" />
         <siteMapNode url="SONIC/RealEstate/rptDefault.aspx" title="Lease Reports" description="Lease Reports" />
         <siteMapNode url="Policy/rptDefault.aspx" title="Policy Reports" description="Policy Reports"/>
@@ -112,7 +113,6 @@
         <siteMapNode url="SONIC/ClaimInfo/rptAdHocWriterOhioWCClaim.aspx" title="Ohio WC Claims" description="Ohio WC Claims"/>
         <siteMapNode url="SONIC/FirstReport/DPD_AdHocReportWriter.aspx" title="DPD FROIs" description="DPD FROIs"/>
         <siteMapNode url="SONIC/Pollution/AdHocReportWriter.aspx" title="EHS" />
-        <siteMapNode url="UserAccessRequest/rptVOCEmissions.aspx" title="VOC Report" />
         <siteMapNode url="SONIC/Exposures/EPM_AdHocReportWriter.aspx" title="Environment Project Management" description="Environment Project Management"/>
         <siteMapNode url="SONIC/Exposures/InspectionAdHocReport.aspx" title="Facilities Inspections" description="Facilities Inspections"/>
         <siteMapNode url="SONIC/FirstReport/Investigation_AdHocReportWriter.aspx" title="Investigation" description="Investigation"/>
