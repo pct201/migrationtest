@@ -227,6 +227,12 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
                 lst.Selected = true;
             //drpFK_Permit_Type.SelectedValue = objPM_Permits.FK_Permit_Type.ToString();
         }
+
+        if (drpFK_Permit_Type.SelectedIndex > 0 && drpFK_Permit_Type.SelectedItem.Text.ToUpper() == "AIR PERMIT")
+        {
+            dvVOCGrid.Visible = true;
+        }
+
         rdoPermit_Required.SelectedValue = objPM_Permits.Permit_Required;
         txtCertification_Number.Text = objPM_Permits.Certification_Number;
         txtApplication_Regulation_Number.Text = objPM_Permits.Application_Regulation_Number;
@@ -257,6 +263,12 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
         PM_Permits objPM_Permits = new PM_Permits(PK_PM_Permits);
         if (objPM_Permits.FK_Permit_Type != null)
             lblFK_Permit_Type.Text = new clsLU_Permit_Type((decimal)objPM_Permits.FK_Permit_Type).Fld_Desc;
+
+        if (!string.IsNullOrEmpty(lblFK_Permit_Type.Text) && lblFK_Permit_Type.Text.ToUpper() == "AIR PERMIT")
+        {
+            dvVOCGrid.Visible = true;
+        }
+
         lblPermit_Required.Text = objPM_Permits.Permit_Required == "Y" ? "Yes" : "No";
         lblCertification_Number.Text = objPM_Permits.Certification_Number;
         lblApplication_Regulation_Number.Text = objPM_Permits.Application_Regulation_Number;
@@ -321,13 +333,11 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
         if (StrOperation == "view")
         {
             lnkAddNew.Visible = false;
-            lnkCancel.Visible = false;
             lnkImport.Visible = false;
         }
         else
         {
-            lnkAddNew.Visible = true;
-            lnkCancel.Visible = false;
+            lnkAddNew.Visible = true;            
             lnkImport.Visible = true;
         }
     }
@@ -475,43 +485,6 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
             return;
         }
 
-        //if (PK_PM_Permits == 0)
-        //{
-        //    Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Please First Save the Permit Data');", true);
-        //}
-        if (_retVal != -2 && (pnlVOCEdit.Visible == true))
-        {
-            clsPM_Permits_VOC_Emissions objPM_Permits_VOC_Emissions = new clsPM_Permits_VOC_Emissions();
-            objPM_Permits_VOC_Emissions.PK_PM_Permits_VOC_Emissions = PK_PM_Permits_VOC_Emissions;
-            if (drpPaintCategory.SelectedIndex > 0) objPM_Permits_VOC_Emissions.FK_LU_VOC_Category = Convert.ToDecimal(drpPaintCategory.SelectedValue);
-            if (ddlMonth.SelectedIndex > 0) objPM_Permits_VOC_Emissions.Month = Convert.ToInt16(ddlMonth.SelectedValue);
-            if (ddlYear.SelectedIndex > 0) objPM_Permits_VOC_Emissions.Year = Convert.ToInt16(ddlYear.SelectedValue);
-            objPM_Permits_VOC_Emissions.Part_Number = txtItemNumber.Text;
-            objPM_Permits_VOC_Emissions.FK_PM_Permits = PK_PM_Permits;
-            objPM_Permits_VOC_Emissions.Unit = txtUnit.Text;
-            objPM_Permits_VOC_Emissions.Quantity = txtQuantity.Text;
-            objPM_Permits_VOC_Emissions.Gallons = clsGeneral.GetDecimal(txtGallons.Text);
-            objPM_Permits_VOC_Emissions.VOC_Emissions = clsGeneral.GetDecimal(txtVOCEmissions.Text);
-            objPM_Permits_VOC_Emissions.Update_Date = DateTime.Now;
-            objPM_Permits_VOC_Emissions.Updated_By = clsSession.UserID;
-
-            DataTable dtVOC = objPM_Permits_VOC_Emissions.SelectByFK(PK_PM_Permits).Tables[0];
-
-            if (dtVOC != null && dtVOC.Rows.Count > 0)
-            {
-                objPM_Permits_VOC_Emissions.SubTotal_Text = drpPaintCategory.SelectedItem.Text + ((clsGeneral.GetDecimal(txtQuantity.Text) * (clsGeneral.GetDecimal(txtGallons.Text))) + GetSubTotal(dtVOC)).ToString();
-            }
-            else
-            {
-                objPM_Permits_VOC_Emissions.SubTotal_Text = drpPaintCategory.SelectedItem.Text + (clsGeneral.GetDecimal(txtQuantity.Text) * (clsGeneral.GetDecimal(txtGallons.Text)));
-            }
-
-            if (PK_PM_Permits_VOC_Emissions > 0)
-                objPM_Permits_VOC_Emissions.Update();
-            else
-                objPM_Permits_VOC_Emissions.Insert();
-        }
-
         // add the attachment 
         Attachment.FK_Field_Value = Convert.ToInt32(_retVal.ToString());
         Attachment.FK_Field_Name = "FK_PM_Permits";
@@ -543,6 +516,16 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
     }
 
     /// <summary>
+    /// Button VOC Audit Trail Click Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnVOCAuditTrail_Click(object sender, EventArgs e)
+    {        
+        Response.Redirect("AuditPopup_PM_Permits_VOC_Emissions.aspx?item=" + Encryption.Encrypt(PK_PM_Permits_VOC_Emissions.ToString()));
+    }
+
+    /// <summary>
     /// Add new button link event
     /// </summary>
     /// <param name="sender"></param>
@@ -569,8 +552,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
             ddlMonth.SelectedIndex = 0;
             ddlYear.SelectedIndex = 0;
             drpPaintCategory.SelectedIndex = 0;
-            pnlVOCEdit.Visible = true;
-            lnkCancel.Visible = true;
+            pnlVOCEdit.Visible = true;         
         }
     }
 
@@ -667,8 +649,69 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
     protected void lnkCancel_Click(object sender, EventArgs e)
     {
         pnlVOCEdit.Visible = false;
-        lnkAddNew.Visible = true;
-        lnkCancel.Visible = false;
+        lnkAddNew.Visible = true;        
+    }
+
+    /// <summary>
+    /// Button Save click event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnSaveVOCData_Click(object sender, EventArgs e)
+    {
+        if (PK_PM_Permits > 0)
+        {
+            clsPM_Permits_VOC_Emissions objPM_Permits_VOC_Emissions = new clsPM_Permits_VOC_Emissions();
+            objPM_Permits_VOC_Emissions.PK_PM_Permits_VOC_Emissions = PK_PM_Permits_VOC_Emissions;
+            if (drpPaintCategory.SelectedIndex > 0) objPM_Permits_VOC_Emissions.FK_LU_VOC_Category = Convert.ToDecimal(drpPaintCategory.SelectedValue);
+            if (ddlMonth.SelectedIndex > 0) objPM_Permits_VOC_Emissions.Month = Convert.ToInt16(ddlMonth.SelectedValue);
+            if (ddlYear.SelectedIndex > 0) objPM_Permits_VOC_Emissions.Year = Convert.ToInt16(ddlYear.SelectedValue);
+            objPM_Permits_VOC_Emissions.Part_Number = txtItemNumber.Text;
+            objPM_Permits_VOC_Emissions.FK_PM_Permits = PK_PM_Permits;
+            objPM_Permits_VOC_Emissions.Unit = txtUnit.Text;
+            objPM_Permits_VOC_Emissions.Quantity = txtQuantity.Text;
+            objPM_Permits_VOC_Emissions.Gallons = clsGeneral.GetDecimal(txtGallons.Text);
+            objPM_Permits_VOC_Emissions.VOC_Emissions = clsGeneral.GetDecimal(txtVOCEmissions.Text);
+            objPM_Permits_VOC_Emissions.Update_Date = DateTime.Now;
+            objPM_Permits_VOC_Emissions.Updated_By = clsSession.UserID;
+
+            DataTable dtVOC = objPM_Permits_VOC_Emissions.SelectByFK(PK_PM_Permits).Tables[0];
+
+            if (dtVOC != null && dtVOC.Rows.Count > 0)
+            {
+                objPM_Permits_VOC_Emissions.SubTotal_Text = drpPaintCategory.SelectedItem.Text + ((clsGeneral.GetDecimal(txtQuantity.Text) * (clsGeneral.GetDecimal(txtGallons.Text))) + GetSubTotal(dtVOC)).ToString();
+            }
+            else
+            {
+                objPM_Permits_VOC_Emissions.SubTotal_Text = drpPaintCategory.SelectedItem.Text + (clsGeneral.GetDecimal(txtQuantity.Text) * (clsGeneral.GetDecimal(txtGallons.Text)));
+            }
+
+            if (PK_PM_Permits_VOC_Emissions > 0)
+                objPM_Permits_VOC_Emissions.Update();
+            else
+                objPM_Permits_VOC_Emissions.Insert();
+
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('VOC Details Saved successfully.');", true);
+
+            BindVOCGrid();
+
+            pnlVOCEdit.Visible = false;
+            lnkAddNew.Visible = true;
+        }
+        else
+        {
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Please save Permit details first.');", true);
+        }        
+    }
+
+    /// <summary>
+    /// Link Cancel click event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnCancelView_Click(object sender, EventArgs e)
+    {
+        pnlVOCView.Visible = false;
     }
 
     #endregion
@@ -800,6 +843,15 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
                 ((LinkButton)e.Row.FindControl("lnkGallons")).Enabled = false;
                 ((LinkButton)e.Row.FindControl("lnkVOC_Emissions")).Enabled = false;
             }
+        }
+    }
+
+    protected void drpFK_Permit_Type_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        dvVOCGrid.Visible = false;
+        if (drpFK_Permit_Type.SelectedIndex > 0)
+        {
+            dvVOCGrid.Visible = true;
         }
     }
 }

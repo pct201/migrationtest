@@ -13,16 +13,15 @@
     TagPrefix="uc" %>
 <asp:Content ContentPlaceHolderID="ContentPlaceHolder1" ID="Content1" runat="server">
     <style type="text/css">
-     .SubTotalRowStyle
-        {
-	        font-size: 10px;
-	        background-image: url(../../images/TableHeader1.gif);
-	        background-repeat: repeat-x;
-	        font-family: Verdana, Arial, Helvetica, sans-serif;
-	        background-color: #8ab2d7;
+        .SubTotalRowStyle {
+            font-size: 10px;
+            background-image: url(../../images/TableHeader1.gif);
+            background-repeat: repeat-x;
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            background-color: #8ab2d7;
             color: black;
         }
-     </style>
+    </style>
     <script type="text/javascript" src="../../JavaScript/Validator.js"></script>
     <script type="text/javascript" src="../../JavaScript/JFunctions.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/Calendar_new.js"></script>
@@ -58,7 +57,7 @@
                 if (index < 3) {
                     for (i = 1; i <= 2; i++) {
                         document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i).style.display = (i == index) ? "block" : "none";
-                        document.getElementById('ctl00_ContentPlaceHolder1_UpdatePanel1').style.display = "block" ;
+                        document.getElementById('ctl00_ContentPlaceHolder1_UpdatePanel1').style.display = "block";
                     }
                 }
                 else {
@@ -93,10 +92,9 @@
                         document.getElementById('ctl00_ContentPlaceHolder1_UpdatePanel1').style.display = "block";
                     }
                 }
-                    if (index == 2)
-                    {
-                        document.getElementById('ctl00_ContentPlaceHolder1_UpdatePanel1').style.display = "none";
-                    }
+                if (index == 2) {
+                    document.getElementById('ctl00_ContentPlaceHolder1_UpdatePanel1').style.display = "none";
+                }
             }
             catch (e) { }
         }
@@ -169,8 +167,7 @@
             </td>
         </tr>
         <tr>
-            <td class="Spacer" width="100%" style="height: 15px;">
-            </td>
+            <td class="Spacer" width="100%" style="height: 15px;"></td>
         </tr>
         <tr>
             <td width="100%">
@@ -178,31 +175,26 @@
             </td>
         </tr>
         <tr>
-            <td class="Spacer" width="100%" style="height: 15px;">
-            </td>
+            <td class="Spacer" width="100%" style="height: 15px;"></td>
         </tr>
         <tr>
-            <td class="ghc" align="left">
-                Permits
+            <td class="ghc" align="left">Permits
             </td>
         </tr>
         <tr>
             <td>
                 <table cellpadding="0" cellspacing="0" width="100%">
                     <tr>
-                        <td class="Spacer" style="height: 15px;" colspan="2">
-                        </td>
+                        <td class="Spacer" style="height: 15px;" colspan="2"></td>
                     </tr>
                     <tr>
                         <td class="leftMenu">
                             <table cellpadding="5" cellspacing="0" width="100%">
                                 <tr>
-                                    <td style="height: 18px;" class="Spacer">
-                                    </td>
+                                    <td style="height: 18px;" class="Spacer"></td>
                                 </tr>
                                 <tr>
-                                    <td align="left" width="100%">
-                                        &nbsp;&nbsp; <span id="Menu1" onclick="javascript:ShowPanel(1);" class="LeftMenuStatic">Permits</span>&nbsp;<span
+                                    <td align="left" width="100%">&nbsp;&nbsp; <span id="Menu1" onclick="javascript:ShowPanel(1);" class="LeftMenuStatic">Permits</span>&nbsp;<span
                                         id="MenuAsterisk1" runat="server" style="color: Red; display: none">*</span>
                                     </td>
                                 </tr>
@@ -230,7 +222,7 @@
                                                         <td align="center" width="2%" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top" colspan="4">
-                                                            <asp:DropDownList ID="drpFK_Permit_Type" Width="585px" runat="server" SkinID="dropGen">
+                                                            <asp:DropDownList ID="drpFK_Permit_Type" Width="585px" runat="server" SkinID="dropGen" AutoPostBack="true" OnSelectedIndexChanged="drpFK_Permit_Type_SelectedIndexChanged">
                                                             </asp:DropDownList>
                                                         </td>
 
@@ -574,7 +566,7 @@
                                         </div>
                                         <asp:UpdatePanel runat="server" ID="UpdatePanel1" UpdateMode="Conditional">
                                             <ContentTemplate>
-                                                <div id="dvVOCGrid" runat="server" width="794px">
+                                                <div id="dvVOCGrid" runat="server" width="794px" visible="false">
                                                     <div class="bandHeaderRow">
                                                         VOC Emissions
                                                     </div>
@@ -633,13 +625,13 @@
                                                                             <ItemTemplate>
                                                                                 <asp:LinkButton ID="lnkRemove" runat="server" CommandName="Remove"
                                                                                     CommandArgument='<%# Eval("PK_PM_Permits_VOC_Emissions") %>' Text="Remove" OnClientClick="return confirm('Are you Sure to delete this record?');"></asp:LinkButton>
-                                                                              <%--  <input type="hidden" id="hdnLink" runat="server" />--%>
+                                                                                <%--  <input type="hidden" id="hdnLink" runat="server" />--%>
                                                                             </ItemTemplate>
                                                                         </asp:TemplateField>
-                                                                         <asp:TemplateField>
+                                                                        <asp:TemplateField>
                                                                             <ItemStyle Width="10%" />
                                                                             <ItemTemplate>
-                                                                                <asp:HiddenField ID="hdnLink" runat="server"  value ='<%# Eval("IsFromTable") %>'></asp:HiddenField>
+                                                                                <asp:HiddenField ID="hdnLink" runat="server" Value='<%# Eval("IsFromTable") %>'></asp:HiddenField>
                                                                             </ItemTemplate>
                                                                         </asp:TemplateField>
                                                                     </Columns>
@@ -649,18 +641,18 @@
                                                         <tr>
                                                             <td>
                                                                 <br />
-                                                                <asp:LinkButton ID="lnkAddNew" OnClick="lnkAdd_Click" runat="server" Text="Add" ></asp:LinkButton>
+                                                                <asp:LinkButton ID="lnkAddNew" OnClick="lnkAdd_Click" runat="server" Text="Add"></asp:LinkButton>
                                                                 <%--<asp:LinkButton ID="lnkCancel" OnClick="lnkCancel_Click" runat="server" Text="Cancel"></asp:LinkButton>--%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                <asp:LinkButton ID="lnkImport" OnClick="lnkImport_Click" runat="server" Text="VOC Emission Import" ></asp:LinkButton>
+                                                                <asp:LinkButton ID="lnkImport" OnClick="lnkImport_Click" runat="server" Text="VOC Emission Import"></asp:LinkButton>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <asp:LinkButton ID="lnkPreviousYear"  runat="server" Text="<<" OnCommand="lnkPreviousNext_RowCommand" CommandName="PreviousYear"></asp:LinkButton>
-                                                                <asp:LinkButton ID="lnkPreviousMonth"  runat="server" Text="<" OnCommand="lnkPreviousNext_RowCommand" CommandName="PreviousMonth"></asp:LinkButton>
+                                                                <asp:LinkButton ID="lnkPreviousYear" runat="server" Text="<<" OnCommand="lnkPreviousNext_RowCommand" CommandName="PreviousYear"></asp:LinkButton>
+                                                                <asp:LinkButton ID="lnkPreviousMonth" runat="server" Text="<" OnCommand="lnkPreviousNext_RowCommand" CommandName="PreviousMonth"></asp:LinkButton>
                                                                 <asp:Label runat="server" Text="Previous Next" ID="lbl"></asp:Label>
-                                                                <asp:LinkButton ID="lnkNextMonth"  runat="server" Text=">" OnCommand="lnkPreviousNext_RowCommand" CommandName="NextMonth"></asp:LinkButton>
-                                                                <asp:LinkButton ID="lnkNextYear"  runat="server" Text=">>" OnCommand="lnkPreviousNext_RowCommand" CommandName="NextYear"></asp:LinkButton>
+                                                                <asp:LinkButton ID="lnkNextMonth" runat="server" Text=">" OnCommand="lnkPreviousNext_RowCommand" CommandName="NextMonth"></asp:LinkButton>
+                                                                <asp:LinkButton ID="lnkNextYear" runat="server" Text=">>" OnCommand="lnkPreviousNext_RowCommand" CommandName="NextYear"></asp:LinkButton>
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -668,104 +660,111 @@
                                                 <asp:Panel ID="pnlVOCEdit" runat="server">
                                                     <br />
                                                     <%--<div id="dvEditVOC" runat="server">--%>
-                                                        <table cellpadding="3" cellspacing="1" border="0" width="100%">
-                                                            <tr>
-                                                                <td>
-                                                                    <div style="display: none;">
-                                                                        <%--  <asp:TextBox ID="txtVendorId" runat="server" Height="0px" Width="0px"></asp:TextBox>--%>
-                                                                        <asp:TextBox ID="txtCompare" runat="server" Height="0px" Width="0px" Text="0.00"></asp:TextBox>
-                                                                        <asp:TextBox ID="txtCompare2" runat="server" Height="0px" Text="0" Width="0px"></asp:TextBox>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" valign="top">Month&nbsp;<span id="Span11" style="color: Red; display: none;" runat="server">*</span>
-                                                                </td>
-                                                                <td align="center" valign="top">:
-                                                                </td>
-                                                                <td align="left" valign="top">
-                                                                    <asp:DropDownList ID="ddlMonth" Width="170px" runat="server" SkinID="dropGen">
-                                                                    </asp:DropDownList>
-                                                                </td>
-                                                                <td align="left" valign="top">Year&nbsp;<span id="Span12" style="color: Red; display: none;" runat="server">*</span>
-                                                                </td>
-                                                                <td align="center" valign="top">:
-                                                                </td>
-                                                                <td align="left" valign="top">
-                                                                    <asp:DropDownList ID="ddlYear" Width="170px" runat="server" SkinID="dropGen">
-                                                                    </asp:DropDownList>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" valign="top">Paint Category&nbsp;<span id="Span13" style="color: Red; display: none;" runat="server">*</span>
-                                                                </td>
-                                                                <td align="center" valign="top">:
-                                                                </td>
-                                                                <td align="left" valign="top">
-                                                                    <asp:DropDownList ID="drpPaintCategory" Width="170px" runat="server" SkinID="dropGen">
-                                                                    </asp:DropDownList>
-                                                                </td>
-                                                                <td align="left" valign="top">Item Number&nbsp;<span id="Span14" style="color: Red; display: none;" runat="server">*</span>
-                                                                </td>
-                                                                <td align="center" valign="top">:
-                                                                </td>
-                                                                <td align="left" valign="top">
-                                                                    <asp:TextBox ID="txtItemNumber" runat="server" Width="170px" MaxLength="50" />
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" valign="top">Unit&nbsp;<span id="Span15" style="color: Red; display: none;" runat="server">*</span>
-                                                                </td>
-                                                                <td align="center" valign="top">:
-                                                                </td>
-                                                                <td align="left" valign="top">
-                                                                    <asp:TextBox ID="txtUnit" runat="server" Width="170px" MaxLength="50" />
-                                                                    <asp:CompareValidator ID="cvUnit" runat="server" ControlToValidate="txtUnit" ValidationGroup="vsErrorGroup"
-                                                                        ErrorMessage="Please Enter Unit Greater Than 0." Operator="GreaterThan" ControlToCompare="txtCompare2" Display="none">
-                                                                    </asp:CompareValidator>
-                                                                </td>
-                                                                <td align="left" valign="top">Quantity&nbsp;<span id="Span16" style="color: Red; display: none;"
-                                                                    runat="server">*</span>
-                                                                </td>
-                                                                <td align="center" valign="top">:
-                                                                </td>
-                                                                <td align="left" valign="top">
-                                                                    <asp:TextBox ID="txtQuantity" runat="server" Width="170px" MaxLength="10" />
-                                                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator3" ControlToValidate="txtQuantity" ValidationExpression="(\d+)$"
-                                                                        Display="none" ErrorMessage="Please Enter Valid Quantity." runat="server" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
-                                                                    <asp:CompareValidator ID="cvQuantity" runat="server" ControlToValidate="txtQuantity" ValidationGroup="vsErrorGroup"
-                                                                        ErrorMessage="Please Enter Quantity Greater Than 0." Operator="GreaterThan" ControlToCompare="txtCompare2" Display="none">
-                                                                    </asp:CompareValidator>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" valign="top">Gallons&nbsp;<span id="Span17" style="color: Red; display: none;" runat="server">*</span>
-                                                                </td>
-                                                                <td align="center" valign="top">:
-                                                                </td>
-                                                                <td align="left" valign="top">
-                                                                    <asp:TextBox ID="txtGallons" runat="server" Width="170px" onpaste="return false" onkeypress="return FormatNumber(event,this.id,10 ,false);" />
-                                                               <%--     <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="txtGallons" ValidationExpression="((\d+)((\.\d{1,2})?))$"
+                                                    <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                        <tr>
+                                                            <td>
+                                                                <div style="display: none;">
+                                                                    <%--  <asp:TextBox ID="txtVendorId" runat="server" Height="0px" Width="0px"></asp:TextBox>--%>
+                                                                    <asp:TextBox ID="txtCompare" runat="server" Height="0px" Width="0px" Text="0.00"></asp:TextBox>
+                                                                    <asp:TextBox ID="txtCompare2" runat="server" Height="0px" Text="0" Width="0px"></asp:TextBox>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Month&nbsp;<span id="Span11" style="color: Red; display: none;" runat="server">*</span>
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:DropDownList ID="ddlMonth" Width="170px" runat="server" SkinID="dropGen">
+                                                                </asp:DropDownList>
+                                                            </td>
+                                                            <td align="left" valign="top">Year&nbsp;<span id="Span12" style="color: Red; display: none;" runat="server">*</span>
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:DropDownList ID="ddlYear" Width="170px" runat="server" SkinID="dropGen">
+                                                                </asp:DropDownList>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Paint Category&nbsp;<span id="Span13" style="color: Red; display: none;" runat="server">*</span>
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:DropDownList ID="drpPaintCategory" Width="170px" runat="server" SkinID="dropGen">
+                                                                </asp:DropDownList>
+                                                            </td>
+                                                            <td align="left" valign="top">Item Number&nbsp;<span id="Span14" style="color: Red; display: none;" runat="server">*</span>
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:TextBox ID="txtItemNumber" runat="server" Width="170px" MaxLength="50" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Unit&nbsp;<span id="Span15" style="color: Red; display: none;" runat="server">*</span>
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:TextBox ID="txtUnit" runat="server" Width="170px" MaxLength="50" />
+                                                                <asp:CompareValidator ID="cvUnit" runat="server" ControlToValidate="txtUnit" ValidationGroup="vsErrorGroup"
+                                                                    ErrorMessage="Please Enter Unit Greater Than 0." Operator="GreaterThan" ControlToCompare="txtCompare2" Display="none">
+                                                                </asp:CompareValidator>
+                                                            </td>
+                                                            <td align="left" valign="top">Quantity&nbsp;<span id="Span16" style="color: Red; display: none;"
+                                                                runat="server">*</span>
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:TextBox ID="txtQuantity" runat="server" Width="170px" MaxLength="10" />
+                                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator3" ControlToValidate="txtQuantity" ValidationExpression="(\d+)$"
+                                                                    Display="none" ErrorMessage="Please Enter Valid Quantity." runat="server" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
+                                                                <asp:CompareValidator ID="cvQuantity" runat="server" ControlToValidate="txtQuantity" ValidationGroup="vsErrorGroup"
+                                                                    ErrorMessage="Please Enter Quantity Greater Than 0." Operator="GreaterThan" ControlToCompare="txtCompare2" Display="none">
+                                                                </asp:CompareValidator>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="left" valign="top">Gallons&nbsp;<span id="Span17" style="color: Red; display: none;" runat="server">*</span>
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:TextBox ID="txtGallons" runat="server" Width="170px" onpaste="return false" onkeypress="return FormatNumber(event,this.id,10 ,false);" />
+                                                                <%--     <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="txtGallons" ValidationExpression="((\d+)((\.\d{1,2})?))$"
                                                                         Display="none" ErrorMessage="Please Enter Gallons with 2 decimal places." runat="server" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>--%>
-                                                                    <asp:CompareValidator ID="cvGallons" runat="server" ControlToValidate="txtGallons" ValidationGroup="vsErrorGroup"
-                                                                        ErrorMessage="Please Enter Gallons Greater Than 0.00." Operator="GreaterThan" ControlToCompare="txtCompare" Display="none">
-                                                                    </asp:CompareValidator>
-                                                                </td>
-                                                                <td align="left" valign="top">VOC Emissions&nbsp;<span id="Span18" style="color: Red; display: none;" runat="server">*</span>
-                                                                </td>
-                                                                <td align="center" valign="top">:
-                                                                </td>
-                                                                <td align="left" valign="top">
-                                                                    <asp:TextBox ID="txtVOCEmissions" runat="server" Width="170px" onpaste="return false" onkeypress="return FormatNumber(event,this.id,10 ,false);" />
-                                                                   <%-- <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ControlToValidate="txtVOCEmissions" ValidationExpression="((\d+)((\.\d{1,2})?))$"
+                                                                <asp:CompareValidator ID="cvGallons" runat="server" ControlToValidate="txtGallons" ValidationGroup="vsErrorGroup"
+                                                                    ErrorMessage="Please Enter Gallons Greater Than 0.00." Operator="GreaterThan" ControlToCompare="txtCompare" Display="none">
+                                                                </asp:CompareValidator>
+                                                            </td>
+                                                            <td align="left" valign="top">VOC Emissions&nbsp;<span id="Span18" style="color: Red; display: none;" runat="server">*</span>
+                                                            </td>
+                                                            <td align="center" valign="top">:
+                                                            </td>
+                                                            <td align="left" valign="top">
+                                                                <asp:TextBox ID="txtVOCEmissions" runat="server" Width="170px" onpaste="return false" onkeypress="return FormatNumber(event,this.id,10 ,false);" />
+                                                                <%-- <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ControlToValidate="txtVOCEmissions" ValidationExpression="((\d+)((\.\d{1,2})?))$"
                                                                         Display="none" ErrorMessage="Please Enter VOC Emissions with 2 decimal places." runat="server" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>--%>
-                                                                    <asp:CompareValidator ID="cvVOCEmissions" runat="server" ControlToValidate="txtVOCEmissions" ValidationGroup="vsErrorGroup"
-                                                                        ErrorMessage="Please Enter VOC Emissions Greater Than 0.00." Operator="GreaterThan" ControlToCompare="txtCompare" Display="none">
-                                                                    </asp:CompareValidator>
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                   <%-- </div>--%>
+                                                                <asp:CompareValidator ID="cvVOCEmissions" runat="server" ControlToValidate="txtVOCEmissions" ValidationGroup="vsErrorGroup"
+                                                                    ErrorMessage="Please Enter VOC Emissions Greater Than 0.00." Operator="GreaterThan" ControlToCompare="txtCompare" Display="none">
+                                                                </asp:CompareValidator>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6" align="center">
+                                                                <asp:Button ID="btnSaveVOCData" OnClick="btnSaveVOCData_Click" runat="server" Text="Save"></asp:Button>&nbsp;
+                                                                <asp:Button ID="btnVOCAuditTrail" OnClick="btnVOCAuditTrail_Click" runat="server" Text="View Audit Trail"></asp:Button>&nbsp;
+                                                                <asp:Button ID="lnkCancel" OnClick="lnkCancel_Click" runat="server" Text="Revert And Return"></asp:Button>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <%-- </div>--%>
                                                 </asp:Panel>
                                                 <asp:Panel ID="pnlVOCView" runat="server">
                                                     <br />
@@ -839,14 +838,12 @@
                                                                 <asp:Label ID="lblVOCEmissions" runat="server"></asp:Label>
                                                             </td>
                                                         </tr>
+                                                        <tr>
+                                                            <asp:Button ID="btnCancelView" OnClick="btnCancelView_Click" runat="server" Text="Return"></asp:Button>
+                                                        </tr>
                                                     </table>
                                                     <%--</div>--%>
                                                 </asp:Panel>
-                                                <div align="center">
-                                                    <br />
-                                                <asp:Button ID="lnkCancel" OnClick="lnkCancel_Click" runat="server" Text="Cancel" ></asp:Button>
-                                                     <br />
-                                                    </div>
                                             </ContentTemplate>
                                         </asp:UpdatePanel>
                                     </td>
