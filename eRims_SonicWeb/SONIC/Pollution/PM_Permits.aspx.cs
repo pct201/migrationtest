@@ -116,10 +116,10 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
         Attachment.btnHandler += new Attachment_Pollution.OnButtonClick(Upload_File);
         if (!Page.IsPostBack)
         {
-            if (App_Access != AccessType.Administrative_Access && App_Access != AccessType.VOC_Import)
-                lnkImport.Visible = false;
-            else
-                lnkImport.Visible = true;
+            //if (App_Access != AccessType.Administrative_Access && App_Access != AccessType.VOC_Import)
+            //    lnkImport.Visible = false;
+            //else
+            //    lnkImport.Visible = true;
 
             DateTime date = DateTime.Now;
             CurrentYear = date.Year;
@@ -297,7 +297,10 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
     /// </summary>
     public void BindVOCGrid()
     {
-        DataTable dtVOCEmission = clsPM_Permits_VOC_Emissions.SelectByFKPermit(PK_PM_Permits, CurrentMonth, CurrentYear).Tables[0];
+        DataSet dsVOCEmmission = clsPM_Permits_VOC_Emissions.SelectByFKPermit(PK_PM_Permits, CurrentMonth, CurrentYear);
+        DataTable dtVOCEmission = dsVOCEmmission.Tables[0];
+        DataTable dtCategoryGrandTotal = dsVOCEmmission.Tables[1];
+        DataTable dtGrandTotal = dsVOCEmmission.Tables[2];
         DataTable dtVOC = dtVOCEmission.Clone();
         DataTable dtCategory = clsLU_VOC_Category.SelectAll().Tables[0];
 
@@ -320,8 +323,20 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
                         dtVOC.Rows.Add(drVOCEmission.ItemArray);
                     }
 
-                    dtVOC.Rows.Add("0", "0", category + " Sub Total", CurrentYear, GetMonthString(CurrentMonth), totalGallons, totalVOC_Emissions, SubTotalText, totalGallons + totalVOC_Emissions, 0);
+                    // dtVOC.Rows.Add("0", "0", category + " Sub Total", CurrentYear, GetMonthString(CurrentMonth), totalGallons, totalVOC_Emissions, SubTotalText, totalGallons + totalVOC_Emissions, 0);
+                    dtVOC.Rows.Add("0", "0", category + " Sub Total", CurrentYear, GetMonthString(CurrentMonth), totalGallons, totalVOC_Emissions, SubTotalText, "", 0);
+
+                    if (dtCategoryGrandTotal != null && dtCategoryGrandTotal.Rows.Count > 0)
+                    {
+                        DataRow[] drCategoryGrandTotal = dtCategoryGrandTotal.Select("Category = '" + category + "'");
+                        dtVOC.Rows.Add("0", "0", category + " Grand Total", CurrentYear, "", clsGeneral.GetDecimal(drCategoryGrandTotal[0]["Gallons"]), clsGeneral.GetDecimal(drCategoryGrandTotal[0]["VOC_Emmisions"]), "", "", 0);
+                    }
                 }
+            }
+
+            if (dtVOCEmission != null && dtVOCEmission.Rows.Count > 0)
+            {
+                dtVOC.Rows.Add("0", "0", " Grand Total", CurrentYear, "", clsGeneral.GetDecimal(dtGrandTotal.Rows[0]["Gallons"]), clsGeneral.GetDecimal(dtGrandTotal.Rows[0]["VOC_Emmisions"]), "", "", 0);
             }
         }
 
