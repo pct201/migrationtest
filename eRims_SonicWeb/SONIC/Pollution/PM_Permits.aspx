@@ -114,10 +114,8 @@
             //document.getElementById('ctl00_ContentPlaceHolder1_Attachment_reqFile').enabled = false;
             //            document.getElementById('ctl00_ContentPlaceHolder1_Attachment_cstFile').enabled = false;
             if (Page_ClientValidate('vsErrorGroup'))
-                if (Page_ClientValidate('vsErrorVOCGroup'))
-                    return true;
-                else
-                    return false;
+                Page_ClientValidate('vsErrorVOCGroup')
+                    
         }
 
         function ValAttach() {
@@ -187,31 +185,31 @@
             var focusCtrlID = "";
             if (document.getElementById('<%=hdnControlIDsVOC.ClientID%>').value != "") {
 
-                        var i = 0;
-                        for (i = 0; i < ctrlIDs.length; i++) {
-                            var bEmpty = false;
-                            var ctrl = document.getElementById(ctrlIDs[i]);
-                            if (ctrl != null) {
-                                switch (ctrl.type) {
-                                    case "textarea":
-                                    case "text": if (ctrl.value == '') bEmpty = true; break;
-                                    case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
-                                }
-                            }
-                            //if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
-                            if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
+                var i = 0;
+                for (i = 0; i < ctrlIDs.length; i++) {
+                    var bEmpty = false;
+                    var ctrl = document.getElementById(ctrlIDs[i]);
+                    if (ctrl != null) {
+                        switch (ctrl.type) {
+                            case "textarea":
+                            case "text": if (ctrl.value == '') bEmpty = true; break;
+                            case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
                         }
-                        if (msg.length > 0) {
-                            sender.errormessage = msg;
-                            args.IsValid = false;
-                        }
-                        else
-                            args.IsValid = true;
                     }
-                    else {
-                        args.IsValid = true;
-                    }
+                    //if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
+                    if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
                 }
+                if (msg.length > 0) {
+                    sender.errormessage = msg;
+                    args.IsValid = false;
+                }
+                else
+                    args.IsValid = true;
+            }
+            else {
+                args.IsValid = true;
+            }
+        }
 
     </script>
     <table cellpadding="0" cellspacing="0" width="100%">
@@ -899,6 +897,9 @@
                                                     <%--</div>--%>
                                                 </asp:Panel>
                                             </ContentTemplate>
+                                            <Triggers>
+                                                <asp:AsyncPostBackTrigger ControlID="drpFK_Permit_Type" />
+                                            </Triggers>
                                         </asp:UpdatePanel>
                                     </td>
                                 </tr>
