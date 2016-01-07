@@ -387,7 +387,8 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
             txtQuantity.Text = objPM_Permits_VOC_Emissions.Quantity;
             txtUnit.Text = objPM_Permits_VOC_Emissions.Unit;
             txtVOCEmissions.Text = objPM_Permits_VOC_Emissions.VOC_Emissions.ToString();
-            drpPaintCategory.SelectedValue = objPM_Permits_VOC_Emissions.FK_LU_VOC_Category.ToString();
+           // drpPaintCategory.SelectedValue = objPM_Permits_VOC_Emissions.FK_LU_VOC_Category.ToString();
+            clsGeneral.SetDropdownValue(drpPaintCategory, objPM_Permits_VOC_Emissions.FK_LU_VOC_Category,true);
             ddlMonth.SelectedValue = objPM_Permits_VOC_Emissions.Month.ToString();
             ddlYear.SelectedValue = objPM_Permits_VOC_Emissions.Year.ToString();
         }
@@ -819,6 +820,9 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
         string strCtrlsIDs = "";
         string strMessages = "";
 
+        string strCtrlsIDsVOC = "";
+        string strMessagesVOC = "";
+
 
         DataTable dtFields = clsScreen_Validators.SelectByScreen(156).Tables[0];
         dtFields.DefaultView.RowFilter = "IsRequired = '1'";
@@ -841,23 +845,31 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
                 case "Next Report Date": strCtrlsIDs += txtNext_Report_Date.ClientID + ","; strMessages += "Please enter [Permits]/Next Report Date" + ","; Span8.Style["display"] = "inline-block"; break;
                 case "Notes": strCtrlsIDs += txtNotes.ClientID + ","; strMessages += "Please enter [Permits]/Notes" + ","; Span9.Style["display"] = "inline-block"; break;
                 case "Recommendations": strCtrlsIDs += txtRecommendations.ClientID + ","; strMessages += "Please enter [Permits]/Recommendations" + ","; Span10.Style["display"] = "inline-block"; break;
-                case "Year": strCtrlsIDs += ddlYear.ClientID + ","; strMessages += "Please enter [VOC]/Year" + ","; Span12.Style["display"] = "inline-block"; break;
-                case "Month": strCtrlsIDs += ddlMonth.ClientID + ","; strMessages += "Please enter [VOC]/Month" + ","; Span11.Style["display"] = "inline-block"; break;
-                case "Paint Category": strCtrlsIDs += drpPaintCategory.ClientID + ","; strMessages += "Please enter [VOC]/Paint Category" + ","; Span13.Style["display"] = "inline-block"; break;
-                case "Item Number": strCtrlsIDs += txtItemNumber.ClientID + ","; strMessages += "Please enter [VOC]/Item Number" + ","; Span14.Style["display"] = "inline-block"; break;
-                case "Unit": strCtrlsIDs += txtUnit.ClientID + ","; strMessages += "Please enter [VOC]/Unit" + ","; Span15.Style["display"] = "inline-block"; break;
-                case "Quantity": strCtrlsIDs += txtQuantity.ClientID + ","; strMessages += "Please enter [VOC]/Quantity" + ","; Span16.Style["display"] = "inline-block"; break;
-                case "Gallons": strCtrlsIDs += txtGallons.ClientID + ","; strMessages += "Please enter [VOC]/Gallons" + ","; Span17.Style["display"] = "inline-block"; break;
-                case "VOC Emissions": strCtrlsIDs += txtGallons.ClientID + ","; strMessages += "Please enter [VOC]/VOC Emissions" + ","; Span18.Style["display"] = "inline-block"; break;
+                case "Year": strCtrlsIDsVOC += ddlYear.ClientID + ","; strMessagesVOC += "Please enter [VOC]/Year" + ","; Span12.Style["display"] = "inline-block"; break;
+                case "Month": strCtrlsIDsVOC += ddlMonth.ClientID + ","; strMessagesVOC += "Please enter [VOC]/Month" + ","; Span11.Style["display"] = "inline-block"; break;
+                case "Paint Category": strCtrlsIDsVOC += drpPaintCategory.ClientID + ","; strMessagesVOC += "Please enter [VOC]/Paint Category" + ","; Span13.Style["display"] = "inline-block"; break;
+                case "Item Number": strCtrlsIDsVOC += txtItemNumber.ClientID + ","; strMessagesVOC += "Please enter [VOC]/Item Number" + ","; Span14.Style["display"] = "inline-block"; break;
+                case "Unit": strCtrlsIDsVOC += txtUnit.ClientID + ","; strMessagesVOC += "Please enter [VOC]/Unit" + ","; Span15.Style["display"] = "inline-block"; break;
+                case "Quantity": strCtrlsIDsVOC += txtQuantity.ClientID + ","; strMessagesVOC += "Please enter [VOC]/Quantity" + ","; Span16.Style["display"] = "inline-block"; break;
+                case "Gallons": strCtrlsIDsVOC += txtGallons.ClientID + ","; strMessagesVOC += "Please enter [VOC]/Gallons" + ","; Span17.Style["display"] = "inline-block"; break;
+                case "VOC Emissions": strCtrlsIDsVOC += txtVOCEmissions.ClientID + ","; strMessagesVOC += "Please enter [VOC]/VOC Emissions" + ","; Span18.Style["display"] = "inline-block"; break;
             }
             #endregion
         }
+
+
 
         strCtrlsIDs = strCtrlsIDs.TrimEnd(',');
         strMessages = strMessages.TrimEnd(',');
 
         hdnControlIDs.Value = strCtrlsIDs;
         hdnErrorMsgs.Value = strMessages;
+
+        strCtrlsIDsVOC = strCtrlsIDsVOC.TrimEnd(',');
+        strMessagesVOC = strMessagesVOC.TrimEnd(',');
+
+        hdnControlIDsVOC.Value = strCtrlsIDsVOC;
+        hdnErrorMsgsVOC.Value = strMessagesVOC;
     }
     #endregion
 

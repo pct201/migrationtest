@@ -109,6 +109,17 @@
                 return false;
         }
 
+        function ValVOCSave() {
+            //            document.getElementById('ctl00_ContentPlaceHolder1_Attachment_reqAttachType').enabled = false;
+            //document.getElementById('ctl00_ContentPlaceHolder1_Attachment_reqFile').enabled = false;
+            //            document.getElementById('ctl00_ContentPlaceHolder1_Attachment_cstFile').enabled = false;
+            if (Page_ClientValidate('vsErrorGroup'))
+                if (Page_ClientValidate('vsErrorVOCGroup'))
+                    return true;
+            else
+                return false;
+        }
+
         function ValAttach() {
             //            document.getElementById('ctl00_ContentPlaceHolder1_Attachment_reqAttachType').enabled = true;
             document.getElementById('ctl00_ContentPlaceHolder1_Attachment_reqFile').enabled = true;
@@ -142,6 +153,40 @@
             var Messages = document.getElementById('<%=hdnErrorMsgs.ClientID%>').value.split(',');
             var focusCtrlID = "";
             if (document.getElementById('<%=hdnControlIDs.ClientID%>').value != "") {
+              
+                var i = 0;
+                for (i = 0; i < ctrlIDs.length; i++) {
+                    var bEmpty = false;
+                    var ctrl = document.getElementById(ctrlIDs[i]);
+                    if (ctrl != null) {
+                        switch (ctrl.type) {
+                            case "textarea":
+                            case "text": if (ctrl.value == '') bEmpty = true; break;
+                            case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
+                        }
+                    }
+                    //if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
+                    if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
+                }
+                if (msg.length > 0) {
+                    sender.errormessage = msg;
+                    args.IsValid = false;
+                }
+                else
+                    args.IsValid = true;
+            }
+            else {
+                args.IsValid = true;
+            }
+        }
+
+        function ValidateFieldsVOC(sender, args) {
+            var msg = '';
+            var ctrlIDs = document.getElementById('<%=hdnControlIDsVOC.ClientID%>').value.split(',');
+            var Messages = document.getElementById('<%=hdnErrorMsgsVOC.ClientID%>').value.split(',');
+                    var focusCtrlID = "";
+                    if (document.getElementById('<%=hdnControlIDsVOC.ClientID%>').value != "") {
+
                 var i = 0;
                 for (i = 0; i < ctrlIDs.length; i++) {
                     var bEmpty = false;
@@ -721,7 +766,7 @@
                                                             </td>
                                                             <td align="left" valign="top">
                                                                 <asp:TextBox ID="txtUnit" runat="server" Width="170px" MaxLength="50" />
-                                                                <asp:CompareValidator ID="cvUnit" runat="server" ControlToValidate="txtUnit" ValidationGroup="vsErrorGroup"
+                                                                <asp:CompareValidator ID="cvUnit" runat="server" ControlToValidate="txtUnit" ValidationGroup="vsErrorVOCGroup"
                                                                     ErrorMessage="Please Enter Unit Greater Than 0." Operator="GreaterThan" ControlToCompare="txtCompare2" Display="none">
                                                                 </asp:CompareValidator>
                                                             </td>
@@ -733,8 +778,8 @@
                                                             <td align="left" valign="top">
                                                                 <asp:TextBox ID="txtQuantity" runat="server" Width="170px" MaxLength="10" />
                                                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator3" ControlToValidate="txtQuantity" ValidationExpression="(\d+)$"
-                                                                    Display="none" ErrorMessage="Please Enter Valid Quantity." runat="server" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>
-                                                                <asp:CompareValidator ID="cvQuantity" runat="server" ControlToValidate="txtQuantity" ValidationGroup="vsErrorGroup"
+                                                                    Display="none" ErrorMessage="Please Enter Valid Quantity." runat="server" ValidationGroup="vsErrorVOCGroup"></asp:RegularExpressionValidator>
+                                                                <asp:CompareValidator ID="cvQuantity" runat="server" ControlToValidate="txtQuantity" ValidationGroup="vsErrorVOCGroup"
                                                                     ErrorMessage="Please Enter Quantity Greater Than 0." Operator="GreaterThan" ControlToCompare="txtCompare2" Display="none">
                                                                 </asp:CompareValidator>
                                                             </td>
@@ -748,7 +793,7 @@
                                                                 <asp:TextBox ID="txtGallons" runat="server" Width="170px" onpaste="return false" onkeypress="return FormatNumber(event,this.id,10 ,false);" />
                                                                 <%--     <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="txtGallons" ValidationExpression="((\d+)((\.\d{1,2})?))$"
                                                                         Display="none" ErrorMessage="Please Enter Gallons with 2 decimal places." runat="server" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>--%>
-                                                                <asp:CompareValidator ID="cvGallons" runat="server" ControlToValidate="txtGallons" ValidationGroup="vsErrorGroup"
+                                                                <asp:CompareValidator ID="cvGallons" runat="server" ControlToValidate="txtGallons" ValidationGroup="vsErrorVOCGroup"
                                                                     ErrorMessage="Please Enter Gallons Greater Than 0.00." Operator="GreaterThan" ControlToCompare="txtCompare" Display="none">
                                                                 </asp:CompareValidator>
                                                             </td>
@@ -760,14 +805,17 @@
                                                                 <asp:TextBox ID="txtVOCEmissions" runat="server" Width="170px" onpaste="return false" onkeypress="return FormatNumber(event,this.id,10 ,false);" />
                                                                 <%-- <asp:RegularExpressionValidator ID="RegularExpressionValidator2" ControlToValidate="txtVOCEmissions" ValidationExpression="((\d+)((\.\d{1,2})?))$"
                                                                         Display="none" ErrorMessage="Please Enter VOC Emissions with 2 decimal places." runat="server" ValidationGroup="vsErrorGroup"></asp:RegularExpressionValidator>--%>
-                                                                <asp:CompareValidator ID="cvVOCEmissions" runat="server" ControlToValidate="txtVOCEmissions" ValidationGroup="vsErrorGroup"
+                                                                <asp:CompareValidator ID="cvVOCEmissions" runat="server" ControlToValidate="txtVOCEmissions" ValidationGroup="vsErrorVOCGroup"
                                                                     ErrorMessage="Please Enter VOC Emissions Greater Than 0.00." Operator="GreaterThan" ControlToCompare="txtCompare" Display="none">
                                                                 </asp:CompareValidator>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td colspan="6" align="center">
-                                                                <asp:Button ID="btnSaveVOCData" OnClick="btnSaveVOCData_Click" runat="server" Text="Save"></asp:Button>&nbsp;
+                                                                <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowSummary="false" ShowMessageBox="true"
+                                                                    HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
+                                                                    ValidationGroup="vsErrorVOCGroup" CssClass="errormessage"></asp:ValidationSummary>
+                                                                <asp:Button ID="btnSaveVOCData" OnClick="btnSaveVOCData_Click" runat="server" Text="Save"  OnClientClick="return ValVOCSave();"></asp:Button>&nbsp;
                                                                 <asp:Button ID="btnVOCAuditTrail" runat="server" Text="View Audit Trail" OnClick="btnVOCAuditTrail_Click"></asp:Button>&nbsp;
                                                                 <asp:Button ID="lnkCancel" OnClick="lnkCancel_Click" runat="server" Text="Revert And Return"></asp:Button>
                                                             </td>
@@ -888,8 +936,12 @@
                 </table>
                 <asp:CustomValidator ID="CustomValidator" runat="server" ErrorMessage="" ClientValidationFunction="ValidateFields"
                     Display="None" ValidationGroup="vsErrorGroup" />
+                 <asp:CustomValidator ID="CustomValidatorvoc" runat="server" ErrorMessage="" ClientValidationFunction="ValidateFieldsVOC"
+                    Display="None" ValidationGroup="vsErrorVOCGroup" />
                 <input id="hdnControlIDs" runat="server" type="hidden" />
                 <input id="hdnErrorMsgs" runat="server" type="hidden" />
+                   <input id="hdnControlIDsVOC" runat="server" type="hidden" />
+                <input id="hdnErrorMsgsVOC" runat="server" type="hidden" />
             </td>
         </tr>
     </table>
