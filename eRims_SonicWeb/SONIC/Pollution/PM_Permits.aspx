@@ -15,7 +15,7 @@
     <style type="text/css">
         .SubTotalRowStyle {
             font-size: 10px;
-            background-image: url(../../images/TableHeader1.gif);
+            /*background-image: url(../../images/TableHeader1.gif);*/
             background-repeat: repeat-x;
             font-family: Verdana, Arial, Helvetica, sans-serif;
             background-color: #8ab2d7;

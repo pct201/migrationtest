@@ -462,16 +462,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
         return subtotalCalculate;
     }
 
-    #endregion
-
-    #region Control Events
-
-    /// <summary>
-    /// Handles Save Button click
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void btnSave_Click(object sender, EventArgs e)
+    private decimal SavePermits()
     {
         PM_Permits objPM_Permits = new PM_Permits();
         objPM_Permits.PK_PM_Permits = PK_PM_Permits;
@@ -496,6 +487,21 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
             _retVal = objPM_Permits.Update();
         else
             _retVal = PK_PM_Permits = objPM_Permits.Insert();
+        return _retVal;
+    }
+
+    #endregion
+
+    #region Control Events
+
+    /// <summary>
+    /// Handles Save Button click
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnSave_Click(object sender, EventArgs e)
+    {
+        decimal _retVal = SavePermits();
 
         if (_retVal == -2)
         {
@@ -509,6 +515,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
         Attachment.Add(clsGeneral.Pollution_Tables.PM_Permits_Attachments);
         Response.Redirect("PM_Permits.aspx?id=" + Encryption.Encrypt(_retVal.ToString()) + "&op=view" + "&loc=" + Encryption.Encrypt(Convert.ToString(FK_LU_Location_ID)) + "&fid=" + Encryption.Encrypt(Convert.ToString(FK_PM_Site_Information)));
     }
+
 
     /// <summary>
     /// Handles Edit button click Event
@@ -667,6 +674,14 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
     /// <param name="e"></param>
     protected void btnSaveVOCData_Click(object sender, EventArgs e)
     {
+        decimal _retVal = SavePermits();
+
+        if (_retVal == -2)
+        {
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('The Permits that you are trying to add already exists.');ShowPanel(1);", true);
+            return;
+        }
+
         if (PK_PM_Permits > 0)
         {
             clsPM_Permits_VOC_Emissions objPM_Permits_VOC_Emissions = new clsPM_Permits_VOC_Emissions();
