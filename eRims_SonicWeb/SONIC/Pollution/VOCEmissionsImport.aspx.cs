@@ -94,13 +94,12 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                     filename = AppConfig.strGeneralDocument + "\\" + strUploadedFile;
                     //clsPM_Permits_VOC_Emissions objVOCEmission = new clsPM_Permits_VOC_Emissions();
                     //DataTable dt = objVOCEmission.InsertData(filename).Tables[0];
-                    string paintCategory = string.Empty, subTotalText = string.Empty, subtotalTextUpdate = string.Empty, fkCategoryIds = string.Empty;
+                    string paintCategory = string.Empty, subTotalText = string.Empty, subtotalTextUpdate = string.Empty, fkCategoryIds = string.Empty,categoriIds = string.Empty;
                     int retValue = 0, fK_LU_VOC_Category = 0;
                     int month = Convert.ToInt32(ddlMonth.SelectedItem.Value);
                     int year = Convert.ToInt32(ddlYear.SelectedItem.Value);
                     string strFinal = "<ImportXML>", strFinalUpdate = "<ImportXML>";
                     decimal subTotal = 0, subtotalUpdate = 0;
-                    string categoriIds = string.Empty;
                     DataTable dt = new DataTable();
 
                     #region " CSV to DataTable "
@@ -210,9 +209,19 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
         }
         else
         {
-            Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('Selected only CSV File.');", true);
+            Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('Select only CSV File.');", true);
         }
         
+    }
+
+    /// <summary>
+    /// button Cancel Click
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("PM_Permits.aspx?id=" + Encryption.Encrypt(PK_PM_Permits.ToString()) + "&op=edit" + "&loc=" + Encryption.Encrypt(Convert.ToString(FK_LU_Location)));
     }
 
     #endregion
@@ -269,9 +278,5 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
     }
 
     #endregion
-
-    protected void btnCancel_Click(object sender, EventArgs e)
-    {
-        Response.Redirect("PM_Permits.aspx?id=" + Encryption.Encrypt(PK_PM_Permits.ToString()) + "&op=edit" + "&loc=" + Encryption.Encrypt(Convert.ToString(FK_LU_Location)));
-    }
+    
 }

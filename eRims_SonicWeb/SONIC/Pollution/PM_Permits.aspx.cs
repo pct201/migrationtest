@@ -739,6 +739,33 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
         pnlVOCView.Visible = false;
     }
 
+    /// <summary>
+    /// VOC Audit Trail Button Click Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnVOCAuditTrail_Click(object sender, EventArgs e)
+    {
+        ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:OpenVOCAuditPopUp(" + PK_PM_Permits_VOC_Emissions.ToString() + ");", true);
+    }
+
+    /// <summary>
+    /// Link Import CLick
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void lnkImport_Click(object sender, EventArgs e)
+    {
+        if (PK_PM_Permits == 0)
+        {
+            ScriptManager.RegisterStartupScript(UpdatePanel1, UpdatePanel1.GetType(), DateTime.Now.ToString(), "javascript:alert('Please Save Permit Details First');", true);
+        }
+        else
+        {
+            Response.Redirect("VOCEmissionsImport.aspx?id=" + Encryption.Encrypt(Convert.ToString(PK_PM_Permits)) + "&loc=" + Encryption.Encrypt(Convert.ToString(FK_LU_Location_ID)) + "&fid=" + Encryption.Encrypt(Convert.ToString(FK_PM_Site_Information)));
+        }
+    }
+
     #endregion
 
     #region Attachments Management
@@ -834,18 +861,6 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
     }
     #endregion
 
-    protected void lnkImport_Click(object sender, EventArgs e)
-    {
-        if (PK_PM_Permits == 0)
-        {
-            ScriptManager.RegisterStartupScript(UpdatePanel1, UpdatePanel1.GetType(), DateTime.Now.ToString(), "javascript:alert('Please Save Permit Details First');", true);
-        }
-        else
-        {
-            Response.Redirect("VOCEmissionsImport.aspx?id=" + Encryption.Encrypt(Convert.ToString(PK_PM_Permits)) + "&loc=" + Encryption.Encrypt(Convert.ToString(FK_LU_Location_ID)) + "&fid=" + Encryption.Encrypt(Convert.ToString(FK_PM_Site_Information)));
-        }
-    }
-
     /// <summary>
     /// VOC Grid Row Data Bound
     /// </summary>
@@ -871,6 +886,11 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
         }
     }
 
+    /// <summary>
+    /// Drop Down Selected Index Changed Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void drpFK_Permit_Type_SelectedIndexChanged(object sender, EventArgs e)
     {
         dvVOCGrid.Visible = false;
@@ -879,15 +899,5 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
             dvVOCGrid.Visible = true;
         }
         ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
-    }
-
-    /// <summary>
-    /// VOC Audit Trail Button Click Event
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected void btnVOCAuditTrail_Click(object sender, EventArgs e)
-    {
-        ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:OpenVOCAuditPopUp(" + PK_PM_Permits_VOC_Emissions.ToString() + ");", true);
     }
 }

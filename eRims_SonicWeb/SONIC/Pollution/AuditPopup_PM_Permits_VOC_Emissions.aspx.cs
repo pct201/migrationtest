@@ -10,7 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using ERIMS.DAL;
 
-public partial class SONIC_Pollution_AuditPopup_PM_Permits_VOC_Emissions : System.Web.UI.Page
+public partial class SONIC_Pollution_AuditPopup_PM_Permits_VOC_Emissions : clsBasePage
 {
     # region " Properties "
 
