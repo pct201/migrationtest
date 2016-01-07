@@ -131,9 +131,9 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                 {
                     foreach (DataRow dr in dt.Rows)
                     {
-                        if (!string.IsNullOrEmpty(Convert.ToString(dr["Paint_Category"])) && paintCategory.ToUpper() != (Convert.ToString(dr["Paint_Category"])).ToUpper())
+                        if (!string.IsNullOrEmpty(Convert.ToString(dr["Paint Category"])) && paintCategory.ToUpper() != (Convert.ToString(dr["Paint Category"])).ToUpper())
                         {
-                            paintCategory = Convert.ToString(dr["Paint_Category"]);
+                            paintCategory = Convert.ToString(dr["Paint Category"]);
                             paintCategory = paintCategory.Replace("\"", "");
                             fK_LU_VOC_Category = clsLU_VOC_Category.SelectByCategory(paintCategory);
                             fkCategoryIds += fK_LU_VOC_Category + ",";
@@ -144,11 +144,11 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                             }
                             else
                             {
-                                subTotalText += dr["Paint_Category"] + ",";
+                                subTotalText += dr["Paint Category"] + ",";
                             }
                         }
 
-                        string part_Number = Convert.ToString(dr["Part_Number"]);
+                        string part_Number = Convert.ToString(dr["Part Number"]);
                        
                         if ((fK_LU_VOC_Category > 0) && !string.IsNullOrEmpty(part_Number))
                         {
@@ -161,12 +161,12 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
 
                         if (retValue == 1 && !string.IsNullOrEmpty(part_Number))
                         {
-                            strFinal = strFinal + "<Section><FK_PM_Permits>" + PK_PM_Permits + "</FK_PM_Permits><Year>" + year + "</Year><Month>" + month + "</Month><Paint_Category>" + fK_LU_VOC_Category + "</Paint_Category><Part_Number>" + Convert.ToString(dr["Part_Number"]) + "</Part_Number><Unit>" + Convert.ToString(dr["Unit"]).Replace("\"", "") + "</Unit><Quantity>" + clsGeneral.GetDecimal(dr["Quantity"]) + "</Quantity><Gallons>" + clsGeneral.GetDecimal(dr["Gallons"]) + "</Gallons><VOC_Emissions>" + clsGeneral.GetDecimal(dr["VOC_Total"]) + "</VOC_Emissions><Updated_By>" + clsSession.UserID + "</Updated_By></Section>";
+                            strFinal = strFinal + "<Section><FK_PM_Permits>" + PK_PM_Permits + "</FK_PM_Permits><Year>" + year + "</Year><Month>" + month + "</Month><Paint_Category>" + fK_LU_VOC_Category + "</Paint_Category><Part_Number>" + Convert.ToString(dr["Part Number"]) + "</Part_Number><Unit>" + Convert.ToString(dr["Unit"]).Replace("\"", "") + "</Unit><Quantity>" + clsGeneral.GetDecimal(dr["Qty"]) + "</Quantity><Gallons>" + clsGeneral.GetDecimal(dr["Gallons"]) + "</Gallons><VOC_Emissions>" + clsGeneral.GetDecimal(dr["VOC Total"]) + "</VOC_Emissions><Updated_By>" + clsSession.UserID + "</Updated_By></Section>";
                         }
 
                         if (retValue == 2 && !string.IsNullOrEmpty(part_Number))
                         {
-                            strFinalUpdate = strFinalUpdate + "<Section><FK_PM_Permits>" + PK_PM_Permits + "</FK_PM_Permits><Year>" + year + "</Year><Month>" + month + "</Month><Paint_Category>" + fK_LU_VOC_Category + "</Paint_Category><Part_Number>" + Convert.ToString(dr["Part_Number"]) + "</Part_Number><Unit>" + Convert.ToString(dr["Unit"]).Replace("\"", "") + "</Unit><Quantity>" + clsGeneral.GetDecimal(dr["Quantity"]) + "</Quantity><Gallons>" + clsGeneral.GetDecimal(dr["Gallons"]) + "</Gallons><VOC_Emissions>" + clsGeneral.GetDecimal(dr["VOC_Total"]) + "</VOC_Emissions><Updated_By>" + clsSession.UserID + "</Updated_By></Section>";
+                            strFinalUpdate = strFinalUpdate + "<Section><FK_PM_Permits>" + PK_PM_Permits + "</FK_PM_Permits><Year>" + year + "</Year><Month>" + month + "</Month><Paint_Category>" + fK_LU_VOC_Category + "</Paint_Category><Part_Number>" + Convert.ToString(dr["Part Number"]) + "</Part_Number><Unit>" + Convert.ToString(dr["Unit"]).Replace("\"", "") + "</Unit><Quantity>" + clsGeneral.GetDecimal(dr["Qty"]) + "</Quantity><Gallons>" + clsGeneral.GetDecimal(dr["Gallons"]) + "</Gallons><VOC_Emissions>" + clsGeneral.GetDecimal(dr["VOC Total"]) + "</VOC_Emissions><Updated_By>" + clsSession.UserID + "</Updated_By></Section>";
                         }
 
                     }
