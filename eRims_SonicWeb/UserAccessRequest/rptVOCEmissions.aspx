@@ -59,7 +59,7 @@
         </tr>
         <tr runat="server" id="trCriteria">
             <td align="center" width="100%">
-                <table border="0" cellpadding="5" cellspacing="1" width="45%" align="center">
+                <table border="0" cellpadding="5" cellspacing="1" width="50%" align="center">
                     <tr>
                         <td align="left" valign="top" width="40%">Start Date &nbsp;<span style="color: Red; font-weight: bold;">*</span>
                         </td>
@@ -106,7 +106,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>&nbsp;</td>
+                        <td colspan="3">&nbsp;</td>
                     </tr>
                     <tr>
                         <td colspan="3" align="center">
