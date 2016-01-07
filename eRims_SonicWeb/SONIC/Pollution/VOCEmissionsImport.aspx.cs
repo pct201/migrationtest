@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ERIMS.DAL;
+using Microsoft.VisualBasic.FileIO;
 
 public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
 {
@@ -89,8 +90,8 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
             if (fpFile.HasFile)
             {
                 filename = AppConfig.strGeneralDocument + "\\" + strUploadedFile;
-                clsPM_Permits_VOC_Emissions objVOCEmission = new clsPM_Permits_VOC_Emissions();
-                DataTable dt = objVOCEmission.InsertData(filename).Tables[0];
+                //clsPM_Permits_VOC_Emissions objVOCEmission = new clsPM_Permits_VOC_Emissions();
+                //DataTable dt = objVOCEmission.InsertData(filename).Tables[0];
                 string paintCategory = string.Empty, subTotalText = string.Empty, subtotalTextUpdate = string.Empty, fkCategoryIds = string.Empty;
                 int retValue = 0, fK_LU_VOC_Category = 0;
                 int month = Convert.ToInt32(ddlMonth.SelectedItem.Value);
@@ -98,6 +99,33 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                 string strFinal = "<ImportXML>", strFinalUpdate = "<ImportXML>";
                 decimal subTotal = 0, subtotalUpdate = 0;
                 string categoriIds = string.Empty;
+                DataTable dt = new DataTable();
+
+                StreamReader reader = new StreamReader(filename);
+                using (TextFieldParser csvReader = new TextFieldParser(reader))
+                {
+                    csvReader.SetDelimiters(new string[] { "," });
+                    csvReader.HasFieldsEnclosedInQuotes = true;
+                    string [] fields = csvReader.ReadFields();
+                    foreach(string column in fields)
+                    {
+                        dt.Columns.Add(column);
+                    }
+                    while (!csvReader.EndOfData)
+                    {
+                        fields = csvReader.ReadFields();
+                        int colIndex = 0;
+                        DataRow dr = dt.NewRow();
+                        foreach (string fieldValue in fields)
+                        {
+                            
+                            dr[colIndex] = fieldValue;
+                            colIndex++;
+                        }
+                        dt.Rows.Add(dr);
+                    }
+
+                }
 
                 if (dt != null && dt.Rows.Count > 0)
                 {
