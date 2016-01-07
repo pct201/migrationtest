@@ -408,11 +408,6 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "Year", DbType.Decimal, this._Year);
 
-            if (string.IsNullOrEmpty(this._SubTotal_Text))
-                db.AddInParameter(dbCommand, "SubTotal_Text", DbType.String, DBNull.Value);
-            else
-                db.AddInParameter(dbCommand, "SubTotal_Text", DbType.String, this._SubTotal_Text);
-
             db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
 
             if (string.IsNullOrEmpty(this._Updated_By))

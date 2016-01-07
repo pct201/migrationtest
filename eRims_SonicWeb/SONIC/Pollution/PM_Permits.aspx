@@ -128,9 +128,9 @@
             return false;
         }
 
-        function OpenVOCAuditPopUp(id) {            
+        function OpenVOCAuditPopUp(id) {
             var winHeight = window.screen.availHeight - 400;
-            var winWidth = window.screen.availWidth - 500;            
+            var winWidth = window.screen.availWidth - 500;
             obj = window.open('AuditPopup_PM_Permits_VOC_Emissions.aspx?id=' + id, 'AuditPopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
             obj.focus();
             return false;
@@ -853,35 +853,35 @@
                                                     </table>
                                                     <%--</div>--%>
                                                 </asp:Panel>
-                                            </ContentTemplate>
+                                                 </ContentTemplate>
                                         </asp:UpdatePanel>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>&nbsp;
-                                    </td>
-                                    <td align="center">
-                                        <div id="dvSave" runat="server">
-                                            <table cellpadding="5" cellspacing="0" border="0" width="100%">
-                                                <tr>
-                                                    <td width="60%" align="right">
-                                                        <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
-                                                            HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
-                                                            ValidationGroup="vsErrorGroup" CssClass="errormessage"></asp:ValidationSummary>
-                                                        <asp:Button ID="btnSave" runat="server" Text="Save & View" OnClick="btnSave_Click"
-                                                            CausesValidation="true" ValidationGroup="vsErrorGroup" OnClientClick="return ValSave();" />
-                                                        <asp:Button ID="btnEdit" runat="server" Visible="false" Text="  Edit  " OnClick="btnEdit_Click" />
-                                                        <asp:Button runat="server" ID="btnAuditTrail" Text="View Audit Trail" CausesValidation="false"
-                                                            Visible="true" OnClientClick="javascript:return OpenAuditPopUp();" />
-                                                        <asp:Button ID="btnBack" runat="server" Text=" Back " OnClick="btnBack_Click" />
-                                                    </td>
-                                                    <td align="left">&nbsp;
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </td>
-                                </tr>
+                                </td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;
+                                            </td>
+                                            <td align="center">
+                                                <div id="dvSave" runat="server">
+                                                    <table cellpadding="5" cellspacing="0" border="0" width="100%">
+                                                        <tr>
+                                                            <td width="60%" align="right">
+                                                                <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
+                                                                    HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
+                                                                    ValidationGroup="vsErrorGroup" CssClass="errormessage"></asp:ValidationSummary>
+                                                                <asp:Button ID="btnSave" runat="server" Text="Save & View" OnClick="btnSave_Click"
+                                                                    CausesValidation="true" ValidationGroup="vsErrorGroup" OnClientClick="return ValSave();" />
+                                                                <asp:Button ID="btnEdit" runat="server" Visible="false" Text="  Edit  " OnClick="btnEdit_Click" />
+                                                                <asp:Button runat="server" ID="btnAuditTrail" Text="View Audit Trail" CausesValidation="false"
+                                                                    Visible="true" OnClientClick="javascript:return OpenAuditPopUp();" />
+                                                                <asp:Button ID="btnBack" runat="server" Text=" Back " OnClick="btnBack_Click" />
+                                                            </td>
+                                                            <td align="left">&nbsp;
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        </tr>
                             </table>
                         </td>
                     </tr>
@@ -890,4 +890,7 @@
                     Display="None" ValidationGroup="vsErrorGroup" />
                 <input id="hdnControlIDs" runat="server" type="hidden" />
                 <input id="hdnErrorMsgs" runat="server" type="hidden" />
+            </td>
+        </tr>
+    </table>
 </asp:Content>

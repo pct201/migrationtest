@@ -97,6 +97,7 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                 int year = Convert.ToInt32(ddlYear.SelectedItem.Value);
                 string strFinal = "<ImportXML>", strFinalUpdate = "<ImportXML>";
                 decimal subTotal = 0, subtotalUpdate = 0;
+                string categoriIds = string.Empty;
 
                 if (dt != null && dt.Rows.Count > 0)
                 {
@@ -108,16 +109,20 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
                             paintCategory = paintCategory.Replace("\"", "");
                             fK_LU_VOC_Category = clsLU_VOC_Category.SelectByCategory(paintCategory);
                             fkCategoryIds += fK_LU_VOC_Category + ",";
-                            subTotalText = subtotalTextUpdate = string.Empty;
                             subTotal = subtotalUpdate = 0;
+                            if(fK_LU_VOC_Category > 0)
+                            {
+                                categoriIds += fK_LU_VOC_Category + ",";
+                            }
+                            else
+                            {
+                                subTotalText += dr["Paint_Category"] + ",";
+                            }
                         }
 
                         string part_Number = Convert.ToString(dr["Part_Number"]);
-                        if (fK_LU_VOC_Category == 0)
-                        {
-                            retValue = 0;
-                        }
-                        else if ((fK_LU_VOC_Category > 0) && !string.IsNullOrEmpty(part_Number))
+                       
+                        if ((fK_LU_VOC_Category > 0) && !string.IsNullOrEmpty(part_Number))
                         {
                             retValue = clsPM_Permits_VOC_Emissions.CheckRecord(month, year, fK_LU_VOC_Category, FK_LU_Location, PK_PM_Permits, part_Number);
                         }
@@ -128,51 +133,31 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
 
                         if (retValue == 1 && !string.IsNullOrEmpty(part_Number))
                         {
-                            subTotal = subTotal + clsGeneral.GetDecimal(dr["Gallons"]) * clsGeneral.GetDecimal(dr["Quantity"]);
-                            if (!string.IsNullOrEmpty(subTotalText))
-                            {
-                                strFinal = strFinal.Replace(">" + subTotalText + "<", ">" + paintCategory + subTotal + "<");
-                            }
-
-                            subTotalText = paintCategory + subTotal;
-                            strFinal = strFinal + "<Section><FK_PM_Permits>" + PK_PM_Permits + "</FK_PM_Permits><Year>" + year + "</Year><Month>" + month + "</Month><Paint_Category>" + fK_LU_VOC_Category + "</Paint_Category><Part_Number>" + Convert.ToString(dr["Part_Number"]) + "</Part_Number><Unit>" + Convert.ToString(dr["Unit"]).Replace("\"", "") + "</Unit><Quantity>" + clsGeneral.GetDecimal(dr["Quantity"]) + "</Quantity><Gallons>" + clsGeneral.GetDecimal(dr["Gallons"]) + "</Gallons><VOC_Emissions>" + clsGeneral.GetDecimal(dr["VOC_Total"]) + "</VOC_Emissions><SubTotal_Text>" + subTotalText + "</SubTotal_Text><Updated_By>" + clsSession.UserID + "</Updated_By></Section>";
-                            clsPM_Permits_VOC_Emissions.UpdateSubTotal(subTotalText, fK_LU_VOC_Category, PK_PM_Permits, month, year, Convert.ToString(DateTime.Now), Convert.ToString(clsSession.UserID));
+                            strFinal = strFinal + "<Section><FK_PM_Permits>" + PK_PM_Permits + "</FK_PM_Permits><Year>" + year + "</Year><Month>" + month + "</Month><Paint_Category>" + fK_LU_VOC_Category + "</Paint_Category><Part_Number>" + Convert.ToString(dr["Part_Number"]) + "</Part_Number><Unit>" + Convert.ToString(dr["Unit"]).Replace("\"", "") + "</Unit><Quantity>" + clsGeneral.GetDecimal(dr["Quantity"]) + "</Quantity><Gallons>" + clsGeneral.GetDecimal(dr["Gallons"]) + "</Gallons><VOC_Emissions>" + clsGeneral.GetDecimal(dr["VOC_Total"]) + "</VOC_Emissions><Updated_By>" + clsSession.UserID + "</Updated_By></Section>";
                         }
 
                         if (retValue == 2 && !string.IsNullOrEmpty(part_Number))
                         {
-                            subtotalUpdate = subtotalUpdate + clsGeneral.GetDecimal(dr["Gallons"]) * clsGeneral.GetDecimal(dr["Quantity"]);
-                            if (!string.IsNullOrEmpty(subtotalTextUpdate))
-                            {
-                                strFinalUpdate = strFinalUpdate.Replace(">" + subtotalTextUpdate + "<", ">" + paintCategory + subtotalUpdate + "<");
-                            }
-
-                            subtotalTextUpdate = paintCategory + subtotalUpdate;
-                            strFinalUpdate = strFinalUpdate + "<Section><FK_PM_Permits>" + PK_PM_Permits + "</FK_PM_Permits><Year>" + year + "</Year><Month>" + month + "</Month><Paint_Category>" + fK_LU_VOC_Category + "</Paint_Category><Part_Number>" + Convert.ToString(dr["Part_Number"]) + "</Part_Number><Unit>" + Convert.ToString(dr["Unit"]).Replace("\"", "") + "</Unit><Quantity>" + clsGeneral.GetDecimal(dr["Quantity"]) + "</Quantity><Gallons>" + clsGeneral.GetDecimal(dr["Gallons"]) + "</Gallons><VOC_Emissions>" + clsGeneral.GetDecimal(dr["VOC_Total"]) + "</VOC_Emissions><SubTotal_Text>" + subtotalTextUpdate + "</SubTotal_Text><Updated_By>" + clsSession.UserID + "</Updated_By></Section>";
-                            clsPM_Permits_VOC_Emissions.UpdateSubTotal(subtotalTextUpdate, fK_LU_VOC_Category, PK_PM_Permits, month, year, Convert.ToString(DateTime.Now), Convert.ToString(clsSession.UserID));
+                            strFinalUpdate = strFinalUpdate + "<Section><FK_PM_Permits>" + PK_PM_Permits + "</FK_PM_Permits><Year>" + year + "</Year><Month>" + month + "</Month><Paint_Category>" + fK_LU_VOC_Category + "</Paint_Category><Part_Number>" + Convert.ToString(dr["Part_Number"]) + "</Part_Number><Unit>" + Convert.ToString(dr["Unit"]).Replace("\"", "") + "</Unit><Quantity>" + clsGeneral.GetDecimal(dr["Quantity"]) + "</Quantity><Gallons>" + clsGeneral.GetDecimal(dr["Gallons"]) + "</Gallons><VOC_Emissions>" + clsGeneral.GetDecimal(dr["VOC_Total"]) + "</VOC_Emissions><Updated_By>" + clsSession.UserID + "</Updated_By></Section>";
                         }
+
                     }
 
                     strFinal += "</ImportXML>";
                     strFinalUpdate += "</ImportXML>";
                     clsPM_Permits_VOC_Emissions.ImportXML(strFinal, strFinalUpdate);
 
-                    if (!string.IsNullOrEmpty(fkCategoryIds))
+                    if (!string.IsNullOrEmpty(categoriIds) && categoriIds.Contains(","))
                     {
-                        string[] splitCategories = fkCategoryIds.Split(',');
-
-                        foreach (string categoryId in splitCategories)
+                        string[] voc_Category = categoriIds.Split(',');
+                        string[] subTotalTextData = subTotalText.Split(',');
+                        int count = 0;
+                        foreach (string voc_categoryId in voc_Category)
                         {
-                            if (!string.IsNullOrEmpty(categoryId) && categoryId != "0")
+                            if(!string.IsNullOrEmpty(voc_categoryId))
                             {
-                                clsPM_Permits_VOC_Emissions objPM_Permits_VOC_Emissions = new clsPM_Permits_VOC_Emissions();
-                                objPM_Permits_VOC_Emissions.PK_PM_Permits_VOC_Emissions = PK_PM_Permits_VOC_Emissions;
-                                objPM_Permits_VOC_Emissions.FK_LU_VOC_Category = Convert.ToDecimal(categoryId);
-                                objPM_Permits_VOC_Emissions.Month = month;
-                                objPM_Permits_VOC_Emissions.Year = year;
-                                DataTable dtVOC = objPM_Permits_VOC_Emissions.SelectByFK(PK_PM_Permits).Tables[0];
-                                subTotalText = subtotalTextUpdate = new clsLU_VOC_Category((decimal)objPM_Permits_VOC_Emissions.FK_LU_VOC_Category).Category + (GetSubTotal(dtVOC)).ToString();
-                                clsPM_Permits_VOC_Emissions.UpdateSubTotal(subTotalText, objPM_Permits_VOC_Emissions.FK_LU_VOC_Category.Value, PK_PM_Permits, month, year, Convert.ToString(DateTime.Now), Convert.ToString(clsSession.UserID));
+                                clsPM_Permits_VOC_Emissions.UpdateSubTotal(subTotalTextData[count], Convert.ToInt32(voc_categoryId), PK_PM_Permits, month, year, Convert.ToString(DateTime.Now), Convert.ToString(clsSession.UserID));
+                                count++;
                             }
                         }
                     }

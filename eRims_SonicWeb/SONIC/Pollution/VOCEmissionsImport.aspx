@@ -46,7 +46,7 @@
                         <td width="4%" align="center">:
                         </td>
                         <td>
-                            <asp:DropDownList ID="ddlMonth" width="175px" runat="server" SkinID="dropGen" AutoPostBack="true"> </asp:DropDownList>
+                            <asp:DropDownList ID="ddlMonth" width="175px" runat="server" SkinID="dropGen"> </asp:DropDownList>
                              <asp:RequiredFieldValidator ControlToValidate="ddlMonth" ID="rfvMonth" Display="None"
                                 ValidationGroup="vsErrorGroup" ErrorMessage="Please select Month" InitialValue="0" runat="server">
                             </asp:RequiredFieldValidator>
