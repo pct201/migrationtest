@@ -906,6 +906,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
     protected void drpFK_Permit_Type_SelectedIndexChanged(object sender, EventArgs e)
     {
         dvVOCGrid.Visible = false;
+        pnlVOCEdit.Visible = false;
         if (drpFK_Permit_Type.SelectedIndex > 0 && drpFK_Permit_Type.SelectedItem.Text.ToUpper() == "AIR PERMIT")
         {
             dvVOCGrid.Visible = true;

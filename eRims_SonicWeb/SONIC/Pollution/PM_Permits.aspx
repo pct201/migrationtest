@@ -116,8 +116,8 @@
             if (Page_ClientValidate('vsErrorGroup'))
                 if (Page_ClientValidate('vsErrorVOCGroup'))
                     return true;
-            else
-                return false;
+                else
+                    return false;
         }
 
         function ValAttach() {
@@ -153,7 +153,7 @@
             var Messages = document.getElementById('<%=hdnErrorMsgs.ClientID%>').value.split(',');
             var focusCtrlID = "";
             if (document.getElementById('<%=hdnControlIDs.ClientID%>').value != "") {
-              
+
                 var i = 0;
                 for (i = 0; i < ctrlIDs.length; i++) {
                     var bEmpty = false;
@@ -184,34 +184,34 @@
             var msg = '';
             var ctrlIDs = document.getElementById('<%=hdnControlIDsVOC.ClientID%>').value.split(',');
             var Messages = document.getElementById('<%=hdnErrorMsgsVOC.ClientID%>').value.split(',');
-                    var focusCtrlID = "";
-                    if (document.getElementById('<%=hdnControlIDsVOC.ClientID%>').value != "") {
+            var focusCtrlID = "";
+            if (document.getElementById('<%=hdnControlIDsVOC.ClientID%>').value != "") {
 
-                var i = 0;
-                for (i = 0; i < ctrlIDs.length; i++) {
-                    var bEmpty = false;
-                    var ctrl = document.getElementById(ctrlIDs[i]);
-                    if (ctrl != null) {
-                        switch (ctrl.type) {
-                            case "textarea":
-                            case "text": if (ctrl.value == '') bEmpty = true; break;
-                            case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
+                        var i = 0;
+                        for (i = 0; i < ctrlIDs.length; i++) {
+                            var bEmpty = false;
+                            var ctrl = document.getElementById(ctrlIDs[i]);
+                            if (ctrl != null) {
+                                switch (ctrl.type) {
+                                    case "textarea":
+                                    case "text": if (ctrl.value == '') bEmpty = true; break;
+                                    case "select-one": if (ctrl.selectedIndex == 0) bEmpty = true; break;
+                                }
+                            }
+                            //if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
+                            if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
                         }
+                        if (msg.length > 0) {
+                            sender.errormessage = msg;
+                            args.IsValid = false;
+                        }
+                        else
+                            args.IsValid = true;
                     }
-                    //if (bEmpty && focusCtrlID == "") focusCtrlID = ctrlIDs[i];
-                    if (bEmpty) msg += (msg.length > 0 ? "- " : "") + Messages[i] + "\n";
+                    else {
+                        args.IsValid = true;
+                    }
                 }
-                if (msg.length > 0) {
-                    sender.errormessage = msg;
-                    args.IsValid = false;
-                }
-                else
-                    args.IsValid = true;
-            }
-            else {
-                args.IsValid = true;
-            }
-        }
 
     </script>
     <table cellpadding="0" cellspacing="0" width="100%">
@@ -812,10 +812,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td colspan="6" align="center">
-                                                                <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowSummary="false" ShowMessageBox="true"
-                                                                    HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
-                                                                    ValidationGroup="vsErrorVOCGroup" CssClass="errormessage"></asp:ValidationSummary>
-                                                                <asp:Button ID="btnSaveVOCData" OnClick="btnSaveVOCData_Click" runat="server" Text="Save"  OnClientClick="return ValVOCSave();"></asp:Button>&nbsp;
+                                                                <asp:Button ID="btnSaveVOCData" OnClick="btnSaveVOCData_Click" runat="server" Text="Save" OnClientClick="return ValVOCSave();"></asp:Button>&nbsp;
                                                                 <asp:Button ID="btnVOCAuditTrail" runat="server" Text="View Audit Trail" OnClick="btnVOCAuditTrail_Click"></asp:Button>&nbsp;
                                                                 <asp:Button ID="lnkCancel" OnClick="lnkCancel_Click" runat="server" Text="Revert And Return"></asp:Button>
                                                             </td>
@@ -901,47 +898,50 @@
                                                     </table>
                                                     <%--</div>--%>
                                                 </asp:Panel>
-                                                 </ContentTemplate>
+                                            </ContentTemplate>
                                         </asp:UpdatePanel>
-                                </td>
-                                        </tr>
-                                        <tr>
-                                            <td>&nbsp;
-                                            </td>
-                                            <td align="center">
-                                                <div id="dvSave" runat="server">
-                                                    <table cellpadding="5" cellspacing="0" border="0" width="100%">
-                                                        <tr>
-                                                            <td width="60%" align="right">
-                                                                <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
-                                                                    HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
-                                                                    ValidationGroup="vsErrorGroup" CssClass="errormessage"></asp:ValidationSummary>
-                                                                <asp:Button ID="btnSave" runat="server" Text="Save & View" OnClick="btnSave_Click"
-                                                                    CausesValidation="true" ValidationGroup="vsErrorGroup" OnClientClick="return ValSave();" />
-                                                                <asp:Button ID="btnEdit" runat="server" Visible="false" Text="  Edit  " OnClick="btnEdit_Click" />
-                                                                <asp:Button runat="server" ID="btnAuditTrail" Text="View Audit Trail" CausesValidation="false"
-                                                                    Visible="true" OnClientClick="javascript:return OpenAuditPopUp();" />
-                                                                <asp:Button ID="btnBack" runat="server" Text=" Back " OnClick="btnBack_Click" />
-                                                            </td>
-                                                            <td align="left">&nbsp;
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;
+                                    </td>
+                                    <td align="center">
+                                        <div id="dvSave" runat="server">
+                                            <table cellpadding="5" cellspacing="0" border="0" width="100%">
+                                                <tr>
+                                                    <td width="60%" align="right">
+                                                        <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
+                                                            HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
+                                                            ValidationGroup="vsErrorGroup" CssClass="errormessage"></asp:ValidationSummary>
+                                                        <asp:Button ID="btnSave" runat="server" Text="Save & View" OnClick="btnSave_Click"
+                                                            CausesValidation="true" ValidationGroup="vsErrorGroup" OnClientClick="return ValSave();" />
+                                                        <asp:Button ID="btnEdit" runat="server" Visible="false" Text="  Edit  " OnClick="btnEdit_Click" />
+                                                        <asp:Button runat="server" ID="btnAuditTrail" Text="View Audit Trail" CausesValidation="false"
+                                                            Visible="true" OnClientClick="javascript:return OpenAuditPopUp();" />
+                                                        <asp:Button ID="btnBack" runat="server" Text=" Back " OnClick="btnBack_Click" />
+                                                    </td>
+                                                    <td align="left">&nbsp;
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
                             </table>
                         </td>
                     </tr>
                 </table>
                 <asp:CustomValidator ID="CustomValidator" runat="server" ErrorMessage="" ClientValidationFunction="ValidateFields"
                     Display="None" ValidationGroup="vsErrorGroup" />
-                 <asp:CustomValidator ID="CustomValidatorvoc" runat="server" ErrorMessage="" ClientValidationFunction="ValidateFieldsVOC"
+                <asp:CustomValidator ID="CustomValidatorvoc" runat="server" ErrorMessage="" ClientValidationFunction="ValidateFieldsVOC"
                     Display="None" ValidationGroup="vsErrorVOCGroup" />
                 <input id="hdnControlIDs" runat="server" type="hidden" />
                 <input id="hdnErrorMsgs" runat="server" type="hidden" />
-                   <input id="hdnControlIDsVOC" runat="server" type="hidden" />
+                <input id="hdnControlIDsVOC" runat="server" type="hidden" />
                 <input id="hdnErrorMsgsVOC" runat="server" type="hidden" />
+                <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowSummary="false" ShowMessageBox="true"
+                    HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
+                    ValidationGroup="vsErrorVOCGroup" CssClass="errormessage"></asp:ValidationSummary>
             </td>
         </tr>
     </table>
