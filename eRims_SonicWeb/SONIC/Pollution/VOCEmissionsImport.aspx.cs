@@ -83,126 +83,136 @@ public partial class SONIC_Exposures_VOCEmissionsImport : clsBasePage
     /// <param name="e"></param>
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
-        string filename = string.Empty;
-        string strUploadedFile = clsGeneral.UploadFile(fpFile, AppConfig.strGeneralDocument, Session.SessionID, false, false);
-        try
+        if (fpFile.FileName.ToLower().Trim().EndsWith(".csv"))
         {
-            if (fpFile.HasFile)
+            string filename = string.Empty;
+            string strUploadedFile = clsGeneral.UploadFile(fpFile, AppConfig.strGeneralDocument, Session.SessionID, false, false);
+            try
             {
-                filename = AppConfig.strGeneralDocument + "\\" + strUploadedFile;
-                //clsPM_Permits_VOC_Emissions objVOCEmission = new clsPM_Permits_VOC_Emissions();
-                //DataTable dt = objVOCEmission.InsertData(filename).Tables[0];
-                string paintCategory = string.Empty, subTotalText = string.Empty, subtotalTextUpdate = string.Empty, fkCategoryIds = string.Empty;
-                int retValue = 0, fK_LU_VOC_Category = 0;
-                int month = Convert.ToInt32(ddlMonth.SelectedItem.Value);
-                int year = Convert.ToInt32(ddlYear.SelectedItem.Value);
-                string strFinal = "<ImportXML>", strFinalUpdate = "<ImportXML>";
-                decimal subTotal = 0, subtotalUpdate = 0;
-                string categoriIds = string.Empty;
-                DataTable dt = new DataTable();
-
-                StreamReader reader = new StreamReader(filename);
-                using (TextFieldParser csvReader = new TextFieldParser(reader))
+                if (fpFile.HasFile)
                 {
-                    csvReader.SetDelimiters(new string[] { "," });
-                    csvReader.HasFieldsEnclosedInQuotes = true;
-                    string [] fields = csvReader.ReadFields();
-                    foreach(string column in fields)
+                    filename = AppConfig.strGeneralDocument + "\\" + strUploadedFile;
+                    //clsPM_Permits_VOC_Emissions objVOCEmission = new clsPM_Permits_VOC_Emissions();
+                    //DataTable dt = objVOCEmission.InsertData(filename).Tables[0];
+                    string paintCategory = string.Empty, subTotalText = string.Empty, subtotalTextUpdate = string.Empty, fkCategoryIds = string.Empty;
+                    int retValue = 0, fK_LU_VOC_Category = 0;
+                    int month = Convert.ToInt32(ddlMonth.SelectedItem.Value);
+                    int year = Convert.ToInt32(ddlYear.SelectedItem.Value);
+                    string strFinal = "<ImportXML>", strFinalUpdate = "<ImportXML>";
+                    decimal subTotal = 0, subtotalUpdate = 0;
+                    string categoriIds = string.Empty;
+                    DataTable dt = new DataTable();
+
+                    #region " CSV to DataTable "
+                    StreamReader reader = new StreamReader(filename);
+                    using (TextFieldParser csvReader = new TextFieldParser(reader))
                     {
-                        dt.Columns.Add(column);
-                    }
-                    while (!csvReader.EndOfData)
-                    {
-                        fields = csvReader.ReadFields();
-                        int colIndex = 0;
-                        DataRow dr = dt.NewRow();
-                        foreach (string fieldValue in fields)
+                        csvReader.SetDelimiters(new string[] { "," });
+                        csvReader.HasFieldsEnclosedInQuotes = true;
+                        string[] fields = csvReader.ReadFields();
+                        foreach (string column in fields)
                         {
-                            
-                            dr[colIndex] = fieldValue;
-                            colIndex++;
+                            dt.Columns.Add(column);
                         }
-                        dt.Rows.Add(dr);
-                    }
-
-                }
-
-                if (dt != null && dt.Rows.Count > 0)
-                {
-                    foreach (DataRow dr in dt.Rows)
-                    {
-                        if (!string.IsNullOrEmpty(Convert.ToString(dr["Paint Category"])) && paintCategory.ToUpper() != (Convert.ToString(dr["Paint Category"])).ToUpper())
+                        while (!csvReader.EndOfData)
                         {
-                            paintCategory = Convert.ToString(dr["Paint Category"]);
-                            paintCategory = paintCategory.Replace("\"", "");
-                            fK_LU_VOC_Category = clsLU_VOC_Category.SelectByCategory(paintCategory);
-                            fkCategoryIds += fK_LU_VOC_Category + ",";
-                            subTotal = subtotalUpdate = 0;
-                            if(fK_LU_VOC_Category > 0)
+                            fields = csvReader.ReadFields();
+                            int colIndex = 0;
+                            DataRow dr = dt.NewRow();
+                            foreach (string fieldValue in fields)
                             {
-                                categoriIds += fK_LU_VOC_Category + ",";
+
+                                dr[colIndex] = fieldValue;
+                                colIndex++;
+                            }
+                            dt.Rows.Add(dr);
+                        }
+
+                    }
+                    #endregion
+
+                    if (dt != null && dt.Rows.Count > 0)
+                    {
+                        foreach (DataRow dr in dt.Rows)
+                        {
+                            if (!string.IsNullOrEmpty(Convert.ToString(dr["Paint Category"])) && paintCategory.ToUpper() != (Convert.ToString(dr["Paint Category"])).ToUpper())
+                            {
+                                paintCategory = Convert.ToString(dr["Paint Category"]);
+                                paintCategory = paintCategory.Replace("\"", "");
+                                fK_LU_VOC_Category = clsLU_VOC_Category.SelectByCategory(paintCategory);
+                                fkCategoryIds += fK_LU_VOC_Category + ",";
+                                subTotal = subtotalUpdate = 0;
+                                if (fK_LU_VOC_Category > 0)
+                                {
+                                    categoriIds += fK_LU_VOC_Category + ",";
+                                }
+                                else
+                                {
+                                    subTotalText += dr["Paint Category"] + ",";
+                                }
+                            }
+
+                            string part_Number = Convert.ToString(dr["Part Number"]);
+
+                            if ((fK_LU_VOC_Category > 0) && !string.IsNullOrEmpty(part_Number))
+                            {
+                                retValue = clsPM_Permits_VOC_Emissions.CheckRecord(month, year, fK_LU_VOC_Category, FK_LU_Location, PK_PM_Permits, part_Number);
                             }
                             else
                             {
-                                subTotalText += dr["Paint Category"] + ",";
+                                retValue = 0;
                             }
-                        }
 
-                        string part_Number = Convert.ToString(dr["Part Number"]);
-                       
-                        if ((fK_LU_VOC_Category > 0) && !string.IsNullOrEmpty(part_Number))
-                        {
-                            retValue = clsPM_Permits_VOC_Emissions.CheckRecord(month, year, fK_LU_VOC_Category, FK_LU_Location, PK_PM_Permits, part_Number);
-                        }
-                        else
-                        {
-                            retValue = 0;
-                        }
-
-                        if (retValue == 1 && !string.IsNullOrEmpty(part_Number))
-                        {
-                            strFinal = strFinal + "<Section><FK_PM_Permits>" + PK_PM_Permits + "</FK_PM_Permits><Year>" + year + "</Year><Month>" + month + "</Month><Paint_Category>" + fK_LU_VOC_Category + "</Paint_Category><Part_Number>" + Convert.ToString(dr["Part Number"]) + "</Part_Number><Unit>" + Convert.ToString(dr["Unit"]).Replace("\"", "") + "</Unit><Quantity>" + clsGeneral.GetDecimal(dr["Qty"]) + "</Quantity><Gallons>" + clsGeneral.GetDecimal(dr["Gallons"]) + "</Gallons><VOC_Emissions>" + clsGeneral.GetDecimal(dr["VOC Total"]) + "</VOC_Emissions><Updated_By>" + clsSession.UserID + "</Updated_By></Section>";
-                        }
-
-                        if (retValue == 2 && !string.IsNullOrEmpty(part_Number))
-                        {
-                            strFinalUpdate = strFinalUpdate + "<Section><FK_PM_Permits>" + PK_PM_Permits + "</FK_PM_Permits><Year>" + year + "</Year><Month>" + month + "</Month><Paint_Category>" + fK_LU_VOC_Category + "</Paint_Category><Part_Number>" + Convert.ToString(dr["Part Number"]) + "</Part_Number><Unit>" + Convert.ToString(dr["Unit"]).Replace("\"", "") + "</Unit><Quantity>" + clsGeneral.GetDecimal(dr["Qty"]) + "</Quantity><Gallons>" + clsGeneral.GetDecimal(dr["Gallons"]) + "</Gallons><VOC_Emissions>" + clsGeneral.GetDecimal(dr["VOC Total"]) + "</VOC_Emissions><Updated_By>" + clsSession.UserID + "</Updated_By></Section>";
-                        }
-
-                    }
-
-                    strFinal += "</ImportXML>";
-                    strFinalUpdate += "</ImportXML>";
-                    clsPM_Permits_VOC_Emissions.ImportXML(strFinal, strFinalUpdate);
-
-                    if (!string.IsNullOrEmpty(categoriIds) && categoriIds.Contains(","))
-                    {
-                        string[] voc_Category = categoriIds.Split(',');
-                        string[] subTotalTextData = subTotalText.Split(',');
-                        int count = 0;
-                        foreach (string voc_categoryId in voc_Category)
-                        {
-                            if(!string.IsNullOrEmpty(voc_categoryId))
+                            if (retValue == 1 && !string.IsNullOrEmpty(part_Number))
                             {
-                                clsPM_Permits_VOC_Emissions.UpdateSubTotal(subTotalTextData[count], Convert.ToInt32(voc_categoryId), PK_PM_Permits, month, year, Convert.ToString(DateTime.Now), Convert.ToString(clsSession.UserID));
-                                count++;
+                                strFinal = strFinal + "<Section><FK_PM_Permits>" + PK_PM_Permits + "</FK_PM_Permits><Year>" + year + "</Year><Month>" + month + "</Month><Paint_Category>" + fK_LU_VOC_Category + "</Paint_Category><Part_Number>" + Convert.ToString(dr["Part Number"]) + "</Part_Number><Unit>" + Convert.ToString(dr["Unit"]).Replace("\"", "") + "</Unit><Quantity>" + clsGeneral.GetDecimal(dr["Qty"]) + "</Quantity><Gallons>" + clsGeneral.GetDecimal(dr["Gallons"]) + "</Gallons><VOC_Emissions>" + clsGeneral.GetDecimal(dr["VOC Total"]) + "</VOC_Emissions><Updated_By>" + clsSession.UserID + "</Updated_By></Section>";
+                            }
+
+                            if (retValue == 2 && !string.IsNullOrEmpty(part_Number))
+                            {
+                                strFinalUpdate = strFinalUpdate + "<Section><FK_PM_Permits>" + PK_PM_Permits + "</FK_PM_Permits><Year>" + year + "</Year><Month>" + month + "</Month><Paint_Category>" + fK_LU_VOC_Category + "</Paint_Category><Part_Number>" + Convert.ToString(dr["Part Number"]) + "</Part_Number><Unit>" + Convert.ToString(dr["Unit"]).Replace("\"", "") + "</Unit><Quantity>" + clsGeneral.GetDecimal(dr["Qty"]) + "</Quantity><Gallons>" + clsGeneral.GetDecimal(dr["Gallons"]) + "</Gallons><VOC_Emissions>" + clsGeneral.GetDecimal(dr["VOC Total"]) + "</VOC_Emissions><Updated_By>" + clsSession.UserID + "</Updated_By></Section>";
+                            }
+
+                        }
+
+                        strFinal += "</ImportXML>";
+                        strFinalUpdate += "</ImportXML>";
+                        clsPM_Permits_VOC_Emissions.ImportXML(strFinal, strFinalUpdate);
+
+                        if (!string.IsNullOrEmpty(categoriIds) && categoriIds.Contains(","))
+                        {
+                            string[] voc_Category = categoriIds.Split(',');
+                            string[] subTotalTextData = subTotalText.Split(',');
+                            int count = 0;
+                            foreach (string voc_categoryId in voc_Category)
+                            {
+                                if (!string.IsNullOrEmpty(voc_categoryId))
+                                {
+                                    clsPM_Permits_VOC_Emissions.UpdateSubTotal(subTotalTextData[count], Convert.ToInt32(voc_categoryId), PK_PM_Permits, month, year, Convert.ToString(DateTime.Now), Convert.ToString(clsSession.UserID));
+                                    count++;
+                                }
                             }
                         }
-                    }
 
-                    Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('File Imported Successfully');", true);
+                        Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('File Imported Successfully');", true);
+                    }
                 }
             }
+            catch
+            {
+                Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('Selected file can not be imported');", true);
+            }
+            finally
+            {
+                // delete uploaded file
+                DeleteUploadedFile(strUploadedFile);
+            }
         }
-        catch
+        else
         {
-            Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('Selected file can not be imported');", true);
+            Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "alert('Selected only CSV File.');", true);
         }
-        finally
-        {
-            // delete uploaded file
-            DeleteUploadedFile(strUploadedFile);
-        }
+        
     }
 
     #endregion
