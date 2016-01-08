@@ -416,7 +416,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="6" align="left" style="height: 10px;">What is your Conclusion/Impression of how the event occurred? :
+                    <td colspan="6" align="left" style="height: 10px;">What is your Impression/Conclusion on the how the event occurred? :
                     </td>
                 </tr>
                 <tr>
@@ -656,7 +656,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td align="left" colspan="6" valign="top">What is the incidents root cause? &nbsp;<span id="Span1" runat="server" style="color: Red; display: none;">*</span> &nbsp;:
+                    <td align="left" colspan="6" valign="top">What is the incident's root cause? &nbsp;<span id="Span1" runat="server" style="color: Red; display: none;">*</span> &nbsp;:
                     </td>
                     <%--<td width="1%">
                         :

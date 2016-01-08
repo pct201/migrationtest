@@ -692,6 +692,7 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
                 if (objSLT_Incident_Review.SLT_Agree_Root_Cause == "Y") { lblSLT_Agree_Root_Cause.Text = "Yes"; }
                 else if (objSLT_Incident_Review.SLT_Agree_Root_Cause == "N") { lblSLT_Agree_Root_Cause.Text = "No"; }
                 else { lblSLT_Agree_Root_Cause.Text = ""; }
+                rdoRoot_Cause.Visible = false;
 
                 txtComments_View.Text = objSLT_Incident_Review.Comments;
                 txtComments.Visible = false;
