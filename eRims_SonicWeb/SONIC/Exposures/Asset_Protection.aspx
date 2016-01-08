@@ -136,7 +136,7 @@
                     document.getElementById("Menu" + i).style.display = "none";
                 }
                 document.getElementById('<%=btnNext.ClientID%>').style.display = "none";
-        }
+            }
 
         }
 
@@ -283,36 +283,36 @@ function openAuditPopup() {
 
 function openAP_FE_Notes_AuditPopup() {
     var oWnd = window.open("AuditPopup_AP_FE_Notes.aspx?id=" + '<%=ViewState["PK_AP_FE_Notes"]%>', "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=807,height=400");
-            oWnd.moveTo(350, 200);
-            return false;
-        }
-
-        function openAP_FE_PA_Notes_AuditPopup() {
-            var oWnd = window.open("AuditPopup_AP_FE_PA_Notes.aspx?id=" + '<%=ViewState["PK_AP_FE_PA_Notes"]%>', "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=807,height=400");
     oWnd.moveTo(350, 200);
     return false;
 }
 
-function openAP_Cal_Atlantic_AuditPopup() {
-    var winHeight = window.screen.availHeight - 370;
-    var winWidth = window.screen.availWidth - 315;
-
-    obj = window.open("AuditPopup_AP_Cal_Atlantic.aspx?id=" + '<%=ViewState["PK_AP_Cal_Atlantic"]%>', 'PopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
-            obj.focus();
+function openAP_FE_PA_Notes_AuditPopup() {
+    var oWnd = window.open("AuditPopup_AP_FE_PA_Notes.aspx?id=" + '<%=ViewState["PK_AP_FE_PA_Notes"]%>', "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=807,height=400");
+            oWnd.moveTo(350, 200);
             return false;
         }
 
-        function openFraud_Event_AuditPopup() {
-            var winHeight = window.screen.availHeight - 300;
+        function openAP_Cal_Atlantic_AuditPopup() {
+            var winHeight = window.screen.availHeight - 370;
             var winWidth = window.screen.availWidth - 315;
 
-            obj = window.open("AuditPopup_AP_Fraud_Events.aspx?id=" + '<%=ViewState["PK_AP_Fraud_Events"]%>', 'PopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=2,menubar=0');
+            obj = window.open("AuditPopup_AP_Cal_Atlantic.aspx?id=" + '<%=ViewState["PK_AP_Cal_Atlantic"]%>', 'PopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=1,menubar=0');
     obj.focus();
     return false;
 }
 
-function openAP_FE_Transaction_AuditPopup() {
-    var oWnd = window.open("AuditPopup_AP_FE_Transactions.aspx?id=" + '<%=ViewState["PK_AP_FE_Transactions"]%>', "Erims", "location=0,status=0,scrollbars=0,menubar=0,resizable=0,toolbar=0,width=1145,height=450");
+function openFraud_Event_AuditPopup() {
+    var winHeight = window.screen.availHeight - 300;
+    var winWidth = window.screen.availWidth - 315;
+
+    obj = window.open("AuditPopup_AP_Fraud_Events.aspx?id=" + '<%=ViewState["PK_AP_Fraud_Events"]%>', 'PopUp', 'width=' + winWidth + ',height=' + winHeight + ',left=' + (window.screen.width - winWidth) / 2 + ',top=' + (window.screen.height - winHeight) / 2 + ',sizable=no,titlebar=no,location=0,status=0,scrollbars=2,menubar=0');
+            obj.focus();
+            return false;
+        }
+
+        function openAP_FE_Transaction_AuditPopup() {
+            var oWnd = window.open("AuditPopup_AP_FE_Transactions.aspx?id=" + '<%=ViewState["PK_AP_FE_Transactions"]%>', "Erims", "location=0,status=0,scrollbars=0,menubar=0,resizable=0,toolbar=0,width=1145,height=450");
     oWnd.moveTo(200, 200);
     return false;
 }
@@ -348,10 +348,10 @@ function openGenereteAbstract() {
     }
     if (document.getElementById('<%= hdnPanel.ClientID %>').value == 2) {
         PKID = '<%=ViewState["FK_DPD_FR_ID"]%>';
-                VehicleId = '<%=ViewState["FK_DPD_FR_Vehicle_ID"]%>';
-            }
-            else if (document.getElementById('<%= hdnPanel.ClientID %>').value == 3) {
-                PKID = '<%=ViewState["FK_AL_FR_ID"]%>';
+        VehicleId = '<%=ViewState["FK_DPD_FR_Vehicle_ID"]%>';
+    }
+    else if (document.getElementById('<%= hdnPanel.ClientID %>').value == 3) {
+        PKID = '<%=ViewState["FK_AL_FR_ID"]%>';
             }
                 //else if (document.getElementById('<%= hdnPanel.ClientID %>').value == 4) {
                 //    PKID = '<=ViewState["PK_AP_Cal_Atlantic"]%>';
@@ -369,40 +369,40 @@ function IsValidMonitorTime() {
     Page_ClientValidate("vsAddPSMonitor");
     if (Page_IsValid) {
         var endDay = $("#<%= ddlDayMonitoringEnds.ClientID %> :selected").val();
-                var startDay = $("#<%= ddlDayMonitoringBegins.ClientID %> :selected").val();
+        var startDay = $("#<%= ddlDayMonitoringBegins.ClientID %> :selected").val();
 
-                if (endDay < startDay) {
-                    endDay = (parseInt(endDay, 10) + 7);
-                }
-                var CompareEndDay = (endDay - startDay + 1);
-                var MonitoringEndTime = $("#<%= txtTimeMonitoringEnds.ClientID %>").val();
+        if (endDay < startDay) {
+            endDay = (parseInt(endDay, 10) + 7);
+        }
+        var CompareEndDay = (endDay - startDay + 1);
+        var MonitoringEndTime = $("#<%= txtTimeMonitoringEnds.ClientID %>").val();
                 var MonitoringBeginTime = $("#<%= txtTimeMonitoringBegins.ClientID %>").val();
-                var startdate1 = new Date("January 01, 1999 " + MonitoringBeginTime + ":00");
-                var enddate1 = new Date("January 0" + CompareEndDay + ", 1999 " + MonitoringEndTime + ":00");
-                var diff = enddate1 - startdate1;
-                var seconds = Math.floor(diff / 1000); //ignore any left over units smaller than a second
-                var minutes = Math.floor(seconds / 60);
-                seconds = seconds % 60;
-                var hours = Math.floor(minutes / 60);
-                minutes = minutes % 60;
-                if (hours == "NaN") {
-                    alert('Enter valid values');
-                    return false;
-                }
-                if (hours < 0) {
-                    alert('End Time should greater than start time');
-                    return false;
-                }
-                if (hours < 10) {
-                    hours = "0" + hours;
-                }
-                if (minutes < 10) {
-                    minutes = "0" + minutes;
-                }
-                if (hours > 23) {
-                    var r = confirm("The entered monitoring time period is " + hours + ":" + minutes + " hours, is this the desired entry?");
-                    if (r == true) {
-                        document.getElementById('<%= txtMonitoringPeriodHours.ClientID %>').value = hours + ":" + minutes;
+        var startdate1 = new Date("January 01, 1999 " + MonitoringBeginTime + ":00");
+        var enddate1 = new Date("January 0" + CompareEndDay + ", 1999 " + MonitoringEndTime + ":00");
+        var diff = enddate1 - startdate1;
+        var seconds = Math.floor(diff / 1000); //ignore any left over units smaller than a second
+        var minutes = Math.floor(seconds / 60);
+        seconds = seconds % 60;
+        var hours = Math.floor(minutes / 60);
+        minutes = minutes % 60;
+        if (hours == "NaN") {
+            alert('Enter valid values');
+            return false;
+        }
+        if (hours < 0) {
+            alert('End Time should greater than start time');
+            return false;
+        }
+        if (hours < 10) {
+            hours = "0" + hours;
+        }
+        if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
+        if (hours > 23) {
+            var r = confirm("The entered monitoring time period is " + hours + ":" + minutes + " hours, is this the desired entry?");
+            if (r == true) {
+                document.getElementById('<%= txtMonitoringPeriodHours.ClientID %>').value = hours + ":" + minutes;
                     }
                     else {
                         return false;
@@ -592,7 +592,56 @@ function IsValidMonitorTime() {
                                     <td class="dvContainer">
                                         <div id="dvEdit" runat="server" width="794px">
                                             <asp:Panel ID="pnl1" runat="server" Style="display: none;" Width="794px">
-                                                <table cellpadding="3" cellspacing="1" border="0" width="100%" id="tblMainPropertySecurity"
+                                                <table width="100%" id="tblMainPropertySecurityGrid" runat="server">
+                                                    <tr>
+                                                        <td>Building Grid    :
+                                                        </td>
+                                                        <td>
+                                                            <asp:GridView ID="gvBuildingPropertySecurity" runat="server" GridLines="None" CellPadding="4" DataKeyNames="PK_AP_Property_Security"
+                                                                CellSpacing="0" AutoGenerateColumns="false" Width="100%" EnableTheming="false"
+                                                                OnRowCommand="gvBuildingPropertySecurity_RowCommand">
+                                                                <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
+                                                                    Font-Size="8pt" />
+                                                                <RowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                <EditRowStyle BackColor="#2461BF" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" Font-Names="Tahoma"
+                                                                    Font-Size="8pt" />
+                                                                <PagerStyle BackColor="#7f7f7f" ForeColor="White" HorizontalAlign="Center" Font-Names="Tahoma"
+                                                                    Font-Size="8pt" />
+                                                                <HeaderStyle BackColor="#7f7f7f" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
+                                                                    Font-Size="8pt" VerticalAlign="Bottom" />
+                                                                <AlternatingRowStyle BackColor="White" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                <EmptyDataRowStyle CssClass="emptyrow" />
+                                                                <Columns>
+                                                                    <asp:TemplateField HeaderText="Day Monitoring Begins" HeaderStyle-HorizontalAlign="Left">
+                                                                        <ItemStyle Width="20%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkbtnBuildingPropertySecurity" runat="server" CommandName="gvEdit"
+                                                                                CommandArgument='<%# Eval("PK_AP_Property_Security") %>'> 
+                                                                            <%# Eval("Building_Occupancy")%>
+                                                                            </asp:LinkButton>
+                                                                            <asp:HiddenField ID="hdnBuildingNumber" runat="server" Value='<%# Eval("Building_Number") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Remove" HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
+                                                                        <ItemStyle Width="15%" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkbtnRemove" runat="server" Text="Remove Data" OnClientClick="return confirm('Are you Sure to delete this record?');"
+                                                                                CommandName="Remove" CommandArgument='<%# Eval("PK_AP_Property_Security") %>'> 
+                                                                            </asp:LinkButton>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                                <EmptyDataRowStyle ForeColor="#7f7f7f" HorizontalAlign="Center" />
+                                                                <EmptyDataTemplate>
+                                                                    <b>No Record found</b>
+                                                                </EmptyDataTemplate>
+                                                                <PagerSettings Visible="False" />
+                                                            </asp:GridView>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <table cellpadding="3" cellspacing="1" border="0" width="100%" id="tblMainPropertySecurity" style="display: none"
                                                     runat="server">
                                                     <tr>
                                                         <td colspan="6">
@@ -742,7 +791,7 @@ function IsValidMonitorTime() {
                                                         <td align="left" valign="top" colspan="4">
                                                             <asp:GridView ID="gvCCTVHoursMonitoringGrid" runat="server" GridLines="None" CellPadding="4" DataKeyNames="Hours"
                                                                 CellSpacing="0" AutoGenerateColumns="false" Width="100%" EnableTheming="false"
-                                                                OnRowCommand="gvMonitoingGrid_RowCommand" >
+                                                                OnRowCommand="gvMonitoingGrid_RowCommand">
                                                                 <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
                                                                     Font-Size="8pt" />
                                                                 <RowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-Size="8pt" />
@@ -1831,7 +1880,7 @@ function IsValidMonitorTime() {
                                                                 <tr>
                                                                     <td align="left" valign="top" width="27%">
                                                                         <asp:CheckBox ID="chkSITSOther" runat="server" Text="Other" />
-                                                                    </td>                                                                        
+                                                                    </td>
                                                                     <td align="left" valign="top" width="50%">
                                                                         <asp:CheckBox ID="chkSITS_Supra_Key_Advantage" runat="server" Text="Supra Key Advantage" />
                                                                     </td>
@@ -2054,11 +2103,14 @@ function IsValidMonitorTime() {
                                             <div id="dvProperty_SecuritySave" runat="server" style="display: none;">
                                                 <table cellpadding="5" cellspacing="0" border="0" width="100%">
                                                     <tr>
-                                                        <td width="50%" align="right">
+                                                        <td align="center">
                                                             <asp:Button ID="btnSave" runat="server" Text="Save" OnClick="btnSave_Click" CausesValidation="true"
                                                                 ValidationGroup="vsErrorProperty_Security" />
-                                                        </td>
-                                                        <td align="left">
+                                                            &nbsp;
+                                                            <asp:Button ID="btnCancel" runat="server" Text="Cancel" />
+                                                            &nbsp;
+                                                            <asp:Button ID="btnCopyBuilding" runat="server" Text="Copy To" />
+                                                            &nbsp;
                                                             <asp:Button ID="btnProperty_SecurityAudit" runat="server" Text="View Audit Trail"
                                                                 CausesValidation="false" ToolTip="View Audit Trail" OnClientClick="javascript:return openAP_Propert_SecurtyPopup();"
                                                                 Visible="false" />
@@ -5446,7 +5498,7 @@ function IsValidMonitorTime() {
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:Label ID="lblTotalHoursCCTVMonitoredPerWeek" runat="server" >
+                                                            <asp:Label ID="lblTotalHoursCCTVMonitoredPerWeek" runat="server">
                                                             </asp:Label>
                                                         </td>
                                                         <td align="left" valign="top">&nbsp;

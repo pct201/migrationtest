@@ -446,7 +446,12 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                             // Bind Controls
                             btnBack.Visible = false;
                             BindDropDownList();
-                            BindDetailsForEditForProperty_Security();
+
+                            //Added for #3437
+                            BindPropertySecurityBuilding();
+                            //BindDetailsForEditForProperty_Security();
+
+
                             BindDetailsForEditForDPD_FROIs();
                             BindDetailsForEdit_AL();
                             //BindDetailsForEditForCal_Atlantic();
@@ -519,6 +524,19 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     #region Methods
 
     #region " Property Security "
+
+    private void BindPropertySecurityBuilding()
+    {
+        DataSet dsBuildingData = clsAP_Property_Security.BindPropertySecurityBuilding(LocationID);
+        if (dsBuildingData != null && dsBuildingData.Tables.Count > 0)
+        {
+            gvBuildingPropertySecurity.DataSource = dsBuildingData.Tables[0];
+            gvBuildingPropertySecurity.DataBind();
+        }
+        dvProperty_SecuritySave.Style["display"] = "none";
+        dvAL_Save.Style["display"] = "none";
+        dvDPD_Save.Style["display"] = "none";
+    }
 
     /// <summary>
     /// Bind Page Controls for edit mode
@@ -5048,4 +5066,23 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     }
     #endregion
 
+    protected void gvBuildingPropertySecurity_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        if (e.CommandName == "gvEdit")
+        {
+            PK_AP_Property_Security = Convert.ToDecimal(e.CommandArgument);
+            GridViewRow row = (GridViewRow)(((Control)e.CommandSource).NamingContainer);
+            HiddenField hdnBuildingNumber = (HiddenField)row.FindControl("hdnBuildingNumber");
+            if (hdnBuildingNumber!=null)
+            {
+                lblHeaderLocationNumber.Text += " - Building";
+                lblLocation_Number.Text += " - " + hdnBuildingNumber.Value;
+            }
+
+            BindDetailsForEditForProperty_Security();
+            tblMainPropertySecurityGrid.Style["display"] = "none";
+            tblMainPropertySecurity.Style["display"] = "";
+            dvProperty_SecuritySave.Style["display"] = "";
+        }
+    }
 }

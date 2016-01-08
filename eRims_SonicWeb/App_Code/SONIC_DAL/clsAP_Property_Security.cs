@@ -2789,5 +2789,13 @@ namespace ERIMS.DAL
 
             return returnValue;
         }
+
+        public static DataSet BindPropertySecurityBuilding(decimal FK_LU_Location_Id)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("BindPropertySecurityBuilding");
+            db.AddInParameter(dbCommand, "FK_LU_Location_Id", DbType.Decimal, FK_LU_Location_Id);
+            return db.ExecuteDataSet(dbCommand);
+        }
     }
 }
