@@ -557,6 +557,11 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
                     string imageName = "../temp/FusionChart" + i + ".png";
                     ServerSideImageHandler ssh = new ServerSideImageHandler(Server.MapPath("../FusionCharts/MSColumn2D.swf"), 867, 300, xml, string.Empty, Server.MapPath(imageName));
                     ssh.BeginCapture();
+                    do
+                    {
+
+                    } while (File.Exists(imageName));
+
                 }
             }
 
@@ -1706,7 +1711,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
             {
                 if (ds.Tables[i].Rows.Count > 0)
                 {
-                    strChart = MakeChart(ds.Tables[i],false);
+                    strChart = MakeChart(ds.Tables[i], false);
                     sb.Append(MakeHtml(strChart));
                     divCharts.InnerHtml = sb.ToString();
                 }
@@ -1719,7 +1724,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
     /// </summary>
     /// <param name="dt">datatable of related chart to be generated</param>    
     /// <returns></returns>
-    private string MakeChart(DataTable dt,bool blnNumber)
+    private string MakeChart(DataTable dt, bool blnNumber)
     {
         StringBuilder strChartXML = new StringBuilder();
         strChartXML.Append("<chart caption='" + dt.Rows[0]["SortValue"].ToString() + "' showLabels='1' showvalues='0' showYAxisValues='0' decimals='0' numDivLines ='0' rotateValues='1' exportEnabled='1' exportAtClient='1' exportHandler='fcBatchExporter' html5exporthandler='fcBatchExporter' exportAction='Save'>");
@@ -1789,7 +1794,7 @@ public partial class DashBoard_RlcmQuarterlyReport : clsBasePage
         if (blnNumber)
             return strChartXML.ToString();
         else
-        return sbChart.ToString();
+            return sbChart.ToString();
     }
 
     /// <summary>
