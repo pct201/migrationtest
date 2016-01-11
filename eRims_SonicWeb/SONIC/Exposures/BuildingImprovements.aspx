@@ -542,91 +542,92 @@
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6">
-                                                            <span style="float:left">a.</span>
-                                                            <div style="margin-left:40px">
+                                                            <span style="float: left">a.</span>
+                                                            <div style="margin-left: 40px">
                                                                 <span>Does the project result in the replacement of an material major components(i.e. electrical panels, wiring, HVAC), or a substaintial strcutrual part of the property?</span><br />
-                                                                <asp:TextBox runat="server" ID="txtItem_1" style="margin-top:3px;" MaxLength="250"></asp:TextBox>
+                                                                <asp:TextBox runat="server" ID="txtItem_1" Style="margin-top: 3px;" MaxLength="250"></asp:TextBox>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6">
-                                                            <span style="float:left">b.</span>
-                                                            <div style="margin-left:40px">
-                                                                <span>Any interior or exterior lightening upgrades? Describe.   </span><br />
-                                                                <asp:TextBox runat="server" ID="txtItem_2" style="margin-top:3px;" MaxLength="250"></asp:TextBox>
+                                                            <span style="float: left">b.</span>
+                                                            <div style="margin-left: 40px">
+                                                                <span>Any interior or exterior lightening upgrades? Describe.   </span>
+                                                                <br />
+                                                                <asp:TextBox runat="server" ID="txtItem_2" Style="margin-top: 3px;" MaxLength="250"></asp:TextBox>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6">
-                                                            <span style="float:left">c.</span>
-                                                            <div style="margin-left:40px">
+                                                            <span style="float: left">c.</span>
+                                                            <div style="margin-left: 40px">
                                                                 <span>Environmental issues (asbestos, USTs, in-ground lifts)? Describe action taken</span><br />
-                                                                <asp:TextBox runat="server" ID="txtItem_3" style="margin-top:3px;" MaxLength="250"></asp:TextBox>
+                                                                <asp:TextBox runat="server" ID="txtItem_3" Style="margin-top: 3px;" MaxLength="250"></asp:TextBox>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6">
-                                                            <span style="float:left">d.</span>
-                                                            <div style="margin-left:40px">
+                                                            <span style="float: left">d.</span>
+                                                            <div style="margin-left: 40px">
                                                                 <span>Any ADA improvements?</span><br />
-                                                                <asp:TextBox runat="server" ID="txtItem_4" style="margin-top:3px;" MaxLength="250"></asp:TextBox>
+                                                                <asp:TextBox runat="server" ID="txtItem_4" Style="margin-top: 3px;" MaxLength="250"></asp:TextBox>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6">
-                                                            <span style="float:left">e.</span>
-                                                            <div style="margin-left:40px">
+                                                            <span style="float: left">e.</span>
+                                                            <div style="margin-left: 40px">
                                                                 <span>Any new HVAC units? Specify whether new adds or replacements?</span><br />
-                                                                <asp:TextBox runat="server" ID="txtItem_5" style="margin-top:3px;" MaxLength="250"></asp:TextBox>
+                                                                <asp:TextBox runat="server" ID="txtItem_5" Style="margin-top: 3px;" MaxLength="250"></asp:TextBox>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6">
-                                                            <span style="float:left">f.</span>
-                                                            <div style="margin-left:40px">
+                                                            <span style="float: left">f.</span>
+                                                            <div style="margin-left: 40px">
                                                                 <span>What area does new or replacement HVAC unit(s) serve?</span><br />
-                                                                <asp:TextBox runat="server" ID="txtItem_6" style="margin-top:3px;" MaxLength="250"></asp:TextBox>
+                                                                <asp:TextBox runat="server" ID="txtItem_6" Style="margin-top: 3px;" MaxLength="250"></asp:TextBox>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6">
-                                                            <span style="float:left">g.</span>
-                                                            <div style="margin-left:40px">
+                                                            <span style="float: left">g.</span>
+                                                            <div style="margin-left: 40px">
                                                                 <span>How many HVAC units served this area before imporovements?</span><br />
-                                                                <asp:TextBox runat="server" ID="txtNumberOfHavacBeforeImprovements" MaxLength="10" onkeypress="return FormatInteger(event);" onpaste="return false;" style="margin-top:3px;"></asp:TextBox>
+                                                                <asp:TextBox runat="server" ID="txtNumberOfHavacBeforeImprovements" MaxLength="10" onkeypress="return FormatInteger(event);" onpaste="return false;" Style="margin-top: 3px;"></asp:TextBox>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6">
-                                                            <span style="float:left">h.</span>
-                                                            <div style="margin-left:40px">
+                                                            <span style="float: left">h.</span>
+                                                            <div style="margin-left: 40px">
                                                                 <span>How many HVAC units served this area after imporovements?</span><br />
-                                                                <asp:TextBox runat="server" ID="txtNumberOfHavacAfterImprovements" MaxLength="10" onkeypress="return FormatInteger(event);" onpaste="return false;" style="margin-top:3px;"></asp:TextBox>
+                                                                <asp:TextBox runat="server" ID="txtNumberOfHavacAfterImprovements" MaxLength="10" onkeypress="return FormatInteger(event);" onpaste="return false;" Style="margin-top: 3px;"></asp:TextBox>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6">
-                                                            <span style="float:left">i.</span>
-                                                            <div style="margin-left:40px">
+                                                            <span style="float: left">i.</span>
+                                                            <div style="margin-left: 40px">
                                                                 <span>Were roof improvements made? Specify wheather overlay or replacement and if partial or complete building was touched?</span><br />
-                                                                <asp:TextBox runat="server" ID="txtRoofImprovementsDetails" style="margin-top:3px;"  MaxLength="250"></asp:TextBox>
+                                                                <asp:TextBox runat="server" ID="txtRoofImprovementsDetails" Style="margin-top: 3px;" MaxLength="250"></asp:TextBox>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6">
-                                                            <span style="float:left">j.</span>
-                                                            <div style="margin-left:40px">
+                                                            <span style="float: left">j.</span>
+                                                            <div style="margin-left: 40px">
                                                                 <span>Any additions or replacements of OH/High Speed doors? Specify</span><br />
-                                                                <asp:TextBox runat="server" ID="txtAdditionalReplace" style="margin-top:3px;" MaxLength="250"></asp:TextBox>
+                                                                <asp:TextBox runat="server" ID="txtAdditionalReplace" Style="margin-top: 3px;" MaxLength="250"></asp:TextBox>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -1023,93 +1024,167 @@
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6">
-                                                            <span style="float:left">a.</span>
-                                                            <div style="margin-left:40px">
+                                                            <span style="float: left">a.</span>
+                                                            <div style="margin-left: 40px">
                                                                 <span>Does the project result in the replacement of an material major components(i.e. electrical panels, wiring, HVAC), or a substaintial strcutrual part of the property?</span><br />
-                                                                <asp:Label runat="server" ID="lblItem_1"></asp:Label>
+
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6">
-                                                            <span style="float:left">b.</span>
-                                                            <div style="margin-left:40px">
-                                                                <span>Any interior or exterior lightening upgrades? Describe.   </span><br />
-                                                                <asp:Label runat="server" ID="lblItem_2"></asp:Label>
+                                                            <div style="margin-left: 40px">
+                                                                <i>
+                                                                    <asp:Label runat="server" ID="lblItem_1"></asp:Label></i>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6">
-                                                            <span style="float:left">c.</span>
-                                                            <div style="margin-left:40px">
+                                                            <span style="float: left">b.</span>
+                                                            <div style="margin-left: 40px">
+                                                                <span>Any interior or exterior lightening upgrades? Describe.   </span>
+                                                                <br />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            <div style="margin-left: 40px">
+                                                                <i>
+                                                                    <asp:Label runat="server" ID="lblItem_2"></asp:Label></i>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            <span style="float: left">c.</span>
+                                                            <div style="margin-left: 40px">
                                                                 <span>Environmental issues (asbestos, USTs, in-ground lifts)? Describe action taken</span><br />
-                                                                <asp:Label runat="server" ID="lblItem_3"></asp:Label>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6">
-                                                            <span style="float:left">d.</span>
-                                                            <div style="margin-left:40px">
+                                                            <div style="margin-left: 40px">
+                                                                <i>
+                                                                    <asp:Label runat="server" ID="lblItem_3"></asp:Label></i>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            <span style="float: left">d.</span>
+                                                            <div style="margin-left: 40px">
                                                                 <span>Any ADA improvements?</span><br />
-                                                                <asp:Label runat="server" ID="lblItem_4"></asp:Label>
+                                                                
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6">
-                                                            <span style="float:left">e.</span>
-                                                            <div style="margin-left:40px">
+                                                            <div style="margin-left: 40px">
+                                                                <i>
+                                                                    <asp:Label runat="server" ID="lblItem_4"></asp:Label></i>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            <span style="float: left">e.</span>
+                                                            <div style="margin-left: 40px">
                                                                 <span>Any new HVAC units? Specify whether new adds or replacements?</span><br />
-                                                                <asp:Label runat="server" ID="lblItem_5"></asp:Label>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6">
-                                                            <span style="float:left">f.</span>
-                                                            <div style="margin-left:40px">
+                                                            <div style="margin-left: 40px">
+                                                                <i>
+                                                                    <asp:Label runat="server" ID="lblItem_5"></asp:Label></i>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            <span style="float: left">f.</span>
+                                                            <div style="margin-left: 40px">
                                                                 <span>What area does new or replacement HVAC unit(s) serve?</span><br />
-                                                                <asp:Label runat="server" ID="lblItem_6"></asp:Label>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6">
-                                                            <span style="float:left">g.</span>
-                                                            <div style="margin-left:40px">
+                                                            <div style="margin-left: 40px">
+                                                                <i>
+                                                                    <asp:Label runat="server" ID="lblItem_6"></asp:Label></i>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            <span style="float: left">g.</span>
+                                                            <div style="margin-left: 40px">
                                                                 <span>How many HVAC units served this area before imporovements?</span><br />
-                                                                <asp:Label runat="server" ID="lblNumberOfHavacBeforeImprovements"></asp:Label>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6">
-                                                            <span style="float:left">h.</span>
-                                                            <div style="margin-left:40px">
+                                                            <div style="margin-left: 40px">
+                                                                <i>
+                                                                    <asp:Label runat="server" ID="lblNumberOfHavacBeforeImprovements"></asp:Label></i>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            <span style="float: left">h.</span>
+                                                            <div style="margin-left: 40px">
                                                                 <span>How many HVAC units served this area after imporovements?</span><br />
-                                                                <asp:Label runat="server" ID="lblNumberOfHavacAfterImprovements"></asp:Label>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6">
-                                                            <span style="float:left">i.</span>
-                                                            <div style="margin-left:40px">
+                                                            <div style="margin-left: 40px">
+                                                                <i>
+                                                                    <asp:Label runat="server" ID="lblNumberOfHavacAfterImprovements"></asp:Label></i>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            <span style="float: left">i.</span>
+                                                            <div style="margin-left: 40px">
                                                                 <span>Were roof improvements made? Specify wheather overlay or replacement and if partial or complete building was touched?</span><br />
-                                                                <asp:Label runat="server" ID="lblRoofImprovementDetails"></asp:Label>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6">
-                                                            <span style="float:left">j.</span>
-                                                            <div style="margin-left:40px">
+                                                            <div style="margin-left: 40px">
+                                                                <i>
+                                                                    <asp:Label runat="server" ID="lblRoofImprovementDetails"></asp:Label></i>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            <span style="float: left">j.</span>
+                                                            <div style="margin-left: 40px">
                                                                 <span>Any additions or replacements of OH/High Speed doors? Specify</span><br />
-                                                                <asp:Label runat="server" ID="lblAdditionalReplace"></asp:Label>
                                                                 <asp:HiddenField runat="server" ID="hdnItem_7" />
                                                                 <asp:HiddenField runat="server" ID="hdnOtherComments" />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            <div style="margin-left: 40px">
+                                                                <i>
+                                                                    <asp:Label runat="server" ID="lblAdditionalReplace"></asp:Label></i>
                                                             </div>
                                                         </td>
                                                     </tr>

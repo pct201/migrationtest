@@ -2025,9 +2025,9 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                 <td align="left" colspan="6">
                                                                                     <table id="tblInsuranceCopeQuestionnaire" runat="server" width="100%" cellpadding="0" cellspacing="0">
                                                                                         <tr>
-                                                                                            <td align="left" colspan="4"><b>Insurance COPE Questionnaire</b><br />
+                                                                                            <td align="left" colspan="6"><b>Insurance COPE Questionnaire</b><br />
                                                                                             </td>
-                                                                                            <td colspan="3" style="text-align: center">
+                                                                                            <td colspan="2" style="text-align: center">
                                                                                                 <b>Answer</b>
                                                                                             </td>
                                                                                         </tr>
@@ -2039,7 +2039,7 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                                 <span style="float: left">a.</span>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem26"></asp:Label><br />
-                                                                                                    <asp:TextBox runat="server" ID="txtItem26" Visible="false"></asp:TextBox>
+                                                                                                    <asp:TextBox runat="server" ID="txtItem26" Visible="false" MaxLength="250"></asp:TextBox>
                                                                                                 </div>
                                                                                             </td>
                                                                                             <td colspan="2">
@@ -2054,7 +2054,7 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                                 <span style="float: left">b.</span>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem27"></asp:Label><br />
-                                                                                                    <asp:TextBox runat="server" ID="txtItem27" Visible="false"></asp:TextBox>
+                                                                                                    <asp:TextBox runat="server" ID="txtItem27" Visible="false" MaxLength="250"></asp:TextBox>
                                                                                                 </div>
                                                                                             </td>
                                                                                             <td colspan="2">
@@ -2097,7 +2097,7 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                                 <span style="float: left">e.</span>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem30"></asp:Label><br />
-                                                                                                    <asp:TextBox runat="server" ID="txtItem30" Visible="false" onkeypress="return FormatInteger(event);" onpaste="return false;"></asp:TextBox>
+                                                                                                    <asp:TextBox runat="server" ID="txtItem30" Visible="false" MaxLength="20" onkeypress="return FormatInteger(event);" onpaste="return false;"></asp:TextBox>
                                                                                                 </div>
                                                                                             </td>
                                                                                             <td colspan="2">

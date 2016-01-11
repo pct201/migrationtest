@@ -889,7 +889,7 @@ function ShowAuditPopUp(url) {
                                                                                         <tr>
                                                                                             <td width="23%" align="left">Main</td>
                                                                                             <td width="10%" align="left">
-                                                                                                 <asp:Label runat="server" ID="lblOccupancyMain"></asp:Label>
+                                                                                                <asp:Label runat="server" ID="lblOccupancyMain"></asp:Label>
                                                                                             </td>
                                                                                             <td width="23%" align="left"></td>
                                                                                             <td width="10%" align="left"></td>
@@ -1463,7 +1463,7 @@ function ShowAuditPopUp(url) {
                                                                                 <td align="left" colspan="6">
                                                                                     <table id="tblInsuranceCopeQuestionnaire" runat="server" width="100%" cellpadding="0" cellspacing="0">
                                                                                         <tr>
-                                                                                            <td align="left" colspan="4"><b>Insurance COPE Questionnaire</b><br />
+                                                                                            <td align="left" colspan="6"><b>Insurance COPE Questionnaire</b><br />
                                                                                             </td>
                                                                                             <td colspan="3" style="text-align: center">
                                                                                                 <b>Answer</b>
@@ -1473,8 +1473,7 @@ function ShowAuditPopUp(url) {
                                                                                             <td align="left" colspan="6">
                                                                                                 <span style="float: left">a.</span>
                                                                                                 <div style="margin-left: 40px">
-                                                                                                    <asp:Label runat="server" ID="lblItem26"></asp:Label><br />
-                                                                                                    <asp:Label runat="server" ID="lblItem26Description"></asp:Label>
+                                                                                                    <asp:Label runat="server" ID="lblItem26"></asp:Label>
                                                                                                 </div>
                                                                                             </td>
                                                                                             <td colspan="2">
@@ -1485,11 +1484,19 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
+                                                                                            <td colspan="8">
+                                                                                                <div style="margin-left: 40px">
+                                                                                                    <i>
+                                                                                                        <asp:Label runat="server" ID="lblItem26Description"></asp:Label></i>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
                                                                                             <td align="left" colspan="6">
                                                                                                 <span style="float: left">b.</span>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem27"></asp:Label><br />
-                                                                                                    <asp:Label runat="server" ID="lblItem27Description"></asp:Label>
+
                                                                                                 </div>
                                                                                             </td>
                                                                                             <td colspan="2">
@@ -1500,10 +1507,18 @@ function ShowAuditPopUp(url) {
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
+                                                                                            <td colspan="8">
+                                                                                                <div style="margin-left: 40px">
+                                                                                                    <i>
+                                                                                                        <asp:Label runat="server" ID="lblItem27Description"></asp:Label></i>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
                                                                                             <td align="left" colspan="6">
                                                                                                 <span style="float: left">c.</span>
                                                                                                 <div style="margin-left: 40px">
-                                                                                                <asp:Label runat="server" ID="lblItem28"></asp:Label>
+                                                                                                    <asp:Label runat="server" ID="lblItem28"></asp:Label>
                                                                                                 </div>
                                                                                             </td>
                                                                                             <td colspan="2">
@@ -1532,7 +1547,6 @@ function ShowAuditPopUp(url) {
                                                                                                 <span style="float: left">e.</span>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem30"></asp:Label><br />
-                                                                                                    <asp:Label runat="server" ID="lblItem30Description"></asp:Label>
                                                                                                 </div>
                                                                                             </td>
                                                                                             <td colspan="2">
@@ -1540,6 +1554,15 @@ function ShowAuditPopUp(url) {
                                                                                                     <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
                                                                                                     <asp:ListItem Text="No" Value="N"></asp:ListItem>
                                                                                                 </asp:RadioButtonList>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>
+                                                                                                <div style="margin-left: 40px">
+                                                                                                    <i>
+                                                                                                        <asp:Label runat="server" ID="lblItem30Description"></asp:Label>
+                                                                                                    </i>
+                                                                                                </div>
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -4422,14 +4445,14 @@ function ShowAuditPopUp(url) {
                                                                 <td align="center" style="width: 4%">:
                                                                 </td>
                                                                 <td align="left" style="width: 28%; padding-left: 3px">
-                                                                    <asp:Label runat="server" ID="lblCompanyName" Width="170px" style="word-wrap:normal;word-break:break-all" />
+                                                                    <asp:Label runat="server" ID="lblCompanyName" Width="170px" Style="word-wrap: normal; word-break: break-all" />
                                                                 </td>
                                                                 <td align="left" style="width: 18%; padding-left: 9px;">Contact Name
                                                                 </td>
                                                                 <td align="center" style="width: 4%">:
                                                                 </td>
                                                                 <td align="left" style="width: 28%; padding-left: 3px">
-                                                                    <asp:Label runat="server" ID="lblContactName" Width="170px" style="word-wrap:normal;word-break:break-all"></asp:Label>
+                                                                    <asp:Label runat="server" ID="lblContactName" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -4440,12 +4463,12 @@ function ShowAuditPopUp(url) {
                                                                 </td>
                                                                 <td align="center">:</td>
                                                                 <td align="left" style="width: 28%; padding-left: 3px">
-                                                                    <asp:Label runat="server" ID="lblAddress" Width="170px" style="word-wrap:normal;word-break:break-all"></asp:Label>
+                                                                    <asp:Label runat="server" ID="lblAddress" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                                 </td>
                                                                 <td align="left" style="width: 18%; padding-left: 9px;">City</td>
-                                                                <td align="center" style="width : 4%">:</td>
+                                                                <td align="center" style="width: 4%">:</td>
                                                                 <td align="left" style="width: 28%; padding-left: 3px">
-                                                                    <asp:Label runat="server" ID="lblCity1" Width="170px" MaxLength="75" style="word-wrap:normal;word-break:break-all"></asp:Label>
+                                                                    <asp:Label runat="server" ID="lblCity1" Width="170px" MaxLength="75" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -4454,14 +4477,14 @@ function ShowAuditPopUp(url) {
                                                                 <td align="center">:
                                                                 </td>
                                                                 <td align="left" style="width: 28%; padding-left: 3px">
-                                                                    <asp:Label runat="server" ID="lblContactState" Width="170px" style="word-wrap:normal;word-break:break-all"></asp:Label>
+                                                                    <asp:Label runat="server" ID="lblContactState" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                                 </td>
                                                                 <td align="left" style="padding-left: 9px;">Zip Code
                                                                 </td>
                                                                 <td align="center">:
                                                                 </td>
                                                                 <td align="left" style="width: 28%; padding-left: 3px">
-                                                                    <asp:Label runat="server" ID="lblZipCode" Width="170px" MaxLength="10" style="word-wrap:normal;word-break:break-all" onKeyPress="javascript:return FormatZipCode(event,this.id);"></asp:Label>
+                                                                    <asp:Label runat="server" ID="lblZipCode" Width="170px" MaxLength="10" Style="word-wrap: normal; word-break: break-all" onKeyPress="javascript:return FormatZipCode(event,this.id);"></asp:Label>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -4473,7 +4496,7 @@ function ShowAuditPopUp(url) {
                                                                 <td align="center">:
                                                                 </td>
                                                                 <td align="left" style="width: 28%; padding-left: 3px">
-                                                                    <asp:Label runat="server" ID="lblTelephone1" Width="170px" style="word-wrap:normal;word-break:break-all"></asp:Label>
+                                                                    <asp:Label runat="server" ID="lblTelephone1" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                                 </td>
                                                                 <td align="left" style="padding-left: 9px;"></td>
                                                                 <td align="center"></td>
@@ -4485,13 +4508,14 @@ function ShowAuditPopUp(url) {
                                                                 <td align="center">:
                                                                 </td>
                                                                 <td align="left" style="width: 28%; padding-left: 3px">
-                                                                    <asp:Label runat="server" ID="lblAccountNumber" Width="170px" style="word-wrap:normal;word-break:break-all"></asp:Label>
+                                                                    <asp:Label runat="server" ID="lblAccountNumber" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                                 </td>
                                                                 <td align="left" style="padding-left: 9px;">Monthly Monitoring Amount
                                                                 </td>
                                                                 <td align="center">:
                                                                 </td>
-                                                                <td align="left" style="width: 28%; padding-left: 3px">$  <asp:Label runat="server" ID="lblMonthlyMonitoringAmount" Width="160px" style="word-wrap:normal;word-break:break-all"></asp:Label>
+                                                                <td align="left" style="width: 28%; padding-left: 3px">$ 
+                                                                    <asp:Label runat="server" ID="lblMonthlyMonitoringAmount" Width="160px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -4500,7 +4524,7 @@ function ShowAuditPopUp(url) {
                                                                 <td align="center">:
                                                                 </td>
                                                                 <td align="left" style="width: 28%; padding-left: 3px">
-                                                                    <asp:Label runat="server" ID="lblControlPanel" Width="170px" style="word-wrap:normal;word-break:break-all"></asp:Label>
+                                                                    <asp:Label runat="server" ID="lblControlPanel" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                                 </td>
                                                                 <td align="left" style="padding-left: 9px;"></td>
                                                                 <td align="center"></td>
