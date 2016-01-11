@@ -49,6 +49,18 @@ namespace ERIMS.DAL
         private decimal? _Budget_Signage;
         private decimal? _Budget_SubTotal_2;
         private decimal? _Budget_Total;
+        private string _Item_1;
+        private string _Item_2;
+        private string _Item_3;
+        private string _Item_4;
+        private string _Item_5;
+        private string _Item_6;
+        private string _Item_7;
+        private int _Number_of_Havac_Before_Improvements;
+        private int _Number_of_Havac_After_Improvements;
+        private string _Roof_Improvement_Details;
+        private string _Additional_Replace;
+        private string _Other_comments;
         #endregion
 
         #region Public Property
@@ -185,6 +197,113 @@ namespace ERIMS.DAL
         public decimal? Budget_SubTotal_2 { get { return _Budget_SubTotal_2; } set { _Budget_SubTotal_2 = value; } }
         public decimal? Budget_Total { get { return _Budget_Total; } set { _Budget_Total = value; } }
 
+        /// <summary>
+        /// Gets or sets Item 1
+        /// </summary>
+        public string Item_1 
+        { 
+            get { return _Item_1; } 
+            set { _Item_1 = value; } 
+        }
+
+        /// <summary>
+        /// Gets or sets Item 2
+        /// </summary>
+        public string Item_2
+        {
+            get { return _Item_2; }
+            set { _Item_2 = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Item 3
+        /// </summary>
+        public string Item_3
+        {
+            get { return _Item_3; }
+            set { _Item_3 = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Item 4
+        /// </summary>
+        public string Item_4
+        {
+            get { return _Item_4; }
+            set { _Item_4 = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Item 5
+        /// </summary>
+        public string Item_5
+        {
+            get { return _Item_5; }
+            set { _Item_5 = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Item 6
+        /// </summary>
+        public string Item_6
+        {
+            get { return _Item_6; }
+            set { _Item_6 = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Item 7
+        /// </summary>
+        public string Item_7
+        {
+            get { return _Item_7; }
+            set { _Item_7 = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Number_of_Havac_Before_Improvements
+        /// </summary>
+        public int Number_of_Havac_Before_Improvements
+        {
+            get { return _Number_of_Havac_Before_Improvements; }
+            set { _Number_of_Havac_Before_Improvements = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Number_of_Havac_After_Improvements 7
+        /// </summary>
+        public int Number_of_Havac_After_Improvements
+        {
+            get { return _Number_of_Havac_After_Improvements; }
+            set { _Number_of_Havac_After_Improvements = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Roof_Improvement_Details 7
+        /// </summary>
+        public string Roof_Improvement_Details
+        {
+            get { return _Roof_Improvement_Details; }
+            set { _Roof_Improvement_Details = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Additional_Replace
+        /// </summary>
+        public string Additional_Replace
+        {
+            get { return _Additional_Replace; }
+            set { _Additional_Replace = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Other_comments
+        /// </summary>
+        public string Other_comments
+        {
+            get { return _Other_comments; }
+            set { _Other_comments = value; }
+        }
 
         #endregion
 
@@ -400,6 +519,71 @@ namespace ERIMS.DAL
                     this._Budget_Total = null;
                 else
                     this._Budget_Total = (decimal?)drBuilding_Improvements["Budget_Total"];
+
+                if (drBuilding_Improvements["Budget_Total"] == DBNull.Value)
+                    this._Budget_Total = null;
+                else
+                    this._Budget_Total = (decimal?)drBuilding_Improvements["Budget_Total"];
+
+                if (drBuilding_Improvements["Item_1"] == DBNull.Value)
+                    this._Item_1 = null;
+                else
+                    this._Item_1 = Convert.ToString(drBuilding_Improvements["Item_1"]);
+
+                if (drBuilding_Improvements["Item_2"] == DBNull.Value)
+                    this._Item_2 = null;
+                else
+                    this._Item_2 = Convert.ToString(drBuilding_Improvements["Item_2"]);
+
+                if (drBuilding_Improvements["Item_3"] == DBNull.Value)
+                    this._Item_3 = null;
+                else
+                    this._Item_3 = Convert.ToString(drBuilding_Improvements["Item_3"]);
+
+                if (drBuilding_Improvements["Item_4"] == DBNull.Value)
+                    this._Item_4 = null;
+                else
+                    this._Item_4 = Convert.ToString(drBuilding_Improvements["Item_4"]);
+
+                if (drBuilding_Improvements["Item_5"] == DBNull.Value)
+                    this._Item_5 = null;
+                else
+                    this._Item_5 = Convert.ToString(drBuilding_Improvements["Item_5"]);
+
+                if (drBuilding_Improvements["Item_6"] == DBNull.Value)
+                    this._Item_6 = null;
+                else
+                    this._Item_6 = Convert.ToString(drBuilding_Improvements["Item_6"]);
+
+                if (drBuilding_Improvements["Item_7"] == DBNull.Value)
+                    this._Item_7 = null;
+                else
+                    this._Item_7 = Convert.ToString(drBuilding_Improvements["Item_7"]);
+
+                if (drBuilding_Improvements["Number_of_Havac_Before_Improvements"] == DBNull.Value)
+                    this._Number_of_Havac_Before_Improvements = 0;
+                else
+                    this._Number_of_Havac_Before_Improvements = (Int32)(drBuilding_Improvements["Number_of_Havac_Before_Improvements"]);
+
+                if (drBuilding_Improvements["Number_of_Havac_After_Improvements"] == DBNull.Value)
+                    this._Number_of_Havac_After_Improvements = 0;
+                else
+                    this._Number_of_Havac_After_Improvements = (Int32)(drBuilding_Improvements["Number_of_Havac_After_Improvements"]);
+
+                if (drBuilding_Improvements["Roof_Improvement_Details"] == DBNull.Value)
+                    this.Roof_Improvement_Details = null;
+                else
+                    this.Roof_Improvement_Details = Convert.ToString(drBuilding_Improvements["Roof_Improvement_Details"]);
+
+                if (drBuilding_Improvements["Additional_Replace"] == DBNull.Value)
+                    this._Additional_Replace = null;
+                else
+                    this._Additional_Replace = Convert.ToString(drBuilding_Improvements["Additional_Replace"]);
+
+                if (drBuilding_Improvements["Other_comments"] == DBNull.Value)
+                    this._Other_comments = null;
+                else
+                    this._Other_comments = Convert.ToString(drBuilding_Improvements["Other_comments"]);
             }
             else
             {
@@ -437,6 +621,18 @@ namespace ERIMS.DAL
                 this.Budget_Signage = null;
                 this.Budget_SubTotal_2 = null;
                 this.Budget_Total = null;
+                this._Item_1 = null;
+                this._Item_2 = null;
+                this._Item_3 = null;
+                this._Item_4 = null;
+                this._Item_5 = null;
+                this._Item_6 = null;
+                this._Item_7 = null;
+                this._Number_of_Havac_Before_Improvements = 0;
+                this._Number_of_Havac_After_Improvements = 0;
+                this.Roof_Improvement_Details = null;
+                this._Additional_Replace = null;
+                this._Other_comments = null;
             }
 
         }
@@ -548,11 +744,65 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "Budget_Total", DbType.Decimal, this._Budget_Total);
 
+            if (string.IsNullOrEmpty(this._Item_1))
+                db.AddInParameter(dbCommand, "Item_1", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Item_1", DbType.String, this._Item_1);
+
+            if (string.IsNullOrEmpty(this._Item_2))
+                db.AddInParameter(dbCommand, "Item_2", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Item_2", DbType.String, this._Item_2);
+
+            if (string.IsNullOrEmpty(this._Item_3))
+                db.AddInParameter(dbCommand, "Item_3", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Item_3", DbType.String, this._Item_3);
+
+            if (string.IsNullOrEmpty(this._Item_4))
+                db.AddInParameter(dbCommand, "Item_4", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Item_4", DbType.String, this._Item_4);
+
+            if (string.IsNullOrEmpty(this._Item_5))
+                db.AddInParameter(dbCommand, "Item_5", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Item_5", DbType.String, this._Item_5);
+
+            if (string.IsNullOrEmpty(this._Item_6))
+                db.AddInParameter(dbCommand, "Item_6", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Item_6", DbType.String, this._Item_6);
+
+            if (string.IsNullOrEmpty(this._Item_7))
+                db.AddInParameter(dbCommand, "Item_7", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Item_7", DbType.String, this._Item_7);
+
+            db.AddInParameter(dbCommand, "Number_of_Havac_Before_Improvements", DbType.Decimal, this._Number_of_Havac_Before_Improvements);
+
+            db.AddInParameter(dbCommand, "Number_of_Havac_After_Improvements", DbType.Decimal, this._Number_of_Havac_After_Improvements);
+
+            if (string.IsNullOrEmpty(this._Roof_Improvement_Details))
+                db.AddInParameter(dbCommand, "Roof_Improvement_Details", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Roof_Improvement_Details", DbType.String, this._Roof_Improvement_Details);
+
+            if (string.IsNullOrEmpty(this._Additional_Replace))
+                db.AddInParameter(dbCommand, "Additional_Replace", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Additional_Replace", DbType.String, this._Additional_Replace);
+
+            if (string.IsNullOrEmpty(this._Other_comments))
+                db.AddInParameter(dbCommand, "Other_comments", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Other_comments", DbType.String, this._Other_comments);
+
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
 
             return returnValue;
-        }
+        } 
 
         /// <summary>
         /// Selects a single record from the Building_Improvements table by a primary key.
@@ -686,7 +936,61 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "Budget_Total", DbType.Decimal, this._Budget_Total);
 
-            db.ExecuteNonQuery(dbCommand);
+            if (string.IsNullOrEmpty(this._Item_1))
+                db.AddInParameter(dbCommand, "Item_1", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Item_1", DbType.String, this._Item_1);
+
+            if (string.IsNullOrEmpty(this._Item_2))
+                db.AddInParameter(dbCommand, "Item_2", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Item_2", DbType.String, this._Item_2);
+
+            if (string.IsNullOrEmpty(this._Item_3))
+                db.AddInParameter(dbCommand, "Item_3", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Item_3", DbType.String, this._Item_3);
+
+            if (string.IsNullOrEmpty(this._Item_4))
+                db.AddInParameter(dbCommand, "Item_4", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Item_4", DbType.String, this._Item_4);
+
+            if (string.IsNullOrEmpty(this._Item_5))
+                db.AddInParameter(dbCommand, "Item_5", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Item_5", DbType.String, this._Item_5);
+
+            if (string.IsNullOrEmpty(this._Item_6))
+                db.AddInParameter(dbCommand, "Item_6", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Item_6", DbType.String, this._Item_6);
+
+            if (string.IsNullOrEmpty(this._Item_7))
+                db.AddInParameter(dbCommand, "Item_7", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Item_7", DbType.String, this._Item_7);
+
+            db.AddInParameter(dbCommand, "Number_of_Havac_Before_Improvements", DbType.Decimal, this._Number_of_Havac_Before_Improvements);
+
+            db.AddInParameter(dbCommand, "Number_of_Havac_After_Improvements", DbType.Decimal, this._Number_of_Havac_After_Improvements);
+
+            if (string.IsNullOrEmpty(this._Roof_Improvement_Details))
+                db.AddInParameter(dbCommand, "Roof_Improvement_Details", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Roof_Improvement_Details", DbType.String, this._Roof_Improvement_Details);
+
+            if (string.IsNullOrEmpty(this._Additional_Replace))
+                db.AddInParameter(dbCommand, "Additional_Replace", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Additional_Replace", DbType.String, this._Additional_Replace);
+
+            if (string.IsNullOrEmpty(this._Other_comments))
+                db.AddInParameter(dbCommand, "Other_comments", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Other_comments", DbType.String, this._Other_comments);
+
+            int i = db.ExecuteNonQuery(dbCommand);
         }
 
         /// <summary>

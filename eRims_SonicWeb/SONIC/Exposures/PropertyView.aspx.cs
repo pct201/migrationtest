@@ -184,7 +184,7 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
                 strBuildingImprovementSortBy = "Project_Number";
                 strBuildingImprovementSortOrder = "DESC";
                 BindDetailsForView();
-                
+
                 string strActive = new LU_Location(Convert.ToDecimal(FK_LU_Location_ID)).Active;
                 if (PK_Property_Cope_ID <= 0 && strActive == "N")
                     btnBack.Enabled = false;
@@ -207,7 +207,7 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
                         BindBuildingDetails();
                         BindInuranceDetailForView(PK_Building_ID);
                     }
-                    
+
                     ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
                 }
                 else if (Request.QueryString["pnl"] != null)//used for Event_New.aspx page
@@ -217,7 +217,7 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
                 else
                     ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
 
-               
+
             }
             else
                 Response.Redirect("ExposureSearch.aspx");
@@ -328,7 +328,7 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
             bool bOccupancy_Body_Shop = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Body_Shop"));
             bool bOccupancy_Parking_Lot = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Parking_Lot"));
             bool bOccupancy_Sales_Used = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Sales_Used"));
-            bool bOccupancy_Parts = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Parts"));  
+            bool bOccupancy_Parts = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Parts"));
             bool bOccupancy_Raw_Land = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Raw_Land"));
             bool bOccupancy_Service = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Service"));
             bool bOccupancy_Ofifce = Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Occupancy_Ofifce"));
@@ -497,7 +497,7 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
             // set click attribute to open file on clicking the link
             string strFilePath = Encryption.Encrypt(strFileName).Replace("'", "\\'");
             lnkBuildingAttachFile.Attributes.Add("onclick", "javascript:window.open('" + AppConfig.SiteURL + "/Download.aspx?attachfile=" + strFilePath + "')");
-            
+
         }
     }
 
@@ -514,7 +514,7 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
             // get the filename link control and set attribute to open the file when clicking
             HtmlAnchor lnkLeaseAttachFile = (HtmlAnchor)e.Row.FindControl("lnkLeaseAttachFile");
             string strFileName = DataBinder.Eval(e.Row.DataItem, "FileName").ToString();
-            strFileName = AppConfig.LeaseSubleaseDocURL + strFileName;           
+            strFileName = AppConfig.LeaseSubleaseDocURL + strFileName;
             string strFilePath = Encryption.Encrypt(strFileName).Replace("'", "\\'");
             lnkLeaseAttachFile.Attributes.Add("onclick", "javascript:window.open('" + AppConfig.SiteURL + "/Download.aspx?attachfile=" + strFilePath + "')");
         }
@@ -534,7 +534,7 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
             HtmlAnchor lnkFileName = (HtmlAnchor)e.Row.FindControl("lnkFileName");
             string strFileName = DataBinder.Eval(e.Row.DataItem, "FileName").ToString();
             strFileName = AppConfig.PropertyAssessmentDocPath + strFileName;
-            
+
             string strFilePath = Encryption.Encrypt(strFileName).Replace("'", "\\'");
             lnkFileName.Attributes.Add("onclick", "javascript:window.open('" + AppConfig.SiteURL + "/Download.aspx?attachfile=" + strFilePath + "')");
         }
@@ -791,14 +791,14 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
             lblLiability.Text = objBuilding.Liability;
             trLiability.Style["display"] = "";
             gridSubLease.Style["display"] = "";
-            trgvSubLease.Style["display"] = ""; 
+            trgvSubLease.Style["display"] = "";
         }
         else
         {
             trLiability.Style["display"] = "none";
             gridSubLease.Style["display"] = "none";
             trgvSubLease.Style["display"] = "none";
-        }           
+        }
 
         lblOccupancySalesNew.Text = objBuilding.Occupancy_Sales_New ? "Yes" : "";
         lblOccupancyBodyShop.Text = objBuilding.Occupancy_Body_Shop ? "Yes" : "";
@@ -937,7 +937,7 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
             lblPhasePower.Text = Convert.ToString(drFKA["FK_LU_Phase_Power"]);
             lblRequiredCableLength.Text = Convert.ToString(drFKA["FK_LU_Cable_Length"]);
         }
-        
+
 
         lblVoltageSecurityOther.Text = objBuilding.Voltage_Security_Other;
         lblPowerServiceOther.Text = objBuilding.Power_Service_Other;
@@ -945,7 +945,7 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
         lblTotalAmperageRequired.Text = objBuilding.Total_Amperage_Required;
 
         BindBuildingFinancilaLimitGrid();
-        
+
         //BindBuildingGGKLGrid();
         #endregion
 
@@ -1383,12 +1383,12 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
                 blnAddBlanktd = true;
 
             int intCnt = 1;
-            for (int i = 0; i < objDs.Tables[0].Rows.Count; i++)
+            for (int i = 0; i < objDs.Tables[0].Rows.Count && i < 25; i++)
             {
                 if (intCnt == 1)
                     tr = new HtmlTableRow();
 
-                if (i % 2 == 1 )
+                 if (i % 2 == 1)
                 {
                     tc = new HtmlTableCell();
                     tc.NoWrap = false;
@@ -1417,7 +1417,7 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
                     lbl.Text = Convert.ToString(objDs.Tables[0].Rows[i]["Item_Descriptor"]);
                     tc.Controls.Add(lbl);
                 }
-                
+
 
                 //tc.InnerHtml = objDs.Tables[0].Rows[i]["Item_Descriptor"].ToString();
 
@@ -1438,7 +1438,7 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
                 tc.Controls.Add(lbl_colon);
                 tc.VAlign = "top";
                 tr.Controls.Add(tc);
-                                
+
 
                 tc = new HtmlTableCell();
                 tc.Width = "28%";
@@ -1450,7 +1450,7 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
                 tc.NoWrap = false;
                 tc.Controls.Add(lblValue);
 
-               tr.Controls.Add(tc);
+                tr.Controls.Add(tc);
 
                 if (intCnt > 1)
                 {
@@ -1466,7 +1466,8 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
                 }
                 else
                 {
-                    if (i == objDs.Tables[0].Rows.Count - 1)
+                    //if (i == objDs.Tables[0].Rows.Count - 1)
+                    if (i == 24)
                     {
                         if (blnAddBlanktd)
                         {
@@ -1499,6 +1500,16 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
                     intCnt += 1;
                 }
             }
+
+            // Binding of New field from Item26 to Item34
+            lblItem26.Text = Convert.ToString(objDs.Tables[0].Rows[25]["Item_Descriptor"]);
+            lblItem27.Text = Convert.ToString(objDs.Tables[0].Rows[26]["Item_Descriptor"]);
+            lblItem28.Text = Convert.ToString(objDs.Tables[0].Rows[27]["Item_Descriptor"]);
+            lblItem29.Text = Convert.ToString(objDs.Tables[0].Rows[28]["Item_Descriptor"]);
+            lblItem30.Text = Convert.ToString(objDs.Tables[0].Rows[29]["Item_Descriptor"]);
+            lblItem32.Text = Convert.ToString(objDs.Tables[0].Rows[31]["Item_Descriptor"]);
+            lblItem33.Text = Convert.ToString(objDs.Tables[0].Rows[32]["Item_Descriptor"]);
+
             //pnlInsuranceCope.Visible = true;
             tblInsurance.Visible = true;
         }
@@ -1508,22 +1519,62 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
             //pnlInsuranceCope.Visible = false;
         }
         string strHtml = string.Empty;
-    }    
+    }
 
     private void BindInuranceDetailForView(int Fk_Building)
     {
         DataSet objDs = Building.BuildingInsuranceCOPESelect(Fk_Building);
         if (objDs != null && objDs.Tables.Count > 0 && objDs.Tables[0].Rows.Count > 0)
         {
-            for (int i = 0; i < 25; i++)
+            for (int i = 0; i <= 25; i++)
             {
                 //Label lblField = pnlInsuranceCope.FindControl("Item_" + (i + 1)) as Label;
-                Label lblField = tblInsurance.FindControl("Item_" + (i + 1)) as Label;                
+                Label lblField = tblInsurance.FindControl("Item_" + (i + 1)) as Label;
                 if (lblField != null)
                 {
                     lblField.Text = Convert.ToString(objDs.Tables[0].Rows[0]["Item_" + (i + 1)]);
                 }
             }
+
+            // bind value for item 26 to item 34
+            DataRow drInsurance = objDs.Tables[0].Rows[0];
+            if (drInsurance["Item_26"] == DBNull.Value || string.IsNullOrEmpty(Convert.ToString(drInsurance["Item_26"]).Trim()))
+            {
+                lblItem26Description.Text = string.Empty;
+                rdoItem26.SelectedValue = "N";
+            }
+            else
+            {
+                lblItem26Description.Text = Convert.ToString(drInsurance["Item_26"]);
+                rdoItem26.SelectedValue = "Y";
+            }
+            
+            if (drInsurance["Item_27"] == DBNull.Value || string.IsNullOrEmpty(Convert.ToString(drInsurance["Item_27"]).Trim()))
+            {
+                lblItem27Description.Text = string.Empty;
+                rdoItem27.SelectedValue = "N";
+            }
+            else
+            {
+                lblItem27Description.Text = Convert.ToString(drInsurance["Item_27"]);
+                rdoItem27.SelectedValue = "Y";
+            }
+
+            if (drInsurance["Item_30"] == DBNull.Value || string.IsNullOrEmpty(Convert.ToString(drInsurance["Item_30"]).Trim()))
+            {
+                lblItem30Description.Text = string.Empty;
+                rdoItem30.SelectedValue = "N";
+            }
+            else
+            {
+                lblItem30Description.Text = Convert.ToString(drInsurance["Item_30"]);
+                rdoItem30.SelectedValue = "Y";
+            }
+
+            rdoItem28.SelectedValue = (drInsurance["Item_28"] == DBNull.Value || !(bool)(drInsurance["Item_28"])) ? "N" : "Y";
+            rdoItem29.SelectedValue = (drInsurance["Item_29"] == DBNull.Value || !(bool)(drInsurance["Item_29"])) ? "N" : "Y";
+            rdoItem32.SelectedValue = (drInsurance["Item_32"] == DBNull.Value || !(bool)(drInsurance["Item_32"])) ? "N" : "Y";
+            rdoItem33.SelectedValue = (drInsurance["Item_33"] == DBNull.Value || !(bool)(drInsurance["Item_33"])) ? "N" : "Y";
         }
     }
 
@@ -1538,6 +1589,17 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
 
     #endregion
 
+    /// <summary>
+    /// Hide or show text box 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void rdoItem_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        RadioButtonList rdo = sender as RadioButtonList;
+        TextBox txtBox = tblInsuranceCopeQuestionnaire.FindControl("txtItem" + rdo.ID.Substring(rdo.ID.Length - 2)) as TextBox;
+        txtBox.Visible = rdo.SelectedValue == "Y" ? true : false;
+        txtBox.Text = "";
+    }
 
-    
 }

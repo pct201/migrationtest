@@ -269,6 +269,19 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
             txtSubtotal2.Text = clsGeneral.FormatCommaSeperatorCurrency(objBuilding_Improvements.Budget_SubTotal_2);
 
             txtTotalCost.Text = clsGeneral.FormatCommaSeperatorCurrency(objBuilding_Improvements.Budget_Total);
+
+            txtItem_1.Text = objBuilding_Improvements.Item_1;
+            txtItem_2.Text = objBuilding_Improvements.Item_2;
+            txtItem_3.Text = objBuilding_Improvements.Item_3;
+            txtItem_4.Text = objBuilding_Improvements.Item_4;
+            txtItem_5.Text = objBuilding_Improvements.Item_5;
+            txtItem_6.Text = objBuilding_Improvements.Item_6;
+            txtNumberOfHavacBeforeImprovements.Text = Convert.ToString(objBuilding_Improvements.Number_of_Havac_Before_Improvements);
+            txtNumberOfHavacAfterImprovements.Text = Convert.ToString(objBuilding_Improvements.Number_of_Havac_After_Improvements);
+            txtRoofImprovementsDetails.Text = objBuilding_Improvements.Roof_Improvement_Details;
+            txtAdditionalReplace.Text = objBuilding_Improvements.Additional_Replace;
+            hdnItem_7.Value = objBuilding_Improvements.Item_7;
+            hdnOtherComments.Value = objBuilding_Improvements.Other_comments;
         }
         //txtService_Capacity_Increase.Text = objBuilding_Improvements.Service_Capacity_Increase;
 
@@ -360,6 +373,18 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
 
         lblTotalCost.Text = clsGeneral.FormatCommaSeperatorCurrency(objBuilding_Improvements.Budget_Total);
 
+        lblItem_1.Text = objBuilding_Improvements.Item_1;
+        lblItem_2.Text = objBuilding_Improvements.Item_2;
+        lblItem_3.Text = objBuilding_Improvements.Item_3;
+        lblItem_4.Text = objBuilding_Improvements.Item_4;
+        lblItem_5.Text = objBuilding_Improvements.Item_5;
+        lblItem_6.Text = objBuilding_Improvements.Item_6;
+        lblNumberOfHavacBeforeImprovements.Text = Convert.ToString(objBuilding_Improvements.Number_of_Havac_Before_Improvements);
+        lblNumberOfHavacAfterImprovements.Text = Convert.ToString(objBuilding_Improvements.Number_of_Havac_After_Improvements);
+        lblRoofImprovementDetails.Text = objBuilding_Improvements.Roof_Improvement_Details;
+        lblAdditionalReplace.Text = objBuilding_Improvements.Additional_Replace;
+        hdnItem_7.Value = objBuilding_Improvements.Item_7;
+        hdnOtherComments.Value = objBuilding_Improvements.Other_comments;
 
         // set values in labels using object variables
         //lblImprovement_Description.Text = objBuilding_Improvements.Improvement_Description;
@@ -474,10 +499,24 @@ public partial class SONIC_Exposures_BuildingImprovements : clsBasePage
 
         objBuilding_Improvements.Budget_Total = clsGeneral.GetDecimalNullableValue(txtTotalCost);
 
-
+        
 
         objBuilding_Improvements.Updated_By = clsSession.UserID;
         objBuilding_Improvements.Updated_Date = DateTime.Now;
+
+
+        objBuilding_Improvements.Item_1 = txtItem_1.Text;
+        objBuilding_Improvements.Item_2 = txtItem_2.Text;
+        objBuilding_Improvements.Item_3 = txtItem_3.Text;
+        objBuilding_Improvements.Item_4 = txtItem_4.Text;
+        objBuilding_Improvements.Item_5 = txtItem_5.Text;
+        objBuilding_Improvements.Item_6 = txtItem_6.Text;
+        objBuilding_Improvements.Number_of_Havac_Before_Improvements = !string.IsNullOrEmpty(txtNumberOfHavacBeforeImprovements.Text) ? Convert.ToInt32(txtNumberOfHavacBeforeImprovements.Text) : 0;
+        objBuilding_Improvements.Number_of_Havac_After_Improvements = !string.IsNullOrEmpty(txtNumberOfHavacAfterImprovements.Text) ? Convert.ToInt32(txtNumberOfHavacAfterImprovements.Text) : 0;
+        objBuilding_Improvements.Roof_Improvement_Details = txtRoofImprovementsDetails.Text;
+        objBuilding_Improvements.Additional_Replace = txtAdditionalReplace.Text;
+        objBuilding_Improvements.Item_7 = hdnItem_7.Value;
+        objBuilding_Improvements.Other_comments = hdnOtherComments.Value;
 
         // insert or update the record as per the PK availability
         if (PK_Building_Improvements > 0)

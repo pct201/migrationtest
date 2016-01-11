@@ -2952,6 +2952,20 @@ public partial class Exposures_Property : clsBasePage
                     txt.Text = string.Empty;
             }
         }
+
+        rdoItem26.ClearSelection();
+        rdoItem27.ClearSelection();
+        rdoItem28.ClearSelection();
+        rdoItem29.ClearSelection();
+        rdoItem30.ClearSelection();
+        rdoItem32.ClearSelection();
+        rdoItem33.ClearSelection();
+        txtItem26.Text = string.Empty;
+        txtItem27.Text = string.Empty;
+        txtItem30.Text = string.Empty;
+        txtItem26.Visible = false;
+        txtItem27.Visible = false;
+        txtItem30.Visible = false;
     }
 
     /// <summary>
@@ -3433,7 +3447,7 @@ public partial class Exposures_Property : clsBasePage
                 blnAddBlanktd = true;
 
             int intCnt = 1;
-            for (int i = 0; i < objDs.Tables[0].Rows.Count; i++)
+            for (int i = 0; i < objDs.Tables[0].Rows.Count && i < 25; i++)
             {
 
                 if (intCnt == 1)
@@ -3539,7 +3553,8 @@ public partial class Exposures_Property : clsBasePage
                 }
                 else
                 {
-                    if (i == objDs.Tables[0].Rows.Count - 1)
+                    //if (i == objDs.Tables[0].Rows.Count - 1)
+                    if(i == 24)
                     {
                         if (blnAddBlanktd)
                         {
@@ -3572,6 +3587,17 @@ public partial class Exposures_Property : clsBasePage
                     intCnt += 1;
                 }
             }
+
+            // Bind item 26 to item 34
+            lblItem26.Text = Convert.ToString(objDs.Tables[0].Rows[25]["Item_Descriptor"]);
+            lblItem27.Text = Convert.ToString(objDs.Tables[0].Rows[26]["Item_Descriptor"]);
+            lblItem28.Text = Convert.ToString(objDs.Tables[0].Rows[27]["Item_Descriptor"]);
+            lblItem29.Text = Convert.ToString(objDs.Tables[0].Rows[28]["Item_Descriptor"]);
+            lblItem30.Text = Convert.ToString(objDs.Tables[0].Rows[29]["Item_Descriptor"]);
+            lblItem32.Text = Convert.ToString(objDs.Tables[0].Rows[31]["Item_Descriptor"]);
+            lblItem33.Text = Convert.ToString(objDs.Tables[0].Rows[32]["Item_Descriptor"]);
+
+
             //pnlInsuranceCope.Visible = true;
             tblInsurance.Visible = true;
         }
@@ -3600,6 +3626,77 @@ public partial class Exposures_Property : clsBasePage
                 strXml += "</Record>";
             }
         }
+
+        // save new fields from Item 26 to Item 33
+        if (rdoItem26.SelectedValue == "Y")
+        {
+            strXml += "<Record>";
+            strXml += "<ItemNo>Item_26</ItemNo>";
+            strXml += "<ItemDesc>" + txtItem26.Text.Trim() + "</ItemDesc>";
+            strXml += "</Record>";
+        }
+
+        if (rdoItem27.SelectedValue == "Y")
+        {
+            strXml += "<Record>";
+            strXml += "<ItemNo>Item_27</ItemNo>";
+            strXml += "<ItemDesc>" + txtItem27.Text.Trim() + "</ItemDesc>";
+            strXml += "</Record>";
+        }
+
+        strXml += "<Record>";
+        strXml += "<ItemNo>Item_28</ItemNo>";
+        strXml += "<ItemDesc>" + (rdoItem28.SelectedValue == "Y" ? "true" : "false") + "</ItemDesc>";
+        strXml += "</Record>";
+
+        strXml += "<Record>";
+        strXml += "<ItemNo>Item_29</ItemNo>";
+        strXml += "<ItemDesc>" + (rdoItem29.SelectedValue == "Y" ? "true" : "false") + "</ItemDesc>";
+        strXml += "</Record>";
+
+        if (rdoItem30.SelectedValue == "Y")
+        {
+            strXml += "<Record>";
+            strXml += "<ItemNo>Item_30</ItemNo>";
+            strXml += "<ItemDesc>" + txtItem30.Text.Trim() + "</ItemDesc>";
+            strXml += "</Record>";
+        }
+
+        strXml += "<Record>";
+        strXml += "<ItemNo>Item_32</ItemNo>";
+        strXml += "<ItemDesc>" + (rdoItem32.SelectedValue == "Y" ? "true" : "false") + "</ItemDesc>";
+        strXml += "</Record>";
+
+        strXml += "<Record>";
+        strXml += "<ItemNo>Item_33</ItemNo>";
+        strXml += "<ItemDesc>" + (rdoItem33.SelectedValue == "Y" ? "true" : "false") + "</ItemDesc>";
+        strXml += "</Record>";
+
+        strXml += "<Record>";
+        strXml += "<ItemNo>Age_of_Roofs</ItemNo>";
+        strXml += "<ItemDesc>" + (string.IsNullOrEmpty(hdnAgeOfRoofs.Value) ? "0" : hdnAgeOfRoofs.Value) + "</ItemDesc>";
+        strXml += "</Record>";
+
+        strXml += "<Record>";
+        strXml += "<ItemNo>Dis_Near_Building</ItemNo>";
+        strXml += "<ItemDesc>" + (string.IsNullOrEmpty(hdnDis_Near_Building.Value) ? "0" : hdnDis_Near_Building.Value) + "</ItemDesc>";
+        strXml += "</Record>";
+
+        strXml += "<Record>";
+        strXml += "<ItemNo>Ext_Wall_Percent</ItemNo>";
+        strXml += "<ItemDesc>" + (string.IsNullOrEmpty(hdnExt_Wall_Percent.Value) ? "0" : hdnExt_Wall_Percent.Value) + "</ItemDesc>";
+        strXml += "</Record>";
+
+        strXml += "<Record>";
+        strXml += "<ItemNo>Other_Percent</ItemNo>";
+        strXml += "<ItemDesc>" + (string.IsNullOrEmpty(hdnOther_Percent.Value) ? "0" : hdnOther_Percent.Value) + "</ItemDesc>";
+        strXml += "</Record>";
+
+        strXml += "<Record>";
+        strXml += "<ItemNo>Item_34</ItemNo>";
+        strXml += "<ItemDesc>" + hdnItem34.Value + "</ItemDesc>";
+        strXml += "</Record>";
+
         strXml += "</Insurances>";
         Building.BuildingInsuranceCOPEInsertUpdate(strXml, FK_Building, clsSession.UserID);
     }
@@ -3617,6 +3714,58 @@ public partial class Exposures_Property : clsBasePage
                     txtField.Text = Convert.ToString(objDs.Tables[0].Rows[0]["Item_" + (i + 1)]);
                 }
             }
+
+            // bind values for Item 26 to item 34
+            DataRow drInsurance = objDs.Tables[0].Rows[0];
+            if (drInsurance["Item_26"] == DBNull.Value || string.IsNullOrEmpty(Convert.ToString(drInsurance["Item_26"]).Trim()))
+            {
+                txtItem26.Text = string.Empty;
+                txtItem26.Visible = false;
+                rdoItem26.SelectedValue = "N";
+            }
+            else
+            {
+                txtItem26.Text = Convert.ToString(drInsurance["Item_26"]);
+                txtItem26.Visible = true;
+                rdoItem26.SelectedValue = "Y";
+            }
+
+            if (drInsurance["Item_27"] == DBNull.Value || string.IsNullOrEmpty(Convert.ToString(drInsurance["Item_27"]).Trim()))
+            {
+                txtItem27.Text = string.Empty;
+                txtItem27.Visible = false;
+                rdoItem27.SelectedValue = "N";
+            }
+            else
+            {
+                txtItem27.Text = Convert.ToString(drInsurance["Item_27"]);
+                txtItem27.Visible = true;
+                rdoItem27.SelectedValue = "Y";
+            }
+
+            if (drInsurance["Item_30"] == DBNull.Value || string.IsNullOrEmpty(Convert.ToString(drInsurance["Item_30"]).Trim()))
+            {
+                txtItem30.Text = string.Empty;
+                txtItem30.Visible = false;
+                rdoItem30.SelectedValue = "N";
+            }
+            else
+            {
+                txtItem30.Text = Convert.ToString(drInsurance["Item_30"]);
+                txtItem30.Visible = true;
+                rdoItem30.SelectedValue = "Y";
+            }
+
+            rdoItem28.SelectedValue = (drInsurance["Item_28"] == DBNull.Value || !(bool)(drInsurance["Item_28"])) ? "N" : "Y";
+            rdoItem29.SelectedValue = (drInsurance["Item_29"] == DBNull.Value || !(bool)(drInsurance["Item_29"])) ? "N" : "Y";
+            rdoItem32.SelectedValue = (drInsurance["Item_32"] == DBNull.Value || !(bool)(drInsurance["Item_32"])) ? "N" : "Y";
+            rdoItem33.SelectedValue = (drInsurance["Item_33"] == DBNull.Value || !(bool)(drInsurance["Item_33"])) ? "N" : "Y";
+
+            hdnAgeOfRoofs.Value = drInsurance["Age_of_Roofs"] == DBNull.Value ? "" : Convert.ToString(drInsurance["Age_of_Roofs"]);
+            hdnDis_Near_Building.Value = drInsurance["Dis_Near_Building"] == DBNull.Value ? "" : Convert.ToString(drInsurance["Dis_Near_Building"]);
+            hdnExt_Wall_Percent.Value = drInsurance["Ext_Wall_Percent"] == DBNull.Value ? "" : Convert.ToString(drInsurance["Ext_Wall_Percent"]);
+            hdnOther_Percent.Value = drInsurance["Other_Percent"] == DBNull.Value ? "" : Convert.ToString(drInsurance["Other_Percent"]);
+            hdnItem34.Value = drInsurance["Item_34"] == DBNull.Value ? "" : Convert.ToString(drInsurance["Item_34"]);
         }
     }
 
@@ -4187,5 +4336,12 @@ public partial class Exposures_Property : clsBasePage
     #endregion
 
 
+    protected void rdoItem_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        RadioButtonList rdo = sender as RadioButtonList;
+        TextBox txtBox = tblInsuranceCopeQuestionnaire.FindControl("txtItem" + rdo.ID.Substring(rdo.ID.Length - 2)) as TextBox;
+        txtBox.Visible = rdo.SelectedValue == "Y" ? true : false;
+        txtBox.Text = "";
+    }
 }
 

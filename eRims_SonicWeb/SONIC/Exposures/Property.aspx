@@ -2023,6 +2023,128 @@ function ValidateFieldsOwnership(sender, args) {
                                                                             </tr>
                                                                             <tr>
                                                                                 <td align="left" colspan="6">
+                                                                                    <table id="tblInsuranceCopeQuestionnaire" runat="server" width="100%" cellpadding="0" cellspacing="0">
+                                                                                        <tr>
+                                                                                            <td align="left" colspan="4"><b>Insurance COPE Questionnaire</b><br />
+                                                                                            </td>
+                                                                                            <td colspan="3" style="text-align: center">
+                                                                                                <b>Answer</b>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td class="Spacer" style="height: 8px;"></td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td align="left" colspan="6">
+                                                                                                <span style="float: left">a.</span>
+                                                                                                <div style="margin-left: 40px">
+                                                                                                    <asp:Label runat="server" ID="lblItem26"></asp:Label><br />
+                                                                                                    <asp:TextBox runat="server" ID="txtItem26" Visible="false"></asp:TextBox>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td colspan="2">
+                                                                                                <asp:RadioButtonList runat="server" AutoPostBack="true" ID="rdoItem26" OnSelectedIndexChanged="rdoItem_SelectedIndexChanged">
+                                                                                                    <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                                                    <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                                                </asp:RadioButtonList>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td align="left" colspan="6">
+                                                                                                <span style="float: left">b.</span>
+                                                                                                <div style="margin-left: 40px">
+                                                                                                    <asp:Label runat="server" ID="lblItem27"></asp:Label><br />
+                                                                                                    <asp:TextBox runat="server" ID="txtItem27" Visible="false"></asp:TextBox>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td colspan="2">
+                                                                                                <asp:RadioButtonList runat="server" AutoPostBack="true" ID="rdoItem27" OnSelectedIndexChanged="rdoItem_SelectedIndexChanged">
+                                                                                                    <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                                                    <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                                                </asp:RadioButtonList>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td align="left" colspan="6">
+                                                                                                <span style="float: left">c.</span>
+                                                                                                <div style="margin-left: 40px">
+                                                                                                <asp:Label runat="server" ID="lblItem28"></asp:Label>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td colspan="2">
+                                                                                                <asp:RadioButtonList runat="server" ID="rdoItem28">
+                                                                                                    <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                                                    <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                                                </asp:RadioButtonList>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td align="left" colspan="6">
+                                                                                                <span style="float: left">d.</span>
+                                                                                                <div style="margin-left: 40px">
+                                                                                                    <asp:Label runat="server" ID="lblItem29"></asp:Label>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td colspan="2">
+                                                                                                <asp:RadioButtonList runat="server" ID="rdoItem29">
+                                                                                                    <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                                                    <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                                                </asp:RadioButtonList>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td align="left" colspan="6">
+                                                                                                <span style="float: left">e.</span>
+                                                                                                <div style="margin-left: 40px">
+                                                                                                    <asp:Label runat="server" ID="lblItem30"></asp:Label><br />
+                                                                                                    <asp:TextBox runat="server" ID="txtItem30" Visible="false" onkeypress="return FormatInteger(event);" onpaste="return false;"></asp:TextBox>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td colspan="2">
+                                                                                                <asp:RadioButtonList runat="server" ID="rdoItem30" AutoPostBack="true" OnSelectedIndexChanged="rdoItem_SelectedIndexChanged">
+                                                                                                    <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                                                    <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                                                </asp:RadioButtonList>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td align="left" colspan="6">
+                                                                                                <span style="float: left">f.</span>
+                                                                                                <div style="margin-left: 40px">
+                                                                                                    <asp:Label runat="server" ID="lblItem32"></asp:Label>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td colspan="2">
+                                                                                                <asp:RadioButtonList runat="server" ID="rdoItem32">
+                                                                                                    <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                                                    <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                                                </asp:RadioButtonList>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td align="left" colspan="6">
+                                                                                                <span style="float: left">g.</span>
+                                                                                                <div style="margin-left: 40px">
+                                                                                                    <asp:Label runat="server" ID="lblItem33"></asp:Label>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td colspan="2">
+                                                                                                <asp:RadioButtonList runat="server" ID="rdoItem33">
+                                                                                                    <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                                                    <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                                                </asp:RadioButtonList>
+                                                                                                <asp:HiddenField runat="server" ID="hdnAgeOfRoofs" />
+                                                                                                <asp:HiddenField runat="server" ID="hdnDis_Near_Building" />
+                                                                                                <asp:HiddenField runat="server" ID="hdnExt_Wall_Percent" />
+                                                                                                <asp:HiddenField runat="server" ID="hdnOther_Percent" />
+                                                                                                <asp:HiddenField runat="server" ID="hdnItem34" />
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="left" colspan="6">
                                                                                     <b>Protection</b><br />
                                                                                 </td>
                                                                             </tr>
