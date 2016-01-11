@@ -2483,7 +2483,16 @@ public partial class Exposures_Investigation : clsBasePage
             ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:OpenWizardPopup();", true);
         }
 
-        lblOSHARecordable_Fields.Style["display"] = hdnOSHARecordable.Value.ToLower() == "yes" ? "inline-block" : "none";
+        if (hdnOSHARecordable.Value.ToLower() == "yes")
+        {
+            lblOSHARecordable_Fields.Style["display"] = "inline-block";
+            ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString() + " ", "javascript:CheckOSHA_Fields_Validation(true);", true);
+        }
+        else
+        {
+            lblOSHARecordable_Fields.Style["display"] = "none";
+            ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString() + " ", "javascript:CheckOSHA_Fields_Validation(false);", true);
+        }
     }
 
     #endregion
