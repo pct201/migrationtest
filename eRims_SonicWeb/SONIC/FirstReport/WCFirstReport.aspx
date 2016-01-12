@@ -1945,10 +1945,10 @@
                                                         <td align="center">:
                                                         </td>
                                                         <td align="left" colspan="4">
-                                                            <asp:TextBox runat="server" ID="txtMedical_Facility_Zip" Width="170px" MaxLength="10"></asp:TextBox>
+                                                            <asp:TextBox runat="server" ID="txtMedical_Facility_Zip" Width="170px" MaxLength="10" SkinID="txtZipCode"></asp:TextBox>
                                                             <asp:RegularExpressionValidator ID="reMedical_Facility_Zip" ControlToValidate="txtMedical_Facility_Zip"
-                                                                runat="server" ValidationGroup="vsMedicalGroup" ErrorMessage="Please Enter Medical Facility Zip Code in XXXXX-XXXX format."
-                                                                Display="none" ValidationExpression="((\(\d{2}\) ?)|(\d{5}-))?\d{4}$"></asp:RegularExpressionValidator>
+                                                                runat="server" ValidationGroup="vsMedicalGroup" ErrorMessage="Please Enter Medical Facility Zip Code in XXXXX or XXXXX-XXXX format."
+                                                                Display="none" ValidationExpression="\d{5}(-\d{4})?$"></asp:RegularExpressionValidator>
                                                         </td>
                                                     </tr>
                                                     <tr>

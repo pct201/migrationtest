@@ -274,7 +274,9 @@ public partial class SONIC_WCFirstReport : clsBasePage
                             objInv.FK_WC_FR_ID = Convert.ToInt32(PK_WC_FR_ID);
                             objInv.FK_LU_Location_ID = Convert.ToInt32(new WC_FR(PK_WC_FR_ID).FK_LU_Location);
                             objInv.Updated_Date = System.DateTime.Now;
+                            SaveInvestigation(objInv, PK_WC_FR_ID);
                             InvestigationID = objInv.Insert();
+                            
                         }
 
                         Response.Redirect(AppConfig.SiteURL + "SONIC/FirstReport/Investigation.aspx?id=" + Encryption.Encrypt(InvestigationID.ToString()) + "&wc=" + Encryption.Encrypt(PK_WC_FR_ID.ToString()) + "&op=edit");
@@ -425,6 +427,7 @@ public partial class SONIC_WCFirstReport : clsBasePage
                 objInv.FK_WC_FR_ID = Convert.ToInt32(PK_WC_FR_ID);
                 objInv.FK_LU_Location_ID = Convert.ToInt32(new WC_FR(PK_WC_FR_ID).FK_LU_Location);
                 objInv.Updated_Date = System.DateTime.Now;
+                SaveInvestigation(objInv, PK_WC_FR_ID);
                 InvestigationID = objInv.Insert();
             }
 
@@ -1168,6 +1171,30 @@ public partial class SONIC_WCFirstReport : clsBasePage
         }
     }
 
+    /// <summary>
+    /// Insert Investigation record.
+    /// </summary>
+    public void SaveInvestigation(Investigation objInv,int WC_FR_ID_For_Investigation)
+    {
+        WC_FR objWC_FR = new WC_FR(WC_FR_ID_For_Investigation);
+
+        objInv.Physician_Other_Professional = objWC_FR.Treating_Physician_Name;
+        objInv.Facility = objWC_FR.Medical_Facility_Name;
+        objInv.Facility_Address = objWC_FR.Medical_Facility_Address1;
+        objInv.Facility_City = objWC_FR.Medical_Facility_City;
+
+        if (!string.IsNullOrEmpty(objWC_FR.Medical_Facility_State))
+        {
+            objInv.FK_State_Facility = clsGeneral.GetDecimal(objWC_FR.Medical_Facility_State);
+        }
+
+        objInv.Facility_Zip_Code = objWC_FR.Medical_Facility_Zip;
+        objInv.Emergency_Room = objWC_FR.Emergency_Room;
+        objInv.Time_Began_Work = objWC_FR.Time_Began_Work;
+        objInv.Activity_Before_Incident = objWC_FR.Activity_Before_Incident;
+        objInv.Object_Substance_Involved = objWC_FR.Object_Substance_Involved;
+        objInv.Admitted_to_Hospital = objWC_FR.Admitted_to_Hospital;
+    }
 
     #endregion
 
