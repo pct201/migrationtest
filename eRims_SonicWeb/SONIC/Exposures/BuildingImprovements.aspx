@@ -541,10 +541,21 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
+                                                        <td colspan="6"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            <span style="float: left">Cap Expo Information : </span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6"></td>
+                                                    </tr>
+                                                    <tr>
                                                         <td colspan="6">
                                                             <span style="float: left">a.</span>
                                                             <div style="margin-left: 40px">
-                                                                <span>Does the project result in the replacement of an material major components(i.e. electrical panels, wiring, HVAC), or a substaintial strcutrual part of the property?</span><br />
+                                                                <span>Does the project result in the replacement of an material major components(i.e. electrical panels, wiring, HVAC), or a substantial structural part of the property?</span><br />
                                                                 <asp:TextBox runat="server" ID="txtItem_1" Style="margin-top: 3px;" MaxLength="250"></asp:TextBox>
                                                             </div>
                                                         </td>
@@ -553,7 +564,7 @@
                                                         <td colspan="6">
                                                             <span style="float: left">b.</span>
                                                             <div style="margin-left: 40px">
-                                                                <span>Any interior or exterior lightening upgrades? Describe.   </span>
+                                                                <span>Any interior or exterior lighting upgrades? Describe.   </span>
                                                                 <br />
                                                                 <asp:TextBox runat="server" ID="txtItem_2" Style="margin-top: 3px;" MaxLength="250"></asp:TextBox>
                                                             </div>
@@ -563,7 +574,7 @@
                                                         <td colspan="6">
                                                             <span style="float: left">c.</span>
                                                             <div style="margin-left: 40px">
-                                                                <span>Environmental issues (asbestos, USTs, in-ground lifts)? Describe action taken</span><br />
+                                                                <span>Environment issues (asbestos, USTs, in-ground lifts)? Describe action taken</span><br />
                                                                 <asp:TextBox runat="server" ID="txtItem_3" Style="margin-top: 3px;" MaxLength="250"></asp:TextBox>
                                                             </div>
                                                         </td>
@@ -599,7 +610,7 @@
                                                         <td colspan="6">
                                                             <span style="float: left">g.</span>
                                                             <div style="margin-left: 40px">
-                                                                <span>How many HVAC units served this area before imporovements?</span><br />
+                                                                <span>How many HVAC units served this area before improvements?</span><br />
                                                                 <asp:TextBox runat="server" ID="txtNumberOfHavacBeforeImprovements" MaxLength="10" onkeypress="return FormatInteger(event);" onpaste="return false;" Style="margin-top: 3px;"></asp:TextBox>
                                                             </div>
                                                         </td>
@@ -608,7 +619,7 @@
                                                         <td colspan="6">
                                                             <span style="float: left">h.</span>
                                                             <div style="margin-left: 40px">
-                                                                <span>How many HVAC units served this area after imporovements?</span><br />
+                                                                <span>How many HVAC units served this area after improvements?</span><br />
                                                                 <asp:TextBox runat="server" ID="txtNumberOfHavacAfterImprovements" MaxLength="10" onkeypress="return FormatInteger(event);" onpaste="return false;" Style="margin-top: 3px;"></asp:TextBox>
                                                             </div>
                                                         </td>
@@ -626,7 +637,8 @@
                                                         <td colspan="6">
                                                             <span style="float: left">j.</span>
                                                             <div style="margin-left: 40px">
-                                                                <span>Any additions or replacements of OH/High Speed doors? Specify</span><br />
+                                                                <span>Any additions or replacements of OH/High Speed doors? Specify : </span>
+                                                                <br />
                                                                 <asp:TextBox runat="server" ID="txtAdditionalReplace" Style="margin-top: 3px;" MaxLength="250"></asp:TextBox>
                                                             </div>
                                                         </td>
@@ -1026,7 +1038,7 @@
                                                         <td colspan="6">
                                                             <span style="float: left">a.</span>
                                                             <div style="margin-left: 40px">
-                                                                <span>Does the project result in the replacement of an material major components(i.e. electrical panels, wiring, HVAC), or a substaintial strcutrual part of the property?</span><br />
+                                                                <span>Does the project result in the replacement of an material major components(i.e. electrical panels, wiring, HVAC), or a substantial strucutural part of the property?</span><br />
 
                                                             </div>
                                                         </td>
@@ -1043,7 +1055,7 @@
                                                         <td colspan="6">
                                                             <span style="float: left">b.</span>
                                                             <div style="margin-left: 40px">
-                                                                <span>Any interior or exterior lightening upgrades? Describe.   </span>
+                                                                <span>Any interior or exterior lighting upgrades? Describe.   </span>
                                                                 <br />
                                                             </div>
                                                         </td>
@@ -1060,7 +1072,7 @@
                                                         <td colspan="6">
                                                             <span style="float: left">c.</span>
                                                             <div style="margin-left: 40px">
-                                                                <span>Environmental issues (asbestos, USTs, in-ground lifts)? Describe action taken</span><br />
+                                                                <span>Environment issues (asbestos, USTs, in-ground lifts)? Describe action taken</span><br />
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -1077,7 +1089,7 @@
                                                             <span style="float: left">d.</span>
                                                             <div style="margin-left: 40px">
                                                                 <span>Any ADA improvements?</span><br />
-                                                                
+
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -1089,7 +1101,7 @@
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                    
+
                                                     <tr>
                                                         <td colspan="6">
                                                             <span style="float: left">e.</span>
@@ -1126,7 +1138,7 @@
                                                         <td colspan="6">
                                                             <span style="float: left">g.</span>
                                                             <div style="margin-left: 40px">
-                                                                <span>How many HVAC units served this area before imporovements?</span><br />
+                                                                <span>How many HVAC units served this area before improvements?</span><br />
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -1142,7 +1154,7 @@
                                                         <td colspan="6">
                                                             <span style="float: left">h.</span>
                                                             <div style="margin-left: 40px">
-                                                                <span>How many HVAC units served this area after imporovements?</span><br />
+                                                                <span>How many HVAC units served this area after improvements?</span><br />
                                                             </div>
                                                         </td>
                                                     </tr>
