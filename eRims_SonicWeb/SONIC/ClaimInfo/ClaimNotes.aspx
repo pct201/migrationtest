@@ -56,7 +56,7 @@
         }
 
         function OpenMailPopUp() {
-            var oWnd = window.open('<%=AppConfig.SiteURL%>SONIC/Exposures/Asset_Protection_SendMail.aspx?Tab=DPD&PK_Fields=' + '<%=ViewState["ClaimNoteIDs"]%>' + '&Table_Name=' + '<%=ViewState["FK_Table_Name"]%>' + '&Claim_ID=' + '<%=ViewState["FK_Claim"]%>', "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=600,height=300");
+            var oWnd = window.open('<%=AppConfig.SiteURL%>SONIC/Exposures/Asset_Protection_SendMail.aspx?Tab=DPD&PK_Fields=' + '<%=ViewState["ClaimNoteIDs"]%>' + '&Table_Name=' + '<%=ViewState["FK_Table_Name"]%>' + '&Claim_ID=' + '<%=ViewState["FK_Claim"]%>' + '&Notes=SonicNotes', "Erims", "location=0,status=0,scrollbars=1,menubar=0,resizable=1,toolbar=0,width=600,height=300");
             oWnd.moveTo(450, 300);
             return false;
         }

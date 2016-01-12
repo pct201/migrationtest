@@ -60,7 +60,17 @@ public partial class SONIC_Exposures_Asset_Protection_SendMail : System.Web.UI.P
                             dtClaim = Property_ClaimInfo.SelectByPK(Convert.ToInt64(Claim_ID)).Tables[0];
                         else if (FK_Table_Name.ToLower() == clsGeneral.Claim_Tables.WCClaim.ToString().ToLower())
                             dtClaim = WC_ClaimInfo.SelectByPK(Convert.ToInt64(Claim_ID)).Tables[0];
-                        DataTable dtNotes = Claims_Adjustor_Notes.SelectByPK(PK_Fields).Tables[0];
+
+                        DataTable dtNotes = null;
+
+                        if (!string.IsNullOrEmpty(Request.QueryString["Notes"]))
+                        {
+                            dtNotes = Claim_Notes.SelectByIDs(PK_Fields).Tables[0];
+                        }
+                        else
+                        {
+                            dtNotes = Claims_Adjustor_Notes.SelectByPK(PK_Fields).Tables[0];
+                        }
                         StringBuilder sbHTML = new StringBuilder();
 
                         #region " Generate HTML Text "
@@ -120,32 +130,65 @@ public partial class SONIC_Exposures_Asset_Protection_SendMail : System.Web.UI.P
 
                         sbHTML.Append("<table cellpadding='3' cellspacing='1' width='100%'>");
                         int i = 0;
-                        foreach (DataRow drClaims_Adjustor_Notes in dtNotes.Rows)
+
+                        if (!string.IsNullOrEmpty(Request.QueryString["Notes"]))
                         {
-                            sbHTML.Append("<tr>");
-                            sbHTML.Append("<td width='18%' align='left' valign='top'>Data Entry Date</td>");
-                            sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
-                            sbHTML.Append("<td width='28%' align='left' valign='top'>" + clsGeneral.FormatDBNullDateToDisplay(Convert.ToDateTime(drClaims_Adjustor_Notes["Data_Entry_Date"])) + "</td>");
-                            sbHTML.Append("<td width='18%' align='left' valign='top'>Activity Type</td>");
-                            sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
-                            sbHTML.Append("<td width='28%' align='left' valign='top'>" + Convert.ToString(drClaims_Adjustor_Notes["Activity_Type_Description"]) + "</td>");
-                            sbHTML.Append("</tr>");
-                            sbHTML.Append("<tr>");
-                            sbHTML.Append("<td align='left' valign='top'>Note Text</td>");
-                            sbHTML.Append("<td align='center' valign='top'>:</td>");
-                            sbHTML.Append("<td align='left' colspan='4' valign='top'>");
-                            sbHTML.Append(Convert.ToString(drClaims_Adjustor_Notes["Note_Text"]));
-                            sbHTML.Append("</td>");
-                            sbHTML.Append("</tr>");
+                            dtNotes = Claim_Notes.SelectByIDs(PK_Fields).Tables[0];
 
-                            if (i < dtNotes.Rows.Count - 1)
+                            foreach (DataRow drClaims_Adjustor_Notes in dtNotes.Rows)
                             {
-                                sbHTML.Append("<tr style='height:30px'>");
-                                sbHTML.Append("<td colspan='6' style='vertical-align:middle'><hr size='1' color='Black' /></td>");
+                                sbHTML.Append("<tr>");
+                                sbHTML.Append("<td width='18%' align='left' valign='top'>Date of Note</td>");
+                                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                                sbHTML.Append("<td align='left' valign='top'>" + clsGeneral.FormatDBNullDateToDisplay(Convert.ToDateTime(drClaims_Adjustor_Notes["Note_Date"])) + "</td>");
                                 sbHTML.Append("</tr>");
-                            }
+                                sbHTML.Append("<tr>");
+                                sbHTML.Append("<td align='left' valign='top'>Notes</td>");
+                                sbHTML.Append("<td align='center' valign='top'>:</td>");
+                                sbHTML.Append("<td align='left' valign='top'>");
+                                sbHTML.Append(Convert.ToString(drClaims_Adjustor_Notes["Note"]));
+                                sbHTML.Append("</td>");
+                                sbHTML.Append("</tr>");
 
-                            i++;
+                                if (i < dtNotes.Rows.Count - 1)
+                                {
+                                    sbHTML.Append("<tr style='height:30px'>");
+                                    sbHTML.Append("<td colspan='6' style='vertical-align:middle'><hr size='1' color='Black' /></td>");
+                                    sbHTML.Append("</tr>");
+                                }
+                                i++;
+                            }
+                        }
+                        else
+                        {
+                            dtNotes = Claims_Adjustor_Notes.SelectByPK(PK_Fields).Tables[0];
+
+                            foreach (DataRow drClaims_Adjustor_Notes in dtNotes.Rows)
+                            {
+                                sbHTML.Append("<tr>");
+                                sbHTML.Append("<td width='18%' align='left' valign='top'>Data Entry Date</td>");
+                                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                                sbHTML.Append("<td width='28%' align='left' valign='top'>" + clsGeneral.FormatDBNullDateToDisplay(Convert.ToDateTime(drClaims_Adjustor_Notes["Data_Entry_Date"])) + "</td>");
+                                sbHTML.Append("<td width='18%' align='left' valign='top'>Activity Type</td>");
+                                sbHTML.Append("<td width='4%' align='center' valign='top'>:</td>");
+                                sbHTML.Append("<td width='28%' align='left' valign='top'>" + Convert.ToString(drClaims_Adjustor_Notes["Activity_Type_Description"]) + "</td>");
+                                sbHTML.Append("</tr>");
+                                sbHTML.Append("<tr>");
+                                sbHTML.Append("<td align='left' valign='top'>Note Text</td>");
+                                sbHTML.Append("<td align='center' valign='top'>:</td>");
+                                sbHTML.Append("<td align='left' colspan='4' valign='top'>");
+                                sbHTML.Append(Convert.ToString(drClaims_Adjustor_Notes["Note_Text"]));
+                                sbHTML.Append("</td>");
+                                sbHTML.Append("</tr>");
+
+                                if (i < dtNotes.Rows.Count - 1)
+                                {
+                                    sbHTML.Append("<tr style='height:30px'>");
+                                    sbHTML.Append("<td colspan='6' style='vertical-align:middle'><hr size='1' color='Black' /></td>");
+                                    sbHTML.Append("</tr>");
+                                }
+                                i++;
+                            }
                         }
 
                         sbHTML.Append("</table>");

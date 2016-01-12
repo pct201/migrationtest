@@ -105,7 +105,7 @@ public partial class SONIC_ALClaimInfo : clsBasePage
 
             if (Request.QueryString["pnl"] != null && Request.QueryString["pnl"] != string.Empty)
             {
-                Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);", true);
+                Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);", true);
             }
             #endregion
 

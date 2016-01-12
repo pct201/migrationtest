@@ -308,7 +308,7 @@ public partial class SONIC_ClaimNotes : clsBasePage
         else if (FK_Table_Name.ToLower() == clsGeneral.Claim_Tables.PLClaim.ToString().ToLower())
             Response.Redirect("PLClaimInfo.aspx?id=" + Encryption.Encrypt(FK_Claim.ToString()) + "&pnl=6");
         else if (FK_Table_Name.ToLower() == clsGeneral.Claim_Tables.DPDClaim.ToString().ToLower())
-            Response.Redirect("DPDClaimInfo.aspx?id=" + Encryption.Encrypt(FK_Claim.ToString()) + "&pnl=4");
+            Response.Redirect("DPDClaimInfo.aspx?id=" + Encryption.Encrypt(FK_Claim.ToString()) + "&pnl=6");
         else if (FK_Table_Name.ToLower() == clsGeneral.Claim_Tables.ALClaim.ToString().ToLower())
             Response.Redirect("ALClaimInfo.aspx?id=" + Encryption.Encrypt(FK_Claim.ToString()) + "&pnl=6");
         else if (FK_Table_Name.ToLower() == clsGeneral.Claim_Tables.PropertyClaim.ToString().ToLower())
@@ -488,17 +488,15 @@ public partial class SONIC_ClaimNotes : clsBasePage
             {
                 // get the data and set the values to page controls
                 DataRow drDPD_Claims = dtDPD_Claims.Rows[0];
-                lblClaimNumber_DPD.Text = Convert.ToString(drDPD_Claims["Claim_Number"]);
+                lblClaimNumber_DPD.Text = Convert.ToString(drDPD_Claims["Origin_Claim_Number"]);
                 lblLocationdba_DPD.Text = Convert.ToString(drDPD_Claims["dba"]);
                 lblDateLoss_DPD.Text = drDPD_Claims["Date_Of_Loss"] == DBNull.Value ? "" : clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drDPD_Claims["Date_Of_Loss"].ToString()));
-                lnkAssociatedFirstReport_DPD.Text = Convert.ToString(drDPD_Claims["Associated_First_Report"]);
-                lnkAssociatedFirstReport_DPD.Text = Convert.ToString(drDPD_Claims["FR_Number"]);
-
+                lnkAssociatedFirstReport_DPD.Text = Convert.ToString(drDPD_Claims["DPD_FR_Number"]);
                 if (!string.IsNullOrEmpty(lnkAssociatedFirstReport_DPD.Text.Trim()))
                     lnkAssociatedFirstReport_DPD.Text = "DPD-" + lnkAssociatedFirstReport_DPD.Text;
 
                 decimal _FR_Number;
-                if (decimal.TryParse(Convert.ToString(drDPD_Claims["FR_Number"]), out _FR_Number))
+                if (decimal.TryParse(Convert.ToString(drDPD_Claims["DPD_FR_Number"]), out _FR_Number))
                     First_Report_Number = _FR_Number;
 
             }

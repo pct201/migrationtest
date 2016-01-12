@@ -102,6 +102,10 @@ public partial class SONIC_DPDClaimInfo : clsBasePage
                 ucAdjusterNotes.ClaimNumber = Convert.ToString(drDPD_Claims["Origin_Claim_Number"]);
                 ucAdjusterNotes.BindGridNotes(ucAdjusterNotes.ClaimNumber);
 
+                ctrlSonicNotes.PK_DPD_Claims_ID = PK_DPD_Claims_ID;
+                ctrlSonicNotes.CurrentClaimType = clsGeneral.Claim_Tables.DPDClaim.ToString();
+                ctrlSonicNotes.BindGridSonicNotes(PK_DPD_Claims_ID, clsGeneral.Claim_Tables.DPDClaim.ToString());
+
                 //Set the first panel active
                 int intPanle = 1;
                 if (int.TryParse(Convert.ToString(Request.QueryString["pnl"]), out intPanle))
