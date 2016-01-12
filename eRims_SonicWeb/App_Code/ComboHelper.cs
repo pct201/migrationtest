@@ -6099,4 +6099,28 @@ public class ComboHelper
             }
         }
     }
+
+    /// <summary>
+    /// Fill Contractor Security Dropdown Users
+    /// </summary>
+    /// <param name="dropDownList"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillContractorSecurityUser(DropDownList[] dropDownList, int FK_Contractor_Security, bool booladdSelectAsFirstElement)
+    {
+        DataSet dsData = ERIMS.DAL.Contractor_Security.SelectAllExceptCurrentUser(FK_Contractor_Security);
+
+        foreach (DropDownList ddlToFill in dropDownList)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Recipient_Name";
+            ddlToFill.DataValueField = "PK_Contactor_Security";
+            ddlToFill.DataSource = dsData;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
 }

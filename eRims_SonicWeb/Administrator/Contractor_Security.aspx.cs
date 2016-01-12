@@ -211,6 +211,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
     protected void btnEdit_Click(object sender, EventArgs e)
     {
         if (PK_Contactor_Security > 0)
+            
             Response.Redirect("Contractor_Security.aspx?op=edit&id=" + Encryption.Encrypt(Convert.ToString(PK_Contactor_Security)));
     }
 
@@ -419,6 +420,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
             //System.Web.UI.HtmlControls.HtmlTableRow trpass = (System.Web.UI.HtmlControls.HtmlTableRow)DivEditSecuirty.FindControl("trPassword");
             //trpass.Style.Add("display", "");
             PK_Contactor_Security = Convert.ToInt32(e.CommandArgument.ToString());
+            hdnPKContractorSecurity.Value = PK_Contactor_Security.ToString();
             EditRecords();
         }
         else if (e.CommandName == "View")
@@ -426,6 +428,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
             divViewContractSecurityList.Style.Add("display", "none");
             divModifyAdmin.Style.Add("display", "block");
             PK_Contactor_Security = Convert.ToInt32(e.CommandArgument.ToString());
+            hdnPKContractorSecurity.Value = PK_Contactor_Security.ToString();
             ViewRecords();
         }
     }
@@ -467,6 +470,30 @@ public partial class Administrator_Contractor_Security : clsBasePage
             strURL = strURL + "id=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&op=view&fid=" + Encryption.Encrypt(PK_Contactor_Security.ToString());
             Response.Redirect(strURL);
         }
+    }
+
+    /// <summary>
+    /// handles sorting of project access grid
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvLocationProjectAccess_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        SortOrderProjectGrid = (SortByProjectGrid == e.SortExpression) ? (SortOrderProjectGrid == "asc" ? "desc" : "asc") : "asc";
+        SortByProjectGrid = e.SortExpression;
+        BindLocationProjectAccessGridsView(SortByProjectGrid, SortOrderProjectGrid);
+    }
+
+    /// <summary>
+    /// handles sorting of view project access grid
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvViewLocationProjectAccess_Sorting(object sender, GridViewSortEventArgs e)
+    {
+        SortOrderProjectGrid = (SortByProjectGrid == e.SortExpression) ? (SortOrderProjectGrid == "asc" ? "desc" : "asc") : "asc";
+        SortByProjectGrid = e.SortExpression;
+        BindLocationProjectAccessGridsView(SortByProjectGrid, SortOrderProjectGrid);
     }
     #endregion
 
@@ -620,6 +647,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
         txtCellPhone.Text = Convert.ToString(objContractorSecurity.Cell_Telephone);
         txtPager.Text = Convert.ToString(objContractorSecurity.Pager);
         txtEmail.Text = Convert.ToString(objContractorSecurity.Email);
+        hdnPKContractorSecurity.Value = Convert.ToString(PK_Contactor_Security);
 
     }
 
@@ -715,18 +743,16 @@ public partial class Administrator_Contractor_Security : clsBasePage
         }
     }
 
+    /// <summary>
+    /// refresh the Project access grid
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnRefreshProjectGrid_Click(object sender, EventArgs e)
+    {
+        BindLocationProjectAccessGridsView(SortByProjectGrid, SortOrderProjectGrid);
+    }
     #endregion
 
-    protected void gvLocationProjectAccess_Sorting(object sender, GridViewSortEventArgs e)
-    {
-        SortOrderProjectGrid = (SortByProjectGrid == e.SortExpression) ? (SortOrderProjectGrid == "asc" ? "desc" : "asc") : "asc";
-        SortByProjectGrid = e.SortExpression;
-        BindLocationProjectAccessGridsView(SortByProjectGrid, SortOrderProjectGrid);
-    }
-    protected void gvViewLocationProjectAccess_Sorting(object sender, GridViewSortEventArgs e)
-    {
-        SortOrderProjectGrid = (SortByProjectGrid == e.SortExpression) ? (SortOrderProjectGrid == "asc" ? "desc" : "asc") : "asc";
-        SortByProjectGrid = e.SortExpression;
-        BindLocationProjectAccessGridsView(SortByProjectGrid, SortOrderProjectGrid);
-    }
+    
 }

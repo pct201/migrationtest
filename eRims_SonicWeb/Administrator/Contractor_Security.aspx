@@ -50,6 +50,12 @@
             window1.focus();
             return false;
         }
+
+        function OpenContractorSecurityPopup(action, title)
+        {
+            GB_showCenter(title, '<%=AppConfig.SiteURL%>Administrator/ContractorSecurityPopup.aspx?action=' + action + '&FK_Contractor_Security=<%= PK_Contactor_Security %>', 300, 800, '');
+            return false;
+        }
     </script>
     <link href="<%=AppConfig.SiteURL%>greybox/gb_styles.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="<%=AppConfig.SiteURL%>greybox/AJS.js"></script>
@@ -62,6 +68,7 @@
     <script type="text/javascript" src="../JavaScript/JFunctions.js"></script>
     <br />
     <asp:HiddenField ID="hdnMode" runat="server" Value="0"></asp:HiddenField>
+    <asp:HiddenField ID="hdnPKContractorSecurity" runat="server" />
     <div runat="Server" id="divViewContractSecurityList">
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
             <tr>
@@ -745,7 +752,10 @@
                                     OnClick="btnSave_Click" OnClientClick="return CheckVal();" />&nbsp;&nbsp;&nbsp;
                                   <asp:Button ID="btnEdit" runat="server" Text=" Edit " OnClick="btnEdit_Click" />&nbsp;&nbsp;&nbsp;
                                 <asp:Button ID="btnCancel" runat="server" Text="Cancel" CausesValidation="false"
-                                    OnClick="btnCancel_Click" />
+                                    OnClick="btnCancel_Click" />&nbsp;&nbsp;&nbsp;
+                                <asp:Button ID="btnCopyFrom" runat="server" Text="Copy Projects From" CausesValidation="false" OnClientClick="return OpenContractorSecurityPopup('from', 'Copy from');" />
+                                <asp:Button ID="btnCopyTo" runat="server" Text="Copy Projects To" CausesValidation="false" OnClientClick="return OpenContractorSecurityPopup('to', 'Copy to');" />
+                                <asp:Button ID="btnRefreshProjectGrid" runat="server" OnClick="btnRefreshProjectGrid_Click" style="display:none" />
                             </td>
                         </tr>
                         <tr>

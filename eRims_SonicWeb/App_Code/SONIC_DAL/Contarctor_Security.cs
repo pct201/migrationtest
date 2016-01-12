@@ -913,5 +913,43 @@ namespace ERIMS.DAL
                 return db.ExecuteDataSet(dbCommand);
             }
         }
+
+        /// <summary>
+        /// Copy all projects from source to target 
+        /// </summary>
+        /// <param name="target_FK_Contractor_Security"></param>
+        /// <param name="source_FK_Contrator_Security"></param>
+        /// <param name="updatedBy"></param>
+        /// <returns></returns>
+        public static int CopyProjects(int target_FK_Contractor_Security, int source_FK_Contrator_Security, int updatedBy)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Contractor_SecurityCopyProjects");
+
+            db.AddInParameter(dbCommand, "Target_FK_Contractor_Security", DbType.Decimal, target_FK_Contractor_Security);
+
+            db.AddInParameter(dbCommand, "Source_FK_Contractor_Security", DbType.Decimal, source_FK_Contrator_Security);
+
+            db.AddInParameter(dbCommand, "Updated_By", DbType.Decimal, updatedBy);
+            
+            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
+
+            return returnValue;
+        }
+
+        /// <summary>
+        /// Select All user except current specified
+        /// </summary>
+        /// <param name="FK_Contractor_Security"></param>
+        /// <returns></returns>
+        public static DataSet SelectAllExceptCurrentUser(int FK_Contractor_Security)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Contractor_SecuritySelectAllExceptCurrentUser");
+
+            db.AddInParameter(dbCommand, "PK_Contractor_Security", DbType.Decimal, FK_Contractor_Security);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
     }
 }
