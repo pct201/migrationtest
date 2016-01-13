@@ -696,11 +696,11 @@
                     <td valign="top"></td>
                 </tr>
                 <tr>
-                    <td width="24%" align="left" valign="top">Target Date of Completion&nbsp;<span id="Span4" runat="server" style="color: Red; display: none;">*</span>
+                    <td width="23%" align="left" valign="top">Target Date of Completion&nbsp;<span id="Span4" runat="server" style="color: Red; display: none;">*</span>&nbsp;&nbsp;&nbsp;:
                     </td>
-                    <td width="1%" valign="top">:
-                    </td>
-                    <td width="25%" valign="top">
+                  <%--  <td width="1%" valign="top">:
+                    </td>--%>
+                    <td width="28%" valign="top">
                         <%--ctl00_ContentPlaceHolder1_Incident_Review1_txtTargetDateCompletion--%>
                         <asp:TextBox ID="txtTargetDateCompletion" runat="server" Width="150px" SkinID="txtDate"></asp:TextBox>
                         <img alt="Target Date of Completion" onclick="return showCalendar('<%=txtTargetDateCompletion.ClientID%>', 'mm/dd/y');"
@@ -721,7 +721,7 @@
                     <%--<td width="1%" valign="top"> 
                         :
                     </td>--%>
-                    <td width="36%" valign="top" align="left" colspan="2">
+                    <td width="30%" valign="top" align="left" colspan="2">
                         <%--ctl00_ContentPlaceHolder1_Incident_Review1_txtStatusDueOn--%>
                         <asp:TextBox ID="txtStatusDueOn" runat="server" Width="150px" SkinID="txtDate"></asp:TextBox>
                         <img alt="Status Due On" onclick="return showCalendar('<%=txtStatusDueOn.ClientID %>', 'mm/dd/y');"
