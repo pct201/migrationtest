@@ -397,6 +397,14 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
 
             if (PK_AP_Property_Security == 0)
             {
+                //here bind building dropdown and gridview visibility is wrong because this selected fk_building add in AP_Property_Security table but this is zero
+                //FillOccupancyByFKLocation(new DropDownList[] { drpFK_Building_Id }, true, LocationID);
+                //so here add screen visible
+                tblMainPropertySecurityGrid.Style.Add("display", "none");
+                tblMainPropertySecurity.Style.Add("display", "");
+                dvProperty_SecuritySave.Style.Add("display", "");
+                btnCancel.Style.Add("display", "none");
+                btnCopyBuilding.Style.Add("display", "none");
 
                 StrOperation = "edit";
                 //btnGenerate_Abstract.Visible = false;
@@ -413,6 +421,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 txtCCTV_Comapny_Contact_Telephone.Text = "740-368-4177";
                 txtCCTV_Company_Contact_EMail.Text = "rich@aciprotection.com";
             }
+            //else
+            //    drpFK_Building_Id.Visible = false;
 
 
             // shows the first panel
@@ -439,7 +449,6 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                             //BindDetailsForViewForCal_Atlantic();
                             BindDetailsForView_FraudEvents();
                             //AttachDetails.InitializeAttachmentDetails(Convert.ToInt32(LocationID), "FK_LU_Location", "PK_AP_Attachments", false, 6);
-
                         }
                         else
                         {
@@ -447,17 +456,15 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                             btnBack.Visible = false;
                             BindDropDownList();
 
-                            //Added for #3437
-                            BindPropertySecurityBuilding();
                             //BindDetailsForEditForProperty_Security();
-
-
                             BindDetailsForEditForDPD_FROIs();
                             BindDetailsForEdit_AL();
                             //BindDetailsForEditForCal_Atlantic();
                             BindDetailsForEdit_FraudEvents();
                             //AttachDetails.InitializeAttachmentDetails(Convert.ToInt32(LocationID), "FK_LU_Location", "PK_AP_Attachments", true, 6);
                         }
+                        //Added for #3437
+                        BindPropertySecurityBuilding();
                     }
                 }
                 else
@@ -528,14 +535,28 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     private void BindPropertySecurityBuilding()
     {
         DataSet dsBuildingData = clsAP_Property_Security.BindPropertySecurityBuilding(LocationID);
-        if (dsBuildingData != null && dsBuildingData.Tables.Count > 0)
+
+        if (StrOperation != "view")
         {
-            gvBuildingPropertySecurity.DataSource = dsBuildingData.Tables[0];
-            gvBuildingPropertySecurity.DataBind();
+            if (dsBuildingData != null && dsBuildingData.Tables.Count > 0)
+            {
+                gvBuildingPropertySecurity.DataSource = dsBuildingData.Tables[0];
+                gvBuildingPropertySecurity.DataBind();
+            }
+            dvProperty_SecuritySave.Style["display"] = "none";
+            //dvProperty_SecuritySave.Attributes.Add("style", "display:none");
+            dvAL_Save.Style["display"] = "none";
+            dvDPD_Save.Style["display"] = "none";
         }
-        dvProperty_SecuritySave.Style["display"] = "none";
-        dvAL_Save.Style["display"] = "none";
-        dvDPD_Save.Style["display"] = "none";
+        else
+        {
+            if (dsBuildingData != null && dsBuildingData.Tables.Count > 0)
+            {
+                gvBuildingPropertySecurityView.DataSource = dsBuildingData.Tables[0];
+                gvBuildingPropertySecurityView.DataBind();
+            }
+
+        }
     }
 
     /// <summary>
@@ -3371,7 +3392,6 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
 
     }
 
-
     //protected void btnCancelFinancialGrid_Click(object sender, EventArgs e)
     //{
     //    txtCCTVOnlyTC.Text = string.Empty;
@@ -3392,8 +3412,6 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
 
     }
 
-
-
     protected void lnkAddFraudNotesGrid_Click(object sender, EventArgs e)
     {
         btnNotesGridAdd.Visible = false;
@@ -3410,6 +3428,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
 
     }
+    
     protected void btnFraudNotesGridAdd_Click(object sender, EventArgs e)
     {
         AP_FE_PA_Notes AP_FE_PA_Notes = new AP_FE_PA_Notes();
@@ -3437,6 +3456,16 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
     }
 
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        BindHeaderInfo();
+
+        dvAL_Save.Style["display"] = "none";
+        dvDPD_Save.Style["display"] = "none";
+        tblMainPropertySecurityGrid.Style["display"] = "";
+        tblMainPropertySecurity.Style["display"] = "none";
+        dvProperty_SecuritySave.Style["display"] = "none";
+    }
     #endregion
 
     #region " DPD_FROIs "
@@ -5084,5 +5113,47 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             tblMainPropertySecurity.Style["display"] = "";
             dvProperty_SecuritySave.Style["display"] = "";
         }
+        else if (e.CommandName == "gvView")
+        {
+            PK_AP_Property_Security = Convert.ToDecimal(e.CommandArgument);
+            GridViewRow row = (GridViewRow)(((Control)e.CommandSource).NamingContainer);
+            HiddenField hdnBuildingNumber = (HiddenField)row.FindControl("hdnBuildingNumberView");
+            if (hdnBuildingNumber != null)
+            {
+                lblHeaderLocationNumber.Text += " - Building";
+                lblLocation_Number.Text += " - " + hdnBuildingNumber.Value;
+            }
+
+            BindDetailsForViewForProperty_Security();
+            tblMainPropertySecurityGridView.Style["display"] = "none";
+            tblMainPropertySecurityView.Style["display"] = "";
+            //dvProperty_SecuritySave.Style["display"] = "";
+
+        }
     }
+
+    /// <summary>
+    /// Fill Occupancy By FKLocation Drop downs
+    /// </summary>
+    /// <param name="dropDownList">All dropDownList</param>
+    /// <param name="booladdSelectAsFirstElement">Add --select-- to first item in each drop down or not</param>
+    //public static void FillOccupancyByFKLocation(DropDownList[] dropDowns, bool booladdSelectAsFirstElement, decimal fK_LU_Location_ID)
+    //{
+    //    const string SELECT_STRING = "-- Select --";
+    //    DataSet dsData = ERIMS.DAL.Building.SelectOccupancyByFKLocation(fK_LU_Location_ID);
+    //    foreach (DropDownList lstToFill in dropDowns)
+    //    {
+    //        lstToFill.Items.Clear();
+    //        lstToFill.DataTextField = "Building_Occupancy";
+    //        lstToFill.DataValueField = "PK_Building_ID";
+    //        lstToFill.DataSource = dsData.Tables[0].DefaultView;
+    //        lstToFill.DataBind();
+    //        //check require to add "-- select --" at first item of dropdown.
+    //        if (booladdSelectAsFirstElement)
+    //        {
+    //            lstToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+    //        }
+    //    }
+    //}
+   
 }

@@ -99,10 +99,10 @@
                     document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i).style.display = (i == index) ? "block" : "none";
                     TextChange();
                 }
-                if (index == 1) {
-                    document.getElementById('<%=dvProperty_SecuritySave.ClientID%>').style.display = ""; document.getElementById('<%=btnPrevoius.ClientID%>').style.display = "none";
-                }
-                else { document.getElementById('<%=dvProperty_SecuritySave.ClientID%>').style.display = "none"; document.getElementById('<%=btnPrevoius.ClientID%>').style.display = ""; }
+                //if (index == 1) {
+                //    document.getElementById('<=dvProperty_SecuritySave.ClientID%>').style.display = ""; document.getElementById('<=btnPrevoius.ClientID%>').style.display = "none";
+                //}
+                //else { document.getElementById('<=dvProperty_SecuritySave.ClientID%>').style.display = "none"; document.getElementById('<=btnPrevoius.ClientID%>').style.display = ""; }
                 if (index == 2) { document.getElementById('<%= dvDPD_Save.ClientID %>').style.display = ""; }
                 else { document.getElementById('<%= dvDPD_Save.ClientID %>').style.display = "none"; }
                 if (index == 3) { document.getElementById('<%= dvAL_Save.ClientID %>').style.display = ""; }
@@ -445,6 +445,12 @@ function IsValidMonitorTime() {
             }
         }
 
+        var GB_ROOT_DIR = '<%=AppConfig.SiteURL%>' + 'greybox/';
+        function OpenBuildingByFK_LocatoinPopup() {
+            GB_showCenter(title, '<%=AppConfig.SiteURL%>Administrator/ContractorSecurityPopup.aspx?action=' + action + '&FK_Contractor_Security=<= PK_Contactor_Security %>', 300, 800, '');
+            return false;
+        }
+
     </script>
     <div>
         <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
@@ -594,9 +600,12 @@ function IsValidMonitorTime() {
                                             <asp:Panel ID="pnl1" runat="server" Style="display: none;" Width="794px">
                                                 <table width="100%" id="tblMainPropertySecurityGrid" runat="server">
                                                     <tr>
-                                                        <td>Building Grid    :
+                                                        <td width="15%">Building Grid    :
                                                         </td>
                                                         <td>
+                                                           <%-- <asp:DropDownList ID="drpFK_Building_Id" Width="93%" runat="server" SkinID="dropGen" AutoPostBack="true">
+                                                            </asp:DropDownList>--%>
+
                                                             <asp:GridView ID="gvBuildingPropertySecurity" runat="server" GridLines="None" CellPadding="4" DataKeyNames="PK_AP_Property_Security"
                                                                 CellSpacing="0" AutoGenerateColumns="false" Width="100%" EnableTheming="false"
                                                                 OnRowCommand="gvBuildingPropertySecurity_RowCommand">
@@ -2107,9 +2116,10 @@ function IsValidMonitorTime() {
                                                             <asp:Button ID="btnSave" runat="server" Text="Save" OnClick="btnSave_Click" CausesValidation="true"
                                                                 ValidationGroup="vsErrorProperty_Security" />
                                                             &nbsp;
-                                                            <asp:Button ID="btnCancel" runat="server" Text="Cancel" />
+                                                            <asp:Button ID="btnCancel" runat="server" Text="Cancel" OnClick="btnCancel_Click"/>
                                                             &nbsp;
-                                                            <asp:Button ID="btnCopyBuilding" runat="server" Text="Copy To" />
+                                                            <asp:Button ID="btnCopyBuilding" runat="server" Text="Copy To" ValidationGroup="vsErrorProperty_Security"
+                                                               CausesValidation="true" OnClientClick="return OpenBuildingByFK_LocatoinPopup();"/>
                                                             &nbsp;
                                                             <asp:Button ID="btnProperty_SecurityAudit" runat="server" Text="View Audit Trail"
                                                                 CausesValidation="false" ToolTip="View Audit Trail" OnClientClick="javascript:return openAP_Propert_SecurtyPopup();"
@@ -5295,7 +5305,49 @@ function IsValidMonitorTime() {
                                         </div>
                                         <div id="dvView" runat="server" width="794px">
                                             <asp:Panel ID="pnl1View" runat="server" Style="display: none;" Width="794px">
-                                                <table cellpadding="3" cellspacing="1" border="0" width="100%" id="tblMainPropertySecurityView"
+                                                <table width="100%" id="tblMainPropertySecurityGridView" runat="server">
+                                                    <tr>
+                                                        <td width="12%">Building Grid    :
+                                                        </td>
+                                                        <td>
+                                                            <asp:GridView ID="gvBuildingPropertySecurityView" runat="server" GridLines="None" CellPadding="4" DataKeyNames="PK_AP_Property_Security"
+                                                                CellSpacing="0" AutoGenerateColumns="false" Width="100%" EnableTheming="false"
+                                                                OnRowCommand="gvBuildingPropertySecurity_RowCommand">
+                                                                <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
+                                                                    Font-Size="8pt" />
+                                                                <RowStyle BackColor="#EAEAEA" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                <EditRowStyle BackColor="#2461BF" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" Font-Names="Tahoma"
+                                                                    Font-Size="8pt" />
+                                                                <PagerStyle BackColor="#7f7f7f" ForeColor="White" HorizontalAlign="Center" Font-Names="Tahoma"
+                                                                    Font-Size="8pt" />
+                                                                <HeaderStyle BackColor="#7f7f7f" Font-Bold="True" ForeColor="White" Font-Names="Tahoma"
+                                                                    Font-Size="8pt" VerticalAlign="Bottom" />
+                                                                <AlternatingRowStyle BackColor="White" Font-Names="Tahoma" Font-Size="8pt" />
+                                                                <EmptyDataRowStyle CssClass="emptyrow" />
+                                                                <Columns>
+                                                                    <asp:TemplateField HeaderText="Day Monitoring Begins" HeaderStyle-HorizontalAlign="Left">
+                                                                        <ItemStyle Width="20%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkbtnBuildingPropertySecurity" runat="server" CommandName="gvView"
+                                                                                CommandArgument='<%# Eval("PK_AP_Property_Security") %>'> 
+                                                                            <%# Eval("Building_Occupancy")%>
+                                                                            </asp:LinkButton>
+                                                                            <asp:HiddenField ID="hdnBuildingNumberView" runat="server" Value='<%# Eval("Building_Number") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                   
+                                                                </Columns>
+                                                                <EmptyDataRowStyle ForeColor="#7f7f7f" HorizontalAlign="Center" />
+                                                                <EmptyDataTemplate>
+                                                                    <b>No Record found</b>
+                                                                </EmptyDataTemplate>
+                                                                <PagerSettings Visible="False" />
+                                                            </asp:GridView>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <table cellpadding="3" cellspacing="1" border="0" width="100%" id="tblMainPropertySecurityView" style="display: none"
                                                     runat="server">
                                                     <tr>
                                                         <td colspan="6">
