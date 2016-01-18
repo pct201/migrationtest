@@ -52,6 +52,7 @@ public partial class Administrator_WallSearchByLocation : clsBasePage
     {
         if (!IsPostBack)
         {
+            BindDropdowns();
             DataSet dtTemp = Security.SelectGroupByUserID(Convert.ToDecimal(clsSession.UserID));
             if (dtTemp != null && dtTemp.Tables.Count > 0)
             {
@@ -108,10 +109,19 @@ public partial class Administrator_WallSearchByLocation : clsBasePage
         string strFirstName = Convert.ToString(txtPosterFirstName.Text.Trim().Replace("'", "''"));
         DateTime? dtPostDateFrom = clsGeneral.FormatNullDateToStore(txtDatePostFrom.Text);
         DateTime? dtPostDateTo = clsGeneral.FormatNullDateToStore(txtDatePostTo.Text);
+
+        string strPostDateFrom = Convert.ToString(txtDatePostFrom.Text);
+        string strPostDateTo = Convert.ToString(txtDatePostTo.Text);
+
         string strPostText = Convert.ToString(txtPostText.Text.Trim().Replace("'", "''"));
         string strTopic = Convert.ToString(txtTopic.Text.Trim()).Replace("'", "''");
+        string strFilter_By_Region = string.Empty, strFilter_By_Market = string.Empty;
 
-        DataSet dsPosts = clsWall_By_Location.SearchWallPostsByLocationAdmin(PageNumber, PageSize, strLastName, strFirstName, dtPostDateFrom, dtPostDateTo, strPostText, strTopic, SortBy, SortOrder);
+        strFilter_By_Region = ddlRegion.SelectedIndex > 0 ? ddlRegion.SelectedValue : string.Empty;
+        strFilter_By_Market = ddlMarket.SelectedIndex > 0 ? ddlMarket.SelectedValue : string.Empty;
+
+        DataSet dsPosts = clsWall_By_Location.SearchWallPostsByLocationAdmin(PageNumber, PageSize, strLastName, strFirstName, strPostDateFrom, strPostDateTo, strPostText, strTopic,
+             strFilter_By_Region, strFilter_By_Market, SortBy, SortOrder);
 
         //// set values for paging control,so it shows values as needed.
         ctrlPageWallPost.TotalRecords = (dsPosts.Tables.Count >= 3) ? Convert.ToInt32(dsPosts.Tables[1].Rows[0][0]) : 0;
@@ -125,6 +135,20 @@ public partial class Administrator_WallSearchByLocation : clsBasePage
         // set record numbers retrieved
         lblNumber.Text = (dsPosts.Tables.Count >= 3) ? Convert.ToString(dsPosts.Tables[1].Rows[0][0]) : "0";
     }
+
+    /// <summary>
+    /// Bind Region and Market dorpdowns
+    /// </summary>
+    private void BindDropdowns()
+    {
+        ddlRegion.DataSource = LU_Location.GetRegionListByUser(Convert.ToDecimal(clsSession.UserID)).Tables[0];
+        ddlRegion.DataTextField = "region";
+        ddlRegion.DataValueField = "region";
+        ddlRegion.DataBind();
+        ddlRegion.Items.Insert(0, new ListItem("--All Regions--", ""));
+
+        ComboHelper.FillMarket(new DropDownList[] { ddlMarket }, true);
+    } 
 
     /// <summary>
     /// Add in Column Sort Image
@@ -203,12 +227,9 @@ public partial class Administrator_WallSearchByLocation : clsBasePage
         dvSearch.Visible = true;
         dvSearchResult.Visible = false;
 
-        txtDatePostFrom.Text = "";
-        txtDatePostTo.Text = "";
-        txtPosterFirstName.Text = "";
-        txtPosterLastName.Text = "";
-        txtPostText.Text = "";
-        txtTopic.Text = "";
+        txtDatePostFrom.Text = txtDatePostTo.Text = txtPosterFirstName.Text = txtPosterLastName.Text = txtPostText.Text = txtTopic.Text = "";
+        ddlRegion.ClearSelection();
+        ddlMarket.ClearSelection();
     }
 
     /// <summary>

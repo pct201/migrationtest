@@ -107,8 +107,10 @@ public partial class Administrator_DashboardWallSearch : clsBasePage
         DateTime? dtPostDateTo = clsGeneral.FormatNullDateToStore(txtDatePostTo.Text);
         string strPostText = Convert.ToString(txtPostText.Text.Trim().Replace("'", "''"));
         string strTopic = Convert.ToString(txtTopic.Text.Trim()).Replace("'", "''");
+        string strPostDateFrom = Convert.ToString(txtDatePostFrom.Text);
+        string strPostDateTo = Convert.ToString(txtDatePostTo.Text);
 
-        DataSet dsPosts = clsDashboard_Wall.SearchWallPostsAdmin(PageNumber, PageSize, strLastName, strFirstName, dtPostDateFrom, dtPostDateTo, strPostText, strTopic, SortBy, SortOrder);
+        DataSet dsPosts = clsDashboard_Wall.SearchWallPostsAdmin(PageNumber, PageSize, strLastName, strFirstName, strPostDateFrom, strPostDateTo, strPostText, strTopic, SortBy, SortOrder);
 
         //// set values for paging control,so it shows values as needed.
         ctrlPageWallPost.TotalRecords = (dsPosts.Tables.Count >= 3) ? Convert.ToInt32(dsPosts.Tables[1].Rows[0][0]) : 0;

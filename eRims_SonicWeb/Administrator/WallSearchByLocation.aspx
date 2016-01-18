@@ -109,17 +109,36 @@
                             </td>
                         </tr>
                         <tr>
+                            <td align="left">
+                                Region
+                            </td>
+                            <td align="center" width="5%">
+                                :
+                            </td>
+                            <td align="left">
+                                 <asp:DropDownList ID="ddlRegion" runat="server" SkinID="default" Width="175px"></asp:DropDownList>
+                            </td>
+                            <td>
+                                Market
+                            </td>
+                            <td>
+                                :
+                            </td>
+                            <td align="left">
+                                <asp:DropDownList ID="ddlMarket" runat="server" SkinID="default" Width="175px" >
+                                </asp:DropDownList>
+                            </td>
+                        </tr>
+                        <tr>
                             <td align="left" width="15%">
                                 Poster Last Name
                             </td>
                             <td align="center" width="5%">
                                 :
                             </td>
-                            <td align="left" colspan="4">
+                            <td align="left">
                                 <asp:TextBox ID="txtPosterLastName" runat="server" Width="170px" MaxLength="50"></asp:TextBox>
                             </td>
-                        </tr>
-                        <tr>
                             <td align="left">
                                 Poster First Name
                             </td>
@@ -131,10 +150,10 @@
                             </td>
                         </tr>
                         <tr>
-                            <td align="left" width="15%">
+                            <td align="left" width="15%" valign="top">
                                 Date of Post From
                             </td>
-                            <td align="center" width="5%">
+                            <td align="center" width="5%" valign="top">
                                 :
                             </td>
                             <td align="left">
@@ -148,21 +167,19 @@
                                     OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtDatePostFrom"
                                     CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
                                 </cc1:maskededitextender>
-                                <br />
                                 <asp:RegularExpressionValidator ID="revtxtDatePostFrom" runat="server" ControlToValidate="txtDatePostFrom"
                                     ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"
                                     ErrorMessage=" Date of Post From is Not Valid Date" Display="none" ValidationGroup="vsErrorGroup"
                                     SetFocusOnError="true">
                                 </asp:RegularExpressionValidator>
                             </td>
-                            <td align="left" width="14%">
+                            <td align="left" width="14%" valign="top">
                                 Date of Post To
                             </td>
-                            <td align="center" width="2%">
+                            <td align="center" width="2%" valign="top">
                                 :
                             </td>
                             <td align="left">
-                              
                                 <asp:TextBox ID="txtDatePostTo" runat="server" Width="180px" SkinID="txtDate"
                                     MaxLength="10"></asp:TextBox>
                                 <img onclick="return showCalendar('<%= txtDatePostTo.ClientID %>', 'mm/dd/y');"
@@ -173,7 +190,6 @@
                                     OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtDatePostTo"
                                     CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
                                 </cc1:maskededitextender>
-                                <br />
                                 <asp:RegularExpressionValidator ID="rfvtxtDatePostTo" runat="server" ControlToValidate="txtDatePostTo"
                                     ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"
                                     ErrorMessage="  Date of Post To is Not Valid Date" Display="none" ValidationGroup="vsErrorGroup"

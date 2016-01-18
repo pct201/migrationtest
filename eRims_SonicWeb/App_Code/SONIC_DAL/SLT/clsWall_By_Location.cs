@@ -430,7 +430,8 @@ namespace ERIMS.DAL
         /// Selects all records from the Wall_By_Location table.
         /// </summary>
         /// <returns>DataSet</returns>
-        public static DataSet SearchWallPostsByLocationAdmin(int intPageNo, int intPageSize, string strLastName, string strFirstName, DateTime? dtPostDateFrom, DateTime? dtPostDateTo, string strPostText, string strTopic, string strOrderBy, string strOrder)
+        public static DataSet SearchWallPostsByLocationAdmin(int intPageNo, int intPageSize, string strLastName, string strFirstName, string dtPostDateFrom, string dtPostDateTo, string strPostText, string strTopic,
+                            string strFilter_By_Region, string strFilter_By_Market, string strOrderBy, string strOrder)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("SearchWallPostsByLocationAdmin");
@@ -439,9 +440,11 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "@intPageSize", DbType.Decimal, intPageSize);
             db.AddInParameter(dbCommand, "@strLastName", DbType.String, strLastName);
             db.AddInParameter(dbCommand, "@strFirstName", DbType.String, strFirstName);
-            db.AddInParameter(dbCommand, "@dtPostDateFrom", DbType.DateTime, dtPostDateFrom);
-            db.AddInParameter(dbCommand, "@dtPostDateTo", DbType.DateTime, dtPostDateTo);
+            db.AddInParameter(dbCommand, "@dtPostDateFrom", DbType.String, dtPostDateFrom);
+            db.AddInParameter(dbCommand, "@dtPostDateTo", DbType.String, dtPostDateTo);
             db.AddInParameter(dbCommand, "@strPostText", DbType.String, strPostText);
+            db.AddInParameter(dbCommand, "@strFilter_By_Value_Region", DbType.String, strFilter_By_Region);
+            db.AddInParameter(dbCommand, "@strFilter_By_Value_Market", DbType.String, strFilter_By_Market);
             db.AddInParameter(dbCommand, "@strTopic", DbType.String, strTopic);
             db.AddInParameter(dbCommand, "@strOrderBy", DbType.String, strOrderBy);
             db.AddInParameter(dbCommand, "@strOrder", DbType.String, strOrder);

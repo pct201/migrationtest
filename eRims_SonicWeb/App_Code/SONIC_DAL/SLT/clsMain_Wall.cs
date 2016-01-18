@@ -352,7 +352,7 @@ namespace ERIMS.DAL
         /// Selects all records from the Main_Wall table.
         /// </summary>
         /// <returns>DataSet</returns>
-        public static DataSet SearchWallPostsAdmin(int intPageNo, int intPageSize, string strLastName, string strFirstName, DateTime? dtPostDateFrom, DateTime? dtPostDateTo, string strPostText, string strTopic, string strOrderBy, string strOrder)
+        public static DataSet SearchWallPostsAdmin(int intPageNo, int intPageSize, string strLastName, string strFirstName, string strPostDateFrom, string strPostDateTo, string strPostText, string strTopic, string strOrderBy, string strOrder)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("SearchWallPostsAdmin");
@@ -361,8 +361,8 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "@intPageSize", DbType.Decimal, intPageSize);
             db.AddInParameter(dbCommand, "@strLastName", DbType.String, strLastName);
             db.AddInParameter(dbCommand, "@strFirstName", DbType.String, strFirstName);
-            db.AddInParameter(dbCommand, "@dtPostDateFrom", DbType.DateTime, dtPostDateFrom);
-            db.AddInParameter(dbCommand, "@dtPostDateTo", DbType.DateTime, dtPostDateTo);
+            db.AddInParameter(dbCommand, "@dtPostDateFrom", DbType.String, strPostDateFrom);
+            db.AddInParameter(dbCommand, "@dtPostDateTo", DbType.String, strPostDateTo);
             db.AddInParameter(dbCommand, "@strPostText", DbType.String, strPostText);
             db.AddInParameter(dbCommand, "@strTopic", DbType.String, strTopic);
             db.AddInParameter(dbCommand, "@strOrderBy", DbType.String, strOrderBy);

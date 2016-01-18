@@ -134,7 +134,7 @@
                                                                     <table width="100%" cellpadding="4" cellspacing="1" border="0" style="font-size: 11px; font-family: Verdana;">
                                                                         <tr>
                                                                             <td align="left" style="color: Gray; padding-left: 5px;">&nbsp;Posted By:
-                                                            <%# Eval("First_Name") + ", " + Eval("Last_Name")%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;On:&nbsp;<%#clsGeneral.FormatDBNullDateTimeToDisplay(Eval("Update_Date"))%></td>
+                                                            <%# Eval("First_Name") + ", " + Eval("Last_Name")%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;On:&nbsp;<%#clsGeneral.FormatDBNullDateTimeToMilitaryDateTime(Eval("Update_Date"))%></td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td align="left" style="padding-left: 5px;">

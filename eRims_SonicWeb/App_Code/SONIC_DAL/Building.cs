@@ -3432,6 +3432,16 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        public static DataSet SelectOccupancyByFKLocation(decimal fK_LU_Location_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("BindBuildingByFK_LU_Location");
+
+            db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Int32, fK_LU_Location_ID);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
         #endregion
     }
 }

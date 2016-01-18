@@ -164,7 +164,7 @@
                                             <tr>
                                                 <td align="left" style="color: Gray; padding-left: 5px;">
                                                     &nbsp;Posted By:
-                                                    <%# Eval("First_Name") + ", " + Eval("Last_Name")%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;On:&nbsp;<%#clsGeneral.FormatDBNullDateTimeToDisplay(Eval("Update_Date"))%></td>
+                                                    <%# Eval("First_Name") + ", " + Eval("Last_Name")%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;On:&nbsp;<%#clsGeneral.FormatDBNullDateTimeToMilitaryDateTime(Eval("Update_Date"))%></td>
                                             </tr>
                                             <tr>
                                                 <td align="left" style="padding-left: 5px;">
@@ -286,7 +286,8 @@
             <tr>
                 <td align="center">
                     <asp:Button ID="btnSearch" runat="server" Text="Search" SkinID="btnGen" OnClick="btnSearch_Click" />&nbsp;&nbsp;&nbsp;&nbsp;
-                    <asp:Button ID="btnAdd" runat="server" Text="  Add  " SkinID="btnGen" OnClick="btnAdd_Click" />
+                    <asp:Button ID="btnAdd" runat="server" Text="  Add  " SkinID="btnGen" OnClick="btnAdd_Click" />&nbsp;&nbsp;&nbsp;&nbsp;
+                    <asp:Button ID="btnBack" runat="server" Text=" Back " SkinID="btnGen" OnClick="btnBack_Click" />
                 </td>
             </tr>
             <tr>

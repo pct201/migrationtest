@@ -266,6 +266,16 @@ public partial class SONIC_SLT_SLT_Wall_ByLocation : clsBasePage
     }
 
     /// <summary>
+    /// Button Back Click event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnBack_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("SLT_Wall.aspx");
+    }
+
+    /// <summary>
     /// Button Search result click event
     /// </summary>
     /// <param name="sender"></param>

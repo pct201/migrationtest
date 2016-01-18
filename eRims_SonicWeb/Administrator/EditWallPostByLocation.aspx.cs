@@ -51,6 +51,7 @@ public partial class Administrator_EditWallPostByLocation : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
+            BindDropdowns();
             if (Request.QueryString["id"] != null)
             {
                 decimal decPK;
@@ -67,8 +68,6 @@ public partial class Administrator_EditWallPostByLocation : System.Web.UI.Page
             else
                 Response.Redirect("WallSearchByLocation.aspx", true);
 
-            BindDropdowns();
-
         }
     }
 
@@ -78,8 +77,12 @@ public partial class Administrator_EditWallPostByLocation : System.Web.UI.Page
 
     private void BindDropdowns()
     {
-        //region       
-        ddlRegion.DataSource = LU_Location.GetRegionListByUser(Convert.ToDecimal(clsSession.UserID)).Tables[0]; ;
+        //region  
+        if(clsSession.UserID == "")
+            Response.Redirect("../Signin.aspx", false);
+        else
+            ddlRegion.DataSource = LU_Location.GetRegionListByUser(Convert.ToDecimal(clsSession.UserID)).Tables[0]; ;
+
         ddlRegion.DataTextField = "region";
         ddlRegion.DataValueField = "region";
         ddlRegion.DataBind();
@@ -109,13 +112,13 @@ public partial class Administrator_EditWallPostByLocation : System.Web.UI.Page
         if (lblType.Text.Trim().ToLower() == "comment")
         {
             lblTopic.Text = "Topic Thread";
-            lblHeadingMessage.Text = "Wall Post - Edit Comment";
+            lblHeadingMessage.Text = "Wall Post By Location - Edit Comment";
             txtTopic.Enabled = false;
         }
         else
         {
             txtTopic.Enabled = true;
-            lblHeadingMessage.Text = "Wall Post - Edit";
+            lblHeadingMessage.Text = "Wall Post By Location - Edit";
             lblTopic.Text = "Topic";
         }
         

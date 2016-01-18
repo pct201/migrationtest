@@ -1584,6 +1584,14 @@ public class clsGeneral : System.Web.UI.Page
             return Convert.ToDateTime(objDate).ToString(AppConfig.DisplayDateFormat.Replace("HH:mm", "").Trim() + " HH:mm");
     }
 
+    public static string FormatDBNullDateTimeToMilitaryDateTime(object objDate)
+    {
+        if (objDate == DBNull.Value || objDate == null)
+            return string.Empty;
+        else
+            return Convert.ToDateTime(objDate).ToString(AppConfig.DisplayDateFormat.Replace("HH:mm", "").Trim() + " HHmm");
+    }
+
     /// <summary>
     /// return Date in short date format if it is null then it return minimum value 
     /// </summary>

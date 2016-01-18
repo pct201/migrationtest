@@ -64,7 +64,7 @@
                     <tr>
                         <td class="tblGrid" align="left">
                             <div class="bandHeaderRow" style="text-align: center">
-                                <asp:Label ID="lblHeadingMessage" runat="server" Text="Wall Post"></asp:Label></div>
+                                <asp:Label ID="lblHeadingMessage" runat="server" Text="Wall Post By Location"></asp:Label></div>
                             <table align="center" cellpadding="5" cellspacing="5" width="70%">
                                 <tr>
                                     <td colspan="3">
@@ -74,9 +74,9 @@
                                 <tr>
                                     <td colspan="3">
                                         <asp:RadioButtonList ID="rdoFilter_By" runat="server" RepeatDirection="Horizontal" RepeatColumns="3">
-                                            <asp:ListItem Text="All Location" Selected="True" Value="All_Location"></asp:ListItem>
                                             <asp:ListItem Text="Region" Value="Region"></asp:ListItem>
                                             <asp:ListItem Text="Market" Value="Market"></asp:ListItem>
+                                            <asp:ListItem Text="All Location" Selected="True" Value="All_Location"></asp:ListItem>
                                         </asp:RadioButtonList>
                                     </td>
                                 </tr>
