@@ -1265,7 +1265,7 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
                     {
                         ComboHelper.BindMonth(lst_F);
                     }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "paint category")
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "voc paint category")
                     {
                         // ComboHelper.FillPaintCategory(lst_F, false);
                         DataTable dtData = ERIMS.DAL.clsLU_VOC_Category.SelectAll().Tables[0];
@@ -3053,7 +3053,7 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
         {
             ComboHelper.FillSedgwickYear(new ListBox[] { lst_F });
         }
-        else if (Convert.ToString(Field_Header).ToLower().Trim() == "paint category")
+        else if (Convert.ToString(Field_Header).ToLower().Trim() == "voc paint category")
         {
             // ComboHelper.FillPaintCategory(lst_F, false);
             DataTable dtData = ERIMS.DAL.clsLU_VOC_Category.SelectAll().Tables[0];
