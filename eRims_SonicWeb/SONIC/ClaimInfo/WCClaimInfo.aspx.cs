@@ -828,15 +828,15 @@ public partial class SONIC_WCClaimInfo : clsBasePage
             lblState_Of_Accident.Text = Convert.ToString(drWorkers_Comp_Claims["State_Of_Accident"]);
             lblFK_Part_of_Body_Code.Text = new LU_Part_of_Body_Code(string.IsNullOrEmpty(Convert.ToString(drWorkers_Comp_Claims["FK_Part_of_Body_Code"])) ? "" : Convert.ToString(drWorkers_Comp_Claims["FK_Part_of_Body_Code"])).Description;
             lblCause_Injury_Body_Part_Description.Text = Convert.ToString(drWorkers_Comp_Claims["Cause_Injury_Body_Part_Description"]);
-            lblFK_Nature_of_Injury_Code.Text = new LU_Nature_of_Injury_Code(string.IsNullOrEmpty(Convert.ToString(drWorkers_Comp_Claims["FK_Nature_of_Injury_Code"])) ? "" : Convert.ToString(drWorkers_Comp_Claims["FK_Nature_of_Injury_Code"])).Description;
+            lblFK_Nature_of_Injury_Code.Text = Convert.ToString(drWorkers_Comp_Claims["Nature_of_Injury_Code"]);// new LU_Nature_of_Injury_Code(string.IsNullOrEmpty(Convert.ToString(drWorkers_Comp_Claims["FK_Nature_of_Injury_Code"])) ? "" : Convert.ToString(drWorkers_Comp_Claims["FK_Nature_of_Injury_Code"])).Description;
             lblSurgery_Indicator.Text = Convert.ToString(drWorkers_Comp_Claims["Surgery_Indicator"]) == "2" ? "Yes" : "No";
             lblDate_Disability_Began.Text = drWorkers_Comp_Claims["Date_Disability_Began"] == DBNull.Value ? "" : clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drWorkers_Comp_Claims["Date_Disability_Began"]));
             lblDate_Return_To_Work.Text = drWorkers_Comp_Claims["Date_Return_To_Work"] == DBNull.Value ? "" : clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drWorkers_Comp_Claims["Date_Return_To_Work"]));
             lblPercentage_Impairment.Text = Convert.ToString(drWorkers_Comp_Claims["Percentage_Impairment"]);
-            lblFK_Cause_of_Injury_Code.Text = new LU_Cause_of_Injury(string.IsNullOrEmpty(Convert.ToString(drWorkers_Comp_Claims["FK_Cause_of_Injury_Code"])) ? "" : Convert.ToString(drWorkers_Comp_Claims["FK_Cause_of_Injury_Code"])).Description;
+            lblFK_Cause_of_Injury_Code.Text = Convert.ToString(drWorkers_Comp_Claims["Cause_of_Injury_Code"]); //new LU_Cause_of_Injury(string.IsNullOrEmpty(Convert.ToString(drWorkers_Comp_Claims["FK_Cause_of_Injury_Code"])) ? "" : Convert.ToString(drWorkers_Comp_Claims["FK_Cause_of_Injury_Code"])).Description;
             lblClaim_Status_Description.Text = Convert.ToString(drWorkers_Comp_Claims["Claim_Status_Description"]);
             lblDate_of_Max_Medical_Improvement.Text = drWorkers_Comp_Claims["Date_of_Max_Medical_Improvement"] == DBNull.Value ? "" : clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drWorkers_Comp_Claims["Date_of_Max_Medical_Improvement"]));
-            lblFK_NCCI_Occupation_Class_Code.Text = new LU_NCCI_Occupation_Class_Code(string.IsNullOrEmpty(Convert.ToString(drWorkers_Comp_Claims["FK_NCCI_Occupation_Class_Code"])) ? "" : Convert.ToString(drWorkers_Comp_Claims["FK_NCCI_Occupation_Class_Code"])).Description;
+            lblFK_NCCI_Occupation_Class_Code.Text = Convert.ToString(drWorkers_Comp_Claims["NCCI_Occupation_Class_Code"]);// new LU_NCCI_Occupation_Class_Code(string.IsNullOrEmpty(Convert.ToString(drWorkers_Comp_Claims["FK_NCCI_Occupation_Class_Code"])) ? "" : Convert.ToString(drWorkers_Comp_Claims["FK_NCCI_Occupation_Class_Code"])).Description;
 
             lblIndemnity_Incurred.Text = drWorkers_Comp_Claims["Indemnity_Incurred"] != DBNull.Value ? String.Format("$ {0:N2}", Convert.ToDecimal(drWorkers_Comp_Claims["Indemnity_Incurred"])) : "";
             TotalReserve = TotalReserve + (string.IsNullOrEmpty(Convert.ToString(drWorkers_Comp_Claims["Indemnity_Incurred"])) ? 0 : Convert.ToDecimal(drWorkers_Comp_Claims["Indemnity_Incurred"]));
