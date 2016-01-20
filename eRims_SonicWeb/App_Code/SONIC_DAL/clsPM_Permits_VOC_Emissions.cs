@@ -418,6 +418,11 @@ namespace ERIMS.DAL
 			db.ExecuteNonQuery(dbCommand);
 		}
 
+        /// <summary>
+        /// Method to Get VOC Details by FK Permits Id
+        /// </summary>
+        /// <param name="FK_PM_Permits"></param>
+        /// <returns></returns>
         public DataSet SelectByFK(decimal FK_PM_Permits)
         {
             Database db = DatabaseFactory.CreateDatabase();
@@ -432,6 +437,13 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        /// <summary>
+        /// Method To Get VOC Details By FK PermitIDm Month, Year
+        /// </summary>
+        /// <param name="FK_PM_Permits"></param>
+        /// <param name="Month"></param>
+        /// <param name="Year"></param>
+        /// <returns></returns>
         public static DataSet SelectByFKPermit(decimal FK_PM_Permits,int Month,int Year)
         {
             Database db = DatabaseFactory.CreateDatabase();
