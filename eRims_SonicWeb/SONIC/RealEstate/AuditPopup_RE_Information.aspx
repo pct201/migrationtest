@@ -59,9 +59,9 @@
                                 <th class="cols">
 	                                <span style="display: inline-block;width:200px;">Dealership DBA</span>
                                 </th>
-                                <th class="cols">
+                              <%--  <th class="cols">
 	                                <span style="display: inline-block;width:100px;">Federal Id</span>
-                                </th>
+                                </th>--%>
                                 <th class="cols">
 	                                <span style="display: inline-block;width:100px;">Status</span>
                                 </th>
@@ -253,12 +253,12 @@
 		                            <asp:Label ID="lblFK_LU_Location" runat="server" Text='<%#Eval("FK_LU_Location")%>' Width="200px" ></asp:Label>
 	                            </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Federal_Id" >
+                            <%--<asp:TemplateField HeaderText="Federal_Id" >
 	                            <ItemStyle CssClass="cols" />
 	                            <ItemTemplate>
 		                            <asp:Label ID="lblFederal_Id" runat="server" Text='<%#Eval("Federal_Id")%>' Width="100px" ></asp:Label>
 	                            </ItemTemplate>
-                            </asp:TemplateField>
+                            </asp:TemplateField>--%>
                             <asp:TemplateField HeaderText="FK_LU_Status" >
 	                            <ItemStyle CssClass="cols" />
 	                            <ItemTemplate>

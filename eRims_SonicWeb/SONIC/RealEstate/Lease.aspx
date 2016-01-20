@@ -796,7 +796,7 @@
                                                                         <asp:TextBox ID="txtLU_Location" runat="server" Enabled="false" Width="300px" />
                                                                     </td>
                                                                 </tr>
-                                                                <tr>
+                                                               <%-- <tr>
                                                                     <td align="left" width="19%" valign="top" class="BlueItalicText">
                                                                         Legal Entity
                                                                     </td>
@@ -814,6 +814,66 @@
                                                                     </td>
                                                                     <td align="left" width="26%" valign="top">
                                                                         <asp:TextBox ID="txtFederal_Id" runat="server" Width="170px" MaxLength="11" />
+                                                                    </td>
+                                                                </tr>--%>
+                                                                <tr>
+                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText" >
+                                                                        Parent Company Legal Entity
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" width="27%" valign="top">
+                                                                        <asp:TextBox ID="txtParentCompanyLegalEntity" runat="server" Width="170px" Enabled="false" />
+                                                                    </td>
+                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">
+                                                                        Parent Company Legal Entity FEIN
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" width="26%" valign="top">
+                                                                        <asp:TextBox ID="txtParentCompanyLegalEntityFEIN" runat="server" Width="170px" Enabled="false"/>
+                                                                    </td>
+                                                                </tr>
+                                                                 <tr>
+                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">
+                                                                        Legal Entity (Operations)
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" width="27%" valign="top">
+                                                                        <asp:TextBox ID="txtLegalEntityOperations" runat="server" Width="170px" Enabled="false"/>
+                                                                    </td>
+                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">
+                                                                        Legal Entity (Operations) FEIN
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" width="26%" valign="top">
+                                                                        <asp:TextBox ID="txtLegalEntityOperationsFEIN" runat="server" Width="170px" Enabled="false"/>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">
+                                                                        Legal Entity (Properties)
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" width="27%" valign="top">
+                                                                        <asp:TextBox ID="txtLegalEntityProperties" runat="server" Width="170px" Enabled="false"/>
+                                                                    </td>
+                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">
+                                                                        Legal Entity (Properties) FEIN
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" width="26%" valign="top">
+                                                                        <asp:TextBox ID="txtLegalEntityPropertiesFEIN" runat="server" Width="170px" Enabled="false"/>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -4244,7 +4304,7 @@
                                                                         &nbsp;
                                                                     </td>
                                                                 </tr>
-                                                                <tr>
+                                                              <%--  <tr>
                                                                     <td align="left" width="19%" valign="top" class="BlueItalicText">
                                                                         Legal Entity
                                                                     </td>
@@ -4262,6 +4322,66 @@
                                                                     </td>
                                                                     <td align="left" width="26%" valign="top">
                                                                         <asp:Label ID="lblFederal_Id" runat="server"></asp:Label>
+                                                                    </td>
+                                                                </tr>--%>
+                                                                  <tr>
+                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">
+                                                                        Parent Company Legal Entity 
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" width="27%" valign="top">
+                                                                        <asp:Label ID="lblParentCompanyLegalEntity" runat="server" Width="170px" />
+                                                                    </td>
+                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">
+                                                                        Parent Company Legal Entity FEIN 
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" width="26%" valign="top">
+                                                                        <asp:Label ID="lblParentCompanyLegalEntityFEIN" runat="server"></asp:Label>
+                                                                    </td>
+                                                                </tr>
+                                                                 <tr>
+                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">
+                                                                        Legal Entity (Operations)  
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" width="27%" valign="top">
+                                                                        <asp:Label ID="lblLegalEntityOperations" runat="server" Width="170px" />
+                                                                    </td>
+                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">
+                                                                        Legal Entity (Operations) FEIN
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" width="26%" valign="top">
+                                                                        <asp:Label ID="lblLegalEntityOperationsFEIN" runat="server"></asp:Label>
+                                                                    </td>
+                                                                </tr>
+                                                                 <tr>
+                                                                    <td align="left" width="19%" valign="top" class="BlueItalicText">
+                                                                        Legal Entity (Properties)
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" width="27%" valign="top">
+                                                                        <asp:Label ID="lblLegalEntityProperties" runat="server" Width="170px" />
+                                                                    </td>
+                                                                    <td align="left" width="20%" valign="top" class="BlueItalicText">
+                                                                        Legal Entity (Properties) FEIN
+                                                                    </td>
+                                                                    <td align="center" width="4%" valign="top">
+                                                                        :
+                                                                    </td>
+                                                                    <td align="left" width="26%" valign="top">
+                                                                        <asp:Label ID="lblLegalEntityPropertiesFEIN" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>

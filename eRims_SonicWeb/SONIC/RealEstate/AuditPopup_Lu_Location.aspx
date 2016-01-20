@@ -93,9 +93,9 @@
                                 <th class="cols">
                                     <span style="display: inline-block; width: 150px;">Dba</span>
                                 </th>
-                                <th class="cols">
+                                <%--<th class="cols">
                                     <span style="display: inline-block; width: 150px;">Legal Entity</span>
-                                </th>
+                                </th>--%>
                                 <th class="cols">
                                     <span style="display: inline-block; width: 200px;">Regional Loss Control</span>
                                 </th>
@@ -113,6 +113,24 @@
                                 </th>
                                 <th class="cols">
                                     <span style="display: inline-block; width: 100px;">Active</span>
+                                </th>
+                                 <th class="cols">
+                                    <span style="display: inline-block; width: 100px;">Parent Company LE</span>
+                                </th>
+                                 <th class="cols">
+                                    <span style="display: inline-block; width: 100px;">Parent Company LE FEIN</span>
+                                </th>
+                                 <th class="cols">
+                                    <span style="display: inline-block; width: 100px;">LE Operations</span>
+                                </th>
+                                 <th class="cols">
+                                    <span style="display: inline-block; width: 100px;">LE Operations FEIN</span>
+                                </th>
+                                 <th class="cols">
+                                    <span style="display: inline-block; width: 100px;">LE Properties</span>
+                                </th>
+                                 <th class="cols">
+                                    <span style="display: inline-block; width: 100px;">LE Properties FEIN</span>
                                 </th>
                                 <th class="cols">
                                     <span style="display: inline-block; width: 120px;">Updated_By</span>
@@ -218,12 +236,12 @@
                                     <asp:Label ID="lbldba" runat="server" Text='<%#Eval("dba")%>' Width="150px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="legal_entity" ItemStyle-Width="150px">
+                          <%--  <asp:TemplateField HeaderText="legal_entity" ItemStyle-Width="150px">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
                                     <asp:Label ID="lbllegal_entity" runat="server" Text='<%#Eval("legal_entity")%>' Width="150px"></asp:Label>
                                 </ItemTemplate>
-                            </asp:TemplateField>
+                            </asp:TemplateField>--%>
                             <asp:TemplateField HeaderText="FK_Regional_Loss_Control_ID" ItemStyle-Width="200px">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
@@ -259,6 +277,42 @@
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
                                     <asp:Label ID="lblActive" runat="server" Text='<%#Eval("Active")%>' Width="100px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Parent_Company_LE" ItemStyle-Width="100px">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblParent_Company_LE" runat="server" Text='<%#Eval("Parent_Company_LE")%>' Width="100px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Parent_Company_LE_FEIN" ItemStyle-Width="100px">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblParent_Company_LE_FEIN" runat="server" Text='<%#Eval("Parent_Company_LE_FEIN")%>' Width="100px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="LE_Operations" ItemStyle-Width="100px">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblLE_Operations" runat="server" Text='<%#Eval("LE_Operations")%>' Width="100px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="LE_Operations_FEIN" ItemStyle-Width="100px">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblLE_Operations_FEIN" runat="server" Text='<%#Eval("LE_Operations_FEIN")%>' Width="100px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="LE_Properties" ItemStyle-Width="100px">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblLE_Properties" runat="server" Text='<%#Eval("LE_Properties")%>' Width="100px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="LE_Properties_FEIN" ItemStyle-Width="100px">
+                                <ItemStyle CssClass="cols" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblLE_Properties_FEIN" runat="server" Text='<%#Eval("LE_Properties_FEIN")%>' Width="100px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                              <asp:TemplateField HeaderText="Updated_By">

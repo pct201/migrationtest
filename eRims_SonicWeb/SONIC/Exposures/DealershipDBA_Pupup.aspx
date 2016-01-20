@@ -72,7 +72,7 @@
                                         ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToValidate="txtDba"
                                         Display="None"></asp:RequiredFieldValidator>
                                 </td>
-                                <td align="left" width="18%">
+                               <%-- <td align="left" width="18%">
                                     Legal Entity <span style="color: Red">*</span>
                                 </td>
                                 <td align="center" width="2%">
@@ -83,6 +83,66 @@
                                     <asp:RequiredFieldValidator ID="rfvLegalEntity" runat="server" ErrorMessage="Please Enter Legal Entity"
                                         ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToValidate="txtLegalEntity"
                                         Display="None"></asp:RequiredFieldValidator>
+                                </td>--%>
+                            </tr>
+                             <tr>
+                                <td align="left" style="padding-left: 5px;">
+                                    Parent Company Legal Entity 
+                                </td>
+                                <td align="center">
+                                    :
+                                </td>
+                                <td align="left">
+                                    <asp:TextBox ID="txtParentCompanyLegalEntity" runat="server" Width="170px" MaxLength="75"/>
+                                </td>
+                                <td align="left">
+                                    Parent Company Legal Entity FEIN
+                                </td>
+                                <td align="center">
+                                    :
+                                </td>
+                                <td align="left">
+                                    <asp:TextBox ID="txtParentCompanyLegalEntityFEIN" runat="server" Width="170px" MaxLength="50"/>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td align="left" style="padding-left: 5px;">
+                                   Legal Entity (Operations)
+                                </td>
+                                <td align="center">
+                                    :
+                                </td>
+                                <td align="left">
+                                    <asp:TextBox ID="txtLegalEntityOperations" runat="server" Width="170px" MaxLength="75"/>
+                                </td>
+                                <td align="left">
+                                    Legal Entity (Operations) FEIN
+                                </td>
+                                <td align="center">
+                                    :
+                                </td>
+                                <td align="left">
+                                    <asp:TextBox ID="txtLegalEntityOperationsFEIN" runat="server" Width="170px" MaxLength="50"/>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td align="left" style="padding-left: 5px;">
+                                   Legal Entity (Properties)
+                                </td>
+                                <td align="center">
+                                    :
+                                </td>
+                                <td align="left">
+                                    <asp:TextBox ID="txtLegalEntityProperties" runat="server" Width="170px" MaxLength="75"/>
+                                </td>
+                                <td align="left">
+                                    Legal Entity (Properties) FEIN
+                                </td>
+                                <td align="center">
+                                    :
+                                </td>
+                                <td align="left">
+                                    <asp:TextBox ID="txtLegalEntityPropertiesFEIN" runat="server" Width="170px" MaxLength="50"/>
                                 </td>
                             </tr>
                             <tr>
@@ -350,7 +410,7 @@
                                 <td align="left" width="30%">
                                     <asp:Label ID="lblDBA" runat="server" Text=""></asp:Label>
                                 </td>
-                                <td align="left" width="18%">
+                                <%--<td align="left" width="18%">
                                     Legal Entity <span style="color: Red">*</span>
                                 </td>
                                 <td align="center" width="2%">
@@ -358,6 +418,66 @@
                                 </td>
                                 <td align="left" width="30%">
                                     <asp:Label ID="lblLegalEntity" runat="server" Text=""></asp:Label>
+                                </td>--%>
+                            </tr>
+                            <tr>
+                                <td align="left" width="18%" style="padding-left: 5px;">
+                                   Parent Company Legal Entity 
+                                </td>
+                                <td align="center" width="2%">
+                                    :
+                                </td>
+                                <td align="left" width="30%">
+                                    <asp:Label ID="lblParentCompanyLegalEntity" runat="server" Text=""></asp:Label>
+                                </td>
+                                <td align="left" width="18%">
+                                    Parent Company Legal Entity FEIN 
+                                </td>
+                                <td align="center" width="2%">
+                                    :
+                                </td>
+                                <td align="left" width="30%">
+                                    <asp:Label ID="lblParentCompanyLegalEntityFEIN" runat="server" Text=""></asp:Label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left" width="18%" style="padding-left: 5px;">
+                                   Legal Entity (Operations) 
+                                </td>
+                                <td align="center" width="2%">
+                                    :
+                                </td>
+                                <td align="left" width="30%">
+                                    <asp:Label ID="lblLegalEntityOperations" runat="server" Text=""></asp:Label>
+                                </td>
+                                <td align="left" width="18%">
+                                    Legal Entity (Operations) FEIN 
+                                </td>
+                                <td align="center" width="2%">
+                                    :
+                                </td>
+                                <td align="left" width="30%">
+                                    <asp:Label ID="lblLegalEntityOperationsFEIN" runat="server" Text=""></asp:Label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left" width="18%" style="padding-left: 5px;">
+                                   Legal Entity (Properties) 
+                                </td>
+                                <td align="center" width="2%">
+                                    :
+                                </td>
+                                <td align="left" width="30%">
+                                    <asp:Label ID="lblLegalEntityProperties" runat="server" Text=""></asp:Label>
+                                </td>
+                                <td align="left" width="18%">
+                                    Legal Entity (Properties) FEIN 
+                                </td>
+                                <td align="center" width="2%">
+                                    :
+                                </td>
+                                <td align="left" width="30%">
+                                    <asp:Label ID="lblLegalEntityPropertiesFEIN" runat="server" Text=""></asp:Label>
                                 </td>
                             </tr>
                             <tr>

@@ -102,7 +102,7 @@ public partial class SONIC_RealEstate_DealershipDBA_Pupup : clsBasePage
             LU_Location objLocation = new LU_Location(_PK_LU_Location);
 
             txtDba.Text = objLocation.dba;
-            txtLegalEntity.Text = objLocation.legal_entity;
+            //txtLegalEntity.Text = objLocation.legal_entity;
             txtAddress1.Text = objLocation.Address_1;
             txtAddress2.Text = objLocation.Address_2;
             txtCity.Text = objLocation.City;
@@ -122,6 +122,12 @@ public partial class SONIC_RealEstate_DealershipDBA_Pupup : clsBasePage
             rdoShowOnDashboard.SelectedValue = objLocation.Show_On_Dashboard;
             if (objLocation.FK_Employee_Id != null) drpRLCM.SelectedValue = objLocation.FK_Employee_Id.ToString();
             if (objLocation.FK_LU_Market != null) drpLU_Market.SelectedValue = objLocation.FK_LU_Market.ToString();
+            txtParentCompanyLegalEntity.Text = objLocation.Parent_Company_LE;
+            txtParentCompanyLegalEntityFEIN.Text = objLocation.Parent_Company_LE_FEIN;
+            txtLegalEntityOperations.Text = objLocation.LE_Operations;
+            txtLegalEntityOperationsFEIN.Text = objLocation.LE_Operations_FEIN;
+            txtLegalEntityProperties.Text = objLocation.LE_Properties;
+            txtLegalEntityPropertiesFEIN.Text = objLocation.LE_Properties_FEIN;
 
             DataSet dsPayroll = LU_Location.SelectPayrollByLocation(_PK_LU_Location);
             if (dsPayroll != null && dsPayroll.Tables.Count > 0 && dsPayroll.Tables[0].Rows.Count > 0)
@@ -150,7 +156,7 @@ public partial class SONIC_RealEstate_DealershipDBA_Pupup : clsBasePage
             LU_Location objLocation = new LU_Location(_PK_LU_Location);
 
             lblDBA.Text = objLocation.dba;
-            lblLegalEntity.Text = objLocation.legal_entity;
+            //lblLegalEntity.Text = objLocation.legal_entity;
             lblAddress1.Text = objLocation.Address_1;
             lblAddress2.Text = objLocation.Address_2;
             lblCity.Text = objLocation.City;
@@ -177,7 +183,12 @@ public partial class SONIC_RealEstate_DealershipDBA_Pupup : clsBasePage
                 clsLU_Market objEmp = new clsLU_Market((decimal)objLocation.FK_LU_Market);
                 lblLU_Market.Text = objEmp.Market;
             }
-
+            lblParentCompanyLegalEntity.Text = objLocation.Parent_Company_LE;
+            lblParentCompanyLegalEntityFEIN.Text = objLocation.Parent_Company_LE_FEIN;
+            lblLegalEntityOperations.Text = objLocation.LE_Operations;
+            lblLegalEntityOperationsFEIN.Text = objLocation.LE_Operations_FEIN;
+            lblLegalEntityProperties.Text = objLocation.LE_Properties;
+            lblLegalEntityPropertiesFEIN.Text = objLocation.LE_Properties_FEIN;
         }
         else
         {
@@ -207,7 +218,7 @@ public partial class SONIC_RealEstate_DealershipDBA_Pupup : clsBasePage
     {
         objLocation.PK_LU_Location_ID = _PK_LU_Location;
         objLocation.dba = Convert.ToString(txtDba.Text);
-        objLocation.legal_entity = Convert.ToString(txtLegalEntity.Text);
+        //objLocation.legal_entity = Convert.ToString(txtLegalEntity.Text);
         objLocation.Address_1 = Convert.ToString(txtAddress1.Text);
         objLocation.Address_2 = Convert.ToString(txtAddress2.Text);
         objLocation.City = Convert.ToString(txtCity.Text);
@@ -226,6 +237,12 @@ public partial class SONIC_RealEstate_DealershipDBA_Pupup : clsBasePage
         objLocation.Show_On_Dashboard = rdoShowOnDashboard.SelectedValue;
         if (drpRLCM.SelectedIndex > 0) objLocation.FK_Employee_Id = Convert.ToDecimal(drpRLCM.SelectedValue);
         objLocation.FK_LU_Market = Convert.ToDecimal(drpLU_Market.SelectedValue);
+        objLocation.Parent_Company_LE = Convert.ToString(txtParentCompanyLegalEntity.Text);
+        objLocation.Parent_Company_LE_FEIN = Convert.ToString(txtParentCompanyLegalEntityFEIN.Text);
+        objLocation.LE_Operations = Convert.ToString(txtLegalEntityOperations.Text);
+        objLocation.LE_Operations_FEIN = Convert.ToString(txtLegalEntityOperationsFEIN.Text);
+        objLocation.LE_Properties = Convert.ToString(txtLegalEntityProperties.Text);
+        objLocation.LE_Properties_FEIN = Convert.ToString(txtLegalEntityPropertiesFEIN.Text);
     }
 
     private void InsertPayroll()

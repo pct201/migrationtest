@@ -420,7 +420,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         // set values in page controls
         BindPropertyInfo();
 
-        txtFederal_Id.Text = objRE_Information.Federal_Id;
+        //txtFederal_Id.Text = objRE_Information.Federal_Id;
 
 
         txtTax_Parcel_Number.Text = objRE_Information.Tax_Parcel_Number;
@@ -781,7 +781,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         RE_Information objRE_Information = new RE_Information(_PK_RE_Information);
 
         BindPropertyInfo();
-        lblFederal_Id.Text = objRE_Information.Federal_Id;
+        //lblFederal_Id.Text = objRE_Information.Federal_Id;
 
         // Check if Building is selected for 
         if (objRE_Information.FK_Building_ID.HasValue)
@@ -1535,7 +1535,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
             //if (hdnBuildingNumber.Value != "")
             //    objRE_Information.FK_Building_ID = Convert.ToDecimal(hdnBuildingNumber.Value);
             //objRE_Information.FK_LU_Location = Convert.ToDecimal(hdnLU_location.Value);
-            objRE_Information.Federal_Id = txtFederal_Id.Text.Trim();
+            //objRE_Information.Federal_Id = txtFederal_Id.Text.Trim();
 
             if (drpFK_LU_Status.SelectedIndex > 0)
                 objRE_Information.FK_LU_Status = Convert.ToDecimal(drpFK_LU_Status.SelectedValue);
@@ -2534,7 +2534,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
                 if (_StrOperation == "view")
                 {
                     lblFK_LU_Location.Text = objLU_Location.dba;
-                    lblLegalEntity.Text = objLU_Location.legal_entity;
+                    //lblLegalEntity.Text = objLU_Location.legal_entity;
                     lblAddress1.Text = objPropety_Cope.Address_1;
                     lblAddress2.Text = objPropety_Cope.Address_2;
                     lblCity.Text = objPropety_Cope.City;
@@ -2543,6 +2543,12 @@ public partial class SONIC_Exposures_Lease : clsBasePage
                     lblTelephone.Text = objPropety_Cope.Telephone;
                     lblCounty.Text = objLU_Location.County;
                     lblRegion.Text = objLU_Location.Region;
+                    lblParentCompanyLegalEntity.Text = objLU_Location.Parent_Company_LE;
+                    lblParentCompanyLegalEntityFEIN.Text = objLU_Location.Parent_Company_LE_FEIN;
+                    lblLegalEntityOperations.Text = objLU_Location.LE_Operations;
+                    lblLegalEntityOperationsFEIN.Text = objLU_Location.LE_Operations_FEIN;
+                    lblLegalEntityProperties.Text = objLU_Location.LE_Properties;
+                    lblLegalEntityPropertiesFEIN.Text = objLU_Location.LE_Properties_FEIN;
                 }
                 else
                 {
@@ -2555,7 +2561,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
                         lst.Selected = true;
 
                     }
-                    txtLegalEntity.Text = objLU_Location.legal_entity;
+                    //txtLegalEntity.Text = objLU_Location.legal_entity;
                     txtAddress1.Text = objPropety_Cope.Address_1;
                     txtAddress2.Text = objPropety_Cope.Address_2;
                     txtCity.Text = objPropety_Cope.City;
@@ -2564,6 +2570,12 @@ public partial class SONIC_Exposures_Lease : clsBasePage
                     txtTelephone.Text = objPropety_Cope.Telephone;
                     txtRegion.Text = objLU_Location.Region;
                     txtCounty.Text = objLU_Location.County;
+                    txtParentCompanyLegalEntity.Text = objLU_Location.Parent_Company_LE;
+                    txtParentCompanyLegalEntityFEIN.Text = objLU_Location.Parent_Company_LE_FEIN;
+                    txtLegalEntityOperations.Text = objLU_Location.LE_Operations;
+                    txtLegalEntityOperationsFEIN.Text = objLU_Location.LE_Operations_FEIN;
+                    txtLegalEntityProperties.Text = objLU_Location.LE_Properties;
+                    txtLegalEntityPropertiesFEIN.Text = objLU_Location.LE_Properties_FEIN;
                 }
             }
         }
@@ -3093,7 +3105,7 @@ public partial class SONIC_Exposures_Lease : clsBasePage
         #region " Clear Real Estate Information "
         drpFK_LU_Status.SelectedIndex = 0;
         lblFK_LU_Status.Text = "";
-        txtFederal_Id.Text = "";
+        //txtFederal_Id.Text = "";
         txtTax_Parcel_Number.Text = "";
         //hdnBuildingNumber.Value = "";
         //txtBuildingNumber.Text = "";
@@ -3828,11 +3840,11 @@ public partial class SONIC_Exposures_Lease : clsBasePage
             #region " set validation control IDs and messages "
             switch (Convert.ToString(drField["Field_Name"]))
             {
-                case "Federal Id":
-                    strCtrlsIDs += txtFederal_Id.ClientID + ",";
-                    strMessages += "Please enter [Lease Information]/Federal Id" + ",";
-                    Span1.Style["display"] = "inline-block";
-                    break;
+                //case "Federal Id":
+                //    strCtrlsIDs += txtFederal_Id.ClientID + ",";
+                //    strMessages += "Please enter [Lease Information]/Federal Id" + ",";
+                //    Span1.Style["display"] = "inline-block";
+                //    break;
                 case "Landlord Mailing Address 1":
                     strCtrlsIDs += txtLandlord_Mailing_Address1.ClientID + ",";
                     strMessages += "Please enter [Lease Information]/Landlord Mailing Address 1" + ",";
