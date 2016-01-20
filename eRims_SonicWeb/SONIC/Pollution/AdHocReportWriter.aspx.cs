@@ -9,6 +9,7 @@ using System.Data;
 using System.Text;
 using System.IO;
 using System.Collections;
+using FusionCharts;
 
 public partial class Pollution_AdHocReportWriter : clsBasePage
 {
@@ -468,6 +469,733 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
 
                 break;
         }
+    }
+
+    /// <summary>
+    /// Event to bind VOC Graph Report
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void lnkGenerateReport_Click(object sender, EventArgs e)
+    {
+        BindVOCGraphReport();
+    }
+
+    /// <summary>
+    /// Event to export Hraph to PDF file
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void lnkExportToPDF_Click(object sender, EventArgs e)
+    {
+        List<Pollution_AdhocReportFields> lstAdhoc = null;
+        DataTable dtSchema = null, dtHeader = null;
+        try
+        {
+            decimal decValue;
+            int iSelected;
+            string strWhere = string.Empty, strFilterIds = string.Empty, strGroupBy = string.Empty, strOrderBy = string.Empty, strCriteria = string.Empty, strPath = string.Empty;
+
+            strCriteria = GetFilterIDs(new DropDownList[] { drpFilter1, drpFilter2, drpFilter3, drpFilter4, drpFilter5, drpFilter6, drpFilter7, drpFilter8, drpFilter9, drpFilter10, });
+            if (!string.IsNullOrEmpty(strCriteria))
+                lstAdhoc = new Pollution_AdhocReportFields().GetAdHocReportFieldByMultipleID(strCriteria);
+
+            #region "Get Where condition"
+
+            if (drpFilter1.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter1.SelectedItem.Value);
+                strFilterIds += decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                {
+                    if (lstAdhoc[iSelected].Field_Header.ToLower().Trim() == "contact name" || lstAdhoc[iSelected].Field_Header.ToLower().Trim() == "complex number")
+                        strWhere += GetTextWhereCondition(lstAdhoc[iSelected].Field_Name, txtFilter1.Text, Convert.ToInt16(drpText_F1.SelectedItem.Value));
+                    else
+                        strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter1.Text, Convert.ToInt16(drpText_F1.SelectedItem.Value));
+                }
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F1, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F1, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                {
+                    if (lstAdhoc[iSelected].Field_Name.ToUpper() == "VOC_EMMISSION_DATE")
+                    {
+                        int fromYear = 1990; int toYear = 1990;
+                        int fromMonth = 1; int toMonth = 1;
+                        string fromWhere = string.Empty;
+                        string toWhere = string.Empty;
+                        switch (lstDate1.SelectedItem.Value)
+                        {
+                            case "O":
+                                fromYear = Convert.ToDateTime(txtDate_From1.Text).Year;
+                                fromMonth = Convert.ToDateTime(txtDate_From1.Text).Month;
+                                strWhere = " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year=" + fromYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month=" + fromMonth;
+                                break;
+                            case "B":
+                                fromYear = Convert.ToDateTime(txtDate_From1.Text).Year;
+                                fromMonth = Convert.ToDateTime(txtDate_From1.Text).Month;
+                                toYear = Convert.ToDateTime(txtDate_To1.Text).Year;
+                                toMonth = Convert.ToDateTime(txtDate_To1.Text).Month;
+                                strWhere = " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year>=" + fromYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month>=" + fromMonth + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year<=" + toYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month<=" + toMonth;
+                                break;
+                            case "A":
+                                toYear = Convert.ToDateTime(txtDate_From1.Text).Year;
+                                toMonth = Convert.ToDateTime(txtDate_From1.Text).Month;
+                                strWhere = " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year>" + fromYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month>" + fromMonth;
+                                break;
+                            case "BF":
+                                fromYear = Convert.ToDateTime(txtDate_From1.Text).Year;
+                                fromMonth = Convert.ToDateTime(txtDate_From1.Text).Month;
+                                strWhere = " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year<" + toYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month<" + toMonth;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From1.Text, txtDate_To1.Text, lstDate1.SelectedItem.Value);
+                    }
+                }
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    // It takes Filed Header when Table is Transaction otherwist it take Filed Name.
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
+                    else
+                    {
+                        string fieldName = lstAdhoc[iSelected].Field_Name;
+                        if (fieldName.ToUpper() == "QUANTITY" || fieldName.ToUpper() == "UNIT" || fieldName.ToUpper() == "GALLONS" || fieldName.ToUpper() == "VOC EMISSIONS")
+                        {
+                            string caseCondition = " Cast([" + lstAdhoc[iSelected].Table_Name + "]." + fieldName + " AS Numeric)";
+                            strWhere += GetDateAmountCondtion(caseCondition, txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
+                        }
+                        else
+                            strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
+                    }
+                }
+            }
+            if (drpFilter2.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter2.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter2.Text, Convert.ToInt16(drpText_F2.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F2, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F2, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From2.Text, txtDateTo2.Text, lstDate2.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F2.Text, txtAmount2_F2.Text, drpAmount_F2.SelectedItem.Value);
+                    else
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F2.Text, txtAmount2_F2.Text, drpAmount_F2.SelectedItem.Value);
+                }
+            }
+            if (drpFilter3.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter3.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter3.Text, Convert.ToInt16(drpText_F3.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F3, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F3, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From3.Text, txtDate_To3.Text, lstDate3.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F3.Text, txtAmount2_F3.Text, drpAmount_F3.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F3.Text, txtAmount2_F3.Text, drpAmount_F3.SelectedItem.Value);
+                }
+            }
+            if (drpFilter4.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter4.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter4.Text, Convert.ToInt16(drpText_F4.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F4, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F4, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From4.Text, txtDate_To4.Text, lstDate4.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F4.Text, txtAmount2_F4.Text, drpAmount_F4.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F4.Text, txtAmount2_F4.Text, drpAmount_F4.SelectedItem.Value);
+                }
+            }
+            if (drpFilter5.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter5.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter5.Text, Convert.ToInt16(drpText_F5.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F5, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F5, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From5.Text, txtDate_To5.Text, lstDate5.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F5.Text, txtAmount2_F5.Text, drpAmount_F5.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F5.Text, txtAmount2_F5.Text, drpAmount_F5.SelectedItem.Value);
+                }
+            }
+            if (drpFilter6.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter6.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter6.Text, Convert.ToInt16(drpText_F6.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F6, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F6, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From6.Text, txtDate_To6.Text, lstDate6.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F6.Text, txtAmount2_F6.Text, drpAmount_F6.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F6.Text, txtAmount2_F6.Text, drpAmount_F6.SelectedItem.Value);
+                }
+            }
+            if (drpFilter7.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter7.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter7.Text, Convert.ToInt16(drpText_F7.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F7, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F7, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From7.Text, txtDate_To7.Text, lstDate7.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F7.Text, txtAmount2_F7.Text, drpAmount_F7.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F7.Text, txtAmount2_F7.Text, drpAmount_F7.SelectedItem.Value);
+                }
+            }
+            if (drpFilter8.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter8.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter8.Text, Convert.ToInt16(drpText_F8.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F8, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F8, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From8.Text, txtDate_To8.Text, lstDate8.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F8.Text, txtAmount2_F8.Text, drpAmount_F8.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F8.Text, txtAmount2_F8.Text, drpAmount_F8.SelectedItem.Value);
+                }
+            }
+            if (drpFilter9.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter9.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter9.Text, Convert.ToInt16(drpText_F9.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F9, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F9, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From9.Text, txtDate_To9.Text, lstDate9.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F9.Text, txtAmount2_F9.Text, drpAmount_F9.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F9.Text, txtAmount2_F9.Text, drpAmount_F9.SelectedItem.Value);
+                }
+            }
+            if (drpFilter10.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter10.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter10.Text, Convert.ToInt16(drpText_F10.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F10, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F10, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From10.Text, txtDate_To10.Text, lstDate10.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F10.Text, txtAmount2_F10.Text, drpAmount_F10.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F10.Text, txtAmount2_F10.Text, drpAmount_F10.SelectedItem.Value);
+                }
+            }
+
+            #endregion
+
+            clsGeneral.DisposeOf(lstAdhoc);
+            bool IsSuccess = true;
+            DataSet dsGraphReport = clsPM_Permits_VOC_Emissions.GetVOCGraphReport(GetAllItemString(lstSelectedFields, false), strWhere, strFilterIds, Convert.ToDecimal(clsSession.UserID), out IsSuccess);
+
+            string xml = this.GenerateVOCGraphReport(dsGraphReport, true).ToString();
+
+            string strDir = AppConfig.SitePath + @"temp\";
+            if (!Directory.Exists(strDir))
+            {
+                Directory.CreateDirectory(strDir);
+            }
+            string imageName = "../../temp/VOCEmissionGraph.png";
+            ServerSideImageHandler ssh = new ServerSideImageHandler(Server.MapPath("../../FusionCharts/MSColumn2D.swf"), 867, 300, xml, string.Empty, Server.MapPath(imageName));
+            ssh.BeginCapture();
+
+            iTextSharp.text.Rectangle pgSize;
+            string strPdfpath = Server.MapPath("../../temp/VOCEmissionGraph.pdf");
+            pgSize = new iTextSharp.text.Rectangle(867, 300);
+            iTextSharp.text.Document doc = new iTextSharp.text.Document(pgSize, 0, 0, 0, 0);
+            iTextSharp.text.pdf.PdfWriter.GetInstance(doc, new FileStream(strPdfpath, FileMode.Create));
+
+            doc.Open();
+            string imagepath = Server.MapPath("../../temp/VOCEmissionGraph.png");
+            try
+            {
+                iTextSharp.text.Image gif = iTextSharp.text.Image.GetInstance(imagepath);
+                //Resize image depend upon your need
+                gif.ScaleToFit(867, 300);
+                gif.Alignment = iTextSharp.text.Image.ALIGN_CENTER;
+                doc.Add(gif);
+            }
+            catch (iTextSharp.text.DocumentException dex)
+            {
+                Response.Write(dex.Message);
+            }
+            catch (IOException ioex)
+            {
+                Response.Write(ioex.Message);
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex.Message);
+            }
+            doc.Close();
+
+            HttpContext context = HttpContext.Current;
+            context.Response.Clear();
+            context.Response.AppendHeader("Content-Type", "application/pdf");
+            context.Response.AppendHeader("Content-disposition", "attachment; filename=" + "VOCEmissionGraph.pdf");
+            context.Response.WriteFile("../../temp/VOCEmissionGraph.pdf");
+            context.Response.Flush();
+            if (File.Exists(strDir + "VOCEmissionGraph.pdf"))
+                File.Delete(strDir + "VOCEmissionGraph.pdf");
+            if (File.Exists(strDir + "VOCEmissionGraph.png"))
+                File.Delete(strDir + "VOCEmissionGraph.png");
+
+            context.Response.End();
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+            clsGeneral.DisposeOf(lstAdhoc);
+            clsGeneral.DisposeOf(dtSchema);
+            clsGeneral.DisposeOf(dtHeader);
+        }
+    }
+
+    /// <summary>
+    /// Event to handle Back from Graph to Ad Hoc Report
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void lnkBackGraph_Click(object sender, EventArgs e)
+    {
+        this.ShowHideGraphAndAdHocControls();
+    }
+
+    /// <summary>
+    /// Event to handle Sending Email and Reload VOC Graph
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnReload_Click(object sender, EventArgs e)
+    {
+        List<Pollution_AdhocReportFields> lstAdhoc = null;
+        DataTable dtSchema = null, dtHeader = null;
+        try
+        {
+            decimal decValue;
+            int iSelected;
+            string strWhere = string.Empty, strFilterIds = string.Empty, strGroupBy = string.Empty, strOrderBy = string.Empty, strCriteria = string.Empty, strPath = string.Empty;
+
+            strCriteria = GetFilterIDs(new DropDownList[] { drpFilter1, drpFilter2, drpFilter3, drpFilter4, drpFilter5, drpFilter6, drpFilter7, drpFilter8, drpFilter9, drpFilter10, });
+            if (!string.IsNullOrEmpty(strCriteria))
+                lstAdhoc = new Pollution_AdhocReportFields().GetAdHocReportFieldByMultipleID(strCriteria);
+
+            #region "Get Where condition"
+
+            if (drpFilter1.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter1.SelectedItem.Value);
+                strFilterIds += decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                {
+                    if (lstAdhoc[iSelected].Field_Header.ToLower().Trim() == "contact name" || lstAdhoc[iSelected].Field_Header.ToLower().Trim() == "complex number")
+                        strWhere += GetTextWhereCondition(lstAdhoc[iSelected].Field_Name, txtFilter1.Text, Convert.ToInt16(drpText_F1.SelectedItem.Value));
+                    else
+                        strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter1.Text, Convert.ToInt16(drpText_F1.SelectedItem.Value));
+                }
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F1, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F1, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                {
+                    if (lstAdhoc[iSelected].Field_Name.ToUpper() == "VOC_EMMISSION_DATE")
+                    {
+                        int fromYear = 1990; int toYear = 1990;
+                        int fromMonth = 1; int toMonth = 1;
+                        string fromWhere = string.Empty;
+                        string toWhere = string.Empty;
+                        switch (lstDate1.SelectedItem.Value)
+                        {
+                            case "O":
+                                fromYear = Convert.ToDateTime(txtDate_From1.Text).Year;
+                                fromMonth = Convert.ToDateTime(txtDate_From1.Text).Month;
+                                strWhere = " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year=" + fromYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month=" + fromMonth;
+                                break;
+                            case "B":
+                                fromYear = Convert.ToDateTime(txtDate_From1.Text).Year;
+                                fromMonth = Convert.ToDateTime(txtDate_From1.Text).Month;
+                                toYear = Convert.ToDateTime(txtDate_To1.Text).Year;
+                                toMonth = Convert.ToDateTime(txtDate_To1.Text).Month;
+                                strWhere = " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year>=" + fromYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month>=" + fromMonth + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year<=" + toYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month<=" + toMonth;
+                                break;
+                            case "A":
+                                toYear = Convert.ToDateTime(txtDate_From1.Text).Year;
+                                toMonth = Convert.ToDateTime(txtDate_From1.Text).Month;
+                                strWhere = " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year>" + fromYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month>" + fromMonth;
+                                break;
+                            case "BF":
+                                fromYear = Convert.ToDateTime(txtDate_From1.Text).Year;
+                                fromMonth = Convert.ToDateTime(txtDate_From1.Text).Month;
+                                strWhere = " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year<" + toYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month<" + toMonth;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From1.Text, txtDate_To1.Text, lstDate1.SelectedItem.Value);
+                    }
+                }
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    // It takes Filed Header when Table is Transaction otherwist it take Filed Name.
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
+                    else
+                    {
+                        string fieldName = lstAdhoc[iSelected].Field_Name;
+                        if (fieldName.ToUpper() == "QUANTITY" || fieldName.ToUpper() == "UNIT" || fieldName.ToUpper() == "GALLONS" || fieldName.ToUpper() == "VOC EMISSIONS")
+                        {
+                            string caseCondition = " Cast([" + lstAdhoc[iSelected].Table_Name + "]." + fieldName + " AS Numeric)";
+                            strWhere += GetDateAmountCondtion(caseCondition, txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
+                        }
+                        else
+                            strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
+                    }
+                }
+            }
+            if (drpFilter2.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter2.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter2.Text, Convert.ToInt16(drpText_F2.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F2, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F2, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From2.Text, txtDateTo2.Text, lstDate2.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F2.Text, txtAmount2_F2.Text, drpAmount_F2.SelectedItem.Value);
+                    else
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F2.Text, txtAmount2_F2.Text, drpAmount_F2.SelectedItem.Value);
+                }
+            }
+            if (drpFilter3.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter3.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter3.Text, Convert.ToInt16(drpText_F3.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F3, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F3, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From3.Text, txtDate_To3.Text, lstDate3.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F3.Text, txtAmount2_F3.Text, drpAmount_F3.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F3.Text, txtAmount2_F3.Text, drpAmount_F3.SelectedItem.Value);
+                }
+            }
+            if (drpFilter4.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter4.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter4.Text, Convert.ToInt16(drpText_F4.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F4, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F4, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From4.Text, txtDate_To4.Text, lstDate4.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F4.Text, txtAmount2_F4.Text, drpAmount_F4.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F4.Text, txtAmount2_F4.Text, drpAmount_F4.SelectedItem.Value);
+                }
+            }
+            if (drpFilter5.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter5.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter5.Text, Convert.ToInt16(drpText_F5.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F5, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F5, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From5.Text, txtDate_To5.Text, lstDate5.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F5.Text, txtAmount2_F5.Text, drpAmount_F5.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F5.Text, txtAmount2_F5.Text, drpAmount_F5.SelectedItem.Value);
+                }
+            }
+            if (drpFilter6.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter6.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter6.Text, Convert.ToInt16(drpText_F6.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F6, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F6, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From6.Text, txtDate_To6.Text, lstDate6.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F6.Text, txtAmount2_F6.Text, drpAmount_F6.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F6.Text, txtAmount2_F6.Text, drpAmount_F6.SelectedItem.Value);
+                }
+            }
+            if (drpFilter7.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter7.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter7.Text, Convert.ToInt16(drpText_F7.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F7, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F7, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From7.Text, txtDate_To7.Text, lstDate7.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F7.Text, txtAmount2_F7.Text, drpAmount_F7.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F7.Text, txtAmount2_F7.Text, drpAmount_F7.SelectedItem.Value);
+                }
+            }
+            if (drpFilter8.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter8.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter8.Text, Convert.ToInt16(drpText_F8.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F8, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F8, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From8.Text, txtDate_To8.Text, lstDate8.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F8.Text, txtAmount2_F8.Text, drpAmount_F8.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F8.Text, txtAmount2_F8.Text, drpAmount_F8.SelectedItem.Value);
+                }
+            }
+            if (drpFilter9.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter9.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter9.Text, Convert.ToInt16(drpText_F9.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F9, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F9, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From9.Text, txtDate_To9.Text, lstDate9.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F9.Text, txtAmount2_F9.Text, drpAmount_F9.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F9.Text, txtAmount2_F9.Text, drpAmount_F9.SelectedItem.Value);
+                }
+            }
+            if (drpFilter10.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter10.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter10.Text, Convert.ToInt16(drpText_F10.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F10, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F10, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From10.Text, txtDate_To10.Text, lstDate10.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F10.Text, txtAmount2_F10.Text, drpAmount_F10.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F10.Text, txtAmount2_F10.Text, drpAmount_F10.SelectedItem.Value);
+                }
+            }
+
+            #endregion
+
+            clsGeneral.DisposeOf(lstAdhoc);
+            bool IsSuccess = true;
+            DataSet dsGraphReport = clsPM_Permits_VOC_Emissions.GetVOCGraphReport(GetAllItemString(lstSelectedFields, false), strWhere, strFilterIds, Convert.ToDecimal(clsSession.UserID), out IsSuccess);
+
+            string xml = this.GenerateVOCGraphReport(dsGraphReport, true).ToString();
+
+            string strDir = AppConfig.SitePath + @"temp\";
+            if (!Directory.Exists(strDir))
+            {
+                Directory.CreateDirectory(strDir);
+            }
+            string imageName = "../../temp/VOCEmissionGraph.png";
+            ServerSideImageHandler ssh = new ServerSideImageHandler(Server.MapPath("../../FusionCharts/MSColumn2D.swf"), 867, 300, xml, string.Empty, Server.MapPath(imageName));
+            ssh.BeginCapture();
+
+            iTextSharp.text.Rectangle pgSize;
+            string strPdfpath = Server.MapPath("../../temp/VOCEmissionGraph.pdf");
+            pgSize = new iTextSharp.text.Rectangle(867, 300);
+            iTextSharp.text.Document doc = new iTextSharp.text.Document(pgSize, 0, 0, 0, 0);
+            iTextSharp.text.pdf.PdfWriter.GetInstance(doc, new FileStream(strPdfpath, FileMode.Create));
+
+            doc.Open();
+            string imagepath = Server.MapPath("../../temp/VOCEmissionGraph.png");
+            try
+            {
+                iTextSharp.text.Image gif = iTextSharp.text.Image.GetInstance(imagepath);
+                //Resize image depend upon your need
+                gif.ScaleToFit(867, 300);
+                gif.Alignment = iTextSharp.text.Image.ALIGN_CENTER;
+                doc.Add(gif);
+            }
+            catch (iTextSharp.text.DocumentException dex)
+            {
+                Response.Write(dex.Message);
+            }
+            catch (IOException ioex)
+            {
+                Response.Write(ioex.Message);
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex.Message);
+            }
+            doc.Close();
+
+            string[] strFusionChart = new string[1]; ;
+            strFusionChart[0] = strDir + "VOCEmissionGraph.pdf";
+
+            clsGeneral.SendMailMessage(AppConfig.MailFrom, hdnto.Value, string.Empty, string.Empty, hdnSubject.Value, hdnBody.Value, true, strFusionChart);
+
+            if (File.Exists(strDir + "VOCEmissionGraph.pdf"))
+                File.Delete(strDir + "VOCEmissionGraph.pdf");
+            if (File.Exists(strDir + "VOCEmissionGraph.png"))
+                File.Delete(strDir + "VOCEmissionGraph.png");
+
+            ClientScript.RegisterStartupScript(typeof(string), "keyclosewindow", "CloseMailPopup();", true);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+            clsGeneral.DisposeOf(lstAdhoc);
+            clsGeneral.DisposeOf(dtSchema);
+            clsGeneral.DisposeOf(dtHeader);
+        }
+    }
+
+    /// <summary>
+    /// Event to handle Back from Graph to Ad Hoc Report
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnBackGraph_Click(object sender, EventArgs e)
+    {
+        this.ShowHideGraphAndAdHocControls();
     }
 
     #endregion
@@ -1991,14 +2719,14 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
                             case "O":
                                 fromYear = Convert.ToDateTime(txtDate_From1.Text).Year;
                                 fromMonth = Convert.ToDateTime(txtDate_From1.Text).Month;
-                                strWhere = " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year=" + fromYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month=" + fromMonth; 
+                                strWhere = " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year=" + fromYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month=" + fromMonth;
                                 break;
                             case "B":
                                 fromYear = Convert.ToDateTime(txtDate_From1.Text).Year;
                                 fromMonth = Convert.ToDateTime(txtDate_From1.Text).Month;
                                 toYear = Convert.ToDateTime(txtDate_To1.Text).Year;
                                 toMonth = Convert.ToDateTime(txtDate_To1.Text).Month;
-                                strWhere = " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year>=" + fromYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month>=" + fromMonth + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year<=" + toYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month<=" + toMonth; 
+                                strWhere = " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year>=" + fromYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month>=" + fromMonth + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year<=" + toYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month<=" + toMonth;
                                 break;
                             case "A":
                                 toYear = Convert.ToDateTime(txtDate_From1.Text).Year;
@@ -2008,9 +2736,9 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
                             case "BF":
                                 fromYear = Convert.ToDateTime(txtDate_From1.Text).Year;
                                 fromMonth = Convert.ToDateTime(txtDate_From1.Text).Month;
-                                strWhere = " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year<" + toYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month<" + toMonth; 
+                                strWhere = " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year<" + toYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month<" + toMonth;
                                 break;
-                        }  
+                        }
                     }
                     else
                     {
@@ -2625,6 +3353,372 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
             clsGeneral.DisposeOf(dtSchema);
             clsGeneral.DisposeOf(dtHeader);
         }
+    }
+
+    /// <summary>
+    /// Method to bind VOC Graph Report
+    /// </summary>
+    private void BindVOCGraphReport()
+    {        
+        List<Pollution_AdhocReportFields> lstAdhoc = null;
+        DataTable dtSchema = null, dtHeader = null;
+        try
+        {
+            decimal decValue;
+            int iSelected;
+            string strWhere = string.Empty, strFilterIds = string.Empty, strGroupBy = string.Empty, strOrderBy = string.Empty, strCriteria = string.Empty, strPath = string.Empty;
+
+            strCriteria = GetFilterIDs(new DropDownList[] { drpFilter1, drpFilter2, drpFilter3, drpFilter4, drpFilter5, drpFilter6, drpFilter7, drpFilter8, drpFilter9, drpFilter10, });
+            if (!string.IsNullOrEmpty(strCriteria))
+                lstAdhoc = new Pollution_AdhocReportFields().GetAdHocReportFieldByMultipleID(strCriteria);
+
+            #region "Get Where condition"
+
+            if (drpFilter1.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter1.SelectedItem.Value);
+                strFilterIds += decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                {
+                    if (lstAdhoc[iSelected].Field_Header.ToLower().Trim() == "contact name" || lstAdhoc[iSelected].Field_Header.ToLower().Trim() == "complex number")
+                        strWhere += GetTextWhereCondition(lstAdhoc[iSelected].Field_Name, txtFilter1.Text, Convert.ToInt16(drpText_F1.SelectedItem.Value));
+                    else
+                        strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter1.Text, Convert.ToInt16(drpText_F1.SelectedItem.Value));
+                }
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F1, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F1, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                {
+                    if (lstAdhoc[iSelected].Field_Name.ToUpper() == "VOC_EMMISSION_DATE")
+                    {
+                        int fromYear = 1990; int toYear = 1990;
+                        int fromMonth = 1; int toMonth = 1;
+                        string fromWhere = string.Empty;
+                        string toWhere = string.Empty;
+                        switch (lstDate1.SelectedItem.Value)
+                        {
+                            case "O":
+                                fromYear = Convert.ToDateTime(txtDate_From1.Text).Year;
+                                fromMonth = Convert.ToDateTime(txtDate_From1.Text).Month;
+                                strWhere = " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year=" + fromYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month=" + fromMonth;
+                                break;
+                            case "B":
+                                fromYear = Convert.ToDateTime(txtDate_From1.Text).Year;
+                                fromMonth = Convert.ToDateTime(txtDate_From1.Text).Month;
+                                toYear = Convert.ToDateTime(txtDate_To1.Text).Year;
+                                toMonth = Convert.ToDateTime(txtDate_To1.Text).Month;
+                                strWhere = " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year>=" + fromYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month>=" + fromMonth + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year<=" + toYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month<=" + toMonth;
+                                break;
+                            case "A":
+                                toYear = Convert.ToDateTime(txtDate_From1.Text).Year;
+                                toMonth = Convert.ToDateTime(txtDate_From1.Text).Month;
+                                strWhere = " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year>" + fromYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month>" + fromMonth;
+                                break;
+                            case "BF":
+                                fromYear = Convert.ToDateTime(txtDate_From1.Text).Year;
+                                fromMonth = Convert.ToDateTime(txtDate_From1.Text).Month;
+                                strWhere = " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Year<" + toYear + " AND " + "[" + lstAdhoc[iSelected].Table_Name + "].Month<" + toMonth;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From1.Text, txtDate_To1.Text, lstDate1.SelectedItem.Value);
+                    }
+                }
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    // It takes Filed Header when Table is Transaction otherwist it take Filed Name.
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
+                    else
+                    {
+                        string fieldName = lstAdhoc[iSelected].Field_Name;
+                        if (fieldName.ToUpper() == "QUANTITY" || fieldName.ToUpper() == "UNIT" || fieldName.ToUpper() == "GALLONS" || fieldName.ToUpper() == "VOC EMISSIONS")
+                        {
+                            string caseCondition = " Cast([" + lstAdhoc[iSelected].Table_Name + "]." + fieldName + " AS Numeric)";
+                            strWhere += GetDateAmountCondtion(caseCondition, txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
+                        }
+                        else
+                            strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F1.Text, txtAmount2_F1.Text, drpAmount_F1.SelectedItem.Value);
+                    }
+                }
+            }
+            if (drpFilter2.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter2.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter2.Text, Convert.ToInt16(drpText_F2.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F2, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F2, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From2.Text, txtDateTo2.Text, lstDate2.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F2.Text, txtAmount2_F2.Text, drpAmount_F2.SelectedItem.Value);
+                    else
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F2.Text, txtAmount2_F2.Text, drpAmount_F2.SelectedItem.Value);
+                }
+            }
+            if (drpFilter3.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter3.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter3.Text, Convert.ToInt16(drpText_F3.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F3, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F3, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From3.Text, txtDate_To3.Text, lstDate3.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F3.Text, txtAmount2_F3.Text, drpAmount_F3.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F3.Text, txtAmount2_F3.Text, drpAmount_F3.SelectedItem.Value);
+                }
+            }
+            if (drpFilter4.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter4.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter4.Text, Convert.ToInt16(drpText_F4.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F4, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F4, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From4.Text, txtDate_To4.Text, lstDate4.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F4.Text, txtAmount2_F4.Text, drpAmount_F4.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F4.Text, txtAmount2_F4.Text, drpAmount_F4.SelectedItem.Value);
+                }
+            }
+            if (drpFilter5.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter5.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter5.Text, Convert.ToInt16(drpText_F5.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F5, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F5, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From5.Text, txtDate_To5.Text, lstDate5.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F5.Text, txtAmount2_F5.Text, drpAmount_F5.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F5.Text, txtAmount2_F5.Text, drpAmount_F5.SelectedItem.Value);
+                }
+            }
+            if (drpFilter6.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter6.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter6.Text, Convert.ToInt16(drpText_F6.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F6, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F6, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From6.Text, txtDate_To6.Text, lstDate6.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F6.Text, txtAmount2_F6.Text, drpAmount_F6.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F6.Text, txtAmount2_F6.Text, drpAmount_F6.SelectedItem.Value);
+                }
+            }
+            if (drpFilter7.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter7.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter7.Text, Convert.ToInt16(drpText_F7.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F7, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F7, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From7.Text, txtDate_To7.Text, lstDate7.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F7.Text, txtAmount2_F7.Text, drpAmount_F7.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F7.Text, txtAmount2_F7.Text, drpAmount_F7.SelectedItem.Value);
+                }
+            }
+            if (drpFilter8.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter8.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter8.Text, Convert.ToInt16(drpText_F8.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F8, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F8, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From8.Text, txtDate_To8.Text, lstDate8.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F8.Text, txtAmount2_F8.Text, drpAmount_F8.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F8.Text, txtAmount2_F8.Text, drpAmount_F8.SelectedItem.Value);
+                }
+            }
+            if (drpFilter9.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter9.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter9.Text, Convert.ToInt16(drpText_F9.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F9, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F9, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From9.Text, txtDate_To9.Text, lstDate9.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F9.Text, txtAmount2_F9.Text, drpAmount_F9.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F9.Text, txtAmount2_F9.Text, drpAmount_F9.SelectedItem.Value);
+                }
+            }
+            if (drpFilter10.SelectedIndex > 0)
+            {
+                decValue = Convert.ToDecimal(drpFilter10.SelectedItem.Value);
+                strFilterIds += (string.IsNullOrEmpty(strFilterIds) ? "" : ",") + decValue.ToString();
+                iSelected = SearchList(decValue, lstAdhoc);
+                if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.TextBox)
+                    strWhere += GetTextWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtFilter10.Text, Convert.ToInt16(drpText_F10.SelectedItem.Value));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectList)
+                    strWhere += GetListBoxWhereCondition("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F10, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList)
+                    strWhere += GetListBoxWhereConditionByText("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].WhereField, GetSelectedItemString(lst_F10, false));
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.DateControl)
+                    strWhere += GetDateWhereCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtDate_From10.Text, txtDate_To10.Text, lstDate10.SelectedItem.Value);
+                else if (lstAdhoc[iSelected].Fk_ControlType == (int)AdHocReportHelper.AdHocControlType.AmountControl)
+                {
+                    if (lstAdhoc[iSelected].Table_Name == "T")
+                        strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Field_Header + "]", txtAmount1_F10.Text, txtAmount2_F10.Text, drpAmount_F10.SelectedItem.Value);
+                    else strWhere += GetDateAmountCondtion("[" + lstAdhoc[iSelected].Table_Name + "]." + lstAdhoc[iSelected].Field_Name, txtAmount1_F10.Text, txtAmount2_F10.Text, drpAmount_F10.SelectedItem.Value);
+                }
+            }
+
+            #endregion
+
+            clsGeneral.DisposeOf(lstAdhoc);
+            bool IsSuccess = true;
+            DataSet dsGraphReport = clsPM_Permits_VOC_Emissions.GetVOCGraphReport(GetAllItemString(lstSelectedFields, false), strWhere, strFilterIds, Convert.ToDecimal(clsSession.UserID), out IsSuccess);
+            if (IsSuccess == true)
+            {
+                lnkExportToPDF.Visible = lnkSendMail.Visible = true;
+                if (dsGraphReport.Tables[1].Rows.Count > 0)
+                    this.GenerateVOCGraphReport(dsGraphReport, false);
+                else
+                {
+                    divchart1.InnerHtml = "<table style='font-family:Tahoma' cellpadding='4' cellspacing='0' Width='100%'>" +
+                                            "<tr style='background-color:#F2F2F2;color:Black;'>" +
+                                            "<td align='center' style='font-size:9pt;'>No Records found.</td></tr></table>";
+                    lnkExportToPDF.Visible = lnkSendMail.Visible = false;
+                }
+
+                tblButtonControls.Visible = false;
+                tblFilterControls.Visible = false;
+                tblOutputControls.Visible = false;
+                tblGraph.Visible = true;
+            }
+            else
+                ScriptManager.RegisterStartupScript(this,Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Too Many Fields Are Selected As Output Field,Please Select Limited Number of Fields And Try Again');", true);
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
+        finally
+        {
+            clsGeneral.DisposeOf(lstAdhoc);
+            clsGeneral.DisposeOf(dtSchema);
+            clsGeneral.DisposeOf(dtHeader);
+        }
+    }
+
+    private StringBuilder GenerateVOCGraphReport(DataSet ds, bool blnNumber)
+    {
+        StringBuilder strChartXML = new StringBuilder();
+        strChartXML.Append("<chart caption='SAI Collision Center " + Convert.ToString(ds.Tables[1].Rows[0]["Year"]) + "-" + Convert.ToString(ds.Tables[1].Rows[(ds.Tables[1].Rows.Count - 1)]["Year"]) + " VOC Emissions' xAxisName='Year-Month' yAxisName='Gallons' showValues='0' >");
+        strChartXML.Append("<categories>");
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            string operandLabel = blnNumber ? Convert.ToString(ds.Tables[0].Rows[i]["dba"]).Replace("&", "And").Replace("'", "&apos;").Replace("\"", " ").Replace(">", " ").Replace("<", " ") : Convert.ToString(ds.Tables[0].Rows[i]["dba"]).Replace("&", "And").Replace("'", "&apos;").Replace("\"", "&quot;");                        
+            strChartXML.Append("<category label='" + operandLabel + "' />");
+        }
+
+        strChartXML.Append("</categories>");
+        for (int i = 0; i < ds.Tables[1].Rows.Count; i++)
+        {
+            strChartXML.Append("<dataset seriesname='" + Convert.ToString(ds.Tables[1].Rows[i]["Year_Month"]) + "' >");
+            DataView dv = new DataView(ds.Tables[2]);
+            dv.RowFilter = "Year_Month = '" + Convert.ToString(ds.Tables[1].Rows[i]["Year_Month"]) + "'";
+            DataTable dt_Temp = dv.ToTable();
+            for (int j = 0; j < ds.Tables[0].Rows.Count; j++)
+            {
+                string operand = Convert.ToString(ds.Tables[0].Rows[j]["dba"]).Contains("'") ? Convert.ToString(ds.Tables[0].Rows[j]["dba"]).Replace("'", "''") : Convert.ToString(ds.Tables[0].Rows[j]["dba"]);
+                DataRow[] dr = dt_Temp.Select("dba = '" + operand + "'");
+                if (dr.Length > 0)
+                    strChartXML.Append("<set value='" + clsGeneral.GetDecimal(dr[0]["Total_Gallons"]).ToString() + "'  link='" + string.Empty + "' toolText='" + clsGeneral.GetDecimal(dr[0]["Total_Gallons"]).ToString() + "' />");
+                else
+                    strChartXML.Append("<set value='" + clsGeneral.GetDecimal(0).ToString() + "'  link='" + string.Empty + "' toolText='" + clsGeneral.GetDecimal(0).ToString() + "' />");
+            }
+
+            strChartXML.Append("</dataset>");
+        }
+
+        strChartXML.Append("</chart>");
+        StringBuilder sbChart = new StringBuilder();
+        sbChart.Append(InfoSoftGlobal.FusionCharts.RenderChart(AppConfig.SiteURL + "FusionCharts/MSColumn2D.swf?ChartNoDataText=No data to display for: SAI Collision Center VOC Emissions", "", strChartXML.ToString(), "divchart1", "98%", "300", false, true));
+        divchart1.InnerHtml = sbChart.ToString();//here in div we are display chart
+
+        if (blnNumber)
+            return strChartXML;
+        else
+            return sbChart;
+    }
+
+    /// <summary>
+    /// Method to show hide Graph and AdHoc Report Controls
+    /// </summary>
+    private void ShowHideGraphAndAdHocControls()
+    {
+        tblButtonControls.Visible = true;
+        tblFilterControls.Visible = true;
+        tblOutputControls.Visible = true;
+        tblGraph.Visible = false;
     }
 
     /// <summary>
@@ -3277,8 +4371,4 @@ public partial class Pollution_AdHocReportWriter : clsBasePage
     }
 
     #endregion
-    protected void lnkGenerateReport_Click(object sender, EventArgs e)
-    {
-        Response.Redirect(AppConfig.SiteURL + "UserAccessRequest/rptVOCEmissions.aspx");
-    }
 }

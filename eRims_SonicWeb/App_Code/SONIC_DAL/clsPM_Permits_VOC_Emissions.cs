@@ -514,6 +514,16 @@ namespace ERIMS.DAL
             db.ExecuteNonQuery(dbCommand);
         }
 
+        /// <summary>
+        /// Method to Update SubTotal For VOC
+        /// </summary>
+        /// <param name="SubTotal_Text"></param>
+        /// <param name="FK_LU_VOC_Category"></param>
+        /// <param name="FK_PM_Permits"></param>
+        /// <param name="Month"></param>
+        /// <param name="Year"></param>
+        /// <param name="Update_Date"></param>
+        /// <param name="Updated_By"></param>
         public static void UpdateSubTotal(string SubTotal_Text, decimal FK_LU_VOC_Category, decimal FK_PM_Permits, int Month, int Year, string Update_Date, string Updated_By)
         {
             Database db = DatabaseFactory.CreateDatabase();
@@ -530,17 +540,35 @@ namespace ERIMS.DAL
             db.ExecuteNonQuery(dbCommand);
         }
 
-
-        public static DataSet GetVOCGraphReport(int StartYear, int EndYear, int StartMonth, int EndMonth, string Locations)
+        /// <summary>
+        /// Method To Generate Graph Report
+        /// </summary>
+        /// <param name="SelectedField"></param>
+        /// <param name="SqlWhere1"></param>
+        /// <param name="strFilterIds"></param>
+        /// <param name="PK_Security_ID"></param>
+        /// <param name="IsSuccess"></param>
+        /// <returns></returns>
+        public static DataSet GetVOCGraphReport(string SelectedField, string SqlWhere1, string strFilterIds, decimal PK_Security_ID, out bool IsSuccess)
         {
-            Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("VOC_Graph_Report");
-            db.AddInParameter(dbCommand, "StartYear", DbType.Int16, StartYear);
-            db.AddInParameter(dbCommand, "EndYear", DbType.Int16, EndYear);
-            db.AddInParameter(dbCommand, "StartMonth", DbType.Int16, StartMonth);
-            db.AddInParameter(dbCommand, "EndMonth", DbType.Int16, EndMonth);
-            db.AddInParameter(dbCommand, "Location", DbType.String, Locations);
-            return db.ExecuteDataSet(dbCommand);
+            try
+            {
+                IsSuccess = true;
+                Database db = DatabaseFactory.CreateDatabase();
+                DbCommand dbCommand = db.GetStoredProcCommand("VOC_Graph_Report");
+                dbCommand.CommandTimeout = 100000;
+
+                db.AddInParameter(dbCommand, "@SelectedField", DbType.String, SelectedField);
+                db.AddInParameter(dbCommand, "SqlWhere1", DbType.String, SqlWhere1);
+                db.AddInParameter(dbCommand, "@SqlWhereIds", DbType.String, strFilterIds);
+                db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, PK_Security_ID);
+                return db.ExecuteDataSet(dbCommand);
+            }
+            catch
+            {
+                IsSuccess = false;
+                return null;
+            }
         }
 
         /// <summary>
