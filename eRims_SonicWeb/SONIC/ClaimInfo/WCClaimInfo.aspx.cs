@@ -862,6 +862,8 @@ public partial class SONIC_WCClaimInfo : clsBasePage
             TotalOutstanding = TotalOutstanding + (string.IsNullOrEmpty(Convert.ToString(drWorkers_Comp_Claims["Expense_Outstanding"])) ? 0 : Convert.ToDecimal(drWorkers_Comp_Claims["Expense_Outstanding"]));
             lblTotal_Outstanding.Text = String.Format("$ {0:N2}", Convert.ToDecimal(TotalOutstanding));
 
+            lblFK_LU_Claim_SubType.Text = new LU_Claim_SubType(clsGeneral.GetDecimal(drWorkers_Comp_Claims["FK_LU_Claim_SubType"])).Fld_Description;
+
             DataSet dsWCR = Workers_Comp_RMW.SelectByFK(PK_WC_CI_ID);
             DataTable dtWCR = dsWCR.Tables[0];
             PK_Workers_Comp_RMW = 0;

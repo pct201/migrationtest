@@ -143,5 +143,15 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        public static DataSet SelectBySourceUniqueClaimNumberAndDate(String source_Unique_Claim_Number,String activityCode)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Claims_Adjustor_NotesSelectByClaim_NumberAndActivity");
+
+            db.AddInParameter(dbCommand, "Source_Unique_Claim_Number", DbType.String, source_Unique_Claim_Number);
+            db.AddInParameter(dbCommand, "Activity_Type", DbType.String, activityCode);
+         
+            return db.ExecuteDataSet(dbCommand);
+        }
     }
 }

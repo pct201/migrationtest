@@ -3024,11 +3024,12 @@
                                                         <td align="left">
                                                             <asp:Label ID="lblFK_NCCI_Occupation_Class_Code" runat="server"></asp:Label>
                                                         </td>
-                                                        <td align="left">&nbsp;
+                                                        <td align="left">Claim SubType
                                                         </td>
-                                                        <td align="center">&nbsp;
+                                                        <td align="center">:
                                                         </td>
-                                                        <td align="left">&nbsp;
+                                                        <td align="left">
+                                                             <asp:Label ID="lblFK_LU_Claim_SubType" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                 </table>

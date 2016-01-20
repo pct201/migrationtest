@@ -22,6 +22,15 @@ public partial class SONIC_Sedgwick_ClaimSummary : clsBasePage
         set { ViewState["PK_Sedgwick_Claim_Review"] = value; }
     }
 
+    /// <summary>
+    /// Denotes the Claim Number
+    /// </summary>
+    public string StrClaimNumber
+    {
+        get { return Convert.ToString(ViewState["StrClaimNumber"]); }
+        set { ViewState["StrClaimNumber"] = value; }
+    }
+
     #endregion
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -101,6 +110,7 @@ public partial class SONIC_Sedgwick_ClaimSummary : clsBasePage
         ahrefClaimnumber.InnerText = drData["Origin_Claim_Number"].ToString();
         ahrefClaimnumber.HRef = "~/SONIC/ClaimInfo/WCClaimInfo.aspx?id=" + Encryption.Encrypt(drData["PK_Workers_Comp_Claims_ID"].ToString()) + "&ClaimReview=1";
 
+        StrClaimNumber = drData["Origin_Claim_Number"].ToString();
         lblCalimNUmber_Review.Text = drData["Origin_Claim_Number"].ToString(); //For Review Screen
         lblClaimNumber_Investigation.Text = drData["Origin_Claim_Number"].ToString(); //For Investigation Tab
         lblClaimNumber_Subrogation.Text = drData["Origin_Claim_Number"].ToString(); //For Subrogation Tab
@@ -446,22 +456,44 @@ public partial class SONIC_Sedgwick_ClaimSummary : clsBasePage
         //DropDownList ddlRLCM_Medical_Score = (DropDownList)e.Row.FindControl("ddlRLCM_Medical_Score");
 
         // string txtempid = lblMgtSection.Value;
+        string strActivityCode = string.Empty;
         if (Convert.ToDecimal(Request.QueryString["PK_SCR"]) > 0)
         {
             if (MgtSection == "Medical")
+            {
                 ddlRLCM_Medical_Score.SelectedValue = objSCR.Medical_Score.ToString();
+                strActivityCode = "MD";
+            }
             else if (MgtSection == "Disability")
+            {
                 ddlRLCM_Medical_Score.SelectedValue = objSCR.Diability_Score.ToString();
+                strActivityCode = "DE";
+            }
             else if (MgtSection == "Leadership")
+            {
                 ddlRLCM_Medical_Score.SelectedValue = objSCR.Leadership_Score.ToString();
+                strActivityCode = "SR";
+            }
             else if (MgtSection == "Investigation")
+            {
                 ddlRLCM_Medical_Score.SelectedValue = objSCR.Litigation_Score.ToString();
+                strActivityCode = "IN";
+            }
             else if (MgtSection == "Subrogation")
+            {
                 ddlRLCM_Medical_Score.SelectedValue = objSCR.Subrogation_Score.ToString();
+                strActivityCode = "SB";
+            }
             else if (MgtSection == "Closure Plan")
+            {
                 ddlRLCM_Medical_Score.SelectedValue = objSCR.Settlemente_Closure_Score.ToString();
+                strActivityCode = "AP";
+            }
             else if (MgtSection == "Reserves")
+            {
                 ddlRLCM_Medical_Score.SelectedValue = objSCR.Reserves_Score.ToString();
+                strActivityCode = "RS";
+            }
             if (!string.IsNullOrEmpty(objSCR.Claim_Review_Complete))
                 rblDisposition.SelectedValue = objSCR.Claim_Review_Complete.ToString();
         }
@@ -503,6 +535,111 @@ public partial class SONIC_Sedgwick_ClaimSummary : clsBasePage
         DataTable dtMedicalScoringList = dsMedicalScoringList.Tables[0];
         gv_MedicalScoring.DataSource = dtMedicalScoringList;
         gv_MedicalScoring.DataBind();
+
+        DataSet dsClaim = Claims_Adjustor_Notes.SelectBySourceUniqueClaimNumberAndDate(StrClaimNumber, strActivityCode);
+        DataTable dtClaim = dsClaim.Tables[0];
+
+        if (dtClaim.Rows.Count > 0)
+        {
+            string strClaimDate = Convert.ToString(clsGeneral.FormatDateToDisplay(Convert.ToDateTime(dtClaim.Rows[0]["Data_Entry_Date"])));
+            string strClaimNote = string.Empty;
+
+            foreach (DataRow dr in dtClaim.Rows)
+            {
+                if (clsGeneral.FormatDateToDisplay(Convert.ToDateTime(dr["Data_Entry_Date"])) == strClaimDate)
+                {
+                    strClaimNote = strClaimNote + Convert.ToString(dr["Note_Text"]) + "\n";
+                }
+            }
+
+            if (MgtSection == "Medical")
+            {
+                lblMedicalAdjusterDate.Text = strClaimDate;
+                lblMedicalAdjusterNotes.Text = strClaimNote;
+            }
+            else if (MgtSection == "Disability")
+            {
+                lblDisAdjusterDate.Text = strClaimDate;
+                lblDisAdjusterNotes.Text = strClaimNote;
+            }
+            else if (MgtSection == "Leadership")
+            {
+                lblLeadAdjusterDate.Text = strClaimDate;
+                lblLeadAdjusterNotes.Text = strClaimNote;
+            }
+            else if (MgtSection == "Investigation")
+            {
+                lblAdjusterNoteDate.Text = strClaimDate;
+                lblAdjusterNotes.Text = strClaimNote;
+            }
+            else if (MgtSection == "Subrogation")
+            {
+                lblSubAdjusterDate.Text = strClaimDate;
+                lblSubAdjusterNotes.Text = strClaimNote;
+            }
+            else if (MgtSection == "Closure Plan")
+            {
+                lblClosureAdjusterDate.Text = strClaimDate;
+                lblClosureAdjusterNotes.Text = strClaimNote;
+            }
+            else if (MgtSection == "Reserves")
+            {
+                lblReservesAdjusterDate.Text = strClaimDate;
+                lblReservesAdjusterNotes.Text = strClaimNote;
+            }
+        }
+        else
+        {
+            if (MgtSection == "Medical")
+            {
+                lblMedicalAdjusterNotes.Visible = false;
+                lblMedicalAdjusterDate.Text = "N/A";
+                hdnMedicalAdjusterNotes.Visible = true;
+                hdnMedicalAdjusterNotes.Text = "No note is found with a note code of MD for the selected claim.";
+            }
+            else if (MgtSection == "Disability")
+            {
+                lblDisAdjusterNotes.Visible = false;
+                lblDisAdjusterDate.Text = "N/A";
+                hdnDisAdjusterNotes.Visible = true;
+                hdnDisAdjusterNotes.Text = "No note is found with a note code of DE for the selected claim.";
+            }
+            else if (MgtSection == "Leadership")
+            {
+                lblLeadAdjusterNotes.Visible = false;
+                lblLeadAdjusterDate.Text = "N/A";
+                hdnLeadAdjusterNotes.Visible = true;
+                hdnLeadAdjusterNotes.Text = "No note is found with a note code of SR for the selected claim.";
+            }
+            else if (MgtSection == "Investigation")
+            {
+                lblAdjusterNotes.Visible = false;
+                lblAdjusterNoteDate.Text = "N/A";
+                hdnAdjusterNotes.Visible = true;
+                hdnAdjusterNotes.Text = "No note is found with a note code of IN for the selected claim.";
+            }
+            else if (MgtSection == "Subrogation")
+            {
+                lblSubAdjusterNotes.Visible = false;
+                lblSubAdjusterDate.Text = "N/A";
+                hdnSubAdjusterNotes.Visible = true;
+                hdnSubAdjusterNotes.Text = "No note is found with a note code of SB for the selected claim.";
+            }
+            else if (MgtSection == "Closure Plan")
+            {
+                lblClosureAdjusterNotes.Visible = false;
+                lblClosureAdjusterDate.Text = "N/A";
+                hdnClosureAdjusterNotes.Visible = true;
+                hdnClosureAdjusterNotes.Text = "No note is found with a note code of AP for the selected claim.";
+            }
+            else if (MgtSection == "Reserves")
+            {
+                lblReservesAdjusterNotes.Visible = false;
+                lblReservesAdjusterDate.Text = "N/A";
+                hdnReservesAdjusterNotes.Visible = true;
+                hdnReservesAdjusterNotes.Text = "No note is found with a note code of RS for the selected claim.";
+            }
+        }
     }
     protected void gvMgtSection_OnRowDataBound(object sender, GridViewRowEventArgs e)
     {

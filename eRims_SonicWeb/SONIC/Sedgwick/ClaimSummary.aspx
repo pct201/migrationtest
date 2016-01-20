@@ -1259,6 +1259,35 @@
                                                     </asp:GridView>
                                                 </td>
                                             </tr>
+                                            <tr>
+                                                <td width="5%"></td>
+                                                <td>
+                                                <table>
+                                                    <tr>
+                                                         <td style="width: 7%" align="left" valign="top">Claim Adjuster Note Date</td>
+                                                         <td style="width: 2%" align="center" valign="top">: </td>
+                                                         <td style="width: 35%" align="left" valign="top">
+                                                          <asp:Label ID="lblAdjusterNoteDate" runat="server" >Date</asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                              </td>
+                                            </tr>
+                                             <tr>
+                                                <td width="5%"></td>
+                                                <td>
+                                                <table>
+                                                    <tr>
+                                                         <td style="width: 7%" align="left" valign="top">Claim Adjuster Note</td>
+                                                         <td style="width: 2%" align="center" valign="top">: </td>
+                                                         <td style="width: 35%" align="left" valign="top">
+                                                         <uc:ctrlMultiLineTextBox runat="server" ID="lblAdjusterNotes" ControlType="Label" />
+                                                             <asp:Label id="hdnAdjusterNotes" runat="server" Visible="false"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                              </td>
+                                            </tr>
                                             <tr style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt; font-weight: bold;">
                                                 <td width="5%" style="background-color: White;"></td>
                                                 <th width="95%" style="text-align: center;">RLCM/Sedgwick Action Plan &nbsp;&nbsp; &nbsp;
@@ -1456,6 +1485,35 @@
                                                     </asp:GridView>
                                                 </td>
                                             </tr>
+                                             <tr>
+                                                <td width="5%"></td>
+                                                <td>
+                                                <table>
+                                                    <tr>
+                                                         <td style="width: 7%" align="left" valign="top">Claim Adjuster Note Date</td>
+                                                         <td style="width: 2%" align="center" valign="top">: </td>
+                                                         <td style="width: 35%" align="left" valign="top">
+                                                          <asp:Label ID="lblSubAdjusterDate" runat="server">Date</asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                              </td>
+                                            </tr>
+                                             <tr>
+                                                <td width="5%"></td>
+                                                <td>
+                                                <table>
+                                                    <tr>
+                                                         <td style="width: 7%" align="left" valign="top">Claim Adjuster Note</td>
+                                                         <td style="width: 2%" align="center" valign="top">: </td>
+                                                         <td style="width: 35%" align="left" valign="top">
+                                                         <uc:ctrlMultiLineTextBox runat="server" ID="lblSubAdjusterNotes" ControlType="Label" />
+                                                             <asp:Label id="hdnSubAdjusterNotes" runat="server" Visible="false"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                              </td>
+                                            </tr>
                                             <tr style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt; font-weight: bold;">
                                                 <td width="5%" style="background-color: White;"></td>
                                                 <th width="95%" style="text-align: center;">RLCM/Sedgwick Action Plan &nbsp;&nbsp; &nbsp;
@@ -1648,6 +1706,35 @@
                                                         </Columns>
                                                     </asp:GridView>
                                                 </td>
+                                            </tr>
+                                             <tr>
+                                                <td width="5%"></td>
+                                                <td>
+                                                <table>
+                                                    <tr>
+                                                         <td style="width: 7%" align="left" valign="top">Claim Adjuster Note Date</td>
+                                                         <td style="width: 2%" align="center" valign="top">: </td>
+                                                         <td style="width: 35%" align="left" valign="top">
+                                                          <asp:Label ID="lblMedicalAdjusterDate" runat="server"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                              </td>
+                                            </tr>
+                                             <tr>
+                                                <td width="5%"></td>
+                                                <td>
+                                                <table>
+                                                    <tr>
+                                                         <td style="width: 7%" align="left" valign="top">Claim Adjuster Note</td>
+                                                         <td style="width: 2%" align="center" valign="top">: </td>
+                                                         <td style="width: 35%" align="left" valign="top">
+                                                         <uc:ctrlMultiLineTextBox runat="server" ID="lblMedicalAdjusterNotes" ControlType="Label" />
+                                                         <asp:Label id="hdnMedicalAdjusterNotes" runat="server" Visible="false"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                              </td>
                                             </tr>
                                             <tr style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt; font-weight: bold;">
                                                 <td width="5%" style="background-color: White;"></td>
@@ -1842,6 +1929,35 @@
                                                     </asp:GridView>
                                                 </td>
                                             </tr>
+                                               <tr>
+                                                <td width="5%"></td>
+                                                <td>
+                                                <table>
+                                                    <tr>
+                                                         <td style="width: 7%" align="left" valign="top">Claim Adjuster Note Date</td>
+                                                         <td style="width: 2%" align="center" valign="top">: </td>
+                                                         <td style="width: 35%" align="left" valign="top">
+                                                          <asp:Label ID="lblDisAdjusterDate" runat="server"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                              </td>
+                                            </tr>
+                                             <tr>
+                                                <td width="5%"></td>
+                                                <td>
+                                                <table>
+                                                    <tr>
+                                                         <td style="width: 7%" align="left" valign="top">Claim Adjuster Note</td>
+                                                         <td style="width: 2%" align="center" valign="top">: </td>
+                                                         <td style="width: 35%" align="left" valign="top">
+                                                         <uc:ctrlMultiLineTextBox runat="server" ID="lblDisAdjusterNotes" ControlType="Label" />
+                                                         <asp:Label id="hdnDisAdjusterNotes" runat="server" Visible="false"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                              </td>
+                                            </tr>
                                             <tr style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt; font-weight: bold;">
                                                 <td width="5%" style="background-color: White;"></td>
                                                 <th width="95%" style="text-align: center;">RLCM/Sedgwick Action Plan &nbsp;&nbsp; &nbsp;
@@ -2030,6 +2146,35 @@
                                                         </Columns>
                                                     </asp:GridView>
                                                 </td>
+                                            </tr>
+                                               <tr>
+                                                <td width="5%"></td>
+                                                <td>
+                                                <table>
+                                                    <tr>
+                                                         <td style="width: 7%" align="left" valign="top">Claim Adjuster Note Date</td>
+                                                         <td style="width: 2%" align="center" valign="top">: </td>
+                                                         <td style="width: 35%" align="left" valign="top">
+                                                          <asp:Label ID="lblClosureAdjusterDate" runat="server"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                              </td>
+                                            </tr>
+                                             <tr>
+                                                <td width="5%"></td>
+                                                <td>
+                                                <table>
+                                                    <tr>
+                                                         <td style="width: 7%" align="left" valign="top">Claim Adjuster Note</td>
+                                                         <td style="width: 2%" align="center" valign="top">: </td>
+                                                         <td style="width: 35%" align="left" valign="top">
+                                                         <uc:ctrlMultiLineTextBox runat="server" ID="lblClosureAdjusterNotes" ControlType="Label" />
+                                                         <asp:Label id="hdnClosureAdjusterNotes" runat="server" Visible="false"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                              </td>
                                             </tr>
                                             <tr style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt; font-weight: bold;">
                                                 <td width="5%" style="background-color: White;"></td>
@@ -2292,6 +2437,35 @@
                                                     </asp:GridView>
                                                 </td>
                                             </tr>
+                                             <tr>
+                                                <td width="5%"></td>
+                                                <td>
+                                                <table>
+                                                    <tr>
+                                                         <td style="width: 7%" align="left" valign="top">Claim Adjuster Note Date</td>
+                                                         <td style="width: 2%" align="center" valign="top">: </td>
+                                                         <td style="width: 35%" align="left" valign="top">
+                                                          <asp:Label ID="lblReservesAdjusterDate" runat="server"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                              </td>
+                                            </tr>
+                                             <tr>
+                                                <td width="5%"></td>
+                                                <td>
+                                                <table>
+                                                    <tr>
+                                                         <td style="width: 7%" align="left" valign="top">Claim Adjuster Note</td>
+                                                         <td style="width: 2%" align="center" valign="top">: </td>
+                                                         <td style="width: 35%" align="left" valign="top">
+                                                         <uc:ctrlMultiLineTextBox runat="server" ID="lblReservesAdjusterNotes" ControlType="Label" />
+                                                         <asp:Label id="hdnReservesAdjusterNotes" runat="server" Visible="false"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                              </td>
+                                            </tr>
                                             <tr style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt; font-weight: bold;">
                                                 <td width="5%" style="background-color: White;"></td>
                                                 <th width="95%" style="text-align: center;">RLCM/Sedgwick Action Plan &nbsp;&nbsp; &nbsp;
@@ -2484,6 +2658,35 @@
                                                         </Columns>
                                                     </asp:GridView>
                                                 </td>
+                                            </tr>
+                                             <tr>
+                                                <td width="5%"></td>
+                                                <td>
+                                                <table>
+                                                    <tr>
+                                                         <td style="width: 7%" align="left" valign="top">Claim Adjuster Note Date</td>
+                                                         <td style="width: 2%" align="center" valign="top">: </td>
+                                                         <td style="width: 35%" align="left" valign="top">
+                                                          <asp:Label ID="lblLeadAdjusterDate" runat="server"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                              </td>
+                                            </tr>
+                                             <tr>
+                                                <td width="5%"></td>
+                                                <td>
+                                                <table>
+                                                    <tr>
+                                                         <td style="width: 7%" align="left" valign="top">Claim Adjuster Note</td>
+                                                         <td style="width: 2%" align="center" valign="top">: </td>
+                                                         <td style="width: 35%" align="left" valign="top">
+                                                         <uc:ctrlMultiLineTextBox runat="server" ID="lblLeadAdjusterNotes" ControlType="Label" />
+                                                         <asp:Label id="hdnLeadAdjusterNotes" runat="server" Visible="false"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                              </td>
                                             </tr>
                                             <tr style="background-color: #7f7f7f; font-family: Tahoma; color: white; font-size: 8pt; font-weight: bold;">
                                                 <td width="5%" style="background-color: White;"></td>
