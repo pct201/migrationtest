@@ -364,6 +364,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 Response.Redirect(AppConfig.SiteURL + "Error.aspx?msg=errAcc");
 
             LocationID = clsGeneral.GetQueryStringID(Request.QueryString["loc"]);
+            hdnLocationID.Value = Convert.ToString(LocationID);
             StrOperation = Convert.ToString(Request.QueryString["op"]);
             Session["ExposureLocation"] = LocationID;
             hdnPanel.Value = clsGeneral.GetPanelId(Request.QueryString["pnl"]).ToString();

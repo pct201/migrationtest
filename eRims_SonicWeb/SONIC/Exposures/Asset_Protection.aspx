@@ -24,7 +24,9 @@
     <script type="text/javascript" language="javascript" src="../../JavaScript/Calendar_new.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/calendar-en.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/Calendar.js"></script>
-    <script type="text/javascript" language="javascript" src="../../JavaScript/Validator.js"></script>
+    <script type="text/javascript" language="javascript" src="../../JavaScript/Validator.js"></script>    
+    
+    <script type="text/javascript" language="javascript" src="../../JavaScript/jquery-1.5.min.js"></script>
     <script type="text/javascript">
         var CheckChangeVal = false;
         var ActiveTabIndex = 1;
@@ -444,14 +446,33 @@ function IsValidMonitorTime() {
                 }
             }
         }
+        
 
         var GB_ROOT_DIR = '<%=AppConfig.SiteURL%>' + 'greybox/';
+
         function OpenBuildingByFK_LocatoinPopup() {
-            GB_showCenter(title, '<%=AppConfig.SiteURL%>Administrator/ContractorSecurityPopup.aspx?action=' + action + '&FK_Contractor_Security=<= PK_Contactor_Security %>', 300, 800, '');
-            return false;
+            Page_ClientValidate("vsErrorProperty_Security");
+            if (Page_IsValid) {
+
+                var Loc = $('#' + '<%=hdnLocationID.ClientID%>' ).val();                
+                if (Loc != null || Loc != NaN)
+                    Loc = parseInt(Loc);
+                else
+                    Loc = 0;
+                GB_showCenter('Building Information', '<%=AppConfig.SiteURL%>Sonic/Exposures/BuildingByLocation.aspx?loc_id=' + Loc, 320, 700, '');
+                ShowPanel(<%=hdnPanel.Value%>);
+                return false;
+              }
+            
         }
 
+       
+
     </script>
+    <link href="<%=AppConfig.SiteURL%>greybox/gb_styles.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="<%=AppConfig.SiteURL%>greybox/AJS.js"></script>
+    <script type="text/javascript" src="<%=AppConfig.SiteURL%>greybox/AJS_fx.js"></script>
+    <script type="text/javascript" src="<%=AppConfig.SiteURL%>greybox/gb_scripts.js"></script>
     <div>
         <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
             HeaderText="Verify the following fields:" BorderWidth="1" BorderColor="DimGray"
@@ -664,6 +685,7 @@ function IsValidMonitorTime() {
                                                         </td>
                                                         <td align="left" valign="top" colspan="4">
                                                             <asp:TextBox ID="txtCCTV_Company_Name" runat="server" Width="563px" MaxLength="150" />
+                                                            <asp:HiddenField ID="hdnLocationID" runat="server" />
                                                         </td>
                                                     </tr>
                                                     <tr>
