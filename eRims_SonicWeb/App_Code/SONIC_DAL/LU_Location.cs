@@ -50,6 +50,13 @@ namespace ERIMS.DAL
         private decimal? _FK_Employee_Id;
         private decimal? _FK_LU_Market;
         private string _Payroll_Codes;
+        private string _Parent_Company_LE;
+        private string _Parent_Company_LE_FEIN;
+        private string _LE_Operations;
+        private string _LE_Operations_FEIN;
+        private string _LE_Properties;
+        private string _LE_Properties_FEIN;
+
         #endregion
 
         #region Properties
@@ -259,6 +266,60 @@ namespace ERIMS.DAL
             set { _Payroll_Codes = value; }
         }
 
+        /// <summary>
+        /// Gets or sets Parent_Company_LE value.
+        /// </summary>
+        public string Parent_Company_LE
+        {
+            get { return _Parent_Company_LE; }
+            set { _Parent_Company_LE = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets Parent_Company_LE_FEIN value.
+        /// </summary>
+        public string Parent_Company_LE_FEIN
+        {
+            get { return _Parent_Company_LE_FEIN; }
+            set { _Parent_Company_LE_FEIN = value; }
+        }
+
+        /// <summary>
+        /// Gets or  Sets LE_Operations value.
+        /// </summary>
+        public string LE_Operations
+        {
+            get { return _LE_Operations; }
+            set { _LE_Operations = value; }
+        }
+
+        /// <summary>
+        /// Gets or Sets LE_Operations_FEIN value.
+        /// </summary>
+        public string LE_Operations_FEIN
+        {
+            get { return _LE_Operations_FEIN; }
+            set { _LE_Operations_FEIN = value; }
+        }
+
+        /// <summary>
+        /// Gets or Sets LE_Properties value.
+        /// </summary>
+        public string LE_Properties
+        {
+            get { return _LE_Properties; }
+            set { _LE_Properties = value; }
+        }
+
+        /// <summary>
+        /// Gets or Sets LE_Properties_FEIN value.
+        /// </summary>
+        public string LE_Properties_FEIN
+        {
+            get { return _LE_Properties_FEIN; }
+            set { _LE_Properties_FEIN = value; }
+        }
+
         #endregion
 
         #region Constructors
@@ -290,6 +351,12 @@ namespace ERIMS.DAL
             this._Active = "Y";
             this._Show_On_Dashboard = "";
             this._FK_Employee_Id = null;
+            this._Parent_Company_LE="";
+            this._Parent_Company_LE_FEIN="";
+            this._LE_Operations="";
+            this._LE_Operations_FEIN="";
+            this._LE_Properties="";
+            this._LE_Properties_FEIN="";
         }
 
         /// <summary> 
@@ -325,6 +392,12 @@ namespace ERIMS.DAL
                 this._Show_On_Dashboard = Convert.ToString(drLU_Location["Show_On_Dashboard"]);
                 if (drLU_Location["FK_Employee_Id"] != DBNull.Value) this._FK_Employee_Id = Convert.ToDecimal(drLU_Location["FK_Employee_Id"]);
                 this._FK_LU_Market = drLU_Location["FK_LU_Market"] != DBNull.Value ? Convert.ToDecimal(drLU_Location["FK_LU_Market"]) : 0;
+                this._Parent_Company_LE = Convert.ToString(drLU_Location["Parent_Company_LE"]);
+                this._Parent_Company_LE_FEIN = Convert.ToString(drLU_Location["Parent_Company_LE_FEIN"]);
+                this._LE_Operations = Convert.ToString(drLU_Location["LE_Operations"]);
+                this._LE_Operations_FEIN = Convert.ToString(drLU_Location["LE_Operations_FEIN"]);
+                this._LE_Properties = Convert.ToString(drLU_Location["LE_Properties"]);
+                this._LE_Properties_FEIN = Convert.ToString(drLU_Location["LE_Properties_FEIN"]);
             }
 
             else
@@ -351,6 +424,12 @@ namespace ERIMS.DAL
                 this._Show_On_Dashboard = "";
                 this._FK_Employee_Id = null;
                 this._FK_LU_Market = null;
+                this._Parent_Company_LE = "";
+                this._Parent_Company_LE_FEIN = "";
+                this._LE_Operations = "";
+                this._LE_Operations_FEIN = "";
+                this._LE_Properties = "";
+                this._LE_Properties_FEIN = "";
             }
         }
 
@@ -386,6 +465,12 @@ namespace ERIMS.DAL
                 this._Active = drLU_Location["Active"] != DBNull.Value ? Convert.ToString(drLU_Location["Active"]) : "Y";
                 this._Show_On_Dashboard = Convert.ToString(drLU_Location["Show_On_Dashboard"]);
                 if (drLU_Location["FK_Employee_Id"] != DBNull.Value) this._FK_Employee_Id = Convert.ToDecimal(drLU_Location["FK_Employee_Id"]);
+                this._Parent_Company_LE = Convert.ToString(drLU_Location["Parent_Company_LE"]);
+                this._Parent_Company_LE_FEIN = Convert.ToString(drLU_Location["Parent_Company_LE_FEIN"]);
+                this._LE_Operations = Convert.ToString(drLU_Location["LE_Operations"]);
+                this._LE_Operations_FEIN = Convert.ToString(drLU_Location["LE_Operations_FEIN"]);
+                this._LE_Properties = Convert.ToString(drLU_Location["LE_Properties"]);
+                this._LE_Properties_FEIN = Convert.ToString(drLU_Location["LE_Properties_FEIN"]);
             }
             else
             {
@@ -411,6 +496,12 @@ namespace ERIMS.DAL
                 this._Active = "Y";
                 this._Show_On_Dashboard = "";
                 this._FK_Employee_Id = null;
+                this._Parent_Company_LE = "";
+                this._Parent_Company_LE_FEIN = "";
+                this._LE_Operations = "";
+                this._LE_Operations_FEIN = "";
+                this._LE_Properties = "";
+                this._LE_Properties_FEIN = "";
             }
 
         }
@@ -454,6 +545,13 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "FK_Employee_Id", DbType.Decimal, DBNull.Value);
 
             db.AddInParameter(dbCommand, "FK_LU_Market", DbType.Decimal, this._FK_LU_Market);
+
+            db.AddInParameter(dbCommand, "Parent_Company_LE", DbType.String, this._Parent_Company_LE);
+            db.AddInParameter(dbCommand, "Parent_Company_LE_FEIN", DbType.String, this._Parent_Company_LE_FEIN);
+            db.AddInParameter(dbCommand, "LE_Operations", DbType.String, this._LE_Operations);
+            db.AddInParameter(dbCommand, "LE_Operations_FEIN", DbType.String, this._LE_Operations_FEIN);
+            db.AddInParameter(dbCommand, "LE_Properties", DbType.String, this._LE_Properties);
+            db.AddInParameter(dbCommand, "LE_Properties_FEIN", DbType.String, this._LE_Properties_FEIN);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -724,6 +822,14 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "FK_Employee_Id", DbType.Decimal, DBNull.Value);
 
             db.AddInParameter(dbCommand, "FK_LU_Market", DbType.Decimal, this._FK_LU_Market);
+
+            db.AddInParameter(dbCommand, "Parent_Company_LE", DbType.String, this._Parent_Company_LE);
+            db.AddInParameter(dbCommand, "Parent_Company_LE_FEIN", DbType.String, this._Parent_Company_LE_FEIN);
+            db.AddInParameter(dbCommand, "LE_Operations", DbType.String, this._LE_Operations);
+            db.AddInParameter(dbCommand, "LE_Operations_FEIN", DbType.String, this._LE_Operations_FEIN);
+            db.AddInParameter(dbCommand, "LE_Properties", DbType.String, this._LE_Properties);
+            db.AddInParameter(dbCommand, "LE_Properties_FEIN", DbType.String, this._LE_Properties_FEIN);
+
             db.ExecuteNonQuery(dbCommand);
         }
 
