@@ -223,7 +223,7 @@
         }
 
         jQuery(function ($) {
-             $("#<%=txtFacility_Zip_Code.ClientID%>").mask("99999-9999");
+             <%--$("#<%=txtFacility_Zip_Code.ClientID%>").mask("99999-9999");--%>
              $("#<%=txtTime_Began_Work.ClientID%>").mask("99:99");
         });
 
@@ -231,8 +231,8 @@
         function CheckValidationOSHAInfo() {
             //if number is "___-___-____" than set it to ""
           
-            if (document.getElementById('<%=txtFacility_Zip_Code.ClientID%>').value == "_____-____")
-                document.getElementById('<%=txtFacility_Zip_Code.ClientID%>').value = "";
+            <%--if (document.getElementById('<%=txtFacility_Zip_Code.ClientID%>').value == "_____-____")
+                document.getElementById('<%=txtFacility_Zip_Code.ClientID%>').value = "";--%>
             //if time is "__:__" than set it to ""
             if (document.getElementById('<%=txtTime_Began_Work.ClientID%>').value == "__:__")
                 document.getElementById('<%=txtTime_Began_Work.ClientID%>').value = "";
@@ -910,6 +910,12 @@
                                                                                             Width="100px" />
                                                                                     </td>
                                                                                 </tr>
+                                                                                <tr>
+                                                                                    <td align="left" colspan="4">
+                                                                                        <uc:ctrlMultiLineTextBox runat="server" ID="txtRoot_Cause_Comments" ControlType="TextBox"
+                                                                                            MaxLength="4000" />
+                                                                                    </td>
+                                                                                </tr>
                                                                             </table>
 
                                                                         </ItemTemplate>
@@ -1027,6 +1033,12 @@
                                                   
                                                                 </td>
                                                             </tr>
+
+							    <TR>
+								<TD>
+									&nbsp;<BR><BR> 
+								</TD>
+							    </TR>
                                                      
                                                             <tr>
                                                                 <td align="left" style="width: 19%">Cause Code Determination&nbsp;<span id="Span3" style="color: Red; display: none;" runat="server">*</span>
@@ -1035,7 +1047,7 @@
                                                                 </td>
                                                                 <td align="left" colspan="4">
                                                                     <asp:DropDownList runat="server" ID="ddlSonic_Cause_Code" ValidationGroup="valRootCause" AutoPostBack="true"  OnSelectedIndexChanged="ddlSonic_Cause_Code_SelectedIndexChanged">
-                                                                        <asp:ListItem Text="--SELECT--"></asp:ListItem>
+                                                                     <%--   <asp:ListItem Text="--SELECT--"></asp:ListItem>
                                                                         <asp:ListItem Text="S0-1 - Strain, Sprain or Repetitive Motion"></asp:ListItem>
                                                                         <asp:ListItem Text="S0-2 - Slip, Trip, or Fall"></asp:ListItem>
                                                                         <asp:ListItem Text="S0-3 - Vehicle Related (included Golf Cart)"></asp:ListItem>
@@ -1050,7 +1062,7 @@
                                                                         <asp:ListItem Text="S-2 Denied"></asp:ListItem>
                                                                         <asp:ListItem Text="S-3 Denied"></asp:ListItem>
                                                                         <asp:ListItem Text="S-4 Denied"></asp:ListItem>
-                                                                        <asp:ListItem Text="S-5 Denied"></asp:ListItem>
+                                                                        <asp:ListItem Text="S-5 Denied"></asp:ListItem>--%>
                                                                     </asp:DropDownList>
                                                                     <input type="hidden" id="hdnOriginalSonicCode" runat="server" />
                                                                 </td>
@@ -1066,6 +1078,13 @@
                                                                         Enabled="false" />
                                                                 </td>
                                                             </tr>
+
+							    <TR>
+								<TD>
+									&nbsp;<BR><BR> 
+								</TD>
+							    </TR>
+                                                     
                                                             <tr>
                                                                 <td align="left" valign="top">Sonic S0 Cause Code Promoted?
                                                                 </td>
@@ -1308,11 +1327,10 @@
                                                         <td align="center">:
                                                         </td>
                                                         <td align="left">
-                                                            <asp:TextBox runat="server" ID="txtFacility_Zip_Code" Width="170px" MaxLength="10"></asp:TextBox>
+                                                            <asp:TextBox runat="server" ID="txtFacility_Zip_Code" Width="170px" MaxLength="10" SkinID="txtZipCode"></asp:TextBox>
                                                             <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="txtFacility_Zip_Code"
-                                                                runat="server" ValidationGroup="vsOSHAInfoGroup" ErrorMessage="Please Enter txtFacility_Zip_Code in XXXXX-XXXX format."
-                                                                Display="none" ValidationExpression="((\(\d{2}\) ?)|(\d{5}-))?\d{4}$"></asp:RegularExpressionValidator>
-                                                        </td>
+                                                                runat="server" ValidationGroup="vsOSHAInfoGroup" ErrorMessage="Please Enter Treatment Facility Zip Code in XXXXX or XXXXX-XXXX format."
+                                                                Display="none" ValidationExpression="\d{5}(-\d{4})?$"></asp:RegularExpressionValidator>                                                        </td>
                                                         <td align="left">&nbsp;
                                                         </td>
                                                         <td align="center">&nbsp;
@@ -2112,6 +2130,11 @@
                                                                                             Width="100px" />
                                                                                     </td>
                                                                                 </tr>
+                                                                                <tr>
+                                                                                    <td align="left" colspan="4">
+                                                                                        <uc:ctrlMultiLineTextBox runat="server" ID="lblRoot_Cause_Comments" ControlType="Label" />
+                                                                                    </td>
+                                                                                </tr>
                                                                             </table>
 
                                                                         </ItemTemplate>
@@ -2209,6 +2232,13 @@
                                                                         <asp:Label ID="lblRLCM_Reviewed_and_Approved" runat="server"></asp:Label>
                                                                     </td>
                                                                 </tr>
+
+							    <TR>
+								<TD>
+									&nbsp;<BR><BR> 
+								</TD>
+							    </TR>
+                                                     
                                                             <tr>
                                                                 <td align="left" style="width: 24%">Cause Code Determination
                                                                 </td>
@@ -2229,6 +2259,13 @@
                                                                     <asp:Label ID="lblOriginalSonicCode" runat="server" />
                                                                 </td>
                                                             </tr>
+
+							    <TR>
+								<TD>
+									&nbsp;<BR><BR> 
+								</TD>
+							    </TR>
+                                                     
                                                             <tr>
                                                                 <td align="left" valign="top">Sonic S0 Cause Code Promoted?
                                                                 </td>

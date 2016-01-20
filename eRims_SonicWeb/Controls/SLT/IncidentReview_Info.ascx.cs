@@ -549,7 +549,12 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
             for (int i = 0; i < dtRootCauseDetermination.Rows.Count; i++)
             {
                 Label lblRootCauseTypeList = (Label)rptRootCauseDeterminationView.Items[i].FindControl("lblRootCauseTypeList");
+
+                ASP.controls_notes_notes_ascx cnt_Note = rptRootCauseDeterminationView.Items[i].FindControl("lblRoot_Cause_Comments") as ASP.controls_notes_notes_ascx;
+                TextBox lblRoot_Cause_Comments = cnt_Note.FindControl("txtNote") as TextBox;
+
                 lblRootCauseTypeList.Text = Convert.ToString(dtRootCauseDetermination.Rows[i]["Response"]) == "Y" ? "Yes" : "No";
+                lblRoot_Cause_Comments.Text = Convert.ToString(dtRootCauseDetermination.Rows[i]["Comments"]);
             }
 
             //Review 

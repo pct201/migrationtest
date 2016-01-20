@@ -80,9 +80,18 @@ public partial class SONIC_FirstReport_rptOSHA300 : clsBasePage
 
                         objPM_Complaince_Reporting_OSHA.Date_Completed = DateTime.Now;
                         objPM_Complaince_Reporting_OSHA.Log_Posted_Feb_1 = (blnLog) ? "Y" : "N";
-                        objPM_Complaince_Reporting_OSHA.OSHA_Recordable = Convert.ToInt32(dtTotals_300A.Rows[0]["Total_G"]) + Convert.ToInt32(dtTotals_300A.Rows[0]["Total_H"]) + Convert.ToInt32(dtTotals_300A.Rows[0]["Total_I"]) + Convert.ToInt32(dtTotals_300A.Rows[0]["Total_J"]);
-                        objPM_Complaince_Reporting_OSHA.Restsricted_Work_Days = Convert.ToInt32(dtTotals_300A.Rows[0]["Total_L"]);
-                        objPM_Complaince_Reporting_OSHA.Lost_Work_Days = Convert.ToInt32(dtTotals_300A.Rows[0]["Total_K"]);
+                        if (dtTotals_300A.Rows.Count > 0)
+                        {
+                            objPM_Complaince_Reporting_OSHA.OSHA_Recordable = Convert.ToInt32(dtTotals_300A.Rows[0]["Total_G"]) + Convert.ToInt32(dtTotals_300A.Rows[0]["Total_H"]) + Convert.ToInt32(dtTotals_300A.Rows[0]["Total_I"]) + Convert.ToInt32(dtTotals_300A.Rows[0]["Total_J"]);
+                            objPM_Complaince_Reporting_OSHA.Restsricted_Work_Days = Convert.ToInt32(dtTotals_300A.Rows[0]["Total_L"]);
+                            objPM_Complaince_Reporting_OSHA.Lost_Work_Days = Convert.ToInt32(dtTotals_300A.Rows[0]["Total_K"]);
+                        }
+                        else
+                        {
+                            objPM_Complaince_Reporting_OSHA.OSHA_Recordable = 0;
+                            objPM_Complaince_Reporting_OSHA.Restsricted_Work_Days = 0;
+                            objPM_Complaince_Reporting_OSHA.Lost_Work_Days = 0;
+                        }
                         objPM_Complaince_Reporting_OSHA.Total_Associates = Convert.ToInt32(dtTotalAssociates.Rows[0]["Total_Associates"]);
                         objPM_Complaince_Reporting_OSHA.Updated_Date = DateTime.Now;
                         objPM_Complaince_Reporting_OSHA.Updated_By = clsSession.UserID;

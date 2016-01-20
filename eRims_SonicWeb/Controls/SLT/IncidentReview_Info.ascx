@@ -384,6 +384,11 @@
                                                 Width="100px" />
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td align="left" colspan="4">
+                                            <uc:ctrlMultiLineTextBox runat="server" ID="lblRoot_Cause_Comments" ControlType="Label" />
+                                        </td>
+                                    </tr>
                                 </table>
 
                             </ItemTemplate>

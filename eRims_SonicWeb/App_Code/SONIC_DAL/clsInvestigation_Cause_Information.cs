@@ -21,6 +21,8 @@ namespace ERIMS.DAL
 		private DateTime? _Update_Date;
         private string _Prevent_Reoccurrence;
 
+        private string _Comments;
+
 		#endregion
 
 		#region Public Property
@@ -88,6 +90,14 @@ namespace ERIMS.DAL
             set { _Prevent_Reoccurrence = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the Comment value.
+        /// </summary>
+        public string Comments
+        {
+            get { return _Comments; }
+            set { _Comments = value; }
+        }
 
 		#endregion
 
@@ -157,6 +167,11 @@ namespace ERIMS.DAL
 				else
 					this._Update_Date = (DateTime?)drInvestigation_Cause_Information["Update_Date"];
 
+                if (drInvestigation_Cause_Information["Comments"] == DBNull.Value)
+                    this._Comments = null;
+                else
+                    this._Comments = (string)drInvestigation_Cause_Information["Comments"];
+
 
 		}
 
@@ -192,6 +207,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Prevent_Reoccurrence", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Prevent_Reoccurrence", DbType.String, this._Prevent_Reoccurrence);
+
+            if (string.IsNullOrEmpty(this._Comments))
+                db.AddInParameter(dbCommand, "Comments", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Comments", DbType.String, this._Comments);
 
 			// Execute the query and return the new identity value
 			int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -256,6 +276,11 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Prevent_Reoccurrence", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Prevent_Reoccurrence", DbType.String, this._Prevent_Reoccurrence);
+
+            if (string.IsNullOrEmpty(this._Comments))
+                db.AddInParameter(dbCommand, "Comments", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Comments", DbType.String, this._Comments);
 
 			db.ExecuteNonQuery(dbCommand);
 		}
