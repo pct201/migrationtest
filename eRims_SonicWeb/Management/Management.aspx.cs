@@ -1652,12 +1652,7 @@ public partial class Management_Management : clsBasePage
         if (PK_Management > 0)
         {
             Response.Redirect("ACI_Management_ProjectCost_Invoice.aspx?id=" + Encryption.Encrypt(Convert.ToString(PK_Management)) + "&pnl=" + hdnPanel.Value + "&op=add", true);
-        }
-        else
-        {
-            ClientScript.RegisterClientScriptBlock(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Please Enter Management Details First');ShowPanel(" + hdnPanel.Value + ");", true);
-            //ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel("+hdnPanel.Value+");", true);
-        }
+        }      
     }
 
     /// <summary>
@@ -2018,12 +2013,8 @@ public partial class Management_Management : clsBasePage
         if (PK_Management > 0)
         {
             Response.Redirect("ACI_Management_Project_Cost.aspx?id=" + Encryption.Encrypt(PK_Management.ToString()) + "&PCI=" + Encryption.Encrypt(PK_ACIManagement_ProjectCost.ToString()) + "&pnl=" + hdnPanel.Value + "&op=add", true);
-        }
-        else
-        {
-            ClientScript.RegisterClientScriptBlock(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Please Enter Management Details First');ShowPanel("+hdnPanel.Value+");", true);
-            //ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
-        }
+        }    
+     
     }
 
     protected void gvInvoice_RowCommand(object sender, GridViewCommandEventArgs e)

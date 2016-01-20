@@ -1776,7 +1776,7 @@
                                                     <table border="0" cellpadding="3" cellspacing="1" width="100%">
                                                         <tr id="Tr1" runat="server">
                                                             <td align="left" valign="top" width="15%">Project Cost Grid<br />
-                                                                <asp:LinkButton ID="lnkAddProjectCost" runat="server" OnClick="lnkAddProjectCost_Click"
+                                                                <asp:LinkButton ID="lnkAddProjectCost" runat="server" OnClick="lnkAddProjectCost_Click" OnClientClick="return CheckManagement();"
                                                                     CausesValidation="false">--Add--</asp:LinkButton>
                                                             </td>
                                                             <td align="center" valign="top" width="2%">:
@@ -1877,7 +1877,7 @@
                                                          <tr>
                                                             <td valign="top" style="width: auto">Invoice Grid<br />
                                                                 <asp:LinkButton ID="lnkAddInvoice" runat="server" ValidationGroup="vsError" Text="--Add--"
-                                                                    OnClick="lnkAddInvoice_Click"></asp:LinkButton>
+                                                                    OnClick="lnkAddInvoice_Click" OnClientClick="return CheckManagement();"></asp:LinkButton>
                                                             </td>
                                                             <td align="center" valign="top" style="width: 3%">&nbsp;:
                                                             </td>

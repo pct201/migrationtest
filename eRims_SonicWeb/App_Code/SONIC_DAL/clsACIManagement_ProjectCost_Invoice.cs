@@ -31,7 +31,9 @@ namespace ERIMS.DAL
         private string _Vendor_Telephone;
         private string _Vendor_Email;
         private string _Updated_By;
-        private DateTime? _Update_Date;
+        private DateTime? _Update_Date;        
+        private DateTime? _Invoice_ProccesedBySonicDate;
+        private DateTime? _Payment_ReceivedbyACIDate;
 
         #endregion
 
@@ -200,6 +202,24 @@ namespace ERIMS.DAL
         }
 
 
+        /// <summary>
+        /// Gets or sets the Invoice_Date value.
+        /// </summary>
+        public DateTime? Invoice_ProccesedBySonicDate
+        {
+            get { return _Invoice_ProccesedBySonicDate; }
+            set { _Invoice_ProccesedBySonicDate = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Invoice_Date value.
+        /// </summary>
+        public DateTime? Payment_ReceivedbyACIDate
+        {
+            get { return _Payment_ReceivedbyACIDate; }
+            set { _Payment_ReceivedbyACIDate = value; }
+        }
+
         #endregion
 
         #region Default Constructors
@@ -328,6 +348,15 @@ namespace ERIMS.DAL
             else
                 this._Update_Date = (DateTime?)drACIManagement_ProjectCost_Invoice["Update_Date"];
 
+            if (drACIManagement_ProjectCost_Invoice["Invoice_ProccesedBySonicDate"] == DBNull.Value)
+                this._Invoice_ProccesedBySonicDate = null;
+            else
+                this._Invoice_ProccesedBySonicDate = (DateTime?)drACIManagement_ProjectCost_Invoice["Invoice_ProccesedBySonicDate"];
+
+            if (drACIManagement_ProjectCost_Invoice["Payment_ReceivedbyACIDate"] == DBNull.Value)
+                this._Payment_ReceivedbyACIDate = null;
+            else
+                this._Payment_ReceivedbyACIDate = (DateTime?)drACIManagement_ProjectCost_Invoice["Payment_ReceivedbyACIDate"];
 
         }
 
@@ -403,6 +432,10 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
 
             db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
+
+            db.AddInParameter(dbCommand, "Invoice_ProccesedBySonicDate", DbType.DateTime, this._Invoice_ProccesedBySonicDate);
+
+            db.AddInParameter(dbCommand, "Payment_ReceivedbyACIDate", DbType.DateTime, this._Payment_ReceivedbyACIDate);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -507,6 +540,10 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Updated_By", DbType.String, this._Updated_By);
 
             db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, this._Update_Date);
+
+            db.AddInParameter(dbCommand, "Invoice_ProccesedBySonicDate", DbType.DateTime, this._Invoice_ProccesedBySonicDate);
+
+            db.AddInParameter(dbCommand, "Payment_ReceivedbyACIDate", DbType.DateTime, this._Payment_ReceivedbyACIDate);
 
             db.ExecuteNonQuery(dbCommand);
         }

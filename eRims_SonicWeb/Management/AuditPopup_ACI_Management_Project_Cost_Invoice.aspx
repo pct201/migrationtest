@@ -49,7 +49,7 @@
                                     <th class="cols">
                                         <span style="display: inline-block; width: 100px;">Audit DateTime</span>
                                     </th>
-                                  <%--  <th class="cols">
+                                    <%--  <th class="cols">
                                         <span style="display: inline-block; width: 100px;">PK EPM Project Cost Invoice</span>
                                     </th>
                                     <th class="cols">
@@ -60,6 +60,12 @@
                                     </th>
                                     <th class="cols">
                                         <span style="display: inline-block; width: 100px;">Invoice Date</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 100px;">Invoice Processed by Sonic Date</span>
+                                    </th>
+                                    <th class="cols">
+                                        <span style="display: inline-block; width: 100px;">Payment Received by ACI Date</span>
                                     </th>
                                     <th class="cols">
                                         <span style="display: inline-block; width: 100px;">Invoice Amount</span>
@@ -120,7 +126,7 @@
                                             Width="100px"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                               <%-- <asp:TemplateField HeaderText="PK_EPM_Project_Cost_Invoice">
+                                <%-- <asp:TemplateField HeaderText="PK_EPM_Project_Cost_Invoice">
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
                                         <asp:Label ID="lblPK_EPM_Project_Cost_Invoice" runat="server" Text='<%#Eval("PK_ACIManagement_ProjectCost_Invoice")%>' CssClass="TextClip"
@@ -145,35 +151,49 @@
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
                                         <asp:Label ID="lblInvoice_Date" runat="server" Text='<%#Eval("Invoice_Date") != DBNull.Value ? clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Invoice_Date"))) : ""%>'
-                                            Width="100px" style="word-wrap:normal;word-break:break-all"></asp:Label>
+                                            Width="100px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Invoice_ProccesedBySonicDate">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblInvoice_ProccesedBySonicDate" runat="server" Text='<%#Eval("Invoice_ProccesedBySonicDate") != DBNull.Value ? clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Invoice_ProccesedBySonicDate"))) : ""%>'
+                                            Width="100px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Payment_ReceivedbyACIDate">
+                                    <ItemStyle CssClass="cols" />
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblPayment_ReceivedbyACIDate" runat="server" Text='<%#Eval("Payment_ReceivedbyACIDate") != DBNull.Value ? clsGeneral.FormatDateToDisplay(Convert.ToDateTime(Eval("Payment_ReceivedbyACIDate"))) : ""%>'
+                                            Width="100px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Invoice_Amount">
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
                                         <asp:Label ID="lblInvoice_Amount" runat="server" Text='<%# string.Format("{0:C2}",Eval("Invoice_Amount"))%>'
-                                            Width="100px" style="word-wrap:normal;word-break:break-all" ></asp:Label>
+                                            Width="100px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Invoice_Charges_RM">
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
                                         <asp:Label ID="lblInvoice_Charges_RM" runat="server" Text='<%# string.Format("{0:C2}",Eval("Invoice_Charges_RM"))%>'
-                                            Width="100px" style="word-wrap:normal;word-break:break-all" ></asp:Label>
+                                            Width="100px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Invoice_Charges_CD_RE">
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
                                         <asp:Label ID="lblInvoice_Charges_CD_RE" runat="server" Text='<%# string.Format("{0:C2}",Eval("Invoice_Charges_CD_RE"))%>'
-                                            Width="100px" style="word-wrap:normal;word-break:break-all" ></asp:Label>
+                                            Width="100px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Invoice_Charges_Store">
                                     <ItemStyle CssClass="cols" />
                                     <ItemTemplate>
                                         <asp:Label ID="lblInvoice_Charges_Store" runat="server" Text='<%# string.Format("{0:C2}",Eval("Invoice_Charges_Store"))%>'
-                                            Width="100px" style="word-wrap:normal;word-break:break-all" ></asp:Label>
+                                            Width="100px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Vendor">

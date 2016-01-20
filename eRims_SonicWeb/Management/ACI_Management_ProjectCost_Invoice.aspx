@@ -61,7 +61,7 @@
                                         <td align="center" valign="top" width="4%">:
                                         </td>
                                         <td align="left" valign="top" width="26%">
-                                            <asp:TextBox ID="txtInvoiceNumber" runat="server" MaxLength="20" width="146px">
+                                            <asp:TextBox ID="txtInvoiceNumber" runat="server" MaxLength="20" Width="146px">
                                             </asp:TextBox>
                                         </td>
                                         <td align="left" valign="top" width="20%">Invoice Date&nbsp;<span id="spnInvoiceDate" style="color: Red; display: none;" runat="server">*</span>
@@ -69,7 +69,7 @@
                                         <td align="center" valign="top" width="4%">:
                                         </td>
                                         <td align="left" valign="top" width="26%">
-                                            <asp:TextBox ID="txtInvoiceDate" runat="server" skinid="txtDate">
+                                            <asp:TextBox ID="txtInvoiceDate" runat="server" SkinID="txtDate">
                                             </asp:TextBox>
                                             <img alt="Date of Invoice" onclick="return showCalendar('<%= txtInvoiceDate.ClientID %>', 'mm/dd/y');"
                                                 onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
@@ -81,7 +81,7 @@
                                             <cc1:MaskedEditExtender ID="MaskedEditExtender3" runat="server" AcceptNegative="Left"
                                                 DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true"
                                                 OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtInvoiceDate"
-                                                CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964" >
+                                                CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
                                             </cc1:MaskedEditExtender>
                                         </td>
                                     </tr>
@@ -90,10 +90,48 @@
                                         </td>
                                         <td align="center" valign="top" width="4%">:
                                         </td>
-                                        <td align="left" valign="top" width="26%">$&nbsp;<asp:TextBox ID="txtInvoiceAmount" runat="server" SkinID="txtCurrency15" Width="146px" onkeypress="return FormatNumber(event,this.id,13,false);"
-                                           autocomplete="off" onpaste="return false" />
+                                        <td align="left" valign="top" width="26%">$&nbsp;<asp:TextBox ID="txtInvoiceAmount" runat="server" SkinID="txtCurrency15" Width="140px" onkeypress="return FormatNumber(event,this.id,13,false);"
+                                            autocomplete="off" onpaste="return false" />
                                         </td>
-                                        <td colspan="3"></td>
+                                        <td align="left" valign="top" width="22%">Invoice Processed by Sonic Date</td>
+                                        <td align="center" valign="top" width="4%">:</td>
+                                        <td align="left" valign="top" width="24%">
+                                            <asp:TextBox ID="txtInvoice_ProccesedBySonicDate" runat="server" SkinID="txtDate">
+                                            </asp:TextBox>
+                                            <img alt="Invoice Processed by Sonic Date" onclick="return showCalendar('<%= txtInvoice_ProccesedBySonicDate.ClientID %>', 'mm/dd/y');"
+                                                onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
+                                                align="middle" id="img1" />
+                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtInvoice_ProccesedBySonicDate" ValidationGroup="vsError"
+                                                ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"
+                                                ErrorMessage="[Project Cost - Invoice]/Invoice Processed by Sonic Date is Not Valid Date." Display="none" SetFocusOnError="true">
+                                            </asp:RegularExpressionValidator>
+                                            <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" AcceptNegative="Left"
+                                                DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true"
+                                                OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtInvoice_ProccesedBySonicDate"
+                                                CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
+                                            </cc1:MaskedEditExtender>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" width="50%"></td>
+                                        <td align="left" valign="top" width="20%">Payment Received by ACI Date</td>
+                                        <td align="center" valign="top" width="4%">:</td>
+                                        <td align="left" valign="top" width="26%">
+                                            <asp:TextBox ID="txtPayment_ReceivedbyACIDate" runat="server" SkinID="txtDate">
+                                            </asp:TextBox>
+                                            <img alt="Payment Received by ACI Date" onclick="return showCalendar('<%= txtPayment_ReceivedbyACIDate.ClientID %>', 'mm/dd/y');"
+                                                onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif"
+                                                align="middle" id="img2" />
+                                            <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="txtPayment_ReceivedbyACIDate" ValidationGroup="vsError"
+                                                ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"
+                                                ErrorMessage="[Project Cost - Invoice]/Payment Received by ACI Date is Not Valid Date." Display="none" SetFocusOnError="true">
+                                            </asp:RegularExpressionValidator>
+                                            <cc1:MaskedEditExtender ID="MaskedEditExtender2" runat="server" AcceptNegative="Left"
+                                                DisplayMoney="Left" Mask="99/99/9999" MaskType="Date" MessageValidatorTip="true"
+                                                OnFocusCssClass="MaskedEditFocus" OnInvalidCssClass="MaskedEditError" TargetControlID="txtPayment_ReceivedbyACIDate"
+                                                CultureName="en-US" AutoComplete="true" AutoCompleteValue="05/23/1964">
+                                            </cc1:MaskedEditExtender>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td colspan="6"></td>
@@ -106,14 +144,14 @@
                                         </td>
                                         <td align="center" valign="top">:
                                         </td>
-                                        <td align="left" valign="top">$&nbsp;<asp:TextBox ID="txtRiskManagement" runat="server" SkinID="txtCurrency15" Width="170px" autocomplete="off"
+                                        <td align="left" valign="top">$&nbsp;<asp:TextBox ID="txtRiskManagement" runat="server" SkinID="txtCurrency15" Width="140px" autocomplete="off"
                                             onkeypress="return FormatNumber(event,this.id,13,false);" onpaste="return false" />
                                         </td>
                                         <td align="left" valign="top">Corporate Development/Real Estate&nbsp;<span id="spnCorporateDevelopment" style="color: Red; display: none;" runat="server">*</span>
                                         </td>
                                         <td align="center" valign="top">:
                                         </td>
-                                        <td align="left" valign="top">$&nbsp;<asp:TextBox ID="txtCorporateDevelopment" runat="server" SkinID="txtCurrency15" Width="170px" autocomplete="off"
+                                        <td align="left" valign="top">$&nbsp;<asp:TextBox ID="txtCorporateDevelopment" runat="server" SkinID="txtCurrency15" Width="140px" autocomplete="off"
                                             onkeypress="return FormatNumber(event,this.id,13,false);" onpaste="return false" />
                                         </td>
                                     </tr>
@@ -123,9 +161,8 @@
                                         </td>
                                         <td align="center" valign="top">:
                                         </td>
-                                        <td align="left" valign="top">
-                                            $&nbsp;<asp:TextBox ID="txtStore" runat="server" SkinID="txtCurrency15" Width="170px" onkeypress="return FormatNumber(event,this.id,13,false);"
-                                                autocomplete="off" onpaste="return false" />
+                                        <td align="left" valign="top">$&nbsp;<asp:TextBox ID="txtStore" runat="server" SkinID="txtCurrency15" Width="140px" onkeypress="return FormatNumber(event,this.id,13,false);"
+                                            autocomplete="off" onpaste="return false" />
                                         </td>
                                         <td colspan="3">&nbsp;</td>
                                     </tr>
@@ -141,7 +178,7 @@
                                         <td align="center" valign="top" width="4%">:
                                         </td>
                                         <td align="left" valign="top" width="26%">&nbsp;<asp:TextBox ID="txtVendor" runat="server" MaxLength="75" Width="146px" />
-                                        </td> 
+                                        </td>
                                         <td align="left" valign="top" width="20%">Vendor Address&nbsp;<span id="spnVendorAddress" style="color: Red; display: none;" runat="server">*</span>
                                         </td>
                                         <td align="center" valign="top" width="4%">:
@@ -160,42 +197,42 @@
                                         </td>
                                         <td align="center" valign="top">:
                                         </td>
-                                        <td align="left" valign="top">&nbsp;<asp:DropDownList ID="ddlVendorState" SkinID="dropGen" runat="server"  Width="150px" />
+                                        <td align="left" valign="top">&nbsp;<asp:DropDownList ID="ddlVendorState" SkinID="dropGen" runat="server" Width="150px" />
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td align="left" valign="top"  width="20%">Vendor Zip (XXXXX-XXXX)&nbsp;<span id="spnVendorZip" style="color: Red; display: none;" runat="server">*</span>
+                                        <td align="left" valign="top" width="20%">Vendor Zip (XXXXX-XXXX)&nbsp;<span id="spnVendorZip" style="color: Red; display: none;" runat="server">*</span>
                                         </td>
-                                        <td align="center" valign="top"  width="4%">:
+                                        <td align="center" valign="top" width="4%">:
                                         </td>
-                                        <td align="left" valign="top"  width="26%">&nbsp;<asp:TextBox ID="txtVendorZip" runat="server" Width="146px" MaxLength="10" SkinID="txtZipCode" onKeyPress="javascript:return FormatZipCode(event,this.id);" />
+                                        <td align="left" valign="top" width="26%">&nbsp;<asp:TextBox ID="txtVendorZip" runat="server" Width="146px" MaxLength="10" SkinID="txtZipCode" onKeyPress="javascript:return FormatZipCode(event,this.id);" />
                                             <asp:RegularExpressionValidator ID="revtxtVendorZip" runat="server" ErrorMessage="[Project Cost Invoice]/Vendor Zip is not valid"
                                                 SetFocusOnError="true" ControlToValidate="txtVendorZip" ValidationExpression="\b[0-9]{5}-[0-9]{4}\b|\b[0-9]{5}\b"
                                                 ValidationGroup="vsError" Display="none" />
                                         </td>
-                                        <td align="left" valign="top"  width="20%">Vendor Contact Name&nbsp;<span id="spnVendorContactName" style="color: Red; display: none;" runat="server">*</span>
+                                        <td align="left" valign="top" width="20%">Vendor Contact Name&nbsp;<span id="spnVendorContactName" style="color: Red; display: none;" runat="server">*</span>
                                         </td>
-                                        <td align="center" valign="top"  width="4%">:
+                                        <td align="center" valign="top" width="4%">:
                                         </td>
-                                        <td align="left" valign="top"  width="26%">&nbsp;<asp:TextBox ID="txtVendorContactName" runat="server" MaxLength="76" Width="146px" />
+                                        <td align="left" valign="top" width="26%">&nbsp;<asp:TextBox ID="txtVendorContactName" runat="server" MaxLength="76" Width="146px" />
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td align="left" valign="top"  width="20%">Vendor Telephone (XXX-XXX-XXXX)&nbsp;<span id="spnVendorTelephone" style="color: Red; display: none;" runat="server">*</span>
+                                        <td align="left" valign="top" width="20%">Vendor Telephone (XXX-XXX-XXXX)&nbsp;<span id="spnVendorTelephone" style="color: Red; display: none;" runat="server">*</span>
                                         </td>
-                                        <td align="center" valign="top"  width="4%">:
+                                        <td align="center" valign="top" width="4%">:
                                         </td>
-                                        <td align="left" valign="top"  width="26%">&nbsp;<asp:TextBox ID="txtVendorTelephone" runat="server" Width="146px"
-                                                MaxLength="12" onKeyPress="javascript:return FormatPhone(event,this.id);" />
+                                        <td align="left" valign="top" width="26%">&nbsp;<asp:TextBox ID="txtVendorTelephone" runat="server" Width="146px"
+                                            MaxLength="12" onKeyPress="javascript:return FormatPhone(event,this.id);" />
                                             <asp:RegularExpressionValidator ID="revtxtVendorTelephone" ControlToValidate="txtVendorTelephone"
                                                 runat="server" ErrorMessage="[Project Cost Invoice]/Vendor Contact Telephone in not valid."
                                                 ValidationGroup="vsError" Display="none" ValidationExpression="((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4}$"></asp:RegularExpressionValidator>
                                         </td>
-                                        <td align="left" valign="top"  width="20%">Vendor E-Mail&nbsp;<span id="spnVendorEmail" style="color: Red; display: none;" runat="server">*</span>
+                                        <td align="left" valign="top" width="20%">Vendor E-Mail&nbsp;<span id="spnVendorEmail" style="color: Red; display: none;" runat="server">*</span>
                                         </td>
-                                        <td align="center" valign="top"  width="4%">:
+                                        <td align="center" valign="top" width="4%">:
                                         </td>
-                                        <td align="left" valign="top"  width="26%">&nbsp;<asp:TextBox ID="txtVendorEmail" runat="server" Width="146px" MaxLength="100" />
+                                        <td align="left" valign="top" width="26%">&nbsp;<asp:TextBox ID="txtVendorEmail" runat="server" Width="146px" MaxLength="100" />
                                             <asp:RegularExpressionValidator ID="RegtxtVendorEmail" runat="server"
                                                 ControlToValidate="txtVendorEmail" Display="None" ErrorMessage="Please Enter Valid [Project Cost - Invoice]/ E-Mail Address"
                                                 SetFocusOnError="True" ValidationGroup="vsError" ToolTip="Please Enter Valid [Project Cost]/ E-Mail Address"
@@ -215,7 +252,7 @@
                                         <td align="center" valign="top" width="4%">:
                                         </td>
                                         <td align="left" valign="top" width="26%">
-                                            <asp:Label ID="lblInvoiceNumber" runat="server" >
+                                            <asp:Label ID="lblInvoiceNumber" runat="server">
                                             </asp:Label>
                                         </td>
                                         <td align="left" valign="top" width="20%">Invoice Date&nbsp;
@@ -234,7 +271,25 @@
                                         </td>
                                         <td align="left" valign="top" width="26%">$&nbsp;<asp:Label ID="lblInvoiceAmount" runat="server" />
                                         </td>
-                                        <td colspan="3"></td>
+                                        <td align="left" valign="top" width="22%">Invoice Processed by Sonic Date&nbsp;
+                                        </td>
+                                        <td align="center" valign="top" width="4%">:
+                                        </td>
+                                        <td align="left" valign="top" width="24%">
+                                            <asp:Label ID="lblInvoice_ProccesedBySonicDate" runat="server">
+                                            </asp:Label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" width="50%"></td>
+                                        <td align="left" valign="top" width="20%">Payment Received by ACI Date&nbsp;
+                                        </td>
+                                        <td align="center" valign="top" width="4%">:
+                                        </td>
+                                        <td align="left" valign="top" width="26%">
+                                            <asp:Label ID="lblPayment_ReceivedbyACIDate" runat="server">
+                                            </asp:Label>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td colspan="6"></td>
@@ -247,13 +302,13 @@
                                         </td>
                                         <td align="center" valign="top" width="4%">:
                                         </td>
-                                        <td align="left" valign="top" width="26%">$&nbsp;<asp:Label ID="lblRiskManagement" runat="server" style="word-wrap:normal;word-break:break-all" />
+                                        <td align="left" valign="top" width="26%">$&nbsp;<asp:Label ID="lblRiskManagement" runat="server" Style="word-wrap: normal; word-break: break-all" />
                                         </td>
                                         <td align="left" valign="top" width="20%">Corporate Development/Real Estate&nbsp;
                                         </td>
                                         <td align="center" valign="top" width="4%">:
-                                        </td> 
-                                        <td align="left" valign="top" width="26%">$&nbsp;<asp:Label ID="lblCorporateDevelopment" runat="server" style="word-wrap:normal;word-break:break-all" />
+                                        </td>
+                                        <td align="left" valign="top" width="26%">$&nbsp;<asp:Label ID="lblCorporateDevelopment" runat="server" Style="word-wrap: normal; word-break: break-all" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -261,7 +316,7 @@
                                         </td>
                                         <td align="center" valign="top" width="4%">:
                                         </td>
-                                        <td align="left" valign="top" colspan="4">$&nbsp;<asp:Label ID="lblStore" runat="server" style="word-wrap:normal;word-break:break-all" />
+                                        <td align="left" valign="top" colspan="4">$&nbsp;<asp:Label ID="lblStore" runat="server" Style="word-wrap: normal; word-break: break-all" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -275,13 +330,13 @@
                                         </td>
                                         <td align="center" valign="top" width="4%">:
                                         </td>
-                                        <td align="left" valign="top">&nbsp;<asp:Label ID="lblVendor" style="word-wrap:normal;word-break:break-all" runat="server" width="26%" />
+                                        <td align="left" valign="top">&nbsp;<asp:Label ID="lblVendor" Style="word-wrap: normal; word-break: break-all" runat="server" Width="26%" />
                                         </td>
                                         <td align="left" valign="top" width="20%">Vendor Address&nbsp;
                                         </td>
                                         <td align="center" valign="top" width="4%">:
                                         </td>
-                                        <td align="left" valign="top">&nbsp;<asp:Label ID="lblVendorAddress" width="26%" style="word-wrap:normal;word-break:break-all" runat="server" />
+                                        <td align="left" valign="top">&nbsp;<asp:Label ID="lblVendorAddress" Width="26%" Style="word-wrap: normal; word-break: break-all" runat="server" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -289,7 +344,7 @@
                                         </td>
                                         <td align="center" valign="top" width="4%">:
                                         </td>
-                                        <td align="left" valign="top" width="26%">&nbsp;<asp:Label ID="lblVendorCity" runat="server"  style="word-wrap:normal;word-break:break-all"/>
+                                        <td align="left" valign="top" width="26%">&nbsp;<asp:Label ID="lblVendorCity" runat="server" Style="word-wrap: normal; word-break: break-all" />
                                         </td>
                                         <td align="left" valign="top" width="20%">Vendor State&nbsp;
                                         </td>
@@ -309,7 +364,7 @@
                                         </td>
                                         <td align="center" valign="top" width="4%">:
                                         </td>
-                                        <td align="left" valign="top" width="26%">&nbsp;<asp:Label ID="lblVendorContactNumber" style="word-wrap:normal;word-break:break-all" runat="server" Width="170px" />
+                                        <td align="left" valign="top" width="26%">&nbsp;<asp:Label ID="lblVendorContactNumber" Style="word-wrap: normal; word-break: break-all" runat="server" Width="170px" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -323,7 +378,7 @@
                                         </td>
                                         <td align="center" valign="top" width="4%">:
                                         </td>
-                                        <td align="left" valign="top" width="26%">&nbsp;<asp:Label ID="lblVendorEmail" style="word-wrap:normal;word-break:break-all" runat="server" />
+                                        <td align="left" valign="top" width="26%">&nbsp;<asp:Label ID="lblVendorEmail" Style="word-wrap: normal; word-break: break-all" runat="server" />
                                         </td>
                                     </tr>
                                 </table>

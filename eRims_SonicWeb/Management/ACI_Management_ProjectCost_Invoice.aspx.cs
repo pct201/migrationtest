@@ -113,7 +113,9 @@ public partial class SONIC_Exposures_ACI_Management_ProjectCost_Invoice : clsBas
         objACIManagement_ProjectCost_Invoice.Vendor_Email = txtVendorEmail.Text;
         objACIManagement_ProjectCost_Invoice.Updated_By = clsSession.UserName;
         objACIManagement_ProjectCost_Invoice.Update_Date = clsGeneral.FormatDateToStore(DateTime.Now);
-        
+        if (txtInvoice_ProccesedBySonicDate.Text != string.Empty && txtInvoice_ProccesedBySonicDate.Text != "05/23/1964") objACIManagement_ProjectCost_Invoice.Invoice_ProccesedBySonicDate = clsGeneral.FormatDateToStore(txtInvoice_ProccesedBySonicDate.Text);
+        if (txtPayment_ReceivedbyACIDate.Text != string.Empty && txtPayment_ReceivedbyACIDate.Text != "05/23/1964") objACIManagement_ProjectCost_Invoice.Payment_ReceivedbyACIDate = clsGeneral.FormatDateToStore(txtPayment_ReceivedbyACIDate.Text);
+                
         if (PK_ACIManagement_ProjectCost_Invoice > 0)
             objACIManagement_ProjectCost_Invoice.Update();
         else
@@ -163,6 +165,8 @@ public partial class SONIC_Exposures_ACI_Management_ProjectCost_Invoice : clsBas
         lblVendorContactNumber.Text = Convert.ToString(objACIManagement_ProjectCost_Invoice.Vendor_Contact);
         lblVendorTelephone.Text = Convert.ToString(objACIManagement_ProjectCost_Invoice.Vendor_Telephone);
         lblVendorEmail.Text = Convert.ToString(objACIManagement_ProjectCost_Invoice.Vendor_Email);
+        lblInvoice_ProccesedBySonicDate.Text = clsGeneral.FormatDBNullDateToDisplay(objACIManagement_ProjectCost_Invoice.Invoice_ProccesedBySonicDate);
+        lblPayment_ReceivedbyACIDate.Text = clsGeneral.FormatDBNullDateToDisplay(objACIManagement_ProjectCost_Invoice.Payment_ReceivedbyACIDate);
     }
 
     /// <summary>
@@ -188,6 +192,8 @@ public partial class SONIC_Exposures_ACI_Management_ProjectCost_Invoice : clsBas
         txtVendorContactName.Text = Convert.ToString(objACIManagement_ProjectCost_Invoice.Vendor_Contact);
         txtVendorTelephone.Text = Convert.ToString(objACIManagement_ProjectCost_Invoice.Vendor_Telephone);
         txtVendorEmail.Text = Convert.ToString(objACIManagement_ProjectCost_Invoice.Vendor_Email);
+        txtInvoice_ProccesedBySonicDate.Text = clsGeneral.FormatDBNullDateToDisplay(objACIManagement_ProjectCost_Invoice.Invoice_ProccesedBySonicDate);
+        txtPayment_ReceivedbyACIDate.Text = clsGeneral.FormatDBNullDateToDisplay(objACIManagement_ProjectCost_Invoice.Payment_ReceivedbyACIDate);
     }
 
     #endregion
