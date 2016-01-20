@@ -110,8 +110,7 @@
                     </tr>
                     <tr>
                         <td colspan="3" align="center">
-                            <asp:Button runat="server" ID="btnShowReport" Text="Show Report" OnClick="btnShowReport_Click"
-                                OnClientClick="return CheckValidation();" />
+                            <asp:Button runat="server" ID="btnShowReport" Text="Show Report" OnClick="btnShowReport_Click"/>
                             &nbsp;&nbsp;
                             <asp:Button ID="btnClearCriteria" runat="server" Text="Clear Criteria" ToolTip="Clear All"
                                 OnClick="btnClearCriteria_Click" CausesValidation="false" />

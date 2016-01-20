@@ -330,13 +330,25 @@ public partial class UserAccessRequest_rptVOCEmissions : clsBasePage
     private System.Text.StringBuilder GenerateVOCReport()
     {
         int startYear, endYear, startMonth, endMonth;
-        decimal location = Convert.ToDecimal(lstLocation.SelectedValue);
+       // decimal location = Convert.ToDecimal(lstLocation.SelectedValue);
         startYear = Convert.ToDateTime(txtStartDate.Text).Year;
         endYear = Convert.ToDateTime(txtEndDate.Text).Year;
         startMonth = Convert.ToDateTime(txtStartDate.Text).Month;
         endMonth = Convert.ToDateTime(txtEndDate.Text).Month;
-        
-        DataSet dsReport = clsNewUserApprovedDeniedReport.GetVOCReport(startYear, endYear, startMonth, endMonth, location);
+
+        string strlocation = string.Empty;
+
+        // get selected location
+        foreach (ListItem li in lstLocation.Items)
+        {
+            if (li.Selected)
+                strlocation = strlocation + "" + li.Value + ",";
+        }
+        strlocation = strlocation.TrimEnd(',');
+
+        Convert.ToDecimal(lstLocation.SelectedValue);
+
+        DataSet dsReport = clsNewUserApprovedDeniedReport.GetVOCReport(startYear, endYear, startMonth, endMonth, strlocation);
 
         // get data tables from dataset
         DataTable dtCategory = dsReport.Tables[0];
