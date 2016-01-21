@@ -52,56 +52,68 @@ public class HTML2Excel
 
     public bool Convert2Excel(string outputPath)
     {
-        excelWorkbook = new ExcelPackage();
-        excelWorksheet = excelWorkbook.Workbook.Worksheets.Add("Report");
-
-        HtmlDocument hDoc = new HtmlDocument();
-        hDoc.LoadHtml(_htmlData);
-
-        HtmlNodeCollection hNodes = hDoc.DocumentNode.ChildNodes;
-
-        foreach (HtmlNode hNode in hNodes)
+        try
         {
-            CountDetails(hNode);
-            switch (hNode.Name.ToUpper())
+
+
+            excelWorkbook = new ExcelPackage();
+            excelWorksheet = excelWorkbook.Workbook.Worksheets.Add("Report");
+
+            HtmlDocument hDoc = new HtmlDocument();
+            hDoc.LoadHtml(_htmlData);
+
+            HtmlNodeCollection hNodes = hDoc.DocumentNode.ChildNodes;
+
+            foreach (HtmlNode hNode in hNodes)
             {
-                case "TABLE": HandleTABLENode(hNode); break;
-                case "TR": HandleTRNode(hNode, false); break;
-                case "TD": HandleTDNode(hNode); break;
-                default: HandleOtherNode(hNode); break;
+                CountDetails(hNode);
+                switch (hNode.Name.ToUpper())
+                {
+                    case "TABLE": HandleTABLENode(hNode); break;
+                    case "TR": HandleTRNode(hNode, false); break;
+                    case "TD": HandleTDNode(hNode); break;
+                    default: HandleOtherNode(hNode); break;
+                }
             }
+
+            excelWorksheet.View.ShowGridLines = false;
+            int totalRows = currRowNumber;
+            for (currRowNumber = 1; currRowNumber <= totalRows; currRowNumber++)
+                MergeColumns();
+
+            //using (ExcelRange range = excelWorksheet.Cells[1, 1, currRowNumber - 2, totalNoOfColumnsInRow])
+            //{
+            //    range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+            //    Border border = range.Style.Border;
+            //    border.Bottom.Style = border.Top.Style = border.Left.Style = border.Right.Style = ExcelBorderStyle.Thin;
+            //    range.Style.Font.Size = 10;
+            //}
+
+            //excelWorksheet.Cells.AutoFitColumns();
+            excelWorksheet.Cells.AutoFitColumns(25, 60);
+            excelWorksheet.Cells.Style.WrapText = true;
+
+            //Byte[] bin = excelWorkbook.GetAsByteArray();
+
+            FileInfo outputFile = new FileInfo(outputPath);
+
+            //File.WriteAllBytes(outputPath, bin);        
+            excelWorkbook.SaveAs(outputFile);
+            _htmlData = null;
+
+            //excelWorksheet.Dispose();
+            //excelWorkbook.Dispose();
+
+
+
+            //File.WriteAllText(@"D:\R & D Work\style.txt", styleBuilder.ToString());
+
+            return true;
         }
-
-        excelWorksheet.View.ShowGridLines = false;
-        int totalRows = currRowNumber;
-        for (currRowNumber = 1; currRowNumber <= totalRows; currRowNumber++)
-            MergeColumns();
-
-        //using (ExcelRange range = excelWorksheet.Cells[1, 1, currRowNumber - 2, totalNoOfColumnsInRow])
-        //{
-        //    range.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
-        //    Border border = range.Style.Border;
-        //    border.Bottom.Style = border.Top.Style = border.Left.Style = border.Right.Style = ExcelBorderStyle.Thin;
-        //    range.Style.Font.Size = 10;
-        //}
-
-        //excelWorksheet.Cells.AutoFitColumns();
-        excelWorksheet.Cells.AutoFitColumns(25, 60);
-        excelWorksheet.Cells.Style.WrapText = true;
-
-        Byte[] bin = excelWorkbook.GetAsByteArray();
-
-        File.WriteAllBytes(outputPath, bin);
-
-        _htmlData = null;
-        //excelWorksheet.Dispose();
-        //excelWorkbook.Dispose();
-
-
-
-        //File.WriteAllText(@"D:\R & D Work\style.txt", styleBuilder.ToString());
-
-        return true;
+        catch (Exception ex)
+        {
+            return false;
+        }
     }
 
     private int HandleTRNode(HtmlNode hNode, bool hasBorder)
