@@ -32,6 +32,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
         //Date time format to display in attached excel with Email
         public const String DateDisplayFormat = "MM/dd/yyyy";
+        public string _strServiceRunTime = string.Empty;
 
         #endregion
 
@@ -59,6 +60,7 @@ namespace ERIMS_Sonic_ReportScheduler
         /// <param name="args"></param>
         protected override void OnStart(string[] args)
         {
+            ReadConfigSetting();
             // TODO: Add code here to start your service.
 
             //Make event log entry to indicate starting of service
@@ -75,6 +77,7 @@ namespace ERIMS_Sonic_ReportScheduler
 
         public void OnStart()
         {
+            ReadConfigSetting();
             // TODO: Add code here to start your service.
 
             //Make event log entry to indicate starting of service
@@ -87,6 +90,11 @@ namespace ERIMS_Sonic_ReportScheduler
             //Start the thread
             TSendMail.Start();
             TSendMail.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+        }
+
+        private void ReadConfigSetting()
+        {
+            _strServiceRunTime = ConfigurationSettings.AppSettings.Get("ServiceRunTime");
         }
 
         /// <summary>
@@ -131,15 +139,33 @@ namespace ERIMS_Sonic_ReportScheduler
                 }
 
                 //Stop Process For 1 Hour to reduce CPU Utilization
-                //Thread.Sleep(300000);
-                Thread.Sleep(3600000);
+                //Thread.Sleep(3600000);
+                
+                //service start at 9:00 AM everyday
+                //get current date time and tomorrow date time with 9:00 am ::subtract that and get ms this is sleep time of thread
+                if (string.IsNullOrEmpty(_strServiceRunTime)) _strServiceRunTime = "09:00:00";
 
-                //if date changes set schedule date to today's date(new schedule date)
-                if (dtSchduleDate.Date < DateTime.Today.Date)
+                DateTime dtNextDateTime = Convert.ToDateTime(DateTime.Now.AddDays(1).ToString("yyyy-MM-dd") + " " + _strServiceRunTime); 
+                DateTime dtCurrentDateTime = DateTime.Now;
+                
+                TimeSpan span = dtNextDateTime - dtCurrentDateTime;
+                int ms = (int)span.TotalMilliseconds;
+                
+                if (ms > 0)
                 {
+                    EventLog.WriteEntry("Thread sleeps for next " + ms / 3600000 + " Hours");
+                    Thread.Sleep(ms);
                     dtSchduleDate = DateTime.Today;
                     flgSendEmail = true;
                 }
+
+                //if date changes set schedule date to today's date(new schedule date)
+                //if (dtSchduleDate.Date < DateTime.Today.Date)
+                //{
+                //    dtSchduleDate = DateTime.Today;
+                //    flgSendEmail = true;
+                //}
+                
             }
         }
 
@@ -13407,6 +13433,19 @@ namespace ERIMS_Sonic_ReportScheduler
                 return string.Empty;
             else
                 return FormatDateToDisplay(Convert.ToDateTime(objDate));
+        }
+
+        /// <summary>
+        /// if object is not able to be converted to int, it returns 0
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static int GetInt(object obj)
+        {
+            string strObj = Convert.ToString(obj);
+            int result;
+            int.TryParse(strObj, out result);
+            return result;
         }
 
         /// <summary>
