@@ -259,18 +259,18 @@
             <br />
             <table width="80%">
                 <tr>
-                    <td colspan="2">&nbsp;</td>
+                    <td>&nbsp;</td>
                 </tr>
                 <tr>
-                    <td align="right" style="padding-right:35px" width="50%">
+                    
+                    <td align="center" style="padding-left:35px" width="100%">
                         <asp:Button ID="btnSave" runat="server" Text="Save" ValidationGroup="vsErrorGroup" OnClick="btnSave_Click" />
-                    </td>
-                    <td align="left" style="padding-left:35px" width="50%">
-                        <asp:Button ID="btnCancel" runat="server" Text="Canel" ValidationGroup="vsErrorGroup" OnClick="btnCancel_Click" />
+                        &nbsp;&nbsp;&nbsp;
+                        <asp:Button ID="btnCancel" runat="server" Text="Cancel" ValidationGroup="vsErrorGroup" OnClick="btnCancel_Click" />
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2">&nbsp;</td>
+                    <td>&nbsp;</td>
                 </tr>
             </table>
         </asp:Panel>
