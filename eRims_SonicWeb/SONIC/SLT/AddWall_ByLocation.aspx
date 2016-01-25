@@ -29,17 +29,20 @@
 
         function ShowHideRow() {
             var rdoFilter_By = $("#<%=rdoFilter_By.ClientID%> input[type='radio']:checked").val();
-            if (rdoFilter_By == 'All_Location') {
+            if (rdoFilter_By == 'All_Sonic_Automotive') {
                 $("#trRegion").hide(); $("#trMarket").hide();
             }
+            else if (rdoFilter_By == 'Location') {
+                $("#trRegion").hide(); $("#trMarket").hide(); $("#trLocation").show();
+            }
             else if (rdoFilter_By == 'Region') {
-                $("#trRegion").show(); $("#trMarket").hide();
+                $("#trRegion").show(); $("#trMarket").hide(); $("#trLocation").hide();
             }
             else if (rdoFilter_By == 'Market') {
-                $("#trRegion").hide(); $("#trMarket").show();
+                $("#trRegion").hide(); $("#trMarket").show(); $("#trLocation").hide();
             }
             else {
-                $("#trRegion").show(); $("#trMarket").show();
+                $("#trRegion").hide(); $("#trMarket").hide(); $("#trLocation").hide();
             }
         }
 
@@ -68,10 +71,11 @@
                                 </tr>
                                 <tr>
                                     <td colspan="3">
-                                        <asp:RadioButtonList ID="rdoFilter_By" runat="server" RepeatDirection="Horizontal" RepeatColumns="3">
-                                            <asp:ListItem Text="All Location" Selected="True" Value="All_Location"></asp:ListItem>
-                                            <asp:ListItem Text="Region" Value="Region"></asp:ListItem>
+                                        <asp:RadioButtonList ID="rdoFilter_By" runat="server" RepeatDirection="Horizontal" RepeatColumns="4">
+                                            <asp:ListItem Text="Location" Value="Location"></asp:ListItem>
                                             <asp:ListItem Text="Market" Value="Market"></asp:ListItem>
+                                            <asp:ListItem Text="Region" Value="Region"></asp:ListItem>
+                                            <asp:ListItem Text="All Sonic Automotive" Selected="True" Value="All_Sonic_Automotive"></asp:ListItem>
                                         </asp:RadioButtonList>
                                     </td>
                                 </tr>
@@ -94,6 +98,18 @@
                                     </td>
                                     <td align="left">
                                         <asp:DropDownList ID="ddlMarket" runat="server" SkinID="default" Width="175px" >
+                                        </asp:DropDownList>
+                                    </td>
+                                </tr>
+                                <tr id="trLocation">
+                                    <td>
+                                        Location
+                                    </td>
+                                    <td>
+                                        :
+                                    </td>
+                                    <td align="left">
+                                        <asp:DropDownList ID="ddlLocationdba" runat="server" SkinID="default" Width="175px" >
                                         </asp:DropDownList>
                                     </td>
                                 </tr>

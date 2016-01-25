@@ -283,7 +283,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
 
     private string SortBy_Meeting
     {
-        get { return (!clsGeneral.IsNull(ViewState["SortBy_Meeting"]) ? ViewState["SortBy_Meeting"].ToString() : "Actual_Meeting_Date"); }
+        get { return (!clsGeneral.IsNull(ViewState["SortBy_Meeting"]) ? ViewState["SortBy_Meeting"].ToString() : "Scheduled_Meeting_Date"); }//Actual_Meeting_Date
         set { ViewState["SortBy_Meeting"] = value; }
     }
 
@@ -765,6 +765,20 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         drpFK_Employee.Items.Insert(0, new ListItem("-- Select --", "0"));
     }
 
+    private void BindAllEmployees()
+    {
+        //FK_LU_Location_ID
+        drpFK_Employee.Items.Clear();
+        DataSet dsEmployee = Employee.SelectEmployessByLocation(Convert.ToInt32(FK_LU_Location_ID));
+        if (dsEmployee.Tables.Count > 0)
+        {
+            drpFK_Employee.DataSource = dsEmployee.Tables[0];
+            drpFK_Employee.DataTextField = "EmployeeName";
+            drpFK_Employee.DataValueField = "PK_Employee_ID";
+            drpFK_Employee.DataBind();
+        }
+        drpFK_Employee.Items.Insert(0, new ListItem("-- Select --", "0"));
+    }
 
     #endregion
     #region "MeetingSchehule"
@@ -3152,6 +3166,15 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         BindSLTMemberYearGrid();
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
+
+
+    protected void btnShowMemberHistory_Click(object sender, EventArgs e)
+    {
+        DataTable dtSlt_members = SLT_Members.SLT_MembersSelectByFK_SLT_Meeting(PK_SLT_Meeting).Tables[0];
+        gvSLT_Members.DataSource = dtSlt_members;//view all members from all dates
+        gvSLT_Members.DataBind();
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel('1');", true);
+    }
     #endregion
     #region "Common Events"
     /// <summary>
@@ -4401,7 +4424,8 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             #region
 
             //Get Employees by Locations :
-            BindEmployeesByLocation();
+            //BindEmployeesByLocation();
+            BindAllEmployees();
 
             btnSLTMembers_AuditEdit.Visible = true;
             //tr_Sltmembers.Visible = false;
@@ -6617,4 +6641,21 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
     }
 
+    protected void btnViewEmployee_Click(object sender, EventArgs e)
+    {
+        if (btnViewEmployee.Text == "View Employees for Location Only")
+        {
+            BindEmployeesByLocation();
+            btnViewEmployee.Text = "View All Employees";
+        }
+        else
+        {
+            BindAllEmployees();
+            btnViewEmployee.Text = "View Employees for Location Only";
+        }
+
+
+
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+    }
 }

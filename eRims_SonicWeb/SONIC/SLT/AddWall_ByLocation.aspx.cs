@@ -99,10 +99,10 @@ public partial class SONIC_SLT_AddWall_ByLocation : clsBasePage
             objWall_By_Location.Comment_Sequence = null;
         }
         else
-        {
+        {//currently comment section not implemented
             objWall_By_Location.PK_Wall_By_Location = PK_Wall_By_Location;
             objWall_By_Location.Type = "Comment";
-            objWall_By_Location.PK_Wall_By_Location = PK_Wall_By_Location;
+            objWall_By_Location.FK_Wall_By_Location = PK_Wall_By_Location;
         }
         objWall_By_Location.Last_Name = clsSession.LastName;
         objWall_By_Location.First_Name = clsSession.FirstName;
@@ -114,6 +114,8 @@ public partial class SONIC_SLT_AddWall_ByLocation : clsBasePage
             objWall_By_Location.Filter_Value = ddlRegion.SelectedValue;
         else if (rdoFilter_By.SelectedValue == "Market")
             objWall_By_Location.Filter_Value = ddlMarket.SelectedValue;
+        else if (rdoFilter_By.SelectedValue == "Location")
+            objWall_By_Location.Filter_Value = ddlLocationdba.SelectedValue;
         
         objWall_By_Location.Update_Date = DateTime.Now;
         objWall_By_Location.Updated_By = clsSession.UserName;
@@ -150,7 +152,8 @@ public partial class SONIC_SLT_AddWall_ByLocation : clsBasePage
             //Insert the attachment record
             objWall_By_Location_Attachment.Insert();
         }
-        Response.Redirect("SLT_Wall.aspx");
+        //Response.Redirect("SLT_Wall.aspx");
+        Response.Redirect("SLT_Wall_ByLocation.aspx?PK_LU_Location_ID=" + Convert.ToString(Request.QueryString["PK_LU_Location_ID"]) + "&Location=" + Convert.ToString(Request.QueryString["Location"]));
     }
     /// <summary>
     /// Handle Cancel Button Click Event
@@ -159,7 +162,8 @@ public partial class SONIC_SLT_AddWall_ByLocation : clsBasePage
     /// <param name="e"></param>
     protected void btnCancel_Click(object sender, EventArgs e)
     {
-        Response.Redirect("SLT_Wall.aspx");//Wall.aspx
+        //Response.Redirect("SLT_Wall.aspx");//Wall.aspx
+        Response.Redirect("SLT_Wall_ByLocation.aspx?PK_LU_Location_ID=" + Convert.ToString(Request.QueryString["PK_LU_Location_ID"]) + "&Location=" + Convert.ToString(Request.QueryString["Location"]));
     }
     #endregion
 
@@ -175,6 +179,7 @@ public partial class SONIC_SLT_AddWall_ByLocation : clsBasePage
         ddlRegion.Items.Insert(0, new ListItem("--All Regions--", ""));
 
         ComboHelper.FillMarket(new DropDownList[] { ddlMarket }, true);
+        ComboHelper.FillLocationdbaOnly(new DropDownList[] { ddlLocationdba }, 0, true, true);
     } 
     #endregion
 }

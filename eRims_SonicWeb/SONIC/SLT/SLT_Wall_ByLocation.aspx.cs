@@ -119,7 +119,8 @@ public partial class SONIC_SLT_SLT_Wall_ByLocation : clsBasePage
             Binddropdown();
             BindPosts(1, 10);
 
-            lnkRMLocationNumber.Text = Convert.ToString(Request.QueryString["Location"]);
+            //lnkRMLocationNumber.Text = Convert.ToString(Request.QueryString["Location"]);
+            lblRMLocationNumber.Text = Convert.ToString(Request.QueryString["Location"]);
             //lnkRMLocationNumber.PostBackUrl = Convert.ToString(Request.QueryString["PK_LU_Location_ID"]);
         }
     }
@@ -201,7 +202,12 @@ public partial class SONIC_SLT_SLT_Wall_ByLocation : clsBasePage
 
     #region "Control Events"
 
-    protected void lnkRMLocationNumber_Click(object sender, EventArgs e)
+    /// <summary>
+    /// Go to SLT meeting page of that location
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnGoToMeeingNotes_Click(object sender, EventArgs e)
     {
         decimal PK_ID;
         if (StrOperation.ToLower() != "view")
@@ -262,7 +268,7 @@ public partial class SONIC_SLT_SLT_Wall_ByLocation : clsBasePage
     /// <param name="e"></param>
     protected void btnAdd_Click(object sender, EventArgs e)
     {
-        Response.Redirect("AddWall_ByLocation.aspx?type=1");
+        Response.Redirect("AddWall_ByLocation.aspx?type=1&PK_LU_Location_ID="+Convert.ToString(Request.QueryString["PK_LU_Location_ID"])+"&Location="+Convert.ToString(Request.QueryString["Location"]));
     }
 
     /// <summary>
@@ -550,5 +556,5 @@ public partial class SONIC_SLT_SLT_Wall_ByLocation : clsBasePage
         }
     }
     #endregion
-   
+
 }

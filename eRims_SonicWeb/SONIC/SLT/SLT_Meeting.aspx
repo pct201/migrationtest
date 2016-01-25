@@ -1126,8 +1126,10 @@ function DisableButton() {
                                                                     </td>
                                                                     <td align="center" valign="top">:
                                                                     </td>
-                                                                    <td align="left" valign="top" colspan="3">
-                                                                        <asp:DropDownList ID="drpFK_Employee" runat="server" OnSelectedIndexChanged="drpFK_Employee_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                                                                    <td align="left" valign="top" colspan="4">
+                                                                        <asp:DropDownList ID="drpFK_Employee" runat="server" OnSelectedIndexChanged="drpFK_Employee_SelectedIndexChanged" AutoPostBack="true" SkinID="dropGen" Width="225px"></asp:DropDownList>
+                                                                    &nbsp;&nbsp;&nbsp;
+                                                                        <asp:Button ID="btnViewEmployee" runat="server" Text="View Employees for Location Only" OnClick="btnViewEmployee_Click" Width="225px"/>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -7153,6 +7155,7 @@ function DisableButton() {
                                             <asp:Button ID="btnHdnSend" runat="server" OnClick="btnSend_Click" Style="display: none" />
                                             <asp:Button ID="btnhdnBindRLCM_Training" runat="server" OnClick="btnhdnBindRLCM_Training_Click"
                                                 Style="display: none" />
+                                            <asp:Button ID="btnShowMemberHistory" Text="Show Member History" runat="server" OnClick="btnShowMemberHistory_Click"/>
                                             &nbsp;<%--<asp:Button ID="btnSendTO_RLCM" runat="server" Text="Send Minutes to RLCM" style="display:none;width:160px"   Enabled="false" OnClientClick="return CheckScheduleidForRLCM();"  OnClick="btnSendTO_RLCM_Click" />--%>
                                         </td>
                                     </tr>

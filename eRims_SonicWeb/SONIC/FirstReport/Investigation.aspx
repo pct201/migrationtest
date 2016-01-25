@@ -222,10 +222,9 @@
             }
         }
 
-        jQuery(function ($) {
-             <%--$("#<%=txtFacility_Zip_Code.ClientID%>").mask("99999-9999");--%>
-             $("#<%=txtTime_Began_Work.ClientID%>").mask("99:99");
-        });
+        //jQuery(function ($) {
+        //     $("#<=txtTime_Began_Work.ClientID%>").mask("99:99");
+        //});
 
         // Make Validation for OSHA Information Panel
         function CheckValidationOSHAInfo() {
@@ -984,7 +983,7 @@
                                                             <tr>
                                                                 <td align="left" width="19%" valign="top">OSHA Recordable&nbsp;<span id="Span19" style="color: Red; display: none;" runat="server">*</span><br />
                                                                     <input type="button" value="Start Wizard" onclick="OpenWizardPopup();" style="width: 95px;"
-                                                                        class="btn" />
+                                                                        class="btn" id="btnStartWizard"/>
                                                                 </td>
                                                                 <td align="center" width="4%" valign="top">:
                                                                 </td>
@@ -1353,6 +1352,11 @@
                                                         </td>
                                                         <td align="left">
                                                             <asp:TextBox ID="txtTime_Began_Work" runat="server" Width="170px"></asp:TextBox>
+                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" AutoComplete="true"
+                                                                    MaskType="Time" Mask="99:99" TargetControlID="txtTime_Began_Work" AcceptNegative="Left"
+                                                                    DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
+                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
+                                                                </cc1:MaskedEditExtender>
                                                             <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="txtTime_Began_Work"
                                                                 ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
                                                                 ErrorMessage="Invalid Time Associate Began Work." Display="none" ValidationGroup="vsOSHAInfoGroup"
@@ -2802,8 +2806,19 @@
     </table>
     <script type="text/javascript" language="javascript">
 
+        $(document).ready(function () {
+            var hdnOSHARecordable = document.getElementById('<%=hdnOSHARecordable.ClientID%>').value;
+            if (hdnOSHARecordable == '')
+                document.getElementById("btnStartWizard").disabled = true;
+        });
+
         function OpenWizardPopup() {
-            GB_showCenter('Investigation Wizard', '<%=AppConfig.SiteURL%>SONIC/FirstReport/InvestigationWzard.aspx?ctrlid=<%=lblOSHARecordable.ClientID%>', 300, 500);
+            var hdnOSHARecordable = document.getElementById('<%=hdnOSHARecordable.ClientID%>').value;
+            //alert(hdnOSHARecordable);
+            if (hdnOSHARecordable != '')
+                GB_showCenter('Investigation Wizard', '<%=AppConfig.SiteURL%>SONIC/FirstReport/InvestigationWzard.aspx?ctrlid=<%=lblOSHARecordable.ClientID%>', 300, 500);
+            else
+                document.getElementById("btnStartWizard").disabled = true;
         }
 
 

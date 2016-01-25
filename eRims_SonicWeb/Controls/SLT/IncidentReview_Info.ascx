@@ -601,15 +601,16 @@
                     </td>--%>
                 </tr>
                 <tr>
-                    <td width="79%" align="left" valign="top" colspan="4">
+                    <td align="left" valign="top" colspan="6">
                         <%--Have the above changes been communicated to associates with similar job tasks? --%>
-                        Have the corrective actions been communicated to associates with similar job tasks?
+                        Have the corrective actions been communicated to associates with similar job tasks? &nbsp;&nbsp;:&nbsp;&nbsp;
+                        <asp:Label ID="lblCommunicatedToAssociate" runat="server"></asp:Label>
                     </td>
-                    <td width="1%" valign="top">:
+                    <%--<td width="1%" valign="top">:
                     </td>
                     <td width="20%" valign="top">
                         <asp:Label ID="lblCommunicatedToAssociate" runat="server"></asp:Label>
-                    </td>
+                    </td>--%>
                 </tr>
 
                 <tr>

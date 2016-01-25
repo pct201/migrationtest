@@ -119,7 +119,9 @@
                             <td align="left" width="80%" >&nbsp; Sonic Location Code :
                                     <%--<asp:DropDownList ID="ddlRMLocationNumber" runat="server" AutoPostBack="false" width="250px" SkinID="Default">
                                     </asp:DropDownList>--%>
-                                <asp:LinkButton ID="lnkRMLocationNumber" runat="server" Text="" OnClick="lnkRMLocationNumber_Click" />
+                                <%--<asp:LinkButton ID="lnkRMLocationNumber" runat="server" Text="" OnClick="lnkRMLocationNumber_Click" />--%>
+                                <asp:Label ID="lblRMLocationNumber" runat="server" Text=""></asp:Label>  &nbsp;&nbsp;&nbsp;&nbsp;
+                                <asp:Button ID="btnGoToMeeingNotes" runat="server" Text="Go To Meeting Notes" OnClick="btnGoToMeeingNotes_Click" />
                                 <%--<asp:RequiredFieldValidator ID="rfvddlRMLocationNumber" runat="Server" ValidationGroup="vsErrorGroupRLCM"
                                     ErrorMessage="Please Select SONIC Location Code" SetFocusOnError="true"
                                     Display="none" ControlToValidate="ddlRMLocationNumber" InitialValue="0"></asp:RequiredFieldValidator>--%>

@@ -89,6 +89,7 @@ public partial class Administrator_EditWallPostByLocation : System.Web.UI.Page
         ddlRegion.Items.Insert(0, new ListItem("--All Regions--", ""));
 
         ComboHelper.FillMarket(new DropDownList[] { ddlMarket }, true);
+        ComboHelper.FillLocationdbaOnly(new DropDownList[] { ddlLocationdba }, 0, true, true);
     } 
 
     /// <summary>
@@ -107,7 +108,9 @@ public partial class Administrator_EditWallPostByLocation : System.Web.UI.Page
         if (objWall_By_Location.Filter_By == "Region")
             ddlRegion.SelectedValue = objWall_By_Location.Filter_Value;
         else if (objWall_By_Location.Filter_By == "Market")
-            ddlMarket.SelectedValue = objWall_By_Location.Filter_Value; 
+            ddlMarket.SelectedValue = objWall_By_Location.Filter_Value;
+        else if (objWall_By_Location.Filter_By == "Location")
+            ddlLocationdba.SelectedValue = objWall_By_Location.Filter_Value; 
         
         if (lblType.Text.Trim().ToLower() == "comment")
         {
@@ -165,6 +168,8 @@ public partial class Administrator_EditWallPostByLocation : System.Web.UI.Page
             objWall_By_Location.Filter_Value = ddlRegion.SelectedValue;
         else if (rdoFilter_By.SelectedValue == "Market")
             objWall_By_Location.Filter_Value = ddlMarket.SelectedValue;
+        else if (rdoFilter_By.SelectedValue == "Location")
+            objWall_By_Location.Filter_Value = ddlLocationdba.SelectedValue;
 
         objWall_By_Location.Update_Date = DateTime.Now;
         objWall_By_Location.Updated_By = clsSession.UserName;
