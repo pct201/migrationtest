@@ -240,7 +240,62 @@
             else
                 return false;
         }
-        //make validation for Locaiton information Panel
+
+        $(document).ready(function () {
+            ToggeleValidator();
+            $("#<%=rdoClaim_Questionable.ClientID%>").change(function () {
+                ToggeleValidator();
+            });
+        });
+
+        function ToggeleValidator() {
+            var valClaim = '<%=txtClaim_Questionable_Description.ClientID%>';
+            var rdoClaim_Questionable = $("#<%=rdoClaim_Questionable.ClientID%> input[type='radio']:checked").val();
+            var hdnIncidentID = document.getElementById('<%=hdnIncidentID.ClientID%>').value;
+            var hdnIncidentErrorMsgs = document.getElementById('<%=hdnIncidentErrorMsgs.ClientID%>').value;
+
+            if (rdoClaim_Questionable == '1')//1==Yes
+            {
+                //ValidatorEnable(valClaim, true);
+                if (hdnIncidentID.length > 0 && hdnIncidentID.indexOf(',' + valClaim) == 0)
+                    hdnIncidentID = hdnIncidentID + ',' + valClaim;
+                else
+                    hdnIncidentID = valClaim;
+                
+                document.getElementById('<%=hdnIncidentID.ClientID%>').value = hdnIncidentID;
+
+                if (hdnIncidentErrorMsgs.length > 0 && hdnIncidentErrorMsgs.indexOf(',' + 'Please enter [Incident/Information]/Was the claim Questionable? If Yes Why?') == 0)
+                    hdnIncidentErrorMsgs = hdnIncidentErrorMsgs + ',' + 'Please enter [Incident/Information]/Was the claim Questionable? If Yes Why?';
+                else
+                    hdnIncidentErrorMsgs = 'Please enter [Incident/Information]/Was the claim Questionable? If Yes Why?';
+
+                document.getElementById('<%=hdnIncidentErrorMsgs.ClientID%>').value = hdnIncidentErrorMsgs;
+                document.getElementById('<%=Span17.ClientID%>').style.display = '';
+            }
+            else {
+                //ValidatorEnable(valClaim, false);
+                document.getElementById('<%=Span17.ClientID%>').style.display = 'none';
+
+                var newhdnIncidentID;
+                if (hdnIncidentID.indexOf(','+ valClaim) > 0)
+                    newhdnIncidentID = hdnIncidentID.replace(','+valClaim, '');
+                else
+                    newhdnIncidentID = hdnIncidentID.replace(valClaim, '');
+
+                document.getElementById('<%=hdnIncidentID.ClientID%>').value = newhdnIncidentID;
+
+                var hdnIncidentErrorMsgs
+                if (hdnIncidentErrorMsgs.indexOf(',' + 'Please enter [Incident/Information]/Was the claim Questionable? If Yes Why?') > 0)
+                    hdnIncidentErrorMsgs = hdnIncidentErrorMsgs.replace(',Please enter [Incident/Information]/Was the claim Questionable? If Yes Why?', '');
+                else
+                    hdnIncidentErrorMsgs = hdnIncidentErrorMsgs.replace('Please enter [Incident/Information]/Was the claim Questionable? If Yes Why?', '');
+
+                document.getElementById('<%=hdnIncidentErrorMsgs.ClientID%>').value = hdnIncidentErrorMsgs;
+                
+            }
+        }
+
+        //make validation for Location information Panel
         function CheckValidationLocation() {
             //if number is "___-___-____" than set it to ""
             if (document.getElementById('<%=txtContactTelephoneNumber1.ClientID%>').value == "___-___-____")

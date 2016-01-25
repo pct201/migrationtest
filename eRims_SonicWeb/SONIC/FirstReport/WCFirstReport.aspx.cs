@@ -3092,11 +3092,11 @@ public partial class SONIC_WCFirstReport : clsBasePage
                     strIncidentErrorMsgs += "Please select [Incident/Information]/Body Part Affected" + ",";
                     Span16.Style["display"] = "inline-block";
                     break;
-                case "Was the claim Questionable? If Yes Why?":
-                    strIncidentIDs += txtClaim_Questionable_Description.ClientID + ",";
-                    strIncidentErrorMsgs += "Please enter [Incident/Information]/Was the claim Questionable? If Yes Why?" + ",";
-                    Span17.Style["display"] = "inline-block";
-                    break;
+                //case "Was the claim Questionable? If Yes Why?":
+                //    strIncidentIDs += txtClaim_Questionable_Description.ClientID + ",";
+                //    strIncidentErrorMsgs += "Please enter [Incident/Information]/Was the claim Questionable? If Yes Why?" + ",";
+                //    Span17.Style["display"] = "inline-block";
+                //    break;
                 case "Date Reported to Sonic":
                     strIncidentIDs += txtDate_Reported_To_Sonic.ClientID + ",";
                     strIncidentErrorMsgs += "Please enter [Incident/Information]/Date Reported to Sonic" + ",";
