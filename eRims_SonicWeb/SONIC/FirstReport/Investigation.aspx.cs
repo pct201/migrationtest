@@ -953,7 +953,7 @@ public partial class Exposures_Investigation : clsBasePage
 
             BindDetailsForEdit();
             //Open Next Panel.
-            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);", true);
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);DisableEnableOsha();", true);
         }
         else
         {

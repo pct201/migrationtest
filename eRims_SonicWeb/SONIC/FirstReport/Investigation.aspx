@@ -2807,16 +2807,21 @@
     <script type="text/javascript" language="javascript">
 
         $(document).ready(function () {
-            var hdnOSHARecordable = document.getElementById('<%=hdnOSHARecordable.ClientID%>').value;
-            if (hdnOSHARecordable == '')
-                document.getElementById("btnStartWizard").disabled = true;
+            DisableEnableOsha();
         });
+
+        function DisableEnableOsha() {
+            var hdnOSHARecordable = document.getElementById('<%=hdnOSHARecordable.ClientID%>').value;
+            if (hdnOSHARecordable != '')
+                document.getElementById("btnStartWizard").disabled = true;
+        }
 
         function OpenWizardPopup() {
             var hdnOSHARecordable = document.getElementById('<%=hdnOSHARecordable.ClientID%>').value;
             //alert(hdnOSHARecordable);
-            if (hdnOSHARecordable != '')
+            if (hdnOSHARecordable == '') {
                 GB_showCenter('Investigation Wizard', '<%=AppConfig.SiteURL%>SONIC/FirstReport/InvestigationWzard.aspx?ctrlid=<%=lblOSHARecordable.ClientID%>', 300, 500);
+            }
             else
                 document.getElementById("btnStartWizard").disabled = true;
         }
