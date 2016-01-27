@@ -121,6 +121,7 @@ namespace ERIMS.DAL
         private string _AC_Door_Restrictions;
         private string _Total_Hours_CCTV_Monitored_Per_Week;
         private string _SITS_Supra_Key_Advantage;
+        private string _FK_Building_Id; 
 
         #endregion
 
@@ -1098,6 +1099,16 @@ namespace ERIMS.DAL
             set { _SITS_Supra_Key_Advantage = value; }
         }
 
+
+        /// <summary>
+        /// Gets or sets the [FK_Building_Id] value.
+        /// </summary>
+        public string FK_Building_Id
+        {
+            get { return _FK_Building_Id; }
+            set { _FK_Building_Id = value; }
+        }
+
         #endregion
 
         #region Default Constructors
@@ -1692,6 +1703,11 @@ namespace ERIMS.DAL
 
 
             db.AddInParameter(dbCommand, "FK_LU_Location_Id", DbType.Decimal, this._FK_LU_Location_Id);
+
+            if (string.IsNullOrEmpty(this._FK_Building_Id))
+                db.AddInParameter(dbCommand, "Building_Number", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Building_Number", DbType.String, this._FK_Building_Id);            
 
             if (string.IsNullOrEmpty(this._CCTV_Company_Name))
                 db.AddInParameter(dbCommand, "CCTV_Company_Name", DbType.String, DBNull.Value);
@@ -2793,7 +2809,7 @@ namespace ERIMS.DAL
         public static DataSet BindPropertySecurityBuilding(decimal FK_LU_Location_Id)
         {
             Database db = DatabaseFactory.CreateDatabase();
-            DbCommand dbCommand = db.GetStoredProcCommand("BindPropertySecurityBuilding");
+            DbCommand dbCommand = db.GetStoredProcCommand("BindPropertySecurityBuildingByLocation");
             db.AddInParameter(dbCommand, "FK_LU_Location_Id", DbType.Decimal, FK_LU_Location_Id);
             return db.ExecuteDataSet(dbCommand);
         }
@@ -2804,6 +2820,19 @@ namespace ERIMS.DAL
             DbCommand dbCommand = db.GetStoredProcCommand("BindPropertySecurityBuilding");
             db.AddInParameter(dbCommand, "FK_LU_Location_Id", DbType.Decimal, FK_LU_Location_Id);
             return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// Deletes a record from the AP_Property_Security table by a composite primary key.
+        /// </summary>
+        public static void DeleteByPKBuilding(decimal pK_AP_Property_Security)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("AP_Property_SecurityBuildingDeleteByPK");
+
+            db.AddInParameter(dbCommand, "PK_AP_Property_Security", DbType.Decimal, pK_AP_Property_Security);
+
+            db.ExecuteNonQuery(dbCommand);
         }
     }
 }

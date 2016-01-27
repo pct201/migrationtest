@@ -345,6 +345,15 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         set { Session["AP_DPD_FROIs_CommandArgs"] = value; }
     }
 
+    public string Building_Number
+    {
+        get
+        {
+            return clsGeneral.GetStringValue(ViewState["Building_Number"]);
+        }
+        set { ViewState["Building_Number"] = value; }
+    }    
+
     #endregion
 
     #region Page Events
@@ -388,10 +397,10 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             PK_AP_Property_Security = clsAP_Property_Security.SelectPKPropertySecurityByFKLocation(LocationID);
             if (PK_AP_Property_Security > 0 && StrOperation != "edit")
             {
-                StrOperation = "view";
+                StrOperation = "view";              
             }
             else
-            {
+            {               
                 btnBack.Visible = false;
                 btnReturnto_View_Mode.Visible = true;
             }
@@ -401,10 +410,11 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 //here bind building dropdown and gridview visibility is wrong because this selected fk_building add in AP_Property_Security table but this is zero
                 //FillOccupancyByFKLocation(new DropDownList[] { drpFK_Building_Id }, true, LocationID);
                 //so here add screen visible
-                tblMainPropertySecurityGrid.Style.Add("display", "none");
-                tblMainPropertySecurity.Style.Add("display", "");
-                dvProperty_SecuritySave.Style.Add("display", "");
-                btnCancel.Style.Add("display", "none");
+                BindPropertySecurityBuilding();
+                tblMainPropertySecurityGrid.Style.Add("display", "");
+                tblMainPropertySecurity.Style.Add("display", "none");
+                dvProperty_SecuritySave.Style.Add("display", "none");
+                btnCancel.Style.Add("display", "");
                 btnCopyBuilding.Style.Add("display", "none");
 
                 StrOperation = "edit";
@@ -448,7 +458,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                             BindDetailsForViewForDPD_FROIs();
                             BindDetailsForView_AL();
                             //BindDetailsForViewForCal_Atlantic();
-                            BindDetailsForView_FraudEvents();
+                            BindDetailsForView_FraudEvents();                           
                             //AttachDetails.InitializeAttachmentDetails(Convert.ToInt32(LocationID), "FK_LU_Location", "PK_AP_Attachments", false, 6);
                         }
                         else
@@ -457,12 +467,12 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                             btnBack.Visible = false;
                             BindDropDownList();
 
-                            //BindDetailsForEditForProperty_Security();
+                            BindDetailsForEditForProperty_Security();
                             BindDetailsForEditForDPD_FROIs();
                             BindDetailsForEdit_AL();
                             //BindDetailsForEditForCal_Atlantic();
                             BindDetailsForEdit_FraudEvents();
-                            //AttachDetails.InitializeAttachmentDetails(Convert.ToInt32(LocationID), "FK_LU_Location", "PK_AP_Attachments", true, 6);
+                            //AttachDetails.InitializeAttachmentDetails(Convert.ToInt32(LocationID), "FK_LU_Location", "PK_AP_Attachments", true, 6);                          
                         }
                         //Added for #3437
                         BindPropertySecurityBuilding();
@@ -486,6 +496,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 BindFraudEventGrid();
                 SetValidation();
 
+               
                 if (!string.IsNullOrEmpty(Request.QueryString["DEST"])) { BindOpenDPDFROIs(Convert.ToString(Request.QueryString["DEST"])); }
             }
         }
@@ -677,11 +688,25 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
 
         if (objAP_Property_Security.Cap_Index_Crime_Score != null)
             txtCap_Index_Crime_Score.Text = Convert.ToString(objAP_Property_Security.Cap_Index_Crime_Score);
+        else
+            txtCap_Index_Crime_Score.Text = string.Empty;
         if (objAP_Property_Security.Cap_Index_Risk_Cateogory != null) ddlCap_Index_Risk_Category.SelectedValue = objAP_Property_Security.Cap_Index_Risk_Cateogory.ToString();
+        else
+            ddlCap_Index_Risk_Category.SelectedIndex = -1;
 
         //Added due to Issue #3173
-        if (objAP_Property_Security.Total_Hours_CCTV_Monitored_Per_Week != null)
-            txttotalHoursMonitoredPerWeek.Text = Convert.ToString(objAP_Property_Security.Total_Hours_CCTV_Monitored_Per_Week);
+
+        if (gvCCTVHoursMonitoringGrid.Rows.Count > 0)
+        {
+            if (objAP_Property_Security.Total_Hours_CCTV_Monitored_Per_Week != null)
+                txttotalHoursMonitoredPerWeek.Text = Convert.ToString(objAP_Property_Security.Total_Hours_CCTV_Monitored_Per_Week);
+            else
+                txttotalHoursMonitoredPerWeek.Text = string.Empty;
+        }
+        else
+        {
+            txttotalHoursMonitoredPerWeek.Text = string.Empty;
+        }
 
         BindFinancialGridforEdit();
 
@@ -697,31 +722,47 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     private void BindDetailsForViewForProperty_Security()
     {
         dvProperty_SecuritySave.Visible = false;
-        clsAP_Property_Security objAP_Property_Security = new clsAP_Property_Security(PK_AP_Property_Security);
+        clsAP_Property_Security objAP_Property_Security = new clsAP_Property_Security(PK_AP_Property_Security);        
         lblCCTV_Company_Name.Text = objAP_Property_Security.CCTV_Company_Name;
         lblCCTV_Company_Address_1.Text = objAP_Property_Security.CCTV_Company_Address_1;
         lblCCTV_Company_Address_2.Text = objAP_Property_Security.CCTV_Company_Address_2;
         lblCCTV_Company_City.Text = objAP_Property_Security.CCTV_Company_City;
         if (objAP_Property_Security.FK_CCTV_Company_State != null)
             lblFK_CCTV_Company_State.Text = new State((decimal)objAP_Property_Security.FK_CCTV_Company_State).FLD_state;
+        else
+            lblFK_CCTV_Company_State.Text = string.Empty;
         lblCCTV_Company_Zip.Text = objAP_Property_Security.CCTV_Company_Zip;
         lblCCTV_Company_Contact_Name.Text = objAP_Property_Security.CCTV_Company_Contact_Name;
         lblCCTV_Comapny_Contact_Telephone.Text = objAP_Property_Security.CCTV_Comapny_Contact_Telephone;
         lblCCTV_Company_Contact_EMail.Text = objAP_Property_Security.CCTV_Company_Contact_EMail;
-        lblCal_Atlantic_System.Text = objAP_Property_Security.Cal_Atlantic_System == "Y" ? "Yes" : "No";
-        lblLive_Monitoring.Text = objAP_Property_Security.Live_Monitoring == "Y" ? "Yes" : "No";
+        if (objAP_Property_Security.Cal_Atlantic_System != null)
+            lblCal_Atlantic_System.Text = objAP_Property_Security.Cal_Atlantic_System == "Y" ? "Yes" : "No";
+        else
+            lblCal_Atlantic_System.Text = string.Empty;
+        if (objAP_Property_Security.Live_Monitoring != null)
+            lblLive_Monitoring.Text = objAP_Property_Security.Live_Monitoring == "Y" ? "Yes" : "No";
+        else
+            lblLive_Monitoring.Text = string.Empty;
         //lblHours_Monitored_From.Text = objAP_Property_Security.Hours_Monitored_From;
         //lblHours_Monitored_To.Text = objAP_Property_Security.Hours_Monitored_To;
         lblExterior_Camera_Coverage_Other_Description.Text = objAP_Property_Security.Exterior_Camera_Coverage_Other_Description;
         lblInterior_Camera_Coverage_Other_Description.Text = objAP_Property_Security.Interior_Camera_Coverage_Other_Description;
-        lblBuglar_Alarm_System.Text = objAP_Property_Security.Buglar_Alarm_System == "Y" ? "Yes" : "No";
-        lblIs_System_Active_and_Function_Properly.Text = objAP_Property_Security.Is_System_Active_and_Function_Properly == "Y" ? "Yes" : "No";
+        if (objAP_Property_Security.Buglar_Alarm_System != null)
+            lblBuglar_Alarm_System.Text = objAP_Property_Security.Buglar_Alarm_System == "Y" ? "Yes" : "No";
+        else
+            lblBuglar_Alarm_System.Text = string.Empty;
+        if (objAP_Property_Security.Is_System_Active_and_Function_Properly != null)
+            lblIs_System_Active_and_Function_Properly.Text = objAP_Property_Security.Is_System_Active_and_Function_Properly == "Y" ? "Yes" : "No";
+        else
+            lblIs_System_Active_and_Function_Properly.Text = string.Empty;
         lblBurglar_Alarm_Company_Name.Text = objAP_Property_Security.Burglar_Alarm_Company_Name;
         lblBurglar_Alarm_Company_Address_1.Text = objAP_Property_Security.Burglar_Alarm_Company_Address_1;
         lblBurglar_Alarm_Company_Address_2.Text = objAP_Property_Security.Burglar_Alarm_Company_Address_2;
         lblBurglar_Alarm_Company_City.Text = objAP_Property_Security.Burglar_Alarm_Company_City;
         if (objAP_Property_Security.FK_Burglar_Alarm_Company_State != null)
             lblFK_Burglar_Alarm_Company_State.Text = new State((decimal)objAP_Property_Security.FK_Burglar_Alarm_Company_State).FLD_state;
+        else
+            lblFK_Burglar_Alarm_Company_State.Text = string.Empty;
         lblBurglar_Alarm_Company_Zip.Text = objAP_Property_Security.Burglar_Alarm_Company_Zip;
         lblBurglar_Alarm_Company_Contact_Name.Text = objAP_Property_Security.Burglar_Alarm_Company_Contact_Name;
         lblBurglar_Alarm_Comapny_Contact_Telephone.Text = objAP_Property_Security.Burglar_Alarm_Comapny_Contact_Telephone;
@@ -734,6 +775,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         lblGuard_Company_City.Text = objAP_Property_Security.Guard_Company_City;
         if (objAP_Property_Security.FK_Guard_Company_State != null)
             lblFK_Guard_Company_State.Text = new State((decimal)objAP_Property_Security.FK_Guard_Company_State).FLD_state;
+        else
+            lblFK_Guard_Company_State.Text = string.Empty;
         lblGuard_Company_Zip.Text = objAP_Property_Security.Guard_Company_Zip;
         lblGuard_Company_Contact_Name.Text = objAP_Property_Security.Guard_Company_Contact_Name;
         lblGuard_Comapny_Contact_Telephone.Text = objAP_Property_Security.Guard_Comapny_Contact_Telephone;
@@ -811,11 +854,24 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
 
         if (objAP_Property_Security.Cap_Index_Crime_Score != null)
             lblCap_Index_Crime_Score.Text = Convert.ToString(objAP_Property_Security.Cap_Index_Crime_Score);
+        else
+            lblCap_Index_Crime_Score.Text = string.Empty;
         if (objAP_Property_Security.Cap_Index_Risk_Cateogory != null)
             lblCap_Index_Risk_Category.Text = new clsLU_AP_Cap_Index_Risk_Category((decimal)objAP_Property_Security.Cap_Index_Risk_Cateogory).Fld_Desc;
+        else
+            lblCap_Index_Risk_Category.Text = string.Empty;
 
-        if (objAP_Property_Security.Total_Hours_CCTV_Monitored_Per_Week != null)
-            lblTotalHoursCCTVMonitoredPerWeek.Text = Convert.ToString(objAP_Property_Security.Total_Hours_CCTV_Monitored_Per_Week);
+        if (gvCCTVHoursMonitoringGrid.Rows.Count > 0)
+        {
+            if (objAP_Property_Security.Total_Hours_CCTV_Monitored_Per_Week != null)
+                lblTotalHoursCCTVMonitoredPerWeek.Text = Convert.ToString(objAP_Property_Security.Total_Hours_CCTV_Monitored_Per_Week);
+            else
+                lblTotalHoursCCTVMonitoredPerWeek.Text = string.Empty;
+        }
+        else
+        {
+            lblTotalHoursCCTVMonitoredPerWeek.Text = string.Empty;
+        }
 
         if (PK_AP_Property_Security > 0)
         {
@@ -837,6 +893,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         clsAP_Property_Security objAP_Property_Security = new clsAP_Property_Security();
         objAP_Property_Security.PK_AP_Property_Security = PK_AP_Property_Security;
         objAP_Property_Security.FK_LU_Location_Id = LocationID;
+        objAP_Property_Security.FK_Building_Id = hdnBuildingNumberByLocation.Value;
         objAP_Property_Security.CCTV_Company_Name = txtCCTV_Company_Name.Text.Trim();
         objAP_Property_Security.CCTV_Company_Address_1 = txtCCTV_Company_Address_1.Text.Trim();
         objAP_Property_Security.CCTV_Company_Address_2 = txtCCTV_Company_Address_2.Text.Trim();
@@ -955,7 +1012,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             objAP_Property_Security.Cap_Index_Crime_Score = Convert.ToInt32(Convert.ToString(txtCap_Index_Crime_Score.Text.Trim()));
 
         if (txttotalHoursMonitoredPerWeek.Text.Trim() != string.Empty)
-            objAP_Property_Security.Total_Hours_CCTV_Monitored_Per_Week = Convert.ToString(txttotalHoursMonitoredPerWeek.Text.Trim());
+            objAP_Property_Security.Total_Hours_CCTV_Monitored_Per_Week = Convert.ToString(txttotalHoursMonitoredPerWeek.Text.Trim());        
 
         if (ddlCap_Index_Risk_Category.SelectedIndex > 0) objAP_Property_Security.Cap_Index_Risk_Cateogory = Convert.ToDecimal(ddlCap_Index_Risk_Category.SelectedValue);
         if (objAP_Property_Security.PK_AP_Property_Security > 0)
@@ -972,7 +1029,10 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             btnReturnto_View_Mode.Visible = true;
             btnProperty_SecurityAudit.Visible = true;
             //btnGenerate_Abstract.Visible = true;
+            BindPropertySecurityBuilding();
             btnGenerate_Abstract.Style["display"] = "";
+            dvProperty_SecuritySave.Style["display"] = "";
+            
         }
     }
 
@@ -2982,16 +3042,18 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         DataTable dtLocationInfo = LU_Location.SelectByPK(LocationID).Tables[0];
         if (dtLocationInfo != null && dtLocationInfo.Rows.Count > 0)
         {
+            lblHeaderLocationNumber.Text = "Location Number";
             lblLocation_Number.Text = (dtLocationInfo.Rows[0]["Sonic_Location_Code"].ToString() != "") ? dtLocationInfo.Rows[0]["Sonic_Location_Code"].ToString() : "";
             lblLocationdba.Text = (dtLocationInfo.Rows[0]["dba"].ToString() != "") ? dtLocationInfo.Rows[0]["dba"].ToString() : "";
             lblAddress.Text = (dtLocationInfo.Rows[0]["Address"].ToString() != "") ? dtLocationInfo.Rows[0]["Address"].ToString() : "";
             lblCity.Text = (dtLocationInfo.Rows[0]["City"].ToString() != "") ? dtLocationInfo.Rows[0]["City"].ToString() : "";
             lblState.Text = (dtLocationInfo.Rows[0]["StateName"].ToString() != "") ? dtLocationInfo.Rows[0]["StateName"].ToString() : "";
             lblZip.Text = (dtLocationInfo.Rows[0]["Zip_Code"].ToString() != "") ? dtLocationInfo.Rows[0]["Zip_Code"].ToString() : "";
+            hdnLocationdba.Value = lblLocationdba.Text;
         }
     }
 
-    #endregion
+    #endregion   
 
     #endregion
 
@@ -3113,7 +3175,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         //Bind Grid
         BindPropertySecurityMonitoringGrid();
         clsAP_Property_Security objPropertySec = new clsAP_Property_Security(PK_AP_Property_Security);
-        txttotalHoursMonitoredPerWeek.Text = objPropertySec.Total_Hours_CCTV_Monitored_Per_Week;
+        txttotalHoursMonitoredPerWeek.Text = objPropertySec.Total_Hours_CCTV_Monitored_Per_Week;        
         ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
 
@@ -3143,6 +3205,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             btnSave.Visible = true;
             btnProperty_SecurityAudit.Visible = true;
             tblMainPropertySecurity.Style["display"] = "";
+            dvProperty_SecuritySave.Style["display"] = "";
+            
         }
         ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
@@ -3318,6 +3382,12 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             }
 
         }
+        else
+        {
+            txtCCTVOnlyTC.Text = txtCCTVOnlyTM.Text = txtBurglarAlarmsTC.Text = txtBurglarAlarmsTM.Text = txtGuardServicesTC.Text =
+                txtGuardServicesTM.Text = txtAccessControlTC.Text = txtAccessControlTM.Text = txtSecurityInventoryTrackingSystemsTC.Text = txtSecurityInventoryTrackingSystemsTM.Text =
+                 txtCategoryTC.Text = txtCategoryTM.Text =  string.Empty;
+        }
 
     }
 
@@ -3389,6 +3459,12 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             }
 
 
+        }
+        else
+        {
+            lblCCTVOnlyTC.Text = lblCCTVOnlyTM.Text = lblBurglarAlarmsTC.Text =
+                lblBurglarAlarmsTM.Text = lblGuardServicesTC.Text = lblGuardServicesTM.Text = lblAccessControlTC.Text = lblAccessControlTM.Text =
+                lblSecurityInventoryTrackingSystemsTC.Text = lblSecurityInventoryTrackingSystemsTM.Text = lblCategoryTC.Text = lblCategoryTM.Text = string.Empty;
         }
 
     }
@@ -3467,6 +3543,16 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
         tblMainPropertySecurity.Style["display"] = "none";
         dvProperty_SecuritySave.Style["display"] = "none";
     }
+
+    protected void btnRefresh_Click(object sender, EventArgs e)
+    {        
+        Response.Redirect(Request.RawUrl);
+    }
+    protected void btnProperty_SecurityCancel_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Asset_Protection.aspx?loc=" + Request.QueryString["loc"] + "&pnl=" + hdnPanel.Value + "&op=view");
+    }
+
     #endregion
 
     #region " DPD_FROIs "
@@ -4004,7 +4090,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     /// <param name="e"></param>
     protected void btnBack_Click(object sender, EventArgs e)
     {
-        Response.Redirect("Asset_Protection.aspx?id=" + Encryption.Encrypt(PK_AP_Property_Security.ToString()) + "&loc=" + Request.QueryString["loc"] + "&pnl=" + hdnPanel.Value + "&op=edit");
+            Response.Redirect("Asset_Protection.aspx?id=" + Encryption.Encrypt(PK_AP_Property_Security.ToString()) + "&loc=" + Request.QueryString["loc"] + "&pnl=" + hdnPanel.Value + "&op=edit") ;
     }
 
     /// <summary>
@@ -4013,8 +4099,8 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void btnReturnto_View_Mode_OnClick(object sender, EventArgs e)
-    {
-        Response.Redirect("Asset_Protection.aspx?id=" + Encryption.Encrypt(PK_AP_Property_Security.ToString()) + "&loc=" + Request.QueryString["loc"] + "&pnl=" + hdnPanel.Value + "&op=view");
+    {        
+            Response.Redirect("Asset_Protection.aspx?id=" + Encryption.Encrypt(PK_AP_Property_Security.ToString()) + "&loc=" + Request.QueryString["loc"] + "&pnl=" + hdnPanel.Value + "&op=view");        
     }
 
     /// <summary>
@@ -4060,7 +4146,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
             PK_AP_Property_Security_Monitor_Grids = Convert.ToDecimal(e.CommandArgument.ToString());
             if (PK_AP_Property_Security_Monitor_Grids > 0)
             {
-                tblMainPropertySecurity.Style["display"] = tblMainPropertySecurityView.Style["display"] = pnlAddPropertySecurityMonitorGrid.Style["display"] = pnlAddPropertySecurityMonitorGridView.Style["display"] = "none";
+                tblMainPropertySecurity.Style["display"] = tblMainPropertySecurityView.Style["display"] = dvProperty_SecuritySave.Style["display"] = pnlAddPropertySecurityMonitorGrid.Style["display"] = pnlAddPropertySecurityMonitorGridView.Style["display"] = "none";
                 if (StrOperation == "view")
                 {
                     btnBackPropertySecurityView.Visible = true;
@@ -5109,10 +5195,30 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 lblLocation_Number.Text += " - " + hdnBuildingNumber.Value;
             }
 
+            ////Copy Functionality
+            //Sets Building Number that needs to be copied from
+            hdnBuildingNumberByLocation.Value = hdnBuildingNumber.Value;
+            SetCopyButtonVisibility();
             BindDetailsForEditForProperty_Security();
+            BindPropertySecurityMonitoringGrid();
+
+            if (PK_AP_Property_Security == 0)
+            {
+                txtCCTV_Company_Name.Text = "ACI Protection";
+                txtCCTV_Company_Address_1.Text = "970 Pittsburgh Drive";
+                txtCCTV_Company_Address_2.Text = string.Empty;
+                txtCCTV_Company_City.Text = "Delaware";
+                drpFK_CCTV_Company_State.SelectedValue = "36";
+                txtCCTV_Company_Zip.Text = "43015";
+                txtCCTV_Company_Contact_Name.Text = "Richard Paglieri";
+                txtCCTV_Comapny_Contact_Telephone.Text = "740-368-4177";
+                txtCCTV_Company_Contact_EMail.Text = "rich@aciprotection.com";
+            }
+            
             tblMainPropertySecurityGrid.Style["display"] = "none";
             tblMainPropertySecurity.Style["display"] = "";
             dvProperty_SecuritySave.Style["display"] = "";
+            
         }
         else if (e.CommandName == "gvView")
         {
@@ -5125,12 +5231,29 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                 lblLocation_Number.Text += " - " + hdnBuildingNumber.Value;
             }
 
+            SetCopyButtonVisibility();
             BindDetailsForViewForProperty_Security();
+            BindPropertySecurityMonitoringGrid();
             tblMainPropertySecurityGridView.Style["display"] = "none";
-            tblMainPropertySecurityView.Style["display"] = "";
+            tblMainPropertySecurityView.Style["display"] = "";            
             //dvProperty_SecuritySave.Style["display"] = "";
 
         }
+        if (e.CommandName == "Remove")
+        {
+            PK_AP_Property_Security = Convert.ToDecimal(e.CommandArgument);
+            clsAP_Property_Security.DeleteByPKBuilding(PK_AP_Property_Security);
+            BindPropertySecurityBuilding();            
+        }
+    }
+
+    //Sets the visibility of Copy Button
+    private void SetCopyButtonVisibility()
+    {
+        if (PK_AP_Property_Security > 0)
+            btnCopyBuilding.Visible = true;
+        else
+            btnCopyBuilding.Visible = false;
     }
 
     /// <summary>
@@ -5156,5 +5279,6 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     //        }
     //    }
     //}
-   
+
+
 }

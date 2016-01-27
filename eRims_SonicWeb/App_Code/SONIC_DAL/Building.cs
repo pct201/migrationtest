@@ -3442,6 +3442,33 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        public static DataSet SelectByFKLocationAP(int fK_LU_Location_ID, string Building_Number)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("BuildingAPSelectByFKLocation");
+
+            db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Int32, fK_LU_Location_ID);
+            db.AddInParameter(dbCommand, "Building_Number", DbType.String, Building_Number);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        public int BuildingByFKLocationInsertUpdate(int PK_AP_Property_Security, string FK_Building_IdFrom, string FK_Building_IdTo)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("BuildingByFKLocationInsertUpdate");
+
+            db.AddInParameter(dbCommand, "PK_AP_Property_Security", DbType.Int32, PK_AP_Property_Security);            
+            db.AddInParameter(dbCommand, "FK_Building_IdFrom", DbType.String, FK_Building_IdFrom);
+            db.AddInParameter(dbCommand, "FK_Building_IdTo", DbType.String, FK_Building_IdTo);
+        
+
+            // Execute the query and return the new identity value
+            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
+
+            return returnValue;
+        }
         #endregion
     }
 }

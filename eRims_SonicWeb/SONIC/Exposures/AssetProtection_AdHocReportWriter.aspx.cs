@@ -1424,7 +1424,23 @@ public partial class SONIC_Exposures_AssetProtection_AdHocReportWriter : clsBase
                         lst_F.Items.Add(new ListItem("Onsite", "0"));
                         lst_F.Items.Add(new ListItem("Offsite", "1"));
                     }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "were police notified?" || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "were pedestrians involved?" || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "was there any property damage?" || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "were there any witnesses?" || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "is there a security video surveillance system?")
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "were police notified?" 
+                        || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "were pedestrians involved?"
+                        || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "was there any property damage?"
+                        || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "were there any witnesses?" 
+                        || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "is there a security video surveillance system?"
+                        || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "building occupancy sales new"
+                        || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "building occupancy body shop"
+                        || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "building occupancy parking lot"
+                        || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "building occupancy sales used"
+                        || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "building occupancy parts"
+                        || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "building occupancy raw land"
+                        || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "building occupancy service"
+                        || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "building occupancy office"
+                        || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "building occupancy photo booth"
+                        || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "building occupancy car wash"
+                        || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "building occupancy main"                      
+                        )
                     {
                         lst_F.Items.Clear();
                         lst_F.Items.Add(new ListItem("Yes", "1"));

@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="JavaScript/jquery-1.5.min.js" type="text/javascript"></script>
+</head>
+  
+<body>
+    <h3>edsrfvs Newstuff refvsrdfvrdsefv</h3>
+    <h2>Newstuff</h2>
+     <script type="text/javascript">
+         $(document).ready(
+             function () {
+                 $('*:contains(New)').each(function (index) {
+                     //alert(index);
+                     if (index > 3) {
+                         alert($(this).html);
+                         var oldText = $(this).text(),                             
+                         newText = $(this).html().replace(
+                           oldText,
+                           "<a href=" + oldText + ">" +
+                               oldText +
+                           "</a>"                           
+                       );
+                         //alert(oldText);
+
+                         //$(this).html(newText);
+                         //alert(oldText + ' ' + newText);
+                     }
+                 });
+             }
+             );
+    </script>
+</body>
+</html>

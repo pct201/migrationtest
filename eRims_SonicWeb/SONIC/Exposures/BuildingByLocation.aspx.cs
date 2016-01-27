@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 public partial class SONIC_Exposures_BuildingByLocation : System.Web.UI.Page
 {
     public int LocationId;
+    public string BuildingNumber;
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -16,7 +17,9 @@ public partial class SONIC_Exposures_BuildingByLocation : System.Web.UI.Page
         {
             if (Request.QueryString["loc_id"] != null)
             {
-                LocationId = Convert.ToInt32(Request.QueryString["loc_id"]);
+                hdnLocationId.Value = Request.QueryString["loc_id"];
+                hdnBuildingNumber.Value = Convert.ToString(Request.QueryString["BuildingNumber"]);
+                hdnPK_AP_Property_Security.Value = Convert.ToString(Request.QueryString["ps_id"]);
             }
             BuildingGridDetails();
         }
@@ -24,11 +27,20 @@ public partial class SONIC_Exposures_BuildingByLocation : System.Web.UI.Page
 
     private void BuildingGridDetails()
     {
+        DataSet ds = Building.SelectByFKLocationAP(Convert.ToInt32(hdnLocationId.Value), hdnBuildingNumber.Value);
         DataTable dtBuilding = new DataTable();
 
-        if (LocationId != 0)
+        if (Convert.ToInt32(hdnLocationId.Value) != 0)
         {
-            dtBuilding = Building.SelectByFKLocation(LocationId).Tables[0];
+            if (ds.Tables.Count > 0 && ds != null)
+            {
+                dtBuilding = ds.Tables[0];
+                if (ds.Tables[1] != null && ds.Tables[1].Rows.Count > 0)
+                {
+                    hdnLocationdba.Value = Convert.ToString(ds.Tables[1].Rows[0][0]);
+                }
+            }
+            
         }
         else
         {
@@ -83,4 +95,18 @@ public partial class SONIC_Exposures_BuildingByLocation : System.Web.UI.Page
             lblOccupancy.Text = strOccupancy;
         }
     }
+    protected void lnkSelect_Click(object sender, EventArgs e)
+    {
+        Building building = new Building();
+
+        int LocationNumber = Convert.ToInt32(hdnLocationId.Value);
+        int PK_AP_Property_Security = Convert.ToInt32(hdnPK_AP_Property_Security.Value);
+        string FK_Building_IdFrom = hdnBuildingNumber.Value;
+        string FK_Building_IdTo = hdnBuildingNumberTo.Value;
+        int returnVal = building.BuildingByFKLocationInsertUpdate(PK_AP_Property_Security, FK_Building_IdFrom, FK_Building_IdTo);
+        if (returnVal != 0)
+        {
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "window.opener.document.getElementById('ctl00_ContentPlaceHolder1_btnRefresh').click(); window.close();;", true);                                 
+        }      
+    }   
 }
