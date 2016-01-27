@@ -30,7 +30,7 @@ public partial class Administrator_BuildingInsuranceCOPE : clsBasePage
         DataSet objDs = Building_Insurance_COPE_Descriptors.BuildingInsuranceCOPEDescriptorsSelectALL();
         if (objDs != null && objDs.Tables.Count > 0 && objDs.Tables[0].Rows.Count > 0)
         {
-            for (int i = 0 ; i < objDs.Tables[0].Rows.Count; i++)
+            for (int i = 0 ; i < objDs.Tables[0].Rows.Count && i < 38 ; i++)
             {
                 HiddenField hdnItemNumber = pnlInsuranceCope.FindControl("hdnItemNumber" + (i + 1)) as HiddenField;
                 hdnItemNumber.Value = objDs.Tables[0].Rows[i]["Item_Number"].ToString();
@@ -65,7 +65,7 @@ public partial class Administrator_BuildingInsuranceCOPE : clsBasePage
     {
         string strXml = string.Empty;
         strXml = "<InsuranceRecords>";
-        for (int i = 0; i < 25; i++)
+        for (int i = 0; i < 38; i++)
         {
             HiddenField hdnItemNumber = pnlInsuranceCope.FindControl("hdnItemNumber" + (i + 1)) as HiddenField;
             TextBox txtField = pnlInsuranceCope.FindControl("txtField" + (i + 1)) as TextBox;

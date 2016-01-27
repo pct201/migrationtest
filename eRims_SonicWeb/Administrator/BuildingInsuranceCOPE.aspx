@@ -9,7 +9,7 @@
                         alert("Please enter value for field" + i);
                         return false;
                     }
-                } 
+                }
             }
             return true;
         }
@@ -24,7 +24,7 @@
                     </tr>
                     <tr>
                         <td class="bandHeaderRow" align="left" colspan="4">
-                            <asp:Label ID="lblHeader" runat="server" Text="Administrator :: Building Insurance COPE Descriptors"></asp:Label>                            
+                            <asp:Label ID="lblHeader" runat="server" Text="Administrator :: Building Insurance COPE Descriptors"></asp:Label>
                         </td>
                     </tr>
                     <tr>
@@ -53,9 +53,7 @@
                                         <td colspan="3">&nbsp;</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="3">
-                                            
-                                        </td>
+                                        <td colspan="3"></td>
                                     </tr>
                                     <tr>
                                         <td colspan="3">&nbsp;</td>
@@ -69,15 +67,15 @@
                                         <td style="width: 65%">
                                             <table width="100%">
                                                 <tr>
-                                                    
+
                                                     <td>
                                                         <table width="100%" cellpadding="5" cellspacing="1">
                                                             <tr>
                                                                 <td width="12%">Field 1</td>
                                                                 <td width="1%">:</td>
                                                                 <td width="42%">
-                                                                    <asp:TextBox ID="txtField1" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber1" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField1" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber1" runat="server" />
                                                                 </td>
                                                                 <td width="11%">Active</td>
                                                                 <td width="1%">:</td>
@@ -104,8 +102,8 @@
                                                                 <td>Field 2</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField2" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber2" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField2" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber2" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -132,8 +130,8 @@
                                                                 <td>Field 3</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField3" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber3" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField3" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber3" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -160,8 +158,8 @@
                                                                 <td>Field 4</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField4" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber4" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField4" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber4" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -188,8 +186,8 @@
                                                                 <td>Field 5</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField5" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber5" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField5" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber5" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -216,8 +214,8 @@
                                                                 <td>Field 6</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField6" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber6" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField6" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber6" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -244,8 +242,8 @@
                                                                 <td>Field 7</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField7" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber7" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField7" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber7" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -272,8 +270,8 @@
                                                                 <td>Field 8</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField8" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber8" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField8" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber8" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -300,8 +298,8 @@
                                                                 <td>Field 9</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField9" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber9" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField9" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber9" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -328,8 +326,8 @@
                                                                 <td>Field 10</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField10" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber10" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField10" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber10" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -356,8 +354,8 @@
                                                                 <td>Field 11</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField11" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber11" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField11" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber11" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -384,8 +382,8 @@
                                                                 <td>Field 12</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField12" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber12" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField12" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber12" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -412,8 +410,8 @@
                                                                 <td>Field 13</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField13" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber13" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField13" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber13" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -440,8 +438,8 @@
                                                                 <td>Field 14</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField14" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber14" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField14" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber14" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -468,8 +466,8 @@
                                                                 <td>Field 15</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField15" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber15" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField15" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber15" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -496,8 +494,8 @@
                                                                 <td>Field 16</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField16" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber16" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField16" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber16" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -524,8 +522,8 @@
                                                                 <td>Field 17</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField17" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber17" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField17" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber17" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -552,8 +550,8 @@
                                                                 <td>Field 18</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField18" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber18" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField18" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber18" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -580,8 +578,8 @@
                                                                 <td>Field 19</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField19" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber19" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField19" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber19" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -608,8 +606,8 @@
                                                                 <td>Field 20</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField20" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber20" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField20" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber20" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -636,8 +634,8 @@
                                                                 <td>Field 21</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField21" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber21" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField21" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber21" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -664,8 +662,8 @@
                                                                 <td>Field 22</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField22" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber22" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField22" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber22" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -692,8 +690,8 @@
                                                                 <td>Field 23</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField23" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber23" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField23" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber23" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -720,8 +718,8 @@
                                                                 <td>Field 24</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField24" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber24" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField24" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber24" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -748,8 +746,8 @@
                                                                 <td>Field 25</td>
                                                                 <td>:</td>
                                                                 <td>
-                                                                    <asp:TextBox ID="txtField25" runat="server" MaxLength="100" Width="340px"></asp:TextBox>
-                                                                    <asp:HiddenField Id="hdnItemNumber25" runat="server" /> 
+                                                                    <asp:TextBox ID="txtField25" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber25" runat="server" />
                                                                 </td>
                                                                 <td>Active</td>
                                                                 <td>:</td>
@@ -773,6 +771,359 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
+                                                                <td>Field 26</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:TextBox ID="txtField26" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber26" runat="server" />
+                                                                </td>
+                                                                <td>Active</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblItem26" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="3"></td>
+                                                                <td>Mandatory</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblMandatory26" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Field 27</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:TextBox ID="txtField27" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber27" runat="server" />
+                                                                </td>
+                                                                <td>Active</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblItem27" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="3"></td>
+                                                                <td>Mandatory</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblMandatory27" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Field 28</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:TextBox ID="txtField28" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber28" runat="server" />
+                                                                </td>
+                                                                <td>Active</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblItem28" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="3"></td>
+                                                                <td>Mandatory</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblMandatory28" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Field 29</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:TextBox ID="txtField29" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber29" runat="server" />
+                                                                </td>
+                                                                <td>Active</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblItem29" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="3"></td>
+                                                                <td>Mandatory</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblMandatory29" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Field 30</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:TextBox ID="txtField30" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber30" runat="server" />
+                                                                </td>
+                                                                <td>Active</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblItem30" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="3"></td>
+                                                                <td>Mandatory</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblMandatory30" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Field 31</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:TextBox ID="txtField31" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber31" runat="server" />
+                                                                </td>
+                                                                <td>Active</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblItem31" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="3"></td>
+                                                                <td>Mandatory</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblMandatory31" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Field 32</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:TextBox ID="txtField32" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber32" runat="server" />
+                                                                </td>
+                                                                <td>Active</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblItem32" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="3"></td>
+                                                                <td>Mandatory</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblMandatory32" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Field 33</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:TextBox ID="txtField33" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber33" runat="server" />
+                                                                </td>
+                                                                <td>Active</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblItem33" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="3"></td>
+                                                                <td>Mandatory</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblMandatory33" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Field 34</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:TextBox ID="txtField34" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber34" runat="server" />
+                                                                </td>
+                                                                <td>Active</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblItem34" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="3"></td>
+                                                                <td>Mandatory</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblMandatory34" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Field 35</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:TextBox ID="txtField35" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber35" runat="server" />
+                                                                </td>
+                                                                <td>Active</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblItem35" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="3"></td>
+                                                                <td>Mandatory</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblMandatory35" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Field 36</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:TextBox ID="txtField36" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber36" runat="server" />
+                                                                </td>
+                                                                <td>Active</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblItem36" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="3"></td>
+                                                                <td>Mandatory</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblMandatory36" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Field 37</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:TextBox ID="txtField37" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber37" runat="server" />
+                                                                </td>
+                                                                <td>Active</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblItem37" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="3"></td>
+                                                                <td>Mandatory</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblMandatory37" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Field 38</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:TextBox ID="txtField38" runat="server" MaxLength="110" Width="340px"></asp:TextBox>
+                                                                    <asp:HiddenField ID="hdnItemNumber38" runat="server" />
+                                                                </td>
+                                                                <td>Active</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblItem38" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="3"></td>
+                                                                <td>Mandatory</td>
+                                                                <td>:</td>
+                                                                <td>
+                                                                    <asp:RadioButtonList ID="rblMandatory38" runat="server" RepeatDirection="Horizontal">
+                                                                        <asp:ListItem Text="Yes" Value="Y"></asp:ListItem>
+                                                                        <asp:ListItem Text="No" Value="N"></asp:ListItem>
+                                                                    </asp:RadioButtonList>
+                                                                </td>
+                                                            </tr>
+
+
+                                                            <tr>
                                                                 <td colspan="6">&nbsp;</td>
                                                             </tr>
                                                             <tr>
@@ -784,7 +1135,7 @@
                                                             </tr>
                                                         </table>
                                                     </td>
-                                                   
+
                                                 </tr>
                                             </table>
                                         </td>
@@ -794,7 +1145,7 @@
                             </asp:Panel>
                         </td>
                     </tr>
-                   
+
                     <tr>
                         <td>&nbsp;</td>
                     </tr>
@@ -803,6 +1154,6 @@
         </ContentTemplate>
     </asp:UpdatePanel>
 
-     
+
 </asp:Content>
 
