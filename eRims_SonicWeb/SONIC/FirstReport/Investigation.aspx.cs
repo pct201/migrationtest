@@ -506,7 +506,13 @@ public partial class Exposures_Investigation : clsBasePage
                             if (ddlSonic_Cause_Code.Items[i].Value.Contains("Denied"))
                             {
                                 ddlSonic_Cause_Code.ClearSelection();
-                                ddlSonic_Cause_Code.Items[i].Selected = true;
+                                //ddlSonic_Cause_Code.Items[i].Selected = true;
+                                ListItem lst = new ListItem();
+                                lst = ddlSonic_Cause_Code.Items.FindByValue("0");
+                                if (lst != null)
+                                {
+                                    lst.Selected = true;
+                                }
                             }
                         }
                         else

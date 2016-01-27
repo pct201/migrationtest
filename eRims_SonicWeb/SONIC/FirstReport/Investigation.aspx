@@ -982,7 +982,7 @@
 
                                                             <tr>
                                                                 <td align="left" width="19%" valign="top">OSHA Recordable&nbsp;<span id="Span19" style="color: Red; display: none;" runat="server">*</span><br />
-                                                                    <input type="button" value="Start Wizard" onclick="OpenWizardPopup();" style="width: 95px;"
+                                                                    <input type="button" value="Start Wizard" onclick="OpenWizardPopup();" style="width: 95px; display:none;"
                                                                         class="btn" id="btnStartWizard"/>
                                                                 </td>
                                                                 <td align="center" width="4%" valign="top">:
@@ -2812,8 +2812,8 @@
 
         function DisableEnableOsha() {
             var hdnOSHARecordable = document.getElementById('<%=hdnOSHARecordable.ClientID%>').value;
-            if (hdnOSHARecordable != '')
-                document.getElementById("btnStartWizard").disabled = true;
+            //if (hdnOSHARecordable != '')
+            //    document.getElementById("btnStartWizard").disabled = true;
         }
 
         function OpenWizardPopup() {
@@ -2822,8 +2822,8 @@
             if (hdnOSHARecordable == '') {
                 GB_showCenter('Investigation Wizard', '<%=AppConfig.SiteURL%>SONIC/FirstReport/InvestigationWzard.aspx?ctrlid=<%=lblOSHARecordable.ClientID%>', 300, 500);
             }
-            else
-                document.getElementById("btnStartWizard").disabled = true;
+            //else
+            //    document.getElementById("btnStartWizard").disabled = true;
         }
 
 
