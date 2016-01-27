@@ -184,7 +184,7 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td colspan="2">
+                                                            <td colspan="2" style="word-wrap: normal; word-break: break-all;">
                                                                 <div id="dvMainMessage" runat="server" style="overflow-y: auto; font-size: 11px;
                                                                     font-family: Verdana;">
                                                                     <%#Eval("Message") %></div>
