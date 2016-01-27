@@ -438,7 +438,7 @@
                         :
                     </td>
                     <td align="left" >
-                        <asp:TextBox runat="server" ID="txtPassword" MaxLength="15" ValidationGroup="vsErrorGroup"
+                        <asp:TextBox runat="server" ID="txtPassword" MaxLength="100" ValidationGroup="vsErrorGroup"
                             Width="170px" TextMode="Password"></asp:TextBox>&nbsp;
                         <asp:RequiredFieldValidator ID="rfvPassword" ControlToValidate="txtPassword" Display="None"
                             runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup" ErrorMessage="Please Enter Password."></asp:RequiredFieldValidator>
@@ -450,7 +450,7 @@
                         :
                     </td>
                     <td align="left" >
-                        <asp:TextBox runat="server" ID="txtConfirmPassword" MaxLength="15" ValidationGroup="vsErrorGroup"
+                        <asp:TextBox runat="server" ID="txtConfirmPassword" MaxLength="100" ValidationGroup="vsErrorGroup"
                             Width="170px" TextMode="Password"></asp:TextBox>&nbsp;
                         <asp:RequiredFieldValidator ID="rfvConfirmPassword" ControlToValidate="txtConfirmPassword"
                             Display="None" runat="server" InitialValue="" Text="*" ValidationGroup="vsErrorGroup"

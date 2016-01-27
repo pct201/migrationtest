@@ -648,7 +648,8 @@ public partial class Administrator_Contractor_Security : clsBasePage
         txtPager.Text = Convert.ToString(objContractorSecurity.Pager);
         txtEmail.Text = Convert.ToString(objContractorSecurity.Email);
         hdnPKContractorSecurity.Value = Convert.ToString(PK_Contactor_Security);
-
+        btnCopyFrom.Visible = true;
+        btnCopyTo.Visible = true;
     }
 
     /// <summary>
@@ -704,6 +705,8 @@ public partial class Administrator_Contractor_Security : clsBasePage
 
         lblVendorNumber.Text = objContractorSecurity.Vendor_Number;
         lblContractType.Text = objContractorSecurity.FK_LU_Contract_Type.HasValue ? new LU_Contract_Type(Convert.ToDecimal(objContractorSecurity.FK_LU_Contract_Type.Value)).Descr : "";
+        btnCopyFrom.Visible = false;
+        btnCopyTo.Visible = false;
     }
 
     /// <summary>

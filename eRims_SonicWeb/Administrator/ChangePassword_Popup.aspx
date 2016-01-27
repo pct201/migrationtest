@@ -57,7 +57,7 @@
                                     <td>
                                         :</td>
                                     <td align="left">
-                                        <asp:TextBox ID="txtNewPwd" runat="server" TextMode="Password" Width="150px" ></asp:TextBox>
+                                        <asp:TextBox ID="txtNewPwd" runat="server" TextMode="Password" Width="150px" MaxLength="100"></asp:TextBox>
                                         <asp:RequiredFieldValidator ID="rfvNewPwd" runat="Server" InitialValue="" ValidationGroup="vsErrorGroup"
                                             ErrorMessage="Please Enter New Password." Display="Dynamic" Text="*" ControlToValidate="txtNewPwd">        
                                         </asp:RequiredFieldValidator>
@@ -70,7 +70,7 @@
                                     <td>
                                         :</td>
                                     <td align="left">
-                                        <asp:TextBox ID="txtConfirmPwd" runat="server" TextMode="Password" Width="150px" ></asp:TextBox>
+                                        <asp:TextBox ID="txtConfirmPwd" runat="server" TextMode="Password" Width="150px"  MaxLength="100"></asp:TextBox>
                                         <asp:RequiredFieldValidator ID="refConfirmPwd" runat="Server" InitialValue="" ValidationGroup="vsErrorGroup"
                                             ErrorMessage="Please Enter Confirm Password." Display="Dynamic" Text="*" ControlToValidate="txtConfirmPwd">        
                                         </asp:RequiredFieldValidator>
