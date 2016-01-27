@@ -39,7 +39,7 @@
                 </tr>
                 <tr>
                     <td align="right">
-                        <asp:Button runat="server" ID="btnForgotPasswordOK" OnClientClick="ClosePopup();" Text="OK" />
+                        <asp:Button runat="server" ID="btnForgotPasswordOK" OnClientClick="ClosePopup();" Text="Cancel" />
                     </td>
                 </tr>
             </table>
