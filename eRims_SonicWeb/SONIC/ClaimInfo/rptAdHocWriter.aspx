@@ -182,7 +182,7 @@
             DateValidate("lstClaimReserve", "txtDate_Reserve_From", "txtDate_Reserve_To", "Reserve Date", '<%=lblDateReserveFrom.Text %>');
             DateValidate("lstClaimPayment", "txtDatePaymentFrom", "txtDatePaymentTo", "Payment Date", '<%=lblDatePaymentFrom.Text %>');
 
-            if (document.getElementById('ctl00_ContentPlaceHolder1_chkWC').checked || document.getElementById('ctl00_ContentPlaceHolder1_chkNS').checked) {
+            if ((document.getElementById('ctl00_ContentPlaceHolder1_chkWC').checked || document.getElementById('ctl00_ContentPlaceHolder1_chkNS').checked) && (!document.getElementById('ctl00_ContentPlaceHolder1_chkPL').checked) && (!document.getElementById('ctl00_ContentPlaceHolder1_chkAL').checked)) {
                 DateValidate("lstDateWorkBegin", "txtRestricted_BeginFrom", "txtRestricted_BeginTo", "Date Restricted Work Begin", '<%=lblRestrictedBeginFrom.Text %>');
                 DateValidate("lstDateWorkEnd", "txtRestricted_EndFrom", "txtRestricted_EndTo", "Date Restricted Work Ended", '<%=lblRestrictedEndFrom.Text %>');
             }
