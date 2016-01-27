@@ -472,6 +472,7 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
                             BindDetailsForEdit_AL();
                             //BindDetailsForEditForCal_Atlantic();
                             BindDetailsForEdit_FraudEvents();
+                            SetCopyButtonVisibility();
                             //AttachDetails.InitializeAttachmentDetails(Convert.ToInt32(LocationID), "FK_LU_Location", "PK_AP_Attachments", true, 6);                          
                         }
                         //Added for #3437
@@ -5250,10 +5251,13 @@ public partial class SONIC_Exposures_AssetProtection : clsBasePage
     //Sets the visibility of Copy Button
     private void SetCopyButtonVisibility()
     {
-        if (PK_AP_Property_Security > 0)
-            btnCopyBuilding.Visible = true;
-        else
-            btnCopyBuilding.Visible = false;
+        if (StrOperation == "edit")
+        {
+            if (PK_AP_Property_Security > 0)
+                btnCopyBuilding.Style.Add("display", "");
+            else
+                btnCopyBuilding.Style.Add("display", "none");
+        }
     }
 
     /// <summary>
