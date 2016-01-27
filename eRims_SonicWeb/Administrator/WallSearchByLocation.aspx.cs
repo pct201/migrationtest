@@ -132,6 +132,9 @@ public partial class Administrator_WallSearchByLocation : clsBasePage
         gvWallSearch.DataSource = dsPosts.Tables[0];
         gvWallSearch.DataBind();
 
+        btnDelete.Visible = (dsPosts.Tables[0].Rows.Count > 0);
+        
+
         // set record numbers retrieved
         lblNumber.Text = (dsPosts.Tables.Count >= 3) ? Convert.ToString(dsPosts.Tables[1].Rows[0][0]) : "0";
     }

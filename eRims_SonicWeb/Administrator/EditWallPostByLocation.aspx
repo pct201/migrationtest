@@ -36,7 +36,7 @@
         function ShowHideRow() {
             var rdoFilter_By = $("#<%=rdoFilter_By.ClientID%> input[type='radio']:checked").val();
             if (rdoFilter_By == 'All_Sonic_Automotive') {
-                $("#trRegion").hide(); $("#trMarket").hide();
+                $("#trRegion").hide(); $("#trMarket").hide(); $("#trLocation").hide();
             }
             else if (rdoFilter_By == 'Location') {
                 $("#trRegion").hide(); $("#trMarket").hide(); $("#trLocation").show();
