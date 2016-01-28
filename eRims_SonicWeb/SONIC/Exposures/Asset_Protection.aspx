@@ -481,7 +481,7 @@ function SetRiskCategory() {
             
             var BuildingNumber = document.getElementById(element.replace("lnkbtnRemove", "hdnBuildingNumber")).value;
             var Loc = $('#' + '<%=hdnLocationdba.ClientID%>').val();            
-            return confirm("Are you sure you want to remove the data from Building " + BuildingNumber + " at Location " + Loc);
+            return confirm("Are you sure you want to remove the data from Building " + BuildingNumber + " at Location " + Loc + " ?" );
             
         }
 

@@ -6,6 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Generate Abstract</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=7" />
     <script type="text/javascript" src="../../JavaScript/JFunctions.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/Calendar_new.js"></script>
     <script type="text/javascript" language="javascript" src="../../JavaScript/calendar-en.js"></script>
@@ -40,7 +41,7 @@
                 <td>
                     
                 </td>
-                <td>
+                <td align="left">
                     <asp:RadioButtonList ID="rbtnList" runat="server">
                         <asp:ListItem Selected="True" Text="All Sections" Value="1"></asp:ListItem>
                         <asp:ListItem Text="Current Section" Value="2"></asp:ListItem>
