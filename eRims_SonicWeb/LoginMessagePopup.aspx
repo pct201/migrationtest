@@ -12,7 +12,7 @@
             <table>
                 <tr>
                     <td align="left">
-                        <asp:Label runat="server" Font-Size="Medium" ID="lblMessage" Text="This is for existing users only : If you forgot your User ID, please contact your Regional Loss Control Manager"></asp:Label>
+                        <asp:Label runat="server" Font-Size="Medium" ID="lblMessage" Text="This is for existing users only : If you forgot your User Id, please contact your Regional Loss Control Manager."></asp:Label>
                     </td>
                 </tr>
                 <tr>
