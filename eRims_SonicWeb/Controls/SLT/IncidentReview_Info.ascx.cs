@@ -578,15 +578,25 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
             
             foreach (DataRow drChargeType in dtWC_Allocation_Charge.Rows)
             {
-                if (Convert.ToString(drChargeType["Charge_Type"]) == "Nurse Triage Credit")
+                if (Convert.ToString(drChargeType["Charge_Type"]) == "Initial Charge")
+                    lblAllocation_Charge.Text = string.Format("{0:C2}", drChargeType["Charge_Total"]);
+                else if (Convert.ToString(drChargeType["Charge_Type"]) == "Lag Credit")
+                    lblReporting_Credit.Text = string.Format("{0:C2}", drChargeType["Charge_Total"]);
+                else if (Convert.ToString(drChargeType["Charge_Type"]) == "Nurse Triage Credit")
                     lblNurse_Triage_Credit.Text = string.Format("{0:C2}", drChargeType["Charge_Total"]);
+                else if (Convert.ToString(drChargeType["Charge_Type"]) == "Lag Charge")
+                    lblReporting_Charge.Text = string.Format("{0:C2}", drChargeType["Charge_Total"]);
+                else if (Convert.ToString(drChargeType["Charge_Type"]) == "Incident Investigation Credit")
+                    lblInvestigation_Quality_Credit.Text = string.Format("{0:C2}", drChargeType["Charge_Total"]);
                 else if (Convert.ToString(drChargeType["Charge_Type"]) == "Early Close Credit")
                     lblEarly_Close_Credit.Text = string.Format("{0:C2}", drChargeType["Charge_Total"]);
                 else if (Convert.ToString(drChargeType["Charge_Type"]) == "Reopen Charge")
                     lblRe_Open_Charge.Text = string.Format("{0:C2}", drChargeType["Charge_Total"]);
 
-                if (Convert.ToString(drChargeType["Charge_Type"]) == "Nurse Triage Credit" || Convert.ToString(drChargeType["Charge_Type"]) == "Reporting Charge" ||
-                          Convert.ToString(drChargeType["Charge_Type"]) == "Early Close Credit" || Convert.ToString(drChargeType["Charge_Type"]) ==  "Reopen Charge")
+                if (Convert.ToString(drChargeType["Charge_Type"]) == "Nurse Triage Credit" || Convert.ToString(drChargeType["Charge_Type"]) == "Initial Charge" ||
+                    Convert.ToString(drChargeType["Charge_Type"]) == "Early Close Credit" || Convert.ToString(drChargeType["Charge_Type"]) ==  "Reopen Charge" ||
+                    Convert.ToString(drChargeType["Charge_Type"]) == "Lag Credit" || Convert.ToString(drChargeType["Charge_Type"]) == "Lag Charge" ||
+                    Convert.ToString(drChargeType["Charge_Type"]) == "Incident Investigation Credit")
                     intTotal_Charge = intTotal_Charge + Convert.ToInt32(drChargeType["Charge_Total"]);
             }
             lblTotal_Charge.Text = string.Format("{0:C2}", intTotal_Charge);
