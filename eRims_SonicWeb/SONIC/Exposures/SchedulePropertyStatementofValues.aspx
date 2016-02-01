@@ -6,6 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
     <title>eRIMS Sonic :: Property – Statement of Values Report</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=7" />
 </head>
 <body>
     <script type="text/javascript" language="javascript" src="../../JavaScript/Calendar_new.js"></script>
