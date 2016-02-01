@@ -1357,6 +1357,37 @@
                                     <asp:Label ID="Label6" runat="server" Text='<%# Eval("Legal_Entity") %>' Width="180px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>--%>
+                            <asp:TemplateField HeaderText="Parent Company<br> Legal Entity">
+                                <ItemTemplate>
+                                    <asp:Label ID="Label6" runat="server" Text='<%# Eval("Parent_Company_LE") %>' Width="180px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Parent Company<br> Legal Entity FEIN">
+                                <ItemTemplate>
+                                    <asp:Label ID="Label6" runat="server" Text='<%# Eval("Parent_Company_LE_FEIN") %>' Width="180px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Legal Entity<br> (Operations)">
+                                <ItemTemplate>
+                                    <asp:Label ID="Label6" runat="server" Text='<%# Eval("LE_Operations") %>' Width="180px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Legal Entity<br> (Operations) FEIN">
+                                <ItemTemplate>
+                                    <asp:Label ID="Label6" runat="server" Text='<%# Eval("LE_Operations_FEIN") %>' Width="180px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Legal Entity<br> (Properties)">
+                                <ItemTemplate>
+                                    <asp:Label ID="Label6" runat="server" Text='<%# Eval("LE_Properties") %>' Width="180px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Legal Entity<br> (Properties) FEIN">
+                                <ItemTemplate>
+                                    <asp:Label ID="Label6" runat="server" Text='<%# Eval("LE_Properties_FEIN") %>' Width="180px"></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                                
                             <asp:TemplateField HeaderText="Federal Id">
                                 <ItemTemplate>
                                     <asp:Label ID="Label7" runat="server" Text='<%# Eval("Federal_id") %>' Width="150px"></asp:Label>
