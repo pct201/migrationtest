@@ -214,6 +214,8 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
                     ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
                 else if (Request.QueryString["panel"] != null)//used for Event_New.aspx page
                     ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);", true);
+                else if (Request.QueryString["contactPanel"] != null)
+                    ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
                 else
                     ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
 
