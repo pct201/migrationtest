@@ -303,13 +303,13 @@ function ShowAuditPopUp(url) {
                                                                 <td align="left" width="28%" valign="top">
                                                                     <asp:Label runat="server" ID="lblLocationdba"></asp:Label>
                                                                 </td>
-                                                                <td align="left" width="18%" valign="top">Legal Entity Name
+                                                                <%--<td align="left" width="18%" valign="top">Legal Entity Name
                                                                 </td>
                                                                 <td align="center" width="4%" valign="top">:
                                                                 </td>
                                                                 <td align="left" width="28%" valign="top">
                                                                     <asp:Label runat="server" ID="lblLegalEntity"></asp:Label>
-                                                                </td>
+                                                                </td>--%>
                                                             </tr>
                                                             <tr>
                                                                 <td align="left" valign="top">Location f/k/a
@@ -1469,9 +1469,9 @@ function ShowAuditPopUp(url) {
                                                                                                 <b>Answer</b>
                                                                                             </td>
                                                                                         </tr>
-                                                                                        <tr>
+                                                                                        <tr runat="server" id="trItem26">
                                                                                             <td align="left" colspan="6">
-                                                                                                <span style="float: left">a.</span>
+                                                                                                <asp:Label runat="server" ID="lblIndex26" style="float:left"></asp:Label>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem26"></asp:Label>
                                                                                                 </div>
@@ -1483,7 +1483,7 @@ function ShowAuditPopUp(url) {
                                                                                                 </asp:RadioButtonList>
                                                                                             </td>
                                                                                         </tr>
-                                                                                        <tr>
+                                                                                        <tr runat="server" id="trItem26Description">
                                                                                             <td colspan="8">
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <i>
@@ -1491,9 +1491,9 @@ function ShowAuditPopUp(url) {
                                                                                                 </div>
                                                                                             </td>
                                                                                         </tr>
-                                                                                        <tr>
+                                                                                        <tr runat="server" id="trItem27">
                                                                                             <td align="left" colspan="6">
-                                                                                                <span style="float: left">b.</span>
+                                                                                                <asp:Label runat="server" ID="lblIndex27" style="float:left"></asp:Label>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem27"></asp:Label><br />
 
@@ -1506,7 +1506,7 @@ function ShowAuditPopUp(url) {
                                                                                                 </asp:RadioButtonList>
                                                                                             </td>
                                                                                         </tr>
-                                                                                        <tr>
+                                                                                        <tr runat="server" id="trItem27Description">
                                                                                             <td colspan="8">
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <i>
@@ -1514,9 +1514,9 @@ function ShowAuditPopUp(url) {
                                                                                                 </div>
                                                                                             </td>
                                                                                         </tr>
-                                                                                        <tr>
+                                                                                        <tr runat="server" id="trItem28">
                                                                                             <td align="left" colspan="6">
-                                                                                                <span style="float: left">c.</span>
+                                                                                                <asp:Label runat="server" ID="lblIndex28" style="float:left"></asp:Label>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem28"></asp:Label>
                                                                                                 </div>
@@ -1528,9 +1528,9 @@ function ShowAuditPopUp(url) {
                                                                                                 </asp:RadioButtonList>
                                                                                             </td>
                                                                                         </tr>
-                                                                                        <tr>
+                                                                                        <tr runat="server" id="trItem29">
                                                                                             <td align="left" colspan="6">
-                                                                                                <span style="float: left">d.</span>
+                                                                                                <asp:Label runat="server" ID="lblIndex29" style="float:left"></asp:Label>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem29"></asp:Label>
                                                                                                 </div>
@@ -1542,9 +1542,9 @@ function ShowAuditPopUp(url) {
                                                                                                 </asp:RadioButtonList>
                                                                                             </td>
                                                                                         </tr>
-                                                                                        <tr>
+                                                                                        <tr runat="server" id="trItem30">
                                                                                             <td align="left" colspan="6">
-                                                                                                <span style="float: left">e.</span>
+                                                                                                <asp:Label runat="server" ID="lblIndex30" style="float:left"></asp:Label>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem30"></asp:Label><br />
                                                                                                 </div>
@@ -1556,7 +1556,7 @@ function ShowAuditPopUp(url) {
                                                                                                 </asp:RadioButtonList>
                                                                                             </td>
                                                                                         </tr>
-                                                                                        <tr>
+                                                                                        <tr runat="server" id="trItem30Description">
                                                                                             <td>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <i>
@@ -1565,9 +1565,9 @@ function ShowAuditPopUp(url) {
                                                                                                 </div>
                                                                                             </td>
                                                                                         </tr>
-                                                                                        <tr>
+                                                                                        <tr runat="server" id="trItem32">
                                                                                             <td align="left" colspan="6">
-                                                                                                <span style="float: left">f.</span>
+                                                                                                <asp:Label runat="server" ID="lblIndex32" style="float:left"></asp:Label>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem32"></asp:Label>
                                                                                                 </div>
@@ -1579,9 +1579,9 @@ function ShowAuditPopUp(url) {
                                                                                                 </asp:RadioButtonList>
                                                                                             </td>
                                                                                         </tr>
-                                                                                        <tr>
+                                                                                        <tr runat="server" id="trItem33">
                                                                                             <td align="left" colspan="6">
-                                                                                                <span style="float: left">g.</span>
+                                                                                                <asp:Label runat="server" ID="lblIndex33" style="float:left"></asp:Label>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem33"></asp:Label>
                                                                                                 </div>

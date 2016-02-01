@@ -65,7 +65,7 @@ Inherits="SONIC_FirstReport_InvestigationSearch"  Title="eRIMS Sonic :: Investig
                                 </td>
                             </tr>
                             <tr>
-                                <td align="left">
+                                <%--<td align="left">
                                     Legal Entity
                                 </td>
                                 <td align="center">
@@ -73,7 +73,7 @@ Inherits="SONIC_FirstReport_InvestigationSearch"  Title="eRIMS Sonic :: Investig
                                 </td>
                                 <td align="left">
                                     <asp:DropDownList runat="server" ID="ddlLegalEntity" AutoPostBack="true" SkinID="Default" Width="90%" OnSelectedIndexChanged="ddlLegalEntity_SelectedIndexChanged"></asp:DropDownList>
-                                </td>
+                                </td>--%>
                                 <td> <%--Date Range Start--%>
                                   Date of Incident Start  
                                 </td>
@@ -87,18 +87,6 @@ Inherits="SONIC_FirstReport_InvestigationSearch"  Title="eRIMS Sonic :: Investig
                                         align="middle" />
                                     <asp:RangeValidator ID="revStartRangeDate" ControlToValidate="txtStartRangeDate" MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date" 
                                     ErrorMessage="Incident Start Date is not valid." runat="server"  ValidationGroup="vsErrorGroup" Display="none" />  
-                                </td>
-                            </tr>
-                            <tr>
-                                <td align="left">
-                                    Location d/b/a
-                                </td>
-                                <td align="center">
-                                    :
-                                </td>
-                                <td align="left">
-                                    <%--<asp:DropDownList runat="server" ID="ddlLocationdba" AutoPostBack="true" SkinID="Default" Width="90%" OnSelectedIndexChanged="ddlLocationdba_SelectedIndexChanged"></asp:DropDownList>--%>
-                                   <asp:DropDownList runat="server" ID="ddlLocationdba" AutoPostBack="true" SkinID="Default" Width="90%" OnSelectedIndexChanged="ddlLocationdba_SelectedIndexChanged"></asp:DropDownList>
                                 </td>
                                 <td align="left"><%-- Date Range End --%>
                                   Date of Incident End
@@ -114,6 +102,19 @@ Inherits="SONIC_FirstReport_InvestigationSearch"  Title="eRIMS Sonic :: Investig
                                    <asp:RangeValidator ID="revDate" ControlToValidate="txtEndRangeDate" MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date" 
                                     ErrorMessage="Incident End Date is not valid." runat="server"  ValidationGroup="vsErrorGroup" Display="none" /> 
                                 </td>
+                            </tr>
+                            <tr>
+                                <td align="left">
+                                    Location d/b/a
+                                </td>
+                                <td align="center">
+                                    :
+                                </td>
+                                <td align="left">
+                                    <%--<asp:DropDownList runat="server" ID="ddlLocationdba" AutoPostBack="true" SkinID="Default" Width="90%" OnSelectedIndexChanged="ddlLocationdba_SelectedIndexChanged"></asp:DropDownList>--%>
+                                   <asp:DropDownList runat="server" ID="ddlLocationdba" AutoPostBack="true" SkinID="Default" Width="90%" OnSelectedIndexChanged="ddlLocationdba_SelectedIndexChanged"></asp:DropDownList>
+                                </td>
+                                
                             </tr>
                             <tr>
                                 <td align="left">

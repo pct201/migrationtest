@@ -804,13 +804,13 @@ function ValidateFieldsOwnership(sender, args) {
                                                                 <td align="left" width="28%" valign="top">
                                                                     <asp:Label runat="server" ID="lblLocationdba"></asp:Label>
                                                                 </td>
-                                                                <td align="left" width="18%" valign="top">Legal Entity Name
+                                                                <%--<td align="left" width="18%" valign="top">Legal Entity Name
                                                                 </td>
                                                                 <td align="center" width="4%" valign="top">:
                                                                 </td>
                                                                 <td align="left" width="28%" valign="top">
                                                                     <asp:Label runat="server" ID="lblLegalEntity"></asp:Label>
-                                                                </td>
+                                                                </td>--%>
                                                             </tr>
                                                             <tr>
                                                                 <td align="left" valign="top">Location f/k/a
@@ -2034,9 +2034,9 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                         <tr>
                                                                                             <td class="Spacer" style="height: 8px;"></td>
                                                                                         </tr>
-                                                                                        <tr>
-                                                                                            <td align="left" colspan="6">
-                                                                                                <span style="float: left">a.</span>
+                                                                                        <tr id="trItem26" runat="server">
+                                                                                            <td align="left" colspan="6" id="tdItem26" runat="server">
+                                                                                                <asp:Label runat="server" ID="lblIndex26" style="float:left"></asp:Label>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem26"></asp:Label><br />
                                                                                                     <asp:TextBox runat="server" ID="txtItem26" Visible="false" MaxLength="250"></asp:TextBox>
@@ -2049,9 +2049,9 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                                 </asp:RadioButtonList>
                                                                                             </td>
                                                                                         </tr>
-                                                                                        <tr>
-                                                                                            <td align="left" colspan="6">
-                                                                                                <span style="float: left">b.</span>
+                                                                                        <tr id="trItem27" runat="server">
+                                                                                            <td align="left" colspan="6" id="tdItem27" runat="server">
+                                                                                                <asp:Label runat="server" ID="lblIndex27" style="float:left"></asp:Label>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem27"></asp:Label><br />
                                                                                                     <asp:TextBox runat="server" ID="txtItem27" Visible="false" MaxLength="250"></asp:TextBox>
@@ -2064,9 +2064,9 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                                 </asp:RadioButtonList>
                                                                                             </td>
                                                                                         </tr>
-                                                                                        <tr>
+                                                                                        <tr id="trItem28" runat="server">
                                                                                             <td align="left" colspan="6">
-                                                                                                <span style="float: left">c.</span>
+                                                                                                <asp:Label runat="server" ID="lblIndex28" style="float:left"></asp:Label>
                                                                                                 <div style="margin-left: 40px">
                                                                                                 <asp:Label runat="server" ID="lblItem28"></asp:Label>
                                                                                                 </div>
@@ -2078,9 +2078,9 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                                 </asp:RadioButtonList>
                                                                                             </td>
                                                                                         </tr>
-                                                                                        <tr>
+                                                                                        <tr id="trItem29" runat="server">
                                                                                             <td align="left" colspan="6">
-                                                                                                <span style="float: left">d.</span>
+                                                                                                <asp:Label runat="server" ID="lblIndex29" style="float:left"></asp:Label>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem29"></asp:Label>
                                                                                                 </div>
@@ -2092,9 +2092,9 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                                 </asp:RadioButtonList>
                                                                                             </td>
                                                                                         </tr>
-                                                                                        <tr>
-                                                                                            <td align="left" colspan="6">
-                                                                                                <span style="float: left">e.</span>
+                                                                                        <tr id="trItem30" runat="server">
+                                                                                            <td align="left" colspan="6" id="tdItem30" runat="server">
+                                                                                                <asp:Label runat="server" ID="lblIndex30" style="float:left"></asp:Label>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem30"></asp:Label><br />
                                                                                                     <asp:TextBox runat="server" ID="txtItem30" Visible="false" MaxLength="20" onkeypress="return FormatInteger(event);" onpaste="return false;"></asp:TextBox>
@@ -2107,9 +2107,9 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                                 </asp:RadioButtonList>
                                                                                             </td>
                                                                                         </tr>
-                                                                                        <tr>
+                                                                                        <tr id="trItem32" runat="server">
                                                                                             <td align="left" colspan="6">
-                                                                                                <span style="float: left">f.</span>
+                                                                                                <asp:Label runat="server" ID="lblIndex32" style="float:left"></asp:Label>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem32"></asp:Label>
                                                                                                 </div>
@@ -2121,9 +2121,9 @@ function ValidateFieldsOwnership(sender, args) {
                                                                                                 </asp:RadioButtonList>
                                                                                             </td>
                                                                                         </tr>
-                                                                                        <tr>
+                                                                                        <tr id="trItem33" runat="server">
                                                                                             <td align="left" colspan="6">
-                                                                                                <span style="float: left">g.</span>
+                                                                                                <asp:Label runat="server" ID="lblIndex33" style="float:left"></asp:Label>
                                                                                                 <div style="margin-left: 40px">
                                                                                                     <asp:Label runat="server" ID="lblItem33"></asp:Label>
                                                                                                 </div>

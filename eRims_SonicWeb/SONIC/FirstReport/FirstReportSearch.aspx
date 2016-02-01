@@ -129,7 +129,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td align="left">
+                                                <%--<td align="left">
                                                     Legal Entity 
                                                 </td>
                                                  <td align="center">
@@ -139,7 +139,7 @@
                                                  <asp:DropDownList runat="server" ID="ddlLegalEntity" AutoPostBack="true" SkinID="dropGen"  Width="250px"
                                                         OnSelectedIndexChanged="ddlLegalEntity_SelectedIndexChanged">
                                                     </asp:DropDownList>
-                                                 </td>
+                                                 </td>--%>
                                                  <td align="left">
                                                     Date of Incident End
                                                 </td>

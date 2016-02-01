@@ -133,7 +133,7 @@ public partial class SONIC_ALFirstReport : clsBasePage
                 //Fill Location dba Dropdown
                 ComboHelper.FillLocationdbaOnlyForView(new DropDownList[] { ddlLocationdba }, 0, true);
                 //Fill Location Legal Entity Dropdown
-                ComboHelper.FillLocationLegal_EntityForView(new DropDownList[] { ddlLegalEntity }, 0, true);
+                //ComboHelper.FillLocationLegal_EntityForView(new DropDownList[] { ddlLegalEntity }, 0, true);
                 //Fill Location FKA Dropdown
                 ComboHelper.FillLocationfka(new DropDownList[] { ddlLocationfka }, 0, true);
                 //Fetch Related Record for Location and EMployee
@@ -208,7 +208,7 @@ public partial class SONIC_ALFirstReport : clsBasePage
                 //Fill Location dba Dropdown
                 ComboHelper.FillLocationdbaOnlyForView(new DropDownList[] { ddlLocationdba }, 0, true);
                 //Fill Location Legal Entity Dropdown
-                ComboHelper.FillLocationLegal_EntityForView(new DropDownList[] { ddlLegalEntity }, 0, true);
+                //ComboHelper.FillLocationLegal_EntityForView(new DropDownList[] { ddlLegalEntity }, 0, true);
                 //Fill Location FKA Dropdown
                 ComboHelper.FillLocationfka(new DropDownList[] { ddlLocationfka }, 0, true);
                 //Open Next Panel.using Showpanel Javascript function.
@@ -547,16 +547,16 @@ public partial class SONIC_ALFirstReport : clsBasePage
 
             }
             //select value from Location Legal Entity Dropdown
-            if (drWizardInfo["legal_entity"] != null)
-            {
-                ListItem lst = new ListItem();
-                lst = ddlLegalEntity.Items.FindByText(drWizardInfo["legal_entity"].ToString());
-                //check list item if not null than list item selected = true
-                if (lst != null)
-                {
-                    lst.Selected = true;
-                }
-            }
+            //if (drWizardInfo["legal_entity"] != null)
+            //{
+            //    ListItem lst = new ListItem();
+            //    lst = ddlLegalEntity.Items.FindByText(drWizardInfo["legal_entity"].ToString());
+            //    //check list item if not null than list item selected = true
+            //    if (lst != null)
+            //    {
+            //        lst.Selected = true;
+            //    }
+            //}
 
             //set address1,address2,city,state,ZipCOde Values
             txtLocationAddress1.Text = (drWizardInfo["Address_1"] != null) ? Convert.ToString(drWizardInfo["Address_1"]) : "";
@@ -598,7 +598,7 @@ public partial class SONIC_ALFirstReport : clsBasePage
         ddlLocationNumber.Enabled = value;
         ddlLocationfka.Enabled = value;
         ddlLocationdba.Enabled = value;
-        ddlLegalEntity.Enabled = value;
+        //ddlLegalEntity.Enabled = value;
         txtLocationAddress1.Enabled = value;
         txtLocationAddress2.Enabled = value;
         txtLocationCity.Enabled = value;
@@ -1583,10 +1583,10 @@ public partial class SONIC_ALFirstReport : clsBasePage
                 lblLocationfka.Text = "";
 
             //select value from Location Legal Entity
-            if (drWizardInfo["legal_entity"] != null)
-                lblLegalEntity.Text = drWizardInfo["legal_entity"].ToString();
-            else
-                lblLegalEntity.Text = "";
+            //if (drWizardInfo["legal_entity"] != null)
+            //    lblLegalEntity.Text = drWizardInfo["legal_entity"].ToString();
+            //else
+            //    lblLegalEntity.Text = "";
 
             //set address1,address2,city,state,ZipCOde Values
             lblLocationAddress1.Text = (drWizardInfo["Address_1"] != null) ? Convert.ToString(drWizardInfo["Address_1"]) : "";
@@ -2406,16 +2406,16 @@ public partial class SONIC_ALFirstReport : clsBasePage
             }
 
             //select value from Location Legal Entity Dropdown
-            if (drWizardInfo["legal_entity"] != null)
-            {
-                ListItem lst = new ListItem();
-                lst = ddlLegalEntity.Items.FindByText(drWizardInfo["legal_entity"].ToString().Trim());
-                //check list item if not null than list item selected = true
-                if (lst != null)
-                {
-                    lst.Selected = true;
-                }
-            }
+            //if (drWizardInfo["legal_entity"] != null)
+            //{
+            //    ListItem lst = new ListItem();
+            //    lst = ddlLegalEntity.Items.FindByText(drWizardInfo["legal_entity"].ToString().Trim());
+            //    //check list item if not null than list item selected = true
+            //    if (lst != null)
+            //    {
+            //        lst.Selected = true;
+            //    }
+            //}
 
             //set address1,address2,city,state,ZipCOde Values
             txtLocationAddress1.Text = (drWizardInfo["Address_1"] != null) ? Convert.ToString(drWizardInfo["Address_1"]) : "";
@@ -3428,10 +3428,10 @@ public partial class SONIC_ALFirstReport : clsBasePage
                     strEbdy = strEbdy.Replace("[lblLocationfka]", "");
 
                 //select value from Location Legal Entity Dropdown
-                if (drWizardInfo["legal_entity"] != null)
-                    strEbdy = strEbdy.Replace("[lblLegalEntity]", drWizardInfo["legal_entity"].ToString());
-                else
-                    strEbdy = strEbdy.Replace("[lblLegalEntity]", "");
+                //if (drWizardInfo["legal_entity"] != null)
+                //    strEbdy = strEbdy.Replace("[lblLegalEntity]", drWizardInfo["legal_entity"].ToString());
+                //else
+                //    strEbdy = strEbdy.Replace("[lblLegalEntity]", "");
 
                 //set address1,address2,city,state,ZipCOde Values
                 strEbdy = strEbdy.Replace("[lblLocationAddress1]", (drWizardInfo["Address_1"] != null) ? Convert.ToString(drWizardInfo["Address_1"]) : "");

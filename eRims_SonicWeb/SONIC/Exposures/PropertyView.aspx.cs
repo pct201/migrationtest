@@ -643,7 +643,7 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
 
         // set location values
         lblLocationdba.Text = objLocation.dba;
-        lblLegalEntity.Text = objLocation.legal_entity;
+        //lblLegalEntity.Text = objLocation.legal_entity;
         DataTable dtFKA = LU_Location_FKA.SelectByLocationID(Convert.ToDecimal(FK_LU_Location_ID)).Tables[0];
         if (dtFKA.Rows.Count > 0)
         {
@@ -1373,11 +1373,13 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
     private void SetDynamicInsuranceControl()
     {
         ERIMS.DAL.Building_Insurance_COPE_Descriptors objInsuranceCope = new Building_Insurance_COPE_Descriptors();
-        DataSet objDs = ERIMS.DAL.Building_Insurance_COPE_Descriptors.GetActiveBuildingInsuranceCOPEDescriptors();
+        //DataSet objDs = ERIMS.DAL.Building_Insurance_COPE_Descriptors.GetActiveBuildingInsuranceCOPEDescriptors();
+        DataSet objDs = ERIMS.DAL.Building_Insurance_COPE_Descriptors.BuildingInsuranceCOPEDescriptorsSelectALL();
         if (objDs != null && objDs.Tables.Count > 0 && objDs.Tables[0].Rows.Count > 0)
         {
             HtmlTableRow tr = new HtmlTableRow();
             HtmlTableCell tc;
+            char charIndex = 'a';
 
             bool blnAddBlanktd = false;
 
@@ -1390,7 +1392,7 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
                 if (intCnt == 1)
                     tr = new HtmlTableRow();
 
-                 if (i % 2 == 1)
+                if (i % 2 == 1)
                 {
                     tc = new HtmlTableCell();
                     tc.NoWrap = false;
@@ -1512,6 +1514,31 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
             lblItem32.Text = Convert.ToString(objDs.Tables[0].Rows[31]["Item_Descriptor"]);
             lblItem33.Text = Convert.ToString(objDs.Tables[0].Rows[32]["Item_Descriptor"]);
 
+            DataTable dtItems = objDs.Tables[0];
+            
+            for (int i = 25; i < 33; i++)
+             {
+                tr = (HtmlTableRow)tblInsuranceCopeQuestionnaire.FindControl("trItem" + (i + 1));
+                if (tr != null && Convert.ToString(dtItems.Rows[i]["Active"]) == "N")
+                {
+                    tr.Visible = false;
+                    if (i == 25 || i == 26 || i == 29)
+                    {
+                        tr = (HtmlTableRow)tblInsuranceCopeQuestionnaire.FindControl("trItem" + (i + 1) + "Description");
+                        tr.Visible = false;
+                    }
+                }
+                else
+                {
+                    Label lblIndex = (Label)tblInsuranceCopeQuestionnaire.FindControl("lblIndex" + (i + 1));
+                    if (lblIndex != null)
+                    {
+                        lblIndex.Text = charIndex.ToString() + ".";
+                        charIndex++;
+                    }
+                }
+            }
+
             //pnlInsuranceCope.Visible = true;
             tblInsurance.Visible = true;
         }
@@ -1550,7 +1577,7 @@ public partial class SONIC_Exposures_PropertyView : clsBasePage
                 lblItem26Description.Text = Convert.ToString(drInsurance["Item_26"]);
                 rdoItem26.SelectedValue = "Y";
             }
-            
+
             if (drInsurance["Item_27"] == DBNull.Value || string.IsNullOrEmpty(Convert.ToString(drInsurance["Item_27"]).Trim()))
             {
                 lblItem27Description.Text = string.Empty;

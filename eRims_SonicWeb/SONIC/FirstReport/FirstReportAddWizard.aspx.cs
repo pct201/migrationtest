@@ -37,7 +37,7 @@ public partial class SONIC_FirstReportAddWizard : clsBasePage
             //Fill Location dba Dropdown
             ComboHelper.FillLocationdbaOnly(new DropDownList[] { ddlLocationdba }, 0, true);
             //Fill Location Legal Entity Dropdown
-            ComboHelper.FillLocationLegal_Entity(new DropDownList[] { ddlLegalEntity }, 0, true);
+            //ComboHelper.FillLocationLegal_Entity(new DropDownList[] { ddlLegalEntity }, 0, true);
             //Fill Location FKA Dropdown
             ComboHelper.FillLocationfka(new DropDownList[] { ddlLocationfka }, 0, true);
             //Fill NameDropdown
@@ -164,7 +164,7 @@ public partial class SONIC_FirstReportAddWizard : clsBasePage
             ////ComboHelper.FillAssociateByContact(new DropDownList[] { ddlName }, true, (ddlRMLocationNumber.SelectedIndex > 0) ? Convert.ToInt32(ddlRMLocationNumber.SelectedValue) : 0);
             //////call ddlname selected index change
             ////ddlName_SelectedIndexChanged(null, null);
-            ddlLegalEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
+            //ddlLegalEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
             ddlLocationdba.SelectedValue = ddlRMLocationNumber.SelectedValue;
             ListItem lstItm = ddlLocationfka.Items.FindByValue(ddlRMLocationNumber.SelectedValue);
             if (lstItm != null)
@@ -184,7 +184,7 @@ public partial class SONIC_FirstReportAddWizard : clsBasePage
         else
         {
             ddlLocationdba.SelectedValue = "0";
-            ddlLegalEntity.SelectedValue = "0";
+            //ddlLegalEntity.SelectedValue = "0";
             ddlLocationfka.SelectedValue = "0";
             txtAddress1.Text = "";
             txtAddress2.Text = "";
@@ -218,7 +218,7 @@ public partial class SONIC_FirstReportAddWizard : clsBasePage
             //////call ddlname selected index change
             ////ddlName_SelectedIndexChanged(null, null);
             ddlRMLocationNumber.SelectedValue = ddlLocationdba.SelectedValue;
-            ddlLegalEntity.SelectedValue = ddlLocationdba.SelectedValue;
+            //ddlLegalEntity.SelectedValue = ddlLocationdba.SelectedValue;
 
             ListItem lstItm = ddlLocationfka.Items.FindByValue(ddlLocationdba.SelectedValue);
             if (lstItm != null)
@@ -238,7 +238,7 @@ public partial class SONIC_FirstReportAddWizard : clsBasePage
         else
         {
             ddlRMLocationNumber.SelectedValue = "0";
-            ddlLegalEntity.SelectedValue = "0";
+            //ddlLegalEntity.SelectedValue = "0";
             ddlLocationfka.SelectedValue = "0";
             txtAddress1.Text = "";
             txtAddress2.Text = "";
@@ -253,58 +253,58 @@ public partial class SONIC_FirstReportAddWizard : clsBasePage
             txtEmailAddress.Text = "";
         }
     }
-    protected void ddlLegalEntity_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        if (ddlLegalEntity.SelectedIndex > 0)
-        {
-            //// fill Location dba DropDown
-            //ComboHelper.FillLocationdba(new DropDownList[] { ddlLocationdba }, (ddlLegalEntity.SelectedIndex > 0) ? Convert.ToInt32(ddlLegalEntity.SelectedValue) : 0, true);
-            ////fill Sonic Location Number Dropdown
-            //ComboHelper.FillSonicLocationNumber(new DropDownList[] { ddlRMLocationNumber }, (ddlLegalEntity.SelectedIndex > 0) ? Convert.ToInt32(ddlLegalEntity.SelectedValue) : 0, true);
-            ////fill Location FKA dropdown
-            //ComboHelper.FillLocationfka(new DropDownList[] { ddlLocationfka }, (ddlLegalEntity.SelectedIndex > 0) ? Convert.ToInt32(ddlLegalEntity.SelectedValue) : 0, true);
-            ////Fill All Information From Location Table
-            //UpdateLocationInformation();
-            ////used to get default situation of step 3
-            //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ChangeVehicleValue();", true);
-            //////fill Associate Information Dropdown
-            ////ComboHelper.FillAssociateByContact(new DropDownList[] { ddlName }, true, (ddlRMLocationNumber.SelectedIndex > 0) ? Convert.ToInt32(ddlRMLocationNumber.SelectedValue) : 0);
-            //////call ddlname selected index change
-            ////ddlName_SelectedIndexChanged(null, null);
-            ddlRMLocationNumber.SelectedValue = ddlLegalEntity.SelectedValue;
-            ddlLocationdba.SelectedValue = ddlLegalEntity.SelectedValue;
-            ListItem lstItm = ddlLocationfka.Items.FindByValue(ddlLegalEntity.SelectedValue);
-            if (lstItm != null)
-                ddlLocationfka.SelectedValue = ddlLegalEntity.SelectedValue;
-            else
-                ddlLocationfka.SelectedValue = "0";
-            //fill Associate Information Dropdown
-            //string[] strCostCenter = ddlRMLocationNumber.SelectedItem.ToString().Split(Convert.ToChar("."));
-            LU_Location lu = new LU_Location(Convert.ToDecimal(ddlRMLocationNumber.SelectedValue));
-            int Sonic_Location_Code = Convert.ToInt32(lu.Sonic_Location_Code);
-            ComboHelper.FillAssociateByContact(new DropDownList[] { ddlName }, true, (ddlRMLocationNumber.SelectedIndex > 0) ? Sonic_Location_Code : 0);
-            UpdateLocationInformation();
-            //call ddlname selected index change
-            ddlName_SelectedIndexChanged(null, null);
-        }
-        else
-        {
-            ddlRMLocationNumber.SelectedValue = "0";
-            ddlLocationdba.SelectedValue = "0";
-            ddlLocationfka.SelectedValue = "0";
-            txtAddress1.Text = "";
-            txtAddress2.Text = "";
-            txtCity.Text = "";
-            txtState.Text = "";
-            txtZipcode.Text = "";
-            //clear step 2 information
-            ddlName.Items.Clear();
-            txtTitle.Text = "";
-            txtTelephoneNumber1.Text = "";
-            txtTelephoneNumber2.Text = "";
-            txtEmailAddress.Text = "";
-        }
-    }
+    //protected void ddlLegalEntity_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    if (ddlLegalEntity.SelectedIndex > 0)
+    //    {
+    //        //// fill Location dba DropDown
+    //        //ComboHelper.FillLocationdba(new DropDownList[] { ddlLocationdba }, (ddlLegalEntity.SelectedIndex > 0) ? Convert.ToInt32(ddlLegalEntity.SelectedValue) : 0, true);
+    //        ////fill Sonic Location Number Dropdown
+    //        //ComboHelper.FillSonicLocationNumber(new DropDownList[] { ddlRMLocationNumber }, (ddlLegalEntity.SelectedIndex > 0) ? Convert.ToInt32(ddlLegalEntity.SelectedValue) : 0, true);
+    //        ////fill Location FKA dropdown
+    //        //ComboHelper.FillLocationfka(new DropDownList[] { ddlLocationfka }, (ddlLegalEntity.SelectedIndex > 0) ? Convert.ToInt32(ddlLegalEntity.SelectedValue) : 0, true);
+    //        ////Fill All Information From Location Table
+    //        //UpdateLocationInformation();
+    //        ////used to get default situation of step 3
+    //        //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ChangeVehicleValue();", true);
+    //        //////fill Associate Information Dropdown
+    //        ////ComboHelper.FillAssociateByContact(new DropDownList[] { ddlName }, true, (ddlRMLocationNumber.SelectedIndex > 0) ? Convert.ToInt32(ddlRMLocationNumber.SelectedValue) : 0);
+    //        //////call ddlname selected index change
+    //        ////ddlName_SelectedIndexChanged(null, null);
+    //        ddlRMLocationNumber.SelectedValue = ddlLegalEntity.SelectedValue;
+    //        ddlLocationdba.SelectedValue = ddlLegalEntity.SelectedValue;
+    //        ListItem lstItm = ddlLocationfka.Items.FindByValue(ddlLegalEntity.SelectedValue);
+    //        if (lstItm != null)
+    //            ddlLocationfka.SelectedValue = ddlLegalEntity.SelectedValue;
+    //        else
+    //            ddlLocationfka.SelectedValue = "0";
+    //        //fill Associate Information Dropdown
+    //        //string[] strCostCenter = ddlRMLocationNumber.SelectedItem.ToString().Split(Convert.ToChar("."));
+    //        LU_Location lu = new LU_Location(Convert.ToDecimal(ddlRMLocationNumber.SelectedValue));
+    //        int Sonic_Location_Code = Convert.ToInt32(lu.Sonic_Location_Code);
+    //        ComboHelper.FillAssociateByContact(new DropDownList[] { ddlName }, true, (ddlRMLocationNumber.SelectedIndex > 0) ? Sonic_Location_Code : 0);
+    //        UpdateLocationInformation();
+    //        //call ddlname selected index change
+    //        ddlName_SelectedIndexChanged(null, null);
+    //    }
+    //    else
+    //    {
+    //        ddlRMLocationNumber.SelectedValue = "0";
+    //        ddlLocationdba.SelectedValue = "0";
+    //        ddlLocationfka.SelectedValue = "0";
+    //        txtAddress1.Text = "";
+    //        txtAddress2.Text = "";
+    //        txtCity.Text = "";
+    //        txtState.Text = "";
+    //        txtZipcode.Text = "";
+    //        //clear step 2 information
+    //        ddlName.Items.Clear();
+    //        txtTitle.Text = "";
+    //        txtTelephoneNumber1.Text = "";
+    //        txtTelephoneNumber2.Text = "";
+    //        txtEmailAddress.Text = "";
+    //    }
+    //}
     protected void ddlLocationfka_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (ddlLocationfka.SelectedIndex > 0)
@@ -324,7 +324,7 @@ public partial class SONIC_FirstReportAddWizard : clsBasePage
             //////call ddlname selected index change
             ////ddlName_SelectedIndexChanged(null, null);
             ddlRMLocationNumber.SelectedValue = ddlLocationfka.SelectedValue;
-            ddlLegalEntity.SelectedValue = ddlLocationfka.SelectedValue;
+            //ddlLegalEntity.SelectedValue = ddlLocationfka.SelectedValue;
             ddlLocationdba.SelectedValue = ddlLocationfka.SelectedValue;
             //fill Associate Information Dropdown
             //string[] strCostCenter = ddlRMLocationNumber.SelectedItem.ToString().Split(Convert.ToChar("."));
@@ -340,7 +340,7 @@ public partial class SONIC_FirstReportAddWizard : clsBasePage
         {
             ddlRMLocationNumber.SelectedValue = "0";
             ddlLocationdba.SelectedValue = "0";
-            ddlLegalEntity.SelectedValue = "0";
+            //ddlLegalEntity.SelectedValue = "0";
             txtAddress1.Text = "";
             txtAddress2.Text = "";
             txtCity.Text = "";

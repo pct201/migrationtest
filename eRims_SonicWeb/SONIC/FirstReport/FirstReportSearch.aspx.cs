@@ -32,7 +32,7 @@ public partial class SONIC_FirstReportSearch : clsBasePage
             ComboHelper.FillLocationdbaOnly(new DropDownList[] { ddlLocationdba }, 0, true);
             ddlLocationdba.Style.Remove("font-size");
             //fill Location Legal Entity Dropdown
-            ComboHelper.FillDistinctLocationLegal_Entity(new DropDownList[] { ddlLegalEntity }, true);
+            //ComboHelper.FillDistinctLocationLegal_Entity(new DropDownList[] { ddlLegalEntity }, true);
             //Fill Locaiton FKA Dropdown
             ComboHelper.FillLocationfka(new DropDownList[] { ddlLocationfka }, 0, true);
             //Fill Associate Name Dropdown
@@ -112,10 +112,11 @@ public partial class SONIC_FirstReportSearch : clsBasePage
             //ComboHelper.FillLocationLegal_Entity(new DropDownList[] { ddlLegalEntity }, (ddlRMLocationNumber.SelectedIndex > 0) ? Convert.ToInt32(ddlRMLocationNumber.SelectedValue) : 0, true);
             ////fill Location FKA dropdown
             //ComboHelper.FillLocationfka(new DropDownList[] { ddlLocationfka }, (ddlRMLocationNumber.SelectedIndex > 0) ? Convert.ToInt32(ddlRMLocationNumber.SelectedValue) : 0, true);
-            ListItem lstLegalEntity = ddlLegalEntity.Items.FindByText(new LU_Location(Convert.ToDecimal(ddlRMLocationNumber.SelectedValue)).legal_entity);
-            ddlLegalEntity.ClearSelection();
-            if(lstLegalEntity != null)
-                lstLegalEntity.Selected = true;
+            //ListItem lstLegalEntity = ddlLegalEntity.Items.FindByText(new LU_Location(Convert.ToDecimal(ddlRMLocationNumber.SelectedValue)).legal_entity);
+            //ddlLegalEntity.ClearSelection();
+            //if(lstLegalEntity != null)
+            //    lstLegalEntity.Selected = true;
+
             ddlLocationdba.SelectedValue = ddlRMLocationNumber.SelectedValue;
             ListItem lstItm = ddlLocationfka.Items.FindByValue(ddlRMLocationNumber.SelectedValue);
             if (lstItm != null)
@@ -126,7 +127,7 @@ public partial class SONIC_FirstReportSearch : clsBasePage
         else
         {
             ddlLocationdba.SelectedValue = "0";
-            ddlLegalEntity.SelectedValue = "0";
+            //ddlLegalEntity.SelectedValue = "0";
             ddlLocationfka.SelectedValue = "0";
         }
     }
@@ -143,10 +144,10 @@ public partial class SONIC_FirstReportSearch : clsBasePage
             //ComboHelper.FillLocationfka(new DropDownList[] { ddlLocationfka }, (ddlLocationdba.SelectedIndex > 0) ? Convert.ToInt32(ddlLocationdba.SelectedValue) : 0, true);
             ddlRMLocationNumber.SelectedValue = ddlLocationdba.SelectedValue;
             //ddlLegalEntity.SelectedValue = ddlLocationdba.SelectedValue;
-            ListItem lstLegalEntity = ddlLegalEntity.Items.FindByText(new LU_Location(Convert.ToDecimal(ddlRMLocationNumber.SelectedValue)).legal_entity);
-            ddlLegalEntity.ClearSelection();
-            if (lstLegalEntity != null)
-                lstLegalEntity.Selected = true;
+            //ListItem lstLegalEntity = ddlLegalEntity.Items.FindByText(new LU_Location(Convert.ToDecimal(ddlRMLocationNumber.SelectedValue)).legal_entity);
+            //ddlLegalEntity.ClearSelection();
+            //if (lstLegalEntity != null)
+            //    lstLegalEntity.Selected = true;
             ListItem lstItm = ddlLocationfka.Items.FindByValue(ddlLocationdba.SelectedValue);
             if (lstItm != null)
                 ddlLocationfka.SelectedValue = ddlLocationdba.SelectedValue;
@@ -156,36 +157,36 @@ public partial class SONIC_FirstReportSearch : clsBasePage
         else
         {
             ddlRMLocationNumber.SelectedValue = "0";
-            ddlLegalEntity.SelectedValue = "0";
+            //ddlLegalEntity.SelectedValue = "0";
             ddlLocationfka.SelectedValue = "0";
         }
     }
-    protected void ddlLegalEntity_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        //Check dropdown's value is selected or not
-        if (ddlLegalEntity.SelectedValue != "0")
-        {
-            //// fill Location dba DropDown
-            //ComboHelper.FillLocationdba(new DropDownList[] { ddlLocationdba }, (ddlLegalEntity.SelectedIndex > 0) ? Convert.ToInt32(ddlLegalEntity.SelectedValue) : 0, true);
-            ////fill Sonic Location Number Dropdown
-            //ComboHelper.FillSonicLocationNumber(new DropDownList[] { ddlRMLocationNumber }, (ddlLegalEntity.SelectedIndex > 0) ? Convert.ToInt32(ddlLegalEntity.SelectedValue) : 0, true);
-            ////fill Location FKA dropdown
-            //ComboHelper.FillLocationfka(new DropDownList[] { ddlLocationfka }, (ddlLegalEntity.SelectedIndex > 0) ? Convert.ToInt32(ddlLegalEntity.SelectedValue) : 0, true);
-            //ddlRMLocationNumber.SelectedValue = ddlLegalEntity.SelectedValue;
-            //ddlLocationdba.SelectedValue = ddlLegalEntity.SelectedValue;
-            //ListItem lstItm = ddlLocationfka.Items.FindByValue(ddlLegalEntity.SelectedValue);
-            //if (lstItm != null)
-            //    ddlLocationfka.SelectedValue = ddlLegalEntity.SelectedValue;
-            //else
-            //    ddlLocationfka.SelectedValue = "0";
-        }
-        else
-        {
-            ddlLocationdba.SelectedValue = "0";
-            ddlRMLocationNumber.SelectedValue = "0";
-            ddlLocationfka.SelectedValue = "0";
-        }
-    }
+    //protected void ddlLegalEntity_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    //Check dropdown's value is selected or not
+    //    if (ddlLegalEntity.SelectedValue != "0")
+    //    {
+    //        //// fill Location dba DropDown
+    //        //ComboHelper.FillLocationdba(new DropDownList[] { ddlLocationdba }, (ddlLegalEntity.SelectedIndex > 0) ? Convert.ToInt32(ddlLegalEntity.SelectedValue) : 0, true);
+    //        ////fill Sonic Location Number Dropdown
+    //        //ComboHelper.FillSonicLocationNumber(new DropDownList[] { ddlRMLocationNumber }, (ddlLegalEntity.SelectedIndex > 0) ? Convert.ToInt32(ddlLegalEntity.SelectedValue) : 0, true);
+    //        ////fill Location FKA dropdown
+    //        //ComboHelper.FillLocationfka(new DropDownList[] { ddlLocationfka }, (ddlLegalEntity.SelectedIndex > 0) ? Convert.ToInt32(ddlLegalEntity.SelectedValue) : 0, true);
+    //        //ddlRMLocationNumber.SelectedValue = ddlLegalEntity.SelectedValue;
+    //        //ddlLocationdba.SelectedValue = ddlLegalEntity.SelectedValue;
+    //        //ListItem lstItm = ddlLocationfka.Items.FindByValue(ddlLegalEntity.SelectedValue);
+    //        //if (lstItm != null)
+    //        //    ddlLocationfka.SelectedValue = ddlLegalEntity.SelectedValue;
+    //        //else
+    //        //    ddlLocationfka.SelectedValue = "0";
+    //    }
+    //    else
+    //    {
+    //        ddlLocationdba.SelectedValue = "0";
+    //        ddlRMLocationNumber.SelectedValue = "0";
+    //        ddlLocationfka.SelectedValue = "0";
+    //    }
+    //}
     protected void ddlLocationfka_SelectedIndexChanged(object sender, EventArgs e)
     {
         //Check dropdown's value is selected or not
@@ -209,7 +210,7 @@ public partial class SONIC_FirstReportSearch : clsBasePage
         else
         {
             ddlLocationdba.SelectedValue = "0";
-            ddlLegalEntity.SelectedValue = "0";
+            //ddlLegalEntity.SelectedValue = "0";
             ddlRMLocationNumber.SelectedValue = "0";
         }
     }

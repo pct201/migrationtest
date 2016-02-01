@@ -50,11 +50,11 @@ public partial class SONIC_RealEstate_LeaseAbstract : System.Web.UI.Page
 
         //This shows how to license Aspose.Words, if you don't specify a license, 
         //Aspose.Words works in evaluation mode.        
-        if (System.IO.File.Exists(strLisenceFile))
-        {
-            Aspose.Words.License license = new Aspose.Words.License();
-            license.SetLicense(strLisenceFile);
-        }
+        //if (System.IO.File.Exists(strLisenceFile))
+        //{
+        //    Aspose.Words.License license = new Aspose.Words.License();
+        //    license.SetLicense(strLisenceFile);
+        //}
 
         // Create Blank Document
         Aspose.Words.Document doc = new Aspose.Words.Document();

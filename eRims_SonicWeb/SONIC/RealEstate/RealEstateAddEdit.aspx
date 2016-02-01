@@ -578,7 +578,7 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td align="left" width="19%" valign="top">
+                                                                <%--<td align="left" width="19%" valign="top">
                                                                     Legal Entity
                                                                 </td>
                                                                 <td align="center" width="4%" valign="top">
@@ -586,7 +586,7 @@
                                                                 </td>
                                                                 <td align="left" width="27%" valign="top">
                                                                     <asp:TextBox ID="txtLegalEntity" runat="server" Width="170px" Enabled="false" />
-                                                                </td>
+                                                                </td>--%>
                                                                 <td align="left" width="20%" valign="top">
                                                                     Federal Id
                                                                 </td>
@@ -3755,7 +3755,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" width="19%" valign="top">
+                                                        <%--<td align="left" width="19%" valign="top">
                                                             Legal Entity
                                                         </td>
                                                         <td align="center" width="4%" valign="top">
@@ -3763,7 +3763,7 @@
                                                         </td>
                                                         <td align="left" width="27%" valign="top">
                                                             <asp:Label ID="lblLegalEntity" runat="server" Width="170px" />
-                                                        </td>
+                                                        </td>--%>
                                                         <td align="left" width="20%" valign="top">
                                                             Federal Id
                                                         </td>

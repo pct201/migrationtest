@@ -395,7 +395,7 @@
                                                             <asp:DropDownList ID="drpTypeOfClaim" Width="170px" runat="server" onchange="CheckClaimType();">
                                                             </asp:DropDownList>                                                           
                                                         </td>
-                                                        <td align="left">
+                                                        <%--<td align="left">
                                                             Legal Entity&nbsp;<span id="Span3" style="color: Red; display: none;" runat="server">*</span>
                                                         </td>
                                                         <td align="center">
@@ -405,7 +405,7 @@
                                                             <asp:DropDownList runat="server" ID="ddlLegalEntity" Width="195px" AutoPostBack="true"
                                                                 SkinID="dropGen" OnSelectedIndexChanged="ddlLegalEntity_SelectedIndexChanged">
                                                             </asp:DropDownList>
-                                                        </td>
+                                                        </td>--%>
                                                     </tr>
                                                     <tr>
                                                         <td align="left">
@@ -1647,7 +1647,7 @@
                                                             <asp:Label ID="lblTypeOfClaim" Width="170px" runat="server">
                                                             </asp:Label>
                                                         </td>
-                                                        <td align="left">
+                                                        <%--<td align="left">
                                                             Legal Entity
                                                         </td>
                                                         <td align="center">
@@ -1656,7 +1656,7 @@
                                                         <td align="left">
                                                             <asp:Label ID="lblLegalEntity" Width="170px" runat="server">
                                                             </asp:Label>
-                                                        </td>
+                                                        </td>--%>
                                                     </tr>
                                                     <tr>
                                                         <td align="left">

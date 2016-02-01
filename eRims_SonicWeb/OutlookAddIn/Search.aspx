@@ -409,6 +409,18 @@
                                                         runat="server" OnSelectedIndexChanged="ddlRMLocationNumber_SelectedIndexChanged">
                                                     </asp:DropDownList>
                                                 </td>
+                                                
+                                            </tr>
+                                            <tr>
+                                                <%--<td align="left">Legal Entity
+                                                </td>
+                                                <td align="center">:
+                                                </td>
+                                                <td align="left">
+                                                    <asp:DropDownList runat="server" ID="ddlLegalEntity" AutoPostBack="true" SkinID="Default"
+                                                        Width="90%" OnSelectedIndexChanged="ddlLegalEntity_SelectedIndexChanged">
+                                                    </asp:DropDownList>
+                                                </td>--%>
                                                 <td align="left" style="width: 12%">Date Range Start
                                                 </td>
                                                 <td align="center" style="width: 4%">:
@@ -421,17 +433,6 @@
                                                     <asp:RangeValidator ID="revStartRangeDate" ControlToValidate="txtStartRangeDate"
                                                         MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date" ErrorMessage="Range Start Date is not valid."
                                                         runat="server" ValidationGroup="vsErrorGroup" Display="none" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="left">Legal Entity
-                                                </td>
-                                                <td align="center">:
-                                                </td>
-                                                <td align="left">
-                                                    <asp:DropDownList runat="server" ID="ddlLegalEntity" AutoPostBack="true" SkinID="Default"
-                                                        Width="90%" OnSelectedIndexChanged="ddlLegalEntity_SelectedIndexChanged">
-                                                    </asp:DropDownList>
                                                 </td>
                                                 <td>Date Range End
                                                 </td>

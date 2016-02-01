@@ -147,13 +147,13 @@ public partial class SONIC_Franchise_FranchiseAddEdit : clsBasePage
     {
         LU_Location objLoc = new LU_Location(Convert.ToDecimal(FK_LU_Location_ID));
         lblLocationDBA.Text = objLoc.dba;
-        lblLegalEntityName.Text = objLoc.legal_entity;
+        //lblLegalEntityName.Text = objLoc.legal_entity;
         lblLocationFKA.Text = new LU_Location_FKA(FK_LU_Location_ID, true).fka;
         lblSonicLocCode.Text = Convert.ToString(objLoc.Sonic_Location_Code);
 
         lblSonicLocCodeView.Text = lblSonicLocCode.Text;
         lblLocationFKAView.Text = lblLocationFKA.Text;
-        lblLegalEntityNameView.Text = lblLegalEntityName.Text;
+        //lblLegalEntityNameView.Text = lblLegalEntityName.Text;
         lblLocationDBAView.Text = lblLocationDBA.Text;
     }
     /// <summary>

@@ -83,7 +83,7 @@
                                         </asp:DropDownList>
                                     </td>
                                 </tr>
-                                <tr>
+                                <%--<tr>
                                     <td align="left">
                                         Legal Entity
                                     </td>
@@ -95,7 +95,7 @@
                                             Width="375px" OnSelectedIndexChanged="ddlLegalEntity_SelectedIndexChanged">
                                         </asp:DropDownList>
                                     </td>
-                                </tr>
+                                </tr>--%>
                                 <tr>
                                     <td align="left">
                                         Location d/b/a

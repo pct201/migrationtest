@@ -1401,7 +1401,7 @@
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td align="left" valign="top">
+                                                                <%--<td align="left" valign="top">
                                                                     Legal Entity
                                                                 </td>
                                                                 <td align="center" valign="top">
@@ -1410,7 +1410,7 @@
                                                                 <td align="left">
                                                                     <asp:DropDownList runat="server" ID="ddlLegalEntity" SkinID="ddlSONIC">
                                                                     </asp:DropDownList>
-                                                                </td>
+                                                                </td>--%>
                                                                 <td align="left">
                                                                     Location f/k/a
                                                                 </td>
@@ -5018,7 +5018,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="left" valign="top">
+                                                        <%--<td align="left" valign="top">
                                                             Legal Entity
                                                         </td>
                                                         <td align="center" valign="top">
@@ -5026,7 +5026,7 @@
                                                         </td>
                                                         <td align="left">
                                                             <asp:Label runat="server" ID="lblLegalEntity"></asp:Label>
-                                                        </td>
+                                                        </td>--%>
                                                         <td align="left">
                                                             Location f/k/a
                                                         </td>

@@ -48,7 +48,7 @@ public partial class SONIC_ClaimInfo_OhioWCClaimSearch : clsBasePage
             ComboHelper.FillGetSonicLocationdbaList(new DropDownList[] { ddlLocationdba },true);
 
             //fill Legal entity Dropdown
-            ComboHelper.FillGetSonicLocationlegalentityList(new DropDownList[] { ddlLegalEntity }, true);
+            //ComboHelper.FillGetSonicLocationlegalentityList(new DropDownList[] { ddlLegalEntity }, true);
 
             //fill Associate Dropdown
             ComboHelper.FillAssociate(new DropDownList[] { ddlAssociateName }, true);
@@ -93,9 +93,8 @@ public partial class SONIC_ClaimInfo_OhioWCClaimSearch : clsBasePage
     protected void ddlRMLocationNumber_SelectedIndexChanged(object sender, EventArgs e)
     {
         /// update all other dropdown according to RM location number selected
-        ddlLegalEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
+        //ddlLegalEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
         ddlLocationdba.SelectedValue = ddlRMLocationNumber.SelectedValue;
-
     }
 
     /// <summary>
@@ -107,8 +106,7 @@ public partial class SONIC_ClaimInfo_OhioWCClaimSearch : clsBasePage
     {
         // update all other dropdown according to dba selected
         ddlRMLocationNumber.SelectedValue = ddlLocationdba.SelectedValue;
-        ddlLegalEntity.SelectedValue = ddlLocationdba.SelectedValue;
-
+        //ddlLegalEntity.SelectedValue = ddlLocationdba.SelectedValue;
     }
 
     /// <summary>
@@ -116,13 +114,13 @@ public partial class SONIC_ClaimInfo_OhioWCClaimSearch : clsBasePage
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void ddlLegalEntity_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        // update all other dropdown according to entity selected
-        ddlRMLocationNumber.SelectedValue = ddlLegalEntity.SelectedValue;
-        ddlLocationdba.SelectedValue = ddlLegalEntity.SelectedValue;
+    //protected void ddlLegalEntity_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    // update all other dropdown according to entity selected
+    //    ddlRMLocationNumber.SelectedValue = ddlLegalEntity.SelectedValue;
+    //    ddlLocationdba.SelectedValue = ddlLegalEntity.SelectedValue;
 
-    }
+    //}
 
     #endregion
 
@@ -153,7 +151,7 @@ public partial class SONIC_ClaimInfo_OhioWCClaimSearch : clsBasePage
         ddlAssociateName.SelectedIndex = 0;
         txtFirstReportNumber.Text = string.Empty;
         ddlLocationdba.SelectedIndex = 0;
-        ddlLegalEntity.SelectedIndex = 0;
+        //ddlLegalEntity.SelectedIndex = 0;
         ddlClaimNumber.SelectedIndex = 0;
         ddlClaimStatus.SelectedIndex = 0;
         pnlSearchResult.Visible = false;
@@ -177,7 +175,7 @@ public partial class SONIC_ClaimInfo_OhioWCClaimSearch : clsBasePage
         ddlAssociateName.SelectedIndex = 0;
         txtFirstReportNumber.Text = string.Empty;
         ddlLocationdba.SelectedIndex = 0;
-        ddlLegalEntity.SelectedIndex = 0;
+        //ddlLegalEntity.SelectedIndex = 0;
         ddlClaimNumber.SelectedIndex = 0;
         ddlClaimStatus.SelectedIndex = 0;
         //ddlClaimantName.SelectedIndex = 0;
@@ -349,7 +347,7 @@ public partial class SONIC_ClaimInfo_OhioWCClaimSearch : clsBasePage
 
             AssociateName = ddlAssociateName.SelectedValue;
             dba = ddlLocationdba.SelectedValue;
-            legalentity = ddlLegalEntity.SelectedValue;
+            //legalentity = ddlLegalEntity.SelectedValue;
             ClaimNumber = ddlClaimNumber.SelectedValue;
             if (ddlClaimStatus.SelectedIndex == 0)
                 Active_Inactive = null;

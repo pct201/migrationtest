@@ -499,7 +499,7 @@ public partial class SONIC_WCFirstReport : clsBasePage
             //    ComboHelper.FillLocationfka(new DropDownList[] { ddlLocationfka }, (drFRW["FK_Location_ID"] != null) ? Convert.ToInt32(drFRW["FK_Location_ID"]) : 0, true);
             //}
             //select value from Location Legal Entity Dropdown
-            txtLegalEntityEdit.Text = drFRW["legal_entity"].ToString();
+            //txtLegalEntityEdit.Text = drFRW["legal_entity"].ToString();
             //if (drFRW["legal_entity"] != null)
             //{
             //    ListItem lstLegalEntity = new ListItem();
@@ -1231,10 +1231,10 @@ public partial class SONIC_WCFirstReport : clsBasePage
             if (drFRW["FK_Location_ID"] != null)
                 lblLocationfka.Text = new LU_Location_FKA(Convert.ToDecimal(drFRW["FK_Location_ID"])).fka;
             //Display Legal Entity Value
-            if (drFRW["legal_entity"] != null)
-                lblLegalEntity.Text = drFRW["legal_entity"].ToString();
-            else
-                lblLegalEntity.Text = "";
+            //if (drFRW["legal_entity"] != null)
+            //    lblLegalEntity.Text = drFRW["legal_entity"].ToString();
+            //else
+            //    lblLegalEntity.Text = "";
 
             //set address1,address2,city,state,ZipCOde Values
             lblLocationAddress1.Text = (drFRW["Address_1"] != null) ? Convert.ToString(drFRW["Address_1"]) : "";
@@ -1621,7 +1621,7 @@ public partial class SONIC_WCFirstReport : clsBasePage
             txtLocationdbaEdit.Text = drFRW["dba"].ToString();
             txtLocationfkaEdit.Text = new LU_Location_FKA((drFRW["FK_Location_ID"] != null) ? Convert.ToInt32(drFRW["FK_Location_ID"]) : 0, true).fka;
             //select value from Location Legal Entity Dropdown
-            txtLegalEntityEdit.Text = drFRW["legal_entity"].ToString();
+            //txtLegalEntityEdit.Text = drFRW["legal_entity"].ToString();
 
             //set address1,address2,city,state,ZipCOde Values
             txtLocationAddress1.Text = (drFRW["Address_1"] != null) ? Convert.ToString(drFRW["Address_1"]) : "";
@@ -2135,10 +2135,10 @@ public partial class SONIC_WCFirstReport : clsBasePage
                     if (drFRW["FK_Location_ID"] != null)
                         strEbdy = strEbdy.Replace("[lblLocationfka]", new LU_Location_FKA(Convert.ToDecimal(drFRW["FK_Location_ID"])).fka.ToString());
                     //Display Legal Entity Value
-                    if (drFRW["legal_entity"] != null)
-                        strEbdy = strEbdy.Replace("[lblLegalEntity]", drFRW["legal_entity"].ToString());
-                    else
-                        strEbdy = strEbdy.Replace("[lblLegalEntity]", "");
+                    //if (drFRW["legal_entity"] != null)
+                    //    strEbdy = strEbdy.Replace("[lblLegalEntity]", drFRW["legal_entity"].ToString());
+                    //else
+                    //    strEbdy = strEbdy.Replace("[lblLegalEntity]", "");
 
                     //set address1,address2,city,state,ZipCOde Values
                     strEbdy = strEbdy.Replace("[lblLocationAddress1]", (drFRW["Address_1"] != null) ? Convert.ToString(drFRW["Address_1"]) : "");

@@ -204,7 +204,7 @@
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblLocationDBA" runat="server" />
                                                         </td>
-                                                        <td align="left" valign="top">
+                                                        <%--<td align="left" valign="top">
                                                             Legal Entity Name
                                                         </td>
                                                         <td align="center" valign="top">
@@ -212,7 +212,7 @@
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:Label ID="lblLegalEntityName" runat="server" />
-                                                        </td>
+                                                        </td>--%>
                                                     </tr>
                                                     <tr>
                                                         <td align="left" valign="top">
@@ -538,7 +538,7 @@
                                                         <td align="left" valign="top" width="28%">
                                                             <asp:Label ID="lblLocationDBAView" runat="server" />
                                                         </td>
-                                                        <td align="left" valign="top" width="18%">
+                                                       <%-- <td align="left" valign="top" width="18%">
                                                             Legal Entity Name
                                                         </td>
                                                         <td align="center" valign="top" width="4%">
@@ -546,7 +546,7 @@
                                                         </td>
                                                         <td align="left" valign="top" width="28%">
                                                             <asp:Label ID="lblLegalEntityNameView" runat="server" />
-                                                        </td>
+                                                        </td>--%>
                                                     </tr>
                                                     <tr>
                                                         <td align="left" valign="top">

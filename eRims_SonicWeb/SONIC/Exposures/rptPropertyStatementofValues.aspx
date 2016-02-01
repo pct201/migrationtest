@@ -1352,11 +1352,11 @@
                                     <asp:Label ID="Label5" runat="server" Text='<%# Eval("Location_Name") %>' Width="180px"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Legal Entity">
+                            <%--<asp:TemplateField HeaderText="Legal Entity">
                                 <ItemTemplate>
                                     <asp:Label ID="Label6" runat="server" Text='<%# Eval("Legal_Entity") %>' Width="180px"></asp:Label>
                                 </ItemTemplate>
-                            </asp:TemplateField>
+                            </asp:TemplateField>--%>
                             <asp:TemplateField HeaderText="Federal Id">
                                 <ItemTemplate>
                                     <asp:Label ID="Label7" runat="server" Text='<%# Eval("Federal_id") %>' Width="150px"></asp:Label>

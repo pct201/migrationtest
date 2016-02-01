@@ -81,7 +81,7 @@
                                         </asp:DropDownList>
                                     </td>
                                 </tr>
-                                <tr>
+                                <%--<tr>
                                     <td align="left">
                                         Legal Entity
                                     </td>
@@ -93,7 +93,7 @@
                                             OnSelectedIndexChanged="ddlLegalEntity_SelectedIndexChanged">
                                         </asp:DropDownList>
                                     </td>
-                                </tr>
+                                </tr>--%>
                                 <tr>
                                     <td align="left">
                                         Location d/b/a
@@ -107,7 +107,7 @@
                                         </asp:DropDownList>
                                     </td>
                                 </tr>
-                                <tr>
+                                <%--<tr>
                                     <td style="width: 20%" class="lc" align="left">
                                         Entity
                                     </td>
@@ -119,7 +119,7 @@
                                             AutoPostBack="true">
                                         </asp:DropDownList>
                                     </td>
-                                </tr>
+                                </tr>--%>
                                 <tr>
                                     <td class="ic">
                                         <asp:Label ID="lblCliamNo" runat="server">Claim Number</asp:Label>

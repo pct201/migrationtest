@@ -39,7 +39,7 @@ public partial class SONIC_ClaimInformationSearch : clsBasePage
             ComboHelper.FillLocationdba(new DropDownList[] { ddlRMLocationNumber }, 0, true);
             ddlRMLocationNumber.Style.Remove("font-size");
             //fill Location dba Dropdown
-            ComboHelper.FIllLocationdba_LegalEntity(new DropDownList[] { ddlLocationdba, ddlLegalEntity }, 0, true);
+            ComboHelper.FIllLocationdba_LegalEntity(new DropDownList[] { ddlLocationdba }, 0, true);
             //fill Location Legal Entity Dropdown
             //ComboHelper.FillLocationLegal_Entity(new DropDownList[] { ddlLegalEntity }, 0, true);
             //Fill Locaiton FKA Dropdown
@@ -60,7 +60,7 @@ public partial class SONIC_ClaimInformationSearch : clsBasePage
     protected void ddlRMLocationNumber_SelectedIndexChanged(object sender, EventArgs e)
     {
         /// update all other dropdown according to RM location number selected
-        ddlLegalEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
+        //ddlLegalEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
         ddlLocationdba.SelectedValue = ddlRMLocationNumber.SelectedValue;
 
         //ComboHelper.FilterEmployeeClientNamebyLocationNumber(new DropDownList[] { ddlAssociateName}, true, Convert.ToDecimal(ddlRMLocationNumber.SelectedValue));
@@ -75,7 +75,7 @@ public partial class SONIC_ClaimInformationSearch : clsBasePage
     {
         // update all other dropdown according to dba selected
         ddlRMLocationNumber.SelectedValue = ddlLocationdba.SelectedValue;
-        ddlLegalEntity.SelectedValue = ddlLocationdba.SelectedValue;
+        //ddlLegalEntity.SelectedValue = ddlLocationdba.SelectedValue;
         //ComboHelper.FilterEmployeeClientNamebyLocationNumber(new DropDownList[] { ddlAssociateName}, true, Convert.ToDecimal(ddlRMLocationNumber.SelectedValue));
         ListItem lstItm = ddlLocationfka.Items.FindByValue(ddlLocationdba.SelectedValue);
         if (lstItm != null)
@@ -86,14 +86,14 @@ public partial class SONIC_ClaimInformationSearch : clsBasePage
     protected void ddlLegalEntity_SelectedIndexChanged(object sender, EventArgs e)
     {
         // update all other dropdown according to entity selected
-        ddlRMLocationNumber.SelectedValue = ddlLegalEntity.SelectedValue;
-        ddlLocationdba.SelectedValue = ddlLegalEntity.SelectedValue;
-        //ComboHelper.FilterEmployeeClientNamebyLocationNumber(new DropDownList[] { ddlAssociateName}, true, Convert.ToDecimal(ddlRMLocationNumber.SelectedValue));
-        ListItem lstItm = ddlLocationfka.Items.FindByValue(ddlLegalEntity.SelectedValue);
-        if (lstItm != null)
-            ddlLocationfka.SelectedValue = ddlLegalEntity.SelectedValue;
-        else
-            ddlLocationfka.SelectedValue = "0";
+        //ddlRMLocationNumber.SelectedValue = ddlLegalEntity.SelectedValue;
+        //ddlLocationdba.SelectedValue = ddlLegalEntity.SelectedValue;
+        ////ComboHelper.FilterEmployeeClientNamebyLocationNumber(new DropDownList[] { ddlAssociateName}, true, Convert.ToDecimal(ddlRMLocationNumber.SelectedValue));
+        //ListItem lstItm = ddlLocationfka.Items.FindByValue(ddlLegalEntity.SelectedValue);
+        //if (lstItm != null)
+        //    ddlLocationfka.SelectedValue = ddlLegalEntity.SelectedValue;
+        //else
+        //    ddlLocationfka.SelectedValue = "0";
     }
     protected void ddlLocationfka_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -103,15 +103,15 @@ public partial class SONIC_ClaimInformationSearch : clsBasePage
             ListItem lstItm;
             lstItm = ddlRMLocationNumber.Items.FindByValue(ddlLocationfka.SelectedValue);
             ddlRMLocationNumber.SelectedValue = (lstItm != null) ? ddlLocationfka.SelectedValue : "0";
-            lstItm = ddlLegalEntity.Items.FindByValue(ddlLocationfka.SelectedValue);
-            ddlLegalEntity.SelectedValue = (lstItm != null) ? ddlLocationfka.SelectedValue : "0";
+            //lstItm = ddlLegalEntity.Items.FindByValue(ddlLocationfka.SelectedValue);
+            //ddlLegalEntity.SelectedValue = (lstItm != null) ? ddlLocationfka.SelectedValue : "0";
             lstItm = ddlLocationdba.Items.FindByValue(ddlLocationfka.SelectedValue);
             ddlLocationdba.SelectedValue = (lstItm != null) ? ddlLocationfka.SelectedValue : "0";
         }
         else
         {
             ddlLocationdba.SelectedValue = "0";
-            ddlLegalEntity.SelectedValue = "0";
+            //ddlLegalEntity.SelectedValue = "0";
             ddlRMLocationNumber.SelectedValue = "0";
         }
     }

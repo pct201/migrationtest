@@ -33,7 +33,7 @@ public partial class Exposures_ExposureSearch : clsBasePage
             ComboHelper.FillLocationdba(new DropDownList[] { ddlRMLocationNumber }, 0, true, true);
             ddlRMLocationNumber.Style.Remove("font-size");
             //used to fill Legal Entity Dropdown
-            ComboHelper.FillLocationLegal_Entity(new DropDownList[] { ddlLegalEntity }, 0, true, true);
+            //ComboHelper.FillLocationLegal_Entity(new DropDownList[] { ddlLegalEntity }, 0, true, true);
             //used to fill dba Dropdown
             ComboHelper.FillLocationdbaOnly(new DropDownList[] { ddlLocationdba }, 0, true, true);
             //used to fill fka dropdown
@@ -81,7 +81,7 @@ public partial class Exposures_ExposureSearch : clsBasePage
         // get values from page controls
         string strLocationIDs = string.Empty;
         if (ddlRMLocationNumber.SelectedIndex > 0) strLocationIDs = ddlRMLocationNumber.SelectedValue;
-        if (ddlLegalEntity.SelectedIndex > 0) strLocationIDs = strLocationIDs != "" ? strLocationIDs + "," + ddlLegalEntity.SelectedValue : ddlLegalEntity.SelectedValue;
+        //if (ddlLegalEntity.SelectedIndex > 0) strLocationIDs = strLocationIDs != "" ? strLocationIDs + "," + ddlLegalEntity.SelectedValue : ddlLegalEntity.SelectedValue;
         if (ddlLocationdba.SelectedIndex > 0) strLocationIDs = strLocationIDs != "" ? strLocationIDs + "," + ddlLocationdba.SelectedValue : ddlLocationdba.SelectedValue;
         if (ddlLocationfka.SelectedIndex > 0) strLocationIDs = strLocationIDs != "" ? strLocationIDs + "," + ddlLocationfka.SelectedValue : ddlLocationfka.SelectedValue;
 
@@ -116,7 +116,7 @@ public partial class Exposures_ExposureSearch : clsBasePage
     protected void ddlRMLocationNumber_SelectedIndexChanged(object sender, EventArgs e)
     {
         // update all other dropdown according to RM location number selected
-        ddlLegalEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
+        //ddlLegalEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
         ddlLocationdba.SelectedValue = ddlRMLocationNumber.SelectedValue;
         ListItem lstItm = ddlLocationfka.Items.FindByValue(ddlRMLocationNumber.SelectedValue);
         if (lstItm != null)
@@ -133,13 +133,13 @@ public partial class Exposures_ExposureSearch : clsBasePage
     protected void ddlLegalEntity_SelectedIndexChanged(object sender, EventArgs e)
     {
         // update all other dropdown according to entity selected
-        ddlRMLocationNumber.SelectedValue = ddlLegalEntity.SelectedValue;
-        ddlLocationdba.SelectedValue = ddlLegalEntity.SelectedValue;
-        ListItem lstItm = ddlLocationfka.Items.FindByValue(ddlLegalEntity.SelectedValue);
-        if (lstItm != null)
-            ddlLocationfka.SelectedValue = ddlLegalEntity.SelectedValue;
-        else
-            ddlLocationfka.SelectedValue = "0";
+        //ddlRMLocationNumber.SelectedValue = ddlLegalEntity.SelectedValue;
+        //ddlLocationdba.SelectedValue = ddlLegalEntity.SelectedValue;
+        //ListItem lstItm = ddlLocationfka.Items.FindByValue(ddlLegalEntity.SelectedValue);
+        //if (lstItm != null)
+        //    ddlLocationfka.SelectedValue = ddlLegalEntity.SelectedValue;
+        //else
+        //    ddlLocationfka.SelectedValue = "0";
     }
 
     /// <summary>
@@ -151,7 +151,7 @@ public partial class Exposures_ExposureSearch : clsBasePage
     {
         // update all other dropdown according to dba selected
         ddlRMLocationNumber.SelectedValue = ddlLocationdba.SelectedValue;
-        ddlLegalEntity.SelectedValue = ddlLocationdba.SelectedValue;
+        //ddlLegalEntity.SelectedValue = ddlLocationdba.SelectedValue;
         ListItem lstItm = ddlLocationfka.Items.FindByValue(ddlLocationdba.SelectedValue);
         if (lstItm != null)
             ddlLocationfka.SelectedValue = ddlLocationdba.SelectedValue;
@@ -172,15 +172,15 @@ public partial class Exposures_ExposureSearch : clsBasePage
             ListItem lstItm;
             lstItm = ddlRMLocationNumber.Items.FindByValue(ddlLocationfka.SelectedValue);
             ddlRMLocationNumber.SelectedValue = (lstItm != null) ? ddlLocationfka.SelectedValue : "0";
-            lstItm = ddlLegalEntity.Items.FindByValue(ddlLocationfka.SelectedValue);
-            ddlLegalEntity.SelectedValue = (lstItm != null) ? ddlLocationfka.SelectedValue : "0";
+            //lstItm = ddlLegalEntity.Items.FindByValue(ddlLocationfka.SelectedValue);
+            //ddlLegalEntity.SelectedValue = (lstItm != null) ? ddlLocationfka.SelectedValue : "0";
             lstItm = ddlLocationdba.Items.FindByValue(ddlLocationfka.SelectedValue);
             ddlLocationdba.SelectedValue = (lstItm != null) ? ddlLocationfka.SelectedValue : "0";
         }
         else
         {
             ddlLocationdba.SelectedValue = "0";
-            ddlLegalEntity.SelectedValue = "0";
+            //ddlLegalEntity.SelectedValue = "0";
             ddlRMLocationNumber.SelectedValue = "0";
         }
     }

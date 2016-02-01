@@ -146,7 +146,7 @@ public partial class SONIC_PLFirstReport : clsBasePage
                 //Fill Location dba Dropdown
                 ComboHelper.FillLocationdba(new DropDownList[] { ddlLocationdba }, 0, true);
                 //Fill Location Legal Entity Dropdown
-                ComboHelper.FillLocationLegal_Entity(new DropDownList[] { ddlLegalEntity }, 0, true);
+                //ComboHelper.FillLocationLegal_Entity(new DropDownList[] { ddlLegalEntity }, 0, true);
                 //Fill Location FKA Dropdown
                 ComboHelper.FillLocationfka(new DropDownList[] { ddlLocationfka }, 0, true);
                 //Fetch Related Record for Location and EMployee
@@ -209,7 +209,7 @@ public partial class SONIC_PLFirstReport : clsBasePage
                 //Fill Location dba Dropdown
                 ComboHelper.FillLocationdbaOnlyForView(new DropDownList[] { ddlLocationdba }, 0, true);
                 //Fill Location Legal Entity Dropdown
-                ComboHelper.FillLocationLegal_EntityForView(new DropDownList[] { ddlLegalEntity }, 0, true);
+                //ComboHelper.FillLocationLegal_EntityForView(new DropDownList[] { ddlLegalEntity }, 0, true);
                 //Fill Location FKA Dropdown
                 ComboHelper.FillLocationfka(new DropDownList[] { ddlLocationfka }, 0, true);
                 //Fetch Related Record for Location and EMployee
@@ -450,16 +450,16 @@ public partial class SONIC_PLFirstReport : clsBasePage
                 ComboHelper.FillLocationfka(new DropDownList[] { ddlLocationfka }, (drFRW["FK_Location_ID"] != null) ? Convert.ToInt32(drFRW["FK_Location_ID"]) : 0, true);
             }
             //select value from Location Legal Entity Dropdown
-            if (drFRW["legal_entity"] != null)
-            {
-                ListItem lst = new ListItem();
-                lst = ddlLegalEntity.Items.FindByText(drFRW["legal_entity"].ToString().Trim());
-                //used to check if Listitem is not null than value is selected
-                if (lst != null)
-                {
-                    lst.Selected = true;
-                }
-            }
+            //if (drFRW["legal_entity"] != null)
+            //{
+            //    ListItem lst = new ListItem();
+            //    lst = ddlLegalEntity.Items.FindByText(drFRW["legal_entity"].ToString().Trim());
+            //    //used to check if Listitem is not null than value is selected
+            //    if (lst != null)
+            //    {
+            //        lst.Selected = true;
+            //    }
+            //}
 
             //set address1,address2,city,state,ZipCOde Values
             txtLocationAddress1.Text = (drFRW["Address_1"] != null) ? Convert.ToString(drFRW["Address_1"]) : "";
@@ -501,7 +501,7 @@ public partial class SONIC_PLFirstReport : clsBasePage
         ddlLocationNumber.Enabled = value;
         ddlLocationfka.Enabled = value;
         ddlLocationdba.Enabled = value;
-        ddlLegalEntity.Enabled = value;
+        //ddlLegalEntity.Enabled = value;
         txtLocationAddress1.Enabled = value;
         txtLocationAddress2.Enabled = value;
         txtLocationCity.Enabled = value;
@@ -1218,10 +1218,10 @@ public partial class SONIC_PLFirstReport : clsBasePage
                     lblLocationfka.Text = "";
 
                 //select value from Location Legal Entity
-                if (drFRW["legal_entity"] != null)
-                    lblLegalEntity.Text = drFRW["legal_entity"].ToString();
-                else
-                    lblLegalEntity.Text = "";
+                //if (drFRW["legal_entity"] != null)
+                //    lblLegalEntity.Text = drFRW["legal_entity"].ToString();
+                //else
+                //    lblLegalEntity.Text = "";
 
                 //set address1,address2,city,state,ZipCOde Values
                 lblLocationAddress1.Text = (drFRW["Address_1"] != null) ? Convert.ToString(drFRW["Address_1"]) : "";
@@ -1581,16 +1581,16 @@ public partial class SONIC_PLFirstReport : clsBasePage
                 }
 
                 //select value from Location Legal Entity Dropdown
-                if (drFRW["legal_entity"] != null)
-                {
-                    ListItem lstLE = new ListItem();
-                    lstLE = ddlLegalEntity.Items.FindByText(drFRW["legal_entity"].ToString());
-                    //used to check if Listitem is not null than value is selected
-                    if (lstLE != null)
-                    {
-                        lstLE.Selected = true;
-                    }
-                }
+                //if (drFRW["legal_entity"] != null)
+                //{
+                //    ListItem lstLE = new ListItem();
+                //    lstLE = ddlLegalEntity.Items.FindByText(drFRW["legal_entity"].ToString());
+                //    //used to check if Listitem is not null than value is selected
+                //    if (lstLE != null)
+                //    {
+                //        lstLE.Selected = true;
+                //    }
+                //}
 
                 //set address1,address2,city,state,ZipCOde Values
                 txtLocationAddress1.Text = (drFRW["Address_1"] != null) ? Convert.ToString(drFRW["Address_1"]) : "";
@@ -2034,10 +2034,10 @@ public partial class SONIC_PLFirstReport : clsBasePage
                         strEbdy = strEbdy.Replace("[lblLocationfka]", "");
 
                     //select value from Location Legal Entity
-                    if (drFRW["legal_entity"] != null)
-                        strEbdy = strEbdy.Replace("[lblLegalEntity]", drFRW["legal_entity"].ToString());
-                    else
-                        strEbdy = strEbdy.Replace("[lblLegalEntity]", "");
+                    //if (drFRW["legal_entity"] != null)
+                    //    strEbdy = strEbdy.Replace("[lblLegalEntity]", drFRW["legal_entity"].ToString());
+                    //else
+                    //    strEbdy = strEbdy.Replace("[lblLegalEntity]", "");
 
                     //set address1,address2,city,state,ZipCOde Values
                     strEbdy = strEbdy.Replace("[lblLocationAddress1]", (drFRW["Address_1"] != null) ? Convert.ToString(drFRW["Address_1"]) : "");

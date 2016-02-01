@@ -167,7 +167,7 @@
                                                                     OnSelectedIndexChanged="ddlLocationdba_SelectedIndexChanged">
                                                                 </asp:DropDownList>
                                                             </td>
-                                                            <td align="left">
+                                                            <%--<td align="left">
                                                                 Legal Entity
                                                             </td>
                                                             <td align="center">
@@ -177,7 +177,7 @@
                                                                 <asp:DropDownList ID="ddlLegalEntity" runat="server" AutoPostBack="true" Width="170px"
                                                                     OnSelectedIndexChanged="ddlLegalEntity_SelectedIndexChanged">
                                                                 </asp:DropDownList>
-                                                            </td>
+                                                            </td>--%>
                                                         </tr>
                                                         <tr>
                                                             <td align="left">

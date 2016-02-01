@@ -152,7 +152,7 @@ public partial class OutlookAddIn_Search : System.Web.UI.Page
 
             ComboHelper.FillLocationdba(new DropDownList[] { ddlRMLocationNumber }, 0, true, true);//used to fill RM Location Number Dropdown
             ddlRMLocationNumber.Style.Remove("font-size");
-            ComboHelper.FillLocationLegal_Entity(new DropDownList[] { ddlLegalEntity }, 0, true, true); //used to fill Legal Entity Dropdown
+            //ComboHelper.FillLocationLegal_Entity(new DropDownList[] { ddlLegalEntity }, 0, true, true); //used to fill Legal Entity Dropdown
             ComboHelper.FillLocationdbaOnly(new DropDownList[] { ddlLocationdba }, 0, true, true);//used to fill dba Dropdown
             ComboHelper.FillLocationfka(new DropDownList[] { ddlLocationfka }, 0, true);//used to fill fka dropdown
 
@@ -194,7 +194,7 @@ public partial class OutlookAddIn_Search : System.Web.UI.Page
     protected void ddlRMLocationNumber_SelectedIndexChanged(object sender, EventArgs e)
     {
         // update all other dropdown according to RM location number selected
-        ddlLegalEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
+        //ddlLegalEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
         ddlLocationdba.SelectedValue = ddlRMLocationNumber.SelectedValue;
         ListItem lstItm = ddlLocationfka.Items.FindByValue(ddlRMLocationNumber.SelectedValue);
         if (lstItm != null)
@@ -208,17 +208,17 @@ public partial class OutlookAddIn_Search : System.Web.UI.Page
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void ddlLegalEntity_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        // update all other dropdown according to entity selected
-        ddlRMLocationNumber.SelectedValue = ddlLegalEntity.SelectedValue;
-        ddlLocationdba.SelectedValue = ddlLegalEntity.SelectedValue;
-        ListItem lstItm = ddlLocationfka.Items.FindByValue(ddlLegalEntity.SelectedValue);
-        if (lstItm != null)
-            ddlLocationfka.SelectedValue = ddlLegalEntity.SelectedValue;
-        else
-            ddlLocationfka.SelectedValue = "0";
-    }
+    //protected void ddlLegalEntity_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    // update all other dropdown according to entity selected
+    //    ddlRMLocationNumber.SelectedValue = ddlLegalEntity.SelectedValue;
+    //    ddlLocationdba.SelectedValue = ddlLegalEntity.SelectedValue;
+    //    ListItem lstItm = ddlLocationfka.Items.FindByValue(ddlLegalEntity.SelectedValue);
+    //    if (lstItm != null)
+    //        ddlLocationfka.SelectedValue = ddlLegalEntity.SelectedValue;
+    //    else
+    //        ddlLocationfka.SelectedValue = "0";
+    //}
 
     /// <summary>
     /// Handles event when dba dropdown selection changed
@@ -229,7 +229,7 @@ public partial class OutlookAddIn_Search : System.Web.UI.Page
     {
         // update all other dropdown according to dba selected
         ddlRMLocationNumber.SelectedValue = ddlLocationdba.SelectedValue;
-        ddlLegalEntity.SelectedValue = ddlLocationdba.SelectedValue;
+        //ddlLegalEntity.SelectedValue = ddlLocationdba.SelectedValue;
         ListItem lstItm = ddlLocationfka.Items.FindByValue(ddlLocationdba.SelectedValue);
         if (lstItm != null)
             ddlLocationfka.SelectedValue = ddlLocationdba.SelectedValue;
@@ -250,15 +250,15 @@ public partial class OutlookAddIn_Search : System.Web.UI.Page
             ListItem lstItm;
             lstItm = ddlRMLocationNumber.Items.FindByValue(ddlLocationfka.SelectedValue);
             ddlRMLocationNumber.SelectedValue = (lstItm != null) ? ddlLocationfka.SelectedValue : "0";
-            lstItm = ddlLegalEntity.Items.FindByValue(ddlLocationfka.SelectedValue);
-            ddlLegalEntity.SelectedValue = (lstItm != null) ? ddlLocationfka.SelectedValue : "0";
+            //lstItm = ddlLegalEntity.Items.FindByValue(ddlLocationfka.SelectedValue);
+            //ddlLegalEntity.SelectedValue = (lstItm != null) ? ddlLocationfka.SelectedValue : "0";
             lstItm = ddlLocationdba.Items.FindByValue(ddlLocationfka.SelectedValue);
             ddlLocationdba.SelectedValue = (lstItm != null) ? ddlLocationfka.SelectedValue : "0";
         }
         else
         {
             ddlLocationdba.SelectedValue = "0";
-            ddlLegalEntity.SelectedValue = "0";
+            //ddlLegalEntity.SelectedValue = "0";
             ddlRMLocationNumber.SelectedValue = "0";
         }
     }
@@ -588,7 +588,7 @@ public partial class OutlookAddIn_Search : System.Web.UI.Page
 
     protected void btnClear_Click(object sender, EventArgs e)
     {
-        ddlRMLocationNumber.SelectedIndex = ddlLegalEntity.SelectedIndex = ddlLocationdba.SelectedIndex = ddlLocationfka.SelectedIndex = 0;
+        //ddlRMLocationNumber.SelectedIndex = ddlLegalEntity.SelectedIndex = ddlLocationdba.SelectedIndex = ddlLocationfka.SelectedIndex = 0;
         txtStartRangeDate.Text = txtEndRangeDate.Text = string.Empty;
         txtMainAddress.Text = txtBuildingAddress.Text = txtMainCity.Text = txtBuildingCity.Text = string.Empty;
         drpMainState.SelectedIndex = drpBuildingState.SelectedIndex = 0;

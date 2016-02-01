@@ -20,6 +20,7 @@ using ERIMS.DAL;
 /// Description    : Used to add Property Information to current First Report Wizard ID.
 ///                  also display Record is View MOde
 /// 
+/// 
 /// </summary>
 public partial class SONIC_PropertyFirstReport : clsBasePage
 {
@@ -154,7 +155,7 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
                 //Fill Location dba Dropdown
                 ComboHelper.FillLocationdba(new DropDownList[] { ddlLocationdba }, 0, true);
                 //Fill Location Legal Entity Dropdown
-                ComboHelper.FillLocationLegal_EntityForView(new DropDownList[] { ddlLegalEntity }, 0, true);
+                //ComboHelper.FillLocationLegal_EntityForView(new DropDownList[] { ddlLegalEntity }, 0, true);
                 //Fill Location FKA Dropdown
                 ComboHelper.FillLocationfka(new DropDownList[] { ddlLocationfka }, 0, true);
                 //Fetch Related Record for Location and EMployee
@@ -189,7 +190,7 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
                 //Fill Location dba Dropdown
                 ComboHelper.FillLocationdbaOnlyForView(new DropDownList[] { ddlLocationdba }, 0, true);
                 //Fill Location Legal Entity Dropdown
-                ComboHelper.FillLocationLegal_EntityForView(new DropDownList[] { ddlLegalEntity }, 0, true);
+                //ComboHelper.FillLocationLegal_EntityForView(new DropDownList[] { ddlLegalEntity }, 0, true);
                 //Fill Location FKA Dropdown
                 ComboHelper.FillLocationfka(new DropDownList[] { ddlLocationfka }, 0, true);
                 //Fetch Related Record for Location and EMployee
@@ -352,6 +353,7 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
     {
         //update Loss Information
         UpdateLossInformation();
+        CopyDataToPropertyClaim();
         //Bind Sonic Header
         setSonicHeaderInfo();
         //used to open Commment Information panel using ShowPanel Javascript function
@@ -367,6 +369,9 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
     {
         //Complate Property_First Report and Send Email.
         int retVal = ComplateProperty_FRReport(true);
+
+        //CopyDataToPropertyClaim();
+
         if (retVal == 1)
         {
             Response.Redirect("FirstReportStatus.aspx");
@@ -379,6 +384,71 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
         {
             //used to open Comment and Attachment Panel
             Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);", true);
+        }
+    }
+
+    private void CopyDataToPropertyClaim()
+    {
+        Property_Claims property_Claims = new Property_Claims();
+
+        property_Claims.FK_Property_FR_ID = PK_Prop_FR_ID;
+        property_Claims.Date_Of_Loss = clsGeneral.FormatDateToStore(txtDate_Of_Loss);
+        property_Claims.Time_Of_Loss = txtTime_Of_Loss.Text;
+        property_Claims.Fire = chkFire.Checked;
+        property_Claims.Property_Damage_by_Sonic_Associate = chkProperty_Damage_by_Sonic_Associate.Checked;
+        property_Claims.Wind_Damage = chkWind_Damage.Checked;
+        property_Claims.Environmental_Loss = chkEnvironmental_Loss.Checked;
+        property_Claims.Hail_Damage = chkHail_Damage.Checked;
+        property_Claims.Vandalism_To_The_Property = chkVandalism_To_The_Property.Checked;
+        property_Claims.Earth_Movement = chkEnvironmental_Loss.Checked;
+        property_Claims.Theft_Associate_Tools = chkTheft_Associate_Tools.Checked;
+        property_Claims.Flood = chkFlood.Checked;
+        property_Claims.Theft_All_Other = chkTheft_All_Other.Checked;
+        property_Claims.Third_Party_Property_Damage = chkThird_Party_Property_Damage.Checked;
+        property_Claims.Other = chkOther.Checked;
+        property_Claims.Description_of_Loss = txtDescription_of_Loss.Text;
+        property_Claims.Damage_Building_Facilities_Est_Cost = string.IsNullOrEmpty(txtDamage_Building_Facilities_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Building_Facilities_Est_Cost.Text);
+        property_Claims.Damage_Building_Facilities_Actual_Cost = string.IsNullOrEmpty(txtDamage_Building_Facilities_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Building_Facilities_Actual_Cost.Text);
+        property_Claims.Damage_Equipment_Est_Cost = string.IsNullOrEmpty(txtDamage_Equipment_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Equipment_Est_Cost.Text);
+        property_Claims.Damage_Equipment_Actual_Cost = string.IsNullOrEmpty(txtDamage_Equipment_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Equipment_Actual_Cost.Text);
+        property_Claims.Damage_Product_Damage_Est_Cost = string.IsNullOrEmpty(txtDamage_Product_Damage_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Product_Damage_Est_Cost.Text);
+        property_Claims.Damage_Product_Damage_Actual_Cost = string.IsNullOrEmpty(txtDamage_Product_Damage_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Product_Damage_Actual_Cost.Text);
+        property_Claims.Damage_Parts_Est_Cost = string.IsNullOrEmpty(txtDamage_Parts_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Parts_Est_Cost.Text);
+        property_Claims.Damage_Parts_Actual_Cost = string.IsNullOrEmpty(txtDamage_Parts_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Parts_Actual_Cost.Text);
+        property_Claims.Damage_Salvage_Cleanup_Est_Cost = string.IsNullOrEmpty(txtDamage_Salvage_Cleanup_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Salvage_Cleanup_Est_Cost.Text);
+        property_Claims.Damage_Salvage_Cleanup_Actual_Cost = string.IsNullOrEmpty(txtDamage_Salvage_Cleanup_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Salvage_Cleanup_Actual_Cost.Text);
+        property_Claims.Damage_Decontamination_Est_Cost = string.IsNullOrEmpty(txtDamage_Decontamination_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Decontamination_Est_Cost.Text);
+        property_Claims.Damage_Decontamination_Actual_Cost = string.IsNullOrEmpty(txtDamage_Decontamination_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Decontamination_Actual_Cost.Text);
+        property_Claims.Damage_Electronic_Data_Est_Cost = string.IsNullOrEmpty(txtDamage_Electronic_Data_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Electronic_Data_Est_Cost.Text);
+        property_Claims.Damage_Electronic_Data_Actual_Cost = string.IsNullOrEmpty(txtDamage_Electronic_Data_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Electronic_Data_Actual_Cost.Text);
+        property_Claims.Damage_Service_Interruption_Est_Cost = string.IsNullOrEmpty(txtDamage_Service_Interruption_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Service_Interruption_Est_Cost.Text);
+        property_Claims.Damage_Service_Interruption_Actual_Cost = string.IsNullOrEmpty(txtDamage_Service_Interruption_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Service_Interruption_Actual_Cost.Text);
+        property_Claims.Damage_Payroll_Est_Cost = string.IsNullOrEmpty(txtDamage_Payroll_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Payroll_Est_Cost.Text);
+        property_Claims.Damage_Payroll_Actual_Cost = string.IsNullOrEmpty(txtDamage_Payroll_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Payroll_Actual_Cost.Text);
+        property_Claims.Damage_Loss_of_Sales_Est_Cost = string.IsNullOrEmpty(txtDamage_Loss_of_Sales_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Loss_of_Sales_Est_Cost.Text);
+        property_Claims.Damage_Loss_of_Sales_Actual_Cost = string.IsNullOrEmpty(txtDamage_Loss_of_Sales_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Loss_of_Sales_Actual_Cost.Text);
+        property_Claims.Date_Cleanup_Complete = clsGeneral.FormatDateToStore(txtDate_Cleanup_Complete);
+        property_Claims.Date_Repairs_Complete = clsGeneral.FormatDateToStore(txtDate_Repairs_Complete);
+        property_Claims.Date_Full_Service_Resumed = clsGeneral.FormatDateToStore(txtDate_Full_Service_Resumed);
+        property_Claims.Date_Fire_Protection_Services_Resumed = clsGeneral.FormatDateToStore(txtDate_Fire_Protection_Services_Resumed);
+        if (rdo_Security_Video_Surveillance.SelectedValue == "1")
+        {
+            property_Claims.Security_Video_Surveillance = true;
+        }
+        else if (rdo_Security_Video_Surveillance.SelectedValue == "0")
+        {
+            property_Claims.Security_Video_Surveillance = false;
+        }
+        else
+            property_Claims.Security_Video_Surveillance = null;
+
+
+        DataTable dtBuilding = Property_FR_Building.GetBuildingResultByPropertyID(PK_Prop_FR_ID);
+
+        foreach (DataRow drBuilding in dtBuilding.Rows)
+        {
+            Property_Claims_Building property_Claims_Building = new Property_Claims_Building();
+            
         }
     }
 
@@ -424,16 +494,16 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
                 ComboHelper.FillLocationfka(new DropDownList[] { ddlLocationfka }, (drFRW["FK_Location_ID"] != null) ? Convert.ToInt32(drFRW["FK_Location_ID"]) : 0, true);
             }
             //select value from Location Legal Entity Dropdown
-            if (drFRW["legal_entity"] != null)
-            {
-                ListItem lstLE = new ListItem();
-                lstLE = ddlLegalEntity.Items.FindByText(drFRW["legal_entity"].ToString().Trim());
-                //check list item if not null than list item selected = true
-                if (lstLE != null)
-                {
-                    lstLE.Selected = true;
-                }
-            }
+            //if (drFRW["legal_entity"] != null)
+            //{
+            //    ListItem lstLE = new ListItem();
+            //    lstLE = ddlLegalEntity.Items.FindByText(drFRW["legal_entity"].ToString().Trim());
+            //    //check list item if not null than list item selected = true
+            //    if (lstLE != null)
+            //    {
+            //        lstLE.Selected = true;
+            //    }
+            //}
 
             //set address1,address2,city,state,ZipCOde Values
             txtLocationAddress1.Text = (drFRW["Address_1"] != null) ? Convert.ToString(drFRW["Address_1"]) : "";
@@ -475,7 +545,7 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
         ddlLocationNumber.Enabled = value;
         ddlLocationfka.Enabled = value;
         ddlLocationdba.Enabled = value;
-        ddlLegalEntity.Enabled = value;
+        //ddlLegalEntity.Enabled = value;
         txtLocationAddress1.Enabled = value;
         txtLocationAddress2.Enabled = value;
         txtLocationCity.Enabled = value;
@@ -917,10 +987,10 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
                 lblLocationfka.Text = "";
 
             //select value from Location Legal Entity
-            if (drFRW["legal_entity"] != null)
-                lblLegalEntity.Text = drFRW["legal_entity"].ToString();
-            else
-                lblLegalEntity.Text = "";
+            //if (drFRW["legal_entity"] != null)
+            //    lblLegalEntity.Text = drFRW["legal_entity"].ToString();
+            //else
+            //    lblLegalEntity.Text = "";
 
             //set address1,address2,city,state,ZipCOde Values
             lblLocationAddress1.Text = (drFRW["Address_1"] != null) ? Convert.ToString(drFRW["Address_1"]) : "";
@@ -1273,16 +1343,16 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
             }
 
             //select value from Location Legal Entity Dropdown
-            if (drFRW["legal_entity"] != null)
-            {
-                ListItem lst = new ListItem();
-                lst = ddlLegalEntity.Items.FindByText(drFRW["legal_entity"].ToString());
-                //check list item if not null than list item selected = true
-                if (lst != null)
-                {
-                    lst.Selected = true;
-                }
-            }
+            //if (drFRW["legal_entity"] != null)
+            //{
+            //    ListItem lst = new ListItem();
+            //    lst = ddlLegalEntity.Items.FindByText(drFRW["legal_entity"].ToString());
+            //    //check list item if not null than list item selected = true
+            //    if (lst != null)
+            //    {
+            //        lst.Selected = true;
+            //    }
+            //}
 
             //set address1,address2,city,state,ZipCOde Values
             txtLocationAddress1.Text = (drFRW["Address_1"] != null) ? Convert.ToString(drFRW["Address_1"]) : "";
@@ -1484,10 +1554,10 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
                     strEbdy = strEbdy.Replace("[lblLocationfka]", "");
 
                 //select value from Location Legal Entity
-                if (drFRW["legal_entity"] != null)
-                    strEbdy = strEbdy.Replace("[lblLegalEntity]", drFRW["legal_entity"].ToString());
-                else
-                    strEbdy = strEbdy.Replace("[lblLegalEntity]", "");
+                //if (drFRW["legal_entity"] != null)
+                //    strEbdy = strEbdy.Replace("[lblLegalEntity]", drFRW["legal_entity"].ToString());
+                //else
+                //    strEbdy = strEbdy.Replace("[lblLegalEntity]", "");
 
                 //set address1,address2,city,state,ZipCOde Values
                 strEbdy = strEbdy.Replace("[lblLocationAddress1]", (drFRW["Address_1"] != null) ? Convert.ToString(drFRW["Address_1"]) : "");

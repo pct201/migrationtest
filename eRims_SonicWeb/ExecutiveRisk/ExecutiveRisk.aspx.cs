@@ -194,7 +194,7 @@ public partial class PropertyLiability_ExecutiveRisk : clsBasePage
         lblClaimNumber.Text = bAddTo ? Executive_Risk.GetNextClaimNumber(bAddTo, objRisk.Claim_Number) : objRisk.Claim_Number;        
         ddlRMLocationNumber.SelectedValue = Convert.ToString(objRisk.FK_Entity);
         ddlLocationdba.SelectedValue = Convert.ToString(objRisk.FK_Entity);
-        ddlLegalEntity.SelectedValue = Convert.ToString(objRisk.FK_Entity);
+        //ddlLegalEntity.SelectedValue = Convert.ToString(objRisk.FK_Entity);
         ddlEntity.SelectedValue = Convert.ToString(objRisk.FK_Entity);
         drpTypeOfClaim.SelectedValue = Convert.ToString(objRisk.FK_Type_Of_ER_Claim);
         if (drpTypeOfClaim.SelectedItem.Text == "Other") txtOtherClaimType.Text = objRisk.Claim_Type_Other;
@@ -301,7 +301,7 @@ public partial class PropertyLiability_ExecutiveRisk : clsBasePage
         LU_Location objLocation = new LU_Location(objRisk.FK_Entity);
 
         lblSonicLocationCode.Text = objLocation.Sonic_Location_Code + "-" + objLocation.dba;
-        lblLegalEntity.Text = objLocation.legal_entity;
+        //lblLegalEntity.Text = objLocation.legal_entity;
         lblLocationDBA.Text = objLocation.dba;
         lblEntity.Text = "SLC:" + objLocation.Sonic_Location_Code.ToString().Trim() + "|RMLC:" + objLocation.RM_Location_Number;
         lblTypeOfClaim.Text = new Type_Of_ER_Claim(objRisk.FK_Type_Of_ER_Claim).Fld_Desc;
@@ -721,15 +721,15 @@ public partial class PropertyLiability_ExecutiveRisk : clsBasePage
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void ddlLegalEntity_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        // update all other dropdown according to entity selected
-        ddlRMLocationNumber.SelectedValue = ddlLegalEntity.SelectedValue;
-        ddlLocationdba.SelectedValue = ddlLegalEntity.SelectedValue;
-        ddlEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
-        //SetEntity(Convert.ToDecimal(ddlLegalEntity.SelectedValue));
-        Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "ShowPanel(1);", true);
-    }
+    //protected void ddlLegalEntity_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    // update all other dropdown according to entity selected
+    //    ddlRMLocationNumber.SelectedValue = ddlLegalEntity.SelectedValue;
+    //    ddlLocationdba.SelectedValue = ddlLegalEntity.SelectedValue;
+    //    ddlEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
+    //    //SetEntity(Convert.ToDecimal(ddlLegalEntity.SelectedValue));
+    //    Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "ShowPanel(1);", true);
+    //}
 
     /// <summary>
     /// Drodown Liast Location DBa selected index change
@@ -740,7 +740,7 @@ public partial class PropertyLiability_ExecutiveRisk : clsBasePage
     {
         // update all other dropdown according to dba selected
         ddlRMLocationNumber.SelectedValue = ddlLocationdba.SelectedValue;
-        ddlLegalEntity.SelectedValue = ddlLocationdba.SelectedValue;
+        //ddlLegalEntity.SelectedValue = ddlLocationdba.SelectedValue;
         ddlEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
         //SetEntity(Convert.ToDecimal(ddlLegalEntity.SelectedValue));
         Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "ShowPanel(1);", true);
@@ -754,7 +754,7 @@ public partial class PropertyLiability_ExecutiveRisk : clsBasePage
     protected void ddlRMLocationNumber_SelectedIndexChanged(object sender, EventArgs e)
     {
         // update all other dropdown according to RM location number selected
-        ddlLegalEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
+        //ddlLegalEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
         ddlLocationdba.SelectedValue = ddlRMLocationNumber.SelectedValue;
         ListItem lstItm = ddlEntity.Items.FindByValue(ddlLocationdba.SelectedValue);
         if (lstItm != null)
@@ -774,7 +774,7 @@ public partial class PropertyLiability_ExecutiveRisk : clsBasePage
     {
         // update all other dropdown according to dba selected
         ddlRMLocationNumber.SelectedValue = ddlEntity.SelectedValue;
-        ddlLegalEntity.SelectedValue = ddlEntity.SelectedValue;
+        //ddlLegalEntity.SelectedValue = ddlEntity.SelectedValue;
         ddlLocationdba.SelectedValue = ddlEntity.SelectedValue;
 
         Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "ShowPanel(1);", true);
@@ -923,7 +923,7 @@ public partial class PropertyLiability_ExecutiveRisk : clsBasePage
         ComboHelper.FillLocationdba(new DropDownList[] { ddlRMLocationNumber }, 0, true);
         ddlRMLocationNumber.Style.Remove("font-size");
         //used to fill Legal Entity Dropdown
-        ComboHelper.FillLocationLegal_Entity(new DropDownList[] { ddlLegalEntity }, 0, true);
+        //ComboHelper.FillLocationLegal_Entity(new DropDownList[] { ddlLegalEntity }, 0, true);
         //used to fill dba Dropdown
         ComboHelper.FillLocationdbaOnly(new DropDownList[] { ddlLocationdba }, 0, true);
         ddlLocationdba.Style.Remove("font-size");
@@ -1145,11 +1145,11 @@ public partial class PropertyLiability_ExecutiveRisk : clsBasePage
                     strMessages += "Please select [Claim Identification]/Type Of Claim" + ",";
                     Span2.Style["display"] = "inline-block";
                     break;
-                case "Legal Entity":
-                    strCtrlsIDs += ddlLegalEntity.ClientID + ",";
-                    strMessages += "Please select [Claim Identification]/Legal Entity" + ",";
-                    Span3.Style["display"] = "inline-block";
-                    break;
+                //case "Legal Entity":
+                //    strCtrlsIDs += ddlLegalEntity.ClientID + ",";
+                //    strMessages += "Please select [Claim Identification]/Legal Entity" + ",";
+                //    Span3.Style["display"] = "inline-block";
+                //    break;
                 case "Location d/b/a":
                     strCtrlsIDs += ddlLocationdba.ClientID + ",";
                     strMessages += "Please select [Claim Identification]/Location d/b/a" + ",";

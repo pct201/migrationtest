@@ -171,7 +171,7 @@
                         ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToValidate="txtDba"
                         Display="None"></asp:RequiredFieldValidator>
                 </td>
-                <td align="left" width="20%">
+                <%--<td align="left" width="20%">
                     Legal Entity <span style="color: Red">*</span>
                 </td>
                 <td align="center" width="2%">
@@ -182,9 +182,10 @@
                     <asp:RequiredFieldValidator ID="rfvLegalEntity" runat="server" ErrorMessage="Please Enter Legal Entity"
                         ValidationGroup="vsErrorGroup" SetFocusOnError="true" ControlToValidate="txtLegalEntity"
                         Display="None"></asp:RequiredFieldValidator>
-                </td>
+                </td>--%>
             </tr>
             <tr>
+
                 <td align="left" style="padding-left: 5px;">
                     Address 1 <span style="color: Red">*</span>
                 </td>

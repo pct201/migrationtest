@@ -160,7 +160,7 @@ public partial class EmployeeSearch : clsBasePage
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
-         
+
             if (((Label)e.Row.FindControl("lblClaimTypeID")).Text == "1")
                 ((Label)e.Row.FindControl("lblClaimType")).Text = "Auto Liability";
             else if (((Label)e.Row.FindControl("lblClaimTypeID")).Text == "2")
@@ -178,7 +178,7 @@ public partial class EmployeeSearch : clsBasePage
             ((Button)e.Row.FindControl("btnDelete")).CommandArgument = CommandArg;
             ((Button)e.Row.FindControl("btnAddTo")).CommandArgument = CommandArg;
             ((Button)e.Row.FindControl("btnDelete")).Attributes.Add("onclick", "javascript:return confirm('Are you sure you want to delete the record?\\n Claim cannot be deleted if there exists any non-printed checks');");
-            
+
         }
     }
 
@@ -230,8 +230,8 @@ public partial class EmployeeSearch : clsBasePage
 
                         clsSession.Current_Executive_Risk_ID = Executive_Risk.SelectPKBy_ClaimID(Convert.ToInt32(Session["WorkerCompID"]));
                         clsSession.Str_Executive_Operation = "edit";
-                        Response.Redirect("../ExecutiveRisk/ExecutiveRisk.aspx?id=" + clsSession.Current_Executive_Risk_ID);                        
-                        
+                        Response.Redirect("../ExecutiveRisk/ExecutiveRisk.aspx?id=" + clsSession.Current_Executive_Risk_ID);
+
                     }
                     break;
             }
@@ -253,7 +253,7 @@ public partial class EmployeeSearch : clsBasePage
                         clsSession.Current_Executive_Risk_ID = Executive_Risk.SelectPKBy_ClaimID(Convert.ToInt32(Session["WorkerCompID"]));
                         clsSession.Str_Executive_Operation = "view";
                         Response.Redirect("../ExecutiveRisk/ExecutiveRisk.aspx?id=" + clsSession.Current_Executive_Risk_ID);
-                        
+
                     }
                     break;
             }
@@ -563,13 +563,13 @@ public partial class EmployeeSearch : clsBasePage
 
         objEmpSearch.TableName = "";
 
-        if (ddlEntity.SelectedIndex != 0)
-            objEmpSearch.FK_Entity = Convert.ToInt32(ddlEntity.SelectedItem.Value);
-        else
-        {
-            if (ddlRMLocationNumber.SelectedIndex != 0)
-                objEmpSearch.FK_Entity = Convert.ToInt32(ddlRMLocationNumber.SelectedValue);
-        }
+        //if (ddlEntity.SelectedIndex != 0)
+        //    objEmpSearch.FK_Entity = Convert.ToInt32(ddlEntity.SelectedItem.Value);
+        //else
+        //{
+        if (ddlRMLocationNumber.SelectedIndex != 0)
+            objEmpSearch.FK_Entity = Convert.ToInt32(ddlRMLocationNumber.SelectedValue);
+        //}
 
         objEmpSearch.Social_Security_Number = "";
 
@@ -633,19 +633,19 @@ public partial class EmployeeSearch : clsBasePage
         ComboHelper.FillLocationdba(new DropDownList[] { ddlRMLocationNumber }, 0, true);
         ddlRMLocationNumber.Style.Remove("font-size");
         //used to fill Legal Entity Dropdown
-        ComboHelper.FillLocationLegal_Entity(new DropDownList[] { ddlLegalEntity }, 0, true);
+        //ComboHelper.FillLocationLegal_Entity(new DropDownList[] { ddlLegalEntity }, 0, true);
         //used to fill dba Dropdown
         ComboHelper.FillLocationdbaOnly(new DropDownList[] { ddlLocationdba }, 0, true);
         ddlLocationdba.Style.Remove("font-size");
         //objGeneral= new RIMS_Base.Biz.CGeneral();
         //lstGeneral = new List<RIMS_Base.CGeneral>();
         //lstGeneral= objGeneral.GetAllEntity();
-        DataTable dtEntity = Entity.SelectForExecutiveRisk().Tables[0];
-        ddlEntity.DataSource = dtEntity;
-        ddlEntity.DataTextField = "Entity";
-        ddlEntity.DataValueField = "PK_LU_Location_ID";
-        ddlEntity.DataBind();
-        ddlEntity.Items.Insert(0, new ListItem("--Select Entity--", "0"));
+        //DataTable dtEntity = Entity.SelectForExecutiveRisk().Tables[0];
+        //ddlEntity.DataSource = dtEntity;
+        //ddlEntity.DataTextField = "Entity";
+        //ddlEntity.DataValueField = "PK_LU_Location_ID";
+        //ddlEntity.DataBind();
+        //ddlEntity.Items.Insert(0, new ListItem("--Select Entity--", "0"));
 
         // Binds the type dropdown
         DataTable dtType = Type_Of_ER_Claim.SelectAll().Tables[0];
@@ -727,9 +727,9 @@ public partial class EmployeeSearch : clsBasePage
         txtOCFrom.Text = "";
         txtOCTo.Text = "";
         ddlRMLocationNumber.SelectedIndex = 0;
-        ddlLegalEntity.SelectedIndex = 0;
+        //ddlLegalEntity.SelectedIndex = 0;
         ddlLocationdba.SelectedIndex = 0;
-        ddlEntity.SelectedIndex = 0;
+        //ddlEntity.SelectedIndex = 0;
         ddlPage.SelectedValue = "10";
         Session.Remove("EmployeeSearch");
         Session.Remove("ERPageSize");
@@ -829,13 +829,13 @@ public partial class EmployeeSearch : clsBasePage
     protected void ddlRMLocationNumber_SelectedIndexChanged(object sender, EventArgs e)
     {
         // update all other dropdown according to RM location number selected
-        ddlLegalEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
+        //ddlLegalEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
         ddlLocationdba.SelectedValue = ddlRMLocationNumber.SelectedValue;
-        ListItem lstItm = ddlEntity.Items.FindByValue(ddlLocationdba.SelectedValue);
-        if (lstItm != null)
-            ddlEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
-        else
-            ddlEntity.SelectedValue = "0";
+        //ListItem lstItm = ddlEntity.Items.FindByValue(ddlLocationdba.SelectedValue);
+        //if (lstItm != null)
+        //    ddlEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
+        //else
+        //    ddlEntity.SelectedValue = "0";
     }
 
     /// <summary>
@@ -843,13 +843,13 @@ public partial class EmployeeSearch : clsBasePage
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void ddlLegalEntity_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        // update all other dropdown according to entity selected
-        ddlRMLocationNumber.SelectedValue = ddlLegalEntity.SelectedValue;
-        ddlLocationdba.SelectedValue = ddlLegalEntity.SelectedValue;
-        ddlEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
-    }
+    //protected void ddlLegalEntity_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    // update all other dropdown according to entity selected
+    //    ddlRMLocationNumber.SelectedValue = ddlLegalEntity.SelectedValue;
+    //    ddlLocationdba.SelectedValue = ddlLegalEntity.SelectedValue;
+    //    ddlEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
+    //}
 
     /// <summary>
     /// Handles event when dba dropdown selection changed
@@ -860,8 +860,8 @@ public partial class EmployeeSearch : clsBasePage
     {
         // update all other dropdown according to dba selected
         ddlRMLocationNumber.SelectedValue = ddlLocationdba.SelectedValue;
-        ddlLegalEntity.SelectedValue = ddlLocationdba.SelectedValue;
-        ddlEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
+        //ddlLegalEntity.SelectedValue = ddlLocationdba.SelectedValue;
+        //ddlEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
     }
 
     /// <summary>
@@ -869,13 +869,13 @@ public partial class EmployeeSearch : clsBasePage
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void ddlEntity_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        // update all other dropdown according to dba selected
-        ddlRMLocationNumber.SelectedValue = ddlEntity.SelectedValue;
-        ddlLegalEntity.SelectedValue = ddlEntity.SelectedValue;
-        ddlLocationdba.SelectedValue = ddlEntity.SelectedValue;
-    }
+    //protected void ddlEntity_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    // update all other dropdown according to dba selected
+    //    ddlRMLocationNumber.SelectedValue = ddlEntity.SelectedValue;
+    //    //ddlLegalEntity.SelectedValue = ddlEntity.SelectedValue;
+    //    ddlLocationdba.SelectedValue = ddlEntity.SelectedValue;
+    //}
 
     #endregion
 }

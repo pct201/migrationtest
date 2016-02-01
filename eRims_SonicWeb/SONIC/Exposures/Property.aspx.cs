@@ -706,7 +706,7 @@ public partial class Exposures_Property : clsBasePage
             if (dtOccupancyMain != null && dtOccupancyMain.Rows.Count > 0 && Convert.ToInt32(dtOccupancyMain.Rows[0]["PK_Building_ID"]) != PK_Building_ID)
             {
                 isLocationHasMainBuilding = true;
-                objBuilding.Occupancy_Main = chkLstOccupancy.Items[9].Selected = false;                
+                objBuilding.Occupancy_Main = chkLstOccupancy.Items[9].Selected = false;
             }
         }
 
@@ -2013,7 +2013,7 @@ public partial class Exposures_Property : clsBasePage
 
         // set location values
         lblLocationdba.Text = objLocation.dba;
-        lblLegalEntity.Text = objLocation.legal_entity;
+        //lblLegalEntity.Text = objLocation.legal_entity;
         DataTable dtFKA = LU_Location_FKA.SelectByLocationID(Convert.ToDecimal(FK_LU_Location_ID)).Tables[0];
         if (dtFKA.Rows.Count > 0)
         {
@@ -3435,7 +3435,9 @@ public partial class Exposures_Property : clsBasePage
     private void SetDynamicInsuranceControl()
     {
         ERIMS.DAL.Building_Insurance_COPE_Descriptors objInsuranceCope = new Building_Insurance_COPE_Descriptors();
+        //DataSet objDs = ERIMS.DAL.Building_Insurance_COPE_Descriptors.GetActiveBuildingInsuranceCOPEDescriptors();
         DataSet objDs = ERIMS.DAL.Building_Insurance_COPE_Descriptors.BuildingInsuranceCOPEDescriptorsSelectALL();
+
 
         tblInsurance.Controls.Clear();
 
@@ -3444,6 +3446,7 @@ public partial class Exposures_Property : clsBasePage
             HtmlTableRow tr = new HtmlTableRow();
             HtmlTableCell tc;
             bool blnAddBlanktd = false;
+            char charIndex = 'a';
 
             if (objDs.Tables[0].Rows.Count == 1)
                 blnAddBlanktd = true;
@@ -3601,14 +3604,51 @@ public partial class Exposures_Property : clsBasePage
             lblItem32.Text = Convert.ToString(objDs.Tables[0].Rows[31]["Item_Descriptor"]);
             lblItem33.Text = Convert.ToString(objDs.Tables[0].Rows[32]["Item_Descriptor"]);
 
+            DataTable dtItems = objDs.Tables[0];
+            for (int i = 25; i < 33; i++)
+            {
+                tr = (HtmlTableRow)tblInsuranceCopeQuestionnaire.FindControl("trItem" + (i + 1));
 
-            //pnlInsuranceCope.Visible = true;
+                if (tr != null && Convert.ToString(dtItems.Rows[i]["Active"]) == "N")
+                {
+                    tr.Visible = false;
+                }
+                else
+                {
+                    // Dynamically set a, b,c, d ...etc sequence of question
+                    Label lblIndex = (Label)tblInsuranceCopeQuestionnaire.FindControl("lblIndex" + (i + 1));
+                    if (lblIndex != null)
+                    {
+                        lblIndex.Text = charIndex.ToString() + ".";
+                        charIndex++;
+                    }
+                }
+
+                // add require field validator in case of textbox
+                if ((i == 25 || i == 26 || i == 29) && dtItems.Rows[i]["Mandatory"].ToString() == "Y")
+                {
+                    tc = (HtmlTableCell)tr.FindControl("tdItem" + (i + 1));
+                    RequiredFieldValidator rfv = new RequiredFieldValidator();
+                    rfv.ControlToValidate = "txtItem" + Convert.ToString(dtItems.Rows[i]["Item_Number"]);
+                    rfv.Display = ValidatorDisplay.None;
+                    rfv.ValidationGroup = "vsErrorBuilding";
+                    rfv.ErrorMessage = "Please Enter madatory details";
+                    rfv.SetFocusOnError = true;
+                    rfv.ID = "rfv_" + (i + 1);
+                    Label lbl = (Label)tc.FindControl("lblItem" + (i + 1));
+                    lbl.Text += " <span id='span'" + (i + 1) + "' style='color: Red;'>*</span>";
+                    if (tc.FindControl("rfv_" + (i + 1)) == null)
+                    {
+                        tc.Controls.Add(rfv);
+                    }
+                }
+            }
+
             tblInsurance.Visible = true;
         }
         else
         {
             tblInsurance.Visible = false;
-            //pnlInsuranceCope.Visible = false;
         }
         string strHtml = string.Empty;
     }

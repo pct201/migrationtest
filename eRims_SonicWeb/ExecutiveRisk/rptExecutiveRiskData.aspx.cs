@@ -274,7 +274,7 @@ public partial class SONIC_ClaimInfo_rptExecutiveRiskData : clsBasePage
         ComboHelper.FillLocationdba(new DropDownList[] { ddlRMLocationNumber }, 0, true);
         ddlRMLocationNumber.Style.Remove("font-size");
         //used to fill Legal Entity Dropdown
-        ComboHelper.FillLocationLegal_Entity(new DropDownList[] { ddlLegalEntity }, 0, true);
+        //ComboHelper.FillLocationLegal_Entity(new DropDownList[] { ddlLegalEntity }, 0, true);
         //used to fill dba Dropdown
         ComboHelper.FillLocationdbaOnly(new DropDownList[] { ddlLocationdba }, 0, true);
         ddlLocationdba.Style.Remove("font-size");
@@ -312,7 +312,7 @@ public partial class SONIC_ClaimInfo_rptExecutiveRiskData : clsBasePage
         txtOCFrom.Text = "";
         txtOCTo.Text = "";
         ddlRMLocationNumber.SelectedIndex = 0;
-        ddlLegalEntity.SelectedIndex = 0;
+        //ddlLegalEntity.SelectedIndex = 0;
         ddlLocationdba.SelectedIndex = 0;
         ddlEntity.SelectedIndex = 0;
         ddlExecutiveRisk.SelectedIndex = 0;
@@ -330,7 +330,7 @@ public partial class SONIC_ClaimInfo_rptExecutiveRiskData : clsBasePage
     protected void ddlRMLocationNumber_SelectedIndexChanged(object sender, EventArgs e)
     {
         // update all other dropdown according to RM location number selected
-        ddlLegalEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
+        //ddlLegalEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
         ddlLocationdba.SelectedValue = ddlRMLocationNumber.SelectedValue;
         ListItem lstItm = ddlEntity.Items.FindByValue(ddlLocationdba.SelectedValue);
         if (lstItm != null)
@@ -344,13 +344,13 @@ public partial class SONIC_ClaimInfo_rptExecutiveRiskData : clsBasePage
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void ddlLegalEntity_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        // update all other dropdown according to entity selected
-        ddlRMLocationNumber.SelectedValue = ddlLegalEntity.SelectedValue;
-        ddlLocationdba.SelectedValue = ddlLegalEntity.SelectedValue;
-        ddlEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
-    }
+    //protected void ddlLegalEntity_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    // update all other dropdown according to entity selected
+    //    ddlRMLocationNumber.SelectedValue = ddlLegalEntity.SelectedValue;
+    //    ddlLocationdba.SelectedValue = ddlLegalEntity.SelectedValue;
+    //    ddlEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
+    //}
 
     /// <summary>
     /// Handles event when dba dropdown selection changed
@@ -361,7 +361,7 @@ public partial class SONIC_ClaimInfo_rptExecutiveRiskData : clsBasePage
     {
         // update all other dropdown according to dba selected
         ddlRMLocationNumber.SelectedValue = ddlLocationdba.SelectedValue;
-        ddlLegalEntity.SelectedValue = ddlLocationdba.SelectedValue;
+        //ddlLegalEntity.SelectedValue = ddlLocationdba.SelectedValue;
         ddlEntity.SelectedValue = ddlRMLocationNumber.SelectedValue;
     }
 
@@ -374,7 +374,7 @@ public partial class SONIC_ClaimInfo_rptExecutiveRiskData : clsBasePage
     {
         // update all other dropdown according to dba selected
         ddlRMLocationNumber.SelectedValue = ddlEntity.SelectedValue;
-        ddlLegalEntity.SelectedValue = ddlEntity.SelectedValue;
+        //ddlLegalEntity.SelectedValue = ddlEntity.SelectedValue;
         ddlLocationdba.SelectedValue = ddlEntity.SelectedValue;
     }
 

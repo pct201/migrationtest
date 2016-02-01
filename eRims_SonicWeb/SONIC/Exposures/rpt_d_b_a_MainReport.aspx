@@ -151,7 +151,7 @@
                                                                 <table width="100%" cellpadding="4" cellspacing="0" style="font-weight: bold;" id="tblHeader"
                                                                     runat="server">
                                                                     <tr>
-                                                                        <td width="5%" colspan="5" align="left">
+                                                                        <td width="5%" colspan="10" align="left">
                                                                             Sonic Automotive
                                                                         </td>
                                                                         <td width="5%" colspan="5" align="center">
@@ -165,22 +165,40 @@
                                                                         <td width="5%" align="left">
                                                                             Region
                                                                         </td>
-                                                                        <td width="7%" align="left">
+                                                                        <td width="4%" align="left">
                                                                             Sonic Location Code
                                                                         </td>
                                                                         <td width="5%" align="left">
                                                                             ADP DMS
                                                                         </td>
-                                                                        <td width="10%" align="left">
+                                                                        <td width="5%" align="left">
                                                                             DBA
                                                                         </td>
-                                                                        <td width="10%" align="left">
+                                                                        <%--<td width="10%" align="left">
                                                                             Legal Entity
+                                                                        </td>--%>
+                                                                        <td width="5%" align="left">
+                                                                            Parent Company Legal Entity
                                                                         </td>
-                                                                        <td width="10%" align="left">
+                                                                        <td width="5%" align="left">
+                                                                            Parent Company Legal Entity FEIN
+                                                                        </td>
+                                                                        <td width="5%" align="left">
+                                                                            Legal Entity (Operations)
+                                                                        </td>
+                                                                        <td width="5%" align="left">
+                                                                            Legal Entity (Operations) FEIN
+                                                                        </td>
+                                                                        <td width="5%" align="left">
+                                                                            Legal Entity (Properties)
+                                                                        </td>
+                                                                        <td width="5%" align="left">
+                                                                            Legal Entity (Properties) FEIN
+                                                                        </td>
+                                                                        <td width="5%" align="left">
                                                                             Address 1
                                                                         </td>
-                                                                        <td width="10%" align="left">
+                                                                        <td width="5%" align="left">
                                                                             Address 2
                                                                         </td>
                                                                         <td width="5%" align="left">
@@ -189,7 +207,7 @@
                                                                         <td width="5%" align="left">
                                                                             State
                                                                         </td>
-                                                                        <td width="5%" align="left">
+                                                                        <td width="4%" align="left">
                                                                             Zip Code
                                                                         </td>
                                                                         <td width="5%" align="left">
@@ -198,7 +216,7 @@
                                                                         <td width="5%" align="left">
                                                                             Dealership Telephone
                                                                         </td>
-                                                                        <td width="5%" align="left">
+                                                                        <td width="4%" align="left">
                                                                             Year of Acquisition
                                                                         </td>
                                                                         <td width="4%" align="left">
@@ -219,22 +237,43 @@
                                                                         <td align="left" style="width: 5%" valign="top">
                                                                             <%# Eval("Region")%>
                                                                         </td>
-                                                                        <td align="left" style="width: 7%" valign="top">
+                                                                        <td align="left" style="width: 4%" valign="top">
                                                                             <%#Eval("Sonic_Location_Code")%>
                                                                         </td>
                                                                         <td align="left" style="width: 5%" valign="top">
                                                                             <%# Eval("ADP_DMS")%>
                                                                         </td>
-                                                                        <td align="left" style="width: 10%" valign="top">
+                                                                        <td align="left" style="width: 5%" valign="top">
                                                                             <%#Eval("dba")%>
                                                                         </td>
-                                                                        <td align="left" style="width: 10%" valign="top">
+                                                                        <%--<td align="left" style="width: 10%" valign="top">
                                                                             <%# Eval("legal_entity")%>
+                                                                        </td>--%>
+                                                                        <td align="left" style="width: 5%" valign="top">
+                                                                            <%# Eval("Parent_Company_LE")%>
                                                                         </td>
-                                                                        <td align="left" style="width: 10%" valign="top">
+                                                                        <td align="left" style="width: 5%" valign="top">
+                                                                            <%# Eval("Parent_Company_LE_FEIN")%>
+                                                                        </td>
+                                                                        <td align="left" style="width: 5%" valign="top">
+                                                                            <%# Eval("LE_Operations")%>
+                                                                        </td>
+                                                                        <td align="left" style="width: 5%" valign="top">
+                                                                            <%# Eval("LE_Operations_FEIN")%>
+                                                                        </td>
+                                                                        <td align="left" style="width: 5%" valign="top">
+                                                                            <%# Eval("LE_Properties")%>
+                                                                        </td>
+                                                                        <td align="left" style="width: 5%" valign="top">
+                                                                            <%# Eval("LE_Properties_FEIN")%>
+                                                                        </td>
+
+
+
+                                                                        <td align="left" style="width: 5%" valign="top">
                                                                             <%# Eval("Address_1")%>
                                                                         </td>
-                                                                        <td align="left" style="width: 10%" valign="top">
+                                                                        <td align="left" style="width: 5%" valign="top">
                                                                             <%# Eval("Address_2")%>
                                                                         </td>
                                                                         <td align="left" style="width: 5%" valign="top">
@@ -243,7 +282,7 @@
                                                                         <td align="left" style="width: 5%" valign="top">
                                                                             <%#Eval("FLD_state")%>
                                                                         </td>
-                                                                        <td align="left" style="width: 5%" valign="top">
+                                                                        <td align="left" style="width: 4%" valign="top">
                                                                             <%#Eval("Zip_Code")%>
                                                                         </td>
                                                                         <td align="left" style="width: 5%" valign="top">
@@ -252,7 +291,7 @@
                                                                         <td align="left" style="width: 5%" valign="top">
                                                                             <%#Eval("Dealership_Telephone")%>
                                                                         </td>
-                                                                        <td align="left" style="width: 5%" valign="top">
+                                                                        <td align="left" style="width: 4%" valign="top">
                                                                             <%#Eval("Year_of_Acquisition")%>
                                                                         </td>
                                                                         <td align="left" style="width: 4%" valign="top">

@@ -654,7 +654,7 @@ public partial class SONIC_RealEstate_RealEstateAddEdit : clsBasePage
         // set values in page controls
         LU_Location objLU_Location = new LU_Location((decimal)objRE_Information.FK_LU_Location);
         lblFK_LU_Location.Text = objLU_Location.dba;
-        lblLegalEntity.Text = objLU_Location.legal_entity;
+        //lblLegalEntity.Text = objLU_Location.legal_entity;
         lblAddress1.Text = objLU_Location.Address_1;
         lblAddress2.Text = objLU_Location.Address_2;
         lblCity.Text = objLU_Location.City;
@@ -2304,7 +2304,7 @@ public partial class SONIC_RealEstate_RealEstateAddEdit : clsBasePage
 
             // set values in fields for LU_Location
             //txtLU_Location.Text = objLU_Location.dba;
-            txtLegalEntity.Text = objLU_Location.legal_entity;
+            //txtLegalEntity.Text = objLU_Location.legal_entity;
             txtAddress1.Text = objLU_Location.Address_1;
             txtAddress2.Text = objLU_Location.Address_2;
             txtCity.Text = objLU_Location.City;
@@ -2318,7 +2318,7 @@ public partial class SONIC_RealEstate_RealEstateAddEdit : clsBasePage
         {
             // set values in fields for LU_Location
             //txtLU_Location.Text = "";
-            txtLegalEntity.Text = "";
+            //txtLegalEntity.Text = "";
             txtAddress1.Text = "";
             txtAddress2.Text = "";
             txtCity.Text = "";

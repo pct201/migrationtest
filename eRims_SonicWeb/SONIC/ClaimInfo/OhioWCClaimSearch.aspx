@@ -131,7 +131,7 @@
                                                                         >
                                                                     </asp:DropDownList>
                                                                 </td>
-                                                                <td align="left">Legal Entity
+                                                                <%--<td align="left">Legal Entity
                                                                 </td>
                                                                 <td align="center">:
                                                                 </td>
@@ -139,7 +139,7 @@
                                                                     <asp:DropDownList ID="ddlLegalEntity" runat="server"  Width="170px"
                                                                         >
                                                                     </asp:DropDownList>
-                                                                </td>
+                                                                </td>--%>
                                                             </tr>
                                                             <tr valign="top">
                                                                 <td align="left">Claim Number
