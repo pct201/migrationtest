@@ -353,7 +353,7 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
     {
         //update Loss Information
         UpdateLossInformation();
-        CopyDataToPropertyClaim();
+        //CopyDataToPropertyClaim();
         //Bind Sonic Header
         setSonicHeaderInfo();
         //used to open Commment Information panel using ShowPanel Javascript function
@@ -387,70 +387,70 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
         }
     }
 
-    private void CopyDataToPropertyClaim()
-    {
-        Property_Claims property_Claims = new Property_Claims();
+    //private void CopyDataToPropertyClaim()
+    //{
+    //    Property_Claims property_Claims = new Property_Claims();
 
-        property_Claims.FK_Property_FR_ID = PK_Prop_FR_ID;
-        property_Claims.Date_Of_Loss = clsGeneral.FormatDateToStore(txtDate_Of_Loss);
-        property_Claims.Time_Of_Loss = txtTime_Of_Loss.Text;
-        property_Claims.Fire = chkFire.Checked;
-        property_Claims.Property_Damage_by_Sonic_Associate = chkProperty_Damage_by_Sonic_Associate.Checked;
-        property_Claims.Wind_Damage = chkWind_Damage.Checked;
-        property_Claims.Environmental_Loss = chkEnvironmental_Loss.Checked;
-        property_Claims.Hail_Damage = chkHail_Damage.Checked;
-        property_Claims.Vandalism_To_The_Property = chkVandalism_To_The_Property.Checked;
-        property_Claims.Earth_Movement = chkEnvironmental_Loss.Checked;
-        property_Claims.Theft_Associate_Tools = chkTheft_Associate_Tools.Checked;
-        property_Claims.Flood = chkFlood.Checked;
-        property_Claims.Theft_All_Other = chkTheft_All_Other.Checked;
-        property_Claims.Third_Party_Property_Damage = chkThird_Party_Property_Damage.Checked;
-        property_Claims.Other = chkOther.Checked;
-        property_Claims.Description_of_Loss = txtDescription_of_Loss.Text;
-        property_Claims.Damage_Building_Facilities_Est_Cost = string.IsNullOrEmpty(txtDamage_Building_Facilities_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Building_Facilities_Est_Cost.Text);
-        property_Claims.Damage_Building_Facilities_Actual_Cost = string.IsNullOrEmpty(txtDamage_Building_Facilities_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Building_Facilities_Actual_Cost.Text);
-        property_Claims.Damage_Equipment_Est_Cost = string.IsNullOrEmpty(txtDamage_Equipment_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Equipment_Est_Cost.Text);
-        property_Claims.Damage_Equipment_Actual_Cost = string.IsNullOrEmpty(txtDamage_Equipment_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Equipment_Actual_Cost.Text);
-        property_Claims.Damage_Product_Damage_Est_Cost = string.IsNullOrEmpty(txtDamage_Product_Damage_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Product_Damage_Est_Cost.Text);
-        property_Claims.Damage_Product_Damage_Actual_Cost = string.IsNullOrEmpty(txtDamage_Product_Damage_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Product_Damage_Actual_Cost.Text);
-        property_Claims.Damage_Parts_Est_Cost = string.IsNullOrEmpty(txtDamage_Parts_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Parts_Est_Cost.Text);
-        property_Claims.Damage_Parts_Actual_Cost = string.IsNullOrEmpty(txtDamage_Parts_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Parts_Actual_Cost.Text);
-        property_Claims.Damage_Salvage_Cleanup_Est_Cost = string.IsNullOrEmpty(txtDamage_Salvage_Cleanup_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Salvage_Cleanup_Est_Cost.Text);
-        property_Claims.Damage_Salvage_Cleanup_Actual_Cost = string.IsNullOrEmpty(txtDamage_Salvage_Cleanup_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Salvage_Cleanup_Actual_Cost.Text);
-        property_Claims.Damage_Decontamination_Est_Cost = string.IsNullOrEmpty(txtDamage_Decontamination_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Decontamination_Est_Cost.Text);
-        property_Claims.Damage_Decontamination_Actual_Cost = string.IsNullOrEmpty(txtDamage_Decontamination_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Decontamination_Actual_Cost.Text);
-        property_Claims.Damage_Electronic_Data_Est_Cost = string.IsNullOrEmpty(txtDamage_Electronic_Data_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Electronic_Data_Est_Cost.Text);
-        property_Claims.Damage_Electronic_Data_Actual_Cost = string.IsNullOrEmpty(txtDamage_Electronic_Data_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Electronic_Data_Actual_Cost.Text);
-        property_Claims.Damage_Service_Interruption_Est_Cost = string.IsNullOrEmpty(txtDamage_Service_Interruption_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Service_Interruption_Est_Cost.Text);
-        property_Claims.Damage_Service_Interruption_Actual_Cost = string.IsNullOrEmpty(txtDamage_Service_Interruption_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Service_Interruption_Actual_Cost.Text);
-        property_Claims.Damage_Payroll_Est_Cost = string.IsNullOrEmpty(txtDamage_Payroll_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Payroll_Est_Cost.Text);
-        property_Claims.Damage_Payroll_Actual_Cost = string.IsNullOrEmpty(txtDamage_Payroll_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Payroll_Actual_Cost.Text);
-        property_Claims.Damage_Loss_of_Sales_Est_Cost = string.IsNullOrEmpty(txtDamage_Loss_of_Sales_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Loss_of_Sales_Est_Cost.Text);
-        property_Claims.Damage_Loss_of_Sales_Actual_Cost = string.IsNullOrEmpty(txtDamage_Loss_of_Sales_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Loss_of_Sales_Actual_Cost.Text);
-        property_Claims.Date_Cleanup_Complete = clsGeneral.FormatDateToStore(txtDate_Cleanup_Complete);
-        property_Claims.Date_Repairs_Complete = clsGeneral.FormatDateToStore(txtDate_Repairs_Complete);
-        property_Claims.Date_Full_Service_Resumed = clsGeneral.FormatDateToStore(txtDate_Full_Service_Resumed);
-        property_Claims.Date_Fire_Protection_Services_Resumed = clsGeneral.FormatDateToStore(txtDate_Fire_Protection_Services_Resumed);
-        if (rdo_Security_Video_Surveillance.SelectedValue == "1")
-        {
-            property_Claims.Security_Video_Surveillance = true;
-        }
-        else if (rdo_Security_Video_Surveillance.SelectedValue == "0")
-        {
-            property_Claims.Security_Video_Surveillance = false;
-        }
-        else
-            property_Claims.Security_Video_Surveillance = null;
+    //    property_Claims.FK_Property_FR_ID = PK_Prop_FR_ID;
+    //    property_Claims.Date_Of_Loss = clsGeneral.FormatDateToStore(txtDate_Of_Loss);
+    //    property_Claims.Time_Of_Loss = txtTime_Of_Loss.Text;
+    //    property_Claims.Fire = chkFire.Checked;
+    //    property_Claims.Property_Damage_by_Sonic_Associate = chkProperty_Damage_by_Sonic_Associate.Checked;
+    //    property_Claims.Wind_Damage = chkWind_Damage.Checked;
+    //    property_Claims.Environmental_Loss = chkEnvironmental_Loss.Checked;
+    //    property_Claims.Hail_Damage = chkHail_Damage.Checked;
+    //    property_Claims.Vandalism_To_The_Property = chkVandalism_To_The_Property.Checked;
+    //    property_Claims.Earth_Movement = chkEnvironmental_Loss.Checked;
+    //    property_Claims.Theft_Associate_Tools = chkTheft_Associate_Tools.Checked;
+    //    property_Claims.Flood = chkFlood.Checked;
+    //    property_Claims.Theft_All_Other = chkTheft_All_Other.Checked;
+    //    property_Claims.Third_Party_Property_Damage = chkThird_Party_Property_Damage.Checked;
+    //    property_Claims.Other = chkOther.Checked;
+    //    property_Claims.Description_of_Loss = txtDescription_of_Loss.Text;
+    //    property_Claims.Damage_Building_Facilities_Est_Cost = string.IsNullOrEmpty(txtDamage_Building_Facilities_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Building_Facilities_Est_Cost.Text);
+    //    property_Claims.Damage_Building_Facilities_Actual_Cost = string.IsNullOrEmpty(txtDamage_Building_Facilities_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Building_Facilities_Actual_Cost.Text);
+    //    property_Claims.Damage_Equipment_Est_Cost = string.IsNullOrEmpty(txtDamage_Equipment_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Equipment_Est_Cost.Text);
+    //    property_Claims.Damage_Equipment_Actual_Cost = string.IsNullOrEmpty(txtDamage_Equipment_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Equipment_Actual_Cost.Text);
+    //    property_Claims.Damage_Product_Damage_Est_Cost = string.IsNullOrEmpty(txtDamage_Product_Damage_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Product_Damage_Est_Cost.Text);
+    //    property_Claims.Damage_Product_Damage_Actual_Cost = string.IsNullOrEmpty(txtDamage_Product_Damage_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Product_Damage_Actual_Cost.Text);
+    //    property_Claims.Damage_Parts_Est_Cost = string.IsNullOrEmpty(txtDamage_Parts_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Parts_Est_Cost.Text);
+    //    property_Claims.Damage_Parts_Actual_Cost = string.IsNullOrEmpty(txtDamage_Parts_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Parts_Actual_Cost.Text);
+    //    property_Claims.Damage_Salvage_Cleanup_Est_Cost = string.IsNullOrEmpty(txtDamage_Salvage_Cleanup_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Salvage_Cleanup_Est_Cost.Text);
+    //    property_Claims.Damage_Salvage_Cleanup_Actual_Cost = string.IsNullOrEmpty(txtDamage_Salvage_Cleanup_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Salvage_Cleanup_Actual_Cost.Text);
+    //    property_Claims.Damage_Decontamination_Est_Cost = string.IsNullOrEmpty(txtDamage_Decontamination_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Decontamination_Est_Cost.Text);
+    //    property_Claims.Damage_Decontamination_Actual_Cost = string.IsNullOrEmpty(txtDamage_Decontamination_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Decontamination_Actual_Cost.Text);
+    //    property_Claims.Damage_Electronic_Data_Est_Cost = string.IsNullOrEmpty(txtDamage_Electronic_Data_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Electronic_Data_Est_Cost.Text);
+    //    property_Claims.Damage_Electronic_Data_Actual_Cost = string.IsNullOrEmpty(txtDamage_Electronic_Data_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Electronic_Data_Actual_Cost.Text);
+    //    property_Claims.Damage_Service_Interruption_Est_Cost = string.IsNullOrEmpty(txtDamage_Service_Interruption_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Service_Interruption_Est_Cost.Text);
+    //    property_Claims.Damage_Service_Interruption_Actual_Cost = string.IsNullOrEmpty(txtDamage_Service_Interruption_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Service_Interruption_Actual_Cost.Text);
+    //    property_Claims.Damage_Payroll_Est_Cost = string.IsNullOrEmpty(txtDamage_Payroll_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Payroll_Est_Cost.Text);
+    //    property_Claims.Damage_Payroll_Actual_Cost = string.IsNullOrEmpty(txtDamage_Payroll_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Payroll_Actual_Cost.Text);
+    //    property_Claims.Damage_Loss_of_Sales_Est_Cost = string.IsNullOrEmpty(txtDamage_Loss_of_Sales_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Loss_of_Sales_Est_Cost.Text);
+    //    property_Claims.Damage_Loss_of_Sales_Actual_Cost = string.IsNullOrEmpty(txtDamage_Loss_of_Sales_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Loss_of_Sales_Actual_Cost.Text);
+    //    property_Claims.Date_Cleanup_Complete = clsGeneral.FormatDateToStore(txtDate_Cleanup_Complete);
+    //    property_Claims.Date_Repairs_Complete = clsGeneral.FormatDateToStore(txtDate_Repairs_Complete);
+    //    property_Claims.Date_Full_Service_Resumed = clsGeneral.FormatDateToStore(txtDate_Full_Service_Resumed);
+    //    property_Claims.Date_Fire_Protection_Services_Resumed = clsGeneral.FormatDateToStore(txtDate_Fire_Protection_Services_Resumed);
+    //    if (rdo_Security_Video_Surveillance.SelectedValue == "1")
+    //    {
+    //        property_Claims.Security_Video_Surveillance = true;
+    //    }
+    //    else if (rdo_Security_Video_Surveillance.SelectedValue == "0")
+    //    {
+    //        property_Claims.Security_Video_Surveillance = false;
+    //    }
+    //    else
+    //        property_Claims.Security_Video_Surveillance = null;
 
 
-        DataTable dtBuilding = Property_FR_Building.GetBuildingResultByPropertyID(PK_Prop_FR_ID);
+    //    DataTable dtBuilding = Property_FR_Building.GetBuildingResultByPropertyID(PK_Prop_FR_ID);
 
-        foreach (DataRow drBuilding in dtBuilding.Rows)
-        {
-            Property_Claims_Building property_Claims_Building = new Property_Claims_Building();
+    //    foreach (DataRow drBuilding in dtBuilding.Rows)
+    //    {
+    //        Property_Claims_Building property_Claims_Building = new Property_Claims_Building();
             
-        }
-    }
+    //    }
+    //}
 
     #endregion
 
