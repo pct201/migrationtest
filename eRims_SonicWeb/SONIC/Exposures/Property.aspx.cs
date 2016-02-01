@@ -252,6 +252,8 @@ public partial class Exposures_Property : clsBasePage
                 //}
                 else if (Request.QueryString["panel"] != null)//used for Event_New.aspx page
                     ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);", true);
+                else if (Request.QueryString["contactPanel"] != null)
+                    ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
                 else
                     ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
             }
@@ -3433,7 +3435,7 @@ public partial class Exposures_Property : clsBasePage
     private void SetDynamicInsuranceControl()
     {
         ERIMS.DAL.Building_Insurance_COPE_Descriptors objInsuranceCope = new Building_Insurance_COPE_Descriptors();
-        DataSet objDs = ERIMS.DAL.Building_Insurance_COPE_Descriptors.GetActiveBuildingInsuranceCOPEDescriptors();
+        DataSet objDs = ERIMS.DAL.Building_Insurance_COPE_Descriptors.BuildingInsuranceCOPEDescriptorsSelectALL();
 
         tblInsurance.Controls.Clear();
 
@@ -3449,142 +3451,144 @@ public partial class Exposures_Property : clsBasePage
             int intCnt = 1;
             for (int i = 0; i < objDs.Tables[0].Rows.Count && i < 25; i++)
             {
-
-                if (intCnt == 1)
-                    tr = new HtmlTableRow();
-
-                if (i % 2 == 1)
+                if (Convert.ToString(objDs.Tables[0].Rows[i]["Active"]).ToUpper() == "Y")
                 {
-                    tc = new HtmlTableCell();
-                    tc.NoWrap = false;
-                    tc.Width = "18%";
-                    tc.Align = "left";
-                    tc.VAlign = "top";
-                    tc.Style.Add("padding-left", "9px");
-                    Label lbl = new Label();
-                    lbl.ID = "Lbl_Item_" + Convert.ToString(objDs.Tables[0].Rows[i]["Item_Number"]);
-                    //lbl.Width = Unit.Pixel(132);
-                    lbl.Text = Convert.ToString(objDs.Tables[0].Rows[i]["Item_Descriptor"]);
-                    tc.Controls.Add(lbl);
-                }
-                else
-                {
-                    tc = new HtmlTableCell();
-                    tc.NoWrap = false;
-                    tc.Width = "19%";
-                    tc.Align = "left";
-                    tc.VAlign = "top";
-                    Label lbl = new Label();
-                    lbl.ID = "Lbl_Item_" + Convert.ToString(objDs.Tables[0].Rows[i]["Item_Number"]);
-                    //lbl.Width = Unit.Pixel(146);
-                    lbl.Text = Convert.ToString(objDs.Tables[0].Rows[i]["Item_Descriptor"]);
-                    tc.Controls.Add(lbl);
-                }
+                    if (intCnt == 1)
+                        tr = new HtmlTableRow();
 
-                //tc.InnerHtml = objDs.Tables[0].Rows[i]["Item_Descriptor"].ToString();
-
-                if (Convert.ToString(objDs.Tables[0].Rows[i]["Mandatory"]) == "Y")
-                {
-                    //tc.InnerHtml = " <span id='span'" + Convert.ToString(objDs.Tables[0].Rows[i]["Item_Number"]) + "' style='color: Red;'>*</span>";
-                    Label lbl = new Label();
-                    lbl.Text += " <span id='span'" + Convert.ToString(objDs.Tables[0].Rows[i]["Item_Number"]) + "' style='color: Red;'>*</span>";
-
-                    tc.Controls.Add(lbl);
-                }
-
-                tr.Controls.Add(tc);
-
-                tc = new HtmlTableCell();
-                tc.Width = "4%";
-                tc.Style.Add("padding-left", "2px");
-                tc.Align = "center";
-                Label lbl_colon = new Label();
-                lbl_colon.ID = "Lbl_colon_" + Convert.ToString(objDs.Tables[0].Rows[i]["Item_Number"]);
-                lbl_colon.Width = Unit.Pixel(31);
-                lbl_colon.Text = ":";
-                tc.Controls.Add(lbl_colon);
-                tc.VAlign = "top";
-                tr.Controls.Add(tc);
-
-                tc = new HtmlTableCell();
-
-                if (i % 2 == 1)
-                {
-                    tc.Width = "28%";
-                    tc.Style.Add("padding-left", "6px");
-                }
-                else
-                {
-                    tc.Width = "27%";
-                    tc.Style.Add("padding-left", "3px");
-                }
-                tc.Align = "left";
-                tc.VAlign = "top";
-
-                TextBox txt = new TextBox();
-                txt.ID = "Item_" + Convert.ToString(objDs.Tables[0].Rows[i]["Item_Number"]);
-                txt.MaxLength = 100;
-                txt.Width = Unit.Pixel(170);
-                tc.Controls.Add(txt);
-
-                if (objDs.Tables[0].Rows[i]["Mandatory"].ToString() == "Y")
-                {
-                    RequiredFieldValidator rfv = new RequiredFieldValidator();
-                    rfv.ControlToValidate = "Item_" + Convert.ToString(objDs.Tables[0].Rows[i]["Item_Number"]);
-                    rfv.Display = ValidatorDisplay.None;
-                    rfv.ValidationGroup = "vsErrorBuilding";
-                    rfv.ErrorMessage = "Please Enter [Building Information]/" + objDs.Tables[0].Rows[i]["Item_Descriptor"].ToString();
-                    rfv.SetFocusOnError = true;
-                    rfv.ID = "rfv_" + Convert.ToString(objDs.Tables[0].Rows[i]["Item_Number"]);
-                    tc.Controls.Add(rfv);
-                }
-                tr.Controls.Add(tc);
-
-                if (intCnt > 1)
-                {
-                    tblInsurance.Controls.Add(tr);
-                    intCnt = 1;
-                    HtmlTableRow blanktr = new HtmlTableRow();
-                    HtmlTableCell blankcell = new HtmlTableCell();
-                    blankcell.ColSpan = 6;
-                    blankcell.InnerHtml = "&nbsp;";
-                    blanktr.Cells.Add(blankcell);
-                    tblInsurance.Controls.Add(blanktr);
-                }
-                else
-                {
-                    //if (i == objDs.Tables[0].Rows.Count - 1)
-                    if(i == 24)
+                    if (i % 2 == 1)
                     {
-                        if (blnAddBlanktd)
-                        {
-                            HtmlTableCell blankcell = new HtmlTableCell();
-                            blankcell.InnerHtml = "&nbsp;";
-                            blankcell.NoWrap = false;
-                            blankcell.Width = "18%";
-                            blankcell.Align = "left";
-                            blankcell.VAlign = "top";
-                            tr.Cells.Add(blankcell);
-
-                            blankcell = new HtmlTableCell();
-                            blankcell.InnerHtml = "&nbsp;";
-                            blankcell.NoWrap = false;
-                            blankcell.Width = "4%";
-                            blankcell.Align = "center";
-                            blankcell.VAlign = "top";
-                            tr.Cells.Add(blankcell);
-
-                            blankcell = new HtmlTableCell();
-                            blankcell.Width = "28%";
-                            blankcell.Align = "left";
-                            blankcell.VAlign = "top";
-                            tr.Cells.Add(blankcell);
-                            tblInsurance.Controls.Add(tr);
-                        }
-                        else
-                            tblInsurance.Controls.Add(tr);
+                        tc = new HtmlTableCell();
+                        tc.NoWrap = false;
+                        tc.Width = "18%";
+                        tc.Align = "left";
+                        tc.VAlign = "top";
+                        tc.Style.Add("padding-left", "9px");
+                        Label lbl = new Label();
+                        lbl.ID = "Lbl_Item_" + Convert.ToString(objDs.Tables[0].Rows[i]["Item_Number"]);
+                        //lbl.Width = Unit.Pixel(132);
+                        lbl.Text = Convert.ToString(objDs.Tables[0].Rows[i]["Item_Descriptor"]);
+                        tc.Controls.Add(lbl);
                     }
-                    intCnt += 1;
+                    else
+                    {
+                        tc = new HtmlTableCell();
+                        tc.NoWrap = false;
+                        tc.Width = "19%";
+                        tc.Align = "left";
+                        tc.VAlign = "top";
+                        Label lbl = new Label();
+                        lbl.ID = "Lbl_Item_" + Convert.ToString(objDs.Tables[0].Rows[i]["Item_Number"]);
+                        //lbl.Width = Unit.Pixel(146);
+                        lbl.Text = Convert.ToString(objDs.Tables[0].Rows[i]["Item_Descriptor"]);
+                        tc.Controls.Add(lbl);
+                    }
+
+                    //tc.InnerHtml = objDs.Tables[0].Rows[i]["Item_Descriptor"].ToString();
+
+                    if (Convert.ToString(objDs.Tables[0].Rows[i]["Mandatory"]) == "Y")
+                    {
+                        //tc.InnerHtml = " <span id='span'" + Convert.ToString(objDs.Tables[0].Rows[i]["Item_Number"]) + "' style='color: Red;'>*</span>";
+                        Label lbl = new Label();
+                        lbl.Text += " <span id='span'" + Convert.ToString(objDs.Tables[0].Rows[i]["Item_Number"]) + "' style='color: Red;'>*</span>";
+
+                        tc.Controls.Add(lbl);
+                    }
+
+                    tr.Controls.Add(tc);
+
+                    tc = new HtmlTableCell();
+                    tc.Width = "4%";
+                    tc.Style.Add("padding-left", "2px");
+                    tc.Align = "center";
+                    Label lbl_colon = new Label();
+                    lbl_colon.ID = "Lbl_colon_" + Convert.ToString(objDs.Tables[0].Rows[i]["Item_Number"]);
+                    lbl_colon.Width = Unit.Pixel(31);
+                    lbl_colon.Text = ":";
+                    tc.Controls.Add(lbl_colon);
+                    tc.VAlign = "top";
+                    tr.Controls.Add(tc);
+
+                    tc = new HtmlTableCell();
+
+                    if (i % 2 == 1)
+                    {
+                        tc.Width = "28%";
+                        tc.Style.Add("padding-left", "6px");
+                    }
+                    else
+                    {
+                        tc.Width = "27%";
+                        tc.Style.Add("padding-left", "3px");
+                    }
+                    tc.Align = "left";
+                    tc.VAlign = "top";
+
+                    TextBox txt = new TextBox();
+                    txt.ID = "Item_" + Convert.ToString(objDs.Tables[0].Rows[i]["Item_Number"]);
+                    txt.MaxLength = 100;
+                    txt.Width = Unit.Pixel(170);
+                    tc.Controls.Add(txt);
+
+                    if (objDs.Tables[0].Rows[i]["Mandatory"].ToString() == "Y")
+                    {
+                        RequiredFieldValidator rfv = new RequiredFieldValidator();
+                        rfv.ControlToValidate = "Item_" + Convert.ToString(objDs.Tables[0].Rows[i]["Item_Number"]);
+                        rfv.Display = ValidatorDisplay.None;
+                        rfv.ValidationGroup = "vsErrorBuilding";
+                        rfv.ErrorMessage = "Please Enter [Building Information]/" + objDs.Tables[0].Rows[i]["Item_Descriptor"].ToString();
+                        rfv.SetFocusOnError = true;
+                        rfv.ID = "rfv_" + Convert.ToString(objDs.Tables[0].Rows[i]["Item_Number"]);
+                        tc.Controls.Add(rfv);
+                    }
+                    tr.Controls.Add(tc);
+
+                    if (intCnt > 1)
+                    {
+                        tblInsurance.Controls.Add(tr);
+                        intCnt = 1;
+                        HtmlTableRow blanktr = new HtmlTableRow();
+                        HtmlTableCell blankcell = new HtmlTableCell();
+                        blankcell.ColSpan = 6;
+                        blankcell.InnerHtml = "&nbsp;";
+                        blanktr.Cells.Add(blankcell);
+                        tblInsurance.Controls.Add(blanktr);
+                    }
+                    else
+                    {
+                        //if (i == objDs.Tables[0].Rows.Count - 1)
+                        if (i == 24)
+                        {
+                            if (blnAddBlanktd)
+                            {
+                                HtmlTableCell blankcell = new HtmlTableCell();
+                                blankcell.InnerHtml = "&nbsp;";
+                                blankcell.NoWrap = false;
+                                blankcell.Width = "18%";
+                                blankcell.Align = "left";
+                                blankcell.VAlign = "top";
+                                tr.Cells.Add(blankcell);
+
+                                blankcell = new HtmlTableCell();
+                                blankcell.InnerHtml = "&nbsp;";
+                                blankcell.NoWrap = false;
+                                blankcell.Width = "4%";
+                                blankcell.Align = "center";
+                                blankcell.VAlign = "top";
+                                tr.Cells.Add(blankcell);
+
+                                blankcell = new HtmlTableCell();
+                                blankcell.Width = "28%";
+                                blankcell.Align = "left";
+                                blankcell.VAlign = "top";
+                                tr.Cells.Add(blankcell);
+                                tblInsurance.Controls.Add(tr);
+                            }
+                            else
+                                tblInsurance.Controls.Add(tr);
+                        }
+                        intCnt += 1;
+                    }
                 }
             }
 
