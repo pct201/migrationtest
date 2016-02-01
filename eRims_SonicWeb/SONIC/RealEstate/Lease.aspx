@@ -4332,7 +4332,7 @@
                                                                         :
                                                                     </td>
                                                                     <td align="left" width="27%" valign="top">
-                                                                        <asp:Label ID="lblParentCompanyLegalEntity" runat="server" Width="170px" />
+                                                                        <asp:Label ID="lblParentCompanyLegalEntity" runat="server" Width="170px" Style="word-wrap: normal; word-break: break-all" />
                                                                     </td>
                                                                     <td align="left" width="20%" valign="top" class="BlueItalicText">
                                                                         Parent Company Legal Entity FEIN 
@@ -4341,7 +4341,7 @@
                                                                         :
                                                                     </td>
                                                                     <td align="left" width="26%" valign="top">
-                                                                        <asp:Label ID="lblParentCompanyLegalEntityFEIN" runat="server"></asp:Label>
+                                                                        <asp:Label ID="lblParentCompanyLegalEntityFEIN" runat="server" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                  <tr>
@@ -4352,7 +4352,7 @@
                                                                         :
                                                                     </td>
                                                                     <td align="left" width="27%" valign="top">
-                                                                        <asp:Label ID="lblLegalEntityOperations" runat="server" Width="170px" />
+                                                                        <asp:Label ID="lblLegalEntityOperations" runat="server" Width="170px" Style="word-wrap: normal; word-break: break-all" />
                                                                     </td>
                                                                     <td align="left" width="20%" valign="top" class="BlueItalicText">
                                                                         Legal Entity (Operations) FEIN
@@ -4361,7 +4361,7 @@
                                                                         :
                                                                     </td>
                                                                     <td align="left" width="26%" valign="top">
-                                                                        <asp:Label ID="lblLegalEntityOperationsFEIN" runat="server"></asp:Label>
+                                                                        <asp:Label ID="lblLegalEntityOperationsFEIN" runat="server" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                  <tr>
@@ -4372,7 +4372,7 @@
                                                                         :
                                                                     </td>
                                                                     <td align="left" width="27%" valign="top">
-                                                                        <asp:Label ID="lblLegalEntityProperties" runat="server" Width="170px" />
+                                                                        <asp:Label ID="lblLegalEntityProperties" runat="server" Width="170px" Style="word-wrap: normal; word-break: break-all"/>
                                                                     </td>
                                                                     <td align="left" width="20%" valign="top" class="BlueItalicText">
                                                                         Legal Entity (Properties) FEIN
@@ -4381,7 +4381,7 @@
                                                                         :
                                                                     </td>
                                                                     <td align="left" width="26%" valign="top">
-                                                                        <asp:Label ID="lblLegalEntityPropertiesFEIN" runat="server"></asp:Label>
+                                                                        <asp:Label ID="lblLegalEntityPropertiesFEIN" runat="server" Width="170px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>

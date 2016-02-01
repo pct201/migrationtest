@@ -428,7 +428,7 @@
                                     :
                                 </td>
                                 <td align="left" width="30%">
-                                    <asp:Label ID="lblParentCompanyLegalEntity" runat="server" Text=""></asp:Label>
+                                    <asp:Label ID="lblParentCompanyLegalEntity" runat="server" Style="word-wrap: normal; word-break: break-all"  Width="170px"></asp:Label>
                                 </td>
                                 <td align="left" width="18%">
                                     Parent Company Legal Entity FEIN 
@@ -437,7 +437,7 @@
                                     :
                                 </td>
                                 <td align="left" width="30%">
-                                    <asp:Label ID="lblParentCompanyLegalEntityFEIN" runat="server" Text=""></asp:Label>
+                                    <asp:Label ID="lblParentCompanyLegalEntityFEIN" runat="server"  Style="word-wrap: normal; word-break: break-all"  Width="170px"></asp:Label>
                                 </td>
                             </tr>
                             <tr>
@@ -448,7 +448,7 @@
                                     :
                                 </td>
                                 <td align="left" width="30%">
-                                    <asp:Label ID="lblLegalEntityOperations" runat="server" Text=""></asp:Label>
+                                    <asp:Label ID="lblLegalEntityOperations" runat="server"  Style="word-wrap: normal; word-break: break-all"  Width="170px"></asp:Label>
                                 </td>
                                 <td align="left" width="18%">
                                     Legal Entity (Operations) FEIN 
@@ -457,7 +457,7 @@
                                     :
                                 </td>
                                 <td align="left" width="30%">
-                                    <asp:Label ID="lblLegalEntityOperationsFEIN" runat="server" Text=""></asp:Label>
+                                    <asp:Label ID="lblLegalEntityOperationsFEIN" runat="server"  Style="word-wrap: normal; word-break: break-all"  Width="170px"></asp:Label>
                                 </td>
                             </tr>
                             <tr>
@@ -468,7 +468,7 @@
                                     :
                                 </td>
                                 <td align="left" width="30%">
-                                    <asp:Label ID="lblLegalEntityProperties" runat="server" Text=""></asp:Label>
+                                    <asp:Label ID="lblLegalEntityProperties" runat="server" Style="word-wrap: normal; word-break: break-all"  Width="170px"></asp:Label>
                                 </td>
                                 <td align="left" width="18%">
                                     Legal Entity (Properties) FEIN 
@@ -477,7 +477,7 @@
                                     :
                                 </td>
                                 <td align="left" width="30%">
-                                    <asp:Label ID="lblLegalEntityPropertiesFEIN" runat="server" Text=""></asp:Label>
+                                    <asp:Label ID="lblLegalEntityPropertiesFEIN" runat="server" Style="word-wrap: normal; word-break: break-all"  Width="170px"></asp:Label>
                                 </td>
                             </tr>
                             <tr>

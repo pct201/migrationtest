@@ -82,20 +82,32 @@ public partial class SONIC_Franchise_AdHocReportWriter : clsBasePage
         //Bind Report
         StringBuilder sbRecord = new StringBuilder();
         string strFilePath = BindReport(ref sbRecord, ReportOutputType.ExportToExcel);
+        bool blnHTML2Excel = false;
+        string outputFiles = string.Empty;
+        if (File.Exists(strFilePath))
+        {
+            string data = File.ReadAllText(strFilePath);
+            data = data.Trim();
+            HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
+            blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+        }
 
         //If records found
-        if (File.Exists(strFilePath))
+        if (blnHTML2Excel) 
         {
             try
             {
                 HttpContext.Current.Response.Clear();
-                HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "Franchise Ad-Hoc Report.xls"));
+                HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"" + "Franchise Ad-Hoc Report.xlsx" + "\""));
                 HttpContext.Current.Response.ContentType = "application/ms-excel";
-                HttpContext.Current.Response.TransmitFile(strFilePath);
+                HttpContext.Current.Response.TransmitFile(outputFiles);
                 HttpContext.Current.Response.Flush();
             }
             finally
             {
+                if (File.Exists(outputFiles))
+                    File.Delete(outputFiles);
                 if (File.Exists(strFilePath))
                     File.Delete(strFilePath);
                 HttpContext.Current.Response.End();
@@ -113,12 +125,25 @@ public partial class SONIC_Franchise_AdHocReportWriter : clsBasePage
         //Bind Report
         StringBuilder sbRecord = new StringBuilder();
         string strFilePath = BindReport(ref sbRecord, ReportOutputType.ExportAsMail);
-
-        //If records found
+        bool blnHTML2Excel = false;
+        string outputFiles = string.Empty;
         if (File.Exists(strFilePath))
         {
-            if (clsGeneral.SendAdHocReport("Ad Hoc Report", strFilePath, "Franchise Ad-Hoc Report.xls", Convert.ToDecimal(ddlRecipientList.SelectedItem.Value)))
+            string data = File.ReadAllText(strFilePath);
+            data = data.Trim();
+            HTML2Excel objHtml2Excel = new HTML2Excel(data);
+            outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
+            blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+        }
+
+        //If records found
+        if (blnHTML2Excel)
+        {
+            if (clsGeneral.SendAdHocReport("Ad Hoc Report", outputFiles, "Franchise Ad-Hoc Report.xlsx", Convert.ToDecimal(ddlRecipientList.SelectedItem.Value)))
+            {
                 ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Email Sent Successfully')", true);
+                File.Delete(strFilePath);
+            }
             else
                 ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Error occured while sending email.Please contact administrator')", true);
         }

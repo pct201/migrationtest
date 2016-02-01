@@ -115,22 +115,22 @@
                                     <span style="display: inline-block; width: 100px;">Active</span>
                                 </th>
                                  <th class="cols">
-                                    <span style="display: inline-block; width: 100px;">Parent Company LE</span>
+                                    <span style="display: inline-block; width: 150px;">Parent Company LE</span>
                                 </th>
                                  <th class="cols">
-                                    <span style="display: inline-block; width: 100px;">Parent Company LE FEIN</span>
+                                    <span style="display: inline-block; width: 150px;">Parent Company LE FEIN</span>
                                 </th>
                                  <th class="cols">
-                                    <span style="display: inline-block; width: 100px;">LE Operations</span>
+                                    <span style="display: inline-block; width: 150px;">LE Operations</span>
                                 </th>
                                  <th class="cols">
-                                    <span style="display: inline-block; width: 100px;">LE Operations FEIN</span>
+                                    <span style="display: inline-block; width: 150px;">LE Operations FEIN</span>
                                 </th>
                                  <th class="cols">
-                                    <span style="display: inline-block; width: 100px;">LE Properties</span>
+                                    <span style="display: inline-block; width: 150px;">LE Properties</span>
                                 </th>
                                  <th class="cols">
-                                    <span style="display: inline-block; width: 100px;">LE Properties FEIN</span>
+                                    <span style="display: inline-block; width: 150px;">LE Properties FEIN</span>
                                 </th>
                                 <th class="cols">
                                     <span style="display: inline-block; width: 120px;">Updated_By</span>
@@ -282,37 +282,37 @@
                             <asp:TemplateField HeaderText="Parent_Company_LE" ItemStyle-Width="100px">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblParent_Company_LE" runat="server" Text='<%#Eval("Parent_Company_LE")%>' Width="100px"></asp:Label>
+                                    <asp:Label ID="lblParent_Company_LE" runat="server" Text='<%#Eval("Parent_Company_LE")%>' Width="150px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Parent_Company_LE_FEIN" ItemStyle-Width="100px">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblParent_Company_LE_FEIN" runat="server" Text='<%#Eval("Parent_Company_LE_FEIN")%>' Width="100px"></asp:Label>
+                                    <asp:Label ID="lblParent_Company_LE_FEIN" runat="server" Text='<%#Eval("Parent_Company_LE_FEIN")%>' Width="150px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="LE_Operations" ItemStyle-Width="100px">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblLE_Operations" runat="server" Text='<%#Eval("LE_Operations")%>' Width="100px"></asp:Label>
+                                    <asp:Label ID="lblLE_Operations" runat="server" Text='<%#Eval("LE_Operations")%>' Width="150px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="LE_Operations_FEIN" ItemStyle-Width="100px">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblLE_Operations_FEIN" runat="server" Text='<%#Eval("LE_Operations_FEIN")%>' Width="100px"></asp:Label>
+                                    <asp:Label ID="lblLE_Operations_FEIN" runat="server" Text='<%#Eval("LE_Operations_FEIN")%>' Width="150px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="LE_Properties" ItemStyle-Width="100px">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblLE_Properties" runat="server" Text='<%#Eval("LE_Properties")%>' Width="100px"></asp:Label>
+                                    <asp:Label ID="lblLE_Properties" runat="server" Text='<%#Eval("LE_Properties")%>' Width="150px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="LE_Properties_FEIN" ItemStyle-Width="100px">
                                 <ItemStyle CssClass="cols" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblLE_Properties_FEIN" runat="server" Text='<%#Eval("LE_Properties_FEIN")%>' Width="100px"></asp:Label>
+                                    <asp:Label ID="lblLE_Properties_FEIN" runat="server" Text='<%#Eval("LE_Properties_FEIN")%>' Width="150px" Style="word-wrap: normal; word-break: break-all"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                              <asp:TemplateField HeaderText="Updated_By">
