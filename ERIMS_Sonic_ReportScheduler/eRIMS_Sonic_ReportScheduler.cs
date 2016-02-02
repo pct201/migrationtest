@@ -8320,6 +8320,12 @@ namespace ERIMS_Sonic_ReportScheduler
                         strHTML.Append("<td width='150'>Sonic Location Code</td>");
                         strHTML.Append("<td width='150'>Location Name</td>");
                         //strHTML.Append("<td width='150'>Legal Entity</td>");
+                        strHTML.Append("<td width='150'>Parent Company Legal Entity</td>");
+                        strHTML.Append("<td width='150'>Parent Company Legal Entity FEIN</td>");
+                        strHTML.Append("<td width='150'>Legal Entity (Operations)</td>");
+                        strHTML.Append("<td width='150'>Legal Entity (Operations) FEIN</td>");
+                        strHTML.Append("<td width='150'>Legal Entity (Properties)</td>");
+                        strHTML.Append("<td width='150'>Legal Entity (Properties) FEIN</td>");
                         strHTML.Append("<td width='150'>Federal Id</td>");
                         strHTML.Append("<td width='150'>Location Status</td>");
                         strHTML.Append("<td width='150'>Building #</td>");
@@ -8455,6 +8461,12 @@ namespace ERIMS_Sonic_ReportScheduler
                                 strHTML.Append("<td width='150'>" + Convert.ToString(dr["Sonic_Location_Code"]) + "</td>");
                                 strHTML.Append("<td width='150'>" + Convert.ToString(dr["Location_Name"]) + "</td>");
                                 //strHTML.Append("<td width='150'>" + Convert.ToString(dr["Legal_Entity"]) + "</td>");
+                                strHTML.Append("<td width='150'>" + Convert.ToString(dr["Parent_Company_LE"]) + "</td>");
+                                strHTML.Append("<td width='150'>" + Convert.ToString(dr["Parent_Company_LE_FEIN"]) + "</td>");
+                                strHTML.Append("<td width='150'>" + Convert.ToString(dr["LE_Operations"]) + "</td>");
+                                strHTML.Append("<td width='150'>" + Convert.ToString(dr["LE_Operations_FEIN"]) + "</td>");
+                                strHTML.Append("<td width='150'>" + Convert.ToString(dr["LE_Properties"]) + "</td>");
+                                strHTML.Append("<td width='150'>" + Convert.ToString(dr["LE_Properties_FEIN"]) + "</td>");
                                 strHTML.Append("<td width='150'>" + Convert.ToString(dr["Federal_id"]) + "</td>");
                                 strHTML.Append("<td width='150'>" + Convert.ToString(dr["Location_Status"]) + "</td>");
                                 strHTML.Append("<td width='150'>" + Convert.ToString(dr["Building"]) + "</td>");
