@@ -1129,7 +1129,7 @@ function DisableButton() {
                                                                     <td align="left" valign="top" colspan="4">
                                                                         <asp:DropDownList ID="drpFK_Employee" runat="server" OnSelectedIndexChanged="drpFK_Employee_SelectedIndexChanged" AutoPostBack="true" SkinID="dropGen" Width="225px"></asp:DropDownList>
                                                                     &nbsp;&nbsp;&nbsp;
-                                                                        <asp:Button ID="btnViewEmployee" runat="server" Text="View Employees for Location Only" OnClick="btnViewEmployee_Click" Width="225px"/>
+                                                                        <asp:Button ID="btnViewEmployee" runat="server" Text="View All Associates" OnClick="btnViewEmployee_Click" Width="225px"/>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>

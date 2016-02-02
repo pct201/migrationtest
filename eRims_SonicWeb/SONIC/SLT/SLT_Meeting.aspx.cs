@@ -634,6 +634,21 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             gvSLT_membersView.DataBind();
         }
     }
+
+    private void BindSLTMemberHistoryGrid()
+    {
+        DataTable dtSlt_members = SLT_Members.SLT_MembersSelectByFK_SLT_Meeting(PK_SLT_Meeting).Tables[0];
+        if (StrOperation != "view")
+        {
+            gvSLT_Members.DataSource = dtSlt_members;//view all members from all dates
+            gvSLT_Members.DataBind();
+        }
+        else
+        {
+            gvSLT_membersView.DataSource = dtSlt_members;
+            gvSLT_membersView.DataBind();
+        }
+    }
     /// <summary>
     /// Bind SLT_Member Grid With Year filter
     /// </summary>
@@ -769,7 +784,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     {
         //FK_LU_Location_ID
         drpFK_Employee.Items.Clear();
-        DataSet dsEmployee = Employee.SelectEmployessByLocation(Convert.ToInt32(FK_LU_Location_ID));
+        DataSet dsEmployee = Employee.SelectAllActiveEmployess();
         if (dsEmployee.Tables.Count > 0)
         {
             drpFK_Employee.DataSource = dsEmployee.Tables[0];
@@ -3170,16 +3185,15 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
 
     protected void btnShowMemberHistory_Click(object sender, EventArgs e)
     {
-        DataTable dtSlt_members = SLT_Members.SLT_MembersSelectByFK_SLT_Meeting(PK_SLT_Meeting).Tables[0];
-        if (StrOperation != "view")
+        if (btnShowMemberHistory.Text == "Show Member History")
         {
-            gvSLT_Members.DataSource = dtSlt_members;//view all members from all dates
-            gvSLT_Members.DataBind();
+            BindSLTMemberHistoryGrid();
+            btnShowMemberHistory.Text = "Show Active Members";
         }
         else
         {
-            gvSLT_membersView.DataSource = dtSlt_members;
-            gvSLT_membersView.DataBind();
+            BindSLTMemberGrid();
+            btnShowMemberHistory.Text = "Show Member History";
         }
         
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel('1');", true);
@@ -4550,7 +4564,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     protected void gvSLT_Members_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         gvSLT_Members.PageIndex = e.NewPageIndex; //Page new index call
-        BindSLTMemberGrid();
+        if (btnShowMemberHistory.Text == "Show Active Members")
+            BindSLTMemberHistoryGrid();
+        else
+            BindSLTMemberGrid();
+        
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
     /// <summary>
@@ -6652,15 +6670,15 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
 
     protected void btnViewEmployee_Click(object sender, EventArgs e)
     {
-        if (btnViewEmployee.Text == "View Employees for Location Only")
+        if (btnViewEmployee.Text == "View Associates for Location Only")
         {
-            BindEmployeesByLocation();
-            btnViewEmployee.Text = "View All Employees";
+            BindActiveEmployeesByLocation();
+            btnViewEmployee.Text = "View All Associates";
         }
         else
         {
             BindAllEmployees();
-            btnViewEmployee.Text = "View Employees for Location Only";
+            btnViewEmployee.Text = "View Associates for Location Only";
         }
         drpFK_Employee_SelectedIndexChanged(null,null);
 
