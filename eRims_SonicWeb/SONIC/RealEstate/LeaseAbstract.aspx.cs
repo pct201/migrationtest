@@ -115,18 +115,45 @@ public partial class SONIC_RealEstate_LeaseAbstract : System.Web.UI.Page
         sbHtml.Append("<td style='width:18%;' valign='top'>DBA</td>");
         sbHtml.Append("<td style='width:2%;' valign='top'> :</td>");
         sbHtml.Append("<td style='width:30%;' valign='top'> " + objLocation.dba + " </td>");
-        sbHtml.Append("<td style='width:18%;' valign='top'>Legal Entity</td>");
+        //sbHtml.Append("<td style='width:18%;' valign='top'>Legal Entity</td>");
+        //sbHtml.Append("<td style='width:2%;' valign='top'> :</td>");
+        //sbHtml.Append("<td style='width:30%;' valign='top'> " + objLocation.legal_entity + " </td>");
+        sbHtml.Append("</tr>");
+
+        sbHtml.Append("<tr>");
+        sbHtml.Append("<td style='width:18%;' valign='top'>Parent Company Legal Entity</td>");
         sbHtml.Append("<td style='width:2%;' valign='top'> :</td>");
-        sbHtml.Append("<td style='width:30%;' valign='top'> " + objLocation.legal_entity + " </td>");
+        sbHtml.Append("<td style='width:30%;' valign='top'> " + objLocation.Parent_Company_LE + " </td>");
+        sbHtml.Append("<td style='width:18%;' valign='top'>Parent Company Legal Entity FEIN</td>");
+        sbHtml.Append("<td style='width:2%;' valign='top'> :</td>");
+        sbHtml.Append("<td style='width:30%;' valign='top'> " + objLocation.Parent_Company_LE_FEIN + " </td>");
+        sbHtml.Append("</tr>");
+
+        sbHtml.Append("<tr>");
+        sbHtml.Append("<td style='width:18%;' valign='top'>Legal Entity (Operations)</td>");
+        sbHtml.Append("<td style='width:2%;' valign='top'> :</td>");
+        sbHtml.Append("<td style='width:30%;' valign='top'> " + objLocation.LE_Operations + " </td>");
+        sbHtml.Append("<td style='width:18%;' valign='top'>Legal Entity (Operations) FEIN</td>");
+        sbHtml.Append("<td style='width:2%;' valign='top'> :</td>");
+        sbHtml.Append("<td style='width:30%;' valign='top'> " + objLocation.LE_Operations_FEIN + " </td>");
+        sbHtml.Append("</tr>");
+
+        sbHtml.Append("<tr>");
+        sbHtml.Append("<td style='width:18%;' valign='top'>Legal Entity (Properties)</td>");
+        sbHtml.Append("<td style='width:2%;' valign='top'> :</td>");
+        sbHtml.Append("<td style='width:30%;' valign='top'> " + objLocation.LE_Properties + " </td>");
+        sbHtml.Append("<td style='width:18%;' valign='top'>Legal Entity (Properties) FEIN</td>");
+        sbHtml.Append("<td style='width:2%;' valign='top'> :</td>");
+        sbHtml.Append("<td style='width:30%;' valign='top'> " + objLocation.LE_Properties_FEIN + " </td>");
         sbHtml.Append("</tr>");
 
         sbHtml.Append("<tr>");
         sbHtml.Append("<td  valign='top'>Address</td>");
         sbHtml.Append("<td  valign='top'> :</td>");
         sbHtml.Append("<td  valign='top'> " + objLocation.Address_1 + " </td>");
-        sbHtml.Append("<td  valign='top'>Federal ID#</td>");
-        sbHtml.Append("<td  valign='top'> :</td>");
-        sbHtml.Append("<td  valign='top'> " + objRE.Federal_Id + " </td>");
+        //sbHtml.Append("<td  valign='top'>Federal ID#</td>");
+        //sbHtml.Append("<td  valign='top'> :</td>");
+        //sbHtml.Append("<td  valign='top'> " + objRE.Federal_Id + " </td>");
         sbHtml.Append("</tr>");
 
         sbHtml.Append("<tr>");
