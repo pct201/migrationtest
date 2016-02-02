@@ -105,7 +105,7 @@
                                     <td>&nbsp;
                                     </td>
                                     <td colspan="2" align="left" style="padding-left: 12px; padding-top: 5px; padding-bottom: 9px;">
-                                        <asp:LinkButton ID="lnkAccessRequest" runat="server" OnClientClick="return OpenLoginMessagePopup('ACCESS REQUEST','Access Request?');">Access Request</asp:LinkButton>
+                                        <asp:LinkButton ID="lnkAccessRequest" runat="server" OnClientClick="return OpenLoginMessagePopup('ACCESS REQUEST','Access Request?');">New User Access Request</asp:LinkButton>
                                         <asp:LinkButton ID="lnkHdnAccessRequest" runat="server" OnClick="lnkAccessRequest_Click" style="display:none"></asp:LinkButton>
                                     </td>
                                 </tr>
