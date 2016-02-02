@@ -1129,7 +1129,7 @@ function DisableButton() {
                                                                     <td align="left" valign="top" colspan="4">
                                                                         <asp:DropDownList ID="drpFK_Employee" runat="server" OnSelectedIndexChanged="drpFK_Employee_SelectedIndexChanged" AutoPostBack="true" SkinID="dropGen" Width="225px"></asp:DropDownList>
                                                                     &nbsp;&nbsp;&nbsp;
-                                                                        <asp:Button ID="btnViewEmployee" runat="server" Text="View All Associates" OnClick="btnViewEmployee_Click" Width="225px"/>
+                                                                        <asp:Button ID="btnViewEmployee" runat="server" Text="View All Associates" OnClick="btnViewEmployee_Click" Width="245px"/>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -1305,18 +1305,13 @@ function DisableButton() {
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center"
                                                                         HeaderText="Email / Print">
-                                                                        <ItemStyle Width="10%" HorizontalAlign="Center" />
+                                                                        <ItemStyle Width="20%" HorizontalAlign="Center" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkMail" runat="server" Text="Mail" CausesValidation="false"
                                                                                 CommandName="Mail" CommandArgument='<%#Eval("FK_SLT_Meeting") + ";" + Eval("PK_SLT_Meeting_Schedule") %>' />
                                                                             &nbsp;&nbsp;<asp:LinkButton ID="lnkPrint" runat="server" Text="Print" CommandName="Print"
                                                                                 CausesValidation="false" CommandArgument='<%#Eval("FK_SLT_Meeting") + ";" + Eval("PK_SLT_Meeting_Schedule") %>' />
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
-                                                                    <asp:TemplateField HeaderStyle-HorizontalAlign="Center" ItemStyle-HorizontalAlign="Center">
-                                                                        <ItemStyle Width="8%" HorizontalAlign="Center" />
-                                                                        <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkDelete" runat="server" Text="Delete" CommandName="RemoveRecord"
+                                                                            &nbsp;&nbsp; <asp:LinkButton ID="lnkDelete" runat="server" Text="Delete" CommandName="RemoveRecord"
                                                                                 CommandArgument='<%#Eval("FK_SLT_Meeting") + ";" + Eval("PK_SLT_Meeting_Schedule") %>'
                                                                                 OnClientClick="return confirm('Are you sure to remove the meeting agenda record?');"
                                                                                 CausesValidation="false" />
@@ -1417,7 +1412,7 @@ function DisableButton() {
                                                         </td>
                                                         <td align="center" valign="top" width="4%">:
                                                         </td>
-                                                        <td align="left" valign="top" width="24%">
+                                                        <td align="left" valign="top" width="26%">
                                                             <asp:TextBox ID="txtActual_Meeting_Date" runat="server" Width="160px"></asp:TextBox>
                                                             <div style="display: none">
                                                                 <asp:TextBox ID="txtCurrent_Date" runat="server"></asp:TextBox>
@@ -3650,7 +3645,7 @@ function DisableButton() {
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
                                                         <td align="left" width="28%" valign="top" colspan="4">
-                                                            <uc:ctrlMultiLineTextBox ID="txtMeeting_Comment" runat="server" />
+                                                            <uc:ctrlMultiLineTextBox ID="txtMeeting_Comment" runat="server" Width="500"/>
                                                         </td>
                                                     </tr>
                                                     <tr>

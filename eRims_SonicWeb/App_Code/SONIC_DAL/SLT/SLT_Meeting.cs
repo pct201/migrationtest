@@ -251,6 +251,7 @@ namespace ERIMS.DAL
             DbCommand dbCommand = db.GetStoredProcCommand("SLT_Meeting_GetScores");
             db.AddInParameter(dbCommand, "PK_LU_Location_ID", DbType.Decimal, FK_LU_Location_ID);
             db.AddInParameter(dbCommand, "PK_SLT_Meeting_Schedule", DbType.Decimal, PK_SLT_Meeting_Schedule);
+            dbCommand.CommandTimeout = 1000;
             return (db.ExecuteDataSet(dbCommand));
         }
 

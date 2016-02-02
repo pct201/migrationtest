@@ -284,8 +284,8 @@
             </tr>
             <tr>
                 <td align="center">
-                    <asp:Button ID="btnSearch" runat="server" Text="Search" SkinID="btnGen" OnClick="btnSearch_Click" />&nbsp;&nbsp;&nbsp;&nbsp;
-                    <asp:Button ID="btnAdd" runat="server" Text="  Add  " SkinID="btnGen" OnClick="btnAdd_Click" />
+                    <asp:Button ID="btnSearch" runat="server" Text="Search Posts" SkinID="btnGen" OnClick="btnSearch_Click" />&nbsp;&nbsp;&nbsp;&nbsp;
+                    <asp:Button ID="btnAdd" runat="server" Text="  Add Post " SkinID="btnGen" OnClick="btnAdd_Click" />
                 </td>
             </tr>
             <tr>

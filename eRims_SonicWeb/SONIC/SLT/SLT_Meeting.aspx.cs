@@ -799,7 +799,12 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     #region "MeetingSchehule"
     private void BindAttendeesGrid()
     {
-        DataTable dtAttendees = SLT_Members.SLT_MembersSelectByFk(PK_SLT_Meeting, 0, PK_SLT_Meeting_Schedule).Tables[0];
+        DataSet dsAttendees = SLT_Members.SLT_MembersSelectByFk(PK_SLT_Meeting, 0, PK_SLT_Meeting_Schedule);
+        DataTable dtAttendees = null;
+
+        if(dsAttendees.Tables.Count > 0)
+            dtAttendees = dsAttendees.Tables[0];
+
         if (StrOperation != "view" && meetingIsEditable == true)
         {
             gv_MeetingAttendees.DataSource = dtAttendees;
@@ -1286,7 +1291,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
     #region "SLT_Safty_Walk"
     private void BindSaftyWalkGrid()
     {
-        DataTable dtSlt_members = SLT_Members.SLT_MembersSelectByFk(PK_SLT_Meeting, 0, PK_SLT_Meeting_Schedule).Tables[0];
+        DataSet dsSlt_members = SLT_Members.SLT_MembersSelectByFk(PK_SLT_Meeting, 0, PK_SLT_Meeting_Schedule);
+        DataTable dtSlt_members = null;
+        if (dsSlt_members.Tables.Count > 0)
+            dtSlt_members = dsSlt_members.Tables[0];
+
         if (StrOperation != "view" && meetingIsEditable == true)
         {
             gvSafetyWalk.DataSource = dtSlt_members;
@@ -1329,7 +1338,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
 
         month = Convert.ToString(Actual_Meeting_Date.Month);
         Year = Actual_Meeting_Date.Year;
-        DataTable dtSlt_members = clsLU_SLT_BT_Security_Walk_Focus_Area.GetMonthlySLTSafetyWalkGrid(PK_SLT_Meeting, Convert.ToInt32(month), PK_SLT_Meeting_Schedule, Year).Tables[0];
+        DataSet dsSlt_members = clsLU_SLT_BT_Security_Walk_Focus_Area.GetMonthlySLTSafetyWalkGrid(PK_SLT_Meeting, Convert.ToInt32(month), PK_SLT_Meeting_Schedule, Year);
+        DataTable dtSlt_members = null;
+        if(dsSlt_members.Tables.Count>0)
+            dtSlt_members = dsSlt_members.Tables[0];
+
         if (StrOperation != "view" && meetingIsEditable == true)
         {
             gvBTSecurityWalk.DataSource = dtSlt_members;
@@ -1344,7 +1357,11 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
 
     private void BindBTSecurityWalkGrid()
     {
-        DataTable dtSlt_members = SLT_Members.SLT_MembersSelectByFk(PK_SLT_Meeting, 0, PK_SLT_Meeting_Schedule).Tables[0];
+        DataSet dsSlt_members = SLT_Members.SLT_MembersSelectByFk(PK_SLT_Meeting, 0, PK_SLT_Meeting_Schedule);
+        DataTable dtSlt_members = null;
+        if(dsSlt_members.Tables.Count>0)
+          dtSlt_members =  dsSlt_members.Tables[0];
+
         if (StrOperation != "view" && meetingIsEditable == true)
         {
             gvMonBTSecurityWalk.DataSource = dtSlt_members;
@@ -2610,7 +2627,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         SLT_TrainingAttachmentADD.AddSLTAttachment(clsGeneral.SLT_Tables.SLT_Training, PK_SLT_Training);
         tr_training_Attachment.Style.Add("display", "none");
         BindTrainingAttachment();
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(14);", true);
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(10);", true);
     }
 
     private void SaveTrainging(string Pnl)
@@ -4213,7 +4230,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         {
             if (PK_SLT_Meeting_Schedule > 0)
             {
-                SaveTrainging("14");
+                SaveTrainging("10");
             }
             else
                 Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:alert('Please select meeting agenda record');ShowPanel(10);", true);
@@ -5785,9 +5802,10 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             // get the file name value from binder
             string strFileName = DataBinder.Eval(e.Row.DataItem, "Attachment_Name").ToString();
             //strFileName = AppConfig.strSLT_SafetyWalkDocPath + strFileName;
-
-            // set click attribute to open file on clicking the link
-            lnkSaftywalkAttachFile.Attributes.Add("onclick", "javascript:window.open('../../Download.aspx?fname=" + Encryption.Encrypt(strFileName) + "&SLT=safetywalk');");
+            if(File.Exists(clsGeneral.GetAttachmentDocPath(clsGeneral.SLT_TablesNames[(int)clsGeneral.SLT_Tables.SLT_Safety_Walk]) + strFileName))
+                lnkSaftywalkAttachFile.Attributes.Add("onclick", "javascript:window.open('../../Download.aspx?fname=" + Encryption.Encrypt(strFileName) + "&SLT=safetywalk');");
+            else
+                lnkSaftywalkAttachFile.Attributes.Add("onclick", "javascript:alert('Attachment Not Found');return false;");
         }
     }
 
@@ -5822,7 +5840,7 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
             if (File.Exists(strPath))
                 File.Delete(strPath);
         }
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(14);", true);
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(10);", true);
     }
 
     /// <summary>

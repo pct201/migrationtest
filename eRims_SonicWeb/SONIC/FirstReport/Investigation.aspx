@@ -222,9 +222,9 @@
             }
         }
 
-        //jQuery(function ($) {
-        //     $("#<=txtTime_Began_Work.ClientID%>").mask("99:99");
-        //});
+        jQuery(function ($) {
+            $("#<%=txtTime_Began_Work.ClientID%>").mask("99:99");
+        });
 
         // Make Validation for OSHA Information Panel
         function CheckValidationOSHAInfo() {
@@ -244,6 +244,54 @@
             else
                 return false;
         }
+        function setCaretPosition(elem, caretPos) {
+            var range;
+            elem = document.getElementById('ctl00_ContentPlaceHolder1_txtTime_Began_Work');
+            if (elem.createTextRange) {
+                range = elem.createTextRange();
+                range.move('character', caretPos);
+                range.select();
+            } else {
+                elem.focus();
+                if (elem.selectionStart !== undefined) {
+                    elem.setSelectionRange(caretPos, caretPos);
+                }
+            }
+        }
+
+        //function setCaretPosition(elemId, caretPos) {
+        //    var el = document.getElementById('ctl00_ContentPlaceHolder1_txtTime_Began_Work'); //$(elemId);// 
+        //    //alert('123');
+        //    el.value = el.value;
+        //    // ^ this is used to not only get "focus", but
+        //    // to make sure we don't have it everything selected
+        //    // (it causes an issue in chrome, and having it doesn't hurt any other browser)
+
+        //    if (el !== null) {
+
+        //        if (el.createTextRange) {
+        //            var range = el.createTextRange();
+        //            range.move('character', caretPos);
+        //            range.select();
+        //            return true;
+        //        }
+
+        //        else {
+        //            // (el.selectionStart === 0 added for Firefox bug)
+        //            if (el.selectionStart || el.selectionStart === 0) {
+        //                el.setSelectionRange(caretPos, caretPos);
+        //                el.focus();
+
+        //                return true;
+        //            }
+
+        //            else { // fail city, fortunately this never happens (as far as I've tested) :)
+        //                el.focus();
+        //                return false;
+        //            }
+        //        }
+        //    }
+        //}
 
     </script>
     <link href="<%=AppConfig.SiteURL%>greybox/gb_styles.css" rel="stylesheet" type="text/css" />
@@ -1351,16 +1399,16 @@
                                                         <td align="center">:
                                                         </td>
                                                         <td align="left">
-                                                            <asp:TextBox ID="txtTime_Began_Work" runat="server" Width="170px"></asp:TextBox>
-                                                            <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" AutoComplete="true"
+                                                            <asp:TextBox ID="txtTime_Began_Work" runat="server" Width="170px" onclick="setCaretPosition(0,0);"  autocomplete="off"></asp:TextBox>
+                                                         <%--   <cc1:MaskedEditExtender ID="MaskedEditExtender1" runat="server" AutoComplete="true"
                                                                     MaskType="Time" Mask="99:99" TargetControlID="txtTime_Began_Work" AcceptNegative="Left"
                                                                     DisplayMoney="Left" MessageValidatorTip="true" OnFocusCssClass="MaskedEditFocus"
-                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US">
-                                                                </cc1:MaskedEditExtender>
+                                                                    OnInvalidCssClass="MaskedEditError" CultureName="en-US" ClearMaskOnLostFocus="true">
+                                                                </cc1:MaskedEditExtender>--%>
                                                             <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="txtTime_Began_Work"
                                                                 ValidationExpression="^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$"
                                                                 ErrorMessage="Invalid Time Associate Began Work." Display="none" ValidationGroup="vsOSHAInfoGroup"
-                                                                SetFocusOnError="true"></asp:RegularExpressionValidator>
+                                                                SetFocusOnError="true" ></asp:RegularExpressionValidator>
                                                         </td>
                                                     </tr>
                                                      <tr>
