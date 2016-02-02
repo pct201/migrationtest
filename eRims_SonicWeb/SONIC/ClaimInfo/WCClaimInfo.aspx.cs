@@ -463,7 +463,8 @@ public partial class SONIC_WCClaimInfo : clsBasePage
                     //Get the details of Associated first report from the report number.
                     int int_WC_FR = Convert.ToInt32(drWorkers_Comp_Claims["PK_WC_FR_ID"]);
                     int intInvID = Investigation.SelectPKByWc_FR_ID(int_WC_FR);
-                    lnkAddInvestigation.PostBackUrl = AppConfig.SiteURL + "SONIC/FirstReport/Investigation.aspx?wc=" + int_WC_FR;
+
+                    lnkAddInvestigation.PostBackUrl = AppConfig.SiteURL + "SONIC/FirstReport/Investigation.aspx?wc=" + Encryption.Encrypt(Convert.ToString(int_WC_FR));
 
                     if (intInvID > 0)
                     {

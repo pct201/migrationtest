@@ -60,6 +60,16 @@
             oWnd.moveTo(450, 300);
             return false;
         }
+
+
+        
+        function getValue(element) {
+            var txtNotes = element.replace("btnSave", "txtNotes_txtNote");
+            var e = document.getElementById(txtNotes).value;           
+            var strippedText = $("<div/>").html(e).text();
+            document.getElementById(txtNotes).value = strippedText;
+        }
+
     </script>
     <asp:ValidationSummary ID="valSummary" runat="server" ShowMessageBox="true" ShowSummary="false"
         HeaderText="Please verify following fields:" BorderWidth="1" BorderColor="DimGray"
@@ -382,6 +392,7 @@
                                                     </td>
                                                     <td align="left" width="28%" valign="top">
                                                         <uc:ctrlMultiLineTextBox ID="txtNotes" ControlType="TextBox" runat="server" />
+                                                        <asp:HiddenField ID="hdnNotes" runat="server" />
                                                     </td>
                                                 </tr>
                                             </table>
@@ -496,7 +507,7 @@
                             <table cellpadding="5" cellspacing="0" border="0" width="100%">
                                 <tr align="center" id="trSave">
                                     <td align="right" style="width: 50%">
-                                        <asp:Button ID="btnSave" runat="server" Text="Save & View" OnClick="btnSave_Click"
+                                        <asp:Button ID="btnSave" runat="server" Text="Save & View" OnClick="btnSave_Click" OnClientClick="getValue(this.id)"
                                             ValidationGroup="vsErrorGroup" CausesValidation="true" />
                                         <asp:Button ID="btnEdit" runat="server" Text="Edit" OnClick="btnEdit_Click" Style="margin-left: 0px"
                                             Width="51px" Visible="false" />
