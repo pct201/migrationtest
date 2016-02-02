@@ -1488,10 +1488,20 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+
         public static DataSet SelectEmployee_For_OSHA()
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Employee_For_OSHA");
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        // ticket# 3544
+        public static DataSet SelectAllActiveEmployess()
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("SelectAllActiveEmployess");            
+
             return db.ExecuteDataSet(dbCommand);
         }
         #endregion
