@@ -19,7 +19,7 @@ public partial class rptWCClaimManagement : clsBasePage
         {
             BindRegion();
             BindYear();
-            
+
             //Bind Market Dropdown
             ComboHelper.FillMarket(new DropDownList[] { ddlMarket }, true);
 
@@ -101,7 +101,7 @@ public partial class rptWCClaimManagement : clsBasePage
         memorystream.Seek(0, SeekOrigin.Begin);
 
         HttpContext.Current.Response.Clear();
-        HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "Outside Insurance Coverage Daily Report.xls"));
+        HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", "WCClaimsManagement.xls"));
         HttpContext.Current.Response.ContentType = "application/ms-excel";
         HttpContext.Current.Response.Write(stringWrite.ToString().Replace("#EAEAEA", "White").Replace("#eaeaea", "White").Replace("background-color:#C0C0C0", "background-color:White;").Replace("<style type='text/css'></style>", "<style type='text/css'> .cols_{" + strcols + " }</style>").Replace("background-color:#7f7f7f;color:White", "background-color:White;color:Black"));
         HttpContext.Current.Response.End();
@@ -114,7 +114,7 @@ public partial class rptWCClaimManagement : clsBasePage
     protected void btnBack_Click(object sender, EventArgs e)
     {
         trCriteria.Visible = true;
-        tblReport.Visible = false;        
+        tblReport.Visible = false;
     }
     #endregion
 
@@ -149,13 +149,14 @@ public partial class rptWCClaimManagement : clsBasePage
     {
         string strReportInterval = "";
         strReportInterval = drpReportInterval.SelectedValue;
-        string strRegion = "";
+        string strRegion = null;
         // get selected regions
         strRegion = Convert.ToString(drpRegions.SelectedValue);
 
-        string strMarket = "";
+        string strMarket = null;
         // get selected Markets
-        strMarket = Convert.ToString(ddlMarket.SelectedValue);
+        if (ddlMarket.SelectedValue != "0")
+            strMarket = Convert.ToString(ddlMarket.SelectedValue);
 
         DataSet dsReport = Report.GetWCClaimManagementReport(strRegion, strMarket, Convert.ToInt32(drpYear.SelectedValue), strReportInterval);
 
@@ -255,7 +256,8 @@ public partial class rptWCClaimManagement : clsBasePage
 
         string strMarket = "";
         // get selected Markets
-        strMarket = Convert.ToString(ddlMarket.SelectedValue);
+        if (ddlMarket.SelectedValue != "0")
+            strMarket = Convert.ToString(ddlMarket.SelectedValue);
 
 
         DataSet dsReport = Report.GetWCClaimManagementReport(strRegion, strMarket, Convert.ToInt32(drpYear.SelectedValue), strReportInterval);
@@ -338,7 +340,8 @@ public partial class rptWCClaimManagement : clsBasePage
 
         string strMarket = "";
         // get selected Markets
-        strMarket = Convert.ToString(ddlMarket.SelectedValue);
+        if (ddlMarket.SelectedValue != "0")
+            strMarket = Convert.ToString(ddlMarket.SelectedValue);
 
 
         DataSet dsReport = Report.GetWCClaimManagementReport(strRegion, strMarket, Convert.ToInt32(drpYear.SelectedValue), strReportInterval);
