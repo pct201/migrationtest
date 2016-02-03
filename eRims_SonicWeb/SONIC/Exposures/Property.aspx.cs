@@ -3452,6 +3452,8 @@ public partial class Exposures_Property : clsBasePage
                 blnAddBlanktd = true;
 
             int intCnt = 1;
+            bool isInActive = false;
+            string lastActive = string.Empty;
             for (int i = 0; i < objDs.Tables[0].Rows.Count && i < 25; i++)
             {
                 if (Convert.ToString(objDs.Tables[0].Rows[i]["Active"]).ToUpper() == "Y")
@@ -3463,10 +3465,17 @@ public partial class Exposures_Property : clsBasePage
                     {
                         tc = new HtmlTableCell();
                         tc.NoWrap = false;
-                        tc.Width = "18%";
                         tc.Align = "left";
                         tc.VAlign = "top";
-                        tc.Style.Add("padding-left", "9px");
+                        if (!isInActive)
+                        {
+                            tc.Width = "18%";
+                            tc.Style.Add("padding-left", "9px");
+                        }
+                        else
+                        {
+                            tc.Width = "19%";
+                        }
                         Label lbl = new Label();
                         lbl.ID = "Lbl_Item_" + Convert.ToString(objDs.Tables[0].Rows[i]["Item_Number"]);
                         //lbl.Width = Unit.Pixel(132);
@@ -3477,7 +3486,16 @@ public partial class Exposures_Property : clsBasePage
                     {
                         tc = new HtmlTableCell();
                         tc.NoWrap = false;
-                        tc.Width = "19%";
+                        if (!isInActive)
+                        {
+                            tc.Width = "19%";
+                        }
+                        else
+                        {
+                            tc.Width = "18%";
+                            tc.Style.Add("padding-left", "9px");
+                        }
+
                         tc.Align = "left";
                         tc.VAlign = "top";
                         Label lbl = new Label();
@@ -3514,16 +3532,33 @@ public partial class Exposures_Property : clsBasePage
 
                     tc = new HtmlTableCell();
 
-                    if (i % 2 == 1)
+                    if (!isInActive)
                     {
-                        tc.Width = "28%";
-                        tc.Style.Add("padding-left", "6px");
+                        if (i % 2 == 1)
+                        {
+                            tc.Width = "28%";
+                            tc.Style.Add("padding-left", "6px");
+                        }
+                        else
+                        {
+                            tc.Width = "27%";
+                            tc.Style.Add("padding-left", "3px");
+                        }
                     }
                     else
                     {
-                        tc.Width = "27%";
-                        tc.Style.Add("padding-left", "3px");
+                        if (i % 2 == 1)
+                        {
+                            tc.Width = "27%";
+                            tc.Style.Add("padding-left", "3px");                            
+                        }
+                        else
+                        {
+                            tc.Width = "28%";
+                            tc.Style.Add("padding-left", "6px");
+                        }
                     }
+
                     tc.Align = "left";
                     tc.VAlign = "top";
 
@@ -3591,6 +3626,24 @@ public partial class Exposures_Property : clsBasePage
                                 tblInsurance.Controls.Add(tr);
                         }
                         intCnt += 1;
+                    }
+                }
+                else
+                {
+                    string evenOrOdd = "even";
+                    if (i % 2 == 1)
+                    {
+                        evenOrOdd = "odd";
+                    }
+
+                    if (evenOrOdd != lastActive && !isInActive)
+                    {
+                        lastActive = evenOrOdd;
+                        isInActive = true;
+                    }
+                    else
+                    {
+                        isInActive = false;
                     }
                 }
             }

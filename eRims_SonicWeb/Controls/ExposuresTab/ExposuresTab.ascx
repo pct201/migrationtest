@@ -44,14 +44,19 @@
         }
     }
 
-    function RedirectTo(index) {
+    function RedirectTo(index, panel, mode) {
         var loc = '<%=Session["ExposureLocation"]%>';
         if (loc > 0) {
             loc = '<%=Encryption.Encrypt(Session["ExposureLocation"].ToString()) %>';
 
             switch (index) {
-                case 1:
-                    window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/PropertyView.aspx?loc=' + loc;
+                case 1:                    
+                    if (panel != undefined && panel != null && panel.toString() != '') {                        
+                        window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/PropertyView.aspx?loc=' + loc + panel;
+                    }
+                    else {
+                        window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/PropertyView.aspx?loc=' + loc;
+                    }
                     break;
                 case 2:
                     window.location.href = '<%=AppConfig.SiteURL%>SONIC/Franchise/FranchiseGrid.aspx?loc=' + loc;

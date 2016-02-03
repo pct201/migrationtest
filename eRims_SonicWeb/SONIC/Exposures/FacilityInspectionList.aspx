@@ -75,7 +75,7 @@
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <td align="left" width="100%">
-                                                                                            <span class="LeftMenuStatic" id="PropertyMenu1" onclick="javascript:RedirectTo(1);">Property Cope </span>&nbsp;<span id="MenuAsterisk1" runat="server" style="color: Red; display: none">*</span>
+                                                                                            <span class="LeftMenuStatic" id="PropertyMenu1" onclick="javascript:RedirectTo(1, '', '<%=ViewState["OperationMode"]%>');">Property Cope </span>&nbsp;<span id="MenuAsterisk1" runat="server" style="color: Red; display: none">*</span>
                                                                                         </td>
                                                                                     </tr>
                                                                                 </tbody>
@@ -99,7 +99,7 @@
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <td align="left" width="100%">
-                                                                                            <span class="LeftMenuStatic" id="PropertyMenu2" onclick="javascript:RedirectTo(1);">Building Information</span>&nbsp;<span id="MenuAsterisk2" runat="server" style="color: Red; display: none">*</span>
+                                                                                            <span class="LeftMenuStatic" id="PropertyMenu2" onclick="javascript:RedirectTo(1, '&pnl=2', '<%=ViewState["OperationMode"]%>');">Building Information</span>&nbsp;<span id="MenuAsterisk2" runat="server" style="color: Red; display: none">*</span>
                                                                                         </td>
                                                                                     </tr>
                                                                                 </tbody>
@@ -123,7 +123,7 @@
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <td align="left" width="100%">
-                                                                                            <span class="LeftMenuStatic" id="PropertyMenu4" onclick="javascript:RedirectTo(1);">Building Improvements</span>&nbsp;<span id="MenuAsterisk3" runat="server" style="color: Red; display: none">*</span>
+                                                                                            <span class="LeftMenuStatic" id="PropertyMenu4" onclick="javascript:RedirectTo(1, '&panel=4');">Building Improvements</span>&nbsp;<span id="MenuAsterisk3" runat="server" style="color: Red; display: none">*</span>
                                                                                         </td>
                                                                                     </tr>
                                                                                 </tbody>
@@ -147,7 +147,7 @@
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <td align="left" width="100%">
-                                                                                            <span class="LeftMenuStatic" id="PropertyMenu5" onclick="javascript:RedirectTo(1);">Contacts
+                                                                                            <span class="LeftMenuStatic" id="PropertyMenu5" onclick="javascript:RedirectTo(1, '&contactPanel=5');">Contacts
                                                                                             </span>&nbsp;<span id="MenuAsterisk4" runat="server" style="color: Red; display: none">*</span>
                                                                                         </td>
                                                                                     </tr>

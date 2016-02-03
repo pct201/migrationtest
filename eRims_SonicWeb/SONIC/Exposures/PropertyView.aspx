@@ -15,6 +15,7 @@
     <script type="text/javascript" src="<%=AppConfig.SiteURL%>greybox/gb_scripts.js"></script>
     <script type="text/javascript" language="javascript">
         Sys.WebForms.PageRequestManager.getInstance().add_endRequest(pageLoaded);
+
         function pageLoaded(sender, args) {
             window.scrollTo(0, 0);
         }
