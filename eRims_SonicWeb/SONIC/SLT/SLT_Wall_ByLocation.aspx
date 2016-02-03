@@ -275,6 +275,15 @@
                                             </tr>
                                         </table>
                                     </ItemTemplate>
+                                    <FooterTemplate>
+                                        <table width="100%" cellpadding="4" cellspacing="1" border="0" style="font-size: 11px; font-family: Verdana;">
+                                        <tr id="trEmpty" runat="server" visible="false">
+                                            <td colspan = "3" align = "center">
+                                                No records found.
+                                            </td>
+                                        </tr>
+                                        </table>
+                                    </FooterTemplate>
                                 </asp:Repeater>
                             </td>
                         </tr>
