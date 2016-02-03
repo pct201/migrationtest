@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+  <siteMapNode url="" title=""  description="">
+    <siteMapNode url="javascript:void(1);" title="Claims"  description="" />
+    <siteMapNode url="javascript:void(2);" title="SLT"  description="" />
+    <siteMapNode url="javascript:void(3);" title="Exposure"  description="" />
+    <siteMapNode url="javascript:void(4);" title="ACI Management"  description="" />
+    </siteMapNode>
+</siteMap>

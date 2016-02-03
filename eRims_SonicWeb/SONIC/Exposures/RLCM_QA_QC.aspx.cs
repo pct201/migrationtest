@@ -14,6 +14,21 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
         get { return ViewState["RLCMTableRows"] != null ? Convert.ToInt32(ViewState["RLCMTableRows"]) : 0; }
         set { ViewState["RLCMTableRows"] = value; }
     }
+    private int SLTRLCMTableRows
+    {
+        get { return ViewState["SLTRLCMTableRows"] != null ? Convert.ToInt32(ViewState["SLTRLCMTableRows"]) : 0; }
+        set { ViewState["SLTRLCMTableRows"] = value; }
+    }
+    private int ExposureRLCMTableRows
+    {
+        get { return ViewState["ExposureRLCMTableRows"] != null ? Convert.ToInt32(ViewState["ExposureRLCMTableRows"]) : 0; }
+        set { ViewState["ExposureRLCMTableRows"] = value; }
+    }
+    private int ACIRLCMTableRows
+    {
+        get { return ViewState["ACIRLCMTableRows"] != null ? Convert.ToInt32(ViewState["ACIRLCMTableRows"]) : 0; }
+        set { ViewState["ACIRLCMTableRows"] = value; }
+    }
 
     #region "Page Events"
 
@@ -66,20 +81,47 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
 
 
         DataSet dsSearchResult = clsRLCM_QA_QC.RLCM_Search(rlcm, year, month, strOrderBy, strOrder, string.Empty);
+        DataTable dtClaimRLCM, dtSLTRLCM, dtExposureRLCM, dtACIManagementRLCM;
+        DataView dvTemp;
+        dvTemp = dsSearchResult.Tables[0].DefaultView;
+
+        dvTemp.RowFilter = "Module = 'Claims'"; dtClaimRLCM = dvTemp.ToTable();
+        dvTemp.RowFilter = "Module = 'SLT'"; dtSLTRLCM = dvTemp.ToTable();
+        dvTemp.RowFilter = "Module = 'Exposure'"; dtExposureRLCM = dvTemp.ToTable();
+        dvTemp.RowFilter = "Module = 'ACI' or Module = ''"; dtACIManagementRLCM = dvTemp.ToTable();
+        
+        //dtClaimRLCM = dvClaimRLCM.ToTable();
+        //dtSLTRLCM = dvSLTRLCM.ToTable();
+        //dtExposureRLCM = dvExposureRLCM.ToTable();
+        //dtACIManagementRLCM = dvACIManagementRLCM.ToTable();
 
         if (dsSearchResult.Tables.Count > 0)
-            RLCMTableRows = dsSearchResult.Tables[0].Rows.Count;
+        {
+            RLCMTableRows = dtClaimRLCM.Rows.Count;
+            SLTRLCMTableRows = dtSLTRLCM.Rows.Count;
+            ExposureRLCMTableRows = dtExposureRLCM.Rows.Count;
+            ACIRLCMTableRows = dtACIManagementRLCM.Rows.Count;
+        }
 
-        gvRLCM.DataSource = dsSearchResult.Tables[0];
-        gvRLCM.DataBind();
+        gvClaimRLCM.DataSource = dtClaimRLCM;
+        gvClaimRLCM.DataBind();
+
+        gvSLTRLCM.DataSource = dtSLTRLCM;
+        gvSLTRLCM.DataBind();
+
+        gvExposureRLCM.DataSource = dtExposureRLCM;
+        gvExposureRLCM.DataBind();
+
+        gvACIManagementRLCM.DataSource = dtACIManagementRLCM;
+        gvACIManagementRLCM.DataBind();
 
         pnlSearch.Visible = false;
         pnlGrid.Visible = true;
 
         if (rlcm == clsSession.CurrentLoginEmployeeId)
-            btnSave.Visible = true;
+            btnSave.Visible = btnSLTSave.Visible = btnExposureSave.Visible = btnACISave.Visible = true;
         else
-            btnSave.Visible = false;
+            btnSave.Visible = btnSLTSave.Visible = btnExposureSave.Visible = btnACISave.Visible = false;
     }
 
     #endregion
@@ -110,7 +152,121 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
                 Label lblTask;
                 lblTask = (Label)e.Row.FindControl("lblTask");
                 string strTask = lblTask.Text;
-                if (e.Row.RowIndex != (RLCMTableRows - 1))
+                //if (e.Row.RowIndex != (RLCMTableRows - 1))
+                //{
+                    gvChild.DataSource = clsRLCM_QA_QC.RLCM_Search(rlcm, year, month, strOrderBy, strOrder, strTask);
+                    gvChild.DataBind();
+                //}
+                //else
+                //{
+                //    gvChild.DataSource = clsRLCM_QA_QC.RLCM_Search(rlcm, year, month, strOrderBy, strOrder, "Monthly Review Complete");
+                //    gvChild.DataBind();
+                //}
+            }
+        }
+    }
+
+    /// <summary>
+    /// Grid View SLT RLCM Data RowBound Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvSLTRLCM_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            decimal rlcm = 0, year = 0, month = 0;
+            string strOrderBy = string.Empty, strOrder = string.Empty;
+            if (ddlRLCM.SelectedIndex > 0) rlcm = Convert.ToDecimal(ddlRLCM.SelectedValue);
+            if (ddlMonth.SelectedIndex > 0) month = Convert.ToDecimal(ddlMonth.SelectedValue);
+            if (ddlYear.SelectedIndex > 0) year = Convert.ToDecimal(ddlYear.SelectedValue);
+            strOrderBy = "PK_RLCM";
+            strOrder = "asc";
+
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                GridView gvChild = (GridView)e.Row.FindControl("gvSLTChildGrid");
+
+                Label lblTask;
+                lblTask = (Label)e.Row.FindControl("lblSLTTask");
+                string strTask = lblTask.Text;
+                //if (e.Row.RowIndex != (SLTRLCMTableRows - 1))
+                //{
+                    gvChild.DataSource = clsRLCM_QA_QC.RLCM_Search(rlcm, year, month, strOrderBy, strOrder, strTask);
+                    gvChild.DataBind();
+                //}
+                //else
+                //{
+                //    gvChild.DataSource = clsRLCM_QA_QC.RLCM_Search(rlcm, year, month, strOrderBy, strOrder, "Monthly Review Complete");
+                //    gvChild.DataBind();
+                //}
+            }
+        }
+    }
+
+    /// <summary>
+    /// Grid View Exposure RLCM Data RowBound Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvExposureRLCM_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            decimal rlcm = 0, year = 0, month = 0;
+            string strOrderBy = string.Empty, strOrder = string.Empty;
+            if (ddlRLCM.SelectedIndex > 0) rlcm = Convert.ToDecimal(ddlRLCM.SelectedValue);
+            if (ddlMonth.SelectedIndex > 0) month = Convert.ToDecimal(ddlMonth.SelectedValue);
+            if (ddlYear.SelectedIndex > 0) year = Convert.ToDecimal(ddlYear.SelectedValue);
+            strOrderBy = "PK_RLCM";
+            strOrder = "asc";
+
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                GridView gvChild = (GridView)e.Row.FindControl("gvExposureChildGrid");
+
+                Label lblTask;
+                lblTask = (Label)e.Row.FindControl("lblExposureTask");
+                string strTask = lblTask.Text;
+                //if (e.Row.RowIndex != (ExposureRLCMTableRows - 1))
+                //{
+                    gvChild.DataSource = clsRLCM_QA_QC.RLCM_Search(rlcm, year, month, strOrderBy, strOrder, strTask);
+                    gvChild.DataBind();
+                //}
+                //else
+                //{
+                //    gvChild.DataSource = clsRLCM_QA_QC.RLCM_Search(rlcm, year, month, strOrderBy, strOrder, "Monthly Review Complete");
+                //    gvChild.DataBind();
+                //}
+            }
+        }
+    }
+
+    /// <summary>
+    /// Grid View ACI Management RLCM Data RowBound Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvACIManagementRLCM_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            decimal rlcm = 0, year = 0, month = 0;
+            string strOrderBy = string.Empty, strOrder = string.Empty;
+            if (ddlRLCM.SelectedIndex > 0) rlcm = Convert.ToDecimal(ddlRLCM.SelectedValue);
+            if (ddlMonth.SelectedIndex > 0) month = Convert.ToDecimal(ddlMonth.SelectedValue);
+            if (ddlYear.SelectedIndex > 0) year = Convert.ToDecimal(ddlYear.SelectedValue);
+            strOrderBy = "PK_RLCM";
+            strOrder = "asc";
+
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                GridView gvChild = (GridView)e.Row.FindControl("gvACIChildGrid");
+
+                Label lblTask;
+                lblTask = (Label)e.Row.FindControl("lblACITask");
+                string strTask = lblTask.Text;
+                if (e.Row.RowIndex != (ACIRLCMTableRows - 1))
                 {
                     gvChild.DataSource = clsRLCM_QA_QC.RLCM_Search(rlcm, year, month, strOrderBy, strOrder, strTask);
                     gvChild.DataBind();
@@ -142,6 +298,60 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
         }
     }
 
+    /// <summary>
+    /// SLT Child Grid Data RowBound Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvSLTChildGrid_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            CheckBox chkStatus = (CheckBox)e.Row.FindControl("chkSLTStatus");
+            chkStatus.Checked = DataBinder.Eval(e.Row.DataItem, "Status") == DBNull.Value ? false : Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Status"));
+            if (e.Row.FindControl("lnkIdentifier") != null)
+            {
+                System.Web.UI.HtmlControls.HtmlAnchor a1 = (System.Web.UI.HtmlControls.HtmlAnchor)e.Row.FindControl("lnkIdentifier");
+            }
+        }
+    }
+
+    /// <summary>
+    /// Exposure Child Grid Data RowBound Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvExposureChildGrid_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            CheckBox chkStatus = (CheckBox)e.Row.FindControl("chkExposureStatus");
+            chkStatus.Checked = DataBinder.Eval(e.Row.DataItem, "Status") == DBNull.Value ? false : Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Status"));
+            if (e.Row.FindControl("lnkIdentifier") != null)
+            {
+                System.Web.UI.HtmlControls.HtmlAnchor a1 = (System.Web.UI.HtmlControls.HtmlAnchor)e.Row.FindControl("lnkIdentifier");
+            }
+        }
+    }
+
+    /// <summary>
+    /// ACI Management Child Grid Data RowBound Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void gvACIChildGrid_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            CheckBox chkStatus = (CheckBox)e.Row.FindControl("chkACIStatus");
+            chkStatus.Checked = DataBinder.Eval(e.Row.DataItem, "Status") == DBNull.Value ? false : Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Status"));
+            if (e.Row.FindControl("lnkIdentifier") != null)
+            {
+                System.Web.UI.HtmlControls.HtmlAnchor a1 = (System.Web.UI.HtmlControls.HtmlAnchor)e.Row.FindControl("lnkIdentifier");
+            }
+        }
+    }
+
     #endregion
 
     #region "Events"
@@ -156,6 +366,7 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
         BindSearchResult();
         pnlSearch.Visible = false;
         pnlGrid.Visible = true;
+        ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
     }
 
     protected void btnCancel_Click(object sender, EventArgs e)
@@ -270,7 +481,7 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
     {
         string checkedIDs = string.Empty, uncheckedIDs = string.Empty;
         bool chkMonthlyReviewChecked = false;
-        foreach (GridViewRow gvRLCMRow in gvRLCM.Rows)
+        foreach (GridViewRow gvRLCMRow in gvClaimRLCM.Rows)
         {
             if (gvRLCMRow.RowType == DataControlRowType.DataRow)
             {
@@ -280,8 +491,155 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
                     {
                         CheckBox chkStatus = (CheckBox)gvChildRow.FindControl("chkStatus");
                         //if(chkStatus.Checked)
-                        {
+                        //{
                             HiddenField hdnStatus = (HiddenField)gvChildRow.FindControl("hdnStatus");
+                            Control c = gvChildRow.Cells[0].FindControl("lnkIdentifier");
+
+                            //if (gvChildRow.Cells.Count > 0 && gvChildRow.Cells[0].Controls.Count > 0)
+                            //{
+                            //    DataBoundLiteralControl lnkIdentifier = (DataBoundLiteralControl)gvChildRow.Cells[0].Controls[0];
+                            //    if (lnkIdentifier.Text.Contains("Monthly Review Complete"))
+                            //        chkMonthlyReviewChecked = chkStatus.Checked;
+                            //}
+
+                            if (hdnStatus != null)
+                            {
+                                if (chkStatus.Checked)
+                                    checkedIDs += hdnStatus.Value + ",";
+                                else
+                                    uncheckedIDs += hdnStatus.Value + ",";
+                            }
+                        //}
+                    }
+            }
+        }
+
+        decimal rlcm = 0, year = 0, month = 0;
+        string strOrderBy = string.Empty, strOrder = string.Empty;
+        if (ddlRLCM.SelectedIndex > 0) rlcm = Convert.ToDecimal(ddlRLCM.SelectedValue);
+        if (ddlMonth.SelectedIndex > 0) month = Convert.ToDecimal(ddlMonth.SelectedValue);
+        if (ddlYear.SelectedIndex > 0) year = Convert.ToDecimal(ddlYear.SelectedValue);
+
+
+        clsRLCM_QA_QC.UpdateStatus(checkedIDs, uncheckedIDs, Convert.ToString(clsSession.UserID));
+        clsRLCM_QA_QC.RLCM_QA_QC_CompleteInsertUpdateStatus(rlcm, year, month, chkMonthlyReviewChecked, Convert.ToString(clsSession.UserID));
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(1);", true);
+    }
+
+    protected void btnSLTSave_Click(object sender, EventArgs e)
+    {
+        string checkedIDs = string.Empty, uncheckedIDs = string.Empty;
+        bool chkMonthlyReviewChecked = false;
+        foreach (GridViewRow gvRLCMRow in gvSLTRLCM.Rows)
+        {
+            if (gvRLCMRow.RowType == DataControlRowType.DataRow)
+            {
+                GridView gvChild = (GridView)gvRLCMRow.FindControl("gvSLTChildGrid");
+                if (gvChild != null)
+                    foreach (GridViewRow gvChildRow in gvChild.Rows)
+                    {
+                        CheckBox chkStatus = (CheckBox)gvChildRow.FindControl("chkSLTStatus");
+                        //if(chkStatus.Checked)
+                        //{
+                            HiddenField hdnStatus = (HiddenField)gvChildRow.FindControl("hdnSLTStatus");
+                            Control c = gvChildRow.Cells[0].FindControl("lnkIdentifier");
+
+                            //if (gvChildRow.Cells.Count > 0 && gvChildRow.Cells[0].Controls.Count > 0)
+                            //{
+                            //    DataBoundLiteralControl lnkIdentifier = (DataBoundLiteralControl)gvChildRow.Cells[0].Controls[0];
+                            //    if (lnkIdentifier.Text.Contains("Monthly Review Complete"))
+                            //        chkMonthlyReviewChecked = chkStatus.Checked;
+                            //}
+
+                            if (hdnStatus != null)
+                            {
+                                if (chkStatus.Checked)
+                                    checkedIDs += hdnStatus.Value + ",";
+                                else
+                                    uncheckedIDs += hdnStatus.Value + ",";
+                            }
+                        //}
+                    }
+            }
+        }
+
+        decimal rlcm = 0, year = 0, month = 0;
+        string strOrderBy = string.Empty, strOrder = string.Empty;
+        if (ddlRLCM.SelectedIndex > 0) rlcm = Convert.ToDecimal(ddlRLCM.SelectedValue);
+        if (ddlMonth.SelectedIndex > 0) month = Convert.ToDecimal(ddlMonth.SelectedValue);
+        if (ddlYear.SelectedIndex > 0) year = Convert.ToDecimal(ddlYear.SelectedValue);
+
+
+        clsRLCM_QA_QC.UpdateStatus(checkedIDs, uncheckedIDs, Convert.ToString(clsSession.UserID));
+        clsRLCM_QA_QC.RLCM_QA_QC_CompleteInsertUpdateStatus(rlcm, year, month, chkMonthlyReviewChecked, Convert.ToString(clsSession.UserID));
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);", true);
+    }
+
+    protected void btnExposureSave_Click(object sender, EventArgs e)
+    {
+        string checkedIDs = string.Empty, uncheckedIDs = string.Empty;
+        bool chkMonthlyReviewChecked = false;
+        foreach (GridViewRow gvRLCMRow in gvExposureRLCM.Rows)
+        {
+            if (gvRLCMRow.RowType == DataControlRowType.DataRow)
+            {
+                GridView gvChild = (GridView)gvRLCMRow.FindControl("gvExposureChildGrid");
+                if (gvChild != null)
+                    foreach (GridViewRow gvChildRow in gvChild.Rows)
+                    {
+                        CheckBox chkStatus = (CheckBox)gvChildRow.FindControl("chkExposureStatus");
+                        //if(chkStatus.Checked)
+                        //{
+                            HiddenField hdnStatus = (HiddenField)gvChildRow.FindControl("hdnExposureStatus");
+                            Control c = gvChildRow.Cells[0].FindControl("lnkIdentifier");
+
+                            //if (gvChildRow.Cells.Count > 0 && gvChildRow.Cells[0].Controls.Count > 0)
+                            //{
+                            //    DataBoundLiteralControl lnkIdentifier = (DataBoundLiteralControl)gvChildRow.Cells[0].Controls[0];
+                            //    if (lnkIdentifier.Text.Contains("Monthly Review Complete"))
+                            //        chkMonthlyReviewChecked = chkStatus.Checked;
+                            //}
+
+                            if (hdnStatus != null)
+                            {
+                                if (chkStatus.Checked)
+                                    checkedIDs += hdnStatus.Value + ",";
+                                else
+                                    uncheckedIDs += hdnStatus.Value + ",";
+                            }
+                        //}
+                    }
+            }
+        }
+
+        decimal rlcm = 0, year = 0, month = 0;
+        string strOrderBy = string.Empty, strOrder = string.Empty;
+        if (ddlRLCM.SelectedIndex > 0) rlcm = Convert.ToDecimal(ddlRLCM.SelectedValue);
+        if (ddlMonth.SelectedIndex > 0) month = Convert.ToDecimal(ddlMonth.SelectedValue);
+        if (ddlYear.SelectedIndex > 0) year = Convert.ToDecimal(ddlYear.SelectedValue);
+
+
+        clsRLCM_QA_QC.UpdateStatus(checkedIDs, uncheckedIDs, Convert.ToString(clsSession.UserID));
+        clsRLCM_QA_QC.RLCM_QA_QC_CompleteInsertUpdateStatus(rlcm, year, month, chkMonthlyReviewChecked, Convert.ToString(clsSession.UserID));
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);", true);
+    }
+
+    protected void btnACISave_Click(object sender, EventArgs e)
+    {
+        string checkedIDs = string.Empty, uncheckedIDs = string.Empty;
+        bool chkMonthlyReviewChecked = false;
+        foreach (GridViewRow gvRLCMRow in gvACIManagementRLCM.Rows)
+        {
+            if (gvRLCMRow.RowType == DataControlRowType.DataRow)
+            {
+                GridView gvChild = (GridView)gvRLCMRow.FindControl("gvACIChildGrid");
+                if (gvChild != null)
+                    foreach (GridViewRow gvChildRow in gvChild.Rows)
+                    {
+                        CheckBox chkStatus = (CheckBox)gvChildRow.FindControl("chkACIStatus");
+                        //if(chkStatus.Checked)
+                        //{
+                            HiddenField hdnStatus = (HiddenField)gvChildRow.FindControl("hdnACIStatus");
                             Control c = gvChildRow.Cells[0].FindControl("lnkIdentifier");
 
                             if (gvChildRow.Cells.Count > 0 && gvChildRow.Cells[0].Controls.Count > 0)
@@ -298,7 +656,7 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
                                 else
                                     uncheckedIDs += hdnStatus.Value + ",";
                             }
-                        }
+                        //}
                     }
             }
         }
@@ -312,6 +670,6 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
 
         clsRLCM_QA_QC.UpdateStatus(checkedIDs, uncheckedIDs, Convert.ToString(clsSession.UserID));
         clsRLCM_QA_QC.RLCM_QA_QC_CompleteInsertUpdateStatus(rlcm, year, month, chkMonthlyReviewChecked, Convert.ToString(clsSession.UserID));
-
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);", true);
     }
 }

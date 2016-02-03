@@ -269,7 +269,7 @@ public partial class SONIC_Exposures_EHS_Dates_RLCM_Monthly_QA_QC : clsBasePage
             lnkbtnDate = ((LinkButton)(e.Row.FindControl("hypLink")));
 
             lnkbtnDate.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(DataBinder.Eval(e.Row.DataItem, "DueDate")));
-
+            string strIdentifier = Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Identifier"));
 
             switch (Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Field")))
             {
@@ -286,6 +286,17 @@ public partial class SONIC_Exposures_EHS_Dates_RLCM_Monthly_QA_QC : clsBasePage
                     break;
                 case "RLCM QA/QC EHS Date":
                     lnkbtnDate.OnClientClick = "javascript:return OpenUserEHSDates('" + Encryption.Encrypt(Convert.ToString(DataBinder.Eval(e.Row.DataItem, "id"))) + "','" + Encryption.Encrypt(Convert.ToString(PK_RLCM)) + "')";
+                    break;
+                case "Next Inspection Date":
+                case "Next Report Date":
+                case "Next Review Date":
+                    if(strIdentifier == "Inspections")
+                        lnkbtnDate.OnClientClick = "javascript:return Redirect('" + AppConfig.SiteURL + "SONIC/Pollution/Audit_Inspections_Frequency.aspx?id=" + Encryption.Encrypt(Convert.ToString(DataBinder.Eval(e.Row.DataItem, "id"))) + "&op=edit&fid=" + Encryption.Encrypt(Convert.ToString(DataBinder.Eval(e.Row.DataItem, "fid"))) + "&loc=" + Encryption.Encrypt(Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Location_ID"))) + "')";
+                    else
+                        lnkbtnDate.OnClientClick = "javascript:return Redirect('" + AppConfig.SiteURL + "SONIC/Pollution/PM_EPA_Inspection.aspx?id=" + Encryption.Encrypt(Convert.ToString(DataBinder.Eval(e.Row.DataItem, "id"))) + "&op=edit&fid=" + Encryption.Encrypt(Convert.ToString(DataBinder.Eval(e.Row.DataItem, "fid"))) + "&loc=" + Encryption.Encrypt(Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Location_ID"))) + "')";
+                    break;
+                case "Date of Violation":
+                    lnkbtnDate.OnClientClick = "javascript:return Redirect('" + AppConfig.SiteURL + "SONIC/Pollution/PM_Violation.aspx?id=" + Encryption.Encrypt(Convert.ToString(DataBinder.Eval(e.Row.DataItem, "id"))) + "&op=edit&fid=" + Encryption.Encrypt(Convert.ToString(DataBinder.Eval(e.Row.DataItem, "fid"))) + "&loc=" + Encryption.Encrypt(Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Location_ID"))) + "')";
                     break;
                 default:
                     lnkbtnDate.OnClientClick = "javascript:return false;";
