@@ -103,7 +103,7 @@ public partial class SONIC_Exposures_BuildingByLocation : System.Web.UI.Page
         int PK_AP_Property_Security = Convert.ToInt32(hdnPK_AP_Property_Security.Value);
         string FK_Building_IdFrom = hdnBuildingNumber.Value;
         string FK_Building_IdTo = hdnBuildingNumberTo.Value;
-        int returnVal = building.BuildingByFKLocationInsertUpdate(PK_AP_Property_Security, FK_Building_IdFrom, FK_Building_IdTo);
+        int returnVal = building.BuildingByFKLocationInsertUpdate(PK_AP_Property_Security, FK_Building_IdFrom, FK_Building_IdTo, clsSession.UserID);
         if (returnVal != 0)
         {
             Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "window.opener.document.getElementById('ctl00_ContentPlaceHolder1_btnRefresh').click(); window.close();;", true);                                 

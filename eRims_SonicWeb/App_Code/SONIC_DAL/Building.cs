@@ -3454,7 +3454,7 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
-        public int BuildingByFKLocationInsertUpdate(int PK_AP_Property_Security, string FK_Building_IdFrom, string FK_Building_IdTo)
+        public int BuildingByFKLocationInsertUpdate(int PK_AP_Property_Security, string FK_Building_IdFrom, string FK_Building_IdTo, string UpdatedBy)
         {
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("BuildingByFKLocationInsertUpdate");
@@ -3462,6 +3462,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "PK_AP_Property_Security", DbType.Int32, PK_AP_Property_Security);            
             db.AddInParameter(dbCommand, "FK_Building_IdFrom", DbType.String, FK_Building_IdFrom);
             db.AddInParameter(dbCommand, "FK_Building_IdTo", DbType.String, FK_Building_IdTo);
+            db.AddInParameter(dbCommand, "UserId", DbType.String, UpdatedBy);
         
 
             // Execute the query and return the new identity value
