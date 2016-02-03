@@ -627,11 +627,15 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         {
             gvSLT_Members.DataSource = dtSlt_members;
             gvSLT_Members.DataBind();
+            tr_Sltmembers.Style.Add("display", "");
+            tr_SltmembersADD.Style.Add("display", "none");
         }
         else
         {
             gvSLT_membersView.DataSource = dtSlt_members;
             gvSLT_membersView.DataBind();
+            tr_Sltmembers_View.Visible = true;
+            tr_SltmembersBYYear_View.Visible = false;
         }
     }
 
@@ -642,11 +646,15 @@ public partial class SONIC_SLT_SLT_Meeting : clsBasePage
         {
             gvSLT_Members.DataSource = dtSlt_members;//view all members from all dates
             gvSLT_Members.DataBind();
+            tr_Sltmembers.Style.Add("display", "");
+            tr_SltmembersADD.Style.Add("display", "none");
         }
         else
         {
             gvSLT_membersView.DataSource = dtSlt_members;
             gvSLT_membersView.DataBind();
+            tr_Sltmembers_View.Visible = true;
+            tr_SltmembersBYYear_View.Visible = false;
         }
     }
     /// <summary>
