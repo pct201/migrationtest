@@ -415,7 +415,7 @@ function ShowAuditPopUp(url) {
                                                                 <td align="center" valign="top">:
                                                                 </td>
                                                                 <td align="left" valign="top">
-                                                                    <asp:Label ID="lblWeb_Site" runat="server" Width="170px"></asp:Label>
+                                                                    <asp:Label ID="lblWeb_Site" runat="server" Width="170px" style="word-wrap: break-word;"></asp:Label>
                                                                 </td>
                                                             </tr>
                                                             <tr>
