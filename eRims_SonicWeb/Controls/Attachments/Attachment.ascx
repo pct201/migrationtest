@@ -123,7 +123,7 @@
                         <asp:Button ID="btnAddAttachment" runat="server" Text="Add Attachment" CausesValidation="true"
                             ValidationGroup="AddAttachment" OnClick="btnAddAttachment_Click" />
                         &nbsp;&nbsp;
-                        <asp:Button ID="btnNext" runat="server" Text="Save & Next" Visible="false" OnClientClick="javascript:ShowPanel(6); return false;"/>
+                        <asp:Button ID="btnNext" runat="server" Text="Save & Next" Visible="false" OnClientClick="javascript:ShowPanel(5); return false;"/>
                     </td>
                 </tr>
             </table>

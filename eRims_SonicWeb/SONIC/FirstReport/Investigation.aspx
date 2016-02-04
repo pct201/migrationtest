@@ -853,60 +853,8 @@
                                                                 <td colspan="6" class="Spacer" style="height: 10px;"></td>
                                                             </tr>
                                                         </table>--%>
-                                                        <table cellpadding="3" cellspacing="1" border="0" width="100%">
-
-                                                            <tr>
-                                                                <td valign="top" align="left">Describe how the event occurred&nbsp;<span id="Span2"
-                                                                    style="color: Red; display: none;" runat="server">*</span>
-                                                                </td>
-                                                                <td valign="top" align="center" width="2%">:
-                                                                </td>
-                                                                <td align="left" colspan="4">
-                                                                    <uc:ctrlMultiLineTextBox runat="server" ID="txtCause_Comment" ControlType="TextBox"
-                                                                        MaxLength="4000" ValidationGroup="valCauses" />
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-
-                                                                <td align="left" width="24%">Contributing Factor&nbsp;<span id="Span17" style="color: Red; display: none;" runat="server">*</span>
-                                                                </td>
-                                                                <td align="center" width="2%">:
-                                                                </td>
-                                                                <td align="left" width="24%">
-                                                                    <asp:DropDownList ID="drpFk_LU_Contributing_Factor" runat="server" SkinID="ddlSONIC" ValidationGroup="valCauses"
-                                                                        onchange="SetContributioFactorOther();">
-                                                                    </asp:DropDownList>
-                                                                </td>
-                                                                <td align="left" width="24%">Contributing Factor - Other
-                                                                </td>
-                                                                <td align="center" width="2%">:
-                                                                </td>
-                                                                <td align="left" width="24%">
-                                                                    <asp:TextBox ID="txtContributingFactor_Other" runat="server" Enabled="false" MaxLength="50" />
-                                                                    <asp:HiddenField ID="hdnContributingFactor_Other" runat="server" />
-                                                                    <asp:CustomValidator ID="csmvtxtContributingFactor_Other" runat="server" ErrorMessage="Please enter [Causes]/Contributing Factor Other"
-                                                                        ControlToValidate="txtContributingFactor_Other" Display="None" SetFocusOnError="true"
-                                                                        ClientValidationFunction="CheckContributingFactorOther" ValidationGroup="valCauses"
-                                                                        ValidateEmptyText="true" />
-                                                                </td>
-
-                                                            </tr>
-                                                            <tr>
-
-                                                                <td align="left">What is the Nature of this Incident?&nbsp;<span id="span101" style="color: Red; display: none;" runat="server">*</span>
-                                                                </td>
-                                                                <td align="center" width="2%">:
-                                                                </td>
-                                                                <td align="left" colspan="4">
-                                                                    <asp:DropDownList ID="drpCauseOfIncident" ValidationGroup="valCauses" runat="server">
-                                                                    </asp:DropDownList>
-                                                                    <input type="hidden" id="hdnFocusArea" runat="server" />
-                                                                </td>
-
-
-                                                            </tr>
-
+                                                        <%-- below change from ticket id 3503.  --%>
+                                                      <%--  <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                             <tr>
                                                                 <td colspan="6" class="Spacer" style="height: 10px;"></td>
                                                             </tr>
@@ -919,7 +867,7 @@
                                                             <tr>
                                                                 <td colspan="6" class="Spacer" style="height: 10px;"></td>
                                                             </tr>
-                                                        </table>
+                                                        </table>--%>
                                                     </ContentTemplate>
                                                 </asp:UpdatePanel>
                                             </asp:Panel>
@@ -930,6 +878,29 @@
                                                 <asp:UpdatePanel runat="server" ID="updRootCauseDetermination">
                                                     <ContentTemplate>
                                                         <table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                            <tr>
+                                                                <td valign="top" align="left">Describe how the event occurred&nbsp;<span id="Span2"
+                                                                    style="color: Red; display: none;" runat="server">*</span>
+                                                                </td>
+                                                                <td valign="top" align="center" width="2%">:
+                                                                </td>
+                                                                <td align="left" colspan="4">
+                                                                    <uc:ctrlMultiLineTextBox runat="server" ID="txtCause_Comment" ControlType="TextBox"
+                                                                        MaxLength="4000" ValidationGroup="valRootCause" />
+                                                                </td>
+                                                            </tr>
+                                                              <tr>
+
+                                                                <td align="left">What is the Nature of this Incident?&nbsp;<span id="span101" style="color: Red; display: none;" runat="server">*</span>
+                                                                </td>
+                                                                <td align="center" width="2%">:
+                                                                </td>
+                                                                <td align="left" colspan="4">
+                                                                    <asp:DropDownList ID="drpCauseOfIncident" ValidationGroup="valRootCause" runat="server" AutoPostBack="true" OnSelectedIndexChanged="drpCauseOfIncident_SelectedIndexChanged">
+                                                                    </asp:DropDownList>
+                                                                    <input type="hidden" id="hdnFocusArea" runat="server" />
+                                                                </td>
+                                                            </tr>
                                                             <tr>
                                                                 <td align="left" valign="top">Root Cause Determination&nbsp;<span id="Span4"
                                                                     style="color: Red; display: none;" runat="server">*</span>
@@ -980,6 +951,32 @@
                                                                                 No = Recommendation does NOT apply to this Incident.</td>
                                                                         </tr>
                                                                     </table>
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td align="left" >Contributing Factor&nbsp;<span id="Span17" style="color: Red; display: none;" runat="server">*</span>
+                                                                </td>
+                                                                <td align="center" >:
+                                                                </td>
+                                                                <td align="left" colspan="4">
+                                                                    <asp:DropDownList ID="drpFk_LU_Contributing_Factor" runat="server"  ValidationGroup="valRootCause"
+                                                                        onchange="SetContributioFactorOther();">
+                                                                    </asp:DropDownList>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                 <td align="left" >Contributing Factor - Other
+                                                                </td>
+                                                                <td align="center" >:
+                                                                </td>
+                                                                <td align="left" colspan="4" >
+                                                                    <asp:TextBox ID="txtContributingFactor_Other" runat="server" Enabled="false" MaxLength="50" Width="490px" />
+                                                                    <asp:HiddenField ID="hdnContributingFactor_Other" runat="server" />
+                                                                    <asp:CustomValidator ID="csmvtxtContributingFactor_Other" runat="server" ErrorMessage="Please enter [Causes]/Contributing Factor Other"
+                                                                        ControlToValidate="txtContributingFactor_Other" Display="None" SetFocusOnError="true"
+                                                                        ClientValidationFunction="CheckContributingFactorOther" ValidationGroup="valRootCause"
+                                                                        ValidateEmptyText="true" />
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -1040,7 +1037,6 @@
                                                                     <asp:Label ID="lblOSHARecordable_Fields" runat="server" ValidationGroup="valRootCause" Style="display: none; float: left; padding: 5px 0px 0px 30px;" Text="If Yes, see Claim Information Return to Work Section" Font-Italic="true" />
                                                                     <asp:Label ID="lblOSHARecordable" runat="server" ValidationGroup="valRootCause" Style="display: none" />
                                                                     <input type="hidden" id="hdnOSHARecordable" runat="server" />
-
                                                                 </td>
                                                             </tr>
                                                   
@@ -1377,7 +1373,8 @@
                                                             <asp:TextBox runat="server" ID="txtFacility_Zip_Code" Width="170px" MaxLength="10" SkinID="txtZipCode"></asp:TextBox>
                                                             <asp:RegularExpressionValidator ID="RegularExpressionValidator1" ControlToValidate="txtFacility_Zip_Code"
                                                                 runat="server" ValidationGroup="vsOSHAInfoGroup" ErrorMessage="Please Enter Treatment Facility Zip Code in XXXXX or XXXXX-XXXX format."
-                                                                Display="none" ValidationExpression="\d{5}(-\d{4})?$"></asp:RegularExpressionValidator>                                                        </td>
+                                                                Display="none" ValidationExpression="\d{5}(-\d{4})?$"></asp:RegularExpressionValidator> 
+                                                        </td>
                                                         <td align="left">&nbsp;
                                                         </td>
                                                         <td align="center">&nbsp;
@@ -2110,30 +2107,24 @@
                                                                 </td>
                                                             </tr>
                                                         </table>--%>
+                                                        <%--<table cellpadding="3" cellspacing="1" border="0" width="100%">
+                                                            
+                                                            
+                                                            
+                                                        </table>--%>
+                                                    </asp:Panel>
+                                                    <asp:Panel ID="pnlViewRootCauseDetermin" runat="server" Width="100%">
+                                                        <div class="bandHeaderRow">
+                                                            Root Causes Determination
+                                                        </div>
                                                         <table cellpadding="3" cellspacing="1" border="0" width="100%">
-                                                            <tr>
+                                                             <tr>
                                                                 <td align="left" valign="top">Describe how the event occurred
                                                                 </td>
-                                                                <td align="center" width="2%" valign="top">:
+                                                                <td align="center" width="4%" valign="top">:
                                                                 </td>
                                                                 <td align="left" colspan="4">
                                                                     <uc:ctrlMultiLineTextBox runat="server" ID="lblCause_Comment" ControlType="Label" />
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left" width="24%">Contributing Factor
-                                                                </td>
-                                                                <td align="center" width="2%">:
-                                                                </td>
-                                                                <td align="left" width="24%">
-                                                                    <asp:Label ID="lblContributingFactor" runat="server" />
-                                                                </td>
-                                                                <td align="left" width="24%">Contributing Factor - Other
-                                                                </td>
-                                                                <td align="center" width="2%">:
-                                                                </td>
-                                                                <td align="left" width="24%">
-                                                                    <asp:Label ID="lblContributingFactor_Other" runat="server" />
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -2143,18 +2134,9 @@
                                                                 </td>
                                                                 <td align="left" colspan="4">
                                                                     <asp:Label runat="server" ID="lblCuase_Of_Incident">
-                                            
                                                                     </asp:Label>
                                                                 </td>
-
                                                             </tr>
-                                                        </table>
-                                                    </asp:Panel>
-                                                    <asp:Panel ID="pnlViewRootCauseDetermin" runat="server" Width="100%">
-                                                        <div class="bandHeaderRow">
-                                                            Root Causes Determination
-                                                        </div>
-                                                        <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                             <tr>
                                                                 <td align="left" valign="top">Root Cause Determination&nbsp;<span id="Span25"
                                                                     style="color: Red; display: none;" runat="server">*</span>
@@ -2204,6 +2186,24 @@
                                                                                 No = Recommendation does NOT apply to this Incident.</td>
                                                                         </tr>
                                                                     </table>
+                                                                </td>
+                                                            </tr>
+                                                               <tr>
+                                                                <td align="left" >Contributing Factor
+                                                                </td>
+                                                                <td align="center">:
+                                                                </td>
+                                                                <td align="left">
+                                                                    <asp:Label ID="lblContributingFactor" runat="server" />
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="left" >Contributing Factor - Other
+                                                                </td>
+                                                                <td align="center" >:
+                                                                </td>
+                                                                <td align="left" >
+                                                                    <asp:Label ID="lblContributingFactor_Other" runat="server" />
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -2883,7 +2883,7 @@
         //Used to set Menu Style
         function SetMenuStyle(index) {
             var i;
-            for (i = 1; i <= 7; i++) {
+            for (i = 1; i <= 6; i++) {
                 var tb = document.getElementById("InvestigationMenu" + i);
                 if (i == index) {
                     tb.className = "LeftMenuSelected";
@@ -2922,7 +2922,7 @@
                     document.getElementById("<%=pnlAttachments.ClientID%>").style.display = "none";
                 }
                 //check if index is 2 than display Casuses Section.
-                if (index == 2) {
+             <%--   if (index == 2) {
                     document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlCauses.ClientID%>").style.display = "block";
                     document.getElementById("<%=pnlRootCauseDetermination.ClientID%>").style.display = "none";
@@ -2942,9 +2942,9 @@
                         document.getElementById('<%= txtContributingFactor_Other.ClientID %>').value = "";
                     }
                     document.getElementById("<%=pnlAttachments.ClientID%>").style.display = "none";
-                }
-                //check if index is 3 than display Root cause determination Section.
-                if (index == 3) {
+                }--%>
+                //check if index is 2 than display Root cause determination Section.
+                if (index == 2) {
                     document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlCauses.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlRootCauseDetermination.ClientID%>").style.display = "block";
@@ -2955,8 +2955,8 @@
                     document.getElementById("<%=pnlAttachments.ClientID%>").style.display = "none";
                 }
 
-                //check if index is 4 than display Coorective Actions Section.
-                if (index == 4) {
+                //check if index is 3 than display Coorective Actions Section.
+                if (index == 3) {
                     document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlCauses.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlRootCauseDetermination.ClientID%>").style.display = "none";
@@ -2966,8 +2966,8 @@
                     document.getElementById("<%=pnlReviewView.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlAttachments.ClientID%>").style.display = "none";
                 }
-                //check if index is 5 than display Attachment Section.
-                if (index == 5) {
+                //check if index is 4 than display Attachment Section.
+                if (index == 4) {
                     document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlCauses.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlRootCauseDetermination.ClientID%>").style.display = "none";
@@ -2977,8 +2977,8 @@
                     document.getElementById("<%=pnlReviewView.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlAttachments.ClientID%>").style.display = "block";
                 }
-                //check if index is 6 than display review  Section.
-                if (index == 6) {
+                //check if index is 5 than display review  Section.
+                if (index == 5) {
                     document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlCauses.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlRootCauseDetermination.ClientID%>").style.display = "none";
@@ -2988,8 +2988,8 @@
                     document.getElementById("<%=pnlReview.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlAttachments.ClientID%>").style.display = "none";
                 }
-                //check if index is 7 than display review  Section.
-                if (index == 7) {
+                //check if index is 6 than display review  Section.
+                if (index == 6) {
                     document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlCauses.ClientID%>").style.display = "none";
                     document.getElementById("<%=pnlRootCauseDetermination.ClientID%>").style.display = "none";
@@ -3018,7 +3018,7 @@
                 document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "none";
             }
             //check if index is 2 than display Causes Section.
-            if (index == 2) {
+           <%-- if (index == 2) {
                 document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "block";
                 document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "none";
@@ -3026,10 +3026,10 @@
                 document.getElementById("<%=pnlViewWC_OSHA.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewAttachments.ClientID%>").style.display = "none";
-            }
+            }--%>
 
-            //check if index is 3 than display Root cause determination Section.
-            if (index == 3) {
+            //check if index is 2 than display Root cause determination Section.
+            if (index == 2) {
                 document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "block";
@@ -3039,8 +3039,8 @@
                 document.getElementById("<%=pnlViewAttachments.ClientID%>").style.display = "none";
             }
 
-            //check if index is 4 than display Coorective Actions Section.
-            if (index == 4) {
+            //check if index is 3 than display Coorective Actions Section.
+            if (index == 3) {
                 document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "none";
@@ -3049,8 +3049,8 @@
                 document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewAttachments.ClientID%>").style.display = "none";
             }
-            //check if index is 5 than display Attachment Section.
-            if (index == 5) {
+            //check if index is 4 than display Attachment Section.
+            if (index == 4) {
                 document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "none";
@@ -3059,8 +3059,8 @@
                 document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewAttachments.ClientID%>").style.display = "block";
             }
-            //check if index is 6 than display Coorective Actions Section.
-            if (index == 6) {
+            //check if index is 5 than display Coorective Actions Section.
+            if (index == 5) {
                 document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "none";
@@ -3069,8 +3069,8 @@
                 document.getElementById("<%=pnlViewReview.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewAttachments.ClientID%>").style.display = "none";
             }
-            //check if index is 7 than display review  Section.
-            if (index == 7) {
+            //check if index is 6 than display review  Section.
+            if (index == 6) {
                 document.getElementById("<%=pnlIncidentInformation.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewCauses.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlViewRootCauseDetermin.ClientID%>").style.display = "none";

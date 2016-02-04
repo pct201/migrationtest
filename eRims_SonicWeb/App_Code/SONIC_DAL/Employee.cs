@@ -1504,6 +1504,18 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        public static DataSet SelectEmployeeBY_Location_FOR_Training(decimal? pK_LU_Location_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Get_EmployeeBY_Location_Training");
+
+            db.AddInParameter(dbCommand, "PK_LU_Location_ID", DbType.Decimal, pK_LU_Location_ID);
+            dbCommand.CommandTimeout = 1000;
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+
         #endregion
     }
 }

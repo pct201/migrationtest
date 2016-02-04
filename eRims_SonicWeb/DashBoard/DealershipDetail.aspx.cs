@@ -426,7 +426,7 @@ public partial class DealershipDetail : System.Web.UI.Page
 
             if (result4.Length > 0)
             {
-                if (string.IsNullOrEmpty(result3[0]["AssociateToTrain"].ToString()))
+                if (string.IsNullOrEmpty(result4[0]["AssociateToTrain"].ToString()))
                     lblSabaNumberEmployees4.Text = "0";
                 else
                     lblSabaNumberEmployees4.Text = string.Format("{0:N0}", result4[0]["AssociateToTrain"]);
@@ -517,7 +517,7 @@ public partial class DealershipDetail : System.Web.UI.Page
 
             if (result2.Length > 0)
             {
-                if (string.IsNullOrEmpty(result1[0]["Percentage"].ToString()))
+                if (string.IsNullOrEmpty(result2[0]["Percentage"].ToString()))
                     lblSabaPercentTrained2.Text = "100%";
                 else
                     lblSabaPercentTrained2.Text = string.Format("{0:0.0#}", result2[0]["Percentage"]) + "%";
@@ -531,7 +531,7 @@ public partial class DealershipDetail : System.Web.UI.Page
 
             if (result3.Length > 0)
             {
-                if (string.IsNullOrEmpty(result1[0]["Percentage"].ToString()))
+                if (string.IsNullOrEmpty(result3[0]["Percentage"].ToString()))
                     lblSabaPercentTrained3.Text = "100%";
                 else
                     lblSabaPercentTrained3.Text = string.Format("{0:0.0#}", result3[0]["Percentage"]) + "%";
@@ -548,7 +548,7 @@ public partial class DealershipDetail : System.Web.UI.Page
                 if (string.IsNullOrEmpty(result4[0]["Percentage"].ToString()))
                     lblSabaPercentTrained4.Text = "100%";
                 else
-                    lblSabaPercentTrained4.Text = string.Format("{0:0.0#}", result1[0]["Percentage"]) + "%";
+                    lblSabaPercentTrained4.Text = string.Format("{0:0.0#}", result4[0]["Percentage"]) + "%";
             }
             else
             {

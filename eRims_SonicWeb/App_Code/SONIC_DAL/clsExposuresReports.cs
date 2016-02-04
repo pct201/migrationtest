@@ -121,7 +121,7 @@ public class clsExposuresReports
     public static DataSet GetSafetyTrainingReport(string strRegion, string strMarket, int intYear, string strInterval)
     {
         Database db = DatabaseFactory.CreateDatabase();
-        DbCommand dbCommand = db.GetStoredProcCommand("DealershipDashBoardReport");
+        DbCommand dbCommand = db.GetStoredProcCommand("DealershipDashBoardReport_New");
         db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
         db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
         db.AddInParameter(dbCommand, "Year", DbType.Int32, intYear);
@@ -187,7 +187,7 @@ public class clsExposuresReports
     public static DataSet GetSafetyTrainingReportByRegionLocation(int intYear, string strRegion)
     {
         Database db = DatabaseFactory.CreateDatabase();
-        DbCommand dbCommand = db.GetStoredProcCommand("DealershipDetailsbyRegionLocation");
+        DbCommand dbCommand = db.GetStoredProcCommand("DealershipDetailsbyRegionLocation_New");
         db.AddInParameter(dbCommand, "Year", DbType.Int32, intYear);
         db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
         

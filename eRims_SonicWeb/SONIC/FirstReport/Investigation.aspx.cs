@@ -472,8 +472,8 @@ public partial class Exposures_Investigation : clsBasePage
             if ((hdnFocusArea.Value.ToString() != drpCauseOfIncident.SelectedItem.Text) && (!string.IsNullOrEmpty(hdnFocusArea.Value) || Convert.ToInt32(drpCauseOfIncident.SelectedValue) == 0))
             {
                 objInvestigation.Sonic_Cause_Code = string.Empty;
-            } 
-            
+            }
+
 
             // insert or update the Investigation record as per the PK available
             if (PK_Investigation_ID > 0)
@@ -503,16 +503,16 @@ public partial class Exposures_Investigation : clsBasePage
                     {
                         if (ddlSonic_Cause_Code.Items[i].Value.Contains("S0-" + PK_Focus_Area + " -") || ddlSonic_Cause_Code.Items[i].Value.Contains("S" + PK_Focus_Area + " -") || ddlSonic_Cause_Code.Items[i].Value.Contains("S-" + PK_Focus_Area + ""))
                         {
-                            if (ddlSonic_Cause_Code.Items[i].Value.Contains("Denied"))
+                            if (ddlSonic_Cause_Code.Items[i].Value.Contains("--SELECT--"))
                             {
                                 ddlSonic_Cause_Code.ClearSelection();
-                                //ddlSonic_Cause_Code.Items[i].Selected = true;
-                                ListItem lst = new ListItem();
-                                lst = ddlSonic_Cause_Code.Items.FindByValue("0");
-                                if (lst != null)
-                                {
-                                    lst.Selected = true;
-                                }
+                                ddlSonic_Cause_Code.Items[i].Selected = true;
+                                //ListItem lst = new ListItem();
+                                //lst = ddlSonic_Cause_Code.Items.FindByValue("0");
+                                //if (lst != null)
+                                //{
+                                //    lst.Selected = true;
+                                //}
                             }
                         }
                         else
@@ -532,7 +532,7 @@ public partial class Exposures_Investigation : clsBasePage
                 }
 
                 #endregion
-            } 
+            }
             //Open Next Panel.
             ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);", true);
         }
@@ -567,9 +567,9 @@ public partial class Exposures_Investigation : clsBasePage
             objInvestigation.Communicated = rdoCommunicated.SelectedValue;
 
             objInvestigation.Date_Communicated = clsGeneral.FormatNullDateToStore(txtDateCommunicated.Text);
-          
-                objInvestigation.No_Communication_Explanation = txtNo_Communication_Explanation.Text.Trim();
-            
+
+            objInvestigation.No_Communication_Explanation = txtNo_Communication_Explanation.Text.Trim();
+
 
 
             // insert or update the investigation record as per the PK available
@@ -581,12 +581,12 @@ public partial class Exposures_Investigation : clsBasePage
             BindDetailsForEdit();
 
             //Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
-            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);", true);
         }
         else
         {
             //Open Next Panel.
-            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);alert('Please select any First Report')", true);
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);alert('Please select any First Report')", true);
         }
     }
 
@@ -638,7 +638,7 @@ public partial class Exposures_Investigation : clsBasePage
             //BindDetailsForEdit();
             //Open Next Panel.
             //ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);", true);
-           // Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);", true);
+            // Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);", true);
 
             string Email = "";
             WC_FR objWCFR = new WC_FR(FK_WC_FR);
@@ -660,7 +660,7 @@ public partial class Exposures_Investigation : clsBasePage
                     ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Mail sent successfully');", true);
                     //Open Next Panel.
                     if (Request.QueryString["isStatus"] == null)
-                        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(7);", true);
+                        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);", true);
                     else
                         Response.Redirect("FirstReportStatus.aspx", true);
                 }
@@ -670,13 +670,13 @@ public partial class Exposures_Investigation : clsBasePage
             else
             {
                 ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "No RLCM", "alert('No RLCM exist for the Location " + objLocation.dba + ".');", true);
-                Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);", true);
+                Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
             }
         }
         else
         {
             //Open Next Panel.
-            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);alert('Please select any First Report')", true);
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);alert('Please select any First Report')", true);
         }
     }
 
@@ -739,7 +739,7 @@ public partial class Exposures_Investigation : clsBasePage
         else
         {
             //Open Next Panel.
-            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);alert('Please select any First Report')", true);
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);alert('Please select any First Report')", true);
         }
     }
 
@@ -806,7 +806,7 @@ public partial class Exposures_Investigation : clsBasePage
     protected void btnEMailto_Distribution_List_OnClick(object sender, EventArgs e)
     {
         GenerateMail();
-        ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);", true);
+        ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(6);", true);
     }
 
     /// <summary>
@@ -877,14 +877,14 @@ public partial class Exposures_Investigation : clsBasePage
 
             if (ddlClassify_Incident.SelectedIndex > 0)
             {
-                objInvestigation.FK_LU_OSHA_Incident = Convert.ToDecimal(ddlClassify_Incident.SelectedValue); 
+                objInvestigation.FK_LU_OSHA_Incident = Convert.ToDecimal(ddlClassify_Incident.SelectedValue);
             }
             else
             {
                 objInvestigation.FK_LU_OSHA_Incident = null;
             }
 
-            if (ddlType_of_Injury.SelectedIndex > 0) 
+            if (ddlType_of_Injury.SelectedIndex > 0)
             {
                 objInvestigation.FK_LU_OSHA_Injury = Convert.ToDecimal(ddlType_of_Injury.SelectedValue);
             }
@@ -910,6 +910,17 @@ public partial class Exposures_Investigation : clsBasePage
                 }
 
             }
+
+            // hdnFocusArea.Value = objInvestigation.Focus_Area;
+            objInvestigation.Cause_Comment = txtCause_Comment.Text.Trim();
+            if (drpFk_LU_Contributing_Factor.SelectedIndex > 0) { objInvestigation.FK_LU_Contributing_Factor = Convert.ToDecimal(drpFk_LU_Contributing_Factor.SelectedValue); }
+
+            if (txtContributingFactor_Other.Text != "") objInvestigation.Contributing_Factor_Other = txtContributingFactor_Other.Text.Trim();
+            else
+                objInvestigation.Contributing_Factor_Other = txtContributingFactor_Other.Text = "";
+
+            objInvestigation.Focus_Area = drpCauseOfIncident.SelectedIndex > 0 ? drpCauseOfIncident.SelectedItem.Text : string.Empty;
+
             hdnOriginalSonicCode.Value = ddlSonic_Cause_Code.SelectedItem.Text;
             // insert or update the Investigation record as per the PK available
             if (PK_Investigation_ID > 0)
@@ -918,6 +929,12 @@ public partial class Exposures_Investigation : clsBasePage
                 PK_Investigation_ID = objInvestigation.Insert();
 
 
+
+            //delete old cause determination data
+            if ((hdnFocusArea.Value.ToString() != drpCauseOfIncident.SelectedItem.Text) && (!string.IsNullOrEmpty(hdnFocusArea.Value) || Convert.ToInt32(drpCauseOfIncident.SelectedValue) == 0))
+            {
+                clsInvestigation_Cause_Information.DeleteByInvestigationID(Convert.ToDecimal(PK_Investigation_ID));
+            }
 
             hdnFocusArea.Value = drpCauseOfIncident.SelectedItem.Text;
 
@@ -959,12 +976,12 @@ public partial class Exposures_Investigation : clsBasePage
 
             BindDetailsForEdit();
             //Open Next Panel.
-            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);DisableEnableOsha();", true);
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);DisableEnableOsha();", true);
         }
         else
         {
             //Open Next Panel.
-            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(3);alert('Please select any First Report')", true);
+            ScriptManager.RegisterClientScriptBlock(Page, GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(2);alert('Please select any First Report')", true);
         }
     }
 
@@ -1299,7 +1316,7 @@ public partial class Exposures_Investigation : clsBasePage
         btnInvestigationSave.Visible = false;
         // Check if User has right To Add or Edit 
 
-        CtrlViewAttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.Investigation, PK_Investigation_ID, false, 6);
+        CtrlViewAttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.Investigation, PK_Investigation_ID, false, 4);
         CtrlViewAttachDetails.Bind();
 
         //if ((!bIsRegionalOfficer && bLocInfoComplete) || Module_Access_Mode == AccessType.View_Only)
@@ -1389,9 +1406,11 @@ public partial class Exposures_Investigation : clsBasePage
             ListItem lst = drpCauseOfIncident.Items.FindByText(objInvestigation.Focus_Area);
             if (lst != null)
                 lst.Selected = true;
+
+            hdnFocusArea.Value = drpCauseOfIncident.SelectedItem.Text;
         }
 
-        PK_Focus_Area =  clsGeneral.GetInt(drpCauseOfIncident.SelectedValue);
+        PK_Focus_Area = clsGeneral.GetInt(drpCauseOfIncident.SelectedValue);
 
         #region "Personal / Job Factors"
 
@@ -1469,14 +1488,14 @@ public partial class Exposures_Investigation : clsBasePage
 
         if (objInvestigation.FK_LU_OSHA_Incident != null) ddlClassify_Incident.SelectedValue = objInvestigation.FK_LU_OSHA_Incident.ToString();
         if (objInvestigation.FK_LU_OSHA_Injury != null) ddlType_of_Injury.SelectedValue = objInvestigation.FK_LU_OSHA_Injury.ToString();
-        if (!string.IsNullOrEmpty(objInvestigation.RLCM_Review_Approve)) 
+        if (!string.IsNullOrEmpty(objInvestigation.RLCM_Review_Approve))
             rblRLCM_Reviewed_and_Approved.SelectedValue = objInvestigation.RLCM_Review_Approve;
 
         if (objInvestigation.OSHA_Recordable != null)
         {
             rdoOSHARecordable.SelectedValue = objInvestigation.OSHA_Recordable == true ? "Y" : "N";
 
-            lblOSHARecordable_Fields.Style["display"] =  objInvestigation.OSHA_Recordable == true ? "inline-block":"none";
+            lblOSHARecordable_Fields.Style["display"] = objInvestigation.OSHA_Recordable == true ? "inline-block" : "none";
             lblOSHARecordable.Text = objInvestigation.OSHA_Recordable == true ? "Yes" : "No";
             hdnOSHARecordable.Value = lblOSHARecordable.Text;
             ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString() + "0", "javascript:CheckOSHA_Fields_Validation(" + objInvestigation.OSHA_Recordable.ToString().ToLower() + ");", true);
@@ -1509,34 +1528,31 @@ public partial class Exposures_Investigation : clsBasePage
 
         if (ddlSonic_Cause_Code.SelectedItem != null)
         {
-            if (ddlSonic_Cause_Code.SelectedItem.Value.Contains(Convert.ToString(PK_Focus_Area)))
+            if (ddlSonic_Cause_Code.SelectedItem.Value.Contains(Convert.ToString(PK_Focus_Area)) && PK_Focus_Area > 0)
             {
-                if (PK_Focus_Area > 0)
+                for (int i = ddlSonic_Cause_Code.Items.Count - 1; i > 0; i--)
                 {
-                    for (int i = ddlSonic_Cause_Code.Items.Count - 1; i > 0; i--)
+                    if (ddlSonic_Cause_Code.Items[i].Value.Contains("S0-" + PK_Focus_Area + " -") || ddlSonic_Cause_Code.Items[i].Value.Contains("S" + PK_Focus_Area + " -") || ddlSonic_Cause_Code.Items[i].Value.Contains("S-" + PK_Focus_Area + ""))
                     {
-                        if (ddlSonic_Cause_Code.Items[i].Value.Contains("S0-" + PK_Focus_Area + " -") || ddlSonic_Cause_Code.Items[i].Value.Contains("S" + PK_Focus_Area + " -") || ddlSonic_Cause_Code.Items[i].Value.Contains("S-" + PK_Focus_Area + ""))
-                        {
-                            ddlSonic_Cause_Code.ClearSelection();
-                            ListItem lst = ddlSonic_Cause_Code.Items.FindByText(objInvestigation.Sonic_Cause_Code);
-                            if (lst != null)
-                                lst.Selected = true;
-                        }
-                        else
-                        {
-                            ddlSonic_Cause_Code.Items.RemoveAt(i);
-                        }
+                        ddlSonic_Cause_Code.ClearSelection();
+                        ListItem lst = ddlSonic_Cause_Code.Items.FindByText(objInvestigation.Sonic_Cause_Code);
+                        if (lst != null)
+                            lst.Selected = true;
                     }
-                }
-                else
-                {
-                    for (int i = ddlSonic_Cause_Code.Items.Count - 1; i > 0; i--)
+                    else
                     {
                         ddlSonic_Cause_Code.Items.RemoveAt(i);
                     }
-
-                    ddlSonic_Cause_Code.SelectedIndex = 0;
                 }
+                //else
+                //{
+                //    for (int i = ddlSonic_Cause_Code.Items.Count - 1; i > 0; i--)
+                //    {
+                //        ddlSonic_Cause_Code.Items.RemoveAt(i);
+                //    }
+
+                //    ddlSonic_Cause_Code.SelectedIndex = 0;
+                //}
             }
         }
         #endregion
@@ -1665,8 +1681,8 @@ public partial class Exposures_Investigation : clsBasePage
             rdoAdmitted_to_Hospital.SelectedValue = "-1";
 
         #endregion
-        
-        CtrlAttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.Investigation, PK_Investigation_ID, true, 5);
+
+        CtrlAttachDetails.InitializeAttachmentDetails(clsGeneral.Tables.Investigation, PK_Investigation_ID, true, 4);
         CtrlAttachDetails.Bind();
 
         if (objInvestigation.Investigative_Quality != null)
@@ -2056,7 +2072,7 @@ public partial class Exposures_Investigation : clsBasePage
         DataTable dtroot = dsRootCause.Tables[0];
 
         #region "Cause Deter"
-        
+
         StringBuilder sbRootCausequestion = new StringBuilder();
         sbRootCausequestion.Append("<table cellpadding='0' cellspacing='0' width='100%'" + strFontStyle + ">");
         foreach (DataRow dr in dtroot.Rows)
@@ -2070,7 +2086,7 @@ public partial class Exposures_Investigation : clsBasePage
 
         #region "Cause Deter Reference"
 
-        StringBuilder sbRootCauseGuidance= new StringBuilder();
+        StringBuilder sbRootCauseGuidance = new StringBuilder();
         sbRootCauseGuidance.Append("<table cellpadding='0' cellspacing='0' width='100%'" + strFontStyle + ">");
         foreach (DataRow dr in dtroot.Rows)
         {
@@ -2081,7 +2097,7 @@ public partial class Exposures_Investigation : clsBasePage
         strBody.Append("<tr><td align='left' valign='Top'>Recommendation(s) to Prevent Reoccurrence</td><td valign='Top' align='center' width='4%'>:</td><td align='left' colspan='4'>" + sbRootCauseGuidance.ToString() + "</td></tr>");
         #endregion
         strBody.Append("<tr><td align='left' valign='Top'>What is your impression/conclusion on how the event occurred?</td><td valign='Top' align='center' width='4%'>:</td><td  valign='Top' align='left' colspan='4'>" + objInvestigation.Conclusions + "</td></tr>");
-        
+
         strBody.Append("<tr><td align='left' width='18%' valign='top'>OSHA Recordable</td><td align='center' width='4%' valign='top'>:</td>");
         strBody.Append("<td colspan='4' valign='top'>" + clsGeneral.FormatYesNoToDisplayForView(objInvestigation.OSHA_Recordable) + "</td></tr>");
         strBody.Append("<tr><td align='left' colspan='6'><table cellpadding='0' cellspacing='0' border='0' width='100%'" + strFontStyle + ">");
@@ -2313,8 +2329,8 @@ public partial class Exposures_Investigation : clsBasePage
 
         // Used to Bind Grid with Attached Data
         CtrlAttachDetails.Bind();
-        
-        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(5);", true);
+
+        Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(4);", true);
     }
 
     /// <summary>
@@ -2349,8 +2365,8 @@ public partial class Exposures_Investigation : clsBasePage
     /// </summary>
     private void SetValidations()
     {
-        string strCtrlsIDs = "";
-        string strMessages = "";
+        //  string strCtrlsIDs = "";
+        // string strMessages = "";
         string strCorrectiveIDs = "";
         string strCorrectiveMessages = "";
         string strReviewIDs = "";
@@ -2358,7 +2374,7 @@ public partial class Exposures_Investigation : clsBasePage
         string strRootCauseIDs = "";
         string strRootCauseErrormsg = "";
 
-        #region "Causes"
+        #region "Causes (This fields are transfered to Root Cause Determination ticket no. 3503)"
         DataTable dtFields = clsScreen_Validators.SelectByScreen(133).Tables[0];
         dtFields.DefaultView.RowFilter = "IsRequired = '1'";
         dtFields = dtFields.DefaultView.ToTable();
@@ -2371,11 +2387,11 @@ public partial class Exposures_Investigation : clsBasePage
             #region " set validation control IDs and messages "
             switch (Convert.ToString(drField["Field_Name"]))
             {
-                case "Describe how the event occurred":
-                    strCtrlsIDs += "ctl00_ContentPlaceHolder1_txtCause_Comment_txtNote,";
-                    strMessages += "Please enter [Causes]/Describe how the event occurred" + ",";
-                    Span2.Style["display"] = "inline-block";
-                    break;
+                //case "Describe how the event occurred":
+                //    strRootCauseIDs += "ctl00_ContentPlaceHolder1_txtCause_Comment_txtNote,";
+                //    strRootCauseErrormsg += "Please enter [Causes]/Describe how the event occurred" + ",";
+                //    Span2.Style["display"] = "inline-block";
+                //    break;
                 //case "What could the associate have done differently to avoid the incident?":
                 //    strCtrlsIDs += "ctl00_ContentPlaceHolder1_txtPersonal_Job_Comment_txtNote,";
                 //    strMessages += "Please enter [Causes]/What could the associate have done differently to avoid the incident?" + ",";
@@ -2386,16 +2402,16 @@ public partial class Exposures_Investigation : clsBasePage
                 //    strMessages += "Please enter [Causes]/What is your Conclusion/Impression of how the event occurred?" + ",";
                 //    Span1.Style["display"] = "inline-block";
                 //    break;
-                case "What is the Nature of this Incident?":
-                    strCtrlsIDs += drpCauseOfIncident.ClientID + ",";
-                    strMessages += "Please select [Causes]/What is the Nature of this Incident?" + ",";
-                    span101.Style["display"] = "inline-block";
-                    break;
-                case "Contributing Factor":
-                    strCtrlsIDs += drpFk_LU_Contributing_Factor.ClientID + ",";
-                    strMessages += "Please select [Causes]/Contributing Factor" + ",";
-                    Span17.Style["display"] = "inline-block";
-                    break;
+                //case "What is the Nature of this Incident?":
+                //    strRootCauseIDs += drpCauseOfIncident.ClientID + ",";
+                //    strRootCauseErrormsg += "Please select [Causes]/What is the Nature of this Incident?" + ",";
+                //    span101.Style["display"] = "inline-block";
+                //    break;
+                //case "Contributing Factor":
+                //    strRootCauseIDs += drpFk_LU_Contributing_Factor.ClientID + ",";
+                //    strRootCauseErrormsg += "Please select [Causes]/Contributing Factor" + ",";
+                //    Span17.Style["display"] = "inline-block";
+                //    break;
                 //case "OSHA Recordable":
                 //    strCtrlsIDs += hdnOSHARecordable.ClientID + ",";
                 //    strMessages += "Please select [Causes]/OSHA Recordable" + ",";
@@ -2404,11 +2420,11 @@ public partial class Exposures_Investigation : clsBasePage
             }
             #endregion
         }
-        strCtrlsIDs = strCtrlsIDs.TrimEnd(',');
-        strMessages = strMessages.TrimEnd(',');
+        //strCtrlsIDs = strCtrlsIDs.TrimEnd(',');
+        //strMessages = strMessages.TrimEnd(',');
 
-        hdnControlIDs.Value = strCtrlsIDs;
-        hdnErrorMsgs.Value = strMessages;
+        //hdnControlIDs.Value = strCtrlsIDs;
+        //hdnErrorMsgs.Value = strMessages;
         #endregion
 
 
@@ -2417,7 +2433,7 @@ public partial class Exposures_Investigation : clsBasePage
         dtFields.DefaultView.RowFilter = "IsRequired = '1'";
         dtFields = dtFields.DefaultView.ToTable();
 
-        Label MenuAsterisk5 = (Label)mnuProperty.Controls[2].FindControl("MenuAsterisk");
+        Label MenuAsterisk5 = (Label)mnuProperty.Controls[1].FindControl("MenuAsterisk");
         MenuAsterisk5.Style["display"] = (dtFields.Select("LeftMenuIndex = 5").Length > 0) ? "inline-block" : "none";
 
         foreach (DataRow drField in dtFields.Rows)
@@ -2446,6 +2462,23 @@ public partial class Exposures_Investigation : clsBasePage
                     strRootCauseErrormsg += "Please select [Causes]/OSHA Recordable" + ",";
                     Span19.Style["display"] = "inline-block";
                     break;
+
+                case "Describe how the event occurred":
+                    strRootCauseIDs += "ctl00_ContentPlaceHolder1_txtCause_Comment_txtNote,";
+                    strRootCauseErrormsg += "Please enter [Causes]/Describe how the event occurred" + ",";
+                    Span2.Style["display"] = "inline-block";
+                    break;
+
+                case "What is the Nature of this Incident?":
+                    strRootCauseIDs += drpCauseOfIncident.ClientID + ",";
+                    strRootCauseErrormsg += "Please select [Causes]/What is the Nature of this Incident?" + ",";
+                    span101.Style["display"] = "inline-block";
+                    break;
+                case "Contributing Factor":
+                    strRootCauseIDs += drpFk_LU_Contributing_Factor.ClientID + ",";
+                    strRootCauseErrormsg += "Please select [Causes]/Contributing Factor" + ",";
+                    Span17.Style["display"] = "inline-block";
+                    break;
             }
             #endregion
         }
@@ -2461,7 +2494,7 @@ public partial class Exposures_Investigation : clsBasePage
         dtFields.DefaultView.RowFilter = "IsRequired = '1'";
         dtFields = dtFields.DefaultView.ToTable();
 
-        Label MenuAsterisk3 = (Label)mnuProperty.Controls[3].FindControl("MenuAsterisk");
+        Label MenuAsterisk3 = (Label)mnuProperty.Controls[2].FindControl("MenuAsterisk");
         MenuAsterisk3.Style["display"] = (dtFields.Select("LeftMenuIndex = 3").Length > 0) ? "inline-block" : "none";
 
         foreach (DataRow drField in dtFields.Rows)
@@ -2526,7 +2559,7 @@ public partial class Exposures_Investigation : clsBasePage
         dtFields.DefaultView.RowFilter = "IsRequired = '1'";
         dtFields = dtFields.DefaultView.ToTable();
 
-        Label MenuAsterisk4 = (Label)mnuProperty.Controls[6].FindControl("MenuAsterisk");
+        Label MenuAsterisk4 = (Label)mnuProperty.Controls[5].FindControl("MenuAsterisk");
         MenuAsterisk4.Style["display"] = (dtFields.Select("LeftMenuIndex = 4").Length > 0) ? "inline-block" : "none";
 
         foreach (DataRow drField in dtFields.Rows)
@@ -2631,7 +2664,71 @@ public partial class Exposures_Investigation : clsBasePage
         {
             ScriptManager.RegisterStartupScript(Page, GetType(), DateTime.Now.ToString(), "javascript:OpenWizardPopup();", true);
         }
-                
+    }
+
+    /// <summary>
+    /// On change of What is the Nature of this Incident? 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void drpCauseOfIncident_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        DataSet ds = null;
+
+        if ((hdnFocusArea.Value.ToString() == drpCauseOfIncident.SelectedItem.Text) || (string.IsNullOrEmpty(hdnFocusArea.Value) && Convert.ToInt32(drpCauseOfIncident.SelectedValue) > 0))
+        {
+            ds = clsInvestigation_Cause_Information.SelectByInvestigationID(Convert.ToDecimal(PK_Investigation_ID));
+            if (ds == null || ds.Tables[0].Rows.Count <= 0)
+            {
+                ds = Investigation.SelectAllCauseCodeInformationByMasterNode(Convert.ToInt32(drpCauseOfIncident.SelectedValue));
+            }
+
+        }
+        else { ds = Investigation.SelectAllCauseCodeInformationByMasterNode(Convert.ToInt32(drpCauseOfIncident.SelectedValue)); }
+
+
+        rptRootCauseDetermination.DataSource = ds;
+        rptRootCauseDetermination.DataBind();
+        rptRootCauseDeterminationRecmndation.DataSource = ds;
+        rptRootCauseDeterminationRecmndation.DataBind();
+
+        PK_Focus_Area = clsGeneral.GetInt(drpCauseOfIncident.SelectedValue);
+
+
+        #region ::ReBind sonic cause code drop down by cause of incident::
+
+        BindCause_Code_Determination();
+
+        if (PK_Focus_Area > 0)
+        {
+            for (int i = ddlSonic_Cause_Code.Items.Count - 1; i > 0; i--)
+            {
+                if (ddlSonic_Cause_Code.Items[i].Value.Contains("S0-" + PK_Focus_Area + " -") || ddlSonic_Cause_Code.Items[i].Value.Contains("S" + PK_Focus_Area + " -") || ddlSonic_Cause_Code.Items[i].Value.Contains("S-" + PK_Focus_Area + ""))
+                {
+                    if (ddlSonic_Cause_Code.Items[i].Value.Contains("--SELECT--"))
+                    {
+                        ddlSonic_Cause_Code.ClearSelection();
+                        ddlSonic_Cause_Code.Items[i].Selected = true;
+                    }
+                }
+                else
+                {
+                    ddlSonic_Cause_Code.Items.RemoveAt(i);
+                }
+            }
+        }
+        else
+        {
+            for (int i = ddlSonic_Cause_Code.Items.Count - 1; i > 0; i--)
+            {
+                ddlSonic_Cause_Code.Items.RemoveAt(i);
+            }
+
+            ddlSonic_Cause_Code.SelectedIndex = 0;
+        }
+
+        #endregion
+
     }
 
     #endregion

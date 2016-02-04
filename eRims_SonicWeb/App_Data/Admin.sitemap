@@ -43,6 +43,12 @@
         <siteMapNode url="SONIC/Purchasing/PurchasingSearch.aspx" title="Search" description="" roles="" />
         <siteMapNode url="SONIC/Purchasing/ManageContacts.aspx" title="Manage Contacts" description="" roles="" />
       </siteMapNode>
+
+      <siteMapNode url="" title="Training" description="" roles="">
+          <siteMapNode url="SONIC/Exposures/Manually_Update_Training.aspx" title="Manually Update Training Data"  description="" roles="" />
+          <siteMapNode url="SONIC/Exposures/Learning_Program_Items_Report.aspx" title="Learning Program Items Report"  description="" roles="" />
+      </siteMapNode>
+      
       <siteMapNode url="SONIC/Exposures/PropertyValuesImport.aspx" title="Values Export/Import" description=""/>
       <siteMapNode url="" title="Customer Relationship Management" description="">
         <siteMapNode url="SONIC/CRM/CRM_SelectType.aspx" title="Add" description=""></siteMapNode>

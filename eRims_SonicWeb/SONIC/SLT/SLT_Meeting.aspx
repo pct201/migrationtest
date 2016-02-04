@@ -677,6 +677,11 @@ function OpenPopup() {
     OpenWindow(navUrl);
 }
 
+function OpenPopup_Associat_Data() {
+    var navUrl = '<%=AppConfig.SiteURL%>SONIC/SLT/Associate_Training_Data.aspx?DBA=' + '<%= Convert.ToString(ViewState["jDBA"]) %>';
+    OpenWindow(navUrl);
+}
+
 function OpenWindow(navUrl) {
     var w = 700, h = 550;
 
@@ -3075,6 +3080,12 @@ function DisableButton() {
                                                     <tr>
                                                         <td colspan="6">
                                                             <asp:LinkButton ID="lnkAssociateSafetyCertificationTraining" Text="Associate Safety Certification Training" OnClientClick="OpenPopup(); return false;" runat="server"></asp:LinkButton><br />
+                                                            <i>Click to view details</i>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            <asp:LinkButton ID="lnkAsso_Training_Data" Text="View Associate Training Data" OnClientClick="OpenPopup_Associat_Data(); return false;" runat="server"></asp:LinkButton><br />
                                                             <i>Click to view details</i>
                                                         </td>
                                                     </tr>

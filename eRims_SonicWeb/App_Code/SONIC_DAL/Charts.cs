@@ -99,7 +99,7 @@ public class Charts
     public static DataSet GetSabaTrainingByRegion(int Year)
     {
         Database db = DatabaseFactory.CreateDatabase();
-        DbCommand dbCommand = db.GetStoredProcCommand("Chart_SabaTrainingByRegion1");
+        DbCommand dbCommand = db.GetStoredProcCommand("Chart_SabaTrainingByRegion_New");
 
         db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);
         db.AddInParameter(dbCommand, "UserID", DbType.Decimal, clsSession.UserID);
@@ -110,7 +110,7 @@ public class Charts
     public static DataSet GetSabaTrainingByLocation(int Year, string Region)
     {
         Database db = DatabaseFactory.CreateDatabase();
-        DbCommand dbCommand = db.GetStoredProcCommand("Chart_SabaTrainingByLocation1");
+        DbCommand dbCommand = db.GetStoredProcCommand("Chart_SabaTrainingByLocation_New");
         db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);
         db.AddInParameter(dbCommand, "Region", DbType.String, Region);
         db.AddInParameter(dbCommand, "UserID", DbType.Decimal, clsSession.UserID);
@@ -150,7 +150,7 @@ public class Charts
     public static DataSet GetSabaTrainingDetail2(int Year, string DBA, string Sonic_Location_Code, int Quarter, string AssociateStatus)
     {
         Database db = DatabaseFactory.CreateDatabase();
-        DbCommand dbCommand = db.GetStoredProcCommand("DealerShipDetailsLatest");
+        DbCommand dbCommand = db.GetStoredProcCommand("DealerShipDetailsLatest_New");
 
         db.AddInParameter(dbCommand, "@DealerShipYear", DbType.Int32, Year);
         if (Quarter == 0)
@@ -394,7 +394,7 @@ public class Charts
     public static DataSet RLCMSonicUniversityTraining(decimal pk_Security_ID, string Regions, string Markets, int idState, DateTime FromDate, DateTime ToDate, DateTime PreviousFromDate, DateTime PreviousToDate, string Rlcms)
     {
         Database db = DatabaseFactory.CreateDatabase();
-        DbCommand dbCommand = db.GetStoredProcCommand("rptQuarterlyPerformanceSabaTraining1");
+        DbCommand dbCommand = db.GetStoredProcCommand("rptQuarterlyPerformanceSabaTraining_New");
 
         dbCommand.CommandTimeout = 1000;
         db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, pk_Security_ID);
@@ -412,7 +412,7 @@ public class Charts
     public static DataSet RLCMSonicUniversityTraining_ByRLCM(decimal pk_Security_ID, string Regions, string Markets, int idState, DateTime FromDate, DateTime ToDate, DateTime PreviousFromDate, DateTime PreviousToDate, string Rlcms)
     {
         Database db = DatabaseFactory.CreateDatabase();
-        DbCommand dbCommand = db.GetStoredProcCommand("rptQuarterlyPerformanceSabaTraining_ByRLCM1");
+        DbCommand dbCommand = db.GetStoredProcCommand("rptQuarterlyPerformanceSabaTraining_ByRLCM_New");
 
         dbCommand.CommandTimeout = 1000;
         db.AddInParameter(dbCommand, "PK_Security_ID", DbType.Decimal, pk_Security_ID);

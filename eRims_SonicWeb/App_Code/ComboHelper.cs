@@ -6101,6 +6101,29 @@ public class ComboHelper
     }
 
     /// <summary>
+    /// Fill Employee by Location for training module.
+    /// </summary>
+    /// <param name="lstBox"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillEmployeeBY_Loc_Training(DropDownList[] dropDowns, bool booladdSelectAsFirstElement, decimal pK_LU_Location_ID)
+    {
+        DataSet dsData = ERIMS.DAL.Employee.SelectEmployeeBY_Location_FOR_Training(pK_LU_Location_ID);
+        foreach (DropDownList lstToFill in dropDowns)
+        {
+            lstToFill.Items.Clear();
+            lstToFill.DataTextField = "NAME";
+            lstToFill.DataValueField = "PK_Employee_ID";
+            lstToFill.DataSource = dsData.Tables[0].DefaultView;
+            lstToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                lstToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary>
     /// Fill Contractor Security Dropdown Users
     /// </summary>
     /// <param name="dropDownList"></param>
