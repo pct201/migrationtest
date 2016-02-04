@@ -18,6 +18,17 @@ public partial class SONIC_SLT_Associate_Training_Data : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// Get Year parameter
+    /// </summary>
+    public Int32 Year
+    {
+        get
+        {
+            return clsGeneral.GetInt(Request.QueryString["year"]);
+        }
+    }
+
     private int _Quarter;
 
     public int Quarter
@@ -41,7 +52,7 @@ public partial class SONIC_SLT_Associate_Training_Data : System.Web.UI.Page
     private void BindTrainingDetail()
     {
 
-        DataTable dtDetail = Sonic_U_Training.Associate_Training_Data(Quarter, DBA,DateTime.Now.Year).Tables[0];
+        DataTable dtDetail = Sonic_U_Training.Associate_Training_Data(Quarter, DBA, Year).Tables[0];
 
         gvEmployeeDetail.DataSource = dtDetail;
         gvEmployeeDetail.DataBind();

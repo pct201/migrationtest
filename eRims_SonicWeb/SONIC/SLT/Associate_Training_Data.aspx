@@ -22,7 +22,7 @@
                 <Columns>
                     <asp:TemplateField HeaderText="Employee Name">
                         <HeaderStyle HorizontalAlign="Left" />
-                        <ItemStyle Width="30%" HorizontalAlign="left" />
+                        <ItemStyle Width="40%" HorizontalAlign="left" />
                         <ItemTemplate>
                             <%# Eval("NAME") %> 
                             </a>
@@ -30,7 +30,7 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Training Class">
                         <HeaderStyle HorizontalAlign="left" />
-                        <ItemStyle Width="20%" HorizontalAlign="left" />
+                        <ItemStyle Width="60%" HorizontalAlign="left" />
                         <ItemTemplate>
                             <%# Eval("Class_Name") %>
                         </ItemTemplate>

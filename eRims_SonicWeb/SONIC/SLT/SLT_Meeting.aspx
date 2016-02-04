@@ -678,7 +678,7 @@ function OpenPopup() {
 }
 
 function OpenPopup_Associat_Data() {
-    var navUrl = '<%=AppConfig.SiteURL%>SONIC/SLT/Associate_Training_Data.aspx?DBA=' + '<%= Convert.ToString(ViewState["jDBA"]) %>';
+    var navUrl = '<%=AppConfig.SiteURL%>SONIC/SLT/Associate_Training_Data.aspx?DBA=' + '<%= Convert.ToString(ViewState["jDBA"]) %>' + '&year=' + '<%= Convert.ToString(ViewState["jYear"]) %>';
     OpenWindow(navUrl);
 }
 
