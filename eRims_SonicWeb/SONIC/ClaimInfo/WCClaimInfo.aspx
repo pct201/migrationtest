@@ -658,7 +658,7 @@
                                                 </td>
                                                 <td align="left">
                                                     <asp:LinkButton ID="lnkInvestigation" runat="server" /><asp:LinkButton ID="lnkAddInvestigation"
-                                                        runat="server" Text="Add New" />
+                                                        runat="server" Text="Add New" OnClick="lnkAddInvestigation_Click" />
                                                 </td>
                                                 <td align="left">
                                                     <asp:DropDownList runat="server" ID="ddlCompanionClaim">

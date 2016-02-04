@@ -304,7 +304,7 @@ public partial class SONIC_ClaimNotes : clsBasePage
         }
         // depending on the FK claim passed in the querystring redirect back to the claim page
         if (FK_Table_Name.ToLower() == clsGeneral.Claim_Tables.WCClaim.ToString().ToLower())
-            Response.Redirect("WCClaimInfo.aspx?id=" + Encryption.Encrypt(FK_Claim.ToString()) + "&pnl=6");
+            Response.Redirect("WCClaimInfo.aspx?id=" + Encryption.Encrypt(FK_Claim.ToString()) + "&pnl=7");
         else if (FK_Table_Name.ToLower() == clsGeneral.Claim_Tables.PLClaim.ToString().ToLower())
             Response.Redirect("PLClaimInfo.aspx?id=" + Encryption.Encrypt(FK_Claim.ToString()) + "&pnl=6");
         else if (FK_Table_Name.ToLower() == clsGeneral.Claim_Tables.DPDClaim.ToString().ToLower())

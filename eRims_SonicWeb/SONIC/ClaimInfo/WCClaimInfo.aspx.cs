@@ -251,12 +251,12 @@ public partial class SONIC_WCClaimInfo : clsBasePage
     protected void btnSaveReturn_To_Work_Click(object sender, EventArgs e)
     {
         WC_ClaimInfo objWC_ClaimInfo = new WC_ClaimInfo(PK_WC_CI_ID);
-       
+
         objWC_ClaimInfo.OSHA_Start_Away_From_Work = clsGeneral.FormatNullDateToStore(txtFrom_Work_Began.Text.Trim());
         objWC_ClaimInfo.OSHA_End_Away_From_Work = clsGeneral.FormatNullDateToStore(txtFrom_Work_End.Text.Trim());
         //if (!string.IsNullOrEmpty(txtDays_Away_From_Work.Text))
         //    objWC_ClaimInfo.OSHA_Days_Away_From_Work = Convert.ToInt32(txtDays_Away_From_Work.Text);
-        
+
         objWC_ClaimInfo.OSHA_Start_Job_Transfer_Restriction = clsGeneral.FormatNullDateToStore(txtDate_On_Job_Began.Text.Trim());
         objWC_ClaimInfo.OSHA_End_Job_Transfer_Restriction = clsGeneral.FormatNullDateToStore(txtDate_On_Job_End.Text.Trim());
         //if (!string.IsNullOrEmpty(txtDays_On_Job.Text))
@@ -464,7 +464,8 @@ public partial class SONIC_WCClaimInfo : clsBasePage
                     int int_WC_FR = Convert.ToInt32(drWorkers_Comp_Claims["PK_WC_FR_ID"]);
                     int intInvID = Investigation.SelectPKByWc_FR_ID(int_WC_FR);
 
-                    lnkAddInvestigation.PostBackUrl = AppConfig.SiteURL + "SONIC/FirstReport/Investigation.aspx?wc=" + Encryption.Encrypt(Convert.ToString(int_WC_FR));
+                    lnkAddInvestigation.CommandArgument = Convert.ToString(int_WC_FR);
+                    //lnkAddInvestigation.PostBackUrl = AppConfig.SiteURL + "SONIC/FirstReport/Investigation.aspx?wc=" + Encryption.Encrypt(Convert.ToString(int_WC_FR)) + "&op=edit";
 
                     if (intInvID > 0)
                     {
@@ -1489,7 +1490,7 @@ public partial class SONIC_WCClaimInfo : clsBasePage
 
         if (strPK != string.Empty)
         {
-             BindClaimTransactionDetails(strPK);
+            BindClaimTransactionDetails(strPK);
         }
     }
 
@@ -1502,7 +1503,7 @@ public partial class SONIC_WCClaimInfo : clsBasePage
     {
         pnlTransactionDetail.Visible = false;
         pnlTransGrid.Visible = true;
-       
+
         ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "SelectDeselectTransHeader(true);", true);
     }
 
@@ -1761,5 +1762,35 @@ public partial class SONIC_WCClaimInfo : clsBasePage
     }
 
     #endregion
-   
+
+    protected void lnkAddInvestigation_Click(object sender, EventArgs e)
+    {
+        Investigation objInv = new Investigation();
+        int WC_FR_ID_For_Investigation = Convert.ToInt32(lnkAddInvestigation.CommandArgument);
+        WC_FR objWC_FR = new WC_FR(WC_FR_ID_For_Investigation);
+
+        objInv.Physician_Other_Professional = objWC_FR.Treating_Physician_Name;
+        objInv.Facility = objWC_FR.Medical_Facility_Name;
+        objInv.Facility_Address = objWC_FR.Medical_Facility_Address1;
+        objInv.Facility_City = objWC_FR.Medical_Facility_City;
+
+        if (!string.IsNullOrEmpty(objWC_FR.Medical_Facility_State))
+        {
+            objInv.FK_State_Facility = clsGeneral.GetDecimal(objWC_FR.Medical_Facility_State);
+        }
+
+        objInv.Facility_Zip_Code = objWC_FR.Medical_Facility_Zip;
+        objInv.Emergency_Room = objWC_FR.Emergency_Room;
+        objInv.Time_Began_Work = objWC_FR.Time_Began_Work;
+        objInv.Activity_Before_Incident = objWC_FR.Activity_Before_Incident;
+        objInv.Object_Substance_Involved = objWC_FR.Object_Substance_Involved;
+        objInv.Admitted_to_Hospital = objWC_FR.Admitted_to_Hospital;
+
+
+        objInv.FK_WC_FR_ID = Convert.ToInt32(WC_FR_ID_For_Investigation);
+        objInv.FK_LU_Location_ID = Convert.ToInt32(objWC_FR.FK_LU_Location);
+        objInv.Updated_Date = System.DateTime.Now;
+        int tempintInvID = objInv.Insert();
+        Response.Redirect(AppConfig.SiteURL + "SONIC/FirstReport/Investigation.aspx?id=" + Encryption.Encrypt(tempintInvID.ToString()) + "&wc=" + Encryption.Encrypt(WC_FR_ID_For_Investigation.ToString()) + "&op=edit");
+    }
 }
