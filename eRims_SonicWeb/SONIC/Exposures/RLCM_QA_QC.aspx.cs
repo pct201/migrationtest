@@ -472,7 +472,7 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
                 gvTemp = gvClaimRLCM;
                 break;
             case "btnClaimIncidentSave":
-                strChildGridID = "gvClaimIncident";
+                strChildGridID = "gvClaimIncidentChildGrid";
                 strPanel = "3";
                 gvTemp = gvClaimIncident;
                 break;
