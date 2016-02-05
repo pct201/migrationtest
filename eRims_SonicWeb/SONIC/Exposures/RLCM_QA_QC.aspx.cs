@@ -95,8 +95,8 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
         dvTemp.RowFilter = "Module = 'Exposure' and Task = 'Any changes needed to be made (updates in the Property Security)?'"; dtExposurePropSecRLCM = dvTemp.ToTable();
         dvTemp.RowFilter = "Module = 'Exposure' and Task = 'New/Updates/Changes – DPD Thefts'"; dtExposureDPDRLCM = dvTemp.ToTable();
         dvTemp.RowFilter = "Module = 'Exposure' and Task = 'New/Updates/Changes – Customer Vehicle Thefts'"; dtExposureCustomerRLCM = dvTemp.ToTable();
-        
-        dvTemp.RowFilter = "Module = 'ACI' or Module = ''"; dtACIManagementRLCM = dvTemp.ToTable();
+
+        dvTemp.RowFilter = "Module = 'ACI' or Task = 'Monthly Review Complete'"; dtACIManagementRLCM = dvTemp.ToTable();
         
         //dtClaimRLCM = dvClaimRLCM.ToTable();
         //dtSLTRLCM = dvSLTRLCM.ToTable();
