@@ -96,7 +96,9 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
         dvTemp.RowFilter = "Module = 'Exposure' and Task = 'New/Updates/Changes – DPD Thefts'"; dtExposureDPDRLCM = dvTemp.ToTable();
         dvTemp.RowFilter = "Module = 'Exposure' and Task = 'New/Updates/Changes – Customer Vehicle Thefts'"; dtExposureCustomerRLCM = dvTemp.ToTable();
 
-        dvTemp.RowFilter = "Module = 'ACI' or Task = 'Monthly Review Complete'"; dtACIManagementRLCM = dvTemp.ToTable();
+        dvTemp.RowFilter = "Module = 'ACI' or Module = ''";
+        dvTemp.Sort = "Module DESC";
+        dtACIManagementRLCM = dvTemp.ToTable();
         
         //dtClaimRLCM = dvClaimRLCM.ToTable();
         //dtSLTRLCM = dvSLTRLCM.ToTable();
@@ -337,7 +339,7 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
                 string strTask = lblTask.Text;
                 if (e.Row.RowIndex != (ACIRLCMTableRows - 1))
                 {
-                    gvChild.DataSource = clsRLCM_QA_QC.RLCM_Search(rlcm, year, month, strOrderBy, strOrder, strTask);
+                    gvChild.DataSource = clsRLCM_QA_QC.RLCM_Search(rlcm, year, month, strOrderBy, strOrder, "Change Request/Service Request");
                     gvChild.DataBind();
                 }
                 else
