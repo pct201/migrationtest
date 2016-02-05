@@ -457,52 +457,60 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
         string checkedIDs = string.Empty, uncheckedIDs = string.Empty, strChildGridID = string.Empty, strPanel=string.Empty;
         bool chkMonthlyReviewChecked = false;
         string strSenderButtonId = ((Button)sender).ID;
+        GridView gvTemp = null;
 
         switch (strSenderButtonId)
         {
             case "btnClaimInfoSave":
                 strChildGridID = "gvClaimInfoChildGrid";
                 strPanel = "2";
+                gvTemp = gvClaimInfo;
                 break;
             case "btnSave":
                 strChildGridID = "gvChildGrid";
                 strPanel = "1";
+                gvTemp = gvClaimRLCM;
                 break;
             case "btnClaimIncidentSave":
                 strChildGridID = "gvClaimIncident";
                 strPanel = "3";
+                gvTemp = gvClaimIncident;
                 break;
         }
-        foreach (GridViewRow gvRLCMRow in gvClaimRLCM.Rows)
+
+        if (gvTemp != null)
         {
-            if (gvRLCMRow.RowType == DataControlRowType.DataRow)
+            foreach (GridViewRow gvRLCMRow in gvTemp.Rows)
             {
-                GridView gvChild = (GridView)gvRLCMRow.FindControl(strChildGridID);
-                if (gvChild != null)
-                    foreach (GridViewRow gvChildRow in gvChild.Rows)
-                    {
-                        CheckBox chkStatus = (CheckBox)gvChildRow.FindControl("chkStatus");
-                        //if(chkStatus.Checked)
-                        //{
-                        HiddenField hdnStatus = (HiddenField)gvChildRow.FindControl("hdnStatus");
-                        Control c = gvChildRow.Cells[0].FindControl("lnkIdentifier");
-
-                        //if (gvChildRow.Cells.Count > 0 && gvChildRow.Cells[0].Controls.Count > 0)
-                        //{
-                        //    DataBoundLiteralControl lnkIdentifier = (DataBoundLiteralControl)gvChildRow.Cells[0].Controls[0];
-                        //    if (lnkIdentifier.Text.Contains("Monthly Review Complete"))
-                        //        chkMonthlyReviewChecked = chkStatus.Checked;
-                        //}
-
-                        if (hdnStatus != null)
+                if (gvRLCMRow.RowType == DataControlRowType.DataRow)
+                {
+                    GridView gvChild = (GridView)gvRLCMRow.FindControl(strChildGridID);
+                    if (gvChild != null)
+                        foreach (GridViewRow gvChildRow in gvChild.Rows)
                         {
-                            if (chkStatus.Checked)
-                                checkedIDs += hdnStatus.Value + ",";
-                            else
-                                uncheckedIDs += hdnStatus.Value + ",";
+                            CheckBox chkStatus = (CheckBox)gvChildRow.FindControl("chkStatus");
+                            //if(chkStatus.Checked)
+                            //{
+                            HiddenField hdnStatus = (HiddenField)gvChildRow.FindControl("hdnStatus");
+                            Control c = gvChildRow.Cells[0].FindControl("lnkIdentifier");
+
+                            //if (gvChildRow.Cells.Count > 0 && gvChildRow.Cells[0].Controls.Count > 0)
+                            //{
+                            //    DataBoundLiteralControl lnkIdentifier = (DataBoundLiteralControl)gvChildRow.Cells[0].Controls[0];
+                            //    if (lnkIdentifier.Text.Contains("Monthly Review Complete"))
+                            //        chkMonthlyReviewChecked = chkStatus.Checked;
+                            //}
+
+                            if (hdnStatus != null)
+                            {
+                                if (chkStatus.Checked)
+                                    checkedIDs += hdnStatus.Value + ",";
+                                else
+                                    uncheckedIDs += hdnStatus.Value + ",";
+                            }
+                            //}
                         }
-                        //}
-                    }
+                }
             }
         }
 
@@ -582,57 +590,65 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
         string checkedIDs = string.Empty, uncheckedIDs = string.Empty, strChildGridID = string.Empty, strPanel = string.Empty; ;
         bool chkMonthlyReviewChecked = false;
         string strSenderButtonId = ((Button)sender).ID;
+        GridView gvTemp = null;
 
         switch (strSenderButtonId)
         {
             case "btnExposureSave":
                 strChildGridID = "gvExposureChildGrid";
                 strPanel = "5";
+                gvTemp = gvExposureRLCM;
                 break;
             case "btnExposurePropSecSave":
                 strChildGridID = "gvExposurePropSecChildGrid";
                 strPanel = "6";
+                gvTemp = gvExposurePropSec;
                 break;
             case "btnExposureDPDSave":
                 strChildGridID = "gvExposureDPDChildGrid";
                 strPanel = "7";
+                gvTemp = gvExposureDPD;
                 break;
             case "btnExposureCustomerSave":
                 strChildGridID = "gvExposureCustomerChildGrid";
                 strPanel = "8";
+                gvTemp = gvExposureCustomer;
                 break;
         }
 
-        foreach (GridViewRow gvRLCMRow in gvExposureRLCM.Rows)
+        if (gvTemp != null)
         {
-            if (gvRLCMRow.RowType == DataControlRowType.DataRow)
+            foreach (GridViewRow gvRLCMRow in gvTemp.Rows)
             {
-                GridView gvChild = (GridView)gvRLCMRow.FindControl(strChildGridID);
-                if (gvChild != null)
-                    foreach (GridViewRow gvChildRow in gvChild.Rows)
-                    {
-                        CheckBox chkStatus = (CheckBox)gvChildRow.FindControl("chkExposureStatus");
-                        //if(chkStatus.Checked)
-                        //{
-                        HiddenField hdnStatus = (HiddenField)gvChildRow.FindControl("hdnExposureStatus");
-                        Control c = gvChildRow.Cells[0].FindControl("lnkIdentifier");
-
-                        //if (gvChildRow.Cells.Count > 0 && gvChildRow.Cells[0].Controls.Count > 0)
-                        //{
-                        //    DataBoundLiteralControl lnkIdentifier = (DataBoundLiteralControl)gvChildRow.Cells[0].Controls[0];
-                        //    if (lnkIdentifier.Text.Contains("Monthly Review Complete"))
-                        //        chkMonthlyReviewChecked = chkStatus.Checked;
-                        //}
-
-                        if (hdnStatus != null)
+                if (gvRLCMRow.RowType == DataControlRowType.DataRow)
+                {
+                    GridView gvChild = (GridView)gvRLCMRow.FindControl(strChildGridID);
+                    if (gvChild != null)
+                        foreach (GridViewRow gvChildRow in gvChild.Rows)
                         {
-                            if (chkStatus.Checked)
-                                checkedIDs += hdnStatus.Value + ",";
-                            else
-                                uncheckedIDs += hdnStatus.Value + ",";
+                            CheckBox chkStatus = (CheckBox)gvChildRow.FindControl("chkExposureStatus");
+                            //if(chkStatus.Checked)
+                            //{
+                            HiddenField hdnStatus = (HiddenField)gvChildRow.FindControl("hdnExposureStatus");
+                            Control c = gvChildRow.Cells[0].FindControl("lnkIdentifier");
+
+                            //if (gvChildRow.Cells.Count > 0 && gvChildRow.Cells[0].Controls.Count > 0)
+                            //{
+                            //    DataBoundLiteralControl lnkIdentifier = (DataBoundLiteralControl)gvChildRow.Cells[0].Controls[0];
+                            //    if (lnkIdentifier.Text.Contains("Monthly Review Complete"))
+                            //        chkMonthlyReviewChecked = chkStatus.Checked;
+                            //}
+
+                            if (hdnStatus != null)
+                            {
+                                if (chkStatus.Checked)
+                                    checkedIDs += hdnStatus.Value + ",";
+                                else
+                                    uncheckedIDs += hdnStatus.Value + ",";
+                            }
+                            //}
                         }
-                        //}
-                    }
+                }
             }
         }
 
