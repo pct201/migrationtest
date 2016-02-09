@@ -2,10 +2,9 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <style type="text/css">
-        .ChildGrid
-        {
+        .ChildGrid {
             padding: 0px;
-            width:30%;
+            width: 30%;
         }
     </style>
     <script type="text/javascript" src="../../JavaScript/jquery-1.10.2.min.js"></script>
@@ -15,7 +14,7 @@
             alert(number[0]);
             if (number[0] === "WC") '<%=clsSession.AllowedTab %>' = "1";
         }--%>
-        
+
         function ShowPanel(index) {
             var ParentMenuIndex;
             if (index == 1 || index == 2 || index == 3)
@@ -96,27 +95,27 @@
                 document.getElementById("<%=pnlACIManagementRLCM.ClientID%>").style.display = "none";
             }
             else if (index == 7) {
-                    document.getElementById("<%=pnlClaimRLCM.ClientID%>").style.display = "none";
-                    document.getElementById("<%=pnlClaimRLCMClaimInfo.ClientID%>").style.display = "none";
-                    document.getElementById("<%=pnlClaimRLCMIncident.ClientID%>").style.display = "none";
-                    document.getElementById("<%=pnlSLTRLCM.ClientID%>").style.display = "none";
-                    document.getElementById("<%=pnlExposureRLCM.ClientID%>").style.display = "none";
-                    document.getElementById("<%=pnlExposureProperty.ClientID%>").style.display = "none";
-                    document.getElementById("<%=pnlExposureDPD.ClientID%>").style.display = "";
-                    document.getElementById("<%=pnlExposureCustomer.ClientID%>").style.display = "none";
-                    document.getElementById("<%=pnlACIManagementRLCM.ClientID%>").style.display = "none";
-                }
+                document.getElementById("<%=pnlClaimRLCM.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlClaimRLCMClaimInfo.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlClaimRLCMIncident.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlSLTRLCM.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlExposureRLCM.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlExposureProperty.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlExposureDPD.ClientID%>").style.display = "";
+                document.getElementById("<%=pnlExposureCustomer.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlACIManagementRLCM.ClientID%>").style.display = "none";
+            }
             else if (index == 8) {
-                    document.getElementById("<%=pnlClaimRLCM.ClientID%>").style.display = "none";
-                     document.getElementById("<%=pnlClaimRLCMClaimInfo.ClientID%>").style.display = "none";
-                     document.getElementById("<%=pnlClaimRLCMIncident.ClientID%>").style.display = "none";
-                     document.getElementById("<%=pnlSLTRLCM.ClientID%>").style.display = "none";
-                     document.getElementById("<%=pnlExposureRLCM.ClientID%>").style.display = "none";
-                     document.getElementById("<%=pnlExposureProperty.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlClaimRLCM.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlClaimRLCMClaimInfo.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlClaimRLCMIncident.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlSLTRLCM.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlExposureRLCM.ClientID%>").style.display = "none";
+                document.getElementById("<%=pnlExposureProperty.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlExposureDPD.ClientID%>").style.display = "none";
-                     document.getElementById("<%=pnlExposureCustomer.ClientID%>").style.display = "";
-                     document.getElementById("<%=pnlACIManagementRLCM.ClientID%>").style.display = "none";
-             }
+                document.getElementById("<%=pnlExposureCustomer.ClientID%>").style.display = "";
+                document.getElementById("<%=pnlACIManagementRLCM.ClientID%>").style.display = "none";
+            }
             else if (index == 9) {
                 document.getElementById("<%=pnlClaimRLCM.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlClaimRLCMClaimInfo.ClientID%>").style.display = "none";
@@ -128,46 +127,46 @@
                 document.getElementById("<%=pnlExposureCustomer.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlACIManagementRLCM.ClientID%>").style.display = "";
             }
+}
+
+//Used to set Menu Style
+function SetMenuStyle(index, parentIndex) {
+    for (j = 1; j <= 4; j++) {//set parent menu
+        var tbRLCM = document.getElementById("RLCM_QA_QCMenu" + j);
+        if (j == parentIndex) {
+            tbRLCM.className = "LeftMenuSelected";
+            tbRLCM.onmouseover = function () { this.className = 'LeftMenuSelected'; }
+            tbRLCM.onmouseout = function () { this.className = 'LeftMenuSelected'; }
         }
+        else {
+            tbRLCM.className = "LeftMenuStatic";
+            tbRLCM.onmouseover = function () { this.className = 'LeftMenuHover'; }
+            tbRLCM.onmouseout = function () { this.className = 'LeftMenuStatic'; }
+        }
+    }
 
-        //Used to set Menu Style
-        function SetMenuStyle(index, parentIndex) {
-            for (j = 1; j <= 4; j++) {//set parent menu
-                var tbRLCM = document.getElementById("RLCM_QA_QCMenu" + j);
-                if (j == parentIndex) {
-                    tbRLCM.className = "LeftMenuSelected";
-                    tbRLCM.onmouseover = function () { this.className = 'LeftMenuSelected'; }
-                    tbRLCM.onmouseout = function () { this.className = 'LeftMenuSelected'; }
-                }
-                else {
-                    tbRLCM.className = "LeftMenuStatic";
-                    tbRLCM.onmouseover = function () { this.className = 'LeftMenuHover'; }
-                    tbRLCM.onmouseout = function () { this.className = 'LeftMenuStatic'; }
-                }
+    var i;
+    for (i = 1; i <= 9; i++) {//set submenu 
+
+        if (i != 4 && i != 9) {
+            var tb = document.getElementById("SubMenu" + i);
+            if (i == index) {
+                tb.className = "LeftMenuSelected";
+                tb.onmouseover = function () { this.className = 'LeftMenuSelected'; }
+                tb.onmouseout = function () { this.className = 'LeftMenuSelected'; }
             }
-
-            var i;
-            for (i = 1; i <= 9; i++) {//set submenu 
-
-                if (i != 4 && i != 9) {
-                    var tb = document.getElementById("SubMenu" + i);
-                    if (i == index) {
-                        tb.className = "LeftMenuSelected";
-                        tb.onmouseover = function () { this.className = 'LeftMenuSelected'; }
-                        tb.onmouseout = function () { this.className = 'LeftMenuSelected'; }
-                    }
-                    else {
-                        tb.className = "LeftMenuStatic";
-                        tb.onmouseover = function () { this.className = 'LeftMenuHover'; }
-                        tb.onmouseout = function () { this.className = 'LeftMenuStatic'; }
-                    }
-                }
+            else {
+                tb.className = "LeftMenuStatic";
+                tb.onmouseover = function () { this.className = 'LeftMenuHover'; }
+                tb.onmouseout = function () { this.className = 'LeftMenuStatic'; }
             }
         }
+    }
+}
 
-        function ShowHideSubMenu(id) {
-            if (id == "ctl00_ContentPlaceHolder1_imgMinusClaims") {//minus click hide submenu
-                document.getElementById('<%=trSubMenuClaim.ClientID%>').style.display = "none";
+function ShowHideSubMenu(id) {
+    if (id == "ctl00_ContentPlaceHolder1_imgMinusClaims") {//minus click hide submenu
+        document.getElementById('<%=trSubMenuClaim.ClientID%>').style.display = "none";
                 document.getElementById('<%=imgMinusClaims.ClientID%>').style.display = "none";
                 document.getElementById('<%=imgPlusClaims.ClientID%>').style.display = "";
             }
@@ -176,8 +175,8 @@
                 document.getElementById('<%=imgMinusClaims.ClientID%>').style.display = "";
                 document.getElementById('<%=imgPlusClaims.ClientID%>').style.display = "none";
             }
-            if (id == "ctl00_ContentPlaceHolder1_imgMinusExposure") {//minus click hide submenu
-                document.getElementById('<%=trSubMenuExposure.ClientID%>').style.display = "none";
+        if (id == "ctl00_ContentPlaceHolder1_imgMinusExposure") {//minus click hide submenu
+            document.getElementById('<%=trSubMenuExposure.ClientID%>').style.display = "none";
                 document.getElementById('<%=imgMinusExposure.ClientID%>').style.display = "none";
                 document.getElementById('<%=imgPlusExposure.ClientID%>').style.display = "";
             }
@@ -187,65 +186,70 @@
                 document.getElementById('<%=imgPlusExposure.ClientID%>').style.display = "none";
             }
 
-        }
+    }
 
-        function SetFROIAllowedTab(Hyperlink) {
+    function SetFROIAllowedTab(Hyperlink, PK_RLCM_QA_QC, gridRow) {
 
-            if (Hyperlink) {
-                var number = Hyperlink.split("&");
-                //e.preventDefault();
-                if (number.length > 0) {
-                    var Jsondata = {};
-                    if (Hyperlink.indexOf("FirstReport") > -1) {
-                        Jsondata.WizardID = number[1].substring(number[1].indexOf("=") + 1);
-                        Jsondata.Type = "FirstReport";
-                        Jsondata.ClaimType = "";
-                    }
-                    else {
-                        Jsondata.WizardID = number[0].substring(number[0].indexOf("=") + 1);
-                        Jsondata.Type = "Claim";
-                        Jsondata.ClaimType = number[0].substring(number[0].indexOf("/", 5) + 1, number[0].indexOf("?", 5));
-                    }
-
-                    $.ajax({
-
-                        type: "POST",
-                        url: "RLCM_QA_QC.aspx/SetSessionTab",
-                        //data: '{ strWizardID: "' + WizardID + '" }',
-                        //data: { "Hyperlink": Jsondata.WizardID, "Type": Jsondata.Type },
-                        data: "{'Hyperlink':'" + Jsondata.WizardID + "', 'Type':'" + Jsondata.Type + "', 'ClaimType':'" + Jsondata.ClaimType + "'}",
-                        contentType: "application/json; charset=utf-8",
-                        async: false,
-                        dataType: "json",
-                        success: function (response) {
-                            window.open(Hyperlink, "_blank");
-                        },
-                        failure: function (response) {
-
-                        },
-                        error: function (xhr, status, error) {
-                            alert(xhr.responseText);
-                        }
-                    });
+        if (Hyperlink) {
+            var number = Hyperlink.split("&");
+            //e.preventDefault();
+            if (number.length > 0) {
+                var Jsondata = {};
+                if (Hyperlink.indexOf("FirstReport") > -1) {
+                    Jsondata.WizardID = number[1].substring(number[1].indexOf("=") + 1);
+                    Jsondata.Type = "FirstReport";
+                    Jsondata.ClaimType = "";
                 }
+                else {
+                    Jsondata.WizardID = number[0].substring(number[0].indexOf("=") + 1);
+                    Jsondata.Type = "Claim";
+                    Jsondata.ClaimType = number[0].substring(number[0].indexOf("/", 5) + 1, number[0].indexOf("?", 5));
+                }
+
+                $.ajax({
+
+                    type: "POST",
+                    url: "RLCM_QA_QC.aspx/SetSessionTab",
+                    //data: '{ strWizardID: "' + WizardID + '" }',
+                    //data: { "Hyperlink": Jsondata.WizardID, "Type": Jsondata.Type },
+                    data: "{'Hyperlink':'" + Jsondata.WizardID + "', 'Type':'" + Jsondata.Type + "', 'ClaimType':'" + Jsondata.ClaimType + "'}",
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    dataType: "json",
+                    success: function (response) {
+                        window.open(Hyperlink, "_blank");
+                        var rowData = gridRow.parentNode.parentNode;                        
+                        var checkbox = $(rowData).find("input:checkbox")[0];
+                        if (typeof checkbox != "undefined") {
+                            checkbox.checked = true;
+                        }
+                    },
+                    failure: function (response) {
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert(xhr.responseText);
+                    }
+                });
             }
         }
+    }
 
-        $(document).ready(function () {
+    $(document).ready(function () {
 
-            $('a').each(function () {
+        $('a').each(function () {
 
-                if ($(this).text().trim() == 'N/A' || $(this).text().trim() == 'Monthly Review Complete') {
-                    $(this).css('cursor', 'default').css('text-decoration', 'none').css('pointer-events', 'none').css('color', 'WindowText');
-                    $(this).removeAttr("href");
-                    $(this).on("onclick", function (e) {
-                        e.preventDefault();
-                    });
-                }
-
-            });
+            if ($(this).text().trim() == 'N/A' || $(this).text().trim() == 'Monthly Review Complete') {
+                $(this).css('cursor', 'default').css('text-decoration', 'none').css('pointer-events', 'none').css('color', 'WindowText');
+                $(this).removeAttr("href");
+                $(this).on("onclick", function (e) {
+                    e.preventDefault();
+                });
+            }
 
         });
+
+    });
 
 
     </script>
@@ -373,7 +377,7 @@
                             <tr>
                                 <td style="height: 18px;" class="Spacer"></td>
                             </tr>
-                          <%--  <tr>
+                            <%--  <tr>
                                 <td width="100%" align="left">
                                     <asp:Menu ID="mnuRLCM_QA_QC" runat="server" DataSourceID="dsRLCM_QA_QCMenu" StaticEnableDefaultPopOutImage="false" Width="100%">
                                         <StaticItemTemplate>
@@ -397,7 +401,7 @@
                             <tr>
                                 <td align="right" valign="top" width="12%">
                                     <img id="imgPlusClaims" runat="server" src="../../Images/plus.jpg" style="cursor: pointer; display: none;"
-                                            height="15" onclick="ShowHideSubMenu(this.id);" />
+                                        height="15" onclick="ShowHideSubMenu(this.id);" />
                                     <img id="imgMinusClaims" runat="server" src="../../Images/minus.jpg" style="cursor: pointer;"
                                         height="15" onclick="ShowHideSubMenu(this.id);" />
                                 </td>
@@ -406,7 +410,7 @@
                                 </td>
                             </tr>
                             <tr id="trSubMenuClaim" runat="server">
-                                 <td>&nbsp;
+                                <td>&nbsp;
                                 </td>
                                 <td align="left" valign="top">
                                     <table cellpadding="2" cellspacing="1" width="100%" border="0">
@@ -422,7 +426,7 @@
                                             <td valign="top" align="right">
                                                 <img id="imgredMark2" runat="server" alt="" src="~/Images/SLT_Menu_Icon.JPG" height="12" />
                                             </td>
-                                            <td align="left" valign="top" >
+                                            <td align="left" valign="top">
                                                 <span id="SubMenu2" onclick="javascript:ShowPanel(2);" class="LeftMenuStatic">Claim Information</span>
                                             </td>
                                         </tr>
@@ -430,12 +434,12 @@
                                             <td valign="top" align="right">
                                                 <img id="imgredMark3" runat="server" alt="" src="~/Images/SLT_Menu_Icon.JPG" height="12" />
                                             </td>
-                                            <td align="left" valign="top" >
+                                            <td align="left" valign="top">
                                                 <span id="SubMenu3" onclick="javascript:ShowPanel(3);" class="LeftMenuStatic">Incident Investigation</span>
                                             </td>
                                         </tr>
                                     </table>
-                                </td> 
+                                </td>
                             </tr>
                             <tr>
                                 <td>&nbsp;
@@ -447,8 +451,8 @@
                             </tr>
                             <tr>
                                 <td align="right" valign="top">
-                                     <img id="imgPlusExposure" runat="server" src="../../Images/plus.jpg" style="cursor: pointer; display: none;"
-                                            height="15" onclick="ShowHideSubMenu(this.id);" />
+                                    <img id="imgPlusExposure" runat="server" src="../../Images/plus.jpg" style="cursor: pointer; display: none;"
+                                        height="15" onclick="ShowHideSubMenu(this.id);" />
                                     <img id="imgMinusExposure" runat="server" src="../../Images/minus.jpg" style="cursor: pointer;"
                                         height="15" onclick="ShowHideSubMenu(this.id);" />
                                 </td>
@@ -458,7 +462,7 @@
                                 </td>
                             </tr>
                             <tr id="trSubMenuExposure" runat="server">
-                                 <td>&nbsp;
+                                <td>&nbsp;
                                 </td>
                                 <td align="left" valign="top">
                                     <table cellpadding="2" cellspacing="1" width="100%" border="0">
@@ -474,7 +478,7 @@
                                             <td valign="top" align="right">
                                                 <img id="img2" runat="server" alt="" src="~/Images/SLT_Menu_Icon.JPG" height="12" />
                                             </td>
-                                            <td align="left" valign="top" >
+                                            <td align="left" valign="top">
                                                 <span id="SubMenu6" onclick="javascript:ShowPanel(6);" class="LeftMenuStatic">Property Security</span>
                                             </td>
                                         </tr>
@@ -482,7 +486,7 @@
                                             <td valign="top" align="right">
                                                 <img id="img3" runat="server" alt="" src="~/Images/SLT_Menu_Icon.JPG" height="12" />
                                             </td>
-                                            <td align="left" valign="top" >
+                                            <td align="left" valign="top">
                                                 <span id="SubMenu7" onclick="javascript:ShowPanel(7);" class="LeftMenuStatic">DPD Thefts</span>
                                             </td>
                                         </tr>
@@ -490,14 +494,14 @@
                                             <td valign="top" align="right">
                                                 <img id="img4" runat="server" alt="" src="~/Images/SLT_Menu_Icon.JPG" height="12" />
                                             </td>
-                                            <td align="left" valign="top" >
+                                            <td align="left" valign="top">
                                                 <span id="SubMenu8" onclick="javascript:ShowPanel(8);" class="LeftMenuStatic">Customer Thefts</span>
                                             </td>
                                         </tr>
                                     </table>
-                                </td> 
+                                </td>
                             </tr>
-                             <tr>
+                            <tr>
                                 <td>&nbsp;
                                 </td>
                                 <td align="left">
@@ -515,12 +519,12 @@
                             <tr>
                                 <td style="width: 5px">&nbsp;
                                 </td>
-                                <td style="width: 800px; height:500px;" valign="top" class="dvContainer">
+                                <td style="width: 800px; height: 500px;" valign="top" class="dvContainer">
                                     <asp:Panel ID="pnlClaimRLCM" runat="server" Width="100%">
                                         <div class="bandHeaderRow">
                                             RLCM FROI Monthly QA/QC
                                         </div>
-                                        <asp:GridView ID="gvClaimRLCM" runat="server" AutoGenerateColumns="false" Width="100%"  EmptyDataText="No Record Found." OnRowDataBound="gvRLCM_RowDataBound" BorderWidth="1px" GridLines="Both">
+                                        <asp:GridView ID="gvClaimRLCM" runat="server" AutoGenerateColumns="false" Width="100%" EmptyDataText="No Record Found." OnRowDataBound="gvRLCM_RowDataBound" BorderWidth="1px" GridLines="Both">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="Module" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                                     <ItemStyle Width="10%" />
@@ -540,17 +544,17 @@
                                                         <asp:Label ID="lblTask" runat="server" Text='<%# Eval("Task")%>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Category" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center"  HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
+                                                <asp:TemplateField HeaderText="Category" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                                     <ItemStyle Width="10%" />
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblCategory" runat="server" Text='<%# Eval("Category")%>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Identifier &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status" 
+                                                <asp:TemplateField HeaderText="Identifier &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status"
                                                     ItemStyle-HorizontalAlign="left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                                     <ItemStyle CssClass="ChildGrid" />
                                                     <ItemTemplate>
-                                                        <table cellpadding="0" cellspacing="0" width="100%" style="vertical-align:top;">
+                                                        <table cellpadding="0" cellspacing="0" width="100%" style="vertical-align: top;">
                                                             <tr>
                                                                 <td>
                                                                     <asp:GridView ID="gvChildGrid" dontUseScrolls="true" runat="server" AutoGenerateColumns="false" GridLines="Both" Width="100%" ShowHeader="False" OnRowDataBound="gvChildGrid_RowDataBound">
@@ -560,7 +564,7 @@
                                                                                 <ItemTemplate>
                                                                                     <%--<asp:LinkButton ID="lblIdentifier_Link" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_RLCM_QA_QC") %>'
                                                                                     Text='<%# Eval("Number")%>'></asp:LinkButton> || --%>
-                                                                                    <a href="#" onclick="javascript:SetFROIAllowedTab('<%# Eval("Hyperlink")%>')" id="lnkIdentifier"><%# Eval("Number")%></a>
+                                                                                    <a href="#" onclick="javascript:SetFROIAllowedTab('<%# Eval("Hyperlink")%>','<%# Eval("PK_RLCM_QA_QC")%>',this)" id="lnkIdentifier"><%# Eval("Number")%></a>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
@@ -599,7 +603,7 @@
                                         <div class="bandHeaderRow">
                                             RLCM Claim Information Monthly QA/QC 
                                         </div>
-                                        <asp:GridView ID="gvClaimInfo" runat="server" AutoGenerateColumns="false" Width="100%"  EmptyDataText="No Record Found." OnRowDataBound="gvRLCM_RowDataBound" BorderWidth="1px" GridLines="Both">
+                                        <asp:GridView ID="gvClaimInfo" runat="server" AutoGenerateColumns="false" Width="100%" EmptyDataText="No Record Found." OnRowDataBound="gvRLCM_RowDataBound" BorderWidth="1px" GridLines="Both">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="Module" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                                     <ItemStyle Width="10%" />
@@ -638,7 +642,7 @@
                                                                                 <ItemTemplate>
                                                                                     <%--<asp:LinkButton ID="lblIdentifier_Link" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_RLCM_QA_QC") %>'
                                                                                     Text='<%# Eval("Number")%>'></asp:LinkButton> || --%>
-                                                                                    <a href="#" onclick="javascript:SetFROIAllowedTab('<%# Eval("Hyperlink")%>')" id="lnkIdentifier"><%# Eval("Number")%></a>
+                                                                                    <a href="#" onclick="javascript:SetFROIAllowedTab('<%# Eval("Hyperlink")%>','<%# Eval("PK_RLCM_QA_QC")%>',this)" id="lnkIdentifier"><%# Eval("Number")%></a>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
@@ -677,7 +681,7 @@
                                         <div class="bandHeaderRow">
                                             RLCM Incident Investigation Monthly QA/QC 
                                         </div>
-                                        <asp:GridView ID="gvClaimIncident" runat="server" AutoGenerateColumns="false" Width="100%"  EmptyDataText="No Record Found." OnRowDataBound="gvRLCM_RowDataBound" BorderWidth="1px" GridLines="Both">
+                                        <asp:GridView ID="gvClaimIncident" runat="server" AutoGenerateColumns="false" Width="100%" EmptyDataText="No Record Found." OnRowDataBound="gvRLCM_RowDataBound" BorderWidth="1px" GridLines="Both">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="Module" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                                     <ItemStyle Width="10%" />
@@ -716,7 +720,7 @@
                                                                                 <ItemTemplate>
                                                                                     <%--<asp:LinkButton ID="lblIdentifier_Link" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_RLCM_QA_QC") %>'
                                                                                     Text='<%# Eval("Number")%>'></asp:LinkButton> || --%>
-                                                                                    <a href="#" onclick="javascript:SetFROIAllowedTab('<%# Eval("Hyperlink")%>')" id="lnkIdentifier"><%# Eval("Number")%></a>
+                                                                                    <a href="#" onclick="javascript:SetFROIAllowedTab('<%# Eval("Hyperlink")%>','<%# Eval("PK_RLCM_QA_QC")%>',this)" id="lnkIdentifier"><%# Eval("Number")%></a>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
@@ -781,7 +785,7 @@
                                                         <asp:Label ID="lblSLTCategory" runat="server" Text='<%# Eval("Category")%>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Identifier &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status"  ItemStyle-HorizontalAlign="left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
+                                                <asp:TemplateField HeaderText="Identifier &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status" ItemStyle-HorizontalAlign="left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                                     <ItemStyle CssClass="ChildGrid" />
                                                     <ItemTemplate>
                                                         <table cellpadding="0" cellspacing="0" width="100%">
@@ -794,7 +798,7 @@
                                                                                 <ItemTemplate>
                                                                                     <%--<asp:LinkButton ID="lblIdentifier_Link" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_RLCM_QA_QC") %>'
                                                                                     Text='<%# Eval("Number")%>'></asp:LinkButton> || --%>
-                                                                                    <a href="#" onclick="javascript:SetFROIAllowedTab('<%# Eval("Hyperlink")%>')" id="lnkIdentifier"><%# Eval("Number")%></a>
+                                                                                    <a href="#" onclick="javascript:SetFROIAllowedTab('<%# Eval("Hyperlink")%>','<%# Eval("PK_RLCM_QA_QC")%>',this)" id="lnkIdentifier"><%# Eval("Number")%></a>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
@@ -859,7 +863,7 @@
                                                         <asp:Label ID="lblExposureCategory" runat="server" Text='<%# Eval("Category")%>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Identifier &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status"  ItemStyle-HorizontalAlign="left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
+                                                <asp:TemplateField HeaderText="Identifier &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status" ItemStyle-HorizontalAlign="left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                                     <ItemStyle CssClass="ChildGrid" />
                                                     <ItemTemplate>
                                                         <table cellpadding="0" cellspacing="0" width="100%">
@@ -872,7 +876,7 @@
                                                                                 <ItemTemplate>
                                                                                     <%--<asp:LinkButton ID="lblIdentifier_Link" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_RLCM_QA_QC") %>'
                                                                                     Text='<%# Eval("Number")%>'></asp:LinkButton> || --%>
-                                                                                    <a href="#" onclick="javascript:SetFROIAllowedTab('<%# Eval("Hyperlink")%>')" id="lnkIdentifier"><%# Eval("Number")%></a>
+                                                                                    <a href="#" onclick="javascript:SetFROIAllowedTab('<%# Eval("Hyperlink")%>','<%# Eval("PK_RLCM_QA_QC")%>',this)" id="lnkIdentifier"><%# Eval("Number")%></a>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
@@ -937,7 +941,7 @@
                                                         <asp:Label ID="lblExposurePropSecCategory" runat="server" Text='<%# Eval("Category")%>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Identifier &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status"  ItemStyle-HorizontalAlign="left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
+                                                <asp:TemplateField HeaderText="Identifier &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status" ItemStyle-HorizontalAlign="left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                                     <ItemStyle CssClass="ChildGrid" />
                                                     <ItemTemplate>
                                                         <table cellpadding="0" cellspacing="0" width="100%">
@@ -950,7 +954,7 @@
                                                                                 <ItemTemplate>
                                                                                     <%--<asp:LinkButton ID="lblIdentifier_Link" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_RLCM_QA_QC") %>'
                                                                                     Text='<%# Eval("Number")%>'></asp:LinkButton> || --%>
-                                                                                    <a href="#" onclick="javascript:SetFROIAllowedTab('<%# Eval("Hyperlink")%>')" id="lnkIdentifier"><%# Eval("Number")%></a>
+                                                                                    <a href="#" onclick="javascript:SetFROIAllowedTab('<%# Eval("Hyperlink")%>','<%# Eval("PK_RLCM_QA_QC")%>',this)" id="lnkIdentifier"><%# Eval("Number")%></a>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
@@ -968,22 +972,22 @@
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>
-                                            </asp:GridView>
+                                        </asp:GridView>
                                         <table width="80%">
-                                                <tr>
-                                                    <td>&nbsp;</td>
-                                                </tr>
-                                                <tr>
-                                                    <td align="center" style="padding-left: 35px" width="100%">
-                                                        <asp:Button ID="btnExposurePropSecSave" runat="server" Text="Save" ValidationGroup="vsErrorGroup" OnClick="btnExposureSave_Click" />
-                                                        &nbsp;&nbsp;&nbsp;
+                                            <tr>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center" style="padding-left: 35px" width="100%">
+                                                    <asp:Button ID="btnExposurePropSecSave" runat="server" Text="Save" ValidationGroup="vsErrorGroup" OnClick="btnExposureSave_Click" />
+                                                    &nbsp;&nbsp;&nbsp;
                                                     <asp:Button ID="Button2" runat="server" Text="Cancel" ValidationGroup="vsErrorGroup" OnClick="btnCancel_Click" />
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>&nbsp;</td>
-                                                </tr>
-                                            </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                        </table>
                                     </asp:Panel>
                                     <asp:Panel ID="pnlExposureDPD" runat="server" Width="100%">
                                         <div class="bandHeaderRow">
@@ -1015,7 +1019,7 @@
                                                         <asp:Label ID="lblExposureDPDCategory" runat="server" Text='<%# Eval("Category")%>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Identifier &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status"  ItemStyle-HorizontalAlign="left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
+                                                <asp:TemplateField HeaderText="Identifier &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status" ItemStyle-HorizontalAlign="left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                                     <ItemStyle CssClass="ChildGrid" />
                                                     <ItemTemplate>
                                                         <table cellpadding="0" cellspacing="0" width="100%">
@@ -1028,7 +1032,7 @@
                                                                                 <ItemTemplate>
                                                                                     <%--<asp:LinkButton ID="lblIdentifier_Link" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_RLCM_QA_QC") %>'
                                                                                     Text='<%# Eval("Number")%>'></asp:LinkButton> || --%>
-                                                                                    <a href="#" onclick="javascript:SetFROIAllowedTab('<%# Eval("Hyperlink")%>')" id="lnkIdentifier"><%# Eval("Number")%></a>
+                                                                                    <a href="#" onclick="javascript:SetFROIAllowedTab('<%# Eval("Hyperlink")%>','<%# Eval("PK_RLCM_QA_QC")%>',this)" id="lnkIdentifier"><%# Eval("Number")%></a>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
@@ -1046,7 +1050,7 @@
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>
-                                            </asp:GridView>
+                                        </asp:GridView>
                                         <table width="80%">
                                             <tr>
                                                 <td>&nbsp;</td>
@@ -1093,7 +1097,7 @@
                                                         <asp:Label ID="lblExposureCustomerCategory" runat="server" Text='<%# Eval("Category")%>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Identifier &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status"  ItemStyle-HorizontalAlign="left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
+                                                <asp:TemplateField HeaderText="Identifier &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status" ItemStyle-HorizontalAlign="left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                                     <ItemStyle CssClass="ChildGrid" />
                                                     <ItemTemplate>
                                                         <table cellpadding="0" cellspacing="0" width="100%">
@@ -1106,7 +1110,7 @@
                                                                                 <ItemTemplate>
                                                                                     <%--<asp:LinkButton ID="lblIdentifier_Link" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_RLCM_QA_QC") %>'
                                                                                     Text='<%# Eval("Number")%>'></asp:LinkButton> || --%>
-                                                                                    <a href="#" onclick="javascript:SetFROIAllowedTab('<%# Eval("Hyperlink")%>')" id="lnkIdentifier"><%# Eval("Number")%></a>
+                                                                                    <a href="#" onclick="javascript:SetFROIAllowedTab('<%# Eval("Hyperlink")%>','<%# Eval("PK_RLCM_QA_QC")%>',this)" id="lnkIdentifier"><%# Eval("Number")%></a>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
@@ -1124,7 +1128,7 @@
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>
-                                            </asp:GridView>
+                                        </asp:GridView>
                                         <table width="80%">
                                             <tr>
                                                 <td>&nbsp;</td>
@@ -1145,7 +1149,7 @@
                                         <div class="bandHeaderRow">
                                             RLCM ACI Management Monthly QA/QC 
                                         </div>
-                                         <asp:GridView ID="gvACIManagementRLCM" runat="server" AutoGenerateColumns="false" Width="100%" EmptyDataText="No Record Found." OnRowDataBound="gvACIManagementRLCM_RowDataBound" BorderWidth="1px" GridLines="Both">
+                                        <asp:GridView ID="gvACIManagementRLCM" runat="server" AutoGenerateColumns="false" Width="100%" EmptyDataText="No Record Found." OnRowDataBound="gvACIManagementRLCM_RowDataBound" BorderWidth="1px" GridLines="Both">
                                             <Columns>
                                                 <asp:TemplateField HeaderText="Module" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                                     <ItemStyle Width="10%" />
@@ -1171,7 +1175,7 @@
                                                         <asp:Label ID="lblACICategory" runat="server" Text='<%# Eval("Category")%>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Identifier &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status"  ItemStyle-HorizontalAlign="left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
+                                                <asp:TemplateField HeaderText="Identifier &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status" ItemStyle-HorizontalAlign="left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                                     <ItemStyle CssClass="ChildGrid" />
                                                     <ItemTemplate>
                                                         <table cellpadding="0" cellspacing="0" width="100%">
@@ -1184,7 +1188,7 @@
                                                                                 <ItemTemplate>
                                                                                     <%--<asp:LinkButton ID="lblIdentifier_Link" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_RLCM_QA_QC") %>'
                                                                                     Text='<%# Eval("Number")%>'></asp:LinkButton> || --%>
-                                                                                    <a href="#" onclick="javascript:SetFROIAllowedTab('<%# Eval("Hyperlink")%>')" id="lnkIdentifier"><%# Eval("Number")%></a>
+                                                                                    <a href="#" onclick="javascript:SetFROIAllowedTab('<%# Eval("Hyperlink")%>','<%# Eval("PK_RLCM_QA_QC")%>',this)" id="lnkIdentifier"><%# Eval("Number")%></a>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
                                                                             <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
@@ -1220,8 +1224,8 @@
                                         </table>
                                     </asp:Panel>
                                 </td>
-                            </tr> 
-                        </table> 
+                            </tr>
+                        </table>
                     </td>
                 </tr>
             </table>
