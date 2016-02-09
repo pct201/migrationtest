@@ -962,6 +962,7 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
             if (Incident_ReviewType == "WC")
             {
                 FillWC_FR();
+                ShowHideRow();
                 if (UpdateSLTScore != null)
                     UpdateSLTScore();
                 Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(9);", true);
