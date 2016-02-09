@@ -6146,4 +6146,173 @@ public class ComboHelper
             }
         }
     }
+
+    /// <summary>
+    /// Fill Code Dropdown Users
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillCode(ListBox[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.Sonic_U_Training.SelectAllCode().Tables[0];
+        foreach (ListBox ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Code";
+            ddlToFill.DataValueField = "PK_Sonic_U_Training";
+            ddlToFill.DataSource = dtData;
+            ddlToFill.DataBind();
+
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Fill Dealership Dropdown Users
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillDealershipName(ListBox[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.Sonic_U_Training.SelectAllDealershipName().Tables[0];
+        foreach (ListBox ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "DealshipName";
+            ddlToFill.DataValueField = "PK_Sonic_U_Training_Dealership";
+            ddlToFill.DataSource = dtData;
+            ddlToFill.DataBind();
+
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Fill Sonic U Training Department  Dropdown 
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillSonicUTrainDepartment(ListBox[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.Sonic_U_Training.SelectAllDepartment().Tables[0];
+        foreach (ListBox ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "DepartmentName";
+            ddlToFill.DataValueField = "PK_Sonic_U_Training_Department";
+            ddlToFill.DataSource = dtData;
+            ddlToFill.DataBind();
+
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary>
+    ///  Fill Sonic U Train Learning Program Dropdown
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillSonicUTrainLearningProgram(ListBox[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.Sonic_U_Training.SelectAllLearningProgram().Tables[0];
+        foreach (ListBox ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "LearningProgramTitle";
+            ddlToFill.DataValueField = "PK_Sonic_U_Training_Learning_Program";
+            ddlToFill.DataSource = dtData;
+            ddlToFill.DataBind();
+
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary>
+    ///  Fill Sonic U Train Learning Asset Dropdown
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillSonicUTrainLearningAsset(ListBox[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.Sonic_U_Training.SelectAllAsset().Tables[0];
+        foreach (ListBox ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Asset_Title";
+            ddlToFill.DataValueField = "PK_Sonic_U_Training_Learning_Asset";
+            ddlToFill.DataSource = dtData;
+            ddlToFill.DataBind();
+
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Fill Sonic U Train Learning Program Status Dropdown
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillSonicUTrainLearningProgramStatus(ListBox[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.Sonic_U_Training.SelectAllLearningProgramStatus().Tables[0];
+        foreach (ListBox ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "StatusDescription";
+            ddlToFill.DataValueField = "PK_Sonic_U_Training_Learning_Program_Status";
+            ddlToFill.DataSource = dtData;
+            ddlToFill.DataBind();
+
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Fill Sonic U Train Learning Asset Status Dropdown
+    /// </summary>
+    /// <param name="dropDowns"></param>
+    /// <param name="booladdSelectAsFirstElement"></param>
+    public static void FillSonicUTrainLearningProgramAssetStatus(ListBox[] dropDowns, bool booladdSelectAsFirstElement)
+    {
+        DataTable dtData = ERIMS.DAL.Sonic_U_Training.SelectAllAssetStatus().Tables[0];
+        foreach (ListBox ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "AssetStatusDescription";
+            ddlToFill.DataValueField = "PK_Sonic_U_Training_Learning_Asset_Status";
+            ddlToFill.DataSource = dtData;
+            ddlToFill.DataBind();
+
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
+
 }
