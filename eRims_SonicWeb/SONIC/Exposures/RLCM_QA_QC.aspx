@@ -167,89 +167,94 @@ function SetMenuStyle(index, parentIndex) {
 function ShowHideSubMenu(id) {
     if (id == "ctl00_ContentPlaceHolder1_imgMinusClaims") {//minus click hide submenu
         document.getElementById('<%=trSubMenuClaim.ClientID%>').style.display = "none";
-                document.getElementById('<%=imgMinusClaims.ClientID%>').style.display = "none";
-                document.getElementById('<%=imgPlusClaims.ClientID%>').style.display = "";
-            }
-            else if (id == "ctl00_ContentPlaceHolder1_imgPlusClaims") {//plus click show submenu
-                document.getElementById('<%=trSubMenuClaim.ClientID%>').style.display = "";
-                document.getElementById('<%=imgMinusClaims.ClientID%>').style.display = "";
-                document.getElementById('<%=imgPlusClaims.ClientID%>').style.display = "none";
-            }
-        if (id == "ctl00_ContentPlaceHolder1_imgMinusExposure") {//minus click hide submenu
-            document.getElementById('<%=trSubMenuExposure.ClientID%>').style.display = "none";
-                document.getElementById('<%=imgMinusExposure.ClientID%>').style.display = "none";
-                document.getElementById('<%=imgPlusExposure.ClientID%>').style.display = "";
-            }
-            else if (id == "ctl00_ContentPlaceHolder1_imgPlusExposure") {//plus click show submenu
-                document.getElementById('<%=trSubMenuExposure.ClientID%>').style.display = "";
-                document.getElementById('<%=imgMinusExposure.ClientID%>').style.display = "";
-                document.getElementById('<%=imgPlusExposure.ClientID%>').style.display = "none";
-            }
-
+        document.getElementById('<%=imgMinusClaims.ClientID%>').style.display = "none";
+        document.getElementById('<%=imgPlusClaims.ClientID%>').style.display = "";
     }
+    else if (id == "ctl00_ContentPlaceHolder1_imgPlusClaims") {//plus click show submenu
+        document.getElementById('<%=trSubMenuClaim.ClientID%>').style.display = "";
+        document.getElementById('<%=imgMinusClaims.ClientID%>').style.display = "";
+        document.getElementById('<%=imgPlusClaims.ClientID%>').style.display = "none";
+    }
+    if (id == "ctl00_ContentPlaceHolder1_imgMinusExposure") {//minus click hide submenu
+        document.getElementById('<%=trSubMenuExposure.ClientID%>').style.display = "none";
+        document.getElementById('<%=imgMinusExposure.ClientID%>').style.display = "none";
+        document.getElementById('<%=imgPlusExposure.ClientID%>').style.display = "";
+    }
+    else if (id == "ctl00_ContentPlaceHolder1_imgPlusExposure") {//plus click show submenu
+        document.getElementById('<%=trSubMenuExposure.ClientID%>').style.display = "";
+            document.getElementById('<%=imgMinusExposure.ClientID%>').style.display = "";
+            document.getElementById('<%=imgPlusExposure.ClientID%>').style.display = "none";
+        }
 
-    function SetFROIAllowedTab(Hyperlink, PK_RLCM_QA_QC, gridRow) {
+}
 
-        if (Hyperlink) {
-            var number = Hyperlink.split("&");
-            //e.preventDefault();
-            if (number.length > 0) {
-                var Jsondata = {};
-                if (Hyperlink.indexOf("FirstReport") > -1) {
-                    Jsondata.WizardID = number[1].substring(number[1].indexOf("=") + 1);
-                    Jsondata.Type = "FirstReport";
-                    Jsondata.ClaimType = "";
-                }
-                else {
-                    Jsondata.WizardID = number[0].substring(number[0].indexOf("=") + 1);
-                    Jsondata.Type = "Claim";
-                    Jsondata.ClaimType = number[0].substring(number[0].indexOf("/", 5) + 1, number[0].indexOf("?", 5));
-                }
+function SetFROIAllowedTab(Hyperlink, PK_RLCM_QA_QC, gridRow) {
 
-                $.ajax({
+    if (Hyperlink) {
+        var number = Hyperlink.split("&");
+        //e.preventDefault();
+        if (number.length > 0) {
+            var Jsondata = {};
+            if (Hyperlink.indexOf("FirstReport") > -1) {
+                Jsondata.WizardID = number[1].substring(number[1].indexOf("=") + 1);
+                Jsondata.Type = "FirstReport";
+                Jsondata.ClaimType = "";
+            }
+            else {
+                Jsondata.WizardID = number[0].substring(number[0].indexOf("=") + 1);
+                Jsondata.Type = "Claim";
+                Jsondata.ClaimType = number[0].substring(number[0].indexOf("/", 5) + 1, number[0].indexOf("?", 5));
+            }
 
-                    type: "POST",
-                    url: "RLCM_QA_QC.aspx/SetSessionTab",
-                    //data: '{ strWizardID: "' + WizardID + '" }',
-                    //data: { "Hyperlink": Jsondata.WizardID, "Type": Jsondata.Type },
-                    data: "{'Hyperlink':'" + Jsondata.WizardID + "', 'Type':'" + Jsondata.Type + "', 'ClaimType':'" + Jsondata.ClaimType + "'}",
-                    contentType: "application/json; charset=utf-8",
-                    async: false,
-                    dataType: "json",
-                    success: function (response) {
-                        window.open(Hyperlink, "_blank");
-                        var rowData = gridRow.parentNode.parentNode;                        
+            $.ajax({
+
+                type: "POST",
+                url: "RLCM_QA_QC.aspx/SetSessionTab",
+                //data: '{ strWizardID: "' + WizardID + '" }',
+                //data: { "Hyperlink": Jsondata.WizardID, "Type": Jsondata.Type },
+                data: "{'Hyperlink':'" + Jsondata.WizardID + "', 'Type':'" + Jsondata.Type + "', 'ClaimType':'" + Jsondata.ClaimType + "'}",
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                dataType: "json",
+                success: function (response) {
+                    window.open(Hyperlink, "_blank");                    
+                    var hv = $("#" + '<%= hdnISRLCMUser.ClientID %>').val();
+                    if (hv == "1") {
+                        var rowData = gridRow.parentNode.parentNode;
                         var checkbox = $(rowData).find("input:checkbox")[0];
                         if (typeof checkbox != "undefined") {
                             checkbox.checked = true;
+                            return true;
                         }
-                    },
-                    failure: function (response) {
-
-                    },
-                    error: function (xhr, status, error) {
-                        alert(xhr.responseText);
                     }
-                });
-            }
+                },
+                failure: function (response) {
+
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            });
         }
     }
+}
 
-    $(document).ready(function () {
 
-        $('a').each(function () {
+$(document).ready(function () {
 
-            if ($(this).text().trim() == 'N/A' || $(this).text().trim() == 'Monthly Review Complete') {
-                $(this).css('cursor', 'default').css('text-decoration', 'none').css('pointer-events', 'none').css('color', 'WindowText');
-                $(this).removeAttr("href");
-                $(this).on("onclick", function (e) {
-                    e.preventDefault();
-                });
-            }
+    $('a').each(function () {
 
-        });
+        if ($(this).text().trim() == 'N/A' || $(this).text().trim() == 'Monthly Review Complete') {
+            $(this).css('cursor', 'default').css('text-decoration', 'none').css('pointer-events', 'none').css('color', 'WindowText');
+            $(this).removeAttr("href");
+            $(this).on("onclick", function (e) {
+                e.preventDefault();
+            });
+        }
 
     });
+
+});
 
 
     </script>
@@ -336,6 +341,7 @@ function ShowHideSubMenu(id) {
             </table>
         </asp:Panel>
         <asp:Panel ID="pnlGrid" runat="server" Visible="false">
+            <asp:HiddenField ID="hdnISRLCMUser" runat="server" Value="0" />
             <table cellpadding="0" cellspacing="0" width="100%" border="0">
                 <tr>
                     <td class="Spacer" style="height: 15px;" colspan="2"></td>
@@ -570,7 +576,7 @@ function ShowHideSubMenu(id) {
                                                                             <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
                                                                                 <ItemStyle Width="30%" />
                                                                                 <ItemTemplate>
-                                                                                    <asp:CheckBox ID="chkStatus" runat="server" CssClass="checkbox"></asp:CheckBox>
+                                                                                    <asp:CheckBox ID="chkStatus" runat="server" CssClass="checkbox" onclick="return false"></asp:CheckBox>
                                                                                     <asp:HiddenField ID="hdnStatus" runat="server" Value='<%# Eval("PK_RLCM_QA_QC")%>' />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
@@ -648,7 +654,7 @@ function ShowHideSubMenu(id) {
                                                                             <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
                                                                                 <ItemStyle Width="30%" />
                                                                                 <ItemTemplate>
-                                                                                    <asp:CheckBox ID="chkStatus" runat="server" CssClass="checkbox"></asp:CheckBox>
+                                                                                    <asp:CheckBox ID="chkStatus" runat="server" CssClass="checkbox" onclick="return false"></asp:CheckBox>
                                                                                     <asp:HiddenField ID="hdnStatus" runat="server" Value='<%# Eval("PK_RLCM_QA_QC")%>' />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
@@ -726,7 +732,7 @@ function ShowHideSubMenu(id) {
                                                                             <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
                                                                                 <ItemStyle Width="30%" />
                                                                                 <ItemTemplate>
-                                                                                    <asp:CheckBox ID="chkStatus" runat="server" CssClass="checkbox"></asp:CheckBox>
+                                                                                    <asp:CheckBox ID="chkStatus" runat="server" CssClass="checkbox" onclick="return false"></asp:CheckBox>
                                                                                     <asp:HiddenField ID="hdnStatus" runat="server" Value='<%# Eval("PK_RLCM_QA_QC")%>' />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
@@ -804,7 +810,7 @@ function ShowHideSubMenu(id) {
                                                                             <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
                                                                                 <ItemStyle Width="30%" />
                                                                                 <ItemTemplate>
-                                                                                    <asp:CheckBox ID="chkSLTStatus" runat="server" CssClass="checkbox"></asp:CheckBox>
+                                                                                    <asp:CheckBox ID="chkSLTStatus" runat="server" CssClass="checkbox" onclick="return false"></asp:CheckBox>
                                                                                     <asp:HiddenField ID="hdnSLTStatus" runat="server" Value='<%# Eval("PK_RLCM_QA_QC")%>' />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
@@ -882,7 +888,7 @@ function ShowHideSubMenu(id) {
                                                                             <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
                                                                                 <ItemStyle Width="30%" />
                                                                                 <ItemTemplate>
-                                                                                    <asp:CheckBox ID="chkExposureStatus" runat="server" CssClass="checkbox"></asp:CheckBox>
+                                                                                    <asp:CheckBox ID="chkExposureStatus" runat="server" CssClass="checkbox" onclick="return false"></asp:CheckBox>
                                                                                     <asp:HiddenField ID="hdnExposureStatus" runat="server" Value='<%# Eval("PK_RLCM_QA_QC")%>' />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
@@ -960,7 +966,7 @@ function ShowHideSubMenu(id) {
                                                                             <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
                                                                                 <ItemStyle Width="30%" />
                                                                                 <ItemTemplate>
-                                                                                    <asp:CheckBox ID="chkExposureStatus" runat="server" CssClass="checkbox"></asp:CheckBox>
+                                                                                    <asp:CheckBox ID="chkExposureStatus" runat="server" CssClass="checkbox" onclick="return false"></asp:CheckBox>
                                                                                     <asp:HiddenField ID="hdnExposureStatus" runat="server" Value='<%# Eval("PK_RLCM_QA_QC")%>' />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
@@ -1038,7 +1044,7 @@ function ShowHideSubMenu(id) {
                                                                             <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
                                                                                 <ItemStyle Width="30%" />
                                                                                 <ItemTemplate>
-                                                                                    <asp:CheckBox ID="chkExposureStatus" runat="server" CssClass="checkbox"></asp:CheckBox>
+                                                                                    <asp:CheckBox ID="chkExposureStatus" runat="server" CssClass="checkbox" onclick="return false"></asp:CheckBox>
                                                                                     <asp:HiddenField ID="hdnExposureStatus" runat="server" Value='<%# Eval("PK_RLCM_QA_QC")%>' />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
@@ -1116,7 +1122,7 @@ function ShowHideSubMenu(id) {
                                                                             <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
                                                                                 <ItemStyle Width="30%" />
                                                                                 <ItemTemplate>
-                                                                                    <asp:CheckBox ID="chkExposureStatus" runat="server" CssClass="checkbox"></asp:CheckBox>
+                                                                                    <asp:CheckBox ID="chkExposureStatus" runat="server" CssClass="checkbox" onclick="return false"></asp:CheckBox>
                                                                                     <asp:HiddenField ID="hdnExposureStatus" runat="server" Value='<%# Eval("PK_RLCM_QA_QC")%>' />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
@@ -1194,7 +1200,7 @@ function ShowHideSubMenu(id) {
                                                                             <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
                                                                                 <ItemStyle Width="30%" />
                                                                                 <ItemTemplate>
-                                                                                    <asp:CheckBox ID="chkACIStatus" runat="server" CssClass="checkbox"></asp:CheckBox>
+                                                                                    <asp:CheckBox ID="chkACIStatus" runat="server" CssClass="checkbox" onclick="return false"></asp:CheckBox>
                                                                                     <asp:HiddenField ID="hdnACIStatus" runat="server" Value='<%# Eval("PK_RLCM_QA_QC")%>' />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>

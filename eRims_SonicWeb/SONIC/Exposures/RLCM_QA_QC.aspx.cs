@@ -149,9 +149,15 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
         btnACISave.Visible = (dtACIManagementRLCM.Rows.Count > 0);
 
         if (rlcm == clsSession.CurrentLoginEmployeeId)
+        {
             btnSave.Visible = btnClaimInfoSave.Visible = btnClaimIncidentSave.Visible = btnSLTSave.Visible = btnExposureSave.Visible = btnExposurePropSecSave.Visible = btnExposureDPDSave.Visible = btnExposureCustomerSave.Visible = btnACISave.Visible = true;
+            hdnISRLCMUser.Value = "1";
+        }
         else
+        {
             btnSave.Visible = btnClaimInfoSave.Visible = btnClaimIncidentSave.Visible = btnSLTSave.Visible = btnExposureSave.Visible = btnExposurePropSecSave.Visible = btnExposureDPDSave.Visible = btnExposureCustomerSave.Visible = btnACISave.Visible = false;
+            hdnISRLCMUser.Value = "0";
+        }
     }
 
     #endregion
