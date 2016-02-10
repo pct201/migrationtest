@@ -6315,4 +6315,58 @@ public class ComboHelper
         }
     }
 
+    /// <summary>
+    /// Used to Bind SONIC dba DropDown
+    /// </summary>
+    /// <param name="dropDowns">Dropdown Lists</param>
+    /// <param name="intID">used to selected a value using this param</param>
+    /// <param name="addSelectAsFirstElement">Require to add "--Select--" as a first element of dropdown</param>
+    public static void FillSonicLocationCode(DropDownList[] dropDowns, int intID, bool booladdSelectAsFirstElement)
+    {
+        Nullable<decimal> CurrentEmployee = new Security(Convert.ToDecimal(clsSession.UserID)).Employee_Id;
+        if (CurrentEmployee.ToString() != string.Empty && CurrentEmployee.ToString() != "0")
+            CurrentEmployee = Convert.ToDecimal(CurrentEmployee);
+        else
+            CurrentEmployee = 0;
+        string Regional = string.Empty;
+        DataSet dsRegion = Regional_Access.SelectBySecurityID(Convert.ToInt32(clsSession.UserID));
+        if (dsRegion.Tables[0].Rows.Count > 0)
+        {
+            foreach (DataRow drRegion in dsRegion.Tables[0].Rows)
+            {
+                Regional += drRegion["Region"].ToString() + ",";
+            }
+            //Regional = dsRegion.Tables[0].Rows[0]["Region"].ToString();
+        }
+        else
+            Regional = string.Empty;
+        DataTable dtData = ERIMS.DAL.LU_Location.SelectAllForExposures(CurrentEmployee, Regional.ToString().TrimEnd(Convert.ToChar(","))).Tables[0];
+        dtData.DefaultView.RowFilter = " Active = 'Y' ";
+        dtData.DefaultView.Sort = "Sonic_Location_Code";
+        dtData = dtData.DefaultView.ToTable();
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Sonic_Location_Code";
+            ddlToFill.DataValueField = "Sonic_Location_Code";
+            ddlToFill.DataSource = dtData;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+            //check id greater 0 than find the value in dropdown list. if find than select the item.
+            if (intID > 0)
+            {
+                ListItem lst = new ListItem();
+                lst = ddlToFill.Items.FindByValue(intID.ToString());
+                if (lst != null)
+                {
+                    lst.Selected = true;
+                }
+            }
+        }
+    }
+
 }
