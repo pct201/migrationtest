@@ -448,7 +448,7 @@
                 <tr>
                     <td align="left">Allocation Charge
                     </td>
-                    <td >:
+                    <td>:
                     </td>
                     <td colspan="4">
                         <asp:Label ID="lblAllocation_Charge" runat="server" />
@@ -457,7 +457,7 @@
                 <tr>
                     <td align="left">Reporting Credit
                     </td>
-                    <td >:
+                    <td>:
                     </td>
                     <td colspan="4">
                         <asp:Label ID="lblReporting_Credit" runat="server" />
@@ -466,7 +466,7 @@
                 <tr>
                     <td align="left">Nurse Triage Credit
                     </td>
-                    <td >:
+                    <td>:
                     </td>
                     <td colspan="4">
                         <asp:Label ID="lblNurse_Triage_Credit" runat="server" />
@@ -475,7 +475,7 @@
                 <tr>
                     <td align="left">Reporting Charge
                     </td>
-                    <td >:
+                    <td>:
                     </td>
                     <td colspan="4">
                         <asp:Label ID="lblReporting_Charge" runat="server" />
@@ -484,7 +484,7 @@
                 <tr>
                     <td align="left">Investigation Quality Credit
                     </td>
-                    <td >:
+                    <td>:
                     </td>
                     <td colspan="4">
                         <asp:Label ID="lblInvestigation_Quality_Credit" runat="server" />
@@ -493,7 +493,7 @@
                 <tr>
                     <td align="left">Early Close Credit
                     </td>
-                    <td >:
+                    <td>:
                     </td>
                     <td colspan="4">
                         <asp:Label ID="lblEarly_Close_Credit" runat="server" />
@@ -502,7 +502,7 @@
                 <tr>
                     <td align="left">Re-Open Charge
                     </td>
-                    <td >:
+                    <td>:
                     </td>
                     <td colspan="4">
                         <asp:Label ID="lblRe_Open_Charge" runat="server" />
@@ -511,7 +511,7 @@
                 <tr>
                     <td align="left">Total Charge
                     </td>
-                    <td >:
+                    <td>:
                     </td>
                     <td colspan="4">
                         <asp:Label ID="lblTotal_Charge" runat="server" />
@@ -619,8 +619,8 @@
                     <td width="1%" valign="top">:
                     </td>
                     <td width="25%" valign="top" colspan="4">
-                            <asp:RadioButtonList ID="rdoRoot_Cause" runat="server" SkinID="YesNoType" AutoPostBack="true" OnSelectedIndexChanged="rdoRoot_Cause_SelectedIndexChanged">
-                            </asp:RadioButtonList>
+                        <asp:RadioButtonList ID="rdoRoot_Cause" runat="server" SkinID="YesNoType" AutoPostBack="true" OnSelectedIndexChanged="rdoRoot_Cause_SelectedIndexChanged">
+                        </asp:RadioButtonList>
                         <asp:Label ID="lblSLT_Agree_Root_Cause" runat="server"></asp:Label>
                     </td>
                 </tr>
@@ -704,7 +704,7 @@
                 <tr>
                     <td width="23%" align="left" valign="top">Target Date of Completion&nbsp;<span id="Span4" runat="server" style="color: Red; display: none;">*</span>&nbsp;&nbsp;&nbsp;:
                     </td>
-                  <%--  <td width="1%" valign="top">:
+                    <%--  <td width="1%" valign="top">:
                     </td>--%>
                     <td width="28%" valign="top">
                         <%--ctl00_ContentPlaceHolder1_Incident_Review1_txtTargetDateCompletion--%>
@@ -744,51 +744,8 @@
                             runat="server" SetFocusOnError="true" ValidationGroup="valCauses" Display="none" />--%>
                     </td>
                 </tr>
-                <%--<tr>
-                    <td width="24%" align="left" valign="top">
-                        Incident Investigation Reviewed &nbsp;<span id="Span8" runat="server" style="color: Red;
-                            display: none;">*</span>
-                    </td>
-                    <td width="1%" valign="top">
-                        :
-                    </td>
-                    <td width="25%" valign="top">
-                        <asp:RadioButtonList ID="rdoIncidentInvestigation" runat="server" SkinID="YesNoType">
-                        </asp:RadioButtonList>
-                    </td>
-                    <td width="20%" align="center" valign="top">
-                        Date Reviewed&nbsp;<span id="Span9" runat="server" style="color: Red; display: none;">*</span>
-                        &nbsp;&nbsp;&nbsp;:
-                    </td>
-                    <td width="36%" valign="top" align="left" colspan="2">
-                        <asp:TextBox ID="txtDateReviewed" runat="server" Width="150px" SkinID="txtDate"></asp:TextBox>
-                        <img alt="Date Reviewed" onclick="return showCalendar('<%=txtDateReviewed.ClientID %>', 'mm/dd/y');"
-                            onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
-                            align="middle" /><br />
-                        <asp:RegularExpressionValidator ID="revDateReviewed" runat="server" ValidationGroup="vsIncidentReview"
-                            Display="none" ErrorMessage="Date Reviewed is not a valid date" SetFocusOnError="true"
-                            ControlToValidate="txtDateReviewed" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
-                    </td>
-                </tr>
-               
-                <tr>
-                    <td width="20%" align="left" valign="top">
-                        Item Status&nbsp;<span id="Span7" runat="server" style="color: Red; display: none;">*</span>
-                    </td>
-                    <td width="1%" valign="top">
-                        :
-                    </td>
-                    <td width="29%" valign="top">
-                        <asp:DropDownList ID="drpItemStatus" runat="server" Width="60%">
-                        </asp:DropDownList>
-                        <%-- <asp:RequiredFieldValidator ID="rfvItemStatus" runat="server" ControlToValidate="drpItemStatus"
-                            Display="None" ErrorMessage="Please select Item Status" InitialValue="0" SetFocusOnError="true"
-                            ValidationGroup="vsIncidentReview" />
-                    </td>
-                    <td colspan="4">
-                    </td>
-                </tr>--%>
-               
+
+
             </table>
         </td>
     </tr>
@@ -844,27 +801,13 @@
                     </td>
                     <td width="20%" align="center" valign="top">Status Due On&nbsp;&nbsp;&nbsp;&nbsp;:
                     </td>
-                    <td width="1%" valign="top"> 
-                        :
+                    <td width="1%" valign="top">:
                     </td>
                     <td width="36%" valign="top" align="left" colspan="2">
                         <asp:Label ID="lblStatusDueOn_View" runat="server"></asp:Label>
                     </td>
                 </tr>
-                <%--<tr>
-                    <td width="24%" align="left" valign="top">Incident Investigation Reviewed &nbsp;
-                    </td>
-                    <td width="1%" valign="top">:
-                    </td>
-                    <td width="25%" valign="top">
-                        <asp:Label ID="lblIncidentInvestigation_View" runat="server"></asp:Label>
-                    </td>
-                    <td width="20%" align="center" valign="top">Date Reviewed&nbsp;&nbsp;&nbsp;&nbsp;:
-                    </td>
-                    <td width="36%" valign="top" align="left" colspan="2">
-                        <asp:Label ID="lblDateReceived_View" runat="server"></asp:Label>
-                    </td>
-                </tr>
+                <%--
                 <tr>
                     <td width="20%" align="left" valign="top">Comments&nbsp;
                     </td>
@@ -877,16 +820,7 @@
                         <uc:ctrlMultiLineTextBox runat="server" ID="lblComments_View" ControlType="Label" />
                     </td>
                 </tr>
-                <tr>
-                    <td width="20%" align="left" valign="top">Item Status&nbsp;
-                    </td>
-                    <td width="1%" valign="top">:
-                    </td>
-                    <td width="29%" valign="top">
-                        <asp:Label ID="lblItemStatus" runat="server"></asp:Label>
-                    </td>
-                    <td colspan="4"></td>
-                </tr>
+                
                 <tr>
                     <td width="20%" align="left"></td>
                     <td colspan="2">
@@ -905,32 +839,117 @@
         <td>
             <table width="100%" cellpadding="3" cellspacing="1" border="0">
                 <tr>
-                     <td colspan="6" align="left" class="bandHeaderRow" style="height: 10px;">RISK MANAGEMENT REVIEW
+                    <td colspan="6" align="left" class="bandHeaderRow" style="height: 10px;">RISK MANAGEMENT REVIEW
                     </td>
                 </tr>
-                 <tr>
-                    <td  align="left" valign="top">
-                        Comments&nbsp;<span id="Span6" runat="server" style="color: Red; display: none;">*</span>
-                    </td>
-                    <td width="1%" valign="top">
-                        :
-                    </td>
-                    <td colspan="4"> &nbsp;
+                <tr id="trRisk_Maanagement_Review_Edit" runat="server" visible="false">
+                    <td colspan="6" width="100%">
+                        <table width="100%" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td align="left" valign="top">Incident Investigation Reviewed &nbsp;<span id="Span8" runat="server" style="color: Red; display: none;">*</span>
+                                </td>
+                                <td valign="top">:
+                                </td>
+                                <td valign="top">
+                                    <asp:RadioButtonList ID="rdoIncidentInvestigation" runat="server" SkinID="YesNoType">
+                                    </asp:RadioButtonList>
+                                </td>
+                                <td align="center" valign="top">Date Reviewed&nbsp;<span id="Span9" runat="server" style="color: Red; display: none;">*</span>
+                                    &nbsp;&nbsp;&nbsp;:
+                                </td>
+                                <td valign="top" align="left" colspan="2">
+                                    <asp:TextBox ID="txtDateReviewed" runat="server" Width="150px" SkinID="txtDate"></asp:TextBox>
+                                    <img alt="Date Reviewed" onclick="return showCalendar('<%=txtDateReviewed.ClientID %>', 'mm/dd/y');"
+                                        onmouseover="javascript:this.style.cursor='hand';" src="../../Images/iconPicDate.gif"
+                                        align="middle" /><br />
+                                    <asp:RegularExpressionValidator ID="revDateReviewed" runat="server" ValidationGroup="vsIncidentReview"
+                                        Display="none" ErrorMessage="Date Reviewed is not a valid date" SetFocusOnError="true"
+                                        ControlToValidate="txtDateReviewed" ValidationExpression="^(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))$"></asp:RegularExpressionValidator>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left" valign="top">Comments&nbsp;<span id="Span6" runat="server" style="color: Red; display: none;">*</span>
+                                </td>
+                                <td width="1%" valign="top">:
+                                </td>
+                                <td colspan="4">&nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left" colspan="6" valign="top">
+                                    <uc:ctrlMultiLineTextBox runat="server" ID="txtComments" ControlType="TextBox" />
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left" valign="top">Item Status&nbsp;<span id="Span7" runat="server" style="color: Red; display: none;">*</span>
+                                </td>
+                                <td valign="top">:
+                                </td>
+                                <td valign="top">
+                                    <asp:DropDownList ID="drpItemStatus" runat="server" Width="60%">
+                                    </asp:DropDownList>
+                                    <%-- <asp:RequiredFieldValidator ID="rfvItemStatus" runat="server" ControlToValidate="drpItemStatus"
+                                        Display="None" ErrorMessage="Please select Item Status" InitialValue="0" SetFocusOnError="true"
+                                        ValidationGroup="vsIncidentReview" />--%>
+                                </td>
+                                <td colspan="4"></td>
+                            </tr>
+                        </table>
                     </td>
                 </tr>
+                
+                <tr id="trRisk_Maanagement_Review_View" runat="server" visible="false">
+                    <td colspan="6" width="100%">
+                        <table width="100%" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td width="24%" align="left" valign="top">Incident Investigation Reviewed &nbsp;
+                                </td>
+                                <td width="1%" valign="top">:
+                                </td>
+                                <td width="25%" valign="top">
+                                    <asp:Label ID="lblIncidentInvestigation_View" runat="server"></asp:Label>
+                                </td>
+                                <td width="20%" align="center" valign="top">Date Reviewed&nbsp;&nbsp;&nbsp;&nbsp;:
+                                </td>
+                                <td width="36%" valign="top" align="left" colspan="2">
+                                    <asp:Label ID="lblDateReceived_View" runat="server"></asp:Label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left" valign="top">Comments&nbsp;<span id="Span12" runat="server" style="color: Red; display: none;">*</span>
+                                </td>
+                                <td width="1%" valign="top">:
+                                </td>
+                                <td colspan="4">&nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left" colspan="6" valign="top">
+                                    <uc:ctrlMultiLineTextBox runat="server" ID="txtComments_View" ControlType="Label" />
+                                </td>
+                            </tr>
+                           <tr>
+                                <td width="20%" align="left" valign="top">Item Status&nbsp;
+                                </td>
+                                <td width="1%" valign="top">:
+                                </td>
+                                <td width="29%" valign="top">
+                                    <asp:Label ID="lblItemStatus" runat="server"></asp:Label>
+                                </td>
+                                <td colspan="4"></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
                 <tr>
-                    <td align="left" colspan="6" valign="top">
-                        <uc:ctrlMultiLineTextBox runat="server" ID="txtComments" ControlType="TextBox" />
-                        <uc:ctrlMultiLineTextBox runat="server" ID="txtComments_View" ControlType="Label" />
-                    </td>
-                </tr>
-                 <tr>
                     <td width="60%" align="left" valign="top" colspan="4">Was the investigation completed within 7 days of the Date of Loss?  
                     </td>
                     <td width="1%" valign="top">:
                     </td>
                     <td width="39%" valign="top">
-                      <asp:Label runat="server" ID="lblTiming_View" ControlType="Label"></asp:Label>
+                        <asp:Label runat="server" ID="lblTiming_View" ControlType="Label"></asp:Label>
                     </td>
                 </tr>
                 <tr>
@@ -987,11 +1006,12 @@
                         <asp:Label ID="lblInvestigatescoreMetric" runat="server"></asp:Label>
                     </td>
                 </tr>
-                 <tr>
+                <tr>
                     <td width="20%" align="left"></td>
                     <td colspan="3" align="center">
-                        <asp:Button ID="btnSaveNext" runat="server" Text="Save" 
-                            OnClick="btnSaveNext_Click" /> <%--ValidationGroup="vsIncidentReview"--%>
+                        <asp:Button ID="btnSaveNext" runat="server" Text="Save"
+                            OnClick="btnSaveNext_Click" />
+                        <%--ValidationGroup="vsIncidentReview"--%>
                         <asp:Button ID="btnSavennextHide" runat="server" Text="Save" ValidationGroup="vsIncidentReview"
                             OnClick="btnSavennextHide_Click" Style="display: none" />&nbsp;&nbsp;&nbsp;
                         <asp:Button ID="btnAuditTrail_Edit" runat="server" Text="View Audit Trail" />
@@ -1004,7 +1024,7 @@
     </tr>
 
 
-    
+
 </table>
 <asp:CustomValidator ID="CustomValidator" runat="server" ErrorMessage="" ClientValidationFunction="ValidateFields"
     Display="None" ValidationGroup="vsIncidentReview" />
