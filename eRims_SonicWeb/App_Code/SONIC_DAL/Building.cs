@@ -3470,6 +3470,29 @@ namespace ERIMS.DAL
 
             return returnValue;
         }
+
+        public static void ChangeBuilding_Location(int Old_Location_code, int New_Location_Code, string Old_Building_Number, string New_Building_Number)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Building_Location_Change");
+
+            db.AddInParameter(dbCommand, "old_Location_code", DbType.Int32, Old_Location_code);
+            db.AddInParameter(dbCommand, "new_Location_Code", DbType.Int32, New_Location_Code);
+            db.AddInParameter(dbCommand, "old_Building_Number", DbType.String, Old_Building_Number);
+            db.AddInParameter(dbCommand, "New_Building_Number", DbType.String, New_Building_Number);
+
+            db.ExecuteNonQuery(dbCommand);
+        }
+
+        public static DataSet BuildingByLocationCode(int Sonic_Location_Code)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("BuildingSelectByLocationCode");
+
+            db.AddInParameter(dbCommand, "Sonic_Location_Code", DbType.Int32, Sonic_Location_Code);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
         #endregion
     }
 }

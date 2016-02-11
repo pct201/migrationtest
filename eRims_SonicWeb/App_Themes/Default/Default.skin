@@ -73,6 +73,7 @@ Default skin template. The following skins are provided as examples only.
 <asp:DropDownList runat="server" SkinID ="dropotherDr" Width="64%"></asp:DropDownList>
 <asp:DropDownList runat="server" SkinID ="dropotherinjured" Width="57%"></asp:DropDownList>
 <asp:DropDownList runat="server" SkinID ="propertyDr" Width="68%"></asp:DropDownList>
+<asp:DropDownList runat="server" SkinID ="propertyBuilding" Width="75%"></asp:DropDownList>
 <asp:DropDownList runat="server" SkinID ="propertyGwender" Width="66%"></asp:DropDownList>
 <asp:DropDownList runat="server" SkinID ="property" Width="67%"></asp:DropDownList>
 <asp:DropDownList runat="server" SkinID ="dropGen"></asp:DropDownList>

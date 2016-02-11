@@ -22,6 +22,17 @@
     <script type="text/javascript" language="javascript">
         Sys.WebForms.PageRequestManager.getInstance().add_endRequest(pageLoaded);
 
+        function ValidateBuildingInfo() {
+            if (Page_ClientValidate('vsErrorBuildingInfo')) {
+                if (confirm('Are you Sure you want to move Building?'))
+                    return true;
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+
         function pageLoaded(sender, args) {
             window.scrollTo(0, 0);
         }
@@ -539,6 +550,9 @@ function ValidateFieldsOwnership(sender, args) {
         }
     </script>
     <link href="<%=AppConfig.SiteURL%>greybox/gb_styles.css" rel="stylesheet" type="text/css" />
+    <asp:ValidationSummary ID="valBuildingInfo" runat="server" ValidationGroup="vsErrorBuildingInfo"
+        ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following fields"
+        BorderWidth="1" BorderColor="DimGray" CssClass="errormessage" />
     <asp:ValidationSummary ID="valPropertyCOPE" runat="server" ValidationGroup="vsErrorPropertyCope"
         ShowMessageBox="true" ShowSummary="false" HeaderText="Verify the following fields"
         BorderWidth="1" BorderColor="DimGray" CssClass="errormessage" />
@@ -1326,52 +1340,60 @@ function ValidateFieldsOwnership(sender, args) {
                                                     <ContentTemplate>
                                                         <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                             <tr>
-                                                                <td align="left">
-                                                                    <asp:GridView ID="gvBuildingEdit" runat="server" EmptyDataText="No Building Records Exists"
-                                                                        AutoGenerateColumns="false" OnRowCommand="gvBuildingEdit_RowCommand" OnRowDataBound="gvBuildingEdit_RowDataBound"
-                                                                        Width="100%">
-                                                                        <Columns>
-                                                                            <asp:TemplateField>
-                                                                                <ItemStyle Width="5%" HorizontalAlign="center" />
-                                                                                <ItemTemplate>
-                                                                                    <asp:LinkButton ID="lnkViewDetail" CausesValidation="false" runat="server" Text='<%# Container.DataItemIndex + 1 %>'
-                                                                                        CommandName="ViewBuildingDetail" CommandArgument='<%# Eval("PK_Building_ID")%>'></asp:LinkButton>
-                                                                                </ItemTemplate>
-                                                                            </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Building Number">
-                                                                                <ItemStyle Width="15%" />
-                                                                                <ItemTemplate>
-                                                                                    <%# Eval("Building_Number")%>
-                                                                                </ItemTemplate>
-                                                                            </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Address">
-                                                                                <ItemStyle Width="35%" />
-                                                                                <ItemTemplate>
-                                                                                    <%# clsGeneral.FormatAddress(Eval("Address_1"),Eval("Address_2"),Eval("City"),Eval("State"),Eval("Zip")) %>
-                                                                                </ItemTemplate>
-                                                                            </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Occupancy">
-                                                                                <ItemStyle Width="35%" />
-                                                                                <ItemTemplate>
-                                                                                    <asp:Label ID="lblOccupancy" runat="server" />
-                                                                                </ItemTemplate>
-                                                                            </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Remove">
-                                                                                <ItemStyle Width="10%" />
-                                                                                <ItemTemplate>
-                                                                                    <asp:LinkButton ID="LinkButton1" TeID="lnkRemove" OnClientClick="return ConfirmRemove();" CausesValidation="false"
-                                                                                        runat="server" CommandName="RemoveBuilding" CommandArgument='<%#Eval("PK_Building_ID")%>'
-                                                                                        Text="Remove"></asp:LinkButton>
-                                                                                </ItemTemplate>
-                                                                            </asp:TemplateField>
-                                                                        </Columns>
-                                                                    </asp:GridView>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td align="left">
-                                                                    <asp:LinkButton ID="lnkAddNewBuilding" runat="server" OnClick="lnkAddNewBuilding_Click"
-                                                                        Text="Add New" />
+                                                                <td>
+                                                                    <div id="dvBuildingGrid" runat="server" style="display: block;">
+                                                                        <table cellpadding="0" cellspacing="0" width="100%">
+                                                                            <tr>
+                                                                                <td align="left">
+                                                                                    <asp:GridView ID="gvBuildingEdit" runat="server" EmptyDataText="No Building Records Exists"
+                                                                                        AutoGenerateColumns="false" OnRowCommand="gvBuildingEdit_RowCommand" OnRowDataBound="gvBuildingEdit_RowDataBound"
+                                                                                        Width="100%">
+                                                                                        <Columns>
+                                                                                            <asp:TemplateField>
+                                                                                                <ItemStyle Width="5%" HorizontalAlign="center" />
+                                                                                                <ItemTemplate>
+                                                                                                    <asp:LinkButton ID="lnkViewDetail" CausesValidation="false" runat="server" Text='<%# Container.DataItemIndex + 1 %>'
+                                                                                                        CommandName="ViewBuildingDetail" CommandArgument='<%# Eval("PK_Building_ID")%>'></asp:LinkButton>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Building Number">
+                                                                                                <ItemStyle Width="15%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%# Eval("Building_Number")%>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Address">
+                                                                                                <ItemStyle Width="35%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <%# clsGeneral.FormatAddress(Eval("Address_1"),Eval("Address_2"),Eval("City"),Eval("State"),Eval("Zip")) %>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Occupancy">
+                                                                                                <ItemStyle Width="35%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <asp:Label ID="lblOccupancy" runat="server" />
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                            <asp:TemplateField HeaderText="Remove">
+                                                                                                <ItemStyle Width="10%" />
+                                                                                                <ItemTemplate>
+                                                                                                    <asp:LinkButton ID="LinkButton1" TeID="lnkRemove" OnClientClick="return ConfirmRemove();" CausesValidation="false"
+                                                                                                        runat="server" CommandName="RemoveBuilding" CommandArgument='<%#Eval("PK_Building_ID")%>'
+                                                                                                        Text="Remove"></asp:LinkButton>
+                                                                                                </ItemTemplate>
+                                                                                            </asp:TemplateField>
+                                                                                        </Columns>
+                                                                                    </asp:GridView>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="left">
+                                                                                    <asp:LinkButton ID="lnkAddNewBuilding" runat="server" OnClick="lnkAddNewBuilding_Click"
+                                                                                        Text="Add New" />
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table> 
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -3855,6 +3877,12 @@ function ValidateFieldsOwnership(sender, args) {
                                                                 </td>
                                                             </tr>
                                                             <tr>
+                                                                <td align="left" colspan="6">
+                                                                     <asp:LinkButton ID="lnkChangeBuildingLocation" runat="server" OnClick="lnkChangeBuildingLocation_Click"
+                                                                        Text="Change Building Location" style="display:none;"/>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
                                                                 <td colspan="6" width="100%" align="center">
                                                                     <table>
                                                                         <tr>
@@ -3876,6 +3904,72 @@ function ValidateFieldsOwnership(sender, args) {
                                                             </tr>
                                                         </table>
                                                         </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div id="dvChangeBuilding" runat="server" style="display: none;">
+                                                                        <table cellpadding="2" cellspacing="0" width="100%">
+                                                                            <tr>
+                                                                                <td>
+                                                                                    Existing Location Number
+                                                                                </td>
+                                                                                <td width="2%">
+                                                                                    :
+                                                                                </td>
+                                                                                <td>
+                                                                                    <asp:TextBox ID="txtExistingLocation" runat="server"  autocomplete="off" SkinID="txtDisabled"></asp:TextBox>
+                                                                                </td>
+                                                                                  <td>
+                                                                                    Existing Building Number
+                                                                                </td>
+                                                                                <td width="2%">
+                                                                                    :
+                                                                                </td>
+                                                                                <td>
+                                                                                    <asp:TextBox ID="txtExistingBuilding" runat="server" autocomplete="off" SkinID="txtDisabled"></asp:TextBox>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    New Location Number
+                                                                                    <span id="Span120" style="color: Red;" runat="server">*</span>
+                                                                                </td>
+                                                                                <td width="2%">
+                                                                                    :
+                                                                                </td>
+                                                                                <td>
+                                                                                    <asp:DropDownList ID="drpLocation" runat="server" SkinID="propertyBuilding" OnSelectedIndexChanged="drpLocation_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                                                                                    <asp:RequiredFieldValidator ID="rfvdrpLocation" runat="server" ControlToValidate="drpLocation"
+                                                                                        InitialValue="0" Display="None" ValidationGroup="vsErrorBuildingInfo" ErrorMessage="Please select Location"></asp:RequiredFieldValidator>
+                                                                                </td>
+                                                                                <td>
+                                                                                    New Building Number
+                                                                                    <span id="Span118" style="color: Red; " runat="server">*</span>
+                                                                                </td>
+                                                                                <td width="2%">
+                                                                                    :
+                                                                                </td>
+                                                                                <td>
+                                                                                    <asp:DropDownList ID="drpBuilding" runat="server" SkinID="propertyBuilding"></asp:DropDownList>
+                                                                                    <asp:RequiredFieldValidator ID="rfvdrpBuilding" runat="server" ControlToValidate="drpBuilding"
+                                                                                        InitialValue="0" Display="None" ValidationGroup="vsErrorBuildingInfo" ErrorMessage="Please select Building"></asp:RequiredFieldValidator>
+                                                                                 </td>
+                                                                            </tr>
+                                                                             <tr>
+                                                                                <td class="Spacer" style="height: 8px;" colspan="6"></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="center" colspan="6">
+                                                                                    <asp:Button runat="server" ID="btnConfirmBuildingInfo" Text="Confirm" OnClick="btnConfirmBuildingInfo_Click"
+                                                                                        CausesValidation="true" OnClientClick="javascript:return ValidateBuildingInfo();" />&nbsp;&nbsp;
+                                                                                             
+                                                                                    <asp:Button ID="btnCancelBuildingInfo" runat="server" Text="Cancel" OnClick="btnCancelBuildingInfo_Click" />
+                                                                                </td>
+                                                                            </tr>
+                                                                           
+                                                                        </table>
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                         </table>

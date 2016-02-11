@@ -710,7 +710,7 @@ public partial class Exposures_Property : clsBasePage
             }
         }
 
-        // insert or update the information as per the primary key avaialble
+        // insert or update the information as per the primary key available
         if (PK_Building_ID > 0)
             objBuilding.Update();
         else
@@ -1256,6 +1256,7 @@ public partial class Exposures_Property : clsBasePage
         btnViewAuditOwnership.Visible = false;
         btnViewAuditContacts.Visible = false;
         btnViewAuditAdditionalInsured.Style["display"] = "none";
+        lnkChangeBuildingLocation.Style["display"] = "none";
         // re-initialize the Building PK and Ownership PK
         PK_Building_ID = -1;
         PK_Building_Ownership = -1;
@@ -1272,6 +1273,46 @@ public partial class Exposures_Property : clsBasePage
         //ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "", "javascript:seLocationBuildingNumber('" + strLocationCode + "');", true);
     }
 
+    /// <summary>
+    /// handles Change Building Location Click
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void lnkChangeBuildingLocation_Click(object sender, EventArgs e)
+    {
+        dvChangeBuilding.Style["display"] = "";
+        dvBuildingGrid.Style["display"] = "none";
+        dvBuilding.Style["display"] = "none";
+
+        txtExistingLocation.Text = Convert.ToString(ucCtrlExposureInfo.Int_Location_Code);
+
+        Building objBuilding = new Building(PK_Building_ID);
+        if (!string.IsNullOrEmpty(objBuilding.Building_Number))
+            txtExistingBuilding.Text = objBuilding.Building_Number;
+
+        ComboHelper.FillSonicLocationCode(new DropDownList[] { drpLocation }, 0, true);
+        //ComboHelper.FillLocationLocationCodeFranchiseReport(new DropDownList[] { drpLocation }, true);
+        clsGeneral.SetDropdownValue(drpLocation, Convert.ToString(ucCtrlExposureInfo.Int_Location_Code), true);
+        BindBuildingByLocation(ucCtrlExposureInfo.Int_Location_Code);
+
+    }
+
+    protected void btnCancelBuildingInfo_Click(object sender, EventArgs e)
+    {
+        dvChangeBuilding.Style["display"] = "none";
+        dvBuildingGrid.Style["display"] = "";
+        dvBuilding.Style["display"] = "none";
+    }
+
+    protected void btnConfirmBuildingInfo_Click(object sender, EventArgs e)
+    {
+        dvChangeBuilding.Style["display"] = "none";
+        dvBuildingGrid.Style["display"] = "";
+        dvBuilding.Style["display"] = "none";
+
+        Building.ChangeBuilding_Location(Convert.ToInt32(txtExistingLocation.Text), Convert.ToInt32(drpLocation.SelectedValue), txtExistingBuilding.Text, drpBuilding.SelectedValue);
+        BindGridBuilding();
+    }
 
     /// <summary>
     /// Handles Add New link click in Contacts panel
@@ -1355,9 +1396,9 @@ public partial class Exposures_Property : clsBasePage
             // set PK as ID passed in command argument
             PK_Building_ID = Convert.ToInt32(e.CommandArgument);
 
-            // bind building details
+            lnkChangeBuildingLocation.Style["display"] = "";//if (PK_Building_ID > 0)
 
-            BindBuildingDetails();
+            BindBuildingDetails();// bind building details
             SetDynamicInsuranceControl();
             BindInuranceDetailForEdit(PK_Building_ID);
         }
@@ -2610,6 +2651,19 @@ public partial class Exposures_Property : clsBasePage
         BindEmergencyContactGrid();
         BindUtilityContactGrid();
         BindOtherContactGrid();
+    }
+
+    private void BindBuildingByLocation(int LocationCode)
+    {
+        DataTable dtBuilding = Building.BuildingByLocationCode(LocationCode).Tables[0];
+        drpBuilding.DataSource = dtBuilding;
+        drpBuilding.DataTextField = "Building_Number";
+        drpBuilding.DataValueField = "Building_Number";//PK_Building_ID
+        drpBuilding.DataBind();
+        drpBuilding.Items.Insert(0, new ListItem("-- Select --", "0"));
+
+        //clean up memory
+        clsGeneral.DisposeOf(dtBuilding);
     }
 
     /// <summary>
@@ -4439,6 +4493,11 @@ public partial class Exposures_Property : clsBasePage
         TextBox txtBox = tblInsuranceCopeQuestionnaire.FindControl("txtItem" + rdo.ID.Substring(rdo.ID.Length - 2)) as TextBox;
         txtBox.Visible = rdo.SelectedValue == "Y" ? true : false;
         txtBox.Text = "";
+    }
+
+    protected void drpLocation_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        BindBuildingByLocation(Convert.ToInt32(drpLocation.SelectedValue));
     }
 }
 
