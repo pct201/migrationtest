@@ -1528,32 +1528,35 @@ public partial class Exposures_Investigation : clsBasePage
 
         if (ddlSonic_Cause_Code.SelectedItem != null)
         {
-            if (ddlSonic_Cause_Code.SelectedItem.Value.Contains(Convert.ToString(PK_Focus_Area)) && PK_Focus_Area > 0)
-            {
-                for (int i = ddlSonic_Cause_Code.Items.Count - 1; i > 0; i--)
+            //if (ddlSonic_Cause_Code.SelectedItem.Value.Contains(Convert.ToString(PK_Focus_Area)))
+            //{
+                if (PK_Focus_Area > 0)
                 {
-                    if (ddlSonic_Cause_Code.Items[i].Value.Contains("S0-" + PK_Focus_Area + " -") || ddlSonic_Cause_Code.Items[i].Value.Contains("S" + PK_Focus_Area + " -") || ddlSonic_Cause_Code.Items[i].Value.Contains("S-" + PK_Focus_Area + ""))
+                    for (int i = ddlSonic_Cause_Code.Items.Count - 1; i > 0; i--)
                     {
-                        ddlSonic_Cause_Code.ClearSelection();
-                        ListItem lst = ddlSonic_Cause_Code.Items.FindByText(objInvestigation.Sonic_Cause_Code);
-                        if (lst != null)
-                            lst.Selected = true;
+                        if (ddlSonic_Cause_Code.Items[i].Value.Contains("S0-" + PK_Focus_Area + " -") || ddlSonic_Cause_Code.Items[i].Value.Contains("S" + PK_Focus_Area + " -") || ddlSonic_Cause_Code.Items[i].Value.Contains("S-" + PK_Focus_Area + ""))
+                        {
+                            ddlSonic_Cause_Code.ClearSelection();
+                            ListItem lst = ddlSonic_Cause_Code.Items.FindByText(objInvestigation.Sonic_Cause_Code);
+                            if (lst != null)
+                                lst.Selected = true;
+                        }
+                        else
+                        {
+                            ddlSonic_Cause_Code.Items.RemoveAt(i);
+                        }
                     }
-                    else
-                    {
-                        ddlSonic_Cause_Code.Items.RemoveAt(i);
-                    }
-                }
-                //else
-                //{
-                //    for (int i = ddlSonic_Cause_Code.Items.Count - 1; i > 0; i--)
-                //    {
-                //        ddlSonic_Cause_Code.Items.RemoveAt(i);
-                //    }
+                    //else
+                    //{
+                    //    for (int i = ddlSonic_Cause_Code.Items.Count - 1; i > 0; i--)
+                    //    {
+                    //        ddlSonic_Cause_Code.Items.RemoveAt(i);
+                    //    }
 
-                //    ddlSonic_Cause_Code.SelectedIndex = 0;
-                //}
-            }
+                    //    ddlSonic_Cause_Code.SelectedIndex = 0;
+                    //}
+                }
+            //}
         }
         #endregion
 
