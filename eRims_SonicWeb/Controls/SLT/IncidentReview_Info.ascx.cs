@@ -364,8 +364,8 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
         revTargetDateCompletion.ErrorMessage = Validation_ScreenName + "/" + revTargetDateCompletion.ErrorMessage;
         revStatusDueOn.ValidationGroup = strValidation_Group;
         revStatusDueOn.ErrorMessage = Validation_ScreenName + "/" + revStatusDueOn.ErrorMessage;
-        //revDateReviewed.ValidationGroup = strValidation_Group;
-        //revDateReviewed.ErrorMessage = Validation_ScreenName + "/" + revDateReviewed.ErrorMessage;
+        revDateReviewed.ValidationGroup = strValidation_Group;
+        revDateReviewed.ErrorMessage = Validation_ScreenName + "/" + revDateReviewed.ErrorMessage;
         SetValidations(ScreenID, Validation_ScreenName);
     }
     /// <summary>
