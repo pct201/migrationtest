@@ -217,10 +217,8 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
                 //trIncident_Review_Edit.Visible = false;
                 //trIncident_Review_View.Visible = true;
 
-                txtComments_View.Visible = lblSLT_Agree_Root_Cause.Visible = true;
-                trRisk_Maanagement_Review_View.Visible = true;
-                Span6.Visible = txtComments.Visible = rdoRoot_Cause.Visible = false;
-                trRisk_Maanagement_Review_Edit.Visible = false;
+                trRisk_Maanagement_Review_View.Visible = lblSLT_Agree_Root_Cause.Visible = true;
+                Span6.Visible = trRisk_Maanagement_Review_Edit.Visible = rdoRoot_Cause.Visible = false;
                 ShowHideRow();
             }
             else
@@ -230,10 +228,8 @@ public partial class SLT_IncidentReview_Info : System.Web.UI.UserControl
                 //trIncident_Review_Edit.Visible = true;
                 //trIncident_Review_View.Visible = false;
 
-                txtComments_View.Visible = lblSLT_Agree_Root_Cause.Visible = false;
-                trRisk_Maanagement_Review_View.Visible = false;
-                txtComments.Visible = rdoRoot_Cause.Visible = true;
-                trRisk_Maanagement_Review_Edit.Visible = true;
+                trRisk_Maanagement_Review_View.Visible = lblSLT_Agree_Root_Cause.Visible = false;
+                trRisk_Maanagement_Review_Edit.Visible = rdoRoot_Cause.Visible = true;
             }
             
         }
