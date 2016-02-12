@@ -30,6 +30,20 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
         set { ViewState["ACIRLCMTableRows"] = value; }
     }
 
+
+    public bool ProcessMyDataItem(object myValue)
+    {
+        if (myValue.ToString() == "1")
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
     #region "Page Events"
 
     /// <summary>
@@ -138,24 +152,24 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
         pnlSearch.Visible = false;
         pnlGrid.Visible = true;
 
-        btnSave.Visible = (dtClaimRLCM.Rows.Count > 0);
-        btnClaimInfoSave.Visible = (dtClaimInfo.Rows.Count > 0);
-        btnClaimIncidentSave.Visible = (dtClaimInc.Rows.Count > 0);
-        btnSLTSave.Visible = (dtSLTRLCM.Rows.Count > 0);
-        btnExposureSave.Visible = (dtExposureRLCM.Rows.Count > 0);
-        btnExposurePropSecSave.Visible = (dtExposurePropSecRLCM.Rows.Count > 0);
-        btnExposureDPDSave.Visible = (dtExposureDPDRLCM.Rows.Count > 0);
-        btnExposureCustomerSave.Visible = (dtExposureCustomerRLCM.Rows.Count > 0);
-        btnACISave.Visible = (dtACIManagementRLCM.Rows.Count > 0);
+        btnSave.Visible = (dtClaimRLCM.Rows.Count > 0) && (rlcm == clsSession.CurrentLoginEmployeeId);
+        btnClaimInfoSave.Visible = (dtClaimInfo.Rows.Count > 0) && (rlcm == clsSession.CurrentLoginEmployeeId);
+        btnClaimIncidentSave.Visible = (dtClaimInc.Rows.Count > 0) && (rlcm == clsSession.CurrentLoginEmployeeId);
+        btnSLTSave.Visible = (dtSLTRLCM.Rows.Count > 0) && (rlcm == clsSession.CurrentLoginEmployeeId);
+        btnExposureSave.Visible = (dtExposureRLCM.Rows.Count > 0) && (rlcm == clsSession.CurrentLoginEmployeeId);
+        btnExposurePropSecSave.Visible = (dtExposurePropSecRLCM.Rows.Count > 0) && (rlcm == clsSession.CurrentLoginEmployeeId);
+        btnExposureDPDSave.Visible = (dtExposureDPDRLCM.Rows.Count > 0) && (rlcm == clsSession.CurrentLoginEmployeeId);
+        btnExposureCustomerSave.Visible = (dtExposureCustomerRLCM.Rows.Count > 0) && (rlcm == clsSession.CurrentLoginEmployeeId);
+        btnACISave.Visible = (dtACIManagementRLCM.Rows.Count > 0) && (rlcm == clsSession.CurrentLoginEmployeeId);
 
         if (rlcm == clsSession.CurrentLoginEmployeeId)
         {
-            btnSave.Visible = btnClaimInfoSave.Visible = btnClaimIncidentSave.Visible = btnSLTSave.Visible = btnExposureSave.Visible = btnExposurePropSecSave.Visible = btnExposureDPDSave.Visible = btnExposureCustomerSave.Visible = btnACISave.Visible = true;
+            //btnSave.Visible = btnClaimInfoSave.Visible = btnClaimIncidentSave.Visible = btnSLTSave.Visible = btnExposureSave.Visible = btnExposurePropSecSave.Visible = btnExposureDPDSave.Visible = btnExposureCustomerSave.Visible = btnACISave.Visible = true;
             hdnISRLCMUser.Value = "1";
         }
         else
         {
-            btnSave.Visible = btnClaimInfoSave.Visible = btnClaimIncidentSave.Visible = btnSLTSave.Visible = btnExposureSave.Visible = btnExposurePropSecSave.Visible = btnExposureDPDSave.Visible = btnExposureCustomerSave.Visible = btnACISave.Visible = false;
+            //btnSave.Visible = btnClaimInfoSave.Visible = btnClaimIncidentSave.Visible = btnSLTSave.Visible = btnExposureSave.Visible = btnExposurePropSecSave.Visible = btnExposureDPDSave.Visible = btnExposureCustomerSave.Visible = btnACISave.Visible = false;
             hdnISRLCMUser.Value = "0";
         }
     }
@@ -373,7 +387,7 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
             if (((GridView)sender).ID == "gvChildGrid")
             {
                 CheckBox chkRequest_Deleted = (CheckBox)e.Row.FindControl("chkRequest_Deleted");
-                chkRequest_Deleted.Checked = DataBinder.Eval(e.Row.DataItem, "Request_Deleted").ToString() == "" ? false : true;
+                chkRequest_Deleted.Checked = DataBinder.Eval(e.Row.DataItem, "Request_Deleted").ToString() == "1" ? true : false;
             }
 
             if (e.Row.FindControl("lnkIdentifier") != null)
@@ -538,7 +552,7 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
 
 
         clsRLCM_QA_QC.UpdateStatus(checkedIDs, uncheckedIDs, Convert.ToString(clsSession.UserID));
-        clsRLCM_QA_QC.RequestUpdateStatus(strRequestChecked, Convert.ToString(clsSession.UserID));
+        clsRLCM_QA_QC.RequestUpdateStatus(rlcm, strRequestChecked, Convert.ToString(clsSession.UserID));
         clsRLCM_QA_QC.RLCM_QA_QC_CompleteInsertUpdateStatus(rlcm, year, month, chkMonthlyReviewChecked, Convert.ToString(clsSession.UserID));
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + strPanel + ");", true);
     }

@@ -583,7 +583,7 @@ $(document).ready(function () {
                                                                             <asp:TemplateField HeaderText="Request Deleted" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
                                                                                 <ItemStyle Width="45%" />
                                                                                 <ItemTemplate>
-                                                                                    <asp:CheckBox ID="chkRequest_Deleted" runat="server" CssClass="checkbox" ></asp:CheckBox>                                                                                    
+                                                                                    <asp:CheckBox ID="chkRequest_Deleted" runat="server" Visible='<%#ProcessMyDataItem(Eval("RequestDeletedVisible")) %>' CssClass="checkbox" ></asp:CheckBox>                                                                                    
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>                                                                            
                                                                         </Columns>
