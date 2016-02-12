@@ -182,9 +182,9 @@ function ShowHideSubMenu(id) {
     }
     else if (id == "ctl00_ContentPlaceHolder1_imgPlusExposure") {//plus click show submenu
         document.getElementById('<%=trSubMenuExposure.ClientID%>').style.display = "";
-            document.getElementById('<%=imgMinusExposure.ClientID%>').style.display = "";
-            document.getElementById('<%=imgPlusExposure.ClientID%>').style.display = "none";
-        }
+        document.getElementById('<%=imgMinusExposure.ClientID%>').style.display = "";
+        document.getElementById('<%=imgPlusExposure.ClientID%>').style.display = "none";
+    }
 
 }
 
@@ -217,7 +217,7 @@ function SetFROIAllowedTab(Hyperlink, PK_RLCM_QA_QC, gridRow) {
                 async: false,
                 dataType: "json",
                 success: function (response) {
-                    window.open(Hyperlink, "_blank");                    
+                    window.open(Hyperlink, "_blank");
                     var hv = $("#" + '<%= hdnISRLCMUser.ClientID %>').val();
                     if (hv == "1") {
                         var rowData = gridRow.parentNode.parentNode;
@@ -532,31 +532,31 @@ $(document).ready(function () {
                                         </div>
                                         <asp:GridView ID="gvClaimRLCM" runat="server" AutoGenerateColumns="false" Width="100%" EmptyDataText="No Record Found." OnRowDataBound="gvRLCM_RowDataBound" BorderWidth="1px" GridLines="Both">
                                             <Columns>
-                                                <asp:TemplateField HeaderText="Module" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
+                                                <asp:TemplateField HeaderText="Module" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                                     <ItemStyle Width="10%" />
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblModule" runat="server" Text='<%# Eval("Module")%>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="System" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
+                                                <asp:TemplateField HeaderText="System" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                                     <ItemStyle Width="10%" />
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblSystem" runat="server" Text='<%# Eval("System") %>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Task" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
+                                                <asp:TemplateField HeaderText="Task" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                                     <ItemStyle Width="40%" />
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblTask" runat="server" Text='<%# Eval("Task")%>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Category" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
+                                                <asp:TemplateField HeaderText="Category" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                                     <ItemStyle Width="10%" />
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblCategory" runat="server" Text='<%# Eval("Category")%>'></asp:Label>
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Identifier &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status"
+                                                <asp:TemplateField HeaderText="Identifier &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Status&nbsp;&nbsp;&nbsp;&nbsp;Request Deleted"
                                                     ItemStyle-HorizontalAlign="left" HeaderStyle-BackColor="#95B3D7" ItemStyle-BackColor="White">
                                                     <ItemStyle CssClass="ChildGrid" />
                                                     <ItemTemplate>
@@ -565,21 +565,27 @@ $(document).ready(function () {
                                                                 <td>
                                                                     <asp:GridView ID="gvChildGrid" dontUseScrolls="true" runat="server" AutoGenerateColumns="false" GridLines="Both" Width="100%" ShowHeader="False" OnRowDataBound="gvChildGrid_RowDataBound">
                                                                         <Columns>
-                                                                            <asp:TemplateField HeaderText="Identifier" ItemStyle-HorizontalAlign="left" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
-                                                                                <ItemStyle Width="70%" />
+                                                                            <asp:TemplateField HeaderText="Identifier" ItemStyle-HorizontalAlign="left" HeaderStyle-HorizontalAlign="Left" ItemStyle-BackColor="White">
+                                                                                <ItemStyle Width="30%" />
                                                                                 <ItemTemplate>
                                                                                     <%--<asp:LinkButton ID="lblIdentifier_Link" runat="server" CommandName="gvEdit" CommandArgument='<%# Eval("PK_RLCM_QA_QC") %>'
                                                                                     Text='<%# Eval("Number")%>'></asp:LinkButton> || --%>
                                                                                     <a href="#" onclick="javascript:SetFROIAllowedTab('<%# Eval("Hyperlink")%>','<%# Eval("PK_RLCM_QA_QC")%>',this)" id="lnkIdentifier"><%# Eval("Number")%></a>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
-                                                                            <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="Left" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
-                                                                                <ItemStyle Width="30%" />
+                                                                            <asp:TemplateField HeaderText="Status" ItemStyle-HorizontalAlign="left" HeaderStyle-HorizontalAlign="left" ItemStyle-BackColor="White">
+                                                                                <ItemStyle Width="5%" />
                                                                                 <ItemTemplate>
                                                                                     <asp:CheckBox ID="chkStatus" runat="server" CssClass="checkbox" onclick="return false"></asp:CheckBox>
                                                                                     <asp:HiddenField ID="hdnStatus" runat="server" Value='<%# Eval("PK_RLCM_QA_QC")%>' />
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>
+                                                                            <asp:TemplateField HeaderText="Request Deleted" ItemStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" ItemStyle-BackColor="White">
+                                                                                <ItemStyle Width="45%" />
+                                                                                <ItemTemplate>
+                                                                                    <asp:CheckBox ID="chkRequest_Deleted" runat="server" CssClass="checkbox" ></asp:CheckBox>                                                                                    
+                                                                                </ItemTemplate>
+                                                                            </asp:TemplateField>                                                                            
                                                                         </Columns>
                                                                     </asp:GridView>
                                                                 </td>

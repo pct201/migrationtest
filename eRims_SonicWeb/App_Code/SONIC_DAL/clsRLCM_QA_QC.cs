@@ -446,6 +446,17 @@ namespace ERIMS.DAL
             db.ExecuteNonQuery(dbCommand);
         }
 
+        public static void RequestUpdateStatus(string strPK_RLCM_QA_QC_Checked, string Updated_By)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("RLCM_QA_QCRequestUpdateStatus");
+
+            db.AddInParameter(dbCommand, "strPK_RLCM_QA_QC_Checked", DbType.String, strPK_RLCM_QA_QC_Checked);            
+            db.AddInParameter(dbCommand, "Updated_By", DbType.String, Updated_By);
+
+            db.ExecuteNonQuery(dbCommand);
+        }
+
         public static void RLCM_QA_QC_CompleteInsertUpdateStatus(decimal rlcm, decimal year, decimal month, bool status, string Updated_By)
         {
             Database db = DatabaseFactory.CreateDatabase();

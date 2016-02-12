@@ -369,6 +369,13 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
         {
             CheckBox chkStatus = (CheckBox)e.Row.FindControl("chkStatus");
             chkStatus.Checked = DataBinder.Eval(e.Row.DataItem, "Status") == DBNull.Value ? false : Convert.ToBoolean(DataBinder.Eval(e.Row.DataItem, "Status"));
+
+            if (((GridView)sender).ID == "gvChildGrid")
+            {
+                CheckBox chkRequest_Deleted = (CheckBox)e.Row.FindControl("chkRequest_Deleted");
+                chkRequest_Deleted.Checked = DataBinder.Eval(e.Row.DataItem, "Request_Deleted").ToString() == "" ? false : true;
+            }
+
             if (e.Row.FindControl("lnkIdentifier") != null)
             {
                 System.Web.UI.HtmlControls.HtmlAnchor a1 = (System.Web.UI.HtmlControls.HtmlAnchor)e.Row.FindControl("lnkIdentifier");
@@ -460,7 +467,7 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
     /// <param name="e"></param>
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        string checkedIDs = string.Empty, uncheckedIDs = string.Empty, strChildGridID = string.Empty, strPanel=string.Empty;
+        string checkedIDs = string.Empty, uncheckedIDs = string.Empty, strChildGridID = string.Empty, strPanel=string.Empty, strRequestChecked = string.Empty;
         bool chkMonthlyReviewChecked = false;
         string strSenderButtonId = ((Button)sender).ID;
         GridView gvTemp = null;
@@ -495,6 +502,7 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
                         foreach (GridViewRow gvChildRow in gvChild.Rows)
                         {
                             CheckBox chkStatus = (CheckBox)gvChildRow.FindControl("chkStatus");
+                            CheckBox chkRequest_Deleted = (CheckBox)gvChildRow.FindControl("chkRequest_Deleted");
                             //if(chkStatus.Checked)
                             //{
                             HiddenField hdnStatus = (HiddenField)gvChildRow.FindControl("hdnStatus");
@@ -513,8 +521,10 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
                                     checkedIDs += hdnStatus.Value + ",";
                                 else
                                     uncheckedIDs += hdnStatus.Value + ",";
-                            }
-                            //}
+
+                                if (chkRequest_Deleted.Checked)
+                                    strRequestChecked += hdnStatus.Value + ",";                                
+                            }                           
                         }
                 }
             }
@@ -528,6 +538,7 @@ public partial class SONIC_Exposures_RLCM_QA_QC : clsBasePage
 
 
         clsRLCM_QA_QC.UpdateStatus(checkedIDs, uncheckedIDs, Convert.ToString(clsSession.UserID));
+        clsRLCM_QA_QC.RequestUpdateStatus(strRequestChecked, Convert.ToString(clsSession.UserID));
         clsRLCM_QA_QC.RLCM_QA_QC_CompleteInsertUpdateStatus(rlcm, year, month, chkMonthlyReviewChecked, Convert.ToString(clsSession.UserID));
         Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + strPanel + ");", true);
     }
