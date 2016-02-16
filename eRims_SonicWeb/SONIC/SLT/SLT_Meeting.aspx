@@ -25,7 +25,7 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            $("#ctl00_ContentPlaceHolder1_SafetywalkAttachment_txtType").val("");
+            $("#ctl00_ContentPlaceHolder1_SafetywalkAttachment_txtType").val("");            
         });
 
         function AuditPopUpMeeting(Name) {
@@ -2489,9 +2489,9 @@ function DisableButton() {
                                                                                     <td></td>
                                                                                 </tr>
                                                                                 <tr>
-                                                                                    <td>S-1
+                                                                                    <td><span title="Overexertion and Repetitive Motion">S-1</span>
                                                                                         <br />
-                                                                                        S0-1
+                                                                                        <span title="Overexertion and Repetitive Motion">S0-1</span>
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
@@ -2509,9 +2509,9 @@ function DisableButton() {
                                                                                 <tr>
                                                                                 </tr>
                                                                                 <tr>
-                                                                                    <td>S-2
+                                                                                    <td><span title="Slips and Falls">S-2</span>
                                                                                         <br />
-                                                                                        S0-2
+                                                                                        <span title="Slips and Falls">S0-2</span>
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
@@ -2529,9 +2529,9 @@ function DisableButton() {
                                                                                 <tr>
                                                                                 </tr>
                                                                                 <tr>
-                                                                                    <td>S-3
+                                                                                    <td><span title="Vehicle/Golf Cart Related">S-3</span>
                                                                                         <br />
-                                                                                        S0-3
+                                                                                        <span title="Vehicle/Golf Cart Related">S0-3</span>
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
@@ -2549,9 +2549,9 @@ function DisableButton() {
                                                                                 <tr>
                                                                                 </tr>
                                                                                 <tr>
-                                                                                    <td>S-4
+                                                                                    <td><span title="Struck By/Against">S-4</span>
                                                                                         <br />
-                                                                                        S0-4
+                                                                                        <span title="Struck By/Against">S0-4</span>
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
@@ -2569,9 +2569,9 @@ function DisableButton() {
                                                                                 <tr>
                                                                                 </tr>
                                                                                 <tr>
-                                                                                    <td>S-5
+                                                                                    <td><span title="Other – Not Classified">S-5</span>
                                                                                         <br />
-                                                                                        S0-5
+                                                                                        <span title="Other – Not Classified">S0-5</span>
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
@@ -5653,9 +5653,9 @@ function DisableButton() {
                                                                                     <td></td>
                                                                                 </tr>
                                                                                 <tr>
-                                                                                    <td>S-1
+                                                                                    <td><span title="Overexertion and Repetitive Motion">S-1</span>
                                                                                         <br />
-                                                                                        S0-1
+                                                                                        <span title="Overexertion and Repetitive Motion">S0-1</span>
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
@@ -5673,9 +5673,9 @@ function DisableButton() {
                                                                                 <tr>
                                                                                 </tr>
                                                                                 <tr>
-                                                                                    <td>S-2
+                                                                                    <td><span title="Slips and Falls">S-2</span>
                                                                                         <br />
-                                                                                        S0-2
+                                                                                        <span title="Slips and Falls">S0-2</span>
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
@@ -5693,9 +5693,9 @@ function DisableButton() {
                                                                                 <tr>
                                                                                 </tr>
                                                                                 <tr>
-                                                                                    <td>S-3
+                                                                                    <td><span title="Vehicle/Golf Cart Related">S-3</span>
                                                                                         <br />
-                                                                                        S0-3
+                                                                                        <span title="Vehicle/Golf Cart Related">S0-3</span>
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
@@ -5713,9 +5713,9 @@ function DisableButton() {
                                                                                 <tr>
                                                                                 </tr>
                                                                                 <tr>
-                                                                                    <td>S-4
+                                                                                    <td><span title="Struck By/Against">S-4</span>
                                                                                         <br />
-                                                                                        S0-4
+                                                                                        <span title="Struck By/Against">S0-4</span>
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
@@ -5733,9 +5733,9 @@ function DisableButton() {
                                                                                 <tr>
                                                                                 </tr>
                                                                                 <tr>
-                                                                                    <td>S-5
+                                                                                    <td><span title="Other – Not Classified">S-5</span>
                                                                                         <br />
-                                                                                        S0-5
+                                                                                        <span title="Other – Not Classified">S0-5</span>
                                                                                     </td>
                                                                                 </tr>
                                                                             </table>
