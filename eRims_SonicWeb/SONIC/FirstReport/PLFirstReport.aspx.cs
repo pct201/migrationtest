@@ -55,6 +55,11 @@ public partial class SONIC_PLFirstReport : clsBasePage
         }
         set { ViewState["PK_PL_FR_ID"] = value; }
     }
+
+
+    public static string strCode = "AU%";   
+    
+
     #endregion
 
     #region Page Load Events
@@ -170,7 +175,9 @@ public partial class SONIC_PLFirstReport : clsBasePage
                 //fill State
                 ComboHelper.FillState(new DropDownList[] { ddlInjured_State, ddlInjured_Medical_Facility_State }, 0, true);
                 //fill Body Part Dropdown
-                ComboHelper.FillBodyPartAffected(new DropDownList[] { ddlbody_part }, 0, true);
+                //ComboHelper.FillBodyPartAffected(new DropDownList[] { ddlbody_part }, 0, true);
+                ComboHelper.FillBodyPartAffectedByFirstReport(new DropDownList[] { ddlbody_part }, 0, true, strCode);
+
                 #endregion
 
                 #region Property Information
@@ -231,7 +238,8 @@ public partial class SONIC_PLFirstReport : clsBasePage
                 //fill State
                 ComboHelper.FillState(new DropDownList[] { ddlInjured_State, ddlInjured_Medical_Facility_State }, 0, true);
                 //fill Body Part Dropdown
-                ComboHelper.FillBodyPartAffected(new DropDownList[] { ddlbody_part }, 0, true);
+                //ComboHelper.FillBodyPartAffected(new DropDownList[] { ddlbody_part }, 0, true);
+                ComboHelper.FillBodyPartAffectedByFirstReport(new DropDownList[] { ddlbody_part }, 0, true, strCode);
                 #endregion
 
                 #region Property Information

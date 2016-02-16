@@ -159,6 +159,20 @@ namespace ERIMS.DAL
         }
 
         /// <summary>
+        /// Selects all records from the LU_Part_Of_Body table.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectByFirstReport(string Code)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_Part_Of_BodySelectByFirstReport");
+
+            db.AddInParameter(dbCommand, "Code", DbType.String, Code);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
         /// Updates a record in the LU_Part_Of_Body table.
         /// </summary>
         public void Update()

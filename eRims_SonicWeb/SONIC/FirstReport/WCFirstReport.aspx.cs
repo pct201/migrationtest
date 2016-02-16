@@ -169,7 +169,9 @@ public partial class SONIC_WCFirstReport : clsBasePage
                 //Fill Nature of Injury Dropdown
                 ComboHelper.FillDepartment(new DropDownList[] { ddlFK_Department_Where_Occurred }, 0, true);
                 //Fill Body Part Afftected Dropdown
-                ComboHelper.FillBodyPartAffected(new DropDownList[] { ddlFK_Body_Parts_Affected }, 0, true);
+                //ComboHelper.FillBodyPartAffected(new DropDownList[] { ddlFK_Body_Parts_Affected }, 0, true);
+                //Fill Body Part Afftected Dropdown
+                ComboHelper.FillBodyPartAffectedByFirstReport(new DropDownList[] { ddlFK_Body_Parts_Affected }, 0, true, "WC%");
                 #endregion
 
                 #region Medical Facility Panel
@@ -228,7 +230,8 @@ public partial class SONIC_WCFirstReport : clsBasePage
                 //Fill Nature of Injury Dropdown
                 ComboHelper.FillDepartment(new DropDownList[] { ddlFK_Department_Where_Occurred }, 0, true);
                 //Fill Body Part Affected Dropdown
-                ComboHelper.FillBodyPartAffected(new DropDownList[] { ddlFK_Body_Parts_Affected }, 0, true);
+                //ComboHelper.FillBodyPartAffected(new DropDownList[] { ddlFK_Body_Parts_Affected }, 0, true);
+                ComboHelper.FillBodyPartAffectedByFirstReport(new DropDownList[] { ddlFK_Body_Parts_Affected }, 0, true, "WC%");
                 #endregion
 
                 #region Medical Facility Panel
