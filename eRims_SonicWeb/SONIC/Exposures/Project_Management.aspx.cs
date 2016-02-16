@@ -1291,6 +1291,9 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
             txtConsultant_City.Text = "Charlotte";
             drpConsultant_State.SelectedValue = "34";
             txtConsultant_Zip_Code.Text = "28203";
+            txtConsultant_Contact_Name.Text = "Steve Hart";
+            txtConsultant_Contact_EMail.Text = "shart@harthickman.com";
+            txtConsultant_Contact_Telephone.Text = "704-586-0007";
 
             txtConsultant_Company.Enabled = false;
             txtConsultant_Address1.Enabled = false;
