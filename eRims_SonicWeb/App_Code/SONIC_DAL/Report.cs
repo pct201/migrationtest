@@ -916,6 +916,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Market", DbType.String, strMarket);
             db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);
 
+            dbCommand.CommandTimeout = 100000;
             return db.ExecuteDataSet(dbCommand);
         }
 
