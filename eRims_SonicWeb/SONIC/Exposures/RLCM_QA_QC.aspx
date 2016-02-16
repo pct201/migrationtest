@@ -252,6 +252,11 @@ $(document).ready(function () {
             });
         }
 
+        if ($(this).text().trim() == 'N/A') {            
+            $(this).closest('tr').find("[type='checkbox']").hide();
+            
+        }
+
     });
 
 });
