@@ -55,6 +55,8 @@ public class clsExposuresReports
         db.AddInParameter(dbCommand, "PropertyValuationDateFrom", DbType.DateTime, dtPropertyValuationDateFrom);
         db.AddInParameter(dbCommand, "PropertyValuationDateTo", DbType.DateTime, dtPropertyValuationDateTo);
 
+        dbCommand.CommandTimeout = 10000;
+
         return db.ExecuteDataSet(dbCommand);
     }
 
@@ -128,6 +130,7 @@ public class clsExposuresReports
         db.AddInParameter(dbCommand, "strInterval", DbType.String, strInterval);
         db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, Convert.ToDecimal(clsSession.UserID));
 
+        dbCommand.CommandTimeout = 10000;
         return db.ExecuteDataSet(dbCommand);
     }
 
@@ -192,7 +195,7 @@ public class clsExposuresReports
         db.AddInParameter(dbCommand, "Region", DbType.String, strRegion);
         
         //db.AddInParameter(dbCommand, "Pk_Security_ID", DbType.Decimal, Convert.ToDecimal(clsSession.UserID));
-
+        dbCommand.CommandTimeout = 10000;
         return db.ExecuteDataSet(dbCommand);
     }
 

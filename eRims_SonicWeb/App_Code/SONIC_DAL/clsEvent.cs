@@ -2554,7 +2554,7 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "Event_From_Date", DbType.DateTime, Event_From_Date);
             db.AddInParameter(dbCommand, "Event_To_Date", DbType.DateTime, Event_To_Date);
-            dbCommand.CommandTimeout = 1000;
+            dbCommand.CommandTimeout = 100000;
 
             return db.ExecuteDataSet(dbCommand);
         }

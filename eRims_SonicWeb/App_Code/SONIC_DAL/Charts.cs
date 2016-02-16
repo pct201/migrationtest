@@ -100,10 +100,11 @@ public class Charts
     {
         Database db = DatabaseFactory.CreateDatabase();
         DbCommand dbCommand = db.GetStoredProcCommand("Chart_SabaTrainingByRegion_New");
-
+         
         db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);
         db.AddInParameter(dbCommand, "UserID", DbType.Decimal, clsSession.UserID);
 
+        dbCommand.CommandTimeout = 10000;
         return db.ExecuteDataSet(dbCommand);
     }
 
@@ -114,6 +115,7 @@ public class Charts
         db.AddInParameter(dbCommand, "Year", DbType.Int32, Year);
         db.AddInParameter(dbCommand, "Region", DbType.String, Region);
         db.AddInParameter(dbCommand, "UserID", DbType.Decimal, clsSession.UserID);
+        dbCommand.CommandTimeout = 10000;
         return db.ExecuteDataSet(dbCommand);
     }
 
@@ -161,6 +163,7 @@ public class Charts
         db.AddInParameter(dbCommand, "DBA", DbType.String, DBA);
         db.AddInParameter(dbCommand, "Sonic_Location_Code", DbType.String, Sonic_Location_Code);
 
+        dbCommand.CommandTimeout = 10000;
         return db.ExecuteDataSet(dbCommand);
     }
 
@@ -406,6 +409,8 @@ public class Charts
         db.AddInParameter(dbCommand, "CurrYearFrom_Date", DbType.DateTime, FromDate);
         db.AddInParameter(dbCommand, "CurrYearTo_Date", DbType.DateTime, ToDate);
         db.AddInParameter(dbCommand, "Rlcms", DbType.String, Rlcms);
+
+        dbCommand.CommandTimeout = 10000;
         return db.ExecuteDataSet(dbCommand);
     }
 
@@ -424,6 +429,8 @@ public class Charts
         db.AddInParameter(dbCommand, "CurrYearFrom_Date", DbType.DateTime, FromDate);
         db.AddInParameter(dbCommand, "CurrYearTo_Date", DbType.DateTime, ToDate);
         db.AddInParameter(dbCommand, "Rlcms", DbType.String, Rlcms);
+
+        dbCommand.CommandTimeout = 10000;
         return db.ExecuteDataSet(dbCommand);
     }
 

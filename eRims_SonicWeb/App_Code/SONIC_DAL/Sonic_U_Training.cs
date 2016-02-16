@@ -31,6 +31,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Year", DbType.Int32, year);
             db.AddInParameter(dbCommand, "Quarter", DbType.Int32, quarter);
 
+            dbCommand.CommandTimeout = 10000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -46,6 +47,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Class_Name", DbType.String, Class_Name);
             db.AddInParameter(dbCommand, "Completed", DbType.Boolean, Completed);
 
+            dbCommand.CommandTimeout = 10000;
             db.ExecuteNonQuery(dbCommand);
         }
 
@@ -59,6 +61,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "Code", DbType.String, code);
             db.AddInParameter(dbCommand, "Completed", DbType.Boolean, completed);
 
+            dbCommand.CommandTimeout = 10000;
             db.ExecuteNonQuery(dbCommand);
         }
 
@@ -70,6 +73,7 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "dba", DbType.String, dba);
             db.AddInParameter(dbCommand, "year", DbType.Int32, year);
 
+            dbCommand.CommandTimeout = 10000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -78,6 +82,7 @@ namespace ERIMS.DAL
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetStoredProcCommand("Learning_Program_Curr_Quarter");
 
+            dbCommand.CommandTimeout = 10000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -90,6 +95,7 @@ namespace ERIMS.DAL
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetSqlStringCommand("SelectAllSonicUTrainingRequiredClassesCode");
 
+            dbCommand.CommandTimeout = 10000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -102,6 +108,7 @@ namespace ERIMS.DAL
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetSqlStringCommand("SelectAllSonicUTrainingDealershipName");
 
+            dbCommand.CommandTimeout = 10000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -114,6 +121,7 @@ namespace ERIMS.DAL
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetSqlStringCommand("SelectAllSonicUTrainingDepartment");
 
+            dbCommand.CommandTimeout = 10000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -126,6 +134,7 @@ namespace ERIMS.DAL
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetSqlStringCommand("SelectAllSonicUTrainingLearningProgram");
 
+            dbCommand.CommandTimeout = 10000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -138,6 +147,7 @@ namespace ERIMS.DAL
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetSqlStringCommand("SelectAllSonicUTrainingAsset");
 
+            dbCommand.CommandTimeout = 10000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -150,6 +160,7 @@ namespace ERIMS.DAL
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetSqlStringCommand("SelectAllSonicUTrainingLearningProgramStatus");
 
+            dbCommand.CommandTimeout = 10000;
             return db.ExecuteDataSet(dbCommand);
         }
 
@@ -162,6 +173,7 @@ namespace ERIMS.DAL
             Database db = DatabaseFactory.CreateDatabase();
             DbCommand dbCommand = db.GetSqlStringCommand("SelectAllSonicUTrainingAssetStatus");
 
+            dbCommand.CommandTimeout = 10000;
             return db.ExecuteDataSet(dbCommand);
         }
     }
