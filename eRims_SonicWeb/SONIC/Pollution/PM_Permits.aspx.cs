@@ -212,6 +212,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
         ComboHelper.FillPermitType(new DropDownList[] { drpFK_Permit_Type }, true);
         ComboHelper.BindMonth(ddlMonth);
         ddlMonth.Items.Insert(0, new ListItem("-- Select --", "0"));
+        ddlMonth.Items.Insert(13, new ListItem("Year", "-1"));
         ComboHelper.FillPaintCategory(new DropDownList[] { drpPaintCategory }, true);
         ComboHelper.FillYear(new DropDownList[] { ddlYear }, true);
     }
@@ -301,6 +302,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
         DataTable dtVOCEmission = dsVOCEmmission.Tables[0];
         DataTable dtCategoryGrandTotal = dsVOCEmmission.Tables[1];
         DataTable dtGrandTotal = dsVOCEmmission.Tables[2];
+        DataTable dtYearData = dsVOCEmmission.Tables[3];
         DataTable dtVOC = dtVOCEmission.Clone();
         DataTable dtCategory = clsLU_VOC_Category.SelectAll().Tables[0];
 
@@ -323,7 +325,6 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
                         dtVOC.Rows.Add(drVOCEmission.ItemArray);
                     }
 
-                    // dtVOC.Rows.Add("0", "0", category + " Sub Total", CurrentYear, GetMonthString(CurrentMonth), totalGallons, totalVOC_Emissions, SubTotalText, totalGallons + totalVOC_Emissions, 0);
                     dtVOC.Rows.Add("0", "0", category + " Sub Total", CurrentYear, GetMonthString(CurrentMonth), totalGallons, totalVOC_Emissions, SubTotalText, "", 0);
 
                     if (dtCategoryGrandTotal != null && dtCategoryGrandTotal.Rows.Count > 0)
@@ -331,6 +332,14 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
                         DataRow[] drCategoryGrandTotal = dtCategoryGrandTotal.Select("Category = '" + category + "'");
                         dtVOC.Rows.Add("0", "0", category + " Grand Total", CurrentYear, "", clsGeneral.GetDecimal(drCategoryGrandTotal[0]["Gallons"]), clsGeneral.GetDecimal(drCategoryGrandTotal[0]["VOC_Emmisions"]), "", "", 0);
                     }
+                }
+            }
+
+            if (dtYearData != null && dtYearData.Rows.Count > 0)
+            {
+                foreach (DataRow drYear in dtYearData.Rows)
+                {
+                    dtVOC.Rows.Add(clsGeneral.GetDecimal(drYear["PK_PM_Permits_VOC_Emissions"]), clsGeneral.GetDecimal(drYear["FK_PM_Permits"]), Convert.ToString(drYear["Category"]), CurrentYear, "Year", clsGeneral.GetDecimal(drYear["Gallons"]), clsGeneral.GetDecimal(drYear["VOC_Emissions"]), "", Convert.ToString(drYear["Part_Number"]), 1);
                 }
             }
 
@@ -387,7 +396,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
             txtQuantity.Text = objPM_Permits_VOC_Emissions.Quantity;
             txtUnit.Text = objPM_Permits_VOC_Emissions.Unit;
             txtVOCEmissions.Text = objPM_Permits_VOC_Emissions.VOC_Emissions.ToString();
-           // drpPaintCategory.SelectedValue = objPM_Permits_VOC_Emissions.FK_LU_VOC_Category.ToString();
+            // drpPaintCategory.SelectedValue = objPM_Permits_VOC_Emissions.FK_LU_VOC_Category.ToString();
             clsGeneral.SetDropdownValue(drpPaintCategory, objPM_Permits_VOC_Emissions.FK_LU_VOC_Category,true);
             ddlMonth.SelectedValue = objPM_Permits_VOC_Emissions.Month.ToString();
             ddlYear.SelectedValue = objPM_Permits_VOC_Emissions.Year.ToString();
@@ -439,6 +448,9 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
                 break;
             case 12:
                 strMonthName = "December";
+                break;
+            case -1:
+                strMonthName = "Year";
                 break;
         }
         return strMonthName;
@@ -710,7 +722,14 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
             //    objPM_Permits_VOC_Emissions.SubTotal_Text = drpPaintCategory.SelectedItem.Text + (clsGeneral.GetDecimal(txtQuantity.Text) * (clsGeneral.GetDecimal(txtGallons.Text)));
             //}
 
-            objPM_Permits_VOC_Emissions.SubTotal_Text = drpPaintCategory.SelectedItem.Text;
+            if (Convert.ToDecimal(drpPaintCategory.SelectedValue) == -1)
+            {
+                objPM_Permits_VOC_Emissions.SubTotal_Text = "";
+            }
+            else
+            {
+                objPM_Permits_VOC_Emissions.SubTotal_Text = drpPaintCategory.SelectedItem.Text;
+            }
 
             if (PK_PM_Permits_VOC_Emissions > 0)
                 objPM_Permits_VOC_Emissions.Update();
