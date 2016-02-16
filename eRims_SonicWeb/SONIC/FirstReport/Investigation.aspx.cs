@@ -1556,6 +1556,15 @@ public partial class Exposures_Investigation : clsBasePage
                     //    ddlSonic_Cause_Code.SelectedIndex = 0;
                     //}
                 }
+                else
+                {
+                    for (int i = ddlSonic_Cause_Code.Items.Count - 1; i > 0; i--)
+                    {
+                        ddlSonic_Cause_Code.Items.RemoveAt(i);
+                    }
+
+                    ddlSonic_Cause_Code.SelectedIndex = 0;
+                }
             //}
         }
         #endregion
