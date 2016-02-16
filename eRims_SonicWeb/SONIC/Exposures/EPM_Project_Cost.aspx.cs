@@ -88,6 +88,13 @@ public partial class SONIC_Exposures_EPM_Project_Cost : clsBasePage
             ComboHelper.FillEPM_Project_Phase(new DropDownList[] { drpProject_Phase }, true);
             BindHeaderInfo();
 
+            DataTable dt = clsEPM_Identification.GetProjectDescrption(Convert.ToDecimal(Encryption.Decrypt(Request.QueryString["Cid"].ToString()))).Tables[0];
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                txtCommentsOrDesc.Text = Convert.ToString(dt.Rows[0][0]);   
+            }
+
             if (StrOperation.ToLower() == "add")
             {
                 btnProjectCost_Audit.Visible = false;

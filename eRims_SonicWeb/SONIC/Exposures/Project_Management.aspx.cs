@@ -156,6 +156,9 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
             BindInvoiceGrid();
             BindConsultantNotes();
 
+            drpProject_Type.Items.FindByText("Environmental Assessment").Selected = true;
+            txtProject_Description.Text = "Landlord (CARS) is requesting an NFA for the area that used to house a UST that was removed in 1994.";
+
             if (StrOperation.ToLower() == "edit")
             {
 
@@ -252,7 +255,8 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
         ComboHelper.FillLU_EPM_Outcome(new DropDownList[] { drpOutcome }, true);
         ComboHelper.FillCompanionToProject(new DropDownList[] { drpCompanion_to_Project }, true, LocationID, PK_EPM_Identification);
         ComboHelper.FillEPM_PurposeOfProject(new ListBox[] { lstPurpose_Of_Project, lstPurpose_Of_ProjectView }, true);
-        ComboHelper.FillEPM_ExistingDocuments(new ListBox[] { lstExistingDocuments, lstExistingDocumentsView }, true);
+        ComboHelper.FillEPM_ExistingDocuments(new ListBox[] { lstExistingDocuments, lstExistingDocumentsView }, true);       
+
     }
 
     /// <summary>

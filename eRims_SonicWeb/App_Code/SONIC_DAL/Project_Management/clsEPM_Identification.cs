@@ -657,5 +657,21 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Get Project Number and project Type by Location Id and PK_EPM_Identification
+        /// </summary>
+        /// <param name="FK_LU_Location_Id"></param>
+        /// <param name="PK_EPM_Identification"></param>
+        /// <returns></returns>
+        public static DataSet GetProjectDescrption(decimal PK_EPM_Identification)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("EPM_IdentificationGetProjectDescrption");
+            
+            db.AddInParameter(dbCommand, "PK_EPM_Identification", DbType.Decimal, PK_EPM_Identification);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
     }
 }
