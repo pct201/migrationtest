@@ -34,13 +34,13 @@
             }
         }
 
-        function ShowPanel(index) {
+        function ShowPanel(index) {            
             document.getElementById('<%=hdPanel.ClientID%>').value = index;
             SetMenuStyle(index);
             ActiveTabIndex = index;
             var loc = '<%=Session["ExposureLocation"]%>';
             var Building_Id = '<%=Session["EnviroBuilding"]%>';
-            if (index == 8) {
+            if (index == 9) {
                 if (loc > 0)
                     loc = '<%=Encryption.Encrypt(Session["ExposureLocation"].ToString()) %>';
                 window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/Project_Management_Add.aspx?loc=' + loc + '&Building_Id=' + Building_Id;
@@ -51,9 +51,9 @@
             }
             else {
                 var i;
-                if (index < 9) {
-                    for (i = 1; i <= 8; i++) {
-                        if(index != 8)
+                if (index < 10) {
+                    for (i = 1; i <= 9; i++) {
+                        if(index != 9)
                         document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i).style.display = (i == index) ? "block" : "none";
                     }
                     document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
@@ -64,7 +64,7 @@
                         document.getElementById('<%=txtContact_Name.ClientID %>').focus();
                 }
                 else {
-                    for (i = 1; i <= 8; i++) {
+                    for (i = 1; i <= 9; i++) {
                         document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i).style.display = "none";
                     }
                     document.getElementById("<%=dvAttachment.ClientID%>").style.display = "block";
@@ -79,23 +79,23 @@
             SetMenuStyle(index);
             var loc = '<%=Session["ExposureLocation"]%>';
             var Building_Id = '<%=Session["EnviroBuilding"]%>';
-            if (index == 8) {
+            if (index == 9) {
                 if (loc > 0)
                     loc = '<%=Encryption.Encrypt(Session["ExposureLocation"].ToString()) %>';
                 window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/Project_Management_Add.aspx?loc=' + loc + '&Building_Id=' + Building_Id;
             }
             document.getElementById('<%=dvView.ClientID%>').style.display = "block";
             var i;
-            if (index < 9) {
-                for (i = 1; i <= 8; i++) {
-                    if (index != 8)
+            if (index < 10) {
+                for (i = 1; i <= 9; i++) {
+                    if (index != 9)
                     document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i + "View").style.display = (i == index) ? "block" : "none";
                 }
                 //document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
                 document.getElementById("<%=pnlAttachmentDetails.ClientID%>").style.display = "none";
             }
             else {
-                for (i = 1; i <= 8; i++) {
+                for (i = 1; i <= 9; i++) {
                     document.getElementById("ctl00_ContentPlaceHolder1_pnl" + i + "View").style.display = "none";
                 }
                 //document.getElementById("<%=dvAttachment.ClientID%>").style.display = "none";
@@ -284,21 +284,27 @@
                                             id="MenuAsterisk4" runat="server" style="color: Red; display: none">*</span></span>
                                     </td>
                                 </tr>
+                                 <tr>
+                                    <td align="left" width="100%">
+                                        <span id="Menu7" onclick="javascript:ShowPanel(7);" class="LeftMenuStatic">Occupational Health and Safety Programs&nbsp;<span
+                                            id="Span13" runat="server" style="color: Red; display: none">*</span></span>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td align="left" width="100%">
-                                        <span id="Menu7" onclick="javascript:ShowPanel(7);" class="LeftMenuStatic">Violations&nbsp;<span
+                                        <span id="Menu8" onclick="javascript:ShowPanel(8);" class="LeftMenuStatic">Violations&nbsp;<span
                                             id="MenuAsterisk5" runat="server" style="color: Red; display: none">*</span></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td align="left" width="100%">
-                                        <span id="Menu8" onclick="javascript:ShowPanel(8);" class="LeftMenuStatic">Project Management Link&nbsp;<span
+                                        <span id="Menu9" onclick="javascript:ShowPanel(9);" class="LeftMenuStatic">Project Management Link&nbsp;<span
                                             id="MenuAsterisk6" runat="server" style="color: Red; display: none">*</span></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td align="left" width="100%">
-                                        <span id="Menu9" onclick="javascript:ShowPanel(9);" class="LeftMenuStatic">Attachments</span>
+                                        <span id="Menu10" onclick="javascript:ShowPanel(10);" class="LeftMenuStatic">Attachments</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -1513,7 +1519,7 @@
                                                     </tr>
                                                 </table>
                                             </asp:Panel>
-                                            <asp:Panel ID="pnl8" runat="server" Style="display: none;">
+                                            <asp:Panel ID="pnl9" runat="server" Style="display: none;">
                                                 <div class="bandHeaderRow">
                                                     Remediations</div>
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%" style="height: 230px;">
@@ -1601,7 +1607,7 @@
                                                     </tr>
                                                 </table>
                                             </asp:Panel>
-                                            <asp:Panel ID="pnl7" runat="server" Style="display: none;">
+                                            <asp:Panel ID="pnl8" runat="server" Style="display: none;">
                                                 <div class="bandHeaderRow">
                                                     Violations</div>
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%" style="height: 230px;">
@@ -1687,6 +1693,107 @@
                                                             <uc:ctrlMultiLineTextBox ID="txtViolationsNotes" runat="server" />
                                                         </td>
                                                     </tr>
+                                                </table>
+                                            </asp:Panel>
+                                            <asp:Panel ID="pnl7" runat="server" Style="display: none;">
+                                                <div class="bandHeaderRow">
+                                                    Occupational Health and Safety Programs</div>
+                                                <table cellpadding="3" cellspacing="1" border="0" width="100%" style="height: 230px;">
+                                                    <tr>
+                                                        <td align="left" width="14%" valign="top">
+                                                            Hearing Conversation<br />
+                                                            <asp:LinkButton ID="lnkHearingConversation" runat="server" Text="--Add--" CausesValidation="true"
+                                                                ValidationGroup="vsErrorGroup" OnClick="lnkAddGridRecord_Click" OnClientClick="return ValSave();" />
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">
+                                                            :
+                                                        </td>
+                                                        <td colspan="4" align="left" valign="top">
+                                                            <asp:GridView ID="gvHearingConversation" runat="server" Width="100%" AutoGenerateColumns="false"
+                                                                EmptyDataText="No Record Exists" OnRowCommand="GridView_RowCommand">
+                                                                <Columns>
+                                                                    <asp:TemplateField HeaderText="Year">
+                                                                        <ItemStyle Width="18%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkYear" runat="server" Text='<%#  Eval("Last_Inspection_Date") %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Frequency") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                      <asp:TemplateField HeaderText="Associate">
+                                                                        <ItemStyle Width="18%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkAssociate" runat="server" Text='<%#  Eval("Associate") %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Frequency") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Test Type">
+                                                                        <ItemStyle Width="18%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkNext_Inspection_Date" runat="server" Text='<%# Eval("TestType") %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Frequency") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>                                                                 
+                                                                    <asp:TemplateField HeaderText="Remove">
+                                                                        <ItemStyle Width="10%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkRemove" runat="server" Text="Remove" CommandName="RemoveDetails"
+                                                                                CommandArgument='<%# Eval("PK_PM_Frequency") %>' OnClientClick="return confirm('Are you sure to remove the record?');" />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                            </asp:GridView>
+                                                        </td>
+                                                    </tr>                                                  
+                                                    <tr>
+                                                        <td colspan="6">
+                                                            &nbsp;
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" width="14%" valign="top">
+                                                            Respiratory Protection<br />
+                                                            <asp:LinkButton ID="lnkRespiratoryProtection" runat="server" Text="--Add--" CausesValidation="true"
+                                                                ValidationGroup="vsErrorGroup" OnClick="lnkAddGridRecord_Click" OnClientClick="return ValSave();" />
+                                                        </td>
+                                                        <td align="center" width="4%" valign="top">
+                                                            :
+                                                        </td>
+                                                        <td colspan="4" align="left" valign="top">
+                                                           <asp:GridView ID="gvRespiratoryProtection" runat="server" Width="100%" AutoGenerateColumns="false"
+                                                                EmptyDataText="No Record Exists" OnRowCommand="GridView_RowCommand">
+                                                                <Columns>
+                                                                    <asp:TemplateField HeaderText="Date">
+                                                                        <ItemStyle Width="18%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkYear" runat="server" Text='<%#  Eval("Date") %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Frequency") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                      <asp:TemplateField HeaderText="Associate">
+                                                                        <ItemStyle Width="18%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkAssociate" runat="server" Text='<%#  Eval("Associate") %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Frequency") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Event Type">
+                                                                        <ItemStyle Width="18%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkNext_Inspection_Date" runat="server" Text='<%# Eval("EventType") %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Frequency") %>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>                                                                 
+                                                                    <asp:TemplateField HeaderText="Remove">
+                                                                        <ItemStyle Width="10%" HorizontalAlign="Left" />
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lnkRemove" runat="server" Text="Remove" CommandName="RemoveDetails"
+                                                                                CommandArgument='<%# Eval("PK_PM_Frequency") %>' OnClientClick="return confirm('Are you sure to remove the record?');" />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                            </asp:GridView>
+                                                        </td>
+                                                    </tr>                                                   
                                                 </table>
                                             </asp:Panel>
                                             <div id="dvAttachment" runat="server" style="display: none;">
@@ -2714,7 +2821,11 @@
                                                     </tr>
                                                 </table>
                                             </asp:Panel>
-                                            <asp:Panel ID="pnl8View" runat="server" Style="display: none;">
+                                            <asp:Panel ID="pnl7View" runat="server" Style="display: none;">
+                                                <div class="bandHeaderRow">
+                                                    Occupational Health and Safety Programs</div>                                                
+                                            </asp:Panel>
+                                            <asp:Panel ID="pnl9View" runat="server" Style="display: none;">
                                                 <div class="bandHeaderRow">
                                                     Remediations
                                                 </div>
@@ -2794,7 +2905,7 @@
                                                     </tr>
                                                 </table>
                                             </asp:Panel>
-                                            <asp:Panel ID="pnl7View" runat="server" Style="display: none;">
+                                            <asp:Panel ID="pnl8View" runat="server" Style="display: none;">
                                                 <div class="bandHeaderRow">
                                                     Violations</div>
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%" style="height: 230px;">
