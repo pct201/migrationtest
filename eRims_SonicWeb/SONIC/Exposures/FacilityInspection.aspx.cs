@@ -345,14 +345,14 @@ public partial class SONIC_Exposures_FacilityInspection : System.Web.UI.Page
                     facility_Construction_Maintenance_Item.Inspected_By_Table = "Contractor_Security";
                 }
 
-                TextBox txtEstStartDate = (TextBox)item.FindControl("txtEstStartDate");
-                facility_Construction_Maintenance_Item.Estimated_Start_Date = clsGeneral.FormatNullDateToStore(txtEstStartDate.Text);
-                DropDownList ddlAssignedTo = (DropDownList)item.FindControl("ddlAssignedTo");
-                if (ddlAssignedTo.SelectedIndex > 0)
-                {
-                    facility_Construction_Maintenance_Item.FK_Assigned = Convert.ToInt32(ddlAssignedTo.SelectedValue);
-                    facility_Construction_Maintenance_Item.Assigned_Table = "Contractor_Security";
-                }
+                //TextBox txtEstStartDate = (TextBox)item.FindControl("txtEstStartDate");
+                //facility_Construction_Maintenance_Item.Estimated_Start_Date = clsGeneral.FormatNullDateToStore(txtEstStartDate.Text);
+                //DropDownList ddlAssignedTo = (DropDownList)item.FindControl("ddlAssignedTo");
+                //if (ddlAssignedTo.SelectedIndex > 0)
+                //{
+                //    facility_Construction_Maintenance_Item.FK_Assigned = Convert.ToInt32(ddlAssignedTo.SelectedValue);
+                //    facility_Construction_Maintenance_Item.Assigned_Table = "Contractor_Security";
+                //}
 
                 facility_Construction_Maintenance_Item.Update_Date = DateTime.Now;
                 facility_Construction_Maintenance_Item.PK_Facility_Construction_Maintenance_Item = facility_Construction_Maintenance_Item.Insert();
