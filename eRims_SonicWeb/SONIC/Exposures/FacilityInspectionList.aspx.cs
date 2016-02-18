@@ -77,18 +77,22 @@ public partial class SONIC_Exposures_FacilityInspectionList : System.Web.UI.Page
     /// <param name="e"></param>
     protected void gvInspection_RowCommand(object sender, GridViewCommandEventArgs e)
     {
+
+        string[] commandArgument = new string[3];
+        commandArgument = e.CommandArgument.ToString().Split(';');
+
         if (e.CommandName == "InspectionDetails")
         {
-            Response.Redirect(String.Format("FacilityInspection.aspx?loc={0}&item={1}&op={2}", Request.QueryString["loc"].ToString(), Encryption.Encrypt(e.CommandArgument.ToString()), OperationMode));
+            Response.Redirect(String.Format("FacilityInspection.aspx?loc={0}&item={1}&op={2}", Request.QueryString["loc"].ToString(), Encryption.Encrypt(commandArgument[0].ToString()), OperationMode));
         }
         else if (e.CommandName == "Prepare")
         {
-            string fileName = this.PrepareInspectionReport(Convert.ToInt64(e.CommandArgument));
+            string fileName = this.PrepareInspectionReport(Convert.ToInt64(commandArgument[0]), Convert.ToInt64(commandArgument[1]), Convert.ToInt64(commandArgument[2]));
             ScriptManager.RegisterStartupScript(this, GetType(), "btnSave", "javascript: window.open('" + AppConfig.SiteURL + "/Download.aspx?inspection=true&fileName=" + fileName + "&orgName=InspectionItemReport.xlsx','_blank')", true);
         }
         else if (e.CommandName == "Mail")
         {
-            string fileName = this.PrepareInspectionReport(Convert.ToInt64(e.CommandArgument));
+            string fileName = this.PrepareInspectionReport(Convert.ToInt64(commandArgument[0]), Convert.ToInt64(commandArgument[1]), Convert.ToInt64(commandArgument[2]));
             ScriptManager.RegisterStartupScript(this, GetType(), "openAttachmentPoppup", "javascript:SendInspectionEmail('" + fileName + "');", true);
         }
     }
@@ -127,9 +131,9 @@ public partial class SONIC_Exposures_FacilityInspectionList : System.Web.UI.Page
     /// </summary>
     /// <param name="pK_Facility_Construction_Inspection"></param>
     /// <returns></returns>
-    private string PrepareInspectionReport(Int64 pK_Facility_Construction_Inspection)
+    private string PrepareInspectionReport(Int64 pK_Facility_Construction_Inspection,Int64 locationId,Int64 buildingId)
     {
-        DataTable dtInspection = Facility_Construction_Inspection.SelectByPkInpsection(Convert.ToInt32(pK_Facility_Construction_Inspection)).Tables[0];
+        DataTable dtInspection = Facility_Construction_Inspection.SelectByPkInpsectionLocationBuilding(pK_Facility_Construction_Inspection,locationId,buildingId).Tables[0];
         DataRow drInspectionRow = dtInspection.Rows[0];
 
         // Code to Export To Excel From List            
@@ -175,7 +179,7 @@ public partial class SONIC_Exposures_FacilityInspectionList : System.Web.UI.Page
         startCharCols++;
 
         DataCell = startCharCols.ToString() + startIndexCols;
-        ws.Cells[DataCell].Value = "Est Cost";
+        ws.Cells[DataCell].Value = "Problem Description";
         ws.Column(3).Width = ws.Cells[DataCell].Value.ToString().Length + 15;
         ws.Cells[DataCell].Style.Font.Bold = true;
         ws.Cells[DataCell].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
@@ -183,23 +187,32 @@ public partial class SONIC_Exposures_FacilityInspectionList : System.Web.UI.Page
         count++;
         startCharCols++;
 
-        DataCell = startCharCols.ToString() + startIndexCols;
-        ws.Cells[DataCell].Value = "Est Start Date";
-        ws.Column(4).Width = ws.Cells[DataCell].Value.ToString().Length + 15;
-        ws.Cells[DataCell].Style.Font.Bold = true;
-        ws.Cells[DataCell].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
-        ws.Cells[DataCell].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+        //DataCell = startCharCols.ToString() + startIndexCols;
+        //ws.Cells[DataCell].Value = "Est Cost";
+        //ws.Column(3).Width = ws.Cells[DataCell].Value.ToString().Length + 15;
+        //ws.Cells[DataCell].Style.Font.Bold = true;
+        //ws.Cells[DataCell].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+        //ws.Cells[DataCell].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+        //count++;
+        //startCharCols++;
 
-        count++;
-        startCharCols++;
+        //DataCell = startCharCols.ToString() + startIndexCols;
+        //ws.Cells[DataCell].Value = "Est Start Date";
+        //ws.Column(4).Width = ws.Cells[DataCell].Value.ToString().Length + 15;
+        //ws.Cells[DataCell].Style.Font.Bold = true;
+        //ws.Cells[DataCell].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+        //ws.Cells[DataCell].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
 
-        DataCell = startCharCols.ToString() + startIndexCols;
-        ws.Cells[DataCell].Value = "Assigned To";
-        ws.Column(5).Width = ws.Cells[DataCell].Value.ToString().Length + 15;
-        ws.Cells[DataCell].Style.Font.Bold = true;
-        ws.Cells[DataCell].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
-        ws.Cells[DataCell].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-        count++;
+        //count++;
+        //startCharCols++;
+
+        //DataCell = startCharCols.ToString() + startIndexCols;
+        //ws.Cells[DataCell].Value = "Assigned To";
+        //ws.Column(5).Width = ws.Cells[DataCell].Value.ToString().Length + 15;
+        //ws.Cells[DataCell].Style.Font.Bold = true;
+        //ws.Cells[DataCell].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+        //ws.Cells[DataCell].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+        //count++;
 
         string Range = "A1:C1";
         ws.Cells[Range].Merge = true;
@@ -272,27 +285,33 @@ public partial class SONIC_Exposures_FacilityInspectionList : System.Web.UI.Page
                 startCharData++;
 
                 dataCellRow = startCharData.ToString() + startIndexData;
-                ws.Cells[dataCellRow].Value = Convert.ToString(drInspectionItem["Condition"]);
+                ws.Cells[dataCellRow].Value = Convert.ToString(drInspectionItem["Inspection_Condition_Rank"]) == "0" ?"" : Convert.ToString(drInspectionItem["Inspection_Condition_Rank"]);
                 ws.Cells[dataCellRow].Style.WrapText = true;
                 ws.Cells[dataCellRow].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
                 startCharData++;
 
                 dataCellRow = startCharData.ToString() + startIndexData;
-                ws.Cells[dataCellRow].Value = !string.IsNullOrEmpty(Convert.ToString(drInspectionItem["Estimated_Cost"])) ? "$ " + clsGeneral.FormatCommaSeperatorCurrency(drInspectionItem["Estimated_Cost"]) : "";
+                ws.Cells[dataCellRow].Value = !string.IsNullOrEmpty(Convert.ToString(drInspectionItem["Problem_Description"])) ? Convert.ToString(drInspectionItem["Problem_Description"]) : "";
                 ws.Cells[dataCellRow].Style.WrapText = true;
                 ws.Cells[dataCellRow].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
                 startCharData++;
 
-                dataCellRow = startCharData.ToString() + startIndexData;
-                ws.Cells[dataCellRow].Value = !string.IsNullOrEmpty(Convert.ToString(drInspectionItem["Estimate_Start_Date"])) ? clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drInspectionItem["Estimate_Start_Date"])) : "";
-                ws.Cells[dataCellRow].Style.WrapText = true;
-                ws.Cells[dataCellRow].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
-                startCharData++;
-
-                dataCellRow = startCharData.ToString() + startIndexData;
-                ws.Cells[dataCellRow].Value = Convert.ToString(drInspectionItem["AssignedTo"]);
-                ws.Cells[dataCellRow].Style.WrapText = true;
-                ws.Cells[dataCellRow].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+              //  dataCellRow = startCharData.ToString() + startIndexData;
+              //  ws.Cells[dataCellRow].Value = !string.IsNullOrEmpty(Convert.ToString(drInspectionItem["Estimated_Cost"])) ? "$ " + clsGeneral.FormatCommaSeperatorCurrency(drInspectionItem["Estimated_Cost"]) : "";
+              //  ws.Cells[dataCellRow].Style.WrapText = true;
+              //  ws.Cells[dataCellRow].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+              //  startCharData++;
+              //
+              //  dataCellRow = startCharData.ToString() + startIndexData;
+              //  ws.Cells[dataCellRow].Value = !string.IsNullOrEmpty(Convert.ToString(drInspectionItem["Estimate_Start_Date"])) ? clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drInspectionItem["Estimate_Start_Date"])) : "";
+              //  ws.Cells[dataCellRow].Style.WrapText = true;
+              //  ws.Cells[dataCellRow].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+              //  startCharData++;
+              //
+              //  dataCellRow = startCharData.ToString() + startIndexData;
+              //  ws.Cells[dataCellRow].Value = Convert.ToString(drInspectionItem["AssignedTo"]);
+              //  ws.Cells[dataCellRow].Style.WrapText = true;
+              //  ws.Cells[dataCellRow].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
 
                 startCharData = 'A';
                 startIndexData++;

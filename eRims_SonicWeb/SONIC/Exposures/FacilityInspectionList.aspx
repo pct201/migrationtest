@@ -283,10 +283,10 @@
                                                                                 <ItemStyle Width="10%" />
                                                                                 <ItemTemplate>
                                                                                     <asp:LinkButton ID="LinkButton1" TeID="lnkRemove" CausesValidation="false"
-                                                                                        runat="server" CommandName="Prepare" CommandArgument='<%#Eval("PK_Facility_Construction_Inspection")%>'
+                                                                                        runat="server" CommandName="Prepare" CommandArgument='<%#Eval("PK_Facility_Construction_Inspection") + ";" + Eval("FK_LU_Location_ID") + ";" + Eval("FK_Building")%>'
                                                                                         Text="Prepare"></asp:LinkButton>&nbsp;
                                                                                         <asp:LinkButton ID="LinkButton2" TeID="lnkRemove" CausesValidation="false"
-                                                                                            runat="server" CommandName="Mail" CommandArgument='<%#Eval("PK_Facility_Construction_Inspection")%>'
+                                                                                            runat="server" CommandName="Mail" CommandArgument='<%#Eval("PK_Facility_Construction_Inspection") + ";" + Eval("FK_LU_Location_ID") + ";" + Eval("FK_Building")%>'
                                                                                             Text="Mail"></asp:LinkButton>
                                                                                 </ItemTemplate>
                                                                             </asp:TemplateField>

@@ -15,6 +15,7 @@ namespace ERIMS.DAL
 
         private decimal? _PK_Facility_Construction_Maintenance_Item;
         private decimal? _FK_Facility_Construction_Project;
+        private decimal? _FK_LU_Location_ID;
         private decimal? _FK_Facility_Inspection_Item_Link;
         private decimal? _FK_Building;
         private string _Item_Number;
@@ -71,6 +72,15 @@ namespace ERIMS.DAL
         {
             get { return _FK_Facility_Construction_Project; }
             set { _FK_Facility_Construction_Project = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the FK_LU_Location_ID value.
+        /// </summary>
+        public decimal? FK_LU_Location_ID
+        {
+            get { return _FK_LU_Location_ID; }
+            set { _FK_LU_Location_ID = value; }
         }
 
         /// <summary>
@@ -437,6 +447,11 @@ namespace ERIMS.DAL
             else
                 this._FK_Facility_Construction_Project = (decimal?)drFacility_Construction_Maintenance_Item["FK_Facility_Construction_Project"];
 
+            if (drFacility_Construction_Maintenance_Item["FK_LU_Location_ID"] == DBNull.Value)
+                this._FK_LU_Location_ID = null;
+            else
+                this._FK_LU_Location_ID = (decimal?)drFacility_Construction_Maintenance_Item["FK_LU_Location_ID"];
+
             if (drFacility_Construction_Maintenance_Item["FK_Facility_Inspection_Item_Link"] == DBNull.Value)
                 this._FK_Facility_Inspection_Item_Link = null;
             else
@@ -627,6 +642,8 @@ namespace ERIMS.DAL
 
             db.AddInParameter(dbCommand, "FK_Facility_Construction_Project", DbType.Decimal, this._FK_Facility_Construction_Project);
 
+            db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Decimal, this._FK_LU_Location_ID);
+
             db.AddInParameter(dbCommand, "FK_Facility_Inspection_Item_Link", DbType.Decimal, this._FK_Facility_Inspection_Item_Link);
 
             db.AddInParameter(dbCommand, "FK_Building", DbType.Decimal, this._FK_Building);
@@ -785,6 +802,8 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "PK_Facility_Construction_Maintenance_Item", DbType.Decimal, this._PK_Facility_Construction_Maintenance_Item);
 
             db.AddInParameter(dbCommand, "FK_Facility_Construction_Project", DbType.Decimal, this._FK_Facility_Construction_Project);
+
+            db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Decimal, this._FK_LU_Location_ID);
 
             db.AddInParameter(dbCommand, "FK_Facility_Inspection_Item_Link", DbType.Decimal, this._FK_Facility_Inspection_Item_Link);
 

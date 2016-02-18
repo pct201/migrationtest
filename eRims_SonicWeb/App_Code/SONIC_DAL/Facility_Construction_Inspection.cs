@@ -18,6 +18,7 @@ namespace ERIMS.DAL
         private DateTime? _Inspection_Date;
         private decimal? _FK_Inspector;
         private string _Inspector_Table;
+        private decimal? _FK_LU_Location_ID;
 
         #endregion
 
@@ -75,6 +76,15 @@ namespace ERIMS.DAL
         {
             get { return _Inspector_Table; }
             set { _Inspector_Table = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the FK_LU_Location_ID value.
+        /// </summary>
+        public decimal? FK_LU_Location_ID
+        {
+            get { return _FK_LU_Location_ID; }
+            set { _FK_LU_Location_ID = value; }
         }
 
 
@@ -146,6 +156,11 @@ namespace ERIMS.DAL
             else
                 this._Inspector_Table = (string)drFacility_Construction_Inspection["Inspector_Table"];
 
+            if (drFacility_Construction_Inspection["FK_LU_Location_ID"] == DBNull.Value)
+                this._FK_LU_Location_ID = null;
+            else
+                this._FK_LU_Location_ID = (decimal?)drFacility_Construction_Inspection["FK_LU_Location_ID"];
+
 
         }
 
@@ -162,6 +177,8 @@ namespace ERIMS.DAL
 
 
             db.AddInParameter(dbCommand, "FK_Facility_Construction_Project", DbType.Decimal, this._FK_Facility_Construction_Project);
+
+            db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Decimal, this._FK_LU_Location_ID);
 
             db.AddInParameter(dbCommand, "FK_Building", DbType.Decimal, this._FK_Building);
 
@@ -238,6 +255,25 @@ namespace ERIMS.DAL
         }
 
         /// <summary>
+        /// select record inspection details by Primary key ,location and building ID.
+        /// </summary>
+        /// <param name="pK_Facility_Construction_Inspection"></param>
+        /// <param name="fk_Location_Id"></param>
+        /// <param name="fK_Building"></param>
+        /// <returns></returns>
+        public static DataSet SelectByPkInpsectionLocationBuilding(Int64 pK_Facility_Construction_Inspection, Int64 fk_Location_Id, Int64 fK_Building)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Facility_Construction_InspectionSelectByPKInspectionLocationBuilding");
+
+            db.AddInParameter(dbCommand, "PK_Facility_Construction_Inspection", DbType.Decimal, pK_Facility_Construction_Inspection);
+            db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Decimal, fk_Location_Id);
+            db.AddInParameter(dbCommand, "FK_Building", DbType.Decimal, fK_Building);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
         /// Updates a record in the Facility_Construction_Inspection table.
         /// </summary>
         public void Update()
@@ -249,6 +285,8 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "PK_Facility_Construction_Inspection", DbType.Decimal, this._PK_Facility_Construction_Inspection);
 
             db.AddInParameter(dbCommand, "FK_Facility_Construction_Project", DbType.Decimal, this._FK_Facility_Construction_Project);
+            
+            db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Decimal, this._FK_LU_Location_ID);
 
             db.AddInParameter(dbCommand, "FK_Building", DbType.Decimal, this._FK_Building);
 

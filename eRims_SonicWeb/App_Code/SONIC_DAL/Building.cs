@@ -3376,6 +3376,19 @@ namespace ERIMS.DAL
         }
 
         /// <summary>
+        /// Selects Building By Location Id
+        /// </summary>
+        /// <param name="fK_LU_Location_ID"></param>
+        /// <returns></returns>
+        public static DataSet SelectBuildingByLocation(Int32 fK_LU_Location_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("BuildingSelectByLocationForDropDown");
+            db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Int32, fK_LU_Location_ID);
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
         /// Selects Building For Facility Inspection By Location ID and PK_Facility_Construction_Inspection
         /// </summary>
         /// <param name="fK_LU_Location_ID"></param>

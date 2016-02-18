@@ -22,6 +22,10 @@ namespace ERIMS.DAL
         private DateTime? _Estimate_Start_Date;
         private decimal? _FK_Assigned_To;
         private string _Assigned_To_Table;
+        private decimal? _Inspection_Condition_Rank;
+        private string _Problem_Description;
+        private decimal? _FK_Building;
+        private decimal? _FK_LU_Location_ID;
 
         #endregion
 
@@ -108,6 +112,42 @@ namespace ERIMS.DAL
             set { _Assigned_To_Table = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the FK_Facility_Inspection_Condition value.
+        /// </summary>
+        public decimal? Inspection_Condition_Rank
+        {
+            get { return _Inspection_Condition_Rank; }
+            set { _Inspection_Condition_Rank = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the FK_Facility_Inspection_Condition value.
+        /// </summary>
+        public string Problem_Description
+        {
+            get { return _Problem_Description; }
+            set { _Problem_Description = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the FK_Building value.
+        /// </summary>
+        public decimal? FK_Building
+        {
+            get { return _FK_Building; }
+            set { _FK_Building = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the FK_LU_Location_ID value.
+        /// </summary>
+        public decimal? FK_LU_Location_ID
+        {
+            get { return _FK_LU_Location_ID; }
+            set { _FK_LU_Location_ID = value; }
+        }
+
 
         #endregion
 
@@ -192,6 +232,26 @@ namespace ERIMS.DAL
             else
                 this._Assigned_To_Table = (string)drFacility_Construction_Inspection_Item["Assigned_To_Table"];
 
+            if (drFacility_Construction_Inspection_Item["Inspection_Condition_Rank"] == DBNull.Value)
+                this._Inspection_Condition_Rank = null;
+            else
+                this._Inspection_Condition_Rank = (decimal?)drFacility_Construction_Inspection_Item["Inspection_Condition_Rank"];
+
+            if (drFacility_Construction_Inspection_Item["Problem_Description"] == DBNull.Value)
+                this._Problem_Description = null;
+            else
+                this._Problem_Description = (string)drFacility_Construction_Inspection_Item["Problem_Description"];
+
+            if (drFacility_Construction_Inspection_Item["FK_Building"] == DBNull.Value)
+                this._FK_Building = null;
+            else
+                this._FK_Building = (decimal?)drFacility_Construction_Inspection_Item["FK_Building"];
+
+            if (drFacility_Construction_Inspection_Item["FK_LU_Location_ID"] == DBNull.Value)
+                this._FK_LU_Location_ID = null;
+            else
+                this._FK_LU_Location_ID = (decimal?)drFacility_Construction_Inspection_Item["FK_LU_Location_ID"];
+
 
         }
 
@@ -239,6 +299,17 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Assigned_To_Table", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Assigned_To_Table", DbType.String, this._Assigned_To_Table);
+
+            db.AddInParameter(dbCommand, "Inspection_Condition_Rank", DbType.Decimal, this._Inspection_Condition_Rank);
+
+            if (string.IsNullOrEmpty(this._Problem_Description))
+                db.AddInParameter(dbCommand, "Problem_Description", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Problem_Description", DbType.String, this._Problem_Description);
+
+            db.AddInParameter(dbCommand, "FK_Building", DbType.Decimal, this._FK_Building);
+
+            db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Decimal, this._FK_LU_Location_ID);
 
             // Execute the query and return the new identity value
             int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
@@ -315,6 +386,17 @@ namespace ERIMS.DAL
                 db.AddInParameter(dbCommand, "Assigned_To_Table", DbType.String, DBNull.Value);
             else
                 db.AddInParameter(dbCommand, "Assigned_To_Table", DbType.String, this._Assigned_To_Table);
+
+            db.AddInParameter(dbCommand, "Inspection_Condition_Rank", DbType.Decimal, this._Inspection_Condition_Rank);
+
+            if (string.IsNullOrEmpty(this._Problem_Description))
+                db.AddInParameter(dbCommand, "Problem_Description", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Problem_Description", DbType.String, this._Problem_Description);
+
+            db.AddInParameter(dbCommand, "FK_Building", DbType.Decimal, this._FK_Building);
+
+            db.AddInParameter(dbCommand, "FK_LU_Location_ID", DbType.Decimal, this._FK_LU_Location_ID);
 
             db.ExecuteNonQuery(dbCommand);
         }

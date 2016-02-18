@@ -26,7 +26,7 @@
             window.scrollTo(0, 0);
         }
     </script>
-    <script type="text/javascript">
+    <script type="text/javascript" language="javascript">
         var popUpId = '';
 
         function SetPopUpId(id) {
@@ -38,6 +38,7 @@
             var PopUpURL = '<%=AppConfig.SiteURL%>SONIC/Exposures/MaintenanceAddAttachment.aspx';
             GB_showCenter(popUpTitle, PopUpURL + '?item=' + id, 300, 500);
         }
+        
     </script>
     <div>
         <asp:ValidationSummary ID="vsError" runat="server" ShowSummary="false" ShowMessageBox="true"
@@ -272,12 +273,14 @@
                                                         </div>
                                                         <table cellpadding="3" cellspacing="1" border="0" width="100%" id="tblInspectionArea" runat="server">
                                                             <tr>
-                                                                <td align="left" valign="top">Project
+                                                                <td align="left" valign="top">Location
                                                                 </td>
                                                                 <td align="center" valign="top">:
                                                                 </td>
                                                                 <td align="left" valign="top">
-                                                                    <asp:DropDownList runat="server" AutoPostBack="true" ID="ddlProject" SkinID="ddlExposure" OnSelectedIndexChanged="ddlProject_SelectedIndexChanged">
+                                                                    <%--<asp:DropDownList runat="server" AutoPostBack="true" ID="ddlProject" SkinID="ddlExposure" OnSelectedIndexChanged="ddlProject_SelectedIndexChanged">
+                                                                    </asp:DropDownList>--%>
+                                                                    <asp:DropDownList ID="ddlLocation" Width="175px" runat="server" AutoPostBack="true" SkinID="dropGen" OnSelectedIndexChanged="ddlLocation_SelectedIndexChanged">
                                                                     </asp:DropDownList>
                                                                 </td>
                                                                 <td align="left" valign="top">Building Number <span id="Span1" runat="server" style="color: Red;">*</span>
@@ -285,7 +288,7 @@
                                                                 <td align="center" valign="top">:
                                                                 </td>
                                                                 <td align="left" valign="top">
-                                                                    <asp:DropDownList runat="server" ID="ddlBuilding" SkinID="ddlExposure">
+                                                                    <asp:DropDownList runat="server" ID="ddlBuilding" SkinID="ddlExposure" AutoPostBack="true" OnSelectedIndexChanged="ddlBuilding_SelectedIndexChanged" >
                                                                     </asp:DropDownList>
                                                                     <asp:RequiredFieldValidator ID="rfvBuilding" runat="server" ErrorMessage="Please select Building Number"
                                                                         Display="None" SetFocusOnError="true" ControlToValidate="ddlBuilding"
@@ -318,7 +321,7 @@
                                                                 <td align="center" valign="top">:
                                                                 </td>
                                                                 <td align="left" valign="top">
-                                                                    <asp:DropDownList runat="server" AutoPostBack="true" ID="ddlFocusArea" SkinID="ddlExposure" OnSelectedIndexChanged="ddlFocusArea_SelectedIndexChanged">
+                                                                    <asp:DropDownList runat="server" AutoPostBack="true" ID="ddlFocusArea" SkinID="ddlExposure" OnSelectedIndexChanged="ddlFocusArea_SelectedIndexChanged"  >
                                                                     </asp:DropDownList>
                                                                 </td>
                                                             </tr>
@@ -332,7 +335,10 @@
                                                                 <td align="left" valign="top" width="10%">
                                                                     <b>Condition</b>
                                                                 </td>
-                                                                <td align="left" valign="top" width="8%">
+                                                                <td colspan="3" align="left" valign="top" width="8%">
+                                                                    <b>Problem Description</b>
+                                                                </td>
+                                                               <%-- <td align="left" valign="top" width="8%">
                                                                     <b>Est. Cost</b>
                                                                 </td>
                                                                 <td align="left" valign="top" width="22%">
@@ -340,7 +346,7 @@
                                                                 </td>
                                                                 <td align="left" valign="top" width="15%">
                                                                     <b>Assign</b>
-                                                                </td>
+                                                                </td>--%>
                                                                 <td align="left" valign="top" width="5%">
                                                                     <b>Add Maint.</b>
                                                                 </td>
@@ -361,7 +367,9 @@
                                                                             <asp:DropDownList runat="server" ID="ddlCondition">
                                                                             </asp:DropDownList>
                                                                         </td>
-                                                                        <td align="left" valign="top">$&nbsp;<asp:TextBox runat="server" ID="txtEstCost" onpaste="return false" onkeypress="return FormatNumber(event,this.id,10 ,false);" MaxLength="11"></asp:TextBox>
+                                                                        <td colspan="3" align="left" valign="top"><asp:TextBox runat="server" ID="txtProblemDescription" MaxLength="30"></asp:TextBox>
+                                                                        </td>
+                                                                       <%-- <td align="left" valign="top">$&nbsp;<asp:TextBox runat="server" ID="txtEstCost" onpaste="return false" onkeypress="return FormatNumber(event,this.id,10 ,false);" MaxLength="11"></asp:TextBox>
                                                                         </td>
                                                                         <td align="left" valign="top">
                                                                             <asp:TextBox ID='txtEstStartDate' runat="server" SkinID="txtDate" onpaste="return false"></asp:TextBox>
@@ -371,7 +379,7 @@
                                                                         <td align="left" valign="top">
                                                                             <asp:DropDownList runat="server" ID="ddlAssignedTo">
                                                                             </asp:DropDownList>
-                                                                        </td>
+                                                                        </td>--%>
                                                                         <td align="left" valign="top">                                                                            
                                                                             <asp:ImageButton ID="btnAddMaintenance" runat="server" ImageUrl="~/Images/Add-maint.png" OnClick="btnAddMaintenance_Click" CommandArgument='<%# Eval("PK_LU_Facility_Inspection_Item") %>' />
                                                                         </td>
@@ -400,12 +408,19 @@
                                                 </div>
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%" id="Table1" runat="server">
                                                     <tr>
-                                                        <td align="left" valign="top">Project
+                                                        <%--<td align="left" valign="top">Project
                                                         </td>
                                                         <td align="center" valign="top">:
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:Label runat="server" ID="lblProject"></asp:Label>
+                                                        </td>--%>
+                                                        <td align="left" valign="top">Location
+                                                        </td>
+                                                        <td align="center" valign="top">:
+                                                        </td>
+                                                        <td align="left" valign="top">
+                                                            <asp:Label runat="server" ID="lblLocation"></asp:Label>
                                                         </td>
                                                         <td align="left" valign="top">Building
                                                         </td>
@@ -444,13 +459,13 @@
                                                 <hr />
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%">
                                                     <tr>
-                                                        <td align="left" valign="top" width="10%">
+                                                        <td align="left" valign="top" width="30%">
                                                             <b>Item</b>
                                                         </td>
-                                                        <td align="left" valign="top" width="10%">
+                                                        <td align="left" valign="top" width="30%">
                                                             <b>Condition</b>
                                                         </td>
-                                                        <td align="left" valign="top" width="10%">
+                                                        <%--<td align="left" valign="top" width="10%">
                                                             <b>Est. Cost</b>
                                                         </td>
                                                         <td align="left" valign="top" width="10%">
@@ -458,25 +473,30 @@
                                                         </td>
                                                         <td align="left" valign="top" width="10%">
                                                             <b>Assign</b>
+                                                        </td>--%>
+                                                        <td align="left" colspan="3" valign="top" width="30%">
+                                                            <b>Problem Description</b>
                                                         </td>
                                                     </tr>
                                                     <asp:Repeater ID="rptFocusAreaItemView" runat="server">
                                                         <ItemTemplate>
                                                             <tr>
-                                                                <td align="left" valign="top" width="10%">
+                                                                <td align="left" valign="top" width="30%">
                                                                     <asp:Label runat="server" ID="lblFocusAreaItem"><%# Eval("Description") %></asp:Label>
                                                                 </td>
-                                                                <td align="left" valign="top" width="10%">
-                                                                    <asp:Label runat="server" ID="lblCondition"><%# Convert.ToString(Eval("Condition")) %></asp:Label>
+                                                                <td align="left" valign="top" width="30%">
+                                                                    <asp:Label runat="server" ID="lblCondition"><%# Convert.ToString(Eval("Inspection_Condition_Rank")) =="0" ? "" :Convert.ToString(Eval("Inspection_Condition_Rank")) %></asp:Label>
                                                                 </td>
-                                                                <td align="left" valign="top" width="10%">$&nbsp;<asp:Label runat="server" ID="lblEstCost"><%# clsGeneral.FormatCommaSeperatorCurrency(Eval("Estimated_Cost")) %></asp:Label>
+                                                                <td align="left" colspan="3" valign="top" width="30%"><asp:Label runat="server" ID="lblProblemDesc"><%# Convert.ToString(Eval("Problem_Description")) %></asp:Label>
+                                                                </td>
+                                                                <%--<td align="left" valign="top" width="10%">$&nbsp;<asp:Label runat="server" ID="lblEstCost"><%# clsGeneral.FormatCommaSeperatorCurrency(Eval("Estimated_Cost")) %></asp:Label>
                                                                 </td>
                                                                 <td align="left" valign="top" width="10%">
                                                                     <asp:Label runat="server" ID="lblEstStartDate"><%# clsGeneral.FormatDBNullDateToDisplay(Eval("Estimate_Start_Date").ToString()) %></asp:Label>
                                                                 </td>
                                                                 <td align="left" valign="top" width="10%">
                                                                     <asp:Label runat="server" ID="Label1"><%# Eval("AssignedTo") %></asp:Label>
-                                                                </td>
+                                                                </td>--%>
                                                             </tr>
                                                         </ItemTemplate>
                                                     </asp:Repeater>

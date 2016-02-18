@@ -276,12 +276,14 @@
                                                                 <td align="left" width="28%" valign="top">
                                                                     <asp:TextBox ID="txtActionNumber" Width="170px" runat="server" SkinID="txtGeneral" onpaste="return false" Enabled="false"></asp:TextBox>
                                                                 </td>
-                                                                <td align="left" width="18%" valign="top">Project
+                                                                <td align="left" width="18%" valign="top">Location
                                                                 </td>
                                                                 <td align="center" width="4%" valign="top">:
                                                                 </td>
                                                                 <td align="left" width="28%" valign="top">
-                                                                    <asp:DropDownList runat="server" ID="ddlProject" AutoPostBack="true" SkinID="ddlExposure" OnSelectedIndexChanged="ddlProject_SelectedIndexChanged">
+                                                                    <%--<asp:DropDownList runat="server" ID="ddlProject" AutoPostBack="true" SkinID="ddlExposure" OnSelectedIndexChanged="ddlProject_SelectedIndexChanged">
+                                                                    </asp:DropDownList>--%>
+                                                                    <asp:DropDownList ID="ddlLocation" Width="175px" runat="server" AutoPostBack="true" SkinID="dropGen" OnSelectedIndexChanged="ddlLocation_SelectedIndexChanged">
                                                                     </asp:DropDownList>
                                                                 </td>
                                                             </tr>
@@ -694,12 +696,13 @@
                                                         <td align="left" width="28%" valign="top">
                                                             <asp:Label ID="lblActionNumber" Width="170px" runat="server" SkinID="lblText"></asp:Label>
                                                         </td>
-                                                        <td align="left" width="18%" valign="top">Project
+                                                        <td align="left" width="18%" valign="top">Location
                                                         </td>
                                                         <td align="center" width="4%" valign="top">:
                                                         </td>
                                                         <td align="left" width="28%" valign="top">
-                                                            <asp:Label ID="lblProject" Width="170px" runat="server" SkinID="lblText"></asp:Label>
+                                                            <%--<asp:Label ID="lblProject" Width="170px" runat="server" SkinID="lblText"></asp:Label>--%>
+                                                            <asp:Label ID="lblLocation" Width="170px" runat="server" SkinID="lblText"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>

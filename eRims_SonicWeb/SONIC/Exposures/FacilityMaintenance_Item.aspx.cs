@@ -73,7 +73,12 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
                     }
                 }
 
-                BindProjectDropDown();
+                //BindProjectDropDown();
+                ComboHelper.FillLocationdba(new DropDownList[] { ddlLocation }, 0, true, true);
+                ddlLocation.Style.Remove("font-size");
+                ddlLocation.SelectedValue = Convert.ToString(FK_LU_Location_ID);
+                ddlLocation.Enabled = false;
+                BindBuildingDropDown();
                 BindScopeOfWorkDropDown();
                 BindInspectionFocusAreaDropDown();
                 BindMaintenanceTypeDropDown();
@@ -88,7 +93,7 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
                 }
                 else
                 {
-                    ddlBuilding.Items.Insert(0, new ListItem("-- Select --", "0"));
+                    //ddlBuilding.Items.Insert(0, new ListItem("-- Select --", "0"));
                     ddlFocusAreaItem.Items.Insert(0, new ListItem("-- Select --", "0"));
 
                     DataTable dtPrimaryKey = Facility_Construction_Maintenance_Item.GetLastPrimaryKey().Tables[0];
@@ -118,7 +123,18 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
+    //protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
+    //{
+    //    BindBuildingDropDown();
+    //    BindContractorSecurityDropDown();
+    //}
+
+    /// <summary>
+    /// Location Drop Down Selected Index Changed Event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void ddlLocation_SelectedIndexChanged(object sender, EventArgs e)
     {
         BindBuildingDropDown();
         BindContractorSecurityDropDown();
@@ -296,8 +312,9 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
     {
         Facility_Construction_Maintenance_Item facility_Construction_Maintenance_Item = new Facility_Construction_Maintenance_Item(PK_Facility_Construction_Maintenance_Item);
         txtActionNumber.Text = lblActionNumber.Text = facility_Construction_Maintenance_Item.Item_Number;
-        ddlProject.SelectedValue = facility_Construction_Maintenance_Item.FK_Facility_Construction_Project.HasValue ? facility_Construction_Maintenance_Item.FK_Facility_Construction_Project.Value.ToString() : "0";
-        lblProject.Text = ddlProject.SelectedIndex > 0 ? ddlProject.SelectedItem.Text : "";
+        //ddlProject.SelectedValue = facility_Construction_Maintenance_Item.FK_Facility_Construction_Project.HasValue ? facility_Construction_Maintenance_Item.FK_Facility_Construction_Project.Value.ToString() : "0";
+        ddlLocation.SelectedValue = facility_Construction_Maintenance_Item.FK_LU_Location_ID.HasValue ? facility_Construction_Maintenance_Item.FK_LU_Location_ID.Value.ToString() : "0";
+        lblLocation.Text = ddlLocation.SelectedIndex > 0 ? ddlLocation.SelectedItem.Text : "";
 
         // Bind Building Drop Down
         BindBuildingDropDown();
@@ -391,7 +408,7 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
     /// <param name="ddlInspector"></param>
     private void BindContractorSecurityDropDown()
     {
-        DataTable dtContractorSecurity = Contractor_Security.SelectContractorUserByLoactionIDAndProjectID(FK_LU_Location_ID, Convert.ToInt32(ddlProject.SelectedValue)).Tables[0];
+        DataTable dtContractorSecurity = Contractor_Security.SelectContractorUserByLoactionID(FK_LU_Location_ID).Tables[0];
 
         // Inspector Drop down binding
         ddlInspector.Items.Clear();
@@ -435,18 +452,18 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
         ddlResponsibleParty.Items.Insert(0, new ListItem("-- Select --", "0"));
     }
 
-    /// <summary>
-    /// Method to bind Project Dropdown
-    /// </summary>
-    private void BindProjectDropDown()
-    {
-        ddlProject.Items.Clear();
-        ddlProject.DataTextField = "Project_Number";
-        ddlProject.DataValueField = "PK_Facility_construction_Project";
-        ddlProject.DataSource = Facility_Construction_Project.SelectConstructionProjectsByLoction(FK_LU_Location_ID);
-        ddlProject.DataBind();
-        ddlProject.Items.Insert(0, new ListItem("-- Select --", "0"));
-    }
+    ///// <summary>
+    ///// Method to bind Project Dropdown
+    ///// </summary>
+    //private void BindProjectDropDown()
+    //{
+    //    ddlProject.Items.Clear();
+    //    ddlProject.DataTextField = "Project_Number";
+    //    ddlProject.DataValueField = "PK_Facility_construction_Project";
+    //    ddlProject.DataSource = Facility_Construction_Project.SelectConstructionProjectsByLoction(FK_LU_Location_ID);
+    //    ddlProject.DataBind();
+    //    ddlProject.Items.Insert(0, new ListItem("-- Select --", "0"));
+    //}
 
     /// <summary>
     /// Bind Building DropDown
@@ -454,11 +471,11 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
     private void BindBuildingDropDown()
     {
         ddlBuilding.Items.Clear();
-        if (ddlProject.SelectedIndex > 0)
+        if (ddlLocation.SelectedIndex > 0)
         {
             ddlBuilding.DataTextField = "BuildingName";
             ddlBuilding.DataValueField = "PK_Building_ID";
-            ddlBuilding.DataSource = Building.SelectBuildingByProjectNumber(Convert.ToInt32(ddlProject.SelectedValue));
+            ddlBuilding.DataSource = Building.SelectBuildingByLocation(Convert.ToInt32(ddlLocation.SelectedValue));
             ddlBuilding.DataBind();
         }
 
@@ -550,9 +567,14 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
         Facility_Construction_Maintenance_Item facility_Construction_Maintenance_Item = new Facility_Construction_Maintenance_Item();
         facility_Construction_Maintenance_Item.PK_Facility_Construction_Maintenance_Item = PK_Facility_Construction_Maintenance_Item;
         facility_Construction_Maintenance_Item.Item_Number = txtActionNumber.Text;
-        if (ddlProject.SelectedIndex > 0)
+        //if (ddlProject.SelectedIndex > 0)
+        //{
+        //    facility_Construction_Maintenance_Item.FK_Facility_Construction_Project = Convert.ToInt32(ddlProject.SelectedValue);
+        //}
+
+        if (ddlLocation.SelectedIndex > 0)
         {
-            facility_Construction_Maintenance_Item.FK_Facility_Construction_Project = Convert.ToInt32(ddlProject.SelectedValue);
+            facility_Construction_Maintenance_Item.FK_LU_Location_ID = Convert.ToInt32(ddlLocation.SelectedValue);
         }
 
         if (ddlRequester.SelectedIndex > 0)
@@ -675,4 +697,5 @@ public partial class SONIC_Exposures_FacilityMaintenance_Item : System.Web.UI.Pa
     }
 
     #endregion
+    
 }
