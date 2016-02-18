@@ -170,5 +170,23 @@ namespace ERIMS.DAL
 
 			db.ExecuteNonQuery(dbCommand);
 		}
+
+        /// <summary>
+        /// Selects a single record from the LU_Contract_Type table.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static decimal SelectByDescrp(string Description)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("LU_Contract_TypeSelectByDescrp");
+
+            db.AddInParameter(dbCommand, "@Descr", DbType.String, Description);
+
+
+            // Execute the query and return the new identity value
+            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
+
+            return returnValue;
+        }
 	}
 }

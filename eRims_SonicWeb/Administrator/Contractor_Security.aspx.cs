@@ -271,6 +271,8 @@ public partial class Administrator_Contractor_Security : clsBasePage
 
         if (ddlContractType.SelectedIndex > 0)
             objContractorSecurity.FK_LU_Contract_Type = Convert.ToDecimal(ddlContractType.SelectedValue);
+        else
+            objContractorSecurity.FK_LU_Contract_Type = null;
 
         objContractorSecurity.Vendor_Number = txtVendorNumber.Text;
 
@@ -508,7 +510,8 @@ public partial class Administrator_Contractor_Security : clsBasePage
         ComboHelper.FillContractorType(new DropDownList[] { ddlContractoType }, 0, true);
         ComboHelper.FillContractorFirm(new DropDownList[] { ddlContractorfirm }, 0, true);
         ComboHelper.FillContractType(new DropDownList[] { ddlContractType }, true);
-        FillAlertMethod(new DropDownList[] { ddlAlertMethod }, 0, true);
+        FillAlertMethod(new DropDownList[] { ddlAlertMethod }, 0, true);        
+
     }
     /// <summary>
     /// Binds the grid by page number and page size
@@ -737,13 +740,17 @@ public partial class Administrator_Contractor_Security : clsBasePage
             ddlToFill.DataValueField = "PK_LU_Facility_Construction_Alert_Method";
             ddlToFill.DataSource = dsData;
             ddlToFill.DataBind();
+            
+            
             //check require to add "-- select --" at first item of dropdown.
             if (booladdSelectAsFirstElement)
             {
                 ddlToFill.Items.Insert(0, new ListItem("-- Select --", "0"));
             }
-
+            //ddlToFill.SelectedValue = "2";
+            ddlToFill.Items.FindByText("E-Mail").Selected = true;
         }
+        
     }
 
     /// <summary>

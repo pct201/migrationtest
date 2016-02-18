@@ -1781,6 +1781,7 @@ public partial class Administrator_security : clsBasePage
         objContractorSecurity.Dashboard_Type = 2;
         objContractorSecurity.FK_Contractor_Firm = null;
         objContractorSecurity.FK_LU_Contractor_Type = clsLU_Contractor_Type.SelectPKByContractor();
+        objContractorSecurity.FK_LU_Contract_Type = LU_Contract_Type.SelectByDescrp("General Contractor");
 
         if (PK_Contactor_Security > 0)
         {
