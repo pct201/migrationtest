@@ -124,6 +124,7 @@
         <siteMapNode url="SONIC/FirstReport/Investigation_AdHocReportWriter.aspx" title="Investigation" description="Investigation"/>
         <siteMapNode url="SONIC/SLT/SLT_AdHocReportWriter.aspx" title="SLT" description="SLT"/>
         <siteMapNode url="Event/ACIEvents_AdHocReportWriter.aspx" title="ACI Events" description="ACI Events"/>
+        <siteMapNode url="PropertyClaims/Property_Claims_AdHocReportWriter.aspx" title="Property Claims" description="Property Claims"/>
 		<siteMapNode url="Management/ACIManagement_AdHocReportWriter.aspx" title="ACI Management" description="ACI Management"/>
         <siteMapNode url="SONIC/SafetyTraining_AdhocReportWriter.aspx" title="Safety Training" description="Safety Training"/>
         
