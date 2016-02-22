@@ -215,9 +215,10 @@
                     arrElements[i].onchange = OnChangeFunction;
 
             }
+
             var arrElements_Select = document.getElementsByTagName('select');
             for (i = 0; i < arrElements_Select.length; i++) {
-                if (arrElements_Select[i].id.indexOf('CtrlAttachment_Cliam') <= -1 && arrElements_Select[i].id.indexOf('drpRecords') <= -1)
+                if (arrElements_Select[i].id.indexOf('CtrlAttachment_Cliam') <= -1 && arrElements_Select[i].id.indexOf('drpRecords') <= -1 && arrElements_Select[i].id.indexOf('ddlCompanionClaim') <= -1)
                     arrElements_Select[i].onchange = OnChangeFunction;
             }
 
