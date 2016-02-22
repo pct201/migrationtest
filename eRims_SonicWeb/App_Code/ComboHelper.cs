@@ -6406,4 +6406,27 @@ public class ComboHelper
         }
     }
 
+    /// <summary>
+    /// Used to Bind Report List to Dropdown of Claim Header
+    /// </summary>
+    /// <param name="dropDowns">Dropdown Lists</param>
+    /// <param name="intID">used to selected a value using this param</param>
+    /// <param name="addSelectAsFirstElement">Require to add "--Select--" as a first element of dropdown</param>
+    public static void FillAuto_Loss_Companion_Claims(DropDownList[] dropDowns, bool booladdSelectAsFirstElement, string origin_Claim_Number)
+    {
+        DataSet dsData = ERIMS.DAL.AL_ClaimInfo.SelectCompanionClaim_byClaim_Number(origin_Claim_Number);
+        foreach (DropDownList ddlToFill in dropDowns)
+        {
+            ddlToFill.Items.Clear();
+            ddlToFill.DataTextField = "Origin_Claim_Number";
+            ddlToFill.DataValueField = "PK_Auto_Loss_Claims_ID";
+            ddlToFill.DataSource = dsData;
+            ddlToFill.DataBind();
+            //check require to add "-- select --" at first item of dropdown.
+            if (booladdSelectAsFirstElement)
+            {
+                ddlToFill.Items.Insert(0, new ListItem(SELECT_STRING, "0"));
+            }
+        }
+    }
 }

@@ -579,7 +579,8 @@ public partial class SONIC_ALClaimInfo : clsBasePage
             DataRow drAuto_Loss_Claims = dtAuto_Loss_Claims.Rows[0];
 
             //Header Info
-            ComboHelper.FillCompanionClaimReportType(new DropDownList[] { ddlCompanionClaim }, false, !String.IsNullOrEmpty(Convert.ToString(drAuto_Loss_Claims["Associated_First_Report"])) ? Convert.ToDecimal(drAuto_Loss_Claims["Associated_First_Report"]) : 0, "AL_FR");
+            //ComboHelper.FillCompanionClaimReportType(new DropDownList[] { ddlCompanionClaim }, false, !String.IsNullOrEmpty(Convert.ToString(drAuto_Loss_Claims["Associated_First_Report"])) ? Convert.ToDecimal(drAuto_Loss_Claims["Associated_First_Report"]) : 0, "AL_FR");
+            ComboHelper.FillAuto_Loss_Companion_Claims(new DropDownList[] { ddlCompanionClaim }, false, !String.IsNullOrEmpty(Convert.ToString(drAuto_Loss_Claims["Origin_Claim_Number"])) ? Convert.ToString(drAuto_Loss_Claims["Origin_Claim_Number"]) : "");
             if (ddlCompanionClaim.Items.Count == 0)
                 ddlCompanionClaim.Items.Insert(0, new ListItem("-- None --", "0"));
             lblClaimNumber.Text = Convert.ToString(drAuto_Loss_Claims["Origin_Claim_Number"]);
@@ -625,6 +626,8 @@ public partial class SONIC_ALClaimInfo : clsBasePage
             lblClaim_sub_status.Text = Convert.ToString(drAuto_Loss_Claims["Claim_Sub_Status"]);
             lblLocationCode.Text = Convert.ToString(drAuto_Loss_Claims["dba"]);
             lblCoverageCode.Text = Convert.ToString(drAuto_Loss_Claims["Coverage_Code"]);
+
+            lblCoverage_Code_New.Text = Convert.ToString(drAuto_Loss_Claims["Coverage_Code_New"]);
 
             lblDateSuitFiled.Text = drAuto_Loss_Claims["Date_Suit_Filed"] == DBNull.Value ? "" : clsGeneral.FormatDateToDisplay(Convert.ToDateTime(drAuto_Loss_Claims["Date_Suit_Filed"]));
             lblLitigationYN.Text = Convert.ToString(drAuto_Loss_Claims["LitigationYN"]);
@@ -1687,4 +1690,22 @@ public partial class SONIC_ALClaimInfo : clsBasePage
     }
 
     #endregion
+
+    #region "Selected index change"
+    /// <summary>
+    /// as per selected value from dropdown page redirection is done.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void ddlCompanionClaim_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        string rtnval = "";
+        if (!string.IsNullOrEmpty(ddlCompanionClaim.SelectedValue.ToString()))
+        {
+            rtnval = ddlCompanionClaim.SelectedValue.ToString();
+            Response.Redirect("ALClaimInfo.aspx?id=" + Encryption.Encrypt(rtnval.ToString()));
+        }
+    } 
+    #endregion
+        
 }

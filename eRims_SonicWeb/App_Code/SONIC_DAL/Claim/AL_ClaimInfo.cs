@@ -1305,7 +1305,7 @@ namespace ERIMS.DAL
         }
 
         /// <summary>
-        /// Filter Employee and claiment name by location
+        /// Filter Employee and claimant name by location
         /// </summary>
         /// <returns>DataSet</returns>
         public static DataSet FilterEmployeeClientNamebyLocationNumber(Decimal pK_location)
@@ -1316,6 +1316,21 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// get companion claim List by Original claim number.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectCompanionClaim_byClaim_Number(string origin_Claim_Number)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("CompanionClaim_byClaim_Number");
+
+            db.AddInParameter(dbCommand, "origin_Claim_Number", DbType.String, origin_Claim_Number);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
         #endregion
     }
 }

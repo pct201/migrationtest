@@ -607,7 +607,7 @@
                                                 <asp:LinkButton ID="lnkAssociatedFirstReport" runat="server" OnClick="lnkAssociatedFirstReport_Click"></asp:LinkButton>
                                             </td>
                                             <td align="left">
-                                                <asp:DropDownList runat="server" ID="ddlCompanionClaim">
+                                                <asp:DropDownList runat="server" ID="ddlCompanionClaim" AutoPostBack="true" OnSelectedIndexChanged="ddlCompanionClaim_SelectedIndexChanged">
                                                 </asp:DropDownList>
                                             </td>
                                         </tr>
@@ -1188,6 +1188,17 @@
                                                         </td>
                                                         <td>
                                                             <asp:Label ID="lblLineOfCoverage" runat="server"></asp:Label>
+                                                        </td>
+                                                    </tr>
+                                                     <tr>
+                                                        <td colspan="3">&nbsp;
+                                                        </td>
+                                                        <td>Coverage Code
+                                                        </td>
+                                                        <td align="center">:
+                                                        </td>
+                                                        <td>
+                                                            <asp:Label ID="lblCoverage_Code_New" runat="server"></asp:Label>
                                                         </td>
                                                     </tr>
                                                     <tr>
