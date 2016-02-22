@@ -1994,37 +1994,37 @@
                                                                                 <asp:CheckBox runat="server" ID="chkFireEdit" Text="Fire" />
                                                                             </td>
                                                                             <td style="width: 47%">
-                                                                                <asp:CheckBox runat="server" ID="chkProperty_Damage_by_Sonic_Associate" Text="Property Damage by Sonic Associate" />
+                                                                                <asp:CheckBox runat="server" ID="chkPropertyDamagebySonicAssociateEdit" Text="Property Damage by Sonic Associate" />
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td style="width: 5%">&nbsp;
                                                                             </td>
                                                                             <td style="width: 48%">
-                                                                                <asp:CheckBox runat="server" ID="chkWind_Damage" Text="Wind Damage" />
+                                                                                <asp:CheckBox runat="server" ID="chkWindDamageEdit" Text="Wind Damage" />
                                                                             </td>
                                                                             <td style="width: 47%">
-                                                                                <asp:CheckBox runat="server" ID="chkEnvironmental_Loss" Text="Environmental Loss" />
+                                                                                <asp:CheckBox runat="server" ID="chkEnvironmentalLossEdit" Text="Environmental Loss" />
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td>&nbsp;
                                                                             </td>
                                                                             <td>
-                                                                                <asp:CheckBox runat="server" ID="chkHail_Damage" Text="Hail Damage" />
+                                                                                <asp:CheckBox runat="server" ID="chkHailDamageEdit" Text="Hail Damage" />
                                                                             </td>
                                                                             <td>
-                                                                                <asp:CheckBox runat="server" ID="chkVandalism_To_The_Property" Text="Vandalism to the Property" />
+                                                                                <asp:CheckBox runat="server" ID="chkVandalismToThePropertyEdit" Text="Vandalism to the Property" />
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td>&nbsp;
                                                                             </td>
                                                                             <td>
-                                                                                <asp:CheckBox runat="server" ID="chkEarth_Movement" Text="Earth Movement" />
+                                                                                <asp:CheckBox runat="server" ID="chkEarthMovementEdit" Text="Earth Movement" />
                                                                             </td>
                                                                             <td>
-                                                                                <asp:CheckBox runat="server" ID="chkTheft_Associate_Tools" Text="Theft - Associate Tools" />
+                                                                                <asp:CheckBox runat="server" ID="chkTheftAssociateToolsEdit" Text="Theft - Associate Tools" />
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
@@ -2034,14 +2034,14 @@
                                                                                 <asp:CheckBox runat="server" ID="chkFloodEdit" Text="Flood" />
                                                                             </td>
                                                                             <td>
-                                                                                <asp:CheckBox runat="server" ID="chkTheft_All_Other" Text="Theft - All Other" />
+                                                                                <asp:CheckBox runat="server" ID="chkTheftAllOtherEdit" Text="Theft - All Other" />
                                                                             </td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td>&nbsp;
                                                                             </td>
                                                                             <td>
-                                                                                <asp:CheckBox runat="server" ID="chkThird_Party_Property_Damage" Text="Third Party Property Damage" />
+                                                                                <asp:CheckBox runat="server" ID="chkThirdPartyPropertyDamageEdit" Text="Third Party Property Damage" />
                                                                             </td>
                                                                             <td>
                                                                                 <asp:CheckBox runat="server" ID="chkOtherEdit" Text="Other" />

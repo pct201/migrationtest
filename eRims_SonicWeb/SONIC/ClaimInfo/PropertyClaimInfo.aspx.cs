@@ -358,16 +358,16 @@ public partial class SONIC_PropertyClaimInfo : clsBasePage
             #region Maintain CheckBox
 
             chkFire.Checked = chkFireEdit.Checked = drProperty_FR["Fire"].ToString().ToLower() == "true" ? true : false;
-            chkDamageBySonicAssociates.Checked = chkProperty_Damage_by_Sonic_Associate.Checked = drProperty_FR["Property_Damage_by_Sonic_Associate"].ToString().ToLower() == "true" ? true : false;
-            chkWindDamage.Checked = chkWind_Damage.Checked = drProperty_FR["Wind_Damage"].ToString().ToLower() == "true" ? true : false;
-            chkHallDamage.Checked = chkHail_Damage.Checked = drProperty_FR["Hail_Damage"].ToString().ToLower() == "true" ? true : false;
-            chkEarthMovement.Checked = chkEarth_Movement.Checked = drProperty_FR["Earth_Movement"].ToString().ToLower() == "true" ? true : false;
+            chkDamageBySonicAssociates.Checked = chkPropertyDamagebySonicAssociateEdit.Checked = drProperty_FR["Property_Damage_by_Sonic_Associate"].ToString().ToLower() == "true" ? true : false;
+            chkWindDamage.Checked = chkWindDamageEdit.Checked = drProperty_FR["Wind_Damage"].ToString().ToLower() == "true" ? true : false;
+            chkHallDamage.Checked = chkHailDamageEdit.Checked = drProperty_FR["Hail_Damage"].ToString().ToLower() == "true" ? true : false;
+            chkEarthMovement.Checked = chkEarthMovementEdit.Checked = drProperty_FR["Earth_Movement"].ToString().ToLower() == "true" ? true : false;
             chkFlood.Checked = chkFloodEdit.Checked = drProperty_FR["Flood"].ToString().ToLower() == "true" ? true : false;
-            chkThirdPartyPropertyDamage.Checked = chkThird_Party_Property_Damage.Checked = drProperty_FR["Third_Party_Property_Damage"].ToString().ToLower() == "true" ? true : false;
-            chkEnvironmetalLoss.Checked = chkEnvironmental_Loss.Checked = drProperty_FR["Environmental_Loss"].ToString().ToLower() == "true" ? true : false;
-            chkVandalismtotheProperty.Checked = chkVandalism_To_The_Property.Checked = drProperty_FR["Vandalism_To_The_Property"].ToString().ToLower() == "true" ? true : false;
-            chkTheftAssociateTools.Checked = chkTheft_Associate_Tools.Checked = drProperty_FR["Theft_Associate_Tools"].ToString().ToLower() == "true" ? true : false;
-            chkTheftAllOther.Checked = chkTheft_All_Other.Checked = drProperty_FR["Theft_All_Other"].ToString().ToLower() == "true" ? true : false;
+            chkThirdPartyPropertyDamage.Checked = chkThirdPartyPropertyDamageEdit.Checked = drProperty_FR["Third_Party_Property_Damage"].ToString().ToLower() == "true" ? true : false;
+            chkEnvironmetalLoss.Checked = chkEnvironmentalLossEdit.Checked = drProperty_FR["Environmental_Loss"].ToString().ToLower() == "true" ? true : false;
+            chkVandalismtotheProperty.Checked = chkVandalismToThePropertyEdit.Checked = drProperty_FR["Vandalism_To_The_Property"].ToString().ToLower() == "true" ? true : false;
+            chkTheftAssociateTools.Checked = chkTheftAssociateToolsEdit.Checked = drProperty_FR["Theft_Associate_Tools"].ToString().ToLower() == "true" ? true : false;
+            chkTheftAllOther.Checked = chkTheftAllOtherEdit.Checked = drProperty_FR["Theft_All_Other"].ToString().ToLower() == "true" ? true : false;
             chkOther.Checked = chkOtherEdit.Checked = drProperty_FR["Other"].ToString().ToLower() == "true" ? true : false;
 
             #endregion
@@ -1049,18 +1049,18 @@ public partial class SONIC_PropertyClaimInfo : clsBasePage
         Property_Claims objPro_FR = new Property_Claims(PK_Property_Claims_ID);
         objPro_FR.Date_Of_Loss = clsGeneral.FormatDateToStore(txtDate_Of_Loss);
         objPro_FR.Time_Of_Loss = txtTime_Of_Loss.Text;
-        objPro_FR.Fire = chkFire.Checked;
-        objPro_FR.Property_Damage_by_Sonic_Associate = chkProperty_Damage_by_Sonic_Associate.Checked;
-        objPro_FR.Wind_Damage = chkWind_Damage.Checked;
-        objPro_FR.Environmental_Loss = chkEnvironmental_Loss.Checked;
-        objPro_FR.Hail_Damage = chkHail_Damage.Checked;
-        objPro_FR.Vandalism_To_The_Property = chkVandalism_To_The_Property.Checked;
-        objPro_FR.Earth_Movement = chkEnvironmental_Loss.Checked;
-        objPro_FR.Theft_Associate_Tools = chkTheft_Associate_Tools.Checked;
-        objPro_FR.Flood = chkFlood.Checked;
-        objPro_FR.Theft_All_Other = chkTheft_All_Other.Checked;
-        objPro_FR.Third_Party_Property_Damage = chkThird_Party_Property_Damage.Checked;
-        objPro_FR.Other = chkOther.Checked;
+        objPro_FR.Fire = chkFireEdit.Checked;
+        objPro_FR.Property_Damage_by_Sonic_Associate = chkPropertyDamagebySonicAssociateEdit.Checked;
+        objPro_FR.Wind_Damage = chkWindDamageEdit.Checked;
+        objPro_FR.Environmental_Loss = chkEnvironmentalLossEdit.Checked;
+        objPro_FR.Hail_Damage = chkHailDamageEdit.Checked;
+        objPro_FR.Vandalism_To_The_Property = chkVandalismToThePropertyEdit.Checked;
+        objPro_FR.Earth_Movement = chkEarthMovementEdit.Checked;
+        objPro_FR.Theft_Associate_Tools = chkTheftAssociateToolsEdit.Checked;
+        objPro_FR.Flood = chkFloodEdit.Checked;
+        objPro_FR.Theft_All_Other = chkTheftAllOtherEdit.Checked;
+        objPro_FR.Third_Party_Property_Damage = chkThirdPartyPropertyDamageEdit.Checked;
+        objPro_FR.Other = chkOtherEdit.Checked;
         objPro_FR.Description_of_Loss = txtDescription_of_Loss.Text;
         objPro_FR.Damage_Building_Facilities_Est_Cost = string.IsNullOrEmpty(txtDamage_Building_Facilities_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Building_Facilities_Est_Cost.Text);
         objPro_FR.Damage_Building_Facilities_Actual_Cost = string.IsNullOrEmpty(txtDamage_Building_Facilities_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Building_Facilities_Actual_Cost.Text);
