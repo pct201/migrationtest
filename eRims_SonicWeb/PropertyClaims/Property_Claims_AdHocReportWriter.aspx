@@ -11,7 +11,7 @@
     <script language="javascript" type="text/javascript">
         var GB_ROOT_DIR = '<%=AppConfig.SiteURL%>' + 'greybox/';
 
-        function OPenSchedulePopup() {
+        <%--function OPenSchedulePopup() {
 
             document.getElementById('<%=rfvEmpID.ClientID %>').enabled = false;
 
@@ -20,7 +20,7 @@
             else {
                 Page_ClientValidate('dummy'); return false;
             }
-        }
+        }--%>
         function ConfirmDelete() {
             if (confirm("Are you sure that you want to delete the selected information and all of its subordinate data (if exists)?")) {
                 SaveScrollPositions();
@@ -1636,8 +1636,8 @@
                     <asp:Button ID="btnClear" runat="Server" Text="Clear" OnClick="btnClear_Click" ToolTip="Clear" />
                     <asp:Button ID="btnDeleteReport" runat="server" Text="Delete Report" OnClick="btnDeleteReport_Click"
                         ToolTip="Delete Report" OnClientClick="return ConfirmDelete();" Enabled="false" />
-                    <asp:Button ID="btnSchedule" runat="Server" CssClass="btn" Text="Schedule" ValidationGroup="vsErrorGroup"
-                        OnClientClick="javascript:OPenSchedulePopup();return false;" ToolTip="Schedule Report" />
+                    <%--<asp:Button ID="btnSchedule" runat="Server" CssClass="btn" Text="Schedule" ValidationGroup="vsErrorGroup"
+                        OnClientClick="javascript:OPenSchedulePopup();return false;" ToolTip="Schedule Report" />--%>
                     <asp:HiddenField ID="hdnScheduleID" runat="server" Value="0" />
                     <asp:Button ID="btnHdnScheduling" runat="server" OnClick="btnHdnScheduling_Click" />
                 </td>
