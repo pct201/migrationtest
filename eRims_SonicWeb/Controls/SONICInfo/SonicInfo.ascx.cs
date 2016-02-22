@@ -165,6 +165,27 @@ public partial class Controls_SONICInfo_SonicInfo : System.Web.UI.UserControl
         }
     }
 
+    public Boolean ClaimLinkVisibility
+    {
+        set
+        {
+            lnkClaimNumber.Visible = value ? true : false;
+            lnkClaimNumber.PostBackUrl = AppConfig.SiteURL + "SONIC/ClaimInfo/PropertyClaimInfo.aspx?id=" + Encryption.Encrypt(ClaimInfo);
+        }
+    }
+
+    public void SetClaimPostBackUrlAndVisibility(decimal fK_Property_Claims_ID, decimal fk_First_Report_Wizard_ID)
+    {
+        if (fK_Property_Claims_ID > 0)
+        {
+            lnkClaimNumber.Visible = true;
+            lnkClaimNumber.PostBackUrl = AppConfig.SiteURL + "SONIC/ClaimInfo/PropertyClaimInfo.aspx?id=" + Encryption.Encrypt(fK_Property_Claims_ID.ToString()) + "&mode=view&wz_id=" + Encryption.Encrypt(fk_First_Report_Wizard_ID.ToString());
+        }
+        else {
+            lnkClaimNumber.Enabled = false;
+        }
+        
+    }
 
     /// <summary>
     /// Shows Investigation block for WC module, otherwise hides.
@@ -236,7 +257,7 @@ public partial class Controls_SONICInfo_SonicInfo : System.Web.UI.UserControl
                 else if (CurrentReportType == ReportType.PL)
                     lnkClaimNumber.PostBackUrl = AppConfig.SiteURL + "SONIC/ClaimInfo/PLClaimInfo.aspx?id=" + Encryption.Encrypt(ClaimInfo);
                 else if (CurrentReportType == ReportType.Property)
-                    lnkClaimNumber.PostBackUrl = AppConfig.SiteURL + "SONIC/ClaimInfo/PropertyClaimInfo.aspx?id=" + Encryption.Encrypt(ClaimInfo);
+                    //lnkClaimNumber.PostBackUrl = AppConfig.SiteURL + "SONIC/ClaimInfo/PropertyClaimInfo.aspx?id=" + Encryption.Encrypt(ClaimInfo);
 
                 if (lstPF_FR_ID != null)
                 {

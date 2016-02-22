@@ -211,6 +211,22 @@ public partial class Sonic_Attachment : System.Web.UI.UserControl
                 //Insert the attachment record
                 objAttachment.Insert();
             }
+            else if (AttachemtnTable == clsGeneral.Tables.Property_Claims)
+            { 
+                ////set values to store in database
+                Property_Claims_Attachments objAttachment = new Property_Claims_Attachments();
+                objAttachment.Attachment_Type = "1";
+                objAttachment.Description = txtAttachDesc.Text.Trim();
+                objAttachment.FK_Property_Claims_ID = AttachmentPK;
+                // upload the document
+                string strUploadPath = clsGeneral.GetAttachmentDocPath(clsGeneral.TableNames[(int)AttachemtnTable]);
+                string DocPath = string.Concat(strUploadPath, "\\");
+
+                // upload and set the filename.
+                objAttachment.Attachment_Path = clsGeneral.UploadFile(fpFile, DocPath, false, false);
+                //Insert the attachment record
+                objAttachment.Insert();
+            }
             drpAttachType.SelectedIndex = 0;
         }
 

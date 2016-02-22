@@ -31,7 +31,7 @@ public class clsPrintClaimNotes
         else if (FK_Table_Name.ToLower() == clsGeneral.Claim_Tables.DPDClaim.ToString().ToLower())
             dtClaim = DPD_ClaimInfo.SelectViewClaim(ClaimID).Tables[0];
         else if (FK_Table_Name.ToLower() == clsGeneral.Claim_Tables.PropertyClaim.ToString().ToLower())
-            dtClaim = Property_ClaimInfo.SelectByPK(ClaimID).Tables[0];
+            dtClaim = Property_ClaimInfo.SelectByClaimID(ClaimID).Tables[0];
         else if (FK_Table_Name.ToLower() == clsGeneral.Claim_Tables.WCClaim.ToString().ToLower())
             dtClaim = WC_ClaimInfo.SelectByPK(ClaimID).Tables[0];
 

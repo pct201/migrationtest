@@ -9,16 +9,16 @@ using System.IO;
 using ERIMS.DAL;
 //using iTextSharp.text.pdf;
 
-public partial class Controls_Attachments_AttachmentEvent : System.Web.UI.UserControl
+public partial class Controls_Attachments_Attachment_Property_Claims : System.Web.UI.UserControl
 {
     #region " Properties "
     /// <summary>
     /// Denotes primary key for Attachment 
     /// </summary>
-    public decimal PK_Attachment_Event
+    public decimal PK_Property_Claims_Attacments_ID
     {
-        get { return Convert.ToDecimal(ViewState["PK_Attachment_Event" + this.ID]); }
-        set { ViewState["PK_Attachment_Event" + this.ID] = value; }
+        get { return Convert.ToDecimal(ViewState["PK_Property_Claims_Attacments_ID" + this.ID]); }
+        set { ViewState["PK_Property_Claims_Attacments_ID" + this.ID] = value; }
     }
 
     /// <summary>
@@ -100,7 +100,9 @@ public partial class Controls_Attachments_AttachmentEvent : System.Web.UI.UserCo
             // bind folder grid and other required dropdowns
             BindGridFolders();
             BindDropdowns();
+            
         }
+        AttathmentPanelNumber = 4;
     }
 
     #endregion
@@ -113,31 +115,13 @@ public partial class Controls_Attachments_AttachmentEvent : System.Web.UI.UserCo
     private void BindDropdowns()
     {
         // virtual folder dropdown
-        DataTable dtFolder = null;
-        if ((int)MajorCoverage == 21)
-        {
-            dtFolder = clsVirtual_Folder.SelectForClaimAttachment(((int)MajorCoverage).ToString(),FK_Table).Tables[0];
-        }
-        else
-        {
-            dtFolder = clsVirtual_Folder.SelectForAddAttachment(((int)MajorCoverage).ToString(), Attachment_Table.ToString(), FK_Table, Convert.ToDecimal(clsSession.UserID)).Tables[0];
-        }
-
+        DataTable dtFolder = clsVirtual_Folder.SelectForClaimAttachment(((int)MajorCoverage).ToString(), FK_Table).Tables[0];
         dtFolder.DefaultView.Sort = "Folder_Name";
         drpFolder.DataSource = dtFolder.DefaultView;
         drpFolder.DataTextField = "Folder_Name";
         drpFolder.DataValueField = "PK_Virtual_Folder";
         drpFolder.DataBind();
         drpFolder.Items.Insert(0, new ListItem("--Select--", "0"));
-
-        // tags dropdown
-        //DataTable dtTags = clsLU_Tag.SelectAll().Tables[0];
-        //dtTags.DefaultView.Sort = "Tag_Name";
-        //drpTag.DataSource = dtTags.DefaultView;
-        //drpTag.DataTextField = "Tag_Name";
-        //drpTag.DataValueField = "PK_LU_Tag";
-        //drpTag.DataBind();
-        //drpTag.Items.Insert(0, new ListItem("--Select--", "0"));
     }
 
     /// <summary>
@@ -146,15 +130,7 @@ public partial class Controls_Attachments_AttachmentEvent : System.Web.UI.UserCo
     public void BindGridFolders()
     {
         // select virtual folder records by major coverage, claim ID and currently logged in user id
-        DataTable dtFolder = null;
-        if ((int)MajorCoverage == 21)
-        {
-            dtFolder = clsVirtual_Folder.SelectForClaimAttachment(((int)MajorCoverage).ToString(),FK_Table).Tables[0];
-        }
-        else
-        {
-            dtFolder = clsVirtual_Folder.SelectForAddAttachment(((int)MajorCoverage).ToString(), Attachment_Table.ToString(), FK_Table, Convert.ToDecimal(clsSession.UserID)).Tables[0];
-        }
+        DataTable dtFolder = clsVirtual_Folder.SelectForClaimAttachment(((int)MajorCoverage).ToString(), FK_Table).Tables[0];
         gvFolders.DataSource = dtFolder;
         gvFolders.DataBind();
 
@@ -171,7 +147,7 @@ public partial class Controls_Attachments_AttachmentEvent : System.Web.UI.UserCo
     protected void btnViewSelection_Click(object sender, EventArgs e)
     {
         // set sorting properties and bind the file list grid
-        _SortBy = "Attach_Date";
+        _SortBy = "PK_Property_Claims_Attacments_ID";
         _SortOrder = "asc";
         BindGridFiles();
 
@@ -193,10 +169,10 @@ public partial class Controls_Attachments_AttachmentEvent : System.Web.UI.UserCo
         if (FK_Table > 0)
         {
             // set controls in add mode
-            PK_Attachment_Event = 0;
+            PK_Property_Claims_Attacments_ID = 0;
             drpFolder.SelectedIndex = 0;
-            fpFile.Enabled = true;
-            rfvFile.Enabled = true;
+            fpFileClaim.Enabled = true;
+            rfvFileClaim.Enabled = true;
             txtNewFileName.Text = "";
             //drpTag.SelectedIndex = 0;
             //drpTag.Enabled = false;
@@ -210,7 +186,7 @@ public partial class Controls_Attachments_AttachmentEvent : System.Web.UI.UserCo
             tblFolderList.Visible = tblFileList.Visible = false;
             btnAddAttachment.Visible = true;// btnAddTag.Visible = btnDeleteTag.Visible = true;
             //btnAddTag.Enabled = btnDeleteTag.Visible = false;
-            drpFolder.Enabled = txtNewFileName.Enabled = fpFile.Enabled = rfvFile.Enabled = true;
+            drpFolder.Enabled = txtNewFileName.Enabled = fpFileClaim.Enabled = rfvFileClaim.Enabled = true;
             ShowPanel();
         }
         else
@@ -252,40 +228,15 @@ public partial class Controls_Attachments_AttachmentEvent : System.Web.UI.UserCo
                 strFK_IDs = hdnVirtualFolderID.Value;
 
             // select the Data for selected virtual folders of the claim and fill the Grid
-            DataTable dtAttachment = null;
+            DataTable dtAttachment = Property_Claims_Attachments.SelectForClaim(FK_Table, strFK_IDs, Convert.ToDecimal(clsSession.UserID)).Tables[0];
 
-            if ((int)MajorCoverage == 21)
-            {
-                dtAttachment = Property_Claims_Attachments.SelectForClaim(FK_Table, strFK_IDs, Convert.ToDecimal(clsSession.UserID)).Tables[0];
-            }
-            else {
-                dtAttachment = clsAttachment_Event.SelectForClaim(FK_Table, strFK_IDs, Attachment_Table.ToString(), Convert.ToDecimal(clsSession.UserID)).Tables[0];
-                // set the sort properties
-                if (_SortBy == "" || _SortOrder == "")
-                {
-                    _SortBy = "Attach_Date";
-                    _SortOrder = "asc";
-                }
-                dtAttachment.DefaultView.Sort = _SortBy + " " + _SortOrder;
-            }
-            
+            dtAttachment.DefaultView.Sort = _SortBy + " " + _SortOrder;
             // bind the grid
             gvFiles.DataSource = dtAttachment;
             gvFiles.DataBind();
             btnViewPDF.Visible = false; //(dtAttachment.Rows.Count > 0);
             btnEmail.Visible = dtAttachment.Rows.Count > 0;
-            // show/hide the edit, view, delete linkbutton in grid as per the user rights
-            //foreach (GridViewRow gRow in gvFiles.Rows)
-            //{
-            //    bool bView = Convert.ToBoolean(Convert.ToInt32(((HtmlInputHidden)gRow.FindControl("hdnView")).Value));
-            //    bool bEdit = Convert.ToBoolean(Convert.ToInt32(((HtmlInputHidden)gRow.FindControl("hdnEdit")).Value));
-            //    bool bAdd = Convert.ToBoolean(Convert.ToInt32(((HtmlInputHidden)gRow.FindControl("hdnAdd")).Value));
-            //    bool bDelete = Convert.ToBoolean(Convert.ToInt32(((HtmlInputHidden)gRow.FindControl("hdnDelete")).Value));
-            //    ((LinkButton)gRow.FindControl("lnkEdit")).Visible = !ReadOnly && (bDelete || bAdd || bEdit);
-            //    ((LinkButton)gRow.FindControl("lnkView")).Visible = ReadOnly || (bDelete || bAdd || bEdit || bView);
-            //    ((LinkButton)gRow.FindControl("lnkDelete")).Visible = !ReadOnly && bDelete;
-            //}
-            gvFiles.Columns[5].Visible = !ReadOnly;
+            gvFiles.Columns[3].Visible = !ReadOnly;
             SetControlsByAccess();
         }
         else
@@ -295,20 +246,6 @@ public partial class Controls_Attachments_AttachmentEvent : System.Web.UI.UserCo
             btnViewPDF.Visible = false;
         }
     }
-
-    /// <summary>
-    /// Binds the grid for tags list
-    /// </summary>
-    //private void BindGridTags()
-    //{
-    //    // select tags records for attachment and bind the grid
-    //    DataTable dtTags = clsAttachment_Tag.SelectByFK(PK_Attachment).Tables[0];
-    //    gvTags.DataSource = dtTags;
-    //    gvTags.DataBind();
-
-    //    // show delete tag if records are available
-    //    btnDeleteTag.Visible = dtTags.Rows.Count > 0;
-    //}
 
     /// <summary>
     /// Handles View PDF(s) button click event
@@ -362,10 +299,10 @@ public partial class Controls_Attachments_AttachmentEvent : System.Web.UI.UserCo
             }
         }
         strIDs = strIDs.TrimEnd(',');
-
+        ShowPanel();
         // if no PDFs selected then show message else show PDFViewer page
         if (pdfCount > 0)
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowMailPage('" + strIDs + "');", true);
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowMailPageClaim('" + strIDs + "');", true);
         else
             Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:" + (AttathmentPanelNumber > 0 ? "ShowPanel(" + AttathmentPanelNumber + ");" : "") + "alert('Please select at least one file');", true);
     }
@@ -380,10 +317,8 @@ public partial class Controls_Attachments_AttachmentEvent : System.Web.UI.UserCo
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
             LinkButton lnkDocName = (LinkButton)e.Row.FindControl("lnkDocName");
-            string strURL = AppConfig.SiteURL + "/Download.aspx?ID=" + Encryption.Encrypt(DataBinder.Eval(e.Row.DataItem, "PK_Attachment_Event").ToString()) + "&claimtbl=44";
+            string strURL = AppConfig.SiteURL + "/Download.aspx?Property_Claims_ID=" + Encryption.Encrypt(DataBinder.Eval(e.Row.DataItem, "PK_Property_Claims_Attacments_ID").ToString()) + "&claimtbl=44";
             lnkDocName.OnClientClick = "javascript:return openWindow('" + strURL + "');";
-            //((LinkButton)e.Row.FindControl("lnkEdit")).Style.Add("display", "none");
-            //((LinkButton)e.Row.FindControl("lnkView")).Style.Add("display", "none");
         }
     }
 
@@ -398,17 +333,19 @@ public partial class Controls_Attachments_AttachmentEvent : System.Web.UI.UserCo
         if (e.CommandName == "EditAttachment")
         {
             // get PK
-            PK_Attachment_Event = Convert.ToDecimal(e.CommandArgument);
+            PK_Property_Claims_Attacments_ID = Convert.ToDecimal(e.CommandArgument);
 
             // bind the controls in edit mode
             // also set the controls required in edit mode
-            clsAttachment_Event objAttachment = new clsAttachment_Event(PK_Attachment_Event);
+            Property_Claims_Attachments property_Claims_Attachments = new Property_Claims_Attachments(PK_Property_Claims_Attacments_ID);
             drpFolder.ClearSelection();
             //drpTag.ClearSelection();
-            drpFolder.SelectedValue = objAttachment.FK_Virtual_Folder.ToString();
-            txtNewFileName.Text = objAttachment.Attachment_Description;
-            fpFile.Enabled = false;
-            rfvFile.Enabled = false;
+            //drpFolder.SelectedValue = objAttachment.FK_Virtual_Folder.ToString();
+            drpFolder.SelectedValue = property_Claims_Attachments.FK_Virtual_Folder.HasValue ? property_Claims_Attachments.FK_Virtual_Folder.Value.ToString() : "0";
+            //txtNewFileName.Text = objAttachment.Attachment_Description;
+            txtNewFileName.Text = property_Claims_Attachments.Attachment_Path;
+            fpFileClaim.Enabled = false;
+            rfvFileClaim.Enabled = false;
             btnAddAttachment.Text = btnAddAttachment.Text.Replace("Add", "Edit");
             lblAttachHeader.Text = lblAttachHeader.Text.Replace("Add", "Edit");
             lblAttachHeader.Visible = true;
@@ -419,7 +356,7 @@ public partial class Controls_Attachments_AttachmentEvent : System.Web.UI.UserCo
             //btnAddTag.Enabled = true;
             tblFolderList.Visible = tblFileList.Visible = false;
             drpFolder.Enabled = txtNewFileName.Enabled = true;// drpTag.Enabled = true;
-            fpFile.Enabled = rfvFile.Enabled = false;
+            fpFileClaim.Enabled = rfvFileClaim.Enabled = false;
             btnAddAttachment.Visible = true;// btnAddTag.Visible = btnDeleteTag.Visible = true;
             SetControlsByAccess();
             ShowPanel();
@@ -427,22 +364,22 @@ public partial class Controls_Attachments_AttachmentEvent : System.Web.UI.UserCo
         else if (e.CommandName == "ViewAttachment") // if command is for view
         {
             // get PK
-            PK_Attachment_Event = Convert.ToDecimal(e.CommandArgument);
+            PK_Property_Claims_Attacments_ID = Convert.ToDecimal(e.CommandArgument);
 
             // bind the controls in view mode
             // also set the controls required for view mode
-            clsAttachment_Event objAttachment = new clsAttachment_Event(PK_Attachment_Event);
+            Property_Claims_Attachments property_Claims_Attachments = new Property_Claims_Attachments(PK_Property_Claims_Attacments_ID);
             drpFolder.ClearSelection();
-            drpFolder.SelectedValue = objAttachment.FK_Virtual_Folder.ToString();
-            txtNewFileName.Text = objAttachment.Attachment_Description;
-            fpFile.Enabled = false;
-            rfvFile.Enabled = false;
+            drpFolder.SelectedValue = property_Claims_Attachments.FK_Virtual_Folder.ToString();
+            txtNewFileName.Text = property_Claims_Attachments.Attachment_Path;
+            fpFileClaim.Enabled = false;
+            rfvFileClaim.Enabled = false;
             lblAttachHeader.Visible = false;
             lblAttachHeaderView.Visible = true;
             tblAddEditAttachment.Visible = true;
             //BindGridTags();
             hdnBackTo.Value = "1";
-            drpFolder.Enabled = txtNewFileName.Enabled = fpFile.Enabled = rfvFile.Enabled = false;// drpTag.Enabled = false;
+            drpFolder.Enabled = txtNewFileName.Enabled = fpFileClaim.Enabled = rfvFileClaim.Enabled = false;// drpTag.Enabled = false;
             tblFolderList.Visible = tblFileList.Visible = false;
             btnAddAttachment.Visible = true;// btnDeleteTag.Visible = btnAddTag.Visible = false;
             //gvTags.Columns[0].Visible = false;
@@ -454,7 +391,7 @@ public partial class Controls_Attachments_AttachmentEvent : System.Web.UI.UserCo
             string[] strArgs = e.CommandArgument.ToString().Split(':');
 
             // delete record from DB, delete attachment file as well as the pdf thumbnail
-            clsAttachment_Event.DeleteByPK(Convert.ToDecimal(strArgs[0]));
+            Property_Claims_Attachments.Delete(Convert.ToDecimal(strArgs[0]));
             if (File.Exists(AppConfig.DocumentsPath + "Attach\\" + strArgs[1]))
                 File.Delete(AppConfig.DocumentsPath + "Attach\\" + strArgs[1]);
             if (File.Exists(AppConfig.DocumentsPath + "Attach\\" + strArgs[1] + "_Thumb.jpg"))
@@ -504,48 +441,8 @@ public partial class Controls_Attachments_AttachmentEvent : System.Web.UI.UserCo
         _SortOrder = (_SortBy == e.SortExpression) ? (_SortOrder == "asc" ? "desc" : "asc") : "asc";
         _SortBy = e.SortExpression;
         BindGridFiles();
+        ShowPanel();
     }
-
-    //protected void btnRemoveAttachment_Click(object sender, EventArgs e)
-    //{
-    //    // generate comma seperated string of ids of records in Attachment Tables,
-    //    // use those id to delete selected records.
-    //    string strIDs = "0", strDeletedFiles = string.Empty, strFiles = string.Empty; //will have the comma seperated IDs 
-
-    //    //loop through all the records in grid
-    //    for (int i = 0; i < gvFiles.Rows.Count; i++)
-    //    {
-    //        // if check box is checked for this item. append id to remove.
-    //        CheckBox chkSelect = (CheckBox)gvFiles.Rows[i].FindControl("chkFile");
-    //        if (chkSelect.Checked)
-    //        {
-    //            string strFileName = string.Empty, strExtension = string.Empty;
-
-    //            HtmlInputHidden hdnID = (HtmlInputHidden)gvFiles.Rows[i].FindControl("hdnID");
-    //            strFileName = ((HtmlInputHidden)gvFiles.Rows[i].FindControl("hdnFileName")).Value;
-    //            strExtension = clsGeneral.GetExtension(strFileName);
-
-    //            if (strIDs == "0")
-    //                strIDs = hdnID.Value;
-    //            else
-    //                strIDs = strIDs + "," + hdnID.Value;
-
-    //            // delete the uploaded document
-    //            string strDocPath = AppConfig.DocumentsPath + "Attach\\" + strFileName;
-
-    //            if (File.Exists(strDocPath))
-    //                File.Delete(strDocPath);
-    //        }
-    //    }
-
-    //    //// delete record from database
-    //    Attachment.DeleteByID(strIDs);
-    //    BindGridFiles();
-
-    //    tblFileList.Visible = true;
-    //    tblFolderList.Visible = tblAddEditAttachment.Visible = false;
-    //    ShowPanel();
-    //}
 
     /// <summary>
     /// Handles event when Cancel button below the file list is clicked 
@@ -683,12 +580,12 @@ public partial class Controls_Attachments_AttachmentEvent : System.Web.UI.UserCo
             else
             {
                 ////set values to store in database
-                clsAttachment_Event objAttachment;
+                Property_Claims_Attachments objAttachment;
 
-                if (PK_Attachment_Event > 0)
-                    objAttachment = new clsAttachment_Event(PK_Attachment_Event);
+                if (PK_Property_Claims_Attacments_ID > 0)
+                    objAttachment = new Property_Claims_Attachments(PK_Property_Claims_Attacments_ID);
                 else
-                    objAttachment = new clsAttachment_Event();
+                    objAttachment = new Property_Claims_Attachments();
 
                 bool bValid = true;
                 string strExtension;
@@ -696,10 +593,10 @@ public partial class Controls_Attachments_AttachmentEvent : System.Web.UI.UserCo
                 // check file Extensions for new file name provided by user
                 if (txtNewFileName.Text.Trim() != "")
                 {
-                    if (!clsGeneral.IsNull(fpFile.PostedFile))
-                        strExtension = fpFile.PostedFile.FileName.Substring(fpFile.PostedFile.FileName.LastIndexOf("."));
+                    if (!clsGeneral.IsNull(fpFileClaim.PostedFile))
+                        strExtension = fpFileClaim.PostedFile.FileName.Substring(fpFileClaim.PostedFile.FileName.LastIndexOf("."));
                     else
-                        strExtension = objAttachment.Attachment_Name.Substring(objAttachment.Attachment_Name.LastIndexOf(".")); ;
+                        strExtension = objAttachment.Attachment_Path.Substring(objAttachment.Attachment_Path.LastIndexOf(".")); ;
 
                     // if extensions are not same then set flag
                     if (!txtNewFileName.Text.ToLower().EndsWith(strExtension.ToLower()))
@@ -717,41 +614,35 @@ public partial class Controls_Attachments_AttachmentEvent : System.Web.UI.UserCo
                 {
                     // set properties from page controls
                     objAttachment.FK_Virtual_Folder = Convert.ToDecimal(drpFolder.SelectedValue);
-                    objAttachment.Attachment_Table = Attachment_Table.ToString();
-                    objAttachment.FK_Table = FK_Table;
-                    objAttachment.FK_Attachment_Type = 0;
-                    objAttachment.Updated_By = clsSession.UserID;
-                    objAttachment.Update_Date = DateTime.Now;
-                    objAttachment.Attach_Date = DateTime.Now;
 
                     // if PK is available then update the record
-                    if (PK_Attachment_Event > 0)
+                    if (PK_Property_Claims_Attacments_ID > 0)
                     {
-                        objAttachment.Attachment_Description = (txtNewFileName.Text.Trim() != string.Empty) ? txtNewFileName.Text.Trim() : objAttachment.Attachment_Name.Substring(12);
+                        //objAttachment.Attachment_Description = (txtNewFileName.Text.Trim() != string.Empty) ? txtNewFileName.Text.Trim() : objAttachment.Attachment_Name.Substring(12);
                         objAttachment.Update();
                     }
                     else
                     {
-                        if (!clsGeneral.IsNull(fpFile.PostedFile.FileName))
+                        if (!clsGeneral.IsNull(fpFileClaim.PostedFile.FileName))
                         {
-                            objAttachment.Attachment_Description = (txtNewFileName.Text.Trim() != string.Empty) ? txtNewFileName.Text.Trim() : fpFile.PostedFile.FileName.Substring(fpFile.PostedFile.FileName.LastIndexOf("\\") + 1);
+                            objAttachment.Description = (txtNewFileName.Text.Trim() != string.Empty) ? txtNewFileName.Text.Trim() : fpFileClaim.PostedFile.FileName.Substring(fpFileClaim.PostedFile.FileName.LastIndexOf("\\") + 1);
                             // upload the document
-                            string strUploadPath = AppConfig.DocumentsPath + "Attach\\";
+                            string strUploadPath = clsGeneral.GetAttachmentDocPath(clsGeneral.TableNames[(int)clsGeneral.Tables.Property_Claims]);
                             // upload and set the filename.
-                            objAttachment.Attachment_Name = clsGeneral.UploadFile(fpFile, strUploadPath, false, false);
-                            objAttachment.Thumbnail_File_Name = GetThumbnailImagePath(AppConfig.DocumentsPath + "Attach\\" + objAttachment.Attachment_Name);
-                            objAttachment.Page_Count = null;//GetPDFPageCount(AppConfig.DocumentsPath + "Attach\\" + objAttachment.Attachment_Name);
+                            objAttachment.Attachment_Path = clsGeneral.UploadFile(fpFileClaim, strUploadPath, false, false);
+                            objAttachment.FK_Property_Claims_ID = FK_Table;
+                            objAttachment.Attachment_Type = "1";
                             //Insert the attachment record
-                            PK_Attachment_Event = objAttachment.Insert();
+                            PK_Property_Claims_Attacments_ID = objAttachment.Insert();
                         }
                     }
 
                     // show/hide the required controls
                     if (txtNewFileName.Text == string.Empty)
-                        txtNewFileName.Text = objAttachment.Attachment_Description;
+                        txtNewFileName.Text = objAttachment.Description;
                     btnAddAttachment.Text = btnAddAttachment.Text.Replace("Add", "Edit");
                     lblAttachHeader.Text = lblAttachHeader.Text.Replace("Add", "Edit");
-                    fpFile.Enabled = rfvFile.Enabled = false;
+                    fpFileClaim.Enabled = rfvFileClaim.Enabled = false;
                     drpFolder.Enabled = true;
                     //drpTag.Enabled = true;
                     //btnAddTag.Enabled = true;
@@ -897,19 +788,19 @@ public partial class Controls_Attachments_AttachmentEvent : System.Web.UI.UserCo
     public void ShowAttachmentDetails()
     {
         // create object for attachment 
-        clsAttachment_Event objAttachment = new clsAttachment_Event(PK_Attachment_Event);
+        clsAttachment_Event objAttachment = new clsAttachment_Event(PK_Property_Claims_Attacments_ID);
         drpFolder.ClearSelection();
         drpFolder.SelectedValue = objAttachment.FK_Virtual_Folder.ToString();
         txtNewFileName.Text = objAttachment.Attachment_Description;
 
         // show/hide the controls
-        fpFile.Enabled = false;
-        rfvFile.Enabled = false;
+        fpFileClaim.Enabled = false;
+        rfvFileClaim.Enabled = false;
         lblAttachHeaderView.Visible = true;
         lblAttachHeader.Visible = false;
         tblAddEditAttachment.Visible = true;
         //BindGridTags();
-        drpFolder.Enabled = txtNewFileName.Enabled = fpFile.Enabled = rfvFile.Enabled = false;// drpTag.Enabled = false;
+        drpFolder.Enabled = txtNewFileName.Enabled = fpFileClaim.Enabled = rfvFileClaim.Enabled = false;// drpTag.Enabled = false;
         tblFolderList.Visible = tblFileList.Visible = false;
         btnAddAttachment.Visible = false;// btnDeleteTag.Visible = btnAddTag.Visible = false;
         //gvTags.Columns[0].Visible = false;

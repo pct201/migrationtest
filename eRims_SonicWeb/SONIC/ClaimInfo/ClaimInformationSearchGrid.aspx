@@ -61,17 +61,20 @@
                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                     <tr>
                         <td width="100%" colspan="7" valign="top">
-                            <asp:GridView ID="gvClaimInfoSearchGrid" runat="server" DataKeyNames="PK_ID,Claim_Type,Url"
+                            <asp:GridView ID="gvClaimInfoSearchGrid" runat="server" DataKeyNames="PK_ID,Claim_Type,Url,FK_First_Report_Wizard_ID"
                                 AutoGenerateColumns="false" Width="100%"  AllowSorting="True" OnRowCommand="gvClaimInfoSearchGrid_RowCommand"
                                 OnRowCreated="gvClaimInfoSearchGrid_RowCreated" OnRowDataBound="gvClaimInfoSearchGrid_RowDataBound"
                                 OnSorting="gvClaimInfoSearchGrid_Sorting">
                                 <Columns>
                                     <asp:TemplateField HeaderText="TPA Claim Number" SortExpression="Origin_Claim_Number">
-                                        <ItemStyle HorizontalAlign="Left" Width="20%" />
+                                        <ItemStyle HorizontalAlign="Left" Width="15%" />
                                         <ItemTemplate>
                                             <asp:LinkButton runat="server" ID="lnkView" CommandName="View">
                                                 <%#Eval("Origin_Claim_Number")%>
                                             </asp:LinkButton>
+                                            <asp:Label ID="lblClaimNumber" runat="server" Visible="false">
+                                                <%#Eval("Origin_Claim_Number")%>
+                                            </asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Sonic Location d/b/a" SortExpression="dba">
@@ -96,6 +99,18 @@
                                         <ItemStyle HorizontalAlign="Left" Width="15%" />
                                         <ItemTemplate>
                                             <%# Eval("Claim_Type")%>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="View" HeaderStyle-HorizontalAlign="Center">
+                                        <ItemStyle HorizontalAlign="Center" Width="10%" />
+                                        <ItemTemplate>
+                                            <asp:Button ID="btnView" runat="server" CommandName="ViewClaim" Text="View" />
+                                        </ItemTemplate> 
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Edit" HeaderStyle-HorizontalAlign="Center">
+                                        <ItemStyle HorizontalAlign="Center" Width="10%" />
+                                        <ItemTemplate>
+                                            <asp:Button ID="btnEdit" runat="server" CommandName="EditClaim" Text="Edit" />
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                 </Columns>

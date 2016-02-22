@@ -96,7 +96,7 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
         CtrlAttachment.btnHandler += new Sonic_Attachment.OnButtonClick(Upload_File);
         if (!Page.IsPostBack)
         {
-            btnSendMail.Visible = (UserAccessType == AccessType.Administrative_Access);            
+            btnSendMail.Visible = (UserAccessType == AccessType.Administrative_Access);
             if (Request.QueryString["WZ_ID"] != null)
             {
                 int WZ_ID;
@@ -124,7 +124,12 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
                     }
                     else
                     {
-                        strPageOpeMode = (new Property_FR(PK_Prop_FR_ID).Complete == false) ? "edit" : "view";
+                        bool isReportCompleted = new Property_FR(PK_Prop_FR_ID).Complete;
+                        strPageOpeMode = !isReportCompleted ? "edit" : "view";
+                        //SonicInfo.ClaimLinkVisibility = isReportCompleted ? true : false;
+                        Property_Claims property_Claims = new Property_Claims();
+                        property_Claims.SelectByProperty_FR_ID(PK_Prop_FR_ID);
+                        SonicInfo.SetClaimPostBackUrlAndVisibility(property_Claims.PK_Property_Claims_ID == null ? 0 : property_Claims.PK_Property_Claims_ID.Value, property_Claims.FK_First_Report_Wizard_ID);
                     }
                 }
                 catch
@@ -160,6 +165,7 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
                 ComboHelper.FillLocationfka(new DropDownList[] { ddlLocationfka }, 0, true);
                 //Fetch Related Record for Location and EMployee
                 BindLocationandContactInfo();
+                
                 #endregion
 
                 #region Loss Information
@@ -176,6 +182,7 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
             {
                 //Bind Page in View Mode
                 BindPageInViewMode();
+                
             }
             else if (strPageOpeMode == "edit")
             {
@@ -353,7 +360,6 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
     {
         //update Loss Information
         UpdateLossInformation();
-        //CopyDataToPropertyClaim();
         //Bind Sonic Header
         setSonicHeaderInfo();
         //used to open Commment Information panel using ShowPanel Javascript function
@@ -369,9 +375,6 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
     {
         //Complate Property_First Report and Send Email.
         int retVal = ComplateProperty_FRReport(true);
-
-        //CopyDataToPropertyClaim();
-
         if (retVal == 1)
         {
             Response.Redirect("FirstReportStatus.aspx");
@@ -387,70 +390,32 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
         }
     }
 
-    //private void CopyDataToPropertyClaim()
-    //{
-    //    Property_Claims property_Claims = new Property_Claims();
+    private void CopyDataToPropertyClaim()
+    {
+        Property_Claims.CopyDataFromFRToClaims(PK_Prop_FR_ID, (int)clsGeneral.Major_Coverage.Property_Claims);
+    }
 
-    //    property_Claims.FK_Property_FR_ID = PK_Prop_FR_ID;
-    //    property_Claims.Date_Of_Loss = clsGeneral.FormatDateToStore(txtDate_Of_Loss);
-    //    property_Claims.Time_Of_Loss = txtTime_Of_Loss.Text;
-    //    property_Claims.Fire = chkFire.Checked;
-    //    property_Claims.Property_Damage_by_Sonic_Associate = chkProperty_Damage_by_Sonic_Associate.Checked;
-    //    property_Claims.Wind_Damage = chkWind_Damage.Checked;
-    //    property_Claims.Environmental_Loss = chkEnvironmental_Loss.Checked;
-    //    property_Claims.Hail_Damage = chkHail_Damage.Checked;
-    //    property_Claims.Vandalism_To_The_Property = chkVandalism_To_The_Property.Checked;
-    //    property_Claims.Earth_Movement = chkEnvironmental_Loss.Checked;
-    //    property_Claims.Theft_Associate_Tools = chkTheft_Associate_Tools.Checked;
-    //    property_Claims.Flood = chkFlood.Checked;
-    //    property_Claims.Theft_All_Other = chkTheft_All_Other.Checked;
-    //    property_Claims.Third_Party_Property_Damage = chkThird_Party_Property_Damage.Checked;
-    //    property_Claims.Other = chkOther.Checked;
-    //    property_Claims.Description_of_Loss = txtDescription_of_Loss.Text;
-    //    property_Claims.Damage_Building_Facilities_Est_Cost = string.IsNullOrEmpty(txtDamage_Building_Facilities_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Building_Facilities_Est_Cost.Text);
-    //    property_Claims.Damage_Building_Facilities_Actual_Cost = string.IsNullOrEmpty(txtDamage_Building_Facilities_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Building_Facilities_Actual_Cost.Text);
-    //    property_Claims.Damage_Equipment_Est_Cost = string.IsNullOrEmpty(txtDamage_Equipment_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Equipment_Est_Cost.Text);
-    //    property_Claims.Damage_Equipment_Actual_Cost = string.IsNullOrEmpty(txtDamage_Equipment_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Equipment_Actual_Cost.Text);
-    //    property_Claims.Damage_Product_Damage_Est_Cost = string.IsNullOrEmpty(txtDamage_Product_Damage_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Product_Damage_Est_Cost.Text);
-    //    property_Claims.Damage_Product_Damage_Actual_Cost = string.IsNullOrEmpty(txtDamage_Product_Damage_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Product_Damage_Actual_Cost.Text);
-    //    property_Claims.Damage_Parts_Est_Cost = string.IsNullOrEmpty(txtDamage_Parts_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Parts_Est_Cost.Text);
-    //    property_Claims.Damage_Parts_Actual_Cost = string.IsNullOrEmpty(txtDamage_Parts_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Parts_Actual_Cost.Text);
-    //    property_Claims.Damage_Salvage_Cleanup_Est_Cost = string.IsNullOrEmpty(txtDamage_Salvage_Cleanup_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Salvage_Cleanup_Est_Cost.Text);
-    //    property_Claims.Damage_Salvage_Cleanup_Actual_Cost = string.IsNullOrEmpty(txtDamage_Salvage_Cleanup_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Salvage_Cleanup_Actual_Cost.Text);
-    //    property_Claims.Damage_Decontamination_Est_Cost = string.IsNullOrEmpty(txtDamage_Decontamination_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Decontamination_Est_Cost.Text);
-    //    property_Claims.Damage_Decontamination_Actual_Cost = string.IsNullOrEmpty(txtDamage_Decontamination_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Decontamination_Actual_Cost.Text);
-    //    property_Claims.Damage_Electronic_Data_Est_Cost = string.IsNullOrEmpty(txtDamage_Electronic_Data_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Electronic_Data_Est_Cost.Text);
-    //    property_Claims.Damage_Electronic_Data_Actual_Cost = string.IsNullOrEmpty(txtDamage_Electronic_Data_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Electronic_Data_Actual_Cost.Text);
-    //    property_Claims.Damage_Service_Interruption_Est_Cost = string.IsNullOrEmpty(txtDamage_Service_Interruption_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Service_Interruption_Est_Cost.Text);
-    //    property_Claims.Damage_Service_Interruption_Actual_Cost = string.IsNullOrEmpty(txtDamage_Service_Interruption_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Service_Interruption_Actual_Cost.Text);
-    //    property_Claims.Damage_Payroll_Est_Cost = string.IsNullOrEmpty(txtDamage_Payroll_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Payroll_Est_Cost.Text);
-    //    property_Claims.Damage_Payroll_Actual_Cost = string.IsNullOrEmpty(txtDamage_Payroll_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Payroll_Actual_Cost.Text);
-    //    property_Claims.Damage_Loss_of_Sales_Est_Cost = string.IsNullOrEmpty(txtDamage_Loss_of_Sales_Est_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Loss_of_Sales_Est_Cost.Text);
-    //    property_Claims.Damage_Loss_of_Sales_Actual_Cost = string.IsNullOrEmpty(txtDamage_Loss_of_Sales_Actual_Cost.Text) ? 0 : Convert.ToDecimal(txtDamage_Loss_of_Sales_Actual_Cost.Text);
-    //    property_Claims.Date_Cleanup_Complete = clsGeneral.FormatDateToStore(txtDate_Cleanup_Complete);
-    //    property_Claims.Date_Repairs_Complete = clsGeneral.FormatDateToStore(txtDate_Repairs_Complete);
-    //    property_Claims.Date_Full_Service_Resumed = clsGeneral.FormatDateToStore(txtDate_Full_Service_Resumed);
-    //    property_Claims.Date_Fire_Protection_Services_Resumed = clsGeneral.FormatDateToStore(txtDate_Fire_Protection_Services_Resumed);
-    //    if (rdo_Security_Video_Surveillance.SelectedValue == "1")
-    //    {
-    //        property_Claims.Security_Video_Surveillance = true;
-    //    }
-    //    else if (rdo_Security_Video_Surveillance.SelectedValue == "0")
-    //    {
-    //        property_Claims.Security_Video_Surveillance = false;
-    //    }
-    //    else
-    //        property_Claims.Security_Video_Surveillance = null;
-
-
-    //    DataTable dtBuilding = Property_FR_Building.GetBuildingResultByPropertyID(PK_Prop_FR_ID);
-
-    //    foreach (DataRow drBuilding in dtBuilding.Rows)
-    //    {
-    //        Property_Claims_Building property_Claims_Building = new Property_Claims_Building();
-            
-    //    }
-    //}
+    /// <summary>
+    /// Copy files from Property_FR to Property_Claims folders
+    /// </summary>
+    private void CopyFolderStructure()
+    {
+        DataSet dsAttachmentData = Property_FR_Attacments.SelectByFK_Property_FR_ID(PK_Prop_FR_ID);
+        if (dsAttachmentData != null && dsAttachmentData.Tables.Count > 0 && dsAttachmentData.Tables[0] != null)
+        {
+            string strSourcePath = clsGeneral.GetAttachmentDocPath(clsGeneral.TableNames[(int)clsGeneral.Tables.Property_FR]);
+            string strDestPath = clsGeneral.GetAttachmentDocPath(clsGeneral.TableNames[(int)clsGeneral.Tables.Property_Claims]);
+            string DocSourcePath = string.Concat(strSourcePath, "\\");
+            string DocDestPath = string.Concat(strDestPath, "\\");
+            string strSourceFullName = string.Empty, strDestFullName = string.Empty;
+            foreach (DataRow dr in dsAttachmentData.Tables[0].Rows)
+            {
+                strSourceFullName = DocSourcePath + Convert.ToString(dr["Attachment_Path"]);
+                strDestFullName = DocDestPath + Convert.ToString(dr["Attachment_Path"]);
+                clsGeneral.CopyFile(strSourceFullName, strDestFullName, true, false);
+            }
+        }
+    }
 
     #endregion
 
@@ -524,11 +489,11 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
             txtContactEmailAddress.Text = (drFRW["FRWEmail"] != null) ? Convert.ToString(drFRW["FRWEmail"]) : "";
             //fill Controls By Cost Center Value
             txtCostCenterdba.Text = (drFRW["dba"] != null) ? Convert.ToString(drFRW["dba"]) : "";
-            txtCostCenterAddress1.Text = (drFRW["Address_1"] != null) ? Convert.ToString(drFRW["Address_1"]) : "";
-            txtCostCenterAddress2.Text = (drFRW["Address_2"] != null) ? Convert.ToString(drFRW["Address_2"]) : "";
-            txtCostCenterCity.Text = (drFRW["City"] != null) ? Convert.ToString(drFRW["City"]) : "";
+            txtCostCenterAddress1.Text = (drFRW["Employee_Address_1"] != null) ? Convert.ToString(drFRW["Employee_Address_1"]) : "";
+            txtCostCenterAddress2.Text = (drFRW["Employee_Address_2"] != null) ? Convert.ToString(drFRW["Employee_Address_2"]) : "";
+            txtCostCenterCity.Text = (drFRW["Employee_City"] != null) ? Convert.ToString(drFRW["Employee_City"]) : "";
             txtCostCenterState.Text = new State(!string.IsNullOrEmpty(Convert.ToString(drFRW["State"])) ? Convert.ToDecimal(drFRW["State"]) : 0).FLD_state;
-            txtCostCenterZipCode.Text = (drFRW["Zip_Code"] != null) ? Convert.ToString(drFRW["Zip_Code"]) : "";
+            txtCostCenterZipCode.Text = (drFRW["Employee_Zip_Code"] != null) ? Convert.ToString(drFRW["Employee_Zip_Code"]) : "";
 
             #endregion
 
@@ -705,7 +670,8 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
             if (PK_Prop_FR_ID > 0)
                 objProp_FR.Update();
 
-
+            CopyDataToPropertyClaim();
+            CopyFolderStructure();
             if (SendFirstReportMail(_IsAttachment))
             {
                 return 1;
@@ -1011,11 +977,11 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
             lblContactEmailAddress.Text = (drFRW["FRWEmail"] != null) ? Convert.ToString(drFRW["FRWEmail"]) : "";
             //fill Controls By Cost Center Value
             lblCostCenterdba.Text = (drFRW["dba"] != null) ? Convert.ToString(drFRW["dba"]) : "";
-            lblCostCenterAddress1.Text = (drFRW["Address_1"] != null) ? Convert.ToString(drFRW["Address_1"]) : "";
-            lblCostCenterAddress2.Text = (drFRW["Address_2"] != null) ? Convert.ToString(drFRW["Address_2"]) : "";
-            lblCostCenterCity.Text = (drFRW["City"] != null) ? Convert.ToString(drFRW["City"]) : "";
+            lblCostCenterAddress1.Text = (drFRW["Employee_Address_1"] != null) ? Convert.ToString(drFRW["Employee_Address_1"]) : "";
+            lblCostCenterAddress2.Text = (drFRW["Employee_Address_2"] != null) ? Convert.ToString(drFRW["Employee_Address_2"]) : "";
+            lblCostCenterCity.Text = (drFRW["Employee_City"] != null) ? Convert.ToString(drFRW["Employee_City"]) : "";
             lblCostCenterState.Text = new State(!string.IsNullOrEmpty(Convert.ToString(drFRW["State"])) ? Convert.ToDecimal(drFRW["State"]) : 0).FLD_state;
-            lblCostCenterZipCode.Text = (drFRW["Zip_Code"] != null) ? Convert.ToString(drFRW["Zip_Code"]) : "";
+            lblCostCenterZipCode.Text = (drFRW["Employee_Zip_Code"] != null) ? Convert.ToString(drFRW["Employee_Zip_Code"]) : "";
             #endregion
             lblDate_Reported_To_Sonic.Text = clsGeneral.FormatDateToDisplay(objPro_FR.Date_Reported_to_Sonic);
             #endregion
@@ -1373,11 +1339,11 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
             txtContactEmailAddress.Text = (drFRW["FRWEmail"] != null) ? Convert.ToString(drFRW["FRWEmail"]) : "";
             //fill Controls By Cost Center Value
             txtCostCenterdba.Text = (drFRW["dba"] != null) ? Convert.ToString(drFRW["dba"]) : "";
-            txtCostCenterAddress1.Text = (drFRW["Address_1"] != null) ? Convert.ToString(drFRW["Address_1"]) : "";
-            txtCostCenterAddress2.Text = (drFRW["Address_2"] != null) ? Convert.ToString(drFRW["Address_2"]) : "";
-            txtCostCenterCity.Text = (drFRW["City"] != null) ? Convert.ToString(drFRW["City"]) : "";
+            txtCostCenterAddress1.Text = (drFRW["Employee_Address_1"] != null) ? Convert.ToString(drFRW["Employee_Address_1"]) : "";
+            txtCostCenterAddress2.Text = (drFRW["Employee_Address_2"] != null) ? Convert.ToString(drFRW["Employee_Address_2"]) : "";
+            txtCostCenterCity.Text = (drFRW["Employee_City"] != null) ? Convert.ToString(drFRW["Employee_City"]) : "";
             txtCostCenterState.Text = new State(!string.IsNullOrEmpty(Convert.ToString(drFRW["State"])) ? Convert.ToDecimal(drFRW["State"]) : 0).FLD_state;
-            txtCostCenterZipCode.Text = (drFRW["Zip_Code"] != null) ? Convert.ToString(drFRW["Zip_Code"]) : "";
+            txtCostCenterZipCode.Text = (drFRW["Employee_Zip_Code"] != null) ? Convert.ToString(drFRW["Employee_Zip_Code"]) : "";
             txtDate_Reported_To_Sonic.Text = clsGeneral.FormatDateToDisplay(objPro_FR.Date_Reported_to_Sonic);
             #endregion
 
@@ -1578,11 +1544,11 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
                 strEbdy = strEbdy.Replace("[lblContactEmailAddress]", (drFRW["FRWEmail"] != null) ? Convert.ToString(drFRW["FRWEmail"]) : "");
                 //fill Controls By Cost Center Value
                 strEbdy = strEbdy.Replace("[lblCostCenterdba]", (drFRW["dba"] != null) ? Convert.ToString(drFRW["dba"]) : "");
-                strEbdy = strEbdy.Replace("[lblCostCenterAddress1]", (drFRW["Address_1"] != null) ? Convert.ToString(drFRW["Address_1"]) : "");
-                strEbdy = strEbdy.Replace("[lblCostCenterAddress2]", (drFRW["Address_2"] != null) ? Convert.ToString(drFRW["Address_2"]) : "");
-                strEbdy = strEbdy.Replace("[lblCostCenterCity]", (drFRW["City"] != null) ? Convert.ToString(drFRW["City"]) : "");
+                strEbdy = strEbdy.Replace("[lblCostCenterAddress1]", (drFRW["Employee_Address_1"] != null) ? Convert.ToString(drFRW["Employee_Address_1"]) : "");
+                strEbdy = strEbdy.Replace("[lblCostCenterAddress2]", (drFRW["Employee_Address_2"] != null) ? Convert.ToString(drFRW["Employee_Address_2"]) : "");
+                strEbdy = strEbdy.Replace("[lblCostCenterCity]", (drFRW["Employee_City"] != null) ? Convert.ToString(drFRW["Employee_City"]) : "");
                 strEbdy = strEbdy.Replace("[lblCostCenterState]", new State(!string.IsNullOrEmpty(Convert.ToString(drFRW["State"])) ? Convert.ToDecimal(drFRW["State"]) : 0).FLD_state);
-                strEbdy = strEbdy.Replace("[lblCostCenterZipCode]", (drFRW["Zip_Code"] != null) ? Convert.ToString(drFRW["Zip_Code"]) : "");
+                strEbdy = strEbdy.Replace("[lblCostCenterZipCode]", (drFRW["Employee_Zip_Code"] != null) ? Convert.ToString(drFRW["Employee_Zip_Code"]) : "");
                 strEbdy = strEbdy.Replace("[lblDate_Reported_To_Sonic]", clsGeneral.FormatDateToDisplay(objPro_FR.Date_Reported_to_Sonic));
                 #endregion
                 #endregion
@@ -1786,7 +1752,7 @@ public partial class SONIC_PropertyFirstReport : clsBasePage
         SonicInfo.FirstReportNumber = "Prop-" + objPro_FR.Property_FR_Number.ToString();
         SonicInfo.SONICLocationdba = new LU_Location(objPro_FR.FK_Location_Code).dba.ToString();
         SonicInfo.DateOfIncident = clsGeneral.FormatDateToDisplay(objPro_FR.Date_Of_Loss);
-
+        
         //Set Claim Number
         DataTable dtClaimInfo = WC_ClaimInfo.Select_Claim_Number(Convert.ToInt32(objPro_FR.Property_FR_Number), "Property");
         if (dtClaimInfo.Rows.Count > 0)

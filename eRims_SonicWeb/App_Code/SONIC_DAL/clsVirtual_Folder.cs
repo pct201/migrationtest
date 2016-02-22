@@ -225,6 +225,18 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        public static DataSet SelectForClaimAttachment(string major_Coverage, decimal fK_Table)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Virtual_FolderSelectForClaimAttachment");
+
+            db.AddInParameter(dbCommand, "Major_Coverage", DbType.String, major_Coverage);
+            db.AddInParameter(dbCommand, "FK_Table", DbType.Decimal, fK_Table);
+            dbCommand.CommandTimeout = 100000;
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
         public int IsValid()
         {
             Database db = DatabaseFactory.CreateDatabase();

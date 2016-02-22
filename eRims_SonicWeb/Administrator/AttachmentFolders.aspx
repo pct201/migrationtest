@@ -112,6 +112,7 @@
                             <td align="left" valign="top">
                                 <asp:CheckBoxList ID="chkMajorCoverage" runat="server">
                                     <asp:ListItem Text="Event" Value="18" />
+                                    <asp:ListItem Text="Property Claim" Value="21" />
                                 </asp:CheckBoxList>
                                 <asp:CustomValidator ID="cvMajorCoverage" runat="server" ErrorMessage="Please select Module(s)"
                                     ClientValidationFunction="CheckMajCov" ValidationGroup="vsErrorGroup" Display="None" />

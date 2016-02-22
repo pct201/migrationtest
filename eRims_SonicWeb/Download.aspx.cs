@@ -196,6 +196,70 @@ public partial class Download : System.Web.UI.Page
                     }
                 }
             }
+            else if (!string.IsNullOrEmpty(clsSession.UserID) && !string.IsNullOrEmpty(Request.QueryString["Property_Claims_ID"]))//For event
+            {
+                decimal _Pk_ID;
+                string strFilePath = string.Empty, strFileName = string.Empty, strUserFileName = string.Empty;
+
+                if (decimal.TryParse(Encryption.Decrypt(Convert.ToString(Request.QueryString["Property_Claims_ID"])), out _Pk_ID))
+                {
+                    try
+                    {
+                        // Create Attachment objects
+                        Property_Claims_Attachments objAttachment = new Property_Claims_Attachments(_Pk_ID);
+
+                        if (!string.IsNullOrEmpty(Request.QueryString["Property_Claims_ID"]))
+                        {
+                            strFilePath = string.Concat(clsGeneral.GetAttachmentDocPath(clsGeneral.TableNames[(int)clsGeneral.Tables.Property_Claims]), "\\");
+                            strUserFileName = objAttachment.Attachment_Path;
+                        }
+                        //else if (!string.IsNullOrEmpty(Request.QueryString["tbl"]))
+                        //{
+                        //    foreach (clsGeneral.Tables tbl in Enum.GetValues(typeof(clsGeneral.Tables)))
+                        //    {
+                        //        if (tbl.ToString() == Request.QueryString["tbl"].ToString())
+                        //        {
+                        //            strFilePath = clsGeneral.GetAttachmentDocPath(tbl.ToString());
+                        //            break;
+                        //        }
+                        //    }
+                        //    strUserFileName = objAttachment.Attachment_Name.Substring(12);
+                        //}
+
+                        // Append "\" if not 
+                        if (!strFilePath.EndsWith("\\"))
+                            strFilePath = strFilePath + "\\";
+
+                        strFileName = strFilePath + objAttachment.Attachment_Path;
+                        System.IO.FileInfo file = new System.IO.FileInfo(strFileName);
+                        if (file.Exists)
+                        {
+                            // Transfer File
+                            HttpContext.Current.Response.Clear();
+                            HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", strUserFileName));
+                            HttpContext.Current.Response.AddHeader("Content-Length", file.Length.ToString());
+                            HttpContext.Current.Response.ContentType = "application/octet-stream";//ReturnExtension(clsGeneral.GetExtension(objAttachment.Attachment_Name));
+                            HttpContext.Current.Response.TransmitFile(strFileName);
+                            HttpContext.Current.Response.Flush();
+                            //HttpContext.Current.ApplicationInstance.CompleteRequest();
+                            HttpContext.Current.Response.End();
+                        }
+                        else
+                        {
+                            this.Page.ClientScript.RegisterStartupScript(this.GetType(), DateTime.Now.ToString(), "alert('Selected attachment(s) are not found.','false');close();", true);
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        string str = ex.Message;
+                        //throw ex;
+                    }
+                    finally
+                    {
+                    }
+                }
+            }
             else if (!string.IsNullOrEmpty(Request.QueryString["outlookattachment"]))
             {
                 try

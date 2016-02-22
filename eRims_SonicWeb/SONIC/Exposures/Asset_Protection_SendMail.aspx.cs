@@ -57,7 +57,7 @@ public partial class SONIC_Exposures_Asset_Protection_SendMail : System.Web.UI.P
                         else if (FK_Table_Name.ToLower() == clsGeneral.Claim_Tables.DPDClaim.ToString().ToLower())
                             dtClaim = DPD_ClaimInfo.SelectViewClaim(Convert.ToInt64(Claim_ID)).Tables[0];
                         else if (FK_Table_Name.ToLower() == clsGeneral.Claim_Tables.PropertyClaim.ToString().ToLower())
-                            dtClaim = Property_ClaimInfo.SelectByPK(Convert.ToInt64(Claim_ID)).Tables[0];
+                            dtClaim = Property_ClaimInfo.SelectByClaimID(Convert.ToInt64(Claim_ID)).Tables[0];
                         else if (FK_Table_Name.ToLower() == clsGeneral.Claim_Tables.WCClaim.ToString().ToLower())
                             dtClaim = WC_ClaimInfo.SelectByPK(Convert.ToInt64(Claim_ID)).Tables[0];
 

@@ -194,6 +194,11 @@ public partial class Controls_AttachmentDetails_AttachmentDetails : System.Web.U
             Investigation_Attachments.DeleteByMultiIDs(strIDs);
             Bind();
         }
+        else if (AttachmentTable == clsGeneral.Tables.Property_Claims)
+        {
+            Property_Claims_Attachments.DeleteByMultiIDs(strIDs);
+            Bind();
+        }
 
         if (IntAttachmentPanel > 0)
         { Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(" + IntAttachmentPanel + ");", true); }
@@ -327,7 +332,15 @@ public partial class Controls_AttachmentDetails_AttachmentDetails : System.Web.U
                 btnRemoveAttachment.Visible = (AllowRemove && dtAtt.Rows.Count > 0) ? true : false;
                 //btnMail.Visible = (AllowRemove && dtAtt.Rows.Count > 0) ? true : false;
                 gvAttachment.Columns[0].Visible = AllowRemove;
-            }  
+            }
+            else if (AttachmentTable == clsGeneral.Tables.Property_Claims)
+            {
+                DataTable dtAtt = Property_Claims_Attachments.SelectByClaim_ID(AttachmentFK).Tables[0];
+                gvAttachment.DataSource = dtAtt;
+                gvAttachment.DataBind();
+                btnRemoveAttachment.Visible = (AllowRemove && dtAtt.Rows.Count > 0) ? true : false;
+                gvAttachment.Columns[0].Visible = AllowRemove;
+            }
         }
     }
 

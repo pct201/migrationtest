@@ -53,7 +53,7 @@ public partial class SONIC_ClaimInformationSearchGrid : System.Web.UI.Page
     /// <param name="e"></param>
     protected void Page_Load(object sender, EventArgs e)
     {
-     
+
         //check Page is Postback or not
         if (!IsPostBack)
         {
@@ -104,15 +104,20 @@ public partial class SONIC_ClaimInformationSearchGrid : System.Web.UI.Page
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
             //Find view button and set command argument to find redirect page from Datakey Collection of gridview.
-            LinkButton btnView = (LinkButton)e.Row.FindControl("lnkView");
+            LinkButton lnkView = (LinkButton)e.Row.FindControl("lnkView");
+            Button btnView = (Button)e.Row.FindControl("btnView");
+            Button btnEdit = (Button)e.Row.FindControl("btnEdit");
+
+            lnkView.CommandArgument = Convert.ToString(e.Row.RowIndex);
             btnView.CommandArgument = Convert.ToString(e.Row.RowIndex);
+            btnEdit.CommandArgument = Convert.ToString(e.Row.RowIndex);
         }
     }
-   /// <summary>
-   /// GridView Row Data Bound Event
-   /// </summary>
-   /// <param name="sender"></param>
-   /// <param name="e"></param>
+    /// <summary>
+    /// GridView Row Data Bound Event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void gvClaimInfoSearchGrid_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         //check Rowtype
@@ -122,6 +127,21 @@ public partial class SONIC_ClaimInformationSearchGrid : System.Web.UI.Page
             //check Date_Of_Incident value from datset. if it is not null than display it in proper format.
             if (DataBinder.Eval(e.Row.DataItem, "Date_of_Accident") != DBNull.Value)
                 lblDate_of_Accident.Text = clsGeneral.FormatDateToDisplay(Convert.ToDateTime(DataBinder.Eval(e.Row.DataItem, "Date_of_Accident")));
+
+            if (!string.IsNullOrEmpty(Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Claim_Type"))) && Convert.ToString(DataBinder.Eval(e.Row.DataItem, "Claim_Type")).ToUpper() == "PROPERTY")
+            {
+                Label lblClaimNumber = (Label)e.Row.FindControl("lblClaimNumber");
+                lblClaimNumber.Visible = true;
+                LinkButton lnkView = (LinkButton)e.Row.FindControl("lnkView");
+                lnkView.Visible = false;
+            }
+            else
+            {
+                Button btnEdit = (Button)e.Row.FindControl("btnEdit");
+                Button btnView = (Button)e.Row.FindControl("btnView");
+                btnEdit.Visible = false;
+                btnView.Visible = false;
+            }
         }
     }
     /// <summary>
@@ -143,26 +163,30 @@ public partial class SONIC_ClaimInformationSearchGrid : System.Web.UI.Page
     /// <param name="e"></param>
     protected void gvClaimInfoSearchGrid_RowCommand(object sender, GridViewCommandEventArgs e)
     {
-        //check Command Name
-        if (e.CommandName == "View")
+        int Index = Convert.ToInt32(e.CommandArgument);
+        int PK_ID = (gvClaimInfoSearchGrid.DataKeys[Index].Values["PK_ID"] != null) ? Convert.ToInt32(gvClaimInfoSearchGrid.DataKeys[Index].Values["PK_ID"]) : 0;
+        string Claim_Type = (gvClaimInfoSearchGrid.DataKeys[Index].Values["Claim_Type"] != null) ? gvClaimInfoSearchGrid.DataKeys[Index].Values["Claim_Type"].ToString() : "";
+        string url = (gvClaimInfoSearchGrid.DataKeys[Index].Values["Url"] != null) ? gvClaimInfoSearchGrid.DataKeys[Index].Values["Url"].ToString() : "";
+        string FK_First_Report_Wizard_ID = (gvClaimInfoSearchGrid.DataKeys[Index].Values["FK_First_Report_Wizard_ID"] != null) ? Convert.ToString(gvClaimInfoSearchGrid.DataKeys[Index].Values["FK_First_Report_Wizard_ID"]) : "";
+        string redirectURL = string.Empty;
+
+        if (e.CommandName == "View" || e.CommandName == "ViewClaim")
         {
-            int Index = Convert.ToInt32(e.CommandArgument);
-            int PK_ID = (gvClaimInfoSearchGrid.DataKeys[Index].Values["PK_ID"] != null) ? Convert.ToInt32(gvClaimInfoSearchGrid.DataKeys[Index].Values["PK_ID"]) : 0;
-            string Claim_Type = (gvClaimInfoSearchGrid.DataKeys[Index].Values["Claim_Type"] != null) ? gvClaimInfoSearchGrid.DataKeys[Index].Values["Claim_Type"].ToString() : "";
-            string url = (gvClaimInfoSearchGrid.DataKeys[Index].Values["Url"] != null) ? gvClaimInfoSearchGrid.DataKeys[Index].Values["Url"].ToString() : "";
-
-            // show First Reports in view mode
-            //check if Url is blank than it redirect to search page
-            if (Claim_Type != string.Empty)
-            {
-                //used to set Tab 
-                SetTab(Claim_Type);
-
-                Response.Redirect(url + "?id=" + Encryption.Encrypt(PK_ID.ToString()));
-            }
-            else
-                Response.Redirect("ClaimInformationSearch.aspx");
+            redirectURL = url + "?id=" + Encryption.Encrypt(PK_ID.ToString()) + "&mode=view&wz_id=" + Encryption.Encrypt(FK_First_Report_Wizard_ID);
         }
+        else if (e.CommandName == "EditClaim")
+        {
+            redirectURL = url + "?id=" + Encryption.Encrypt(PK_ID.ToString()) + "&mode=edit&wz_id=" + Encryption.Encrypt(FK_First_Report_Wizard_ID);
+        }
+
+        if (Claim_Type != string.Empty)
+        {
+            SetTab(Claim_Type);
+            Response.Redirect(redirectURL);
+        }
+        else
+            Response.Redirect("ClaimInformationSearch.aspx");
+
     }
 
     #region Methods
@@ -173,7 +197,7 @@ public partial class SONIC_ClaimInformationSearchGrid : System.Web.UI.Page
     /// <param name="PageNumber">Current page number</param>
     /// <param name="PageSize">Number of records to be displayed on a page</param>
     private void BindGrid(int PageNumber, int PageSize)
-    {
+     {
         // check for session containing all search values if it is null or not
         // if null then  redirect to search page
         if (Session["dtClaimInfoSearch"] != null)
@@ -205,7 +229,7 @@ public partial class SONIC_ClaimInformationSearchGrid : System.Web.UI.Page
                     foreach (DataRow drRegion in dsRegion.Tables[0].Rows)
                     {
                         Regional += drRegion["Region"].ToString() + ",";
-                    }                   
+                    }
                 }
                 else
                     Regional = string.Empty;
@@ -216,7 +240,7 @@ public partial class SONIC_ClaimInformationSearchGrid : System.Web.UI.Page
                     CurrentEmployee = 0;
                 //Code End Here.. Ravi Gupta
                 // selects records depending on paging criteria and search values.
-                DataSet dsClaimInfo = Claim_Information.GetSearchResults(LocationNumber, DateOfAccident, AssociatedFirstReport, EmployeeName, TPAClaimNumber, ClaimType, SortBy, SortOrder, PageNumber, PageSize, Regional.ToString().TrimEnd(Convert.ToChar(",")), CurrentEmployee, ClaimStatus,drSearch["ClaimantName"].ToString());
+                DataSet dsClaimInfo = Claim_Information.GetSearchResults(LocationNumber, DateOfAccident, AssociatedFirstReport, EmployeeName, TPAClaimNumber, ClaimType, SortBy, SortOrder, PageNumber, PageSize, Regional.ToString().TrimEnd(Convert.ToChar(",")), CurrentEmployee, ClaimStatus, drSearch["ClaimantName"].ToString());
                 DataTable dtFRData = dsClaimInfo.Tables[0];
 
                 //// set values for paging control,so it shows values as needed.

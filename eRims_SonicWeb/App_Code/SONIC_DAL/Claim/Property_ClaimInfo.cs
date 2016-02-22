@@ -55,6 +55,16 @@ namespace ERIMS.DAL
             return db.ExecuteDataSet(dbCommand);
         }
 
+        public static DataSet SelectByClaimID(decimal pK_Property_Claims_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Property_ClaimsInfo");
+
+            db.AddInParameter(dbCommand, "PK_Property_Claims_ID", DbType.Decimal, pK_Property_Claims_ID);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
         #endregion
     }
 }

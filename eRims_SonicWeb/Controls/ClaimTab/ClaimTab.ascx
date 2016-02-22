@@ -85,7 +85,10 @@
                 {
                     var id1 = '<%=clsSession.ClaimID_Diary %>';
                     var PageURL = pgURL + '?id=' + id1;
-                    window.location.href= PageURL;
+                    if (Num == 4) {
+                        PageURL += '&from=property';
+                    }
+                    window.location.href = PageURL;
                 }
             }
         }

@@ -21,7 +21,6 @@ namespace ERIMS.DAL
 
         #endregion
 
-
         #region Properties
 
 
@@ -77,7 +76,6 @@ namespace ERIMS.DAL
 
 
         #endregion
-
 
         #region Constructors
 
@@ -139,8 +137,6 @@ namespace ERIMS.DAL
 
 
         #endregion
-
-
 
         #region Methods
         /// <summary>
@@ -244,6 +240,21 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "strIDs", DbType.String, strIDs);
 
             db.ExecuteNonQuery(dbCommand);
+        }
+
+        /// <summary>
+        /// Select attachments by FK_Porperty_FR_ID
+        /// </summary>
+        /// <param name="FK_Property_FR_ID"></param>
+        /// <returns></returns>
+        public static DataSet SelectByFK_Property_FR_ID(decimal FK_Property_FR_ID)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Property_FR_AttacmentsSelectByFK_Property_FR_ID");
+
+            db.AddInParameter(dbCommand, "FK_Property_FR_ID", DbType.Decimal, FK_Property_FR_ID);
+
+            return db.ExecuteDataSet(dbCommand);
         }
         #endregion
     }

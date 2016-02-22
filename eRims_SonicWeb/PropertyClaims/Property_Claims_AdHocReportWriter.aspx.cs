@@ -1,16 +1,15 @@
-﻿using System;
+﻿using ERIMS.DAL;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Text;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
-using ERIMS.DAL;
 using System.Web.UI.HtmlControls;
-using System.Data;
-using System.Text;
-using System.IO;
-using System.Collections;
+using System.Web.UI.WebControls;
 
-public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBasePage
+public partial class PropertyClaims_Property_Claims_AdHocReportWriter : System.Web.UI.Page
 {
     public enum ReportOutputType : int
     {
@@ -79,42 +78,49 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
     /// <param name="e"></param>
     protected void btnExportExcel_Click(object sender, EventArgs e)
     {
-        //Bind Report
-        StringBuilder sbRecord = new StringBuilder();
-        string strFilePath = BindReport(ref sbRecord, ReportOutputType.ExportToExcel);
-        string outputFiles = string.Empty;
-        bool blnHTML2Excel = false;
-        if (File.Exists(strFilePath))
+        try
         {
-            string data = File.ReadAllText(strFilePath);
-            data = data.Trim();
-            HTML2Excel objHtml2Excel = new HTML2Excel(data);
-            outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
-            blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+            //Bind Report
+            StringBuilder sbRecord = new StringBuilder();
+            string strFilePath = BindReport(ref sbRecord, ReportOutputType.ExportToExcel);
+            string outputFiles = string.Empty;
+            bool blnHTML2Excel = false;
+            if (File.Exists(strFilePath))
+            {
+                string data = File.ReadAllText(strFilePath);
+                data = data.Trim();
+                HTML2Excel objHtml2Excel = new HTML2Excel(data);
+                outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
+                blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
+            }
+
+
+            //If records found
+            //if (File.Exists(strFilePath))
+            if (blnHTML2Excel)
+            {
+                try
+                {
+                    HttpContext.Current.Response.Clear();
+                    HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"" + "Property Claims Ad-Hoc Report.xlsx" + "\""));
+                    HttpContext.Current.Response.ContentType = "application/ms-excel";
+                    HttpContext.Current.Response.TransmitFile(outputFiles);
+                    HttpContext.Current.Response.Flush();
+                }
+                finally
+                {
+                    if (File.Exists(outputFiles))
+                        File.Delete(outputFiles);
+                    if (File.Exists(strFilePath))
+                        File.Delete(strFilePath);
+
+                    HttpContext.Current.Response.End();
+                }
+            }
         }
-
-
-        //If records found
-        //if (File.Exists(strFilePath))
-        if (blnHTML2Excel)
+        catch (Exception ex)
         {
-            try
-            {
-                HttpContext.Current.Response.Clear();
-                HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename=\"" + "Investigation Ad-Hoc Report.xlsx" + "\""));
-                HttpContext.Current.Response.ContentType = "application/ms-excel";
-                HttpContext.Current.Response.TransmitFile(outputFiles);
-                HttpContext.Current.Response.Flush();
-            }
-            finally
-            {
-                if (File.Exists(outputFiles))
-                    File.Delete(outputFiles);
-                if (File.Exists(strFilePath))
-                    File.Delete(strFilePath);
-
-                HttpContext.Current.Response.End();
-            }
+            ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert(\" " + ex.Message + " \");", true);
         }
     }
 
@@ -125,29 +131,36 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
     /// <param name="e"></param>
     protected void lnkSendEmail_Click(object sender, EventArgs e)
     {
-        //Bind Report
-        StringBuilder sbRecord = new StringBuilder();
-        string strFilePath = BindReport(ref sbRecord, ReportOutputType.ExportAsMail);
-        bool blnHTML2Excel = false;
-        string outputFiles = string.Empty;
-        if (File.Exists(strFilePath))
+        try
         {
-            string data = File.ReadAllText(strFilePath);
-            data = data.Trim();
-            HTML2Excel objHtml2Excel = new HTML2Excel(data);
-            outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
-            blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
-        }
-        //If records found
-        if (blnHTML2Excel)
-        {
-            if (clsGeneral.SendAdHocReport("Ad Hoc Report", outputFiles, "Investigation Ad-Hoc Report.xlsx", Convert.ToDecimal(ddlRecipientList.SelectedItem.Value)))
+            //Bind Report
+            StringBuilder sbRecord = new StringBuilder();
+            string strFilePath = BindReport(ref sbRecord, ReportOutputType.ExportAsMail);
+            bool blnHTML2Excel = false;
+            string outputFiles = string.Empty;
+            if (File.Exists(strFilePath))
             {
-                ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Email Sent Successfully')", true);
-                File.Delete(strFilePath);
+                string data = File.ReadAllText(strFilePath);
+                data = data.Trim();
+                HTML2Excel objHtml2Excel = new HTML2Excel(data);
+                outputFiles = Path.GetFullPath(strFilePath) + ".xlsx";
+                blnHTML2Excel = objHtml2Excel.Convert2Excel(outputFiles);
             }
-            else
-                ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Error occured while sending email.Please contact administrator')", true);
+            //If records found
+            if (blnHTML2Excel)
+            {
+                if (clsGeneral.SendAdHocReport("Ad Hoc Report", outputFiles, "Property Claims Ad-Hoc Report.xlsx", Convert.ToDecimal(ddlRecipientList.SelectedItem.Value)))
+                {
+                    ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Email Sent Successfully')", true);
+                    File.Delete(strFilePath);
+                }
+                else
+                    ScriptManager.RegisterClientScriptBlock(Page, this.GetType(), "", "alert('Error occured while sending email.Please contact administrator')", true);
+            }
+        }
+        catch (Exception ex)
+        {
+            ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert(\"" + ex.Message + "\");", true);
         }
     }
 
@@ -158,7 +171,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
     /// <param name="e"></param>
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
-        DataTable dtAdHocReport = Invest_AdHocReport.ExistsReportName(txtReportName.Text, (ddlReports.SelectedIndex > 0) ? Convert.ToDecimal(ddlReports.SelectedValue) : 0);
+        DataTable dtAdHocReport = Property_Claims_AdHocReport.ExistsReportName(txtReportName.Text, (ddlReports.SelectedIndex > 0) ? Convert.ToDecimal(ddlReports.SelectedValue) : 0);
 
         if (dtAdHocReport.Rows.Count > 0)
         {
@@ -188,7 +201,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
         if (ddlReports.SelectedIndex > 0)
         {
             // Delete Report and all Filter Criteria
-            Invest_AdHocReport.DeleteByPK(Convert.ToDecimal(ddlReports.SelectedItem.Value));
+            Property_Claims_AdHocReport.DeleteByPK(Convert.ToDecimal(ddlReports.SelectedItem.Value));
             hdnReportId.Value = "0";
             txtReportName.Text = "";
             SetDefaults();
@@ -322,7 +335,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
                     SetRelativeDateControl(txtDate_To1, imgDate_To1, true);
                     txtDate_To1.Text = AdHocReportHelper.GetRelativeDate(ucRelativeDatesTo_1.RelativeDate).ToString("MM/dd/yyyy");
                 }
-                else SetRelativeDateControl(txtDate_To1, imgDate_To1, true);
+                else SetRelativeDateControl(txtDate_To1, imgDate_To1, false);
                 break;
             case "ucRelativeDatesFrom_2":
                 if (ucRelativeDatesFrom_2.RelativeDate != AdHocReportHelper.RaltiveDates.NotSet)
@@ -626,8 +639,6 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
                 drpAmount_Changed(isDollar, drpAmount_F8, lblAmountText1_F8, txtAmount1_F8, lblAmountText2_F8, txtAmount2_F8, cvAmount8);
                 break;
             case "drpAmount_F9":
-                if (drpFilter9.SelectedItem.Text == "Operator Age")
-                    isDollar = false;
                 drpAmount_Changed(isDollar, drpAmount_F9, lblAmountText1_F9, txtAmount1_F9, lblAmountText2_F9, txtAmount2_F9, cvAmount9);
                 break;
             case "drpAmount_F10":
@@ -652,12 +663,12 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
         {
             // Set Report PK
             _dcSelectedReport = 0;
-            List<Invest_AdHocFilter> lstFilter = new List<Invest_AdHocFilter>();
+            List<Property_Claims_AdHocFilter> lstFilter = new List<Property_Claims_AdHocFilter>();
 
             _dcSelectedReport = Convert.ToDecimal(ddlReports.SelectedItem.Value);
-            lstFilter = new Invest_AdHocFilter().GetAdHocReportFieldByPk(_dcSelectedReport.Value);
+            lstFilter = new Property_Claims_AdHocFilter().GetAdHocReportFieldByPk(_dcSelectedReport.Value);
 
-            Invest_AdHocReport ObjAdHocReport = new Invest_AdHocReport(_dcSelectedReport.Value);
+            Property_Claims_AdHocReport ObjAdHocReport = new Property_Claims_AdHocReport(_dcSelectedReport.Value);
 
             // Clear All Panels to bank
             ClearAllFilterPanel();
@@ -671,6 +682,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
 
             SetGroupFilterByControl(ObjAdHocReport.FirstGroupBy, drpGroupByFirst, rdblGroupSortByFirst, ObjAdHocReport.FirstGroupByOrder);
             SetGroupFilterByControl(ObjAdHocReport.SecondGroupBy, drpGroupBySecond, rdblGroupSortBySecond, ObjAdHocReport.SecondGroupByOrder);
+            SetGroupFilterByControl(ObjAdHocReport.ThirdGroupBy, drpGroupByThird, rdblGroupSortByThird, ObjAdHocReport.ThirdGroupByOrder);
             SetGroupFilterByControl(ObjAdHocReport.FirstSortBy, drpSortingFirst, rdbSort1, ObjAdHocReport.FirstSortByOrder);
             SetGroupFilterByControl(ObjAdHocReport.SecondSortBy, drpSortingSecond, rdbSort2, ObjAdHocReport.SecondSortByOrder);
             SetGroupFilterByControl(ObjAdHocReport.ThirdSortBy, drpSortingThird, rdbSort3, ObjAdHocReport.ThirdSortByOrder);
@@ -837,7 +849,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
     /// <param name="decValue"></param>
     /// <param name="lstSearch"></param>
     /// <returns></returns>
-    private int SearchList(decimal decValue, List<Invest_AdhocReportFields> lstSearch)
+    private int SearchList(decimal decValue, List<Property_Claims_AdhocReportFields> lstSearch)
     {
         int i;
         for (i = 0; i < lstSearch.Count; i++)
@@ -958,7 +970,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
         btnDeselectFields.Enabled = btnDeselectAllFields.Enabled = imgUp.Enabled = imgDown.Enabled = false;
 
         //Clear Dropdown list
-        rdblGroupSortByFirst.SelectedValue = rdblGroupSortBySecond.SelectedValue = rdbSort1.SelectedValue = rdbSort2.SelectedValue = rdbSort3.SelectedValue = "ASC";
+        rdblGroupSortByFirst.SelectedValue = rdblGroupSortBySecond.SelectedValue = rdblGroupSortByThird.SelectedValue = rdbSort1.SelectedValue = rdbSort2.SelectedValue = rdbSort3.SelectedValue = "ASC";
 
         // Clear Drop down list and Insert SElect Tag 
         drpSortingFirst.Items.Clear();
@@ -966,8 +978,10 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
         drpSortingThird.Items.Clear();
         drpGroupByFirst.Items.Clear();
         drpGroupBySecond.Items.Clear();
+        drpGroupByThird.Items.Clear();
         drpGroupByFirst.Items.Insert(0, new ListItem("--Select--", "0"));
         drpGroupBySecond.Items.Insert(0, new ListItem("--Select--", "-1"));
+        drpGroupByThird.Items.Insert(0, new ListItem("--Select--", "-2"));
         drpSortingFirst.Items.Insert(0, new ListItem("--Select--", "0"));
         drpSortingSecond.Items.Insert(0, new ListItem("--Select--", "-1"));
         drpSortingThird.Items.Insert(0, new ListItem("--Select--", "-2"));
@@ -980,7 +994,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
     private void BindReportNameDropDown()
     {
         ddlReports.Items.Clear();
-        DataTable dtReprot = Invest_AdHocReport.SelectReportName().Tables[0];
+        DataTable dtReprot = Property_Claims_AdHocReport.SelectReportName().Tables[0];
         ddlReports.DataSource = dtReprot;
         ddlReports.DataTextField = "ReportName";
         ddlReports.DataValueField = "Pk_AdHocReport";
@@ -1012,15 +1026,10 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
                 //Remove From Dropdown when Output is De-Selected.
                 drpGroupByFirst.Items.Remove(liSelcted);
                 drpGroupBySecond.Items.Remove(liSelcted);
+                drpGroupByThird.Items.Remove(liSelcted);
                 drpSortingFirst.Items.Remove(liSelcted);
                 drpSortingSecond.Items.Remove(liSelcted);
                 drpSortingThird.Items.Remove(liSelcted);
-
-                if (liSelcted.Text == "Date of Loss")
-                {
-                    drpGroupByFirst.Items.Remove(drpGroupByFirst.Items.FindByText("Accident Year"));
-                    drpGroupBySecond.Items.Remove(drpGroupBySecond.Items.FindByText("Accident Year"));
-                }
             }
         }
 
@@ -1033,15 +1042,10 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
             {
                 drpGroupByFirst.Items.Insert(i + 1, lstSelected[i] as ListItem);
                 drpGroupBySecond.Items.Insert(i + 1, lstSelected[i] as ListItem);
+                drpGroupByThird.Items.Insert(i + 1, lstSelected[i] as ListItem);
                 drpSortingFirst.Items.Insert(i + 1, lstSelected[i] as ListItem);
                 drpSortingSecond.Items.Insert(i + 1, lstSelected[i] as ListItem);
                 drpSortingThird.Items.Insert(i + 1, lstSelected[i] as ListItem);
-
-                if (lstSelected[i].Text == "Date of Loss")
-                {
-                    drpGroupByFirst.Items.Insert(i + 1, new ListItem("Accident Year", "Accident Year"));
-                    drpGroupBySecond.Items.Insert(i + 1, new ListItem("Accident Year", "Accident Year"));
-                }
             }
         }
 
@@ -1121,10 +1125,10 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
         decimal decSelectedValue = 0;
         if (drpFilter.Items.Count > 0 && drpFilter.SelectedIndex > 0)
             decSelectedValue = Convert.ToDecimal(drpFilter.SelectedItem.Value);
-        List<Invest_AdhocReportFields> lstAdHoc = null;
+        List<Property_Claims_AdhocReportFields> lstAdHoc = null;
 
         if (decSelectedValue > 0)
-            lstAdHoc = new Invest_AdhocReportFields().GetAdHocReportFieldByPk(decSelectedValue);
+            lstAdHoc = new Property_Claims_AdhocReportFields().GetAdHocReportFieldByPk(decSelectedValue);
 
         if (lstAdHoc != null && lstAdHoc.Count > 0)
         {
@@ -1138,148 +1142,53 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
                     SetDefaultTExtBox(pnlText_F.ID);
                     break;
                 case (int)AdHocReportHelper.AdHocControlType.MultiSelectList:
-                case (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList:
-                    if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "location d/b/a")
+                    if (Convert.ToString(lstAdHoc[0].Field_Header).ToUpper().Trim() == "DEALERSHIP CENTER")
                     {
                         ComboHelper.FillLocationDBA_All(new ListBox[] { lst_F }, 0, false);
                     }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "department")
-                    {
-                        ComboHelper.Fill_DepartmentAdHoc(new ListBox[] { lst_F },0, false);
-                    }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "nature of injury")
-                    {
-                        ComboHelper.FillNatureofInjury(new ListBox[] { lst_F }, false);
-                    }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "body part affected")
-                    {
-                        ComboHelper.FillBodyPartAffected(new ListBox[] { lst_F }, false);
-                    }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "state" || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "treatment facility state")
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToUpper().Trim() == "STATE" ||
+                                Convert.ToString(lstAdHoc[0].Field_Header).ToUpper().Trim() == "EMPLOYEE STATE" ||
+                                Convert.ToString(lstAdHoc[0].Field_Header).ToUpper().Trim() == "BUILDING STATE" ||
+                                Convert.ToString(lstAdHoc[0].Field_Header).ToUpper().Trim() == "WITNESS STATE")
                     {
                         ComboHelper.FillStateList(new ListBox[] { lst_F }, false);
                     }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "status")
+                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToUpper().Trim() == "FIRE" || Convert.ToString(lstAdHoc[0].Field_Header).ToUpper().Trim() == "SECURITY VIDEO SURVEILLANCE SYSTEM"
+                                || Convert.ToString(lstAdHoc[0].Field_Header).ToUpper().Trim() == "WIND DAMAGE" || Convert.ToString(lstAdHoc[0].Field_Header).ToUpper().Trim() == "EARTH MOVEMENT"
+                                || Convert.ToString(lstAdHoc[0].Field_Header).ToUpper().Trim() == "FLOOD" || Convert.ToString(lstAdHoc[0].Field_Header).ToUpper().Trim() == "THIRD PARTY PROPERTY DAMAGE"
+                                || Convert.ToString(lstAdHoc[0].Field_Header).ToUpper().Trim() == "PROPERTY DAMAGE BY SONIC ASSOCIATES" || Convert.ToString(lstAdHoc[0].Field_Header).ToUpper().Trim() == "ENVIRONMENTAL LOSS"
+                                || Convert.ToString(lstAdHoc[0].Field_Header).ToUpper().Trim() == "VANDALISM TO THE PROPERTY" || Convert.ToString(lstAdHoc[0].Field_Header).ToUpper().Trim() == "THEFT ASSOCIATE TOOLS"
+                                || Convert.ToString(lstAdHoc[0].Field_Header).ToUpper().Trim() == "THEFT ALL OTHER" || Convert.ToString(lstAdHoc[0].Field_Header).ToUpper().Trim() == "OTHER")
                     {
-                        lst_F.Items.Clear();
-                        lst_F.Items.Add(new ListItem("Pending", "Pending"));
-                        lst_F.Items.Add(new ListItem("Completed", "Completed"));
-                        lst_F.Items.Add(new ListItem("Pending Capital Approval", "Pending Capital Approval"));
+                        ComboHelper.FillTaskComplete(new ListBox[] { lst_F }, false);
                     }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "sonic cause code")
-                    {
-                        lst_F.Items.Clear();
-                        lst_F.Items.Add(new ListItem("S0-1-OVEREXERTION-LIFTLOWER, PUSH/PULL, CARRY", "S0-1-OVEREXERTION-LIFTLOWER, PUSH/PULL, CARRY"));
-                        lst_F.Items.Add(new ListItem("S0-2-FALL SAME LEVEL OR ELEVATED SURFACE", "S0-2-FALL SAME LEVEL OR ELEVATED SURFACE"));
-                        lst_F.Items.Add(new ListItem("S0-3-VEHICLE RELATED - HIGHWAY, PREMISES, GOLF CART", "S0-3-VEHICLE RELATED - HIGHWAY, PREMISES, GOLF CART"));
-                        lst_F.Items.Add(new ListItem("S0-4-STRUCK BY/AGAINST - STATIONARY OBJECT/FALLING MOVING OBJECT", "S0-4-STRUCK BY/AGAINST - STATIONARY OBJECT/FALLING MOVING OBJECT"));
-                        lst_F.Items.Add(new ListItem("S0-5-OTHER - NOT CLASSIFIED", "S0-5-OTHER - NOT CLASSIFIED"));
-                        lst_F.Items.Add(new ListItem("S1-OVEREXERTION-LIFTLOWER, PUSH/PULL, CARRY", "S1-OVEREXERTION-LIFTLOWER, PUSH/PULL, CARRY"));
-                        lst_F.Items.Add(new ListItem("S2-FALL SAME LEVEL OR ELEVATED SURFACE", "S2-FALL SAME LEVEL OR ELEVATED SURFACE"));
-                        lst_F.Items.Add(new ListItem("S3-VEHICLE RELATED - HIGHWAY, PREMISES, GOLF CART", "S3-VEHICLE RELATED - HIGHWAY, PREMISES, GOLF CART"));
-                        lst_F.Items.Add(new ListItem("S4-STRUCK BY/AGAINST - STATIONARY OBJECT/FALLING MOVING OBJECT", "S4-STRUCK BY/AGAINST - STATIONARY OBJECT/FALLING MOVING OBJECT"));
-                        lst_F.Items.Add(new ListItem("S5-OTHER - NOT CLASSIFIED IN ABOVE CODES", "S5-OTHER - NOT CLASSIFIED IN ABOVE CODES"));
-                        lst_F.Items.Add(new ListItem("S-1 Denied", "S-1 Denied"));
-                        lst_F.Items.Add(new ListItem("S-2 Denied", "S-2 Denied"));
-                        lst_F.Items.Add(new ListItem("S-3 Denied", "S-3 Denied"));
-                        lst_F.Items.Add(new ListItem("S-4 Denied", "S-4 Denied"));
-                        lst_F.Items.Add(new ListItem("S-5 Denied", "S-5 Denied"));
-                    }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "contributing factor")
-                    {
-                        ComboHelper.FillContributing_Factor(new ListBox[] { lst_F }, false);
-                    }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "investigative quality")
-                    {
-                        lst_F.Items.Clear();
-                        lst_F.Items.Add(new ListItem("All Pro", "All Pro"));
-                        lst_F.Items.Add(new ListItem("Starter", "Starter"));
-                        lst_F.Items.Add(new ListItem("Second String", "Second String"));
-                        lst_F.Items.Add(new ListItem("Water boy", "Water boy"));
-                        lst_F.Items.Add(new ListItem("Spectator", "Spectator"));
-                    }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "legal entity")
-                    {
-                        ComboHelper.FillDistinctLocationLegal_EntityList(new ListBox[] { lst_F }, false);
-                    }
-                    //else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "sonic location code")
-                    //{
-                    //    ComboHelper.FillLocationLocationCodeDPDReport(new ListBox[] { lst_F }, false);
-                    //}
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "building state")
-                    {
-                        ComboHelper.FillStateByDesc(new ListBox[] { lst_F }, false);
-                    }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "building ownership")
-                    {
-                        ComboHelper.FillBuildingOwnerShip(new ListBox[] { lst_F }, false);
-                    }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "building status")
-                    {
-                        ComboHelper.FillBuildingLocationStatus(new ListBox[] { lst_F }, false);
-                    }
-                  
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "location f/k/a")
-                    {
-                        ComboHelper.FillLocationfkaList(new ListBox[] { lst_F }, 0, false);
-                    }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "location number")
-                    {
-                        ComboHelper.FillLocationLocationCodeFranchiseReport(new ListBox[] { lst_F }, false);
-                    }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "cause of loss")
-                    {
 
-                        lst_F.Items.Clear();
-                        lst_F.Items.Add(new ListItem("Mva-Damage(Single Vehicle)", "1"));
-                        lst_F.Items.Add(new ListItem("Mva-Damage(Multiple Vehicle)", "2"));
-                        lst_F.Items.Add(new ListItem("Fraud", "3"));
-                        lst_F.Items.Add(new ListItem("Theft", "4"));
-                        lst_F.Items.Add(new ListItem("Partial Theft", "5"));
-                        lst_F.Items.Add(new ListItem("Vandalism", "6"));
-                        lst_F.Items.Add(new ListItem("Hail", "7"));
-                        lst_F.Items.Add(new ListItem("Flood", "8"));
-                        lst_F.Items.Add(new ListItem("Fire", "9"));
-                        lst_F.Items.Add(new ListItem("Wind", "10"));
-
-                    }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "type of vehicle")
-                    {
-
-                        lst_F.Items.Clear();
-                        lst_F.Items.Add(new ListItem("New Inventory", "New Inventory"));
-                        lst_F.Items.Add(new ListItem("Used Inventory", "Used Inventory"));
-                        lst_F.Items.Add(new ListItem("Demo", "Demo"));
-                        lst_F.Items.Add(new ListItem("Shop Loaner", "Shop Loaner"));
-                        lst_F.Items.Add(new ListItem("Daily Rental", "Daily Rental"));
-                    }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "location state" || Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "location state (cause of loss)" ||
-                        Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "loss location state")
-                    {
-                        ComboHelper.FillStateList(new ListBox[] { lst_F }, false);
-                    }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "what is the cause of this incident?")
-                    {
-                        ComboHelper.FillFocusAreaCauseCode(new ListBox[]{lst_F} , false);
-                    }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "classify the incident")
-                    {
-                        ComboHelper.FillOSHA_Incident(new ListBox[] { lst_F }, false);
-                    }
-                    else if (Convert.ToString(lstAdHoc[0].Field_Header).ToLower().Trim() == "type of injury")
-                    {
-                        ComboHelper.FillOSHA_Injury(new ListBox[] { lst_F }, false);
-                    }
-                    else
-                    {
-                        AdHocReportHelper.FillFilterDropDown(lstAdHoc[0].Field_Header, new ListBox[] { lst_F }, false, "Investigation");
-                    }
                     pnlText_F.Visible = false;
                     pnlAmoun_F.Visible = false;
                     pnlDate_F.Visible = false;
                     lst_F.Visible = true;
                     //Set ListBox ToolTip
                     clsGeneral.SetListBoxToolTip(new ListBox[] { lst_F });
+                    break;
+                case (int)AdHocReportHelper.AdHocControlType.MultiSelectTextList:
+                    //if (Convert.ToString(lstAdHoc[0].Field_Header).ToUpper().Trim() == "DEALERSHIP CENTER")
+                    //{
+                    //    ComboHelper.FillLocationDBA_All(new ListBox[] { lst_F }, 0, false);
+                    //}
+                    //else if (Convert.ToString(lstAdHoc[0].Field_Header).ToUpper().Trim() == "STATE" || 
+                    //            Convert.ToString(lstAdHoc[0].Field_Header).ToUpper().Trim() == "EMPLOYEE STATE" ||
+                    //            Convert.ToString(lstAdHoc[0].Field_Header).ToUpper().Trim() == "BUILDING STATE" ||
+                    //            Convert.ToString(lstAdHoc[0].Field_Header).ToUpper().Trim() == "WITNESS STATE")
+                    //{
+                    //    ComboHelper.FillStateList(new ListBox[] { lst_F }, false);
+                    //}
+
+                    //pnlText_F.Visible = false;
+                    //pnlAmoun_F.Visible = false;
+                    //pnlDate_F.Visible = false;
+                    //lst_F.Visible = true;
+                    ////Set ListBox ToolTip
+                    //clsGeneral.SetListBoxToolTip(new ListBox[] { lst_F });
                     break;
                 case (int)AdHocReportHelper.AdHocControlType.DateControl:
                     pnlText_F.Visible = false;
@@ -1579,7 +1488,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
             if (drpFilter != null)
             {
                 drpFilter.Items.Clear();
-                drpFilter.DataSource = Invest_AdhocReportFields.GetAdHocFilterFields("F");
+                drpFilter.DataSource = Property_Claims_AdhocReportFields.GetAdHocFilterFields("F");
                 drpFilter.DataTextField = "Field_Header";
                 drpFilter.DataValueField = "Pk_AdhocReportFields";
                 drpFilter.DataBind();
@@ -1809,7 +1718,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
         }
         else if (pnlAmount_F_ID == "pnlAmount_F8")
         {
-            txtAmount1_F8.Text = txtAmount2_F8.Text = string.Empty;
+            txtAmount1_F8.Text = txtAmount1_F8.Text = string.Empty;
             drpAmount_F8.SelectedValue = Convert.ToString((int)AdHocReportHelper.AmountCriteria.Equal);
             drpAmount_F_SelectedIndexChanged(drpAmount_F8, null);
 
@@ -1896,7 +1805,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
     private void BindOutpuFields()
     {
         lstOutputFields.Items.Clear();
-        lstOutputFields.DataSource = Invest_AdhocReportFields.GetAdHocFilterFields("O");
+        lstOutputFields.DataSource = Property_Claims_AdhocReportFields.GetAdHocFilterFields("O");
         lstOutputFields.DataTextField = "Field_Header";
         lstOutputFields.DataValueField = "Pk_AdhocReportFields";
         lstOutputFields.DataBind();
@@ -1911,7 +1820,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
     private string BindReport(ref StringBuilder sbRecord, ReportOutputType ReportType)
     {
         IDataReader Reader = null;
-        List<Invest_AdhocReportFields> lstAdhoc = null;
+        List<Property_Claims_AdhocReportFields> lstAdhoc = null;
         DataTable dtSchema = null, dtHeader = null;
 
         try
@@ -1926,7 +1835,10 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
                 strGroupBy = "[" + drpGroupByFirst.SelectedItem.Text + "]" + rdblGroupSortByFirst.SelectedItem.Value;
 
             if (drpGroupBySecond.SelectedIndex > 0)
-                strGroupBy += (string.IsNullOrEmpty(strGroupBy) ? "" : ",") + " [" + drpGroupBySecond.SelectedItem.Text + "]" + rdblGroupSortBySecond.SelectedItem.Value;
+                strGroupBy += (string.IsNullOrEmpty(strGroupBy) ? "" : ",") + " [" + drpGroupBySecond.SelectedItem.Text + "] " + rdblGroupSortBySecond.SelectedItem.Value;
+
+            if (drpGroupByThird.SelectedIndex > 0)
+                strGroupBy += (string.IsNullOrEmpty(strGroupBy) ? "" : ",") + " [" + drpGroupByThird.SelectedItem.Text + "] " + rdblGroupSortByThird.SelectedItem.Value;
 
             if (drpSortingFirst.SelectedIndex > 0)
                 strOrderBy = "[" + drpSortingFirst.SelectedItem.Text + "] " + rdbSort1.SelectedItem.Value;
@@ -1941,7 +1853,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
 
             strCriteria = GetFilterIDs(new DropDownList[] { drpFilter1, drpFilter2, drpFilter3, drpFilter4, drpFilter5, drpFilter6, drpFilter7, drpFilter8, drpFilter9, drpFilter10, });
             if (!string.IsNullOrEmpty(strCriteria))
-                lstAdhoc = new Invest_AdhocReportFields().GetAdHocReportFieldByMultipleID(strCriteria);
+                lstAdhoc = new Property_Claims_AdhocReportFields().GetAdHocReportFieldByMultipleID(strCriteria);
 
             #region "Get Where condition"
 
@@ -2158,18 +2070,21 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
             #endregion
 
             clsGeneral.DisposeOf(lstAdhoc);
-            Reader = AdHocReportHelper.GetAdHocReportInvestigation(GetAllItemString(lstSelectedFields, false), strGroupBy, strWhere, strOrderBy, strFilterIds, Convert.ToDecimal(clsSession.UserID));
+            Reader = AdHocReportHelper.GetAdHocReportProperty_Claims(GetAllItemString(lstSelectedFields, false), strGroupBy, strWhere, strOrderBy, strFilterIds, Convert.ToDecimal(clsSession.UserID));
 
             // Check if Any record is exists or not
             if (Reader.Read())
             {
-                string strFirstGroupBy = string.Empty, strSecGroupBy = string.Empty;
+                string strFirstGroupBy = string.Empty, strSecGroupBy = string.Empty, strThirdGroupBy = string.Empty;
 
                 if (drpGroupByFirst.SelectedIndex > 0)
                     strFirstGroupBy = drpGroupByFirst.SelectedItem.Text;
 
                 if (drpGroupBySecond.SelectedIndex > 0)
                     strSecGroupBy = drpGroupBySecond.SelectedItem.Text;
+
+                if (drpGroupByThird.SelectedIndex > 0)
+                    strThirdGroupBy = drpGroupByThird.SelectedItem.Text;
 
                 //iF Frist Group By is Not  selected then second Group by will be set as first Group By
                 if (string.IsNullOrEmpty(strFirstGroupBy) && !string.IsNullOrEmpty(strGroupBy))
@@ -2182,7 +2097,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
                 if (ReportType == ReportOutputType.ExportAsMail)
                 {
                     sbRecord.Append("<br />");
-                    sbRecord.Append("<b>Report Title : Investigation Ad-Hoc Report </b>");
+                    sbRecord.Append("<b>Report Title : Property Claims Ad-Hoc Report </b>");
                     sbRecord.Append("<br /><br />");
                 }
 
@@ -2193,17 +2108,19 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
                 sbRecord.Append("<tr>");
 
                 dtHeader = new DataTable();
-                string strFormatFirstGroupBy = string.Empty, strFormatSecGroupBy = string.Empty;
+                string strFormatFirstGroupBy = string.Empty, strFormatSecGroupBy = string.Empty, strFormatThirdGroupBy = string.Empty;
                 foreach (DataRow drHeader in dtSchema.Rows)
                 {
                     //Remove Group By 
-                    if (strFirstGroupBy != Convert.ToString(drHeader["ColumnName"]) && strSecGroupBy != Convert.ToString(drHeader["ColumnName"]))
+                    if (strFirstGroupBy != Convert.ToString(drHeader["ColumnName"]) && strSecGroupBy != Convert.ToString(drHeader["ColumnName"]) && strThirdGroupBy != Convert.ToString(drHeader["ColumnName"]))
                         sbRecord.Append("<td><b>" + drHeader["ColumnName"] + "</b></td>");
                     //Get First and Second Group By Field's Data Type
                     if (strFirstGroupBy == Convert.ToString(drHeader["ColumnName"]))
                         strFormatFirstGroupBy = drHeader["DataTypeName"].ToString();
                     if (strSecGroupBy == Convert.ToString(drHeader["ColumnName"]))
                         strFormatSecGroupBy = drHeader["DataTypeName"].ToString();
+                    if (strThirdGroupBy == Convert.ToString(drHeader["ColumnName"]))
+                        strFormatThirdGroupBy = drHeader["DataTypeName"].ToString();
                 }
                 //When Header have records
                 if (dtHeader.Columns.Count > 0)
@@ -2235,12 +2152,40 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
 
                 DataTable dtSubTotalFirstGroup = dtHeader.Clone();
                 DataTable dtSubTotalSecondGroup = dtHeader.Clone();
-                string strGroupByValue_1 = string.Empty, strGroupByValue_2 = string.Empty, strNOGroup1 = string.Empty, strNOGroup2 = string.Empty;
+                DataTable dtSubTotalThirdGroup = dtHeader.Clone();
+                string strGroupByValue_1 = string.Empty, strGroupByValue_2 = string.Empty, strGroupByValue_3 = string.Empty, strNOGroup1 = string.Empty, strNOGroup2 = string.Empty, strNOGroup3 = string.Empty;
                 do
                 {
                     string strFormat = string.Empty;
 
                     #region "SUBTOTALS"
+                    if (!string.IsNullOrEmpty(strThirdGroupBy) && !string.IsNullOrEmpty(strGroupByValue_3) && strGroupByValue_3 != Convert.ToString(Reader[strThirdGroupBy]))
+                    {
+                        if (dtSubTotalThirdGroup.Rows.Count > 0)
+                        {
+                            sbRecord.Append("<tr>");
+                            int intCol = 1;
+                            foreach (DataRow drSchema in dtSchema.Rows)
+                            {
+                                if (dtSubTotalThirdGroup.Columns.Contains(Convert.ToString(drSchema["ColumnName"])))
+                                    sbRecord.Append("<td align='right'><b>" + string.Format("{0:c2}", dtSubTotalThirdGroup.Rows[0][Convert.ToString(drSchema["ColumnName"])]) + "</b></td>");
+                                else
+                                {
+                                    if (intCol == 1)
+                                        sbRecord.Append("<td><b>Sub Total For " + strThirdGroupBy + "</b></td>");
+                                    else
+                                    {
+                                        if (Convert.ToString(drSchema["ColumnName"]) != strFirstGroupBy && Convert.ToString(drSchema["ColumnName"]) != strSecGroupBy && Convert.ToString(drSchema["ColumnName"]) != strThirdGroupBy)
+                                            sbRecord.Append("<td>&nbsp;</td>");
+                                    }
+                                }
+                                intCol++;
+                            }
+
+                            sbRecord.Append("</tr>");
+                            dtSubTotalThirdGroup.Clear();
+                        }
+                    }
                     if (!string.IsNullOrEmpty(strSecGroupBy) && !string.IsNullOrEmpty(strGroupByValue_2) && strGroupByValue_2 != Convert.ToString(Reader[strSecGroupBy]))
                     {
                         if (dtSubTotalSecondGroup.Rows.Count > 0)
@@ -2257,7 +2202,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
                                         sbRecord.Append("<td><b>Sub Total For " + strSecGroupBy + "</b></td>");
                                     else
                                     {
-                                        if (Convert.ToString(drSchema["ColumnName"]) != strFirstGroupBy && Convert.ToString(drSchema["ColumnName"]) != strSecGroupBy)
+                                        if (Convert.ToString(drSchema["ColumnName"]) != strFirstGroupBy && Convert.ToString(drSchema["ColumnName"]) != strSecGroupBy && Convert.ToString(drSchema["ColumnName"]) != strThirdGroupBy)
                                             sbRecord.Append("<td>&nbsp;</td>");
                                     }
                                 }
@@ -2284,7 +2229,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
                                         sbRecord.Append("<td><b>Sub Total For " + strFirstGroupBy + "</b></td>");
                                     else
                                     {
-                                        if (Convert.ToString(drSchema["ColumnName"]) != strFirstGroupBy && Convert.ToString(drSchema["ColumnName"]) != strSecGroupBy)
+                                        if (Convert.ToString(drSchema["ColumnName"]) != strFirstGroupBy && Convert.ToString(drSchema["ColumnName"]) != strSecGroupBy && Convert.ToString(drSchema["ColumnName"]) != strThirdGroupBy)
                                             sbRecord.Append("<td>&nbsp;</td>");
                                     }
                                 }
@@ -2297,7 +2242,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
                     }
 
                     #endregion
-
+                    #region First Group By
                     //First Group By
                     if (!string.IsNullOrEmpty(strFirstGroupBy))
                     {
@@ -2328,6 +2273,8 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
                             strGroupByValue_2 = string.Empty;
                         }
                     }
+                    #endregion
+                    #region Second Group By
                     //Second Group By
                     if (!string.IsNullOrEmpty(strSecGroupBy))
                     {
@@ -2353,6 +2300,33 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
                             strNOGroup2 = strGroupByValue_2;
                         }
                     }
+                    #endregion
+                    #region Third Group By
+                    if (!string.IsNullOrEmpty(strThirdGroupBy))
+                    {
+                        if (strGroupByValue_3 != Convert.ToString(Reader[strThirdGroupBy]))
+                        {
+                            strGroupByValue_3 = Convert.ToString(Reader[strThirdGroupBy]);
+                            if (strFormatThirdGroupBy == "decimal")
+                                sbRecord.Append("<tr><td style='font-weight: bold;' align='right' >" + strThirdGroupBy + ": " + string.Format("{0:c2}", strGroupByValue_3) + "</td></tr>");
+                            else if (strFormatThirdGroupBy == "datetime")
+                            {
+                                // it display only Time
+                                if (strThirdGroupBy == "Time Theft Reported")
+                                    sbRecord.Append("<tr><td style='font-weight: bold;'>" + strThirdGroupBy + ": " + string.Format("{0:HH:mm}", Reader[strThirdGroupBy]) + "</td></tr>");
+                                else sbRecord.Append("<tr><td style='font-weight: bold;' >" + strThirdGroupBy + ": " + clsGeneral.FormatDBNullDateToDisplay(strGroupByValue_3) + "</td></tr>");
+                            }
+                            else sbRecord.Append("<tr><td style='font-weight: bold;' >&nbsp;" + strThirdGroupBy + ": " + strGroupByValue_3 + "</td></tr>");
+                        }
+                        else if (Reader[strThirdGroupBy] == DBNull.Value && strNOGroup3 == string.Empty)
+                        {
+                            strNOGroup3 = "No " + strThirdGroupBy;
+                            sbRecord.Append("<tr><td style='font-weight: bold;' >&nbsp;" + strThirdGroupBy + ": " + strNOGroup3 + "</td></tr>");
+                            //No Group by assign
+                            strNOGroup3 = strGroupByValue_3;
+                        }
+                    }
+                    #endregion
                     string strColumnName = string.Empty;
 
                     ///Print Records
@@ -2404,9 +2378,26 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
                                     dtSubTotalSecondGroup.Rows[0][Reader.GetName(intColumn)] = decTotal;
                                 }
                             }
+
+                            if (!string.IsNullOrEmpty(strThirdGroupBy) && !string.IsNullOrEmpty(strGroupByValue_3))
+                            {
+                                if (dtSubTotalThirdGroup.Columns.Contains(Reader.GetName(intColumn)) && Convert.ToString(Reader[strThirdGroupBy]) == strGroupByValue_3)
+                                {
+                                    if (dtSubTotalThirdGroup.Rows.Count == 0)
+                                    {
+                                        dtSubTotalThirdGroup.Rows.Add(dtSubTotalThirdGroup.NewRow());
+                                        foreach (DataColumn dcTotal in dtSubTotalThirdGroup.Columns)
+                                            dtSubTotalThirdGroup.Rows[0][dcTotal] = 0;
+                                    }
+                                    decimal decTotal = 0;
+                                    decTotal = Convert.ToDecimal(dtSubTotalThirdGroup.Rows[0][Reader.GetName(intColumn)]);
+                                    decTotal += Reader.IsDBNull(intColumn) ? 0 : Convert.ToDecimal(Reader[intColumn]);
+                                    dtSubTotalThirdGroup.Rows[0][Reader.GetName(intColumn)] = decTotal;
+                                }
+                            }
                             #endregion
                             //Remove Group By Column
-                            if (strFirstGroupBy != Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) && strSecGroupBy != Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]))
+                            if (strFirstGroupBy != Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) && strSecGroupBy != Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]) && strThirdGroupBy != Convert.ToString(dtSchema.Rows[intColumn]["ColumnName"]))
                             {
                                 strFormat = dtSchema.Rows[intColumn]["DataTypeName"].ToString();
                                 if (strFormat == "decimal")
@@ -2452,6 +2443,29 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
                 } while (Reader.Read());
 
                 #region " SUBTOAL FOR Last groups "
+                if (dtSubTotalThirdGroup.Rows.Count > 0)
+                {
+                    sbRecord.Append("<tr>");
+                    int intCol = 1;
+                    foreach (DataRow drSchema in dtSchema.Rows)
+                    {
+                        if (dtSubTotalThirdGroup.Columns.Contains(Convert.ToString(drSchema["ColumnName"])))
+                            sbRecord.Append("<td align='right'><b>" + string.Format("{0:c2}", dtSubTotalThirdGroup.Rows[0][Convert.ToString(drSchema["ColumnName"])]) + "</b></td>");
+                        else
+                        {
+                            if (intCol == 1)
+                                sbRecord.Append("<td align='left'><b>Sub Total For " + strThirdGroupBy + "</b></td>");
+                            else
+                            {
+                                if (Convert.ToString(drSchema["ColumnName"]) != strFirstGroupBy && Convert.ToString(drSchema["ColumnName"]) != strSecGroupBy && Convert.ToString(drSchema["ColumnName"]) != strThirdGroupBy)
+                                    sbRecord.Append("<td>&nbsp;</td>");
+                            }
+                        }
+                        intCol++;
+                    }
+                    sbRecord.Append("</tr>");
+                    dtSubTotalThirdGroup.Clear();
+                }
                 if (dtSubTotalSecondGroup.Rows.Count > 0)
                 {
                     sbRecord.Append("<tr>");
@@ -2466,7 +2480,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
                                 sbRecord.Append("<td align='left'><b>Sub Total For " + strSecGroupBy + "</b></td>");
                             else
                             {
-                                if (Convert.ToString(drSchema["ColumnName"]) != strFirstGroupBy && Convert.ToString(drSchema["ColumnName"]) != strSecGroupBy)
+                                if (Convert.ToString(drSchema["ColumnName"]) != strFirstGroupBy && Convert.ToString(drSchema["ColumnName"]) != strSecGroupBy && Convert.ToString(drSchema["ColumnName"]) != strThirdGroupBy)
                                     sbRecord.Append("<td>&nbsp;</td>");
                             }
                         }
@@ -2490,7 +2504,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
                                 sbRecord.Append("<td align='left'><b>Sub Total For " + strFirstGroupBy + "</b></td>");
                             else
                             {
-                                if (Convert.ToString(drSchema["ColumnName"]) != strFirstGroupBy && Convert.ToString(drSchema["ColumnName"]) != strSecGroupBy)
+                                if (Convert.ToString(drSchema["ColumnName"]) != strFirstGroupBy && Convert.ToString(drSchema["ColumnName"]) != strSecGroupBy && Convert.ToString(drSchema["ColumnName"]) != strThirdGroupBy)
                                     sbRecord.Append("<td>&nbsp;</td>");
                             }
                         }
@@ -2536,23 +2550,6 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
         }
     }
 
-    /// <summary>
-    /// Check Whether it is Grand TOtal FIeld or Not.
-    /// </summary>
-    /// <param name="strColumnName"></param>
-    /// <returns></returns>
-    private bool CheckTotalField(string strColumnName)
-    {
-        if ((strColumnName.Contains("Total Incurred") || strColumnName.Contains("Total Paid") || strColumnName.Contains("Total Outstanding")) || (strColumnName.EndsWith("Paid") || strColumnName.EndsWith("Recovery") || strColumnName.EndsWith("Reserve") || strColumnName.EndsWith("Incurred"))
-             &&
-            (strColumnName.StartsWith("Med/BI/Comp") || strColumnName.StartsWith("Expense") || strColumnName.StartsWith("Ind/PD/Coll") || strColumnName.StartsWith("Legal")))
-        {
-            return true;
-        }
-
-        return false;
-    }
-
     #endregion
 
     #region "Save Report & Reload Report"
@@ -2562,7 +2559,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
     /// </summary>
     private void SaveReport()
     {
-        Invest_AdHocReport objAdHocReport = new Invest_AdHocReport();
+        Property_Claims_AdHocReport objAdHocReport = new Property_Claims_AdHocReport();
         objAdHocReport.ReportName = txtReportName.Text.Trim();
 
         if (drpGroupByFirst.SelectedIndex > 0)
@@ -2575,6 +2572,12 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
         {
             objAdHocReport.SecondGroupBy = Convert.ToDecimal(drpGroupBySecond.SelectedValue);
             objAdHocReport.SecondGroupByOrder = rdblGroupSortBySecond.SelectedValue;
+        }
+
+        if (drpGroupByThird.SelectedIndex > 0)
+        {
+            objAdHocReport.ThirdGroupBy = Convert.ToDecimal(drpGroupByThird.SelectedValue);
+            objAdHocReport.ThirdGroupByOrder = rdblGroupSortByThird.SelectedValue;
         }
 
         if (drpSortingFirst.SelectedIndex > 0)
@@ -2597,12 +2600,6 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
 
         objAdHocReport.OutputFields = this.GetAllItemString(lstSelectedFields, false);
 
-        //if (ucRelativeDates_PriorVal.RelativeDate != AdHocReportHelper.RaltiveDates.NotSet)
-        //    objAdHocReport.PriorValuation_RelativeDate = Convert.ToString((int)(ucRelativeDates_PriorVal.RelativeDate));
-        //else
-        // objAdHocReport.PriorValuationDate = clsGeneral.FormatNullDateToStore(txtPriorDate.Text);
-
-        // objAdHocReport.GrandTotal = (chkGrandTotal.Checked) ? "Y" : "N";
         objAdHocReport.Updated_By = clsSession.UserName;
         objAdHocReport.Update_Date = System.DateTime.Now;
         decimal Pk_AdHocReport = 0;
@@ -2637,14 +2634,14 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
         if (Pk_AdHocReport > 0)
         {
             // Delete 
-            Invest_AdHocFilter.DeleteByFk_AdHocReport(Pk_AdHocReport);
+            Property_Claims_AdHocFilter.DeleteByFk_AdHocReport(Pk_AdHocReport);
 
             string strCriteria = string.Empty;
             strCriteria = GetFilterIDs(new DropDownList[] { drpFilter1, drpFilter2, drpFilter3, drpFilter4, drpFilter5, drpFilter6, drpFilter7, drpFilter8, drpFilter9, drpFilter10, });
-            List<Invest_AdhocReportFields> lstAdhoc = new List<Invest_AdhocReportFields>();
+            List<Property_Claims_AdhocReportFields> lstAdhoc = new List<Property_Claims_AdhocReportFields>();
 
             if (!string.IsNullOrEmpty(strCriteria))
-                lstAdhoc = new Invest_AdhocReportFields().GetAdHocReportFieldByMultipleID(strCriteria);
+                lstAdhoc = new Property_Claims_AdhocReportFields().GetAdHocReportFieldByMultipleID(strCriteria);
 
             decimal decValue;
             int iSelected;
@@ -2740,7 +2737,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
     public void SaveFilterCriteria(decimal Fk_AdHocReport, decimal FK_AdHocReportFields, decimal Fk_ControlType, string FitlerText, string TextWhere, string ListFilterWhere,
                                          string ListDate, string Date_From, string Date_To, string AmountWhere, string Amount1, string Amount2, AdHocReportHelper.RaltiveDates relativeFrom, AdHocReportHelper.RaltiveDates relativeTo)
     {
-        Invest_AdHocFilter objFilter = new Invest_AdHocFilter();
+        Property_Claims_AdHocFilter objFilter = new Property_Claims_AdHocFilter();
         objFilter.FK_AdHocReport = Fk_AdHocReport;
         objFilter.FK_AdHocReportFields = FK_AdHocReportFields;
 
@@ -2786,7 +2783,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
     /// </summary>
     /// <param name="objFilter"></param>
     /// <param name="drpFilter"></param>
-    private void LoadFilterCriteria(Invest_AdHocFilter objFilter, DropDownList drpFilter)
+    private void LoadFilterCriteria(Property_Claims_AdHocFilter objFilter, DropDownList drpFilter)
     {
         ListItem liSelected;
 
@@ -2808,94 +2805,23 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
     private void LoadFilterControlDropDown(string Field_Header, string ConditionValue, ListBox lst_F)
     {
         lst_F.Items.Clear();
-        //if (Convert.ToString(Field_Header).ToLower().Trim() == "dealership dba")
-        //{
-        //    ComboHelper.FillLocationdbaDPDReport(new ListBox[] { lst_F }, false);
-        //}
-        if (Convert.ToString(Field_Header).ToLower().Trim() == "legal entity")
+        if (Convert.ToString(Field_Header).ToUpper().Trim() == "DEALERSHIP CENTER")
         {
-            ComboHelper.FillDistinctLocationLegal_EntityList(new ListBox[] { lst_F }, false);
+            ComboHelper.FillLocationDBA_All(new ListBox[] { lst_F }, 0, false);
         }
-        //else if (Convert.ToString(Field_Header).ToLower().Trim() == "sonic location code")
-        //{
-        //    ComboHelper.FillLocationLocationCodeDPDReport(new ListBox[] { lst_F }, false);
-        //}
-        else if (Convert.ToString(Field_Header).ToLower().Trim() == "building state")
+        else if (Convert.ToString(Field_Header).ToUpper().Trim() == "STATE" || Convert.ToString(Field_Header).ToUpper().Trim() == "EMPLOYEE STATE" || Convert.ToString(Field_Header).ToUpper().Trim() == "BUILDING STATE" || Convert.ToString(Field_Header).ToUpper().Trim() == "WITNESS STATE")
         {
             ComboHelper.FillStateByDesc(new ListBox[] { lst_F }, false);
         }
-        else if (Convert.ToString(Field_Header).ToLower().Trim() == "building ownership")
-        {
-            ComboHelper.FillBuildingOwnerShip(new ListBox[] { lst_F }, false);
+        else if (Convert.ToString(Field_Header).ToUpper().Trim() == "FIRE" || Convert.ToString(Field_Header).ToUpper().Trim() == "SECURITY VIDEO SURVEILLANCE SYSTEM"
+                                || Convert.ToString(Field_Header).ToUpper().Trim() == "WIND DAMAGE" || Convert.ToString(Field_Header).ToUpper().Trim() == "EARTH MOVEMENT"
+                                || Convert.ToString(Field_Header).ToUpper().Trim() == "FLOOD" || Convert.ToString(Field_Header).ToUpper().Trim() == "THIRD PARTY PROPERTY DAMAGE"
+                                || Convert.ToString(Field_Header).ToUpper().Trim() == "PROPERTY DAMAGE BY SONIC ASSOCIATES" || Convert.ToString(Field_Header).ToUpper().Trim() == "ENVIRONMENTAL LOSS"
+                                || Convert.ToString(Field_Header).ToUpper().Trim() == "VANDALISM TO THE PROPERTY" || Convert.ToString(Field_Header).ToUpper().Trim() == "THEFT ASSOCIATE TOOLS"
+                                || Convert.ToString(Field_Header).ToUpper().Trim() == "THEFT ALL OTHER" || Convert.ToString(Field_Header).ToUpper().Trim() == "OTHER") {
+            ComboHelper.FillTaskComplete(new ListBox[] { lst_F }, false);
         }
-        else if (Convert.ToString(Field_Header).ToLower().Trim() == "building status")
-        {
-            ComboHelper.FillBuildingLocationStatus(new ListBox[] { lst_F }, false);
-        }
-        else if (Convert.ToString(Field_Header).ToLower().Trim() == "location d/b/a")
-        {
-            ComboHelper.FillLocationDBA_AllCRMAdHoc(new ListBox[] { lst_F }, 0, false);
-        }
-        else if (Convert.ToString(Field_Header).ToLower().Trim() == "location f/k/a")
-        {
-            ComboHelper.FillLocationfkaList(new ListBox[] { lst_F }, 0, false);
-        }
-        else if (Convert.ToString(Field_Header).ToLower().Trim() == "location number")
-        {
-            ComboHelper.FillLocationLocationCodeFranchiseReport(new ListBox[] { lst_F }, false);
-        }
-        else if (Convert.ToString(Field_Header).ToLower().Trim() == "cause of loss")
-        {
-
-            lst_F.Items.Clear();
-            lst_F.Items.Add(new ListItem("Mva-Damage(Single Vehicle)", "1"));
-            lst_F.Items.Add(new ListItem("Mva-Damage(Multiple Vehicle)", "2"));
-            lst_F.Items.Add(new ListItem("Fraud", "3"));
-            lst_F.Items.Add(new ListItem("Theft", "4"));
-            lst_F.Items.Add(new ListItem("Partial Theft", "5"));
-            lst_F.Items.Add(new ListItem("Vandalism", "6"));
-            lst_F.Items.Add(new ListItem("Hail", "7"));
-            lst_F.Items.Add(new ListItem("Flood", "8"));
-            lst_F.Items.Add(new ListItem("Fire", "9"));
-            lst_F.Items.Add(new ListItem("Wind", "10"));
-
-        }
-        else if (Convert.ToString(Field_Header).ToLower().Trim() == "type of vehicle")
-        {
-
-            lst_F.Items.Clear();
-            lst_F.Items.Add(new ListItem("New Inventory", "New Inventory"));
-            lst_F.Items.Add(new ListItem("Used Inventory", "Used Inventory"));
-            lst_F.Items.Add(new ListItem("Demo", "Demo"));
-            lst_F.Items.Add(new ListItem("Shop Loaner", "Shop Loaner"));
-            lst_F.Items.Add(new ListItem("Daily Rental", "Daily Rental"));
-        }
-        else if (Convert.ToString(Field_Header).ToLower().Trim() == "location state" || Convert.ToString(Field_Header).ToLower().Trim() == "location state (cause of loss)" || Convert.ToString(Field_Header).ToLower().Trim() == "state" ||
-            Convert.ToString(Field_Header).ToLower().Trim() == "loss location state" || Convert.ToString(Field_Header).ToLower().Trim() == "treatment facility state")
-        {
-            ComboHelper.FillStateList(new ListBox[] { lst_F }, false);
-        }
-        else if (Convert.ToString(Field_Header).ToLower().Trim() == "what is the cause of this incident?")
-        {
-            ComboHelper.FillFocusAreaCauseCode(new ListBox[] { lst_F }, false);
-        }
-        //else if (Convert.ToString(Field_Header).ToLower().Trim() == "DPD brand image")
-        //{
-        //    ComboHelper.Fill_LU_DPD(new ListBox[] { lst_F }, false, ComboHelper.LU_DPD.LU_DPD_Additional_Brand_Image);
-        //}
-        else if (Convert.ToString(Field_Header).ToLower().Trim() == "classify the incident")
-        {
-            ComboHelper.FillOSHA_Incident(new ListBox[] { lst_F }, false);
-        }
-        else if (Convert.ToString(Field_Header).ToLower().Trim() == "type of injury")
-        {
-            ComboHelper.FillOSHA_Injury(new ListBox[] { lst_F }, false);
-        }
-        else
-        {
-            AdHocReportHelper.FillFilterDropDown(Field_Header, new ListBox[] { lst_F }, false, "Investigation");
-        }
-
+        
         //Set ListBox ToolTip
         clsGeneral.SetListBoxToolTip(new ListBox[] { lst_F });
         // Set Selected Value for Filter Criteria
@@ -2932,7 +2858,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
     /// <summary>
     /// Bind Amount Fields from database
     /// </summary>
-    private void LoadFilterControlAmount(Invest_AdHocFilter objFilter, Panel pnlAmount_F, DropDownList drpAmount_F, TextBox txtAmount1_F, TextBox txtAmount2_F, Label lblAmountText1_F, Label lblAmountText2_F, CompareValidator cvAmount)
+    private void LoadFilterControlAmount(Property_Claims_AdHocFilter objFilter, Panel pnlAmount_F, DropDownList drpAmount_F, TextBox txtAmount1_F, TextBox txtAmount2_F, Label lblAmountText1_F, Label lblAmountText2_F, CompareValidator cvAmount)
     {
         ListItem liSelected = drpAmount_F.Items.FindByValue(objFilter.ConditionType);
         // Show Amount Panel
@@ -2951,11 +2877,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
 
         bool isDollarSign = true;
         bool bShowDecPoint = true;
-        if (objFilter.Field_Header == "Investigation ID" || objFilter.Field_Header == "WC First Report ID" || objFilter.Field_Header == "Incident Review Lag Time (in days)")
-        {
-            isDollarSign = false;
-            bShowDecPoint = false;
-        }
+        
         // Set Drop Down value and Text values
         drpAmount_Changed(isDollarSign, drpAmount_F, lblAmountText1_F, txtAmount1_F, lblAmountText2_F, txtAmount2_F, cvAmount);
         txtAmount1_F.Text = string.Format(bShowDecPoint ? "{0:N2}" : "{0:N0}", objFilter.AmountFrom);
@@ -2965,7 +2887,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
     /// <summary>
     /// Bind Date Filter Criteria from database
     /// </summary>
-    private void LoadFilterControlDate(Invest_AdHocFilter objFilter, Panel pnlDate_F, DropDownList rdbCommon, Label lbl1, Label lbl2, TextBox txt1, TextBox txt2, HtmlImage img2, RegularExpressionValidator revDateTo, ASP.controls_relativedate_relativedate_ascx ucRelativeDatesFrom, ASP.controls_relativedate_relativedate_ascx ucRelativeDatesTo, HtmlImage img1)
+    private void LoadFilterControlDate(Property_Claims_AdHocFilter objFilter, Panel pnlDate_F, DropDownList rdbCommon, Label lbl1, Label lbl2, TextBox txt1, TextBox txt2, HtmlImage img2, RegularExpressionValidator revDateTo, ASP.controls_relativedate_relativedate_ascx ucRelativeDatesFrom, ASP.controls_relativedate_relativedate_ascx ucRelativeDatesTo, HtmlImage img1)
     {
         ListItem liSelected = rdbCommon.Items.FindByValue(objFilter.ConditionType);
         // Show date Criteria
@@ -3052,6 +2974,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
                     lstSelectedFields.Items.Add(new ListItem(li.Text, li.Value));
                     drpGroupByFirst.Items.Add(new ListItem(li.Text, li.Value));
                     drpGroupBySecond.Items.Add(new ListItem(li.Text, li.Value));
+                    drpGroupByThird.Items.Add(new ListItem(li.Text, li.Value));
                     drpSortingFirst.Items.Add(new ListItem(li.Text, li.Value));
                     drpSortingSecond.Items.Add(new ListItem(li.Text, li.Value));
                     drpSortingThird.Items.Add(new ListItem(li.Text, li.Value));
@@ -3068,6 +2991,7 @@ public partial class SONIC_FirstReport_Investigation_AdHocReportWriter : clsBase
             // Clear all Filter and Sort By Drop Down
             drpGroupByFirst.ClearSelection();
             drpGroupBySecond.ClearSelection();
+            drpGroupByThird.ClearSelection();
             drpSortingFirst.ClearSelection();
             drpSortingSecond.ClearSelection();
             drpSortingThird.ClearSelection();

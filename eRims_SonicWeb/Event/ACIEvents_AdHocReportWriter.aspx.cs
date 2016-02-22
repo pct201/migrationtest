@@ -2060,9 +2060,9 @@ public partial class ACIEvents_AdHocReportWriter : clsBasePage
         }
         else if (pnlAmount_F_ID == "pnlAmount_F8")
         {
-            txtAmount1_F7.Text = txtAmount2_F7.Text = string.Empty;
-            drpAmount_F7.SelectedValue = Convert.ToString((int)AdHocReportHelper.AmountCriteria.Equal);
-            drpAmount_F_SelectedIndexChanged(drpAmount_F7, null);
+            txtAmount1_F8.Text = txtAmount2_F8.Text = string.Empty;
+            drpAmount_F8.SelectedValue = Convert.ToString((int)AdHocReportHelper.AmountCriteria.Equal);
+            drpAmount_F_SelectedIndexChanged(drpAmount_F8, null);
 
         }
         else if (pnlAmount_F_ID == "pnlAmount_F9")
