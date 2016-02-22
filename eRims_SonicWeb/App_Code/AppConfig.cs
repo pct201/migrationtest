@@ -53,6 +53,7 @@ public class AppConfig
     private static string _strLeaseSubleaseDocURL;
 
     private static string _strInspectionDocPath;
+    private static string _strProperty_ClaimsPath;
     private static string _strInspectionDocURL;
 
     private static string _strPropertyCOIDocPath;
@@ -516,6 +517,11 @@ public class AppConfig
     public static string InspectionDocPath
     {
         get { return _strInspectionDocPath; }
+    }
+
+    public static string Property_ClaimsPath
+    {
+        get { return _strProperty_ClaimsPath; }
     }
 
     public static string InspectionDocURL
@@ -1408,6 +1414,8 @@ public class AppConfig
 
         _strInspectionDocPath = string.Concat(SitePath, AttachmentDocPath, "/", ConfigurationManager.AppSettings["InspectionDocs"] + "\\");
         _strInspectionDocURL = string.Concat(SiteURL, AttachmentDocPath, "/", ConfigurationManager.AppSettings["InspectionDocs"] + "/");
+
+        _strProperty_ClaimsPath = string.Concat(SitePath, AttachmentDocPath, "/", ConfigurationManager.AppSettings["Property_ClaimsDocs"] + "\\");
 
         _strInspectionFocusAreaDocPath = string.Concat(SitePath, AttachmentDocPath, "/", ConfigurationManager.AppSettings["InspectionFocusAreaDocs"] + "\\");
         _strInspectionFocusAreaDocURL = string.Concat(SiteURL, AttachmentDocPath, "/", ConfigurationManager.AppSettings["InspectionFocusAreaDocs"] + "/");
