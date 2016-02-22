@@ -1031,7 +1031,7 @@ public partial class SONIC_PropertyClaimInfo : clsBasePage
         if (PK_First_Report_Wizard_ID > 0)
         {
             objFRW.Update();
-     s   }
+        }
 
         Property_Claims objPro_FR = new Property_Claims(PK_Property_Claims_ID);
         objPro_FR.Date_Reported_to_Sonic = clsGeneral.FormatDateToStore(txtDate_Reported_To_Sonic);
