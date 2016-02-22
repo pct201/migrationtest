@@ -1168,13 +1168,15 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         else if (strLinkID == "lnkRemediations") strURL = "PM_Remediation_Grid.aspx?";
         else if (strLinkID == "lnkViolations") strURL = "PM_Violation.aspx?";
         else if (strLinkID == "lnkHearingConversation") strURL = "PM_Hearing_Conservation.aspx?";
-        
+        else if (strLinkID == "lnkRespiratoryProtection") strURL = "PM_Respiratory_Protection.aspx?";
 
         // redirect to page with ID and operation
         strURL = strURL + "fid=" + Encryption.Encrypt(PK_PM_Site_Information.ToString()) + "&loc=" + Request.QueryString["loc"];
         if (strLinkID == "lnkTierII" || strLinkID == "lnkAir_Permit" || strLinkID == "lnkSixH")
             strURL = strURL + "&cid=" + Encryption.Encrypt(PK_PM_Compliance_Reporting.ToString());
         else if (strLinkID == "lnkRemediations")
+            strURL = strURL + "&rid=" + Encryption.Encrypt(PK_PM_Remediation.ToString());
+        else if (strLinkID == "lnkRespiratoryProtection")
             strURL = strURL + "&rid=" + Encryption.Encrypt(PK_PM_Remediation.ToString());
         Response.Redirect(strURL);
     }
