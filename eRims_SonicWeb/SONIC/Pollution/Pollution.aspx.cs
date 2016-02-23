@@ -116,6 +116,20 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         set { ViewState["IsLockedByCurrentUser"] = value; }
     }
 
+
+    /// <summary>
+    /// Denotes the Primary Key for Hearing Conversation
+    /// </summary>
+    public decimal PK_PM_Hearing_Conservation
+    {
+        get
+        {
+            return clsGeneral.GetInt(ViewState["PK_PM_Hearing_Conservation"]);
+        }
+        set { ViewState["PK_PM_Hearing_Conservation"] = value; }
+    }
+
+
     #endregion
 
     #region Page Events
@@ -257,6 +271,7 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
                 gvViolations.DataBind();
 
                 BindGridOshaLog();
+                BindGridHearingConversation();
                 
                 // set attachment details control in read/write mode. so user can add or remove attachment as well.
                 AttachDetails.FindControl("gvAttachment").DataBind();
@@ -787,7 +802,8 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         gvSixH.DataSource = dsGrids.Tables[16];
         gvSixH.DataBind();
 
-        BindGridOshaLog();        
+        BindGridOshaLog();
+        BindGridHearingConversation();
     }
 
     /// <summary>
@@ -866,6 +882,7 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         gvSixHView.DataBind();
 
         BindGridOshaLog();
+        BindGridHearingConversation();
         //BindGridViewOshaLog();
     }
 
@@ -1059,6 +1076,29 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
             gvComplainceReportingOSHA.DataBind();
         }
     }
+
+    /// <summary>
+    /// Binds Hearing Conversation grid
+    /// </summary>
+    private void BindGridHearingConversation()
+    {
+        if (PK_PM_Site_Information > 0)
+        {
+            lnkHearingConversation.Visible = true;
+            DataSet ds = PM_Hearing_Conservation.SelectByFK(PK_PM_Site_Information);
+            DataTable dtHearingConversation = ds.Tables[0];
+            gvHearingConversation.DataSource = gvHearingConversationView.DataSource = dtHearingConversation;
+            gvHearingConversation.DataBind();
+            gvHearingConversationView.DataBind();
+        }
+        else
+        {
+            lnkHearingConversation.Visible = false;
+            gvHearingConversation.DataBind();
+        }
+    }
+
+
 
     //private void BindGridViewOshaLog()
     //{
@@ -1273,6 +1313,7 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
             else if (strGridID.IndexOf("gvEPAInspections") > -1) strURL = "PM_EPA_Inspection.aspx?";
             else if (strGridID.IndexOf("gvRemediations") > -1) strURL = "PM_Remediation_Grid.aspx?";
             else if (strGridID.IndexOf("gvViolations") > -1) strURL = "PM_Violation.aspx?";
+            else if (strGridID.IndexOf("gvHearingConversation") > -1) strURL = "PM_Hearing_Conservation.aspx?";            
 
             // redirect to page with ID and operation
             strURL = strURL + "id=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&op=" + (e.CommandName == "EditDetails" ? "edit" : "view") + "&fid=" + Encryption.Encrypt(PK_PM_Site_Information.ToString()) + "&loc=" + Request.QueryString["loc"];
@@ -1384,9 +1425,15 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
             }
             else if (strGridID == "gvViolations")
             {
-                intPanel = 8;
+                intPanel = 9;
                 PM_Violation.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
                 BindGridViolation();
+            }
+            else if (strGridID == "gvHearingConversation")
+            {
+                intPanel = 8;
+                PM_Hearing_Conservation.Delete(Convert.ToDecimal(e.CommandArgument));
+                BindGridHearingConversation();
             }
             #endregion
             // show specified panel
@@ -1662,23 +1709,6 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         hdnErrorMsgs.Value = strMessages;
     }
     #endregion
-
-
-    protected void lnkAddHearingConversation_Click(object sender, EventArgs e)
-    {
-
-    }
-    protected void gvHearingConversation_RowCommand(object sender, GridViewCommandEventArgs e)
-    {
-
-    }
-    protected void lnkAddRespiratoryProtection_Click(object sender, EventArgs e)
-    {
-
-    }
-    protected void gvRespiratoryProtection_RowCommand(object sender, GridViewCommandEventArgs e)
-    {
-
-    }
+    
    
 }
