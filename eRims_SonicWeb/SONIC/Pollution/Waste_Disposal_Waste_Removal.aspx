@@ -21,6 +21,39 @@
         function returnConfirm() {
             return confirm('Are you sure you want to remove the selected data from eRIMS2?');
         }
+
+        function ChangeFacilityGeneratorStatus(txtAmountid)
+        {
+            var Amount_HW_Generated_Per_Month = document.getElementById(txtAmountid.id).value;
+            var drpFK_LU_Facility_Generator_Status = document.getElementById('<%=drpFK_LU_Facility_Generator_Status.ClientID%>');
+            var hdnFK_LU_Facility_Generator_Status = document.getElementById('<%=hdnFK_LU_Facility_Generator_Status.ClientID %>');
+
+            if (drpFK_LU_Facility_Generator_Status.value != '0')
+                hdnFK_LU_Facility_Generator_Status.value = drpFK_LU_Facility_Generator_Status.value;
+
+            Amount_HW_Generated_Per_Month = Amount_HW_Generated_Per_Month.replace(',', '');
+            if (!Amount_HW_Generated_Per_Month)
+                Amount_HW_Generated_Per_Month = 0;
+
+            for (var i = 0; i < drpFK_LU_Facility_Generator_Status.options.length; i++) {
+                if (Amount_HW_Generated_Per_Month < 220 && drpFK_LU_Facility_Generator_Status.options[i].text === 'CESQG') {
+                    drpFK_LU_Facility_Generator_Status.selectedIndex = i;
+                    hdnFK_LU_Facility_Generator_Status.value = drpFK_LU_Facility_Generator_Status.options[i].value;
+                    break;
+                }
+                else if (Amount_HW_Generated_Per_Month >= 220 && Amount_HW_Generated_Per_Month < 2200 && drpFK_LU_Facility_Generator_Status.options[i].text === 'SQG') {
+                    drpFK_LU_Facility_Generator_Status.selectedIndex = i;
+                    hdnFK_LU_Facility_Generator_Status.value = drpFK_LU_Facility_Generator_Status.options[i].value;
+                    break;
+                }
+                else if (Amount_HW_Generated_Per_Month >= 2200 && drpFK_LU_Facility_Generator_Status.options[i].text === 'LQG') {
+                    drpFK_LU_Facility_Generator_Status.selectedIndex = i;
+                    hdnFK_LU_Facility_Generator_Status.value = drpFK_LU_Facility_Generator_Status.options[i].value;
+                    break;
+                }
+            }
+        }
+
         function SetMenuStyle(index) {
             var i;
             for (i = 1; i <= 2; i++) {
@@ -283,7 +316,7 @@
                                                         </td>
                                                         <td align="left" valign="top">                                                            
                                                             <asp:TextBox ID="txtAmount_HW_Generated_Per_Month" runat="server" Width="170px" onkeypress="return FormatNumber(event,this.id,15,false);"
-                                                                onpaste="return false" />
+                                                                onpaste="return false" onblur="ChangeFacilityGeneratorStatus(this);"/>
                                                         </td>
                                                         <td align="left" valign="top">
                                                             EPA ID Number&nbsp;<span id="Span12" style="color: Red; display: none;" runat="server">*</span>
@@ -293,6 +326,19 @@
                                                         </td>
                                                         <td align="left" valign="top">
                                                             <asp:TextBox ID="txtEpaIdNumber" runat="server" Width="170px" MaxLength="75" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="top">
+                                                            Facility Generator Status&nbsp;<span id="Span8" style="color: Red; display: none;" runat="server">*</span>
+                                                        </td>
+                                                        <td align="center" valign="top">
+                                                            :
+                                                        </td>
+                                                        <td align="left" valign="top" colspan="4">
+                                                            <asp:DropDownList ID="drpFK_LU_Facility_Generator_Status" Width="175px" runat="server"
+                                                                SkinID="dropGen" Enabled="false">
+                                                            </asp:DropDownList>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -329,8 +375,9 @@
                                                             :
                                                         </td>
                                                         <td align="left" valign="top">
-                                                            <asp:DropDownList ID="drpHWCodes" Width="175px" runat="server" SkinID="dropGen">
-                                                            </asp:DropDownList>   
+                                                            <%--<asp:DropDownList ID="drpHWCodes" Width="175px" runat="server" SkinID="dropGen">
+                                                            </asp:DropDownList>  --%> 
+                                                            <asp:ListBox ID="lstHWCodes" runat="server" Width="150" SelectionMode="Multiple" Height="220px"></asp:ListBox>
                                                         </td>
                                                         <td align="left" valign="top">
                                                            <%-- Removal Limits&nbsp;<span id="Span7" style="color: Red; display: none;" runat="server">*</span>--%>
@@ -381,22 +428,11 @@
                                                         <td align="center" valign="top">
                                                             :
                                                         </td>
-                                                        <td align="left" valign="top">
+                                                        <td align="left" valign="top" colspan="4">
                                                             <asp:RadioButtonList ID="rdoHW_Profile_Complete_And_Maintained" runat="server">
                                                                 <asp:ListItem Text="Yes" Value="Y" Selected="False"></asp:ListItem>
                                                                 <asp:ListItem Text="No" Value="N" Selected="True"></asp:ListItem>
                                                             </asp:RadioButtonList>
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            Facility Generator Status&nbsp;<span id="Span8" style="color: Red; display: none;" runat="server">*</span>
-                                                        </td>
-                                                        <td align="center" valign="top">
-                                                            :
-                                                        </td>
-                                                        <td align="left" valign="top">
-                                                            <asp:DropDownList ID="drpFK_LU_Facility_Generator_Status" Width="175px" runat="server"
-                                                                SkinID="dropGen">
-                                                            </asp:DropDownList>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -703,4 +739,5 @@
                     Display="None" ValidationGroup="vsErrorGroup" />
                 <input id="hdnControlIDs" runat="server" type="hidden" />
                 <input id="hdnErrorMsgs" runat="server" type="hidden" />
+    <asp:HiddenField ID="hdnFK_LU_Facility_Generator_Status" runat="server" Value="0" />
 </asp:Content>

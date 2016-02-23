@@ -166,11 +166,17 @@ public partial class SONIC_Pollution_Waste_Disposal_Waste_Removal : clsBasePage
         DataSet dsHWCodes = LU_PM_Hazardous_Waste_Codes.SelectAll();
         dsHWCodes.Tables[0].DefaultView.RowFilter = "Active='Y'";
 
-        drpHWCodes.DataSource = dsHWCodes.Tables[0].DefaultView;
-        drpHWCodes.DataTextField = "Fld_Code";
-        drpHWCodes.DataValueField = "PK_LU_PM_Hazardous_Waste_Codes";
-        drpHWCodes.DataBind();
-        drpHWCodes.Items.Insert(0, new ListItem("-- Select --", "0"));
+        //drpHWCodes.DataSource = dsHWCodes.Tables[0].DefaultView;
+        //drpHWCodes.DataTextField = "Fld_Code";
+        //drpHWCodes.DataValueField = "PK_LU_PM_Hazardous_Waste_Codes";
+        //drpHWCodes.DataBind();
+        //drpHWCodes.Items.Insert(0, new ListItem("-- Select --", "0"));
+
+        lstHWCodes.DataSource = dsHWCodes.Tables[0].DefaultView;
+        lstHWCodes.DataTextField = "Fld_Code";
+        lstHWCodes.DataValueField = "PK_LU_PM_Hazardous_Waste_Codes";
+        lstHWCodes.DataBind();
+       
     }
 
     /// <summary>
@@ -198,7 +204,7 @@ public partial class SONIC_Pollution_Waste_Disposal_Waste_Removal : clsBasePage
         txtAmount_HW_Generated_Per_Month.Text = clsGeneral.GetStringValue(objPM_Waste_Removal.Amount_HW_Generated_Per_Month);
         //txtUnits.Text = objPM_Waste_Removal.Units;
         txtDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Waste_Removal.Date);
-        drpHWCodes.SelectedValue = Convert.ToString(objPM_Waste_Removal.FK_LU_PM_Hazardous_Waste_Codes);
+        //drpHWCodes.SelectedValue = Convert.ToString(objPM_Waste_Removal.FK_LU_PM_Hazardous_Waste_Codes);
         txtHWStartDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Waste_Removal.HW_Accumulation_Start);
         txtHWlastDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Waste_Removal.Last_HW_Removal);
         if (objPM_Waste_Removal.HW_Profile_Complete_And_Maintained != null)
@@ -209,6 +215,31 @@ public partial class SONIC_Pollution_Waste_Disposal_Waste_Removal : clsBasePage
         if (objPM_Waste_Removal.FK_PM_Site_Information != null) FK_PM_Site_Information = Convert.ToDecimal(objPM_Waste_Removal.FK_PM_Site_Information);
         if (objPM_Waste_Removal.Amount_HW_Generated_Per_Month != null) rdoApply_To_Location.SelectedValue = objPM_Waste_Removal.Apply_To_Location;
         if (objPM_Waste_Removal.EPA_ID_Number != null) txtEpaIdNumber.Text = objPM_Waste_Removal.EPA_ID_Number;
+
+        DataSet dsWaste_Codes = clsPM_Hazardous_Waste_Codes_Mapping.SelectBy_FK_PM_Waste_Removal(Convert.ToDecimal(PK_PM_Waste_Removal));
+        if (dsWaste_Codes.Tables[0].Rows.Count > 0)
+        {
+            foreach (DataRow drWaste_Code in dsWaste_Codes.Tables[0].Rows)
+            {
+                foreach (ListItem lstWasteCode in lstHWCodes.Items)
+                {
+                    if (lstWasteCode.Value == drWaste_Code["FK_LU_PM_Hazardous_Waste_Codes"].ToString())
+                    {
+                        lstWasteCode.Selected = true;
+                    }
+                }
+            }
+        }
+        else //old value selected here
+        {
+            foreach (ListItem lstWasteCode in lstHWCodes.Items)
+            {
+                if (lstWasteCode.Value == Convert.ToString(objPM_Waste_Removal.FK_LU_PM_Hazardous_Waste_Codes))
+                {
+                    lstWasteCode.Selected = true;
+                }
+            }
+        }
     }
 
 
@@ -241,8 +272,8 @@ public partial class SONIC_Pollution_Waste_Disposal_Waste_Removal : clsBasePage
         lblDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Waste_Removal.Date);
         //lblConstituents_Of_Concern.Text = objPM_Waste_Removal.Constituents_Of_Concern;
         //lblRemoval_Limits.Text = objPM_Waste_Removal.Removal_Limits;
-        if (objPM_Waste_Removal.FK_LU_PM_Hazardous_Waste_Codes != null)
-            lblHWCodes.Text = Convert.ToString(new LU_PM_Hazardous_Waste_Codes(Convert.ToDecimal(objPM_Waste_Removal.FK_LU_PM_Hazardous_Waste_Codes)).Fld_Code);
+        //if (objPM_Waste_Removal.FK_LU_PM_Hazardous_Waste_Codes != null)
+        //    lblHWCodes.Text = Convert.ToString(new LU_PM_Hazardous_Waste_Codes(Convert.ToDecimal(objPM_Waste_Removal.FK_LU_PM_Hazardous_Waste_Codes)).Fld_Code);
           lblHWStartDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Waste_Removal.HW_Accumulation_Start);
           lblHWLastDate.Text = clsGeneral.FormatDBNullDateToDisplay(objPM_Waste_Removal.Last_HW_Removal);
         if (objPM_Waste_Removal.HW_Profile_Complete_And_Maintained != null)
@@ -254,6 +285,14 @@ public partial class SONIC_Pollution_Waste_Disposal_Waste_Removal : clsBasePage
         if (objPM_Waste_Removal.FK_PM_Site_Information != null)
             FK_PM_Site_Information = Convert.ToDecimal(new PM_Site_Information((decimal)objPM_Waste_Removal.FK_PM_Site_Information, false).PK_PM_Site_Information);
         if (objPM_Waste_Removal.Apply_To_Location != null) lblApply_To_Location.Text = objPM_Waste_Removal.Apply_To_Location == "Y" ? "Yes" : "No"; ;
+
+
+        DataSet dsWaste_Codes = clsPM_Hazardous_Waste_Codes_Mapping.SelectBy_FK_PM_Waste_Removal(Convert.ToDecimal(PK_PM_Waste_Removal));
+        if (dsWaste_Codes.Tables[1].Rows.Count > 0)
+            lblHWCodes.Text = Convert.ToString(dsWaste_Codes.Tables[1].Rows[0]["Hazardous_Waste_Codes"]);
+        else if (objPM_Waste_Removal.FK_LU_PM_Hazardous_Waste_Codes != null)//old value selected here
+            lblHWCodes.Text = Convert.ToString(new LU_PM_Hazardous_Waste_Codes(Convert.ToDecimal(objPM_Waste_Removal.FK_LU_PM_Hazardous_Waste_Codes)).Fld_Code);
+        
     }
 
     private void SavePaintInventory(bool IsFromAdd)
@@ -268,12 +307,13 @@ public partial class SONIC_Pollution_Waste_Disposal_Waste_Removal : clsBasePage
         objPM_Waste_Removal.Date = clsGeneral.FormatNullDateToStore(txtDate.Text);
         //objPM_Waste_Removal.Constituents_Of_Concern = txtConstituents_Of_Concern.Text.Trim();
         //objPM_Waste_Removal.Removal_Limits = txtRemoval_Limits.Text.Trim();
-        objPM_Waste_Removal.FK_LU_PM_Hazardous_Waste_Codes = Convert.ToDecimal(drpHWCodes.SelectedValue);
+        //objPM_Waste_Removal.FK_LU_PM_Hazardous_Waste_Codes = Convert.ToDecimal(drpHWCodes.SelectedValue);
         objPM_Waste_Removal.HW_Accumulation_Start = clsGeneral.FormatNullDateToStore(txtHWStartDate.Text);
         objPM_Waste_Removal.Last_HW_Removal = clsGeneral.FormatNullDateToStore(txtHWlastDate.Text);
 
         objPM_Waste_Removal.HW_Profile_Complete_And_Maintained = rdoHW_Profile_Complete_And_Maintained.SelectedValue;
-        if (drpFK_LU_Facility_Generator_Status.SelectedIndex > 0) objPM_Waste_Removal.FK_LU_Facility_Generator_Status = Convert.ToDecimal(drpFK_LU_Facility_Generator_Status.SelectedValue);
+        //if (drpFK_LU_Facility_Generator_Status.SelectedIndex > 0) objPM_Waste_Removal.FK_LU_Facility_Generator_Status = Convert.ToDecimal(drpFK_LU_Facility_Generator_Status.SelectedValue);
+        objPM_Waste_Removal.FK_LU_Facility_Generator_Status = clsGeneral.GetDecimal(hdnFK_LU_Facility_Generator_Status.Value); 
         if ((drpFK_LU_Waste_Type.SelectedItem.Text == "Antifreeze"))
         {
             objPM_Waste_Removal.Discharge_Limits = txtDischarge_Limits.Text.Trim();
@@ -284,6 +324,11 @@ public partial class SONIC_Pollution_Waste_Disposal_Waste_Removal : clsBasePage
         objPM_Waste_Removal.Update_Date = DateTime.Now;
         objPM_Waste_Removal.Apply_To_Location = rdoApply_To_Location.SelectedValue;
         objPM_Waste_Removal.EPA_ID_Number = txtEpaIdNumber.Text.Trim();
+
+        //SLT_Safety_Walk_Responses_Departments objdepartmnt = new SLT_Safety_Walk_Responses_Departments();
+        clsPM_Hazardous_Waste_Codes_Mapping objWaste_Codes = new clsPM_Hazardous_Waste_Codes_Mapping();
+        //if (GetSelectedItemString(lstHWCodes, false) != "")
+         objWaste_Codes.Insert(PK_PM_Waste_Removal, GetSelectedItemString(lstHWCodes, false));
 
         decimal _retVal;
         if (PK_PM_Waste_Removal > 0)
@@ -309,6 +354,27 @@ public partial class SONIC_Pollution_Waste_Disposal_Waste_Removal : clsBasePage
         }
     }
 
+    /// <summary>
+    /// return Comma saperated list of all selected item in listbox
+    /// </summary>
+    /// <param name="lstBox"></param>
+    /// <returns></returns>
+    public string GetSelectedItemString(ListBox lstBox, bool isStringValue)
+    {
+        string strValues = "";
+        foreach (ListItem lstBoxItem in lstBox.Items)
+        {
+            if (lstBoxItem.Selected)
+            {
+                if (isStringValue)
+                    strValues = strValues + "'" + lstBoxItem.Value.Replace("'", "''") + "',";
+                else
+                    strValues = strValues + lstBoxItem.Value.Replace("'", "''") + ",";
+            }
+
+        }
+        return strValues.TrimEnd(',');
+    }
     #endregion
 
     #region Control Events
@@ -449,7 +515,7 @@ public partial class SONIC_Pollution_Waste_Disposal_Waste_Removal : clsBasePage
                 //    Span7.Style["display"] = "inline-block";
                 //    break;
                 case "Hazardous Waste Codes":
-                    strCtrlsIDs += drpHWCodes.ClientID + ",";
+                    strCtrlsIDs += lstHWCodes.ClientID + ",";//drpHWCodes.ClientID + ",";
                     strMessages += "Please select [Hazardous Waste Generator]/Hazardous Waste Codes" + ",";
                     Span6.Style["display"] = "inline-block";
                     break;
