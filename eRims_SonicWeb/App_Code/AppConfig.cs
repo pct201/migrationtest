@@ -281,6 +281,10 @@ public class AppConfig
 
     private static string _InspectionReportDocPath;
 
+
+    private static string _strPM_Hearing_Conservation_AttachmentsDocPath;
+    private static string _strPM_Hearing_Conservation_AttachmentsImageURL;
+
     # endregion
 
     # region " Public Properties "
@@ -1300,7 +1304,17 @@ public class AppConfig
     {
         get { return _InspectionReportDocPath; }
         set { _InspectionReportDocPath = value; }
-    }    
+    }
+
+    public static string PM_Hearing_ConservationAttachmentsDocPath
+    {
+        get { return _strPM_Hearing_Conservation_AttachmentsDocPath; }
+    }
+
+    public static string PM_Hearing_ConservationAttachmentsImagePath
+    {
+        get { return _strPM_Hearing_Conservation_AttachmentsImageURL; }
+    }
 
     #endregion
 
