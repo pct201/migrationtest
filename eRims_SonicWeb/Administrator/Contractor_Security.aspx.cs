@@ -717,11 +717,14 @@ public partial class Administrator_Contractor_Security : clsBasePage
     /// </summary>
     private void BindLocationProjectAccessGridsView(string orderBy, string direction)
     {
-        DataSet dsGrids = Contractor_Job_Security.SelectByFKContactorSecurity(PK_Contactor_Security, orderBy, direction);
-        gvLocationProjectAccess.DataSource = dsGrids;
-        gvViewLocationProjectAccess.DataSource = dsGrids;
-        gvLocationProjectAccess.DataBind();
-        gvViewLocationProjectAccess.DataBind();
+        if (PK_Contactor_Security > 0)
+        {
+            DataSet dsGrids = Contractor_Job_Security.SelectByFKContactorSecurity(PK_Contactor_Security, orderBy, direction);
+            gvLocationProjectAccess.DataSource = dsGrids;
+            gvViewLocationProjectAccess.DataSource = dsGrids;
+            gvLocationProjectAccess.DataBind();
+            gvViewLocationProjectAccess.DataBind();
+        }
     }
 
     /// <summary>

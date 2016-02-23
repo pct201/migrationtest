@@ -753,8 +753,8 @@
                                   <asp:Button ID="btnEdit" runat="server" Text=" Edit " OnClick="btnEdit_Click" />&nbsp;&nbsp;&nbsp;
                                 <asp:Button ID="btnCancel" runat="server" Text="Cancel" CausesValidation="false"
                                     OnClick="btnCancel_Click" />&nbsp;&nbsp;&nbsp;
-                                <asp:Button ID="btnCopyFrom" runat="server" Text="Copy Projects From" CausesValidation="false" OnClientClick="return OpenContractorSecurityPopup('from', 'Copy from');" />
-                                <asp:Button ID="btnCopyTo" runat="server" Text="Copy Projects To" CausesValidation="false" OnClientClick="return OpenContractorSecurityPopup('to', 'Copy to');" />
+                                <asp:Button ID="btnCopyFrom" runat="server" Text="Copy Projects From" CausesValidation="false" Visible="false" OnClientClick="return OpenContractorSecurityPopup('from', 'Copy from');" />&nbsp;&nbsp;&nbsp;
+                                <asp:Button ID="btnCopyTo" runat="server" Text="Copy Projects To" CausesValidation="false" Visible="false" OnClientClick="return OpenContractorSecurityPopup('to', 'Copy to');" />&nbsp;&nbsp;&nbsp;
                                 <asp:Button ID="btnRefreshProjectGrid" runat="server" OnClick="btnRefreshProjectGrid_Click" style="display:none" />
                             </td>
                         </tr>
