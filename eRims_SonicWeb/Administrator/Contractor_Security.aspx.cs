@@ -748,7 +748,7 @@ public partial class Administrator_Contractor_Security : clsBasePage
                 ddlToFill.Items.Insert(0, new ListItem("-- Select --", "0"));
             }
             //ddlToFill.SelectedValue = "2";
-            ddlToFill.Items.FindByText("E-Mail").Selected = true;
+            clsGeneral.SetDropdownValue(ddlToFill, "E-Mail", false);            
         }
         
     }
