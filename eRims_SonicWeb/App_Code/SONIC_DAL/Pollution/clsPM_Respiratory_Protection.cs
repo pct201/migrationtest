@@ -783,5 +783,34 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Selects a single record from the PM_Respiratory_Protection table by a primary key. used for view mode
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectViewByPK(decimal PK_PM_Respiratory_Protection)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("PM_Respiratory_ProtectionSelectViewByPK");
+
+            db.AddInParameter(dbCommand, "PK_PM_Respiratory_Protection", DbType.Decimal, PK_PM_Respiratory_Protection);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// Get Audit View details
+        /// </summary>
+        /// <param name="pK_PM_SI_Utility_Provider"></param>
+        /// <returns></returns>
+        public static DataSet GetAuditView(decimal PK_PM_Respiratory_Protection)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("PM_Respiratory_Protection_AuditView");
+
+            db.AddInParameter(dbCommand, "PK_PM_Respiratory_Protection", DbType.Decimal, PK_PM_Respiratory_Protection);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
     }
 }

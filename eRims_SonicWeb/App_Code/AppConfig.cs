@@ -285,6 +285,7 @@ public class AppConfig
     private static string _strPM_Hearing_Conservation_AttachmentsDocPath;
     private static string _strPM_Hearing_Conservation_AttachmentsImageURL;
 
+    private static string _strPM_Respiratory_Protection_AttachmentsDocPath;
     # endregion
 
     # region " Public Properties "
@@ -1311,6 +1312,11 @@ public class AppConfig
         get { return _strPM_Hearing_Conservation_AttachmentsDocPath; }
     }
 
+    public static string PM_Respiratory_Protection_AttachmentsDocPath
+    {
+        get { return _strPM_Respiratory_Protection_AttachmentsDocPath; }
+    }
+
     public static string PM_Hearing_ConservationAttachmentsImagePath
     {
         get { return _strPM_Hearing_Conservation_AttachmentsImageURL; }
@@ -1668,8 +1674,8 @@ public class AppConfig
                         
         _MaintenanceDocPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["MaintenanceDocs"] + "\\");
 
-        _InspectionReportDocPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["InspectionReportDocs"] + "\\");        
-
+        _InspectionReportDocPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["InspectionReportDocs"] + "\\");
+        _strPM_Respiratory_Protection_AttachmentsDocPath = string.Concat(SitePath, AttachmentDocPath, "\\", ConfigurationManager.AppSettings["RespiratoryDocs"] + "\\"); 
         _strGeneralDocument = string.Concat(SitePath, AttachmentDocPath);
     }
 

@@ -92,6 +92,18 @@ public partial class Download : System.Web.UI.Page
                         HttpContext.Current.Response.Flush();
                         HttpContext.Current.Response.End();
                     }
+                    else if (Request.QueryString["SLT"] == "RP_Docs")
+                    {
+                        string strRpFileName = Encryption.Decrypt(Request.QueryString["fname"]);
+                        string strRpFilePath = AppConfig.PM_Respiratory_Protection_AttachmentsDocPath + strFileName;
+                        // Transfer File
+                        HttpContext.Current.Response.Clear();
+                        HttpContext.Current.Response.AddHeader("content-disposition", string.Format("attachment; filename={0}", strFileName.Substring(12)));
+                        HttpContext.Current.Response.ContentType = "application/octet-stream";
+                        HttpContext.Current.Response.TransmitFile(strRpFilePath);
+                        HttpContext.Current.Response.Flush();
+                        HttpContext.Current.Response.End();
+                    }
                 }
                 #endregion
                 else
