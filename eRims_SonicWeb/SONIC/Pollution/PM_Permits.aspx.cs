@@ -710,6 +710,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
             objPM_Permits_VOC_Emissions.VOC_Emissions = clsGeneral.GetDecimal(txtVOCEmissions.Text);
             objPM_Permits_VOC_Emissions.Update_Date = DateTime.Now;
             objPM_Permits_VOC_Emissions.Updated_By = clsSession.UserID;
+            objPM_Permits_VOC_Emissions.FK_LU_Location = FK_LU_Location_ID;
 
             DataTable dtVOC = objPM_Permits_VOC_Emissions.SelectByFK(PK_PM_Permits).Tables[0];
 

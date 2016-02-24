@@ -69,12 +69,12 @@
                         </td>
                         <td align="left" width="60%">
                             <asp:TextBox runat="server" ID="txtEndDate" Width="140px" SkinID="txtDate"></asp:TextBox>
-                            <img alt="Date Approved Denied End" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtEndDate', 'mm/dd/y');"
+                            <img alt="End Date" onclick="return showCalendar('ctl00_ContentPlaceHolder1_txtEndDate', 'mm/dd/y');"
                                 onmouseover="javascript:this.style.cursor='hand';" src="../Images/iconPicDate.gif" align="middle" /><br />
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtStartDate" ErrorMessage="Please enter End Date"
                                 SetFocusOnError="true" ValidationGroup="vsErrorGroup" Display="none" />
-                            <asp:RangeValidator ID="RangeValidator1" ControlToValidate="txtEndDate" MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date"
-                                ErrorMessage="DateApprovedDeniedBegin is not valid." runat="server" SetFocusOnError="true" ValidationGroup="vsErrorGroup" Display="none" />
+                            <asp:RangeValidator ID="rvEndDate" ControlToValidate="txtEndDate" MinimumValue="01/01/1753" MaximumValue="12/31/9999" Type="Date"
+                                ErrorMessage="End Date is not valid." runat="server" SetFocusOnError="true" ValidationGroup="vsErrorGroup" Display="none" />
                             <asp:CompareValidator ID="cvDate" runat="server" Type="Date" ControlToValidate="txtEndDate" ControlToCompare="txtStartDate"
                                 Operator="GreaterThanEqual" ErrorMessage="End Date must be greater than Start Date" Display="None" SetFocusOnError="true" ValidationGroup="vsErrorGroup" />
                         </td>
