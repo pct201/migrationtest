@@ -749,7 +749,7 @@ public partial class SONIC_Pollution_PM_Permits : clsBasePage
                 }
                 else
                 {
-                    ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:alert('VOC Details already exists for entered Intem Number.');", true);
+                    ScriptManager.RegisterStartupScript(this, Page.GetType(), DateTime.Now.ToString(), "javascript:alert('VOC Details already exists for entered Item Number.');", true);
                 }
             }            
 
