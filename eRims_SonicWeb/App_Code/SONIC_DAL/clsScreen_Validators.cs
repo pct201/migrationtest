@@ -242,5 +242,13 @@ namespace ERIMS.DAL
             db.AddInParameter(dbCommand, "IsRequired", DbType.String, IsRequired);
             db.ExecuteNonQuery(dbCommand);
         }
+
+        public static DataSet SelectByScreenName(string ScreenName)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("Screen_ValidatorsSelectByScreenName");
+            db.AddInParameter(dbCommand, "ScreenName", DbType.String, ScreenName);
+            return db.ExecuteDataSet(dbCommand);
+        }
     }
 }
