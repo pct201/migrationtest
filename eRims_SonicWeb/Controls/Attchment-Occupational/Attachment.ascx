@@ -52,7 +52,7 @@
             </asp:GridView>
             <br />
             <br />
-            <asp:Button ID="btnViewPDF" runat="server" Text="View Selections (PDFs only)" OnClick="btnViewPDF_Click"
+            <asp:Button ID="btnViewPDF" runat="server" Text="View Selections (PDFs only)" 
                 Width="200px" OnClientClick="return CheckSeleted('File');" Visible="false"/>&nbsp;
             <asp:Button ID="btnCancelFile" runat="server" Text="Back" OnClick="btnCancelFile_Click" Visible="false"/>
             <span style="padding-left: 500px">
