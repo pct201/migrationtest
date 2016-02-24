@@ -804,6 +804,11 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
 
         BindGridOshaLog();
         BindGridHearingConversation();
+
+        // Respiratory Protection Grid
+        gvRespiratoryProtection.DataSource = dsGrids.Tables[17];
+        gvRespiratoryProtection.DataBind();
+
     }
 
     /// <summary>
@@ -1098,7 +1103,15 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         }
     }
 
-
+    /// <summary>
+    /// Binds Respiratory Protection grid
+    /// </summary>
+    private void BindGridRespiratory()
+    {
+        DataTable dtRespiratoryProtection = clsPM_Respiratory_Protection.SelectByFK_SiteInfo(PK_PM_Site_Information).Tables[0];
+        gvRespiratoryProtection.DataSource = dtRespiratoryProtection;
+        gvRespiratoryProtection.DataBind();
+    }
 
     //private void BindGridViewOshaLog()
     //{
@@ -1313,7 +1326,8 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
             else if (strGridID.IndexOf("gvEPAInspections") > -1) strURL = "PM_EPA_Inspection.aspx?";
             else if (strGridID.IndexOf("gvRemediations") > -1) strURL = "PM_Remediation_Grid.aspx?";
             else if (strGridID.IndexOf("gvViolations") > -1) strURL = "PM_Violation.aspx?";
-            else if (strGridID.IndexOf("gvHearingConversation") > -1) strURL = "PM_Hearing_Conservation.aspx?";            
+            else if (strGridID.IndexOf("gvHearingConversation") > -1) strURL = "PM_Hearing_Conservation.aspx?";
+            else if (strGridID.IndexOf("gvRespiratoryProtection") > -1) strURL = "PM_Respiratory_Protection.aspx?";
 
             // redirect to page with ID and operation
             strURL = strURL + "id=" + Encryption.Encrypt(e.CommandArgument.ToString()) + "&op=" + (e.CommandName == "EditDetails" ? "edit" : "view") + "&fid=" + Encryption.Encrypt(PK_PM_Site_Information.ToString()) + "&loc=" + Request.QueryString["loc"];
@@ -1434,6 +1448,12 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
                 intPanel = 8;
                 PM_Hearing_Conservation.Delete(Convert.ToDecimal(e.CommandArgument));
                 BindGridHearingConversation();
+            }
+            else if (strGridID == "gvRespiratoryProtection")
+            {
+                intPanel = 7;
+                clsPM_Respiratory_Protection.DeleteByPK(clsGeneral.GetDecimal(e.CommandArgument));
+                BindGridRespiratory();
             }
             #endregion
             // show specified panel

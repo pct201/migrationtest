@@ -1765,29 +1765,29 @@
                                                                     <asp:TemplateField HeaderText="Date">
                                                                         <ItemStyle Width="18%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkYear" runat="server" Text='<%#  Eval("Date") %>'
-                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Frequency") %>' />
+                                                                            <asp:LinkButton ID="lnkYear" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay( Eval("Date")) %>'
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Respiratory_Protection") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                       <asp:TemplateField HeaderText="Associate">
                                                                         <ItemStyle Width="18%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkAssociate" runat="server" Text='<%#  Eval("Associate") %>'
-                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Frequency") %>' />
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Respiratory_Protection") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField HeaderText="Event Type">
                                                                         <ItemStyle Width="18%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkNext_Inspection_Date" runat="server" Text='<%# Eval("EventType") %>'
-                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Frequency") %>' />
+                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Respiratory_Protection") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>                                                                 
                                                                     <asp:TemplateField HeaderText="Remove">
                                                                         <ItemStyle Width="10%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkRemove" runat="server" Text="Remove" CommandName="RemoveDetails"
-                                                                                CommandArgument='<%# Eval("PK_PM_Frequency") %>' OnClientClick="return confirm('Are you sure to remove the record?');" />
+                                                                                CommandArgument='<%# Eval("PK_PM_Respiratory_Protection") %>' OnClientClick="return confirm('Are you sure to remove the record?');" />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                 </Columns>
