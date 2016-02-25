@@ -16,7 +16,7 @@
     <tr>
         <td width="100%" align="left">
             <asp:GridView ID="gvFiles" runat="server" Width="100%" AutoGenerateColumns="false"
-                EmptyDataText="No Files Found." OnRowCommand="gvFiles_RowCommand"  OnRowDataBound="gvFiles_RowDataBound">
+                EmptyDataText="No Files Found." OnRowCommand="gvFiles_RowCommand" OnRowDataBound="gvFiles_RowDataBound">
                 <Columns>
                     <asp:TemplateField HeaderText="File Name">
                         <ItemStyle Width="70%" />
@@ -26,38 +26,31 @@
                             <input type="hidden" id="hdnFileName" runat="server" value='<%#Eval("File_Name") %>' />
                         </ItemTemplate>
                     </asp:TemplateField>
-                     <asp:TemplateField HeaderText="Action">
-                        <ItemStyle Width="30%" />
-                         <ItemTemplate>
-                             <asp:LinkButton ID="lnkEmail"   runat="server"   >
-                                <img src="../../Images/Email_Attachment.jpg" alt="E-Mail" /></asp:LinkButton>
-                            <asp:LinkButton ID="lnkDelete" CommandArgument='<%# Eval("PK_Attachments") + ":" + Eval("File_Name") %>'
-                                CommandName="DeleteAttachment" runat="server" OnClientClick="return confirm('Are you sure to delete the attachment?')" >
-                                <img src="../../Images/delete_Attachment.jpg" alt="delete" /></asp:LinkButton>
-                         </ItemTemplate>
-                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Action" Visible="false">
-                        <ItemStyle Width="13%" />
+                    <asp:TemplateField HeaderText="Email">
+                        <ItemStyle Width="15%" />
                         <ItemTemplate>
-                            <asp:LinkButton ID="lnkEdit" runat="server" Text="Edit" CommandName="EditAttachment"
-                                CommandArgument='<%# Eval("PK_Attachments")%>' />&nbsp;
-                            <asp:LinkButton ID="lnkView" runat="server" Text="View" CommandName="ViewAttachment"
-                                CommandArgument='<%# Eval("PK_Attachments")%>' />&nbsp;
-                            <asp:LinkButton ID="lnkDelete1" runat="server" Text="Delete" CommandName="DeleteAttachment"
-                                CommandArgument='<%# Eval("PK_Attachments") + ":" + Eval("File_Name") %>'
-                                OnClientClick="return confirm('Are you sure to delete the attachment?')" />&nbsp;
+                            <asp:LinkButton ID="lnkEmail" runat="server">
+                                <img src="../../Images/Email_Attachment.jpg" alt="E-Mail" /></asp:LinkButton>
                         </ItemTemplate>
                     </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Delete">
+                        <ItemStyle Width="15%" />
+                        <ItemTemplate>
+                            <asp:LinkButton ID="lnkDelete" CommandArgument='<%# Eval("PK_Attachments") + ":" + Eval("File_Name") %>'
+                                CommandName="DeleteAttachment" runat="server" OnClientClick="return confirm('Are you sure to delete the attachment?')">
+                                <img src="../../Images/delete_Attachment.jpg" alt="delete" /></asp:LinkButton>
+                        </ItemTemplate>
+                    </asp:TemplateField>                 
                 </Columns>
             </asp:GridView>
             <br />
             <br />
-            <asp:Button ID="btnViewPDF" runat="server" Text="View Selections (PDFs only)" 
-                Width="200px" OnClientClick="return CheckSeleted('File');" Visible="false"/>&nbsp;
-            <asp:Button ID="btnCancelFile" runat="server" Text="Back" OnClick="btnCancelFile_Click" Visible="false"/>
+            <asp:Button ID="btnViewPDF" runat="server" Text="View Selections (PDFs only)"
+                Width="200px" OnClientClick="return CheckSeleted('File');" Visible="false" />&nbsp;
+            <asp:Button ID="btnCancelFile" runat="server" Text="Back" OnClick="btnCancelFile_Click" Visible="false" />
             <span style="padding-left: 500px">
                 <asp:Button ID="btnEmail" runat="server" Text="Email Selected Attachments" Width="200px"
-                    OnClick="btnEmail_Click" Visible="false"/></span>
+                    OnClick="btnEmail_Click" Visible="false" /></span>
         </td>
     </tr>
 </table>
@@ -69,19 +62,16 @@
         </td>
     </tr>
     <tr>
-        <td>
-            &nbsp;
+        <td>&nbsp;
         </td>
     </tr>
     <tr>
         <td width="100%">
             <table cellpadding="3" cellspacing="1" width="100%" id="tblEditAttachment" runat="server" visible="false">
                 <tr>
-                    <td width="18%" align="left">
-                        Attachment Name
+                    <td width="18%" align="left">Attachment Name
                     </td>
-                    <td width="4%" align="center">
-                        :
+                    <td width="4%" align="center">:
                     </td>
                     <td align="left">
                         <asp:TextBox ID="txtAttachmentNameEdit" runat="server" Width="150px">
@@ -92,19 +82,16 @@
                     </td>
                 </tr>
                 <tr>
-                    <td align="left">
-                        Select File
+                    <td align="left">Select File
                     </td>
-                    <td align="center">
-                        :
+                    <td align="center">:
                     </td>
                     <td align="left">
                         <asp:FileUpload ID="fpFile" runat="server" Width="250px" />
                     </td>
                 </tr>
                 <tr>
-                    <td>
-                        &nbsp;
+                    <td>&nbsp;
                     </td>
                 </tr>
                 <tr>
@@ -112,7 +99,7 @@
                         <asp:Button ID="btnAddAttachment" runat="server" Text="Add Attachment" OnClick="btnAddAttachment_Click"
                             OnClientClick="return Page_ClientValidate('AddAttachment')" />&nbsp;
                         <input type="hidden" id="hdnVirtualFolderID" runat="server" />
-                        <asp:Button ID="btnCancelAttachment" runat="server" Text="Cancel" OnClick="btnCancelAttachment_Click" Visible="false"/>
+                        <asp:Button ID="btnCancelAttachment" runat="server" Text="Cancel" OnClick="btnCancelAttachment_Click" Visible="false" />
                     </td>
                 </tr>
             </table>
@@ -120,7 +107,7 @@
                 <tr>
                     <td width="100%" align="left">
                         <uc:AttachmentSection ID="Attachment1" runat="server" PanelNumber="1" />
-                        
+
                         <asp:LinkButton ID="lnkAddNew1" runat="server" Text="--Add New--" OnClientClick="ShowAttachmentSection(1);return false;"
                             Font-Bold="true" />&nbsp;
                         <asp:HiddenField ID="hndCount" runat="server" Value="1" />
@@ -276,7 +263,7 @@
         else
             return true;
     }
- 
+
 
 
     function openWindow(strURL) {
