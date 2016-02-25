@@ -98,7 +98,13 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
             BindGridFiles();
             if (StrOperation.ToLower() == "view")
             {
-                //btnAddDocument.Visible = false;
+                tblAddEditAttachment.Visible = false;
+            }
+            if (AttachmentTable == "PM_Respiratory_Protection_Attachments")
+            {
+                Attachment1.Table_Name = Attachment2.Table_Name = Attachment3.Table_Name = Attachment4.Table_Name = "PM_Respiratory_Protection_Attachments";
+                Attachment5.Table_Name = Attachment6.Table_Name = Attachment7.Table_Name = Attachment8.Table_Name = "PM_Respiratory_Protection_Attachments";
+                Attachment9.Table_Name = Attachment10.Table_Name = "PM_Respiratory_Protection_Attachments";
             }
         }
     }
@@ -115,13 +121,25 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
+            if (StrOperation == "view")
+            {
+                gvFiles.Columns[gvFiles.Columns.Count - 1].Visible = false;
+            }
+
             LinkButton lnkDocName = (LinkButton)e.Row.FindControl("lnkDocName");
             string strFileName = DataBinder.Eval(e.Row.DataItem, "File_Name").ToString();
             lnkDocName.OnClientClick = "javascript:openWindow('../../Download.aspx?fname=" + Encryption.Encrypt(strFileName) + "&SLT=RP_Docs');return false;";
 
             LinkButton lnkEmail = (LinkButton)e.Row.FindControl("lnkEmail");
             string strPK_ID = DataBinder.Eval(e.Row.DataItem, "PK_Attachments").ToString();
-            lnkEmail.OnClientClick = "javascript:ShowDialog('" + AppConfig.SiteURL + "SONIC/Exposures/AM_Attachment_Mail.aspx?OC_Attch_Id=" + Encryption.Encrypt(strPK_ID) + "');return false;";
+            lnkEmail.OnClientClick = "javascript:ShowDialog('" + AppConfig.SiteURL + "SONIC/Exposures/AM_Attachment_Mail.aspx?OC_Attch_Id=" + Encryption.Encrypt(strPK_ID) + "&tbl=" + AttachmentTable + "');return false;";
+        }
+        if (e.Row.RowType == DataControlRowType.Header)
+        {
+            if (AttachmentTable == "PM_Respiratory_Protection_Attachments")
+                e.Row.Cells[0].Text = "File Name";
+            else
+                e.Row.Cells[0].Text = "Document";
         }
     }
 

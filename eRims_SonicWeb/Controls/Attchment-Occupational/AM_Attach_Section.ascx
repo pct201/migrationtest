@@ -5,7 +5,7 @@
         <table cellpadding="3" cellspacing="1" width="100%">
             <tr>
                 <td width="18%" align="left">
-                    Attachment Name
+                    <asp:Label ID="lbl" runat="server"></asp:Label>
                 </td>
                 <td width="4%" align="center">
                     :

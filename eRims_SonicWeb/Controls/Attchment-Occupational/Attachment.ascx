@@ -20,6 +20,7 @@
                 <Columns>
                     <asp:TemplateField HeaderText="File Name">
                         <ItemStyle Width="70%" />
+                        <HeaderStyle HorizontalAlign="Center" />
                         <ItemTemplate>
                             <asp:LinkButton ID="lnkDocName" runat="server" Text='<%# Convert.ToString(Eval("NewAttachment_Name")) %>' />
                             <input type="hidden" id="hdnID" runat="server" value='<%#Eval("PK_Attachments")%>' />

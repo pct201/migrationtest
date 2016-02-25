@@ -94,6 +94,8 @@ public partial class SONIC_Pollution_Respiratory_Protection : clsBasePage
                     btnEdit.Visible = (App_Access == AccessType.Administrative_Access);
                     // set attachment details control in readonly mode.
                     //AttachDetailsView.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Respiratory_Protection_Attachments, Convert.ToInt32(PK_PM_Respiratory_Protection), "FK_PM_Respiratory_Protection", "PK_PM_Respiratory_Protection_Attachments", false, 2);
+                    AttachmentsView.StrOperation = StrOperation;
+                    AttachmentsView.PK_ID = PK_PM_Respiratory_Protection;
                 }
                 else
                 {
@@ -108,8 +110,9 @@ public partial class SONIC_Pollution_Respiratory_Protection : clsBasePage
                     btnEdit.Visible = false;
                     // set attachment details control in read/write mode. so user can add or remove attachment as well.
                     //AttachDetails.InitializeAttachmentDetails(clsGeneral.Pollution_Tables.PM_Respiratory_Protection_Attachments, Convert.ToInt32(PK_PM_Respiratory_Protection), "FK_PM_Respiratory_Protection", "PK_PM_Respiratory_Protection_Attachments", true, 2);
+                    Attachments.PK_ID = PK_PM_Respiratory_Protection;
                 }
-                Attachments.PK_ID = PK_PM_Respiratory_Protection;
+                
                 // bind attachment details to show attachment for current risk profile.
                 //BindAttachmentDetails();
             }

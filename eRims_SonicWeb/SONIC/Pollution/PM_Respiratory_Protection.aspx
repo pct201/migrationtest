@@ -920,6 +920,16 @@
                                                             <uc:ctrlMultiLineTextBox ID="lblNotesComments" runat="server" ControlType="Label"/>
                                                         </td>
                                                     </tr>
+                                                      <tr>
+                                                        <td colspan="6">
+                                                            <b>Attachments</b>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="6">
+                                                             <uc:ctrlAttachment ID="AttachmentsView" runat="server"  PanelNumber="1" AttachmentTable="PM_Respiratory_Protection_Attachments"/>
+                                                        </td>
+                                                    </tr>
                                                   </table>
                                             </asp:Panel>
                                             <asp:Panel ID="pnl2View" runat="server" Style="display: inline;">

@@ -12,6 +12,12 @@ public partial class Controls_Attachment_AssetProtection_AM_Attach_Section : Sys
         set { ViewState["AttachmentPanel" + this.ID] = value; }
     }
 
+    public string Table_Name
+    {
+        get { return ViewState["Table_Name" + this.ID] != null ? Convert.ToString(ViewState["Table_Name" + this.ID]) : ""; }
+        set { ViewState["Table_Name" + this.ID] = value; }
+    }
+
     public TextBox TextBoxAttachmentName
     {
         get { return this.txtAttachmentNameAdd; }
@@ -34,7 +40,8 @@ public partial class Controls_Attachment_AssetProtection_AM_Attach_Section : Sys
     {
         if (!IsPostBack)
         {
-
+            if (Table_Name == "PM_Respiratory_Protection_Attachments")
+                lbl.Text = "Attachment Name";
         }
     }
 }
