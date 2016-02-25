@@ -119,7 +119,9 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
     {
         get { return Convert.ToInt32(ViewState["PageSize"]); }
         set { ViewState["PageSize"] = value; }
-    }    
+    }
+
+
 
     #endregion
 
@@ -456,14 +458,7 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
             }
 
             
-            DataTable dt = clsEPM_Identification.GetProjectDescrption(PK_EPM_Identification).Tables[0];
-
-            if (dt != null && dt.Rows.Count > 0)
-            {
-                txtAction.Text = Convert.ToString(dt.Rows[0][0]);
-            }
-
-            clsGeneral.SetDropdownValue(drpRequired_Activity, drpProject_Type.SelectedItem.Text, false);
+         
 
             
            
@@ -787,6 +782,14 @@ public partial class SONIC_Exposures_Project_Management : clsBasePage
                     lst.Selected = true;
             }
         }
+
+        DataTable dt = clsEPM_Identification.GetProjectDescrption(PK_EPM_Identification).Tables[0];
+        if (dt != null && dt.Rows.Count > 0)
+        {
+            txtAction.Text = Convert.ToString(dt.Rows[0][0]);
+        }
+
+        clsGeneral.SetDropdownValue(drpRequired_Activity, drpProject_Type.SelectedItem.Text, false);
 
         #endregion
 

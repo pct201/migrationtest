@@ -187,8 +187,6 @@
                      
                 });
 
-
-
                     
             $('#<%= ddlVendorLookup.ClientID%>').on('change', function () {
                 var selectedVal = $("#<%= ddlVendorLookup.ClientID%> option:selected").val();  
@@ -199,6 +197,8 @@
                     $('#<%= txtVendor_Address.ClientID%>').val('');
                     $('#<%= txtVendor_Zip_Code.ClientID%>').val('');
                     $('#<%= txtVendor_Telephone.ClientID%>').val('');
+                    $('#<%= txtVendor_City.ClientID%>').val('');
+                    $("#<%= ddlFK_State.ClientID%>").val('0');
                 }
                 else
                 {
@@ -209,6 +209,17 @@
                     $('#<%= txtVendor_Address.ClientID%>').val(arr[2]);
                     $('#<%= txtVendor_Zip_Code.ClientID%>').val(arr[3]);
                     $('#<%= txtVendor_Telephone.ClientID%>').val(arr[4]);
+
+                    if (arr[0] == "Examinetics") {
+                        $('#<%= txtVendor_City.ClientID%>').val("Overland Park");
+                        $("#<%= ddlFK_State.ClientID%>").val("17");
+                    }
+                    else
+                    {
+                        $('#<%= txtVendor_City.ClientID%>').val('');
+                        $("#<%= ddlFK_State.ClientID%>").val('0');
+                    }
+
                 }
                 //$('txtVendor').val(arr[0]);
             });

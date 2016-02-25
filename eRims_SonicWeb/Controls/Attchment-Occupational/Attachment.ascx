@@ -216,8 +216,9 @@
                 <tr>
                     <td width="100%" align="center">
                         <asp:Button ID="btnSaveAttachments" runat="server" Text="Save" OnClick="btnSaveAttachments_Click"
-                            OnClientClick="return FinalValidate();" />&nbsp;&nbsp;<asp:Button ID="btnCancelAttachment_Add"
-                                runat="server" Text="Cancel" OnClick="btnCancelAttachment_Add_Click" />
+                            OnClientClick="return FinalValidate();" />
+                        <%--&nbsp;&nbsp;<asp:Button ID="btnCancelAttachment_Add"
+                                runat="server" Text="Cancel" OnClick="btnCancelAttachment_Add_Click" />--%>
                     </td>
                 </tr>
             </table>

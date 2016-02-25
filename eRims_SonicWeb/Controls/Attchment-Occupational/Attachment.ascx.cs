@@ -595,11 +595,11 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
         }
     }
 
-    protected void btnCancelAttachment_Add_Click(object sender, EventArgs e)
-    {
-        //tblFileList.Visible = tblAddEditAttachment.Visible = false;
-        Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(" + PanelNumber + ");", true);
-    }
+    //protected void btnCancelAttachment_Add_Click(object sender, EventArgs e)
+    //{
+    //    //tblFileList.Visible = tblAddEditAttachment.Visible = false;
+    //    Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:ShowPanel(" + PanelNumber + ");", true);
+    //}
 
     private void SetDefaultsForAttachment(Controls_Attachment_AssetProtection_AM_Attach_Section objAttachemnt)
     {
