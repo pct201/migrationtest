@@ -59,6 +59,12 @@ public partial class SONIC_Exposures_AM_Attachment_Mail : System.Web.UI.Page
                        (Encryption.Decrypt(Request.QueryString["OC_Attch_Id"]).ToString())).Tables[0];
                 }
 
+                else if (!string.IsNullOrEmpty(Request.QueryString["tbl"]) && Convert.ToString(Request.QueryString["tbl"]) == "PM_Hearing_Conservation_Attachments")
+                {
+                    dtAttachments = PM_Hearing_Conservation.SelectAttachmentByPK(clsGeneral.GetDecimal
+                       (Encryption.Decrypt(Request.QueryString["OC_Attch_Id"]).ToString())).Tables[0];
+                }             
+
                 if (dtAttachments.Rows.Count > 0)
                 {
                     string strRpFileName = Convert.ToString(dtAttachments.Rows[0]["NewAttachment_Name"]);

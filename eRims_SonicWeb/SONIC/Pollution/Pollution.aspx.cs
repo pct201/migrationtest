@@ -806,8 +806,9 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         BindGridHearingConversation();
 
         // Respiratory Protection Grid
-        gvRespiratoryProtection.DataSource = dsGrids.Tables[17];
+        gvRespiratoryProtection.DataSource = gvRespiratoryProtection.DataSource  = dsGrids.Tables[17];
         gvRespiratoryProtection.DataBind();
+        gvRespiratoryProtectionView.DataBind();
 
     }
 
@@ -885,6 +886,9 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
         // 6H Grid
         gvSixHView.DataSource = dsGrids.Tables[16];
         gvSixHView.DataBind();
+
+        gvRespiratoryProtectionView.DataSource = dsGrids.Tables[17];
+        gvRespiratoryProtectionView.DataBind();
 
         BindGridOshaLog();
         BindGridHearingConversation();
@@ -1283,11 +1287,11 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
             // Bind the attachment detail to view the added attachment
             BindAttachmentDetails();
             // show attachment panel as the page is loaded again
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(9);", true);
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:ShowPanel(10);", true);
         }
         else
         {
-            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Please save the Site Information first');ShowPanel(9);", true);
+            Page.ClientScript.RegisterStartupScript(Page.GetType(), DateTime.Now.ToString(), "javascript:alert('Please save the Site Information first');ShowPanel(10);", true);
         }
 
     }
@@ -1433,19 +1437,19 @@ public partial class SONIC_Pollution_Pollution : clsBasePage
             }
             else if (strGridID == "gvRemediations")
             {
-                intPanel = 7;
+                intPanel = 9;
                 PM_Remediation_Grid.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
                 BindGridRemediation();
             }
             else if (strGridID == "gvViolations")
             {
-                intPanel = 9;
+                intPanel = 8;
                 PM_Violation.DeleteByPK(Convert.ToDecimal(e.CommandArgument));
                 BindGridViolation();
             }
             else if (strGridID == "gvHearingConversation")
             {
-                intPanel = 8;
+                intPanel = 7;
                 PM_Hearing_Conservation.Delete(Convert.ToDecimal(e.CommandArgument));
                 BindGridHearingConversation();
             }

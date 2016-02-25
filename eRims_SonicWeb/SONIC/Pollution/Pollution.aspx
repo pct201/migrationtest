@@ -19,7 +19,7 @@
     <script type="text/javascript">
         function SetMenuStyle(index) {
             var i;
-            for (i = 1; i <= 9; i++) {
+            for (i = 1; i <= 10; i++) {
                 var tb = document.getElementById("Menu" + i);
                 if (i == index) {
                     tb.className = "LeftMenuSelected";
@@ -43,7 +43,7 @@
             if (index == 9) {
                 if (loc > 0)
                     loc = '<%=Encryption.Encrypt(Session["ExposureLocation"].ToString()) %>';
-                window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/Project_Management_Add.aspx?loc=' + loc + '&Building_Id=' + Building_Id;
+                window.location.href = '<%=AppConfig.SiteURL%>SONIC/Exposures/Project_Management_Add.aspx?loc=' + loc + '&Building_Id=' + Building_Id + '&pnl=' +10;
             }
             var op = '<%=StrOperation%>';
             if (op == "view") {
@@ -2823,12 +2823,7 @@
                                             </asp:Panel>
                                             <asp:Panel ID="pnl7View" runat="server" Style="display: none;">
                                                 <div class="bandHeaderRow">
-                                                    Occupational Health and Safety Programs</div>                                                
-                                            </asp:Panel>
-                                            <asp:Panel ID="pnl8View" runat="server" Style="display: none;">
-                                                  <div class="bandHeaderRow">
-                                                    Hearing Conversation
-                                                </div>
+                                                    Occupational Health and Safety Programs</div>                                                          
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%" style="height: 230px;">
                                                     <tr>
                                                         <td align="left" width="14%" valign="top">
@@ -2845,30 +2840,23 @@
                                                                         <ItemStyle Width="18%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkYear" runat="server" Text='<%#  Eval("YEAROFTEST") %>'
-                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Hearing_Conservation") %>' />
+                                                                                CommandName="ViewDetails" CommandArgument='<%# Eval("PK_PM_Hearing_Conservation") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                       <asp:TemplateField HeaderText="Associate">
                                                                         <ItemStyle Width="18%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkAssociate" runat="server" Text='<%#  Eval("Associate") %>'
-                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Hearing_Conservation") %>' />
+                                                                                CommandName="ViewDetails" CommandArgument='<%# Eval("PK_PM_Hearing_Conservation") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField HeaderText="Test Type">
                                                                         <ItemStyle Width="18%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkNext_Inspection_Date" runat="server" Text='<%# Eval("TestType") %>'
-                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Hearing_Conservation") %>' />
+                                                                                CommandName="ViewDetails" CommandArgument='<%# Eval("PK_PM_Hearing_Conservation") %>' />
                                                                         </ItemTemplate>
-                                                                    </asp:TemplateField>                                                                 
-                                                                    <asp:TemplateField HeaderText="Remove">
-                                                                        <ItemStyle Width="10%" HorizontalAlign="Left" />
-                                                                        <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkRemove" runat="server" Text="Remove" CommandName="RemoveDetails"
-                                                                                CommandArgument='<%# Eval("PK_PM_Hearing_Conservation") %>' OnClientClick="return confirm('Are you sure to remove the record?');" />
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
+                                                                    </asp:TemplateField>                                                                                                                                    
                                                                 </Columns>
                                                             </asp:GridView>
                                                         </td>
@@ -2889,39 +2877,34 @@
                                                            <asp:GridView ID="gvRespiratoryProtectionView" runat="server" Width="100%" AutoGenerateColumns="false"
                                                                 EmptyDataText="No Record Exists" OnRowCommand="GridView_RowCommand">
                                                                 <Columns>
-                                                                    <asp:TemplateField HeaderText="Date">
+                                                                  <asp:TemplateField HeaderText="Date">
                                                                         <ItemStyle Width="18%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkYear" runat="server" Text='<%#  Eval("Date") %>'
-                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Hearing_Conservation") %>' />
+                                                                            <asp:LinkButton ID="lnkYear" runat="server" Text='<%# clsGeneral.FormatDBNullDateToDisplay( Eval("Date")) %>'
+                                                                                CommandName="ViewDetails" CommandArgument='<%# Eval("PK_PM_Respiratory_Protection") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                       <asp:TemplateField HeaderText="Associate">
                                                                         <ItemStyle Width="18%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkAssociate" runat="server" Text='<%#  Eval("Associate") %>'
-                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Hearing_Conservation") %>' />
+                                                                                CommandName="ViewDetails" CommandArgument='<%# Eval("PK_PM_Respiratory_Protection") %>' />
                                                                         </ItemTemplate>
                                                                     </asp:TemplateField>
                                                                     <asp:TemplateField HeaderText="Event Type">
                                                                         <ItemStyle Width="18%" HorizontalAlign="Left" />
                                                                         <ItemTemplate>
                                                                             <asp:LinkButton ID="lnkNext_Inspection_Date" runat="server" Text='<%# Eval("EventType") %>'
-                                                                                CommandName="EditDetails" CommandArgument='<%# Eval("PK_PM_Hearing_Conservation") %>' />
+                                                                                CommandName="ViewDetails" CommandArgument='<%# Eval("PK_PM_Respiratory_Protection") %>' />
                                                                         </ItemTemplate>
-                                                                    </asp:TemplateField>                                                                 
-                                                                    <asp:TemplateField HeaderText="Remove">
-                                                                        <ItemStyle Width="10%" HorizontalAlign="Left" />
-                                                                        <ItemTemplate>
-                                                                            <asp:LinkButton ID="lnkRemove" runat="server" Text="Remove" CommandName="RemoveDetails"
-                                                                                CommandArgument='<%# Eval("PK_PM_Hearing_Conservation") %>' OnClientClick="return confirm('Are you sure to remove the record?');" />
-                                                                        </ItemTemplate>
-                                                                    </asp:TemplateField>
+                                                                    </asp:TemplateField>                                                                                                                                    
                                                                 </Columns>
                                                             </asp:GridView>
                                                         </td>
                                                     </tr>                                                   
-                                                </table>
+                                                </table>                                      
+                                            </asp:Panel>
+                                            <asp:Panel ID="pnl9View" runat="server" Style="display: none;">                                                 
                                                 <div class="bandHeaderRow">
                                                     Remediations
                                                 </div>
@@ -3001,7 +2984,7 @@
                                                     </tr>
                                                 </table>
                                             </asp:Panel>
-                                            <asp:Panel ID="pnl9View" runat="server" Style="display: none;">
+                                            <asp:Panel ID="pnl8View" runat="server" Style="display: none;">
                                                 <div class="bandHeaderRow">
                                                     Violations</div>
                                                 <table cellpadding="3" cellspacing="1" border="0" width="100%" style="height: 230px;">

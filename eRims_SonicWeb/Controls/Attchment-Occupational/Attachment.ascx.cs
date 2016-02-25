@@ -106,6 +106,7 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
                 Attachment5.Table_Name = Attachment6.Table_Name = Attachment7.Table_Name = Attachment8.Table_Name = "PM_Respiratory_Protection_Attachments";
                 Attachment9.Table_Name = Attachment10.Table_Name = "PM_Respiratory_Protection_Attachments";
             }
+
         }
     }
 
@@ -218,6 +219,7 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
         {
             if (AttachmentTable == "PM_Respiratory_Protection_Attachments")
             {
+                lblAttachHeader.Text = lblAttachHeaderView.Text = "Add Attachment";
                 DataTable dtAttachment = clsPM_Respiratory_Protection_Attachments.SelectByFK(PK_ID).Tables[0];
                 gvFiles.DataSource = dtAttachment;
                 gvFiles.DataBind();
@@ -227,6 +229,7 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
             }
             else if (AttachmentTable == "PM_Hearing_Conservation_Attachments")
             {
+                lblAttachHeader.Text = lblAttachHeaderView.Text = "Add Document";
                 DataTable dtAttachment = PM_Hearing_Conservation_Attachments.SelectByFK(PK_ID).Tables[0];
                 gvFiles.DataSource = dtAttachment;
                 gvFiles.DataBind();
@@ -470,6 +473,21 @@ public partial class Controls_Attachment_OC_Attachment : System.Web.UI.UserContr
 
     protected void btnSaveAttachments_Click(object sender, EventArgs e)
     {
+        string tbl = string.Empty;
+        if (PK_ID == 0)
+        {
+            if (AttachmentTable == "PM_Respiratory_Protection_Attachments")
+            {
+                Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:alert('Please Save Respiratory Protection Details First');", true);
+            }
+            else if (AttachmentTable == "PM_Hearing_Conservation_Attachments")
+            {
+                Page.ClientScript.RegisterStartupScript(typeof(string), DateTime.Now.ToString(), "javascript:alert('Please Save Hearing Conversation Details First');ShowPanel(" + PanelNumber + ");", true);
+            }
+            
+            return;
+        }
+
         Is_AttachmentExists = false;
         SaveAttachment(Attachment1);
         SaveAttachment(Attachment2);

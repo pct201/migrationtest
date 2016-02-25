@@ -20,8 +20,8 @@
                 <Columns>
                     <asp:TemplateField HeaderText="File Name">
                         <ItemStyle Width="70%" />
-                        <HeaderStyle HorizontalAlign="Center" />
-                        <ItemTemplate>
+                        <HeaderStyle />
+                        <ItemTemplate  >
                             <asp:LinkButton ID="lnkDocName" runat="server" Text='<%# Convert.ToString(Eval("NewAttachment_Name")) %>' />
                             <input type="hidden" id="hdnID" runat="server" value='<%#Eval("PK_Attachments")%>' />
                             <input type="hidden" id="hdnFileName" runat="server" value='<%#Eval("File_Name") %>' />
@@ -314,9 +314,7 @@
         }
         $('#ctl00_ContentPlaceHolder1_Attachments_Attachment' + (intSection) + '_txtNewFileName').text('');
         $('#ctl00_ContentPlaceHolder1_Attachments_Attachment' + (intSection) + '_txtFilePath').val('');
-        document.getElementById('ctl00_ContentPlaceHolder1_Attachments_Attachment' + (intSection) + '_txtAttachmentNameAdd').value = "";
-        // document.getElementById('ctl00_ContentPlaceHolder1_ucAttachment_Attachment' + (intSection) + '_fpFile').value = "";
-        // alert(document.getElementById('ctl00_ContentPlaceHolder1_ucAttachment_Attachment' + (intSection) + '_fpFile').value);
+        document.getElementById('ctl00_ContentPlaceHolder1_Attachments_Attachment' + (intSection) + '_txtAttachmentNameAdd').value = "";        
     }
 
     function FinalValidate() {

@@ -97,40 +97,47 @@
             <td align="left" valign="top">
                 <div style="overflow-x: scroll; overflow-y: none; text-align: left; width: 850px;"
                     id="dvSearchResult" runat="server">
-                    <asp:GridView ID="gvProjectManagement" runat="server" Width="1350px" AllowSorting="True"
+                    <asp:GridView ID="gvProjectManagement" runat="server" Width="900px" AllowSorting="True"
                         AutoGenerateColumns="False" OnRowCommand="gvProjectManagement_OnRowCommand" OnSorting="gvProjectManagement_Sorting"
                         OnRowCreated="gvProjectManagement_RowCreated">
                         <Columns>
                             <asp:TemplateField HeaderText="Project Number" SortExpression="Project_Number">
-                                <ItemStyle Width="200px" />
+                                <ItemStyle Width="15%" />
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lnkProject_Number" runat="server" CommandName="ViewProjectManagement"
                                         CommandArgument='<%# Eval("PK_EPM_Identification") %>' Text='<%# Eval("Project_Number") %>'></asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Building(s)" SortExpression="Buildings">
-                                <ItemStyle Width="200px" />
+                                <ItemStyle Width="10%" />
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lnkBuilding" runat="server" CommandName="ViewProjectManagement"
                                         CommandArgument='<%# Eval("PK_EPM_Identification") %>' Text='<%# Eval("Buildings")%>'></asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
+                             <asp:TemplateField HeaderText="Building Description" SortExpression="BuildingDetails">
+                                <ItemStyle Width="20%" />
+                                <ItemTemplate>
+                                    <asp:LinkButton ID="lnkBuildingDetails" runat="server" CommandName="ViewProjectManagement"
+                                        CommandArgument='<%# Eval("PK_EPM_Identification") %>' Text='<%# Eval("BuildingDetails")%>'></asp:LinkButton>
+                                </ItemTemplate>
+                            </asp:TemplateField>
                             <asp:TemplateField HeaderText="Project Type" SortExpression="Project_Type">
-                                <ItemStyle Width="200px" />
+                                <ItemStyle Width="15%" />
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lnkProject_Type" runat="server" CommandName="ViewProjectManagement"
                                         CommandArgument='<%# Eval("PK_EPM_Identification") %>' Text='<%# Eval("Project_Type") %>'></asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Target Department" SortExpression="Target_Dept">
-                                <ItemStyle Width="200px" />
+                           <%-- <asp:TemplateField HeaderText="Target Department" SortExpression="Target_Dept">
+                                <ItemStyle Width="150px" />
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lnkTarget_Department" runat="server" CommandName="ViewProjectManagement"
                                         CommandArgument='<%# Eval("PK_EPM_Identification") %>' Text='<%# Eval("Target_Dept") %>'></asp:LinkButton>
                                 </ItemTemplate>
-                            </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Estimated Start Date" SortExpression="Estimated_Project_Start_Date">
-                                <ItemStyle Width="200px" />
+                            </asp:TemplateField>--%>
+                            <%--<asp:TemplateField HeaderText="Estimated Start Date" SortExpression="Estimated_Project_Start_Date">
+                                <ItemStyle Width="150px" />
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lnkEstimated_StartDate" runat="server" CommandName="ViewProjectManagement"
                                         CommandArgument='<%# Eval("PK_EPM_Identification") %>' Text='<%# clsGeneral.FormatDBNullDateToDisplay(Eval("Estimated_Project_Start_Date")) %>'></asp:LinkButton>
@@ -142,15 +149,15 @@
                                     <asp:LinkButton ID="lnkEstimated_CompletionDate" runat="server" CommandName="ViewProjectManagement"
                                         CommandArgument='<%# Eval("PK_EPM_Identification") %>' Text='<%#clsGeneral.FormatDBNullDateToDisplay(Eval("Estimated_Project_Completion_Date")) %>'></asp:LinkButton>
                                 </ItemTemplate>
-                            </asp:TemplateField>
+                            </asp:TemplateField>--%>
                             <asp:TemplateField HeaderText="Status" SortExpression="Project_Status">
-                                <ItemStyle Width="100px" />
+                                <ItemStyle Width="10%" />
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lnkStatus" runat="server" CommandName="ViewProjectManagement"
                                         CommandArgument='<%# Eval("PK_EPM_Identification") %>' Text='<%# string.Format("{0:C2}",Eval("Project_Status")) %>'></asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Estimated Cost($)" SortExpression="Estimated_Cost">
+                            <%--<asp:TemplateField HeaderText="Estimated Cost($)" SortExpression="Estimated_Cost">
                                 <ItemStyle Width="150px" />
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lnkEstimatedCost" runat="server" CommandName="ViewProjectManagement"
@@ -163,9 +170,9 @@
                                     <asp:LinkButton ID="lnkActualCost" runat="server" CommandName="ViewProjectManagement"
                                         CommandArgument='<%# Eval("PK_EPM_Identification") %>' Text='<%# string.Format("{0:C2}",Eval("Actual_Cost")) %>'></asp:LinkButton>
                                 </ItemTemplate>
-                            </asp:TemplateField>
+                            </asp:TemplateField>--%>
                             <asp:TemplateField>
-                                <ItemStyle Width="50px" />
+                                <ItemStyle Width="10%" />
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lnkRemove" runat="server" CommandName="RemoveProjectManagement"
                                         CommandArgument='<%# Eval("PK_EPM_Identification") %>' Text="Remove" OnClientClick="return confirm('Are you Sure to delete this record?');"></asp:LinkButton>

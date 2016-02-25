@@ -51,8 +51,8 @@ public partial class SONIC_Exposures_Project_Management_Add : clsBasePage
             ViewState["PreviousPage"] = Request.UrlReferrer;//Saves the Previous page url in ViewState
 
             // set the default sort field and sort order
-            SortBy = "Project_Number";
-            SortOrder = "Asc";
+            SortBy = "E.Created_Date";
+            SortOrder = "DESC";
 
 
             LocationID = Convert.ToInt32(Encryption.Decrypt(Request.QueryString["loc"].ToString()));

@@ -35,6 +35,15 @@ namespace ERIMS.DAL
 		private string _Updated_By;
         private string _BuildingId;
 
+        private string _Associate;
+
+        public string Associate
+        {
+            get { return _Associate; }
+            set { _Associate = value; }
+        }
+        
+
 		#endregion
 
 		#region Public Property
@@ -364,6 +373,11 @@ namespace ERIMS.DAL
 				else
 					this._Updated_By = (string)drPM_Hearing_Conservation["Updated_By"];
 
+                if (drPM_Hearing_Conservation["Associate"] == DBNull.Value)
+                    this._Associate = null;
+                else
+                    this._Associate = (string)drPM_Hearing_Conservation["Associate"];
+
 
 		}
 
@@ -471,7 +485,7 @@ namespace ERIMS.DAL
 			db.AddInParameter(dbCommand, "PK_PM_Hearing_Conservation", DbType.Decimal, pK_PM_Hearing_Conservation);
 
 			return db.ExecuteDataSet(dbCommand);
-		}
+		}        
 
 		/// <summary>
 		/// Selects all records from the PM_Hearing_Conservation table.
@@ -607,5 +621,83 @@ namespace ERIMS.DAL
 
             return db.ExecuteDataSet(dbCommand);
         }
+
+        /// <summary>
+        /// Inserts a record into the PM_Hazardous_Waste_Codes_Mapping table.
+        /// </summary>
+        /// <returns></returns>
+        public int InsertBuildingDetails(decimal PK_PM_Hearing_Conservation, string strBuildingIDs, string UpdatedBy, DateTime UpdateDate)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("PM_Hearing_Conservation_BuildingsMultiInsert");
+
+            db.AddInParameter(dbCommand, "FK_PM_Hearing_Conservation", DbType.Decimal, PK_PM_Hearing_Conservation);
+            db.AddInParameter(dbCommand, "BuildingId", DbType.String, BuildingId);
+
+            db.AddInParameter(dbCommand, "Update_Date", DbType.DateTime, UpdateDate);
+
+            if (string.IsNullOrEmpty(UpdatedBy))
+                db.AddInParameter(dbCommand, "Updated_By", DbType.String, DBNull.Value);
+            else
+                db.AddInParameter(dbCommand, "Updated_By", DbType.String, UpdatedBy);
+
+            // Execute the query and return the new identity value
+            int returnValue = Convert.ToInt32(db.ExecuteScalar(dbCommand));
+
+            return returnValue;
+        }
+
+        /// <summary>
+        /// Selects a single record from the PM_Complaince_Reporting_OSHA table by a primary key.
+        /// </summary>
+        /// <returns>DataSet</returns>
+        public static DataSet SelectByFKBuildingNumber(decimal fK_PM_Hearing_Conservation)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("PM_Hearing_Conservation_BuildingsSelectByFK");
+
+            db.AddInParameter(dbCommand, "FK_PM_Hearing_Conservation", DbType.Decimal, fK_PM_Hearing_Conservation);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// get all record from audit table for a passed key
+        /// </summary>
+        /// <param name="PK_Case"></param>
+        /// <returns></returns>
+        public static DataSet GetPM_Hearing_Conservation_Audit(decimal pK_PM_Hearing_Conservation)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("PM_Hearing_Conservation_AuditView");
+
+            db.AddInParameter(dbCommand, "PK_PM_Hearing_Conservation", DbType.Decimal, pK_PM_Hearing_Conservation);
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        /// <summary>
+        /// get all record from audit table for a passed key
+        /// </summary>
+        /// <param name="PK_Case"></param>
+        /// <returns></returns>
+        public static DataSet GetPM_Hearing_Conservation_Buildings_AuditTrail(decimal FK_PM_Hearing_Conservation)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("PM_Hearing_Conservation_Biuldings_AuditView");
+
+            db.AddInParameter(dbCommand, "FK_PM_Hearing_Conservation", DbType.Decimal, FK_PM_Hearing_Conservation);
+            return db.ExecuteDataSet(dbCommand);
+        }
+
+        public static DataSet SelectAttachmentByPK(decimal PK_PM_Hearing_Conservation_Attachments)
+        {
+            Database db = DatabaseFactory.CreateDatabase();
+            DbCommand dbCommand = db.GetStoredProcCommand("PM_Hearing_Conservation_AttachmentsSelectByPK");
+
+            db.AddInParameter(dbCommand, "PK_PM_Hearing_Conservation_Attachments", DbType.Decimal, PK_PM_Hearing_Conservation_Attachments);
+
+            return db.ExecuteDataSet(dbCommand);
+        }
 	}
+
 }

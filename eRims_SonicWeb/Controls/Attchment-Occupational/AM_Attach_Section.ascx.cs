@@ -42,6 +42,8 @@ public partial class Controls_Attachment_AssetProtection_AM_Attach_Section : Sys
         {
             if (Table_Name == "PM_Respiratory_Protection_Attachments")
                 lbl.Text = "Attachment Name";
+            else
+                lbl.Text = "Document Name";
         }
     }
 }
